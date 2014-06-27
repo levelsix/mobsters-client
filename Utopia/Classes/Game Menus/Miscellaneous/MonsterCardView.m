@@ -93,16 +93,23 @@ static UIImage *img = nil;
 
 @implementation MonsterCardContainerView
 
+- (id) initWithCoder:(NSCoder *)aDecoder {
+  if ((self = [super initWithCoder:aDecoder])) {
+    [[NSBundle mainBundle] loadNibNamed:@"MonsterCardView" owner:self options:nil];
+    [self addSubview:self.monsterCardView];
+    self.monsterCardView.frame = self.bounds;
+  }
+  return self;
+}
+
 - (void) awakeFromNib {
   NSMutableArray *oldSubviews = [self.subviews copy];
-  
-  [[NSBundle mainBundle] loadNibNamed:@"MonsterCardView" owner:self options:nil];
-  [self addSubview:self.monsterCardView];
-  self.monsterCardView.frame = self.bounds;
   self.backgroundColor = [UIColor clearColor];
   
   for (UIView *v in oldSubviews) {
-    [self.monsterCardView.mainView addSubview:v];
+    if (v != self.monsterCardView) {
+      [self.monsterCardView.mainView addSubview:v];
+    }
   }
 }
 

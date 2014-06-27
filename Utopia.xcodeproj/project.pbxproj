@@ -2390,6 +2390,12 @@
 		CFF646FB195D3B4500C43641 /* purplesmallbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF646F9195D3B4500C43641 /* purplesmallbutton.png */; };
 		CFF646FC195D3B4500C43641 /* purplesmallbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF646FA195D3B4500C43641 /* purplesmallbutton@2x.png */; };
 		CFF646FE195D57A800C43641 /* HomeTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF646FD195D57A800C43641 /* HomeTitleView.xib */; };
+		CFF64704195E14D500C43641 /* EvolveChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64702195E14D500C43641 /* EvolveChooserViewController.m */; };
+		CFF64705195E14D500C43641 /* EvolveChooserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF64703195E14D500C43641 /* EvolveChooserViewController.xib */; };
+		CFF64707195E18F200C43641 /* EvolveCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF64706195E18F200C43641 /* EvolveCardCell.xib */; };
+		CFF6470A195E1DEE00C43641 /* EvolveChooserViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */; };
+		CFF6470F195E356700C43641 /* EvolveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */; };
+		CFF64710195E356700C43641 /* EvolveDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6470E195E356700C43641 /* EvolveDetailsViewController.xib */; };
 		CFF73FDD18160760009DE4A4 /* AxeHandel.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFF73FDC18160760009DE4A4 /* AxeHandel.ttf */; };
 		CFF740231817AF09009DE4A4 /* bench1.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF740021817AF09009DE4A4 /* bench1.png */; };
 		CFF740251817AF09009DE4A4 /* bench1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF740031817AF09009DE4A4 /* bench1@2x.png */; };
@@ -5643,6 +5649,15 @@
 		CFF646F9195D3B4500C43641 /* purplesmallbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purplesmallbutton.png; sourceTree = "<group>"; };
 		CFF646FA195D3B4500C43641 /* purplesmallbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purplesmallbutton@2x.png"; sourceTree = "<group>"; };
 		CFF646FD195D57A800C43641 /* HomeTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeTitleView.xib; sourceTree = "<group>"; };
+		CFF64701195E14D500C43641 /* EvolveChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveChooserViewController.h; sourceTree = "<group>"; };
+		CFF64702195E14D500C43641 /* EvolveChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveChooserViewController.m; sourceTree = "<group>"; };
+		CFF64703195E14D500C43641 /* EvolveChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveChooserViewController.xib; sourceTree = "<group>"; };
+		CFF64706195E18F200C43641 /* EvolveCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveCardCell.xib; sourceTree = "<group>"; };
+		CFF64708195E1DEE00C43641 /* EvolveChooserViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveChooserViews.h; sourceTree = "<group>"; };
+		CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveChooserViews.m; sourceTree = "<group>"; };
+		CFF6470C195E356700C43641 /* EvolveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveDetailsViewController.h; sourceTree = "<group>"; };
+		CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveDetailsViewController.m; sourceTree = "<group>"; };
+		CFF6470E195E356700C43641 /* EvolveDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveDetailsViewController.xib; sourceTree = "<group>"; };
 		CFF73FDC18160760009DE4A4 /* AxeHandel.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AxeHandel.ttf; sourceTree = "<group>"; };
 		CFF740021817AF09009DE4A4 /* bench1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bench1.png; sourceTree = "<group>"; };
 		CFF740031817AF09009DE4A4 /* bench1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bench1@2x.png"; sourceTree = "<group>"; };
@@ -6629,9 +6644,10 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CFC8B62D18E6537100CFD652 /* LabMenu */,
 				CFCD0EFB1955004800EDC233 /* HomeMenu */,
 				CFCD0E6A1953EF7E00EDC233 /* PopupNavMenu */,
-				CFC8B62D18E6537100CFD652 /* LabMenu */,
+				CF1265871538ACC400E0C1AD /* Miscellaneous */,
 				CF20F25C1810EEE2005551B5 /* MyCroniesMenu */,
 				CFE02CBB182359EA0016C1E2 /* GachaponMenu */,
 				CF3764F8182DD6AC00D0A77E /* ChatMenu */,
@@ -6645,7 +6661,6 @@
 				CF3766061832CD3D00D0A77E /* DialogueMenu */,
 				CF32E9F2180D09D600CBD50D /* DiamondShopMenu */,
 				CF62935E180D4A4100C6C196 /* CarpenterMenu */,
-				CF1265871538ACC400E0C1AD /* Miscellaneous */,
 				CFCE56DF18137C9000494F8C /* MonsterPopUp */,
 				CFE02DC1182644BF0016C1E2 /* FBChooserMenu */,
 				CFEE022517BDC29900F3BB19 /* MainMenu */,
@@ -9541,6 +9556,7 @@
 		CFCD0EFB1955004800EDC233 /* HomeMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CFF646FF195E044F00C43641 /* Evolve */,
 				CFF646E2195D222E00C43641 /* Team */,
 				CFF646C0195CD19900C43641 /* Heal */,
 				CFF6462D195A390C00C43641 /* Enhance */,
@@ -10699,6 +10715,38 @@
 			path = Team;
 			sourceTree = "<group>";
 		};
+		CFF646FF195E044F00C43641 /* Evolve */ = {
+			isa = PBXGroup;
+			children = (
+				CFF6470B195E351A00C43641 /* Details */,
+				CFF64700195E145200C43641 /* Chooser */,
+			);
+			path = Evolve;
+			sourceTree = "<group>";
+		};
+		CFF64700195E145200C43641 /* Chooser */ = {
+			isa = PBXGroup;
+			children = (
+				CFF64708195E1DEE00C43641 /* EvolveChooserViews.h */,
+				CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */,
+				CFF64701195E14D500C43641 /* EvolveChooserViewController.h */,
+				CFF64702195E14D500C43641 /* EvolveChooserViewController.m */,
+				CFF64703195E14D500C43641 /* EvolveChooserViewController.xib */,
+				CFF64706195E18F200C43641 /* EvolveCardCell.xib */,
+			);
+			name = Chooser;
+			sourceTree = "<group>";
+		};
+		CFF6470B195E351A00C43641 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				CFF6470C195E356700C43641 /* EvolveDetailsViewController.h */,
+				CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */,
+				CFF6470E195E356700C43641 /* EvolveDetailsViewController.xib */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
 		CFF740011817AF09009DE4A4 /* dec */ = {
 			isa = PBXGroup;
 			children = (
@@ -11662,6 +11710,7 @@
 				CFF7872C18E28FE200413E78 /* circlefriendmask.png in Resources */,
 				CFF7875718E28FE200413E78 /* currentamountbarmiddle@2x.png in Resources */,
 				CFEE89E318EC388000047CA4 /* bronzebig@2x.png in Resources */,
+				CFF64707195E18F200C43641 /* EvolveCardCell.xib in Resources */,
 				CF40CFDA18DF6DB90034A721 /* shieldon@2x.png in Resources */,
 				CF864DB4193E7C5C00DE0D7A /* greywhite3@2x.png in Resources */,
 				CFCE570618137CD400494F8C /* notifcationsbg.png in Resources */,
@@ -13655,6 +13704,7 @@
 				CFC97182182C74E500FF1D83 /* lightpointsfont@2x.png in Resources */,
 				CF6574C31909CAF200ABF1F4 /* City.proto in Resources */,
 				CFF7402F1817AF09009DE4A4 /* fence1.png in Resources */,
+				CFF64705195E14D500C43641 /* EvolveChooserViewController.xib in Resources */,
 				CFF7876218E28FE200413E78 /* upgradecheckbg.png in Resources */,
 				CFF7873218E28FE200413E78 /* newtext.png in Resources */,
 				CF6574C81909CAF200ABF1F4 /* EventChat.proto in Resources */,
@@ -13948,6 +13998,7 @@
 				CFF1D77917DFE9C400874339 /* shadow.png in Resources */,
 				CF2A4B211901B8F500B2D7D7 /* upgradebarnewcap.png in Resources */,
 				CF95203A1939690800A98290 /* nightdailylab.png in Resources */,
+				CFF64710195E356700C43641 /* EvolveDetailsViewController.xib in Resources */,
 				CF54943518C5B955001E7D32 /* arrow@2x.png in Resources */,
 				CF19088918D822C000D6F0E4 /* KamcordiPad.storyboardc in Resources */,
 				CFC9715D182C440E00FF1D83 /* Gotham-Ultra.otf in Resources */,
@@ -14415,8 +14466,10 @@
 				CF54942E18C58ECF001E7D32 /* TutorialOrbLayer.m in Sources */,
 				CF20F2601810EEEC005551B5 /* MyCroniesViewController.m in Sources */,
 				CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */,
+				CFF6470A195E1DEE00C43641 /* EvolveChooserViews.m in Sources */,
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
 				CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */,
+				CFF64704195E14D500C43641 /* EvolveChooserViewController.m in Sources */,
 				CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */,
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
 				CF688FF31912E4D800FF1F71 /* MiniJobsViewController.m in Sources */,
@@ -14526,6 +14579,7 @@
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
 				CF4DB8ED1807DA1F00062258 /* MissionMap.m in Sources */,
+				CFF6470F195E356700C43641 /* EvolveDetailsViewController.m in Sources */,
 				CFBF032817C596A10082A9BF /* ClanInfoViewController.m in Sources */,
 				CF6574B81909CAF200ABF1F4 /* EventStartup.pb.m in Sources */,
 				CFADDB3517D00ED000B1FF3C /* MonsterCardView.m in Sources */,

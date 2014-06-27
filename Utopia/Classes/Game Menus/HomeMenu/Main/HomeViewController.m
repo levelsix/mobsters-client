@@ -11,6 +11,7 @@
 
 #import "SellViewController.h"
 #import "EnhanceChooserViewController.h"
+#import "EvolveChooserViewController.h"
 #import "HealViewController.h"
 #import "TeamViewController.h"
 
@@ -48,16 +49,24 @@
   return self;
 }
 
+- (id) initWithEvolve {
+  if ((self = [super init])) {
+    _initViewControllerClass = [EvolveChooserViewController class];
+  }
+  return self;
+}
+
 #pragma mark - View loading
 
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  EnhanceChooserViewController *vc1 = [[EnhanceChooserViewController alloc] init];
+  EvolveChooserViewController *vc1 = [[EvolveChooserViewController alloc] init];
   SellViewController *vc2 = [[SellViewController alloc] init];
   HealViewController *vc3 = [[HealViewController alloc] init];
   TeamViewController *vc4 = [[TeamViewController alloc] init];
-  self.mainViewControllers = @[vc1, vc2, vc3, vc4];
+  EnhanceChooserViewController *vc5 = [[EnhanceChooserViewController alloc] init];
+  self.mainViewControllers = @[vc1, vc2, vc3, vc4, vc5];
   
   PopupSubViewController *vc = self.mainViewControllers[0];
   if (_initViewControllerClass) {

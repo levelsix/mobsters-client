@@ -17,7 +17,7 @@
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamslotopen.png" id="JD9-NO-IEP">
                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
-                    <autoresizingMask key="autoresizingMask"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -25,11 +25,19 @@
         </view>
         <view contentMode="scaleToFill" id="TgN-zJ-s3Y" customClass="MonsterCardView">
             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark M. L2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sOg-SV-g8B" customClass="NiceFontLabel8">
+                    <rect key="frame" x="0.0" y="71" width="74" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="deviceRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
                 <view contentMode="scaleToFill" id="vwy-q7-7ay">
                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightsquare.png" id="rYA-WT-y1w">
                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
@@ -67,7 +75,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="muq-Gu-1ar" userLabel="Card Button" customClass="MaskedButton">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="muq-Gu-1ar" userLabel="Card Button" customClass="MaskedButton">
                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -90,14 +98,6 @@
                                 <action selector="infoClicked:" destination="TgN-zJ-s3Y" eventType="touchUpInside" id="hoW-Oe-dd7"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark M. L2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sOg-SV-g8B" customClass="NiceFontLabel8">
-                            <rect key="frame" x="0.0" y="71" width="74" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="deviceRGB"/>
-                            <nil key="highlightedColor"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

@@ -18,24 +18,62 @@
                         <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Dhx-Iv-mXz">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="ocq-6u-LPo">
                                 <rect key="frame" x="0.0" y="55" width="74" height="19"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigsquarebottom.png" id="zTL-rL-r3s">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigsquarebottom.png" id="6wq-BB-tWf">
                                         <rect key="frame" x="0.0" y="0.0" width="74" height="19"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qct-02-iA3" customClass="NiceFontLabel8WS">
-                                        <rect key="frame" x="4" y="-2" width="67" height="21"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hpbarbg.png" id="v9i-Ab-jtk">
+                                        <rect key="frame" x="9" y="6" width="56" height="8"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" id="c9T-dK-0Zj" customClass="SplitImageProgressBar">
+                                        <rect key="frame" x="9" y="6" width="56" height="8"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" red="1" green="0.12549020350000001" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                        <subviews>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="dOZ-Po-8Ee">
+                                                <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="EEy-FM-hsd">
+                                                <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="CCe-Pj-fWG" customClass="FlipImageView">
+                                                <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="leftCap" destination="dOZ-Po-8Ee" id="tE4-9S-jgN"/>
+                                            <outlet property="middleBar" destination="EEy-FM-hsd" id="GsK-kQ-c9Y"/>
+                                            <outlet property="rightCap" destination="CCe-Pj-fWG" id="sIy-KS-eyq"/>
+                                        </connections>
+                                    </view>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="400/500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Llo-gu-Y3Z" customClass="NiceFontLabel10S">
+                                        <rect key="frame" x="5" y="-6" width="65" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vsy-qA-omh" customClass="NiceFontLabel8WS">
+                                <rect key="frame" x="20" y="-2" width="49" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.41568630933761597" green="0.70588237047195435" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -44,11 +82,16 @@
             </view>
             <connections>
                 <outlet property="cardContainer" destination="Qbd-Of-syd" id="nrP-PQ-og2"/>
-                <outlet property="sellCostLabel" destination="qct-02-iA3" id="Q11-QW-DMl"/>
+                <outlet property="healthBar" destination="c9T-dK-0Zj" id="wLe-AA-2nM"/>
+                <outlet property="healthLabel" destination="Llo-gu-Y3Z" id="LTT-cM-qEz"/>
+                <outlet property="sellCostLabel" destination="vsy-qA-omh" id="Ar6-jm-CDS"/>
             </connections>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="bigsquarebottom.png" width="74" height="19"/>
+        <image name="hpbarbg.png" width="56" height="8"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>
 </document>
