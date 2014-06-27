@@ -124,6 +124,28 @@
 
 @end
 
+@implementation NiceFontLabel8S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
+@implementation NiceFontLabel8WS
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
+  self.strokeSize = 1.f;
+  self.strokeColor = [UIColor whiteColor];
+}
+
+@end
+
 @implementation NiceFontLabel9
 
 - (void) awakeFromNib {
@@ -1211,10 +1233,63 @@
 
 - (void) awakeFromNib {
   [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchDown];
+  
+//  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDown];
+//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchUpInside];
+//  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDragEnter];
+//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchDragExit];
+//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchCancel];
+//  self.adjustsImageWhenHighlighted = NO;
 }
 
 - (void) playSound {
   NSLog(@"Implement this..");
+}
+
+- (void) animateButton {
+  if (self.highlighted) {
+    [self getSmaller];
+  } else {
+    [self getBigger];
+  }
+}
+
+//- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+//{
+//  CGFloat boundsExtension = 100.0f;
+//  CGRect outerBounds = CGRectInset(self.bounds, -1 * boundsExtension, -1 * boundsExtension);
+//  
+//  BOOL touchOutside = !CGRectContainsPoint(outerBounds, [touch locationInView:self]);
+//  BOOL previousTouchInside = CGRectContainsPoint(outerBounds, [touch previousLocationInView:self]);
+//  if (touchOutside)
+//  {
+//    if (previousTouchInside) {
+//      NSLog(@"Sending UIControlEventTouchDragExit");
+//      [self sendActionsForControlEvents:UIControlEventTouchDragExit];
+//    } else {
+//      [self sendActionsForControlEvents:UIControlEventTouchDragOutside];
+//    }
+//  } else {
+//    if (!previousTouchInside) {
+//      NSLog(@"Sending UIControlEventTouchDragEnter");
+//      [self sendActionsForControlEvents:UIControlEventTouchDragEnter];
+//    } else {
+//      [self sendActionsForControlEvents:UIControlEventTouchDragInside];
+//    }
+//  }
+//  return YES;//[super continueTrackingWithTouch:touch withEvent:event];
+//}
+
+- (void) getSmaller {
+  [UIView animateWithDuration:0.1 animations:^{
+    self.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
+  }];
+}
+
+- (void) getBigger {
+  [UIView animateWithDuration:0.1 animations:^{
+    self.transform = CGAffineTransformIdentity;
+  }];
 }
 
 @end

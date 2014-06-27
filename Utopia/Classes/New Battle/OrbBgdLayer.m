@@ -15,7 +15,7 @@
   if ((self = [super init])) {
     for (int i = 0; i < gridSize.width; i++) {
       for (int j = 0; j < gridSize.height; j++) {
-        NSString *fileName = (i+j)%2==0 ? @"lightsquare.png" : @"darksquare.png";
+        NSString *fileName = (i+j)%2==0 ? @"lightboardsquare.png" : @"darkboardsquare.png";
         CCSprite *square = [CCSprite spriteWithImageNamed:fileName];
         
         [self addChild:square];

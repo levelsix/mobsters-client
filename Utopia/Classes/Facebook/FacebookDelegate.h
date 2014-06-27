@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MSDate.h"
 
 @class FBFrictionlessRecipientCache;
 @protocol FBGraphUser;

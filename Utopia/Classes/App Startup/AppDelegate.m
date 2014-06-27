@@ -25,6 +25,7 @@
 #import "MSWindow.h"
 #import "GameCenterDelegate.h"
 #import <NewRelicAgent/NewRelic.h>
+#import <BugSense-iOS/BugSenseController.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
@@ -45,6 +46,8 @@
 #define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
 
 #define NEW_RELIC_TOKEN      @"AA01b4a84c5c83bc8345d534eb4910b3a323b70b5b"
+
+#define BUG_SENSE_API_KEY    @"ff946ee1"
 
 @implementation AppDelegate
 
@@ -122,6 +125,10 @@
   
   // New relic
   [NewRelicAgent startWithApplicationToken:NEW_RELIC_TOKEN];
+  [NRLogger setLogLevels:NRLogLevelNone];
+  
+  // Bug sense
+  [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
   
   // Publish install
   [FacebookDelegate activateApp];

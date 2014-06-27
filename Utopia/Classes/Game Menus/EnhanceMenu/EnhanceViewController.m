@@ -289,7 +289,7 @@
 #pragma mark - EnhanceQueueDelegate methods
 
 - (void) cellRequestsRemovalFromQueue:(EnhanceQueueCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromEnhancingQueue:cell.enhanceItem];
+  BOOL success = NO;//[[OutgoingEventController sharedOutgoingEventController] removeMonsterFromEnhancingQueue:cell.enhanceItem];
   
   if (success) {
     [self reloadTableAnimated:YES];

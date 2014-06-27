@@ -77,12 +77,6 @@
 
 - (void) reloadTitleView {
   GameState *gs = [GameState sharedGameState];
-  NSMutableParagraphStyle *paragrapStyle = [[NSMutableParagraphStyle alloc] init];
-  paragrapStyle.alignment = NSTextAlignmentCenter;
-  
-  NSShadow *shadow = [[NSShadow alloc] init];
-  shadow.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
-  shadow.shadowOffset = CGSizeMake(0, 1);
   
   NSString *str = [NSString stringWithFormat:@"Mobsters (%d/%d)", (int)self.monsterList.count, self.maxInventorySlots];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];

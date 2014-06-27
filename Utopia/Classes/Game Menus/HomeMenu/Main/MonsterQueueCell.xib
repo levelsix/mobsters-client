@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="WHV-WF-udK" customClass="MonsterQueueCell">
+            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eor-xt-FJx">
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ENd-8C-uec" customClass="MiniMonsterView">
+                                <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="earthsmallsquare.png" translatesAutoresizingMaskIntoConstraints="NO" id="oPf-UA-g3Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="BryanGoslingT1Thumbnail.png" translatesAutoresizingMaskIntoConstraints="NO" id="0UK-0Y-VP1">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="oPf-UA-g3Q" id="EvS-TP-Vt6"/>
+                                    <outlet property="monsterIcon" destination="0UK-0Y-VP1" id="n5K-HU-yue"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvz-DK-Kfi">
+                                <rect key="frame" x="5" y="31" width="44" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="hospitaltimeleftbg.png" translatesAutoresizingMaskIntoConstraints="NO" id="CYa-t1-T7t">
+                                        <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sDb-sf-CFV" customClass="SplitImageProgressBar">
+                                        <rect key="frame" x="3" y="6" width="37" height="8"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="teamhealthbarcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="P9b-Po-awn">
+                                                <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="teamhealthbarmiddle.png" translatesAutoresizingMaskIntoConstraints="NO" id="jEJ-Ts-8Xj">
+                                                <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="teamhealthbarcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="8xk-Y7-or7" customClass="FlipImageView">
+                                                <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="leftCap" destination="P9b-Po-awn" id="uvn-5P-0uW"/>
+                                            <outlet property="middleBar" destination="jEJ-Ts-8Xj" id="NSi-q1-kFW"/>
+                                            <outlet property="rightCap" destination="8xk-Y7-or7" id="QF8-Ns-Ddz"/>
+                                        </connections>
+                                    </view>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d1w-2T-6Ys" customClass="NiceFontLabel10S">
+                                        <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Szu-zg-dpV" customClass="GeneralButton">
+                                <rect key="frame" x="2" y="2" width="46" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="minusteam.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="minusClicked:" destination="WHV-WF-udK" eventType="touchUpInside" id="S1Q-VM-O1E"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <connections>
+                <outlet property="mainView" destination="eor-xt-FJx" id="f4Q-Uf-K8j"/>
+                <outlet property="monsterView" destination="ENd-8C-uec" id="zO0-lz-o9b"/>
+                <outlet property="progressBar" destination="sDb-sf-CFV" id="Zgi-a5-EG4"/>
+                <outlet property="timeLabel" destination="d1w-2T-6Ys" id="xpb-6S-qJ4"/>
+                <outlet property="timerView" destination="tvz-DK-Kfi" id="VTA-zY-8Du"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
+        <image name="earthsmallsquare.png" width="42" height="42"/>
+        <image name="hospitaltimeleftbg.png" width="37" height="8"/>
+        <image name="minusteam.png" width="18" height="19"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
+    </resources>
+</document>

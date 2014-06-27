@@ -107,7 +107,7 @@
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="hospitaltimeleftbg.png" width="37" height="8"/>
-        <image name="minusteam.png" width="18" height="18"/>
+        <image name="minusteam.png" width="18" height="19"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>
         <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>

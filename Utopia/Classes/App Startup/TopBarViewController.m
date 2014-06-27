@@ -23,6 +23,7 @@
 #import "UnreadNotifications.h"
 #import "MiniJobsViewController.h"
 #import "ClanViewController.h"
+#import "HomeViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -377,10 +378,16 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+//  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+//  GameViewController *gvc = (GameViewController *)self.parentViewController;
+//  [gvc presentViewController:m animated:YES completion:nil];
+//  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
+  
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
+  HomeViewController *pvc = [[HomeViewController alloc] init];
+  [gvc addChildViewController:pvc];
+  pvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:pvc.view];
 }
 
 - (IBAction)attackClicked:(id)sender {

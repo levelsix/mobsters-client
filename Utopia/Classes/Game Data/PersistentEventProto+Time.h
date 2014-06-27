@@ -8,6 +8,7 @@
 
 #import "Protocols.pb.h"
 #import "ClanRaidProto+EasyAccess.h"
+#import "MSDate.h"
 
 @interface PersistentEventProto (Time)
 

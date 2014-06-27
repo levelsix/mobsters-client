@@ -246,7 +246,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="22" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="PF7-bJ-lcr" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="73" y="123" width="48" height="27"/>
+                                            <rect key="frame" x="73" y="123" width="108" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -254,7 +254,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="feH-Ia-E0C" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="73" y="96" width="48" height="27"/>
+                                            <rect key="frame" x="73" y="96" width="108" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -262,7 +262,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="500,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="gra-au-GTo" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="73" y="150" width="48" height="27"/>
+                                            <rect key="frame" x="73" y="150" width="62" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -302,7 +302,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="33W-Rc-xOi" customClass="NiceFontButton9">
-                                            <rect key="frame" x="129" y="151" width="60" height="27"/>
+                                            <rect key="frame" x="136" y="151" width="60" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -382,7 +382,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="26B-fs-soA" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="16" width="86" height="26"/>
+                            <rect key="frame" x="8" y="16" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="Ciz-yS-0Mj">
@@ -390,7 +390,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OvL-f7-NYR" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -414,7 +414,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="ouW-th-ZhY" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="43" width="86" height="26"/>
+                            <rect key="frame" x="8" y="43" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="k8I-VG-dps">
@@ -422,7 +422,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iXC-rH-A3i" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -446,7 +446,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="Zyf-r6-sln" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="70" width="86" height="26"/>
+                            <rect key="frame" x="8" y="70" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="lRI-3W-gv3">
@@ -454,7 +454,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IiT-sN-5D9" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -478,7 +478,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="qQB-Xa-YNg" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="97" width="86" height="26"/>
+                            <rect key="frame" x="8" y="97" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="lJu-qO-jNY">
@@ -486,7 +486,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yxm-5Z-raF" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -510,7 +510,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="Scu-Td-DFA" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="124" width="86" height="26"/>
+                            <rect key="frame" x="8" y="124" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="hrD-GF-vJj">
@@ -518,7 +518,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fLt-BY-Exc" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -542,7 +542,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" id="eRb-l0-Hoh" customClass="ElementDisplayView">
-                            <rect key="frame" x="8" y="151" width="86" height="26"/>
+                            <rect key="frame" x="8" y="151" width="192" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="5ow-FU-XOk">
@@ -550,7 +550,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BO9-GC-dKQ" customClass="NiceFontLabel9">
-                                    <rect key="frame" x="65" y="2" width="20" height="21"/>
+                                    <rect key="frame" x="65" y="2" width="127" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>

@@ -10,6 +10,7 @@
 #import "MonsterCardView.h"
 #import "NibUtils.h"
 #import "EasyTableView.h"
+#import "EnhanceQueueViewController.h"
 
 @class EnhanceCardCell;
 
@@ -41,17 +42,17 @@
 @end
 
 @interface EnhanceQueueCell : UIView
-
-@property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
-@property (nonatomic, strong) IBOutlet UIView *timerView;
-@property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
-@property (nonatomic, strong) IBOutlet UILabel *timeLabel;
-
-@property (nonatomic, strong) EnhancementItem *enhanceItem;
-
-- (void) updateForEnhanceItem:(EnhancementItem *)item;
-- (void) updateForTime;
-
+//
+//@property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
+//@property (nonatomic, strong) IBOutlet UIView *timerView;
+//@property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
+//@property (nonatomic, strong) IBOutlet UILabel *timeLabel;
+//
+//@property (nonatomic, strong) EnhancementItem *enhanceItem;
+//
+//- (void) updateForEnhanceItem:(EnhancementItem *)item;
+//- (void) updateForTime;
+//
 @end
 
 @protocol EnhanceQueueDelegate <NSObject>

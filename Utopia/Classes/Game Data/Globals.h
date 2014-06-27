@@ -15,6 +15,8 @@
 #import "GenViewController.h"
 #import "StaticStructure.h"
 
+#import "MSDate.h"
+
 #define BUTTON_CLICKED_LEEWAY 30
 
 #define LNLog(...) NSLog(__VA_ARGS__)
@@ -152,6 +154,7 @@
 
 + (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays;
 + (NSString *) convertTimeToShortString:(int)secs;
++ (NSString *) convertTimeToShorterString:(int)secs;
 + (NSString *) convertTimeToLongString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
@@ -243,6 +246,8 @@
 + (void) createUIArrowForView:(UIView *)view atAngle:(float)angle;
 + (void) removeUIArrowFromViewRecursively:(UIView *)view;
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
+
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd;
 
 - (BOOL) validateUserName:(NSString *)name;
 

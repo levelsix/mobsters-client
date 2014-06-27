@@ -636,7 +636,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     item.expectedStartTime = [MSDate date];
   } else {
     EnhancementItem *prevItem = [self.userEnhancement.feeders lastObject];
-    item.expectedStartTime = prevItem.expectedEndTime;
+    item.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:prevItem];
   }
   
   [self.userEnhancement.feeders addObject:item];
@@ -658,13 +658,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         next.expectedStartTime = [MSDate date];
       } else {
         EnhancementItem *prev = [feeders objectAtIndex:index-1];
-        next.expectedStartTime = prev.expectedEndTime;
+        next.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:prev];
       }
       
       for (NSInteger i = index+2; i < total; i++) {
         EnhancementItem *next2 = [feeders objectAtIndex:i];
         EnhancementItem *next1 = [feeders objectAtIndex:i-1];
-        next2.expectedStartTime = next1.expectedEndTime;
+        next2.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:next1];
         
       }
     }
@@ -1301,10 +1301,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   if (self.userEnhancement.feeders.count > 0) {
     EnhancementItem *item = [self.userEnhancement.feeders objectAtIndex:0];
-    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+    MSDate *time = [self.userEnhancement expectedEndTimeForItem:item];
+    if ([time timeIntervalSinceNow] <= 0) {
       [self enhancingWaitTimeComplete];
     } else {
-      _enhanceTimer = [NSTimer timerWithTimeInterval:item.expectedEndTime.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
+      _enhanceTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
     }
   }
@@ -1313,7 +1314,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) enhancingWaitTimeComplete {
   NSMutableArray *arr = [NSMutableArray array];
   for (EnhancementItem *item in self.userEnhancement.feeders) {
-    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+    MSDate *time = [self.userEnhancement expectedEndTimeForItem:item];
+    if ([time timeIntervalSinceNow] <= 0) {
       [arr addObject:item];
     }
   }

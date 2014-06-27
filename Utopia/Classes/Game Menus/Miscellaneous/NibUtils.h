@@ -55,6 +55,12 @@ typedef enum {
 @interface NiceFontLabel8B : THLabel
 @end
 
+@interface NiceFontLabel8S : THLabel
+@end
+
+@interface NiceFontLabel8WS : THLabel
+@end
+
 @interface NiceFontLabel9 : UILabel
 @end
 
@@ -100,7 +106,9 @@ typedef enum {
 @interface NiceFontLabel17 : UILabel
 @end
 
-@interface SoundButton : UIButton
+@interface SoundButton : UIButton {
+  BOOL _allowAnimate;
+}
 
 - (void) playSound;
 

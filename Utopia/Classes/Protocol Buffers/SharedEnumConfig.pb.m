@@ -53,6 +53,7 @@ BOOL QualityIsValidValue(Quality value) {
     case QualityNoQuality:
     case QualityCommon:
     case QualityRare:
+    case QualitySuper:
     case QualityUltra:
     case QualityEpic:
     case QualityLegendary:

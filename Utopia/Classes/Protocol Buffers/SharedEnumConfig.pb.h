@@ -31,10 +31,11 @@ typedef enum {
   QualityNoQuality = 1,
   QualityCommon = 2,
   QualityRare = 3,
-  QualityUltra = 4,
-  QualityEpic = 5,
-  QualityLegendary = 6,
-  QualityEvo = 7,
+  QualitySuper = 4,
+  QualityUltra = 5,
+  QualityEpic = 6,
+  QualityLegendary = 7,
+  QualityEvo = 8,
 } Quality;
 
 BOOL QualityIsValidValue(Quality value);

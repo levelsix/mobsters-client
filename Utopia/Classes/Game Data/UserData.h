@@ -11,6 +11,7 @@
 #import "StaticStructure.h"
 
 @class ForgeAttempt;
+@class MSDate;
 
 @interface UserMonster : NSObject
 
@@ -66,6 +67,7 @@
 
 + (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
 
+- (UserMonster *)userMonster;
 - (UserMonsterHealingProto *) convertToProto;
 
 - (float) totalSeconds;
@@ -92,9 +94,6 @@
 @property (nonatomic, assign) int enhancementCost;
 @property (nonatomic, retain) MSDate *expectedStartTime;
 
-- (float) currentPercentage;
-- (int) secondsForCompletion;
-- (MSDate *) expectedEndTime;
 - (UserMonster *)userMonster;
 - (UserEnhancementItemProto *) convertToProto;
 
@@ -109,6 +108,10 @@
 
 - (float) currentPercentageOfLevel;
 - (float) finalPercentageFromCurrentLevel;
+
+- (float) currentPercentageForItem:(EnhancementItem *)item;
+- (int) secondsForCompletionForItem:(EnhancementItem *)item;
+- (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item;
 
 - (id) clone;
 

@@ -323,7 +323,7 @@
 - (void) updateForUserMonster1:(UserMonster *)um1 userMonster2:(UserMonster *)um2 catalyst:(UserMonster *)cata {
   [self.evoContainer1.monsterCardView updateForMonster:um1];
   [self.evoContainer2.monsterCardView updateForMonster:um2];
-  [self.catalystContainer.monsterCardView updateForMonster:cata backupString:@"Missing Scientist"];
+  [self.catalystContainer.monsterCardView updateForMonster:cata backupString:@"Missing Scientist" greyscale:NO];
   
   if (!cata) {
     GameState *gs = [GameState sharedGameState];

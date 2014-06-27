@@ -27,7 +27,6 @@
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *qualityLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *qualityBgdView;
-@property (nonatomic, assign) IBOutlet UIView *starView;
 @property (nonatomic, assign) IBOutlet MaskedButton *overlayButton;
 @property (nonatomic, assign) IBOutlet UIButton *infoButton;
 
@@ -39,7 +38,7 @@
 
 - (void) updateForMonster:(UserMonster *)um;
 - (void) updateForNoMonsterWithLabel:(NSString *)str;
-- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str;
+- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str greyscale:(BOOL)greyscale;
 
 - (IBAction)darkOverlayClicked:(id)sender;
 - (IBAction)infoClicked:(id)sender;

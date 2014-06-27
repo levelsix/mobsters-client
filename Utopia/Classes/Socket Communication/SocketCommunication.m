@@ -1441,7 +1441,7 @@ static NSString *udid = nil;
     [bldr setOilChange:_enhanceQueueOilChange];
     [bldr setGemsSpent:_enhanceQueueGemCost];
     
-    NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
+    NSLog(@"Sending enhancement update with %d adds, %d removals, %d updates, %d oil, and %d gems.",  (int)added.count,  (int)removed.count,  (int)changed.count, _enhanceQueueOilChange, _enhanceQueueGemCost);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
   } else {

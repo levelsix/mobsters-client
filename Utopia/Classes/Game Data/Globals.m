@@ -230,6 +230,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%ds", secs];
 }
 
++ (NSString *) convertTimeToShorterString:(int)secs {
+  NSString *s = [self convertTimeToShortString:secs];
+  NSRange r = [s rangeOfString:@" "];
+  if (r.location != NSNotFound) {
+    s = [s substringToIndex:r.location];
+  }
+  return s;
+}
+
 + (NSString *) convertTimeToLongString:(int)secs {
   if (secs <= 0) {
     return @"0 Seconds";
@@ -384,6 +393,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case QualityRare:
       return @"Rare";
       
+    case QualitySuper:
+      return @"Super";
+      
     case QualityUltra:
       return @"Ultra";
       
@@ -407,7 +419,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) shortenedStringForRarity:(Quality)rarity {
   NSString *str = [self stringForRarity:rarity];
   
-  if (str.length > 4) {
+  if (str.length > 5) {
     str = [str stringByReplacingCharactersInRange:NSMakeRange(3, str.length-3) withString:@"."];
   }
   return [str uppercaseString];
@@ -1286,8 +1298,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int earth = [self calculateElementalDamageForMonster:um element:ElementEarth];
   int light = [self calculateElementalDamageForMonster:um element:ElementLight];
   int night = [self calculateElementalDamageForMonster:um element:ElementDark];
+  int rock = [self calculateElementalDamageForMonster:um element:ElementRock];
   
-  return fire+water+earth+light+night;
+  return fire+water+earth+light+night+rock;
 }
 
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
@@ -1349,9 +1362,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (int i = 0; i < ue.feeders.count; i++) {
     EnhancementItem *item = [ue.feeders objectAtIndex:i];
     if (i == 0) {
-      timeLeft += [item.expectedEndTime timeIntervalSinceNow];
+      timeLeft += [[ue expectedEndTimeForItem:item] timeIntervalSinceNow];
     } else {
-      timeLeft += [item secondsForCompletion];
+      timeLeft += [ue secondsForCompletionForItem:item];
     }
   }
   return timeLeft;
@@ -1390,8 +1403,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float level = 1;
   if (mp.lvlInfoList.count > 0) {
     MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
-    float maxExp = info.curLvlRequiredExp;
-    level = powf(experience/maxExp, 1.f/info.expLvlExponent)*info.expLvlDivisor+1;
+    double maxExp = info.curLvlRequiredExp;
+    level = pow(experience/maxExp, 1.f/info.expLvlExponent)*(info.expLvlDivisor-1)+1;
   }
   return MIN(mp.maxLevel, level);
 }
@@ -1849,6 +1862,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 	}
 	
 	return path;
+}
+
++ (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
+  fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];
+  fakeEnd.center = fakeStart.center;
+  fakeStart.alpha = 1.f;
+  fakeEnd.alpha = 0.f;
+  fakeStart.transform = CGAffineTransformIdentity;
+  fakeEnd.transform = CGAffineTransformIdentity;
+  
+  startView.hidden = YES;
+  endView.hidden = YES;
+  [UIView animateWithDuration:0.3f animations:^{
+    fakeEnd.alpha = 1.f;
+    fakeEnd.center = [fakeEnd.superview convertPoint:endView.center fromView:endView.superview];
+    
+    float scale = fakeEnd.frame.size.width/fakeStart.frame.size.width;
+    fakeStart.transform = CGAffineTransformMakeScale(scale, scale);
+    fakeStart.center = fakeEnd.center;
+    fakeStart.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    // In case this start and view get asked to something else
+    if (finished) {
+      [fakeStart removeFromSuperview];
+      [fakeEnd removeFromSuperview];
+    }
+    
+    startView.hidden = NO;
+    endView.hidden = NO;
+  }];
 }
 
 #pragma mark - Muting Players

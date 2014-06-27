@@ -1595,8 +1595,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
-    // Remove after to let the queue update to not be affected
-    [self removeBaseEnhanceMonster];
+    [gs.userEnhancement.feeders removeAllObjects];
     
     return YES;
   }
@@ -1610,7 +1609,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSMutableArray *arr = [NSMutableArray array];
   EnhancementItem *base = gs.userEnhancement.baseMonster;
   for (EnhancementItem *item in enhancingItems) {
-    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
+    MSDate *endTime = [gs.userEnhancement expectedEndTimeForItem:item];
+    if ([endTime timeIntervalSinceNow] > 0) {
       [Globals popupMessage:@"Trying to finish enhancing item before time."];
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];

@@ -79,25 +79,25 @@
 @end
 
 @implementation EnhanceQueueCell
-
-- (void) updateForEnhanceItem:(EnhancementItem *)item {
-  UserMonster *um = item.userMonster;
-  [self.monsterView updateForMonsterId:um.monsterId];
-  
-  self.timerView.hidden = YES;
-  
-  self.enhanceItem = item;
-}
-
-- (void) updateForTime {
-  int timeLeft = [self.enhanceItem.expectedEndTime timeIntervalSinceNow];
-  
-  self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
-  self.progressBar.percentage = self.enhanceItem.currentPercentage;
-  
-  self.timerView.hidden = NO;
-}
-
+//
+//- (void) updateForEnhanceItem:(EnhancementItem *)item {
+//  UserMonster *um = item.userMonster;
+//  [self.monsterView updateForMonsterId:um.monsterId];
+//  
+//  self.timerView.hidden = YES;
+//  
+//  self.enhanceItem = item;
+//}
+//
+//- (void) updateForTime {
+//  int timeLeft = [self.enhanceItem.expectedEndTime timeIntervalSinceNow];
+//  
+//  self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
+//  self.progressBar.percentage = self.enhanceItem.currentPercentage;
+//  
+//  self.timerView.hidden = NO;
+//}
+//
 @end
 
 @implementation EnhanceQueueView
@@ -120,8 +120,8 @@
   self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
   self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
   
-  EnhanceQueueCell *cell = (EnhanceQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-  [cell updateForTime];
+  //EnhanceQueueCell *cell = (EnhanceQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+  //[cell updateForTime];
 }
 
 - (IBAction)minusClicked:(id)sender {
@@ -191,11 +191,11 @@
 }
 
 - (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(EnhanceQueueCell *)view forIndexPath:(NSIndexPath *)indexPath {
-  EnhancementItem *item = [self.enhancingQueue objectAtIndex:indexPath.row];
-  [view updateForEnhanceItem:item];
+  //EnhancementItem *item = [self.enhancingQueue objectAtIndex:indexPath.row];
+  //[view updateForEnhanceItem:item];
   
   if (indexPath.row == 0) {
-    [view updateForTime];
+    //[view updateForTime];
   }
 }
 

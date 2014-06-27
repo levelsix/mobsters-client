@@ -21,29 +21,22 @@ static UIImage *img = nil;
   
   self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(-M_PI_4);
   
-  if (!img) {
-    [self.overlayButton setBaseImage:self.cardBgdView];
-    [self.overlayButton remakeImage];
-    img = [self.overlayButton imageForState:UIControlStateHighlighted];
-  } else {
-    [self.overlayButton setImage:img forState:UIControlStateHighlighted];
-  }
+  self.overlayButton.hidden = YES;
+  self.infoButton.hidden = YES;
 }
 
 - (void) setDelegate:(id<MonsterCardViewDelegate>)delegate {
-  if ([delegate respondsToSelector:@selector(monsterCardSelected:)]) {
-    self.overlayButton.userInteractionEnabled = YES;
-  } else {
-    self.overlayButton.userInteractionEnabled = NO;
-  }
+  self.overlayButton.hidden = !delegate || ![delegate respondsToSelector:@selector(monsterCardSelected:)];
+  self.infoButton.hidden = !delegate || ![delegate respondsToSelector:@selector(infoClicked:)];
+  
   _delegate = delegate;
 }
 
 - (void) updateForMonster:(UserMonster *)um {
-  [self updateForMonster:um backupString:@"Slot Empty"];
+  [self updateForMonster:um backupString:@"Slot Empty" greyscale:NO];
 }
 
-- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str {
+- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str greyscale:(BOOL)greyscale {
   if (!um) {
     [self updateForNoMonsterWithLabel:str];
     return;
@@ -53,22 +46,26 @@ static UIImage *img = nil;
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   self.monster = um;
   
-  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
-  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)", mp.hasShorterName ? mp.shorterName : mp.displayName, um.level];
-  self.qualityLabel.text = [[Globals stringForRarity:mp.quality] uppercaseString];
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"card.png"];
-  [Globals imageNamed:bgdImgName withView:self.cardBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.hasShorterName ? mp.shorterName : mp.displayName];
+  NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
+  if (!greyscale) {
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
+  }
+  self.nameLabel.attributedText = attr;
   
-  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"tag.png"];
-  [Globals imageNamed:tagName withView:self.qualityBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
   
-  float width = [[self.starView.subviews objectAtIndex:1] frame].origin.x;
-  CGRect r = self.starView.frame;
-  r.size.width = width*mp.evolutionLevel;
-  self.starView.frame = r;
-  self.starView.center = ccp(self.starView.superview.frame.size.width/2, self.starView.center.y);
+  NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"square.png"];
+  [Globals imageNamed:bgdImgName withView:self.cardBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"band.png"];
+  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  [Globals imageNamed:@"infoi.png" withView:self.infoButton greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   self.mainView.hidden = NO;
   self.noMonsterView.hidden = YES;
@@ -97,10 +94,16 @@ static UIImage *img = nil;
 @implementation MonsterCardContainerView
 
 - (void) awakeFromNib {
+  NSMutableArray *oldSubviews = [self.subviews copy];
+  
   [[NSBundle mainBundle] loadNibNamed:@"MonsterCardView" owner:self options:nil];
   [self addSubview:self.monsterCardView];
   self.monsterCardView.frame = self.bounds;
   self.backgroundColor = [UIColor clearColor];
+  
+  for (UIView *v in oldSubviews) {
+    [self.monsterCardView.mainView addSubview:v];
+  }
 }
 
 @end
@@ -122,7 +125,9 @@ static UIImage *img = nil;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
   NSString *file = [imgPrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:element suffix:@"team.png"];
+  
+  NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
+  file = [Globals imageNameForElement:element suffix:suffix];
   [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 

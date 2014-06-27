@@ -142,8 +142,8 @@
 }
 
 - (int) sellPrice {
-  float base = self.experience+self.level;
-  float fraction = self.isComplete ? 1 : self.numPieces/(float)self.staticMonster.numPuzzlePieces;
+  float base = self.levelInfo.sellAmount;
+  float fraction = self.isComplete ? self.level : self.numPieces/(float)self.staticMonster.numPuzzlePieces;
   int price = MAX(1, base*fraction);
   return price;
 }
@@ -223,16 +223,12 @@
     // Ordering now becomes maxHp, curHp, rarity
     if (selfHp != umHp) {
       return [@(umHp) compare:@(selfHp)];
+    } else if (self.curHealth != um.curHealth) {
+      return [@(um.curHealth) compare:@(self.curHealth)];
+    } else if (self.staticMonster.quality != um.staticMonster.quality) {
+      return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
     } else {
-      if (self.curHealth != um.curHealth) {
-        return [@(um.curHealth) compare:@(self.curHealth)];
-      } else {
-        if (self.staticMonster.quality != um.staticMonster.quality) {
-          return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
-        } else {
-          return [@(self.monsterId) compare:@(um.monsterId)];
-        }
-      }
+      return [@(self.monsterId) compare:@(um.monsterId)];
     }
   }
 }
@@ -278,10 +274,15 @@
   return [[self alloc] initWithHealingProto:proto];
 }
 
+- (UserMonster *) userMonster {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myMonsterWithUserMonsterId:self.userMonsterId];
+}
+
 - (UserMonsterHealingProto *) convertToProto {
   UserMonsterHealingProto_Builder *bldr = [[[[[UserMonsterHealingProto builder]
-                                               setUserId:self.userId]
-                                              setUserMonsterId:self.userMonsterId]
+                                              setUserId:self.userId]
+                                             setUserMonsterId:self.userMonsterId]
                                             setHealthProgress:self.healthProgress]
                                            setPriority:self.priority];
   
@@ -392,7 +393,7 @@
   EnhancementItem *feeder = [self.feeders objectAtIndex:0];
   int expGained = [gl calculateExperienceIncrease:self.baseMonster feeder:feeder];
   float newLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained];
-  return curPerc+feeder.currentPercentage*(newLevel-baseLevel);
+  return curPerc+[self currentPercentageForItem:feeder]*(newLevel-baseLevel);
 }
 
 - (float) finalPercentageFromCurrentLevel {
@@ -401,6 +402,21 @@
   int expGained = [gl calculateExperienceIncrease:self];
   float newLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained];
   return newLevel-base.level;
+}
+
+- (float) currentPercentageForItem:(EnhancementItem *)item {
+  int totalTime = [self secondsForCompletionForItem:item];
+  float timeCompleted = totalTime - [[self expectedEndTimeForItem:item] timeIntervalSinceNow];
+  return timeCompleted/totalTime;
+}
+
+- (int) secondsForCompletionForItem:(EnhancementItem *)item {
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateSecondsForEnhancement:self.baseMonster feeder:item];
+}
+
+- (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item {
+  return [item.expectedStartTime dateByAddingTimeInterval:[self secondsForCompletionForItem:item]];
 }
 
 - (id) copy {
@@ -504,22 +520,6 @@
     self.enhancementCost = proto.enhancingCost;
   }
   return self;
-}
-
-- (float) currentPercentage {
-  int totalTime = self.secondsForCompletion;
-  float timeCompleted = totalTime - [self.expectedEndTime timeIntervalSinceNow];
-  return timeCompleted/totalTime;
-}
-
-- (int) secondsForCompletion {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  return [gl calculateSecondsForEnhancement:gs.userEnhancement.baseMonster feeder:self];
-}
-
-- (MSDate *) expectedEndTime {
-  return [self.expectedStartTime dateByAddingTimeInterval:self.secondsForCompletion];
 }
 
 - (UserMonster *) userMonster {

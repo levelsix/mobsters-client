@@ -125,7 +125,7 @@
         <image name="fireteam.png" width="42" height="42"/>
         <image name="menuteamhealthbar.png" width="87" height="11"/>
         <image name="menuteamhealthbarbg.png" width="87" height="11"/>
-        <image name="minusteam.png" width="18" height="18"/>
+        <image name="minusteam.png" width="18" height="19"/>
         <image name="teamslotopen.png" width="42" height="42"/>
     </resources>
 </document>
