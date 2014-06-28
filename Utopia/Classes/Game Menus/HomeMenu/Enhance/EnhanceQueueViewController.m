@@ -94,6 +94,8 @@
   
   [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:NO];
+  
+  [self updateLabels];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

@@ -10,6 +10,8 @@
 #import "Globals.h"
 #import "PopupSubViewController.h"
 
+#define ANIMATION_TIME 0.3f
+
 @implementation PopupNavViewController
 
 - (void) viewDidLoad {
@@ -77,6 +79,18 @@
     // Unload the rest so that the stack looks proper when this method exits
     [self unloadAllControllers];
     [self.viewControllers addObject:topVc];
+    int x = arc4random()%2000;
+    NSLog(@"%d: 1", x);
+    [removeVc.view.layer removeAllAnimations];
+    [topVc.view.layer removeAllAnimations];
+    [self.backView.layer removeAllAnimations];
+    NSLog(@"%d: 2", x);
+    
+    if (removeVc.isBeingPresented || removeVc.isBeingDismissed) {
+      [removeVc endAppearanceTransition];
+    } else if (topVc.isBeingPresented || topVc.isBeingDismissed) {
+      [topVc endAppearanceTransition];
+    }
     
     [removeVc beginAppearanceTransition:NO animated:animated];
     [topVc beginAppearanceTransition:YES animated:animated];
@@ -86,17 +100,26 @@
     
     float movementFactor = self.containerView.frame.size.width*(fromRight?1:-1);
     topVc.view.center = ccp(self.containerView.frame.size.width/2+movementFactor, self.containerView.frame.size.height/2);
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
       removeVc.view.center = ccp(self.containerView.frame.size.width/2-movementFactor, self.containerView.frame.size.height/2);
-      topVc.view.frame = self.containerView.bounds;
-      
       self.backView.alpha = 0.f;
     } completion:^(BOOL finished) {
-      [removeVc.view removeFromSuperview];
-      [removeVc removeFromParentViewController];
-      
-      [removeVc endAppearanceTransition];
-      [topVc endAppearanceTransition];
+      if (finished) {
+        [removeVc.view removeFromSuperview];
+        [removeVc removeFromParentViewController];
+        
+        [removeVc endAppearanceTransition];
+      }
+      NSLog(@"%d: 3", x);
+    }];
+    
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
+      topVc.view.frame = self.containerView.bounds;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [topVc endAppearanceTransition];
+      }
+      NSLog(@"%d: 4", x);
     }];
   } else {
     [self unloadAllControllers];
@@ -115,6 +138,10 @@
     [self remakeBackButton];
   }
   
+  [curVc.view.layer removeAllAnimations];
+  [topVc.view.layer removeAllAnimations];
+  [self.backView.layer removeAllAnimations];
+  
   [curVc beginAppearanceTransition:NO animated:animated];
   [topVc beginAppearanceTransition:YES animated:animated];
   
@@ -124,14 +151,18 @@
   if (animated) {
     topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
-    [UIView animateWithDuration:0.3f animations:^{
-      topVc.view.center = ccp(self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
       curVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
       self.backView.alpha = shouldDisplayBackButton;
     } completion:^(BOOL finished) {
       [curVc.view removeFromSuperview];
       
       [curVc endAppearanceTransition];
+    }];
+    
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
+      topVc.view.center = ccp(self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
+    } completion:^(BOOL finished) {
       [topVc endAppearanceTransition];
     }];
   } else {
@@ -155,21 +186,29 @@
     [self remakeBackButton];
   }
   
+  [removeVc.view.layer removeAllAnimations];
+  [topVc.view.layer removeAllAnimations];
+  [self.backView.layer removeAllAnimations];
+  
   [removeVc beginAppearanceTransition:NO animated:animated];
   [topVc beginAppearanceTransition:YES animated:animated];
   
   [self.containerView addSubview:topVc.view];
   if (animated) {
     topVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
       removeVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
-      topVc.view.frame = self.containerView.bounds;
       self.backView.alpha = shouldDisplayBackButton;
     } completion:^(BOOL finished) {
       [removeVc.view removeFromSuperview];
       [removeVc removeFromParentViewController];
       
       [removeVc endAppearanceTransition];
+    }];
+    
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
+      topVc.view.frame = self.containerView.bounds;
+    } completion:^(BOOL finished) {
       [topVc endAppearanceTransition];
     }];
   } else {
@@ -207,7 +246,7 @@
     float movementFactor = 70.f*(fromRight?1:-1);
     newView.center = ccpAdd(oldView.center, ccp(movementFactor, 0));
     newView.alpha = 0.f;
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
       newView.center = oldView.center;
       oldView.center = ccpAdd(oldView.center, ccp(-movementFactor, 0));
       

@@ -222,8 +222,8 @@
   }
   
   // Both are complete; check if healing or enhancing, then compare stats
-  int selfScore = [self isOnAMiniJob] ? 4 : [self isHealing] ? 3 : [self isEnhancing] ? 2 : [self isSacrificing] ? 1 : 0;
-  int umScore = [um isOnAMiniJob] ? 4 : [um isHealing] ? 3 : [um isEnhancing] ? 2 : [um isSacrificing] ? 1 : 0;
+  int selfScore = ![self isAvailable] ? 1 : 0;
+  int umScore = ![um isAvailable] ? 1 : 0;
   
   if (selfScore != umScore) {
     return [@(selfScore) compare:@(umScore)];

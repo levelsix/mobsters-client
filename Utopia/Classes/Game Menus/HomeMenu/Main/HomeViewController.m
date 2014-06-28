@@ -93,7 +93,9 @@
 }
 
 - (IBAction)leftArrowClicked:(id)sender {
-  _currentIndex = (_currentIndex-1)%self.mainViewControllers.count;
+  // add the count so negative overlaps
+  int count = self.mainViewControllers.count;
+  _currentIndex = (_currentIndex-1+count)%count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
   [self replaceRootWithViewController:svc fromRight:NO animated:YES];
   

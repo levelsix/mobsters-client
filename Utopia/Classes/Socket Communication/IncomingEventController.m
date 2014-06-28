@@ -345,11 +345,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.hasEnhancements) {
       [gs addEnhancementProto:proto.enhancements];
+    } else {
+      gs.userEnhancement = nil;
     }
     
     if (proto.hasEvolution) {
       gs.userEvolution = [UserEvolution evolutionWithUserEvolutionProto:proto.evolution];
       [gs beginEvolutionTimer];
+    } else {
+      gs.userEvolution = nil;
     }
     
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
