@@ -149,7 +149,7 @@
 
 - (void) scientistViewClicked:(UIView *)sender {
   // Do this order so current selection is set before updating labels
-  [self openView:sender.tag];
+  [self openView:(int)sender.tag];
   [self updateLabels];
 }
 

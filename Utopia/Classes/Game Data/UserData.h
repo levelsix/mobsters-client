@@ -120,6 +120,8 @@
 - (float) currentPercentageOfLevel;
 - (float) finalPercentageFromCurrentLevel;
 
+- (float) percentageIncreaseOfNewUserMonster:(UserMonster *)um roundToPercent:(BOOL)roundToPercent;
+
 - (float) currentPercentageForItem:(EnhancementItem *)item;
 - (int) secondsForCompletionForItem:(EnhancementItem *)item;
 - (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item;

@@ -29,6 +29,7 @@
   self.listView.cellClassName = @"SellCardCell";
   
   self.title = @"SELL MOBSTERS";
+  self.titleImageName = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -39,11 +40,27 @@
   self.sellQueue = [NSMutableArray array];
   [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:NO];
+  
+  [self reloadTitleView];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self reloadQueueViewAnimated:YES];
+  [self reloadTitleView];
+}
+
+- (void) reloadTitleView {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSString *s1 = @"SELL MOBSTERS (";
+  NSString *str = [NSString stringWithFormat:@"%@%d/%d)", s1, (int)gs.myMonsters.count, gs.maxInventorySlots];
+  NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
+  
+  if (gs.myMonsters.count >= gs.maxInventorySlots) {
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(s1.length, str.length-s1.length-1)];
+  }
+  self.attributedTitle = attrStr;
 }
 
 #pragma mark - Reloading collection view
@@ -120,15 +137,6 @@
   }
 }
 
-- (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
-  UserMonster *um = self.userMonsters[indexPath.row];
-  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
-  UIViewController *parent = [GameViewController baseController];
-  mpvc.view.frame = parent.view.bounds;
-  [parent.view addSubview:mpvc.view];
-  [parent addChildViewController:mpvc];
-}
-
 - (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.sellQueue[indexPath.row];
   [self.sellQueue removeObject:um];
@@ -183,6 +191,7 @@
   [self.sellQueue removeAllObjects];
   
   [self reloadQueueViewAnimated:YES];
+  [self reloadTitleView];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
 }

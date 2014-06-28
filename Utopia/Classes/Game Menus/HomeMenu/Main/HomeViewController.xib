@@ -10,7 +10,8 @@
                 <outlet property="backView" destination="aNo-p6-eLk" id="JXw-8Y-n4o"/>
                 <outlet property="bgdView" destination="egz-BQ-fUm" id="ca3-lv-2K8"/>
                 <outlet property="containerView" destination="PQx-jD-nSH" id="EqL-p7-P1P"/>
-                <outlet property="homeTitleView" destination="Qtv-a7-n2a" id="dIS-NQ-0dY"/>
+                <outlet property="curHomeTitleView" destination="Qtv-a7-n2a" id="fZO-ze-Wik"/>
+                <outlet property="curTitleView" destination="S3h-7l-GTp" id="cXp-hU-hrJ"/>
                 <outlet property="mainView" destination="k2d-I9-p48" id="G9g-Yq-0nd"/>
                 <outlet property="selectorView" destination="S3h-7l-GTp" id="8F1-FH-WAG"/>
                 <outlet property="view" destination="jTA-4M-XPA" id="XeY-A7-hgw"/>
@@ -126,10 +127,10 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="S3h-7l-GTp">
-                            <rect key="frame" x="162" y="0.0" width="157" height="78"/>
+                            <rect key="frame" x="162" y="0.0" width="157" height="94"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="Qtv-a7-n2a">
+                                <view contentMode="scaleToFill" id="Qtv-a7-n2a" customClass="HomeTitleView">
                                     <rect key="frame" x="0.0" y="0.0" width="157" height="78"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

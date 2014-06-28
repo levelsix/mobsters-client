@@ -36,18 +36,29 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="E26-tT-cuj" customClass="MiniMonsterView">
+                        <view contentMode="scaleToFill" id="E26-tT-cuj">
                             <rect key="frame" x="0.0" y="0.0" width="54" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="7hd-GK-bDK">
+                                <view contentMode="scaleToFill" id="3aD-UL-KKu" customClass="MiniMonsterView">
                                     <rect key="frame" x="6" y="4" width="48" height="48"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ZarkT1Thumbnail.png" id="tRm-Cd-rqh">
-                                    <rect key="frame" x="6" y="4" width="48" height="48"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="7hd-GK-bDK">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ZarkT1Thumbnail.png" id="tRm-Cd-rqh">
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="7hd-GK-bDK" id="9op-oR-cmL"/>
+                                        <outlet property="monsterIcon" destination="tRm-Cd-rqh" id="XLE-d2-goG"/>
+                                    </connections>
+                                </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamsemiemptyslot.png" id="BGh-cm-PAZ">
                                     <rect key="frame" x="6" y="4" width="48" height="48"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -69,10 +80,6 @@
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="bgdIcon" destination="7hd-GK-bDK" id="yUe-ac-DSi"/>
-                                <outlet property="monsterIcon" destination="tRm-Cd-rqh" id="9fV-Bo-Aai"/>
-                            </connections>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -165,7 +172,8 @@
                 <outlet property="healthBarView" destination="1de-GN-2ZE" id="VpX-da-Las"/>
                 <outlet property="healthLabel" destination="vFK-zt-dUt" id="Qm9-9W-Q5m"/>
                 <outlet property="leftView" destination="ptx-jS-EpF" id="deh-IC-pYe"/>
-                <outlet property="monsterView" destination="E26-tT-cuj" id="RUf-1M-m7L"/>
+                <outlet property="monsterView" destination="3aD-UL-KKu" id="XcY-Bn-2H4"/>
+                <outlet property="notEmptyView" destination="E26-tT-cuj" id="u0q-C3-uLs"/>
                 <outlet property="rightView" destination="RxB-R7-azi" id="8pi-cd-kib"/>
                 <outlet property="slotNumLabel" destination="gpb-df-4gT" id="avp-e2-FMA"/>
                 <outlet property="topLabel" destination="r8a-FQ-5Jn" id="F3I-S1-U0c"/>

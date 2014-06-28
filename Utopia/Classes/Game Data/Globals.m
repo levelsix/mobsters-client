@@ -723,7 +723,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       if (oObj == nObj) {
         i++;
       } else {
-        int idx = [n indexOfObject:oObj];
+        NSInteger idx = [n indexOfObject:oObj];
         if (idx != NSNotFound) {
           [o removeObjectAtIndex:i];
           [n removeObjectAtIndex:idx];
@@ -1412,11 +1412,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
-  return um.levelInfo.feederExp*um.level;
+  float multiplier = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
+  return um.levelInfo.feederExp*um.level*multiplier;
 }
 
-- (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
+- (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {
   // Should return a percentage towards next level as well
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:monsterId];
@@ -1432,11 +1434,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
+  // Start over..
   float level = 1;
   if (mp.lvlInfoList.count > 0) {
-    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
-    double maxExp = info.curLvlRequiredExp;
-    level = pow(experience/maxExp, 1.f/info.expLvlExponent)*(info.expLvlDivisor-1)+1;
+    MonsterLevelInfoProto *info = [mp.lvlInfoList firstObject];
+    float maxExp = info.curLvlRequiredExp;
+    level = powf(experience/maxExp, 1.f/info.expLvlExponent)*(info.expLvlDivisor-1)+1;
+    
+    int curLevel = (int)level;
+    int nextLevel = curLevel+1;
+    
+    int curReqExp = powf((curLevel-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
+    int nextReqExp = powf((nextLevel-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
+    
+    level = curLevel+(experience-curReqExp)/(float)(nextReqExp-curReqExp);
   }
   return MIN(mp.maxLevel, level);
 }

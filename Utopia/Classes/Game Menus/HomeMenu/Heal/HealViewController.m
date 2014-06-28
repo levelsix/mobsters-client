@@ -34,6 +34,7 @@
   self.listView.cellClassName = @"HealCardCell";
   
   self.title = @"HEAL MOBSTERS";
+  self.titleImageName = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -90,7 +91,7 @@
 
 - (void) updateOpenSlotsView {
   int maxQueueSize = self.maxQueueSize;
-  int curQueueSize = self.monsterHealingQueue.count;
+  int curQueueSize = (int)self.monsterHealingQueue.count;
   int openSlots = maxQueueSize-curQueueSize;
   
   if (openSlots > 0) {
@@ -196,7 +197,7 @@
     [cell updateForListObject:um];
     
     if (indexPath.row < self.numValidHospitals) {
-      [self updateCellForTime:(MonsterQueueCell *)cell index:indexPath.row];
+      [self updateCellForTime:(MonsterQueueCell *)cell index:(int)indexPath.row];
     }
   }
 }

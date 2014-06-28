@@ -32,6 +32,7 @@
   [self.bottomView.superview addSubview:self.enhancingView];
   
   self.title = @"EVOLVE MOBSTERS";
+  self.titleImageName = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated {

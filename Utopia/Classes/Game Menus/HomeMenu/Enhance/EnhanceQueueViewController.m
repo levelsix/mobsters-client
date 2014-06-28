@@ -33,20 +33,7 @@
   NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"dot.png"];
   [Globals imageNamed:tagName withView:self.rarityDot maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  
-  // Calculate the percentage
-  float curPerc = floorf([ue finalPercentageFromCurrentLevel]*100);
-  
-  // add this item to UserEnhancement
-  EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = listObject.userMonsterId;
-  [ue.feeders addObject:item];
-  
-  float newPerc = floorf([ue finalPercentageFromCurrentLevel]*100);
-  
-  [ue.feeders removeObjectAtIndex:ue.feeders.count-1];
-  
-  int percIncrease = newPerc-curPerc;
+  int percIncrease = [ue percentageIncreaseOfNewUserMonster:listObject roundToPercent:YES];
   self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@%%", [Globals commafyNumber:percIncrease]];
 }
 
@@ -164,6 +151,7 @@
   int curLevel = um.level+additionalLevel;
   int newLevel = MIN(curLevel+1, um.staticMonster.maxLevel);
   self.nextLevelLabel.text = [NSString stringWithFormat:@"to level %d", newLevel];
+  self.title = [NSString stringWithFormat:@"Enhance %@ to Level %d", um.staticMonster.monsterName, newLevel];
   
   int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
@@ -239,11 +227,11 @@
     }
   }
   
+  UserEnhancement *ue = self.currentEnhancement;
   [arr sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    if (obj1.isEnhancing != obj2.isEnhancing) {
-      return [@(obj2.isEnhancing) compare:@(obj1.isEnhancing)];
-    }
-    return [obj1 compare:obj2];
+    float perc1 = [ue percentageIncreaseOfNewUserMonster:obj1 roundToPercent:NO];
+    float perc2 = [ue percentageIncreaseOfNewUserMonster:obj2 roundToPercent:NO];
+    return [@(perc2) compare:@(perc1)];
   }];
   
   self.userMonsters = arr;
@@ -282,20 +270,8 @@
 - (void) checkMonsterIsNotMaxed {
   UserEnhancement *ue = self.currentEnhancement;
   
-  // Calculate the percentage
-  float curPerc = [ue finalPercentageFromCurrentLevel];
-  
-  // add this item to UserEnhancement
-  EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = _confirmUserMonster.userMonsterId;
-  [ue.feeders addObject:item];
-  
-  float newPerc = [ue finalPercentageFromCurrentLevel];
-  
-  [ue.feeders removeObjectAtIndex:ue.feeders.count-1];
-  
-  float percIncrease = newPerc-curPerc;
-  _percentIncrease = floorf(newPerc*100)-floorf(curPerc*100);
+  float percIncrease = [ue percentageIncreaseOfNewUserMonster:_confirmUserMonster roundToPercent:NO];
+  _percentIncrease = [ue percentageIncreaseOfNewUserMonster:_confirmUserMonster roundToPercent:YES];
   
   if (percIncrease) {
     [self checkUserMonsterOnTeam];

@@ -397,16 +397,17 @@
   Globals *gl = [Globals sharedGlobals];
   UserMonster *base = self.baseMonster.userMonster;
   float baseLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience];
-  float curPerc = baseLevel-(int)baseLevel;
+  float basePerc = baseLevel-(int)baseLevel;
   
   if (self.feeders.count == 0) {
-    return curPerc;
+    return basePerc;
   }
   
   EnhancementItem *feeder = [self.feeders objectAtIndex:0];
   int expGained = [gl calculateExperienceIncrease:self.baseMonster feeder:feeder];
-  float newLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained];
-  return curPerc+[self currentPercentageForItem:feeder]*(newLevel-baseLevel);
+  float curPerc = [self currentPercentageForItem:feeder];
+  float curLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained*curPerc];
+  return basePerc+(curLevel-baseLevel);
 }
 
 - (float) finalPercentageFromCurrentLevel {
@@ -421,6 +422,28 @@
   int totalTime = [self secondsForCompletionForItem:item];
   float timeCompleted = totalTime - [[self expectedEndTimeForItem:item] timeIntervalSinceNow];
   return timeCompleted/totalTime;
+}
+
+- (float) percentageIncreaseOfNewUserMonster:(UserMonster *)um roundToPercent:(BOOL)roundToPercent {
+  // Calculate the percentage
+  float curPerc = [self finalPercentageFromCurrentLevel]*100;
+  
+  // add this item to UserEnhancement
+  EnhancementItem *item = [[EnhancementItem alloc] init];
+  item.userMonsterId = um.userMonsterId;
+  [self.feeders addObject:item];
+  
+  float newPerc = [self finalPercentageFromCurrentLevel]*100;
+  
+  [self.feeders removeObjectAtIndex:self.feeders.count-1];
+  
+  float percIncrease;
+  if (roundToPercent) {
+    percIncrease = floorf(newPerc)-floorf(curPerc);
+  } else {
+    percIncrease = newPerc-curPerc;
+  }
+  return percIncrease;
 }
 
 - (int) secondsForCompletionForItem:(EnhancementItem *)item {

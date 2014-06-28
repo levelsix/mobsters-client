@@ -17,7 +17,7 @@
   [super viewWillAppear:animated];
   
   if ([self respondsToSelector:@selector(updateLabels)]) {
-    self.updateTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+    self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
     [self performSelector:@selector(updateLabels)];
   }

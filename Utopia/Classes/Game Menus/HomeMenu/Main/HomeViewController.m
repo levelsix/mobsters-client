@@ -15,7 +15,7 @@
 #import "HealViewController.h"
 #import "TeamViewController.h"
 
-@interface HomeViewController ()
+@implementation HomeTitleView
 
 @end
 
@@ -66,7 +66,12 @@
   HealViewController *vc3 = [[HealViewController alloc] init];
   TeamViewController *vc4 = [[TeamViewController alloc] init];
   EnhanceChooserViewController *vc5 = [[EnhanceChooserViewController alloc] init];
-  self.mainViewControllers = @[vc1, vc2, vc3, vc4, vc5];
+  
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [@[vc2, vc3, vc4] mutableCopy];
+  if (gs.myLaboratory.isComplete) [arr addObject:vc1];
+  if (gs.myLaboratory.isComplete) [arr addObject:vc5];
+  self.mainViewControllers = arr;
   
   PopupSubViewController *vc = self.mainViewControllers[0];
   if (_initViewControllerClass) {
@@ -76,7 +81,7 @@
       }
     }
   }
-  _currentIndex = [self.mainViewControllers indexOfObject:vc];
+  _currentIndex = (int)[self.mainViewControllers indexOfObject:vc];
   [self replaceRootWithViewController:vc fromRight:NO animated:NO];
   [self loadNextTitleSelectionFromRight:NO animated:NO];
   
@@ -94,7 +99,7 @@
 
 - (IBAction)leftArrowClicked:(id)sender {
   // add the count so negative overlaps
-  int count = self.mainViewControllers.count;
+  int count = (int)self.mainViewControllers.count;
   _currentIndex = (_currentIndex-1+count)%count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
   [self replaceRootWithViewController:svc fromRight:NO animated:YES];
@@ -103,22 +108,30 @@
 }
 
 - (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated {
-  UIView *oldView = self.homeTitleView;
+  UIView *oldHomeView = self.curHomeTitleView;
+  UIView *oldTitleView = self.curTitleView;
   
-  [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil];
+  PopupSubViewController *svc = [self.viewControllers lastObject];
+  if (svc.titleImageName) {
+    self.curHomeTitleView = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil][0];
+    self.curTitleLabel = self.curHomeTitleView.titleLabel;
+    self.curTitleView = self.selectorView;
+  } else {
+    self.curTitleLabel = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleLabel" owner:self options:nil][0];
+    self.curTitleView = self.curTitleLabel;
+  }
   
   [self reloadTitleLabel];
-  [self replaceTitleView:oldView withNewView:self.homeTitleView fromRight:fromRight animated:animated];
-}
-
-- (void) reloadTitleLabel {
-  PopupSubViewController *svc = [self.viewControllers lastObject];
-  if (svc.attributedTitle) {
-    self.homeTitleLabel.attributedText = svc.attributedTitle;
-    self.bigTitleLabel.attributedText = svc.attributedTitle;
+  
+  if (oldTitleView == self.selectorView && self.curTitleView == self.selectorView) {
+    [self replaceTitleView:oldHomeView withNewView:self.curHomeTitleView fromRight:fromRight animated:animated];
   } else {
-    self.homeTitleLabel.text = svc.title;
-    self.bigTitleLabel.text = svc.title;
+    // replace without animation
+    if (self.curHomeTitleView != oldHomeView) {
+      [self replaceTitleView:oldHomeView withNewView:self.curHomeTitleView fromRight:fromRight animated:NO];
+    }
+    
+    [self replaceTitleView:oldTitleView withNewView:self.curTitleView fromRight:fromRight animated:animated];
   }
 }
 

@@ -33,6 +33,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [self updateConfiguration];
   
   GameState *gs = [GameState sharedGameState];
@@ -49,6 +51,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanBrowseViewController];
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanInfoViewController];

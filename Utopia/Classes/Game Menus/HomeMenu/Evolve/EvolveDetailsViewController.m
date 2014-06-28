@@ -34,6 +34,10 @@
   [self.middleView updateWithEvoItem:self.evoItem];
   
   [self updateButtonConfiguration];
+  
+  MonsterProto *mp = self.evoItem.userMonster1.staticMonster;
+  MonsterProto *evo = self.evoItem.userMonster1.staticEvolutionMonster;
+  self.title = [NSString stringWithFormat:@"Evolve %@ to %@", mp.monsterName, evo.monsterName];
 }
 
 - (void) waitTimeComplete {

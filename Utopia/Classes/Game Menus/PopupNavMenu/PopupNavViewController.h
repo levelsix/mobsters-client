@@ -22,8 +22,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *backLabel;
 @property (nonatomic, retain) IBOutlet MaskedButton *backMaskedButton;
 
+@property (nonatomic, retain) IBOutlet UIView *curTitleView;
+@property (nonatomic, retain) IBOutlet UILabel *curTitleLabel;
+
 // Navigation controller stack
+@property (nonatomic, retain) PopupSubViewController *topViewController;
 @property (nonatomic, retain) NSMutableArray *viewControllers;
+
+- (void) displayInParentViewController:(UIViewController *)gvc;
 
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController;
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated;
@@ -31,6 +37,8 @@
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
 
 - (void) replaceTitleView:(UIView *)oldView withNewView:(UIView *)newView fromRight:(BOOL)fromRight animated:(BOOL)animated;
+- (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated;
+- (void) reloadTitleLabel;
 
 - (IBAction) backClicked:(id)sender;
 - (void) goBack;

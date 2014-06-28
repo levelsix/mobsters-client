@@ -26,9 +26,11 @@
 @property (nonatomic, retain) IBOutlet UIView *healthBarView;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
-@property (nonatomic, retain) IBOutlet UIView *emptyView;
 @property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *unavailableBorder;
+
+@property (nonatomic, retain) IBOutlet UIView *emptyView;
+@property (nonatomic, retain) IBOutlet UIView *notEmptyView;
 
 @property (nonatomic, retain) IBOutlet UIView *leftView;
 @property (nonatomic, retain) IBOutlet UIView *rightView;

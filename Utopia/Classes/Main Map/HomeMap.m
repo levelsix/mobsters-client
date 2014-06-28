@@ -24,6 +24,7 @@
 #import "AchievementUtil.h"
 #import "MiniJobsViewController.h"
 #import "HireViewController.h"
+#import "HomeViewController.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -1133,17 +1134,15 @@
   StructureInfoProto *fsp = us.staticStruct.structInfo;
   
   GameViewController *gvc = [GameViewController baseController];
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  HomeViewController *hvc = nil;
   
   switch (fsp.structType) {
     case StructureInfoProto_StructTypeHospital:
-      [gvc presentViewController:m animated:YES completion:nil];
-      [m pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+      hvc = [[HomeViewController alloc] initWithHeal];
       break;
       
     case StructureInfoProto_StructTypeLab:
-      [gvc presentViewController:m animated:YES completion:nil];
-      [m pushViewController:[[LabViewController alloc] init] animated:YES];
+      hvc = [[HomeViewController alloc] initWithEnhance];
       break;
       
     case StructureInfoProto_StructTypeResidence:
@@ -1156,6 +1155,10 @@
       
     default:
       break;
+  }
+  
+  if (hvc) {
+    [hvc displayInParentViewController:gvc];
   }
 }
 

@@ -59,11 +59,12 @@ static UIImage *img = nil;
   
   self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
   
-  NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"square.png"];
-  [Globals imageNamed:bgdImgName withView:self.cardBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"band.png"];
-  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  NSString *bgdImgName = !greyscale ? [Globals imageNameForElement:mp.monsterElement suffix:@"square.png"] : @"greysquare.png";
+  [Globals imageNamed:bgdImgName withView:self.cardBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  NSString *tagName = !greyscale ? [Globals imageNameForRarity:mp.quality suffix:@"band.png"] : @"greyband.png";
+  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [Globals imageNamed:@"infoi.png" withView:self.infoButton greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
@@ -138,8 +139,8 @@ static UIImage *img = nil;
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";
-  file = [Globals imageNameForElement:element suffix:suffix];
-  [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  file = !greyscale ? [Globals imageNameForElement:element suffix:suffix] : [@"grey" stringByAppendingString:suffix];
+  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end

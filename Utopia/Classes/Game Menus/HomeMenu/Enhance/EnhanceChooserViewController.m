@@ -23,6 +23,7 @@
   self.listView.cellClassName = @"EnhanceCardCell";
   
   self.title = @"ENHANCE MOBSTERS";
+  self.titleImageName = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -98,6 +99,8 @@
     BOOL isMax2 = obj2.level >= obj2.staticMonster.maxLevel;
     if (isMax1 != isMax2) {
       return [@(isMax1) compare:@(isMax2)];
+    } else if (obj1.isEnhancing != obj2.isEnhancing) {
+      return [@(obj1.isEnhancing) compare:@(obj2.isEnhancing)];
     } else {
       return [obj1 compare:obj2];
     }

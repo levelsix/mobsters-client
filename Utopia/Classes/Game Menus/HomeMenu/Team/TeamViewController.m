@@ -21,14 +21,17 @@
 
 - (void) setTag:(NSInteger)tag {
   [super setTag:tag];
-  self.slotNumLabel.text = [NSString stringWithFormat:@"%d", tag];
+  self.slotNumLabel.text = [NSString stringWithFormat:@"%d", (int)tag];
 }
 
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {
   if (!um) {
-    self.monsterView.alpha = 0.f;
+    self.notEmptyView.alpha = 0.f;
+    self.emptyView.hidden = NO;
   } else {
-    self.monsterView.alpha = 1.f;
+    self.notEmptyView.alpha = 1.f;
+    self.monsterView.alpha = [um isAvailable] ? 1.f : 0.6f;
+    self.emptyView.hidden = ![um isAvailable];
     
     [self.monsterView updateForMonsterId:um.monsterId greyscale:um.curHealth <= 0];
     self.unavailableBorder.hidden = [um isAvailable];
@@ -46,7 +49,7 @@
     self.botLabel.hidden = NO;
     self.healthBarView.hidden = YES;
     
-    self.topLabel.text = [NSString stringWithFormat:@"Slot %d Open", self.tag];
+    self.topLabel.text = [NSString stringWithFormat:@"Slot %d Open", (int)self.tag];
     self.topLabel.highlighted = YES;
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
@@ -71,16 +74,12 @@
       
       self.botLabel.hidden = NO;
       self.healthBarView.hidden = YES;
-      
-      self.monsterView.alpha = 0.6f;
     } else {
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
       
       self.botLabel.hidden = YES;
       self.healthBarView.hidden = NO;
-      
-      self.monsterView.alpha = 1.f;
     }
   }
 }
@@ -128,7 +127,7 @@
   }
   self.teamSlotViews = realSlotViews;
   
-  self.title = @"MY TEAM";
+  self.titleImageName = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -138,6 +137,8 @@
   
   [self reloadListViewAnimated:NO];
   [self updateTeamSlotViews];
+  
+  [self reloadTitleView];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -149,6 +150,7 @@
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self updateTeamSlotViews];
+  [self reloadTitleView];
 }
 
 - (void) updateLabels {
@@ -156,6 +158,14 @@
     UserMonster *um = self.userMonsters[[self.listView.collectionView indexPathForCell:listCell].row];
     [listCell updateCombineTimeForUserMonster:um];
   }
+}
+
+- (void) reloadTitleView {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", (int)gs.allMonstersOnMyTeam.count, gl.maxTeamSize];
+  self.title = str;
 }
 
 - (void) updateTeamSlotViews {
@@ -168,6 +178,16 @@
 - (UserMonster *) monsterForSlot:(NSInteger)slot {
   GameState *gs = [GameState sharedGameState];
   return [gs myMonsterWithSlotNumber:slot];
+}
+
+- (NSArray *) monsterList {
+  GameState *gs = [GameState sharedGameState];
+  return gs.myMonsters;
+}
+
+- (int) maxInventorySlots {
+  GameState *gs = [GameState sharedGameState];
+  return gs.maxInventorySlots;
 }
 
 - (void) openInfoForUserMonster:(UserMonster *)um {
@@ -186,10 +206,9 @@
 }
 
 - (void) reloadMonstersArray {
-  GameState *gs = [GameState sharedGameState];
   NSMutableArray *avail = [NSMutableArray array];
   
-  for (UserMonster *um in gs.myMonsters) {
+  for (UserMonster *um in self.monsterList) {
     // All monsters that aren't currently on your team
     if (!um.teamSlot) {
       [avail addObject:um];
@@ -221,6 +240,8 @@
       [self animateUserMonsterIntoSlot:um];
       [self reloadListViewAnimated:YES];
       
+      [self reloadTitleView];
+      
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
@@ -240,7 +261,7 @@
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:cardCell toEndView:slotView.monsterView fakeStartView:self.cardCell fakeEndView:self.teamCell];
+    [Globals animateStartView:cardCell toEndView:slotView.notEmptyView fakeStartView:self.cardCell fakeEndView:self.teamCell];
   } else {
     animView = slotView;
   }
@@ -295,6 +316,8 @@
       [self animateUserMonsterOutOfSlot:um slotNum:slotNum];
       [self updateTeamSlotViews];
       
+      [self reloadTitleView];
+      
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
@@ -310,12 +333,12 @@
   UIView *animView = slotView.rightView;
   if (cardCell && slotView) {
     [self.teamCell updateForUserMonster:um];
-    [self.cardCell updateForListObject:um];
+    [self.cardCell updateForListObject:um greyscale:![um isAvailable]];
     
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];
     
-    [Globals animateStartView:slotView.monsterView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell];
+    [Globals animateStartView:slotView.notEmptyView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell];
   } else {
     animView = slotView;
   }

@@ -288,7 +288,7 @@
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
-- (float) calculateLevelForMonster:(int)monsterId experience:(int)experience;
+- (float) calculateLevelForMonster:(int)monsterId experience:(float)experience;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 + (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor;

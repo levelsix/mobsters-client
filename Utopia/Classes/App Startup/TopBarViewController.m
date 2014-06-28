@@ -378,16 +378,10 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-//  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-//  GameViewController *gvc = (GameViewController *)self.parentViewController;
-//  [gvc presentViewController:m animated:YES completion:nil];
-//  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
-  
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  HomeViewController *pvc = [[HomeViewController alloc] init];
-  [gvc addChildViewController:pvc];
-  pvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:pvc.view];
+  [gvc presentViewController:m animated:YES completion:nil];
+  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
 }
 
 - (IBAction)attackClicked:(id)sender {

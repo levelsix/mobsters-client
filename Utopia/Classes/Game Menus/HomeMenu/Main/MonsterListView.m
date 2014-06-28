@@ -42,9 +42,13 @@
   
   self.healCostLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:um]];
   
-  float baseLevel = [gl calculateLevelForMonster:um.monsterId experience:um.experience];
-  float curPerc = baseLevel-(int)baseLevel;
-  self.enhancePercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
+  if (um.level >= um.staticMonster.maxLevel) {
+    self.enhancePercentLabel.text = @"Max";
+  } else {
+    float baseLevel = [gl calculateLevelForMonster:um.monsterId experience:um.experience];
+    float curPerc = baseLevel-(int)baseLevel;
+    self.enhancePercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)floorf(curPerc*100)];
+  }
   
   self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
   self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];

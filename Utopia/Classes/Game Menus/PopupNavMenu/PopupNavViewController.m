@@ -17,13 +17,35 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  
   self.viewControllers = [NSMutableArray array];
   
   self.backView.alpha = 0.f;
 }
 
+- (void) displayInParentViewController:(UIViewController *)gvc {
+  [gvc addChildViewController:self];
+  self.view.frame = gvc.view.bounds;
+  
+  [self beginAppearanceTransition:YES animated:YES];
+  
+  [gvc.view addSubview:self.view];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView completion:^(BOOL finished) {
+    [self endAppearanceTransition];
+  }];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  [[CCDirector sharedDirector] pause];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [[CCDirector sharedDirector] resume];
+}
+      
 - (IBAction) backClicked:(id)sender {
   if ((!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack])) {
     [self goBack];
@@ -43,12 +65,15 @@
 }
 
 - (void) close {
+  [self beginAppearanceTransition:NO animated:YES];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     // Do this so appearance methods are forwarded
     [self unloadAllControllers];
     
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    
+    [self endAppearanceTransition];
   }];
 }
 
@@ -66,25 +91,32 @@
   return NO;
 }
 
+- (void) setNewTopViewController:(PopupSubViewController *)topViewController {
+  [self.topViewController removeObserver:self forKeyPath:@"title"];
+  [self.topViewController removeObserver:self forKeyPath:@"attributedTitle"];
+  self.topViewController = topViewController;
+  [self.topViewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+  [self.topViewController addObserver:self forKeyPath:@"attributedTitle" options:NSKeyValueObservingOptionNew context:NULL];
+}
+
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController {
   [self replaceRootWithViewController:viewController fromRight:NO animated:NO];
 }
 
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated {
   if (animated) {
-    UIViewController *removeVc = [self.viewControllers lastObject];
+    PopupSubViewController *removeVc = [self.viewControllers lastObject];
     [self.viewControllers removeObject:removeVc];
-    UIViewController *topVc = viewController;
+    PopupSubViewController *topVc = viewController;
     
     // Unload the rest so that the stack looks proper when this method exits
     [self unloadAllControllers];
     [self.viewControllers addObject:topVc];
-    int x = arc4random()%2000;
-    NSLog(@"%d: 1", x);
+    [self setNewTopViewController:topVc];
+    
     [removeVc.view.layer removeAllAnimations];
     [topVc.view.layer removeAllAnimations];
     [self.backView.layer removeAllAnimations];
-    NSLog(@"%d: 2", x);
     
     if (removeVc.isBeingPresented || removeVc.isBeingDismissed) {
       [removeVc endAppearanceTransition];
@@ -110,7 +142,6 @@
         
         [removeVc endAppearanceTransition];
       }
-      NSLog(@"%d: 3", x);
     }];
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
@@ -119,17 +150,19 @@
       if (finished) {
         [topVc endAppearanceTransition];
       }
-      NSLog(@"%d: 4", x);
     }];
   } else {
     [self unloadAllControllers];
     [self pushViewController:viewController animated:animated];
   }
+  
+  [self loadNextTitleSelectionFromRight:fromRight animated:animated];
 }
 
 - (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
-  UIViewController *curVc = [self.viewControllers lastObject];
+  PopupSubViewController *curVc = [self.viewControllers lastObject];
   [self.viewControllers addObject:topVc];
+  [self setNewTopViewController:topVc];
   
   BOOL shouldDisplayBackButton = NO;
   if (self.viewControllers.count > 1) {
@@ -172,12 +205,15 @@
     [curVc endAppearanceTransition];
     [topVc endAppearanceTransition];
   }
+  
+  [self loadNextTitleSelectionFromRight:YES animated:animated];
 }
 
 - (UIViewController *) popViewControllerAnimated:(BOOL)animated {
-  UIViewController *removeVc = [self.viewControllers lastObject];
+  PopupSubViewController *removeVc = [self.viewControllers lastObject];
   [self.viewControllers removeObject:removeVc];
-  UIViewController *topVc = [self.viewControllers lastObject];
+  PopupSubViewController *topVc = [self.viewControllers lastObject];
+  [self setNewTopViewController:topVc];
   
   BOOL shouldDisplayBackButton = NO;
   if (self.viewControllers.count > 1) {
@@ -222,10 +258,13 @@
     [topVc endAppearanceTransition];
   }
   
+  [self loadNextTitleSelectionFromRight:NO animated:animated];
+  
   return removeVc;
 }
 
 - (void) unloadAllControllers {
+  [self setNewTopViewController:nil];
   for (UIViewController *vc in self.viewControllers) {
     if (vc.view.superview) {
       [vc beginAppearanceTransition:NO animated:NO];
@@ -260,6 +299,30 @@
     
     [oldView removeFromSuperview];
   }
+}
+
+- (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated {
+  UIView *oldTitleView = self.curTitleView;
+  
+  self.curTitleLabel = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleLabel" owner:self options:nil][0];
+  self.curTitleView = self.curTitleLabel;
+  
+  [self reloadTitleLabel];
+  
+  [self replaceTitleView:oldTitleView withNewView:self.curTitleView fromRight:fromRight animated:animated];
+}
+
+- (void) reloadTitleLabel {
+  PopupSubViewController *svc = [self.viewControllers lastObject];
+  if (svc.attributedTitle) {
+    self.curTitleLabel.attributedText = svc.attributedTitle;
+  } else {
+    self.curTitleLabel.text = svc.title;
+  }
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  [self reloadTitleLabel];
 }
 
 @end
