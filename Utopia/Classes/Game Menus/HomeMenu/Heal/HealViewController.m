@@ -44,26 +44,12 @@
   
   [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:NO];
-  
-  self.updateTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
-  [self updateLabels];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
-  [self.updateTimer invalidate];
-  self.updateTimer = nil;
-  
   [[SocketCommunication sharedSocketCommunication] flush];
-  
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) waitTimeComplete {

@@ -11,6 +11,14 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 
+@implementation MonsterProto (Name)
+
+- (NSString *) monsterName {
+  return self.hasShorterName ? self.shorterName : self.displayName;
+}
+
+@end
+
 @implementation UserMonster
 
 - (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
@@ -134,7 +142,7 @@
 }
 
 - (BOOL) isAvailable {
-  return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing && !self.isOnAMiniJob;
+  return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing && !self.isOnAMiniJob && !self.isEvolving;
 }
 
 - (BOOL) isAvailableForSelling {
@@ -164,6 +172,11 @@
 - (MonsterProto *) staticEvolutionMonster {
   GameState *gs = [GameState sharedGameState];
   return [gs monsterWithId:self.staticMonster.evolutionMonsterId];
+}
+
+- (MonsterProto *) staticEvolutionCatalystMonster {
+  GameState *gs = [GameState sharedGameState];
+  return [gs monsterWithId:self.staticMonster.evolutionCatalystMonsterId];
 }
 
 - (MonsterLevelInfoProto *) levelInfo {
@@ -471,6 +484,14 @@
   return [self.startTime dateByAddingTimeInterval:um.staticMonster.minutesToEvolve*60];
 }
 
+- (EvoItem *) evoItem {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um1 = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
+  UserMonster *um2 = [gs myMonsterWithUserMonsterId:self.userMonsterId2];
+  UserMonster *cata = [gs myMonsterWithUserMonsterId:self.catalystMonsterId];
+  return [[EvoItem alloc] initWithUserMonster:um1 andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
+}
+
 - (UserMonsterEvolutionProto *) convertToProto {
   UserMonsterEvolutionProto_Builder *bldr = [UserMonsterEvolutionProto builder];
   [bldr addUserMonsterIds:self.userMonsterId1];
@@ -484,17 +505,34 @@
 
 @implementation EvoItem
 
-- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster {
+- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster suggestedMonster:(UserMonster *)suggestedMonster {
   if ((self = [super init])) {
     self.userMonster1 = um1;
     self.userMonster2 = um2;
     self.catalystMonster = catalystMonster;
+    self.suggestedMonster = suggestedMonster;
   }
   return self;
 }
 
+- (NSArray *) userMonsters {
+  NSMutableArray *arr = [NSMutableArray array];
+  if (self.userMonster1) {
+    [arr addObject:self.userMonster1];
+  }
+  if (self.userMonster2) {
+    [arr addObject:self.userMonster2];
+  }
+  return arr;
+}
+
+- (BOOL) isReadyForEvolution {
+  MonsterProto *mp = self.userMonster1.staticMonster;
+  return self.catalystMonster && self.userMonster1.level >= mp.maxLevel && self.userMonster2.level >= mp.maxLevel;
+}
+
 - (BOOL) isEqual:(EvoItem *)object {
-  return [self.userMonster1 isEqual:object.userMonster1] && [self.userMonster2 isEqual:object.userMonster2] && [self.catalystMonster isEqual:object.catalystMonster];
+  return [self.userMonster1 isEqual:object.userMonster1] && ((!self.userMonster2 && !object.userMonster2) || [self.userMonster2 isEqual:object.userMonster2]);
 }
 
 - (NSString *)description {
@@ -502,7 +540,7 @@
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)(self.userMonster1.userMonsterId+self.userMonster2.userMonsterId+self.catalystMonster.userMonsterId);
+  return (NSUInteger)(self.userMonster1.userMonsterId+self.userMonster2.userMonsterId);
 }
 
 @end

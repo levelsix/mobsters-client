@@ -19,7 +19,7 @@
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   
   [self.monsterView updateForMonsterId:um.monsterId];
-  self.nameLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
+  self.nameLabel.text = mp.monsterName;
   self.levelLabel.text = [NSString stringWithFormat:@"LEVEL %d", um.level];
 }
 

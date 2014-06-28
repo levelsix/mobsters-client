@@ -113,6 +113,11 @@
   [self.collectionView registerNib:[UINib nibWithNibName:footerClassName bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:self.footerClassName];
 }
 
+- (void) setHeaderClassName:(NSString *)headerClassName {
+  _headerClassName = headerClassName;
+  [self.collectionView registerNib:[UINib nibWithNibName:headerClassName bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:self.headerClassName];
+}
+
 - (void) reloadTableAnimated:(BOOL)animated listObjects:(NSArray *)listObjects {
   NSArray *rec = self.listObjects;
   self.listObjects = [listObjects copy];
@@ -288,6 +293,18 @@
     }
     
     return footerView;
+  } else if ([kind isEqual:UICollectionElementKindSectionHeader]) {
+    UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:self.headerClassName forIndexPath:indexPath];
+    
+    for (UIView *v in headerView.subviews) {
+      v.transform = self.isFlipped ? CGAffineTransformMakeScale(-1, 1) : CGAffineTransformIdentity;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(listView:updateHeaderView:)]) {
+      [self.delegate listView:self updateHeaderView:headerView];
+    }
+    
+    return headerView;
   }
   return nil;
 }

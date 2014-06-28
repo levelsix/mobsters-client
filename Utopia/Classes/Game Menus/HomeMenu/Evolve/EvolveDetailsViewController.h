@@ -6,8 +6,37 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PopupSubViewController.h"
 
-@interface EvolveDetailsViewController : UIViewController
+#import "EvolveDetailsViews.h"
+
+#import "UserData.h"
+
+@interface EvolveDetailsViewController : PopupSubViewController {
+  BOOL _allowEvolution;
+}
+
+@property (nonatomic, retain) IBOutlet EvolveDetailsMiddleView *middleView;
+
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *oilCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *oilButtonView;
+@property (nonatomic, retain) IBOutlet UIView *gemButtonView;
+
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) IBOutlet UIView *gemLabelsView;
+
+@property (nonatomic, retain) UIView *greyscaleView;
+@property (nonatomic, retain) IBOutlet UIView *bottomView;
+
+@property (nonatomic, retain) EvoItem *evoItem;
+
+@property (nonatomic, strong) NSTimer *updateTimer;
+
+- (id) initWithEvoItem:(EvoItem *)evoItem allowEvolution:(BOOL)allowEvolution;
+- (id) initWithCurrentEvolution;
 
 @end

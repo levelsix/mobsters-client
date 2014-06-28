@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamslotopen.png" id="JD9-NO-IEP">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="bigsquareempty.png" id="JD9-NO-IEP">
                     <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -117,10 +117,10 @@
         </view>
     </objects>
     <resources>
+        <image name="bigsquareempty.png" width="73" height="73"/>
         <image name="chickenbig.png" width="74" height="74"/>
         <image name="infoi.png" width="18" height="19"/>
         <image name="nightsquare.png" width="74" height="74"/>
         <image name="rareband.png" width="33" height="33"/>
-        <image name="teamslotopen.png" width="42" height="42"/>
     </resources>
 </document>

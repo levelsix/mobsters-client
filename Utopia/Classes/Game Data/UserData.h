@@ -13,6 +13,12 @@
 @class ForgeAttempt;
 @class MSDate;
 
+@interface MonsterProto (Name)
+
+- (NSString *) monsterName;
+
+@end
+
 @interface UserMonster : NSObject
 
 @property (nonatomic, assign) uint64_t userMonsterId;
@@ -42,6 +48,7 @@
 - (NSString *) statusString;
 - (NSString *) statusImageName;
 - (MonsterProto *) staticEvolutionMonster;
+- (MonsterProto *) staticEvolutionCatalystMonster;
 - (MonsterLevelInfoProto *) levelInfo;
 - (BOOL) isCombining;
 - (int) timeLeftForCombining;
@@ -81,8 +88,12 @@
 @property (nonatomic, retain) UserMonster *userMonster1;
 @property (nonatomic, retain) UserMonster *userMonster2;
 @property (nonatomic, assign) UserMonster *catalystMonster;
+@property (nonatomic, assign) UserMonster *suggestedMonster;
 
-- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster;
+- (NSArray *) userMonsters;
+- (BOOL) isReadyForEvolution;
+
+- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster suggestedMonster:(UserMonster *)suggestedMonster;
 
 @end
 
@@ -128,6 +139,7 @@
 + (id) evolutionWithEvoItem:(EvoItem *)evo time:(MSDate *)time;
 - (MSDate *) endTime;
 - (UserMonsterEvolutionProto *) convertToProto;
+- (EvoItem *) evoItem;
 
 @end
 

@@ -652,7 +652,7 @@
   CGRect r;
   
   r = self.leftView1.frame;
-  r.origin.x = 10;
+  r.origin.x = 3;
   r.size.width = self.button.center.x-size.width/2-5-r.origin.x;
   r.origin.y = self.button.center.y-2;
   self.leftView1.frame = r;

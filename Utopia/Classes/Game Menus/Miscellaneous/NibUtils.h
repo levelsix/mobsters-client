@@ -482,3 +482,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isRightToLeft;
 
 @end
+
+@interface EmbeddedNibView : UIView
+
+@end

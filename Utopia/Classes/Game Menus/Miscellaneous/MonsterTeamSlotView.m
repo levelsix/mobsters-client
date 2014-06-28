@@ -67,7 +67,7 @@
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    self.titleLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
+    self.titleLabel.text = mp.monsterName;
     if (self.titleLabel.subviews.count > 0) {
       [self.titleLabel.subviews[0] removeFromSuperview];
     }

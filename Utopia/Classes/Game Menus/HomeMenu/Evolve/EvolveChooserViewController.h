@@ -10,7 +10,15 @@
 
 #import "EvolveChooserViews.h"
 
-@interface EvolveChooserViewController : PopupSubViewController <UICollectionViewDataSource, UICollectionViewDelegate, EvolveCardDelegate>
+@interface EvolveChooserViewController : PopupSubViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EvolveCardDelegate>
+
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet UILabel *monsterNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
+
+@property (nonatomic, retain) IBOutlet EvolveChooserBottomView *bottomView;
+@property (nonatomic, retain) IBOutlet UIView *enhancingView;
+@property (nonatomic, retain) IBOutlet UIButton *bottomBarButton;
 
 @property (nonatomic, retain) IBOutlet UICollectionView *collectionView;
 

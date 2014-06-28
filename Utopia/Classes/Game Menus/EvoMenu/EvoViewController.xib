@@ -830,8 +830,8 @@
         <image name="characterdetailshadow.png" width="94" height="45"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="earthteam.png" width="42" height="42"/>
-        <image name="evolveequals.png" width="27" height="23"/>
-        <image name="evolveplus.png" width="28" height="27"/>
+        <image name="evolveequals.png" width="19" height="16"/>
+        <image name="evolveplus.png" width="19" height="19"/>
         <image name="feederbase.png" width="15" height="13"/>
         <image name="finishheal.png" width="71" height="28"/>
         <image name="fireteam.png" width="42" height="42"/>

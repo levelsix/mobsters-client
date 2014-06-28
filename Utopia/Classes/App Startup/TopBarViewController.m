@@ -46,7 +46,7 @@
     BOOL greyscale = (um.curHealth <= 0);
     [self.monsterView updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:greyscale];
     
-    self.topLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
+    self.topLabel.text = mp.monsterName;
     
     if (![um isAvailable]) {
       self.botLabel.hidden = NO;

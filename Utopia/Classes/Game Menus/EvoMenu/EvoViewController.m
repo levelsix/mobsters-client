@@ -179,7 +179,7 @@
     
     [validMonsters removeObject:um];
     [validMonsters removeObject:um2];
-    EvoItem *evo = [[EvoItem alloc] initWithUserMonster:um andUserMonster:um2 catalystMonster:cata];
+    EvoItem *evo = [[EvoItem alloc] initWithUserMonster:um andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
     if (um2 && cata) {
       [ready addObject:evo];
     } else if (um2 && !cata) {

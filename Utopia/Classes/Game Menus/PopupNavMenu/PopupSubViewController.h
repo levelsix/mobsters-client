@@ -17,6 +17,8 @@
 
 @property (nonatomic, readonly) PopupNavViewController *parentViewController;
 
+@property (nonatomic, retain) NSTimer *updateTimer;
+
 - (BOOL) canGoBack;
 - (BOOL) canClose;
 

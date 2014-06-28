@@ -49,7 +49,7 @@ static UIImage *img = nil;
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.hasShorterName ? mp.shorterName : mp.displayName];
+  NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
   NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
   if (!greyscale) {

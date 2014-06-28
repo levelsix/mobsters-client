@@ -24,7 +24,7 @@
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:monsterId];
     [self.monsterView updateForMonsterId:monsterId];
-    self.nameLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
+    self.nameLabel.text = mp.monsterName;
     self.hpLabel.text = [NSString stringWithFormat:@"-%@ HP", [Globals commafyNumber:hpLost]];
   }
 }

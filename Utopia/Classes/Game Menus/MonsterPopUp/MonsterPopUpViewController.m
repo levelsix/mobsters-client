@@ -93,7 +93,7 @@
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 

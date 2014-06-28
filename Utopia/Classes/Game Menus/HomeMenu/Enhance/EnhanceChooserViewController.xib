@@ -107,7 +107,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <outlet property="bgdIcon" destination="B35-5p-Qj5" id="ssK-Yk-kJv"/>
                                                 <outlet property="monsterIcon" destination="pWX-M2-LcP" id="Vau-Ce-rW3"/>

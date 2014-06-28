@@ -72,6 +72,7 @@
 
 - (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
 - (void) listView:(MonsterListView *)listView updateFooterView:(UICollectionReusableView *)footerView;
+- (void) listView:(MonsterListView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
 
 @end
 
@@ -88,6 +89,7 @@
 @property (nonatomic, assign) BOOL isFlipped;
 @property (nonatomic, strong) NSString *cellClassName;
 @property (nonatomic, strong) NSString *footerClassName;
+@property (nonatomic, strong) NSString *headerClassName;
 
 @property (nonatomic, weak) IBOutlet id<MonsterListDelegate> delegate;
 

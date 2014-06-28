@@ -10,6 +10,10 @@
 
 #import "MonsterCardView.h"
 #import "UserData.h"
+#import "NibUtils.h"
+
+#define EVO_NUM_ELEMENTS 5
+#define EVO_NUM_LEVELS 3
 
 @protocol EvolveCardDelegate <NSObject>
 
@@ -28,5 +32,35 @@
 @property (nonatomic, assign) id<EvolveCardDelegate> delegate;
 
 - (void) updateForEvoItem:(EvoItem *)evoItem;
+
+@end
+
+@protocol EvolveScientistDelegate
+
+- (void) scientistViewClicked:(id)sender;
+
+@end
+
+@interface EvolveScientistView : EmbeddedNibView
+
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet THLabel *quantityLabel;
+
+@property (nonatomic, assign) IBOutlet id<EvolveScientistDelegate> delegate;
+
+- (IBAction)cardClicked:(id)sender;
+
+@end
+
+@interface EvolveChooserBottomView : UIView <EvolveScientistDelegate> {
+  int _quantityVals[EVO_NUM_ELEMENTS][EVO_NUM_LEVELS];
+  int _currentSelection;
+}
+
+@property (nonatomic, retain) IBOutletCollection(EvolveScientistView) NSArray *scientistViews;
+@property (nonatomic, retain) IBOutletCollection(UILabel) NSArray *quantityLabels;
+@property (nonatomic, strong) IBOutlet UIView *quantityView;
+
+- (void) updateWithUserMonsters:(NSArray *)userMonsters;
 
 @end

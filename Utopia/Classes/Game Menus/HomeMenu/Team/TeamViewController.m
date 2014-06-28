@@ -52,7 +52,7 @@
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
     
-    NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.hasShorterName ? mp.shorterName : mp.displayName];
+    NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
     NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
     [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
@@ -138,22 +138,10 @@
   
   [self reloadListViewAnimated:NO];
   [self updateTeamSlotViews];
-  
-  self.updateTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
-  [self updateLabels];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  
-  [self.updateTimer invalidate];
-  self.updateTimer = nil;
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

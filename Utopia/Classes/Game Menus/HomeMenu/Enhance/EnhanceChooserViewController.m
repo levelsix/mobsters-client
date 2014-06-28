@@ -32,23 +32,7 @@
   
   [self reloadListViewAnimated:NO];
   
-  self.updateTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateBottomView];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  
-  [self.updateTimer invalidate];
-  self.updateTimer = nil;
-  
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) waitTimeComplete {
@@ -144,7 +128,7 @@
     eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
   } else {
     if (um.level >= um.staticMonster.maxLevel) {
-      NSString *name = um.staticMonster.hasShorterName ? um.staticMonster.shorterName : um.staticMonster.displayName;
+      NSString *name = um.staticMonster.monsterName;
       if (um.staticMonster.evolutionMonsterId) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"%@ is at max level. Use the evolution lab to create the next form.", name]];
       } else {

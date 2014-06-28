@@ -54,6 +54,9 @@
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
+- (void) waitTimeComplete;
+- (void) updateLabels;
+
 - (id) initWithBaseMonster:(UserMonster *)um allowAddingToQueue:(BOOL)allowAddingToQueue;
 - (id) initWithCurrentEnhancement;
 
