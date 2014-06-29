@@ -259,6 +259,10 @@
   
   [self loadQueueNode];
   
+  [self scheduleOnce:@selector(showForfeitButton) delay:2.f];
+}
+
+- (void) showForfeitButton {
   self.forfeitButton.hidden = NO;
 }
 

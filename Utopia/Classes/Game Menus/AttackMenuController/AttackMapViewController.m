@@ -36,8 +36,8 @@
     self.evoEventView.center = ccp(self.evoEventView.frame.size.width/2, self.pveView.frame.size.height-self.evoEventView.frame.size.height/2);
   }
   
-  self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
-  self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width, self.pveView.center.y);
+  self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width*2/3, self.multiplayerView.center.y);
+  self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width*2/3, self.pveView.center.y);
   [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     self.multiplayerView.center = ccp(self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
     self.pveView.center = ccp(self.view.frame.size.width-self.pveView.frame.size.width/2, self.pveView.center.y);
@@ -94,8 +94,8 @@
 
 - (void) close {
   [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-    self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
-    self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y);
+    self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width*2/3, self.multiplayerView.center.y);
+    self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width*2/3, self.pveView.center.y);
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
@@ -135,7 +135,6 @@
     [Globals imageNamed:imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   }
   self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, gl.mapTotalHeight*scaleFactor);
-  self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
   
   for (TaskMapElementProto *elem in gs.staticMapElements) {
     FullTaskProto *task = [gs taskWithId:elem.taskId];
@@ -172,11 +171,15 @@
     }
   }
   
-  AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId];
-  float center = icon.center.y-self.mapScrollView.frame.size.height/3;
-  float max = self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height;
-  float min = 0;
-  self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
+  if (bestElem) {
+    AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId];
+    float center = icon.center.y-self.mapScrollView.frame.size.height/3;
+    float max = self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height;
+    float min = 0;
+    self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
+  } else {
+    self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
+  }
 }
 
 - (void) cityClicked:(id)sender {

@@ -404,6 +404,9 @@ and when to execute the Scenes.
  *  @param on Set to YES to enable depth tests.
  */
 - (void) setDepthTest: (BOOL) on;
+
+// LVL6 Addition
+- (void) drawScene;
 @end
 
 // optimization. Should only be used to read it. Never to write it.

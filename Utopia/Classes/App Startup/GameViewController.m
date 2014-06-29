@@ -354,10 +354,6 @@
   if ([self.navigationController.visibleViewController isKindOfClass:[LoadingViewController class]]) {
     [self progressTo:1.f animated:NO];
     
-    [self dismissViewControllerAnimated:YES completion:^{
-      [self checkLevelUp];
-    }];
-    
     // Load the home map
     [self visitCityClicked:0 assetId:0 animated:NO];
     
@@ -371,6 +367,14 @@
       self.resumeUserTask = nil;
       self.resumeTaskStages = nil;
     }
+    
+    [[CCDirector sharedDirector] startAnimation];
+    [[CCDirector sharedDirector] drawScene];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+      [self checkLevelUp];
+    }];
+    
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
@@ -676,16 +680,14 @@
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   
-  CCDirector *dir = [CCDirector sharedDirector];
-//  if (dir.runningScene) {
-//    CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
-//    [dir.runningScene addChild:c];
+  CCDirector *dir = (CCDirector *)[CCDirector sharedDirector];
+  if (dir.runningScene) {
 //    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
-//    [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
-//  } else {
+  }// else {
 //    [dir replaceScene:scene];
 //  }
   [dir pushScene:scene];
+  [dir drawScene];
   
   [self hideTopBarDuration:0.f completion:nil];
   [self removeAllViewControllers];
