@@ -557,8 +557,11 @@
 		CF32EAEB195FF81900A4AEE3 /* menuinactivetab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EACC195FF81900A4AEE3 /* menuinactivetab@2x.png */; };
 		CF32EAEC195FF81900A4AEE3 /* navshelf.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EACD195FF81900A4AEE3 /* navshelf.png */; };
 		CF32EAED195FF81900A4AEE3 /* navshelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EACE195FF81900A4AEE3 /* navshelf@2x.png */; };
-		CF32EAF3195FFA6400A4AEE3 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EAF1195FFA6400A4AEE3 /* MainMenuViewController.m */; };
-		CF32EAF4195FFA6400A4AEE3 /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAF2195FFA6400A4AEE3 /* MainMenuViewController.xib */; };
+		CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EAF1195FFA6400A4AEE3 /* ShopViewController.m */; };
+		CF32EAF4195FFA6400A4AEE3 /* ShopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAF2195FFA6400A4AEE3 /* ShopViewController.xib */; };
+		CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */; };
+		CF32EAFA1960A9DD00A4AEE3 /* BuildingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */; };
+		CF32EAFC1960ABF000A4AEE3 /* BuildingCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */; };
 		CF3764EA182DADEE00D0A77E /* 3darrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E6182DADEE00D0A77E /* 3darrow.png */; };
 		CF3764EC182DADEE00D0A77E /* 3darrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E7182DADEE00D0A77E /* 3darrow@2x.png */; };
 		CF3764EE182DADEE00D0A77E /* bosslock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E8182DADEE00D0A77E /* bosslock.png */; };
@@ -3676,9 +3679,13 @@
 		CF32EACC195FF81900A4AEE3 /* menuinactivetab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuinactivetab@2x.png"; sourceTree = "<group>"; };
 		CF32EACD195FF81900A4AEE3 /* navshelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navshelf.png; sourceTree = "<group>"; };
 		CF32EACE195FF81900A4AEE3 /* navshelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navshelf@2x.png"; sourceTree = "<group>"; };
-		CF32EAF0195FFA6400A4AEE3 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
-		CF32EAF1195FFA6400A4AEE3 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
-		CF32EAF2195FFA6400A4AEE3 /* MainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenuViewController.xib; sourceTree = "<group>"; };
+		CF32EAF0195FFA6400A4AEE3 /* ShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewController.h; sourceTree = "<group>"; };
+		CF32EAF1195FFA6400A4AEE3 /* ShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopViewController.m; sourceTree = "<group>"; };
+		CF32EAF2195FFA6400A4AEE3 /* ShopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopViewController.xib; sourceTree = "<group>"; };
+		CF32EAF61960A9DD00A4AEE3 /* BuildingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingViewController.h; sourceTree = "<group>"; };
+		CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingViewController.m; sourceTree = "<group>"; };
+		CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuildingViewController.xib; sourceTree = "<group>"; };
+		CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuildingCardCell.xib; sourceTree = "<group>"; };
 		CF3764E6182DADEE00D0A77E /* 3darrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3darrow.png; sourceTree = "<group>"; };
 		CF3764E7182DADEE00D0A77E /* 3darrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3darrow@2x.png"; sourceTree = "<group>"; };
 		CF3764E8182DADEE00D0A77E /* bosslock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bosslock.png; sourceTree = "<group>"; };
@@ -6749,7 +6756,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
-				CF32EAEE195FF96300A4AEE3 /* MainMenu */,
+				CF32EAEE195FF96300A4AEE3 /* ShopMenu */,
 				CF20F044180E142B005551B5 /* AttackMenuController */,
 				CFC8B62D18E6537100CFD652 /* LabMenu */,
 				CFCD0EFB1955004800EDC233 /* HomeMenu */,
@@ -7794,23 +7801,34 @@
 			path = "Nav and bar";
 			sourceTree = "<group>";
 		};
-		CF32EAEE195FF96300A4AEE3 /* MainMenu */ = {
+		CF32EAEE195FF96300A4AEE3 /* ShopMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF32EAF51960A99400A4AEE3 /* Buildings */,
 				CF32EAEF195FFA4000A4AEE3 /* Nav */,
 			);
-			name = MainMenu;
-			path = "MainMenu New";
+			path = ShopMenu;
 			sourceTree = "<group>";
 		};
 		CF32EAEF195FFA4000A4AEE3 /* Nav */ = {
 			isa = PBXGroup;
 			children = (
-				CF32EAF0195FFA6400A4AEE3 /* MainMenuViewController.h */,
-				CF32EAF1195FFA6400A4AEE3 /* MainMenuViewController.m */,
-				CF32EAF2195FFA6400A4AEE3 /* MainMenuViewController.xib */,
+				CF32EAF0195FFA6400A4AEE3 /* ShopViewController.h */,
+				CF32EAF1195FFA6400A4AEE3 /* ShopViewController.m */,
+				CF32EAF2195FFA6400A4AEE3 /* ShopViewController.xib */,
 			);
-			name = Nav;
+			path = Nav;
+			sourceTree = "<group>";
+		};
+		CF32EAF51960A99400A4AEE3 /* Buildings */ = {
+			isa = PBXGroup;
+			children = (
+				CF32EAF61960A9DD00A4AEE3 /* BuildingViewController.h */,
+				CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */,
+				CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */,
+				CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */,
+			);
+			path = Buildings;
 			sourceTree = "<group>";
 		};
 		CF3764F8182DD6AC00D0A77E /* ChatMenu */ = {
@@ -12502,6 +12520,7 @@
 				CFFF9A4F18BEB67D0036EEC3 /* timerbgcapleft@2x.png in Resources */,
 				CF6574CD1909CAF200ABF1F4 /* EventMonster.proto in Resources */,
 				CF134A5218A5E4B500D7D700 /* FatBoy1Move03@2x.png in Resources */,
+				CF32EAFA1960A9DD00A4AEE3 /* BuildingViewController.xib in Resources */,
 				CF6F1A17181518C900CFF2B9 /* visittask@2x.png in Resources */,
 				CFE7CD741819FC3300930847 /* lightbar@2x.png in Resources */,
 				CFCD0EE81953F07400EDC233 /* lightmediumsquare.png in Resources */,
@@ -12680,7 +12699,7 @@
 				CFFA31E018B30955008B81B9 /* raidlairbubble@2x.png in Resources */,
 				CFFBDF6F18ACA3D90090CA9A /* Scientist2Turn00@2x.png in Resources */,
 				CF134A5718A5E4B500D7D700 /* FatBoy1Move08@2x.png in Resources */,
-				CF32EAF4195FFA6400A4AEE3 /* MainMenuViewController.xib in Resources */,
+				CF32EAF4195FFA6400A4AEE3 /* ShopViewController.xib in Resources */,
 				CFFBDF5D18ACA3D90090CA9A /* Scientist2Blink08@2x.png in Resources */,
 				CFBB373E18EF792400FD6C8C /* Mafia1T1AttackNF@2x.plist in Resources */,
 				CF20F18A180FCABC005551B5 /* heal@2x.png in Resources */,
@@ -13015,6 +13034,7 @@
 				CF2A4B301905C0E600B2D7D7 /* battlecommontag.png in Resources */,
 				CFF390881828C00B0010A3BE /* friendrequest.png in Resources */,
 				CFFEB1141834539C007C4BA3 /* legendtag.png in Resources */,
+				CF32EAFC1960ABF000A4AEE3 /* BuildingCardCell.xib in Resources */,
 				CF70651518470051005B30A1 /* diamondbar.png in Resources */,
 				CFFBDFBF18ACA3D90090CA9A /* Scientist4Breath07@2x.png in Resources */,
 				CFF7875E18E28FE200413E78 /* upgradeactivetab.png in Resources */,
@@ -14725,7 +14745,7 @@
 				CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */,
 				CFF513AF18C89C75004B0E56 /* TutorialCarpenterViewController.m in Sources */,
 				CF7063FD183F5110005B30A1 /* HomeBuilding.m in Sources */,
-				CF32EAF3195FFA6400A4AEE3 /* MainMenuViewController.m in Sources */,
+				CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */,
 				CF62E70715FEC6D500DF850F /* ClanViewController.m in Sources */,
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
 				CF28BBFA1628EEEA0012F1C1 /* ioapi.c in Sources */,
@@ -14808,6 +14828,7 @@
 				CFEE027F17BDC9AC00F3BB19 /* MainMenuController.m in Sources */,
 				CF6A293118C44F4300AD676F /* TutorialMissionMap.m in Sources */,
 				CF32E9F8180D09D600CBD50D /* DiamondShopViewController.m in Sources */,
+				CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */,
 				CFBF02D617C2F68D0082A9BF /* MenuNavigationController.m in Sources */,
 				CFC04D55188FAF8200F2DB59 /* PersistentEventProto+Time.m in Sources */,
 				CFFA31ED18B3DC46008B81B9 /* ClanRaidListViewController.m in Sources */,

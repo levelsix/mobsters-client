@@ -249,7 +249,7 @@
             <rect key="frame" x="0.0" y="0.0" width="439" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="z56-SY-IOJ" customClass="ButtonTopBar">
+                <view contentMode="scaleToFill" id="z56-SY-IOJ" customClass="ButtonTabBar">
                     <rect key="frame" x="0.0" y="4" width="275" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

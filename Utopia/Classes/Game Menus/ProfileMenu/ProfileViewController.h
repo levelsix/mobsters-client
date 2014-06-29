@@ -12,7 +12,7 @@
 #import "MonsterCardView.h"
 #import "ProfileViews.h"
 
-@interface ProfileMonsterBar : ButtonTopBar
+@interface ProfileMonsterBar : ButtonTabBar
 
 @property (nonatomic, retain) IBOutlet UIButton *button1;
 @property (nonatomic, retain) IBOutlet UIButton *button2;
@@ -30,7 +30,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *avatarBgd;
 
 @property (nonatomic, strong) IBOutlet ProfileMonsterBar *monsterBar;
-@property (nonatomic, strong) IBOutlet ButtonTopBar *navBar;
+@property (nonatomic, strong) IBOutlet ButtonTabBar *navBar;
 
 @property (nonatomic, strong) IBOutlet ProfileStatsView *statsView;
 @property (nonatomic, strong) IBOutlet UIView *teamView;

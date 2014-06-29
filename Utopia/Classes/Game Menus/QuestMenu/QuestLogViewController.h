@@ -36,7 +36,7 @@
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
 
-@property (nonatomic, strong) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, strong) IBOutlet ButtonTabBar *topBar;
 @property (nonatomic, strong) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, strong) IBOutlet BadgeIcon *achievementBadge;
 

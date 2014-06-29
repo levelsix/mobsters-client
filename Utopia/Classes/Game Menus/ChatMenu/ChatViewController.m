@@ -22,12 +22,6 @@
 
 @implementation ChatTopBar
 
-- (void) awakeFromNib {
-  self.activeTextColor = [UIColor colorWithRed:0.f green:38.f/255.f blue:69.f/255.f alpha:1.f];
-  self.inactiveTextColor = [UIColor colorWithRed:8/255.f green:114/255.f blue:161/255.f alpha:1.f];
-  [super awakeFromNib];
-}
-
 - (void) clickButton:(int)button {
   [super clickButton:button];
   

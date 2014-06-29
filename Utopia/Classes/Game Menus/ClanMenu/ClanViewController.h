@@ -31,7 +31,7 @@
 @property (nonatomic, retain) ClanInfoViewController *clanInfoViewController;
 @property (nonatomic, retain) ClanRaidListViewController *clanRaidViewController;
 
-@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *topBar;
 
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;

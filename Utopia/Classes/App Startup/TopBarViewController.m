@@ -24,6 +24,7 @@
 #import "MiniJobsViewController.h"
 #import "ClanViewController.h"
 #import "HomeViewController.h"
+#import "ShopViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -378,10 +379,16 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+//  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+//  GameViewController *gvc = (GameViewController *)self.parentViewController;
+//  [gvc presentViewController:m animated:YES completion:nil];
+//  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
+  
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
+  ShopViewController *mmvc = [[ShopViewController alloc] init];
+  [gvc addChildViewController:mmvc];
+  mmvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:mmvc.view];
 }
 
 - (IBAction)attackClicked:(id)sender {

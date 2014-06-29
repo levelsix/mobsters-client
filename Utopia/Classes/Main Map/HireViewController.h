@@ -79,7 +79,7 @@
 }
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet ButtonTopBar *bonusTopBar;
+@property (nonatomic, assign) IBOutlet ButtonTabBar *bonusTopBar;
 @property (nonatomic, retain) IBOutlet UIView *backView;
 
 @property (nonatomic, retain) IBOutlet UIView *menuContainer;

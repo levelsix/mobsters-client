@@ -979,7 +979,7 @@
 
 @end
 
-@implementation ButtonTopBar
+@implementation ButtonTabBar
 
 - (void) awakeFromNib {
   if (!self.inactiveTextColor && !self.activeTextColor) {
@@ -1023,7 +1023,8 @@
     icon = self.icon3;
   }
   if (label) {
-    CGPoint center = [self.selectedView.superview convertPoint:label.center fromView:label.superview];
+    UIView *buttonView = [self viewWithTag:button];
+    CGPoint center = [self.selectedView.superview convertPoint:buttonView.center fromView:buttonView.superview];
     self.selectedView.center = ccp(center.x, self.selectedView.center.y);
     self.selectedView.hidden = NO;
   } else {

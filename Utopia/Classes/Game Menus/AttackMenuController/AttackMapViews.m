@@ -16,8 +16,6 @@
 
 - (void) awakeFromNib {
   self.nameLabel.strokeSize = 1.2f;
-  self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
-  self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
   
   self.glowIcon.hidden = YES;
   
@@ -31,9 +29,15 @@
   if (isLocked) {
     [self.cityButton setImage:[UIImage imageNamed:@"lockedcitypin.png"] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = YES;
+    
+    self.nameLabel.gradientStartColor = [UIColor whiteColor];
+    self.nameLabel.gradientEndColor = [UIColor colorWithWhite:245/255.f alpha:1.f];
   } else {
     [self.cityButton setImage:[UIImage imageNamed:@"opencitypin.png"] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = NO;
+    
+    self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
+    self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
   }
 }
 

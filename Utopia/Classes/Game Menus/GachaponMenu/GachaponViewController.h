@@ -39,6 +39,6 @@
 @property (nonatomic, retain) IBOutlet GachaponFeaturedView *featuredView;
 @property (nonatomic, retain) IBOutlet GachaponPrizeView *prizeView;
 
-@property (nonatomic, retain) IBOutlet ButtonTopBar *navBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *navBar;
 
 @end

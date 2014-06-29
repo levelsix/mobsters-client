@@ -126,7 +126,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="R6e-3Y-S5P" customClass="ButtonTopBar">
+                        <view contentMode="scaleToFill" id="R6e-3Y-S5P" customClass="ButtonTabBar">
                             <rect key="frame" x="66" y="1" width="239" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

@@ -10,7 +10,7 @@
 #import "ChatView.h"
 #import "NibUtils.h"
 
-@interface ChatTopBar : ButtonTopBar
+@interface ChatTopBar : ButtonTabBar
 
 @end
 
@@ -34,7 +34,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
-@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *topBar;
 
 @property (nonatomic, retain) IBOutlet GlobalChatView *globalChatView;
 @property (nonatomic, retain) IBOutlet ClanChatView *clanChatView;

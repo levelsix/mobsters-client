@@ -11,6 +11,14 @@
 #import "Globals.h"
 #import "GameState.h"
 
+@implementation ListCollectionViewCell
+
+- (void) updateForListObject:(id)listObject {
+  
+}
+
+@end
+
 @implementation MonsterQueueCell
 
 - (void) updateForListObject:(UserMonster *)um {
@@ -146,7 +154,7 @@
       } completion:nil];
     }
     
-    for (MonsterListCell *cell in self.collectionView.visibleCells) {
+    for (ListCollectionViewCell *cell in self.collectionView.visibleCells) {
       NSIndexPath *ip = [self.collectionView indexPathForCell:cell];
       id listObject = self.listObjects[ip.row];
       if ([self.delegate respondsToSelector:@selector(listView:updateCell:forIndexPath:listObject:)]) {
@@ -171,8 +179,8 @@
   return [super respondsToSelector:aSelector];
 }
 
-- (void) monsterCardSelected:(id)sender {
-  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
+- (void) cardClicked:(id)sender {
+  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
     sender = [sender superview];
   }
   
@@ -184,7 +192,7 @@
 }
 
 - (void) infoClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
+  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
     sender = [sender superview];
   }
   
@@ -196,7 +204,7 @@
 }
 
 - (void) minusClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
+  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
     sender = [sender superview];
   }
   
@@ -208,7 +216,7 @@
 }
 
 - (void) speedupClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
+  while (sender && ![sender isKindOfClass:[ListCollectionViewCell class]]) {
     sender = [sender superview];
   }
   
@@ -266,8 +274,7 @@
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-  MonsterListCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:self.cellClassName forIndexPath:indexPath];
-  cell.cardContainer.monsterCardView.delegate = self;
+  ListCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:self.cellClassName forIndexPath:indexPath];
   cell.delegate = self;
   
   for (UIView *v in cell.subviews) {

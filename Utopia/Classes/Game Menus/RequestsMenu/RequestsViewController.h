@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *topBar;
 
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;

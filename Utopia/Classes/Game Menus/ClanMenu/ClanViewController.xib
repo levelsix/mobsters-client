@@ -95,7 +95,7 @@
                                     <rect key="frame" x="449" y="0.0" width="5" height="39"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="IXC-fC-W7g" customClass="ButtonTopBar">
+                                <view contentMode="scaleToFill" id="IXC-fC-W7g" customClass="ButtonTabBar">
                                     <rect key="frame" x="107" y="-2" width="240" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>

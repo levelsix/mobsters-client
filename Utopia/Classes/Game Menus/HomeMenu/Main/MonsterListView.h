@@ -11,14 +11,24 @@
 #import "MonsterCardView.h"
 #import "NibUtils.h"
 
-@protocol MonsterListCellDelegate <NSObject>
+@protocol ListCellDelegate <NSObject>
 
+- (void) cardClicked:(id)cell;
+- (void) infoClicked:(id)cell;
 - (void) minusClicked:(id)cell;
 - (void) speedupClicked:(id)cell;
 
 @end
 
-@interface MonsterListCell : UICollectionViewCell
+@interface ListCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, assign) id<ListCellDelegate> delegate;
+
+- (void) updateForListObject:(id)listObject;
+
+@end
+
+@interface MonsterListCell : ListCollectionViewCell
 
 @property (nonatomic, retain) IBOutlet MonsterCardContainerView *cardContainer;
 @property (nonatomic, retain) IBOutlet UILabel *sellCostLabel;
@@ -33,22 +43,16 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *statusLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *mainView;
-
 @property (nonatomic, retain) IBOutlet UIView *availableView;
 @property (nonatomic, retain) IBOutlet UIView *unavailableView;
 @property (nonatomic, retain) IBOutlet UIView *combiningView;
 
-@property (nonatomic, assign) id<MonsterListCellDelegate> delegate;
-
-- (void) updateForListObject:(id)listObject;
 - (void) updateForListObject:(id)listObject greyscale:(BOOL)greyscale;
-
 - (void) updateCombineTimeForUserMonster:(UserMonster *)um;
 
 @end
 
-@interface MonsterQueueCell : MonsterListCell
+@interface MonsterQueueCell : ListCollectionViewCell
 
 @property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
 
@@ -70,13 +74,13 @@
 - (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath;
 - (void) listView:(MonsterListView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
+- (void) listView:(MonsterListView *)listView updateCell:(ListCollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
 - (void) listView:(MonsterListView *)listView updateFooterView:(UICollectionReusableView *)footerView;
 - (void) listView:(MonsterListView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
 
 @end
 
-@interface MonsterListView : UIView <UICollectionViewDataSource, UICollectionViewDelegate, MonsterCardViewDelegate, MonsterListCellDelegate> {
+@interface MonsterListView : UIView <UICollectionViewDataSource, UICollectionViewDelegate, ListCellDelegate> {
   void (^_scrollingComplete)(void);
 }
 

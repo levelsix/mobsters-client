@@ -369,7 +369,7 @@ typedef enum {
 
 @end
 
-@interface ButtonTopBar : UIView
+@interface ButtonTabBar : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *selectedView;
 

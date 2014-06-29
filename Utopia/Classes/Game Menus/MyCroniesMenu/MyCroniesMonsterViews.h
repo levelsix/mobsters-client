@@ -11,7 +11,7 @@
 #import "NibUtils.h"
 #import "EasyTableView.h"
 
-@interface MyCroniesTabBar : ButtonTopBar
+@interface MyCroniesTabBar : ButtonTabBar
 
 @property (nonatomic, retain) UIButton *selectedView;
 

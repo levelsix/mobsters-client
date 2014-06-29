@@ -129,7 +129,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="8lj-Og-Njz" customClass="ButtonTopBar">
+                        <view contentMode="scaleToFill" id="8lj-Og-Njz" customClass="ButtonTabBar">
                             <rect key="frame" x="65" y="1" width="240" height="41"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

@@ -63,7 +63,7 @@
                                             <rect key="frame" x="0.0" y="41" width="329" height="1"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </imageView>
-                                        <view contentMode="scaleToFill" id="biS-JX-Cwd" customClass="ButtonTopBar">
+                                        <view contentMode="scaleToFill" id="biS-JX-Cwd" customClass="ButtonTabBar">
                                             <rect key="frame" x="0.0" y="0.0" width="108" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
