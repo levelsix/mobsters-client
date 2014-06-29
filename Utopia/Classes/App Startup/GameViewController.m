@@ -673,19 +673,19 @@
 
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
   // Must start animation so that the scene is auto switched instead of glitching
-  [[CCDirector sharedDirector] startAnimation];
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   
   CCDirector *dir = [CCDirector sharedDirector];
-  if (dir.runningScene) {
-    CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
-    [dir.runningScene addChild:c];
-    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
-    [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
-  } else {
-    [dir replaceScene:scene];
-  }
+//  if (dir.runningScene) {
+//    CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
+//    [dir.runningScene addChild:c];
+//    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
+//    [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
+//  } else {
+//    [dir replaceScene:scene];
+//  }
+  [dir pushScene:scene];
   
   [self hideTopBarDuration:0.f completion:nil];
   [self removeAllViewControllers];

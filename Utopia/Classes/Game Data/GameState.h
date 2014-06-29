@@ -67,6 +67,7 @@
 @property (nonatomic, retain) NSArray *staticClanIcons;
 @property (nonatomic, retain) NSArray *staticLeagues;
 @property (nonatomic, retain) NSMutableDictionary *staticAchievements;
+@property (nonatomic, retain) NSArray *staticMapElements;
 
 @property (nonatomic, retain) NSArray *persistentClanEvents;
 @property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
@@ -134,6 +135,7 @@
 - (FullCityProto *)cityWithId:(int)cityId;
 - (ClanRaidProto *) raidWithId:(int)raidId;
 - (FullTaskProto *) taskWithId:(int)taskId;
+- (TaskMapElementProto *) mapElementWithId:(int)mapElementId;
 - (AchievementProto *) achievementWithId:(int)achievementId;
 - (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId;
 - (FullQuestProto *) questForId:(int)questId;
@@ -149,6 +151,7 @@
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;
+- (BOOL) isTaskCompleted:(int)taskId;
 - (BOOL) isCityUnlocked:(int)cityId;
 - (NSArray *) taskIdsToUnlockMoreTasks;
 

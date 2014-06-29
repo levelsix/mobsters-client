@@ -209,6 +209,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
+- (TaskMapElementProto *) mapElementWithId:(int)mapElementId {
+  for (TaskMapElementProto *e in self.staticMapElements) {
+    if (e.mapElementId == mapElementId) {
+      return e;
+    }
+  }
+  return nil;
+}
+
 - (AchievementProto *) achievementWithId:(int)achievementId {
   if (achievementId == 0) {
     [Globals popupMessage:@"Attempted to access achievement 0"];
@@ -907,6 +916,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
   
+  self.staticMapElements = proto.allTaskMapElementsList;
+  
   self.staticClanIcons = proto.clanIconsList;
   self.staticLeagues = proto.leaguesList;
 }
@@ -978,6 +989,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   FullTaskProto *task = [self taskWithId:taskId];
   if (!task) return NO;
   return !task.prerequisiteTaskId || [self.completedTasks containsObject:@(task.prerequisiteTaskId)];
+}
+
+- (BOOL) isTaskCompleted:(int)taskId {
+  return [self.completedTasks containsObject:@(taskId)];
 }
 
 - (BOOL) isCityUnlocked:(int)cityId {

@@ -34,6 +34,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableExpansionCostsList;
 @property (retain) NSMutableArray* mutableAllCitiesList;
 @property (retain) NSMutableArray* mutableAllTasksList;
+@property (retain) NSMutableArray* mutableAllTaskMapElementsList;
 @property (retain) NSMutableArray* mutableAllMonstersList;
 @property (retain) NSMutableArray* mutableSlipList;
 @property (retain) NSMutableArray* mutableInProgressQuestsList;
@@ -70,6 +71,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableExpansionCostsList;
 @synthesize mutableAllCitiesList;
 @synthesize mutableAllTasksList;
+@synthesize mutableAllTaskMapElementsList;
 @synthesize mutableAllMonstersList;
 @synthesize mutableSlipList;
 @synthesize mutableInProgressQuestsList;
@@ -97,6 +99,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableExpansionCostsList = nil;
   self.mutableAllCitiesList = nil;
   self.mutableAllTasksList = nil;
+  self.mutableAllTaskMapElementsList = nil;
   self.mutableAllMonstersList = nil;
   self.mutableSlipList = nil;
   self.mutableInProgressQuestsList = nil;
@@ -158,6 +161,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (FullTaskProto*) allTasksAtIndex:(int32_t) index {
   id value = [mutableAllTasksList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allTaskMapElementsList {
+  return mutableAllTaskMapElementsList;
+}
+- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index {
+  id value = [mutableAllTaskMapElementsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) allMonstersList {
@@ -396,6 +406,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (MiniJobCenterProto* element in self.allMiniJobCentersList) {
     [output writeMessage:27 value:element];
   }
+  for (TaskMapElementProto* element in self.allTaskMapElementsList) {
+    [output writeMessage:28 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -482,6 +495,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (MiniJobCenterProto* element in self.allMiniJobCentersList) {
     size += computeMessageSize(27, element);
+  }
+  for (TaskMapElementProto* element in self.allTaskMapElementsList) {
+    size += computeMessageSize(28, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -578,6 +594,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllTasksList = [NSMutableArray array];
     }
     [result.mutableAllTasksList addObjectsFromArray:other.mutableAllTasksList];
+  }
+  if (other.mutableAllTaskMapElementsList.count > 0) {
+    if (result.mutableAllTaskMapElementsList == nil) {
+      result.mutableAllTaskMapElementsList = [NSMutableArray array];
+    }
+    [result.mutableAllTaskMapElementsList addObjectsFromArray:other.mutableAllTaskMapElementsList];
   }
   if (other.mutableAllMonstersList.count > 0) {
     if (result.mutableAllMonstersList == nil) {
@@ -891,6 +913,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         [self addAllMiniJobCenters:[subBuilder buildPartial]];
         break;
       }
+      case 226: {
+        TaskMapElementProto_Builder* subBuilder = [TaskMapElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllTaskMapElements:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -1009,6 +1037,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllTasksList = [NSMutableArray array];
   }
   [result.mutableAllTasksList addObject:value];
+  return self;
+}
+- (NSArray*) allTaskMapElementsList {
+  if (result.mutableAllTaskMapElementsList == nil) { return [NSArray array]; }
+  return result.mutableAllTaskMapElementsList;
+}
+- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index {
+  return [result allTaskMapElementsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllTaskMapElementsAtIndex:(int32_t) index with:(TaskMapElementProto*) value {
+  [result.mutableAllTaskMapElementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllTaskMapElements:(NSArray*) values {
+  if (result.mutableAllTaskMapElementsList == nil) {
+    result.mutableAllTaskMapElementsList = [NSMutableArray array];
+  }
+  [result.mutableAllTaskMapElementsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllTaskMapElementsList {
+  result.mutableAllTaskMapElementsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllTaskMapElements:(TaskMapElementProto*) value {
+  if (result.mutableAllTaskMapElementsList == nil) {
+    result.mutableAllTaskMapElementsList = [NSMutableArray array];
+  }
+  [result.mutableAllTaskMapElementsList addObject:value];
   return self;
 }
 - (NSArray*) allMonstersList {

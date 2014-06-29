@@ -23,6 +23,8 @@
 @class MonsterProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class TaskMapElementProto;
+@class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
@@ -586,5 +588,89 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int64_t) coolDownStartTime;
 - (UserPersistentEventProto_Builder*) setCoolDownStartTime:(int64_t) value;
 - (UserPersistentEventProto_Builder*) clearCoolDownStartTime;
+@end
+
+@interface TaskMapElementProto : PBGeneratedMessage {
+@private
+  BOOL hasMapElementId_:1;
+  BOOL hasTaskId_:1;
+  BOOL hasXPos_:1;
+  BOOL hasYPos_:1;
+  BOOL hasElement_:1;
+  int32_t mapElementId;
+  int32_t taskId;
+  int32_t xPos;
+  int32_t yPos;
+  Element element;
+}
+- (BOOL) hasMapElementId;
+- (BOOL) hasTaskId;
+- (BOOL) hasXPos;
+- (BOOL) hasYPos;
+- (BOOL) hasElement;
+@property (readonly) int32_t mapElementId;
+@property (readonly) int32_t taskId;
+@property (readonly) int32_t xPos;
+@property (readonly) int32_t yPos;
+@property (readonly) Element element;
+
++ (TaskMapElementProto*) defaultInstance;
+- (TaskMapElementProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TaskMapElementProto_Builder*) builder;
++ (TaskMapElementProto_Builder*) builder;
++ (TaskMapElementProto_Builder*) builderWithPrototype:(TaskMapElementProto*) prototype;
+
++ (TaskMapElementProto*) parseFromData:(NSData*) data;
++ (TaskMapElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TaskMapElementProto*) parseFromInputStream:(NSInputStream*) input;
++ (TaskMapElementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TaskMapElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TaskMapElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TaskMapElementProto_Builder : PBGeneratedMessage_Builder {
+@private
+  TaskMapElementProto* result;
+}
+
+- (TaskMapElementProto*) defaultInstance;
+
+- (TaskMapElementProto_Builder*) clear;
+- (TaskMapElementProto_Builder*) clone;
+
+- (TaskMapElementProto*) build;
+- (TaskMapElementProto*) buildPartial;
+
+- (TaskMapElementProto_Builder*) mergeFrom:(TaskMapElementProto*) other;
+- (TaskMapElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TaskMapElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMapElementId;
+- (int32_t) mapElementId;
+- (TaskMapElementProto_Builder*) setMapElementId:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearMapElementId;
+
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (TaskMapElementProto_Builder*) setTaskId:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearTaskId;
+
+- (BOOL) hasXPos;
+- (int32_t) xPos;
+- (TaskMapElementProto_Builder*) setXPos:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearXPos;
+
+- (BOOL) hasYPos;
+- (int32_t) yPos;
+- (TaskMapElementProto_Builder*) setYPos:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearYPos;
+
+- (BOOL) hasElement;
+- (Element) element;
+- (TaskMapElementProto_Builder*) setElement:(Element) value;
+- (TaskMapElementProto_Builder*) clearElement;
 @end
 

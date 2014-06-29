@@ -90,6 +90,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
   self.elementalStrength = constants.monsterConstants.elementalStrength;
   self.elementalWeakness = constants.monsterConstants.elementalWeakness;
+  self.oilPerMonsterLevel = constants.monsterConstants.oilPerMonsterLevel;
+  
+  self.mapSectionImagePrefix = constants.taskMapConstants.mapSectionImagePrefix;
+  self.mapNumberOfSections = constants.taskMapConstants.mapNumberOfSections;
+  self.mapSectionHeight = constants.taskMapConstants.mapSectionHeight;
+  self.mapTotalHeight = constants.taskMapConstants.mapTotalHeight;
+  self.mapTotalWidth = constants.taskMapConstants.mapTotalWidth;
   
   self.coinPriceToCreateClan = constants.clanConstants.coinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
@@ -445,6 +452,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case ElementRock:
       return @"Rock";
       
+    case ElementNoElement:
+      return @"No Element";
+      
     default:
       return nil;
       break;
@@ -520,7 +530,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str {
-  NSString *base = [[self stringForElement:element] lowercaseString];
+  NSString *base = [[[self stringForElement:element] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
   return [base stringByAppendingString:str];
 }
 
@@ -1378,7 +1388,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   UserMonster *um = baseMonster.userMonster;
-  return 100*um.level;
+  return self.oilPerMonsterLevel*um.level;
 }
 
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {

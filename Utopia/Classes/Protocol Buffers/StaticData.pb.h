@@ -139,6 +139,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TaskMapElementProto;
+@class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
@@ -208,6 +210,7 @@
   NSMutableArray* mutableInProgressQuestsList;
   NSMutableArray* mutableSlipList;
   NSMutableArray* mutableAllMonstersList;
+  NSMutableArray* mutableAllTaskMapElementsList;
   NSMutableArray* mutableAllTasksList;
   NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableExpansionCostsList;
@@ -220,6 +223,8 @@
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) allTasksList;
 - (FullTaskProto*) allTasksAtIndex:(int32_t) index;
+- (NSArray*) allTaskMapElementsList;
+- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index;
 - (NSArray*) allMonstersList;
 - (MonsterProto*) allMonstersAtIndex:(int32_t) index;
 - (NSArray*) slipList;
@@ -326,6 +331,13 @@
 - (StaticDataProto_Builder*) addAllTasks:(FullTaskProto*) value;
 - (StaticDataProto_Builder*) addAllAllTasks:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTasksList;
+
+- (NSArray*) allTaskMapElementsList;
+- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllTaskMapElementsAtIndex:(int32_t) index with:(TaskMapElementProto*) value;
+- (StaticDataProto_Builder*) addAllTaskMapElements:(TaskMapElementProto*) value;
+- (StaticDataProto_Builder*) addAllAllTaskMapElements:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllTaskMapElementsList;
 
 - (NSArray*) allMonstersList;
 - (MonsterProto*) allMonstersAtIndex:(int32_t) index;

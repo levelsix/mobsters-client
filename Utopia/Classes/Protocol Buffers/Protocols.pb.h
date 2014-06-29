@@ -463,6 +463,8 @@
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
+@class StartupResponseProto_StartupConstants_TaskMapConstants;
+@class StartupResponseProto_StartupConstants_TaskMapConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
@@ -479,6 +481,8 @@
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
 @class SubmitMonsterEnhancementResponseProto_Builder;
+@class TaskMapElementProto;
+@class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;

@@ -2136,3 +2136,337 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 }
 @end
 
+@interface TaskMapElementProto ()
+@property int32_t mapElementId;
+@property int32_t taskId;
+@property int32_t xPos;
+@property int32_t yPos;
+@property Element element;
+@end
+
+@implementation TaskMapElementProto
+
+- (BOOL) hasMapElementId {
+  return !!hasMapElementId_;
+}
+- (void) setHasMapElementId:(BOOL) value {
+  hasMapElementId_ = !!value;
+}
+@synthesize mapElementId;
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
+}
+- (void) setHasTaskId:(BOOL) value {
+  hasTaskId_ = !!value;
+}
+@synthesize taskId;
+- (BOOL) hasXPos {
+  return !!hasXPos_;
+}
+- (void) setHasXPos:(BOOL) value {
+  hasXPos_ = !!value;
+}
+@synthesize xPos;
+- (BOOL) hasYPos {
+  return !!hasYPos_;
+}
+- (void) setHasYPos:(BOOL) value {
+  hasYPos_ = !!value;
+}
+@synthesize yPos;
+- (BOOL) hasElement {
+  return !!hasElement_;
+}
+- (void) setHasElement:(BOOL) value {
+  hasElement_ = !!value;
+}
+@synthesize element;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.mapElementId = 0;
+    self.taskId = 0;
+    self.xPos = 0;
+    self.yPos = 0;
+    self.element = ElementFire;
+  }
+  return self;
+}
+static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
++ (void) initialize {
+  if (self == [TaskMapElementProto class]) {
+    defaultTaskMapElementProtoInstance = [[TaskMapElementProto alloc] init];
+  }
+}
++ (TaskMapElementProto*) defaultInstance {
+  return defaultTaskMapElementProtoInstance;
+}
+- (TaskMapElementProto*) defaultInstance {
+  return defaultTaskMapElementProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMapElementId) {
+    [output writeInt32:1 value:self.mapElementId];
+  }
+  if (self.hasTaskId) {
+    [output writeInt32:2 value:self.taskId];
+  }
+  if (self.hasXPos) {
+    [output writeInt32:3 value:self.xPos];
+  }
+  if (self.hasYPos) {
+    [output writeInt32:4 value:self.yPos];
+  }
+  if (self.hasElement) {
+    [output writeEnum:5 value:self.element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMapElementId) {
+    size += computeInt32Size(1, self.mapElementId);
+  }
+  if (self.hasTaskId) {
+    size += computeInt32Size(2, self.taskId);
+  }
+  if (self.hasXPos) {
+    size += computeInt32Size(3, self.xPos);
+  }
+  if (self.hasYPos) {
+    size += computeInt32Size(4, self.yPos);
+  }
+  if (self.hasElement) {
+    size += computeEnumSize(5, self.element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (TaskMapElementProto*) parseFromData:(NSData*) data {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromData:data] build];
+}
++ (TaskMapElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TaskMapElementProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromInputStream:input] build];
+}
++ (TaskMapElementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TaskMapElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TaskMapElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskMapElementProto*)[[[TaskMapElementProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TaskMapElementProto_Builder*) builder {
+  return [[[TaskMapElementProto_Builder alloc] init] autorelease];
+}
++ (TaskMapElementProto_Builder*) builderWithPrototype:(TaskMapElementProto*) prototype {
+  return [[TaskMapElementProto builder] mergeFrom:prototype];
+}
+- (TaskMapElementProto_Builder*) builder {
+  return [TaskMapElementProto builder];
+}
+@end
+
+@interface TaskMapElementProto_Builder()
+@property (retain) TaskMapElementProto* result;
+@end
+
+@implementation TaskMapElementProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[TaskMapElementProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TaskMapElementProto_Builder*) clear {
+  self.result = [[[TaskMapElementProto alloc] init] autorelease];
+  return self;
+}
+- (TaskMapElementProto_Builder*) clone {
+  return [TaskMapElementProto builderWithPrototype:result];
+}
+- (TaskMapElementProto*) defaultInstance {
+  return [TaskMapElementProto defaultInstance];
+}
+- (TaskMapElementProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TaskMapElementProto*) buildPartial {
+  TaskMapElementProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (TaskMapElementProto_Builder*) mergeFrom:(TaskMapElementProto*) other {
+  if (other == [TaskMapElementProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMapElementId) {
+    [self setMapElementId:other.mapElementId];
+  }
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
+  }
+  if (other.hasXPos) {
+    [self setXPos:other.xPos];
+  }
+  if (other.hasYPos) {
+    [self setYPos:other.yPos];
+  }
+  if (other.hasElement) {
+    [self setElement:other.element];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TaskMapElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TaskMapElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMapElementId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setTaskId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setXPos:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setYPos:[input readInt32]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (ElementIsValidValue(value)) {
+          [self setElement:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMapElementId {
+  return result.hasMapElementId;
+}
+- (int32_t) mapElementId {
+  return result.mapElementId;
+}
+- (TaskMapElementProto_Builder*) setMapElementId:(int32_t) value {
+  result.hasMapElementId = YES;
+  result.mapElementId = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearMapElementId {
+  result.hasMapElementId = NO;
+  result.mapElementId = 0;
+  return self;
+}
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
+}
+- (int32_t) taskId {
+  return result.taskId;
+}
+- (TaskMapElementProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
+  return self;
+}
+- (BOOL) hasXPos {
+  return result.hasXPos;
+}
+- (int32_t) xPos {
+  return result.xPos;
+}
+- (TaskMapElementProto_Builder*) setXPos:(int32_t) value {
+  result.hasXPos = YES;
+  result.xPos = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearXPos {
+  result.hasXPos = NO;
+  result.xPos = 0;
+  return self;
+}
+- (BOOL) hasYPos {
+  return result.hasYPos;
+}
+- (int32_t) yPos {
+  return result.yPos;
+}
+- (TaskMapElementProto_Builder*) setYPos:(int32_t) value {
+  result.hasYPos = YES;
+  result.yPos = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearYPos {
+  result.hasYPos = NO;
+  result.yPos = 0;
+  return self;
+}
+- (BOOL) hasElement {
+  return result.hasElement;
+}
+- (Element) element {
+  return result.element;
+}
+- (TaskMapElementProto_Builder*) setElement:(Element) value {
+  result.hasElement = YES;
+  result.element = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearElement {
+  result.hasElement = NO;
+  result.element = ElementFire;
+  return self;
+}
+@end
+

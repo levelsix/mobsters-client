@@ -24,20 +24,20 @@
 @interface AttackMapViewController : UIViewController <AttackEventViewDelegate> {
   BOOL _buttonClicked;
   
+  AttackMapIconView *_selectedIcon;
   AttackEventView *_curEventView;
 }
 
 @property (nonatomic, strong) IBOutlet UIImageView *borderView;
-@property (nonatomic, strong) IBOutlet LeaguePromotionView *leaguePromotionView;
 
 @property (nonatomic, strong) IBOutlet MultiplayerView *multiplayerView;
 @property (nonatomic, strong) IBOutlet UIView *pveView;
 
 @property (nonatomic, strong) IBOutlet UIScrollView *mapScrollView;
-@property (nonatomic, strong) IBOutlet UIView *mapView;
 
 @property (nonatomic, strong) IBOutlet AttackEventView *evoEventView;
 @property (nonatomic, strong) IBOutlet AttackEventView *enhanceEventView;
+@property (nonatomic, strong) IBOutlet AttackMapStatusView *taskStatusView;
 
 @property (nonatomic, strong) NSTimer *timer;
 

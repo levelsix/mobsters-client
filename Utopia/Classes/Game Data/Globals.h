@@ -116,6 +116,14 @@
 @property (nonatomic, assign) float cashPerHealthPoint;
 @property (nonatomic, assign) float elementalStrength;
 @property (nonatomic, assign) float elementalWeakness;
+@property (nonatomic, assign) float oilPerMonsterLevel;
+
+// Map Constants
+@property (nonatomic, strong) NSString *mapSectionImagePrefix;
+@property (nonatomic, assign) int mapNumberOfSections;
+@property (nonatomic, assign) float mapSectionHeight;
+@property (nonatomic, assign) float mapTotalWidth;
+@property (nonatomic, assign) float mapTotalHeight;
 
 // Norm struct constants
 @property (nonatomic, assign) int maxRepeatedNormStructs;

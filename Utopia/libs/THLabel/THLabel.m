@@ -73,6 +73,12 @@
 	self.gradientEndPoint = CGPointMake(0.5, 0.8);
 }
 
+- (void) setText:(NSString *)text {
+  if (![text isEqualToString:self.text]) {
+    [super setText:text];
+  }
+}
+
 #pragma mark -
 #pragma mark Accessors and Mutators
 

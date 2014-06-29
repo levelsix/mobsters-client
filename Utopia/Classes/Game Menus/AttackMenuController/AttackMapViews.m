@@ -19,6 +19,10 @@
   self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
   self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
   
+  self.glowIcon.hidden = YES;
+  
+  self.layer.anchorPoint = ccp(0.5, 1);
+  
   self.spinner.hidden = YES;
 }
 
@@ -33,13 +37,34 @@
   }
 }
 
-- (void) setCityNumber:(int)cityNumber {
-  _cityNumber = cityNumber;
-  self.cityNumLabel.text = [NSString stringWithFormat:@"%d", cityNumber];
-}
-
 - (void) doShake {
   [Globals shakeView:self.cityNameIcon duration:0.5f offset:5.f];
+}
+
+@end
+
+@implementation AttackMapStatusView
+
+- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted {
+  GameState *gs = [GameState sharedGameState];
+  FullTaskProto *task = [gs taskWithId:taskId];
+  
+  NSString *file = !isLocked ? [Globals imageNameForElement:elem suffix:@"dailylab.png"] : @"lockeddailylab.png";
+  self.bgdImage.image = [Globals imageNamed:file];
+  
+  self.topLabel.text = task.name;
+  self.bottomLabel.text = isLocked ? @"Locked" : isCompleted ? @"Completed" : @"Undefeated";
+  self.sideLabel.text = [NSString stringWithFormat:@"Level %d", level];
+  
+  [self.greyscaleView removeFromSuperview];
+  if (isLocked) {
+    UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.enterButtonView]];
+    self.greyscaleView = [[UIImageView alloc] initWithImage:grey];
+    self.greyscaleView.userInteractionEnabled = YES;
+    [self.enterButtonView addSubview:self.greyscaleView];
+  }
+  
+  self.taskId = taskId;
 }
 
 @end
@@ -118,7 +143,7 @@
     NSString *file = [Globals imageNameForElement:pe.monsterElement suffix:@"dailylab.png"];
     self.bgdImage.image = [Globals imageNamed:file];
     
-    self.nameLabel.text = task.name;
+    self.topLabel.text = task.name;
     
     _persistentEventId = pe.eventId;
     self.taskId = pe.taskId;
@@ -143,7 +168,7 @@
     [self updateForPersistentEvent:pe];
   } else {
     int timeLeft = [pe.endTime timeIntervalSinceNow];
-    self.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.bottomLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
     MSDate *cdTime = pe.cooldownEndTime;
     timeLeft = [cdTime timeIntervalSinceNow];
@@ -168,96 +193,6 @@
 
 @end
 
-@implementation AttackMapIconViewContainer
-
-- (void)awakeFromNib {
-  self.backgroundColor = [UIColor clearColor];
-  [[NSBundle mainBundle] loadNibNamed:@"AttackMapIconView" owner:self options:nil];
-  [self addSubview:self.iconView];
-}
-
-@end
-
-@implementation LeaguePromotionView
-
-- (void) awakeFromNib {
-  self.spinner.alpha = 0.f;
-  self.curLeagueIcon.hidden = YES;
-}
-
-- (void) updateForOldLeagueId:(int)oldLeagueId newLeagueId:(int)newLeagueId {
-  GameState *gs = [GameState sharedGameState];
-  PvpLeagueProto *oldLeague = [gs leagueForId:oldLeagueId];
-  PvpLeagueProto *newLeague = [gs leagueForId:newLeagueId];
-  
-  if (oldLeagueId < newLeagueId) {
-    self.topLabel.text = @"You've been promoted!";
-  } else {
-    self.topLabel.text = @"You've been demoted.";
-  }
-  
-  self.botLabel.text = newLeague.leagueName;
-  
-  NSString *old = [oldLeague.imgPrefix stringByAppendingString:@"big.png"];
-  [Globals imageNamed:old withView:self.oldLeagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  
-  NSString *new = [newLeague.imgPrefix stringByAppendingString:@"big.png"];
-  [Globals imageNamed:new withView:self.curLeagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-}
-
-- (void) dropLeagueIcon {
-  self.curLeagueIcon.center = ccp(self.curLeagueIcon.center.x, -self.curLeagueIcon.frame.size.height/2);
-  CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:self.curLeagueIcon.center toPoint:self.oldLeagueIcon.center keyframeCount:150];
-  kf.duration = 1.f;
-  kf.delegate = self;
-  kf.beginTime = CACurrentMediaTime()+0.3;
-  [self.curLeagueIcon.layer addAnimation:kf forKey:@"bounce"];
-  
-  CGPoint oldEnd = ccp(self.oldLeagueIcon.center.x, self.frame.size.height+self.curLeagueIcon.frame.size.height/2);
-  kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:SineEaseIn fromPoint:self.oldLeagueIcon.center toPoint:oldEnd keyframeCount:150];
-  kf.duration = 0.5f;
-  kf.beginTime = CACurrentMediaTime();
-  [self.oldLeagueIcon.layer addAnimation:kf forKey:@"fall"];
-  
-  self.curLeagueIcon.center = self.oldLeagueIcon.center;
-  self.oldLeagueIcon.center = oldEnd;
-}
-
-- (void) animationDidStart:(CAAnimation *)anim {
-  self.curLeagueIcon.hidden = NO;
-}
-
-- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-  CABasicAnimation *fullRotation;
-  fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-  fullRotation.fromValue = [NSNumber numberWithFloat:0];
-  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 2];
-  fullRotation.duration = 6.f;
-  fullRotation.repeatCount = 50000;
-  [self.spinner.layer addAnimation:fullRotation forKey:@"360"];
-  
-  [UIView animateWithDuration:0.3 animations:^{
-    self.spinner.alpha = 1.f;
-  }];
-}
-
-@end
-
-@implementation LeagueDescriptionView
-
-- (void) updateForLeague:(PvpLeagueProto *)pvp {
-  self.nameLabel.text = pvp.leagueName;
-  self.descriptionLabel.text = pvp.description;
-  
-  NSString *bgd = [pvp.imgPrefix stringByAppendingString:@"rankbg.png"];
-  [Globals imageNamed:bgd withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  NSString *icon = [pvp.imgPrefix stringByAppendingString:@"icon.png"];
-  [Globals imageNamed:icon withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-}
-
-@end
-
 @implementation MultiplayerView
 
 - (void) awakeFromNib {
@@ -271,10 +206,10 @@
   self.backButton.alpha = 0.f;
   self.titleLabel.text = @"Multiplayer";
   
-  for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
-    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
-    [dv updateForLeague:pvp];
-  }
+//  for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
+//    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
+//    [dv updateForLeague:pvp];
+//  }
 }
 
 - (void) updateForLeague {

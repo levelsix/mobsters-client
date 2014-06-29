@@ -23,12 +23,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [self loadCities];
-  
-  [self.mapScrollView addSubview:self.mapView];
-  if (![Globals isLongiPhone]) {
-    self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
-  }
   
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory) {
@@ -65,16 +59,11 @@
   
   GameState *gs = [GameState sharedGameState];
   if (![gs hasShownCurrentLeague]) {
-    [self dropLeagueIcon];
+    // Took out the animation..
     [gs currentLeagueWasShown];
   }
-}
-
-- (void) dropLeagueIcon {
-  GameState *gs = [GameState sharedGameState];
-  [self.multiplayerView addSubview:self.leaguePromotionView];
-  [self.leaguePromotionView updateForOldLeagueId:[gs lastLeagueShown] newLeagueId:gs.pvpLeague.leagueId];
-  [self.leaguePromotionView performSelector:@selector(dropLeagueIcon) withObject:nil afterDelay:1.f];
+  
+  [self loadCities];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -86,53 +75,125 @@
   [self.evoEventView updateLabels];
   [self.enhanceEventView updateLabels];
   
-  if (self.evoEventView.hidden && self.enhanceEventView.hidden) {
-    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
-  } else {
-    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height+self.evoEventView.bgdImage.frame.size.height);
-  }
+//  if (self.evoEventView.hidden && self.enhanceEventView.hidden) {
+//    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
+//  } else {
+//    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height+self.evoEventView.bgdImage.frame.size.height);
+//  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   [self.timer invalidate];
 }
 
-- (BOOL) prefersStatusBarHidden {
-  return YES;
-}
-
-- (void)loadCities {
-  GameState *gs = [GameState sharedGameState];
-  for (int i = 1; i <= NUM_CITIES;i++) {
-    FullCityProto *fcp = [gs cityWithId:i];
-    AttackMapIconViewContainer *amvc = (AttackMapIconViewContainer *)[self.mapView viewWithTag:i];
-    amvc.iconView.fcp = fcp;
-    amvc.iconView.isLocked = ![gs isCityUnlocked:i];
-    amvc.iconView.cityNumber = i;
-    amvc.iconView.nameLabel.text = [NSString stringWithFormat:@"%@ »", fcp.name];
-    [Globals imageNamed:fcp.attackMapLabelImgName withView:amvc.iconView.cityNameIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
-    [amvc.iconView.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
+- (IBAction)close:(id)sender {
+  if (!_buttonClicked) {
+    [self close];
   }
 }
 
-- (IBAction)cityClicked:(id)sender {
+- (void) close {
+  [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
+    self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y);
+  } completion:^(BOOL finished) {
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+  }];
+}
+
+#pragma mark - PVE
+
+- (void)loadCities {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  NSArray *svs = [self.mapScrollView.subviews copy];
+  for (UIView *sv in svs) {
+    [sv removeFromSuperview];
+  }
+  
+  // Assemble map sections
+  float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
+  for (int i = 1; i <= gl.mapNumberOfSections; i++) {
+    NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, i];
+    
+    CGRect frame = CGRectZero;
+    frame.size.width = self.mapScrollView.frame.size.width;
+    frame.size.height = scaleFactor*gl.mapSectionHeight;
+    frame.origin.y = gl.mapTotalHeight*scaleFactor-frame.size.height*i;
+    
+    // The last section might be smaller than the section height
+    if (frame.origin.y < 0) {
+      frame.size.height = frame.origin.y+frame.size.height;
+      frame.origin.y = 0;
+    }
+    
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:frame];
+    iv.contentMode = UIViewContentModeScaleToFill;
+    [self.mapScrollView addSubview:iv];
+    [Globals imageNamed:imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  }
+  self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, gl.mapTotalHeight*scaleFactor);
+  self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
+  
+  for (TaskMapElementProto *elem in gs.staticMapElements) {
+    FullTaskProto *task = [gs taskWithId:elem.taskId];
+    AttackMapIconView *icon = [[NSBundle mainBundle] loadNibNamed:@"AttackMapIconView" owner:self options:nil][0];
+    icon.isLocked = ![gs isTaskUnlocked:elem.taskId];
+    icon.tag = elem.mapElementId;
+    icon.nameLabel.text = [NSString stringWithFormat:@"%@ »", task.name];
+    icon.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
+    
+    [self.mapScrollView addSubview:icon];
+    icon.center = ccpMult(ccp(elem.xPos, gl.mapTotalHeight-elem.yPos), scaleFactor);
+    
+    [icon.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
+  }
+  
+  [self centerOnAppropriateMapIcon];
+}
+
+- (void) centerOnAppropriateMapIcon {
+  GameState *gs = [GameState sharedGameState];
+  TaskMapElementProto *bestElem = nil;
+  for (TaskMapElementProto *elem in gs.staticMapElements) {
+    if ([gs isTaskUnlocked:elem.taskId]) {
+      BOOL bestCompleted = [gs isTaskCompleted:bestElem.taskId];
+      BOOL curCompleted = [gs isTaskCompleted:elem.taskId];
+      
+      if (bestCompleted != curCompleted) {
+        // Choose non-completed one
+        bestElem = bestCompleted ? elem : bestElem;
+      } else {
+        // Choose higher map elem id
+        bestElem = bestElem.mapElementId > elem.mapElementId ? bestElem : elem;
+      }
+    }
+  }
+  
+  AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId];
+  float center = icon.center.y-self.mapScrollView.frame.size.height/3;
+  float max = self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height;
+  float min = 0;
+  self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
+}
+
+- (void) cityClicked:(id)sender {
   while (sender && ![sender isKindOfClass:[AttackMapIconView class]]) {
     sender = [sender superview];
   }
   AttackMapIconView *icon = (AttackMapIconView *)sender;
+  [self showTaskStatusForMapElement:(int)icon.tag];
   
-  if (icon.isLocked) {
-    [icon doShake];
-  } else if (!_buttonClicked) {
-    _buttonClicked = YES;
-    [self.delegate visitCityClicked:icon.cityNumber attackMapViewController:self];
-    
-    icon.cityButton.hidden = YES;
-    icon.cityNumLabel.hidden = YES;
-    icon.shadowIcon.hidden = YES;
-    icon.spinner.hidden = NO;
-    [icon.spinner startAnimating];
+  _selectedIcon.glowIcon.hidden = YES;
+  _selectedIcon = icon;
+  if (!icon.isLocked) _selectedIcon.glowIcon.hidden = NO;
+}
+
+- (IBAction)enterDungeonClicked:(id)sender {
+  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    [self.delegate enterDungeon:self.taskStatusView.taskId isEvent:NO eventId:0 useGems:NO];
   }
 }
 
@@ -150,6 +211,8 @@
   }
 }
 
+#pragma mark - PVP
+
 - (IBAction)findMatchClicked:(id)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
     GameState *gs = [GameState sharedGameState];
@@ -160,14 +223,6 @@
       [self findMatch];
     }
   }
-}
-
-- (IBAction) leaguePromotionOkayClicked:(id)sender {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.leaguePromotionView.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [self.leaguePromotionView removeFromSuperview];
-  }];
 }
 
 - (void) findMatch {
@@ -209,23 +264,58 @@
   [self presentViewController:mnc animated:YES completion:nil];
 }
 
-- (IBAction)close:(id)sender {
-  if (!_buttonClicked) {
-    [self close];
+#pragma mark - EventView and TaskStatusView
+
+- (void) showTaskStatusForMapElement:(int)mapElementId {
+  GameState *gs = [GameState sharedGameState];
+  TaskMapElementProto *elem = [gs mapElementWithId:mapElementId];
+  
+  if (self.taskStatusView.taskId != elem.taskId) {
+    UIView *oldTaskStatusView = self.taskStatusView;
+    [[NSBundle mainBundle] loadNibNamed:@"AttackMapTaskStatusView" owner:self options:nil];
+    [self.pveView addSubview:self.taskStatusView];
+    [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:[gs isTaskCompleted:elem.taskId]];
+    self.taskStatusView.frame = self.evoEventView.frame;
+    
+    self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height+self.taskStatusView.frame.size.height/2);
+    [UIView animateWithDuration:0.3f animations:^{
+      NSMutableArray *arr = [NSMutableArray array];
+      if (oldTaskStatusView) [arr addObject:oldTaskStatusView];
+      if (self.evoEventView) [arr addObject:self.evoEventView];
+      if (self.enhanceEventView) [arr addObject:self.enhanceEventView];
+      
+      for (UIView *v in arr) {
+        v.center = ccp(v.frame.size.width/2, self.pveView.frame.size.height+v.frame.size.height/2);
+      }
+      
+      self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height-self.taskStatusView.frame.size.height/2);
+    } completion:^(BOOL finished) {
+      [oldTaskStatusView removeFromSuperview];
+    }];
   }
 }
 
-- (void) close {
-  [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-    self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
-    self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y);
-  } completion:^(BOOL finished) {
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
+- (IBAction) removeTaskStatusView {
+  if (self.taskStatusView) {
+    [UIView animateWithDuration:0.3f animations:^{
+      NSMutableArray *arr = [NSMutableArray array];
+      if (self.evoEventView) [arr addObject:self.evoEventView];
+      if (self.enhanceEventView) [arr addObject:self.enhanceEventView];
+      
+      for (UIView *v in arr) {
+        v.center = ccp(v.frame.size.width/2, self.pveView.frame.size.height-v.frame.size.height/2);
+      }
+      
+      self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height+self.taskStatusView.frame.size.height/2);
+    } completion:^(BOOL finished) {
+      [self.taskStatusView removeFromSuperview];
+      self.taskStatusView = nil;
+    }];
+    
+    _selectedIcon.glowIcon.hidden = YES;
+    _selectedIcon = nil;
+  }
 }
-
-#pragma mark - Event View Delegate
 
 - (void) eventViewSelected:(AttackEventView *)eventView {
   if (!_buttonClicked && _curEventView != eventView) {

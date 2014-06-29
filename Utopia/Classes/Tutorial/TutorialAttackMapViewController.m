@@ -30,8 +30,8 @@
 - (void) allowClickOnCityId:(int)cityId {
   self.clickableCityId = cityId;
   
-  AttackMapIconViewContainer *amvc = (AttackMapIconViewContainer *)[self.mapView viewWithTag:cityId];
-  [Globals createUIArrowForView:amvc.iconView.cityButton atAngle:M_PI];
+  AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:cityId];
+  [Globals createUIArrowForView:icon.cityButton atAngle:M_PI];
 }
 
 - (IBAction)cityClicked:(id)sender {
@@ -40,7 +40,7 @@
   }
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   
-  if (icon.cityNumber == self.clickableCityId) {
+  if (icon.tag == self.clickableCityId) {
     [super cityClicked:sender];
   }
 }

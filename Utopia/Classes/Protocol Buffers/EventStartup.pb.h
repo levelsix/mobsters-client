@@ -165,6 +165,8 @@
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
+@class StartupResponseProto_StartupConstants_TaskMapConstants;
+@class StartupResponseProto_StartupConstants_TaskMapConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
@@ -177,6 +179,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TaskMapElementProto;
+@class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
@@ -642,53 +646,55 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasAddAllFbFriends_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
-  BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
-  BOOL hasMinutesPerObstacle_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxObstacles_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasGemsPerResource_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasMaxObstacles_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMinutesPerObstacle_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForUser_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasUserMonsterConstants_:1;
+  BOOL hasMiniTuts_:1;
+  BOOL hasTaskMapConstants_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasUserMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasMiniTuts_:1;
   BOOL addAllFbFriends_:1;
-  Float32 continueBattleGemCostMultiplier;
-  Float32 gemsPerResource;
   Float32 minutesPerGem;
-  int32_t minutesPerObstacle;
-  int32_t maxLevelForUser;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxObstacles;
-  int32_t minNameLength;
-  int32_t maxNameLength;
-  int32_t maxLengthOfChatString;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t levelToShowRateUsPopup;
-  int32_t fbConnectRewardDiamonds;
+  Float32 gemsPerResource;
+  Float32 continueBattleGemCostMultiplier;
   int32_t pvpRequiredMinLvl;
   int32_t numBeginnerSalesAllowed;
+  int32_t fbConnectRewardDiamonds;
+  int32_t levelToShowRateUsPopup;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t maxObstacles;
+  int32_t maxLengthOfChatString;
+  int32_t maxNameLength;
+  int32_t minNameLength;
+  int32_t minutesPerObstacle;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForUser;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
 }
@@ -716,6 +722,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMiniTuts;
 - (BOOL) hasMaxObstacles;
 - (BOOL) hasMinutesPerObstacle;
+- (BOOL) hasTaskMapConstants;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -740,6 +747,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @property (readonly) int32_t maxObstacles;
 @property (readonly) int32_t minutesPerObstacle;
+@property (readonly, retain) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1109,19 +1117,23 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasSecondsToHealPerHealthPoint_:1;
   BOOL hasElementalStrength_:1;
   BOOL hasElementalWeakness_:1;
+  BOOL hasOilPerMonsterLevel_:1;
   Float32 cashPerHealthPoint;
   Float32 secondsToHealPerHealthPoint;
   Float32 elementalStrength;
   Float32 elementalWeakness;
+  Float32 oilPerMonsterLevel;
 }
 - (BOOL) hasCashPerHealthPoint;
 - (BOOL) hasSecondsToHealPerHealthPoint;
 - (BOOL) hasElementalStrength;
 - (BOOL) hasElementalWeakness;
+- (BOOL) hasOilPerMonsterLevel;
 @property (readonly) Float32 cashPerHealthPoint;
 @property (readonly) Float32 secondsToHealPerHealthPoint;
 @property (readonly) Float32 elementalStrength;
 @property (readonly) Float32 elementalWeakness;
+@property (readonly) Float32 oilPerMonsterLevel;
 
 + (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
@@ -1176,6 +1188,95 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) elementalWeakness;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setElementalWeakness:(Float32) value;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalWeakness;
+
+- (BOOL) hasOilPerMonsterLevel;
+- (Float32) oilPerMonsterLevel;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setOilPerMonsterLevel:(Float32) value;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearOilPerMonsterLevel;
+@end
+
+@interface StartupResponseProto_StartupConstants_TaskMapConstants : PBGeneratedMessage {
+@private
+  BOOL hasMapSectionHeight_:1;
+  BOOL hasMapTotalWidth_:1;
+  BOOL hasMapTotalHeight_:1;
+  BOOL hasMapNumberOfSections_:1;
+  BOOL hasMapSectionImagePrefix_:1;
+  Float32 mapSectionHeight;
+  Float32 mapTotalWidth;
+  Float32 mapTotalHeight;
+  int32_t mapNumberOfSections;
+  NSString* mapSectionImagePrefix;
+}
+- (BOOL) hasMapSectionImagePrefix;
+- (BOOL) hasMapNumberOfSections;
+- (BOOL) hasMapSectionHeight;
+- (BOOL) hasMapTotalWidth;
+- (BOOL) hasMapTotalHeight;
+@property (readonly, retain) NSString* mapSectionImagePrefix;
+@property (readonly) int32_t mapNumberOfSections;
+@property (readonly) Float32 mapSectionHeight;
+@property (readonly) Float32 mapTotalWidth;
+@property (readonly) Float32 mapTotalHeight;
+
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_TaskMapConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_TaskMapConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_TaskMapConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_TaskMapConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_TaskMapConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_TaskMapConstants*) build;
+- (StartupResponseProto_StartupConstants_TaskMapConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_TaskMapConstants*) other;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMapSectionImagePrefix;
+- (NSString*) mapSectionImagePrefix;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) setMapSectionImagePrefix:(NSString*) value;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clearMapSectionImagePrefix;
+
+- (BOOL) hasMapNumberOfSections;
+- (int32_t) mapNumberOfSections;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) setMapNumberOfSections:(int32_t) value;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clearMapNumberOfSections;
+
+- (BOOL) hasMapSectionHeight;
+- (Float32) mapSectionHeight;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) setMapSectionHeight:(Float32) value;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clearMapSectionHeight;
+
+- (BOOL) hasMapTotalWidth;
+- (Float32) mapTotalWidth;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) setMapTotalWidth:(Float32) value;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clearMapTotalWidth;
+
+- (BOOL) hasMapTotalHeight;
+- (Float32) mapTotalHeight;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) setMapTotalHeight:(Float32) value;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) clearMapTotalHeight;
 @end
 
 @interface StartupResponseProto_StartupConstants_MiniTutorialConstants : PBGeneratedMessage {
@@ -1453,6 +1554,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) minutesPerObstacle;
 - (StartupResponseProto_StartupConstants_Builder*) setMinutesPerObstacle:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerObstacle;
+
+- (BOOL) hasTaskMapConstants;
+- (StartupResponseProto_StartupConstants_TaskMapConstants*) taskMapConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstants:(StartupResponseProto_StartupConstants_TaskMapConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstantsBuilder:(StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeTaskMapConstants:(StartupResponseProto_StartupConstants_TaskMapConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearTaskMapConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
