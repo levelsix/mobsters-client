@@ -78,7 +78,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="H2o-v0-Jez" customClass="MonsterListView">
+                        <view contentMode="scaleToFill" id="H2o-v0-Jez" customClass="ListCollectionView">
                             <rect key="frame" x="88" y="0.0" width="338" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
@@ -192,7 +192,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="sKg-bF-Rg6" customClass="MonsterListView">
+                <view contentMode="scaleToFill" id="sKg-bF-Rg6" customClass="ListCollectionView">
                     <rect key="frame" x="124" y="97" width="299" height="68"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

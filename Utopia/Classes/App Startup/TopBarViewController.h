@@ -11,6 +11,7 @@
 #import "GameMap.h"
 #import "ChatBottomView.h"
 #import "TopBarQuestProgressView.h"
+#import "ShopViewController.h"
 
 @interface TopBarMonsterView : UIView
 
@@ -75,6 +76,8 @@
 @property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
 @property (nonatomic, readonly) int clanChatBadgeNum;
 
+@property (nonatomic, retain) IBOutlet ShopViewController *shopViewController;
+
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 
 - (void) showMyCityView;
@@ -88,5 +91,8 @@
 - (void) removeViewOverChatView;
 
 - (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId completion:(void (^)(void))completion;
+
+- (void) openShop;
+- (void) openShopWithFunds;
 
 @end

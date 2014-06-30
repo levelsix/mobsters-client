@@ -8,10 +8,21 @@
 
 #import "PopupSubViewController.h"
 
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
+#import "BuildingViews.h"
 
-@interface BuildingViewController : PopupSubViewController <MonsterListDelegate>
+@protocol BuildingViewDelegate <NSObject>
 
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
+- (void) buildingPurchased:(int)structId;
+
+@end
+
+@interface BuildingViewController : PopupSubViewController <ListCollectionDelegate>
+
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
+
+@property (nonatomic, retain) NSArray *staticStructs;
+
+@property (nonatomic, assign) id<BuildingViewDelegate> delegate;
 
 @end

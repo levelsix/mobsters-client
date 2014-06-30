@@ -37,13 +37,21 @@
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
-  [[CCDirector sharedDirector] pause];
+  if ([self shouldStopCCDirector]) {
+    [[CCDirector sharedDirector] pause];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
-  [[CCDirector sharedDirector] resume];
+  if ([self shouldStopCCDirector]) {
+    [[CCDirector sharedDirector] resume];
+  }
+}
+
+- (BOOL) shouldStopCCDirector {
+  return YES;
 }
       
 - (IBAction) backClicked:(id)sender {

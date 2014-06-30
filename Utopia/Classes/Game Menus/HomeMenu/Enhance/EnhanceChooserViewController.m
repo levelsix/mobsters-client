@@ -111,7 +111,7 @@
 
 #pragma mark - Monster card delegate
 
-- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
+- (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
   GameState *gs = [GameState sharedGameState];
   BOOL greyscale = NO;
   if ((gs.userEnhancement && !listObject.isEnhancing) || listObject.staticMonster.maxLevel <= listObject.level) {
@@ -121,7 +121,7 @@
   [cell updateForListObject:listObject greyscale:greyscale];
 }
 
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   
   EnhanceQueueViewController *eqvc = nil;
@@ -147,7 +147,7 @@
   }
 }
 
-- (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
   UIViewController *parent = [GameViewController baseController];

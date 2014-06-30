@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="aH6-pJ-Lge" customClass="MonsterListView">
+                <view contentMode="scaleToFill" id="aH6-pJ-Lge" customClass="ListCollectionView">
                     <rect key="frame" x="0.0" y="0.0" width="430" height="173"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

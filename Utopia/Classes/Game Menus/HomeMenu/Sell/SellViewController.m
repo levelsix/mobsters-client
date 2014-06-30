@@ -107,7 +107,7 @@
 
 #pragma mark - Monster Card delegate
 
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   [self.sellQueue addObject:um];
   
@@ -137,7 +137,7 @@
   }
 }
 
-- (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.sellQueue[indexPath.row];
   [self.sellQueue removeObject:um];
   

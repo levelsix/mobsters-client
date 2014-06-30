@@ -8,15 +8,74 @@
 
 #import "ShopViewController.h"
 
+#import "GameViewController.h"
 
 @implementation ShopViewController
 
 - (void) viewDidLoad {
   [super viewDidLoad];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   
   self.buildingViewController = [[BuildingViewController alloc] init];
+  self.fundsViewController = [[FundsViewController alloc] init];
+  self.gachaViewController = [[GachaChooserViewController alloc] init];
+  
+  self.buildingViewController.delegate = [GameViewController baseController];
   
   [self button1Clicked:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  // Do this to unload the controllers when shop goes down
+  self.buildingViewController = nil;
+  self.fundsViewController = nil;
+  self.gachaViewController = nil;
+  [self unloadAllControllers];
+}
+
+- (BOOL) shouldStopCCDirector {
+  return NO;
+}
+
+- (void) displayInParentViewController:(UIViewController *)gvc {
+  [gvc addChildViewController:self];
+  self.view.frame = gvc.view.bounds;
+  
+  [self beginAppearanceTransition:YES animated:YES];
+  [gvc.view addSubview:self.view];
+  
+  self.bgdView.alpha = 0.f;
+  self.mainView.center = ccp(self.mainView.frame.size.width/2, self.view.frame.size.height+self.mainView.frame.size.height/2);
+  [UIView animateWithDuration:0.3f animations:^{
+    self.bgdView.alpha = 1.f;
+    self.mainView.center = ccp(self.mainView.frame.size.width/2, self.view.frame.size.height-self.mainView.frame.size.height/2);
+  } completion:^(BOOL finished) {
+    [self endAppearanceTransition];
+  }];
+}
+
+- (void) openFundsShop {
+  [self button2Clicked:nil];
+}
+
+- (void) close {
+  [self beginAppearanceTransition:NO animated:YES];
+  [UIView animateWithDuration:0.3f animations:^{
+    self.bgdView.alpha = 0.f;
+    self.mainView.center = ccp(self.mainView.frame.size.width/2, self.view.frame.size.height+self.mainView.frame.size.height/2);
+  } completion:^(BOOL finished) {
+    [self unloadAllControllers];
+    
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+    
+    [self endAppearanceTransition];
+  }];
 }
 
 #pragma mark - TabBar delegate
@@ -28,10 +87,14 @@
 }
 
 - (void) button2Clicked:(id)sender {
+  [self replaceRootWithViewController:self.fundsViewController];
+  
   [self.tabBar clickButton:2];
 }
 
 - (void) button3Clicked:(id)sender {
+  [self replaceRootWithViewController:self.gachaViewController];
+  
   [self.tabBar clickButton:3];
 }
 

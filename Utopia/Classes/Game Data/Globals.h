@@ -195,6 +195,7 @@
 
 + (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened;
 + (NSString *) stringForClanStatus:(UserClanStatus)status;
++ (NSString *) stringForResourceType:(ResourceType)res;
 
 + (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team;
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;

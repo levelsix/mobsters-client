@@ -35,6 +35,7 @@
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated;
 - (void) pushViewController:(PopupSubViewController *)viewController animated:(BOOL)animated;
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
+- (void) unloadAllControllers;
 
 - (void) replaceTitleView:(UIView *)oldView withNewView:(UIView *)newView fromRight:(BOOL)fromRight animated:(BOOL)animated;
 - (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated;
@@ -44,5 +45,7 @@
 - (void) goBack;
 - (IBAction) closeClicked:(id)sender;
 - (void) close;
+
+- (BOOL) shouldStopCCDirector;
 
 @end

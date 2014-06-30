@@ -359,6 +359,17 @@
 		CF28BBFC1628EEEA0012F1C1 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF41628EEEA0012F1C1 /* unzip.c */; };
 		CF28BBFD1628EEEA0012F1C1 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF61628EEEA0012F1C1 /* zip.c */; };
 		CF28BBFE1628EEEA0012F1C1 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */; };
+		CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9111960E85100B40DA4 /* BuildingViews.m */; };
+		CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9151961006500B40DA4 /* FundsViewController.m */; };
+		CF29E9181961006500B40DA4 /* FundsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9161961006500B40DA4 /* FundsViewController.xib */; };
+		CF29E91A1961058A00B40DA4 /* FundsCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9191961058A00B40DA4 /* FundsCardCell.xib */; };
+		CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91C19612CA000B40DA4 /* FundsViews.m */; };
+		CF29E920196131C200B40DA4 /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */; };
+		CF29E9231961337800B40DA4 /* 1FundsCashStorageT1.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9211961337800B40DA4 /* 1FundsCashStorageT1.png */; };
+		CF29E9241961337800B40DA4 /* 1FundsCashStorageT1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9221961337800B40DA4 /* 1FundsCashStorageT1@2x.png */; };
+		CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */; };
+		CF29E92A196151CD00B40DA4 /* GachaChooserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29E928196151CD00B40DA4 /* GachaChooserViewController.xib */; };
+		CF29E92C1961524A00B40DA4 /* GachaChooserCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29E92B1961524A00B40DA4 /* GachaChooserCardCell.xib */; };
 		CF2A4A2418FF168C00B2D7D7 /* enemydivider.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2A4A2218FF168C00B2D7D7 /* enemydivider.png */; };
 		CF2A4A2518FF168C00B2D7D7 /* enemydivider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2A4A2318FF168C00B2D7D7 /* enemydivider@2x.png */; };
 		CF2A4A3919009CD500B2D7D7 /* facebookmenuoption.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2A4A2A19009CD500B2D7D7 /* facebookmenuoption.png */; };
@@ -515,7 +526,6 @@
 		CF32EA0C180D0B9D00CBD50D /* shelf1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA07180D0B9D00CBD50D /* shelf1@2x.png */; };
 		CF32EA0E180D0B9D00CBD50D /* shelftopper.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA08180D0B9D00CBD50D /* shelftopper.png */; };
 		CF32EA10180D0B9D00CBD50D /* shelftopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA09180D0B9D00CBD50D /* shelftopper@2x.png */; };
-		CF32EA14180D0C0800CBD50D /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EA13180D0C0800CBD50D /* InAppPurchaseData.m */; };
 		CF32EA8D195F70A000A4AEE3 /* greymediumsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA87195F709F00A4AEE3 /* greymediumsquare.png */; };
 		CF32EA8E195F70A000A4AEE3 /* greymediumsquare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA88195F709F00A4AEE3 /* greymediumsquare@2x.png */; };
 		CF32EA8F195F70A000A4AEE3 /* greysmallsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF32EA89195F709F00A4AEE3 /* greysmallsquare.png */; };
@@ -2382,7 +2392,7 @@
 		CFF6463B195A3A3B00C43641 /* SellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF64635195A3A3B00C43641 /* SellViewController.xib */; };
 		CFF64640195A3EE400C43641 /* EnhanceChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6463E195A3EE400C43641 /* EnhanceChooserViewController.m */; };
 		CFF64641195A3EE400C43641 /* EnhanceChooserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6463F195A3EE400C43641 /* EnhanceChooserViewController.xib */; };
-		CFF6464A195A578800C43641 /* MonsterListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64649195A578700C43641 /* MonsterListView.m */; };
+		CFF6464A195A578800C43641 /* ListCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64649195A578700C43641 /* ListCollectionView.m */; };
 		CFF6464C195A684200C43641 /* EnhanceCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6464B195A684200C43641 /* EnhanceCardCell.xib */; };
 		CFF64650195A69A300C43641 /* EnhanceQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */; };
 		CFF64651195A69A300C43641 /* EnhanceQueueViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF6464F195A69A300C43641 /* EnhanceQueueViewController.xib */; };
@@ -3475,6 +3485,22 @@
 		CF28BBF71628EEEA0012F1C1 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		CF28BBF81628EEEA0012F1C1 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
 		CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		CF29E9101960E85100B40DA4 /* BuildingViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingViews.h; sourceTree = "<group>"; };
+		CF29E9111960E85100B40DA4 /* BuildingViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingViews.m; sourceTree = "<group>"; };
+		CF29E9141961006500B40DA4 /* FundsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FundsViewController.h; sourceTree = "<group>"; };
+		CF29E9151961006500B40DA4 /* FundsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FundsViewController.m; sourceTree = "<group>"; };
+		CF29E9161961006500B40DA4 /* FundsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FundsViewController.xib; sourceTree = "<group>"; };
+		CF29E9191961058A00B40DA4 /* FundsCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FundsCardCell.xib; sourceTree = "<group>"; };
+		CF29E91B19612CA000B40DA4 /* FundsViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FundsViews.h; sourceTree = "<group>"; };
+		CF29E91C19612CA000B40DA4 /* FundsViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FundsViews.m; sourceTree = "<group>"; };
+		CF29E91E196131C200B40DA4 /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
+		CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
+		CF29E9211961337800B40DA4 /* 1FundsCashStorageT1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1FundsCashStorageT1.png; sourceTree = "<group>"; };
+		CF29E9221961337800B40DA4 /* 1FundsCashStorageT1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1FundsCashStorageT1@2x.png"; sourceTree = "<group>"; };
+		CF29E926196151CD00B40DA4 /* GachaChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaChooserViewController.h; sourceTree = "<group>"; };
+		CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaChooserViewController.m; sourceTree = "<group>"; };
+		CF29E928196151CD00B40DA4 /* GachaChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GachaChooserViewController.xib; sourceTree = "<group>"; };
+		CF29E92B1961524A00B40DA4 /* GachaChooserCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GachaChooserCardCell.xib; sourceTree = "<group>"; };
 		CF2A4A2218FF168C00B2D7D7 /* enemydivider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemydivider.png; sourceTree = "<group>"; };
 		CF2A4A2318FF168C00B2D7D7 /* enemydivider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemydivider@2x.png"; sourceTree = "<group>"; };
 		CF2A4A2A19009CD500B2D7D7 /* facebookmenuoption.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebookmenuoption.png; sourceTree = "<group>"; };
@@ -3636,8 +3662,6 @@
 		CF32EA07180D0B9D00CBD50D /* shelf1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shelf1@2x.png"; sourceTree = "<group>"; };
 		CF32EA08180D0B9D00CBD50D /* shelftopper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shelftopper.png; sourceTree = "<group>"; };
 		CF32EA09180D0B9D00CBD50D /* shelftopper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shelftopper@2x.png"; sourceTree = "<group>"; };
-		CF32EA12180D0C0800CBD50D /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
-		CF32EA13180D0C0800CBD50D /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
 		CF32EA87195F709F00A4AEE3 /* greymediumsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greymediumsquare.png; sourceTree = "<group>"; };
 		CF32EA88195F709F00A4AEE3 /* greymediumsquare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greymediumsquare@2x.png"; sourceTree = "<group>"; };
 		CF32EA89195F709F00A4AEE3 /* greysmallsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greysmallsquare.png; sourceTree = "<group>"; };
@@ -5693,8 +5717,8 @@
 		CFF6463D195A3EE400C43641 /* EnhanceChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceChooserViewController.h; sourceTree = "<group>"; };
 		CFF6463E195A3EE400C43641 /* EnhanceChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhanceChooserViewController.m; sourceTree = "<group>"; };
 		CFF6463F195A3EE400C43641 /* EnhanceChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceChooserViewController.xib; sourceTree = "<group>"; };
-		CFF64648195A578700C43641 /* MonsterListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterListView.h; sourceTree = "<group>"; };
-		CFF64649195A578700C43641 /* MonsterListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterListView.m; sourceTree = "<group>"; };
+		CFF64648195A578700C43641 /* ListCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionView.h; sourceTree = "<group>"; };
+		CFF64649195A578700C43641 /* ListCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCollectionView.m; sourceTree = "<group>"; };
 		CFF6464B195A684200C43641 /* EnhanceCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceCardCell.xib; sourceTree = "<group>"; };
 		CFF6464D195A69A300C43641 /* EnhanceQueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceQueueViewController.h; sourceTree = "<group>"; };
 		CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhanceQueueViewController.m; sourceTree = "<group>"; };
@@ -6749,6 +6773,8 @@
 				CF40CFDD18DF9DCB0034A721 /* UnreadNotifications.m */,
 				CF65743C19086B6600ABF1F4 /* FullQuestProto+JobAccess.h */,
 				CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */,
+				CF29E91E196131C200B40DA4 /* InAppPurchaseData.h */,
+				CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */,
 			);
 			path = "Game Data";
 			sourceTree = "<group>";
@@ -6758,10 +6784,12 @@
 			children = (
 				CF32EAEE195FF96300A4AEE3 /* ShopMenu */,
 				CF20F044180E142B005551B5 /* AttackMenuController */,
-				CFC8B62D18E6537100CFD652 /* LabMenu */,
 				CFCD0EFB1955004800EDC233 /* HomeMenu */,
 				CFCD0E6A1953EF7E00EDC233 /* PopupNavMenu */,
 				CF1265871538ACC400E0C1AD /* Miscellaneous */,
+				CF32E9F2180D09D600CBD50D /* DiamondShopMenu */,
+				CF62935E180D4A4100C6C196 /* CarpenterMenu */,
+				CFC8B62D18E6537100CFD652 /* LabMenu */,
 				CF20F25C1810EEE2005551B5 /* MyCroniesMenu */,
 				CFE02CBB182359EA0016C1E2 /* GachaponMenu */,
 				CF3764F8182DD6AC00D0A77E /* ChatMenu */,
@@ -6772,8 +6800,6 @@
 				CF62E6FE15FEC65600DF850F /* ClanMenu */,
 				CFF390781828BB010010A3BE /* RequestsMenu */,
 				CF3766061832CD3D00D0A77E /* DialogueMenu */,
-				CF32E9F2180D09D600CBD50D /* DiamondShopMenu */,
-				CF62935E180D4A4100C6C196 /* CarpenterMenu */,
 				CFCE56DF18137C9000494F8C /* MonsterPopUp */,
 				CFE02DC1182644BF0016C1E2 /* FBChooserMenu */,
 				CFEE022517BDC29900F3BB19 /* MainMenu */,
@@ -7543,6 +7569,30 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
+		CF29E9131961003300B40DA4 /* Funds */ = {
+			isa = PBXGroup;
+			children = (
+				CF29E91B19612CA000B40DA4 /* FundsViews.h */,
+				CF29E91C19612CA000B40DA4 /* FundsViews.m */,
+				CF29E9141961006500B40DA4 /* FundsViewController.h */,
+				CF29E9151961006500B40DA4 /* FundsViewController.m */,
+				CF29E9161961006500B40DA4 /* FundsViewController.xib */,
+				CF29E9191961058A00B40DA4 /* FundsCardCell.xib */,
+			);
+			path = Funds;
+			sourceTree = "<group>";
+		};
+		CF29E9251961517000B40DA4 /* Gacha */ = {
+			isa = PBXGroup;
+			children = (
+				CF29E926196151CD00B40DA4 /* GachaChooserViewController.h */,
+				CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */,
+				CF29E928196151CD00B40DA4 /* GachaChooserViewController.xib */,
+				CF29E92B1961524A00B40DA4 /* GachaChooserCardCell.xib */,
+			);
+			path = Gacha;
+			sourceTree = "<group>";
+		};
 		CF2A4A2919009CD500B2D7D7 /* Settings:Help */ = {
 			isa = PBXGroup;
 			children = (
@@ -7752,8 +7802,6 @@
 				CF32E9F4180D09D600CBD50D /* DiamondShopViewController.m */,
 				CF32E9F5180D09D600CBD50D /* DiamondShopViewController.xib */,
 				CFB250A1185FF0A200BE0C05 /* DiamondListing.xib */,
-				CF32EA12180D0C0800CBD50D /* InAppPurchaseData.h */,
-				CF32EA13180D0C0800CBD50D /* InAppPurchaseData.m */,
 			);
 			path = DiamondShopMenu;
 			sourceTree = "<group>";
@@ -7761,6 +7809,8 @@
 		CF32EAAE195FF81800A4AEE3 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				CF29E9211961337800B40DA4 /* 1FundsCashStorageT1.png */,
+				CF29E9221961337800B40DA4 /* 1FundsCashStorageT1@2x.png */,
 				CF32EAAF195FF81800A4AEE3 /* activedividerline.png */,
 				CF32EAB0195FF81800A4AEE3 /* activedividerline@2x.png */,
 				CF32EAB1195FF81800A4AEE3 /* basicgrab.png */,
@@ -7804,6 +7854,8 @@
 		CF32EAEE195FF96300A4AEE3 /* ShopMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF29E9251961517000B40DA4 /* Gacha */,
+				CF29E9131961003300B40DA4 /* Funds */,
 				CF32EAF51960A99400A4AEE3 /* Buildings */,
 				CF32EAEF195FFA4000A4AEE3 /* Nav */,
 			);
@@ -7823,6 +7875,8 @@
 		CF32EAF51960A99400A4AEE3 /* Buildings */ = {
 			isa = PBXGroup;
 			children = (
+				CF29E9101960E85100B40DA4 /* BuildingViews.h */,
+				CF29E9111960E85100B40DA4 /* BuildingViews.m */,
 				CF32EAF61960A9DD00A4AEE3 /* BuildingViewController.h */,
 				CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */,
 				CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */,
@@ -9773,8 +9827,8 @@
 				CFCD0EFE195500A700EDC233 /* HomeViewController.xib */,
 				CFF646FD195D57A800C43641 /* HomeTitleView.xib */,
 				CFF6472D195EB92100C43641 /* HomeTitleLabel.xib */,
-				CFF64648195A578700C43641 /* MonsterListView.h */,
-				CFF64649195A578700C43641 /* MonsterListView.m */,
+				CFF64648195A578700C43641 /* ListCollectionView.h */,
+				CFF64649195A578700C43641 /* ListCollectionView.m */,
 				CFF646C6195CD51000C43641 /* MonsterQueueCell.xib */,
 			);
 			path = Main;
@@ -12350,6 +12404,7 @@
 				CF6890401912E7B500FF1F71 /* engagebutton@2x.png in Resources */,
 				CFF7872A18E28FE200413E78 /* checkbox.png in Resources */,
 				CF6F1A15181518C900CFF2B9 /* visittask.png in Resources */,
+				CF29E91A1961058A00B40DA4 /* FundsCardCell.xib in Resources */,
 				CFFBDFD118ACA3D90090CA9A /* Scientist4Turn12@2x.png in Resources */,
 				CFCD0EB61953F07400EDC233 /* commonband.png in Resources */,
 				CFF6468A195A6A0B00C43641 /* enhancesquirrel.png in Resources */,
@@ -12434,6 +12489,7 @@
 				CFC8B5D918E4547200CFD652 /* bubble_bottom_left@2x.png in Resources */,
 				CFFBDF3A18ACA3D90090CA9A /* Scientist1Breath03@2x.png in Resources */,
 				CFFEB1341834539C007C4BA3 /* nightteamhealthbar.png in Resources */,
+				CF29E92A196151CD00B40DA4 /* GachaChooserViewController.xib in Resources */,
 				CFF2C904193ECF5600F28D9E /* chatinputtop.png in Resources */,
 				CF2A4A3B19009CD500B2D7D7 /* beigemenuoption.png in Resources */,
 				CFF5DB98194BD8320019EB2B /* greysquirrel@2x.png in Resources */,
@@ -12975,6 +13031,7 @@
 				CF3766BF1833022700D0A77E /* featuredstars.png in Resources */,
 				CFFBDF7C18ACA3D90090CA9A /* Scientist2Turn13@2x.png in Resources */,
 				CFF740491817AF09009DE4A4 /* park@2x.png in Resources */,
+				CF29E9231961337800B40DA4 /* 1FundsCashStorageT1.png in Resources */,
 				CFF7875518E28FE200413E78 /* currentamountbar@2x.png in Resources */,
 				CFC04DC6188FE8D400F2DB59 /* wonsplash@2x.png in Resources */,
 				CFC8B5CD18E4547200CFD652 /* activechattab.png in Resources */,
@@ -13226,6 +13283,7 @@
 				CFF2162818FDEA200057B5CE /* imgtestnews.png in Resources */,
 				CF3766E11833022700D0A77E /* gooniegrabtopbar@2x.png in Resources */,
 				CFF390DB1829C74A0010A3BE /* firesideways@2x.png in Resources */,
+				CF29E92C1961524A00B40DA4 /* GachaChooserCardCell.xib in Resources */,
 				CF6F1A0D181518C900CFF2B9 /* taskbg.png in Resources */,
 				CFFBDFC718ACA3D90090CA9A /* Scientist4Turn02@2x.png in Resources */,
 				CFEE89AB18EBB01600047CA4 /* cashoverflow@2x.png in Resources */,
@@ -13705,6 +13763,7 @@
 				CF40D04718DFCC6C0034A721 /* silverrankbg@2x.png in Resources */,
 				CF68903F1912E7B500FF1F71 /* engagebutton.png in Resources */,
 				CFE02BA31821DC000016C1E2 /* miniwater.png in Resources */,
+				CF29E9181961006500B40DA4 /* FundsViewController.xib in Resources */,
 				CF689099191C514000FF1F71 /* pier_2@2x.png in Resources */,
 				CF629309180D22F600C6C196 /* safecash.png in Resources */,
 				CFF390E91829C74A0010A3BE /* lightupdown.png in Resources */,
@@ -14572,6 +14631,7 @@
 				CF864E25193E8F3000DE0D7A /* clanscreateinactive@2x.png in Resources */,
 				CFF513D218C8DE3C004B0E56 /* connectbg.png in Resources */,
 				CFF2080217FCE1E800AA6F84 /* rackcity@2x.tmx in Resources */,
+				CF29E9241961337800B40DA4 /* 1FundsCashStorageT1@2x.png in Resources */,
 				CF3766FD1833022700D0A77E /* ultragtag@2x.png in Resources */,
 				CFC8B5F018E4547200CFD652 /* chatbubblepopout@2x.png in Resources */,
 				CF9520341939690800A98290 /* earthdailylab.png in Resources */,
@@ -14658,7 +14718,7 @@
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
 				CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */,
-				CFF6464A195A578800C43641 /* MonsterListView.m in Sources */,
+				CFF6464A195A578800C43641 /* ListCollectionView.m in Sources */,
 				CF126D381538ACCA00E0C1AD /* UserData.m in Sources */,
 				CF688FFD1912E5D000FF1F71 /* MiniJobsDetailsViewController.m in Sources */,
 				CFF5ACCE1941508500571298 /* FocusScrollView.m in Sources */,
@@ -14737,8 +14797,10 @@
 				CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */,
 				CF30278E18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m in Sources */,
 				CF6574BC1909CAF200ABF1F4 /* EventUser.pb.m in Sources */,
+				CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */,
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
 				CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */,
+				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
 				CF37660A1832CDA600D0A77E /* DialogueViewController.m in Sources */,
@@ -14767,6 +14829,7 @@
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
 				CF28BBFE1628EEEA0012F1C1 /* SSZipArchive.m in Sources */,
 				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
+				CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */,
 				CFEF25D318C9D6F100FB867A /* FacebookSpammer.m in Sources */,
 				CFE02AE518209CE00016C1E2 /* MapBotView.m in Sources */,
 				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
@@ -14781,6 +14844,7 @@
 				CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */,
 				CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */,
 				CFF646EB195D229400C43641 /* TeamViewController.m in Sources */,
+				CF29E920196131C200B40DA4 /* InAppPurchaseData.m in Sources */,
 				CF65743E19086B6600ABF1F4 /* FullQuestProto+JobAccess.m in Sources */,
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				CF8BA24118CF3930003277D1 /* TutorialBasicComboBattleLayer.m in Sources */,
@@ -14818,7 +14882,6 @@
 				CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */,
 				CF26A89B16FD58E50020D508 /* Amplitude.m in Sources */,
 				CF26A8A116FD58E50020D508 /* AmplitudeLocationManagerDelegate.m in Sources */,
-				CF32EA14180D0C0800CBD50D /* InAppPurchaseData.m in Sources */,
 				CF6F19801815156D00CFF2B9 /* QuestLogViewController.m in Sources */,
 				CFFF6B1118DB2044003A320C /* MSDate.m in Sources */,
 				CFC45BF819428B1C00BBA4A6 /* GachaponViews.m in Sources */,
@@ -14857,6 +14920,7 @@
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
 				CF012B2318D12885004C6825 /* TutorialDropBattleLayer.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
+				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
 				CF6574B51909CAF200ABF1F4 /* EventPvp.pb.m in Sources */,
 				CFFA321018B421EC008B81B9 /* EvoViewController.m in Sources */,

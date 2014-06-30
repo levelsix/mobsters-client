@@ -32,6 +32,6 @@
 
 @interface ResourcePurchaseData : NSObject<InAppPurchaseData>
 
-+ (id<InAppPurchaseData>) createWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title;
++ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title;
 
 @end

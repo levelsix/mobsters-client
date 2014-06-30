@@ -8,12 +8,12 @@
 
 #import "PopupSubViewController.h"
 #import "NibUtils.h"
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
 
-@interface SellViewController : PopupSubViewController <MonsterListDelegate>
+@interface SellViewController : PopupSubViewController <ListCollectionDelegate>
 
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
-@property (nonatomic, strong) IBOutlet MonsterListView *queueView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
+@property (nonatomic, strong) IBOutlet ListCollectionView *queueView;
 @property (nonatomic, strong) IBOutlet UILabel *sellCostLabel;
 
 @property (nonatomic, strong) IBOutlet MonsterListCell *cardCell;

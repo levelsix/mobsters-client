@@ -41,4 +41,6 @@
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *navBar;
 
+- (id) initWithBoosterPack:(BoosterPackProto *)bpp;
+
 @end

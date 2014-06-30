@@ -224,13 +224,13 @@
 
 #pragma mark - Monster card delegate
 
-- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
+- (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
   BOOL greyscale = !listObject.isAvailable;
   [cell updateForListObject:listObject greyscale:greyscale];
   cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = !greyscale;
 }
 
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   if ([um isAvailable]) {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterId];
@@ -272,12 +272,12 @@
   [slotView.rightView.layer addAnimation:animation forKey:@"fade"];
 }
 
-- (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   [self openInfoForUserMonster:um];
 }
 
-- (void) listView:(MonsterListView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = self.userMonsters[indexPath.row];

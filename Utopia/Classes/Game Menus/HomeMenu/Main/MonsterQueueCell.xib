@@ -103,7 +103,6 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
-                <outlet property="mainView" destination="eor-xt-FJx" id="f4Q-Uf-K8j"/>
                 <outlet property="monsterView" destination="ENd-8C-uec" id="zO0-lz-o9b"/>
                 <outlet property="progressBar" destination="sDb-sf-CFV" id="Zgi-a5-EG4"/>
                 <outlet property="timeLabel" destination="d1w-2T-6Ys" id="xpb-6S-qJ4"/>

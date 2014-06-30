@@ -10,7 +10,7 @@
 
 #ifndef DEBUG
 
-//#define USE_PROD
+#define USE_PROD
 
 #define UDID [OpenUDID value]
 
@@ -25,16 +25,11 @@
 
 #ifdef USE_PROD
 
-#define HOST_NAME @"amqp.lvl6.com"
+#define HOST_NAME @"staging.mobsters.lvl6.com"
 #define HOST_PORT 5672
 #define MQ_USERNAME @"lvl6client"
-#define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
-
-#ifdef LEGENDS_OF_CHAOS
-#define MQ_VHOST @"prodlegendsofchaos"
-#else
-#define MQ_VHOST @"prodageofchaos"
-#endif
+#define MQ_PASSWORD @"devclient"
+#define MQ_VHOST @"devmobsters"
 
 #else
 
@@ -42,11 +37,6 @@
 #define HOST_PORT 5672
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
-
-#ifdef LEGENDS_OF_CHAOS
-#define MQ_VHOST @"devlegendsofchaos"
-#else
 #define MQ_VHOST @"devmobsters"
-#endif
 
 #endif

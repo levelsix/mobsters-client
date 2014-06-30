@@ -239,7 +239,7 @@
 
 #pragma mark - MonsterListView delegate
 
-- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(id)listObject {
+- (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(id)listObject {
   UserEnhancement *ue = self.currentEnhancement;
   if (listView == self.listView) {
     [(EnhanceSmallCardCell *)cell updateForListObject:listObject userEnhancement:ue];
@@ -258,7 +258,7 @@
 
 #pragma mark List
 
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   if (_allowAddingToQueue) {
     _confirmUserMonster = self.userMonsters[indexPath.row];
     [self checkMonsterIsNotMaxed];
@@ -392,7 +392,7 @@
 
 #pragma mark Queue
 
-- (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   EnhancementItem *ei = self.currentEnhancement.feeders[indexPath.row];
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromEnhancingQueue:ei];
   

@@ -155,6 +155,16 @@
 
 @end
 
+@implementation NiceFontLabel9B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation NiceFontLabel10
 
 - (void) awakeFromNib {
@@ -1024,7 +1034,10 @@
   }
   if (label) {
     UIView *buttonView = [self viewWithTag:button];
-    CGPoint center = [self.selectedView.superview convertPoint:buttonView.center fromView:buttonView.superview];
+    CGPoint center = [self.selectedView.superview convertPoint:buttonView.center fromView:buttonView
+                      
+                      
+                      .superview];
     self.selectedView.center = ccp(center.x, self.selectedView.center.y);
     self.selectedView.hidden = NO;
   } else {

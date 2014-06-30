@@ -10,11 +10,17 @@
 
 #import "NibUtils.h"
 #import "BuildingViewController.h"
+#import "FundsViewController.h"
+#import "GachaChooserViewController.h"
 
-@interface ShopViewController : PopupNavViewController <TabBarDelegate>
+@interface ShopViewController : PopupNavViewController <TabBarDelegate> 
 
 @property (nonatomic, retain) BuildingViewController *buildingViewController;
+@property (nonatomic, retain) FundsViewController *fundsViewController;
+@property (nonatomic, retain) GachaChooserViewController *gachaViewController;
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *tabBar;
+
+- (void) openFundsShop;
 
 @end

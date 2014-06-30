@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
 
 #import "Globals.h"
 #import "GameState.h"
@@ -15,6 +15,26 @@
 
 - (void) updateForListObject:(id)listObject {
   
+}
+
+- (void) monsterCardSelected:(MonsterCardView *)view {
+  [self.delegate cardClicked:self];
+}
+
+- (IBAction) cardClicked:(id)sender {
+  [self.delegate cardClicked:self];
+}
+
+- (IBAction) infoClicked:(id)sender {
+  [self.delegate infoClicked:self];
+}
+
+- (IBAction) speedupClicked:(id)sender {
+  [self.delegate speedupClicked:self];
+}
+
+- (IBAction)minusClicked:(id)sender {
+  [self.delegate minusClicked:self];
 }
 
 @end
@@ -34,13 +54,22 @@
   self.timerView.hidden = NO;
 }
 
-- (IBAction)minusClicked:(id)sender {
-  [self.delegate minusClicked:self];
-}
-
 @end
 
 @implementation MonsterListCell
+
+- (void) awakeFromNib {
+  self.cardContainer.monsterCardView.delegate = self;
+}
+
+- (BOOL) respondsToSelector:(SEL)aSelector {
+  if (aSelector == @selector(infoClicked:)) {
+    return [self.delegate respondsToSelector:@selector(infoClicked:)];
+  } else if (aSelector == @selector(monsterCardSelected:)) {
+    return [self.delegate respondsToSelector:@selector(cardClicked:)];
+  }
+  return [super respondsToSelector:aSelector];
+}
 
 - (void) updateForListObject:(UserMonster *)um greyscale:(BOOL)greyscale {
   Globals *gl = [Globals sharedGlobals];
@@ -94,16 +123,15 @@
   }
 }
 
-- (IBAction) speedupClicked:(id)sender {
-  [self.delegate speedupClicked:self];
-}
-
 @end
 
-@implementation MonsterListView
+@implementation ListCollectionView
 
 - (void) awakeFromNib {
   self.collectionView.layer.cornerRadius = 5.f;
+  self.collectionView.backgroundColor = [UIColor clearColor];
+  self.collectionView.delegate = self;
+  self.collectionView.dataSource = self;
 }
 
 - (void) setIsFlipped:(BOOL)isFlipped {
@@ -165,6 +193,7 @@
     }
   } else {
     [self.collectionView reloadData];
+    [self.collectionView layoutIfNeeded];
   }
 }
 
@@ -173,7 +202,7 @@
 - (BOOL) respondsToSelector:(SEL)aSelector {
   if (aSelector == @selector(infoClicked:)) {
     return [self.delegate respondsToSelector:@selector(listView:infoClickedAtIndexPath:)];
-  } else if (aSelector == @selector(monsterCardSelected:)) {
+  } else if (aSelector == @selector(cardClicked:)) {
     return [self.delegate respondsToSelector:@selector(listView:cardClickedAtIndexPath:)];
   }
   return [super respondsToSelector:aSelector];

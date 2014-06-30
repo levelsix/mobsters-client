@@ -51,15 +51,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     if (data) {
       success = [data writeToFile:filePath atomically:YES];
-      
-      dispatch_async(dispatch_get_main_queue(), ^(void) {
-        if (success) {
-          LNLog(@"Download of %@ complete.", imageName);
-        } else {
-          LNLog(@"Failed to download %@.", imageName);
-        }
-      });
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+      if (success && data) {
+        LNLog(@"Download of %@ complete.", imageName);
+      } else {
+        LNLog(@"Failed to download %@.", imageName);
+      }
+    });
   }
   
   return success ? filePath : nil;

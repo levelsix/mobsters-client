@@ -9,7 +9,7 @@
 #import "PopupSubViewController.h"
 
 #import "NibUtils.h"
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
 
 @interface HealQueueFooterView : UICollectionReusableView
 
@@ -20,14 +20,14 @@
 
 @end
 
-@interface HealViewController : PopupSubViewController <MonsterListDelegate> {
+@interface HealViewController : PopupSubViewController <ListCollectionDelegate> {
   UserMonster *_tempMonster;
   
   HealQueueFooterView *_footerView;
 }
 
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
-@property (nonatomic, strong) IBOutlet MonsterListView *queueView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
+@property (nonatomic, strong) IBOutlet ListCollectionView *queueView;
 
 @property (nonatomic, strong) IBOutlet MonsterListCell *cardCell;
 @property (nonatomic, strong) IBOutlet MonsterQueueCell *queueCell;

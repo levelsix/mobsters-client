@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="Tap-sr-g1c" customClass="MonsterListView">
+                <view contentMode="scaleToFill" id="Tap-sr-g1c" customClass="ListCollectionView">
                     <rect key="frame" x="0.0" y="0.0" width="430" height="183"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -57,7 +57,7 @@
                         <outlet property="notEmptyListView" destination="wmV-3y-kPj" id="Pey-rm-BvW"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" id="aLj-f3-aYh" customClass="MonsterListView">
+                <view contentMode="scaleToFill" id="aLj-f3-aYh" customClass="ListCollectionView">
                     <rect key="frame" x="0.0" y="183" width="430" height="53"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

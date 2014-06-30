@@ -11,11 +11,11 @@
 #import "PopupSubViewController.h"
 
 #import "MonsterCardView.h"
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
 
-@interface EnhanceChooserViewController : PopupSubViewController <MonsterListDelegate>
+@interface EnhanceChooserViewController : PopupSubViewController <ListCollectionDelegate>
 
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *monsterNameLabel;

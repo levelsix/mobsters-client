@@ -26,9 +26,15 @@
 
 - (void) updateForListObject:(id)listObject;
 
+- (void) monsterCardSelected:(MonsterCardView *)view;
+- (IBAction) cardClicked:(id)sender;
+- (IBAction) infoClicked:(id)sender;
+- (IBAction) speedupClicked:(id)sender;
+- (IBAction)minusClicked:(id)sender;
+
 @end
 
-@interface MonsterListCell : ListCollectionViewCell
+@interface MonsterListCell : ListCollectionViewCell <MonsterCardViewDelegate>
 
 @property (nonatomic, retain) IBOutlet MonsterCardContainerView *cardContainer;
 @property (nonatomic, retain) IBOutlet UILabel *sellCostLabel;
@@ -64,23 +70,23 @@
 
 @end
 
-@class MonsterListView;
+@class ListCollectionView;
 
-@protocol MonsterListDelegate <NSObject>
+@protocol ListCollectionDelegate <NSObject>
 
 @optional
-- (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath;
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath;
-- (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath;
-- (void) listView:(MonsterListView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath;
+- (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath;
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath;
+- (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath;
+- (void) listView:(ListCollectionView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void) listView:(MonsterListView *)listView updateCell:(ListCollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
-- (void) listView:(MonsterListView *)listView updateFooterView:(UICollectionReusableView *)footerView;
-- (void) listView:(MonsterListView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
+- (void) listView:(ListCollectionView *)listView updateCell:(ListCollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
+- (void) listView:(ListCollectionView *)listView updateFooterView:(UICollectionReusableView *)footerView;
+- (void) listView:(ListCollectionView *)listView updateHeaderView:(UICollectionReusableView *)headerView;
 
 @end
 
-@interface MonsterListView : UIView <UICollectionViewDataSource, UICollectionViewDelegate, ListCellDelegate> {
+@interface ListCollectionView : UIView <UICollectionViewDataSource, UICollectionViewDelegate, ListCellDelegate> {
   void (^_scrollingComplete)(void);
 }
 
@@ -95,7 +101,7 @@
 @property (nonatomic, strong) NSString *footerClassName;
 @property (nonatomic, strong) NSString *headerClassName;
 
-@property (nonatomic, weak) IBOutlet id<MonsterListDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<ListCollectionDelegate> delegate;
 
 - (void) reloadTableAnimated:(BOOL)animated listObjects:(NSArray *)listObjects;
 

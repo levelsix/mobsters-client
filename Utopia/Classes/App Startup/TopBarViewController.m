@@ -80,8 +80,7 @@
     self.topBarMonsterView.center = ccp(container.frame.size.width/2, container.frame.size.height/2);
   }
   
-  self.cashBar.isRightToLeft = YES;
-  self.oilBar.isRightToLeft = YES;
+  self.shopViewController = [[ShopViewController alloc] init];
   
   if (![Globals isLongiPhone]) {
     UIImage *img = [Globals imageNamed:@"levelxpbg.png"];
@@ -379,16 +378,7 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-//  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-//  GameViewController *gvc = (GameViewController *)self.parentViewController;
-//  [gvc presentViewController:m animated:YES completion:nil];
-//  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
-  
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  ShopViewController *mmvc = [[ShopViewController alloc] init];
-  [gvc addChildViewController:mmvc];
-  mmvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:mmvc.view];
+  [self openShop];
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -401,10 +391,8 @@
 }
 
 - (IBAction)plusClicked:(id)sender {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openGemShop];
 }
 
 - (IBAction)profileClicked:(id)sender {
@@ -453,8 +441,8 @@
 
 - (void) gameStateUpdated {
   GameState *gs = [GameState sharedGameState];
-  [self.cashLabel transitionToNum:gs.silver];
-  [self.oilLabel transitionToNum:gs.oil];
+  [self.cashLabel transitionToNum:clampf(gs.silver, 0, [gs maxCash])];
+  [self.oilLabel transitionToNum:clampf(gs.oil, 0, [gs maxOil])];
   [self.gemsLabel transitionToNum:gs.gold];
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
@@ -466,8 +454,8 @@
   self.nameLabel.text = gs.name;
   self.levelLabel.text = [Globals commafyNumber:gs.level];
   
-  self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals cashStringForNumber:[gs maxCash]]];
-  self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
+  self.cashMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals cashStringForNumber:[gs maxCash]]];
+  self.oilMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals commafyNumber:[gs maxOil]]];
   
   NSString *imgName = nil;
   if (gs.clan) {
@@ -509,6 +497,20 @@
   } else if (label == self.gemsLabel) {
     label.text = [Globals commafyNumber:number];
   }
+}
+
+#pragma mark - Shop methods
+
+- (void) openShop {
+  if (!self.shopViewController.parentViewController) {
+    [self.shopViewController displayInParentViewController:self];
+    [self.mainView insertSubview:self.shopViewController.view belowSubview:self.coinBarsView];
+  }
+}
+
+- (void) openShopWithFunds {
+  [self openShop];
+  [self.shopViewController openFundsShop];
 }
 
 @end

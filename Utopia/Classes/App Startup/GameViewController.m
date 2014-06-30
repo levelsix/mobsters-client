@@ -472,7 +472,6 @@
   }
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap preparePurchaseOfStruct:structId];
-    [self dismissViewControllerAnimated:YES completion:nil];
   }
 }
 
@@ -810,10 +809,8 @@
 - (void) openClanView {
   if (!self.clanViewController) {
     ClanViewController *cvc = [[ClanViewController alloc] init];
-    [self addChildViewController:cvc];
     cvc.delegate = self;
-    cvc.view.frame = self.view.bounds;
-    [self.view addSubview:cvc.view];
+    [cvc displayInParentViewController:self];
     self.clanViewController = cvc;
   }
 }
@@ -834,18 +831,7 @@
 #pragma mark - Gem Shop access
 
 - (void) openGemShop {
-  DiamondShopViewController *dvc = [[DiamondShopViewController alloc] init];
-  if (self.presentedViewController) {
-    UINavigationController *nav = (UINavigationController *)self.presentedViewController;
-    [nav pushViewController:dvc animated:YES];
-    
-    // In case we go to gem shop from attack map
-    nav.navigationBarHidden = NO;
-  } else {
-    MenuNavigationController *m = [[MenuNavigationController alloc] init];
-    [self presentViewController:m animated:YES completion:nil];
-    [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
-  }
+  [self.topBarViewController openShopWithFunds];
 }
 
 #pragma mark - Quests and Achievements

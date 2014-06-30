@@ -9,7 +9,7 @@
 #import "PopupSubViewController.h"
 
 #import "NibUtils.h"
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
 
 @protocol TeamSlotDelegate <NSObject>
 
@@ -39,9 +39,9 @@
 
 @end
 
-@interface TeamViewController : PopupSubViewController <MonsterListDelegate, TeamSlotDelegate>
+@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate>
 
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
 @property (nonatomic, strong) IBOutlet MonsterListCell *cardCell;
 @property (nonatomic, strong) IBOutlet TeamSlotView *teamCell;

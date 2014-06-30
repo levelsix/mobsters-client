@@ -188,7 +188,7 @@
 
 #pragma mark - MonsterListView delegate
 
-- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject {
+- (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject {
   if (listView == self.listView) {
     [cell updateForListObject:listObject];
   } else if (listView == self.queueView) {
@@ -202,12 +202,12 @@
   }
 }
 
-- (void) listView:(MonsterListView *)listView updateFooterView:(HealQueueFooterView *)footerView {
+- (void) listView:(ListCollectionView *)listView updateFooterView:(HealQueueFooterView *)footerView {
   _footerView = footerView;
   [self updateOpenSlotsView];
 }
 
-- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   [self addMonsterToHealQueue:um];
 }
@@ -286,7 +286,7 @@
   }
 }
 
-- (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
+- (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonsterHealingItem *hi = self.monsterHealingQueue[indexPath.row];
   UserMonster *um = self.monsterList[[self.monsterList indexOfObject:hi]];
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:hi];

@@ -10,8 +10,8 @@
 
 #import "UserData.h"
 
-#import "MonsterListView.h"
-#import "MonsterListView.h"
+#import "ListCollectionView.h"
+#import "ListCollectionView.h"
 
 @interface EnhanceSmallCardCell : MonsterListCell
 
@@ -22,7 +22,7 @@
 
 @end
 
-@interface EnhanceQueueViewController : PopupSubViewController <MonsterListDelegate> {
+@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate> {
   BOOL _allowAddingToQueue;
   
   UserMonster *_confirmUserMonster;
@@ -30,8 +30,8 @@
   int _oilCost;
 }
 
-@property (nonatomic, retain) IBOutlet MonsterListView *queueView;
-@property (nonatomic, retain) IBOutlet MonsterListView *listView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *queueView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
 @property (nonatomic, retain) IBOutlet MonsterQueueCell *queueCell;
 @property (nonatomic, retain) IBOutlet EnhanceSmallCardCell *cardCell;

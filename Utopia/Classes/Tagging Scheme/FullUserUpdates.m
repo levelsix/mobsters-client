@@ -38,10 +38,10 @@
 }
 
 - (void) undo {
-  [super undo];
-  
   GameState *gs = [GameState sharedGameState];
   gs.gold -= _change;
+  
+  [super undo];
 }
 
 @end
@@ -60,10 +60,10 @@
 }
 
 - (void) undo {
-  [super undo];
-  
   GameState *gs = [GameState sharedGameState];
   gs.silver -= _change;
+  
+  [super undo];
 }
 
 @end
@@ -82,10 +82,10 @@
 }
 
 - (void) undo {
-  [super undo];
-  
   GameState *gs = [GameState sharedGameState];
   gs.oil -= _change;
+  
+  [super undo];
 }
 
 @end
@@ -98,10 +98,10 @@
 }
 
 - (void) undo {
-  [super undo];
-  
   GameState *gs = [GameState sharedGameState];
   gs.level -= _change;
+  
+  [super undo];
 }
 
 @end
@@ -114,10 +114,10 @@
 }
 
 - (void) undo {
-  [super undo];
-  
   GameState *gs = [GameState sharedGameState];
   gs.experience -= _change;
+  
+  [super undo];
 }
 
 @end

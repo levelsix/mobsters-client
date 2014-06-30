@@ -125,16 +125,16 @@
   
   NSMutableArray *cash = [NSMutableArray array];
   int maxCash = [gs maxCash];
-  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 title:@"Fill Storages by 10%"]];
-  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 title:@"Fill Storages by Half"]];
-  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver title:@"Fill Cash Storages"]];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 storageTier:2 title:@"Fill Storages by 10%"]];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 storageTier:3 title:@"Fill Storages by Half"]];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver storageTier:4 title:@"Fill Cash Storages"]];
   [self.packageData addObject:cash];
   
   NSMutableArray *oil = [NSMutableArray array];
   int maxOil = [gs maxOil];
-  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 title:@"Fill Storages by 10%"]];
-  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 title:@"Fill Storages by Half"]];
-  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil title:@"Fill Oil Storages"]];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 storageTier:2 title:@"Fill Storages by 10%"]];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 storageTier:3 title:@"Fill Storages by Half"]];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil storageTier:4 title:@"Fill Oil Storages"]];
   [self.packageData addObject:oil];
   
   [self.diamondTable reloadData];

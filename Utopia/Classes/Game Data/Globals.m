@@ -529,6 +529,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return typeText;
 }
 
++ (NSString *) stringForResourceType:(ResourceType)res {
+  switch (res) {
+    case ResourceTypeCash:
+      return @"Cash";
+    case ResourceTypeGems:
+      return @"Gems";
+    case ResourceTypeOil:
+      return @"Oil";
+      
+    default:
+      break;
+  }
+  return nil;
+}
+
 + (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str {
   NSString *base = [[[self stringForElement:element] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
   return [base stringByAppendingString:str];

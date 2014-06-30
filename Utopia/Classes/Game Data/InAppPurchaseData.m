@@ -56,7 +56,7 @@
 @synthesize primaryTitle, moneyPrice, rewardPicName;
 @synthesize resourceType, amountGained, gemPrice;
 
-- (id) initWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title {
+- (id) initWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title {
   if ((self = [super init])) {
     primaryTitle = title;
     resourceType = type;
@@ -64,12 +64,27 @@
     
     Globals *gl = [Globals sharedGlobals];
     gemPrice = [gl calculateGemConversionForResourceType:type amount:amount];
+    
+    //Find highest storage of this resource
+    GameState *gs = [GameState sharedGameState];
+    UserStruct *us = nil;
+    for (UserStruct *check in gs.myStructs) {
+      ResourceStorageProto *gen = (ResourceStorageProto *)check.staticStruct;
+      if (gen.structInfo.structType == StructureInfoProto_StructTypeResourceStorage &&
+          gen.resourceType == type) {
+        if (gen.structInfo.level > us.staticStruct.structInfo.level) {
+          us = check;
+        }
+      }
+    }
+    
+    rewardPicName = [NSString stringWithFormat:@"%dFunds%@", storageTier, us.staticStruct.structInfo.imgName];
   }
   return self;
 }
 
-+ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title {
-  return [[self alloc] initWithResourceType:type amount:amount title:title];
++ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title {
+  return [[self alloc] initWithResourceType:type amount:amount storageTier:storageTier title:title];
 }
 
 - (BOOL) makePurchaseWithDelegate:(id)delegate {

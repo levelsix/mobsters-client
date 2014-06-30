@@ -23,6 +23,13 @@
 #define NUM_COLS INT_MAX/700000
 #define TABLE_CELL_WIDTH 57
 
+- (id) initWithBoosterPack:(BoosterPackProto *)bpp {
+  if ((self = [super init])) {
+    self.boosterPack = bpp;
+  }
+  return self;
+}
+
 - (void) setupItems {
   NSMutableArray *arr = [NSMutableArray array];
   for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
@@ -45,16 +52,20 @@
   
   [[NSNotificationCenter defaultCenter] removeObserver:self.topBar];
   
+  [self.navBar button:3 shouldBeHidden:YES];
+  
   [self loadBoosterPacks];
+  if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
+    [self button1Clicked:nil];
+  } else {
+    [self button2Clicked:nil];
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
   [self setUpImageBackButton];
-  
-  [self.navBar button:3 shouldBeHidden:YES];
-  [self button2Clicked:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
