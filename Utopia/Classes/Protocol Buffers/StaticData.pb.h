@@ -43,6 +43,8 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -145,6 +147,8 @@
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;
@@ -197,6 +201,8 @@
   NSMutableArray* mutableRaidsList;
   NSMutableArray* mutableMbdsList;
   NSMutableArray* mutablePersistentEventsList;
+  NSMutableArray* mutableAllTeamCentersList;
+  NSMutableArray* mutableAllEvoChambersList;
   NSMutableArray* mutableAllMiniJobCentersList;
   NSMutableArray* mutableAllTownHallsList;
   NSMutableArray* mutableAllLabsList;
@@ -251,6 +257,10 @@
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
 - (NSArray*) allMiniJobCentersList;
 - (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
+- (NSArray*) allEvoChambersList;
+- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index;
+- (NSArray*) allTeamCentersList;
+- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index;
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
 - (NSArray*) mbdsList;
@@ -429,6 +439,20 @@
 - (StaticDataProto_Builder*) addAllMiniJobCenters:(MiniJobCenterProto*) value;
 - (StaticDataProto_Builder*) addAllAllMiniJobCenters:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllMiniJobCentersList;
+
+- (NSArray*) allEvoChambersList;
+- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllEvoChambersAtIndex:(int32_t) index with:(EvoChamberProto*) value;
+- (StaticDataProto_Builder*) addAllEvoChambers:(EvoChamberProto*) value;
+- (StaticDataProto_Builder*) addAllAllEvoChambers:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllEvoChambersList;
+
+- (NSArray*) allTeamCentersList;
+- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllTeamCentersAtIndex:(int32_t) index with:(TeamCenterProto*) value;
+- (StaticDataProto_Builder*) addAllTeamCenters:(TeamCenterProto*) value;
+- (StaticDataProto_Builder*) addAllAllTeamCenters:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllTeamCentersList;
 
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;

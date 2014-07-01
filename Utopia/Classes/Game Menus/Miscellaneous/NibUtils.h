@@ -19,6 +19,13 @@ typedef enum {
   kButton5 = 1 << 4
 } BarButton;
 
+@interface NiceFontLabelS : UILabel
+
+@property (nonatomic, assign) float strokeSize;
+@property (nonatomic, retain) UIColor *strokeColor;
+
+@end
+
 @interface NiceFontLabel : UILabel
 @end
 
@@ -85,6 +92,9 @@ typedef enum {
 @interface NiceFontLabel12B : THLabel
 @end
 
+@interface NiceFontLabel12S : THLabel
+@end
+
 @interface NiceFontLabel13 : UILabel
 @end
 
@@ -95,6 +105,12 @@ typedef enum {
 @end
 
 @interface NiceFontLabel14B : THLabel
+@end
+
+@interface NiceFontLabel14S : THLabel
+@end
+
+@interface NiceFontLabel14WS : THLabel
 @end
 
 @interface NiceFontLabel15 : UILabel

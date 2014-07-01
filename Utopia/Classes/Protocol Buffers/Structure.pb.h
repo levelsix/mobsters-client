@@ -4,6 +4,8 @@
 
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
@@ -24,6 +26,8 @@
 @class ResourceStorageProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;
@@ -58,6 +62,7 @@ typedef enum {
   StructureInfoProto_StructTypeLab = 6,
   StructureInfoProto_StructTypeEvo = 7,
   StructureInfoProto_StructTypeMiniJob = 9,
+  StructureInfoProto_StructTypeTeamCenter = 10,
 } StructureInfoProto_StructType;
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -694,6 +699,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasNumLabs_:1;
   BOOL hasPvpQueueCashCost_:1;
   BOOL hasResourceCapacity_:1;
+  BOOL hasNumEvoChambers_:1;
   BOOL hasStructInfo_:1;
   int32_t numResourceOneGenerators;
   int32_t numResourceOneStorages;
@@ -705,6 +711,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t numLabs;
   int32_t pvpQueueCashCost;
   int32_t resourceCapacity;
+  int32_t numEvoChambers;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -718,6 +725,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasNumLabs;
 - (BOOL) hasPvpQueueCashCost;
 - (BOOL) hasResourceCapacity;
+- (BOOL) hasNumEvoChambers;
 @property (readonly, retain) StructureInfoProto* structInfo;
 @property (readonly) int32_t numResourceOneGenerators;
 @property (readonly) int32_t numResourceOneStorages;
@@ -729,6 +737,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int32_t numLabs;
 @property (readonly) int32_t pvpQueueCashCost;
 @property (readonly) int32_t resourceCapacity;
+@property (readonly) int32_t numEvoChambers;
 
 + (TownHallProto*) defaultInstance;
 - (TownHallProto*) defaultInstance;
@@ -820,6 +829,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) resourceCapacity;
 - (TownHallProto_Builder*) setResourceCapacity:(int32_t) value;
 - (TownHallProto_Builder*) clearResourceCapacity;
+
+- (BOOL) hasNumEvoChambers;
+- (int32_t) numEvoChambers;
+- (TownHallProto_Builder*) setNumEvoChambers:(int32_t) value;
+- (TownHallProto_Builder*) clearNumEvoChambers;
 @end
 
 @interface MiniJobCenterProto : PBGeneratedMessage {
@@ -1454,5 +1468,105 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int64_t) removalStartTime;
 - (UserObstacleProto_Builder*) setRemovalStartTime:(int64_t) value;
 - (UserObstacleProto_Builder*) clearRemovalStartTime;
+@end
+
+@interface EvoChamberProto : PBGeneratedMessage {
+@private
+  BOOL hasStructInfo_:1;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+@property (readonly, retain) StructureInfoProto* structInfo;
+
++ (EvoChamberProto*) defaultInstance;
+- (EvoChamberProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EvoChamberProto_Builder*) builder;
++ (EvoChamberProto_Builder*) builder;
++ (EvoChamberProto_Builder*) builderWithPrototype:(EvoChamberProto*) prototype;
+
++ (EvoChamberProto*) parseFromData:(NSData*) data;
++ (EvoChamberProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EvoChamberProto*) parseFromInputStream:(NSInputStream*) input;
++ (EvoChamberProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EvoChamberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EvoChamberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EvoChamberProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EvoChamberProto* result;
+}
+
+- (EvoChamberProto*) defaultInstance;
+
+- (EvoChamberProto_Builder*) clear;
+- (EvoChamberProto_Builder*) clone;
+
+- (EvoChamberProto*) build;
+- (EvoChamberProto*) buildPartial;
+
+- (EvoChamberProto_Builder*) mergeFrom:(EvoChamberProto*) other;
+- (EvoChamberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EvoChamberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (EvoChamberProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (EvoChamberProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (EvoChamberProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (EvoChamberProto_Builder*) clearStructInfo;
+@end
+
+@interface TeamCenterProto : PBGeneratedMessage {
+@private
+  BOOL hasStructInfo_:1;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+@property (readonly, retain) StructureInfoProto* structInfo;
+
++ (TeamCenterProto*) defaultInstance;
+- (TeamCenterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TeamCenterProto_Builder*) builder;
++ (TeamCenterProto_Builder*) builder;
++ (TeamCenterProto_Builder*) builderWithPrototype:(TeamCenterProto*) prototype;
+
++ (TeamCenterProto*) parseFromData:(NSData*) data;
++ (TeamCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TeamCenterProto*) parseFromInputStream:(NSInputStream*) input;
++ (TeamCenterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TeamCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TeamCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TeamCenterProto_Builder : PBGeneratedMessage_Builder {
+@private
+  TeamCenterProto* result;
+}
+
+- (TeamCenterProto*) defaultInstance;
+
+- (TeamCenterProto_Builder*) clear;
+- (TeamCenterProto_Builder*) clone;
+
+- (TeamCenterProto*) build;
+- (TeamCenterProto*) buildPartial;
+
+- (TeamCenterProto_Builder*) mergeFrom:(TeamCenterProto*) other;
+- (TeamCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TeamCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (TeamCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (TeamCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (TeamCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (TeamCenterProto_Builder*) clearStructInfo;
 @end
 

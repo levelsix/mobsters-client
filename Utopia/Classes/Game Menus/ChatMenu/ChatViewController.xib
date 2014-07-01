@@ -119,7 +119,7 @@
                                     <rect key="frame" x="448" y="0.0" width="5" height="39"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="eXa-Ou-uhP" customClass="ChatTopBar">
+                                <view contentMode="scaleToFill" id="eXa-Ou-uhP" customClass="ButtonTabBar">
                                     <rect key="frame" x="61" y="-2" width="331" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>

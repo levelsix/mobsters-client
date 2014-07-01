@@ -16,6 +16,8 @@
 @class CityExpansionCostProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -86,6 +88,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;

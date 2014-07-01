@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -14,19 +14,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eor-xt-FJx">
+                    <view contentMode="scaleToFill" id="eor-xt-FJx">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ENd-8C-uec" customClass="MiniMonsterView">
-                                <rect key="frame" x="6" y="6" width="42" height="42"/>
+                            <view contentMode="scaleToFill" id="ENd-8C-uec" customClass="MiniMonsterView">
+                                <rect key="frame" x="4" y="4" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="earthsmallsquare.png" translatesAutoresizingMaskIntoConstraints="NO" id="oPf-UA-g3Q">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthsmallsquare.png" id="oPf-UA-g3Q">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="BryanGoslingT1Thumbnail.png" translatesAutoresizingMaskIntoConstraints="NO" id="0UK-0Y-VP1">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="0UK-0Y-VP1">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -37,27 +37,27 @@
                                     <outlet property="monsterIcon" destination="0UK-0Y-VP1" id="n5K-HU-yue"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvz-DK-Kfi">
-                                <rect key="frame" x="5" y="31" width="44" height="16"/>
+                            <view contentMode="scaleToFill" id="tvz-DK-Kfi">
+                                <rect key="frame" x="3" y="29" width="44" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="hospitaltimeleftbg.png" translatesAutoresizingMaskIntoConstraints="NO" id="CYa-t1-T7t">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="CYa-t1-T7t">
                                         <rect key="frame" x="3" y="6" width="37" height="8"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sDb-sf-CFV" customClass="SplitImageProgressBar">
+                                    <view contentMode="scaleToFill" id="sDb-sf-CFV" customClass="SplitImageProgressBar">
                                         <rect key="frame" x="3" y="6" width="37" height="8"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="teamhealthbarcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="P9b-Po-awn">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="P9b-Po-awn">
                                                 <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="teamhealthbarmiddle.png" translatesAutoresizingMaskIntoConstraints="NO" id="jEJ-Ts-8Xj">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="jEJ-Ts-8Xj">
                                                 <rect key="frame" x="3" y="0.0" width="38" height="8"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" image="teamhealthbarcap.png" translatesAutoresizingMaskIntoConstraints="NO" id="8xk-Y7-or7" customClass="FlipImageView">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="8xk-Y7-or7" customClass="FlipImageView">
                                                 <rect key="frame" x="41" y="0.0" width="3" height="8"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
@@ -69,7 +69,7 @@
                                             <outlet property="rightCap" destination="8xk-Y7-or7" id="QF8-Ns-Ddz"/>
                                         </connections>
                                     </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d1w-2T-6Ys" customClass="NiceFontLabel10S">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d1w-2T-6Ys" customClass="NiceFontLabel10S">
                                         <rect key="frame" x="1" y="-5" width="42" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="8"/>
@@ -81,7 +81,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Szu-zg-dpV" customClass="GeneralButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="Szu-zg-dpV" customClass="GeneralButton">
                                 <rect key="frame" x="2" y="2" width="46" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>

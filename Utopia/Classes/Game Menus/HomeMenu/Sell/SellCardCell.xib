@@ -70,7 +70,7 @@
                                 <rect key="frame" x="19" y="-1" width="49" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.039215687659999998" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="textColor" red="0.18823531269999999" green="0.5647059083" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>

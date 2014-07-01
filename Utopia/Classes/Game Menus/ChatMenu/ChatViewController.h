@@ -10,10 +10,6 @@
 #import "ChatView.h"
 #import "NibUtils.h"
 
-@interface ChatTopBar : ButtonTabBar
-
-@end
-
 @interface ChatMainView : PopupShadowView
 
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *allowedViews;

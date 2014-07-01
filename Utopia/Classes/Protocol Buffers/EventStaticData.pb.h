@@ -34,6 +34,8 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -138,6 +140,8 @@
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;

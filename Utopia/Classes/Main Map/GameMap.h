@@ -13,7 +13,7 @@
 #import "MyTeamSprite.h"
 #import "MapBotView.h"
 
-#define OVER_HOME_BUILDING_MENU_OFFSET 0.f
+#define OVER_HOME_BUILDING_MENU_OFFSET 4.f
 
 #define MAX_ZOOM 1.8f
 #define MIN_ZOOM 0.3f

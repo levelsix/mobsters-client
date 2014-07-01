@@ -127,7 +127,7 @@
   }
   self.teamSlotViews = realSlotViews;
   
-  self.titleImageName = @"";
+  self.titleImageName = @"manageteammenuheader.png";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -164,7 +164,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", (int)gs.allMonstersOnMyTeam.count, gl.maxTeamSize];
+  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", (int)gs.allBattleAvailableMonstersOnTeam.count, gl.maxTeamSize];
   self.title = str;
 }
 

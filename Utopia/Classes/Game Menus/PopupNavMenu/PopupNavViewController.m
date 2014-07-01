@@ -122,15 +122,13 @@
     [self.viewControllers addObject:topVc];
     [self setNewTopViewController:topVc];
     
-    [removeVc.view.layer removeAllAnimations];
-    [topVc.view.layer removeAllAnimations];
-    [self.backView.layer removeAllAnimations];
-    
     if (removeVc.isBeingPresented || removeVc.isBeingDismissed) {
       [removeVc endAppearanceTransition];
     } else if (topVc.isBeingPresented || topVc.isBeingDismissed) {
       [topVc endAppearanceTransition];
     }
+    
+    topVc.view.frame = self.containerView.bounds;
     
     [removeVc beginAppearanceTransition:NO animated:animated];
     [topVc beginAppearanceTransition:YES animated:animated];
@@ -179,16 +177,14 @@
     [self remakeBackButton];
   }
   
-  [curVc.view.layer removeAllAnimations];
-  [topVc.view.layer removeAllAnimations];
-  [self.backView.layer removeAllAnimations];
+  topVc.view.frame = self.containerView.bounds;
   
   [curVc beginAppearanceTransition:NO animated:animated];
   [topVc beginAppearanceTransition:YES animated:animated];
   
   [self.containerView addSubview:topVc.view];
   [self addChildViewController:topVc];
-  topVc.view.frame = self.containerView.bounds;
+  
   if (animated) {
     topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
@@ -230,13 +226,10 @@
     [self remakeBackButton];
   }
   
-  [removeVc.view.layer removeAllAnimations];
-  [topVc.view.layer removeAllAnimations];
-  [self.backView.layer removeAllAnimations];
+  topVc.view.frame = self.containerView.bounds;
   
   [removeVc beginAppearanceTransition:NO animated:animated];
   [topVc beginAppearanceTransition:YES animated:animated];
-  
   [self.containerView addSubview:topVc.view];
   if (animated) {
     topVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);

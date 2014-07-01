@@ -12,6 +12,14 @@
 
 @implementation FundsCardCell
 
+- (void) awakeFromNib {
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:1.8];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  
+  self.lockedLabel.attributedText = [[NSAttributedString alloc] initWithString:self.lockedLabel.text attributes:@{NSParagraphStyleAttributeName:paragraphStyle}];
+}
+
 - (void) updateForPackageInfo:(id<InAppPurchaseData>)package isLocked:(BOOL)isLocked {
   self.nameLabel.text = package.primaryTitle;
   

@@ -57,8 +57,8 @@
   self.bgdImage.image = [Globals imageNamed:file];
   
   self.topLabel.text = task.name;
-  self.bottomLabel.text = isLocked ? @"Locked" : isCompleted ? @"Completed" : @"Undefeated";
-  self.sideLabel.text = [NSString stringWithFormat:@"Level %d", level];
+  self.bottomLabel.text = isLocked ? @"LOCKED" : isCompleted ? @"COMPLETED" : @"UNDEFEATED";
+  self.sideLabel.text = [NSString stringWithFormat:@"LEVEL %d", level];
   
   [self.greyscaleView removeFromSuperview];
   if (isLocked) {

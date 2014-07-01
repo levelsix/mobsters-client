@@ -11,6 +11,20 @@
 #import "GameState.h"
 #import "SoundEngine.h"
 
+@implementation NiceFontLabelS
+
+- (void) awakeFromNib {
+  self.strokeColor = [UIColor blackColor];
+}
+
+- (void) setText:(NSString *)text {
+//  [super setText:text];
+  self.attributedText = [[NSAttributedString alloc] initWithString:text attributes:@{NSStrokeWidthAttributeName : [NSNumber numberWithFloat:-self.strokeSize],
+                                                                                     NSStrokeColorAttributeName : self.strokeColor}];
+}
+
+@end
+
 @implementation NiceFontLabel
 
 - (void) awakeFromNib {
@@ -223,6 +237,17 @@
 
 @end
 
+@implementation NiceFontLabel12S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
 @implementation NiceFontLabel13
 
 - (void) awakeFromNib {
@@ -257,6 +282,28 @@
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
   self.shadowBlur = 1.2f;
+}
+
+@end
+
+@implementation NiceFontLabel14S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
+@implementation NiceFontLabel14WS
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor whiteColor];
 }
 
 @end
@@ -1034,14 +1081,16 @@
   }
   if (label) {
     UIView *buttonView = [self viewWithTag:button];
-    CGPoint center = [self.selectedView.superview convertPoint:buttonView.center fromView:buttonView
-                      
-                      
-                      .superview];
+    CGPoint center = [self.selectedView.superview convertPoint:buttonView.center fromView:buttonView.superview];
     self.selectedView.center = ccp(center.x, self.selectedView.center.y);
     self.selectedView.hidden = NO;
   } else {
     self.selectedView.hidden = YES;
+  }
+  
+  for (int i = 1; i <= 3; i++) {
+    UIButton *b = (UIButton *)[self viewWithTag:i];
+    b.enabled = i != button;
   }
   
   if (!self.label1.highlightedTextColor) {
@@ -1248,12 +1297,12 @@
 - (void) awakeFromNib {
   [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchDown];
   
-//  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDown];
-//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchUpInside];
-//  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDragEnter];
-//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchDragExit];
-//  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchCancel];
-//  self.adjustsImageWhenHighlighted = NO;
+  //  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDown];
+  //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchUpInside];
+  //  [self addTarget:self action:@selector(getSmaller) forControlEvents:UIControlEventTouchDragEnter];
+  //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchDragExit];
+  //  [self addTarget:self action:@selector(getBigger) forControlEvents:UIControlEventTouchCancel];
+  //  self.adjustsImageWhenHighlighted = NO;
 }
 
 - (void) playSound {
@@ -1272,7 +1321,7 @@
 //{
 //  CGFloat boundsExtension = 100.0f;
 //  CGRect outerBounds = CGRectInset(self.bounds, -1 * boundsExtension, -1 * boundsExtension);
-//  
+//
 //  BOOL touchOutside = !CGRectContainsPoint(outerBounds, [touch locationInView:self]);
 //  BOOL previousTouchInside = CGRectContainsPoint(outerBounds, [touch previousLocationInView:self]);
 //  if (touchOutside)

@@ -796,6 +796,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myEvoChamber {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeLab) {
+      return us;
+    }
+  }
+  return nil;
+}
+
+- (UserStruct *) myTeamCenter {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeTeamCenter) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (UserStruct *) myMiniJobCenter {
   for (UserStruct *us in self.myStructs) {
     if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
@@ -897,6 +915,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allResidencesList];
   [self addToStaticStructs:proto.allLabsList];
   [self addToStaticStructs:proto.allMiniJobCentersList];
+  [self addToStaticStructs:proto.allTeamCentersList];
+  [self addToStaticStructs:proto.allEvoChambersList];
+  
   [self addToStaticItems:proto.itemsList];
   [self addToStaticObstacles:proto.obstaclesList];
   

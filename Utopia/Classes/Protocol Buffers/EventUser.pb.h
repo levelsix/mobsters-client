@@ -8,6 +8,8 @@
 
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
@@ -76,6 +78,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;

@@ -58,7 +58,10 @@
 
 @implementation MonsterListCell
 
-- (void) awakeFromNib {
+- (void) setDelegate:(id<ListCellDelegate>)delegate {
+  [super setDelegate:delegate];
+  
+  // Refresh the monster card
   self.cardContainer.monsterCardView.delegate = self;
 }
 

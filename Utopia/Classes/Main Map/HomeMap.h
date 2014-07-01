@@ -23,7 +23,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate, UpgradeViewControllerDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
@@ -41,29 +41,7 @@
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
 @property (nonatomic, retain) IBOutlet MapBotView *buildBotView;
-@property (nonatomic, retain) IBOutlet MapBotView *upgradeBotView;
-@property (nonatomic, retain) IBOutlet MapBotView *expandBotView;
-@property (nonatomic, retain) IBOutlet MapBotView *expandingBotView;
-
-@property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashButtonTopLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilButtonTopLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilCostLabel;
-@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeOilView;
-@property (nonatomic, assign) IBOutlet UILabel *enterTopLabel;
-@property (nonatomic, assign) IBOutlet UILabel *enterBottomLabel;
-@property (nonatomic, assign) IBOutlet UIView *buildingTextView;
-@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeView;
-@property (nonatomic, assign) IBOutlet UIView *buildingEnterView;
-
-@property (nonatomic, assign) IBOutlet UIButton *enterButton;
-@property (nonatomic, assign) IBOutlet UIButton *speedupButton;
-
-@property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradingSpeedupCostLabel;
+@property (nonatomic, assign) IBOutlet THLabel *buildingNameLabel;
 
 @property (nonatomic, retain) UIViewController *currentViewController;
 

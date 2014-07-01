@@ -93,7 +93,7 @@
 }
 
 - (void) close {
-  [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+  [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width*2/3, self.multiplayerView.center.y);
     self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width*2/3, self.pveView.center.y);
   } completion:^(BOOL finished) {
@@ -143,6 +143,7 @@
     icon.tag = elem.mapElementId;
     icon.nameLabel.text = [NSString stringWithFormat:@"%@ »", task.name];
     icon.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
+    icon.nameLabel.hidden = YES;
     
     [self.mapScrollView addSubview:icon];
     icon.center = ccpMult(ccp(elem.xPos, gl.mapTotalHeight-elem.yPos), scaleFactor);
@@ -192,6 +193,8 @@
   _selectedIcon.glowIcon.hidden = YES;
   _selectedIcon = icon;
   if (!icon.isLocked) _selectedIcon.glowIcon.hidden = NO;
+  _selectedIcon.nameLabel.hidden = NO;
+  [_selectedIcon.superview bringSubviewToFront:_selectedIcon];
 }
 
 - (IBAction)enterDungeonClicked:(id)sender {
@@ -278,7 +281,7 @@
     [[NSBundle mainBundle] loadNibNamed:@"AttackMapTaskStatusView" owner:self options:nil];
     [self.pveView addSubview:self.taskStatusView];
     [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:[gs isTaskCompleted:elem.taskId]];
-    self.taskStatusView.frame = self.evoEventView.frame;
+    self.taskStatusView.frame = CGRectMake(0, 0, self.pveView.frame.size.width, self.taskStatusView.frame.size.height);
     
     self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height+self.taskStatusView.frame.size.height/2);
     [UIView animateWithDuration:0.3f animations:^{
@@ -316,6 +319,7 @@
     }];
     
     _selectedIcon.glowIcon.hidden = YES;
+    _selectedIcon.nameLabel.hidden = YES;
     _selectedIcon = nil;
   }
 }

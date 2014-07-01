@@ -46,7 +46,7 @@ static UIImage *img = nil;
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   self.monster = um;
   
-  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
@@ -135,7 +135,7 @@ static UIImage *img = nil;
 }
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
-  NSString *file = [imgPrefix stringByAppendingString:@"Thumbnail.png"];
+  NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";

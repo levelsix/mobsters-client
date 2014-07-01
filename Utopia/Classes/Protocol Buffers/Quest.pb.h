@@ -15,6 +15,8 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullUserMonsterProto;
@@ -73,6 +75,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;

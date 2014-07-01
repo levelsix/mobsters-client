@@ -443,6 +443,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeLab:
     case StructureInfoProto_StructTypeEvo:
     case StructureInfoProto_StructTypeMiniJob:
+    case StructureInfoProto_StructTypeTeamCenter:
       return YES;
     default:
       return NO;
@@ -2588,6 +2589,7 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
 @property int32_t numLabs;
 @property int32_t pvpQueueCashCost;
 @property int32_t resourceCapacity;
+@property int32_t numEvoChambers;
 @end
 
 @implementation TownHallProto
@@ -2669,6 +2671,13 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
   hasResourceCapacity_ = !!value;
 }
 @synthesize resourceCapacity;
+- (BOOL) hasNumEvoChambers {
+  return !!hasNumEvoChambers_;
+}
+- (void) setHasNumEvoChambers:(BOOL) value {
+  hasNumEvoChambers_ = !!value;
+}
+@synthesize numEvoChambers;
 - (void) dealloc {
   self.structInfo = nil;
   [super dealloc];
@@ -2686,6 +2695,7 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
     self.numLabs = 0;
     self.pvpQueueCashCost = 0;
     self.resourceCapacity = 0;
+    self.numEvoChambers = 0;
   }
   return self;
 }
@@ -2738,6 +2748,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   if (self.hasResourceCapacity) {
     [output writeInt32:11 value:self.resourceCapacity];
   }
+  if (self.hasNumEvoChambers) {
+    [output writeInt32:12 value:self.numEvoChambers];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2779,6 +2792,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   }
   if (self.hasResourceCapacity) {
     size += computeInt32Size(11, self.resourceCapacity);
+  }
+  if (self.hasNumEvoChambers) {
+    size += computeInt32Size(12, self.numEvoChambers);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2888,6 +2904,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   if (other.hasResourceCapacity) {
     [self setResourceCapacity:other.resourceCapacity];
   }
+  if (other.hasNumEvoChambers) {
+    [self setNumEvoChambers:other.numEvoChambers];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2956,6 +2975,10 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
       }
       case 88: {
         [self setResourceCapacity:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setNumEvoChambers:[input readInt32]];
         break;
       }
     }
@@ -3149,6 +3172,22 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
 - (TownHallProto_Builder*) clearResourceCapacity {
   result.hasResourceCapacity = NO;
   result.resourceCapacity = 0;
+  return self;
+}
+- (BOOL) hasNumEvoChambers {
+  return result.hasNumEvoChambers;
+}
+- (int32_t) numEvoChambers {
+  return result.numEvoChambers;
+}
+- (TownHallProto_Builder*) setNumEvoChambers:(int32_t) value {
+  result.hasNumEvoChambers = YES;
+  result.numEvoChambers = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumEvoChambers {
+  result.hasNumEvoChambers = NO;
+  result.numEvoChambers = 0;
   return self;
 }
 @end
@@ -5733,6 +5772,400 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 - (UserObstacleProto_Builder*) clearRemovalStartTime {
   result.hasRemovalStartTime = NO;
   result.removalStartTime = 0L;
+  return self;
+}
+@end
+
+@interface EvoChamberProto ()
+@property (retain) StructureInfoProto* structInfo;
+@end
+
+@implementation EvoChamberProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+  }
+  return self;
+}
+static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
++ (void) initialize {
+  if (self == [EvoChamberProto class]) {
+    defaultEvoChamberProtoInstance = [[EvoChamberProto alloc] init];
+  }
+}
++ (EvoChamberProto*) defaultInstance {
+  return defaultEvoChamberProtoInstance;
+}
+- (EvoChamberProto*) defaultInstance {
+  return defaultEvoChamberProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EvoChamberProto*) parseFromData:(NSData*) data {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromData:data] build];
+}
++ (EvoChamberProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EvoChamberProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromInputStream:input] build];
+}
++ (EvoChamberProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EvoChamberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EvoChamberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EvoChamberProto*)[[[EvoChamberProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EvoChamberProto_Builder*) builder {
+  return [[[EvoChamberProto_Builder alloc] init] autorelease];
+}
++ (EvoChamberProto_Builder*) builderWithPrototype:(EvoChamberProto*) prototype {
+  return [[EvoChamberProto builder] mergeFrom:prototype];
+}
+- (EvoChamberProto_Builder*) builder {
+  return [EvoChamberProto builder];
+}
+@end
+
+@interface EvoChamberProto_Builder()
+@property (retain) EvoChamberProto* result;
+@end
+
+@implementation EvoChamberProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EvoChamberProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EvoChamberProto_Builder*) clear {
+  self.result = [[[EvoChamberProto alloc] init] autorelease];
+  return self;
+}
+- (EvoChamberProto_Builder*) clone {
+  return [EvoChamberProto builderWithPrototype:result];
+}
+- (EvoChamberProto*) defaultInstance {
+  return [EvoChamberProto defaultInstance];
+}
+- (EvoChamberProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EvoChamberProto*) buildPartial {
+  EvoChamberProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EvoChamberProto_Builder*) mergeFrom:(EvoChamberProto*) other {
+  if (other == [EvoChamberProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EvoChamberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EvoChamberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (EvoChamberProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (EvoChamberProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (EvoChamberProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (EvoChamberProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+@end
+
+@interface TeamCenterProto ()
+@property (retain) StructureInfoProto* structInfo;
+@end
+
+@implementation TeamCenterProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+  }
+  return self;
+}
+static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
++ (void) initialize {
+  if (self == [TeamCenterProto class]) {
+    defaultTeamCenterProtoInstance = [[TeamCenterProto alloc] init];
+  }
+}
++ (TeamCenterProto*) defaultInstance {
+  return defaultTeamCenterProtoInstance;
+}
+- (TeamCenterProto*) defaultInstance {
+  return defaultTeamCenterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (TeamCenterProto*) parseFromData:(NSData*) data {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromData:data] build];
+}
++ (TeamCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TeamCenterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromInputStream:input] build];
+}
++ (TeamCenterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TeamCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TeamCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TeamCenterProto*)[[[TeamCenterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TeamCenterProto_Builder*) builder {
+  return [[[TeamCenterProto_Builder alloc] init] autorelease];
+}
++ (TeamCenterProto_Builder*) builderWithPrototype:(TeamCenterProto*) prototype {
+  return [[TeamCenterProto builder] mergeFrom:prototype];
+}
+- (TeamCenterProto_Builder*) builder {
+  return [TeamCenterProto builder];
+}
+@end
+
+@interface TeamCenterProto_Builder()
+@property (retain) TeamCenterProto* result;
+@end
+
+@implementation TeamCenterProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[TeamCenterProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TeamCenterProto_Builder*) clear {
+  self.result = [[[TeamCenterProto alloc] init] autorelease];
+  return self;
+}
+- (TeamCenterProto_Builder*) clone {
+  return [TeamCenterProto builderWithPrototype:result];
+}
+- (TeamCenterProto*) defaultInstance {
+  return [TeamCenterProto defaultInstance];
+}
+- (TeamCenterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TeamCenterProto*) buildPartial {
+  TeamCenterProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (TeamCenterProto_Builder*) mergeFrom:(TeamCenterProto*) other {
+  if (other == [TeamCenterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TeamCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TeamCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (TeamCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (TeamCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (TeamCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (TeamCenterProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
   return self;
 }
 @end

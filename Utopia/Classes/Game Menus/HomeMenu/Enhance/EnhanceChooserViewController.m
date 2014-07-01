@@ -23,7 +23,7 @@
   self.listView.cellClassName = @"EnhanceCardCell";
   
   self.title = @"ENHANCE MOBSTERS";
-  self.titleImageName = @"";
+  self.titleImageName = @"enhancelabmenuheader.png";
 }
 
 - (void) viewWillAppear:(BOOL)animated {

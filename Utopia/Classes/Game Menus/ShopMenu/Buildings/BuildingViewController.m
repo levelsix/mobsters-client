@@ -43,7 +43,8 @@
     StructureInfoProto *fsp = s.structInfo;
     if (fsp.predecessorStructId ||
         fsp.structType == StructureInfoProto_StructTypeTownHall ||
-        fsp.structType == StructureInfoProto_StructTypeMiniJob) {
+        fsp.structType == StructureInfoProto_StructTypeMiniJob ||
+        fsp.structType == StructureInfoProto_StructTypeTeamCenter) {
       continue;
     }
     

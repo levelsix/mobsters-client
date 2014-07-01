@@ -20,19 +20,6 @@
 
 #define ANIMATION_SPEED 800.f
 
-@implementation ChatTopBar
-
-- (void) clickButton:(int)button {
-  [super clickButton:button];
-  
-  for (int i = 1; i <= 3; i++) {
-    UIButton *b = (UIButton *)[self viewWithTag:i];
-    b.enabled = i != button;
-  }
-}
-
-@end
-
 @implementation ChatMainView
 
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -79,6 +66,8 @@
   [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
   
   self.view.hidden = YES;
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -89,6 +78,10 @@
     self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
     self.bgdView.alpha = 1.f;
   }];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [[CCDirector sharedDirector] resume];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -151,12 +144,15 @@
 
 - (IBAction)closeClicked:(id)sender {
   if (!self.mainView.layer.animationKeys.count) {
+    [self beginAppearanceTransition:NO animated:YES];
     [UIView animateWithDuration:0.18f animations:^{
       self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
       self.bgdView.alpha = 0.f;
     } completion:^(BOOL finished) {
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
+      
+      [self endAppearanceTransition];
     }];
     
     [self.popoverView close];

@@ -20,6 +20,7 @@
 #import "Downloader.h"
 #import "PersistentEventProto+Time.h"
 #import "FullQuestProto+JobAccess.h"
+#import "FacebookDelegate.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -31,6 +32,7 @@
 #define UNMUTE_CODE @"allears"
 #define UNLOCK_BUILDINGS_CODE @"unlockdown"
 #define SKIP_QUESTS_CODE @"quickquests"
+#define FB_LOGOUT_CODE @"unfb"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -636,7 +638,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         
         if (cashAmt || oilAmt || gemsAmt) {
           [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:cashAmt oilChange:oilAmt gemChange:gemsAmt reason:reason];
-        } else if (code) {
+        } else if (reason) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
       }
@@ -659,6 +661,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
         msg = @"Quests can now be skipped.";
         gs.allowQuestSkipping = YES;
+      } else if ([code isEqualToString:FB_LOGOUT_CODE]) {
+        msg = @"Logged out of Facebook.";
+        [FacebookDelegate logout];
       }
       
       else if (!msg) {

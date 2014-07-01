@@ -81,28 +81,6 @@
   }
   
   self.shopViewController = [[ShopViewController alloc] init];
-  
-  if (![Globals isLongiPhone]) {
-    UIImage *img = [Globals imageNamed:@"levelxpbg.png"];
-    int diff = self.expBgd.image.size.width-img.size.width;
-    self.expBgd.image = img;
-    self.oilBgd.image = img;
-    self.cashBgd.image = img;
-    
-    CGRect r = self.expBgd.superview.frame;
-    r.size.width -= diff;
-    self.expBgd.superview.frame = r;
-    
-    r = self.oilBgd.superview.frame;
-    r.origin.x += diff;
-    r.size.width -= diff;
-    self.oilBgd.superview.frame = r;
-    
-    r = self.cashBgd.superview.frame;
-    r.origin.x += diff;
-    r.size.width -= diff;
-    self.cashBgd.superview.frame = r;
-  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -125,6 +103,7 @@
   [center addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   [self updateQuestBadge];
   
+  [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
@@ -144,6 +123,13 @@
   [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(clanChatsViewed) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+  
+  if (![Globals isLongiPhone]) {
+    CGRect r = self.coinBarsView.frame;
+    r.origin.x = CGRectGetMaxX(self.expBar.superview.frame);
+    r.size.width = self.view.frame.size.width-r.origin.x;
+    self.coinBarsView.frame = r;
+  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

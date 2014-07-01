@@ -1278,7 +1278,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case StructureInfoProto_StructTypeLab:
       return thp.numLabs;
       
+    case StructureInfoProto_StructTypeEvo:
+      return thp.numEvoChambers;
+      
     case StructureInfoProto_StructTypeTownHall:
+      return 1;
+      
+    case StructureInfoProto_StructTypeTeamCenter:
+      return 1;
+      
+    case StructureInfoProto_StructTypeMiniJob:
       return 1;
       
     default:

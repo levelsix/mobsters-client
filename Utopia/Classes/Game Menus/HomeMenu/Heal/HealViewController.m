@@ -34,7 +34,7 @@
   self.listView.cellClassName = @"HealCardCell";
   
   self.title = @"HEAL MOBSTERS";
-  self.titleImageName = @"";
+  self.titleImageName = @"hospitalmenuheader.png";
 }
 
 - (void) viewWillAppear:(BOOL)animated {

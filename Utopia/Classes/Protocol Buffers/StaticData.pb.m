@@ -48,6 +48,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
 @property (retain) NSMutableArray* mutableAllMiniJobCentersList;
+@property (retain) NSMutableArray* mutableAllEvoChambersList;
+@property (retain) NSMutableArray* mutableAllTeamCentersList;
 @property (retain) NSMutableArray* mutablePersistentEventsList;
 @property (retain) NSMutableArray* mutableMbdsList;
 @property (retain) NSMutableArray* mutableRaidsList;
@@ -85,6 +87,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
 @synthesize mutableAllMiniJobCentersList;
+@synthesize mutableAllEvoChambersList;
+@synthesize mutableAllTeamCentersList;
 @synthesize mutablePersistentEventsList;
 @synthesize mutableMbdsList;
 @synthesize mutableRaidsList;
@@ -113,6 +117,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
   self.mutableAllMiniJobCentersList = nil;
+  self.mutableAllEvoChambersList = nil;
+  self.mutableAllTeamCentersList = nil;
   self.mutablePersistentEventsList = nil;
   self.mutableMbdsList = nil;
   self.mutableRaidsList = nil;
@@ -259,6 +265,20 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index {
   id value = [mutableAllMiniJobCentersList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allEvoChambersList {
+  return mutableAllEvoChambersList;
+}
+- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index {
+  id value = [mutableAllEvoChambersList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allTeamCentersList {
+  return mutableAllTeamCentersList;
+}
+- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index {
+  id value = [mutableAllTeamCentersList objectAtIndex:index];
   return value;
 }
 - (NSArray*) persistentEventsList {
@@ -409,6 +429,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (TaskMapElementProto* element in self.allTaskMapElementsList) {
     [output writeMessage:28 value:element];
   }
+  for (EvoChamberProto* element in self.allEvoChambersList) {
+    [output writeMessage:29 value:element];
+  }
+  for (TeamCenterProto* element in self.allTeamCentersList) {
+    [output writeMessage:30 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -498,6 +524,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (TaskMapElementProto* element in self.allTaskMapElementsList) {
     size += computeMessageSize(28, element);
+  }
+  for (EvoChamberProto* element in self.allEvoChambersList) {
+    size += computeMessageSize(29, element);
+  }
+  for (TeamCenterProto* element in self.allTeamCentersList) {
+    size += computeMessageSize(30, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -678,6 +710,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllMiniJobCentersList = [NSMutableArray array];
     }
     [result.mutableAllMiniJobCentersList addObjectsFromArray:other.mutableAllMiniJobCentersList];
+  }
+  if (other.mutableAllEvoChambersList.count > 0) {
+    if (result.mutableAllEvoChambersList == nil) {
+      result.mutableAllEvoChambersList = [NSMutableArray array];
+    }
+    [result.mutableAllEvoChambersList addObjectsFromArray:other.mutableAllEvoChambersList];
+  }
+  if (other.mutableAllTeamCentersList.count > 0) {
+    if (result.mutableAllTeamCentersList == nil) {
+      result.mutableAllTeamCentersList = [NSMutableArray array];
+    }
+    [result.mutableAllTeamCentersList addObjectsFromArray:other.mutableAllTeamCentersList];
   }
   if (other.mutablePersistentEventsList.count > 0) {
     if (result.mutablePersistentEventsList == nil) {
@@ -917,6 +961,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         TaskMapElementProto_Builder* subBuilder = [TaskMapElementProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllTaskMapElements:[subBuilder buildPartial]];
+        break;
+      }
+      case 234: {
+        EvoChamberProto_Builder* subBuilder = [EvoChamberProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllEvoChambers:[subBuilder buildPartial]];
+        break;
+      }
+      case 242: {
+        TeamCenterProto_Builder* subBuilder = [TeamCenterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllTeamCenters:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1443,6 +1499,64 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllMiniJobCentersList = [NSMutableArray array];
   }
   [result.mutableAllMiniJobCentersList addObject:value];
+  return self;
+}
+- (NSArray*) allEvoChambersList {
+  if (result.mutableAllEvoChambersList == nil) { return [NSArray array]; }
+  return result.mutableAllEvoChambersList;
+}
+- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index {
+  return [result allEvoChambersAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllEvoChambersAtIndex:(int32_t) index with:(EvoChamberProto*) value {
+  [result.mutableAllEvoChambersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllEvoChambers:(NSArray*) values {
+  if (result.mutableAllEvoChambersList == nil) {
+    result.mutableAllEvoChambersList = [NSMutableArray array];
+  }
+  [result.mutableAllEvoChambersList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllEvoChambersList {
+  result.mutableAllEvoChambersList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllEvoChambers:(EvoChamberProto*) value {
+  if (result.mutableAllEvoChambersList == nil) {
+    result.mutableAllEvoChambersList = [NSMutableArray array];
+  }
+  [result.mutableAllEvoChambersList addObject:value];
+  return self;
+}
+- (NSArray*) allTeamCentersList {
+  if (result.mutableAllTeamCentersList == nil) { return [NSArray array]; }
+  return result.mutableAllTeamCentersList;
+}
+- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index {
+  return [result allTeamCentersAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllTeamCentersAtIndex:(int32_t) index with:(TeamCenterProto*) value {
+  [result.mutableAllTeamCentersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllTeamCenters:(NSArray*) values {
+  if (result.mutableAllTeamCentersList == nil) {
+    result.mutableAllTeamCentersList = [NSMutableArray array];
+  }
+  [result.mutableAllTeamCentersList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllTeamCentersList {
+  result.mutableAllTeamCentersList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllTeamCenters:(TeamCenterProto*) value {
+  if (result.mutableAllTeamCentersList == nil) {
+    result.mutableAllTeamCentersList = [NSMutableArray array];
+  }
+  [result.mutableAllTeamCentersList addObject:value];
   return self;
 }
 - (NSArray*) persistentEventsList {

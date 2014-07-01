@@ -153,6 +153,8 @@
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
 @class EnhancementWaitTimeCompleteResponseProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class EvolutionFinishedRequestProto;
 @class EvolutionFinishedRequestProto_Builder;
 @class EvolutionFinishedResponseProto;
@@ -487,6 +489,8 @@
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TournamentEventProto;
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;

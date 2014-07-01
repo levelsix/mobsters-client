@@ -61,16 +61,16 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  EvolveChooserViewController *vc1 = [[EvolveChooserViewController alloc] init];
-  SellViewController *vc2 = [[SellViewController alloc] init];
-  HealViewController *vc3 = [[HealViewController alloc] init];
-  TeamViewController *vc4 = [[TeamViewController alloc] init];
-  EnhanceChooserViewController *vc5 = [[EnhanceChooserViewController alloc] init];
+  SellViewController *sell = [[SellViewController alloc] init];
+  HealViewController *heal = [[HealViewController alloc] init];
+  TeamViewController *team = [[TeamViewController alloc] init];
+  EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
+  EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
   
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [@[vc2, vc3, vc4] mutableCopy];
-  if (gs.myLaboratory.isComplete) [arr addObject:vc1];
-  if (gs.myLaboratory.isComplete) [arr addObject:vc5];
+  NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
+  if (gs.myLaboratory.isComplete) [arr addObject:enhance];
+  if (gs.myEvoChamber.isComplete) [arr addObject:evo];
   self.mainViewControllers = arr;
   
   PopupSubViewController *vc = self.mainViewControllers[0];
@@ -93,8 +93,6 @@
   _currentIndex = (_currentIndex+1)%self.mainViewControllers.count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
   [self replaceRootWithViewController:svc fromRight:YES animated:YES];
-  
-  [self loadNextTitleSelectionFromRight:YES animated:YES];
 }
 
 - (IBAction)leftArrowClicked:(id)sender {
@@ -103,8 +101,6 @@
   _currentIndex = (_currentIndex-1+count)%count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
   [self replaceRootWithViewController:svc fromRight:NO animated:YES];
-  
-  [self loadNextTitleSelectionFromRight:NO animated:YES];
 }
 
 - (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated {
@@ -115,6 +111,8 @@
   if (svc.titleImageName) {
     self.curHomeTitleView = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil][0];
     self.curTitleLabel = self.curHomeTitleView.titleLabel;
+    [Globals imageNamed:svc.titleImageName withView:self.curHomeTitleView.titleImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    
     self.curTitleView = self.selectorView;
   } else {
     self.curTitleLabel = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleLabel" owner:self options:nil][0];

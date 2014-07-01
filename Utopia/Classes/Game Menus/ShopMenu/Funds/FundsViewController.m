@@ -51,14 +51,14 @@
   }
   
   int maxCash = [gs maxCash];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 storageTier:2 title:@"Fill Storages (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 storageTier:3 title:@"Fill Storages (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver storageTier:4 title:@"Fill Cash Storages"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 storageTier:2 title:@"Fill (10%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 storageTier:3 title:@"Fill (50%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver storageTier:4 title:@"Fill Storages"]];
   
   int maxOil = [gs maxOil];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 storageTier:2 title:@"Fill Storages (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 storageTier:3 title:@"Fill Storages (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil storageTier:4 title:@"Fill Oil Storages"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 storageTier:2 title:@"Fill (10%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 storageTier:3 title:@"Fill (50%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil storageTier:4 title:@"Fill Storages"]];
   
   self.packages = packages;
 }
@@ -91,9 +91,15 @@
   
   _purchase = purch;
   if (purch.gemPrice) {
-    NSString *title = [NSString stringWithFormat:@"Buy %@?", [Globals stringForResourceType:purch.resourceType]];
-    NSString *desc = [NSString stringWithFormat:@"Would you like to buy %@ %@?", [Globals commafyNumber:[purch amountGained]], [Globals stringForResourceType:purch.resourceType]];
-    [GenericPopupController displayGemConfirmViewWithDescription:desc title:title gemCost:purch.gemPrice target:self selector:@selector(makePurchase)];
+    GameState *gs = [GameState sharedGameState];
+    if ((purch.resourceType == ResourceTypeCash && (purch.amountGained > gs.maxCash-gs.silver)) ||
+        (purch.resourceType == ResourceTypeOil && (purch.amountGained > gs.maxOil-gs.oil))) {
+      [Globals addAlertNotification:@"Not enough storage!"];
+    } else {
+      NSString *title = [NSString stringWithFormat:@"Buy %@?", [Globals stringForResourceType:purch.resourceType]];
+      NSString *desc = [NSString stringWithFormat:@"Would you like to buy %@ %@?", [Globals commafyNumber:[purch amountGained]], [Globals stringForResourceType:purch.resourceType]];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:title gemCost:purch.gemPrice target:self selector:@selector(makePurchase)];
+    }
   } else {
     [self makePurchase];
   }

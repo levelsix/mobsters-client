@@ -12,6 +12,8 @@
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
 @class EarnFreeDiamondsResponseProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class ExchangeGemsForResourcesRequestProto;
 @class ExchangeGemsForResourcesRequestProto_Builder;
 @class ExchangeGemsForResourcesResponseProto;
@@ -58,6 +60,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TutorialStructProto;

@@ -31,5 +31,6 @@
 - (id) initWithHeal;
 - (id) initWithTeam;
 - (id) initWithEnhance;
+- (id) initWithEvolve;
 
 @end

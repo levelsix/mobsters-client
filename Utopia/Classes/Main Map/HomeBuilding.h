@@ -9,6 +9,8 @@
 #import "Building.h"
 #import "AnimatedSprite.h"
 
+#import "cocos2d-ui.h"
+
 @interface HomeBuilding : Building {
   CGPoint _startTouchLocation;
   BOOL _isSetDown;
@@ -45,7 +47,7 @@
 @end
 
 @interface ResourceGeneratorBuilding : HomeBuilding {
-  CCSprite *_retrieveBubble;
+  CCButton *_retrieveBubble;
 }
 
 @property (nonatomic, assign) BOOL retrievable;

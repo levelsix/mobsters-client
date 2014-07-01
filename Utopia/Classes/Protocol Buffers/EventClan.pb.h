@@ -44,6 +44,8 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
 @class FullClanProto;
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
@@ -152,6 +154,8 @@
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
 @class TransferClanOwnershipRequestProto;

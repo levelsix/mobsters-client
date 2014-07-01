@@ -405,11 +405,13 @@
   int amount = type == ResourceTypeCash ? gs.silver : gs.oil;
   int max = type == ResourceTypeCash ? gs.maxCash : gs.maxOil;
   NSString *end = amount >= max ? @"overflow" : @"ready";
+  float pxlOffset = type == ResourceTypeCash ? 10 : 16;
   
-  _retrieveBubble = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@%@.png", res, end]];
+  _retrieveBubble = [CCButton buttonWithTitle:nil spriteFrame:[CCSpriteFrame frameWithImageNamed:[NSString stringWithFormat:@"%@%@.png", res, end]] highlightedSpriteFrame:nil disabledSpriteFrame:nil];
+  [_retrieveBubble setTarget:self selector:@selector(select)];
   [self addChild:_retrieveBubble];
   _retrieveBubble.anchorPoint = ccp(0.5, 0);
-  _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
+  _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-pxlOffset);
 }
 
 - (BOOL) select {
@@ -440,16 +442,17 @@
   _retrievable = retrievable;
   
   if (retrievable) {
+    // do this to refresh if
     BOOL shouldFade = _retrieveBubble == nil;
     [self initializeRetrieveBubble];
     if (shouldFade) {
       _retrieveBubble.opacity = 0.f;
-      [_retrieveBubble runAction:[CCActionFadeTo actionWithDuration:0.3f opacity:1.f]];
+      [_retrieveBubble runAction:[RecursiveFadeTo actionWithDuration:0.3f opacity:1.f]];
     }
   } else {
     [_retrieveBubble runAction:
      [CCActionSequence actions:
-      [CCActionFadeTo actionWithDuration:0.3f opacity:0.f],
+      [RecursiveFadeTo actionWithDuration:0.3f opacity:0.f],
       [CCActionRemove action], nil]];
     _retrieveBubble = nil;
   }

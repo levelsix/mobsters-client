@@ -98,11 +98,7 @@
     layer = [self layerNamed:WALKABLE_LAYER_NAME];
     layer.visible = NO;
     
-    if ([Globals isLongiPhone]) {
-      [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
-    } else {
-      [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenuSmall" owner:self options:nil];
-    }
+    [self setUpHomeBuildingMenu];
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -115,10 +111,6 @@
     
     map.position = ccp(map.contentSize.width/2-33, map.contentSize.height/2-50);
     
-    //    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
-    //    [self addChild:road z:-998];
-    //    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
-    
     [self beginMapAnimations];
     
     bottomLeftCorner = ccp(map.position.x-map.contentSize.width/2, map.position.y-map.contentSize.height/2);
@@ -127,6 +119,16 @@
     [self refresh];
   }
   return self;
+}
+
+- (void) setUpHomeBuildingMenu {
+  [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
+  
+  self.buildingNameLabel.strokeSize = 1.5f;
+  self.buildingNameLabel.strokeColor = [UIColor colorWithWhite:51/255.f alpha:1.f];
+  self.buildingNameLabel.shadowBlur = 0.9f;
+  self.buildingNameLabel.gradientStartColor = [UIColor whiteColor];
+  self.buildingNameLabel.gradientEndColor = [UIColor colorWithWhite:245/255.f alpha:1.f];
 }
 
 - (void) beginMapAnimations {
@@ -248,6 +250,8 @@
     [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove2, 4)],
     nil]];
 }
+
+#pragma mark - Home building timers
 
 - (void) invalidateAllTimers {
   // Invalidate all timers
@@ -684,18 +688,15 @@
     if (_purchasing) {
       self.bottomOptionView = nil;
     } else {
-      self.bottomOptionView = mb.userStruct.isComplete ? self.buildBotView : self.upgradeBotView;
+      self.bottomOptionView = self.buildBotView;
       [mb removeArrowAnimated:YES];
       
       _canMove = YES;
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
-    ObstacleSprite *ob = (ObstacleSprite *)self.selected;
-    UserObstacle *ue = ob.obstacle;
-    
     _canMove = NO;
     
-    self.bottomOptionView = !ue.endTime ? self.buildBotView : self.upgradeBotView;
+    self.bottomOptionView = self.buildBotView;
   } else {
     self.bottomOptionView = nil;
     _canMove = NO;
@@ -711,131 +712,123 @@
 }
 
 - (void) updateMapBotView:(MapBotView *)botView {
-  if (botView == self.buildBotView) {
-    BOOL isOil = NO;
-    BOOL showsEnterButton = YES;
-    if ([self.selected isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *mb = (HomeBuilding *)self.selected;
-      StructureInfoProto *fsp = mb.userStruct.staticStruct.structInfo;
-      StructureInfoProto *nextFsp = mb.userStruct.staticStructForNextLevel.structInfo;
-      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", fsp.name, fsp.level ? [NSString stringWithFormat:@"lvl %d", fsp.level] : @"Broken"];
-      self.buildingIncomeLabel.text = fsp.shortDescription;
-      isOil = nextFsp ? nextFsp.buildResourceType == ResourceTypeOil : fsp.buildResourceType == ResourceTypeOil;
-      self.buildingUpgradeCashButtonTopLabel.text = @"Upgrade";
-      self.buildingUpgradeOilButtonTopLabel.text = @"Upgrade";
+  Globals *gl = [Globals sharedGlobals];
+  NSMutableArray *buttonViews = [NSMutableArray array];
+  
+  if ([self.selected isKindOfClass:[HomeBuilding class]]) {
+    HomeBuilding *mb = (HomeBuilding *)self.selected;
+    UserStruct *us = mb.userStruct;
+    StructureInfoProto *fsp = us.staticStruct.structInfo;
+    StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
+    
+    if (us.isComplete) {
+      BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
+      NSString *lvlStr = isUpgradableBuilding ? [NSString stringWithFormat:@" (%@)", fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken"] : @"";
+      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@%@", fsp.name, lvlStr];
       
-      if (nextFsp) {
-        self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:nextFsp.buildCost];
-        self.buildingUpgradeOilCostLabel.text = [Globals commafyNumber:nextFsp.buildCost];
-      } else {
-        self.buildingUpgradeCashCostLabel.text = @"N/A";
-        self.buildingUpgradeOilCostLabel.text = @"N/A";
+      if (isUpgradableBuilding) {
+        if (fsp.successorStructId) {
+          if (fsp.level == 0) {
+            [buttonViews addObject:[MapBotViewButton fixButtonWithResourceType:nextFsp.buildResourceType buildCost:nextFsp.buildCost]];
+          } else {
+            [buttonViews addObject:[MapBotViewButton upgradeButtonWithResourceType:nextFsp.buildResourceType buildCost:nextFsp.buildCost]];
+          }
+        } else {
+          [buttonViews addObject:[MapBotViewButton infoButton]];
+        }
       }
       
       switch (fsp.structType) {
+        case StructureInfoProto_StructTypeResidence:
+          [buttonViews addObject:[MapBotViewButton bonusSlotsButton]];
+          [buttonViews addObject:[MapBotViewButton sellButton]];
+          break;
+          
         case StructureInfoProto_StructTypeHospital:
-          self.enterTopLabel.text = @"Heal";
-          self.enterBottomLabel.text = @"Mobsters";
+          [buttonViews addObject:[MapBotViewButton healButton]];
+          break;
+          
+        case StructureInfoProto_StructTypeEvo:
+          [buttonViews addObject:[MapBotViewButton evolveButton]];
           break;
           
         case StructureInfoProto_StructTypeLab:
-          self.enterTopLabel.text = @"Enhance";
-          self.enterBottomLabel.text = @"Mobsters";
-          break;
-          
-        case StructureInfoProto_StructTypeResidence:
-          self.enterTopLabel.text = @"Bonus";
-          self.enterBottomLabel.text = @"Slots";
+          [buttonViews addObject:[MapBotViewButton enhanceButton]];
           break;
           
         case StructureInfoProto_StructTypeMiniJob:
-          if (fsp.level == 0) {
-            showsEnterButton = NO;
-            self.buildingUpgradeCashButtonTopLabel.text = @"Fix";
-            self.buildingUpgradeOilButtonTopLabel.text = @"Fix";
-          } else {
-            self.enterTopLabel.text = @"View";
-            self.enterBottomLabel.text = @"Mini Jobs";
+          if (fsp.level > 0) {
+            [buttonViews addObject:[MapBotViewButton miniJobsButton]];
           }
           break;
           
-        case StructureInfoProto_StructTypeTownHall:
-        case StructureInfoProto_StructTypeResourceStorage:
-        case StructureInfoProto_StructTypeResourceGenerator:
-          showsEnterButton = NO;
+        case StructureInfoProto_StructTypeTeamCenter:
+          [buttonViews addObject:[MapBotViewButton teamButton]];
           break;
           
         default:
           break;
       }
-    } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
-      ObstacleSprite *ob = (ObstacleSprite *)self.selected;
-      UserObstacle *ue = ob.obstacle;
-      ObstacleProto *op = ue.staticObstacle;
-      
-      isOil = op.removalCostType == ResourceTypeOil;
-      
-      self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:op.cost];
-      self.buildingUpgradeOilCostLabel.text = [Globals commafyNumber:op.cost];
-      
-      self.buildingUpgradeCashButtonTopLabel.text = @"Remove";
-      self.buildingUpgradeOilButtonTopLabel.text = @"Remove";
-      
-      self.buildingNameLabel.text = op.name;
-      self.buildingIncomeLabel.text = op.description;
-      
-      showsEnterButton = NO;
-    }
-    
-    if (![Globals isLongiPhone]) {
-      CGPoint pt = self.buildingUpgradeView.center;
-      if (showsEnterButton) {
-        pt.x = self.buildingUpgradeView.superview.frame.size.width-self.buildingEnterView.center.x;
-      } else {
-        pt.x = self.buildingUpgradeView.superview.frame.size.width/2;
-      }
-      self.buildingUpgradeView.center = pt;
     } else {
-      CGPoint pt = self.buildingUpgradeView.center;
-      if (showsEnterButton) {
-        pt.x = self.buildingEnterView.frame.origin.x-self.buildingUpgradeView.frame.size.width/2-4;
-      } else {
-        pt.x = self.buildingEnterView.center.x;
-      }
-      self.buildingUpgradeView.center = pt;
+      int timeLeft = [self timeLeftForConstructionBuilding];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+    }
+  } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
+    ObstacleSprite *ob = (ObstacleSprite *)self.selected;
+    UserObstacle *ue = ob.obstacle;
+    ObstacleProto *op = ue.staticObstacle;
+    
+    self.buildingNameLabel.text = op.name;
+    if (!ue.removalTime) {
+      [buttonViews addObject:[MapBotViewButton removeButtonWithResourceType:op.removalCostType removeCost:op.cost]];
+    } else {
+      int timeLeft = [self timeLeftForConstructionBuilding];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+    }
+  }
+  
+  for (MapBotViewButton *b in buttonViews) {
+    b.delegate = self;
+  }
+  
+  [botView addAnimateViewsToContainerView:buttonViews];
+}
+
+- (void) mapBotViewButtonSelected:(MapBotViewButton *)button {
+  // Fake the IBActions
+  switch (button.config) {
+    case MapBotViewButtonInfo:
+    case MapBotViewButtonUpgrade:
+    case MapBotViewButtonRemove:
+    case MapBotViewButtonFix:
+      [self littleUpgradeClicked:button];
+      break;
       
-      CGRect r = self.buildingTextView.frame;
-      r.size.width = self.buildingUpgradeView.frame.origin.x-4;
-      self.buildingTextView.frame = r;
-    }
-    self.buildingEnterView.hidden = !showsEnterButton;
-    
-    self.buildingUpgradeOilView.hidden = !isOil;
-    [Globals adjustViewForCentering:self.buildingUpgradeOilCostLabel.superview withLabel:self.buildingUpgradeOilCostLabel];
-    
-  } else if (botView == self.upgradeBotView) {
-    Globals *gl = [Globals sharedGlobals];
-    if ([self.selected isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *mb = (HomeBuilding *)self.selected;
-      UserStruct *us = mb.userStruct;
-      StructureInfoProto *fsp = us.staticStruct.structInfo;
-      self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
-      self.upgradingIncomeLabel.text = fsp.shortDescription;
-    } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
-      ObstacleProto *op = ((ObstacleSprite *)self.selected).obstacle.staticObstacle;
-      self.upgradingNameLabel.text = op.name;
-      self.upgradingIncomeLabel.text = op.description;
-    }
-    
-    int timeLeft = [self timeLeftForConstructionBuilding];
-    self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+    case MapBotViewButtonMiniJob:
+    case MapBotViewButtonEnhance:
+    case MapBotViewButtonHeal:
+    case MapBotViewButtonEvolve:
+    case MapBotViewButtonTeam:
+    case MapBotViewButtonSell:
+      [self enterClicked:button];
+      break;
+      
+    case MapBotViewButtonSpeedup:
+      [self finishNowClicked:button];
+      break;
+      
+    case MapBotViewButtonBonusSlots:
+      [self bonusSlotsClicked:button];
+      break;
+      
+    default:
+      break;
   }
 }
 
 #pragma mark - Gesture Recognizers
 
-- (void) drag:(UIGestureRecognizer*)recognizer
-{
+- (void) drag:(UIGestureRecognizer *)recognizer {
   // First check if a sprite was clicked
   CGPoint pt = [recognizer locationInView:recognizer.view];
   pt = [[CCDirector sharedDirector] convertToGL:pt];
@@ -1146,7 +1139,15 @@
       break;
       
     case StructureInfoProto_StructTypeResidence:
-      [self loadUpgradeViewControllerForIsHire:YES];
+      hvc = [[HomeViewController alloc] initWithSell];
+      break;
+      
+    case StructureInfoProto_StructTypeTeamCenter:
+      hvc = [[HomeViewController alloc] initWithTeam];
+      break;
+      
+    case StructureInfoProto_StructTypeEvo:
+      hvc = [[HomeViewController alloc] initWithEvolve];
       break;
       
     case StructureInfoProto_StructTypeMiniJob:
@@ -1159,6 +1160,14 @@
   
   if (hvc) {
     [hvc displayInParentViewController:gvc];
+  }
+}
+
+- (IBAction)bonusSlotsClicked:(id)sender {
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
+  StructureInfoProto *fsp = us.staticStruct.structInfo;
+  if (fsp.structType == StructureInfoProto_StructTypeResidence) {
+    [self loadUpgradeViewControllerForIsHire:YES];
   }
 }
 

@@ -40,7 +40,7 @@
     imgView.tag = 5;
     [self.enhanceButtonView insertSubview:imgView atIndex:self.enhanceButtonView.subviews.count-1];
   }
-  if (!gs.myLaboratory.isComplete) {
+  if (!gs.myEvoChamber.isComplete) {
     [[self.evolveButtonView viewWithTag:5] removeFromSuperview];
     UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.evolveButtonView]];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
@@ -84,7 +84,7 @@
 
 - (IBAction)evolveClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  if (gs.myLaboratory.isComplete) {
+  if (gs.myEvoChamber.isComplete) {
     [self.navigationController pushViewController:[[EvoViewController alloc] init] animated:YES];
   } else {
     [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
