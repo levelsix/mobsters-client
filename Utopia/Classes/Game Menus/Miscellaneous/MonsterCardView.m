@@ -109,7 +109,7 @@ static UIImage *img = nil;
   
   for (UIView *v in oldSubviews) {
     if (v != self.monsterCardView) {
-      [self.monsterCardView.mainView addSubview:v];
+      [self.monsterCardView.mainView insertSubview:v belowSubview:self.monsterCardView.overlayButton];
     }
   }
 }

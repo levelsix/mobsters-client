@@ -46,7 +46,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="k2d-I9-p48">
                     <rect key="frame" x="69" y="0.0" width="430" height="303"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="kvk-Jf-EiS" customClass="PopupShadowView">
                             <rect key="frame" x="0.0" y="17" width="430" height="286"/>

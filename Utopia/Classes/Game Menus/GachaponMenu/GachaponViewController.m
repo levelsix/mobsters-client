@@ -55,17 +55,18 @@
   [self.navBar button:3 shouldBeHidden:YES];
   
   [self loadBoosterPacks];
-  if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
-    [self button1Clicked:nil];
-  } else {
-    [self button2Clicked:nil];
-  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
   [self setUpImageBackButton];
+  
+  if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
+    [self button1Clicked:nil];
+  } else {
+    [self button2Clicked:nil];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -76,8 +77,8 @@
 
 - (void) loadBoosterPacks {
   GameState *gs = [GameState sharedGameState];
-  self.goodBoosterPack = gs.boosterPacks[0];
-  self.badBoosterPack = gs.boosterPacks[1];
+  self.badBoosterPack = gs.boosterPacks[0];
+  self.goodBoosterPack = gs.boosterPacks[1];
   
   self.navBar.label1.text = [self.badBoosterPack.boosterPackName uppercaseString];
   self.navBar.label2.text = [self.goodBoosterPack.boosterPackName uppercaseString];
@@ -96,6 +97,8 @@
   [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  
+  [Globals imageNamed:bpp.machineImgName withView:self.machineImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 #pragma mark - Button Top Bar
@@ -163,7 +166,7 @@
   if (gs.gold < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count >= gs.maxInventorySlots) {
-    [GenericPopupController displayConfirmationWithDescription:@"Uh oh, your inventory is full. Manage your team?" title:@"Can't Spin" okayButton:@"Manage" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
+    [GenericPopupController displayNotificationViewWithText:@"Uh oh, your inventory is full. Go to your residence to sell some mobsters." title:@"Can't Spin"];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
     [self.topBar updateLabels];

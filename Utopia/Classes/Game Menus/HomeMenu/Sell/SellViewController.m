@@ -108,11 +108,24 @@
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  [self.sellQueue addObject:um];
   
-  [self reloadQueueViewAnimated:YES];
-  [self animateUserMonsterIntoQueue:um];
-  [self reloadListViewAnimated:YES];
+  // Check that he has atleast one other complete mobster
+  BOOL hasCompleteMobster = NO;
+  for (UserMonster *u in self.userMonsters) {
+    if (u.isComplete && um != u) {
+      hasCompleteMobster = YES;
+    }
+  }
+  
+  if (hasCompleteMobster) {
+    [self.sellQueue addObject:um];
+    
+    [self reloadQueueViewAnimated:YES];
+    [self animateUserMonsterIntoQueue:um];
+    [self reloadListViewAnimated:YES];
+  } else {
+    [Globals addAlertNotification:@"You can't sell your last complete mobster!"];
+  }
 }
 
 - (void) animateUserMonsterIntoQueue:(UserMonster *)um {

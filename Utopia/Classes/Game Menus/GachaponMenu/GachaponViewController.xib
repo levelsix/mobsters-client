@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="focusScrollView" destination="Sry-5q-J1K" id="E9e-Oe-6VK"/>
                 <outlet property="gemCostLabel" destination="VDe-lu-wWD" id="sIT-Fv-NuP"/>
+                <outlet property="machineImage" destination="URF-Oq-F7Q" id="i2G-vz-VBm"/>
                 <outlet property="navBar" destination="z56-SY-IOJ" id="dNn-On-hzi"/>
                 <outlet property="prizeView" destination="wBp-uJ-7UM" id="yic-3H-kNL"/>
                 <outlet property="spinView" destination="j3V-IT-xbv" id="hQe-Ng-fN2"/>
@@ -232,7 +233,7 @@
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gachararetag.png" id="yPu-cg-AhI">
                     <rect key="frame" x="215" y="253" width="138" height="24"/>
-                    <autoresizingMask key="autoresizingMask"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

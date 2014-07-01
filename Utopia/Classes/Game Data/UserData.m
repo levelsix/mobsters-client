@@ -124,7 +124,11 @@
   } else if (self.isOnAMiniJob) {
     str = @"Mini Job";
   } else if (!self.isComplete) {
-    str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
+    if (self.isCombining) {
+      str = @"Combining";
+    } else {
+      str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
+    }
   }
   return str;
 }

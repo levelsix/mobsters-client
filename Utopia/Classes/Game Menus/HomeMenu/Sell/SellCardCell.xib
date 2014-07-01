@@ -18,14 +18,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="bigsquarebottom.png" id="6wq-BB-tWf">
+                                <rect key="frame" x="0.0" y="55" width="74" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="ocq-6u-LPo">
                                 <rect key="frame" x="0.0" y="55" width="74" height="19"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigsquarebottom.png" id="6wq-BB-tWf">
-                                        <rect key="frame" x="0.0" y="0.0" width="74" height="19"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hpbarbg.png" id="v9i-Ab-jtk">
                                         <rect key="frame" x="9" y="6" width="56" height="8"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -74,6 +74,15 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0jD-Cy-eQP" customClass="NiceFontLabel10">
+                                <rect key="frame" x="5" y="52" width="65" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -81,10 +90,13 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
+                <outlet property="availableView" destination="ocq-6u-LPo" id="cl8-EO-2Ej"/>
                 <outlet property="cardContainer" destination="Qbd-Of-syd" id="nrP-PQ-og2"/>
                 <outlet property="healthBar" destination="c9T-dK-0Zj" id="wLe-AA-2nM"/>
                 <outlet property="healthLabel" destination="Llo-gu-Y3Z" id="LTT-cM-qEz"/>
                 <outlet property="sellCostLabel" destination="vsy-qA-omh" id="Ar6-jm-CDS"/>
+                <outlet property="statusLabel" destination="0jD-Cy-eQP" id="Zea-zd-0Fx"/>
+                <outlet property="unavailableView" destination="0jD-Cy-eQP" id="gdH-Wo-mFn"/>
             </connections>
         </collectionViewCell>
     </objects>

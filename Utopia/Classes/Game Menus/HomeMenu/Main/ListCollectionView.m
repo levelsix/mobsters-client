@@ -195,6 +195,7 @@
       }
     }
   } else {
+    [self getQueueCountAndUpdateOpacitiesAnimated:NO];
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
   }

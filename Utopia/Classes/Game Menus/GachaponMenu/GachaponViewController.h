@@ -30,6 +30,7 @@
 @property (nonatomic, retain) EasyTableView *gachaTable;
 @property (nonatomic, retain) IBOutlet UIView *tableContainerView;
 @property (nonatomic, retain) IBOutlet FocusScrollView *focusScrollView;
+@property (nonatomic, retain) IBOutlet UIImageView *machineImage;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UIView *spinView;
