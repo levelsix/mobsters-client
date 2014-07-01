@@ -89,6 +89,7 @@
   MapBotViewButton *button = [[NSBundle mainBundle] loadNibNamed:@"MapBotViewSpeedupButton" owner:nil options:nil][0];
   [button updateWithImageName:@"" actionText:@"Finish Now" config:MapBotViewButtonSpeedup];
   [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
+  button.topLabel.strokeSize = 0.f;
   return button;
 }
 
