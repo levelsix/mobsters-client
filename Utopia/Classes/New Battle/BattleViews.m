@@ -554,20 +554,22 @@
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
-  PvpLeagueProto *pvpLeague = [gs leagueForId:pvp.pvpLeagueStats.leagueId];
-  NSString *league = pvpLeague.imgPrefix;
-  int rank = pvp.pvpLeagueStats.rank;
-  [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"leaguebg.png"]]];
-  [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
-  self.leagueLabel.string = pvpLeague.leagueName;
-  self.rankLabel.string = [Globals commafyNumber:rank];
-  self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
-  
-  float leftSide = self.rankLabel.position.x-self.rankLabel.contentSize.width;
-  float rightSide = self.placeLabel.position.x+self.placeLabel.contentSize.width;
-  float midX = leftSide+(rightSide-leftSide)/2;
-  
-  self.rankLabel.parent.position = ccp(-midX, self.rankLabel.parent.position.y);
+  if (pvp.pvpLeagueStats) {
+    PvpLeagueProto *pvpLeague = [gs leagueForId:pvp.pvpLeagueStats.leagueId];
+    NSString *league = pvpLeague.imgPrefix;
+    int rank = pvp.pvpLeagueStats.rank;
+    [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"leaguebg.png"]]];
+    [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
+    self.leagueLabel.string = pvpLeague.leagueName;
+    self.rankLabel.string = [Globals commafyNumber:rank];
+    self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
+    
+    float leftSide = self.rankLabel.position.x-self.rankLabel.contentSize.width;
+    float rightSide = self.placeLabel.position.x+self.placeLabel.contentSize.width;
+    float midX = leftSide+(rightSide-leftSide)/2;
+    
+    self.rankLabel.parent.position = ccp(-midX, self.rankLabel.parent.position.y);
+  }
 }
 
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {

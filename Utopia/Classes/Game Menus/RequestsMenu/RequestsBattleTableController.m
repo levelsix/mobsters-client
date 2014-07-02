@@ -153,7 +153,7 @@
     RequestsBattleCell *cell = (RequestsBattleCell *)sender;
     _curClickedCell = cell;
     
-    if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    if ([Globals checkEnteringDungeon]) {
       GameState *gs = [GameState sharedGameState];
       if (gs.hasActiveShield) {
         NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
@@ -172,13 +172,6 @@
 
 - (void) deniedRevenge {
   _curClickedCell = nil;
-}
-
-- (void) visitTeamPage {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
 }
 
 #pragma mark - UITableViewDelegate/DataSource methods

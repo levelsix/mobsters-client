@@ -68,6 +68,10 @@
       buildingClass = [MiniJobCenterBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeTeamCenter:
+      buildingClass = [TeamCenterBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -527,6 +531,7 @@
 - (void) beginAnimatingWithHealingItem:(UserMonsterHealingItem *)hi {
   [self stopAnimating];
   [self.monsterSprite removeFromParent];
+  self.monsterSprite = nil;
   
   [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.baseAnimation]]];
   [self.tubeSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.tubeAnimation]]];
@@ -582,11 +587,6 @@
   }
 }
 
-- (void) displayProgressBar {
-  [self removeProgressBar];
-  [super displayProgressBar];
-}
-
 - (void) updateProgressBar {
   if (self.isConstructing) {
     [super updateProgressBar];
@@ -634,19 +634,96 @@
 //  [self adjustBuildingSprite];
 //}
 //
-//- (void) beginAnimating {
-//  [self stopAnimating];
-//  [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
-//}
-//
-//- (void) stopAnimating {
+- (void) beginAnimatingWithEnhancement:(UserEnhancement *)ue {
+  [self stopAnimating];
+  
+  _enhancement = ue;
+  //[self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
+  if (ue.feeders.count) {
+    [self displayProgressBar];
+  }
+}
+
+- (void) stopAnimating {
+  _enhancement = nil;
 //  [self.buildingSprite stopAllActions];
-//  [self.buildingSprite setSpriteFrame:[self.anim.frames[0] spriteFrame]];
-//}
+  //  [self.buildingSprite setSpriteFrame:[self.anim.frames[0] spriteFrame]];
+  
+  if (!self.isConstructing) {
+    [self removeProgressBar];
+  }
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    return @"healing";
+  }
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+      
+      EnhancementItem *feeder = _enhancement.feeders.firstObject;
+      NSTimeInterval time = [_enhancement expectedEndTimeForItem:feeder].timeIntervalSinceNow;
+      NSTimeInterval totalSecs = [_enhancement secondsForCompletionForItem:feeder];
+      [bar updateForSecsLeft:time totalSecs:totalSecs];
+    }
+  }
+}
 
 @end
 
 @implementation EvoBuilding
+
+- (void) beginAnimatingWithEvolution:(UserEvolution *)ue {
+  [self stopAnimating];
+  _evolution = ue;
+  //[self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
+  
+  if (ue) {
+    [self displayProgressBar];
+  }
+}
+
+- (void) stopAnimating {
+  //  [self.buildingSprite stopAllActions];
+  
+  if (!self.isConstructing) {
+    [self removeProgressBar];
+  }
+  
+  _evolution = nil;
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    return @"healing";
+  }
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+      
+      NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
+      NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
+      [bar updateForSecsLeft:time totalSecs:totalSecs];
+    }
+  }
+}
 
 @end
 
@@ -765,5 +842,9 @@
 - (BOOL) isExemptFromReorder {
   return YES;
 }
+
+@end
+
+@implementation TeamCenterBuilding
 
 @end

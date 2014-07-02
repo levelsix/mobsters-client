@@ -79,6 +79,8 @@
   self.slotEmptyView.center = self.monsterDescriptionView.center;
   [self.monsterDescriptionView.superview addSubview:self.slotEmptyView];
   
+  self.teamView.superview.layer.cornerRadius = self.mainView.layer.cornerRadius;
+  
   [self loadProfile];
 }
 

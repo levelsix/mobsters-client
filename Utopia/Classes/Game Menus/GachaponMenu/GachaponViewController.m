@@ -17,6 +17,8 @@
 #import "MyCroniesViewController.h"
 #import "UIImage+ImageEffects.h"
 #import "GPUImage.h"
+#import "HomeViewController.h"
+#import "GameViewController.h"
 
 @implementation GachaponViewController
 
@@ -166,7 +168,7 @@
   if (gs.gold < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count >= gs.maxInventorySlots) {
-    [GenericPopupController displayNotificationViewWithText:@"Uh oh, your inventory is full. Go to your residence to sell some mobsters." title:@"Can't Spin"];
+    [GenericPopupController displayConfirmationWithDescription:@"Uh oh, your residences are full. Sell some mobsters to free up space." title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
     [self.topBar updateLabels];
@@ -180,7 +182,11 @@
 }
 
 - (void) manageTeam {
-  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc dismissViewControllerAnimated:YES completion:^{
+    HomeViewController *hvc = [[HomeViewController alloc] initWithSell];
+    [hvc displayInParentViewController:gvc];
+  }];
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
@@ -218,7 +224,8 @@
 }
 
 - (IBAction)menuCloseClicked:(id)sender {
-  if (!_isSpinning) {
+  GameState *gs = [GameState sharedGameState];
+  if (!_isSpinning || gs.isAdmin) {
     [super menuCloseClicked:sender];
   }
 }

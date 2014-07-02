@@ -44,6 +44,7 @@
 - (void) updateForListObject:(UserMonster *)um {
   [self.monsterView updateForMonsterId:um.monsterId];
   
+  self.botLabel.hidden = YES;
   self.timerView.hidden = YES;
 }
 

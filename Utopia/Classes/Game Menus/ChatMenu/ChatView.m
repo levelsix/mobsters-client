@@ -23,7 +23,7 @@
     self.center = pt;
     
     self.alpha = 0.f;
-    self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+    self.transform = CGAffineTransformMakeScale(0.5f, 0.5f);
     [UIView animateWithDuration:0.2f animations:^{
       self.alpha = 1.f;
       self.transform = CGAffineTransformIdentity;
@@ -38,7 +38,7 @@
 - (void) close:(void (^)(void))completion {
   if (!self.hidden) {
     [UIView animateWithDuration:0.1f animations:^{
-      self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+      self.transform = CGAffineTransformMakeScale(0.5f, 0.5f);
       self.alpha = 0.f;
     } completion:^(BOOL finished) {
       self.hidden = YES;
@@ -48,6 +48,7 @@
       }
     }];
   } else {
+    self.hidden = YES;
     if (completion) {
       completion();
     }

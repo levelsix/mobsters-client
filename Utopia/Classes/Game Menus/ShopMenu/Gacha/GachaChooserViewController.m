@@ -23,10 +23,16 @@
   self.listView.cellClassName = @"GachaChooserCardCell";
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
   [self reloadListView];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  [self adjustSizeOfView];
 }
 
 #pragma mark - Reloading list view
@@ -35,11 +41,19 @@
   [self reloadPackagesArray];
   [self.listView reloadTableAnimated:NO listObjects:self.boosterPacks];
   
+  [self adjustSizeOfView];
+}
+
+- (void) adjustSizeOfView {
   CGSize cs = self.listView.collectionView.contentSize;
-  CGRect f = self.listView.collectionView.frame;
-  if (cs.width < f.size.width) {
-    self.listView.collectionView.contentOffset = ccp(cs.width/2-f.size.width/2, 0);
+  CGRect f = self.view.frame;
+  CGSize ss = self.view.superview.frame.size;
+  if (cs.width < ss.width) {
     self.listView.collectionView.scrollEnabled = NO;
+    
+    f.size = cs;
+    f.origin.x = ss.width/2-f.size.width/2;
+    self.view.frame = f;
   } else {
     self.listView.collectionView.contentOffset = ccp(0,0);
     self.listView.collectionView.scrollEnabled = YES;

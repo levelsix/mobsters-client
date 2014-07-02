@@ -308,9 +308,7 @@
     }
   }
   
-  [self reloadHospitals];
-  [self reloadStorages];
-  [self reloadPier];
+  [self reloadAllBubbles];
   
   [arr addObjectsFromArray:[self reloadObstacles]];
   
@@ -448,100 +446,7 @@
   [self reloadObstacles];
 }
 
-- (void) reloadHospitals {
-  GameState *gs = [GameState sharedGameState];
-  NSArray *hosps = [gs myValidHospitals];
-  for (CCSprite *spr in self.children) {
-    if ([spr isKindOfClass:[HospitalBuilding class]]) {
-      HospitalBuilding *hosp = (HospitalBuilding *)spr;
-      UserStruct *s = hosp.userStruct;
-      NSInteger index = [hosps indexOfObject:s];
-      UserMonsterHealingItem *hi = nil;
-      
-      if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
-        hi = gs.monsterHealingQueue[index];
-      }
-      
-      if (hi) {
-        [hosp beginAnimatingWithHealingItem:hi];
-      } else {
-        [hosp stopAnimating];
-      }
-    }
-  }
-}
-
-- (void) reloadPier {
-  GameState *gs = [GameState sharedGameState];
-  MiniJobCenterBuilding *mjcb = nil;
-  for (CCSprite *spr in self.children) {
-    if ([spr isKindOfClass:[MiniJobCenterBuilding class]]) {
-      mjcb = (MiniJobCenterBuilding *)spr;
-    }
-  }
-  
-  UserMiniJob *active = nil;
-  for (UserMiniJob *mj in gs.myMiniJobs) {
-    if (mj.timeStarted || mj.timeCompleted) {
-      active = mj;
-    }
-  }
-  
-  if (!active && gs.myMiniJobs.count > 0) {
-    active = gs.myMiniJobs[0];
-  }
-  
-  [mjcb updateForActiveMiniJob:active];
-}
-
-- (void) reloadStorages {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *oilArr = [NSMutableArray array];
-  NSMutableArray *cashArr = [NSMutableArray array];
-  for (CCSprite *spr in self.children) {
-    if ([spr isKindOfClass:[ResourceStorageBuilding class]]) {
-      ResourceType type = ((ResourceStorageProto *)((ResourceStorageBuilding *)spr).userStruct.staticStruct).resourceType;
-      if (type == ResourceTypeCash) {
-        [cashArr addObject:spr];
-      } else if (type == ResourceTypeOil) {
-        [oilArr addObject:spr];
-      }
-    }
-  }
-  
-  int curCash = gs.silver;
-  int curOil = gs.oil;
-  
-  NSComparator comp = ^NSComparisonResult(ResourceStorageBuilding *obj1, ResourceStorageBuilding *obj2) {
-    int capacity1 = ((ResourceStorageProto *)obj1.userStruct.staticStruct).capacity;
-    int capacity2 = ((ResourceStorageProto *)obj2.userStruct.staticStruct).capacity;
-    return [@(capacity1) compare:@(capacity2)];
-  };
-  [cashArr sortUsingComparator:comp];
-  [oilArr sortUsingComparator:comp];
-  
-  for (NSMutableArray *arr in @[cashArr, oilArr]) {
-    int curVal = arr == cashArr ? curCash : curOil;
-    while (arr.count > 0) {
-      NSInteger count = arr.count;
-      int amount = curVal/count;
-      ResourceStorageBuilding *res = arr[0];
-      int capacity1 = ((ResourceStorageProto *)res.userStruct.staticStruct).capacity;
-      
-      if (capacity1 >= amount) {
-        for (ResourceStorageBuilding *r in arr) {
-          float cap = ((ResourceStorageProto *)r.userStruct.staticStruct).capacity;
-          [r setPercentage:amount/cap];
-        }
-        break;
-      } else {
-        [res setPercentage:1.f];
-        curVal -= capacity1;
-        [arr removeObject:res];
-      }
-    }
-  }
-}
+#pragma mark - Reloading buildings
 
 - (NSArray *) refreshForExpansion {
   NSMutableArray *arr = [NSMutableArray array];
@@ -576,6 +481,182 @@
   return arr;
 }
 
+- (void) reloadHospitals {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int hurtMobsters = 0;
+  for (UserMonster *um in gs.myMonsters) {
+    if (um.isAvailable && um.curHealth < [gl calculateMaxHealthForMonster:um]) {
+      hurtMobsters++;
+    }
+  }
+  
+  NSArray *hosps = [gs myValidHospitals];
+  for (CCSprite *spr in [self childrenOfClassType:[HospitalBuilding class]]) {
+      HospitalBuilding *hosp = (HospitalBuilding *)spr;
+      UserStruct *s = hosp.userStruct;
+      NSInteger index = [hosps indexOfObject:s];
+      UserMonsterHealingItem *hi = nil;
+      
+      if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
+        hi = gs.monsterHealingQueue[index];
+      }
+      
+      if (hi) {
+        [hosp beginAnimatingWithHealingItem:hi];
+        
+        [hosp setBubbleType:BuildingBubbleTypeNone];
+      } else {
+        [hosp stopAnimating];
+        
+        [hosp setBubbleType:hurtMobsters ? BuildingBubbleTypeHeal : BuildingBubbleTypeNone withNum:hurtMobsters];
+      }
+  }
+}
+
+- (void) reloadPier {
+  GameState *gs = [GameState sharedGameState];
+  UserStruct *mjc = [gs myMiniJobCenter];
+  MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
+  
+  if (mjc.staticStruct.structInfo.level == 0) {
+    UserStruct *th = [gs myTownHall];
+    int thLevel = th.isComplete ? th.staticStruct.structInfo.level : th.staticStructForPrevLevel.structInfo.level;
+    if (mjc.staticStructForNextLevel.structInfo.prerequisiteTownHallLvl <= thLevel) {
+      [mjcb setBubbleType:BuildingBubbleTypeFix];
+    } else {
+      [mjcb setBubbleType:BuildingBubbleTypeNone];
+    }
+  } else {
+    [mjcb setBubbleType:BuildingBubbleTypeNone];
+    
+    UserMiniJob *active = nil;
+    for (UserMiniJob *mj in gs.myMiniJobs) {
+      if (mj.timeStarted || mj.timeCompleted) {
+        active = mj;
+      }
+    }
+    
+    if (!active && gs.myMiniJobs.count > 0) {
+      active = gs.myMiniJobs[0];
+    }
+    
+    [mjcb updateForActiveMiniJob:active];
+  }
+}
+
+- (void) reloadStorages {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *oilArr = [NSMutableArray array];
+  NSMutableArray *cashArr = [NSMutableArray array];
+  for (CCSprite *spr in [self childrenOfClassType:[ResourceStorageBuilding class]]) {
+    ResourceType type = ((ResourceStorageProto *)((ResourceStorageBuilding *)spr).userStruct.staticStruct).resourceType;
+    if (type == ResourceTypeCash) {
+      [cashArr addObject:spr];
+    } else if (type == ResourceTypeOil) {
+      [oilArr addObject:spr];
+    }
+  }
+  
+  int curCash = gs.silver;
+  int curOil = gs.oil;
+  BOOL cashFull = curCash >= [gs maxCash];
+  BOOL oilFull = curOil >= [gs maxOil];
+  
+  NSComparator comp = ^NSComparisonResult(ResourceStorageBuilding *obj1, ResourceStorageBuilding *obj2) {
+    int capacity1 = ((ResourceStorageProto *)obj1.userStruct.staticStruct).capacity;
+    int capacity2 = ((ResourceStorageProto *)obj2.userStruct.staticStruct).capacity;
+    return [@(capacity1) compare:@(capacity2)];
+  };
+  [cashArr sortUsingComparator:comp];
+  [oilArr sortUsingComparator:comp];
+  
+  for (NSMutableArray *arr in @[cashArr, oilArr]) {
+    int curVal = arr == cashArr ? curCash : curOil;
+    BuildingBubbleType bubbleType = (arr == cashArr ? cashFull : oilFull) ? BuildingBubbleTypeFull : BuildingBubbleTypeNone;
+    while (arr.count > 0) {
+      NSInteger count = arr.count;
+      int amount = curVal/count;
+      ResourceStorageBuilding *res = arr[0];
+      int capacity1 = ((ResourceStorageProto *)res.userStruct.staticStruct).capacity;
+      
+      if (capacity1 >= amount) {
+        // Rest of the storages can handle cap
+        for (ResourceStorageBuilding *r in arr) {
+          float cap = ((ResourceStorageProto *)r.userStruct.staticStruct).capacity;
+          [r setPercentage:amount/cap];
+          
+          [r setBubbleType:bubbleType];
+        }
+        break;
+      } else {
+        // This storage is full
+        [res setPercentage:1.f];
+        curVal -= capacity1;
+        [arr removeObject:res];
+        
+        [res setBubbleType:bubbleType];
+      }
+    }
+  }
+}
+
+- (NSArray *)childrenOfClassType:(Class)class {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (id obj in self.children) {
+    if ([obj isKindOfClass:class]) {
+      [arr addObject:obj];
+    }
+  }
+  return arr;
+}
+
+- (void) reloadBubblesOnMiscBuildings {
+  GameState *gs = [GameState sharedGameState];
+  
+  BOOL numOverInv = gs.myMonsters.count - [gs maxInventorySlots];
+  for (Building *b in [self childrenOfClassType:[ResidenceBuilding class]]) {
+    [b setBubbleType:(numOverInv > 0 ? BuildingBubbleTypeSell : BuildingBubbleTypeNone)  withNum:numOverInv];
+  }
+  
+  int numOnTeam = gs.allBattleAvailableAliveMonstersOnTeam.count;
+  for (Building *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
+    [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
+  }
+  
+  BOOL evoInProgress = gs.userEvolution != nil;
+  for (EvoBuilding *b in [self childrenOfClassType:[EvoBuilding class]]) {
+    if (!evoInProgress) {
+      [b setBubbleType:BuildingBubbleTypeEvolve];
+      [b stopAnimating];
+    } else {
+      [b setBubbleType:BuildingBubbleTypeNone];
+      [b beginAnimatingWithEvolution:gs.userEvolution];
+    }
+  }
+  
+  BOOL enhanceInProgress = gs.userEnhancement != nil;
+  for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
+    if (!enhanceInProgress) {
+      [b setBubbleType:BuildingBubbleTypeEnhance];
+      [b stopAnimating];
+    } else {
+      [b setBubbleType:BuildingBubbleTypeNone];
+      [b beginAnimatingWithEnhancement:gs.userEnhancement];
+    }
+  }
+}
+
+- (void) reloadAllBubbles {
+  [self reloadHospitals];
+  [self reloadStorages];
+  [self reloadPier];
+  [self reloadBubblesOnMiscBuildings];
+}
+
+#pragma mark - Moving
+
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
   //  Globals *gl = [Globals sharedGlobals];
   HomeBuilding *mb = nil;
@@ -597,6 +678,46 @@
     }
   }
 }
+
+- (void) pointArrowOnManageTeam {
+  HomeBuilding *b = [self childrenOfClassType:[TeamCenterBuilding class]][0];
+  [self pointArrowOnBuilding:b config:MapBotViewButtonTeam];
+}
+
+- (void) pointArrowOnSellMobsters {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[ResidenceBuilding class]];
+  for (HomeBuilding *x in arr) {
+    if (x.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level > b.userStruct.staticStruct.structInfo.level) {
+      b = x;
+    }
+  }
+  
+  [self pointArrowOnBuilding:b config:MapBotViewButtonSell];
+}
+
+- (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
+  [_arrowBuilding removeArrowAnimated:YES];
+  
+  [b displayArrow];
+  [self moveToSprite:b animated:YES];
+  
+  _arrowBuilding = b;
+  _arrowButtonConfig = config;
+  
+  [self scheduleOnce:@selector(removeArrowOnBuilding) delay:8.f];
+}
+
+- (void) removeArrowOnBuilding {
+  if (_arrowBuilding) {
+    [Globals removeUIArrowFromViewRecursively:self.buildBotView];
+    [_arrowBuilding removeArrowAnimated:YES];
+    _arrowBuilding = nil;
+    _arrowButtonConfig = 0;
+  }
+}
+
+#pragma mark - Reordering
 
 - (void) doReorder {
   [super doReorder];
@@ -708,6 +829,8 @@
       [_purchBuilding liftBlock];
       [_purchBuilding clearMeta];
     }
+    
+    [self removeArrowOnBuilding];
   }
 }
 
@@ -721,10 +844,10 @@
     StructureInfoProto *fsp = us.staticStruct.structInfo;
     StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
     
+    BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
+    NSString *lvlStr = isUpgradableBuilding ? [NSString stringWithFormat:@" (%@)", fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken"] : @"";
+    self.buildingNameLabel.text = [NSString stringWithFormat:@"%@%@", fsp.name, lvlStr];
     if (us.isComplete) {
-      BOOL isUpgradableBuilding = fsp.predecessorStructId || fsp.successorStructId;
-      NSString *lvlStr = isUpgradableBuilding ? [NSString stringWithFormat:@" (%@)", fsp.level ? [NSString stringWithFormat:@"LVL %d", fsp.level] : @"Broken"] : @"";
-      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@%@", fsp.name, lvlStr];
       
       if (isUpgradableBuilding) {
         if (fsp.successorStructId) {
@@ -792,6 +915,14 @@
   }
   
   [botView addAnimateViewsToContainerView:buttonViews];
+  
+  if (self.selected == _arrowBuilding) {
+    for (MapBotViewButton *b in buttonViews) {
+      if (b.config == _arrowButtonConfig) {
+        [Globals createUIArrowForView:b atAngle:0];
+      }
+    }
+  }
 }
 
 - (void) mapBotViewButtonSelected:(MapBotViewButton *)button {
@@ -824,6 +955,8 @@
     default:
       break;
   }
+  
+  [self removeArrowOnBuilding];
 }
 
 #pragma mark - Gesture Recognizers
@@ -997,6 +1130,8 @@
   }
   _constrBuilding = nil;
   
+  [self reloadAllBubbles];
+  
   [QuestUtil checkAllStructQuests];
   [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -1025,6 +1160,8 @@
   
   [_timers removeObject:timer];
 }
+
+#pragma mark - IBActions
 
 - (IBAction)moveCheckClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
@@ -1119,8 +1256,6 @@
     [SoundEngine closeButtonClick];
   }
 }
-
-#pragma mark - IBActions
 
 - (IBAction)enterClicked:(id)sender {
   UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
@@ -1381,12 +1516,17 @@
             [self reselectCurrentSelection];
           }
           
+          [self reloadAllBubbles];
+          
           if (_constrBuilding == mb) {
             _constrBuilding = nil;
           }
           [self updateTimersForBuilding:mb];
           
           [SoundEngine structCompleted];
+          
+          [QuestUtil checkAllStructQuests];
+          [AchievementUtil checkBuildingUpgrade:us.structId];
           
           _isSpeedingUp = NO;
         };
@@ -1397,9 +1537,6 @@
           comp();
           [mb removeProgressBar];
         }
-        
-        [QuestUtil checkAllStructQuests];
-        [AchievementUtil checkBuildingUpgrade:us.structId];
         
         return YES;
       }
@@ -1428,6 +1565,8 @@
           }
           [self updateTimersForBuilding:os];
           
+          [AchievementUtil checkObstacleRemoved];
+          
           _isSpeedingUp = NO;
         };
         
@@ -1437,8 +1576,6 @@
           comp();
           [os removeProgressBar];
         }
-        
-        [AchievementUtil checkObstacleRemoved];
         
         return YES;
       }
@@ -1521,9 +1658,18 @@
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPier) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  
+  // Mini job just redeemed
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) onExitTransitionDidStart {

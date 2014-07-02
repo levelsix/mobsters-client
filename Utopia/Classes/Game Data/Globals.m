@@ -1410,9 +1410,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
 }
 
-- (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  UserMonster *um = baseMonster.userMonster;
-  return self.oilPerMonsterLevel*um.level;
+- (int) calculateOilCostForEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
+  int additionalLevel = [ue currentPercentageOfLevel];
+  return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
 }
 
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
@@ -1471,19 +1471,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Start over..
   float level = 1;
   if (mp.lvlInfoList.count > 0) {
-    MonsterLevelInfoProto *info = [mp.lvlInfoList firstObject];
+    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
     float maxExp = info.curLvlRequiredExp;
     level = powf(experience/maxExp, 1.f/info.expLvlExponent)*(info.expLvlDivisor-1)+1;
     
     int curLevel = (int)level;
     int nextLevel = curLevel+1;
     
-    int curReqExp = powf((curLevel-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
-    int nextReqExp = powf((nextLevel-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
+    int curReqExp = [self calculateExperienceRequiredForMonster:monsterId level:curLevel];
+    int nextReqExp = [self calculateExperienceRequiredForMonster:monsterId level:nextLevel];
     
     level = curLevel+(experience-curReqExp)/(float)(nextReqExp-curReqExp);
   }
   return MIN(mp.maxLevel, level);
+}
+
+- (int) calculateExperienceRequiredForMonster:(int)monsterId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:monsterId];
+  int experience = 0;
+  if (mp.lvlInfoList.count > 0) {
+    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
+    float maxExp = info.curLvlRequiredExp;
+    experience = powf((level-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
+  }
+  return experience;
 }
 
 - (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement {
@@ -1844,7 +1856,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self.productIdsToPackages objectForKey:pid];
 }
 
-+ (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector {
++ (BOOL) checkEnteringDungeon {
+  return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
+}
+
++ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   //  Globals *gl = [Globals sharedGlobals];
@@ -1863,7 +1879,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } else {
       description = @"Uh oh, your mobsters are out of health. Manage your team?";
     }
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:target selector:selector];
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Battle" okayButton:@"Manage" cancelButton:@"Later" target:target selector:noTeamSelector];
     
     return NO;
   }
@@ -1871,8 +1887,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that inventory is not full
   NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:target selector:selector];
+    NSString *description = @"Uh oh, you have recruited too many mobsters. Go to your residences to sell some?";
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Battle" okayButton:@"Sell" cancelButton:@"Later" target:target selector:inventoryFullSelector];
     return NO;
   }
   

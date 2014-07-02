@@ -85,13 +85,23 @@
 
 @end
 
-@interface LabBuilding : HomeBuilding
+@interface LabBuilding : HomeBuilding {
+  UserEnhancement *_enhancement;
+}
 
 @property (nonatomic, retain) CCAnimation *anim;
 
+- (void) beginAnimatingWithEnhancement:(UserEnhancement *)ue;
+- (void) stopAnimating;
+
 @end
 
-@interface EvoBuilding : HomeBuilding
+@interface EvoBuilding : HomeBuilding {
+  UserEvolution *_evolution;
+}
+
+- (void) beginAnimatingWithEvolution:(UserEvolution *)ue;
+- (void) stopAnimating;
 
 @end
 
@@ -100,5 +110,9 @@
 @property (nonatomic, retain) UserMiniJob *activeMiniJob;
 
 - (void) updateForActiveMiniJob:(UserMiniJob *)activeMiniJob;
+
+@end
+
+@interface TeamCenterBuilding : HomeBuilding
 
 @end

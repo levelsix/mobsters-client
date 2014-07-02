@@ -57,7 +57,7 @@
     [ue.feeders removeObject:item];
     
     float percIncrease = newPerc-curPerc;
-    int cost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:item];
+    int cost = [gl calculateOilCostForEnhancement:ue feeder:item];
     self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@ oil", [Globals commafyNumber:(int)roundf(percIncrease*100)], [Globals commafyNumber:cost]];
   }
   

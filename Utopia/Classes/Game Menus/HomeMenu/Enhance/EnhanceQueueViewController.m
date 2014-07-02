@@ -33,8 +33,8 @@
   NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"dot.png"];
   [Globals imageNamed:tagName withView:self.rarityDot maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  int percIncrease = [ue percentageIncreaseOfNewUserMonster:listObject roundToPercent:YES];
-  self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@%%", [Globals commafyNumber:percIncrease]];
+  int ptsIncrease = [ue experienceIncreaseOfNewUserMonster:listObject];
+  self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:ptsIncrease]];
 }
 
 @end
@@ -49,6 +49,9 @@
     GameState *gs = [GameState sharedGameState];
     if (_allowAddingToQueue && !gs.userEnhancement) {
       [[OutgoingEventController sharedOutgoingEventController] setBaseEnhanceMonster:um.userMonsterId];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
   return self;
@@ -73,7 +76,9 @@
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.curPercentLabel.superview.layer.cornerRadius = 4.f;
+  self.title = [NSString stringWithFormat:@"Enhance %@", mp.displayName];
+  
+  self.curExpLabel.superview.layer.cornerRadius = 4.f;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -91,6 +96,9 @@
   UserEnhancement *ue = self.currentEnhancement;
   if (_allowAddingToQueue && ue.baseMonster && ue.feeders.count == 0) {
     [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   }
   
   [[SocketCommunication sharedSocketCommunication] flush];
@@ -148,23 +156,30 @@
   self.curPercentLabel.text = [NSString stringWithFormat:@"%d%%", curPerc];
   self.addedPercentLabel.text = [NSString stringWithFormat:@"%@%%", [Globals commafyNumber:delta]];
   
+  self.curProgressBar.percentage = curPerc/100.f;
+  self.addedProgressBar.percentage = newPerc/100.f;
+  
+  int additionalNewLevel = (int)(newPerc/100.f);
   int curLevel = um.level+additionalLevel;
-  int newLevel = MIN(curLevel+1, um.staticMonster.maxLevel);
-  self.nextLevelLabel.text = [NSString stringWithFormat:@"to level %d", newLevel];
-  self.title = [NSString stringWithFormat:@"Enhance %@ to Level %d", um.staticMonster.monsterName, newLevel];
+  int newLevel = MIN(curLevel+additionalNewLevel+1, um.staticMonster.maxLevel);
+  self.nextLevelLabel.text = [NSString stringWithFormat:@"Needed for\nlevel %d", newLevel];
+  self.curLevelLabel.text = [NSString stringWithFormat:@"Level %d:", curLevel];
+  
+  int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
+  int curExp = [gl calculateExperienceIncrease:ue];
+  self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
   
   int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (timeLeft || speedupCost) {
-    self.timeLabel.text = [[Globals convertTimeToShorterString:timeLeft] uppercaseString];
-    [Globals adjustView:self.timeLabel.superview withLabel:self.timeLabel forXAnchor:1.f];
+    self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
     self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
     [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
   }
   
-  int oilCost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:nil];
+  int oilCost = [gl calculateOilCostForEnhancement:ue feeder:nil];
   self.queueingCostLabel.text = [Globals commafyNumber:oilCost];
   [Globals adjustViewForCentering:self.queueingCostLabel.superview withLabel:self.queueingCostLabel];
   
@@ -175,7 +190,7 @@
   int curHp = [gl calculateMaxHealthForMonster:um];
   int curSpeed = [gl calculateSpeedForMonster:um];
   
-  um.level = newLevel;
+  um.level = MIN(curLevel+1, um.staticMonster.maxLevel);
   int newAttk = [gl calculateTotalDamageForMonster:um];
   int newHp = [gl calculateMaxHealthForMonster:um];
   int newSpeed = [gl calculateSpeedForMonster:um];
@@ -227,11 +242,20 @@
     }
   }
   
+  Globals *gl = [Globals sharedGlobals];
   UserEnhancement *ue = self.currentEnhancement;
   [arr sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    float perc1 = [ue percentageIncreaseOfNewUserMonster:obj1 roundToPercent:NO];
-    float perc2 = [ue percentageIncreaseOfNewUserMonster:obj2 roundToPercent:NO];
-    return [@(perc2) compare:@(perc1)];
+    EnhancementItem *ei = [[EnhancementItem alloc] init];
+    ei.userMonsterId = obj1.userMonsterId;
+    float exp1 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
+    
+    ei.userMonsterId = obj2.userMonsterId;
+    float exp2 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
+    if (exp1 != exp2) {
+      return [@(exp2) compare:@(exp1)];
+    } else {
+      return [obj1 compare:obj2];
+    }
   }];
   
   self.userMonsters = arr;
@@ -244,14 +268,17 @@
   if (listView == self.listView) {
     [(EnhanceSmallCardCell *)cell updateForListObject:listObject userEnhancement:ue];
   } else {
-    if ([listObject isKindOfClass:[EnhancementItem class]]) {
-      [cell updateForListObject:((EnhancementItem *)listObject).userMonster];
-    } else {
-      [cell updateForListObject:listObject];
-    }
+    UserMonster *um = [listObject isKindOfClass:[EnhancementItem class]] ? [listObject userMonster] : listObject;
+    [cell updateForListObject:um];
     
+    MonsterQueueCell *queue = (MonsterQueueCell *)cell;
     if (ip.row == 0) {
-      [self updateTimeWithCell:(MonsterQueueCell *)cell];
+      [self updateTimeWithCell:queue];
+    } else {
+      queue.botLabel.hidden = NO;
+      
+      int num = [ue experienceIncreaseOfNewUserMonster:um];
+      queue.botLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:num]];
     }
   }
 }
@@ -299,10 +326,10 @@
   } else {
     EnhancementItem *newItem = [[EnhancementItem alloc] init];
     newItem.userMonsterId = _confirmUserMonster.userMonsterId;
-    _oilCost = [gl calculateOilCostForEnhancement:self.currentEnhancement.baseMonster feeder:newItem];
+    int oilCost = [gl calculateOilCostForEnhancement:self.currentEnhancement feeder:newItem];
     int curAmount = gs.oil;
-    if (_oilCost > curAmount) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:_oilCost-curAmount target:self selector:@selector(useGemsForEnhance)];
+    if (oilCost > curAmount) {
+      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:oilCost-curAmount target:self selector:@selector(useGemsForEnhance)];
     } else {
       [self sendEnhanceAllowGems:NO];
     }
@@ -315,7 +342,7 @@
   
   EnhancementItem *newItem = [[EnhancementItem alloc] init];
   newItem.userMonsterId = _confirmUserMonster.userMonsterId;
-  int cost = [gl calculateOilCostForEnhancement:self.currentEnhancement.baseMonster feeder:newItem];
+  int cost = [gl calculateOilCostForEnhancement:self.currentEnhancement feeder:newItem];
   int curAmount = gs.oil;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
   
@@ -334,6 +361,9 @@
     [self animateUserMonsterIntoQueue:_confirmUserMonster];
     [self reloadListViewAnimated:YES];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    
     [self updateLabels];
   }
 }
@@ -347,7 +377,8 @@
   MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:ip];
   
   if (cardCell && queueCell) {
-    [self.queueCell updateForListObject:um];
+    //[self.queueCell updateForListObject:um];
+    [self listView:self.queueView updateCell:self.queueCell forIndexPath:ip listObject:self.currentEnhancement.feeders[ip.row]];
     [self.cardCell updateForListObject:um userEnhancement:self.currentEnhancement];
     self.cardCell.enhancePercentLabel.text = cardCell.enhancePercentLabel.text;
     
@@ -359,7 +390,7 @@
     [self.queueView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
   }
   
-  [self spawnChangeLabels];
+  //[self spawnChangeLabels];
 }
 
 - (void) spawnChangeLabels {
@@ -400,6 +431,9 @@
     [self reloadListViewAnimated:YES];
     [self animateEnhancementItemOutOfQueue:ei];
     [self reloadQueueViewAnimated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     
     [self updateLabels];
   }
@@ -442,6 +476,9 @@
       [self reloadListViewAnimated:YES];
       [self reloadQueueViewAnimated:YES];
       [self updateLabels];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
 }

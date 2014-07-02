@@ -205,7 +205,7 @@
   
   if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
     id<TaskElement> te = (id<TaskElement>)self.selected;
-    if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    if ([Globals checkEnteringDungeon]) {
       [self teamSpritesEnterBuilding:te];
       [self moveToSprite:(CCSprite *)te animated:YES];
       // Set the gvc as the delegate of this

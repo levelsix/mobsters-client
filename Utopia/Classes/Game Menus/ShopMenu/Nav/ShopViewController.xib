@@ -41,7 +41,7 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" id="MKU-Tv-8Pj">
+                <view contentMode="scaleToFill" id="MKU-Tv-8Pj" customClass="TouchableSubviewsView">
                     <rect key="frame" x="0.0" y="91" width="568" height="229"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -150,7 +150,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="PbI-v6-Vcd">
+                        <view contentMode="scaleToFill" id="PbI-v6-Vcd" customClass="TouchableSubviewsView">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="188"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

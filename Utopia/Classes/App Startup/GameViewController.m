@@ -194,6 +194,7 @@
         }
       }
     }
+    [self.topBarViewController.shopViewController close];
   }
 }
 
@@ -475,6 +476,28 @@
   }
 }
 
+- (void) pointArrowOnManageTeam {
+  if (self.currentMap.cityId != 0) {
+    [self visitCityClicked:0];
+  }
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap pointArrowOnManageTeam];
+    
+    [self removeAllViewControllers];
+  }
+}
+
+- (void) pointArrowOnSellMobsters {
+  if (self.currentMap.cityId != 0) {
+    [self visitCityClicked:0];
+  }
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap pointArrowOnSellMobsters];
+    
+    [self removeAllViewControllers];
+  }
+}
+
 #pragma mark - Moving to other cities
 
 - (void) visitCityClicked:(int)cityId attackMapViewController:(id)vc {
@@ -524,22 +547,28 @@
       
       [self playMapMusic];
     } else {
-      _assetIdForMissionMap = assetId;
-      
-      [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
-      
-      if (!_amvc) {
-        GameState *gs = [GameState sharedGameState];
-        FullCityProto *city = [gs cityWithId:cityId];
-        NSString *labelText = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:3];
-        [paragraphStyle setAlignment:NSTextAlignmentCenter];
-        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
-        self.loadingView.label.attributedText = attributedString;
-        [self.loadingView display:self.view];
-      }
+//      _assetIdForMissionMap = assetId;
+//      
+//      [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
+//      
+//      if (!_amvc) {
+//        GameState *gs = [GameState sharedGameState];
+//        FullCityProto *city = [gs cityWithId:cityId];
+//        NSString *labelText = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
+//        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        [paragraphStyle setLineSpacing:3];
+//        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+//        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+//        self.loadingView.label.attributedText = attributedString;
+//        [self.loadingView display:self.view];
+//      }
+      GameViewController *gvc = self;
+      AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
+      amvc.delegate = gvc;
+      [gvc addChildViewController:amvc];
+      amvc.view.frame = gvc.view.bounds;
+      [gvc.view addSubview:amvc.view];
     }
   } else {
     if (cityId == 0) {
@@ -730,6 +759,10 @@
 
 - (void) battleComplete:(NSDictionary *)params {
   float duration = 0.6;
+  
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap refresh];
+  }
   
   _isInBattle = NO;
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];

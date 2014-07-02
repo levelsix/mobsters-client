@@ -121,10 +121,14 @@
 - (float) finalPercentageFromCurrentLevel;
 
 - (float) percentageIncreaseOfNewUserMonster:(UserMonster *)um roundToPercent:(BOOL)roundToPercent;
+- (int) experienceIncreaseOfNewUserMonster:(UserMonster *)um;
 
+- (int) experienceIncreaseOfItem:(EnhancementItem *)item;
 - (float) currentPercentageForItem:(EnhancementItem *)item;
 - (int) secondsForCompletionForItem:(EnhancementItem *)item;
 - (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item;
+
+- (MSDate *) expectedEndTime;
 
 - (id) clone;
 

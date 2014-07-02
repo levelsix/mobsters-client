@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "UserData.h"
 #import "MapSprite.h"
+#import "HomeBuildingMenus.h"
 
 #define CONSTRUCTION_TAG @"Construction"
 #define SHADOW_TAG @"Shadow"
@@ -20,6 +21,8 @@
 
 @interface Building : SelectableSprite {
   float _percentage;
+  
+  BuildingBubble *_bubble;
 }
 
 @property (nonatomic, retain) CCSprite *buildingSprite;
@@ -37,6 +40,9 @@
 - (void) updateProgressBar;
 - (void) removeProgressBar;
 - (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed;
+
+- (void) setBubbleType:(BuildingBubbleType)bubbleType;
+- (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num;
 
 @end
 

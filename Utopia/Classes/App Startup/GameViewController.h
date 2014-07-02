@@ -78,6 +78,9 @@
 - (void) tutorialFinished;
 
 - (void) buildingPurchased:(int)structId;
+- (void) pointArrowOnSellMobsters;
+- (void) pointArrowOnManageTeam;
+
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;
 
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId;

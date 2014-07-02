@@ -1496,7 +1496,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }  else {
     int cashIncrease = 0;
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
-      cashIncrease += [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
+      cashIncrease += [gl calculateOilCostForEnhancement:gs.userEnhancement feeder:item];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:cashIncrease gemCost:0];
@@ -1519,7 +1519,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   EnhancementItem *newItem = [[EnhancementItem alloc] init];
   newItem.userMonsterId = userMonsterId;
   
-  int oilCost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:newItem];
+  int oilCost = [gl calculateOilCostForEnhancement:ue feeder:newItem];
   
   newItem.enhancementCost = oilCost;
   
@@ -1669,8 +1669,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     } else {
       evoItem.userMonster1.teamSlot = 0;
       evoItem.userMonster2.teamSlot = 0;
+      evoItem.catalystMonster.teamSlot = 0;
       
-      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
+      int tag = 0;//[[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
       GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];

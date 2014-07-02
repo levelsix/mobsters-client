@@ -422,12 +422,6 @@
   return newLevel-base.level;
 }
 
-- (float) currentPercentageForItem:(EnhancementItem *)item {
-  int totalTime = [self secondsForCompletionForItem:item];
-  float timeCompleted = totalTime - [[self expectedEndTimeForItem:item] timeIntervalSinceNow];
-  return timeCompleted/totalTime;
-}
-
 - (float) percentageIncreaseOfNewUserMonster:(UserMonster *)um roundToPercent:(BOOL)roundToPercent {
   // Calculate the percentage
   float curPerc = [self finalPercentageFromCurrentLevel]*100;
@@ -450,6 +444,24 @@
   return percIncrease;
 }
 
+- (int) experienceIncreaseOfNewUserMonster:(UserMonster *)um {
+  EnhancementItem *item = [[EnhancementItem alloc] init];
+  item.userMonsterId = um.userMonsterId;
+  
+  return [self experienceIncreaseOfItem:item];
+}
+
+- (int) experienceIncreaseOfItem:(EnhancementItem *)item {
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateExperienceIncrease:self.baseMonster feeder:item];
+}
+
+- (float) currentPercentageForItem:(EnhancementItem *)item {
+  int totalTime = [self secondsForCompletionForItem:item];
+  float timeCompleted = totalTime - [[self expectedEndTimeForItem:item] timeIntervalSinceNow];
+  return timeCompleted/totalTime;
+}
+
 - (int) secondsForCompletionForItem:(EnhancementItem *)item {
   Globals *gl = [Globals sharedGlobals];
   return [gl calculateSecondsForEnhancement:self.baseMonster feeder:item];
@@ -457,6 +469,11 @@
 
 - (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item {
   return [item.expectedStartTime dateByAddingTimeInterval:[self secondsForCompletionForItem:item]];
+}
+
+- (MSDate *) expectedEndTime {
+  EnhancementItem *item = [self.feeders lastObject];
+  return [self expectedEndTimeForItem:item];
 }
 
 - (id) copy {

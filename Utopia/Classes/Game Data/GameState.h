@@ -192,6 +192,7 @@
 - (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (NSArray *) allBattleAvailableMonstersOnTeam;
+- (NSArray *) allBattleAvailableAliveMonstersOnTeam;
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;

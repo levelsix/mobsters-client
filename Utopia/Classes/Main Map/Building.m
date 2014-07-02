@@ -24,6 +24,11 @@
   if ((self = [super initWithFile:nil location:loc map:map])) {
     self.baseScale = 1.f;
     if (file) [self setupBuildingSprite:file];
+    
+    _bubble = [[BuildingBubble alloc] init];
+    [self addChild:_bubble];
+    _bubble.anchorPoint = ccp(0.5, 0);
+    _bubble.type = BuildingBubbleTypeNone;
   }
   return self;
 }
@@ -54,9 +59,32 @@
   bounce.tag = BOUNCE_ACTION_TAG;
   [self.buildingSprite runAction:bounce];
   
+  if (select) {
+    [self removeBubble];
+  }
+  
   [SoundEngine structSelected];
   
   return select;
+}
+
+- (void) unselect {
+  [super unselect];
+  
+  [self displayBubble];
+}
+
+- (void) displayArrow {
+  [super displayArrow];
+  [self removeBubble];
+}
+
+- (void) removeArrowAnimated:(BOOL)animated {
+  if (self.arrow) {
+    [self displayBubble];
+  }
+  
+  [super removeArrowAnimated:animated];
 }
 
 - (void) setOrientation:(StructOrientation)o {
@@ -80,11 +108,13 @@
   self.buildingSprite.scale = self.baseScale;
   
   float width = (self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.width;
-  float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
-                     self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale);
+  //  float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
+  float height = self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale;
   self.contentSize = CGSizeMake(width, height);
   self.buildingSprite.position = ccp(self.contentSize.width/2+self.horizontalOffset, self.verticalOffset);
   self.orientation = self.orientation;
+  
+  _bubble.position = ccp(self.contentSize.width/2,self.contentSize.height+0.f);
 }
 
 - (void) setupBuildingSprite:(NSString *)fileName {
@@ -104,14 +134,17 @@
 }
 
 - (void) displayProgressBar {
-  if (![self getChildByName:UPGRADING_TAG recursively:NO]) {
-    UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBarWithPrefix:[self progressBarPrefix]];
-    [self addChild:upgrIcon z:5 name:UPGRADING_TAG];
-    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
-    [self schedule:@selector(updateProgressBar) interval:0.05f];
-  }
+  [self removeProgressBar];
+  
+  UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBarWithPrefix:[self progressBarPrefix]];
+  [self addChild:upgrIcon z:5 name:UPGRADING_TAG];
+  upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
+  [self schedule:@selector(updateProgressBar) interval:0.05f];
+  
   _percentage = 0;
   [self updateProgressBar];
+  
+  [self removeBubble];
 }
 
 - (void) updateProgressBar {
@@ -126,6 +159,8 @@
     if (!_percentage) {
       [self unschedule:@selector(updateProgressBar)];
     }
+    
+    [self displayBubble];
   }
 }
 
@@ -159,6 +194,28 @@
          }
        }],
       nil]];
+  }
+}
+
+- (void) setBubbleType:(BuildingBubbleType)bubbleType {
+  [self setBubbleType:bubbleType withNum:0];
+}
+
+- (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num {
+  [_bubble setType:bubbleType withNum:num];
+  _bubble.visible = bubbleType != BuildingBubbleTypeNone;
+}
+
+- (void) removeBubble {
+  [_bubble stopAllActions];
+  [_bubble runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0.f]];
+}
+
+- (void) displayBubble {
+  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+  if (!n && !self.arrow) {
+    [_bubble stopAllActions];
+    [_bubble runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.f]];
   }
 }
 

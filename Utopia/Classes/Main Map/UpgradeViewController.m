@@ -48,7 +48,8 @@
   // Town hall too low
   [self.greyscaleView removeFromSuperview];
   self.greyscaleView = nil;
-  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  UserStruct *th = [gs myTownHall];
+  TownHallProto *thp = (TownHallProto *)(th.isComplete ? th.staticStruct : th.staticStructForPrevLevel);
   int thLevel = thp.structInfo.level;
   if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
     UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];

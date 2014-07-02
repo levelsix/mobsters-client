@@ -96,6 +96,15 @@
                                     <action selector="minusClicked:" destination="WHV-WF-udK" eventType="touchUpInside" id="S1Q-VM-O1E"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="300xp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ck-qn-DeT" customClass="NiceFontLabel10S">
+                                <rect key="frame" x="4" y="27" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -103,6 +112,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
+                <outlet property="botLabel" destination="8ck-qn-DeT" id="nEJ-vZ-ILP"/>
                 <outlet property="monsterView" destination="ENd-8C-uec" id="zO0-lz-o9b"/>
                 <outlet property="progressBar" destination="sDb-sf-CFV" id="Zgi-a5-EG4"/>
                 <outlet property="timeLabel" destination="d1w-2T-6Ys" id="xpb-6S-qJ4"/>

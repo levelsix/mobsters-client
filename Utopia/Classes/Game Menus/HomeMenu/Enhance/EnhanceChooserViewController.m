@@ -100,7 +100,7 @@
     if (isMax1 != isMax2) {
       return [@(isMax1) compare:@(isMax2)];
     } else if (obj1.isEnhancing != obj2.isEnhancing) {
-      return [@(obj1.isEnhancing) compare:@(obj2.isEnhancing)];
+      return [@(obj2.isEnhancing) compare:@(obj1.isEnhancing)];
     } else {
       return [obj1 compare:obj2];
     }

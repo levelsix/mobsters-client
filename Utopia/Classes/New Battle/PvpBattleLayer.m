@@ -27,6 +27,7 @@
     pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];
     pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
     pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
+    pvp.pvpLeagueStats = hist.attackerAfter;
     [pvp addAllDefenderMonsters:hist.attackersMonstersList];
     
     self.defendersList = @[pvp.build];

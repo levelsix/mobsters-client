@@ -34,9 +34,11 @@
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
-#define MONSTER_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
+#define HEAL_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
+#define ENHANCE_QUEUE_CHANGED_NOTIFICATION @"EnhanceQueueChangedNotification"
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
+#define EVOLUTION_CHANGED_NOTIFICATION @"EvolutionChangedNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define MINI_JOB_WAIT_COMPLETE_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
@@ -233,7 +235,8 @@
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 
-+ (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector;
++ (BOOL) checkEnteringDungeon;
++ (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
 
 + (BOOL)isLongiPhone;
 
@@ -292,12 +295,13 @@
 - (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement;
 
 // Enhancement formulas
-- (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateOilCostForEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience;
+- (int) calculateExperienceRequiredForMonster:(int)monsterId level:(int)level;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 + (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor;

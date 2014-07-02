@@ -636,7 +636,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:0 gemCost:0];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [self beginHealingTimer];
 }
 
@@ -694,7 +694,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
     
     [self beginEnhanceTimer];
     
@@ -743,13 +743,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [m addObject:um];
     }
   }
-  
   [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    if (obj1.teamSlot > obj2.teamSlot) {
-      return NSOrderedDescending;
-    } else {
-      return NSOrderedAscending;
-    }
+    return [@(obj1.teamSlot) compare:@(obj2.teamSlot)];
   }];
   
   return m;
@@ -763,9 +758,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [m addObject:um];
     }
   }
-  [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    return [@(obj1.teamSlot) compare:@(obj2.teamSlot)];
-  }];
+  return m;
+}
+
+- (NSArray *) allBattleAvailableAliveMonstersOnTeam {
+  NSArray *arr = [self allBattleAvailableMonstersOnTeam];
+  NSMutableArray *m = [NSMutableArray array];
+  for (UserMonster *um in arr) {
+    if (um.curHealth > 0) {
+      [m addObject:um];
+    }
+  }
   return m;
 }
 
@@ -798,7 +801,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (UserStruct *) myEvoChamber {
   for (UserStruct *us in self.myStructs) {
-    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeLab) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeEvo) {
       return us;
     }
   }
@@ -1314,7 +1317,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
     [self readjustAllMonsterHealingProtos];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
     
@@ -1359,6 +1362,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (arr.count > 0) {
     [[OutgoingEventController sharedOutgoingEventController] enhanceQueueWaitTimeComplete:arr];
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
     [self beginEnhanceTimer];
     
     [QuestUtil checkAllDonateQuests];
@@ -1391,6 +1395,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (self.userEvolution && [self.userEvolution.endTime timeIntervalSinceNow] < 0) {
     [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
     [self beginEvolutionTimer];
     
     [QuestUtil checkAllDonateQuests];

@@ -105,3 +105,62 @@
 }
 
 @end
+
+@implementation BuildingBubble
+
+- (id) init {
+  if ((self = [super init])) {
+    self.anchorPoint = ccp(0.5, 0);
+  }
+  return self;
+}
+
+- (void) setType:(BuildingBubbleType)type withNum:(int)num {
+  if (_type != type || _num != num) {
+    _type = type;
+    _num = num;
+    
+    NSString *suffix = num > 9 || num < 0 ? @"exclamation" : [NSString stringWithFormat:@"%d", num];
+    NSString *imgName;
+    switch (type) {
+      case BuildingBubbleTypeEnhance:
+        imgName = @"enhancebubble.png";
+        break;
+      case BuildingBubbleTypeEvolve:
+        imgName = @"evolvebubble.png";
+        break;
+      case BuildingBubbleTypeFix:
+        imgName = @"fixbubble.png";
+        break;
+      case BuildingBubbleTypeFull:
+        imgName = @"fullbubble.png";
+        break;
+      case BuildingBubbleTypeHeal:
+        imgName = [NSString stringWithFormat:@"healredbubble%@.png", suffix];
+        break;
+      case BuildingBubbleTypeManage:
+        imgName = [NSString stringWithFormat:@"teambubble%@.png", suffix];
+        break;
+      case BuildingBubbleTypeSell:
+        imgName = [NSString stringWithFormat:@"sellbubble%@.png", suffix];
+        break;
+        
+      default:
+        break;
+    }
+    
+    [self.bubbleImage removeFromParent];
+    if (imgName) {
+      CCSprite *bubble = [CCSprite spriteWithImageNamed:imgName];
+      [self addChild:bubble];
+      self.contentSize = bubble.contentSize;
+      
+      bubble.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      bubble.opacity = self.opacity;
+      
+      self.bubbleImage = bubble;
+    }
+  }
+}
+
+@end

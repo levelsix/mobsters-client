@@ -130,6 +130,8 @@
     r.size.width = self.view.frame.size.width-r.origin.x;
     self.coinBarsView.frame = r;
   }
+  
+  [self.shopViewController close];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -368,12 +370,14 @@
 }
 
 - (IBAction)attackClicked:(id)sender {
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
-  amvc.delegate = gvc;
-  [gvc addChildViewController:amvc];
-  amvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:amvc.view];
+  if ([Globals checkEnteringDungeon]) {
+    GameViewController *gvc = (GameViewController *)self.parentViewController;
+    AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
+    amvc.delegate = gvc;
+    [gvc addChildViewController:amvc];
+    amvc.view.frame = gvc.view.bounds;
+    [gvc.view addSubview:amvc.view];
+  }
 }
 
 - (IBAction)plusClicked:(id)sender {

@@ -41,3 +41,26 @@
 - (void) updateForPercentage:(float)percentage;
 
 @end
+
+typedef enum {
+  BuildingBubbleTypeNone = 0,
+  BuildingBubbleTypeEnhance,
+  BuildingBubbleTypeEvolve,
+  BuildingBubbleTypeFix,
+  BuildingBubbleTypeFull,
+  BuildingBubbleTypeHeal,
+  BuildingBubbleTypeManage,
+  BuildingBubbleTypeSell,
+} BuildingBubbleType;
+
+@interface BuildingBubble : CCNode {
+  int _num;
+}
+
+@property (nonatomic, retain) CCLabelTTF *label;
+@property (nonatomic, retain) CCSprite *bubbleImage;
+@property (nonatomic, assign) BuildingBubbleType type;
+
+- (void) setType:(BuildingBubbleType)type withNum:(int)num;
+
+@end

@@ -312,6 +312,8 @@
     [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:self.userStruct withGems:YES delegate:self];
     [self.bonusView spinnerOnGems];
     _canClick = NO;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:self userInfo:nil];
   }
 }
 

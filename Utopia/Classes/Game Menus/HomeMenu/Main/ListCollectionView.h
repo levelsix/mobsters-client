@@ -66,6 +66,8 @@
 @property (nonatomic, strong) IBOutlet SplitImageProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;
 
+@property (nonatomic, strong) IBOutlet UILabel *botLabel;
+
 - (void) updateTimeWithTimeLeft:(int)timeLeft percent:(float)percentage;
 
 @end

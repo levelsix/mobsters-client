@@ -191,6 +191,7 @@
   [self showTaskStatusForMapElement:(int)icon.tag];
   
   _selectedIcon.glowIcon.hidden = YES;
+  _selectedIcon.nameLabel.hidden = YES;
   _selectedIcon = icon;
   if (!icon.isLocked) _selectedIcon.glowIcon.hidden = NO;
   _selectedIcon.nameLabel.hidden = NO;
@@ -198,7 +199,7 @@
 }
 
 - (IBAction)enterDungeonClicked:(id)sender {
-  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+  if (!_buttonClicked && [Globals checkEnteringDungeon]) {
     [self.delegate enterDungeon:self.taskStatusView.taskId isEvent:NO eventId:0 useGems:NO];
   }
 }
@@ -210,7 +211,7 @@
   }
   
   AttackEventView *eventView = (AttackEventView *)sender;
-  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+  if (!_buttonClicked && [Globals checkEnteringDungeon]) {
     _buttonClicked = YES;
     [self.timer invalidate];
     [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:tag];
@@ -220,7 +221,7 @@
 #pragma mark - PVP
 
 - (IBAction)findMatchClicked:(id)sender {
-  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+  if (!_buttonClicked && [Globals checkEnteringDungeon]) {
     GameState *gs = [GameState sharedGameState];
     if (gs.hasActiveShield) {
       NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
@@ -262,12 +263,6 @@
 - (void) nextMatch:(BOOL)useGems {
   // GameViewController will close
   [self.delegate findPvpMatch:useGems];
-}
-
-- (void) visitTeamPage {
-  MenuNavigationController *mnc = [[MenuNavigationController alloc] init];
-  [mnc pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
-  [self presentViewController:mnc animated:YES completion:nil];
 }
 
 #pragma mark - EventView and TaskStatusView

@@ -58,7 +58,7 @@
                                                     <outlet property="rightCap" destination="Aa0-JA-s0M" id="kuv-vT-Obh"/>
                                                 </connections>
                                             </view>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="400/500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="leD-Qq-VdQ" customClass="NiceFontLabel10">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="400/500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="leD-Qq-VdQ" customClass="NiceFontLabel10S">
                                                 <rect key="frame" x="5" y="-6" width="65" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>

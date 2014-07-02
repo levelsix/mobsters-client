@@ -144,7 +144,7 @@
         [Globals popupMessage:@"Sorry, you can no longer enter this raid. Your original team no longer exists."];
       } else {
         // This will automatically ask if you want to set a team
-        [Globals checkEnteringDungeonWithTarget:self selector:@selector(manageClicked:)];
+        //[Globals checkEnteringDungeonWithTarget:self selector:@selector(manageClicked:)];
       }
     }
   } else {

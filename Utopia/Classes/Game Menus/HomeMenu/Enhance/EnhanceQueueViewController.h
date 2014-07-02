@@ -27,7 +27,6 @@
   
   UserMonster *_confirmUserMonster;
   int _percentIncrease;
-  int _oilCost;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *queueView;
@@ -46,6 +45,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueingCostLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *curExpLabel;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *curProgressBar;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *addedProgressBar;
 
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 

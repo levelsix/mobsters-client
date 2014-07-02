@@ -197,6 +197,9 @@
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [self.bottomView.layer addAnimation:animation forKey:@"fade"];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    
     [self updateButtonConfiguration];
   }
 }
@@ -213,6 +216,9 @@
       [GenericPopupController displayNotEnoughGemsView];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
       
       self.spinner.hidden = NO;
       [self.spinner startAnimating];

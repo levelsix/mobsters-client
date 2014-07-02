@@ -36,6 +36,9 @@
   HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
+  
+  Building *_arrowBuilding;
+  MapBotViewButtonConfig _arrowButtonConfig;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
@@ -55,6 +58,11 @@
 - (void) preparePurchaseOfStruct:(int)structId;
 - (UserStruct *) sendPurchaseStruct:(BOOL)allowGems;
 - (void) purchaseBuildingAllowGems:(BOOL)allowGems;
+
+- (void) pointArrowOnManageTeam;
+- (void) pointArrowOnSellMobsters;
+- (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config;
+
 - (BOOL) speedUpBuilding;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;

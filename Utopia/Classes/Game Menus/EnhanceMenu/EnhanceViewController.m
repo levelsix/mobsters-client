@@ -235,7 +235,7 @@
   } else {
     EnhancementItem *newItem = [[EnhancementItem alloc] init];
     newItem.userMonsterId = _confirmUserMonsterId;
-    int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:newItem];
+    int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement feeder:newItem];
     int curAmount = gs.oil;
     if (cost > curAmount) {
       [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:cost-curAmount target:self selector:@selector(useGemsForEnhance)];
@@ -251,7 +251,7 @@
   
   EnhancementItem *newItem = [[EnhancementItem alloc] init];
   newItem.userMonsterId = _confirmUserMonsterId;
-  int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:newItem];
+  int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement feeder:newItem];
   int curAmount = gs.oil;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
   
