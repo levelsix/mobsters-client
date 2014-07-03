@@ -136,7 +136,7 @@
   // Game center
   [GameCenterDelegate authenticateGameCenter];
   
-  [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
+//  [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
   
   [self setUpKamcord:nav];
   

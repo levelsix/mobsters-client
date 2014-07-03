@@ -194,7 +194,10 @@
         }
       }
     }
-    [self.topBarViewController.shopViewController close];
+    
+    if (![acceptable containsObject:self.topBarViewController.shopViewController]) {
+      [self.topBarViewController.shopViewController close];
+    }
   }
 }
 
@@ -866,7 +869,15 @@
 #pragma mark - Gem Shop access
 
 - (void) openGemShop {
-  [self.topBarViewController openShopWithFunds];
+  [self removeAllViewControllersWithExceptions:@[self.topBarViewController.shopViewController]];
+  
+  if (self.presentedViewController) {
+    [self dismissViewControllerAnimated:YES completion:^{
+      [self.topBarViewController openShopWithFunds];
+    }];
+  } else {
+    [self.topBarViewController openShopWithFunds];
+  }
 }
 
 #pragma mark - Quests and Achievements

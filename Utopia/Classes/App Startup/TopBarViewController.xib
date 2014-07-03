@@ -93,7 +93,7 @@
                         </view>
                         <view contentMode="scaleToFill" id="Oj8-iv-fNA" userLabel="Shop View">
                             <rect key="frame" x="496" y="252" width="72" height="68"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZIw-3f-99G" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="72" height="68"/>

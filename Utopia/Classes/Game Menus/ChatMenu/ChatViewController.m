@@ -81,6 +81,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [[CCDirector sharedDirector] resume];
 }
 
@@ -158,6 +160,7 @@
     [self.popoverView close];
     
     [self.delegate chatViewControllerDidClose:self];
+    [self.view endEditing:YES];
   }
 }
 

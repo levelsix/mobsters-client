@@ -50,6 +50,7 @@
 #define PRIVATE_CHAT_VIEWED_NOTIFICATION @"PrivateChatViewedNotification"
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 #define STRUCT_PURCHASED_NOTIFICATION @"StructPurchasedNotification"
+#define STRUCT_COMPLETE_NOTIFICATION @"StructCompleteNotification"
 
 #define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
 #define FB_INVITE_RESPONDED_NOTIFICATION @"FbInviteRespondedNotification"

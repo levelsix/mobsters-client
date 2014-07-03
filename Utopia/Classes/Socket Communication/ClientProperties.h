@@ -18,7 +18,7 @@
 
 //#define USE_PROD
 
-#define UDID [OpenUDID value]
+#define UDID @"adfwea"//[OpenUDID value]
 //#define FORCE_TUTORIAL
 
 #endif

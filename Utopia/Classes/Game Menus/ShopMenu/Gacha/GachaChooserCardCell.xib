@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="170" height="180"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" id="VuS-Mp-aik">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" id="VuS-Mp-aik" customClass="GeneralButton">
                         <rect key="frame" x="0.0" y="14" width="170" height="166"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" image="gooniegrab.png">

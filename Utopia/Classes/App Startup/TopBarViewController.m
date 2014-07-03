@@ -104,6 +104,7 @@
   [self updateQuestBadge];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   [self updateShopBadge];
   
   [self.updateTimer invalidate];

@@ -422,13 +422,13 @@
   NSString *bgdName = nil;
   NSString *borderName = nil;
   UIColor *color = nil;
-  BOOL isPiece = YES;
+  BOOL isPiece = NO;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
-    //isPiece = mp.numPuzzlePieces > 1;
+    isPiece = mp.numPuzzlePieces > 1;
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
     bgdName = @"cashfound.png";

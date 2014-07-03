@@ -236,13 +236,15 @@
   NSString *description = self.descriptionField.text;
   
   if (name.length <= 0) {
-    [Globals popupMessage:@"You must enter a clan name."];
+    [Globals addAlertNotification:@"You must enter a clan name."];
   } else if (tag.length <= 0) {
-    [Globals popupMessage:@"You must enter a clan tag."];
+    [Globals addAlertNotification:@"You must enter a clan tag."];
   } else if (description.length <= 0) {
-    [Globals popupMessage:@"You must enter a description."];
-  } else if (name.length > gl.maxCharLengthForClanName || tag.length > gl.maxCharLengthForClanTag) {
-    [Globals popupMessage:@"Name or tag is too long."];
+    [Globals addAlertNotification:@"You must enter a description."];
+  } else if (name.length > gl.maxCharLengthForClanName) {
+    [Globals addAlertNotification:@"The name you entered is too long."];
+  } else if (tag.length > gl.maxCharLengthForClanTag) {
+    [Globals addAlertNotification:@"The tag you entered is too long."];
   } else {
     if (gs.silver < gl.coinPriceToCreateClan) {
       [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:gl.coinPriceToCreateClan-gs.silver target:self selector:@selector(allowCreateWithGems)];
