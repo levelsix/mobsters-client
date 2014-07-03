@@ -138,6 +138,7 @@
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
   [gp setDescriptionString:description];
   gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
+  [Globals adjustViewForCentering:gp.gemButtonLabel.superview withLabel:gp.gemButtonLabel];
   
   if (target) {
     [gp.gemButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];

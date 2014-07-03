@@ -4,44 +4,44 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>mir1@2x.png</key>
+            <key>mir1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{918,2},{456,46}}</string>
+                <string>{{462,2},{228,23}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{456,46}}</string>
+                <string>{{0,0},{228,23}}</string>
                 <key>sourceSize</key>
-                <string>{456,46}</string>
+                <string>{228,23}</string>
             </dict>
-            <key>mir2@2x.png</key>
+            <key>mir2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{460,2},{456,46}}</string>
+                <string>{{232,2},{228,23}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{456,46}}</string>
+                <string>{{0,0},{228,23}}</string>
                 <key>sourceSize</key>
-                <string>{456,46}</string>
+                <string>{228,23}</string>
             </dict>
-            <key>mir3@2x.png</key>
+            <key>mir3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{456,46}}</string>
+                <string>{{2,2},{228,23}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{456,46}}</string>
+                <string>{{0,0},{228,23}}</string>
                 <key>sourceSize</key>
-                <string>{456,46}</string>
+                <string>{228,23}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -49,13 +49,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>makeitrain@2x.pvr.ccz</string>
+            <string>makeitrain.pvr.ccz</string>
             <key>size</key>
-            <string>{1376,50}</string>
+            <string>{692,27}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:47d7aa697073b503bbe699a7b7a42928:524a5f8ea5f2c931f642bcd046faf971:042ed1b84ba0593c8096ec49a1cd9713$</string>
+            <string>$TexturePacker:SmartUpdate:46432fe8d12e8ad0dc5c064ce9b7afce:916773bb6f20b64afd37a4582069cd7c:8d559a4e632c094175ccb30beae175eb$</string>
             <key>textureFileName</key>
-            <string>makeitrain@2x.pvr.ccz</string>
+            <string>makeitrain.pvr.ccz</string>
         </dict>
     </dict>
 </plist>

@@ -609,12 +609,12 @@
 - (void) reloadBubblesOnMiscBuildings {
   GameState *gs = [GameState sharedGameState];
   
-  BOOL numOverInv = gs.myMonsters.count - [gs maxInventorySlots];
+  int numOverInv = (int)gs.myMonsters.count - [gs maxInventorySlots];
   for (Building *b in [self childrenOfClassType:[ResidenceBuilding class]]) {
     [b setBubbleType:(numOverInv > 0 ? BuildingBubbleTypeSell : BuildingBubbleTypeNone)  withNum:numOverInv];
   }
   
-  int numOnTeam = gs.allBattleAvailableAliveMonstersOnTeam.count;
+  int numOnTeam = (int)gs.allBattleAvailableAliveMonstersOnTeam.count;
   for (Building *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
     [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
   }
@@ -1572,6 +1572,7 @@
           
           _isSpeedingUp = NO;
         };
+        
         
         if (os == self.selected) {
           [os instaFinishUpgradeWithCompletionBlock:comp];

@@ -115,7 +115,8 @@
   } else {
     self.saveButtonView.hidden = YES;
     self.createButtonView.hidden = NO;
-    self.costLabel.text = [Globals cashStringForNumber:gl.coinPriceToCreateClan];
+    self.costLabel.text = [Globals commafyNumber:gl.coinPriceToCreateClan];
+    [Globals adjustViewForCentering:self.costLabel.superview withLabel:self.costLabel];
     
     self.maxTagSizeLabel.text = [NSString stringWithFormat:@"Max %d Characters", gl.maxCharLengthForClanTag];
     

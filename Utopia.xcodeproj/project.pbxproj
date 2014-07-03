@@ -1165,6 +1165,8 @@
 		CF7372B018CB983400EE2CBC /* TutorialElementsBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372AF18CB983400EE2CBC /* TutorialElementsBattleLayer.m */; };
 		CF7372B518CB989000EE2CBC /* TutorialElementsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372B418CB989000EE2CBC /* TutorialElementsController.m */; };
 		CF7372B718CB997600EE2CBC /* TutorialElementsBattleLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF7372B618CB997600EE2CBC /* TutorialElementsBattleLayout.txt */; };
+		CF74610F19661B22002D6AE6 /* makeitrain.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF74610D19661B22002D6AE6 /* makeitrain.plist */; };
+		CF74611019661B22002D6AE6 /* makeitrain.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */; };
 		CF76998318779F190031D6ED /* 4x4base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998118779F190031D6ED /* 4x4base@2x.png */; };
 		CF76998518779F190031D6ED /* 4x4base.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998218779F190031D6ED /* 4x4base.png */; };
 		CF7699F7187E61050031D6ED /* CashStorage@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7699F5187E61050031D6ED /* CashStorage@2x.plist */; };
@@ -2213,12 +2215,6 @@
 		CFF1D79217E101C900874339 /* canttouchthis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78317E101C300874339 /* canttouchthis@2x.png */; };
 		CFF1D79417E101C900874339 /* hammertime.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78417E101C400874339 /* hammertime.png */; };
 		CFF1D79617E101C900874339 /* hammertime@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78517E101C500874339 /* hammertime@2x.png */; };
-		CFF1D79817E101C900874339 /* mir1.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78617E101C500874339 /* mir1.png */; };
-		CFF1D79A17E101C900874339 /* mir1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78717E101C600874339 /* mir1@2x.png */; };
-		CFF1D79C17E101C900874339 /* mir2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78817E101C800874339 /* mir2.png */; };
-		CFF1D79E17E101C900874339 /* mir2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78917E101C800874339 /* mir2@2x.png */; };
-		CFF1D7A017E101C900874339 /* mir3.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78A17E101C800874339 /* mir3.png */; };
-		CFF1D7A217E101C900874339 /* mir3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D78B17E101C900874339 /* mir3@2x.png */; };
 		CFF1D7A617E12E3200874339 /* makeitrain@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D7A417E12E3100874339 /* makeitrain@2x.plist */; };
 		CFF1D7A817E12E3200874339 /* makeitrain@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D7A517E12E3200874339 /* makeitrain@2x.pvr.ccz */; };
 		CFF1D7AD17E14A1400874339 /* opponentsbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF1D7AB17E14A1200874339 /* opponentsbg.png */; };
@@ -4487,6 +4483,8 @@
 		CF7372B318CB989000EE2CBC /* TutorialElementsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialElementsController.h; sourceTree = "<group>"; };
 		CF7372B418CB989000EE2CBC /* TutorialElementsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialElementsController.m; sourceTree = "<group>"; };
 		CF7372B618CB997600EE2CBC /* TutorialElementsBattleLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialElementsBattleLayout.txt; sourceTree = "<group>"; };
+		CF74610D19661B22002D6AE6 /* makeitrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = makeitrain.plist; sourceTree = "<group>"; };
+		CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = makeitrain.pvr.ccz; sourceTree = "<group>"; };
 		CF76998118779F190031D6ED /* 4x4base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4x4base@2x.png"; sourceTree = "<group>"; };
 		CF76998218779F190031D6ED /* 4x4base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4x4base.png; sourceTree = "<group>"; };
 		CF7699E3187E5E2C0031D6ED /* OilDrill@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OilDrill@2x.plist"; sourceTree = "<group>"; };
@@ -5598,12 +5596,6 @@
 		CFF1D78317E101C300874339 /* canttouchthis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "canttouchthis@2x.png"; sourceTree = "<group>"; };
 		CFF1D78417E101C400874339 /* hammertime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hammertime.png; sourceTree = "<group>"; };
 		CFF1D78517E101C500874339 /* hammertime@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hammertime@2x.png"; sourceTree = "<group>"; };
-		CFF1D78617E101C500874339 /* mir1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mir1.png; sourceTree = "<group>"; };
-		CFF1D78717E101C600874339 /* mir1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mir1@2x.png"; sourceTree = "<group>"; };
-		CFF1D78817E101C800874339 /* mir2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mir2.png; sourceTree = "<group>"; };
-		CFF1D78917E101C800874339 /* mir2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mir2@2x.png"; sourceTree = "<group>"; };
-		CFF1D78A17E101C800874339 /* mir3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mir3.png; sourceTree = "<group>"; };
-		CFF1D78B17E101C900874339 /* mir3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mir3@2x.png"; sourceTree = "<group>"; };
 		CFF1D7A417E12E3100874339 /* makeitrain@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "makeitrain@2x.plist"; sourceTree = "<group>"; };
 		CFF1D7A517E12E3200874339 /* makeitrain@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "makeitrain@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFF1D7AB17E14A1200874339 /* opponentsbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opponentsbg.png; sourceTree = "<group>"; };
@@ -10700,6 +10692,8 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF74610D19661B22002D6AE6 /* makeitrain.plist */,
+				CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */,
 				CF29EA201964E4ED00B40DA4 /* collectioncapsule.png */,
 				CF29EA211964E4ED00B40DA4 /* collectioncapsule@2x.png */,
 				CFBB37C418F8BDA200FD6C8C /* runawayfailed.png */,
@@ -10828,12 +10822,6 @@
 				CFE0E6AD17E3C002002ECA84 /* innerstar@2x.png */,
 				CFF1D7A417E12E3100874339 /* makeitrain@2x.plist */,
 				CFF1D7A517E12E3200874339 /* makeitrain@2x.pvr.ccz */,
-				CFF1D78617E101C500874339 /* mir1.png */,
-				CFF1D78717E101C600874339 /* mir1@2x.png */,
-				CFF1D78817E101C800874339 /* mir2.png */,
-				CFF1D78917E101C800874339 /* mir2@2x.png */,
-				CFF1D78A17E101C800874339 /* mir3.png */,
-				CFF1D78B17E101C900874339 /* mir3@2x.png */,
 				CF63F77B17EC07FD00FEBAA9 /* molotov.plist */,
 				CFF1D7B317E14DA600874339 /* movesleft.png */,
 				CFF1D7B417E14DA700874339 /* movesleft@2x.png */,
@@ -13859,6 +13847,7 @@
 				CFF7874A18E28FE200413E78 /* hireslotbg.png in Resources */,
 				CF06067E188A92EC00A69355 /* HealingCenter@2x.png in Resources */,
 				CF40D02018DFCC6C0034A721 /* championleaguebg@2x.png in Resources */,
+				CF74611019661B22002D6AE6 /* makeitrain.pvr.ccz in Resources */,
 				CFE9D342194A714F00BD930E /* gachacommonball.png in Resources */,
 				CF9520551939690800A98290 /* multiplayerheader@2x.png in Resources */,
 				CFFEB12C1834539C007C4BA3 /* nightcardhealthbar.png in Resources */,
@@ -14235,6 +14224,7 @@
 				CFC9712D182B05CD00FF1D83 /* powermeterbg.png in Resources */,
 				CF2A4B061901B8F500B2D7D7 /* questiconinactive@2x.png in Resources */,
 				CFFBDF5318ACA3D90090CA9A /* Scientist1Turn15@2x.png in Resources */,
+				CF74610F19661B22002D6AE6 /* makeitrain.plist in Resources */,
 				CFF513CF18C8DE3C004B0E56 /* 5dollar@2x.png in Resources */,
 				CFCD0EDF1953F07400EDC233 /* earthsmallsquare@2x.png in Resources */,
 				CF6A291C18C2B2F200AD676F /* raidwonbg.png in Resources */,
@@ -14681,14 +14671,8 @@
 				CFF7875418E28FE200413E78 /* currentamountbar.png in Resources */,
 				CFEC995819492D3C00BD893E /* enterbutton@2x.png in Resources */,
 				CF29E9821962296C00B40DA4 /* menuinactivetabpressed@2x.png in Resources */,
-				CFF1D79817E101C900874339 /* mir1.png in Resources */,
-				CFF1D79A17E101C900874339 /* mir1@2x.png in Resources */,
 				CFFA324418B6FDC0008B81B9 /* 2options@2x.png in Resources */,
-				CFF1D79C17E101C900874339 /* mir2.png in Resources */,
-				CFF1D79E17E101C900874339 /* mir2@2x.png in Resources */,
 				CFC4D29218D7BD04004681FD /* sfx_match_3_slide_in.mp3 in Resources */,
-				CFF1D7A017E101C900874339 /* mir3.png in Resources */,
-				CFF1D7A217E101C900874339 /* mir3@2x.png in Resources */,
 				CF29E99A1962B79E00B40DA4 /* thebasicgrab@2x.png in Resources */,
 				CFF1D7A617E12E3200874339 /* makeitrain@2x.plist in Resources */,
 				CFF1D7A817E12E3200874339 /* makeitrain@2x.pvr.ccz in Resources */,

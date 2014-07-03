@@ -113,15 +113,26 @@
                                                                         <action selector="upgradeClicked:" destination="-1" eventType="touchUpInside" id="u8x-Td-vs2"/>
                                                                     </connections>
                                                                 </button>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$10,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="0g5-Fq-QGe" customClass="NiceFontLabel">
-                                                                    <rect key="frame" x="7" y="8" width="71" height="21"/>
+                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="qnV-Yt-g71">
+                                                                    <rect key="frame" x="8" y="8" width="68" height="23"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                    <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
-                                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                                </label>
+                                                                    <subviews>
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sRe-Fd-YpM" customClass="NiceFontLabel12">
+                                                                            <rect key="frame" x="18" y="-1" width="47" height="26"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                            <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                            <color key="shadowColor" red="1" green="0.99215686270000003" blue="0.56862745100000001" alpha="0.75" colorSpace="calibratedRGB"/>
+                                                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                                                        </label>
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="cGP-78-QX6">
+                                                                            <rect key="frame" x="-1" y="0.0" width="18" height="25"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                </view>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -144,17 +155,17 @@
                                                                     <rect key="frame" x="8" y="7" width="68" height="23"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="85z-vl-R6v" customClass="NiceFontLabel">
-                                                                            <rect key="frame" x="18" y="-1" width="47" height="26"/>
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="85z-vl-R6v" customClass="NiceFontLabel12">
+                                                                            <rect key="frame" x="15" y="-1" width="53" height="26"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                             <color key="textColor" red="0.82745098039215681" green="0.42745098039215684" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                             <color key="shadowColor" red="1" green="0.99215686274509807" blue="0.56862745098039214" alpha="0.75" colorSpace="calibratedRGB"/>
                                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                                         </label>
                                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="6FM-By-N9J">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="13" height="25"/>
+                                                                            <rect key="frame" x="-1" y="0.0" width="13" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </imageView>
                                                                     </subviews>
@@ -417,7 +428,7 @@
                                         <outlet property="structIcon" destination="hvv-hH-huU" id="MDP-LE-kem"/>
                                         <outlet property="tooLowLevelLabel" destination="Vdj-ZM-sxC" id="O5Q-Q5-bcD"/>
                                         <outlet property="tooLowLevelView" destination="DAL-kh-5bM" id="mYZ-nW-Xgc"/>
-                                        <outlet property="upgradeCashLabel" destination="0g5-Fq-QGe" id="z2Y-R6-uEX"/>
+                                        <outlet property="upgradeCashLabel" destination="sRe-Fd-YpM" id="O5B-FP-aIj"/>
                                         <outlet property="upgradeOilLabel" destination="85z-vl-R6v" id="cti-TE-NzB"/>
                                         <outlet property="upgradeTimeLabel" destination="e4j-Wk-JAb" id="wKY-z0-mOb"/>
                                     </connections>
@@ -481,6 +492,7 @@
     <resources>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
+        <image name="moneystack.png" width="31" height="30"/>
         <image name="notendcap.png" width="6" height="26"/>
         <image name="notendcapgreen.png" width="6" height="26"/>
         <image name="notmiddle.png" width="1" height="26"/>

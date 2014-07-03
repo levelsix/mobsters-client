@@ -18,12 +18,13 @@
 
 //#define USE_PROD
 
-#define UDID @"adfwea"//[OpenUDID value]
+#define UDID [OpenUDID value]
 //#define FORCE_TUTORIAL
 
 #endif
 
 #ifdef USE_PROD
+
 
 #define HOST_NAME @"staging.mobsters.lvl6.com"
 #define HOST_PORT 5672

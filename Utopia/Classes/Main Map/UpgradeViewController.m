@@ -39,9 +39,10 @@
   
   // Button view
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;
-  self.upgradeCashLabel.text = curSS != nextSS ? [Globals cashStringForNumber:nextSS.structInfo.buildCost] : @"N/A";
+  self.upgradeCashLabel.text = curSS != nextSS ? [Globals commafyNumber:nextSS.structInfo.buildCost] : @"N/A";
   self.upgradeOilLabel.text = curSS != nextSS ? [Globals commafyNumber:nextSS.structInfo.buildCost] : @"N/A";
   [Globals adjustViewForCentering:self.upgradeOilLabel.superview withLabel:self.upgradeOilLabel];
+  [Globals adjustViewForCentering:self.upgradeCashLabel.superview withLabel:self.upgradeCashLabel];
   self.oilButtonView.hidden = !isOil;
   self.cashButtonView.hidden = isOil;
   

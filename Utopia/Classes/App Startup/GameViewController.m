@@ -1037,7 +1037,7 @@
     [[OutgoingEventController sharedOutgoingEventController] setFacebookId:facebookId delegate:self];
   } else {
     // Logged in with different fb
-    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is different from the one linked to this player. Would you like to reload the game?"];
+    NSString *desc = [NSString stringWithFormat:@"This Facebook account is different from the one linked to this player. Would you like to reload the game?"];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Set" okayButton:@"Reload" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   }
   return NO;
@@ -1046,7 +1046,7 @@
 - (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {
   SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
   if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists) {
-    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.existing.name];
+    NSString *desc = [NSString stringWithFormat:@"This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.existing.name];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   } else if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
     [FacebookDelegate facebookIdIsValid];
