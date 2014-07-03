@@ -800,6 +800,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
   
   LNLog(@"Set facebook id response received with status %d.", proto.status);
+  
+  if (proto.status != SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
+    GameState *gs = [GameState sharedGameState];
+    gs.facebookId = nil;
+  }
 }
 
 - (void) handleEarnFreeDiamondsResponseProto:(FullEvent *)fe {

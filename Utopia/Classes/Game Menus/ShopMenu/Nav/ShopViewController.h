@@ -20,7 +20,10 @@
 @property (nonatomic, retain) GachaChooserViewController *gachaViewController;
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *tabBar;
+@property (nonatomic, retain) IBOutlet BadgeIcon *buildingsBadge;
 
+- (void) openBuildingsShop;
 - (void) openFundsShop;
+- (void) openGachaShop;
 
 @end

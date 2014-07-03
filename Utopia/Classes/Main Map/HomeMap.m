@@ -521,13 +521,7 @@
   MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
   
   if (mjc.staticStruct.structInfo.level == 0) {
-    UserStruct *th = [gs myTownHall];
-    int thLevel = th.isComplete ? th.staticStruct.structInfo.level : th.staticStructForPrevLevel.structInfo.level;
-    if (mjc.staticStructForNextLevel.structInfo.prerequisiteTownHallLvl <= thLevel) {
-      [mjcb setBubbleType:BuildingBubbleTypeFix];
-    } else {
-      [mjcb setBubbleType:BuildingBubbleTypeNone];
-    }
+    [mjcb setBubbleType:BuildingBubbleTypeFix];
   } else {
     [mjcb setBubbleType:BuildingBubbleTypeNone];
     
@@ -680,8 +674,11 @@
 }
 
 - (void) pointArrowOnManageTeam {
-  HomeBuilding *b = [self childrenOfClassType:[TeamCenterBuilding class]][0];
-  [self pointArrowOnBuilding:b config:MapBotViewButtonTeam];
+  NSArray *arr = [self childrenOfClassType:[TeamCenterBuilding class]];
+  if (arr.count > 0) {
+    HomeBuilding *b = arr[0];
+    [self pointArrowOnBuilding:b config:MapBotViewButtonTeam];
+  }
 }
 
 - (void) pointArrowOnSellMobsters {
@@ -693,7 +690,9 @@
     }
   }
   
-  [self pointArrowOnBuilding:b config:MapBotViewButtonSell];
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonSell];
+  }
 }
 
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
@@ -1227,6 +1226,8 @@
     [homeBuilding displayProgressBar];
     
     [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
     
     _canMove = NO;
     _purchasing = NO;

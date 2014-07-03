@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "ClanViewController.h"
 #import "DiamondShopViewController.h"
-#import "SettingsViewController.h"
+#import "OldSettingsViewController.h"
 #import "CarpenterViewController.h"
 #import "MyCroniesViewController.h"
 #import "GachaponViewController.h"
@@ -100,7 +100,7 @@
 }
 
 - (IBAction)settingsClicked:(id)sender {
-  SettingsViewController *svc = [[SettingsViewController alloc] init];
+  OldSettingsViewController *svc = [[OldSettingsViewController alloc] init];
   [self.navigationController pushViewController:svc animated:YES];
 }
 

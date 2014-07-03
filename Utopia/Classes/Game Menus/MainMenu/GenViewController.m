@@ -7,7 +7,7 @@
 //
 
 #import "GenViewController.h"
-#import "SettingsViewController.h"
+#import "OldSettingsViewController.h"
 
 @implementation GenViewController
 

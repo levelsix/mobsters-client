@@ -590,6 +590,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  gs.facebookId = facebookId;
 }
 
 - (void) retrieveTournamentRanking:(int)eventId afterRank:(int)afterRank {
@@ -1671,7 +1673,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       evoItem.userMonster2.teamSlot = 0;
       evoItem.catalystMonster.teamSlot = 0;
       
-      int tag = 0;//[[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
       GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];

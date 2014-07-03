@@ -103,6 +103,9 @@
   [center addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   [self updateQuestBadge];
   
+  [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
+  [self updateShopBadge];
+  
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
@@ -130,8 +133,6 @@
     r.size.width = self.view.frame.size.width-r.origin.x;
     self.coinBarsView.frame = r;
   }
-  
-  [self.shopViewController close];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -174,6 +175,11 @@
 
 - (void) privateChatViewed {
   [self.chatBottomView reloadDataAnimated];
+}
+
+- (void) updateShopBadge {
+  Globals *gl = [Globals sharedGlobals];
+  self.shopBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
 }
 
 - (void) updateMailBadge {
@@ -447,14 +453,16 @@
   self.cashMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"Max: %@", [Globals commafyNumber:[gs maxOil]]];
   
-  NSString *imgName = nil;
   if (gs.clan) {
     ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
-    imgName = icon.imgName;
+    NSString *imgName = icon.imgName;
+    [Globals imageNamed:imgName withView:self.clanShieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:@"inaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.clanShieldIcon.hidden = NO;
   } else  {
-    imgName = @"noclanlilguys.png";
+    [Globals imageNamed:@"notinaclanbutton.png" withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.clanShieldIcon.hidden = YES;
   }
-  [Globals imageNamed:imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [self updateLabels];
   
@@ -501,6 +509,11 @@
 - (void) openShopWithFunds {
   [self openShop];
   [self.shopViewController openFundsShop];
+}
+
+- (void) openShopWithGacha {
+  [self openShop];
+  [self.shopViewController openGachaShop];
 }
 
 @end

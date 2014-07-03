@@ -9,12 +9,9 @@
 #import "ShopViewController.h"
 
 #import "GameViewController.h"
+#import "SettingsViewController.h"
 
 @implementation ShopViewController
-
-- (void) viewDidLoad {
-  [super viewDidLoad];
-}
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
@@ -25,7 +22,16 @@
   
   self.buildingViewController.delegate = [GameViewController baseController];
   
-  [self button1Clicked:nil];
+  Globals *gl = [Globals sharedGlobals];
+  self.buildingsBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
+  
+  if (!self.topViewController) {
+    if (self.buildingsBadge.badgeNum) {
+      [self button1Clicked:nil];
+    } else {
+      [self button3Clicked:nil];
+    }
+  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -59,8 +65,16 @@
   }];
 }
 
+- (void) openBuildingsShop {
+  [self button1Clicked:nil];
+}
+
 - (void) openFundsShop {
   [self button2Clicked:nil];
+}
+
+- (void) openGachaShop {
+  [self button3Clicked:nil];
 }
 
 - (void) close {
@@ -76,6 +90,12 @@
     
     [self endAppearanceTransition];
   }];
+}
+
+- (IBAction) settingsClicked:(id)sender {
+  GameViewController *gvc = [GameViewController baseController];
+  SettingsViewController *svc = [[SettingsViewController alloc] init];
+  [svc displayInParentViewController:gvc];
 }
 
 #pragma mark - TabBar delegate

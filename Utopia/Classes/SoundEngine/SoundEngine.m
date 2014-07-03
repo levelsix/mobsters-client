@@ -21,6 +21,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
   if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
     [[OALSimpleAudio sharedInstance] playBg:music volume:0.5f pan:0.f loop:loop];
+  } else {
+    [self stopBackgroundMusic];
   }
 }
 
@@ -71,7 +73,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [self.ambientNoise stop];
   
   if (ambient) {
-    self.ambientNoise = [self playEffect:ambient volume:0.5f pitch:1.f pan:0.f loop:YES];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
+    if (play) {
+      self.ambientNoise = [self playEffect:ambient volume:0.5f pitch:1.f pan:0.f loop:YES];
+    }
   } else {
     self.ambientNoise = nil;
   }

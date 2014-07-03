@@ -69,7 +69,7 @@
                                     <rect key="frame" x="53" y="-2" width="331" height="41"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dWV-C2-DOL">
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dWV-C2-DOL" customClass="GeneralButton">
                                             <rect key="frame" x="28" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">
@@ -80,7 +80,7 @@
                                                 <action selector="buttonClicked:" destination="KUK-pf-Hh6" eventType="touchUpInside" id="jqZ-9Q-YG9"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Qx-YP-Zw2">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Qx-YP-Zw2" customClass="GeneralButton">
                                             <rect key="frame" x="120" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">
@@ -91,7 +91,7 @@
                                                 <action selector="buttonClicked:" destination="KUK-pf-Hh6" eventType="touchUpInside" id="qQK-gk-xRx"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="N67-Xq-HTB">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="N67-Xq-HTB" customClass="GeneralButton">
                                             <rect key="frame" x="211" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">

@@ -1302,6 +1302,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
 }
 
+- (int) calculateNumberOfUnpurchasedStructs {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserStruct *townHall = [gs myTownHall];
+  
+  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  
+  int num = 0;
+  for (id<StaticStructure> s in gs.staticStructs.allValues) {
+    StructureInfoProto *structInfo = [s structInfo];
+    if (!structInfo.predecessorStructId) {
+      int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:gs.myStructs];
+      int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
+      
+      if (cur < max) {
+        num += max-cur;
+      }
+    }
+  }
+  return num;
+}
+
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId {
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];

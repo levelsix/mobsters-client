@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShopViewController">
             <connections>
                 <outlet property="bgdView" destination="Xr1-yc-2nt" id="FC6-TP-Q5r"/>
+                <outlet property="buildingsBadge" destination="6mn-09-lhV" id="TwV-sh-Sd4"/>
                 <outlet property="containerView" destination="PbI-v6-Vcd" id="3oU-gN-EvR"/>
                 <outlet property="mainView" destination="MKU-Tv-8Pj" id="Y5J-DK-K5L"/>
                 <outlet property="tabBar" destination="rJA-NB-pga" id="5Ne-Mn-YDm"/>
@@ -61,7 +62,7 @@
                                     <rect key="frame" x="35" y="37" width="498" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UYf-ad-MrG">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UYf-ad-MrG" customClass="GeneralButton">
                                             <rect key="frame" x="297" y="0.0" width="151" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="menuinactivetab.png">
@@ -72,7 +73,7 @@
                                                 <action selector="buttonClicked:" destination="rJA-NB-pga" eventType="touchUpInside" id="bNR-li-vFd"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ap5-vV-BGZ">
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ap5-vV-BGZ" customClass="GeneralButton">
                                             <rect key="frame" x="53" y="0.0" width="151" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="menuinactivetab.png">
@@ -83,7 +84,7 @@
                                                 <action selector="buttonClicked:" destination="rJA-NB-pga" eventType="touchUpInside" id="rPI-JA-fzp"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lUH-Zt-gdp">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lUH-Zt-gdp" customClass="GeneralButton">
                                             <rect key="frame" x="175" y="0.0" width="151" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="menuinactivetab.png">
@@ -134,6 +135,29 @@
                                             <rect key="frame" x="340" y="8" width="11" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
+                                        <view contentMode="scaleToFill" id="6mn-09-lhV" customClass="BadgeIcon">
+                                            <rect key="frame" x="168" y="13" width="18" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notificationbubble.png" id="MHu-zJ-UGM">
+                                                    <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="q7O-b6-VbD" customClass="NiceFontLabel8S">
+                                                    <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <outlet property="badgeLabel" destination="q7O-b6-VbD" id="zPv-dP-ENv"/>
+                                            </connections>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -147,6 +171,16 @@
                                         <outlet property="selectedView" destination="lmP-cn-O5M" id="fkz-Xc-fgQ"/>
                                     </connections>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="M25-nk-T3B" customClass="GeneralButton">
+                                    <rect key="frame" x="531" y="37" width="37" height="36"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="settingsbutton.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="settingsClicked:" destination="-1" eventType="touchUpInside" id="Ghw-0w-k8Q"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -176,5 +210,7 @@
         <image name="menuresourcesactive.png" width="13" height="13"/>
         <image name="menuresourcesinactive.png" width="13" height="13"/>
         <image name="navshelf.png" width="1" height="39"/>
+        <image name="notificationbubble.png" width="18" height="18"/>
+        <image name="settingsbutton.png" width="24" height="24"/>
     </resources>
 </document>

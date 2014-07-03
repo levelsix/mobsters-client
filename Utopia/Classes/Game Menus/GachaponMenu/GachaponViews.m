@@ -183,8 +183,8 @@
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item {
   NSString *iconName = nil;
   if (item.isMonster) {
-    NSString *bgdImage = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"bg.png"]];
-    [Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    //NSString *bgdImage = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"bg.png"]];
+    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     if (item.isComplete) {
       iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"ball.png"]];

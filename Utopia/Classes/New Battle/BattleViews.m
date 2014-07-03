@@ -18,8 +18,11 @@
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
-  self.doneButton.title = @"DONE";
+  self.doneButton.title = @"GO HOME";
   self.manageButton.title = @"MANAGE MOBSTERS";
+  
+  [self.manageButton removeFromParent];
+  self.manageButton = nil;
 }
 
 - (void) onExitTransitionDidStart {
@@ -29,7 +32,7 @@
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
   
-  self.doneButton.title = @"DONE";
+  self.doneButton.title = @"GO HOME";
   self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
@@ -148,7 +151,7 @@
     return;
   }
   
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will miss out on:" fontName:@"Gotham-Ultra" fontSize:12.f];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will miss out on:" fontName:@"Gotham-Ultra" fontSize:10.f];
   label.color = [CCColor whiteColor];
   [self addChild:label];
   label.position = ccpAdd(self.rewardsBgd.position, ccp(0, self.rewardsBgd.contentSize.height/2-10));
@@ -229,8 +232,11 @@
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
-  self.doneButton.title = @"DONE";
+  self.doneButton.title = @"GO HOME";
   self.manageButton.title = @"MANAGE MOBSTERS";
+  
+  [self.manageButton removeFromParent];
+  self.manageButton = nil;
 }
 
 - (void) onExitTransitionDidStart {
@@ -240,7 +246,7 @@
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
   
-  self.doneButton.title = @"DONE";
+  self.doneButton.title = @"GO HOME";
   self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
@@ -416,11 +422,13 @@
   NSString *bgdName = nil;
   NSString *borderName = nil;
   UIColor *color = nil;
+  BOOL isPiece = YES;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
+    //isPiece = mp.numPuzzlePieces > 1;
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
     bgdName = @"cashfound.png";
@@ -468,6 +476,17 @@
       CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
       [self addChild:label];
       label.position = ccp(self.contentSize.width/2, labelPosition);
+    }
+    
+    if (isPiece) {
+      CCLabelTTF *label = [CCLabelTTF labelWithString:@"Piece" fontName:@"Gotham-Ultra" fontSize:8.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+      label.horizontalAlignment = CCTextAlignmentCenter;
+      label.color = [CCColor whiteColor];
+      label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.76];
+      label.shadowBlurRadius = 1.f;
+      label.shadowOffset = ccp(0, -1);
+      [self addChild:label];
+      label.position = ccp(self.contentSize.width/2, label.contentSize.height/2);
     }
     
     CCSprite *border = [CCSprite spriteWithImageNamed:borderName];

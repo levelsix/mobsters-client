@@ -562,8 +562,7 @@
     
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:hi.userMonster.monsterId];
     [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
-    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
   }
   
   _healingItem = hi;
@@ -654,8 +653,7 @@
     EnhancementItem *ei = [ue.feeders lastObject];
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:ei.userMonster.monsterId];
     [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
-    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
   }
 }
 
@@ -709,8 +707,7 @@
     
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_evolution.evoItem.userMonster1.monsterId];
     [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
-    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
   }
 }
 

@@ -46,6 +46,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *cashMaxLabel;
 @property (nonatomic, assign) IBOutlet UILabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *clanIcon;
+@property (nonatomic, assign) IBOutlet UIImageView *clanShieldIcon;
 
 @property (nonatomic, assign) IBOutlet UILabel *shieldLabel;
 @property (nonatomic, retain) NSTimer *updateTimer;
@@ -57,10 +58,11 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;
+@property (nonatomic, retain) IBOutlet BadgeIcon *shopBadge;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *clanView;
-@property (nonatomic, retain) IBOutlet UIView *menuView;
+@property (nonatomic, retain) IBOutlet UIView *shopView;
 @property (nonatomic, retain) IBOutlet UIView *attackView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -94,5 +96,6 @@
 
 - (void) openShop;
 - (void) openShopWithFunds;
+- (void) openShopWithGacha;
 
 @end

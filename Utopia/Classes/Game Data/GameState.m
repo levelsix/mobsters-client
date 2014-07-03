@@ -97,9 +97,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.createTime = [MSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:user.lastObstacleSpawnedTime/1000.0];
   self.lastMiniJobSpawnTime = [MSDate dateWithTimeIntervalSince1970:user.lastMiniJobSpawnedTime/1000.0];
-  if (user.hasFacebookId) self.facebookId = user.facebookId;
-  if (user.hasGameCenterId) self.gameCenterId = user.gameCenterId;
-  if (user.hasDeviceToken) self.deviceToken = user.deviceToken;
+  self.facebookId = user.hasFacebookId ? user.facebookId : nil;
+  self.gameCenterId = user.hasGameCenterId ? user.gameCenterId : nil;
+  self.deviceToken = user.hasDeviceToken ? user.deviceToken : nil;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;

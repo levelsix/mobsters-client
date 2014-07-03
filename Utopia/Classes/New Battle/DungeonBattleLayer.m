@@ -25,7 +25,7 @@
   CCSprite *ed = nil;
   if (monster.puzzlePieceDropped) {
     MonsterProto *mp = [gs monsterWithId:monster.monsterId];
-    NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+    NSString *fileName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"piece.png"]];
     ed = [CCSprite spriteWithImageNamed:fileName];
   } else if (monster.hasItemId) {
     ItemProto *item = [gs itemForId:monster.itemId];

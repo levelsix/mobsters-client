@@ -38,7 +38,7 @@
 }
 
 - (void) displayMenuButton {
-  [self.view addSubview:self.menuView];
+  [self.view addSubview:self.shopView];
 }
 
 - (void) displayAttackButton {
@@ -66,7 +66,7 @@
 - (void) allowMenuClick {
   _allowMenuClick = YES;
   
-  [Globals createUIArrowForView:self.menuView atAngle:M_PI_2];
+  [Globals createUIArrowForView:self.shopView atAngle:M_PI_2];
 }
 
 - (void) menuClicked:(id)sender {
