@@ -42,7 +42,7 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NAT-Nq-Vq0" customClass="NiceFontLabel12">
                     <rect key="frame" x="12" y="23" width="20" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                     <color key="textColor" red="0.0" green="0.48627454042434692" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.69388999617675107" green="1" blue="0.38583011733023753" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>

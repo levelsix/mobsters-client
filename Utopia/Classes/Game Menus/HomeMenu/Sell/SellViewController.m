@@ -56,7 +56,7 @@
   NSString *str = [NSString stringWithFormat:@"%@(%d/%d)", s1, (int)gs.myMonsters.count, gs.maxInventorySlots];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
   
-  if (gs.myMonsters.count >= gs.maxInventorySlots) {
+  if (gs.myMonsters.count > gs.maxInventorySlots) {
     [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(s1.length, str.length-s1.length)];
   }
   self.attributedTitle = attrStr;
