@@ -1860,6 +1860,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self checkEnteringDungeonWithTarget:[GameViewController baseController] noTeamSelector:@selector(pointArrowOnManageTeam) inventoryFullSelector:@selector(pointArrowOnSellMobsters)];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
@@ -1875,11 +1877,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (!hasValidTeam) {
     NSString *description = @"";
     if (team.count == 0) {
-      description = @"Uh oh, you have no mobsters on your team. Manage your team?";
+      description = @"You have no mobsters on your team. Manage your team now.";
     } else {
-      description = @"Uh oh, your mobsters are out of health. Manage your team?";
+      description = @"Uh oh, you have no healthy mobsters on your team. Manage your team now.";
     }
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Battle" okayButton:@"Manage" cancelButton:@"Later" target:target selector:noTeamSelector];
+    [Globals addAlertNotification:description];
+    [target performSelector:noTeamSelector];
     
     return NO;
   }
@@ -1887,13 +1890,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that inventory is not full
   NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = @"Uh oh, you have recruited too many mobsters. Go to your residences to sell some?";
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Battle" okayButton:@"Sell" cancelButton:@"Later" target:target selector:inventoryFullSelector];
+    NSString *description = @"Your residences are full. Sell mobsters to free up space.";
+    [Globals addAlertNotification:description];
+    [target performSelector:inventoryFullSelector];
     return NO;
   }
   
   return YES;
 }
+#pragma clang diagnostic pop
 
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team {
   GameState *gs = [GameState sharedGameState];

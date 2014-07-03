@@ -167,7 +167,7 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.gold < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else if (gs.myMonsters.count >= gs.maxInventorySlots) {
+  } else if (gs.myMonsters.count > gs.maxInventorySlots) {
     [GenericPopupController displayConfirmationWithDescription:@"Uh oh, your residences are full. Sell some mobsters to free up space." title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
@@ -184,8 +184,7 @@
 - (void) manageTeam {
   GameViewController *gvc = [GameViewController baseController];
   [gvc dismissViewControllerAnimated:YES completion:^{
-    HomeViewController *hvc = [[HomeViewController alloc] initWithSell];
-    [hvc displayInParentViewController:gvc];
+    [gvc pointArrowOnSellMobsters];
   }];
 }
 

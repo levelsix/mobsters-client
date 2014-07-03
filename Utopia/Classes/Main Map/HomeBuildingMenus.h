@@ -64,3 +64,9 @@ typedef enum {
 - (void) setType:(BuildingBubbleType)type withNum:(int)num;
 
 @end
+
+@interface MiniMonsterViewSprite : CCSprite
+
++ (id) spriteWIthMonsterId:(int)monsterId;
+
+@end

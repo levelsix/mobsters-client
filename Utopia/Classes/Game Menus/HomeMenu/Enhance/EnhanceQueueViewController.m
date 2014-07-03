@@ -161,13 +161,25 @@
   
   int additionalNewLevel = (int)(newPerc/100.f);
   int curLevel = um.level+additionalLevel;
-  int newLevel = MIN(curLevel+additionalNewLevel+1, um.staticMonster.maxLevel);
-  self.nextLevelLabel.text = [NSString stringWithFormat:@"Needed for\nlevel %d", newLevel];
+  int maxLevel = um.staticMonster.maxLevel;
+  int newLevel = MIN(curLevel+additionalNewLevel+1, maxLevel);
   self.curLevelLabel.text = [NSString stringWithFormat:@"Level %d:", curLevel];
   
-  int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
-  int curExp = [gl calculateExperienceIncrease:ue];
-  self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
+  if (newLevel < maxLevel) {
+    int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
+    int curExp = [gl calculateExperienceIncrease:ue];
+    self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
+    
+    self.nextLevelLabel.text = [NSString stringWithFormat:@"Needed for\nlevel %d", newLevel];
+    
+    self.curExpLabel.hidden = NO;
+    self.nextLevelLabel.hidden = NO;
+    self.maxLevelLabel.hidden = YES;
+  } else {
+    self.curExpLabel.hidden = YES;
+    self.nextLevelLabel.hidden = YES;
+    self.maxLevelLabel.hidden = NO;
+  }
   
   int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
@@ -190,7 +202,7 @@
   int curHp = [gl calculateMaxHealthForMonster:um];
   int curSpeed = [gl calculateSpeedForMonster:um];
   
-  um.level = MIN(curLevel+1, um.staticMonster.maxLevel);
+  um.level = MIN(curLevel+1, maxLevel);
   int newAttk = [gl calculateTotalDamageForMonster:um];
   int newHp = [gl calculateMaxHealthForMonster:um];
   int newSpeed = [gl calculateSpeedForMonster:um];

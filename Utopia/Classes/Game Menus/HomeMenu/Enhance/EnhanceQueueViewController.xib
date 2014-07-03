@@ -14,6 +14,7 @@
                 <outlet property="curProgressBar" destination="llh-uV-ARX" id="6Ao-tO-jhB"/>
                 <outlet property="healthLabel" destination="2jm-JB-hGf" id="T4V-ga-fri"/>
                 <outlet property="listView" destination="H2o-v0-Jez" id="CXl-FZ-Xmf"/>
+                <outlet property="maxLevelLabel" destination="4Su-7x-nyW" id="Ujn-lE-U7F"/>
                 <outlet property="monsterImageView" destination="KSJ-ff-BlV" id="sMB-vU-4P2"/>
                 <outlet property="nextLevelLabel" destination="gbE-u9-h3K" id="mIV-PS-yvq"/>
                 <outlet property="queueArrow" destination="dnl-qE-TpI" id="FqJ-Lo-AvR"/>
@@ -366,6 +367,15 @@
                     <rect key="frame" x="328" y="24" width="80" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="4Su-7x-nyW" customClass="NiceFontLabel8">
+                            <rect key="frame" x="4" y="0.0" width="72" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <string key="text">Max
+Level!</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.40392160420000001" green="0.71764707569999997" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="460xp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="buu-8d-K9C" customClass="NiceFontLabel8">
                             <rect key="frame" x="4" y="0.0" width="72" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

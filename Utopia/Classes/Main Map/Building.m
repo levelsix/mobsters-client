@@ -59,10 +59,6 @@
   bounce.tag = BOUNCE_ACTION_TAG;
   [self.buildingSprite runAction:bounce];
   
-  if (select) {
-    [self removeBubble];
-  }
-  
   [SoundEngine structSelected];
   
   return select;

@@ -398,6 +398,8 @@
 - (void) setCurrentMap:(GameMap *)currentMap {
   [self.currentMap removeObserver:self forKeyPath:BOTTOM_VIEW_KEY_PATH];
   _currentMap = currentMap;
+  [self.topBarViewController.curViewOverChatView removeFromSuperview];
+  self.topBarViewController.curViewOverChatView = nil;
   [self.topBarViewController removeViewOverChatView];
   [self.currentMap addObserver:self forKeyPath:BOTTOM_VIEW_KEY_PATH options:NSKeyValueObservingOptionNew context:NULL];
 }

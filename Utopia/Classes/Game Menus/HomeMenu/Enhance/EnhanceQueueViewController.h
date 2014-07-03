@@ -48,6 +48,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curExpLabel;
+@property (nonatomic, retain) IBOutlet UILabel *maxLevelLabel;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *curProgressBar;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *addedProgressBar;
 

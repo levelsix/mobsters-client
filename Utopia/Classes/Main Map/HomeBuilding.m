@@ -557,6 +557,13 @@
     }];
     
     [self displayProgressBar];
+    
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:hi.userMonster.monsterId];
+    [n addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
+    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
   }
   
   _healingItem = hi;
@@ -641,6 +648,14 @@
   //[self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
   if (ue.feeders.count) {
     [self displayProgressBar];
+    
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    
+    EnhancementItem *ei = [ue.feeders lastObject];
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:ei.userMonster.monsterId];
+    [n addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
+    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
   }
 }
 
@@ -689,6 +704,13 @@
   
   if (ue) {
     [self displayProgressBar];
+    
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_evolution.evoItem.userMonster1.monsterId];
+    [n addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2);
+    n.position = ccpAdd(n.position, ccp(-spr.position.x, 0));
   }
 }
 
