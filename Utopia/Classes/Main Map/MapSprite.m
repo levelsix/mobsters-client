@@ -84,7 +84,7 @@
   _arrow.anchorPoint = ccp(0.5f, 0.f);
   _arrow.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
   
-  [Globals animateCCArrow:_arrow atAngle:M_PI_2];
+  [Globals animateCCArrow:_arrow atAngle:-M_PI_2];
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {

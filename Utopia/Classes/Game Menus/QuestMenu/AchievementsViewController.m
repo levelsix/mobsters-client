@@ -44,7 +44,7 @@
   }
   self.rankLabel.text = [NSString stringWithFormat:@"%d", numStars];
   
-  self.collectView.hidden = NO;//(!ua.isComplete || ua.isRedeemed);
+  self.collectView.hidden = (!ua.isComplete || ua.isRedeemed);
   self.progressView.hidden = !self.collectView.hidden;
   
   self.achievementId = ap.achievementId;

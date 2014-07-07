@@ -184,9 +184,13 @@ static NSString *udid = nil;
 }
 
 - (void) tryConnect {
-  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
-    [self.connectionThread connectWithUdid:udid facebookId:facebookId];
-  }];
+  if ([SocketCommunication isForcedTutorial]) {
+    [self.connectionThread connectWithUdid:udid facebookId:nil];
+  } else {
+    [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+      [self.connectionThread connectWithUdid:udid facebookId:facebookId];
+    }];
+  }
 }
 
 - (void) initNetworkCommunicationWithDelegate:(id)delegate {

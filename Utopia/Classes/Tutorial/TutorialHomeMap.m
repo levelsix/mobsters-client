@@ -426,6 +426,10 @@
   // Do nothing
 }
 
+- (void) waitForIncomeComplete:(NSTimer *)timer {
+  // Do nothing
+}
+
 - (NSArray *) reloadObstacles {
   NSArray *obstacles = self.constants.tutorialObstaclesList;
   NSMutableArray *sprites = [NSMutableArray array];

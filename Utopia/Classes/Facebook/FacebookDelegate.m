@@ -334,9 +334,7 @@
 }
 
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
-  if ([SocketCommunication isForcedTutorial]) {
-    handler(nil);
-  } else if (!self.myFacebookUser) {
+  if (!self.myFacebookUser) {
     LNLog(@"Attempting login for my facebook user.");
     [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
       LNLog(@"Getting my facebook user.");

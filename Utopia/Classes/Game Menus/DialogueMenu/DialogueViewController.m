@@ -75,6 +75,14 @@
   [self animateNext];
 }
 
+- (void) setDialogueLabelText:(NSString *)text {
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:1.2];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
+  self.dialogueLabel.attributedText = attributedString;
+}
+
 - (void) animateNext {
   if (_isAnimating) return;
   
@@ -91,7 +99,7 @@
     if (oldSS.isLeftSide == curSS.isLeftSide && [oldSS.speaker isEqualToString:curSS.speaker]) {
       [self animateBubbleOutCompletion:^{
         self.speakerLabel.text = curSS.speaker;
-        self.dialogueLabel.text = curSS.speakerText;
+        [self setDialogueLabelText:curSS.speakerText];
         [self animateBubbleIn];
       }];
     } else {
@@ -101,7 +109,7 @@
         [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
         
         self.speakerLabel.text = curSS.speaker;
-        self.dialogueLabel.text = curSS.speakerText;
+        [self setDialogueLabelText:curSS.speakerText];
         
         [self animateIn:curSS.isLeftSide];
       };

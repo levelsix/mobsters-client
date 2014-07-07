@@ -385,8 +385,8 @@
 		CF29E95A1962236600B40DA4 /* largebubbleover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9481962236600B40DA4 /* largebubbleover@2x.png */; };
 		CF29E95D1962236600B40DA4 /* mediumbubbleover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94B1962236600B40DA4 /* mediumbubbleover.png */; };
 		CF29E95E1962236600B40DA4 /* mediumbubbleover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94C1962236600B40DA4 /* mediumbubbleover@2x.png */; };
-		CF29E95F1962236600B40DA4 /* notificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94D1962236600B40DA4 /* notificationbubble.png */; };
-		CF29E9601962236600B40DA4 /* notificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94E1962236600B40DA4 /* notificationbubble@2x.png */; };
+		CF29E95F1962236600B40DA4 /* badgeicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94D1962236600B40DA4 /* badgeicon.png */; };
+		CF29E9601962236600B40DA4 /* badgeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E94E1962236600B40DA4 /* badgeicon@2x.png */; };
 		CF29E9631962236600B40DA4 /* shopbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9511962236600B40DA4 /* shopbutton.png */; };
 		CF29E9641962236600B40DA4 /* shopbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9521962236600B40DA4 /* shopbutton@2x.png */; };
 		CF29E9651962236600B40DA4 /* smallbubbleover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9531962236600B40DA4 /* smallbubbleover.png */; };
@@ -3607,8 +3607,8 @@
 		CF29E9481962236600B40DA4 /* largebubbleover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "largebubbleover@2x.png"; sourceTree = "<group>"; };
 		CF29E94B1962236600B40DA4 /* mediumbubbleover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumbubbleover.png; sourceTree = "<group>"; };
 		CF29E94C1962236600B40DA4 /* mediumbubbleover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mediumbubbleover@2x.png"; sourceTree = "<group>"; };
-		CF29E94D1962236600B40DA4 /* notificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationbubble.png; sourceTree = "<group>"; };
-		CF29E94E1962236600B40DA4 /* notificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationbubble@2x.png"; sourceTree = "<group>"; };
+		CF29E94D1962236600B40DA4 /* badgeicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeicon.png; sourceTree = "<group>"; };
+		CF29E94E1962236600B40DA4 /* badgeicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badgeicon@2x.png"; sourceTree = "<group>"; };
 		CF29E9511962236600B40DA4 /* shopbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shopbutton.png; sourceTree = "<group>"; };
 		CF29E9521962236600B40DA4 /* shopbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shopbutton@2x.png"; sourceTree = "<group>"; };
 		CF29E9531962236600B40DA4 /* smallbubbleover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallbubbleover.png; sourceTree = "<group>"; };
@@ -7821,8 +7821,8 @@
 				CF29E9481962236600B40DA4 /* largebubbleover@2x.png */,
 				CF29E94B1962236600B40DA4 /* mediumbubbleover.png */,
 				CF29E94C1962236600B40DA4 /* mediumbubbleover@2x.png */,
-				CF29E94D1962236600B40DA4 /* notificationbubble.png */,
-				CF29E94E1962236600B40DA4 /* notificationbubble@2x.png */,
+				CF29E94D1962236600B40DA4 /* badgeicon.png */,
+				CF29E94E1962236600B40DA4 /* badgeicon@2x.png */,
 				CF29E9511962236600B40DA4 /* shopbutton.png */,
 				CF29E9521962236600B40DA4 /* shopbutton@2x.png */,
 				CF29E9531962236600B40DA4 /* smallbubbleover.png */,
@@ -13765,7 +13765,7 @@
 				CF2A4ABB1901B8F500B2D7D7 /* greenmenuoption.png in Resources */,
 				CFFBDFEF18ACA3D90090CA9A /* Scientist5Breath12@2x.png in Resources */,
 				CFE02BAD1821DCA80016C1E2 /* Rapper2UziCard@2x.png in Resources */,
-				CF29E9601962236600B40DA4 /* notificationbubble@2x.png in Resources */,
+				CF29E9601962236600B40DA4 /* badgeicon@2x.png in Resources */,
 				CF0AC5FA18A0B11600140628 /* BattleLostView.ccbi in Resources */,
 				CF9520481939690800A98290 /* iphone4dailyevententer.png in Resources */,
 				CFF7403B1817AF09009DE4A4 /* greenlight.png in Resources */,
@@ -13792,7 +13792,7 @@
 				CF864DB8193E7C5C00DE0D7A /* chatpopupbg@2x.png in Resources */,
 				CFF2C903193ECF5600F28D9E /* chatinputmiddle@2x.png in Resources */,
 				CFEE89E818EC388000047CA4 /* goldbig.png in Resources */,
-				CF29E95F1962236600B40DA4 /* notificationbubble.png in Resources */,
+				CF29E95F1962236600B40DA4 /* badgeicon.png in Resources */,
 				CF54943918C6AF8A001E7D32 /* TutorialBattle2Layout.txt in Resources */,
 				CFCD0EB41953F07400EDC233 /* bigsquarebottom.png in Resources */,
 				CFF2162F18FDEA200057B5CE /* imgtestupgrade@2x.png in Resources */,
