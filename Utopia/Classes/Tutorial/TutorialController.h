@@ -90,6 +90,9 @@ typedef enum {
   TutorialStepEnteredBattle,
   TutorialStepBattleFriendTaunt,
   TutorialStepBattleEnemyTaunt,
+  TutorialStepBattleEnemyDefense,
+  TutorialStepBattleEnemyBossAngry,
+  
   TutorialStepFirstBattleFirstMove,
   TutorialStepFirstBattleSecondMove,
   TutorialStepFirstBattleLastMove,

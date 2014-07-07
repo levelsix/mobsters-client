@@ -1424,8 +1424,6 @@
 		CFB2509018587BF300BE0C05 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB2508F18587BF300BE0C05 /* THLabel.m */; };
 		CFB250971859B9C300BE0C05 /* closebattle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250951859B9C300BE0C05 /* closebattle.png */; };
 		CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250961859B9C300BE0C05 /* closebattle@2x.png */; };
-		CFB2509D1859C1AD00BE0C05 /* badgeicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509B1859C1AD00BE0C05 /* badgeicon.png */; };
-		CFB2509F1859C1AE00BE0C05 /* badgeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */; };
 		CFB250A2185FF0A200BE0C05 /* DiamondListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB250A1185FF0A200BE0C05 /* DiamondListing.xib */; };
 		CFBB36C218EE2B9400FD6C8C /* AttackMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */; };
 		CFBB36D618EE3AF400FD6C8C /* myteambg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFBB36C918EE3AF400FD6C8C /* myteambg.png */; };
@@ -4737,8 +4735,6 @@
 		CFB2508F18587BF300BE0C05 /* THLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THLabel.m; sourceTree = "<group>"; };
 		CFB250951859B9C300BE0C05 /* closebattle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closebattle.png; sourceTree = "<group>"; };
 		CFB250961859B9C300BE0C05 /* closebattle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closebattle@2x.png"; sourceTree = "<group>"; };
-		CFB2509B1859C1AD00BE0C05 /* badgeicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeicon.png; sourceTree = "<group>"; };
-		CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badgeicon@2x.png"; sourceTree = "<group>"; };
 		CFB250A1185FF0A200BE0C05 /* DiamondListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiamondListing.xib; sourceTree = "<group>"; };
 		CFBB36C018EE2B9400FD6C8C /* AttackMapViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackMapViews.h; sourceTree = "<group>"; };
 		CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttackMapViews.m; sourceTree = "<group>"; };
@@ -9052,8 +9048,6 @@
 				CFBB36D418EE3AF400FD6C8C /* oilmiddle@2x.png */,
 				CFF786C118E1045C00413E78 /* activeraid.png */,
 				CFF786C218E1045C00413E78 /* activeraid@2x.png */,
-				CFB2509B1859C1AD00BE0C05 /* badgeicon.png */,
-				CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */,
 				CF7064E818470051005B30A1 /* addgems.png */,
 				CF7064E918470051005B30A1 /* addgems@2x.png */,
 				CF7064EA18470051005B30A1 /* cashcap.png */,
@@ -12173,7 +12167,6 @@
 				CFEE89C818EC00C100047CA4 /* buildingcap.png in Resources */,
 				CF2A4AF91901B8F500B2D7D7 /* newquest.png in Resources */,
 				CF134A6818A5E4B500D7D700 /* FatBoy2Move12@2x.png in Resources */,
-				CFB2509F1859C1AE00BE0C05 /* badgeicon@2x.png in Resources */,
 				CF2A4AC01901B8F500B2D7D7 /* orangemenuoption@2x.png in Resources */,
 				CF70651118470051005B30A1 /* cashmiddle.png in Resources */,
 				CF6A291618C2B2F200AD676F /* newsbg.png in Resources */,
@@ -12481,7 +12474,6 @@
 				CFF390621828567D0010A3BE /* m9@2x.png in Resources */,
 				CF32EAA9195FAB0C00A4AEE3 /* lockeddailylab@2x.png in Resources */,
 				CFFEB11C1834539C007C4BA3 /* lightcardhealthbar.png in Resources */,
-				CFB2509D1859C1AD00BE0C05 /* badgeicon.png in Resources */,
 				CF2A4ACD1901B8F500B2D7D7 /* popupheadermiddle.png in Resources */,
 				CF32EAE7195FF81900A4AEE3 /* menuactivetab@2x.png in Resources */,
 				CF68903E1912E7B500FF1F71 /* engagearrow@2x.png in Resources */,

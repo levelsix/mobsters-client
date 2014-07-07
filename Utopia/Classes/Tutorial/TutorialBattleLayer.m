@@ -10,9 +10,11 @@
 #import "Globals.h"
 #import "TutorialOrbLayer.h"
 #import "CCSoundAnimation.h"
+#import "SoundEngine.h"
 
 #define ENEMY_INDEX 1
 #define ENEMY_TWO_INDEX 2
+#define ENEMY_BOSS_INDEX 0
 
 @implementation TutorialBattleOneLayer
 
@@ -112,21 +114,46 @@
   [bs jumpNumTimes:1 completionTarget:self.delegate selector:@selector(enemyJumpedAndShot)];
 }
 
-
-- (void) enemyTwoLookAtEnemyAndWalkOut {
-  BattleSprite *bs1 = self.enemyTeamSprites[ENEMY_INDEX];
+- (void) enemyTwoLookAtEnemy {
   BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
   [bs2 restoreStandingFrame:MapDirectionNearRight];
+}
+
+- (void) enemyTwoAttackEnemy {
+  [self enemyTwoAttackEnemyWithTarget:self.delegate selector:@selector(enemyTwoHitEnemy)];
+}
+
+- (void) enemyTwoAttackEnemyWithTarget:(id)target selector:(SEL)selector {
+  BattleSprite *bs1 = self.enemyTeamSprites[ENEMY_INDEX];
+  BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
   
   CCAnimation *anim = bs2.attackAnimationN.copy;
-  [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
+  NSString *effect = @"sfx_muckerburg_hit_luchador.mp3";
+  [anim addSoundEffect:effect atIndex:2];
+  [[SoundEngine sharedSoundEngine] preloadEffect:effect];
   
+  float delay = 0.01f;
   [bs2 runAction:[CCActionSequence actions:
-                  [CCActionDelay actionWithDuration:0.5f],
+                  [CCActionDelay actionWithDuration:delay],
                   [CCSoundAnimate actionWithAnimation:anim],
-                  [CCActionCallFunc actionWithTarget:self selector:@selector(enemyTwoAndBossRunOut)], nil]];
+                  [CCActionCallFunc actionWithTarget:target selector:selector], nil]];
   
-  [bs1 performFarFlinchAnimationWithDelay:0.8];
+  [bs1 performFarFlinchAnimationWithDelay:delay+0.3];
+}
+
+- (void) enemyBossStomp {
+  BattleSprite *boss = self.enemyTeamSprites[ENEMY_BOSS_INDEX];
+  
+  [boss jumpNumTimes:1 timePerJump:0.3 completionTarget:self selector:@selector(enemyMinionsJump)];
+}
+
+- (void) enemyMinionsJump {
+  BattleSprite *bs1 = self.enemyTeamSprites[ENEMY_INDEX];
+  BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  
+  [bs1 jumpNumTimes:1 completionTarget:self.delegate selector:@selector(enemyBossStomped)];
+  [bs2 jumpNumTimes:1 completionTarget:nil selector:nil];
+  [self shakeScreenWithIntensity:1.f];
 }
 
 - (void) moveBattleSpriteToEnemyStartLocationAndCallSelector:(BattleSprite *)bs isComingFromTop:(BOOL)isFromTop {
@@ -141,7 +168,6 @@
   bs.position = startPos;
   [bs runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.5f],
     [CCActionCallBlock actionWithBlock:
      ^{
        if (!isFromTop) {
@@ -171,28 +197,20 @@
     nil]];
 }
 
-- (void) walkOutEnemiesNotAtIndex:(int)idx {
-  self.currentEnemy = self.enemyTeamSprites[idx];
-  self.enemyPlayerObject = self.enemyTeam[idx];
-  for (BattleSprite *bs in self.enemyTeamSprites) {
-    CGPoint startPos = bs.position;
-    CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
-    if (bs == self.currentEnemy) {
-      [self moveBattleSpriteToEnemyStartLocationAndCallSelector:bs isComingFromTop:idx == ENEMY_TWO_INDEX];
-    } else {
-      float startX = self.contentSize.width+self.myPlayer.contentSize.width;
-      float xDelta = startPos.x-startX;
-      CGPoint endPos = ccp(startX, startPos.y-xDelta*ptOffset.y/ptOffset.x);
-      
-      bs.isFacingNear = NO;
-      [bs beginWalking];
-      [bs runAction:
-       [CCActionSequence actions:
-        [CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos], nil]];
-    }
-  }
+- (void) walkOutEnemyAtIndex:(int)idx target:(id)target selector:(SEL)selector {
+  BattleSprite *bs = self.enemyTeamSprites[idx];
+  CGPoint startPos = bs.position;
+  CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
+  float startY = self.contentSize.height-5;
+  float yDelta = startPos.y-startY;
+  CGPoint endPos = ccp(startPos.x-yDelta*ptOffset.x/ptOffset.y, startY);
   
-  _curStage = idx;
+  bs.isFacingNear = NO;
+  [bs beginWalking];
+  [bs runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos],
+    [CCActionCallFunc actionWithTarget:target selector:selector], nil]];
 }
 
 - (void) enemiesRanOut {
@@ -200,8 +218,23 @@
 }
 
 - (void) enemyTwoAndBossRunOut {
-  [self walkOutEnemiesNotAtIndex:ENEMY_INDEX];
-  [self displayOrbLayer];
+  [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX target:self selector:@selector(enemyTwoAttackEnemyAndRunOut)];
+}
+
+- (void) enemyTwoAttackEnemyAndRunOut {
+  [self enemyTwoAttackEnemyWithTarget:self selector:@selector(enemyTwoRunOut)];
+}
+
+- (void) enemyTwoRunOut {
+  [self walkOutEnemyAtIndex:ENEMY_TWO_INDEX target:self selector:@selector(moveEnemyToStartLocation)];
+}
+
+- (void) moveEnemyToStartLocation {
+  self.enemyPlayerObject = self.enemyTeam[ENEMY_INDEX];
+  self.currentEnemy = self.enemyTeamSprites[ENEMY_INDEX];
+  [self moveBattleSpriteToEnemyStartLocationAndCallSelector:self.currentEnemy isComingFromTop:NO];
+  _curStage = ENEMY_INDEX;
+  [self scheduleOnce:@selector(displayOrbLayer) delay:0.5];
 }
 
 - (void) makeEnemyTwoAndBossRunIn {
@@ -213,7 +246,16 @@
 }
 
 - (void) enemyBossWalkOut {
-  [self walkOutEnemiesNotAtIndex:ENEMY_TWO_INDEX];
+  BattleSprite *bs = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  [bs jumpNumTimes:2 completionTarget:self selector:@selector(moveEnemyTwoToStartLocation)];
+}
+
+- (void) moveEnemyTwoToStartLocation {
+  [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX target:nil selector:nil];
+  self.enemyPlayerObject = self.enemyTeam[ENEMY_TWO_INDEX];
+  self.currentEnemy = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  [self moveBattleSpriteToEnemyStartLocationAndCallSelector:self.currentEnemy isComingFromTop:YES];
+  _curStage = ENEMY_TWO_INDEX;
 }
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy {
@@ -276,13 +318,14 @@
                                                    [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
   } else if (_curStage == ENEMY_TWO_INDEX) {
     [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                                   [NSValue valueWithCGPoint:ccp(3, 1)],
-                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(1, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(2, 3)],
                                                    [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]
+                                                   [NSValue valueWithCGPoint:ccp(4, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],nil]
                                    withForcedMove:[NSArray arrayWithObjects:
                                                    [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)], nil]];
   }
 }
 
@@ -300,13 +343,13 @@
                                                    [NSValue valueWithCGPoint:ccp(3, 4)], nil]];
   } else if (_curStage == ENEMY_TWO_INDEX) {
     [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                                   [NSValue valueWithCGPoint:ccp(3, 1)],
-                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]
+                                                   [NSValue valueWithCGPoint:ccp(2, 4)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 4)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 4)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)], nil]
                                    withForcedMove:[NSArray arrayWithObjects:
-                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+                                                   [NSValue valueWithCGPoint:ccp(3, 4)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)], nil]];
   }
 }
 

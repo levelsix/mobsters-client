@@ -13,6 +13,8 @@
 
 @optional
 - (void) enemyJumpedAndShot;
+- (void) enemyTwoHitEnemy;
+- (void) enemyBossStomped;
 - (void) enemiesRanOut;
 
 - (void) swappedToMark;
@@ -38,7 +40,10 @@
 - (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants enemyDamageDealt:(int)damage;
 
 - (void) enemyJumpAndShoot;
-- (void) enemyTwoLookAtEnemyAndWalkOut;
+- (void) enemyTwoLookAtEnemy;
+- (void) enemyTwoAttackEnemy;
+- (void) enemyBossStomp;
+- (void) enemyTwoAndBossRunOut;
 - (void) enemyBossWalkOut;
 
 @end

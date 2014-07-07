@@ -29,6 +29,7 @@ typedef enum {
 - (void) stopBackgroundMusic;
 - (void) resumeBackgroundMusic;
 - (id<ALSoundSource>) playEffect:(NSString *)effect;
+- (void) preloadEffect:(NSString *)effect;
 
 - (void) playHomeMapMusic;
 - (void) playMissionMapMusic;

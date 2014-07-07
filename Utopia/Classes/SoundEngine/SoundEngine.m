@@ -26,6 +26,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
+- (void) preloadEffect:(NSString *)effect {
+  [[OALSimpleAudio sharedInstance] preloadEffect:effect];
+}
+
 - (void) stopBackgroundMusic {
   if (_curMusic != kNoMusic) {
     [[OALSimpleAudio sharedInstance] stopBg];

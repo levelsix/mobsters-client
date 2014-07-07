@@ -156,6 +156,7 @@
 - (IBAction)forfeitClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;
+- (void) shakeScreenWithIntensity:(float)intensity;
 
 - (void) checkEnemyHealth;
 

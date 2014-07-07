@@ -67,11 +67,11 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="2an-kf-CJf">
-                                    <rect key="frame" x="34" y="186" width="76" height="38"/>
+                                    <rect key="frame" x="46" y="186" width="76" height="38"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" id="0Yx-qy-ndC">
-                                    <rect key="frame" x="0.0" y="29" width="149" height="188"/>
+                                    <rect key="frame" x="12" y="29" width="149" height="188"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                             </subviews>
