@@ -19,9 +19,9 @@
                 <outlet property="statsView" destination="loT-J6-7Vc" id="c5R-wP-4j0"/>
                 <outlet property="teamView" destination="wSV-2A-hyI" id="rRk-iv-mkM"/>
                 <outlet property="view" destination="nvX-oy-fUb" id="ATE-O8-DUk"/>
-                <outletCollection property="monsterTeamViews" destination="I8b-ng-WJI" id="hWM-NA-Zfd"/>
-                <outletCollection property="monsterTeamViews" destination="iiM-q7-ibT" id="yGu-1u-5LY"/>
-                <outletCollection property="monsterTeamViews" destination="dvz-X5-MNk" id="deT-N3-2Hp"/>
+                <outletCollection property="monsterTeamViews" destination="iiM-q7-ibT" id="Bpr-p6-nfr"/>
+                <outletCollection property="monsterTeamViews" destination="I8b-ng-WJI" id="sjT-0n-Ol4"/>
+                <outletCollection property="monsterTeamViews" destination="dvz-X5-MNk" id="bjn-B9-8qP"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

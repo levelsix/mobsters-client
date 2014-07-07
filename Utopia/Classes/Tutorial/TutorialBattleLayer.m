@@ -265,27 +265,49 @@
 - (void) beginFirstMove {
   [super beginFirstMove];
   
-  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                 [NSValue valueWithCGPoint:ccp(4, 2)], nil]
-                                 withForcedMove:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                 [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+  if (_curStage == ENEMY_INDEX) {
+    [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]
+                                   withForcedMove:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+  } else if (_curStage == ENEMY_TWO_INDEX) {
+    [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]
+                                   withForcedMove:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+  }
 }
 
 - (void) beginSecondMove {
   [super beginSecondMove];
   
-  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 4)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 1)], nil]
-                                 withForcedMove:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 4)], nil]];
+  if (_curStage == ENEMY_INDEX) {
+    [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 4)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 1)], nil]
+                                   withForcedMove:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 4)], nil]];
+  } else if (_curStage == ENEMY_TWO_INDEX) {
+    [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]
+                                   withForcedMove:[NSArray arrayWithObjects:
+                                                   [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                   [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+  }
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
