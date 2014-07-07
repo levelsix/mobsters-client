@@ -263,6 +263,10 @@
 
 - (void) moveToNextEnemy {
   [super moveToNextEnemy];
+  [self sendServerDungeonProgress];
+}
+
+- (void) sendServerDungeonProgress {
   if (_hasStarted && _curStage < self.enemyTeam.count) {
     [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage];
     [self saveCurrentState];

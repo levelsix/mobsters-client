@@ -3856,6 +3856,7 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 @property int64_t userMonsterId;
 @property int32_t expectedExperience;
 @property int32_t expectedLevel;
+@property int32_t expectedHp;
 @end
 
 @implementation UserMonsterCurrentExpProto
@@ -3881,6 +3882,13 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   hasExpectedLevel_ = !!value;
 }
 @synthesize expectedLevel;
+- (BOOL) hasExpectedHp {
+  return !!hasExpectedHp_;
+}
+- (void) setHasExpectedHp:(BOOL) value {
+  hasExpectedHp_ = !!value;
+}
+@synthesize expectedHp;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3889,6 +3897,7 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
     self.userMonsterId = 0L;
     self.expectedExperience = 0;
     self.expectedLevel = 0;
+    self.expectedHp = 0;
   }
   return self;
 }
@@ -3917,6 +3926,9 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   if (self.hasExpectedLevel) {
     [output writeInt32:3 value:self.expectedLevel];
   }
+  if (self.hasExpectedHp) {
+    [output writeInt32:4 value:self.expectedHp];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3934,6 +3946,9 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   }
   if (self.hasExpectedLevel) {
     size += computeInt32Size(3, self.expectedLevel);
+  }
+  if (self.hasExpectedHp) {
+    size += computeInt32Size(4, self.expectedHp);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4019,6 +4034,9 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   if (other.hasExpectedLevel) {
     [self setExpectedLevel:other.expectedLevel];
   }
+  if (other.hasExpectedHp) {
+    [self setExpectedHp:other.expectedHp];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4050,6 +4068,10 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
       }
       case 24: {
         [self setExpectedLevel:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setExpectedHp:[input readInt32]];
         break;
       }
     }
@@ -4101,6 +4123,22 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
 - (UserMonsterCurrentExpProto_Builder*) clearExpectedLevel {
   result.hasExpectedLevel = NO;
   result.expectedLevel = 0;
+  return self;
+}
+- (BOOL) hasExpectedHp {
+  return result.hasExpectedHp;
+}
+- (int32_t) expectedHp {
+  return result.expectedHp;
+}
+- (UserMonsterCurrentExpProto_Builder*) setExpectedHp:(int32_t) value {
+  result.hasExpectedHp = YES;
+  result.expectedHp = value;
+  return self;
+}
+- (UserMonsterCurrentExpProto_Builder*) clearExpectedHp {
+  result.hasExpectedHp = NO;
+  result.expectedHp = 0;
   return self;
 }
 @end

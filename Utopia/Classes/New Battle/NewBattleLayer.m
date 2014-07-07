@@ -39,8 +39,9 @@
 
 @implementation BattleBgdLayer
 
-- (id) init {
+- (id) initWithPrefix:(NSString *)prefix {
   if ((self = [super init])) {
+    self.prefix = prefix;
     [self addNewScene];
   }
   return self;
@@ -85,8 +86,8 @@
 }
 
 - (void) addSceneAtBasePosition:(CGPoint)pos {
-  CCSprite *left1 = [CCSprite spriteWithImageNamed:@"scene1left.png"];
-  CCSprite *right1 = [CCSprite spriteWithImageNamed:@"scene1right.png"];
+  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1left.png"]];
+  CCSprite *right1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1right.png"]];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
   right1.position = ccp(left1.position.x+left1.contentSize.width/2+right1.contentSize.width/2,
@@ -95,8 +96,8 @@
   [self addChild:left1];
   [self addChild:right1];
   
-  CCSprite *left2 = [CCSprite spriteWithImageNamed:@"scene2left.png"];
-  CCSprite *right2 = [CCSprite spriteWithImageNamed:@"scene2right.png"];
+  CCSprite *left2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2left.png"]];
+  CCSprite *right2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2right.png"]];
   
   left2.position = ccp(pos.x+left2.contentSize.width/2+POINT_OFFSET_PER_SCENE.x/2,
                        left1.position.y+left1.contentSize.height/2+left2.contentSize.height/2);
@@ -147,7 +148,7 @@
     self.bgdContainer.contentSize = self.contentSize;
     [self addChild:self.bgdContainer z:0];
     
-    self.bgdLayer = [BattleBgdLayer node];
+    self.bgdLayer = [[BattleBgdLayer alloc] initWithPrefix:[self bgdPrefix]];
     [self.bgdContainer addChild:self.bgdLayer z:-100];
     self.bgdLayer.position = BGD_LAYER_INIT_POSITION;
     if (_puzzleIsOnLeft) self.bgdLayer.position = ccpAdd(BGD_LAYER_INIT_POSITION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
@@ -171,6 +172,10 @@
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
   return self;
+}
+
+- (NSString *) bgdPrefix {
+  return @"";
 }
 
 - (void) initOrbLayer {
@@ -494,11 +499,17 @@
 }
 
 - (void) beginEnemyTurn {
-  Globals *gl = [Globals sharedGlobals];
   _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-  _enemyDamageDealt = _enemyDamageDealt*[gl calculateDamageMultiplierForAttackElement:self.enemyPlayerObject.element defenseElement:self.myPlayerObject.element];
+  _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
   
   [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
+}
+
+- (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy {
+  Globals *gl = [Globals sharedGlobals];
+  Element attackerElement = isEnemy ? self.enemyPlayerObject.element : self.myPlayerObject.element;
+  Element defenderElement = !isEnemy ? self.enemyPlayerObject.element : self.myPlayerObject.element;
+  return [gl calculateDamageMultiplierForAttackElement:attackerElement defenseElement:defenderElement];
 }
 
 - (void) checkIfAnyMovesLeft {
@@ -547,8 +558,7 @@
 }
 
 - (void) dealMyDamage {
-  Globals *gl = [Globals sharedGlobals];
-  _myDamageDealt = _myDamageDealt*[gl calculateDamageMultiplierForAttackElement:self.myPlayerObject.element defenseElement:self.enemyPlayerObject.element];
+  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
   _enemyShouldAttack = YES;
   [self dealDamage:_myDamageDealt enemyIsAttacker:NO withSelector:@selector(checkEnemyHealth)];
   

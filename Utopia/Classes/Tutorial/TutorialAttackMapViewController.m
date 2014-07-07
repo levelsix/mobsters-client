@@ -31,7 +31,7 @@
   self.clickableCityId = cityId;
   
   AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:cityId];
-  [Globals createUIArrowForView:icon.cityButton atAngle:M_PI];
+  [Globals createUIArrowForView:icon atAngle:M_PI];
 }
 
 - (IBAction)cityClicked:(id)sender {
@@ -41,8 +41,15 @@
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   
   if (icon.tag == self.clickableCityId) {
+    [Globals removeUIArrowFromViewRecursively:self.view];
     [super cityClicked:sender];
+    [Globals createUIArrowForView:self.taskStatusView.enterButtonView atAngle:M_PI_2];
   }
+}
+
+- (IBAction)enterDungeonClicked:(id)sender {
+  // Need to overwrite so that globals doesn't send you to residence
+  [self.delegate enterDungeon:self.taskStatusView.taskId isEvent:NO eventId:0 useGems:NO];
 }
 
 - (IBAction)enterEventClicked:(UIButton *)sender {
@@ -54,6 +61,10 @@
 }
 
 - (IBAction)close:(id)sender {
+  // Do nothing
+}
+
+- (void) removeTaskStatusView {
   // Do nothing
 }
 

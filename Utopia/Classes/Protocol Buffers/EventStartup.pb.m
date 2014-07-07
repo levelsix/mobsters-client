@@ -5573,7 +5573,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 
 @interface StartupResponseProto_TutorialConstants ()
 @property int32_t startingMonsterId;
+@property int32_t guideMonsterId;
 @property int32_t enemyMonsterId;
+@property int32_t enemyMonsterIdTwo;
 @property int32_t enemyBossMonsterId;
 @property int32_t markZmonsterId;
 @property (retain) NSMutableArray* mutableTutorialStructuresList;
@@ -5597,6 +5599,13 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   hasStartingMonsterId_ = !!value;
 }
 @synthesize startingMonsterId;
+- (BOOL) hasGuideMonsterId {
+  return !!hasGuideMonsterId_;
+}
+- (void) setHasGuideMonsterId:(BOOL) value {
+  hasGuideMonsterId_ = !!value;
+}
+@synthesize guideMonsterId;
 - (BOOL) hasEnemyMonsterId {
   return !!hasEnemyMonsterId_;
 }
@@ -5604,6 +5613,13 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   hasEnemyMonsterId_ = !!value;
 }
 @synthesize enemyMonsterId;
+- (BOOL) hasEnemyMonsterIdTwo {
+  return !!hasEnemyMonsterIdTwo_;
+}
+- (void) setHasEnemyMonsterIdTwo:(BOOL) value {
+  hasEnemyMonsterIdTwo_ = !!value;
+}
+@synthesize enemyMonsterIdTwo;
 - (BOOL) hasEnemyBossMonsterId {
   return !!hasEnemyBossMonsterId_;
 }
@@ -5674,7 +5690,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (id) init {
   if ((self = [super init])) {
     self.startingMonsterId = 0;
+    self.guideMonsterId = 0;
     self.enemyMonsterId = 0;
+    self.enemyMonsterIdTwo = 0;
     self.enemyBossMonsterId = 0;
     self.markZmonsterId = 0;
     self.cityId = 0;
@@ -5772,6 +5790,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   for (MinimumObstacleProto* element in self.tutorialObstaclesList) {
     [output writeMessage:14 value:element];
   }
+  if (self.hasEnemyMonsterIdTwo) {
+    [output writeInt32:15 value:self.enemyMonsterIdTwo];
+  }
+  if (self.hasGuideMonsterId) {
+    [output writeInt32:16 value:self.guideMonsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5827,6 +5851,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   for (MinimumObstacleProto* element in self.tutorialObstaclesList) {
     size += computeMessageSize(14, element);
+  }
+  if (self.hasEnemyMonsterIdTwo) {
+    size += computeInt32Size(15, self.enemyMonsterIdTwo);
+  }
+  if (self.hasGuideMonsterId) {
+    size += computeInt32Size(16, self.guideMonsterId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5906,8 +5936,14 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (other.hasStartingMonsterId) {
     [self setStartingMonsterId:other.startingMonsterId];
   }
+  if (other.hasGuideMonsterId) {
+    [self setGuideMonsterId:other.guideMonsterId];
+  }
   if (other.hasEnemyMonsterId) {
     [self setEnemyMonsterId:other.enemyMonsterId];
+  }
+  if (other.hasEnemyMonsterIdTwo) {
+    [self setEnemyMonsterIdTwo:other.enemyMonsterIdTwo];
   }
   if (other.hasEnemyBossMonsterId) {
     [self setEnemyBossMonsterId:other.enemyBossMonsterId];
@@ -6040,6 +6076,14 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         [self addTutorialObstacles:[subBuilder buildPartial]];
         break;
       }
+      case 120: {
+        [self setEnemyMonsterIdTwo:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setGuideMonsterId:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -6059,6 +6103,22 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.startingMonsterId = 0;
   return self;
 }
+- (BOOL) hasGuideMonsterId {
+  return result.hasGuideMonsterId;
+}
+- (int32_t) guideMonsterId {
+  return result.guideMonsterId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setGuideMonsterId:(int32_t) value {
+  result.hasGuideMonsterId = YES;
+  result.guideMonsterId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearGuideMonsterId {
+  result.hasGuideMonsterId = NO;
+  result.guideMonsterId = 0;
+  return self;
+}
 - (BOOL) hasEnemyMonsterId {
   return result.hasEnemyMonsterId;
 }
@@ -6073,6 +6133,22 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterId {
   result.hasEnemyMonsterId = NO;
   result.enemyMonsterId = 0;
+  return self;
+}
+- (BOOL) hasEnemyMonsterIdTwo {
+  return result.hasEnemyMonsterIdTwo;
+}
+- (int32_t) enemyMonsterIdTwo {
+  return result.enemyMonsterIdTwo;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyMonsterIdTwo:(int32_t) value {
+  result.hasEnemyMonsterIdTwo = YES;
+  result.enemyMonsterIdTwo = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterIdTwo {
+  result.hasEnemyMonsterIdTwo = NO;
+  result.enemyMonsterIdTwo = 0;
   return self;
 }
 - (BOOL) hasEnemyBossMonsterId {

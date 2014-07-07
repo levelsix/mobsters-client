@@ -22,15 +22,15 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="EKv-Ng-RX2">
-                            <rect key="frame" x="0.0" y="0.0" width="76" height="38"/>
+                            <rect key="frame" x="0.0" y="2" width="76" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="BDg-CX-uHn">
-                            <rect key="frame" x="-34" y="-128" width="149" height="173"/>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="BDg-CX-uHn">
+                            <rect key="frame" x="-34" y="0.0" width="149" height="33"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="agZ-jh-jpm">
-                            <rect key="frame" x="-34" y="-128" width="149" height="173"/>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="agZ-jh-jpm">
+                            <rect key="frame" x="-34" y="0.0" width="149" height="33"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>

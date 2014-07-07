@@ -16,14 +16,10 @@
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  self.buildingViewController = [[BuildingViewController alloc] init];
-  self.fundsViewController = [[FundsViewController alloc] init];
-  self.gachaViewController = [[GachaChooserViewController alloc] init];
-  
-  self.buildingViewController.delegate = [GameViewController baseController];
-  
   Globals *gl = [Globals sharedGlobals];
   self.buildingsBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
+  
+  [self initializeSubViewControllers];
   
   if (!self.topViewController) {
     if (self.buildingsBadge.badgeNum) {
@@ -32,6 +28,14 @@
       [self button3Clicked:nil];
     }
   }
+}
+
+- (void) initializeSubViewControllers {
+  self.buildingViewController = [[BuildingViewController alloc] init];
+  self.fundsViewController = [[FundsViewController alloc] init];
+  self.gachaViewController = [[GachaChooserViewController alloc] init];
+  
+  self.buildingViewController.delegate = [GameViewController baseController];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

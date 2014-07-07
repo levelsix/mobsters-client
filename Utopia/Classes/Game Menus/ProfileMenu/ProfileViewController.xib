@@ -420,15 +420,15 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" id="b6W-Tv-mb9">
-                                                            <rect key="frame" x="0.0" y="18" width="136" height="148"/>
+                                                            <rect key="frame" x="3" y="6" width="136" height="148"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
                                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="5Kv-b7-krK">
-                                                                    <rect key="frame" x="39" y="112" width="66" height="31"/>
+                                                                    <rect key="frame" x="30" y="117" width="76" height="38"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 </imageView>
-                                                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="Oa4-1l-aCb">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="136" height="152"/>
+                                                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="Oa4-1l-aCb">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="136" height="148"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 </imageView>
                                                             </subviews>
@@ -586,15 +586,15 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="4cS-QM-VMH">
-                    <rect key="frame" x="6" y="5" width="149" height="188"/>
+                    <rect key="frame" x="6" y="5" width="149" height="174"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="rdt-TH-hte">
                             <rect key="frame" x="34" y="143" width="76" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomLeft" id="KF4-bL-nDc">
-                            <rect key="frame" x="0.0" y="0.0" width="149" height="188"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" id="KF4-bL-nDc">
+                            <rect key="frame" x="0.0" y="0.0" width="149" height="174"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                     </subviews>

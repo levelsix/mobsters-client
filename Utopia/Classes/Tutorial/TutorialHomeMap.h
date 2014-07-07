@@ -12,6 +12,11 @@
 @protocol TutorialHomeMapDelegate <NSObject>
 
 - (void) boatLanded;
+- (void) enemyTwoJumped;
+- (void) guideReachedHideLocation;
+- (void) friendEntered;
+- (void) enemyTeamWalkedOut;
+
 - (void) markFacedFriendAndBack;
 - (void) enterHospitalClicked;
 
@@ -29,8 +34,13 @@
 
 @property (nonatomic, retain) NSMutableArray *myStructs;
 
+@property (nonatomic, retain) AnimatedSprite *guideSprite;
 @property (nonatomic, retain) AnimatedSprite *friendSprite;
 @property (nonatomic, retain) AnimatedSprite *markZSprite;
+
+@property (nonatomic, retain) AnimatedSprite *enemy1Sprite;
+@property (nonatomic, retain) AnimatedSprite *enemy2Sprite;
+@property (nonatomic, retain) AnimatedSprite *enemyBossSprite;
 
 @property (nonatomic, retain) CCSprite *boatSprite;
 
@@ -41,6 +51,17 @@
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 
 - (HospitalBuilding *) hospital;
+
+- (void) centerOnGuide;
+- (void) enemyTwoJump;
+- (void) guideHideBehindObstacle;
+- (void) friendEnterScene;
+- (void) friendRunForBattleEnter;
+
+- (void) beginPostBattleConfrontation;
+- (void) walkOutEnemyTeam;
+
+- (void) moveFriendsOffBuildableMap;
 
 - (void) landBoatOnShore;
 - (void) walkToHospitalAndEnter;

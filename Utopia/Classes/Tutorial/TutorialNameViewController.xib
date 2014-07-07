@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TutorialNameViewController">
             <connections>
-                <outlet property="bgdView" destination="sPO-lT-usW" id="Am0-Ez-BtS"/>
+                <outlet property="bgdView" destination="uyu-1M-eTf" id="Fgj-4O-a69"/>
                 <outlet property="mainView" destination="jeW-ac-DdK" id="rja-an-M50"/>
                 <outlet property="nameTextField" destination="Zwf-tt-A0b" id="7J9-gE-UsO"/>
                 <outlet property="view" destination="yto-6Y-P9t" id="1r1-BV-bZJ"/>
@@ -18,36 +18,33 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupglow.png" id="sPO-lT-usW">
+                <view contentMode="scaleToFill" id="uyu-1M-eTf">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                </imageView>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" id="jeW-ac-DdK">
-                    <rect key="frame" x="176" y="13" width="216" height="134"/>
+                    <rect key="frame" x="176" y="15" width="216" height="134"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupheader.png" id="Dtg-cc-V0t">
-                            <rect key="frame" x="0.0" y="0.0" width="216" height="39"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="My Name Is..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="DVq-Hz-HKc" customClass="NiceFontLabel">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Choose a username:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="DVq-Hz-HKc" customClass="NiceFontLabel9S">
                             <rect key="frame" x="15" y="3" width="186" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.89916204639999997" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <view contentMode="scaleToFill" id="ZKN-IZ-GHm">
-                            <rect key="frame" x="5" y="82" width="206" height="52"/>
+                            <rect key="frame" x="64" y="75" width="89" height="51"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ygl-SP-KG9" customClass="GeneralButton">
-                                    <rect key="frame" x="62" y="6" width="84" height="40"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="88" height="49"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="confirm.png" backgroundImage="confirm.png">
+                                    <state key="normal" image="doneusername.png">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -58,35 +55,35 @@
                                         <action selector="closeClicked:" destination="-1" eventType="touchUpInside" id="Hn5-Rx-Hk7"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Okay" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5yp-b5-UCa" customClass="NiceFontLabel">
-                                    <rect key="frame" x="62" y="5" width="84" height="40"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Next" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5yp-b5-UCa" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="7" y="7" width="62" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="0.031372549019607843" green="0.35686274509803922" blue="0.51372549019607838" alpha="1" colorSpace="deviceRGB"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nameinput.png" id="OM6-IT-7PT">
-                            <rect key="frame" x="8" y="49" width="200" height="29"/>
+                            <rect key="frame" x="8" y="36" width="200" height="29"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" id="Zwf-tt-A0b" customClass="NiceFontTextField">
-                            <rect key="frame" x="15" y="51" width="186" height="27"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" id="Zwf-tt-A0b" customClass="NiceFontTextField9">
+                            <rect key="frame" x="15" y="38" width="186" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="done"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="evr-Wh-Q1J"/>
                             </connections>
                         </textField>
                     </subviews>
-                    <color key="backgroundColor" red="0.98039215690000003" green="0.97254901959999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -95,9 +92,7 @@
         </view>
     </objects>
     <resources>
-        <image name="confirm.png" width="84" height="40"/>
+        <image name="doneusername.png" width="88" height="49"/>
         <image name="nameinput.png" width="200" height="29"/>
-        <image name="popupglow.png" width="480" height="320"/>
-        <image name="popupheader.png" width="216" height="39"/>
     </resources>
 </document>

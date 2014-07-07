@@ -61,17 +61,7 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  SellViewController *sell = [[SellViewController alloc] init];
-  HealViewController *heal = [[HealViewController alloc] init];
-  TeamViewController *team = [[TeamViewController alloc] init];
-  EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
-  EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
-  
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
-  if (gs.myLaboratory.isComplete) [arr addObject:enhance];
-  if (gs.myEvoChamber.isComplete) [arr addObject:evo];
-  self.mainViewControllers = arr;
+  [self loadMainViewControllers];
   
   PopupSubViewController *vc = self.mainViewControllers[0];
   if (_initViewControllerClass) {
@@ -83,10 +73,23 @@
   }
   _currentIndex = (int)[self.mainViewControllers indexOfObject:vc];
   [self replaceRootWithViewController:vc fromRight:NO animated:NO];
-  [self loadNextTitleSelectionFromRight:NO animated:NO];
   
   self.containerView.superview.layer.cornerRadius = 5.f;
   self.containerView.superview.clipsToBounds = YES;
+}
+
+- (void) loadMainViewControllers {
+  SellViewController *sell = [[SellViewController alloc] init];
+  HealViewController *heal = [[HealViewController alloc] init];
+  TeamViewController *team = [[TeamViewController alloc] init];
+  EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
+  EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
+  
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
+  if (gs.myLaboratory.isComplete) [arr addObject:enhance];
+  if (gs.myEvoChamber.isComplete) [arr addObject:evo];
+  self.mainViewControllers = arr;
 }
 
 - (IBAction)rightArrowClicked:(id)sender {

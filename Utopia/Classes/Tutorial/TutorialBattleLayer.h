@@ -12,6 +12,9 @@
 @protocol TutorialBattleLayerDelegate <MiniTutorialBattleLayerDelegate>
 
 @optional
+- (void) enemyJumpedAndShot;
+- (void) enemiesRanOut;
+
 - (void) swappedToMark;
 
 @end
@@ -26,7 +29,17 @@
 
 @end
 
-@interface TutorialBattleOneLayer : TutorialBattleLayer
+@interface TutorialBattleOneLayer : TutorialBattleLayer {
+  BOOL _hasSpawnedEnemyTeam;
+}
+
+@property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
+
+- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants enemyDamageDealt:(int)damage;
+
+- (void) enemyJumpAndShoot;
+- (void) enemyTwoLookAtEnemyAndWalkOut;
+- (void) enemyBossWalkOut;
 
 @end
 

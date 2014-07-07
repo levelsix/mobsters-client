@@ -10,6 +10,7 @@
 #import "cocos2d.h"
 #import "BattleSpeechBubble.h"
 #import "Protocols.pb.h"
+#import "AnimatedSprite.h"
 
 #define MELEE_RUN_SPEED (MY_WALKING_SPEED*2/3.f)
 
@@ -47,6 +48,7 @@
 
 - (void) displayChargingFrame;
 - (void) restoreStandingFrame;
+- (void) restoreStandingFrame:(MapDirection)direction;
 
 - (void) faceNearWithoutUpdate;
 - (void) faceFarWithoutUpdate;
@@ -61,5 +63,8 @@
 
 - (void) showRarityTag;
 - (void) doRarityTagShine;
+
+- (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion;
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion;
 
 @end

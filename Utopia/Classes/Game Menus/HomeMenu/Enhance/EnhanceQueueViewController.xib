@@ -31,14 +31,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="PJN-g1-UgN" userLabel="Monster Image">
-                    <rect key="frame" x="0.0" y="13" width="149" height="173"/>
+                    <rect key="frame" x="0.0" y="2" width="149" height="173"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="Drc-jd-KQO">
-                            <rect key="frame" x="34" y="128" width="76" height="38"/>
+                            <rect key="frame" x="34" y="142" width="76" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="KSJ-ff-BlV">
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="KSJ-ff-BlV">
                             <rect key="frame" x="0.0" y="0.0" width="149" height="173"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>

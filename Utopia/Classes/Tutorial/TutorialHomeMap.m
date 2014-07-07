@@ -14,7 +14,15 @@
 
 #define PIER_JUMP_LOCATION ccp(13.2, -1.5)
 #define PIER_JUMP_TALK_Y 0.5
-#define PIER_JUMP_TALK_X_FROM_MID 0.75
+#define PIER_JUMP_TALK_X_FROM_MID 1.5
+#define PIER_JUMP_TALK_Y_FROM_MID 2
+
+#define INITIAL_GUIDE_LOCATION ccpAdd(PIER_JUMP_LOCATION, ccp(0, 6.5))
+#define HIDE_GUIDE_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(4.5, 0))
+#define FRIEND_ENTER_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 3))
+#define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 1))
+#define FRIEND_BATTLE_RUN_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, -1))
+#define POST_BATTLE_FRIENDS_X_FROM_MID 0.75
 
 @implementation TutorialHomeMap
 
@@ -23,11 +31,6 @@
     self.constants = constants;
     
     self.scale = 1.2;
-    
-    // Move to bottom right
-    CCSprite *s = [CCSprite node];
-    s.position = [self convertTilePointToCCPoint:PIER_JUMP_LOCATION];
-    [self moveToSprite:s animated:NO];
     
     self.myStructs = [NSMutableArray array];
     for (TutorialStructProto *str in self.constants.tutorialStructuresList) {
@@ -38,6 +41,11 @@
       }
       [self.myStructs addObject:us];
     }
+    
+    self.boatSprite = [CCSprite spriteWithImageNamed:@"marksboat.png"];
+    [self addChild:self.boatSprite z:2000];
+    
+    [self moveToCenterAnimated:NO];
     
     _mapMovementDivisor = 300.f;
     
@@ -88,11 +96,39 @@
   return _friendSprite;
 }
 
+- (AnimatedSprite *) guideSprite {
+  if (!_guideSprite) {
+    self.guideSprite = [self createSpriteWithId:self.constants.guideMonsterId];
+  }
+  return _guideSprite;
+}
+
 - (AnimatedSprite *) markZSprite {
   if (!_markZSprite) {
     self.markZSprite = [self createSpriteWithId:self.constants.markZmonsterId];
   }
   return _markZSprite;
+}
+
+- (AnimatedSprite *) enemy1Sprite {
+  if (!_enemy1Sprite) {
+    self.enemy1Sprite = [self createSpriteWithId:self.constants.enemyMonsterId];
+  }
+  return _enemy1Sprite;
+}
+
+- (AnimatedSprite *) enemy2Sprite {
+  if (!_enemy2Sprite) {
+    self.enemy2Sprite = [self createSpriteWithId:self.constants.enemyMonsterIdTwo];
+  }
+  return _enemy2Sprite;
+}
+
+- (AnimatedSprite *) enemyBossSprite {
+  if (!_enemyBossSprite) {
+    self.enemyBossSprite = [self createSpriteWithId:self.constants.enemyBossMonsterId];
+  }
+  return _enemyBossSprite;
 }
 
 - (void) followSprite:(CCSprite *)ms {
@@ -108,31 +144,38 @@
 
 #pragma mark - Tutorial sequence
 
+- (void) centerOnGuide {
+  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  self.guideSprite.location = CGRectMake(INITIAL_GUIDE_LOCATION.x, INITIAL_GUIDE_LOCATION.y, 1, 1);
+  [self moveToSprite:self.guideSprite animated:NO];
+}
+
 - (void) landBoatOnShore {
   CGPoint midPos = BOAT_UNLOAD_POSITION;
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = ccpAdd(midPos, ccpMult(ptOffset, 0.4f));
-  CGPoint finalPos = ccpAdd(midPos, ccpMult(ptOffset, -0.5f));
   
-  self.boatSprite = [CCSprite spriteWithImageNamed:@"marksboat.png"];
-  [self addChild:self.boatSprite];
   self.boatSprite.position = startPos;
   
   [self.boatSprite runAction:
    [CCActionSequence actions:
     [CCActionMoveTo actionWithDuration:3.f position:midPos],
     [CCActionCallFunc actionWithTarget:self selector:@selector(jumpGuysOffBoat)],
-    [CCActionMoveTo actionWithDuration:3.f position:finalPos],
-    [CCActionCallFunc actionWithTarget:self.boatSprite selector:@selector(removeFromParent)],
     nil]];
+  
+  // Move to bottom right
+  CCSprite *s = [CCSprite node];
+  s.position = [self convertTilePointToCCPoint:PIER_JUMP_LOCATION];
+  [self moveToSprite:s animated:YES];
 }
 
 - (void) jumpGuysOffBoat {
-  [self jumpGuyOffBoat:self.markZSprite withDelay:0.1 endDist:-PIER_JUMP_TALK_X_FROM_MID selector:@selector(markReachedJumpTalkLocation)];
-  [self jumpGuyOffBoat:self.friendSprite withDelay:0.4 endDist:PIER_JUMP_TALK_X_FROM_MID selector:@selector(friendReachedJumpTalkLocation)];
+  [self jumpGuyOffBoat:self.enemy1Sprite withDelay:0.1 endDelta:ccp(-PIER_JUMP_TALK_X_FROM_MID, 0) selector:@selector(faceSpriteFarLeft:)];
+  [self jumpGuyOffBoat:self.enemy2Sprite withDelay:0.4 endDelta:ccp(PIER_JUMP_TALK_X_FROM_MID, 0) selector:@selector(faceSpriteFarLeft:)];
+  [self jumpGuyOffBoat:self.enemyBossSprite withDelay:0.7 endDelta:ccp(0, PIER_JUMP_TALK_Y_FROM_MID) selector:@selector(enemyBossReachedJumpTalkLocation)];
 }
 
-- (void) jumpGuyOffBoat:(AnimatedSprite *)as withDelay:(float)delay endDist:(float)endDist selector:(SEL)selector {
+- (void) jumpGuyOffBoat:(AnimatedSprite *)as withDelay:(float)delay endDelta:(CGPoint)endDelta selector:(SEL)selector {
   [as restoreStandingFrame:MapDirectionFarRight];
   [as recursivelyApplyOpacity:0.f];
   [as runAction:
@@ -149,30 +192,149 @@
        CGPoint jumpLoc = PIER_JUMP_LOCATION;
        as.location = CGRectMake(jumpLoc.x, jumpLoc.y-4, 1, 1);
        NSArray *tileCoords = @[[NSValue valueWithCGPoint:jumpLoc], [NSValue valueWithCGPoint:ccp(jumpLoc.x, PIER_JUMP_TALK_Y)],
-                               [NSValue valueWithCGPoint:ccp(jumpLoc.x+endDist, PIER_JUMP_TALK_Y)]];
+                               [NSValue valueWithCGPoint:ccp(jumpLoc.x+endDelta.x, PIER_JUMP_TALK_Y+endDelta.y)]];
        // Subtract delay so that zark runs in faster than friend
-       [as walkToTileCoords:tileCoords completionTarget:self selector:selector speedMultiplier:1.5f-delay];
+       [as walkToTileCoords:tileCoords completionTarget:self selector:selector speedMultiplier:1.5f];
      }],
     nil]];
 }
 
-- (void) markReachedJumpTalkLocation {
-  [self.markZSprite restoreStandingFrame:MapDirectionFarLeft];
+- (void) faceSpriteFarLeft:(AnimatedSprite *)anim {
+  [anim restoreStandingFrame:MapDirectionFarLeft];
 }
 
-- (void) friendReachedJumpTalkLocation {
-  [self.friendSprite restoreStandingFrame:MapDirectionFarLeft];
-  [self moveToSprite:self.markZSprite animated:YES];
-  
-  [self runAction:
+- (void) enemyBossReachedJumpTalkLocation {
+  [self faceSpriteFarLeft:self.enemyBossSprite];
+  [self moveToSprite:self.enemyBossSprite animated:YES];
+  [self.delegate boatLanded];
+}
+
+- (void) enemyTwoJump {
+  [self.enemy2Sprite jumpNumTimes:2 completionTarget:self.delegate selector:@selector(enemyTwoJumped)];
+}
+
+- (void) guideHideBehindObstacle {
+  [self.guideSprite jumpNumTimes:1 completionTarget:self selector:@selector(guideRunToObstacle)];
+}
+
+- (void) guideRunToObstacle {
+  [self.guideSprite walkToTileCoord:HIDE_GUIDE_LOCATION completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:1.5f];
+}
+
+- (void) guideReachedObstacle {
+  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.delegate guideReachedHideLocation];
+}
+
+- (void) friendEnterScene {
+  [self.friendSprite runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.2f],
+    [RecursiveFadeTo actionWithDuration:0.1f opacity:1.f], nil]];
+  self.friendSprite.location = CGRectMake(FRIEND_ENTER_LOCATION.x, FRIEND_ENTER_LOCATION.y, 1, 1);
+  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:1.5f];
+}
+
+- (void) friendEntered {
+  [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.delegate friendEntered];
+}
+
+- (void) friendRunForBattleEnter {
+  [self.friendSprite walkToTileCoord:FRIEND_BATTLE_RUN_LOCATION completionTarget:nil selector:nil speedMultiplier:1.5f];
+}
+
+- (void) beginPostBattleConfrontation {
+  [self.enemy1Sprite recursivelyApplyOpacity:1.f];
+  [self.enemy2Sprite recursivelyApplyOpacity:1.f];
+  [self.enemyBossSprite recursivelyApplyOpacity:1.f];
+  [self.friendSprite recursivelyApplyOpacity:1.f];
+  [self.guideSprite recursivelyApplyOpacity:1.f];
+  [self.markZSprite recursivelyApplyOpacity:1.f];
+  
+  [self.enemy1Sprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.enemy2Sprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.enemyBossSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.markZSprite restoreStandingFrame:MapDirectionNearRight];
+  
+  CGPoint enemyBaseLoc = ccp(PIER_JUMP_LOCATION.x, PIER_JUMP_TALK_Y);
+  self.enemy1Sprite.location = CGRectMake(enemyBaseLoc.x-PIER_JUMP_TALK_X_FROM_MID, enemyBaseLoc.y, 1, 1);
+  self.enemy2Sprite.location = CGRectMake(enemyBaseLoc.x+PIER_JUMP_TALK_X_FROM_MID, enemyBaseLoc.y, 1, 1);
+  self.enemyBossSprite.location = CGRectMake(enemyBaseLoc.x, enemyBaseLoc.y+PIER_JUMP_TALK_Y_FROM_MID, 1, 1);
+  
+  CGPoint friendBaseLoc = INITIAL_GUIDE_LOCATION;
+  self.friendSprite.location = CGRectMake(friendBaseLoc.x+POST_BATTLE_FRIENDS_X_FROM_MID, friendBaseLoc.y, 1, 1);
+  self.markZSprite.location = CGRectMake(friendBaseLoc.x-POST_BATTLE_FRIENDS_X_FROM_MID, friendBaseLoc.y, 1, 1);
+  self.guideSprite.location = CGRectMake(HIDE_GUIDE_LOCATION.x, HIDE_GUIDE_LOCATION.y, 1, 1);
+  
+  self.boatSprite.position = BOAT_UNLOAD_POSITION;
+  
+  [self moveToSprite:self.enemyBossSprite animated:NO withOffset:ccp(20, -24)];
+}
+
+- (void) walkOutEnemyTeam {
+  [self jumpGuyOnBoat:self.enemyBossSprite withDelay:0.1];
+  [self jumpGuyOnBoat:self.enemy2Sprite withDelay:0.7];
+  [self jumpGuyOnBoat:self.enemy1Sprite withDelay:1.2];
+}
+
+- (void) jumpGuyOnBoat:(AnimatedSprite *)as withDelay:(float)delay {
+  [as runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:
      ^{
-       [self.markZSprite restoreStandingFrame:MapDirectionFront];
-       [self.delegate boatLanded];
-     }], nil]];
+       CGPoint jumpLoc = PIER_JUMP_LOCATION;
+       jumpLoc.y -= 2;
+       NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(jumpLoc.x, PIER_JUMP_TALK_Y)],
+                               [NSValue valueWithCGPoint:jumpLoc]];
+       // Subtract delay so that zark runs in faster than friend
+       [as walkToTileCoords:tileCoords completionTarget:self selector:@selector(jumpAnimatedSpriteOntoBoat:) speedMultiplier:1.5f];
+     }],
+    nil]];
 }
+
+- (void) jumpAnimatedSpriteOntoBoat:(AnimatedSprite *)as {
+  [as jumpNumTimes:1 timePerJump:0.4f completionTarget:nil selector:nil];
+  
+  CGPoint jumpLoc = PIER_JUMP_LOCATION;
+  jumpLoc.y -= 4;
+  [as walkToTileCoord:jumpLoc completionTarget:self selector:@selector(animatedSpriteReachedBoat:) speedMultiplier:1.5f];
+  [as runAction:
+   [CCActionSequence actions:
+    [RecursiveFadeTo actionWithDuration:0.4f opacity:0.f], nil]];
+}
+
+- (void) animatedSpriteReachedBoat:(AnimatedSprite *)as {
+  [as removeFromParent];
+  
+  if (as == self.enemy1Sprite) {
+    CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
+    CGPoint midPos = BOAT_UNLOAD_POSITION;
+    CGPoint finalPos = ccpAdd(midPos, ccpMult(ptOffset, -0.5f));
+    
+    [self.boatSprite runAction:
+     [CCActionSequence actions:
+      [CCActionMoveTo actionWithDuration:3.f position:finalPos],
+      [CCActionRemove action], nil]];
+      
+    [self.delegate enemyTeamWalkedOut];
+  }
+}
+
+- (void) moveFriendsOffBuildableMap {
+  CGPoint baseLoc = ccp(PIER_JUMP_LOCATION.x, PIER_JUMP_TALK_Y);
+  self.markZSprite.location = CGRectMake(baseLoc.x-PIER_JUMP_TALK_X_FROM_MID, baseLoc.y, 1, 1);
+  self.friendSprite.location = CGRectMake(baseLoc.x, baseLoc.y, 1, 1);
+  self.guideSprite.location = CGRectMake(baseLoc.x+PIER_JUMP_TALK_X_FROM_MID, baseLoc.y, 1, 1);
+  
+  [self.markZSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.friendSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.guideSprite restoreStandingFrame:MapDirectionFarLeft];
+}
+
+
 
 - (void) friendFaceMark {
   [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
@@ -305,15 +467,8 @@
 - (void) updateMapBotView:(MapBotView *)botView {
   [super updateMapBotView:botView];
   
-//  if (botView == self.buildBotView) {
-//    float angle = [Globals isLongiPhone] ? M_PI_2 : M_PI;
-//    [Globals removeUIArrowFromViewRecursively:self.buildBotView];
-//    [Globals createUIArrowForView:self.enterButton atAngle:angle];
-//  } else if (botView == self.upgradeBotView) {
-//    float angle = [Globals isLongiPhone] ? M_PI_2 : 0;
-//    [Globals removeUIArrowFromViewRecursively:self.upgradeBotView];
-//    [Globals createUIArrowForView:self.speedupButton atAngle:angle];
-//  }
+  [Globals removeUIArrowFromViewRecursively:botView];
+  [Globals createUIArrowForView:botView.animateViews.lastObject atAngle:0];
 }
 
 - (UserStruct *) sendPurchaseStruct:(BOOL)allowGems {
@@ -394,6 +549,10 @@
 }
 
 - (void) setupTeamSprites {
+  // Do nothing
+}
+
+- (void) reloadBubblesOnMiscBuildings {
   // Do nothing
 }
 

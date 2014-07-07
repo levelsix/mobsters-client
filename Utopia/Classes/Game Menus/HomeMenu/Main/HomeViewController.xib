@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="backView" destination="aNo-p6-eLk" id="JXw-8Y-n4o"/>
                 <outlet property="bgdView" destination="egz-BQ-fUm" id="ca3-lv-2K8"/>
+                <outlet property="closeButton" destination="CZd-cy-UK6" id="fvw-lq-otR"/>
                 <outlet property="containerView" destination="PQx-jD-nSH" id="EqL-p7-P1P"/>
                 <outlet property="curHomeTitleView" destination="Qtv-a7-n2a" id="fZO-ze-Wik"/>
                 <outlet property="curTitleView" destination="S3h-7l-GTp" id="cXp-hU-hrJ"/>

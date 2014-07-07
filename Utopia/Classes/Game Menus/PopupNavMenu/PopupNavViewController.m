@@ -85,6 +85,10 @@
   }];
 }
 
+- (BOOL) shouldAutomaticallyForwardAppearanceMethods {
+  return NO;
+}
+
 
 #pragma mark - Navigation Controller
 
@@ -93,10 +97,6 @@
   self.backView.alpha = 1.f;
   [self.backMaskedButton remakeImage];
   self.backView.alpha = alpha;
-}
-
-- (BOOL) shouldAutomaticallyForwardAppearanceMethods {
-  return NO;
 }
 
 - (void) setNewTopViewController:(PopupSubViewController *)topViewController {

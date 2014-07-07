@@ -33,4 +33,6 @@
 - (id) initWithEnhance;
 - (id) initWithEvolve;
 
+- (void) loadMainViewControllers;
+
 @end

@@ -1529,7 +1529,7 @@
           
           [QuestUtil checkAllStructQuests];
           [AchievementUtil checkBuildingUpgrade:us.structId];
-          [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+          [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
           
           _isSpeedingUp = NO;
         };

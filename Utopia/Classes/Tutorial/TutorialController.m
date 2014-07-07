@@ -26,9 +26,13 @@
     self.constants = constants;
     self.gameViewController = gvc;
     
-    _damageDealtToFriend = 137;
-    
+    Globals *gl = [Globals sharedGlobals];
     GameState *gs = [GameState sharedGameState];
+    UserMonster *um = [[UserMonster alloc] init];
+    um.level = 1;
+    um.monsterId = constants.startingMonsterId;
+    _damageDealtToFriend = [gl calculateMaxHealthForMonster:um]*0.93;
+    
     gs.silver = _cash = constants.cashInit;
     gs.oil = _oil = constants.oilInit;
     gs.gold = _gems = constants.gemsInit;
@@ -47,7 +51,7 @@
   return self;
 }
 
-- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble toViewController:(UIViewController *)vc {
+- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble buttonText:(NSString *)buttonText toViewController:(UIViewController *)vc {
   GameState *gs = [GameState sharedGameState];
   DialogueProto_Builder *dp = [DialogueProto builder];
   
@@ -57,25 +61,38 @@
     
     int monsterId = 0;
     BOOL isLeftSide = NO;
-    NSString *suffix = @"";
+    NSString *suffix = @"Tut";
     switch (speaker) {
-      case TutorialDialogueSpeakerEnemy1:
+      case TutorialDialogueSpeakerGuide:
+        monsterId = self.constants.guideMonsterId;
+        isLeftSide = YES;
+        break;
+      case TutorialDialogueSpeakerFriend:
+        monsterId = self.constants.startingMonsterId;
+        isLeftSide = YES;
+        break;
+      case TutorialDialogueSpeakerMark:
+        monsterId = self.constants.markZmonsterId;
+        isLeftSide = YES;
+        break;
+      case TutorialDialogueSpeakerEnemy:
         monsterId = self.constants.enemyMonsterId;
-        suffix = @"P1";
         isLeftSide = NO;
         break;
-      case TutorialDialogueSpeakerEnemy2:
-        monsterId = self.constants.enemyMonsterId;
-        suffix = @"P2";
-        isLeftSide = NO;
-        break;
-      case TutorialDialogueSpeakerEnemy3:
-        monsterId = self.constants.enemyMonsterId;
-        suffix = @"P3";
+      case TutorialDialogueSpeakerEnemyTwo:
+        monsterId = self.constants.enemyMonsterIdTwo;
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyBoss:
         monsterId = self.constants.enemyBossMonsterId;
+        isLeftSide = NO;
+        break;
+        
+        
+        
+      case TutorialDialogueSpeakerEnemy3:
+        monsterId = self.constants.enemyMonsterId;
+        suffix = @"P3";
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerFriend1:
@@ -129,24 +146,30 @@
     [dp addSpeechSegment:ss.build];
   }
   
-  DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:shortBubble];
-  dvc.delegate = self;
-  [vc addChildViewController:dvc];
-  [vc.view insertSubview:dvc.view belowSubview:self.touchView];
-  dvc.view.frame = vc.view.bounds;
-  self.dialogueViewController = dvc;
+  DialogueViewController *dvc;
+  if (!self.dialogueViewController) {
+    dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:shortBubble buttonText:buttonText];
+    dvc.delegate = self;
+    [vc addChildViewController:dvc];
+    [vc.view insertSubview:dvc.view belowSubview:self.touchView];
+    dvc.view.frame = vc.view.bounds;
+    self.dialogueViewController = dvc;
+    
+    [self.touchView addResponder:self.dialogueViewController];
+  } else {
+    dvc = self.dialogueViewController;
+    [dvc extendDialogue:dp.build];
+    [dvc animateNext];
+  }
   
-  [self.touchView addResponder:self.dialogueViewController];
   self.touchView.userInteractionEnabled = !allowTouch;
   self.dialogueViewController.view.userInteractionEnabled = allowTouch;
   
-  if (!allowTouch) {
-    [dvc.bottomGradient removeFromSuperview];
-  }
+  dvc.bottomGradient.hidden = !allowTouch;
 }
 
 - (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble {
-  [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:shortBubble toViewController:self.gameViewController];
+  [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:shortBubble buttonText:nil toViewController:self.gameViewController];
 }
 
 - (void) beginTutorial {
@@ -161,18 +184,16 @@
   [self createCloseButton];
   
 #ifdef DEBUG
-  [self initMissionMapWithCenterOnThirdBuilding:NO];
-  [self beginBlackedOutDialogue];
-  //[self beginPostFirstBattleConfrontationPhase];
-  
-  //[self yachtWentOffScene];
-  
-  //[self initHomeMap];
+  [self initHomeMap];
+  [self beginGuideGreetingPhase];
+  //[self beginEnterBattlePhase];
+  //[self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
+  //[self beginFacebookRejectedNamingPhase];
 #else
-  [self initMissionMapWithCenterOnThirdBuilding:NO];
-  [self beginBlackedOutDialogue];
+  [self initHomeMap];
+  [self beginGuideGreetingPhase];
 #endif
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
@@ -196,11 +217,7 @@
   
   [scene addChild:self.missionMap];
   CCDirector *dir = [CCDirector sharedDirector];
-//  if (!dir.runningScene) {
-    [dir replaceScene:scene];
-//  } else {
-//    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
-//  }
+  [dir replaceScene:scene];
   self.gameViewController.currentMap = self.missionMap;
 }
 
@@ -220,11 +237,7 @@
   gs.myStructs = homeMap.myStructs;
   
   CCDirector *dir = [CCDirector sharedDirector];
-  if (!dir.runningScene) {
-    [dir replaceScene:scene];
-  } else {
-    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
-  }
+  [dir replaceScene:scene];
 }
 
 - (void) initTopBar {
@@ -243,27 +256,20 @@
   }
 }
 
-- (void) initMyCroniesViewController {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  [self.gameViewController presentViewController:m animated:YES completion:nil];
-  self.myCroniesViewController = [[TutorialMyCroniesViewController alloc] initWithTutorialConstants:self.constants damageDealt:_damageDealtToFriend hospitalHealSpeed:_hospitalHealSpeed];
-  self.myCroniesViewController.delegate = self;
-  [m pushViewController:self.myCroniesViewController animated:YES];
+- (void) initHealViewController {
+  self.healViewController = [[TutorialHealViewController alloc] initWithTutorialConstants:self.constants damageDealt:_damageDealtToFriend hospitalHealSpeed:_hospitalHealSpeed];
+  self.healViewController.delegate = self;
+  self.homeViewController = [[TutorialHomeViewController alloc] initWithSubViewController:self.healViewController];
+  [self.homeViewController displayInParentViewController:self.gameViewController];
+  [self.gameViewController.view bringSubviewToFront:self.dialogueViewController.view];
 }
 
-- (void) initMainMenuController {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  [self.gameViewController presentViewController:m animated:YES completion:nil];
-  self.mainMenuController = [[TutorialMainMenuController alloc] init];
-  self.mainMenuController.delegate = self;
-  [m pushViewController:self.mainMenuController animated:YES];
-}
-
-- (void) initCarpenterController:(int)structId {
-  self.carpenterViewController = [[TutorialCarpenterViewController alloc] initWithTutorialConstants:self.constants curStructs:self.homeMap.myStructs];
-  self.carpenterViewController.delegate = self;
-  [self.carpenterViewController allowPurchaseOfStructId:structId];
-  [self.mainMenuController.navigationController pushViewController:self.carpenterViewController animated:YES];
+- (void) initBuildingViewController:(int)structId {
+  self.buildingViewController = [[TutorialBuildingViewController alloc] initWithTutorialConstants:self.constants curStructs:self.homeMap.myStructs];
+  [self.buildingViewController allowPurchaseOfStructId:structId];
+  self.buildingViewController.delegate = self;
+  ShopViewController *svc = [[TutorialShopViewController alloc] initWithBuildingViewController:self.buildingViewController];
+  [svc displayInParentViewController:self.topBarViewController];
 }
 
 - (void) initQuestLogController {
@@ -346,16 +352,12 @@
 - (void) tutorialFinished {
   [self cleanup];
   
-  LoadCityResponseProto_Builder *bldr = [LoadCityResponseProto builder];
-  [bldr addAllCityElements:self.constants.cityOneElementsList];
-  bldr.cityId = self.constants.cityId;
-  
   CCScene *scene = [CCScene node];
-  MissionMap *mm = [[MissionMap alloc] initWithProto:bldr.build];
-  [scene addChild:mm];
-  mm.position = self.missionMap.position;
-  mm.scale = self.missionMap.scale;
-  self.gameViewController.currentMap = mm;
+  HomeMap *hm = [HomeMap node];
+  [scene addChild:hm];
+  hm.position = self.homeMap.position;
+  hm.scale = self.homeMap.scale;
+  self.gameViewController.currentMap = hm;
   [[CCDirector sharedDirector] replaceScene:scene];
   
   [self.gameViewController.topBarViewController showMyCityView];
@@ -393,7 +395,7 @@
     [self.gameViewController tutorialReceivedStartupResponse:self.userCreateStartupResponse];
     
     if (_waitingOnUserCreate) {
-      [self fadeToMissionMap];
+      [self enterDungeon:_taskIdToEnter isEvent:NO eventId:0 useGems:NO];
     }
   } else {
     [self facebookStartupReceived:proto];
@@ -431,9 +433,160 @@
   [self beginFacebookRejectedNamingPhase];
 }
 
-
-
 #pragma mark - Tutorial Sequence
+
+- (void) beginGuideGreetingPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Hey Boss! We’ve been expecting you!",
+                        @(TutorialDialogueSpeakerGuide), @"This is your new secret base to fight against Lil’ Kim and his men.",
+                        @(TutorialDialogueSpeakerGuide), @"Hopefully they don’t find..."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  [self.homeMap centerOnGuide];
+  
+  _currentStep = TutorialStepGuideGreeting;
+}
+
+- (void) beginEnemyTeamDisembarkPhase {
+  [self.homeMap landBoatOnShore];
+  
+  _currentStep = TutorialStepEnemyTeamDisembark;
+}
+
+- (void) beginEnemyBossThreatPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Well what do we have here? You peasants think you can start a new squad under my watch?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepEnemyBossThreat;
+}
+
+- (void) beginEnemyTwoThreatPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo), @"Heh, did you really EGG-spect us not to find you here?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepEnemyTwoThreat;
+}
+
+- (void) beginGuideScaredPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Oh no. It’s Lil’ Kim! Send my nephew into battle, Boss! I don’t like him anyways."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepGuideScared;
+}
+
+- (void) beginFriendEnterFightPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES buttonText:@"FIGHT" toViewController:self.gameViewController];
+  
+  _currentStep = TutorialStepFriendEnterFight;
+}
+
+- (void) beginEnterBattlePhase {
+  [self.homeMap friendRunForBattleEnter];
+  
+  self.battleLayer = [[TutorialBattleOneLayer alloc] initWithConstants:self.constants enemyDamageDealt:_damageDealtToFriend];
+  self.battleLayer.delegate = self;
+  [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
+  
+  _currentStep = TutorialStepEnteredBattle;
+}
+
+- (void) beginFriendTauntPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Fight me 1v1, pussies!"];
+  
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepBattleFriendTaunt;
+}
+
+- (void) beginEnemyTauntPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"Lemme at em’ boss! I ain’t chicken."];
+  
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepBattleEnemyTaunt;
+}
+
+- (void) beginFirstBattleFirstMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"My hands are too tiny to move the orbs on the right, so you’ll need to help me out.",
+                        @(TutorialDialogueSpeakerFriend), @"This is Candy Crush on steroids. Match 3 orbs by swiping this one to the left."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepFirstBattleFirstMove;
+}
+
+- (void) beginFirstBattleSecondMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Nice! The more orbs you break, the stronger I get. Let’s try another."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
+  
+  _currentStep = TutorialStepFirstBattleSecondMove;
+}
+
+- (void) beginFirstBattleFinalMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Good job! You have 1 move left before I attack. Make it count."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
+  
+  _currentStep = TutorialStepFirstBattleLastMove;
+}
+
+- (void) beginSecondBattleEnemyBossTauntPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You beat him already? Too bad you won’t have such an easy time against Drumstix."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleEnemyBossTaunt;
+}
+
+- (void) beginSecondBattleFirstMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"We’re toast if we don’t do something quick. Create a power-up by matching 4 orbs."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleFirstMove;
+}
+
+- (void) beginSecondBattleSecondMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"We’re not finished yet. Swipe the striped orb up to activate the power-up."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleSecondMove;
+}
+
+- (void) beginSecondBattleThirdMovePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Bada bing, bada boom. It all comes down to this last move."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleThirdMove;
+}
+
+- (void) beginSecondBattleSwapPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo... ain’t the motto.",
+                        @(TutorialDialogueSpeakerMark), @"*Poke*",
+                        @(TutorialDialogueSpeakerMark), @"Hey buddy, you don’t look so good. Would you “like” me to help you out?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleSwap;
+}
+
+- (void) beginSecondBattleKillPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Oops, let me update my BookFace status before we begin.",
+                        @(TutorialDialogueSpeakerEnemyTwo), @"...",
+                        @(TutorialDialogueSpeakerMark), @"\"Currently saving a stranger who got owned by a chicken. #LOL #GoodGuyZark\"",
+                        @(TutorialDialogueSpeakerMark), @"Heh, 12 likes already. Alright, let’s do this."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  _currentStep = TutorialStepSecondBattleKillEnemy;
+}
+
+- (void) beginPostBattleConfrontation {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You may have won the battle, but you haven’t won the war. I’ll be back peasants!"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  [self.homeMap beginPostBattleConfrontation];
+  
+  _currentStep = TutorialStepPostBattleConfrontation;
+}
+
+
+
+
 
 - (void) beginBlackedOutDialogue {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Help! Somebody stop that guy!"];
@@ -478,28 +631,6 @@
   _currentStep = TutorialStepEnteredFirstBattle;
 }
 
-- (void) beginFirstBattleFirstMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"My hands are too tiny to move the orbs on the right, so you’ll need to help me out.",
-                        @(TutorialDialogueSpeakerFriend4), @"This is Candy Crush on steroids. Match 3 orbs by swiping this one to the right."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
-  
-  _currentStep = TutorialStepFirstBattleFirstMove;
-}
-
-- (void) beginFirstBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend1), @"Nice! The more orbs you break, the stronger I get. Let’s try another."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
-  
-  _currentStep = TutorialStepFirstBattleSecondMove;
-}
-
-- (void) beginFirstBattleFinalMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend1), @"Good job! You have 1 move left before I attack. Make it count."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
-  
-  _currentStep = TutorialStepFirstBattleLastMove;
-}
-
 - (void) beginPostFirstBattleConfrontationPhase {
   [self.missionMap beginSecondConfrontation];
   
@@ -517,17 +648,17 @@
 }
 
 - (void) beginEnemyBroughtBackBossPhase {
-//  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss! Let's get..."];
-//  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-//  
-//  _currentStep = TutorialStepEnemyBroughtBackBoss;
+  //  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss! Let's get..."];
+  //  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  //
+  //  _currentStep = TutorialStepEnemyBroughtBackBoss;
   [self beginEnemyLookBackPhase];
 }
 
 - (void) beginFriendJokePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"HURRY! SOMEONE GET THIS MAN SOME DUCT TAPE."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-
+  
   _currentStep = TutorialStepFriendJoke;
 }
 
@@ -544,52 +675,11 @@
 }
 
 - (void) beginSecondBattlePhase {
-  self.battleLayer = [[TutorialBattleTwoLayer alloc] initWithConstants:self.constants enemyDamageDealt:_damageDealtToFriend];
+  //  self.battleLayer = [[TutorialBattleTwoLayer alloc] initWithConstants:self.constants enemyDamageDealt:_damageDealtToFriend];
   self.battleLayer.delegate = self;
   [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
   
   _currentStep = TutorialStepEnteredSecondBattle;
-}
-
-- (void) beginSecondBattleFirstMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You no run. You fight.",
-                        @(TutorialDialogueSpeakerFriend4), @"We’re toast if we don’t do something quick. Create a power-up by matching 4 orbs."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
-  
-  _currentStep = TutorialStepSecondBattleFirstMove;
-}
-
-- (void) beginSecondBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"We’re not finished yet. Swipe the striped orb up to activate the power-up."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
-  
-  _currentStep = TutorialStepSecondBattleSecondMove;
-}
-
-- (void) beginSecondBattleThirdMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"Bada bing, bada boom. It all comes down to this last move."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
-  
-  _currentStep = TutorialStepSecondBattleThirdMove;
-}
-
-- (void) beginSecondBattleSwapPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Looks like I won’t make...",
-                        @(TutorialDialogueSpeakerMarkL), @"*Poke*",
-                        @(TutorialDialogueSpeakerMarkL), @"Hey buddy, you don’t look so good. Would you “like” me to help you out?"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
-  
-  _currentStep = TutorialStepSecondBattleSwap;
-}
-
-- (void) beginSecondBattleKillPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Oops, let me update my BookFace status before we begin.",
-                        @(TutorialDialogueSpeakerEnemyBoss), @"...",
-                        @(TutorialDialogueSpeakerMarkL), @"\"Currently saving a stranger who got owned by a luchador. #LOL #GoodGuyZark\"",
-                        @(TutorialDialogueSpeakerMarkL), @"Heh, 12 likes already. Alright, let’s do this."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
-  
-  _currentStep = TutorialStepSecondBattleKillEnemy;
 }
 
 - (void) beginPostSecondBattleConfrontationPhase {
@@ -631,19 +721,22 @@
 }
 
 - (void) beginEnterHospitalPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"First, let’s learn how to heal Joey so he can stop whining. Follow the magical floating arrows to begin."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"I don’t know if you noticed, but your buddy here is kinda bleeding everywhere.",
+                        @(TutorialDialogueSpeakerMark), @"First, let’s learn how to heal Joey so he can stop whining. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  [self.homeMap markFaceFriendAndBack];
   
   _currentStep = TutorialStepEnterHospital;
 }
 
 - (void) beginHealQueueingPhase {
-  [self initMyCroniesViewController];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Click on Joey to insert him into the healing queue.",
+                        @(TutorialDialogueSpeakerMark), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey.",
+                        @(TutorialDialogueSpeakerMark), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
   
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"Click on Joey to insert him into the healing queue.",
-                        @(TutorialDialogueSpeakerMarkL), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey.",
-                        @(TutorialDialogueSpeakerMarkL), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO toViewController:self.myCroniesViewController];
+  [self.homeMap moveFriendsOffBuildableMap];
   
   _currentStep = TutorialStepBeginHealQueue;
 }
@@ -666,8 +759,8 @@
   [self initTopBar];
   [self.homeMap zoomOutMap];
   
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"On your path to power, you’ll need cash to... do anything really.",
-                        @(TutorialDialogueSpeakerMarkL), @"What better way to make money than to print it? Build a Cash Printer now!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"On your path to power, you’ll need cash to... do anything really.",
+                        @(TutorialDialogueSpeakerMark), @"What better way to make money than to print it? Build a Cash Printer now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingOne;
@@ -676,7 +769,7 @@
 - (void) beginSpeedupBuildingOnePhase {
   [self.homeMap speedupPurchasedBuilding];
   
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Patience is a virtue, but not when you're building a Cash Printer."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Patience is a virtue, but not when you're building a Cash Printer."];
   BOOL allowTouch = ![Globals isLongiPhone];
   [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:YES];
   self.touchView.userInteractionEnabled = NO;
@@ -685,9 +778,9 @@
 }
 
 - (void) beginBuildingTwoPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash the rest of it.",
-                        @(TutorialDialogueSpeakerMarkL), @"Hmm... I tried to buy one on Amazon, but they don't seem to ship to secret islands yet.",
-                        @(TutorialDialogueSpeakerMarkL),@"Let's build one in the meantime!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash the rest of it.",
+                        @(TutorialDialogueSpeakerMark), @"Hmm... I tried to buy one on Amazon, but they don't seem to ship to secret islands yet.",
+                        @(TutorialDialogueSpeakerMark),@"Let's build one in the meantime!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingTwo;
@@ -700,10 +793,10 @@
 }
 
 - (void) beginBuildingThreePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
-                        @(TutorialDialogueSpeakerMarkL), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
-                        @(TutorialDialogueSpeakerMarkL), @"A Saudi Prince once donated this Oil Drill to me, but you'll probably need it more than I.",
-                        @(TutorialDialogueSpeakerMarkL), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
+                        @(TutorialDialogueSpeakerMark), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
+                        @(TutorialDialogueSpeakerMark), @"A Saudi Prince once donated this Oil Drill to me, but you'll probably need it more than I.",
+                        @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingThree;
@@ -716,9 +809,9 @@
 }
 
 - (void) beginFacebookLoginPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Great job! The Silo will now protect your oil from being stolen in battle.",
-                        @(TutorialDialogueSpeakerMarkL), @"Your island is starting to look like a real secret base! There’s just one last thing...",
-                        @(TutorialDialogueSpeakerMarkL), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Great job! The Silo will now protect your oil from being stolen in battle.",
+                        @(TutorialDialogueSpeakerMark), @"Your island is starting to look like a real secret base! There’s just one last thing...",
+                        @(TutorialDialogueSpeakerMark), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFacebookLogin;
@@ -726,7 +819,7 @@
 
 - (void) beginFacebookRejectedNamingPhase {
   [self cacheKeyboard];
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Playing hard to get huh? I can play that game too. What was your name again?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Playing hard to get huh? I can play that game too. What was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterName;
@@ -734,7 +827,7 @@
 
 - (void) beginFacebookAcceptedNamingPhase {
   [self cacheKeyboard];
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Hurray! I know that we’re besties now, but what was your name again?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Hurray! I know that we’re besties now, but what was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterName;
@@ -931,9 +1024,29 @@
 #pragma mark - BattleLayer delegate
 
 - (void) battleLayerReachedEnemy {
+  if (_currentStep == TutorialStepEnteredBattle) {
+    [self beginFriendTauntPhase];
+  } else if (_currentStep == TutorialStepFirstBattleLastMove) {
+    [self beginSecondBattleEnemyBossTauntPhase];
+  }
+  
   if (_currentStep == TutorialStepEnteredFirstBattle) {
     [self beginFirstBattleFirstMovePhase];
   } else if (_currentStep == TutorialStepEnteredSecondBattle) {
+    [self beginSecondBattleFirstMovePhase];
+  }
+}
+
+- (void) enemyJumpedAndShot {
+  if (_currentStep == TutorialStepBattleFriendTaunt) {
+    [self beginEnemyTauntPhase];
+  }
+}
+
+- (void) enemiesRanOut {
+  if (_currentStep == TutorialStepBattleEnemyTaunt) {
+    [self beginFirstBattleFirstMovePhase];
+  } else if (_currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
     [self beginSecondBattleFirstMovePhase];
   }
 }
@@ -974,29 +1087,46 @@
 }
 
 - (void) battleComplete:(NSDictionary *)params {
-  if (_currentStep == TutorialStepFirstBattleLastMove) {
-    [self beginPostFirstBattleConfrontationPhase];
-  } else if (_currentStep == TutorialStepSecondBattleKillEnemy) {
-    [self beginPostSecondBattleConfrontationPhase];
+  if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+    [self beginPostBattleConfrontation];
   }
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
   [self.gameViewController showTopBarDuration:0.f completion:nil];
   
-  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
+  [[SoundEngine sharedSoundEngine] playHomeMapMusic];
 }
 
 #pragma mark - HomeMap delegate
 
 - (void) boatLanded {
-  [self beginMarkLookBackPhase];
+  [self beginEnemyBossThreatPhase];
 }
 
-- (void) markFacedFriendAndBack {
+- (void) enemyTwoJumped {
+  [self beginEnemyTwoThreatPhase];
+}
+
+- (void) guideReachedHideLocation {
+  [self beginGuideScaredPhase];
+}
+
+- (void) friendEntered {
+  [self beginFriendEnterFightPhase];
+}
+
+- (void) enemyTeamWalkedOut {
   [self beginEnterHospitalPhase];
 }
 
+
+
+- (void) markFacedFriendAndBack {
+  //[self beginEnterHospitalPhase];
+}
+
 - (void) enterHospitalClicked {
-  [self beginHealQueueingPhase];
+  // healOpened will be called when this completes
+  [self initHealViewController];
 }
 
 - (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost {
@@ -1039,7 +1169,11 @@
   }
 }
 
-#pragma mark - MyCroniesViewController delegate
+#pragma mark - HealViewController delegate
+
+- (void) healOpened {
+  [self beginHealQueueingPhase];
+}
 
 - (void) queuedUpMonster:(int)cashSpent {
   [self.dialogueViewController animateNext];
@@ -1063,21 +1197,24 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
-- (void) exitedMyCronies {
-  [self.dialogueViewController animateNext];
+- (void) healClosed {
   [self beginBuildingOnePhase];
 }
 
 #pragma mark - TopBar delegate
 
 - (void) menuClicked {
-  if (_currentStep == TutorialStepBeginBuildingOne ||
-      _currentStep == TutorialStepBeginBuildingTwo ||
-      _currentStep == TutorialStepBeginBuildingThree) {
-    [self initMainMenuController];
-    
-    [self.dialogueViewController animateNext];
+  int structId = 0;
+  if (_currentStep == TutorialStepBeginBuildingOne) {
+    structId = [self.constants.structureIdsToBeBuilltList[0] intValue];
+  } else if (_currentStep == TutorialStepBeginBuildingTwo) {
+    structId = [self.constants.structureIdsToBeBuilltList[1] intValue];
+  } else if (_currentStep == TutorialStepBeginBuildingThree) {
+    structId = [self.constants.structureIdsToBeBuilltList[2] intValue];
   }
+  [self initBuildingViewController:structId];
+  
+  [self.dialogueViewController animateNext];
 }
 
 - (void) attackClicked {
@@ -1090,20 +1227,6 @@
   //[self.gameViewController.topBarViewController questsClicked:nil];
   //[self tutorialFinished];
   [self beginQuestListPhase];
-}
-
-#pragma mark - MainMenu delegate
-
-- (void) buildingButtonClicked {
-  int structId = 0;
-  if (_currentStep == TutorialStepBeginBuildingOne) {
-    structId = [self.constants.structureIdsToBeBuilltList[0] intValue];
-  } else if (_currentStep == TutorialStepBeginBuildingTwo) {
-    structId = [self.constants.structureIdsToBeBuilltList[1] intValue];
-  } else if (_currentStep == TutorialStepBeginBuildingThree) {
-    structId = [self.constants.structureIdsToBeBuilltList[2] intValue];
-  }
-  [self initCarpenterController:structId];
 }
 
 #pragma mark - Carpenter delegate
@@ -1170,31 +1293,18 @@
 
 #pragma mark - AttackMap delegate
 
-- (void) visitCityClicked:(int)cityId attackMapViewController:(AttackMapViewController *)vc {
+- (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
   if (_currentStep == TutorialStepAttackMap) {
-    [self fadeToMissionMap];
-    
-    UIView *white = [[UIView alloc] initWithFrame:self.gameViewController.view.bounds];
-    white.backgroundColor = [UIColor whiteColor];
-    [self.gameViewController.view insertSubview:white belowSubview:vc.view];
-    [UIView animateWithDuration:2.1f animations:^{
-      white.alpha = 0.f;
-    } completion:^(BOOL finished) {
-      [white removeFromSuperview];
-    }];
-  }
-}
-
-- (void) fadeToMissionMap {
-  if (self.userCreateStartupResponse) {
-    [self.attackMapViewController close];
-    
-    // Go back to the mission map
-    [self initMissionMapWithCenterOnThirdBuilding:YES];
-    //[self beginEnterBattleThreePhase];
-    [self beginClickQuestsPhase];
-  } else {
-    _waitingOnUserCreate = YES;
+    if (self.userCreateStartupResponse) {
+      [self.attackMapViewController close];
+      
+      [self tutorialFinished];
+      [self.gameViewController enterDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems];
+    } else {
+      [Globals addAlertNotification:@"Hold on, we're still creating your account!"];
+      _waitingOnUserCreate = YES;
+      _taskIdToEnter = taskId;
+    }
   }
 }
 
@@ -1255,9 +1365,10 @@
     self.touchView.userInteractionEnabled = YES;
     [self.touchView addResponder:dvc];
     [dvc fadeOutBottomGradient];
-  }  else if ((_currentStep == TutorialStepBeginBuildingOne && index == 1) ||
-              (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
-              (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
+  }  else if ((_currentStep == TutorialStepBeginBuildingOne ||
+               _currentStep == TutorialStepBeginBuildingTwo ||
+               _currentStep == TutorialStepBeginBuildingThree) &&
+              index == dvc.dialogue.speechSegmentList.count-1) {
     dvc.view.userInteractionEnabled = NO;
     [dvc fadeOutBottomGradient];
   } else if (_currentStep == TutorialStepMarkLookBack && index == 2) {
@@ -1302,17 +1413,36 @@
   }
   
   if (_currentStep == TutorialStepBeginHealQueue) {
-    [self.myCroniesViewController allowCardClick];
+    [self.healViewController allowCardClick];
   } else if (_currentStep == TutorialStepSpeedupHealQueue) {
-    [self.myCroniesViewController allowSpeedup];
+    [self.healViewController allowSpeedup];
   } else if (_currentStep == TutorialStepExitHospital) {
-    [self.myCroniesViewController allowClose];
+    [self.healViewController allowClose];
   }
 }
 
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
   // Make sure we haven't moved to the next step yet
   if (self.dialogueViewController == dvc) {
+    if (_currentStep == TutorialStepGuideGreeting) {
+      [self beginEnemyTeamDisembarkPhase];
+    } else if (_currentStep == TutorialStepEnemyBossThreat) {
+      [self.homeMap enemyTwoJump];
+    } else if (_currentStep == TutorialStepEnemyTwoThreat) {
+      [self.homeMap guideHideBehindObstacle];
+    } else if (_currentStep == TutorialStepGuideScared) {
+      [self.homeMap friendEnterScene];
+    } else if (_currentStep == TutorialStepBattleFriendTaunt) {
+      [self.battleLayer enemyJumpAndShoot];
+    } else if (_currentStep == TutorialStepBattleEnemyTaunt) {
+      [self.battleLayer enemyTwoLookAtEnemyAndWalkOut];
+    } else if (_currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
+      [self.battleLayer enemyBossWalkOut];
+    } else if (_currentStep == TutorialStepPostBattleConfrontation) {
+      [self.homeMap walkOutEnemyTeam];
+    }
+    
+    
     if (_currentStep == TutorialStepBlackedOutDialogue) {
       [self beginInitialChasePhase];
     } else if (_currentStep == TutorialStepFirstDialogue) {
@@ -1357,6 +1487,15 @@
     
     [self.touchView removeResponder:self.dialogueViewController];
     self.touchView.userInteractionEnabled = NO;
+    
+    self.dialogueViewController = nil;
+  }
+}
+
+- (void) dialogueViewControllerButtonClicked:(DialogueViewController *)dvc {
+  if (_currentStep == TutorialStepFriendEnterFight) {
+    [self.dialogueViewController animateNext];
+    [self beginEnterBattlePhase];
   }
 }
 

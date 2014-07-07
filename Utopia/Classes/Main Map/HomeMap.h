@@ -80,6 +80,8 @@
 
 - (void) beginTimers;
 
+- (void) reloadBubblesOnMiscBuildings;
+
 - (void) collectAllIncome;
 
 - (IBAction)littleUpgradeClicked:(id)sender;

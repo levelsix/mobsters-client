@@ -22,6 +22,8 @@
 @property (nonatomic, retain) IBOutlet ButtonTabBar *tabBar;
 @property (nonatomic, retain) IBOutlet BadgeIcon *buildingsBadge;
 
+- (void) initializeSubViewControllers;
+
 - (void) openBuildingsShop;
 - (void) openFundsShop;
 - (void) openGachaShop;

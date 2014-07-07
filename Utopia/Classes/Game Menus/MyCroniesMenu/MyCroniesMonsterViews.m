@@ -163,7 +163,7 @@
 - (void) updateForTime {
   float timeLeft = [self.healingItem.endTime timeIntervalSinceNow];
   self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
-  self.healthBar.percentage = [self.healingItem currentPercentageWithUserMonster:self.userMonster];
+  self.healthBar.percentage = [self.healingItem currentPercentage];
   
   self.timerView.hidden = NO;
 }

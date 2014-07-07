@@ -1570,7 +1570,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
   BOOL hasStartingMonsterId_:1;
+  BOOL hasGuideMonsterId_:1;
   BOOL hasEnemyMonsterId_:1;
+  BOOL hasEnemyMonsterIdTwo_:1;
   BOOL hasEnemyBossMonsterId_:1;
   BOOL hasMarkZmonsterId_:1;
   BOOL hasCityId_:1;
@@ -1580,7 +1582,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasOilInit_:1;
   BOOL hasGemsInit_:1;
   int32_t startingMonsterId;
+  int32_t guideMonsterId;
   int32_t enemyMonsterId;
+  int32_t enemyMonsterIdTwo;
   int32_t enemyBossMonsterId;
   int32_t markZmonsterId;
   int32_t cityId;
@@ -1595,7 +1599,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableTutorialObstaclesList;
 }
 - (BOOL) hasStartingMonsterId;
+- (BOOL) hasGuideMonsterId;
 - (BOOL) hasEnemyMonsterId;
+- (BOOL) hasEnemyMonsterIdTwo;
 - (BOOL) hasEnemyBossMonsterId;
 - (BOOL) hasMarkZmonsterId;
 - (BOOL) hasCityId;
@@ -1605,7 +1611,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasOilInit;
 - (BOOL) hasGemsInit;
 @property (readonly) int32_t startingMonsterId;
+@property (readonly) int32_t guideMonsterId;
 @property (readonly) int32_t enemyMonsterId;
+@property (readonly) int32_t enemyMonsterIdTwo;
 @property (readonly) int32_t enemyBossMonsterId;
 @property (readonly) int32_t markZmonsterId;
 @property (readonly) int32_t cityId;
@@ -1662,10 +1670,20 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_TutorialConstants_Builder*) setStartingMonsterId:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearStartingMonsterId;
 
+- (BOOL) hasGuideMonsterId;
+- (int32_t) guideMonsterId;
+- (StartupResponseProto_TutorialConstants_Builder*) setGuideMonsterId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearGuideMonsterId;
+
 - (BOOL) hasEnemyMonsterId;
 - (int32_t) enemyMonsterId;
 - (StartupResponseProto_TutorialConstants_Builder*) setEnemyMonsterId:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterId;
+
+- (BOOL) hasEnemyMonsterIdTwo;
+- (int32_t) enemyMonsterIdTwo;
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyMonsterIdTwo:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterIdTwo;
 
 - (BOOL) hasEnemyBossMonsterId;
 - (int32_t) enemyBossMonsterId;

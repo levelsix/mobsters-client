@@ -996,7 +996,7 @@
   if (!_isInBattle && !self.miniTutController && !self.completedQuests.count && [CCDirector sharedDirector].isAnimating && !self.questCompleteLayer) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    if (gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
+    if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
       [self spawnLevelUp];
     }

@@ -199,8 +199,8 @@
     self.diamondIcon.hidden = YES;
     self.icon.hidden = NO;
   } else {
-    NSString *bgdImage = @"gachagemsbg.png";
-    [Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    //NSString *bgdImage = @"gachagemsbg.png";
+    //[Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.label.text = [Globals commafyNumber:item.gemReward];
     self.label.textColor = [Globals purplishPinkColor];

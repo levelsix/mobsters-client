@@ -318,6 +318,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case QualityEvo:
       return [self orangeColor];
       
+    case QualitySuper:
+      return [UIColor colorWithRed:22/255.f green:226/255.f blue:155/255.f alpha:1.f];
+      
     default:
       break;
   }
@@ -1392,40 +1395,56 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
-  MonsterLevelInfoProto *li = um.levelInfo;
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   
   int base = 0;
+  int final = 0;
   switch (element) {
     case ElementFire:
-      base = li.fireDmg;
+      base = min.fireDmg;
+      final = max.fireDmg;
       break;
     case ElementEarth:
-      base = li.grassDmg;
+      base = min.grassDmg;
+      final = max.grassDmg;
       break;
     case ElementWater:
-      base = li.waterDmg;
+      base = min.waterDmg;
+      final = max.waterDmg;
       break;
     case ElementLight:
-      base = li.lightningDmg;
+      base = min.lightningDmg;
+      final = max.lightningDmg;
       break;
     case ElementDark:
-      base = li.darknessDmg;
+      base = min.darknessDmg;
+      final = max.darknessDmg;
       break;
     case ElementRock:
-      base = li.rockDmg;
+      base = min.rockDmg;
+      final = max.rockDmg;
       break;
     default:
       break;
   }
-  return base*powf(um.levelInfo.dmgExponentBase, um.level-1);
+  
+  return base+(final-base)*powf((um.level-1)/(float)(max.lvl-1), max.dmgExponentBase);
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
-  return um.levelInfo.hp*powf(um.levelInfo.hpExponentBase, um.level-1);
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  return min.hp+(max.hp-min.hp)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
 }
 
 - (int) calculateSpeedForMonster:(UserMonster *)um {
-  return um.levelInfo.speed;
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  return min.speed+(max.speed-min.speed)*powf((um.level-1)/(float)(max.lvl-1), 1);
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
@@ -1480,15 +1499,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterProto *mp = [gs monsterWithId:monsterId];
   
   // This for loop is basically not being used at the moment..
-  for (int i = 1; i < mp.lvlInfoList.count; i++) {
-    MonsterLevelInfoProto *info = mp.lvlInfoList[i];
-    if (experience < info.curLvlRequiredExp) {
-      MonsterLevelInfoProto *curInfo = mp.lvlInfoList[i-1];
-      int expForThisLevel = experience-curInfo.curLvlRequiredExp;
-      int totalExpTillNextLevel = [mp.lvlInfoList[i] curLvlRequiredExp]-curInfo.curLvlRequiredExp;
-      return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
-    }
-  }
+//  for (int i = 1; i < mp.lvlInfoList.count; i++) {
+//    MonsterLevelInfoProto *info = mp.lvlInfoList[i];
+//    if (experience < info.curLvlRequiredExp) {
+//      MonsterLevelInfoProto *curInfo = mp.lvlInfoList[i-1];
+//      int expForThisLevel = experience-curInfo.curLvlRequiredExp;
+//      int totalExpTillNextLevel = [mp.lvlInfoList[i] curLvlRequiredExp]-curInfo.curLvlRequiredExp;
+//      return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
+//    }
+//  }
   
   // Start over..
   float level = 1;
@@ -1691,7 +1710,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return @"Ruby";
 }
 
-#define ARROW_ANIMATION_DURATION 0.7f
+#define ARROW_ANIMATION_DURATION 0.5f
 #define ARROW_ANIMATION_DISTANCE 14
 #define ARROW_TAG 123152
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
@@ -1742,7 +1761,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrow.png"]];
   [view.superview addSubview:img];
   
-  CGPoint pt = [self pointOnRect:CGRectInset(view.frame, -16, -16) atAngle:-angle];
+  CGPoint pt = [self pointOnRect:CGRectInset(view.frame, -20, -20) atAngle:-angle];
   img.center = pt;
   img.tag = ARROW_TAG;
   
@@ -1751,6 +1770,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [UIView animateWithDuration:0.3f animations:^{
     img.alpha = 1.f;
   }];
+  
+  UIImageView *light = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrowlight.png"]];
+  [img addSubview:light];
+  
+  light.alpha = 1.f;
+  [UIView animateWithDuration:ARROW_ANIMATION_DURATION delay:0.f options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
+    light.alpha = 0.f;
+  } completion:nil];
 }
 
 + (void) removeUIArrowFromViewRecursively:(UIView *)view {

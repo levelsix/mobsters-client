@@ -18,6 +18,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet UIButton *closeButton;
+
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UILabel *backLabel;
 @property (nonatomic, retain) IBOutlet MaskedButton *backMaskedButton;

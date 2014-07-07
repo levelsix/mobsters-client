@@ -41,4 +41,9 @@
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
+- (void) updateLabels;
+- (IBAction) speedupButtonClicked:(id)sender;
+
+- (BOOL) userMonsterIsAvailable:(UserMonster *)um;
+
 @end

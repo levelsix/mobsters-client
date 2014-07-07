@@ -16,15 +16,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="fic-n7-qTt">
-                    <rect key="frame" x="-10" y="0.0" width="160" height="189"/>
+                    <rect key="frame" x="-10" y="0.0" width="160" height="176"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailshadow.png" id="n7j-Tn-5yX">
-                            <rect key="frame" x="51" y="153" width="66" height="31"/>
+                            <rect key="frame" x="42" y="145" width="76" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="bN1-hc-0kB">
-                            <rect key="frame" x="12" y="0.0" width="136" height="193"/>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="bN1-hc-0kB">
+                            <rect key="frame" x="0.0" y="0.0" width="160" height="176"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>

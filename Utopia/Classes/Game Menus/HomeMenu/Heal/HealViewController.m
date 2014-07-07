@@ -170,10 +170,9 @@
 }
 
 - (void) reloadMonstersArray {
-  GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
   
-  for (UserMonster *um in gs.myMonsters) {
+  for (UserMonster *um in self.monsterList) {
     if ([self userMonsterIsAvailable:um]) {
       [arr addObject:um];
     }
@@ -331,7 +330,7 @@
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (gs.myValidHospitals.count == 0) {
+  if ([self numValidHospitals] == 0) {
     [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
   } else if (gs.gold < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];

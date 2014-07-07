@@ -994,16 +994,20 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasUserMonsterId_:1;
   BOOL hasExpectedExperience_:1;
   BOOL hasExpectedLevel_:1;
+  BOOL hasExpectedHp_:1;
   int64_t userMonsterId;
   int32_t expectedExperience;
   int32_t expectedLevel;
+  int32_t expectedHp;
 }
 - (BOOL) hasUserMonsterId;
 - (BOOL) hasExpectedExperience;
 - (BOOL) hasExpectedLevel;
+- (BOOL) hasExpectedHp;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int32_t expectedExperience;
 @property (readonly) int32_t expectedLevel;
+@property (readonly) int32_t expectedHp;
 
 + (UserMonsterCurrentExpProto*) defaultInstance;
 - (UserMonsterCurrentExpProto*) defaultInstance;
@@ -1053,6 +1057,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) expectedLevel;
 - (UserMonsterCurrentExpProto_Builder*) setExpectedLevel:(int32_t) value;
 - (UserMonsterCurrentExpProto_Builder*) clearExpectedLevel;
+
+- (BOOL) hasExpectedHp;
+- (int32_t) expectedHp;
+- (UserMonsterCurrentExpProto_Builder*) setExpectedHp:(int32_t) value;
+- (UserMonsterCurrentExpProto_Builder*) clearExpectedHp;
 @end
 
 @interface MinimumUserMonsterSellProto : PBGeneratedMessage {

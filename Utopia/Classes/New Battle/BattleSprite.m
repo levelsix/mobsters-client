@@ -34,7 +34,7 @@
     self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3+verticalOffset);
     
     CCSprite *s = [CCSprite spriteWithImageNamed:@"shadow.png"];
-    [self addChild:s];
+    [self addChild:s z:0 name:SHADOW_TAG];
     s.position = ccp(self.contentSize.width/2, 0);
     
     self.anchorPoint = ccp(0.5, 0);
@@ -306,12 +306,18 @@
 }
 
 - (void) restoreStandingFrame {
-  [self attackAnimationN];
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, self.isFacingNear ? @"N" : @"F"]];
-  if (!frame) frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.tga", self.prefix, self.isFacingNear ? @"N" : @"F"]];
+  [self restoreStandingFrame:self.isFacingNear?MapDirectionNearLeft:MapDirectionFarRight];
+}
+
+- (void) restoreStandingFrame:(MapDirection)direction {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
+  NSString *name;
+  if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+  else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
   [self.sprite setSpriteFrame:frame];
   
-  self.sprite.flipX = !self.isFacingNear;
+  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight);
 }
 
 - (void) beginWalking {
@@ -497,6 +503,9 @@
   float delayTime = 0.2f;
   float strength = 1/(MAX_SHOTS-1)-0.01;
   
+  // For tutorial.. actually check which direction he's facing
+  pointOffset = self.sprite.flipX ? pointOffset : ccp(-pointOffset.x, pointOffset.y);
+  
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:delay],
@@ -513,13 +522,38 @@
        q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
        q.speedVar = 40+strength*15;
        q.endSizeVar = 5+strength*10;
-       [self.parent addChild:q];
+       [self.parent addChild:q z:self.zOrder];
      }],
     [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
     [CCActionDelay actionWithDuration:delayTime],
     [CCActionMoveTo actionWithDuration:0.1f position:startPos],
     [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
     nil]];
+}
+
+
+
+- (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion {
+  [self jumpNumTimes:numTimes timePerJump:0.25 completionTarget:target selector:completion];
+}
+
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion {
+  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:14 jumps:numTimes];
+  [self.sprite runAction:[CCActionSequence actions:jump,
+                          [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
+  
+  CCSprite *spr = (CCSprite *)[self getChildByName:SHADOW_TAG recursively:NO];
+  [spr runAction:
+   [CCActionRepeat actionWithAction:
+    [CCActionSequence actions:
+     [CCActionCallBlock actionWithBlock:
+      ^{
+        [SoundEngine spriteJump];
+      }],
+     [CCActionScaleTo actionWithDuration:dur/2.f scale:0.9],
+     [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f],
+     nil]
+                              times:numTimes]];
 }
 
 @end

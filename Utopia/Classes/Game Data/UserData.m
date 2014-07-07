@@ -316,19 +316,16 @@
 }
 
 - (float) currentPercentage {
-  GameState *gs = [GameState sharedGameState];
-  return [self currentPercentageWithUserMonster:[gs myMonsterWithUserMonsterId:self.userMonsterId]];
-}
-
-- (float) currentPercentageWithUserMonster:(UserMonster *)um {
-  Globals *gl = [Globals sharedGlobals];
-  
   float totalSecs = [self totalSeconds];
   float timeLeft = [self.endTime timeIntervalSinceNow];
   float timeCompleted = MAX(totalSecs-timeLeft, 0);
-  float healthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
-  float percentage = self.healthProgress/healthToHeal;
   
+  float healthToHeal = 0;
+  for (int i = 1; i < self.timeDistribution.count; i += 2) {
+    healthToHeal += [self.timeDistribution[i] intValue];
+  }
+  
+  float percentage = self.healthProgress/healthToHeal;
   for (int i = 0; i < self.timeDistribution.count; i += 2) {
     float secs = [self.timeDistribution[i] floatValue];
     float health = [self.timeDistribution[i+1] floatValue];
@@ -672,6 +669,9 @@
     self.isComplete = YES;
     self.coordinates = CGPointMake(proto.coordinate.x, proto.coordinate.y);
     self.orientation = StructOrientationPosition1;
+    
+    // Don't want it showing icon
+    self.lastRetrieved = [[MSDate date] dateByAddingTimeInterval:1000];
   }
   return self;
 }

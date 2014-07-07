@@ -29,4 +29,6 @@
 - (void) resumeFromUserTask:(MinimumUserTaskProto *)task stages:(NSArray *)stages;
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe;
 
+- (void) sendServerDungeonProgress;
+
 @end

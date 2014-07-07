@@ -19,27 +19,56 @@
 }
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble {
+  return [self initWithDialogueProto:dialogue useSmallBubble:smallBubble buttonText:nil];
+}
+
+- (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble buttonText:(NSString *)buttonText {
   if ((self = [super init])) {
     self.dialogue = dialogue;
     _useSmallBubble = smallBubble;
+    _buttonText = buttonText;
     self.view.hidden = YES;
   }
   return self;
 }
 
+- (void) extendDialogue:(DialogueProto *)dialogue {
+  DialogueProto_Builder *bldr = [DialogueProto builderWithPrototype:self.dialogue];
+  [bldr addAllSpeechSegment:dialogue.speechSegmentList];
+  self.dialogue = bldr.build;
+}
+
 - (void) viewDidLoad {
-  if (_useSmallBubble) {
-    self.speechBubbleImage.image = [Globals imageNamed:@"speechbubbleshortname.png"];
+//  if (_useSmallBubble) {
+//    self.speechBubbleImage.image = [Globals imageNamed:@"speechbubbleshortname.png"];
+//
+//    CGRect r = self.speechBubble.frame;
+//    r.size = self.speechBubbleImage.image.size;
+//    self.speechBubble.frame = r;
+//  }
+  
+  if (_buttonText) {
+    self.buttonLabel.text = _buttonText;
+    
+    [self.speechBubble addSubview:self.buttonView];
+    self.buttonView.center = ccp(self.speakerLabel.superview.center.x, self.speechBubble.frame.size.height-2);
     
     CGRect r = self.speechBubble.frame;
-    r.size = self.speechBubbleImage.image.size;
+    r.size.height = CGRectGetMaxY(self.buttonView.frame);
     self.speechBubble.frame = r;
+    
+    r = self.speakerLabel.superview.frame;
+    r.size.height = CGRectGetMinY(self.buttonView.frame);
+    self.speakerLabel.superview.frame = r;
+  } else {
+    self.buttonView.hidden = YES;
   }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-  self.speechBubble.layer.anchorPoint = ccp(0.01, 0.407);
-  self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2, 0));
+  self.speechBubble.layer.anchorPoint = ccp(0.f, 0.41758);
+  self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2,
+                                                                  -self.speechBubble.frame.size.height*(0.5-self.speechBubble.layer.anchorPoint.y)));
   
   self.bottomGradient.alpha = 0.f;
   
@@ -101,17 +130,19 @@
 }
 
 #define IMAGE_BEGIN_SCALE .55
-#define IMAGE_END_SCALE .70
+#define IMAGE_END_SCALE 1.f
 
 - (void) animateIn:(BOOL)isLeftSide {
   if (isLeftSide) {
     self.view.transform = CGAffineTransformIdentity;
     self.dialogueLabel.transform = CGAffineTransformIdentity;
     self.speakerLabel.transform = CGAffineTransformIdentity;
+    self.buttonView.transform = CGAffineTransformIdentity;
   } else {
     self.view.transform = CGAffineTransformMakeScale(-1, 1);
     self.dialogueLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.speakerLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.buttonView.transform = CGAffineTransformMakeScale(-1, 1);
   }
   
   CGPoint pt = self.leftImageView.center;
@@ -137,7 +168,7 @@
     // This will only do anything on first animation
     self.bottomGradient.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self.bottomGradient removeFromSuperview];
+    self.bottomGradient.hidden = YES;
   }];
 }
 
@@ -187,6 +218,8 @@
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
   _isAnimating = NO;
   
+  self.speechBubble.transform = CGAffineTransformIdentity;
+  
   if ([self.delegate respondsToSelector:@selector(dialogueViewController:didDisplaySpeechAtIndex:)]) {
     [self.delegate dialogueViewController:self didDisplaySpeechAtIndex:_curIndex-1];
   }
@@ -205,7 +238,13 @@
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self animateNext];
+  if (self.buttonView.hidden) {
+    [self animateNext];
+  }
+}
+
+- (IBAction) buttonClicked:(id)sender {
+  [self.delegate dialogueViewControllerButtonClicked:self];
 }
 
 @end

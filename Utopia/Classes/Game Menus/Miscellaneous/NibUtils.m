@@ -179,6 +179,17 @@
 
 @end
 
+@implementation NiceFontLabel9S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
 @implementation NiceFontLabel10
 
 - (void) awakeFromNib {

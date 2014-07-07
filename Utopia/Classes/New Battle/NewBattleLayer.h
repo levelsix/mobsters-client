@@ -45,7 +45,9 @@
 }
 
 @property (nonatomic, assign) id<BattleBgdLayerDelegate> delegate;
+@property (nonatomic, retain) NSString *prefix;
 
+- (id) initWithPrefix:(NSString *)prefix;
 - (void) scrollToNewScene;
 
 @end
@@ -121,6 +123,7 @@
 - (void) initOrbLayer;
 
 - (CGSize) gridSize;
+- (NSString *) bgdPrefix;
 
 - (void) begin;
 - (BattlePlayer *) firstMyPlayer;
@@ -133,6 +136,7 @@
 - (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
+- (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector;
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
 

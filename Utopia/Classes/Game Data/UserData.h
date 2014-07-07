@@ -79,7 +79,6 @@
 
 - (float) totalSeconds;
 - (float) currentPercentage;
-- (float) currentPercentageWithUserMonster:(UserMonster *)um;
 
 @end
 

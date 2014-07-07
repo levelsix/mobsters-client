@@ -84,12 +84,7 @@
   _arrow.anchorPoint = ccp(0.5f, 0.f);
   _arrow.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
   
-  CCActionSpawn *down = [CCActionSpawn actions:
-                   [CCActionEaseInOut actionWithAction:[CCActionScaleBy actionWithDuration:0.7f scaleX:1.f scaleY:0.88f]],
-                   [CCActionEaseInOut actionWithAction:[CCActionMoveBy actionWithDuration:0.7f position:ccp(0.f, -5.f)]],
-                   nil];
-  CCActionInterval *up = [down reverse];
-  [_arrow runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:down, up, nil]]];
+  [Globals animateCCArrow:_arrow atAngle:M_PI_2];
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {
