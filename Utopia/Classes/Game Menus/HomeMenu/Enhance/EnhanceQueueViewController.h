@@ -12,11 +12,13 @@
 
 #import "ListCollectionView.h"
 
-@interface EnhanceSmallCardCell : MonsterListCell
+@interface EnhanceSmallCardCell : ListCollectionViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *rarityDot;
+@property (nonatomic, retain) IBOutlet UIImageView *qualityBgdView;
+@property (nonatomic, retain) IBOutlet UILabel *qualityLabel;
+@property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
 @property (nonatomic, retain) IBOutlet MonsterCardView *cardView;
 
 @end

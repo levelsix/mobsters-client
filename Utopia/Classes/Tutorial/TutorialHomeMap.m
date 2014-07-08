@@ -18,11 +18,22 @@
 #define PIER_JUMP_TALK_Y_FROM_MID 2
 
 #define INITIAL_GUIDE_LOCATION ccpAdd(PIER_JUMP_LOCATION, ccp(0, 6.5))
-#define HIDE_GUIDE_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(4.5, 0))
 #define FRIEND_ENTER_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 3))
 #define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 1))
 #define FRIEND_BATTLE_RUN_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, -1))
 #define POST_BATTLE_FRIENDS_X_FROM_MID 0.75
+
+#define HIDE_GUIDE_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(6, 0))
+#define HIDE_GUIDE_LOCATION_POINT2 ccpAdd(HIDE_GUIDE_LOCATION_POINT1, ccp(0, 2))
+#define HIDE_GUIDE_LOCATION_POINT3 ccpAdd(HIDE_GUIDE_LOCATION_POINT2, ccp(3, 0))
+#define HIDE_GUIDE_LOCATION_POINT4 ccpAdd(HIDE_GUIDE_LOCATION_POINT3, ccp(0, -2))
+
+#define FRIEND_ENTER_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(-9, 4))
+#define FRIEND_ENTER_LOCATION_POINT2 ccpAdd(FRIEND_ENTER_LOCATION_POINT1, ccp(6, 0))
+#define FRIEND_ENTER_LOCATION_POINT3 ccpAdd(FRIEND_ENTER_LOCATION_POINT2, ccp(0, 5))
+#define FRIEND_ENTER_LOCATION_POINT4 ccpAdd(FRIEND_ENTER_LOCATION_POINT3, ccp(6, 0))
+#define FRIEND_ENTER_LOCATION_POINT5 ccpAdd(FRIEND_ENTER_LOCATION_POINT4, ccp(0, -6))
+#define FRIEND_ENTER_LOCATION_POINT6 ccpAdd(FRIEND_ENTER_LOCATION_POINT5, ccp(-3, 0))
 
 @implementation TutorialHomeMap
 
@@ -218,11 +229,16 @@
 }
 
 - (void) guideRunToObstacle {
-  [self.guideSprite walkToTileCoord:HIDE_GUIDE_LOCATION completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:2.5f];
+  NSArray *arr = @[[NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT1],
+                   [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT2],
+                   [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT3],
+                   [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT4],
+                   ];
+  [self.guideSprite walkToTileCoords:arr completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:4.f];
 }
 
 - (void) guideReachedObstacle {
-  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.delegate guideReachedHideLocation];
 }
 
@@ -230,8 +246,21 @@
   [self.friendSprite runAction:
    [CCActionSequence actions:
     [RecursiveFadeTo actionWithDuration:0.1f opacity:1.f], nil]];
-  self.friendSprite.location = CGRectMake(FRIEND_ENTER_LOCATION.x, FRIEND_ENTER_LOCATION.y, 1, 1);
-  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:2.5f];
+  self.friendSprite.location = CGRectMake(FRIEND_ENTER_LOCATION_POINT1.x, FRIEND_ENTER_LOCATION_POINT1.y, 1, 1);
+  
+  
+  NSArray *arr = @[[NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT2],
+                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT3],
+                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT4],
+                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT5],
+                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT6],
+                   ];
+  [self.friendSprite walkToTileCoords:arr completionTarget:self selector:@selector(friendJumpToEnterLocation) speedMultiplier:4.f];
+}
+
+- (void) friendJumpToEnterLocation {
+  [self.friendSprite jumpNumTimes:1 timePerJump:0.3 completionTarget:nil selector:nil];
+  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:4.f];
 }
 
 - (void) friendEntered {
@@ -240,6 +269,7 @@
 }
 
 - (void) friendRunForBattleEnter {
+  [self.friendSprite jumpNumTimes:1 timePerJump:0.4 completionTarget:nil selector:nil];
   [self.friendSprite walkToTileCoord:FRIEND_BATTLE_RUN_LOCATION completionTarget:nil selector:nil speedMultiplier:1.5f];
 }
 
@@ -255,7 +285,7 @@
   [self.enemy2Sprite restoreStandingFrame:MapDirectionFarLeft];
   [self.enemyBossSprite restoreStandingFrame:MapDirectionFarLeft];
   [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
-  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.markZSprite restoreStandingFrame:MapDirectionNearRight];
   
   CGPoint enemyBaseLoc = ccp(PIER_JUMP_LOCATION.x, PIER_JUMP_TALK_Y);
@@ -266,7 +296,7 @@
   CGPoint friendBaseLoc = INITIAL_GUIDE_LOCATION;
   self.friendSprite.location = CGRectMake(friendBaseLoc.x+POST_BATTLE_FRIENDS_X_FROM_MID, friendBaseLoc.y, 1, 1);
   self.markZSprite.location = CGRectMake(friendBaseLoc.x-POST_BATTLE_FRIENDS_X_FROM_MID, friendBaseLoc.y, 1, 1);
-  self.guideSprite.location = CGRectMake(HIDE_GUIDE_LOCATION.x, HIDE_GUIDE_LOCATION.y, 1, 1);
+  self.guideSprite.location = CGRectMake(HIDE_GUIDE_LOCATION_POINT4.x, HIDE_GUIDE_LOCATION_POINT4.y, 1, 1);
   
   self.boatSprite.position = BOAT_UNLOAD_POSITION;
   
@@ -334,21 +364,26 @@
   [self.guideSprite restoreStandingFrame:MapDirectionFarLeft];
 }
 
-
-
-- (void) friendFaceMark {
-  [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
-  [self.markZSprite restoreStandingFrame:MapDirectionFarRight];
+- (void) guideRunToMark {
+  CGPoint markLoc = self.markZSprite.location.origin;
+  
+  NSArray *arr = @[[NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT3],
+                   [NSValue valueWithCGPoint:ccp(markLoc.x, HIDE_GUIDE_LOCATION_POINT3.y)],
+                   [NSValue valueWithCGPoint:ccp(markLoc.x, markLoc.y+2)],
+                   ];
+  [self.guideSprite walkToTileCoords:arr completionTarget:self selector:@selector(markAndGuideFaceEachOther) speedMultiplier:2.5f];
 }
 
-- (void) markFaceFriendAndBack {
-  [self.markZSprite restoreStandingFrame:MapDirectionFront];
-  [self.delegate markFacedFriendAndBack];
+- (void) markAndGuideFaceEachOther {
+  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.markZSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.delegate guideRanToMark];
 }
 
 - (void) walkToHospitalAndEnter {
-  [self markReachedHospitalLocation];
-  [self friendReachedHospitalLocation];
+  [self.markZSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.guideSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.friendSprite restoreStandingFrame:MapDirectionFarLeft];
   [self allowHospitalClick];
 }
 
@@ -404,7 +439,6 @@
 }
 
 - (void) panToMark {
-  _mapMovementDivisor = 1000.f;
   [self moveToSprite:self.markZSprite animated:YES withOffset:ccp(0,0) scale:1.6f];
   [self.markZSprite restoreStandingFrame:MapDirectionFront];
 }

@@ -82,16 +82,24 @@
 
 - (void) updateForEvo {
   GameState *gs = [GameState sharedGameState];
-  _eventType = PersistentEventProto_EventTypeEvolution;
-  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
-  [self updateForPersistentEvent:pe];
+  if (gs.myEvoChamber) {
+    _eventType = PersistentEventProto_EventTypeEvolution;
+    PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
+    [self updateForPersistentEvent:pe];
+  } else {
+    self.hidden = YES;
+  }
 }
 
 - (void) updateForEnhance {
   GameState *gs = [GameState sharedGameState];
-  _eventType = PersistentEventProto_EventTypeEnhance;
-  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
-  [self updateForPersistentEvent:pe];
+  if (gs.myLaboratory) {
+    _eventType = PersistentEventProto_EventTypeEnhance;
+    PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+    [self updateForPersistentEvent:pe];
+  } else {
+    self.hidden = YES;
+  }
 }
 
 - (void) updateForPersistentEvent:(PersistentEventProto *)pe {
@@ -210,10 +218,10 @@
   self.backButton.alpha = 0.f;
   self.titleLabel.text = @"Multiplayer";
   
-//  for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
-//    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
-//    [dv updateForLeague:pvp];
-//  }
+  //  for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
+  //    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
+  //    [dv updateForLeague:pvp];
+  //  }
 }
 
 - (void) updateForLeague {

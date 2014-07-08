@@ -17,7 +17,7 @@
 - (void) friendEntered;
 - (void) enemyTeamWalkedOut;
 
-- (void) markFacedFriendAndBack;
+- (void) guideRanToMark;
 - (void) enterHospitalClicked;
 
 - (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost;
@@ -57,6 +57,7 @@
 - (void) guideHideBehindObstacle;
 - (void) friendEnterScene;
 - (void) friendRunForBattleEnter;
+- (void) guideRunToMark;
 
 - (void) beginPostBattleConfrontation;
 - (void) walkOutEnemyTeam;
@@ -65,8 +66,6 @@
 
 - (void) landBoatOnShore;
 - (void) walkToHospitalAndEnter;
-- (void) friendFaceMark;
-- (void) markFaceFriendAndBack;
 - (void) zoomOutMap;
 - (void) speedupPurchasedBuilding;
 - (void) moveToOilDrill;

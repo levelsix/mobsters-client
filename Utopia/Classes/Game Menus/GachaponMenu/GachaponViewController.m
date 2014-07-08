@@ -34,14 +34,18 @@
 
 - (void) setupItems {
   NSMutableArray *arr = [NSMutableArray array];
-  for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
-    // Add it as many times as quantity
-    // Multiply quantity to increase variability
-    for (int i = 0; i < item.quantity*4; i++) {
-      [arr addObject:item];
+  for (int i = 0; i < 100; i++) {
+    NSMutableArray *sub = [NSMutableArray array];
+    for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
+      // Add it as many times as quantity
+      // Multiply quantity to increase variability
+      for (int j = 0; j < item.quantity; j++) {
+        [sub addObject:item];
+      }
     }
+    [sub shuffle];
+    [arr addObjectsFromArray:sub];
   }
-  [arr shuffle];
   self.items = arr;
 }
 
@@ -132,22 +136,26 @@
 }
 
 - (CGPoint) nearestCellMiddleFromPoint:(CGPoint)pt withBoosterItem:(BoosterItemProto *)bip {
+  NSLog(@"1:%@", NSStringFromCGPoint(pt));
   UITableView *table = self.gachaTable.tableView;
   int row = (pt.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
+  int rowIdx = row % self.items.count;
   
   int arrIndex = 0;
   GameState *gs = [GameState sharedGameState];
   for (int i = 0; i < self.items.count; i++) {
-    BoosterDisplayItemProto *disp = self.items[i];
+    int j = rowIdx+(i/2)*(i%2?-1:1);
+    NSLog(@"%d", j);
+    BoosterDisplayItemProto *disp = self.items[j];
     if (disp.isMonster && bip.monsterId && disp.isComplete == bip.isComplete) {
       MonsterProto *mp = [gs monsterWithId:bip.monsterId];
       if (mp.quality == disp.quality) {
-        arrIndex = i;
+        arrIndex = j;
         break;
       }
     } else if (!disp.isMonster && bip.gemReward) {
       if (bip.gemReward == disp.gemReward) {
-        arrIndex = i;
+        arrIndex = j;
         break;
       }
     }
@@ -155,6 +163,7 @@
   
   float nearest = ceilf(row/(float)self.items.count)*self.items.count+arrIndex+0.5;
   pt.y = nearest*TABLE_CELL_WIDTH-table.frame.size.width/2;
+  NSLog(@"2:%@", NSStringFromCGPoint(pt));
   return pt;
 }
 
@@ -267,17 +276,17 @@
   if (_isSpinning) {
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
-//      UITableView* table = self.gachaTable.tableView;
-//      int row = (table.contentOffset.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
-//      GachaponItemCell *cell = (GachaponItemCell *)[self.gachaTable viewAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-//      [cell shakeIconNumTimes:1 durationPerShake:0.2 delay:0.f completion:^{
-//        [cell shakeIconNumTimes:3 durationPerShake:0.15 delay:0.5f completion:^{
-//          [cell shakeIconNumTimes:8 durationPerShake:0.1 delay:0.5f completion:^{
-//            [self displayWhiteFlash];
-//            [cell shakeIconNumTimes:4 durationPerShake:0.1 delay:0.f completion:nil];
-//          }];
-//        }];
-//      }];
+      //      UITableView* table = self.gachaTable.tableView;
+      //      int row = (table.contentOffset.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
+      //      GachaponItemCell *cell = (GachaponItemCell *)[self.gachaTable viewAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+      //      [cell shakeIconNumTimes:1 durationPerShake:0.2 delay:0.f completion:^{
+      //        [cell shakeIconNumTimes:3 durationPerShake:0.15 delay:0.5f completion:^{
+      //          [cell shakeIconNumTimes:8 durationPerShake:0.1 delay:0.5f completion:^{
+      //            [self displayWhiteFlash];
+      //            [cell shakeIconNumTimes:4 durationPerShake:0.1 delay:0.f completion:nil];
+      //          }];
+      //        }];
+      //      }];
     } else {
       [self displayWhiteFlash];
       self.gachaTable.userInteractionEnabled = YES;

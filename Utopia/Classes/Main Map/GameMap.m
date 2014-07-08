@@ -169,7 +169,7 @@
   if (!xIntersects && !yIntersects) {
     float sum1 = loc1.origin.x+loc1.origin.y;
     float sum2 = loc2.origin.x+loc2.origin.y;
-    
+
     if (sum1 != sum2) {
       winner = sum1 < sum2 ? obj1 : obj2;
     }
@@ -534,9 +534,9 @@
     if (animated) {
       dur = ccpDistance(newPos, self.position)/_mapMovementDivisor;
       CCAction *a = [CCActionEaseInOut actionWithAction:
-                      [CCActionSpawn actions:
-                       [CCActionScaleTo actionWithDuration:dur scale:scale],
-                       [CCActionMoveTo actionWithDuration:dur position:newPos], nil]];
+                     [CCActionSpawn actions:
+                      [CCActionScaleTo actionWithDuration:dur scale:scale],
+                      [CCActionMoveTo actionWithDuration:dur position:newPos], nil]];
       a.tag = MAP_MOVE_ACTION_TAG;
       [self stopActionByTag:a.tag];
       [self runAction:a];

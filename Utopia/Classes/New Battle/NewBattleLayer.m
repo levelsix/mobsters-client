@@ -284,7 +284,7 @@
   [puzzleBg addChild:lootBgd];
   lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*2.5);
   
-  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
+  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
   [lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;

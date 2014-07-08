@@ -25,7 +25,7 @@
   [super viewDidLoad];
   
   GameState *gs = [GameState sharedGameState];
-  if (gs.myLaboratory) {
+  if (gs.myLaboratory || gs.myEvoChamber) {
     NSString *nibFile = [Globals isLongiPhone] ? @"AttackEventView" : @"AttackEventViewSmall";
     [[NSBundle mainBundle] loadNibNamed:nibFile owner:self options:nil];
     
@@ -47,10 +47,10 @@
 - (void) viewWillAppear:(BOOL)animated {
   [self.evoEventView updateForEvo];
   [self.enhanceEventView updateForEnhance];
-  if (!self.evoEventView.hidden) {
+  if (self.evoEventView && !self.evoEventView.hidden) {
     [self.evoEventView.monsterImage startAnimating];
     _curEventView = self.evoEventView;
-  } else if (!self.enhanceEventView) {
+  } else if (self.enhanceEventView && !self.enhanceEventView.hidden) {
     [self.enhanceEventView.monsterImage startAnimating];
     _curEventView = self.enhanceEventView;
   }
@@ -178,6 +178,10 @@
     float max = self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height;
     float min = 0;
     self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
+    
+    if (!((self.evoEventView && !self.evoEventView.hidden) || (self.enhanceEventView && !self.enhanceEventView.hidden))) {
+      [self cityClicked:icon];
+    }
   } else {
     self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
   }
@@ -297,7 +301,7 @@
 }
 
 - (IBAction) removeTaskStatusView {
-  if (self.taskStatusView) {
+  if (self.taskStatusView && ((self.evoEventView && !self.evoEventView.hidden) || (self.enhanceEventView && !self.enhanceEventView.hidden)) ) {
     [UIView animateWithDuration:0.3f animations:^{
       NSMutableArray *arr = [NSMutableArray array];
       if (self.evoEventView) [arr addObject:self.evoEventView];

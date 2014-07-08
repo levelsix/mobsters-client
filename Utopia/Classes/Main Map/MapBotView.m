@@ -18,69 +18,69 @@
 
 + (id) sellButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Sell Mobsters" config:MapBotViewButtonSell];
+  [button updateWithImageName:@"buildingsell.png" actionText:@"Sell Mobsters" config:MapBotViewButtonSell];
   return button;
 }
 
 + (id) bonusSlotsButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Bonus Slots" config:MapBotViewButtonBonusSlots];
+  [button updateWithImageName:@"buildingbonusslots.png" actionText:@"Bonus Slots" config:MapBotViewButtonBonusSlots];
   return button;
 }
 
 + (id) healButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Heal Mobsters" config:MapBotViewButtonHeal];
+  [button updateWithImageName:@"buildingheal.png" actionText:@"Heal Mobsters" config:MapBotViewButtonHeal];
   return button;
 }
 
 + (id) enhanceButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Enhance" config:MapBotViewButtonEnhance];
+  [button updateWithImageName:@"buildingenhance.png" actionText:@"Enhance" config:MapBotViewButtonEnhance];
   return button;
 }
 
 + (id) evolveButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Evolve" config:MapBotViewButtonEvolve];
+  [button updateWithImageName:@"buildingevolve.png" actionText:@"Evolve" config:MapBotViewButtonEvolve];
   return button;
 }
 
 + (id) teamButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Manage Team" config:MapBotViewButtonTeam];
+  [button updateWithImageName:@"buildingmanage.png" actionText:@"Manage Team" config:MapBotViewButtonTeam];
   return button;
 }
 
 + (id) miniJobsButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Mini Jobs" config:MapBotViewButtonMiniJob];
+  [button updateWithImageName:@"buildingminijobs.png" actionText:@"Mini Jobs" config:MapBotViewButtonMiniJob];
   return button;
 }
 
 + (id) infoButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Info" config:MapBotViewButtonInfo];
+  [button updateWithImageName:@"buildinginfo.png" actionText:@"Info" config:MapBotViewButtonInfo];
   return button;
 }
 
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Remove" config:MapBotViewButtonRemove];
+  [button updateWithImageName:@"buildingremove.png" actionText:@"Remove" config:MapBotViewButtonRemove];
   [button updateTopLabelForResourceType:type cost:removeCost];
   return button;
 }
 
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Upgrade" config:MapBotViewButtonUpgrade];
+  [button updateWithImageName:@"buildingupgrade.png" actionText:@"Upgrade" config:MapBotViewButtonUpgrade];
   [button updateTopLabelForResourceType:type cost:buildCost];
   return button;
 }
 
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"" actionText:@"Fix" config:MapBotViewButtonFix];
+  [button updateWithImageName:@"buildingfix.png" actionText:@"Fix" config:MapBotViewButtonFix];
   [button updateTopLabelForResourceType:type cost:buildCost];
   return button;
 }
@@ -98,9 +98,6 @@
   self.actionLabel.text = actionText;
   self.topLabel.superview.hidden = YES;
   self.config = config;
-  
-  self.actionLabel.strokeSize = 1.f;
-  self.actionLabel.shadowBlur = 0.9f;
 }
 
 - (void) updateTopLabelForResourceType:(ResourceType)type cost:(int)cost {

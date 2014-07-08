@@ -22,17 +22,21 @@
                         <action selector="buttonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="Kmu-zF-cnA"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hb2-Sp-7Ui" customClass="NiceFontLabel14S">
-                    <rect key="frame" x="11" y="28" width="60" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hb2-Sp-7Ui" customClass="NiceFontLabel14B">
+                    <rect key="frame" x="9" y="31" width="64" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.76862752437591553" green="0.17254902422428131" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
+                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottom" image="buildingevolve.png" id="XOy-Sg-evM">
+                    <rect key="frame" x="20" y="2" width="40" height="35"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Bs9-xl-DB8">
-                    <rect key="frame" x="20" y="5" width="40" height="18"/>
+                    <rect key="frame" x="20" y="3" width="40" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hN6-tU-hpu" customClass="NiceFontLabel14WS">
@@ -58,6 +62,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="actionIcon" destination="XOy-Sg-evM" id="E4f-AH-Dq9"/>
                 <outlet property="actionLabel" destination="hb2-Sp-7Ui" id="W3k-0d-f8H"/>
                 <outlet property="cashIcon" destination="6MK-Xb-o91" id="KaJ-A6-czT"/>
                 <outlet property="oilIcon" destination="QEI-xu-LzA" id="RKG-QJ-Zfl"/>
@@ -66,8 +71,9 @@
         </view>
     </objects>
     <resources>
-        <image name="buildingoptionbutton.png" width="80" height="60"/>
-        <image name="buildingoptionbuttonpressed.png" width="80" height="60"/>
+        <image name="buildingevolve.png" width="23" height="26"/>
+        <image name="buildingoptionbutton.png" width="79" height="57"/>
+        <image name="buildingoptionbuttonpressed.png" width="79" height="57"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
     </resources>

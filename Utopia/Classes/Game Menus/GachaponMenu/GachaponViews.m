@@ -26,7 +26,6 @@
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.monsterIcon.contentMode = UIViewContentModeBottomLeft;
   
   self.pieceLabel.hidden = YES;
   self.rarityIcon.hidden = NO;

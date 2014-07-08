@@ -512,7 +512,7 @@
 }
 
 - (void) beginEnemyDefensePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry yo..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -549,7 +549,7 @@
 }
 
 - (void) beginSecondBattleEnemyBossTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Sigh, never leave a man to do a chicken’s work. Take them out Drumstix."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Sigh, never leave a man to do a chicken’s work. Take him out Drumstix."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleEnemyBossTaunt;
@@ -563,7 +563,7 @@
 }
 
 - (void) beginSecondBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Swipe the striped orb up to activate the power-up."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Swipe the striped orb down to activate the power-up."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleSecondMove;
@@ -609,8 +609,6 @@
                         @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda... dying.",
                         @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  [self.homeMap markFaceFriendAndBack];
   
   _currentStep = TutorialStepEnterHospital;
 }
@@ -687,7 +685,7 @@
 - (void) beginFacebookLoginPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Great job! The Silo will now protect your oil from being stolen in battle.",
                         @(TutorialDialogueSpeakerMark), @"Your island is starting to look like a real secret base! There’s just one last thing...",
-                        @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s\nmy friend request, so add me maybe?"];
+                        @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFacebookLogin;
@@ -1142,13 +1140,13 @@
 }
 
 - (void) enemyTeamWalkedOut {
-  [self beginEnterHospitalPhase];
+  [self.homeMap guideRunToMark];
 }
 
 
 
-- (void) markFacedFriendAndBack {
-  //[self beginEnterHospitalPhase];
+- (void) guideRanToMark {
+  [self beginEnterHospitalPhase];
 }
 
 - (void) enterHospitalClicked {
@@ -1399,18 +1397,14 @@
               index == dvc.dialogue.speechSegmentList.count-1) {
     dvc.view.userInteractionEnabled = NO;
     [dvc fadeOutBottomGradient];
-  } else if (_currentStep == TutorialStepMarkLookBack && index == 2) {
-    [self.homeMap friendFaceMark];
   } else if (_currentStep == TutorialStepBeginBuildingThree && index == 1) {
     [self.homeMap moveToOilDrill];
-  } else if (_currentStep == TutorialStepAttackMap && index == 1) {
-    [self.homeMap friendFaceForward];
   } else if (_currentStep == TutorialStepFacebookLogin && index == 1) {
     [self.homeMap panToMark];
   } else if (_currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
     [self.battleLayer enemyTwoLookAtEnemy];
   } else if (_currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
-    [dvc showFbButtonView];
+    //[dvc showFbButtonView];
   }
 }
 
@@ -1497,8 +1491,6 @@
     } else if (_currentStep == TutorialStepBoardYacht) {
       [self.missionMap moveToYacht];
       [SoundEngine tutorialBoatScene];
-    } else if (_currentStep == TutorialStepMarkLookBack) {
-      [self.homeMap markFaceFriendAndBack];
     } else if (_currentStep == TutorialStepEnterHospital) {
       [self.homeMap walkToHospitalAndEnter];
     } else if (_currentStep == TutorialStepFacebookLogin) {

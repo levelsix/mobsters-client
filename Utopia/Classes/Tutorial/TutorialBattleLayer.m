@@ -274,7 +274,7 @@
   [bs stopWalking];
   [bs restoreStandingFrame:MapDirectionNearRight];
   [self runAction:[CCActionSequence actions:
-                   [CCActionDelay actionWithDuration:0.75],
+                   [CCActionDelay actionWithDuration:0.6],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [self enemyTwoAttackEnemyWithTarget:self selector:@selector(enemyTwoRunOut)];

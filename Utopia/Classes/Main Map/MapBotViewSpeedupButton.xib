@@ -14,16 +14,16 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="l6T-Mg-mn9" customClass="GeneralButton">
                     <rect key="frame" x="0.0" y="0.0" width="80" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="buildingfinishbutton.png">
+                    <state key="normal" image="buildingfinishnow.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="highlighted" image="buildingfinishbuttonpressed.png"/>
+                    <state key="highlighted" image="buildingfinishnowpressed.png"/>
                     <connections>
                         <action selector="buttonClicked:" destination="1cF-Fq-l60" eventType="touchUpInside" id="d1T-BM-diG"/>
                     </connections>
                 </button>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="CL7-Gs-5BM">
-                    <rect key="frame" x="20" y="9" width="40" height="18"/>
+                    <rect key="frame" x="20" y="12" width="40" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5zN-Se-A2s" customClass="NiceFontLabel14B">
@@ -42,8 +42,8 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Tk-c2-yPq" customClass="NiceFontLabel14S">
-                    <rect key="frame" x="10" y="28" width="60" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Tk-c2-yPq" customClass="NiceFontLabel14B">
+                    <rect key="frame" x="9" y="31" width="64" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,8 +60,8 @@
         </view>
     </objects>
     <resources>
-        <image name="buildingfinishbutton.png" width="81" height="61"/>
-        <image name="buildingfinishbuttonpressed.png" width="81" height="61"/>
+        <image name="buildingfinishnow.png" width="79" height="57"/>
+        <image name="buildingfinishnowpressed.png" width="79" height="57"/>
         <image name="diamond.png" width="29" height="27"/>
     </resources>
 </document>

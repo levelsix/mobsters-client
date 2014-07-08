@@ -16,9 +16,8 @@
 @implementation EnhanceSmallCardCell
 
 - (void) awakeFromNib {
-  // Do this so that it looks like a regular list cell
-  self.cardContainer = [[MonsterCardContainerView alloc] init];
-  self.cardContainer.monsterCardView = self.cardView;
+  [super awakeFromNib];
+  self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(-M_PI_4);
 }
 
 - (void) updateForListObject:(UserMonster *)listObject userEnhancement:(UserEnhancement *)ue {
@@ -30,11 +29,13 @@
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"];
   [Globals imageNamed:bgdImgName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"dot.png"];
-  [Globals imageNamed:tagName withView:self.rarityDot maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
   int ptsIncrease = [ue experienceIncreaseOfNewUserMonster:listObject];
   self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:ptsIncrease]];
+  
+  self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
+  
+  NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"band.png"];
+  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end
@@ -93,6 +94,12 @@
   [self reloadListViewAnimated:NO];
   
   [self updateLabels];
+  
+  if (self.currentEnhancement.feeders.count) {
+    [self pulseMonsterView];
+  } else {
+    [self stopPulsingMonsterView];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -172,7 +179,7 @@
   
   if (newLevel < maxLevel) {
     int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
-    int curExp = [gl calculateExperienceIncrease:ue];
+    int curExp = [gl calculateExperienceIncrease:ue]+um.experience;
     self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
     
     self.nextLevelLabel.text = [NSString stringWithFormat:@"Needed for\nlevel %d", newLevel];
@@ -498,6 +505,19 @@
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
+}
+
+#pragma mark - Pulsing monster view
+
+- (void) pulseMonsterView {
+  [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+    self.monsterImageView.alpha = 0.5f;
+  } completion:nil];
+}
+
+- (void) stopPulsingMonsterView {
+  [self.monsterImageView.layer removeAllAnimations];
+  self.monsterImageView.alpha = 0.f;
 }
 
 @end

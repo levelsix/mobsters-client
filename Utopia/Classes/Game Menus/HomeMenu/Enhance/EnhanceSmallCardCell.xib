@@ -22,14 +22,38 @@
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ZarkT1Thumbnail.png" id="UB9-ih-Xho">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="UB9-ih-Xho">
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ultradot.png" id="cKC-ja-xxU">
-                                <rect key="frame" x="4" y="4" width="6" height="6"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
+                            <view contentMode="scaleToFill" id="o13-dE-hL2" userLabel="Rarity View">
+                                <rect key="frame" x="0.0" y="0.0" width="33" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rareband.png" id="X8t-4K-qPT">
+                                        <rect key="frame" x="0.0" y="0.0" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" id="gBc-Jb-eZT">
+                                        <rect key="frame" x="-27" y="1" width="79" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="Kn4-9D-0np" customClass="NiceFontLabel7B">
+                                                <rect key="frame" x="-2" y="0.0" width="83" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mediumsquarebottom.png" id="ecU-pL-yrk">
                                 <rect key="frame" x="0.0" y="34" width="48" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -64,14 +88,14 @@
                 <outlet property="cardView" destination="Jvz-ka-5Bc" id="Ndc-uI-HZg"/>
                 <outlet property="enhancePercentLabel" destination="Bxr-6u-khk" id="dYY-mI-9Wh"/>
                 <outlet property="monsterIcon" destination="UB9-ih-Xho" id="aD2-Ss-5cs"/>
-                <outlet property="rarityDot" destination="cKC-ja-xxU" id="ou8-7T-9CO"/>
+                <outlet property="qualityBgdView" destination="X8t-4K-qPT" id="7lI-L6-HKr"/>
+                <outlet property="qualityLabel" destination="Kn4-9D-0np" id="BiU-J4-kXw"/>
             </connections>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="ZarkT1Thumbnail.png" width="36" height="42"/>
         <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="mediumsquarebottom.png" width="48" height="14"/>
-        <image name="ultradot.png" width="6" height="6"/>
+        <image name="rareband.png" width="33" height="33"/>
     </resources>
 </document>
