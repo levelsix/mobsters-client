@@ -20,6 +20,7 @@
                 <outlet property="queueArrow" destination="dnl-qE-TpI" id="FqJ-Lo-AvR"/>
                 <outlet property="queueView" destination="sKg-bF-Rg6" id="4JJ-66-9ia"/>
                 <outlet property="queueingCostLabel" destination="Zgh-dF-dwT" id="7ML-Ud-CC6"/>
+                <outlet property="selectMobsterLabel" destination="7bQ-P1-4gI" id="F86-lF-nFq"/>
                 <outlet property="speedupCostLabel" destination="fIQ-pH-8rX" id="C0H-3q-pts"/>
                 <outlet property="timeLabel" destination="jxE-YL-1Y6" id="OZ2-CE-NBB"/>
                 <outlet property="view" destination="ctd-dn-Bgp" id="htz-Em-zp3"/>
@@ -125,7 +126,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="FO7-i6-ui0" userLabel="Stats View">
-                    <rect key="frame" x="128" y="19" width="166" height="92"/>
+                    <rect key="frame" x="128" y="31" width="166" height="92"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="wt9-T6-Be4">

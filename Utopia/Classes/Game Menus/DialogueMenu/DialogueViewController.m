@@ -134,7 +134,7 @@
       self.bottomGradient.alpha = 0.f;
     }];
   }
-}
+}                                
 
 - (void) showFbButtonView {
   self.speechBubbleImage.image = [Globals imageNamed:@"zarkbubble.png"];
@@ -156,6 +156,18 @@
   r = self.speakerLabel.superview.frame;
   r.size.height = CGRectGetMinY(self.fbButtonView.frame);
   self.speakerLabel.superview.frame = r;
+  
+  r = self.speakerLabel.frame;
+  r.origin.y -= 2;
+  self.speakerLabel.frame = r;
+  
+  r = self.speechBubbleLine.frame;
+  r.origin.y -= 4;
+  self.speechBubbleLine.frame = r;
+  
+  r = self.dialogueLabel.frame;
+  r.origin.y += 1;
+  self.dialogueLabel.frame = r;
 }
 
 - (void) beginFbSpinning {

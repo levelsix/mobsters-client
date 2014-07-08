@@ -30,6 +30,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *speechBubbleImage;
+@property (nonatomic, retain) IBOutlet UIImageView *speechBubbleLine;
 
 @property (nonatomic, retain) IBOutlet UILabel *speakerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *dialogueLabel;

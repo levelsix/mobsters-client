@@ -79,6 +79,11 @@
   self.title = [NSString stringWithFormat:@"Enhance %@", mp.displayName];
   
   self.curExpLabel.superview.layer.cornerRadius = 4.f;
+  
+  self.selectMobsterLabel.strokeSize = 0.5f;
+  self.selectMobsterLabel.strokeColor = [UIColor colorWithRed:127/255.f green:168/255.f blue:39/255.f alpha:1.f];
+  
+  self.monsterImageView.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
 }
 
 - (void) viewWillAppear:(BOOL)animated {

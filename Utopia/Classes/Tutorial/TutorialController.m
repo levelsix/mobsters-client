@@ -512,7 +512,7 @@
 }
 
 - (void) beginEnemyDefensePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry y..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry yo..."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -577,7 +577,7 @@
 }
 
 - (void) beginSecondBattleSwapPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo... definitely ain’t the motto.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo... ain’t... the... motto.",
                         @(TutorialDialogueSpeakerMark), @"*Poke*",
                         @(TutorialDialogueSpeakerMark), @"Hey buddy, you don’t look so good. Would you “Like” me to help you out?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
@@ -596,7 +596,7 @@
 }
 
 - (void) beginPostBattleConfrontation {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You may have won the battle, but you haven’t won the war. I’ll be back peasants."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Ohhh, bet you feel like a big man beating a chicken. This isn’t over, I’ll be back!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   [self.homeMap beginPostBattleConfrontation];
@@ -606,7 +606,7 @@
 
 - (void) beginEnterHospitalPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Whew! That was a close one. Thanks for the help Zark!",
-                        @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda… dying.",
+                        @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda... dying.",
                         @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -687,7 +687,7 @@
 - (void) beginFacebookLoginPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Great job! The Silo will now protect your oil from being stolen in battle.",
                         @(TutorialDialogueSpeakerMark), @"Your island is starting to look like a real secret base! There’s just one last thing...",
-                        @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
+                        @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s\nmy friend request, so add me maybe?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFacebookLogin;

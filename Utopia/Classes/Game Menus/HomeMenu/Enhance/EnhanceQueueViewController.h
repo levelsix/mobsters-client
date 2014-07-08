@@ -11,7 +11,6 @@
 #import "UserData.h"
 
 #import "ListCollectionView.h"
-#import "ListCollectionView.h"
 
 @interface EnhanceSmallCardCell : MonsterListCell
 
@@ -45,6 +44,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueingCostLabel;
+
+@property (nonatomic, retain) IBOutlet THLabel *selectMobsterLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curExpLabel;

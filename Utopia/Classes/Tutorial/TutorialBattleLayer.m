@@ -40,6 +40,10 @@
     BattlePlayer *bp3 = [BattlePlayer playerWithMonster:um];
     
     self.enemyTeam = [NSArray arrayWithObjects:bp3, bp1, bp2, nil];
+    
+    
+    NSString *effect = @"sfx_muckerburg_hit_luchador.mp3";
+    [[SoundEngine sharedSoundEngine] preloadEffect:effect];
   }
   return self;
 }
@@ -48,22 +52,23 @@
 
 - (void) initInitialSetup {
   NSMutableArray *mut = [NSMutableArray array];
+  self.enemyTeamSprites = mut;
   for (BattlePlayer *bp in self.enemyTeam) {
     NSInteger idx = [self.enemyTeam indexOfObject:bp];
     BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
     bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
     [self.bgdContainer addChild:bs z:-idx];
-    [self walkInEnemyTeamSprite:bs index:idx shouldRunIn:YES];
     
     bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
     bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
     
     [mut addObject:bs];
+    [self walkInEnemyTeamSpriteAtIndex:idx shouldRunIn:YES];
   }
-  self.enemyTeamSprites = mut;
 }
 
-- (void) walkInEnemyTeamSprite:(BattleSprite *)bs index:(int)idx shouldRunIn:(BOOL)shouldRunIn {
+- (void) walkInEnemyTeamSpriteAtIndex:(int)idx shouldRunIn:(BOOL)shouldRunIn {
+  BattleSprite *bs = self.enemyTeamSprites[idx];
   bs.isFacingNear = YES;
   [bs stopWalking];
   
@@ -127,9 +132,7 @@
   
   CCAnimation *anim = bs2.attackAnimationN.copy;
   anim.delayPerUnit = anim.delayPerUnit*2/3;
-  NSString *effect = @"sfx_muckerburg_hit_luchador.mp3";
-  [anim addSoundEffect:effect atIndex:2];
-  [[SoundEngine sharedSoundEngine] preloadEffect:effect];
+  [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
   
   float delay = 0.01f;
   [bs2 runAction:[CCActionSequence actions:
@@ -241,14 +244,37 @@
 }
 
 - (void) enemyTwoAndBossRunOut {
-  [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX speedMultiplier:1.f target:self selector:@selector(enemyTwoAttackEnemyAndRunOut)];
+  [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX speedMultiplier:0.75f target:nil selector:nil];
+  
+  BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  CGPoint startPos = bs2.position;
+  [self runAction:[CCActionSequence actions:
+                   [CCActionDelay actionWithDuration:0.2],
+                   [CCActionCallBlock actionWithBlock:
+                    ^{
+                      [self walkOutEnemyAtIndex:ENEMY_TWO_INDEX speedMultiplier:0.75f target:nil selector:nil];
+                    }],
+                   [CCActionDelay actionWithDuration:1.1],
+                   [CCActionCallBlock actionWithBlock:
+                    ^{
+                      [bs2 stopWalking];
+                      [bs2 stopAllActions];
+                      bs2.isFacingNear = YES;
+                      [bs2 beginWalking];
+                      [bs2 runAction:
+                       [CCActionSequence actions:
+                        [CCActionMoveTo actionWithDuration:ccpDistance(startPos, bs2.position)/MY_WALKING_SPEED position:startPos],
+                        [CCActionCallFunc actionWithTarget:self selector:@selector(enemyTwoAttackEnemyAndRunOut)], nil]];
+                    }],
+                   nil]];
 }
 
 - (void) enemyTwoAttackEnemyAndRunOut {
   BattleSprite *bs = self.enemyTeamSprites[ENEMY_TWO_INDEX];
+  [bs stopWalking];
   [bs restoreStandingFrame:MapDirectionNearRight];
   [self runAction:[CCActionSequence actions:
-                   [CCActionDelay actionWithDuration:0.5],
+                   [CCActionDelay actionWithDuration:0.75],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [self enemyTwoAttackEnemyWithTarget:self selector:@selector(enemyTwoRunOut)];
@@ -270,7 +296,7 @@
 - (void) makeEnemyTwoAndBossRunIn {
   for (int i = 0; i < self.enemyTeamSprites.count; i++) {
     if (i != ENEMY_INDEX) {
-      [self walkInEnemyTeamSprite:self.enemyTeamSprites[i] index:i shouldRunIn:NO];
+      [self walkInEnemyTeamSpriteAtIndex:i shouldRunIn:NO];
     }
   }
 }

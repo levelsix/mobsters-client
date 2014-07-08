@@ -319,7 +319,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [self orangeColor];
       
     case QualitySuper:
-      return [UIColor colorWithRed:22/255.f green:226/255.f blue:155/255.f alpha:1.f];
+      return [UIColor colorWithRed:14/255.f green:185/255.f blue:131/255.f alpha:1.f];
       
     default:
       break;

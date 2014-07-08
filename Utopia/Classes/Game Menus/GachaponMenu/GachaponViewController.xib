@@ -247,7 +247,7 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="hmW-D6-Xwa" customClass="CoinBar">
-            <rect key="frame" x="0.0" y="0.0" width="439" height="45"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="z56-SY-IOJ" customClass="ButtonTabBar">
@@ -410,7 +410,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" id="fez-xP-TZy">
-                    <rect key="frame" x="324" y="10" width="90" height="29"/>
+                    <rect key="frame" x="473" y="10" width="90" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menutopbarresourcebg.png" id="DEq-6A-nNW">
