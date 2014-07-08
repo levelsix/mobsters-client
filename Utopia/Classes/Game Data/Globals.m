@@ -1534,7 +1534,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (mp.lvlInfoList.count > 0) {
     MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
     float maxExp = info.curLvlRequiredExp;
-    experience = powf((level-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp;
+    experience = ceilf(powf((level-1)/(info.expLvlDivisor-1), info.expLvlExponent)*maxExp);
   }
   return experience;
 }

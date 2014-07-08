@@ -37,9 +37,9 @@
 }
 
 - (IBAction)skipClicked:(id)sender {
-  [self rejectionConfirmed];
-  //NSString *desc = @"This is a once in a lifetime oppurtunity that you'll tell your grandchildren about. Please reconsider!";
-  //[GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"You Don't Like Free Stuff?" okayButton:@"Connect" cancelButton:@"Skip" okTarget:self okSelector:@selector(rejectionRejected) cancelTarget:self cancelSelector:@selector(rejectionConfirmed)];
+  //[self rejectionConfirmed];
+  NSString *desc = @"This is a once in a lifetime oppurtunity that you'll tell your grandchildren about. Please reconsider!";
+  [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"You Don't Like Free Stuff?" okayButton:@"Connect" cancelButton:@"Skip" okTarget:self okSelector:@selector(rejectionRejected) cancelTarget:self cancelSelector:@selector(rejectionConfirmed)];
 }
 
 - (void) rejectionRejected {

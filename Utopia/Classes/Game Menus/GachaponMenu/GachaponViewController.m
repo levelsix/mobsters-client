@@ -34,7 +34,7 @@
 
 - (void) setupItems {
   NSMutableArray *arr = [NSMutableArray array];
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 20; i++) {
     NSMutableArray *sub = [NSMutableArray array];
     for (BoosterDisplayItemProto *item in self.boosterPack.displayItemsList) {
       // Add it as many times as quantity
@@ -47,6 +47,8 @@
     [arr addObjectsFromArray:sub];
   }
   self.items = arr;
+  
+  self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
 }
 
 - (void)viewDidLoad {
@@ -144,7 +146,7 @@
   int arrIndex = 0;
   GameState *gs = [GameState sharedGameState];
   for (int i = 0; i < self.items.count; i++) {
-    int j = rowIdx+(i/2)*(i%2?-1:1);
+    int j = (rowIdx+i) % self.items.count;
     NSLog(@"%d", j);
     BoosterDisplayItemProto *disp = self.items[j];
     if (disp.isMonster && bip.monsterId && disp.isComplete == bip.isComplete) {
@@ -161,7 +163,8 @@
     }
   }
   
-  float nearest = ceilf(row/(float)self.items.count)*self.items.count+arrIndex+0.5;
+  float base = floorf(row/(float)self.items.count)*self.items.count;
+  float nearest = base+arrIndex+0.5;
   pt.y = nearest*TABLE_CELL_WIDTH-table.frame.size.width/2;
   NSLog(@"2:%@", NSStringFromCGPoint(pt));
   return pt;
@@ -203,8 +206,8 @@
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
     TimingFunctionTableView *table = self.gachaTable.tableView;
     CGPoint pt = table.contentOffset;
-    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+200) withBoosterItem:proto.prize];
-    float time = rand()/(float)RAND_MAX*1.5+8.5;
+    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:proto.prize];
+    float time = rand()/(float)RAND_MAX*3.5+3.5;
     [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:.23 :.9 :.28 :.95] duration:time];
     
     self.prize = proto.prize;
@@ -250,7 +253,6 @@
   self.gachaTable = [[EasyTableView alloc] initWithFrame:self.tableContainerView.bounds numberOfColumns:NUM_COLS ofWidth:TABLE_CELL_WIDTH];
   self.gachaTable.delegate = self;
   self.gachaTable.tableView.separatorColor = [UIColor clearColor];
-  self.gachaTable.tableView.repeatSize = CGSizeMake(0, TABLE_CELL_WIDTH*self.items.count);
   self.gachaTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   [self.tableContainerView addSubview:self.gachaTable];
 }

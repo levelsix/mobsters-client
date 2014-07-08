@@ -1281,7 +1281,7 @@
 }
 
 - (void) reshuffle {
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"No more moves!\nShuffling..." fontName:[Globals font] fontSize:25];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"No more moves!\nShuffling..." fontName:@"GothamBlack" fontSize:20];
   label.horizontalAlignment = CCTextAlignmentCenter;
   label.verticalAlignment = CCVerticalTextAlignmentCenter;
   label.position = ccp(self.noInputLayer.contentSize.width/2, self.noInputLayer.contentSize.height/2);

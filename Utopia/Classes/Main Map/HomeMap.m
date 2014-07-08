@@ -533,10 +533,11 @@
     }
     
     if (!active && gs.myMiniJobs.count > 0) {
-      active = gs.myMiniJobs[0];
+      [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:gs.myMiniJobs.count];
+      [mjcb updateForActiveMiniJob:nil];
+    } else {
+      [mjcb updateForActiveMiniJob:active];
     }
-    
-    [mjcb updateForActiveMiniJob:active];
   }
 }
 

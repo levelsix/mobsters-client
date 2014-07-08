@@ -385,6 +385,10 @@
     [self animateUserMonsterIntoQueue:_confirmUserMonster];
     [self reloadListViewAnimated:YES];
     
+    if (self.currentEnhancement.feeders.count == 1) {
+      [self pulseMonsterView];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     
@@ -456,6 +460,10 @@
     [self animateEnhancementItemOutOfQueue:ei];
     [self reloadQueueViewAnimated:YES];
     
+    if (!self.currentEnhancement.feeders.count) {
+      [self stopPulsingMonsterView];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     
@@ -501,6 +509,8 @@
       [self reloadQueueViewAnimated:YES];
       [self updateLabels];
       
+      [self stopPulsingMonsterView];
+      
       [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
@@ -510,14 +520,14 @@
 #pragma mark - Pulsing monster view
 
 - (void) pulseMonsterView {
-  [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
-    self.monsterImageView.alpha = 0.5f;
+  [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+    self.monsterImageView.alpha = 0.75f;
   } completion:nil];
 }
 
 - (void) stopPulsingMonsterView {
   [self.monsterImageView.layer removeAllAnimations];
-  self.monsterImageView.alpha = 0.f;
+  self.monsterImageView.alpha = 1.f;
 }
 
 @end

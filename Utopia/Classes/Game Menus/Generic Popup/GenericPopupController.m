@@ -112,6 +112,16 @@
   return gp;
 }
 
++ (GenericPopupController *) displayNegativeConfirmationWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
+  GenericPopupController *gp = [self displayNegativeConfirmationWithDescription:@"" title:title okayButton:okay cancelButton:cancel okTarget:okTarget okSelector:okSelector cancelTarget:cancelTarget cancelSelector:cancelSelector];
+  
+  [gp.mainView addSubview:view];
+  view.center = gp.descriptionView.center;
+  [gp.descriptionView removeFromSuperview];
+  
+  return gp;
+}
+
 + (GenericPopupController *) displayNotEnoughGemsView {
   GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems. Want more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
   

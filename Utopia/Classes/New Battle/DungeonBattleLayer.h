@@ -21,7 +21,12 @@
   BOOL _isResumingState;
   BOOL _isDownloading;
   BOOL _damageWasDealt;
+  
+  int _numAttemptedRunaways;
 }
+
+@property (nonatomic, retain) IBOutlet UIView *runawayMiddleView;
+@property (nonatomic, retain) IBOutlet UILabel *runawayPercentLabel;
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 

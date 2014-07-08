@@ -324,13 +324,12 @@
 - (void) initAttackMapViewController {
   GameViewController *gvc = self.gameViewController;
   TutorialAttackMapViewController *amvc = [[TutorialAttackMapViewController alloc] init];
+  [amvc allowClickOnCityId:1];
   amvc.delegate = self;
   [gvc addChildViewController:amvc];
   amvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:amvc.view];
   self.attackMapViewController = amvc;
-  
-  [amvc allowClickOnCityId:1];
 }
 
 - (void) cacheKeyboard {

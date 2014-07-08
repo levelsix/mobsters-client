@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// Amplitude-iOS
+#define COCOAPODS_POD_AVAILABLE_Amplitude_iOS
+#define COCOAPODS_VERSION_MAJOR_Amplitude_iOS 2
+#define COCOAPODS_VERSION_MINOR_Amplitude_iOS 1
+#define COCOAPODS_VERSION_PATCH_Amplitude_iOS 0
+
 // GPUImage
 #define COCOAPODS_POD_AVAILABLE_GPUImage
 #define COCOAPODS_VERSION_MAJOR_GPUImage 0

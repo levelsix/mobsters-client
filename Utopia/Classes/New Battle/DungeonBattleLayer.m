@@ -83,24 +83,30 @@
 #pragma mark - Run away
 
 - (IBAction)forfeitClicked:(id)sender {
-  [GenericPopupController displayNegativeConfirmationWithDescription:@"Would you like to try to run away?"
-                                                               title:@"Run Away?"
-                                                          okayButton:@"Run Away"
-                                                        cancelButton:@"Cancel"
-                                                            okTarget:self
-                                                          okSelector:@selector(attemptRunaway)
-                                                        cancelTarget:nil
-                                                      cancelSelector:nil];
+  [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
+  self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
+  [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
+                                                              title:@"Run Away?"
+                                                         okayButton:@"Run Away"
+                                                       cancelButton:@"Cancel"
+                                                           okTarget:self
+                                                         okSelector:@selector(attemptRunaway)
+                                                       cancelTarget:nil
+                                                     cancelSelector:nil];
+}
+
+- (float) runAwayChance {
+  return 0.5+_numAttemptedRunaways*0.25;
 }
 
 - (void) attemptRunaway {
-  BOOL success = arc4random()%2 == 0;
-  success = 1;
+  BOOL success = drand48() < [self runAwayChance];
   if (success) {
     [self runawaySuccess];
   } else {
     _movesLeft = 0;
     _myDamageDealt = 0;
+    _numAttemptedRunaways++;
     [self saveCurrentState];
     
     [self runawayFailed];
@@ -264,6 +270,11 @@
 - (void) moveToNextEnemy {
   [super moveToNextEnemy];
   [self sendServerDungeonProgress];
+  
+  // Reset on each enemy
+  if (!_isResumingState) {
+    _numAttemptedRunaways = 0;
+  }
 }
 
 - (void) sendServerDungeonProgress {
@@ -358,6 +369,7 @@
 #define TOTAL_COMBO_COUNT_KEY @"TotalComboCountKey"
 #define ORB_COUNTS_KEY @"OrbCountsKey"
 #define POWERUP_COUNTS_KEY @"PowerupCountsKey"
+#define RUNAWAY_COUNT_KEY @"RunawayCountKey"
 
 - (void) saveCurrentState {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -389,6 +401,7 @@
   [dict setObject:[self.orbLayer serialize] forKey:BOARD_CONFIG_KEY];
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
   [dict setObject:@(self.dungeonInfo.userTaskId) forKey:USER_TASK_KEY];
+  [dict setObject:@(_numAttemptedRunaways) forKey:RUNAWAY_COUNT_KEY];
   
   // Achievement info
   [dict setObject:@(_totalDamageTaken) forKey:TOTAL_DAMAGE_TAKEN_KEY];
@@ -407,6 +420,7 @@
   _movesLeft = (int)[[stateDict objectForKey:MOVES_LEFT_KEY] integerValue];
   _myDamageDealt = (int)[[stateDict objectForKey:DAMAGE_STORED_KEY] integerValue];
   _damageWasDealt = [[stateDict objectForKey:DAMAGE_DEALT_KEY] boolValue];
+  _numAttemptedRunaways = (int)[[stateDict objectForKey:RUNAWAY_COUNT_KEY] integerValue];
   [self.orbLayer deserialize:[stateDict objectForKey:BOARD_CONFIG_KEY]];
   
   int curStage = (int)[[stateDict objectForKey:CUR_STAGE_KEY] integerValue];

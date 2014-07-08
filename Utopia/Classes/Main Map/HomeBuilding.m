@@ -538,13 +538,14 @@
   [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.baseAnimation]]];
   [self.tubeSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.tubeAnimation]]];
   
+  _healingItem = hi;
   if (hi) {
     GameState *gs = [GameState sharedGameState];
     UserMonster *um = [gs myMonsterWithUserMonsterId:hi.userMonsterId];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
     [Globals downloadAllFilesForSpritePrefixes:@[mp.imagePrefix] completion:^{
-      if (!self.monsterSprite) {
+      if (_healingItem == hi) {
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
         NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
         if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
@@ -566,8 +567,6 @@
     [n addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
   }
-  
-  _healingItem = hi;
 }
 
 - (void) stopAnimating {

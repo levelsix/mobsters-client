@@ -90,6 +90,9 @@
 }
 
 - (void) button3Clicked:(id)sender {
+  [self changeTableController:nil];
+  self.noRequestsLabel.text = @"There are no events in progress.";
+  
   [self.topBar clickButton:3];
 }
 

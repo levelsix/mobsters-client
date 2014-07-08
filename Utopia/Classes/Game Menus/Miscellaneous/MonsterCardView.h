@@ -34,7 +34,7 @@
 @property (nonatomic, retain) IBOutlet UIView *noMonsterView;
 
 @property (nonatomic, retain) UserMonster *monster;
-@property (nonatomic, assign) id<MonsterCardViewDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id<MonsterCardViewDelegate> delegate;
 
 - (void) updateForMonster:(UserMonster *)um;
 - (void) updateForNoMonsterWithLabel:(NSString *)str;

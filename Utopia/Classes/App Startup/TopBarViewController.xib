@@ -468,11 +468,11 @@
                                                     <rect key="frame" x="4" y="0.0" width="111" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cashcap.png" id="L9E-bs-0Nc">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="cashcap.png" id="L9E-bs-0Nc">
                                                     <rect key="frame" x="0.0" y="0.0" width="5" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cashcap.png" id="c7J-SG-5KH" customClass="FlipImageView">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="cashcap.png" id="c7J-SG-5KH" customClass="FlipImageView">
                                                     <rect key="frame" x="116" y="0.0" width="5" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 </imageView>

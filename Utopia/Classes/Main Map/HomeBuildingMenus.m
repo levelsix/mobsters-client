@@ -130,7 +130,7 @@
         imgName = @"evolvebubble.png";
         break;
       case BuildingBubbleTypeFix:
-        imgName = @"fixbubble.png";
+        imgName = @"fixbubble1.png";
         break;
       case BuildingBubbleTypeFull:
         imgName = @"fullbubble.png";
@@ -144,6 +144,8 @@
       case BuildingBubbleTypeSell:
         imgName = [NSString stringWithFormat:@"sellbubble%@.png", suffix];
         break;
+      case BuildingBubbleTypeMiniJob:
+        imgName = [NSString stringWithFormat:@"minijobsredbubble%@.png", suffix];
         
       default:
         break;

@@ -45,9 +45,12 @@
 
 - (void) miniJobWaitTimeComplete:(NSNotification *)notif {
   if (notif.object != self) {
-    self.detailsViewController.activeMiniJob = [self activeMiniJob];
+    UserMiniJob *mjp = [self activeMiniJob];
+    self.detailsViewController.activeMiniJob = mjp;
     [self.listViewController reloadTableAnimated:YES];
-    [self displayCompleteView:[self activeMiniJob] animated:YES];
+    if (mjp.timeCompleted) {
+      [self displayCompleteView:[self activeMiniJob] animated:YES];
+    }
   }
 }
 
