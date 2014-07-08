@@ -505,6 +505,7 @@
   
   // For tutorial.. actually check which direction he's facing
   pointOffset = self.sprite.flipX ? pointOffset : ccp(-pointOffset.x, pointOffset.y);
+  MapDirection dir = self.sprite.flipX ? MapDirectionFarRight : MapDirectionFarLeft;
   
   [self runAction:
    [CCActionSequence actions:
@@ -527,18 +528,21 @@
     [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
     [CCActionDelay actionWithDuration:delayTime],
     [CCActionMoveTo actionWithDuration:0.1f position:startPos],
-    [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self restoreStandingFrame:dir];
+     }],
     nil]];
 }
 
 
 
 - (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion {
-  [self jumpNumTimes:numTimes timePerJump:0.25 completionTarget:target selector:completion];
+  [self jumpNumTimes:numTimes timePerJump:0.25 height:14 completionTarget:target selector:completion];
 }
 
-- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion {
-  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:14 jumps:numTimes];
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur height:(float)height completionTarget:(id)target selector:(SEL)completion {
+  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:height jumps:numTimes];
   [self.sprite runAction:[CCActionSequence actions:jump,
                           [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
   

@@ -39,14 +39,6 @@
 }
 
 - (void) viewDidLoad {
-//  if (_useSmallBubble) {
-//    self.speechBubbleImage.image = [Globals imageNamed:@"speechbubbleshortname.png"];
-//
-//    CGRect r = self.speechBubble.frame;
-//    r.size = self.speechBubbleImage.image.size;
-//    self.speechBubble.frame = r;
-//  }
-  
   if (_buttonText) {
     self.buttonLabel.text = _buttonText;
     
@@ -63,6 +55,7 @@
   } else {
     self.buttonView.hidden = YES;
   }
+  self.fbButtonView.hidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -89,21 +82,27 @@
   self.view.hidden = NO;
   _isAnimating = YES;
   if (_curIndex < self.dialogue.speechSegmentList.count) {
-    if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
-      [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:_curIndex];
-    }
+    int thisIndex = _curIndex;
     
     DialogueProto_SpeechSegmentProto *oldSS = _curIndex > 0 ? self.dialogue.speechSegmentList[_curIndex-1] : nil;
     DialogueProto_SpeechSegmentProto *curSS = self.dialogue.speechSegmentList[_curIndex];
     
     if (oldSS.isLeftSide == curSS.isLeftSide && [oldSS.speaker isEqualToString:curSS.speaker]) {
       [self animateBubbleOutCompletion:^{
+        if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
+          [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
+        }
+        
         self.speakerLabel.text = curSS.speaker;
         [self setDialogueLabelText:curSS.speakerText];
         [self animateBubbleIn];
       }];
     } else {
       void (^anim)(void) = ^{
+        if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
+          [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
+        }
+        
         NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
         UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
         [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -135,6 +134,41 @@
       self.bottomGradient.alpha = 0.f;
     }];
   }
+}
+
+- (void) showFbButtonView {
+  self.speechBubbleImage.image = [Globals imageNamed:@"zarkbubble.png"];
+  
+  CGRect r = self.speechBubble.frame;
+  r.size = self.speechBubbleImage.image.size;
+  self.speechBubble.frame = r;
+  
+  [self.speechBubble addSubview:self.fbButtonView];
+  self.fbButtonView.center = ccp(self.speakerLabel.superview.center.x, self.speechBubble.frame.size.height-2);
+  self.fbButtonView.hidden = NO;
+  self.fbButtonSpinner.hidden = YES;
+  
+  
+  r = self.speechBubble.frame;
+  r.size.height = CGRectGetMaxY(self.fbButtonView.frame);
+  self.speechBubble.frame = r;
+  
+  r = self.speakerLabel.superview.frame;
+  r.size.height = CGRectGetMinY(self.fbButtonView.frame);
+  self.speakerLabel.superview.frame = r;
+}
+
+- (void) beginFbSpinning {
+  self.fbButtonLabel.hidden = YES;
+  self.fbButtonSpinner.hidden = NO;
+  [self.fbButtonSpinner startAnimating];
+  self.view.userInteractionEnabled = NO;
+}
+
+- (void) endFbSpinning {
+  self.fbButtonLabel.hidden = NO;
+  self.fbButtonSpinner.hidden = YES;
+  self.view.userInteractionEnabled = YES;
 }
 
 #define IMAGE_BEGIN_SCALE .55

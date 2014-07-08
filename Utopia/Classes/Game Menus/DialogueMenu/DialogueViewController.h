@@ -40,6 +40,10 @@
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *fbButtonView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *fbButtonSpinner;
+@property (nonatomic, retain) IBOutlet UILabel *fbButtonLabel;
+
 @property (nonatomic, retain) DialogueProto *dialogue;
 
 @property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
@@ -52,5 +56,9 @@
 - (void) extendDialogue:(DialogueProto *)dialogue;
 - (void) animateNext;
 - (void) fadeOutBottomGradient;
+
+- (void) showFbButtonView;
+- (void) beginFbSpinning;
+- (void) endFbSpinning;
 
 @end

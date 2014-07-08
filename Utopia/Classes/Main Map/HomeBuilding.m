@@ -390,10 +390,12 @@
     anim.delayPerUnit = 0.1;
   }
   
-  CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-  [self addChild:spr];
-  self.buildingSprite = spr;
+  if (anim.frames.count) {
+    CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+    [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+    [self addChild:spr];
+    self.buildingSprite = spr;
+  }
   
   [self adjustBuildingSprite];
 }

@@ -96,7 +96,7 @@
                             <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerberg Mobster" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8HI-eb-i9H" customClass="NiceFontLabel9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerbug Mobster" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8HI-eb-i9H" customClass="NiceFontLabel9">
                             <rect key="frame" x="51" y="120" width="209" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -171,7 +171,7 @@
         <image name="5dollar.png" width="65" height="65"/>
         <image name="connect.png" width="219" height="43"/>
         <image name="connectbg.png" width="441" height="291"/>
-        <image name="connectheader.png" width="304" height="14"/>
+        <image name="connectheader.png" width="295" height="14"/>
         <image name="connectshadow.png" width="108" height="56"/>
         <image name="limitededitionbg.png" width="149" height="23"/>
         <image name="markfree.png" width="162" height="221"/>

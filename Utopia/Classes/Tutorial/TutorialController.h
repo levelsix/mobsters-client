@@ -158,6 +158,7 @@ typedef enum {
   BOOL _sendingUserCreateStartup;
   BOOL _waitingOnUserCreate;
   int _taskIdToEnter;
+  BOOL _waitingOnFacebook;
 }
 
 @property (nonatomic, assign) GameViewController *gameViewController;

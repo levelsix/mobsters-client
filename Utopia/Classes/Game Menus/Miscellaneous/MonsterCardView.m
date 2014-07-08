@@ -135,7 +135,7 @@ static UIImage *img = nil;
 }
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
-  NSString *file = [imgPrefix stringByAppendingString:@"Thumbnail.png"];
+  NSString *file = [imgPrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *suffix = self.bgdIcon.frame.size.width > 45 ? @"mediumsquare.png" : @"smallsquare.png";

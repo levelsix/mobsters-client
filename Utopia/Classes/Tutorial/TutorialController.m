@@ -361,8 +361,7 @@
   CCScene *scene = [CCScene node];
   HomeMap *hm = [HomeMap node];
   [scene addChild:hm];
-  hm.position = self.homeMap.position;
-  hm.scale = self.homeMap.scale;
+  [hm moveToCenterAnimated:NO];
   self.gameViewController.currentMap = hm;
   [[CCDirector sharedDirector] replaceScene:scene];
   
@@ -459,7 +458,7 @@
 }
 
 - (void) beginEnemyBossThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Well well well... you peasants think you can start a new job… I mean squad, under my watch?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Well well well... you peasants think you can start a new squad, under my watch?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepEnemyBossThreat;
@@ -495,16 +494,17 @@
 }
 
 - (void) beginFriendTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Fight me 1v1, pussies!"];
-  
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Who wants a piece of Swaggy?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  //[self.battleLayer enemyJumpAndShoot];
   
   _currentStep = TutorialStepBattleFriendTaunt;
 }
 
 - (void) beginEnemyTauntPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"Lemme at 'em boss! I ain’t chicken.",
-                        @(TutorialDialogueSpeakerEnemyTwo), @"..."];
+                        @(TutorialDialogueSpeakerEnemyTwo), @"......"];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -512,7 +512,7 @@
 }
 
 - (void) beginEnemyDefensePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry y..."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -520,7 +520,7 @@
 }
 
 - (void) beginEnemyBossAngryPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Enough arguing! Take care of this Pablo."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Enough you two! Take care of this degenerate, Pépé."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -535,7 +535,7 @@
 }
 
 - (void) beginFirstBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Smooth moves homie! The more orbs you break, the stronger I get."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Smooth move homie! The more orbs you break, the stronger I get."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepFirstBattleSecondMove;
@@ -570,14 +570,14 @@
 }
 
 - (void) beginSecondBattleThirdMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Nice, it all comes down to this last move."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"BALLIN’! You got one last move homie."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleThirdMove;
 }
 
 - (void) beginSecondBattleSwapPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo... ain’t the motto.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo... definitely ain’t the motto.",
                         @(TutorialDialogueSpeakerMark), @"*Poke*",
                         @(TutorialDialogueSpeakerMark), @"Hey buddy, you don’t look so good. Would you “Like” me to help you out?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
@@ -587,7 +587,7 @@
 
 - (void) beginSecondBattleKillPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Oops, let me update my BookFace status before we begin.",
-                        @(TutorialDialogueSpeakerEnemyTwo), @"...",
+                        @(TutorialDialogueSpeakerEnemyTwo), @"......",
                         @(TutorialDialogueSpeakerMark), @"\"Currently saving a stranger who got owned by a chicken. #LOL #GoodGuyZark\"",
                         @(TutorialDialogueSpeakerMark), @"Heh, 12 likes already. Alright, let’s do this."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
@@ -596,13 +596,129 @@
 }
 
 - (void) beginPostBattleConfrontation {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You may have won the battle, but you haven’t won the war. I’ll be back peanuts! Err... peasants."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You may have won the battle, but you haven’t won the war. I’ll be back peasants."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   [self.homeMap beginPostBattleConfrontation];
   
   _currentStep = TutorialStepPostBattleConfrontation;
 }
+
+- (void) beginEnterHospitalPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Whew! That was a close one. Thanks for the help Zark!",
+                        @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda… dying.",
+                        @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  [self.homeMap markFaceFriendAndBack];
+  
+  _currentStep = TutorialStepEnterHospital;
+}
+
+- (void) beginHealQueueingPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Tap on Swaggy Steve to insert him into the healing queue."];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
+  
+  [self.homeMap moveFriendsOffBuildableMap];
+  
+  [self.healViewController allowCardClick];
+  
+  _currentStep = TutorialStepBeginHealQueue;
+}
+
+- (void) beginSpeedupHealQueuePhase {
+  [self.healViewController allowSpeedup];
+  
+  _currentStep = TutorialStepSpeedupHealQueue;
+}
+
+- (void) beginHospitalExitPhase {
+  [self.healViewController allowClose];
+  
+  _currentStep = TutorialStepExitHospital;
+}
+
+- (void) beginBuildingOnePhase {
+  [self initTopBar];
+  [self.homeMap zoomOutMap];
+  
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"If you’re going to try and fight Lil’ Kim and his men, you’ll need a war chest of cash.",
+                        @(TutorialDialogueSpeakerMark), @"What better way to make money than to print it? Build a Cash Printer now!"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepBeginBuildingOne;
+}
+
+- (void) beginSpeedupBuildingOnePhase {
+  [self.homeMap speedupPurchasedBuilding];
+  
+  _currentStep = TutorialStepSpeedupBuildingOne;
+}
+
+- (void) beginBuildingTwoPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash the rest of it.",
+                        @(TutorialDialogueSpeakerMark), @"Amazon doesn’t ship to secret islands, so let’s construct one ourselves now."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepBeginBuildingTwo;
+}
+
+- (void) beginSpeedupBuildingTwoPhase {
+  [self.homeMap speedupPurchasedBuilding];
+  
+  _currentStep = TutorialStepSpeedupBuildingTwo;
+}
+
+- (void) beginBuildingThreePhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
+                        @(TutorialDialogueSpeakerMark), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
+                        @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepBeginBuildingThree;
+}
+
+- (void) beginSpeedupBuildingThreePhase {
+  [self.homeMap speedupPurchasedBuilding];
+  
+  _currentStep = TutorialStepSpeedupBuildingThree;
+}
+
+- (void) beginFacebookLoginPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Great job! The Silo will now protect your oil from being stolen in battle.",
+                        @(TutorialDialogueSpeakerMark), @"Your island is starting to look like a real secret base! There’s just one last thing...",
+                        @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepFacebookLogin;
+}
+
+- (void) beginFacebookRejectedNamingPhase {
+  [self cacheKeyboard];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Playing hard to get huh? I can play that game too. What was your name again?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepEnterName;
+}
+
+- (void) beginFacebookAcceptedNamingPhase {
+  [self cacheKeyboard];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Hurray! I know that we’re besties now, but what was your name again?"];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepEnterName;
+}
+
+- (void) beginAttackMapPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Is that really on your birth certificate? Seems legit I guess.",
+                        @(TutorialDialogueSpeakerGuide), @"Yippee! Now let's go recruit some mobsters to join your team."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepAttackMap;
+}
+
+
+
 
 
 
@@ -739,129 +855,6 @@
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepMarkLookBack;
-}
-
-
-
-- (void) beginEnterHospitalPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"I don’t know if you noticed, but your buddy here is kinda bleeding everywhere.",
-                        @(TutorialDialogueSpeakerMark), @"First, let’s learn how to heal Joey so he can stop whining. Follow the magical floating arrows to begin."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  [self.homeMap markFaceFriendAndBack];
-  
-  _currentStep = TutorialStepEnterHospital;
-}
-
-- (void) beginHealQueueingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Tap on Steve to insert him into the healing queue.",
-                        @(TutorialDialogueSpeakerMark), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Steve.",
-                        @(TutorialDialogueSpeakerMark), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
-  
-  [self.homeMap moveFriendsOffBuildableMap];
-  
-  _currentStep = TutorialStepBeginHealQueue;
-}
-
-- (void) beginSpeedupHealQueuePhase {
-  //NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey."];
-  //[self displayDialogue:dialogue allowTouch:NO toViewController:self.myCroniesViewController];
-  
-  _currentStep = TutorialStepSpeedupHealQueue;
-}
-
-- (void) beginHospitalExitPhase {
-  //NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
-  //[self displayDialogue:dialogue allowTouch:NO toViewController:self.myCroniesViewController];
-  
-  _currentStep = TutorialStepExitHospital;
-}
-
-- (void) beginBuildingOnePhase {
-  [self initTopBar];
-  [self.homeMap zoomOutMap];
-  
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"If you’re going to try and fight Lil’ Kim and his men, you’ll need a war chest of cash.",
-                        @(TutorialDialogueSpeakerMark), @"What better way to make money than to print it? Build a Cash Printer now!"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepBeginBuildingOne;
-}
-
-- (void) beginSpeedupBuildingOnePhase {
-  [self.homeMap speedupPurchasedBuilding];
-  
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Patience is a virtue, but not when you're building a Cash Printer."];
-  BOOL allowTouch = ![Globals isLongiPhone];
-  [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:YES];
-  self.touchView.userInteractionEnabled = NO;
-  
-  _currentStep = TutorialStepSpeedupBuildingOne;
-}
-
-- (void) beginBuildingTwoPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash the rest of it.",
-                        @(TutorialDialogueSpeakerMark), @"Amazon doesn’t ship to secret islands, so let’s construct one ourselves now."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepBeginBuildingTwo;
-}
-
-- (void) beginSpeedupBuildingTwoPhase {
-  [self.homeMap speedupPurchasedBuilding];
-  
-  _currentStep = TutorialStepSpeedupBuildingTwo;
-}
-
-- (void) beginBuildingThreePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
-                        @(TutorialDialogueSpeakerMark), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
-                        @(TutorialDialogueSpeakerMark), @"A Saudi Prince once donated this Oil Drill to me, but you'll probably need it more than I.",
-                        @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepBeginBuildingThree;
-}
-
-- (void) beginSpeedupBuildingThreePhase {
-  [self.homeMap speedupPurchasedBuilding];
-  
-  _currentStep = TutorialStepSpeedupBuildingThree;
-}
-
-- (void) beginFacebookLoginPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Great job! The Silo will now protect your oil from being stolen in battle.",
-                        @(TutorialDialogueSpeakerMark), @"Your island is starting to look like a real secret base! There’s just one last thing...",
-                        @(TutorialDialogueSpeakerMark), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepFacebookLogin;
-}
-
-- (void) beginFacebookRejectedNamingPhase {
-  [self cacheKeyboard];
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Playing hard to get huh? I can play that game too. What was your name again?"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepEnterName;
-}
-
-- (void) beginFacebookAcceptedNamingPhase {
-  [self cacheKeyboard];
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Hurray! I know that we’re besties now, but what was your name again?"];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepEnterName;
-}
-
-- (void) beginAttackMapPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Is that really on your birth certificate? Seems legit I guess.",
-                        @(TutorialDialogueSpeakerFriendR4), @"Enough chit chat. There’s a world to conquer, and it’s yours for the taking.",
-                        @(TutorialDialogueSpeakerFriendR4), @"Let’s head to the training grounds now so I can teach you more about battling."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepAttackMap;
 }
 
 - (void) beginEnterBattleThreePhase {
@@ -1291,6 +1284,7 @@
 - (void) facebookStartupReceived:(StartupResponseProto *)proto {
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     [self.facebookViewController close];
+    [self.dialogueViewController animateNext];
     [self beginFacebookAcceptedNamingPhase];
     
     Globals *gl = [Globals sharedGlobals];
@@ -1307,13 +1301,16 @@
 
 - (void) swapAccounts {
   [self.facebookViewController close];
+  [self.dialogueViewController animateNext];
   [self cleanup];
   [self.gameViewController reloadAccountWithStartupResponse:self.facebookStartupResponse];
 }
 
 - (void) swapRejected {
   [FacebookDelegate logout];
+  [self.dialogueViewController endFbSpinning];
   [self.facebookViewController allowClick];
+  _waitingOnFacebook = NO;
 }
 
 #pragma mark - Name delegate
@@ -1412,6 +1409,8 @@
     [self.homeMap panToMark];
   } else if (_currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
     [self.battleLayer enemyTwoLookAtEnemy];
+  } else if (_currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
+    [dvc showFbButtonView];
   }
 }
 
@@ -1443,14 +1442,6 @@
       self.dialogueViewController.view.userInteractionEnabled = NO;
       [self.questLogViewController arrowOnCollect];
     }
-  }
-  
-  if (_currentStep == TutorialStepBeginHealQueue) {
-    [self.healViewController allowCardClick];
-  } else if (_currentStep == TutorialStepSpeedupHealQueue) {
-    [self.healViewController allowSpeedup];
-  } else if (_currentStep == TutorialStepExitHospital) {
-    [self.healViewController allowClose];
   }
 }
 
@@ -1511,7 +1502,9 @@
     } else if (_currentStep == TutorialStepEnterHospital) {
       [self.homeMap walkToHospitalAndEnter];
     } else if (_currentStep == TutorialStepFacebookLogin) {
-      [self initFacebookViewController];
+      if (!_waitingOnFacebook) {
+        [self initFacebookViewController];
+      }
     } else if (_currentStep == TutorialStepEnterName) {
       [self initNameViewController];
     } else if (_currentStep == TutorialStepAttackMap) {
@@ -1533,6 +1526,19 @@
   if (_currentStep == TutorialStepFriendEnterFight) {
     [self.dialogueViewController animateNext];
     [self beginEnterBattlePhase];
+  } else if (_currentStep == TutorialStepFacebookLogin) {
+    if (!_waitingOnFacebook) {
+      _waitingOnFacebook = YES;
+      [dvc beginFbSpinning];
+      [FacebookDelegate openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
+        if (success) {
+          [self facebookConnectAccepted];
+        } else {
+          [dvc endFbSpinning];
+          _waitingOnFacebook = NO;
+        }
+      }];
+    }
   }
 }
 

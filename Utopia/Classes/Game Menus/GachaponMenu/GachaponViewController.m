@@ -225,10 +225,7 @@
 - (IBAction)menuCloseClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (!_isSpinning || gs.isAdmin) {
-    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:^{
-      GameViewController *gvc = [GameViewController baseController];
-      [gvc.topBarViewController openShopWithGacha];
-    }];
+    [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   }
 }
 

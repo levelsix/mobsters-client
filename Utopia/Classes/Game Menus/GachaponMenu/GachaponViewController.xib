@@ -227,7 +227,7 @@
                         <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="RVh-vF-4wS"/>
                     </connections>
                 </button>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomLeft" id="37l-TZ-c6Y">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" id="37l-TZ-c6Y">
                     <rect key="frame" x="208" y="49" width="153" height="193"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>

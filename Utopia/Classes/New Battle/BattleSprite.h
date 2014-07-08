@@ -65,6 +65,6 @@
 - (void) doRarityTagShine;
 
 - (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion;
-- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion;
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur height:(float)height completionTarget:(id)target selector:(SEL)completion;
 
 @end

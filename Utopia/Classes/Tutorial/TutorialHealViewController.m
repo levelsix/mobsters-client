@@ -137,11 +137,11 @@
   hi.timeDistribution = @[@(hi.endTime.timeIntervalSinceNow), @(maxHp-um.curHealth)];
   [self.healingQueue addObject:hi];
   
-  int cashCost = [gl calculateCostToHealMonster:um];
-  [self.delegate queuedUpMonster:cashCost];
-  
   [Globals removeUIArrowFromViewRecursively:self.view];
   self.listView.userInteractionEnabled = NO;
+  
+  int cashCost = [gl calculateCostToHealMonster:um];
+  [self.delegate queuedUpMonster:cashCost];
   return YES;
 }
 

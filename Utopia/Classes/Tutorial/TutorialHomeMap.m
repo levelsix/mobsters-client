@@ -218,7 +218,7 @@
 }
 
 - (void) guideRunToObstacle {
-  [self.guideSprite walkToTileCoord:HIDE_GUIDE_LOCATION completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:1.5f];
+  [self.guideSprite walkToTileCoord:HIDE_GUIDE_LOCATION completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:2.5f];
 }
 
 - (void) guideReachedObstacle {
@@ -231,7 +231,7 @@
    [CCActionSequence actions:
     [RecursiveFadeTo actionWithDuration:0.1f opacity:1.f], nil]];
   self.friendSprite.location = CGRectMake(FRIEND_ENTER_LOCATION.x, FRIEND_ENTER_LOCATION.y, 1, 1);
-  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:1.5f];
+  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:2.5f];
 }
 
 - (void) friendEntered {
@@ -404,6 +404,7 @@
 }
 
 - (void) panToMark {
+  _mapMovementDivisor = 1000.f;
   [self moveToSprite:self.markZSprite animated:YES withOffset:ccp(0,0) scale:1.6f];
   [self.markZSprite restoreStandingFrame:MapDirectionFront];
 }
