@@ -41,6 +41,7 @@
 @property (nonatomic, assign) int slotNum;
 
 + (id) playerWithMonster:(UserMonster *)monster;
++ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;
 
 - (int) damageForColor:(GemColorId)color;

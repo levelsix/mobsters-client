@@ -14,10 +14,14 @@
 @implementation BattlePlayer
 
 + (id) playerWithMonster:(UserMonster *)monster {
-  return [[self alloc] initWithMonster:monster];
+  return [[self alloc] initWithMonster:monster dmgMultiplier:0];
 }
 
-- (id) initWithMonster:(UserMonster *)monster {
++ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier {
+  return [[self alloc] initWithMonster:monster dmgMultiplier:dmgMultiplier];
+}
+
+- (id) initWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier {
   if ((self = [super init])) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
@@ -40,8 +44,8 @@
     self.animationType = mp.attackAnimationType;
     self.verticalOffset = mp.verticalPixelOffset;
     
-    self.lowerBound = 0.6;
-    self.upperBound = 1.;
+    self.lowerBound = 0.6*dmgMultiplier;
+    self.upperBound = 1.*dmgMultiplier;
   }
   return self;
 }

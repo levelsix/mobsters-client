@@ -20,8 +20,8 @@
 
 @implementation PvpBattleLayer
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft pvpHistoryForRevenge:(PvpHistoryProto *)hist {
-  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft])) {
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
+  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
     PvpProto_Builder *pvp = [PvpProto builder];
     MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserId:hist.attacker.userId] setClan:hist.attacker.clan] build];
     pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];

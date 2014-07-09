@@ -13,7 +13,7 @@
 @implementation TutorialRainbowController
 
 - (void) initBattleLayer {
-  self.battleLayer = [[TutorialRainbowBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
+  self.battleLayer = [[TutorialRainbowBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)];
   self.battleLayer.delegate = self;
   
   GameState *gs = [GameState sharedGameState];

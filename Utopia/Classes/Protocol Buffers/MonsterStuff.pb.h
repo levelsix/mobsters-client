@@ -54,6 +54,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface MonsterProto : PBGeneratedMessage {
 @private
+  BOOL hasShadowScaleFactor_:1;
   BOOL hasAtkAnimationRepeatedFramesEnd_:1;
   BOOL hasAtkAnimationRepeatedFramesStart_:1;
   BOOL hasAtkSoundAnimationFrame_:1;
@@ -74,13 +75,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
   BOOL hasDescription_:1;
-  BOOL hasMonsterGroup_:1;
   BOOL hasAtkSoundFile_:1;
+  BOOL hasMonsterGroup_:1;
   BOOL hasShorterName_:1;
   BOOL hasEvolutionGroup_:1;
   BOOL hasMonsterElement_:1;
-  BOOL hasQuality_:1;
   BOOL hasAttackAnimationType_:1;
+  BOOL hasQuality_:1;
+  Float32 shadowScaleFactor;
   int32_t atkAnimationRepeatedFramesEnd;
   int32_t atkAnimationRepeatedFramesStart;
   int32_t atkSoundAnimationFrame;
@@ -101,13 +103,13 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* carrotDefeated;
   NSString* carrotEvolved;
   NSString* description;
-  NSString* monsterGroup;
   NSString* atkSoundFile;
+  NSString* monsterGroup;
   NSString* shorterName;
   NSString* evolutionGroup;
   Element monsterElement;
-  Quality quality;
   MonsterProto_AnimationType attackAnimationType;
+  Quality quality;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
@@ -137,6 +139,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasAtkSoundAnimationFrame;
 - (BOOL) hasAtkAnimationRepeatedFramesStart;
 - (BOOL) hasAtkAnimationRepeatedFramesEnd;
+- (BOOL) hasShadowScaleFactor;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* evolutionGroup;
 @property (readonly, retain) NSString* shorterName;
@@ -164,6 +167,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t atkSoundAnimationFrame;
 @property (readonly) int32_t atkAnimationRepeatedFramesStart;
 @property (readonly) int32_t atkAnimationRepeatedFramesEnd;
+@property (readonly) Float32 shadowScaleFactor;
 - (NSArray*) lvlInfoList;
 - (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
@@ -342,6 +346,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) atkAnimationRepeatedFramesEnd;
 - (MonsterProto_Builder*) setAtkAnimationRepeatedFramesEnd:(int32_t) value;
 - (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesEnd;
+
+- (BOOL) hasShadowScaleFactor;
+- (Float32) shadowScaleFactor;
+- (MonsterProto_Builder*) setShadowScaleFactor:(Float32) value;
+- (MonsterProto_Builder*) clearShadowScaleFactor;
 @end
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {

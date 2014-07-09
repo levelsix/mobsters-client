@@ -102,36 +102,6 @@
         monsterId = self.constants.enemyBossMonsterId;
         isLeftSide = NO;
         break;
-        
-        
-      case TutorialDialogueSpeakerFriend1:
-        monsterId = self.constants.startingMonsterId;
-        suffix = @"P1";
-        isLeftSide = YES;
-        break;
-      case TutorialDialogueSpeakerFriend4:
-        monsterId = self.constants.startingMonsterId;
-        suffix = @"P4";
-        isLeftSide = YES;
-        break;
-      case TutorialDialogueSpeakerFriendR3:
-        monsterId = self.constants.startingMonsterId;
-        suffix = @"P3";
-        isLeftSide = NO;
-        break;
-      case TutorialDialogueSpeakerFriendR4:
-        monsterId = self.constants.startingMonsterId;
-        suffix = @"P4";
-        isLeftSide = NO;
-        break;
-      case TutorialDialogueSpeakerMarkL:
-        monsterId = self.constants.markZmonsterId;
-        isLeftSide = YES;
-        break;
-      case TutorialDialogueSpeakerMarkR:
-        monsterId = self.constants.markZmonsterId;
-        isLeftSide = NO;
-        break;
       default:
         break;
     }

@@ -13,7 +13,7 @@
 @implementation TutorialPowerupController
 
 - (void) initBattleLayer {
-  self.battleLayer = [[TutorialPowerupBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
+  self.battleLayer = [[TutorialPowerupBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)];
   self.battleLayer.delegate = self;
   
   GameState *gs = [GameState sharedGameState];

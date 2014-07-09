@@ -263,6 +263,8 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property int32_t assetNumWithinCity;
 @property int32_t prerequisiteTaskId;
 @property int32_t prerequisiteQuestId;
+@property int32_t boardWidth;
+@property int32_t boardHeight;
 @end
 
 @implementation FullTaskProto
@@ -316,6 +318,20 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasPrerequisiteQuestId_ = !!value;
 }
 @synthesize prerequisiteQuestId;
+- (BOOL) hasBoardWidth {
+  return !!hasBoardWidth_;
+}
+- (void) setHasBoardWidth:(BOOL) value {
+  hasBoardWidth_ = !!value;
+}
+@synthesize boardWidth;
+- (BOOL) hasBoardHeight {
+  return !!hasBoardHeight_;
+}
+- (void) setHasBoardHeight:(BOOL) value {
+  hasBoardHeight_ = !!value;
+}
+@synthesize boardHeight;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -330,6 +346,8 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.assetNumWithinCity = 0;
     self.prerequisiteTaskId = 0;
     self.prerequisiteQuestId = 0;
+    self.boardWidth = 0;
+    self.boardHeight = 0;
   }
   return self;
 }
@@ -370,6 +388,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasPrerequisiteQuestId) {
     [output writeInt32:7 value:self.prerequisiteQuestId];
   }
+  if (self.hasBoardWidth) {
+    [output writeInt32:8 value:self.boardWidth];
+  }
+  if (self.hasBoardHeight) {
+    [output writeInt32:9 value:self.boardHeight];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -399,6 +423,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasPrerequisiteQuestId) {
     size += computeInt32Size(7, self.prerequisiteQuestId);
+  }
+  if (self.hasBoardWidth) {
+    size += computeInt32Size(8, self.boardWidth);
+  }
+  if (self.hasBoardHeight) {
+    size += computeInt32Size(9, self.boardHeight);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -496,6 +526,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasPrerequisiteQuestId) {
     [self setPrerequisiteQuestId:other.prerequisiteQuestId];
   }
+  if (other.hasBoardWidth) {
+    [self setBoardWidth:other.boardWidth];
+  }
+  if (other.hasBoardHeight) {
+    [self setBoardHeight:other.boardHeight];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -543,6 +579,14 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       }
       case 56: {
         [self setPrerequisiteQuestId:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setBoardWidth:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setBoardHeight:[input readInt32]];
         break;
       }
     }
@@ -658,6 +702,38 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearPrerequisiteQuestId {
   result.hasPrerequisiteQuestId = NO;
   result.prerequisiteQuestId = 0;
+  return self;
+}
+- (BOOL) hasBoardWidth {
+  return result.hasBoardWidth;
+}
+- (int32_t) boardWidth {
+  return result.boardWidth;
+}
+- (FullTaskProto_Builder*) setBoardWidth:(int32_t) value {
+  result.hasBoardWidth = YES;
+  result.boardWidth = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearBoardWidth {
+  result.hasBoardWidth = NO;
+  result.boardWidth = 0;
+  return self;
+}
+- (BOOL) hasBoardHeight {
+  return result.hasBoardHeight;
+}
+- (int32_t) boardHeight {
+  return result.boardHeight;
+}
+- (FullTaskProto_Builder*) setBoardHeight:(int32_t) value {
+  result.hasBoardHeight = YES;
+  result.boardHeight = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearBoardHeight {
+  result.hasBoardHeight = NO;
+  result.boardHeight = 0;
   return self;
 }
 @end
@@ -962,6 +1038,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property BOOL puzzlePieceDropped;
 @property int32_t level;
 @property int32_t itemId;
+@property Float32 dmgMultiplier;
 @end
 
 @implementation TaskStageMonsterProto
@@ -1027,6 +1104,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasItemId_ = !!value;
 }
 @synthesize itemId;
+- (BOOL) hasDmgMultiplier {
+  return !!hasDmgMultiplier_;
+}
+- (void) setHasDmgMultiplier:(BOOL) value {
+  hasDmgMultiplier_ = !!value;
+}
+@synthesize dmgMultiplier;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1040,6 +1124,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.puzzlePieceDropped = NO;
     self.level = 0;
     self.itemId = 0;
+    self.dmgMultiplier = 0;
   }
   return self;
 }
@@ -1083,6 +1168,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOilReward) {
     [output writeInt32:8 value:self.oilReward];
   }
+  if (self.hasDmgMultiplier) {
+    [output writeFloat:9 value:self.dmgMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1115,6 +1203,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasOilReward) {
     size += computeInt32Size(8, self.oilReward);
+  }
+  if (self.hasDmgMultiplier) {
+    size += computeFloatSize(9, self.dmgMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1225,6 +1316,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasItemId) {
     [self setItemId:other.itemId];
   }
+  if (other.hasDmgMultiplier) {
+    [self setDmgMultiplier:other.dmgMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1281,6 +1375,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 64: {
         [self setOilReward:[input readInt32]];
+        break;
+      }
+      case 77: {
+        [self setDmgMultiplier:[input readFloat]];
         break;
       }
     }
@@ -1412,6 +1510,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearItemId {
   result.hasItemId = NO;
   result.itemId = 0;
+  return self;
+}
+- (BOOL) hasDmgMultiplier {
+  return result.hasDmgMultiplier;
+}
+- (Float32) dmgMultiplier {
+  return result.dmgMultiplier;
+}
+- (TaskStageMonsterProto_Builder*) setDmgMultiplier:(Float32) value {
+  result.hasDmgMultiplier = YES;
+  result.dmgMultiplier = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearDmgMultiplier {
+  result.hasDmgMultiplier = NO;
+  result.dmgMultiplier = 0;
   return self;
 }
 @end

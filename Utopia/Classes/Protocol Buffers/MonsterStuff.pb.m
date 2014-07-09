@@ -49,6 +49,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t atkSoundAnimationFrame;
 @property int32_t atkAnimationRepeatedFramesStart;
 @property int32_t atkAnimationRepeatedFramesEnd;
+@property Float32 shadowScaleFactor;
 @end
 
 @implementation MonsterProto
@@ -243,6 +244,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAtkAnimationRepeatedFramesEnd_ = !!value;
 }
 @synthesize atkAnimationRepeatedFramesEnd;
+- (BOOL) hasShadowScaleFactor {
+  return !!hasShadowScaleFactor_;
+}
+- (void) setHasShadowScaleFactor:(BOOL) value {
+  hasShadowScaleFactor_ = !!value;
+}
+@synthesize shadowScaleFactor;
 - (void) dealloc {
   self.evolutionGroup = nil;
   self.shorterName = nil;
@@ -286,6 +294,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.atkSoundAnimationFrame = 0;
     self.atkAnimationRepeatedFramesStart = 0;
     self.atkAnimationRepeatedFramesEnd = 0;
+    self.shadowScaleFactor = 0;
   }
   return self;
 }
@@ -396,6 +405,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasShorterName) {
     [output writeString:28 value:self.shorterName];
   }
+  if (self.hasShadowScaleFactor) {
+    [output writeFloat:29 value:self.shadowScaleFactor];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -488,6 +500,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   }
   if (self.hasShorterName) {
     size += computeStringSize(28, self.shorterName);
+  }
+  if (self.hasShadowScaleFactor) {
+    size += computeFloatSize(29, self.shadowScaleFactor);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -661,6 +676,9 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   if (other.hasAtkAnimationRepeatedFramesEnd) {
     [self setAtkAnimationRepeatedFramesEnd:other.atkAnimationRepeatedFramesEnd];
   }
+  if (other.hasShadowScaleFactor) {
+    [self setShadowScaleFactor:other.shadowScaleFactor];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -809,6 +827,10 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
       }
       case 226: {
         [self setShorterName:[input readString]];
+        break;
+      }
+      case 237: {
+        [self setShadowScaleFactor:[input readFloat]];
         break;
       }
     }
@@ -1273,6 +1295,22 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesEnd {
   result.hasAtkAnimationRepeatedFramesEnd = NO;
   result.atkAnimationRepeatedFramesEnd = 0;
+  return self;
+}
+- (BOOL) hasShadowScaleFactor {
+  return result.hasShadowScaleFactor;
+}
+- (Float32) shadowScaleFactor {
+  return result.shadowScaleFactor;
+}
+- (MonsterProto_Builder*) setShadowScaleFactor:(Float32) value {
+  result.hasShadowScaleFactor = YES;
+  result.shadowScaleFactor = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearShadowScaleFactor {
+  result.hasShadowScaleFactor = NO;
+  result.shadowScaleFactor = 0;
   return self;
 }
 @end

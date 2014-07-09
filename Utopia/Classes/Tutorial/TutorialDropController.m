@@ -59,7 +59,7 @@
 }
 
 - (void) initBattleLayer {
-  self.battleLayer = [[TutorialDropBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
+  self.battleLayer = [[TutorialDropBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)];
   self.battleLayer.delegate = self;
   
   GameState *gs = [GameState sharedGameState];

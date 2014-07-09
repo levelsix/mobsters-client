@@ -217,7 +217,7 @@
     for (TaskStageProto *tsp in proto.tspList) {
       TaskStageMonsterProto *tsm = [tsp.stageMonstersList objectAtIndex:0];
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
-      BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
+      BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier];
       [enemyTeam addObject:bp];
       
       [set addObject:bp.spritePrefix];

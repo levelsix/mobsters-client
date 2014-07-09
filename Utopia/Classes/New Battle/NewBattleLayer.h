@@ -89,6 +89,8 @@
   int _powerupCounts[powerup_end];
   int _totalComboCount;
   int _totalDamageTaken;
+  
+  CGSize _gridSize;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -119,10 +121,9 @@
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (void) initOrbLayer;
 
-- (CGSize) gridSize;
 - (NSString *) bgdPrefix;
 
 - (void) begin;

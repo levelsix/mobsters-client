@@ -43,6 +43,6 @@
 
 @property (nonatomic, assign) BOOL useGemsForQueue;
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft pvpHistoryForRevenge:(PvpHistoryProto *)hist;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist;
 
 @end

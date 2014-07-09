@@ -132,6 +132,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasPrerequisiteTaskId_:1;
   BOOL hasPrerequisiteQuestId_:1;
+  BOOL hasBoardWidth_:1;
+  BOOL hasBoardHeight_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   int32_t taskId;
@@ -139,6 +141,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t assetNumWithinCity;
   int32_t prerequisiteTaskId;
   int32_t prerequisiteQuestId;
+  int32_t boardWidth;
+  int32_t boardHeight;
   NSString* name;
   NSString* description;
 }
@@ -149,6 +153,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasPrerequisiteTaskId;
 - (BOOL) hasPrerequisiteQuestId;
+- (BOOL) hasBoardWidth;
+- (BOOL) hasBoardHeight;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
@@ -156,6 +162,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t prerequisiteTaskId;
 @property (readonly) int32_t prerequisiteQuestId;
+@property (readonly) int32_t boardWidth;
+@property (readonly) int32_t boardHeight;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -225,6 +233,16 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) prerequisiteQuestId;
 - (FullTaskProto_Builder*) setPrerequisiteQuestId:(int32_t) value;
 - (FullTaskProto_Builder*) clearPrerequisiteQuestId;
+
+- (BOOL) hasBoardWidth;
+- (int32_t) boardWidth;
+- (FullTaskProto_Builder*) setBoardWidth:(int32_t) value;
+- (FullTaskProto_Builder*) clearBoardWidth;
+
+- (BOOL) hasBoardHeight;
+- (int32_t) boardHeight;
+- (FullTaskProto_Builder*) setBoardHeight:(int32_t) value;
+- (FullTaskProto_Builder*) clearBoardHeight;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
@@ -305,6 +323,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @interface TaskStageMonsterProto : PBGeneratedMessage {
 @private
   BOOL hasPuzzlePieceDropped_:1;
+  BOOL hasDmgMultiplier_:1;
   BOOL hasMonsterId_:1;
   BOOL hasExpReward_:1;
   BOOL hasCashReward_:1;
@@ -313,6 +332,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasItemId_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
+  Float32 dmgMultiplier;
   int32_t monsterId;
   int32_t expReward;
   int32_t cashReward;
@@ -329,6 +349,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasPuzzlePieceDropped;
 - (BOOL) hasLevel;
 - (BOOL) hasItemId;
+- (BOOL) hasDmgMultiplier;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
 @property (readonly) int32_t expReward;
@@ -337,6 +358,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) puzzlePieceDropped;
 @property (readonly) int32_t level;
 @property (readonly) int32_t itemId;
+@property (readonly) Float32 dmgMultiplier;
 
 + (TaskStageMonsterProto*) defaultInstance;
 - (TaskStageMonsterProto*) defaultInstance;
@@ -411,6 +433,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) itemId;
 - (TaskStageMonsterProto_Builder*) setItemId:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearItemId;
+
+- (BOOL) hasDmgMultiplier;
+- (Float32) dmgMultiplier;
+- (TaskStageMonsterProto_Builder*) setDmgMultiplier:(Float32) value;
+- (TaskStageMonsterProto_Builder*) clearDmgMultiplier;
 @end
 
 @interface PersistentEventProto : PBGeneratedMessage {

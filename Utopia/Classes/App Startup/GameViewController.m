@@ -363,7 +363,8 @@
     
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+      FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
       [self beginBattleLayer:bl];
@@ -643,7 +644,9 @@
 - (void) enterDungeon:(int)taskId withDelay:(float)delay {
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
-    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+    FullTaskProto *task = [gs taskWithId:taskId];
+  
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
     [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
@@ -654,7 +657,8 @@
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
   GameState *gs = [GameState sharedGameState];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+  FullTaskProto *task = [gs taskWithId:taskId];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
   bl.delegate = self;
   
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
@@ -731,7 +735,7 @@
 
 - (void) findPvpMatch:(BOOL)useGems {
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
   bl.delegate = self;
   bl.useGemsForQueue = useGems;
   
@@ -742,7 +746,7 @@
 
 - (void) beginPvpMatch:(PvpHistoryProto *)history {
   GameState *gs = [GameState sharedGameState];
-  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO pvpHistoryForRevenge:history];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) pvpHistoryForRevenge:history];
   bl.delegate = self;
   
   [self crossFadeIntoBattleLayer:bl];

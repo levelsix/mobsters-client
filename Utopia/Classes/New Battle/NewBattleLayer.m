@@ -114,21 +114,16 @@
 
 #pragma mark - Setup
 
-- (CGSize) gridSize {
-  return CGSizeMake(8,8);
-}
-
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft {
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
+    _gridSize = gridSize;
     
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonster *um in monsters) {
       [arr addObject:[BattlePlayer playerWithMonster:um]];
     }
     self.myTeam = arr;
-    
-    CGSize gridSize = [self gridSize];
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
     
@@ -179,7 +174,7 @@
 }
 
 - (void) initOrbLayer {
-  OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:self.gridSize numColors:6];
+  OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:_gridSize numColors:6];
   [self.orbBgdLayer addChild:ol z:2];
   ol.delegate = self;
   self.orbLayer = ol;
