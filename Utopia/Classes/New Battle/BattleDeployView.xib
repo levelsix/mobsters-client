@@ -36,7 +36,7 @@
                     <rect key="frame" x="2" y="19" width="55" height="69"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamempty.png" id="dkT-60-mLk">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="dkT-60-mLk">
                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -52,7 +52,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="T9Z-xW-zSy">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="T9Z-xW-zSy">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -87,13 +87,13 @@
                                     <rect key="frame" x="7" y="56" width="40" height="7"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NkA-vJ-vpG" customClass="NiceFontLabel">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NkA-vJ-vpG" customClass="NiceFontLabel9B">
                                     <rect key="frame" x="1" y="44" width="52" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -113,7 +113,7 @@
                     <rect key="frame" x="51" y="19" width="55" height="69"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamempty.png" id="dbL-uM-MM7">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="dbL-uM-MM7">
                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -129,7 +129,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="dbJ-CQ-L7y">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="dbJ-CQ-L7y">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -164,13 +164,13 @@
                                     <rect key="frame" x="7" y="56" width="40" height="7"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ErA-9x-igO" customClass="NiceFontLabel">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ErA-9x-igO" customClass="NiceFontLabel9B">
                                     <rect key="frame" x="1" y="44" width="52" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -190,7 +190,7 @@
                     <rect key="frame" x="99" y="19" width="55" height="69"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamempty.png" id="3iQ-HQ-dj9">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="3iQ-HQ-dj9">
                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -206,7 +206,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="UNu-bT-BMp">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="UNu-bT-BMp">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -241,13 +241,13 @@
                                     <rect key="frame" x="7" y="56" width="40" height="7"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="IrW-e4-BBl" customClass="NiceFontLabel">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="IrW-e4-BBl" customClass="NiceFontLabel9B">
                                     <rect key="frame" x="1" y="44" width="52" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -273,11 +273,11 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="6Xu-Fi-vgb">
-            <rect key="frame" x="0.0" y="0.0" width="91" height="41"/>
+            <rect key="frame" x="0.0" y="0.0" width="91" height="46"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DPS-10-VDX" customClass="GeneralButton">
-                    <rect key="frame" x="0.0" y="0.0" width="91" height="41"/>
+                    <rect key="frame" x="0.0" y="0.0" width="92" height="46"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" backgroundImage="swapbutton.png">
@@ -287,22 +287,22 @@
                         <action selector="swapClicked:" destination="-1" eventType="touchUpInside" id="R27-5R-6ji"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="swap" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mTz-mE-Xqi" customClass="NiceFontLabel">
-                    <rect key="frame" x="33" y="2" width="36" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Swap" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mTz-mE-Xqi" customClass="NiceFontLabel12B">
+                    <rect key="frame" x="32" y="2" width="50" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.0" green="0.33333333329999998" blue="0.55294117649999996" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="mobster" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9sz-8t-acG" customClass="NiceFontLabel">
-                    <rect key="frame" x="33" y="18" width="58" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mobster" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9sz-8t-acG" customClass="NiceFontLabel12">
+                    <rect key="frame" x="32" y="17" width="58" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.0" green="0.33333333329999998" blue="0.55294117649999996" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
             </subviews>
@@ -329,11 +329,11 @@
             </connections>
         </button>
         <view contentMode="scaleToFill" id="c24-F2-q9E" customClass="BattleElementView">
-            <rect key="frame" x="0.0" y="0.0" width="234" height="89"/>
+            <rect key="frame" x="0.0" y="0.0" width="229" height="89"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="top" image="elementtree2.png" id="l0h-rs-8ZM">
-                    <rect key="frame" x="0.0" y="0.0" width="234" height="89"/>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="TopLeft" image="elementtree2.png" id="l0h-rs-8ZM">
+                    <rect key="frame" x="0.0" y="0.0" width="229" height="89"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
             </subviews>
@@ -341,15 +341,14 @@
         </view>
     </objects>
     <resources>
-        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="closebattle.png" width="27" height="27"/>
         <image name="deploybg.png" width="157" height="93"/>
+        <image name="dottedsmallsquare.png" width="42" height="42"/>
         <image name="elementreeicon.png" width="19" height="19"/>
-        <image name="elementtree2.png" width="234" height="109"/>
+        <image name="elementtree2.png" width="227" height="109"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>
-        <image name="swapbutton.png" width="91" height="41"/>
-        <image name="teamempty.png" width="42" height="42"/>
+        <image name="swapbutton.png" width="92" height="46"/>
     </resources>
 </document>

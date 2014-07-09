@@ -28,12 +28,10 @@
 #define HIDE_GUIDE_LOCATION_POINT3 ccpAdd(HIDE_GUIDE_LOCATION_POINT2, ccp(3, 0))
 #define HIDE_GUIDE_LOCATION_POINT4 ccpAdd(HIDE_GUIDE_LOCATION_POINT3, ccp(0, -2))
 
-#define FRIEND_ENTER_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(-9, 4))
+#define FRIEND_ENTER_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(-9, 5))
 #define FRIEND_ENTER_LOCATION_POINT2 ccpAdd(FRIEND_ENTER_LOCATION_POINT1, ccp(6, 0))
-#define FRIEND_ENTER_LOCATION_POINT3 ccpAdd(FRIEND_ENTER_LOCATION_POINT2, ccp(0, 5))
-#define FRIEND_ENTER_LOCATION_POINT4 ccpAdd(FRIEND_ENTER_LOCATION_POINT3, ccp(6, 0))
-#define FRIEND_ENTER_LOCATION_POINT5 ccpAdd(FRIEND_ENTER_LOCATION_POINT4, ccp(0, -6))
-#define FRIEND_ENTER_LOCATION_POINT6 ccpAdd(FRIEND_ENTER_LOCATION_POINT5, ccp(-3, 0))
+#define FRIEND_ENTER_LOCATION_POINT3 ccpAdd(FRIEND_ENTER_LOCATION_POINT2, ccp(0, -2))
+#define FRIEND_ENTER_LOCATION_POINT4 ccpAdd(FRIEND_ENTER_LOCATION_POINT3, ccp(3, 0))
 
 @implementation TutorialHomeMap
 
@@ -252,10 +250,10 @@
   NSArray *arr = @[[NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT2],
                    [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT3],
                    [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT4],
-                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT5],
-                   [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT6],
+                   [NSValue valueWithCGPoint:FRIEND_ENTER_END_LOCATION],
                    ];
-  [self.friendSprite walkToTileCoords:arr completionTarget:self selector:@selector(friendJumpToEnterLocation) speedMultiplier:4.f];
+  [self.friendSprite walkToTileCoords:arr completionTarget:self selector:@selector(friendEntered) speedMultiplier:2.f];
+  [self.friendSprite jumpNumTimes:6 timePerJump:0.3 completionTarget:nil selector:nil];
 }
 
 - (void) friendJumpToEnterLocation {
@@ -264,7 +262,7 @@
 }
 
 - (void) friendEntered {
-  [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.friendSprite restoreStandingFrame:MapDirectionFront];
   [self.delegate friendEntered];
 }
 

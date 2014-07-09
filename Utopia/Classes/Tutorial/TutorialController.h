@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
-#import "TutorialMissionMap.h"
 #import "DialogueViewController.h"
 #import "TutorialBattleLayer.h"
 #import "TutorialHomeMap.h"
@@ -20,9 +19,7 @@
 #import "TutorialFacebookViewController.h"
 #import "TutorialNameViewController.h"
 #import "TutorialAttackMapViewController.h"
-#import "TutorialRainbowController.h"
 #import "TutorialTouchView.h"
-#import "TutorialQuestLogViewController.h"
 
 @class GameViewController;
 
@@ -37,50 +34,17 @@ typedef enum {
   TutorialDialogueSpeakerGuide,
   TutorialDialogueSpeakerFriend,
   TutorialDialogueSpeakerFriend2,
+  TutorialDialogueSpeakerFriend3,
   TutorialDialogueSpeakerMark,
   
   TutorialDialogueSpeakerEnemy,
   TutorialDialogueSpeakerEnemy2,
   TutorialDialogueSpeakerEnemyTwo,
   TutorialDialogueSpeakerEnemyBoss,
-  
-  TutorialDialogueSpeakerFriend1,
-  TutorialDialogueSpeakerFriend3,
-  TutorialDialogueSpeakerFriend4,
-  TutorialDialogueSpeakerFriendR3,
-  TutorialDialogueSpeakerFriendR4,
-  TutorialDialogueSpeakerMarkL,
-  TutorialDialogueSpeakerMarkR,
-  TutorialDialogueSpeakerEnemy1,
-  TutorialDialogueSpeakerEnemy3,
 } TutorialDialogueSpeaker;
 
 typedef enum {
-  TutorialStepBlackedOutDialogue = 1,
-  TutorialStepInitialChase,
-  TutorialStepFirstDialogue,
-  TutorialStepFirstEnemyTaunt,
-  TutorialStepFriendEnterBuilding,
-  
-  TutorialStepEnteredFirstBattle,
-  
-  TutorialStepPostFirstBattleConfrontation,
-  TutorialStepEnemyRanOff,
-  TutorialStepEnemyBroughtBackBoss,
-  TutorialStepFriendJoke,
-  TutorialStepEnemyLookBack,
-  
-  TutorialStepEnteredSecondBattle,
-  
-  TutorialStepPostSecondBattleConfrontation,
-  TutorialStepBoardYacht,
-  
-  TutorialStepLandAtHome,
-  
-  TutorialStepMarkLookBack,
-  
-  
-  TutorialStepGuideGreeting,
+  TutorialStepGuideGreeting = 1,
   TutorialStepEnemyTeamDisembark,
   TutorialStepEnemyBossThreat,
   TutorialStepEnemyTwoThreat,
@@ -125,23 +89,9 @@ typedef enum {
   TutorialStepEnterName,
   
   TutorialStepAttackMap,
-  TutorialStepEnterBattleThree,
-  TutorialStepRainbowMiniTutorial,
-  
-  TutorialStepClickQuests,
-  TutorialStepQuestList,
-  TutorialStepFirstQuest,
-  TutorialStepEnterBattleFour,
-  TutorialStepDoublePowerupMiniTutorial,
-  TutorialStepFirstQuestComplete,
-  
-  TutorialStepSecondQuest,
-  TutorialStepEnterBattleFive,
-  TutorialStepDropMiniTutorial,
-  TutorialStepSecondQuestComplete,
 } TutorialStep;
 
-@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialHealDelegate, TutorialTopBarDelegate, BuildingViewDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, MiniTutorialDelegate, TutorialQuestLogDelegate> {
+@interface TutorialController : NSObject <DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialHealDelegate, TutorialTopBarDelegate, BuildingViewDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate> {
   TutorialStep _currentStep;
   
   int _damageDealtToFriend;
@@ -164,7 +114,6 @@ typedef enum {
 @property (nonatomic, assign) GameViewController *gameViewController;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
 
-@property (nonatomic, retain) TutorialMissionMap *missionMap;
 @property (nonatomic, retain) TutorialBattleOneLayer *battleLayer;
 @property (nonatomic, retain) TutorialHomeMap *homeMap;
 
@@ -174,13 +123,10 @@ typedef enum {
 @property (nonatomic, retain) TutorialBuildingViewController *buildingViewController;
 
 @property (nonatomic, retain) TutorialTopBarViewController *topBarViewController;
-@property (nonatomic, retain) TutorialQuestLogViewController *questLogViewController;
 
 @property (nonatomic, retain) TutorialFacebookViewController *facebookViewController;
 @property (nonatomic, retain) TutorialNameViewController *nameViewController;
 @property (nonatomic, retain) TutorialAttackMapViewController *attackMapViewController;
-
-@property (nonatomic, retain) MiniTutorialController *miniTutController;
 
 @property (nonatomic, retain) DialogueViewController *dialogueViewController;
 

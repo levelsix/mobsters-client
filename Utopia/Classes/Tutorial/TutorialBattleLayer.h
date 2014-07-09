@@ -47,12 +47,6 @@
 - (void) enemyBossWalkOut;
 - (void) friendKneel;
 
-@end
-
-@interface TutorialBattleTwoLayer : TutorialBattleLayer
-
-- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants enemyDamageDealt:(int)damage;
-
 - (void) swapToMark;
 
 @end

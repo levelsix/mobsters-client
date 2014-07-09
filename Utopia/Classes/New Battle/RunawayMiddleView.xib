@@ -25,7 +25,7 @@
                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="questnumberdone.png" id="cbM-gS-KRf">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="taskdonebg.png" id="cbM-gS-KRf">
                     <rect key="frame" x="90" y="31" width="45" height="31"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -42,6 +42,6 @@
         </view>
     </objects>
     <resources>
-        <image name="questnumberdone.png" width="40" height="31"/>
+        <image name="taskdonebg.png" width="45" height="31"/>
     </resources>
 </document>
