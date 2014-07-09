@@ -53,7 +53,7 @@
     self.healthBar.barChangeRate = ccp(1,0);
     self.healthBar.percentage = 90;
     
-    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:13];
+    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"GothamNarrow-Ultra" fontSize:11];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
     self.healthLabel.color = [CCColor whiteColor];
@@ -68,9 +68,9 @@
       self.rarityTag.opacity = 0.f;
     }
     
-    self.nameLabel = [CCLabelTTF labelWithString:name fontName:[Globals font] fontSize:14];
+    self.nameLabel = [CCLabelTTF labelWithString:name fontName:@"GothamNarrow-Ultra" fontSize:12];
     [self.healthBgd addChild:self.nameLabel];
-    self.nameLabel.position = ccp(self.healthBgd.contentSize.width/2, 26);
+    self.nameLabel.position = ccp(self.healthBgd.contentSize.width/2, 28);
     self.nameLabel.color = [CCColor whiteColor];
     self.nameLabel.shadowOffset = ccp(0, -1);
     self.nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
@@ -313,11 +313,12 @@
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
   NSString *name;
   if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+  else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF00.png", self.prefix];
   else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
   [self.sprite setSpriteFrame:frame];
   
-  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight);
+  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight || direction == MapDirectionKneel);
 }
 
 - (void) beginWalking {

@@ -58,6 +58,7 @@
 		<string>Whitney-Bold.otf</string>
 		<string>Whitney-Semibold.otf</string>
 		<string>Whitney-SemiboldItalic.otf</string>
+		<string>GothamNarrow-Ultra.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

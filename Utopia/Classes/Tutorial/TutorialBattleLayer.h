@@ -45,6 +45,7 @@
 - (void) enemyBossStomp;
 - (void) enemyTwoAndBossRunOut;
 - (void) enemyBossWalkOut;
+- (void) friendKneel;
 
 @end
 

@@ -108,12 +108,17 @@
   [self stopWalking];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
   NSString *name;
-  if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
-  else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+  if (direction == MapDirectionFront) {
+    name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+  } else if (direction == MapDirectionKneel) {
+    name = [NSString stringWithFormat:@"%@KneelN00.png", self.prefix];
+  } else {
+    name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+  }
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
   [self.sprite setSpriteFrame:frame];
   
-  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight);
+  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight || direction == MapDirectionKneel);
 }
 
 - (void) setColor:(CCColor *)color {

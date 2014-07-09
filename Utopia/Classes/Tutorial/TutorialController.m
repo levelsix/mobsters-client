@@ -71,12 +71,22 @@
         monsterId = self.constants.startingMonsterId;
         isLeftSide = YES;
         break;
+      case TutorialDialogueSpeakerFriend2:
+        monsterId = self.constants.startingMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
+        isLeftSide = YES;
+        break;
       case TutorialDialogueSpeakerMark:
         monsterId = self.constants.markZmonsterId;
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerEnemy:
         monsterId = self.constants.enemyMonsterId;
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemy2:
+        monsterId = self.constants.enemyMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyTwo:
@@ -89,20 +99,9 @@
         break;
         
         
-        
-      case TutorialDialogueSpeakerEnemy3:
-        monsterId = self.constants.enemyMonsterId;
-        suffix = @"P3";
-        isLeftSide = NO;
-        break;
       case TutorialDialogueSpeakerFriend1:
         monsterId = self.constants.startingMonsterId;
         suffix = @"P1";
-        isLeftSide = YES;
-        break;
-      case TutorialDialogueSpeakerFriend2:
-        monsterId = self.constants.startingMonsterId;
-        suffix = @"P2";
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerFriend3:
@@ -478,7 +477,7 @@
 }
 
 - (void) beginFriendEnterFightPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yolo."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yolo."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES buttonText:@"FIGHT" toViewController:self.gameViewController];
   
   _currentStep = TutorialStepFriendEnterFight;
@@ -511,7 +510,7 @@
 }
 
 - (void) beginEnemyDefensePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy2), @"OW! Can’t take a joke chicken? Don’t make me fry..."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -556,7 +555,7 @@
 
 - (void) beginSecondBattleFirstMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Yo, this chicken is savage. Create a power-up by matching 4 orbs."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleFirstMove;
 }
@@ -580,6 +579,8 @@
                         @(TutorialDialogueSpeakerMark), @"*Poke*",
                         @(TutorialDialogueSpeakerMark), @"Hey buddy, you don’t look so good. Would you “Like” me to help you out?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
+  
+  [self.battleLayer friendKneel];
   
   _currentStep = TutorialStepSecondBattleSwap;
 }
@@ -1382,11 +1383,7 @@
 #pragma mark - DialogueViewController delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if (_currentStep == TutorialStepSecondBattleFirstMove && index == 1) {
-    self.touchView.userInteractionEnabled = YES;
-    [self.touchView addResponder:dvc];
-    [dvc fadeOutBottomGradient];
-  } else if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
+  if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
     self.touchView.userInteractionEnabled = YES;
     [self.touchView addResponder:dvc];
     [dvc fadeOutBottomGradient];

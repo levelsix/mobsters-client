@@ -36,6 +36,7 @@ typedef enum {
   MapDirectionFarLeft,
   MapDirectionFarRight,
   MapDirectionFront,
+  MapDirectionKneel,
 } MapDirection;
 
 @interface AnimatedSprite : CharacterSprite

@@ -318,6 +318,10 @@
   return 1.f;
 }
 
+- (void) friendKneel {
+  [self.myPlayer restoreStandingFrame:MapDirectionKneel];
+}
+
 
 
 //- (void) reachedNextScene {

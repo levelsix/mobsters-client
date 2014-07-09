@@ -520,8 +520,8 @@
 #pragma mark - Pulsing monster view
 
 - (void) pulseMonsterView {
-  [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
-    self.monsterImageView.alpha = 0.75f;
+  [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.monsterImageView.alpha = 0.5f;
   } completion:nil];
 }
 
