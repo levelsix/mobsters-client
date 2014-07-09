@@ -65,9 +65,18 @@
     [self checkQuests];
   }
   
+  self.userMonstersGained = proto.updatedOrNewList;
+  
   if (_waitingForEndDungeonResponse) {
     [self exitFinal];
   }
+}
+
+- (NSDictionary *) battleCompleteValues {
+  if (self.userMonstersGained.count) {
+    return @{BATTLE_USER_MONSTERS_GAINED_KEY: self.userMonstersGained};
+  }
+  return nil;
 }
 
 - (void) checkQuests {

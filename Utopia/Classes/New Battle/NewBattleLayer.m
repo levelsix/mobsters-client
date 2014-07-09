@@ -117,7 +117,7 @@
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
-    _gridSize = gridSize;
+    _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
     
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonster *um in monsters) {
@@ -1507,11 +1507,17 @@
     self.elementButton.hidden = YES;
     [self.elementView close];
     
-    [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil];
+    [dict addEntriesFromDictionary:[self battleCompleteValues]];
+    [self.delegate battleComplete:dict];
     
     // in case it hasnt stopped yet
     [Kamcord stopRecording];
   }
+}
+
+- (NSDictionary *) battleCompleteValues {
+  return nil;
 }
 
 - (IBAction)shareClicked:(id)sender {

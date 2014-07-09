@@ -14,7 +14,7 @@
 @implementation BattlePlayer
 
 + (id) playerWithMonster:(UserMonster *)monster {
-  return [[self alloc] initWithMonster:monster dmgMultiplier:0];
+  return [[self alloc] initWithMonster:monster dmgMultiplier:1];
 }
 
 + (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier {

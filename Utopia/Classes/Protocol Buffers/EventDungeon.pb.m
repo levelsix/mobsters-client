@@ -34,6 +34,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableQuestIdsList;
 @property Element elem;
 @property BOOL forceEnemyElem;
+@property BOOL alreadyCompletedMiniTutorialTask;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -117,6 +118,18 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setForceEnemyElem:(BOOL) value {
   forceEnemyElem_ = !!value;
 }
+- (BOOL) hasAlreadyCompletedMiniTutorialTask {
+  return !!hasAlreadyCompletedMiniTutorialTask_;
+}
+- (void) setHasAlreadyCompletedMiniTutorialTask:(BOOL) value {
+  hasAlreadyCompletedMiniTutorialTask_ = !!value;
+}
+- (BOOL) alreadyCompletedMiniTutorialTask {
+  return !!alreadyCompletedMiniTutorialTask_;
+}
+- (void) setAlreadyCompletedMiniTutorialTask:(BOOL) value {
+  alreadyCompletedMiniTutorialTask_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableQuestIdsList = nil;
@@ -133,6 +146,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.gemsSpent = 0;
     self.elem = ElementNoElement;
     self.forceEnemyElem = NO;
+    self.alreadyCompletedMiniTutorialTask = NO;
   }
   return self;
 }
@@ -189,6 +203,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (self.hasForceEnemyElem) {
     [output writeBool:10 value:self.forceEnemyElem];
   }
+  if (self.hasAlreadyCompletedMiniTutorialTask) {
+    [output writeBool:11 value:self.alreadyCompletedMiniTutorialTask];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -232,6 +249,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   }
   if (self.hasForceEnemyElem) {
     size += computeBoolSize(10, self.forceEnemyElem);
+  }
+  if (self.hasAlreadyCompletedMiniTutorialTask) {
+    size += computeBoolSize(11, self.alreadyCompletedMiniTutorialTask);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -341,6 +361,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (other.hasForceEnemyElem) {
     [self setForceEnemyElem:other.forceEnemyElem];
   }
+  if (other.hasAlreadyCompletedMiniTutorialTask) {
+    [self setAlreadyCompletedMiniTutorialTask:other.alreadyCompletedMiniTutorialTask];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -410,6 +433,10 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 80: {
         [self setForceEnemyElem:[input readBool]];
+        break;
+      }
+      case 88: {
+        [self setAlreadyCompletedMiniTutorialTask:[input readBool]];
         break;
       }
     }
@@ -602,6 +629,22 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BeginDungeonRequestProto_Builder*) clearForceEnemyElem {
   result.hasForceEnemyElem = NO;
   result.forceEnemyElem = NO;
+  return self;
+}
+- (BOOL) hasAlreadyCompletedMiniTutorialTask {
+  return result.hasAlreadyCompletedMiniTutorialTask;
+}
+- (BOOL) alreadyCompletedMiniTutorialTask {
+  return result.alreadyCompletedMiniTutorialTask;
+}
+- (BeginDungeonRequestProto_Builder*) setAlreadyCompletedMiniTutorialTask:(BOOL) value {
+  result.hasAlreadyCompletedMiniTutorialTask = YES;
+  result.alreadyCompletedMiniTutorialTask = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearAlreadyCompletedMiniTutorialTask {
+  result.hasAlreadyCompletedMiniTutorialTask = NO;
+  result.alreadyCompletedMiniTutorialTask = NO;
   return self;
 }
 @end

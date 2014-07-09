@@ -874,16 +874,17 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds {
-  BeginDungeonRequestProto *req = [[[[[[[[[[[BeginDungeonRequestProto builder]
-                                            setSender:_sender]
-                                           setClientTime:clientTime]
-                                          setTaskId:taskId]
-                                         setIsEvent:isEvent]
-                                        setPersistentEventId:eventId]
-                                       setGemsSpent:gems]
-                                      setElem:element]
-                                     setForceEnemyElem:shouldForceElem]
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds {
+  BeginDungeonRequestProto *req = [[[[[[[[[[[[BeginDungeonRequestProto builder]
+                                             setSender:_sender]
+                                            setClientTime:clientTime]
+                                           setTaskId:taskId]
+                                          setIsEvent:isEvent]
+                                         setPersistentEventId:eventId]
+                                        setGemsSpent:gems]
+                                       setElem:element]
+                                      setForceEnemyElem:shouldForceElem]
+                                     setAlreadyCompletedMiniTutorialTask:alreadyCompletedMiniTutorialTask]
                                     addAllQuestIds:questIds]
                                    build];
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];

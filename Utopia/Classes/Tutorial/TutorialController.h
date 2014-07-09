@@ -32,6 +32,8 @@
 
 typedef enum {
   TutorialDialogueSpeakerGuide,
+  TutorialDialogueSpeakerGuide2,
+  TutorialDialogueSpeakerGuide3,
   TutorialDialogueSpeakerFriend,
   TutorialDialogueSpeakerFriend2,
   TutorialDialogueSpeakerFriend3,
@@ -41,6 +43,8 @@ typedef enum {
   TutorialDialogueSpeakerEnemy2,
   TutorialDialogueSpeakerEnemyTwo,
   TutorialDialogueSpeakerEnemyBoss,
+  TutorialDialogueSpeakerEnemyBoss2,
+  TutorialDialogueSpeakerEnemyBoss3,
 } TutorialDialogueSpeaker;
 
 typedef enum {

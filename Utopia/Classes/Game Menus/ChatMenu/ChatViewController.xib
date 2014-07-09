@@ -167,8 +167,8 @@
                                             <color key="highlightedColor" red="0.0" green="0.14901960780000001" blue="0.27058823529999998" alpha="1" colorSpace="deviceRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CLAN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NPl-0B-Mit" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="138" y="9" width="70" height="24"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NPl-0B-Mit" customClass="NiceFontLabel9">
+                                            <rect key="frame" x="140" y="9" width="70" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="textColor" red="0.031372549020000001" green="0.44705882349999998" blue="0.63137254899999995" alpha="1" colorSpace="deviceRGB"/>

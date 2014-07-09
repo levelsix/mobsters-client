@@ -11,6 +11,7 @@
 #import "FullEvent.h"
 
 #define BATTLE_MANAGE_CLICKED_KEY @"BattleManageClicked"
+#define BATTLE_USER_MONSTERS_GAINED_KEY @"BattleMonstersGained"
 
 @interface DungeonBattleLayer : NewBattleLayer {
   BOOL _receivedEndDungeonResponse;
@@ -27,6 +28,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *runawayMiddleView;
 @property (nonatomic, retain) IBOutlet UILabel *runawayPercentLabel;
+
+@property (nonatomic, retain) NSArray *userMonstersGained;
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 

@@ -25,7 +25,7 @@
 
 #define HIDE_GUIDE_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(6, 0))
 #define HIDE_GUIDE_LOCATION_POINT2 ccpAdd(HIDE_GUIDE_LOCATION_POINT1, ccp(0, 2))
-#define HIDE_GUIDE_LOCATION_POINT3 ccpAdd(HIDE_GUIDE_LOCATION_POINT2, ccp(3, 0))
+#define HIDE_GUIDE_LOCATION_POINT3 ccpAdd(HIDE_GUIDE_LOCATION_POINT2, ccp(2.8, 0))
 #define HIDE_GUIDE_LOCATION_POINT4 ccpAdd(HIDE_GUIDE_LOCATION_POINT3, ccp(0, -2))
 
 #define FRIEND_ENTER_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(-9, 5))
@@ -71,6 +71,15 @@
   for (CCNode *n in self.children) {
     if ([n isKindOfClass:[HospitalBuilding class]]) {
       return (HospitalBuilding *)n;
+    }
+  }
+  return nil;
+}
+
+- (TeamCenterBuilding *) teamCenterBuilding {
+  for (CCNode *n in self.children) {
+    if ([n isKindOfClass:[TeamCenterBuilding class]]) {
+      return (TeamCenterBuilding *)n;
     }
   }
   return nil;
@@ -154,7 +163,7 @@
 #pragma mark - Tutorial sequence
 
 - (void) centerOnGuide {
-  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.guideSprite restoreStandingFrame:MapDirectionFront];
   self.guideSprite.location = CGRectMake(INITIAL_GUIDE_LOCATION.x, INITIAL_GUIDE_LOCATION.y, 1, 1);
   [self moveToSprite:self.guideSprite animated:NO];
 }
@@ -176,6 +185,8 @@
   CCSprite *s = [CCSprite node];
   s.position = [self convertTilePointToCCPoint:PIER_JUMP_LOCATION];
   [self moveToSprite:s animated:YES];
+  
+  [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
 }
 
 - (void) jumpGuysOffBoat {
@@ -236,7 +247,8 @@
 }
 
 - (void) guideReachedObstacle {
-  [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
+  [self.guideSprite restoreStandingFrame:MapDirectionKneel];
+  self.guideSprite.sprite.flipX = NO;
   [self.delegate guideReachedHideLocation];
 }
 
@@ -415,12 +427,18 @@
   [hospital displayArrow];
   
   self.clickableUserStructId = hospital.userStruct.userStructId;
+  _enteringHospital = YES;
 }
 
 - (void) enterClicked:(id)sender {
   self.clickableUserStructId = 0;
   self.selected = nil;
-  [self.delegate enterHospitalClicked];
+  
+  if (_enteringHospital) {
+    [self.delegate enterHospitalClicked];
+  } else {
+    [self.delegate enterTeamCenterClicked];
+  }
 }
 
 - (void) zoomOutMap {
@@ -434,6 +452,14 @@
 
 - (void) moveToOilDrill {
   [self moveToSprite:[self oilDrill] animated:YES];
+}
+
+- (void) moveToTeamCenter {
+  TeamCenterBuilding *tcb = [self teamCenterBuilding];
+  [tcb displayArrow];
+  [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
+  
+  self.clickableUserStructId = tcb.userStruct.userStructId;
 }
 
 - (void) panToMark {
@@ -464,21 +490,25 @@
 }
 
 - (NSArray *) reloadObstacles {
-  NSArray *obstacles = self.constants.tutorialObstaclesList;
-  NSMutableArray *sprites = [NSMutableArray array];
-  
-  for (MinimumObstacleProto *ob in obstacles) {
-    UserObstacle *uo = [[UserObstacle alloc] init];
-    uo.obstacleId = ob.obstacleId;
-    uo.orientation = ob.orientation;
-    uo.coordinates = ccp(ob.coordinate.x, ob.coordinate.y);
+  if (self.constants) {
+    NSArray *obstacles = self.constants.tutorialObstaclesList;
+    NSMutableArray *sprites = [NSMutableArray array];
     
-    ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
-    [self addChild:os];
-    
-    [sprites addObject:os];
+    for (MinimumObstacleProto *ob in obstacles) {
+      UserObstacle *uo = [[UserObstacle alloc] init];
+      uo.obstacleId = ob.obstacleId;
+      uo.orientation = ob.orientation;
+      uo.coordinates = ccp(ob.coordinate.x, ob.coordinate.y);
+      
+      ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
+      [self addChild:os];
+      
+      [sprites addObject:os];
+    }
+    return sprites;
+  } else {
+    return [super reloadObstacles];
   }
-  return sprites;
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
@@ -578,6 +608,10 @@
 - (void) tap:(UIGestureRecognizer *)recognizer {
   if (self.clickableUserStructId) {
     [super tap:recognizer];
+    
+    if (!_enteringHospital) {
+      [self.delegate teamCenterClicked];
+    }
   }
 }
 
@@ -591,6 +625,12 @@
 
 - (void) reloadBubblesOnMiscBuildings {
   // Do nothing
+}
+
+- (void) reloadTeamCenter {
+  if (!self.constants) {
+    [super reloadTeamCenter];
+  }
 }
 
 - (void) onEnter {

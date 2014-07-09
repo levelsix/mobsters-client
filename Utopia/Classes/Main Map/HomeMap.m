@@ -607,18 +607,21 @@
   return arr;
 }
 
+- (void) reloadTeamCenter {
+  GameState *gs = [GameState sharedGameState];
+  int numOnTeam = (int)gs.allBattleAvailableAliveMonstersOnTeam.count;
+  for (TeamCenterBuilding *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
+    [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
+    [b setNumEquipped:numOnTeam];
+  }
+}
+
 - (void) reloadBubblesOnMiscBuildings {
   GameState *gs = [GameState sharedGameState];
   
   int numOverInv = (int)gs.myMonsters.count - [gs maxInventorySlots];
   for (Building *b in [self childrenOfClassType:[ResidenceBuilding class]]) {
     [b setBubbleType:(numOverInv > 0 ? BuildingBubbleTypeSell : BuildingBubbleTypeNone)  withNum:numOverInv];
-  }
-  
-  int numOnTeam = (int)gs.allBattleAvailableAliveMonstersOnTeam.count;
-  for (TeamCenterBuilding *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
-    [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
-    [b setNumEquipped:numOnTeam];
   }
   
   BOOL evoInProgress = gs.userEvolution != nil;
@@ -649,6 +652,7 @@
   [self reloadStorages];
   [self reloadPier];
   [self reloadBubblesOnMiscBuildings];
+  [self reloadTeamCenter];
 }
 
 #pragma mark - Moving
@@ -1667,6 +1671,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPier) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];

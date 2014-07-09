@@ -111,6 +111,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasUserBeatAllCityTasks_:1;
   BOOL hasIsEvent_:1;
   BOOL hasForceEnemyElem_:1;
+  BOOL hasAlreadyCompletedMiniTutorialTask_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasPersistentEventId_:1;
@@ -120,6 +121,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL userBeatAllCityTasks_:1;
   BOOL isEvent_:1;
   BOOL forceEnemyElem_:1;
+  BOOL alreadyCompletedMiniTutorialTask_:1;
   int64_t clientTime;
   int32_t taskId;
   int32_t persistentEventId;
@@ -137,6 +139,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasGemsSpent;
 - (BOOL) hasElem;
 - (BOOL) hasForceEnemyElem;
+- (BOOL) hasAlreadyCompletedMiniTutorialTask;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
@@ -146,6 +149,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @property (readonly) int32_t gemsSpent;
 @property (readonly) Element elem;
 - (BOOL) forceEnemyElem;
+- (BOOL) alreadyCompletedMiniTutorialTask;
 - (NSArray*) questIdsList;
 - (int32_t) questIdsAtIndex:(int32_t) index;
 
@@ -236,6 +240,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) forceEnemyElem;
 - (BeginDungeonRequestProto_Builder*) setForceEnemyElem:(BOOL) value;
 - (BeginDungeonRequestProto_Builder*) clearForceEnemyElem;
+
+- (BOOL) hasAlreadyCompletedMiniTutorialTask;
+- (BOOL) alreadyCompletedMiniTutorialTask;
+- (BeginDungeonRequestProto_Builder*) setAlreadyCompletedMiniTutorialTask:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearAlreadyCompletedMiniTutorialTask;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {

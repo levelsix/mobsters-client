@@ -19,27 +19,27 @@
 @implementation MiniTutorialController
 
 + (id) miniTutorialForCityId:(int)cityId assetId:(int)assetId gameViewController:(GameViewController *)gvc {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTuts = gl.miniTutorialConstants;
-  
-  NSArray *myTeam = gs.allMonstersOnMyTeam;
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTuts = gl.miniTutorialConstants;
+//  
+//  NSArray *myTeam = gs.allMonstersOnMyTeam;
   MiniTutorialController *mtc = nil;
-  if (cityId == miniTuts.cityId) {
-    if (assetId == miniTuts.matchThreeTutorialAssetId) {
-      mtc = [[TutorialBasicComboController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    } else if (assetId == miniTuts.firstPowerUpAssetId) {
-      mtc = [[TutorialPowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    } else if (assetId == miniTuts.elementTutorialAssetId) {
-      mtc = [[TutorialElementsController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    } else if (assetId == miniTuts.rainbowTutorialAssetId) {
-      mtc = [[TutorialRainbowController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    } else if (assetId == miniTuts.powerUpComboTutorialAssetId) {
-      mtc = [[TutorialDoublePowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    } else if (assetId == miniTuts.monsterDropTutorialAssetId) {
-      mtc = [[TutorialDropController alloc] initWithMyTeam:myTeam gameViewController:gvc];
-    }
-  }
+//  if (cityId == miniTuts.cityId) {
+//    if (assetId == miniTuts.matchThreeTutorialAssetId) {
+//      mtc = [[TutorialBasicComboController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    } else if (assetId == miniTuts.firstPowerUpAssetId) {
+//      mtc = [[TutorialPowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    } else if (assetId == miniTuts.elementTutorialAssetId) {
+//      mtc = [[TutorialElementsController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    } else if (assetId == miniTuts.rainbowTutorialAssetId) {
+//      mtc = [[TutorialRainbowController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    } else if (assetId == miniTuts.powerUpComboTutorialAssetId) {
+//      mtc = [[TutorialDoublePowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    } else if (assetId == miniTuts.monsterDropTutorialAssetId) {
+//      mtc = [[TutorialDropController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+//    }
+//  }
   return mtc;
 }
 

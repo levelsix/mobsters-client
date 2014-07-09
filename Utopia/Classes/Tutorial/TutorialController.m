@@ -67,6 +67,16 @@
         monsterId = self.constants.guideMonsterId;
         isLeftSide = YES;
         break;
+      case TutorialDialogueSpeakerGuide2:
+        monsterId = self.constants.guideMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
+        isLeftSide = YES;
+        break;
+      case TutorialDialogueSpeakerGuide3:
+        monsterId = self.constants.guideMonsterId;
+        suffix = [@"P3" stringByAppendingString:suffix];
+        isLeftSide = YES;
+        break;
       case TutorialDialogueSpeakerFriend:
         monsterId = self.constants.startingMonsterId;
         isLeftSide = YES;
@@ -100,6 +110,16 @@
         break;
       case TutorialDialogueSpeakerEnemyBoss:
         monsterId = self.constants.enemyBossMonsterId;
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemyBoss2:
+        monsterId = self.constants.enemyBossMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemyBoss3:
+        monsterId = self.constants.enemyBossMonsterId;
+        suffix = [@"P3" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       default:
@@ -150,7 +170,7 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  [self createCloseButton];
+  //[self createCloseButton];
   
 #ifdef DEBUG
   [self initHomeMap];
@@ -377,9 +397,9 @@
 #pragma mark - Tutorial Sequence
 
 - (void) beginGuideGreetingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Hey Boss! We’ve been expecting you!",
-                        @(TutorialDialogueSpeakerGuide), @"An evil dictator named Lil’ Kim has taken over the world and it’s up to you to stop him!",
-                        @(TutorialDialogueSpeakerGuide), @"Hopefully they don’t find..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Hey Boss! We’ve been expecting you!",
+                        @(TutorialDialogueSpeakerGuide2), @"An evil dictator named Lil’ Kim has taken over the world and it’s up to you to stop him!",
+                        @(TutorialDialogueSpeakerGuide2), @"Hopefully they don’t find..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   [self.homeMap centerOnGuide];
@@ -394,7 +414,7 @@
 }
 
 - (void) beginEnemyBossThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Well well well... you peasants think you can start a new squad, under my watch?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"Well well well... you peasants think you can start a new squad, under my watch?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepEnemyBossThreat;
@@ -408,7 +428,7 @@
 }
 
 - (void) beginGuideScaredPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Oh no. It’s Lil’ Kim! Send my nephew into battle, Boss! I don’t like him anyways."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide3), @"Oh no. It’s Lil’ Kim! Send my nephew into battle, Boss! I don’t like him anyways."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepGuideScared;
@@ -486,7 +506,7 @@
 }
 
 - (void) beginSecondBattleEnemyBossTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Sigh, never leave a man to do a chicken’s work. Take him out Drumstix."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss2), @"Sigh, never leave a man to do a chicken’s work. Take him out Drumstix."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleEnemyBossTaunt;
@@ -544,7 +564,7 @@
 }
 
 - (void) beginEnterHospitalPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide), @"Whew! That was a close one. Thanks for the help Zark!",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Whew! That was a close one. Thanks for the help Zark!",
                         @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda... dying.",
                         @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
@@ -648,7 +668,7 @@
 
 - (void) beginAttackMapPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Is that really on your birth certificate? Seems legit I guess.",
-                        @(TutorialDialogueSpeakerGuide), @"Yippee! Now let's go recruit some mobsters to join your team."];
+                        @(TutorialDialogueSpeakerGuide2), @"Yippee! Now let's go recruit some mobsters to join your team."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepAttackMap;

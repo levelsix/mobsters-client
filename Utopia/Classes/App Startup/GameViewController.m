@@ -46,6 +46,7 @@
 #import "LevelUpNode.h"
 #import "QuestCompleteLayer.h"
 #import "ChatViewController.h"
+#import "TutorialTeamController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -54,6 +55,8 @@
 #define PART_1_PERCENT 0.05f
 #define PART_2_PERCENT 0.75f
 #define PART_3_PERCENT 0.9f
+
+#define EQUIP_MINI_TUTORIAL_DEFAULT_KEY @"EquipMiniTutComplete"
 
 @implementation GameViewController
 
@@ -379,7 +382,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
       [self checkLevelUp];
     }];
-    
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
@@ -774,15 +776,28 @@
   }
   
   _isInBattle = NO;
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
-  if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
-    MenuNavigationController *m = [[MenuNavigationController alloc] init];
-    [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
-    [self presentViewController:m animated:YES completion:^{
-      [self showTopBarDuration:0.f completion:nil];
-    }];
-  } else {
+  GameState *gs = [GameState sharedGameState];
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  if (![def boolForKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY] &&
+           gs.level < 5 && [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY]) {
+    [def setBool:YES forKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY];
+    
+    [[CCDirector sharedDirector] popScene];
+    
+    NSArray *arr = [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY];
+    FullUserMonsterProto *fump = arr[0];
+    TutorialTeamController *tvc = [[TutorialTeamController alloc] initWithMyTeam:[gs allBattleAvailableMonstersOnTeam] gameViewController:self];
+    tvc.lootMonsterId = fump.monsterId;
+    tvc.lootUserMonsterId = fump.userMonsterId;
+    self.miniTutController = tvc;
+    [self.miniTutController begin];
+    
+    [self showTopBarDuration:0.f completion:nil];
+  }
+  
+  else {
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
     // Don't show top bar if theres a completed quest because it will just be faded out immediately
     if (self.completedQuests.count) {
       [self performSelector:@selector(checkQuests) withObject:nil afterDelay:duration+0.1];

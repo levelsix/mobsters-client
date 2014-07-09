@@ -4252,87 +4252,33 @@ static StartupResponseProto_StartupConstants_TaskMapConstants* defaultStartupRes
 @end
 
 @interface StartupResponseProto_StartupConstants_MiniTutorialConstants ()
-@property int32_t matchThreeTutorialAssetId;
-@property int32_t firstPowerUpAssetId;
-@property int32_t rainbowTutorialAssetId;
-@property int32_t powerUpComboTutorialAssetId;
-@property int32_t monsterDropTutorialAssetId;
-@property int32_t elementTutorialAssetId;
-@property int32_t cityId;
-@property int32_t questIdForCombiningPowerUps;
+@property int32_t miniTutorialTaskId;
+@property int32_t guideMonsterId;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MiniTutorialConstants
 
-- (BOOL) hasMatchThreeTutorialAssetId {
-  return !!hasMatchThreeTutorialAssetId_;
+- (BOOL) hasMiniTutorialTaskId {
+  return !!hasMiniTutorialTaskId_;
 }
-- (void) setHasMatchThreeTutorialAssetId:(BOOL) value {
-  hasMatchThreeTutorialAssetId_ = !!value;
+- (void) setHasMiniTutorialTaskId:(BOOL) value {
+  hasMiniTutorialTaskId_ = !!value;
 }
-@synthesize matchThreeTutorialAssetId;
-- (BOOL) hasFirstPowerUpAssetId {
-  return !!hasFirstPowerUpAssetId_;
+@synthesize miniTutorialTaskId;
+- (BOOL) hasGuideMonsterId {
+  return !!hasGuideMonsterId_;
 }
-- (void) setHasFirstPowerUpAssetId:(BOOL) value {
-  hasFirstPowerUpAssetId_ = !!value;
+- (void) setHasGuideMonsterId:(BOOL) value {
+  hasGuideMonsterId_ = !!value;
 }
-@synthesize firstPowerUpAssetId;
-- (BOOL) hasRainbowTutorialAssetId {
-  return !!hasRainbowTutorialAssetId_;
-}
-- (void) setHasRainbowTutorialAssetId:(BOOL) value {
-  hasRainbowTutorialAssetId_ = !!value;
-}
-@synthesize rainbowTutorialAssetId;
-- (BOOL) hasPowerUpComboTutorialAssetId {
-  return !!hasPowerUpComboTutorialAssetId_;
-}
-- (void) setHasPowerUpComboTutorialAssetId:(BOOL) value {
-  hasPowerUpComboTutorialAssetId_ = !!value;
-}
-@synthesize powerUpComboTutorialAssetId;
-- (BOOL) hasMonsterDropTutorialAssetId {
-  return !!hasMonsterDropTutorialAssetId_;
-}
-- (void) setHasMonsterDropTutorialAssetId:(BOOL) value {
-  hasMonsterDropTutorialAssetId_ = !!value;
-}
-@synthesize monsterDropTutorialAssetId;
-- (BOOL) hasElementTutorialAssetId {
-  return !!hasElementTutorialAssetId_;
-}
-- (void) setHasElementTutorialAssetId:(BOOL) value {
-  hasElementTutorialAssetId_ = !!value;
-}
-@synthesize elementTutorialAssetId;
-- (BOOL) hasCityId {
-  return !!hasCityId_;
-}
-- (void) setHasCityId:(BOOL) value {
-  hasCityId_ = !!value;
-}
-@synthesize cityId;
-- (BOOL) hasQuestIdForCombiningPowerUps {
-  return !!hasQuestIdForCombiningPowerUps_;
-}
-- (void) setHasQuestIdForCombiningPowerUps:(BOOL) value {
-  hasQuestIdForCombiningPowerUps_ = !!value;
-}
-@synthesize questIdForCombiningPowerUps;
+@synthesize guideMonsterId;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.matchThreeTutorialAssetId = 0;
-    self.firstPowerUpAssetId = 0;
-    self.rainbowTutorialAssetId = 0;
-    self.powerUpComboTutorialAssetId = 0;
-    self.monsterDropTutorialAssetId = 0;
-    self.elementTutorialAssetId = 0;
-    self.cityId = 0;
-    self.questIdForCombiningPowerUps = 0;
+    self.miniTutorialTaskId = 0;
+    self.guideMonsterId = 0;
   }
   return self;
 }
@@ -4352,29 +4298,11 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasMatchThreeTutorialAssetId) {
-    [output writeInt32:1 value:self.matchThreeTutorialAssetId];
+  if (self.hasMiniTutorialTaskId) {
+    [output writeInt32:1 value:self.miniTutorialTaskId];
   }
-  if (self.hasFirstPowerUpAssetId) {
-    [output writeInt32:2 value:self.firstPowerUpAssetId];
-  }
-  if (self.hasRainbowTutorialAssetId) {
-    [output writeInt32:3 value:self.rainbowTutorialAssetId];
-  }
-  if (self.hasPowerUpComboTutorialAssetId) {
-    [output writeInt32:4 value:self.powerUpComboTutorialAssetId];
-  }
-  if (self.hasMonsterDropTutorialAssetId) {
-    [output writeInt32:5 value:self.monsterDropTutorialAssetId];
-  }
-  if (self.hasElementTutorialAssetId) {
-    [output writeInt32:6 value:self.elementTutorialAssetId];
-  }
-  if (self.hasCityId) {
-    [output writeInt32:7 value:self.cityId];
-  }
-  if (self.hasQuestIdForCombiningPowerUps) {
-    [output writeInt32:8 value:self.questIdForCombiningPowerUps];
+  if (self.hasGuideMonsterId) {
+    [output writeInt32:2 value:self.guideMonsterId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4385,29 +4313,11 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
 
   size = 0;
-  if (self.hasMatchThreeTutorialAssetId) {
-    size += computeInt32Size(1, self.matchThreeTutorialAssetId);
+  if (self.hasMiniTutorialTaskId) {
+    size += computeInt32Size(1, self.miniTutorialTaskId);
   }
-  if (self.hasFirstPowerUpAssetId) {
-    size += computeInt32Size(2, self.firstPowerUpAssetId);
-  }
-  if (self.hasRainbowTutorialAssetId) {
-    size += computeInt32Size(3, self.rainbowTutorialAssetId);
-  }
-  if (self.hasPowerUpComboTutorialAssetId) {
-    size += computeInt32Size(4, self.powerUpComboTutorialAssetId);
-  }
-  if (self.hasMonsterDropTutorialAssetId) {
-    size += computeInt32Size(5, self.monsterDropTutorialAssetId);
-  }
-  if (self.hasElementTutorialAssetId) {
-    size += computeInt32Size(6, self.elementTutorialAssetId);
-  }
-  if (self.hasCityId) {
-    size += computeInt32Size(7, self.cityId);
-  }
-  if (self.hasQuestIdForCombiningPowerUps) {
-    size += computeInt32Size(8, self.questIdForCombiningPowerUps);
+  if (self.hasGuideMonsterId) {
+    size += computeInt32Size(2, self.guideMonsterId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4484,29 +4394,11 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other == [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance]) {
     return self;
   }
-  if (other.hasMatchThreeTutorialAssetId) {
-    [self setMatchThreeTutorialAssetId:other.matchThreeTutorialAssetId];
+  if (other.hasMiniTutorialTaskId) {
+    [self setMiniTutorialTaskId:other.miniTutorialTaskId];
   }
-  if (other.hasFirstPowerUpAssetId) {
-    [self setFirstPowerUpAssetId:other.firstPowerUpAssetId];
-  }
-  if (other.hasRainbowTutorialAssetId) {
-    [self setRainbowTutorialAssetId:other.rainbowTutorialAssetId];
-  }
-  if (other.hasPowerUpComboTutorialAssetId) {
-    [self setPowerUpComboTutorialAssetId:other.powerUpComboTutorialAssetId];
-  }
-  if (other.hasMonsterDropTutorialAssetId) {
-    [self setMonsterDropTutorialAssetId:other.monsterDropTutorialAssetId];
-  }
-  if (other.hasElementTutorialAssetId) {
-    [self setElementTutorialAssetId:other.elementTutorialAssetId];
-  }
-  if (other.hasCityId) {
-    [self setCityId:other.cityId];
-  }
-  if (other.hasQuestIdForCombiningPowerUps) {
-    [self setQuestIdForCombiningPowerUps:other.questIdForCombiningPowerUps];
+  if (other.hasGuideMonsterId) {
+    [self setGuideMonsterId:other.guideMonsterId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4530,166 +4422,46 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
         break;
       }
       case 8: {
-        [self setMatchThreeTutorialAssetId:[input readInt32]];
+        [self setMiniTutorialTaskId:[input readInt32]];
         break;
       }
       case 16: {
-        [self setFirstPowerUpAssetId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setRainbowTutorialAssetId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setPowerUpComboTutorialAssetId:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setMonsterDropTutorialAssetId:[input readInt32]];
-        break;
-      }
-      case 48: {
-        [self setElementTutorialAssetId:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setCityId:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setQuestIdForCombiningPowerUps:[input readInt32]];
+        [self setGuideMonsterId:[input readInt32]];
         break;
       }
     }
   }
 }
-- (BOOL) hasMatchThreeTutorialAssetId {
-  return result.hasMatchThreeTutorialAssetId;
+- (BOOL) hasMiniTutorialTaskId {
+  return result.hasMiniTutorialTaskId;
 }
-- (int32_t) matchThreeTutorialAssetId {
-  return result.matchThreeTutorialAssetId;
+- (int32_t) miniTutorialTaskId {
+  return result.miniTutorialTaskId;
 }
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMatchThreeTutorialAssetId:(int32_t) value {
-  result.hasMatchThreeTutorialAssetId = YES;
-  result.matchThreeTutorialAssetId = value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMiniTutorialTaskId:(int32_t) value {
+  result.hasMiniTutorialTaskId = YES;
+  result.miniTutorialTaskId = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMatchThreeTutorialAssetId {
-  result.hasMatchThreeTutorialAssetId = NO;
-  result.matchThreeTutorialAssetId = 0;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMiniTutorialTaskId {
+  result.hasMiniTutorialTaskId = NO;
+  result.miniTutorialTaskId = 0;
   return self;
 }
-- (BOOL) hasFirstPowerUpAssetId {
-  return result.hasFirstPowerUpAssetId;
+- (BOOL) hasGuideMonsterId {
+  return result.hasGuideMonsterId;
 }
-- (int32_t) firstPowerUpAssetId {
-  return result.firstPowerUpAssetId;
+- (int32_t) guideMonsterId {
+  return result.guideMonsterId;
 }
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setFirstPowerUpAssetId:(int32_t) value {
-  result.hasFirstPowerUpAssetId = YES;
-  result.firstPowerUpAssetId = value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setGuideMonsterId:(int32_t) value {
+  result.hasGuideMonsterId = YES;
+  result.guideMonsterId = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearFirstPowerUpAssetId {
-  result.hasFirstPowerUpAssetId = NO;
-  result.firstPowerUpAssetId = 0;
-  return self;
-}
-- (BOOL) hasRainbowTutorialAssetId {
-  return result.hasRainbowTutorialAssetId;
-}
-- (int32_t) rainbowTutorialAssetId {
-  return result.rainbowTutorialAssetId;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setRainbowTutorialAssetId:(int32_t) value {
-  result.hasRainbowTutorialAssetId = YES;
-  result.rainbowTutorialAssetId = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearRainbowTutorialAssetId {
-  result.hasRainbowTutorialAssetId = NO;
-  result.rainbowTutorialAssetId = 0;
-  return self;
-}
-- (BOOL) hasPowerUpComboTutorialAssetId {
-  return result.hasPowerUpComboTutorialAssetId;
-}
-- (int32_t) powerUpComboTutorialAssetId {
-  return result.powerUpComboTutorialAssetId;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setPowerUpComboTutorialAssetId:(int32_t) value {
-  result.hasPowerUpComboTutorialAssetId = YES;
-  result.powerUpComboTutorialAssetId = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearPowerUpComboTutorialAssetId {
-  result.hasPowerUpComboTutorialAssetId = NO;
-  result.powerUpComboTutorialAssetId = 0;
-  return self;
-}
-- (BOOL) hasMonsterDropTutorialAssetId {
-  return result.hasMonsterDropTutorialAssetId;
-}
-- (int32_t) monsterDropTutorialAssetId {
-  return result.monsterDropTutorialAssetId;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMonsterDropTutorialAssetId:(int32_t) value {
-  result.hasMonsterDropTutorialAssetId = YES;
-  result.monsterDropTutorialAssetId = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMonsterDropTutorialAssetId {
-  result.hasMonsterDropTutorialAssetId = NO;
-  result.monsterDropTutorialAssetId = 0;
-  return self;
-}
-- (BOOL) hasElementTutorialAssetId {
-  return result.hasElementTutorialAssetId;
-}
-- (int32_t) elementTutorialAssetId {
-  return result.elementTutorialAssetId;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setElementTutorialAssetId:(int32_t) value {
-  result.hasElementTutorialAssetId = YES;
-  result.elementTutorialAssetId = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId {
-  result.hasElementTutorialAssetId = NO;
-  result.elementTutorialAssetId = 0;
-  return self;
-}
-- (BOOL) hasCityId {
-  return result.hasCityId;
-}
-- (int32_t) cityId {
-  return result.cityId;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setCityId:(int32_t) value {
-  result.hasCityId = YES;
-  result.cityId = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId {
-  result.hasCityId = NO;
-  result.cityId = 0;
-  return self;
-}
-- (BOOL) hasQuestIdForCombiningPowerUps {
-  return result.hasQuestIdForCombiningPowerUps;
-}
-- (int32_t) questIdForCombiningPowerUps {
-  return result.questIdForCombiningPowerUps;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setQuestIdForCombiningPowerUps:(int32_t) value {
-  result.hasQuestIdForCombiningPowerUps = YES;
-  result.questIdForCombiningPowerUps = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearQuestIdForCombiningPowerUps {
-  result.hasQuestIdForCombiningPowerUps = NO;
-  result.questIdForCombiningPowerUps = 0;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId {
+  result.hasGuideMonsterId = NO;
+  result.guideMonsterId = 0;
   return self;
 }
 @end

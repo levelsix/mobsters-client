@@ -176,6 +176,8 @@
 
 - (void) displaySwapButton;
 
+- (NSDictionary *) battleCompleteValues;
+
 - (IBAction)winExitClicked:(id)sender;
 - (IBAction)manageClicked:(id)sender;
 - (IBAction)shareClicked:(id)sender;

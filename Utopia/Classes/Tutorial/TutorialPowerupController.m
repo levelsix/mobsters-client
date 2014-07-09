@@ -16,10 +16,10 @@
   self.battleLayer = [[TutorialPowerupBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)];
   self.battleLayer.delegate = self;
   
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  FullTaskProto *ftp = [gs taskWithCityId:gl.miniTutorialConstants.cityId assetId:gl.miniTutorialConstants.matchThreeTutorialAssetId];
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId withDelegate:self.battleLayer];
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  FullTaskProto *ftp = nil;//[gs taskWithCityId:gl.miniTutorialConstants.cityId assetId:gl.miniTutorialConstants.matchThreeTutorialAssetId];
+//  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId withDelegate:self.battleLayer];
 }
 
 - (void) beginFirstMove {

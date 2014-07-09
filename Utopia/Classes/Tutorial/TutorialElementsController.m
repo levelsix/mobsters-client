@@ -69,12 +69,12 @@
   self.battleLayer = [[TutorialElementsBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)];
   self.battleLayer.delegate = self;
   
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  FullTaskProto *ftp = [gs taskWithCityId:1 assetId:gl.miniTutorialConstants.elementTutorialAssetId];
-  Element elem = [self.battleLayer firstMyPlayer].element;
-  Element enemyElem = [Globals elementForSuperEffective:elem];
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId enemyElement:enemyElem withDelegate:self.battleLayer];
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  FullTaskProto *ftp = nil;//[gs taskWithCityId:1 assetId:gl.miniTutorialConstants.elementTutorialAssetId];
+//  Element elem = [self.battleLayer firstMyPlayer].element;
+//  Element enemyElem = [Globals elementForSuperEffective:elem];
+//  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId enemyElement:enemyElem withDelegate:self.battleLayer];
 }
 
 - (void) beginFirstMove {

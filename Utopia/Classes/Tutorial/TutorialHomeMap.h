@@ -11,6 +11,7 @@
 
 @protocol TutorialHomeMapDelegate <NSObject>
 
+@optional
 - (void) boatLanded;
 - (void) enemyTwoJumped;
 - (void) guideReachedHideLocation;
@@ -24,10 +25,15 @@
 - (void) buildingWasSpedUp:(int)gemsSpent;
 - (void) buildingWasCompleted;
 
+- (void) teamCenterClicked;
+- (void) enterTeamCenterClicked;
+
 @end
 
 @interface TutorialHomeMap : HomeMap {
   CGPoint _lastBoatPosition;
+  
+  BOOL _enteringHospital;
 }
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
@@ -51,6 +57,7 @@
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 
 - (HospitalBuilding *) hospital;
+- (TeamCenterBuilding *) teamCenterBuilding;
 
 - (void) centerOnGuide;
 - (void) enemyTwoJump;
@@ -71,5 +78,6 @@
 - (void) moveToOilDrill;
 - (void) panToMark;
 - (void) friendFaceForward;
+- (void) moveToTeamCenter;
 
 @end

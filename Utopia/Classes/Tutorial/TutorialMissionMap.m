@@ -489,42 +489,42 @@
 }
 
 - (void) moveToThirdBuilding {
-  Globals *gl = [Globals sharedGlobals];
-  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
-  self.scale = 1.1f;
-  MapSprite *ms = [self assetWithId:assetId];
-  [self moveToSprite:ms animated:NO];
+//  Globals *gl = [Globals sharedGlobals];
+//  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
+//  self.scale = 1.1f;
+//  MapSprite *ms = [self assetWithId:assetId];
+//  [self moveToSprite:ms animated:NO];
 }
 
 - (void) displayArrowOverThirdBuilding {
-  Globals *gl = [Globals sharedGlobals];
-  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
-  
-  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
-  [ms displayArrow];
-  
-  self.clickableAssetId = assetId;
+//  Globals *gl = [Globals sharedGlobals];
+//  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
+//  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
+//  
+//  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+//  [ms displayArrow];
+//  
+//  self.clickableAssetId = assetId;
 }
 
 - (void) moveToFourthBuildingAndDisplayArrow {
-  Globals *gl = [Globals sharedGlobals];
-  int assetId = gl.miniTutorialConstants.powerUpComboTutorialAssetId;
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
-  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
-  [ms displayArrow];
-  
-  self.clickableAssetId = assetId;
+//  Globals *gl = [Globals sharedGlobals];
+//  int assetId = gl.miniTutorialConstants.powerUpComboTutorialAssetId;
+//  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
+//  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+//  [ms displayArrow];
+//  
+//  self.clickableAssetId = assetId;
 }
 
 - (void) moveToFifthBuildingAndDisplayArrow {
-  Globals *gl = [Globals sharedGlobals];
-  int assetId = gl.miniTutorialConstants.monsterDropTutorialAssetId;
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
-  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
-  [ms displayArrow];
-  
-  self.clickableAssetId = assetId;
+//  Globals *gl = [Globals sharedGlobals];
+//  int assetId = gl.miniTutorialConstants.monsterDropTutorialAssetId;
+//  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
+//  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+//  [ms displayArrow];
+//  
+//  self.clickableAssetId = assetId;
 }
 
 #pragma mark - Overwritten methods

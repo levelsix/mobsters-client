@@ -52,4 +52,6 @@
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
+- (UserMonster *) monsterForSlot:(NSInteger)slot;
+
 @end

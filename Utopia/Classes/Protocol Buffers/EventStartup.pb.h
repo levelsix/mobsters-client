@@ -1285,39 +1285,15 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants_MiniTutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasMatchThreeTutorialAssetId_:1;
-  BOOL hasFirstPowerUpAssetId_:1;
-  BOOL hasRainbowTutorialAssetId_:1;
-  BOOL hasPowerUpComboTutorialAssetId_:1;
-  BOOL hasMonsterDropTutorialAssetId_:1;
-  BOOL hasElementTutorialAssetId_:1;
-  BOOL hasCityId_:1;
-  BOOL hasQuestIdForCombiningPowerUps_:1;
-  int32_t matchThreeTutorialAssetId;
-  int32_t firstPowerUpAssetId;
-  int32_t rainbowTutorialAssetId;
-  int32_t powerUpComboTutorialAssetId;
-  int32_t monsterDropTutorialAssetId;
-  int32_t elementTutorialAssetId;
-  int32_t cityId;
-  int32_t questIdForCombiningPowerUps;
+  BOOL hasMiniTutorialTaskId_:1;
+  BOOL hasGuideMonsterId_:1;
+  int32_t miniTutorialTaskId;
+  int32_t guideMonsterId;
 }
-- (BOOL) hasMatchThreeTutorialAssetId;
-- (BOOL) hasFirstPowerUpAssetId;
-- (BOOL) hasRainbowTutorialAssetId;
-- (BOOL) hasPowerUpComboTutorialAssetId;
-- (BOOL) hasMonsterDropTutorialAssetId;
-- (BOOL) hasElementTutorialAssetId;
-- (BOOL) hasCityId;
-- (BOOL) hasQuestIdForCombiningPowerUps;
-@property (readonly) int32_t matchThreeTutorialAssetId;
-@property (readonly) int32_t firstPowerUpAssetId;
-@property (readonly) int32_t rainbowTutorialAssetId;
-@property (readonly) int32_t powerUpComboTutorialAssetId;
-@property (readonly) int32_t monsterDropTutorialAssetId;
-@property (readonly) int32_t elementTutorialAssetId;
-@property (readonly) int32_t cityId;
-@property (readonly) int32_t questIdForCombiningPowerUps;
+- (BOOL) hasMiniTutorialTaskId;
+- (BOOL) hasGuideMonsterId;
+@property (readonly) int32_t miniTutorialTaskId;
+@property (readonly) int32_t guideMonsterId;
 
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
@@ -1353,45 +1329,15 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasMatchThreeTutorialAssetId;
-- (int32_t) matchThreeTutorialAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMatchThreeTutorialAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMatchThreeTutorialAssetId;
+- (BOOL) hasMiniTutorialTaskId;
+- (int32_t) miniTutorialTaskId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMiniTutorialTaskId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMiniTutorialTaskId;
 
-- (BOOL) hasFirstPowerUpAssetId;
-- (int32_t) firstPowerUpAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setFirstPowerUpAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearFirstPowerUpAssetId;
-
-- (BOOL) hasRainbowTutorialAssetId;
-- (int32_t) rainbowTutorialAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setRainbowTutorialAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearRainbowTutorialAssetId;
-
-- (BOOL) hasPowerUpComboTutorialAssetId;
-- (int32_t) powerUpComboTutorialAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setPowerUpComboTutorialAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearPowerUpComboTutorialAssetId;
-
-- (BOOL) hasMonsterDropTutorialAssetId;
-- (int32_t) monsterDropTutorialAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMonsterDropTutorialAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMonsterDropTutorialAssetId;
-
-- (BOOL) hasElementTutorialAssetId;
-- (int32_t) elementTutorialAssetId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setElementTutorialAssetId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId;
-
-- (BOOL) hasCityId;
-- (int32_t) cityId;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setCityId:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId;
-
-- (BOOL) hasQuestIdForCombiningPowerUps;
-- (int32_t) questIdForCombiningPowerUps;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setQuestIdForCombiningPowerUps:(int32_t) value;
-- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearQuestIdForCombiningPowerUps;
+- (BOOL) hasGuideMonsterId;
+- (int32_t) guideMonsterId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setGuideMonsterId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {

@@ -139,7 +139,7 @@
                                             <rect key="frame" x="168" y="13" width="18" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notificationbubble.png" id="MHu-zJ-UGM">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="MHu-zJ-UGM">
                                                     <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -199,6 +199,7 @@
         </view>
     </objects>
     <resources>
+        <image name="badgeicon.png" width="18" height="18"/>
         <image name="menuactivetab.png" width="151" height="31"/>
         <image name="menubottomblue.png" width="1" height="35"/>
         <image name="menubuildingsiconactive.png" width="11" height="14"/>
@@ -210,7 +211,6 @@
         <image name="menuresourcesactive.png" width="13" height="13"/>
         <image name="menuresourcesinactive.png" width="13" height="13"/>
         <image name="navshelf.png" width="1" height="39"/>
-        <image name="notificationbubble.png" width="18" height="18"/>
         <image name="settingsbutton.png" width="24" height="24"/>
     </resources>
 </document>

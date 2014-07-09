@@ -943,14 +943,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
-  GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:ElementFire shouldForceElem:NO questIds:gs.inProgressIncompleteQuests.allKeys];
-  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  [self beginDungeon:taskId isEvent:NO eventId:0 useGems:NO withDelegate:delegate];
 }
 
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES questIds:gs.inProgressIncompleteQuests.allKeys];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES alreadyCompletedMiniTutorialTask:NO questIds:gs.inProgressIncompleteQuests.allKeys];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
@@ -981,7 +979,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO questIds:nil];
+  BOOL mini = taskId == gl.miniTutorialConstants.miniTutorialTaskId && [gs.completedTasks containsObject:@(taskId)];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO alreadyCompletedMiniTutorialTask:mini questIds:nil];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
   

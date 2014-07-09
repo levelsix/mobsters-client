@@ -70,6 +70,7 @@
 - (void) invalidateAllTimers;
 
 - (NSArray *) reloadObstacles;
+- (void) reloadTeamCenter;
 
 - (void) reselectCurrentSelection;
 
