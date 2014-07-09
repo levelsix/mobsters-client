@@ -533,7 +533,7 @@
     }
     
     if (!active && gs.myMiniJobs.count > 0) {
-      [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:gs.myMiniJobs.count];
+      [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:(int)gs.myMiniJobs.count];
       [mjcb updateForActiveMiniJob:nil];
     } else {
       [mjcb updateForActiveMiniJob:active];
@@ -616,8 +616,9 @@
   }
   
   int numOnTeam = (int)gs.allBattleAvailableAliveMonstersOnTeam.count;
-  for (Building *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
+  for (TeamCenterBuilding *b in [self childrenOfClassType:[TeamCenterBuilding class]]) {
     [b setBubbleType:BuildingBubbleTypeManage withNum:numOnTeam];
+    [b setNumEquipped:numOnTeam];
   }
   
   BOOL evoInProgress = gs.userEvolution != nil;

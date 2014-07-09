@@ -844,6 +844,11 @@
   }
 }
 
+- (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num {
+  [super setBubbleType:bubbleType withNum:num];
+  _bubble.position = ccp(self.contentSize.width/2-3, self.contentSize.height/2+3);
+}
+
 - (void) updateProgressBar {
   if (self.isConstructing) {
     [super updateProgressBar];
@@ -866,5 +871,24 @@
 @end
 
 @implementation TeamCenterBuilding
+
+- (void) setupBuildingSprite:(NSString *)fileName {
+  [self.buildingSprite removeFromParent];
+  
+  fileName = fileName.stringByDeletingPathExtension;
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
+  self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:2.];
+  
+  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
+  [self addChild:self.buildingSprite];
+  
+  [self adjustBuildingSprite];
+}
+
+- (void) setNumEquipped:(int)num {
+  int imgNum = clampf(num, 0, self.anim.frames.count-1);
+  CCSpriteFrame *frame = [self.anim.frames[imgNum] spriteFrame];
+  [self.buildingSprite setSpriteFrame:frame];
+}
 
 @end

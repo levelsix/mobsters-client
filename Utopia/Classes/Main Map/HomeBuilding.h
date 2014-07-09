@@ -115,4 +115,8 @@
 
 @interface TeamCenterBuilding : HomeBuilding
 
+@property (nonatomic, retain) CCAnimation *anim;
+
+- (void) setNumEquipped:(int)num;
+
 @end

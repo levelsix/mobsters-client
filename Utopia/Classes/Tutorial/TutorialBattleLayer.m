@@ -54,7 +54,7 @@
   NSMutableArray *mut = [NSMutableArray array];
   self.enemyTeamSprites = mut;
   for (BattlePlayer *bp in self.enemyTeam) {
-    NSInteger idx = [self.enemyTeam indexOfObject:bp];
+    int idx = (int)[self.enemyTeam indexOfObject:bp];
     BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
     bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
     [self.bgdContainer addChild:bs z:-idx];
