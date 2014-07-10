@@ -60,4 +60,14 @@
 
 + (void) tutorialStep:(int)tutorialStep;
 
++ (void) tutorialFbPopup;
++ (void) tutorialFbPopupConnect;
++ (void) tutorialFbPopupConnectSuccess;
++ (void) tutorialFbPopupConnectFail;
++ (void) tutorialFbPopupConnectSkip;
++ (void) tutorialFbConfirmConnect;
++ (void) tutorialFbConfirmConnectSuccess;
++ (void) tutorialFbConfirmConnectFail;
++ (void) tutorialFbConfirmSkip;
+
 @end

@@ -3166,6 +3166,7 @@
 		CF0CE176196E552500ECD301 /* 6splashbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6splashbg@2x.png"; sourceTree = "<group>"; };
 		CF0CE184196F1F6200ECD301 /* splashloadingbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splashloadingbar.png; sourceTree = "<group>"; };
 		CF0CE185196F1F6200ECD301 /* splashloadingbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splashloadingbar@2x.png"; sourceTree = "<group>"; };
+		CF0CECDB196F367900ECD301 /* Mobsters copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mobsters copy-Info.plist"; path = "/Users/Ashwin/mobsters-client/Mobsters copy-Info.plist"; sourceTree = "<absolute>"; };
 		CF1256421538A94D00E0C1AD /* Mobsters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobsters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -6544,6 +6545,7 @@
 				CF1256431538A94D00E0C1AD /* Products */,
 				CF69FD2B174212ED001C96D0 /* Legends of Chaos.plist */,
 				D735B04C45CD4C97941C415D /* Pods.xcconfig */,
+				CF0CECDB196F367900ECD301 /* Mobsters copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -14653,7 +14655,7 @@
 					"$(inherited)",
 					"COCOS2D_DEBUG=1",
 					"UNIT_TESTING=0",
-					"AGE_OF_CHAOS=1",
+					"MOBSTERS=1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -14721,7 +14723,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"AGE_OF_CHAOS=1",
+					"MOBSTERS=1",
 					"$(inherited)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";

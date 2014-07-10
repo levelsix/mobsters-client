@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
+		<key>Mobsters copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
 		<key>Mobsters-Release.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -25,6 +30,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>455FC6B0157EE4E2008DB9E4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF0CE188196F367500ECD301</key>
 		<dict>
 			<key>primary</key>
 			<true/>

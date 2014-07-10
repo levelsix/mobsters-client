@@ -71,8 +71,17 @@
 #define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
-#define TUTORIAL_STEP @"Tutorial Step"
-#define TUTORIAL_STEP_NUM @"step"
+#define TUTORIAL_STEP @"tut_step"
+#define TUTORIAL_STEP_NUM @"step_num"
+#define TUTORIAL_FACEBOOK_POPUP @"tut_fb_popup"
+#define TUTORIAL_FACEBOOK_POPUP_CONNECT @"tut_fb_popup_cnct"
+#define TUTORIAL_FACEBOOK_POPUP_CONNECT_SUCCESS @"tut_fb_popup_cnct_success"
+#define TUTORIAL_FACEBOOK_POPUP_CONNECT_FAIL @"tut_fb_popup_cnct_fail"
+#define TUTORIAL_FACEBOOK_POPUP_SKIP @"tut_fb_popup_skip"
+#define TUTORIAL_FACEBOOK_CONFIRM_CONNECT @"tut_fb_cnfrm_cnct"
+#define TUTORIAL_FACEBOOK_CONFIRM_CONNECT_SUCCESS @"tut_fb_cnfrm_cnct_success"
+#define TUTORIAL_FACEBOOK_CONFIRM_CONNECT_FAIL @"tut_fb_cnfrm_cnct_fail"
+#define TUTORIAL_FACEBOOK_CONFIRM_SKIP @"tut_fb_cnfrm_skip"
 
 @implementation Analytics
 
@@ -329,6 +338,42 @@
 
 + (void) tutorialStep:(int)tutorialStep {
   [Analytics event:TUTORIAL_STEP withArgs:@{TUTORIAL_STEP_NUM: @(tutorialStep)}];
+}
+
++ (void) tutorialFbPopup {
+  [Analytics event:TUTORIAL_FACEBOOK_POPUP];
+}
+
++ (void) tutorialFbPopupConnect {
+  [Analytics event:TUTORIAL_FACEBOOK_POPUP_CONNECT];
+}
+
++ (void) tutorialFbPopupConnectSuccess {
+  [Analytics event:TUTORIAL_FACEBOOK_POPUP_CONNECT_SUCCESS];
+}
+
++ (void) tutorialFbPopupConnectFail {
+  [Analytics event:TUTORIAL_FACEBOOK_POPUP_CONNECT_FAIL];
+}
+
++ (void) tutorialFbPopupConnectSkip {
+  [Analytics event:TUTORIAL_FACEBOOK_POPUP_SKIP];
+}
+
++ (void) tutorialFbConfirmConnect {
+  [Analytics event:TUTORIAL_FACEBOOK_CONFIRM_CONNECT];
+}
+
++ (void) tutorialFbConfirmConnectSuccess {
+  [Analytics event:TUTORIAL_FACEBOOK_CONFIRM_CONNECT_SUCCESS];
+}
+
++ (void) tutorialFbConfirmConnectFail {
+  [Analytics event:TUTORIAL_FACEBOOK_CONFIRM_CONNECT_FAIL];
+}
+
++ (void) tutorialFbConfirmSkip {
+  [Analytics event:TUTORIAL_FACEBOOK_CONFIRM_SKIP];
 }
 
 @end
