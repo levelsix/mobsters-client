@@ -19,7 +19,6 @@
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
   self.doneButton.title = @"GO HOME";
-  self.manageButton.title = @"MANAGE MOBSTERS";
   
   [self.manageButton removeFromParent];
   self.manageButton = nil;
@@ -33,7 +32,6 @@
   clip.stencil = nil;
   
   self.doneButton.title = @"GO HOME";
-  self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
 
@@ -233,7 +231,6 @@
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
   self.doneButton.title = @"GO HOME";
-  self.manageButton.title = @"MANAGE MOBSTERS";
   
   [self.manageButton removeFromParent];
   self.manageButton = nil;
@@ -247,7 +244,6 @@
   clip.stencil = nil;
   
   self.doneButton.title = @"GO HOME";
-  self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
 

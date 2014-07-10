@@ -22,7 +22,7 @@
   
   self.listView.cellClassName = @"EnhanceCardCell";
   
-  self.title = @"ENHANCE MOBSTERS";
+  self.title = [NSString stringWithFormat:@"ENHANCE %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"enhancelabmenuheader.png";
 }
 

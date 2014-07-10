@@ -203,6 +203,8 @@
 		CF0CE14C196D6EB400ECD301 /* dectrunk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE0EB196D6EB300ECD301 /* dectrunk@2x.png */; };
 		CF0CE14F196D705700ECD301 /* menuclosex.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE14D196D705700ECD301 /* menuclosex.png */; };
 		CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE14E196D705700ECD301 /* menuclosex@2x.png */; };
+		CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */; };
+		CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0CE153196E2B1100ECD301 /* iAd.framework */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -3130,6 +3132,8 @@
 		CF0CE0EB196D6EB300ECD301 /* dectrunk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dectrunk@2x.png"; sourceTree = "<group>"; };
 		CF0CE14D196D705700ECD301 /* menuclosex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuclosex.png; sourceTree = "<group>"; };
 		CF0CE14E196D705700ECD301 /* menuclosex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuclosex@2x.png"; sourceTree = "<group>"; };
+		CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
+		CF0CE153196E2B1100ECD301 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		CF1256421538A94D00E0C1AD /* Mobsters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobsters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -6112,6 +6116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
+				CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */,
 				CFEF25DD18CAB8B200FB867A /* GameKit.framework in Frameworks */,
 				CFC04ED81891028D00F2DB59 /* libcocos2d.a in Frameworks */,
 				CFEF25C018C9ADC300FB867A /* FacebookSDK.framework in Frameworks */,
@@ -6526,6 +6532,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CE153196E2B1100ECD301 /* iAd.framework */,
 				CFEF25DC18CAB8B200FB867A /* GameKit.framework */,
 				CFE02D9618261F6F0016C1E2 /* libsqlite3.dylib */,
 				CF0C8751180520EE007D6E1A /* CoreText.framework */,
@@ -6766,6 +6773,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
 				CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */,
 				CFCD0EF91954E83800EDC233 /* NewRelicAgent.framework */,
 				CF864DCC193E802300DE0D7A /* MessageComposerView */,

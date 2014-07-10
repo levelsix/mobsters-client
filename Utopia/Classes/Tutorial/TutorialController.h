@@ -96,8 +96,6 @@ typedef enum {
 } TutorialStep;
 
 @interface TutorialController : NSObject <DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialHealDelegate, TutorialTopBarDelegate, BuildingViewDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate> {
-  TutorialStep _currentStep;
-  
   int _damageDealtToFriend;
   float _hospitalHealSpeed;
   
@@ -114,6 +112,8 @@ typedef enum {
   int _taskIdToEnter;
   BOOL _waitingOnFacebook;
 }
+
+@property (nonatomic, assign) TutorialStep currentStep;
 
 @property (nonatomic, assign) GameViewController *gameViewController;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;

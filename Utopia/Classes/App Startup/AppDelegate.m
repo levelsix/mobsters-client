@@ -26,18 +26,16 @@
 #import "GameCenterDelegate.h"
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
+#import <MobileAppTracker/MobileAppTracker.h>
+#import <AdSupport/AdSupport.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
-#define MAT_ADVERTISER_ID    @"885"
-#define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
+#define MAT_ADVERTISER_ID    @"21754"
+#define MAT_APP_KEY          @"f2f5c8b9c43496e4e0f988fa9f8827f4"
 #define MAT_VERSION_KEY      @"MATVersionKey"
 
-#ifdef LEGENDS_OF_CHAOS
-#define GIRAFFE_GRAPH_KEY    @"eaf66fffc083c9a0628b23925815faa8"
-#else
-#define GIRAFFE_GRAPH_KEY    @"eee3b73ca3f9fc3322e11be77275c13a"
-#endif
+#define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
@@ -54,31 +52,18 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  [MobileAppTracker applicationDidOpenURL:[url absoluteString] sourceApplication:sourceApplication];
   return [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
 }
 
 - (void) setUpMobileAppTracker {
-//  [[MobileAppTracker sharedManager] setDebugMode:NO];
-//  [[MobileAppTracker sharedManager] setDelegate:self];
-//  
-//  [[MobileAppTracker sharedManager]  startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY];
-//  
-//  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//  float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
-//  
-//  if (![userDefaults valueForKey:MAT_VERSION_KEY]) {
-//    [[MobileAppTracker sharedManager] trackInstall];
-//    
-//    LNLog(@"MAT: Tracking install");
-//    
-//    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
-//  } else if ([userDefaults floatForKey:MAT_VERSION_KEY] != versionNum) {
-//    [[MobileAppTracker sharedManager] trackUpdate];
-//    
-//    LNLog(@"MAT: Tracking update");
-//    
-//    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
-//  }
+  [MobileAppTracker initializeWithMATAdvertiserId:MAT_ADVERTISER_ID
+                                 MATConversionKey:MAT_APP_KEY];
+  
+  // Used to pass us the IFA, enabling highly accurate 1-to-1 attribution.
+  // Required for many advertising networks.
+  [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
+                       advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
 }
 
 //- (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
@@ -118,8 +103,8 @@
 	[window makeKeyAndVisible];
   
 #ifndef DEBUG
-  //[Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY];
 #endif
+  [Amplitude initializeApiKey:AMPLITUDE_KEY];
   [Analytics beganApp];
   [Analytics openedApp];
   
@@ -140,6 +125,8 @@
   
   [self setUpKamcord:nav];
   
+  [self setUpMobileAppTracker];
+  
   [self removeLocalNotifications];
   
   return YES;
@@ -155,6 +142,7 @@
   LNLog(@"will resign active");
 	[[CCDirector sharedDirector] pause];
   [[SocketCommunication sharedSocketCommunication] flush];
+  [MobileAppTracker measureSession];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -265,18 +253,10 @@
 
 - (void) registerLocalNotifications {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
+  //Globals *gl = [Globals sharedGlobals];
   
   if (!gs.connected || gs.isTutorial) {
     return;
-  }
-  
-  for (UserExpansion *exp in gs.userExpansions) {
-    if (exp.isExpanding) {
-      NSString *text = @"Your expansion has completed! Come back to build a bigger city!";
-      int minutes = [gl calculateNumMinutesForNewExpansion];
-      [self scheduleNotificationWithText:text badge:1 date:[exp.lastExpandTime dateByAddingTimeInterval:minutes*60.f]];
-    }
   }
   
   for (UserStruct *us in gs.myStructs) {

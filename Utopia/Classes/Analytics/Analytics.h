@@ -58,4 +58,6 @@
 + (void) postedToEnemyProfile;
 + (void) postedToAllyProfile;
 
++ (void) tutorialStep:(int)tutorialStep;
+
 @end

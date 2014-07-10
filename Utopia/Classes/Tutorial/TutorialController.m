@@ -18,6 +18,7 @@
 #import "GenericPopupController.h"
 #import "TutorialDoublePowerupController.h"
 #import "SoundEngine.h"
+#import "Analytics.h"
 
 @implementation TutorialController
 
@@ -49,6 +50,11 @@
     _name = @"NewUser";
   }
   return self;
+}
+
+- (void) setCurrentStep:(TutorialStep)currentStep {
+  _currentStep = currentStep;
+  [Analytics tutorialStep:currentStep];
 }
 
 - (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble buttonText:(NSString *)buttonText toViewController:(UIViewController *)vc {
@@ -404,41 +410,41 @@
   
   [self.homeMap centerOnGuide];
   
-  _currentStep = TutorialStepGuideGreeting;
+  self.currentStep = TutorialStepGuideGreeting;
 }
 
 - (void) beginEnemyTeamDisembarkPhase {
   [self.homeMap landBoatOnShore];
   
-  _currentStep = TutorialStepEnemyTeamDisembark;
+  self.currentStep = TutorialStepEnemyTeamDisembark;
 }
 
 - (void) beginEnemyBossThreatPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"Well well well... you peasants think you can start a new squad, under my watch?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepEnemyBossThreat;
+  self.currentStep = TutorialStepEnemyBossThreat;
 }
 
 - (void) beginEnemyTwoThreatPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo), @"Heh, did you really EGG-spect us not to find you here?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepEnemyTwoThreat;
+  self.currentStep = TutorialStepEnemyTwoThreat;
 }
 
 - (void) beginGuideScaredPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide3), @"Oh no. It’s Lil’ Kim! Send my nephew into battle, Boss! I don’t like him anyways."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepGuideScared;
+  self.currentStep = TutorialStepGuideScared;
 }
 
 - (void) beginFriendEnterFightPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yolo."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES buttonText:@"FIGHT" toViewController:self.gameViewController];
   
-  _currentStep = TutorialStepFriendEnterFight;
+  self.currentStep = TutorialStepFriendEnterFight;
 }
 
 - (void) beginEnterBattlePhase {
@@ -446,7 +452,7 @@
   
   [self performSelector:@selector(initBattleLayer) withObject:nil afterDelay:0.3];
   
-  _currentStep = TutorialStepEnteredBattle;
+  self.currentStep = TutorialStepEnteredBattle;
 }
 
 - (void) beginFriendTauntPhase {
@@ -455,7 +461,7 @@
   
   //[self.battleLayer enemyJumpAndShoot];
   
-  _currentStep = TutorialStepBattleFriendTaunt;
+  self.currentStep = TutorialStepBattleFriendTaunt;
 }
 
 - (void) beginEnemyTauntPhase {
@@ -464,7 +470,7 @@
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepBattleEnemyTaunt;
+  self.currentStep = TutorialStepBattleEnemyTaunt;
 }
 
 - (void) beginEnemyDefensePhase {
@@ -473,7 +479,7 @@
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   self.dialogueViewController.leftImageView.transform = CGAffineTransformMakeScale(-1, 1);
   
-  _currentStep = TutorialStepBattleEnemyDefense;
+  self.currentStep = TutorialStepBattleEnemyDefense;
 }
 
 - (void) beginEnemyBossAngryPhase {
@@ -481,56 +487,56 @@
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepBattleEnemyBossAngry;
+  self.currentStep = TutorialStepBattleEnemyBossAngry;
 }
 
 - (void) beginFirstBattleFirstMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yo dawg, movin’ orbs ain’t my style. Help a brotha out."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepFirstBattleFirstMove;
+  self.currentStep = TutorialStepFirstBattleFirstMove;
 }
 
 - (void) beginFirstBattleSecondMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Smooth move homie! The more orbs you break, the stronger I get."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepFirstBattleSecondMove;
+  self.currentStep = TutorialStepFirstBattleSecondMove;
 }
 
 - (void) beginFirstBattleFinalMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Dope! You got one last move before I make it rain. You got this!"];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepFirstBattleLastMove;
+  self.currentStep = TutorialStepFirstBattleLastMove;
 }
 
 - (void) beginSecondBattleEnemyBossTauntPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss2), @"Sigh, never leave a man to do a chicken’s work. Take him out Drumstix."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepSecondBattleEnemyBossTaunt;
+  self.currentStep = TutorialStepSecondBattleEnemyBossTaunt;
 }
 
 - (void) beginSecondBattleFirstMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yo, this chicken is savage. Create a power-up by matching 4 orbs."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepSecondBattleFirstMove;
+  self.currentStep = TutorialStepSecondBattleFirstMove;
 }
 
 - (void) beginSecondBattleSecondMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Swipe the striped orb down to activate the power-up."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepSecondBattleSecondMove;
+  self.currentStep = TutorialStepSecondBattleSecondMove;
 }
 
 - (void) beginSecondBattleThirdMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"BALLIN’! You got one last move homie."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
-  _currentStep = TutorialStepSecondBattleThirdMove;
+  self.currentStep = TutorialStepSecondBattleThirdMove;
 }
 
 - (void) beginSecondBattleSwapPhase {
@@ -541,7 +547,7 @@
   
   [self.battleLayer friendKneel];
   
-  _currentStep = TutorialStepSecondBattleSwap;
+  self.currentStep = TutorialStepSecondBattleSwap;
 }
 
 - (void) beginSecondBattleKillPhase {
@@ -551,7 +557,7 @@
                         @(TutorialDialogueSpeakerMark), @"Heh, 12 likes already. Alright, let’s do this."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
-  _currentStep = TutorialStepSecondBattleKillEnemy;
+  self.currentStep = TutorialStepSecondBattleKillEnemy;
 }
 
 - (void) beginPostBattleConfrontation {
@@ -560,7 +566,7 @@
   
   [self.homeMap beginPostBattleConfrontation];
   
-  _currentStep = TutorialStepPostBattleConfrontation;
+  self.currentStep = TutorialStepPostBattleConfrontation;
 }
 
 - (void) beginEnterHospitalPhase {
@@ -569,7 +575,7 @@
                         @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepEnterHospital;
+  self.currentStep = TutorialStepEnterHospital;
 }
 
 - (void) beginHealQueueingPhase {
@@ -580,19 +586,19 @@
   
   [self.healViewController allowCardClick];
   
-  _currentStep = TutorialStepBeginHealQueue;
+  self.currentStep = TutorialStepBeginHealQueue;
 }
 
 - (void) beginSpeedupHealQueuePhase {
   [self.healViewController allowSpeedup];
   
-  _currentStep = TutorialStepSpeedupHealQueue;
+  self.currentStep = TutorialStepSpeedupHealQueue;
 }
 
 - (void) beginHospitalExitPhase {
   [self.healViewController allowClose];
   
-  _currentStep = TutorialStepExitHospital;
+  self.currentStep = TutorialStepExitHospital;
 }
 
 - (void) beginBuildingOnePhase {
@@ -603,13 +609,13 @@
                         @(TutorialDialogueSpeakerMark), @"What better way to make money than to print it? Build a Cash Printer now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepBeginBuildingOne;
+  self.currentStep = TutorialStepBeginBuildingOne;
 }
 
 - (void) beginSpeedupBuildingOnePhase {
   [self.homeMap speedupPurchasedBuilding];
   
-  _currentStep = TutorialStepSpeedupBuildingOne;
+  self.currentStep = TutorialStepSpeedupBuildingOne;
 }
 
 - (void) beginBuildingTwoPhase {
@@ -617,13 +623,13 @@
                         @(TutorialDialogueSpeakerMark), @"Amazon doesn’t ship to secret islands, so let’s construct one ourselves now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepBeginBuildingTwo;
+  self.currentStep = TutorialStepBeginBuildingTwo;
 }
 
 - (void) beginSpeedupBuildingTwoPhase {
   [self.homeMap speedupPurchasedBuilding];
   
-  _currentStep = TutorialStepSpeedupBuildingTwo;
+  self.currentStep = TutorialStepSpeedupBuildingTwo;
 }
 
 - (void) beginBuildingThreePhase {
@@ -632,13 +638,13 @@
                         @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepBeginBuildingThree;
+  self.currentStep = TutorialStepBeginBuildingThree;
 }
 
 - (void) beginSpeedupBuildingThreePhase {
   [self.homeMap speedupPurchasedBuilding];
   
-  _currentStep = TutorialStepSpeedupBuildingThree;
+  self.currentStep = TutorialStepSpeedupBuildingThree;
 }
 
 - (void) beginFacebookLoginPhase {
@@ -647,7 +653,7 @@
                         @(TutorialDialogueSpeakerMark), @"I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepFacebookLogin;
+  self.currentStep = TutorialStepFacebookLogin;
 }
 
 - (void) beginFacebookRejectedNamingPhase {
@@ -655,7 +661,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Playing hard to get huh? I can play that game too. What was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepEnterName;
+  self.currentStep = TutorialStepEnterName;
 }
 
 - (void) beginFacebookAcceptedNamingPhase {
@@ -663,7 +669,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Hurray! I know that we’re besties now, but what was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepEnterName;
+  self.currentStep = TutorialStepEnterName;
 }
 
 - (void) beginAttackMapPhase {
@@ -671,41 +677,41 @@
                         @(TutorialDialogueSpeakerGuide2), @"Yippee! Now let's go recruit some mobsters to join your team."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
-  _currentStep = TutorialStepAttackMap;
+  self.currentStep = TutorialStepAttackMap;
 }
 
 #pragma mark - BattleLayer delegate
 
 - (void) battleLayerReachedEnemy {
-  if (_currentStep == TutorialStepEnteredBattle) {
+  if (self.currentStep == TutorialStepEnteredBattle) {
     [self beginFriendTauntPhase];
-  } else if (_currentStep == TutorialStepFirstBattleLastMove) {
+  } else if (self.currentStep == TutorialStepFirstBattleLastMove) {
     [self beginSecondBattleEnemyBossTauntPhase];
   }
 }
 
 - (void) enemyJumpedAndShot {
-  if (_currentStep == TutorialStepBattleFriendTaunt) {
+  if (self.currentStep == TutorialStepBattleFriendTaunt) {
     [self beginEnemyTauntPhase];
   }
 }
 
 - (void) enemyTwoHitEnemy {
-  if (_currentStep == TutorialStepBattleEnemyTaunt) {
+  if (self.currentStep == TutorialStepBattleEnemyTaunt) {
     [self beginEnemyDefensePhase];
   }
 }
 
 - (void) enemyBossStomped {
-  if (_currentStep == TutorialStepBattleEnemyDefense) {
+  if (self.currentStep == TutorialStepBattleEnemyDefense) {
     [self beginEnemyBossAngryPhase];
   }
 }
 
 - (void) enemiesRanOut {
-  if (_currentStep == TutorialStepBattleEnemyBossAngry) {
+  if (self.currentStep == TutorialStepBattleEnemyBossAngry) {
     [self beginFirstBattleFirstMovePhase];
-  } else if (_currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
+  } else if (self.currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
     [self beginSecondBattleFirstMovePhase];
   }
 }
@@ -716,37 +722,37 @@
 }
 
 - (void) moveFinished {
-  if (_currentStep == TutorialStepFirstBattleFirstMove) {
+  if (self.currentStep == TutorialStepFirstBattleFirstMove) {
     [self beginFirstBattleSecondMovePhase];
-  } else if (_currentStep == TutorialStepFirstBattleSecondMove) {
+  } else if (self.currentStep == TutorialStepFirstBattleSecondMove) {
     [self beginFirstBattleFinalMovePhase];
-  } else if (_currentStep == TutorialStepSecondBattleFirstMove) {
+  } else if (self.currentStep == TutorialStepSecondBattleFirstMove) {
     [self beginSecondBattleSecondMovePhase];
-  } else if (_currentStep == TutorialStepSecondBattleSecondMove) {
+  } else if (self.currentStep == TutorialStepSecondBattleSecondMove) {
     [self beginSecondBattleThirdMovePhase];
-  } else if (_currentStep == TutorialStepSecondBattleThirdMove) {
+  } else if (self.currentStep == TutorialStepSecondBattleThirdMove) {
     [self beginSecondBattleSwapPhase];
-  } else if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+  } else if (self.currentStep == TutorialStepSecondBattleKillEnemy) {
     [self.battleLayer allowMove];
   }
 }
 
 - (void) turnFinished {
-  if (_currentStep == TutorialStepSecondBattleThirdMove) {
+  if (self.currentStep == TutorialStepSecondBattleThirdMove) {
     [self beginSecondBattleSwapPhase];
-  } else if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+  } else if (self.currentStep == TutorialStepSecondBattleKillEnemy) {
     [self.battleLayer allowMove];
   }
 }
 
 - (void) swappedToMark {
-  if (_currentStep == TutorialStepSecondBattleSwap) {
+  if (self.currentStep == TutorialStepSecondBattleSwap) {
     [self beginSecondBattleKillPhase];
   }
 }
 
 - (void) battleComplete:(NSDictionary *)params {
-  if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+  if (self.currentStep == TutorialStepSecondBattleKillEnemy) {
     [self beginPostBattleConfrontation];
   }
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
@@ -789,11 +795,11 @@
 }
 
 - (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost {
-  if (_currentStep == TutorialStepBeginBuildingOne) {
+  if (self.currentStep == TutorialStepBeginBuildingOne) {
     [self beginSpeedupBuildingOnePhase];
-  } else if (_currentStep == TutorialStepBeginBuildingTwo) {
+  } else if (self.currentStep == TutorialStepBeginBuildingTwo) {
     [self beginSpeedupBuildingTwoPhase];
-  } else if (_currentStep == TutorialStepBeginBuildingThree) {
+  } else if (self.currentStep == TutorialStepBeginBuildingThree) {
     [self beginSpeedupBuildingThreePhase];
   }
   
@@ -819,11 +825,11 @@
 }
 
 - (void) buildingWasCompleted {
-  if (_currentStep == TutorialStepSpeedupBuildingOne) {
+  if (self.currentStep == TutorialStepSpeedupBuildingOne) {
     [self beginBuildingTwoPhase];
-  } else if (_currentStep == TutorialStepSpeedupBuildingTwo) {
+  } else if (self.currentStep == TutorialStepSpeedupBuildingTwo) {
     [self beginBuildingThreePhase];
-  } else if (_currentStep == TutorialStepSpeedupBuildingThree) {
+  } else if (self.currentStep == TutorialStepSpeedupBuildingThree) {
     [self beginFacebookLoginPhase];
   }
 }
@@ -864,11 +870,11 @@
 
 - (void) menuClicked {
   int structId = 0;
-  if (_currentStep == TutorialStepBeginBuildingOne) {
+  if (self.currentStep == TutorialStepBeginBuildingOne) {
     structId = [self.constants.structureIdsToBeBuilltList[0] intValue];
-  } else if (_currentStep == TutorialStepBeginBuildingTwo) {
+  } else if (self.currentStep == TutorialStepBeginBuildingTwo) {
     structId = [self.constants.structureIdsToBeBuilltList[1] intValue];
-  } else if (_currentStep == TutorialStepBeginBuildingThree) {
+  } else if (self.currentStep == TutorialStepBeginBuildingThree) {
     structId = [self.constants.structureIdsToBeBuilltList[2] intValue];
   }
   [self initBuildingViewController:structId];
@@ -949,7 +955,7 @@
 #pragma mark - AttackMap delegate
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
-  if (_currentStep == TutorialStepAttackMap) {
+  if (self.currentStep == TutorialStepAttackMap) {
     if (self.userCreateStartupResponse) {
       // Will be auto closed by game view controller
       //[self.attackMapViewController close];
@@ -967,44 +973,44 @@
 #pragma mark - DialogueViewController delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
+  if (self.currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
     self.touchView.userInteractionEnabled = YES;
     [self.touchView addResponder:dvc];
     [dvc fadeOutBottomGradient];
-  }  else if ((_currentStep == TutorialStepBeginBuildingOne ||
-               _currentStep == TutorialStepBeginBuildingTwo ||
-               _currentStep == TutorialStepBeginBuildingThree) &&
+  }  else if ((self.currentStep == TutorialStepBeginBuildingOne ||
+               self.currentStep == TutorialStepBeginBuildingTwo ||
+               self.currentStep == TutorialStepBeginBuildingThree) &&
               index == dvc.dialogue.speechSegmentList.count-1) {
     dvc.view.userInteractionEnabled = NO;
     [dvc fadeOutBottomGradient];
-  } else if (_currentStep == TutorialStepBeginBuildingThree && index == 1) {
+  } else if (self.currentStep == TutorialStepBeginBuildingThree && index == 1) {
     [self.homeMap moveToOilDrill];
-  } else if (_currentStep == TutorialStepFacebookLogin && index == 1) {
+  } else if (self.currentStep == TutorialStepFacebookLogin && index == 1) {
     [self.homeMap panToMark];
-  } else if (_currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
+  } else if (self.currentStep == TutorialStepBattleEnemyTaunt && index == 1) {
     [self.battleLayer enemyTwoLookAtEnemy];
-  } else if (_currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
+  } else if (self.currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
     //[dvc showFbButtonView];
   }
 }
 
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
   if (index == dvc.dialogue.speechSegmentList.count-1) {
-    if (_currentStep == TutorialStepFirstBattleFirstMove) {
+    if (self.currentStep == TutorialStepFirstBattleFirstMove) {
       [self.battleLayer beginFirstMove];
-    } else if (_currentStep == TutorialStepFirstBattleSecondMove ||
-               _currentStep == TutorialStepSecondBattleSecondMove) {
+    } else if (self.currentStep == TutorialStepFirstBattleSecondMove ||
+               self.currentStep == TutorialStepSecondBattleSecondMove) {
       [self.battleLayer beginSecondMove];
-    } else if (_currentStep == TutorialStepFirstBattleLastMove ||
-               _currentStep == TutorialStepSecondBattleThirdMove) {
+    } else if (self.currentStep == TutorialStepFirstBattleLastMove ||
+               self.currentStep == TutorialStepSecondBattleThirdMove) {
       [self.battleLayer allowMove];
-    } else if (_currentStep == TutorialStepSecondBattleFirstMove) {
+    } else if (self.currentStep == TutorialStepSecondBattleFirstMove) {
       [self.battleLayer beginFirstMove];
-    } else if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+    } else if (self.currentStep == TutorialStepSecondBattleKillEnemy) {
       [self.battleLayer allowMove];
-    } else if ((_currentStep == TutorialStepBeginBuildingOne) ||
-               (_currentStep == TutorialStepBeginBuildingTwo) ||
-               (_currentStep == TutorialStepBeginBuildingThree)) {
+    } else if ((self.currentStep == TutorialStepBeginBuildingOne) ||
+               (self.currentStep == TutorialStepBeginBuildingTwo) ||
+               (self.currentStep == TutorialStepBeginBuildingThree)) {
       [self.topBarViewController allowMenuClick];
     }
   }
@@ -1013,37 +1019,37 @@
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
   // Make sure we haven't moved to the next step yet
   if (self.dialogueViewController == dvc) {
-    if (_currentStep == TutorialStepGuideGreeting) {
+    if (self.currentStep == TutorialStepGuideGreeting) {
       [self beginEnemyTeamDisembarkPhase];
-    } else if (_currentStep == TutorialStepEnemyBossThreat) {
+    } else if (self.currentStep == TutorialStepEnemyBossThreat) {
       [self.homeMap enemyTwoJump];
-    } else if (_currentStep == TutorialStepEnemyTwoThreat) {
+    } else if (self.currentStep == TutorialStepEnemyTwoThreat) {
       [self.homeMap guideHideBehindObstacle];
-    } else if (_currentStep == TutorialStepGuideScared) {
+    } else if (self.currentStep == TutorialStepGuideScared) {
       [self.homeMap friendEnterScene];
-    } else if (_currentStep == TutorialStepBattleFriendTaunt) {
+    } else if (self.currentStep == TutorialStepBattleFriendTaunt) {
       [self.battleLayer enemyJumpAndShoot];
-    } else if (_currentStep == TutorialStepBattleEnemyTaunt) {
+    } else if (self.currentStep == TutorialStepBattleEnemyTaunt) {
       [self.battleLayer enemyTwoAttackEnemy];
-    } else if (_currentStep == TutorialStepBattleEnemyDefense) {
+    } else if (self.currentStep == TutorialStepBattleEnemyDefense) {
       [self.battleLayer enemyBossStomp];
-    } else if (_currentStep == TutorialStepBattleEnemyBossAngry) {
+    } else if (self.currentStep == TutorialStepBattleEnemyBossAngry) {
       [self.battleLayer enemyTwoAndBossRunOut];
-    } else if (_currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
+    } else if (self.currentStep == TutorialStepSecondBattleEnemyBossTaunt) {
       [self.battleLayer enemyBossWalkOut];
-    } else if (_currentStep == TutorialStepPostBattleConfrontation) {
+    } else if (self.currentStep == TutorialStepPostBattleConfrontation) {
       [self.homeMap walkOutEnemyTeam];
-    } else if (_currentStep == TutorialStepSecondBattleSwap) {
+    } else if (self.currentStep == TutorialStepSecondBattleSwap) {
       [self.battleLayer swapToMark];
-    } else if (_currentStep == TutorialStepEnterHospital) {
+    } else if (self.currentStep == TutorialStepEnterHospital) {
       [self.homeMap walkToHospitalAndEnter];
-    } else if (_currentStep == TutorialStepFacebookLogin) {
+    } else if (self.currentStep == TutorialStepFacebookLogin) {
       if (!_waitingOnFacebook) {
         [self initFacebookViewController];
       }
-    } else if (_currentStep == TutorialStepEnterName) {
+    } else if (self.currentStep == TutorialStepEnterName) {
       [self initNameViewController];
-    } else if (_currentStep == TutorialStepAttackMap) {
+    } else if (self.currentStep == TutorialStepAttackMap) {
       [self.topBarViewController allowAttackClick];
     }
     
@@ -1055,10 +1061,10 @@
 }
 
 - (void) dialogueViewControllerButtonClicked:(DialogueViewController *)dvc {
-  if (_currentStep == TutorialStepFriendEnterFight) {
+  if (self.currentStep == TutorialStepFriendEnterFight) {
     [self.dialogueViewController animateNext];
     [self beginEnterBattlePhase];
-  } else if (_currentStep == TutorialStepFacebookLogin) {
+  } else if (self.currentStep == TutorialStepFacebookLogin) {
     if (!_waitingOnFacebook) {
       _waitingOnFacebook = YES;
       [dvc beginFbSpinning];

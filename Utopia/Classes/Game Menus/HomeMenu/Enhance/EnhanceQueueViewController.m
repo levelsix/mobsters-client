@@ -314,7 +314,7 @@
     _confirmUserMonster = self.userMonsters[indexPath.row];
     [self checkMonsterIsNotMaxed];
   } else {
-    [Globals addAlertNotification:@"Oops, you are already enhancing a different mobster."];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already enhancing a different %@.", MONSTER_NAME.lowercaseString]];
   }
 }
 
@@ -327,14 +327,14 @@
   if (percIncrease) {
     [self checkUserMonsterOnTeam];
   } else {
-    [Globals addAlertNotification:@"Oops, you already have enough to max out this mobster."];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you already have enough to max out this %@.", MONSTER_NAME.lowercaseString]];
   }
 }
 
 - (void) checkUserMonsterOnTeam {
   UserMonster *um = _confirmUserMonster;
   if (um.teamSlot > 0) {
-    NSString *description = @"This mobster is currently on your team. Continue?";
+    NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME.lowercaseString];
     [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
   } else {
     [self confirmationAccepted];

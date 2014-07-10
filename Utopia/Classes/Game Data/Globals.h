@@ -72,8 +72,9 @@
 #define GAME_NAME @"Legends of Chaos"
 #define GAME_ABBREV @"LoC"
 #else
-#define GAME_NAME @"Mob Squad"
-#define GAME_ABBREV @"MS"
+#define GAME_NAME @"Toon Squad"
+#define GAME_ABBREV @"TS"
+#define MONSTER_NAME @"Toon"
 #endif
 
 #define POINT_OFFSET_PER_SCENE ccp(512,360)

@@ -71,6 +71,9 @@
 #define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
+#define TUTORIAL_STEP @"Tutorial Step"
+#define TUTORIAL_STEP_NUM @"step"
+
 @implementation Analytics
 
 + (void) event:(NSString *)event {
@@ -81,8 +84,8 @@
   
 #ifndef DEBUG
 //  [Crittercism leaveBreadcrumb:event];
-  [Amplitude logEvent:event];
 #endif
+  [Amplitude logEvent:event];
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
@@ -93,14 +96,14 @@
   
 #ifndef DEBUG
 //  [Crittercism leaveBreadcrumb:event];
-  [Amplitude logEvent:event withEventProperties:args];
 #endif
+  [Amplitude logEvent:event withEventProperties:args];
 }
 
 + (void) logRevenue:(NSNumber *)num {
 #ifndef DEBUG
-  [Amplitude logRevenue:num];
 #endif
+  [Amplitude logRevenue:num];
 }
 
 + (void) openedApp {
@@ -321,6 +324,10 @@
 
 + (void) postedToAllyProfile {
   [Analytics event:POSTED_TO_ALLY_PROFILE];
+}
+
++ (void) tutorialStep:(int)tutorialStep {
+  [Analytics event:TUTORIAL_STEP withArgs:@{TUTORIAL_STEP_NUM: @(tutorialStep)}];
 }
 
 @end
