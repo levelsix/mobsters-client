@@ -128,6 +128,8 @@
   self.teamSlotViews = realSlotViews;
   
   self.titleImageName = @"manageteammenuheader.png";
+  
+  self.unavailableLabel.text = [NSString stringWithFormat:@"You have no more available %@s.", MONSTER_NAME.lowercaseString];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

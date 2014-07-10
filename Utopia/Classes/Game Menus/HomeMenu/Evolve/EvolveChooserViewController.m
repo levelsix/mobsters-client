@@ -31,7 +31,7 @@
   self.enhancingView.frame = self.bottomView.frame;
   [self.bottomView.superview addSubview:self.enhancingView];
   
-  self.title = @"EVOLVE MOBSTERS";
+  self.title = [NSString stringWithFormat:@"EVOLVE %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"evolutionlabmenuheader.png";
 }
 

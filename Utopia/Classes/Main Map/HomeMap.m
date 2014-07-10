@@ -295,7 +295,7 @@
   for (UserStruct *s in self.myStructsList) {
     StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp)
-      return;
+      continue;
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructId)];
     

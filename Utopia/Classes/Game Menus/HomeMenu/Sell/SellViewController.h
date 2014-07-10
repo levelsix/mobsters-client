@@ -22,4 +22,7 @@
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 @property (nonatomic, retain) NSMutableArray *sellQueue;
 
+@property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+
 @end

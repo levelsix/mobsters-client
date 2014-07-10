@@ -85,6 +85,9 @@
   self.selectMobsterLabel.strokeColor = [UIColor colorWithRed:127/255.f green:168/255.f blue:39/255.f alpha:1.f];
   
   self.monsterImageView.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
+  
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME.lowercaseString];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to use", MONSTER_NAME.lowercaseString];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

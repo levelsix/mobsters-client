@@ -18,7 +18,7 @@
 
 + (id) sellButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"buildingsell.png" actionText:@"Sell Mobsters" config:MapBotViewButtonSell];
+  [button updateWithImageName:@"buildingsell.png" actionText:[NSString stringWithFormat:@"Sell %@s", MONSTER_NAME] config:MapBotViewButtonSell];
   return button;
 }
 
@@ -30,7 +30,7 @@
 
 + (id) healButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"buildingheal.png" actionText:@"Heal Mobsters" config:MapBotViewButtonHeal];
+  [button updateWithImageName:@"buildingheal.png" actionText:[NSString stringWithFormat:@"Heal %@s", MONSTER_NAME] config:MapBotViewButtonHeal];
   return button;
 }
 

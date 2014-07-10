@@ -8,7 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HealViewController">
             <connections>
                 <outlet property="listView" destination="Tap-sr-g1c" id="gLH-eb-P4x"/>
+                <outlet property="noMobstersLabel" destination="QRG-Md-zX9" id="54h-qp-9W0"/>
                 <outlet property="queueArrow" destination="MbH-4N-mry" id="3K9-Hv-ZAg"/>
+                <outlet property="queueEmptyLabel" destination="ayy-UY-dr0" id="UGx-9E-btr"/>
                 <outlet property="queueView" destination="aLj-f3-aYh" id="NZT-Rx-Xgt"/>
                 <outlet property="speedupCostLabel" destination="3mK-UB-QUg" id="CoZ-a4-BIN"/>
                 <outlet property="timeLabel" destination="gMo-SJ-Jd4" id="IrD-Qy-HCp"/>

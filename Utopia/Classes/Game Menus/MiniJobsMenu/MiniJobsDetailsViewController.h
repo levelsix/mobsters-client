@@ -94,6 +94,9 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet MiniJobsDetailsCell *detailsCell;
 
+@property (nonatomic, retain) IBOutlet UILabel *availableMonstersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *tapMobsterLabel;
+
 @property (nonatomic, retain) NSMutableArray *monsterArray;
 @property (nonatomic, retain) NSMutableArray *pickedMonsters;
 @property (nonatomic, assign) MiniJobsSortOrder sortOrder;

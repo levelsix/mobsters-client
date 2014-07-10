@@ -1,0 +1,1 @@
+../../Adjust/Adjust/AIAdditions/UIDevice+AIAdditions.h

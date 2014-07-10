@@ -634,7 +634,7 @@
 
 - (void) beginBuildingThreePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
-                        @(TutorialDialogueSpeakerMark), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
+                        @(TutorialDialogueSpeakerMark), [NSString stringWithFormat:@"Another important resource is Oil, which is used to upgrade your %@s and buildings.", MONSTER_NAME.lowercaseString],
                         @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -674,7 +674,7 @@
 
 - (void) beginAttackMapPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Is that really on your birth certificate? Seems legit I guess.",
-                        @(TutorialDialogueSpeakerGuide2), @"Yippee! Now let's go recruit some mobsters to join your team."];
+                        @(TutorialDialogueSpeakerGuide2), [NSString stringWithFormat:@"Yippee! Now let's go recruit some %@s to join your team.", MONSTER_NAME.lowercaseString]];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   self.currentStep = TutorialStepAttackMap;

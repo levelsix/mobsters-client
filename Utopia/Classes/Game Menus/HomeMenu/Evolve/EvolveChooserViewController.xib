@@ -231,7 +231,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ZarkT1Thumbnail.png" id="laq-c8-3RE">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="laq-c8-3RE">
                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -267,7 +267,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ZarkT1Thumbnail.png" width="36" height="42"/>
         <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="enhancebottompressed.png" width="424" height="59"/>

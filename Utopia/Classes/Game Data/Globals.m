@@ -1926,9 +1926,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (!hasValidTeam) {
     NSString *description = @"";
     if (team.count == 0) {
-      description = @"You have no mobsters on your team. Manage your team now.";
+      description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME.lowercaseString];
     } else {
-      description = @"Uh oh, you have no healthy mobsters on your team. Manage your team now.";
+      description = [NSString stringWithFormat:@"Uh oh, you have no healthy %@s on your team. Manage your team now.", MONSTER_NAME.lowercaseString];
     }
     [Globals addAlertNotification:description];
     [target performSelector:noTeamSelector];
@@ -1939,7 +1939,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that inventory is not full
   NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = @"Your residences are full. Sell mobsters to free up space.";
+    NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME.lowercaseString];
     [Globals addAlertNotification:description];
     [target performSelector:inventoryFullSelector];
     return NO;

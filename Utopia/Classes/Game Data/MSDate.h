@@ -24,6 +24,7 @@
 - (NSDate *) actualNSDate;
 
 + (MSDate *) date;
++ (MSDate *) dateWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval;
 + (MSDate *) dateWithTimeIntervalSince1970:(NSTimeInterval)timeInterval;
 + (MSDate *) dateWithTimeInterval:(NSTimeInterval)timeInterval sinceDate:(MSDate *)date;
 + (void) setServerTime:(uint64_t)time;

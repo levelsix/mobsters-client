@@ -1217,10 +1217,12 @@
   if (!foundPowerup) {
     [self createRunForCurrentBoard];
     if ( _run.count > 0) {
-      _foundMatch = YES;
+      if (!_foundMatch) {
+        // Delegate method refers to orbs beginning to combo
+        [self.delegate moveBegan];
+      }
       
-      // Delegate method refers to orbs beginning to combo
-      [self.delegate moveBegan];
+      _foundMatch = YES;
       
       NSMutableArray *batches = [self createBatchesFromRun];
       [self processBatches:batches];
@@ -1248,8 +1250,10 @@
       }
     }
   } else {
-    // Delegate method refers to orbs beginning to combo
-    [self.delegate moveBegan];
+    if (!_foundMatch) {
+      // Delegate method refers to orbs beginning to combo
+      [self.delegate moveBegan];
+    }
     
     _foundMatch = YES;
     [self checkAllGemsAndPowerupsDone];

@@ -29,6 +29,9 @@
   self.listView.cellClassName = @"SellCardCell";
   
   self.titleImageName = @"residencemenuheader.png";
+  
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME.lowercaseString];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to sell.", MONSTER_NAME.lowercaseString];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -52,7 +55,7 @@
 - (void) reloadTitleView {
   GameState *gs = [GameState sharedGameState];
   
-  NSString *s1 = @"SELL MOBSTERS ";
+  NSString *s1 = [NSString stringWithFormat:@"SELL %@S ", MONSTER_NAME.uppercaseString];
   NSString *str = [NSString stringWithFormat:@"%@(%d/%d)", s1, (int)gs.myMonsters.count, gs.maxInventorySlots];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
   
@@ -124,7 +127,7 @@
     [self animateUserMonsterIntoQueue:um];
     [self reloadListViewAnimated:YES];
   } else {
-    [Globals addAlertNotification:@"You can't sell your last complete mobster!"];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME.lowercaseString]];
   }
 }
 
@@ -187,9 +190,9 @@
     }
     
     int queueSize = (int)self.sellQueue.count;
-    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d mobsters", queueSize] : @"this mobster";
+    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d %@s", queueSize, MONSTER_NAME.lowercaseString] : @"this mobster";
     NSString *text = [NSString stringWithFormat:@"Would you like to sell %@ for %@?", amt, [Globals cashStringForNumber:sellAmt]];
-    [GenericPopupController displayConfirmationWithDescription:text title:@"Sell Mobsters?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
+    [GenericPopupController displayConfirmationWithDescription:text title:[NSString stringWithFormat:@"Sell %@s?", MONSTER_NAME] okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
   }
 }
 

@@ -1145,6 +1145,8 @@
 - (void) moveBegan {
   self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
   
+  _movesLeft--;
+  [self updateHealthBars];
   [self removeSwapButton];
 }
 
@@ -1255,7 +1257,6 @@
     return;
   }
   
-  _movesLeft--;
   _soundComboCount = 0;
   
   [_comboBgd stopAllActions];

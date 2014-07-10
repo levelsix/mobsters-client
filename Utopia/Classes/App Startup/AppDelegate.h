@@ -12,7 +12,7 @@
 #ifdef LEGENDS_OF_CHAOS
 #define FACEBOOK_APP_ID      @"160187864152452"
 #else
-#define FACEBOOK_APP_ID      @"626969100686621"
+#define FACEBOOK_APP_ID      @"788673811165936"
 #endif
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {

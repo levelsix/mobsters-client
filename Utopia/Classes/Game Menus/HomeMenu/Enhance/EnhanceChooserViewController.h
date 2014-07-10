@@ -25,6 +25,9 @@
 @property (nonatomic, retain) IBOutlet UIView *enhancingView;
 @property (nonatomic, retain) IBOutlet UIButton *bottomBarButton;
 
+@property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 
 @property (nonatomic, retain) NSTimer *updateTimer;

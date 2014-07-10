@@ -36,7 +36,7 @@
 }
 
 + (void) openDialogForFacebookIds:(NSArray *)ids {
-  [FacebookDelegate initiateRequestToFacebookIds:ids withMessage:@"Come play Mob Squad with me!" completionBlock:^(BOOL success, NSArray *friendIds) {
+  [FacebookDelegate initiateRequestToFacebookIds:ids withMessage:[NSString stringWithFormat:@"Come play %@ with me!", GAME_NAME] completionBlock:^(BOOL success, NSArray *friendIds) {
     if (success) {
       LNLog(@"Spammed %@", friendIds);
     }

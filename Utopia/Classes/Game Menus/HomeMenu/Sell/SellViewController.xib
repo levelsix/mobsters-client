@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SellViewController">
             <connections>
                 <outlet property="listView" destination="6X2-5Y-nDl" id="4cm-Ch-jo2"/>
+                <outlet property="noMobstersLabel" destination="8nE-wn-qVz" id="BRq-dI-Dod"/>
+                <outlet property="queueEmptyLabel" destination="HMN-QJ-shC" id="L3m-Su-tIW"/>
                 <outlet property="queueView" destination="ZFK-NT-9Ci" id="Fzb-MM-kfs"/>
                 <outlet property="sellCostLabel" destination="paM-Cn-G2f" id="buq-PZ-qlh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

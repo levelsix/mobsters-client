@@ -35,6 +35,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
 
+@property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 
 @property (nonatomic, retain) NSArray *userMonsters;

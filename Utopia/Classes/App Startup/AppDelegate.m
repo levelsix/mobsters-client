@@ -28,6 +28,7 @@
 #import <BugSense-iOS/BugSenseController.h>
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <AdSupport/AdSupport.h>
+#import <Adjust/Adjust.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
@@ -37,11 +38,15 @@
 
 #define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
 
+#define ADJUST_APP_TOKEN     @"53jsdw73785p"
+
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
 
-#define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
-#define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
+//#define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
+//#define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
+#define KAMCORD_DEV_KEY      @"1GX8i6n2ooTy6dw2sXV7mcTxol4YUDVzCWQlyvQNiPP"
+#define KAMCORD_SECRET       @"VHeSPx2Ux15I2pi8dJ7ygFsSSKn7zhDIAw1qr9Zi9L1"
 
 #define NEW_RELIC_TOKEN      @"AA01b4a84c5c83bc8345d534eb4910b3a323b70b5b"
 
@@ -85,6 +90,16 @@
 //  [cb showInterstitial];
 }
 
+- (void) setUpAdjust {
+  [Adjust appDidLaunch:ADJUST_APP_TOKEN];
+  [Adjust setLogLevel:AILogLevelInfo];
+#ifdef DEBUG
+  [Adjust setEnvironment:AIEnvironmentSandbox];
+#else
+  [Adjust setEnvironment:AIEnvironmentProduction];
+#endif
+}
+
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
   [Kamcord setFacebookAppID:FACEBOOK_APP_ID sharedAuth:YES];
@@ -113,7 +128,7 @@
   [NRLogger setLogLevels:NRLogLevelNone];
   
   // Bug sense
-  [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
+  //[BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
   
   // Publish install
   [FacebookDelegate activateApp];
@@ -126,6 +141,7 @@
   [self setUpKamcord:nav];
   
   [self setUpMobileAppTracker];
+  [self setUpAdjust];
   
   [self removeLocalNotifications];
   
@@ -262,11 +278,46 @@
   for (UserStruct *us in gs.myStructs) {
     if (!us.isComplete) {
       StructureInfoProto *fsp = [[gs structWithId:us.structId] structInfo];
-      NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
+      NSString *text = [NSString stringWithFormat:@"Your %@ has finished building.", fsp.name];
       int minutes = fsp.minutesToBuild;
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
   }
+  
+  if (gs.monsterHealingQueueEndTime) {
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME.lowercaseString] badge:1 date:gs.monsterHealingQueueEndTime];
+  }
+  
+  if (gs.userEvolution) {
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished evolving.", gs.userEvolution.evoItem.userMonster1.staticEvolutionMonster.displayName] badge:1 date:gs.userEvolution.endTime];
+  }
+  
+  if (gs.userEnhancement.feeders.count) {
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished enhancing.", gs.userEnhancement.baseMonster.userMonster.staticMonster.displayName] badge:1 date:gs.userEnhancement.expectedEndTime];
+  }
+  
+  for (UserMiniJob *miniJob in gs.myMiniJobs) {
+    if (miniJob.timeStarted && !miniJob.timeCompleted) {
+      MSDate *date = [miniJob.timeStarted dateByAddingTimeInterval:miniJob.durationMinutes*60];
+      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME.lowercaseString, miniJob.miniJob.name] badge:1 date:date];
+    }
+  }
+  
+  NSString *text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  MSDate *date = [MSDate dateWithTimeIntervalSinceNow:12*60*60];
+  [self scheduleNotificationWithText:text badge:1 date:date];
+  
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  date = [MSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+  [self scheduleNotificationWithText:text badge:1 date:date];
+  
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  date = [MSDate dateWithTimeIntervalSinceNow:7*24*60*60];
+  [self scheduleNotificationWithText:text badge:1 date:date];
+  
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really, REALLY need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  date = [MSDate dateWithTimeIntervalSinceNow:30*24*60*60];
+  [self scheduleNotificationWithText:text badge:1 date:date];
 }
 
 - (void) removeLocalNotifications {

@@ -46,6 +46,8 @@
 @property (nonatomic, strong) IBOutlet MonsterListCell *cardCell;
 @property (nonatomic, strong) IBOutlet TeamSlotView *teamCell;
 
+@property (nonatomic, strong) IBOutlet UILabel *unavailableLabel;
+
 @property (nonatomic, strong) IBOutletCollection(UIView) NSArray *teamSlotViews;
 
 @property (nonatomic, retain) NSArray *userMonsters;

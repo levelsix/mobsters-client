@@ -1,0 +1,1 @@
+../../Adjust/Adjust/AIAdditions/NSString+AIAdditions.h

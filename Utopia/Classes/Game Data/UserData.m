@@ -1254,7 +1254,7 @@
       [userMonsters addObject:um];
       totalAttack += [gl calculateTotalDamageForMonster:um];
     } else {
-      [Globals popupMessage:@"Unable to find mobster on mini job."];
+      [Globals popupMessage:[NSString stringWithFormat:@"Unable to find %@ on mini job.", MONSTER_NAME.lowercaseString]];
       return nil;
     }
   }

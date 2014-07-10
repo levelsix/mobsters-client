@@ -35,6 +35,12 @@ static NSTimeInterval delta = 0;
   return ms;
 }
 
++ (MSDate *) dateWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval {
+  MSDate *ms = [[MSDate alloc] init];
+  ms.underlyingDate = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
+  return ms;
+}
+
 + (MSDate *) dateWithTimeIntervalSince1970:(NSTimeInterval)timeInterval {
   MSDate *ms = [[MSDate alloc] init];
   ms.underlyingDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];

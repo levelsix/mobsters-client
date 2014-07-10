@@ -249,7 +249,7 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="s81-Bi-JuI">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="s81-Bi-JuI">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -308,7 +308,7 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="iCt-Do-waJ">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="iCt-Do-waJ">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -367,7 +367,7 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="bbd-xx-oay">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="bbd-xx-oay">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -566,7 +566,7 @@
                                     <rect key="frame" x="4" y="4" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="Q2b-bc-OOo">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Q2b-bc-OOo">
                                     <rect key="frame" x="4" y="4" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
@@ -798,7 +798,6 @@
         </label>
     </objects>
     <resources>
-        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="battleepictag.png" width="29" height="14"/>
         <image name="bigavatarbg.png" width="48" height="48"/>
         <image name="championicon.png" width="46" height="42"/>

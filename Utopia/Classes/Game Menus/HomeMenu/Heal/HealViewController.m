@@ -33,8 +33,11 @@
   self.queueView.footerClassName = @"HealQueueFooterView";
   self.listView.cellClassName = @"HealCardCell";
   
-  self.title = @"HEAL MOBSTERS";
+  self.title = [NSString stringWithFormat:@"HEAL %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"hospitalmenuheader.png";
+  
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no injured %@s.", MONSTER_NAME.lowercaseString];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to heal.", MONSTER_NAME.lowercaseString];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -215,11 +218,11 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (![um isAvailable]) {
-    [Globals addAlertNotification:@"This mobster is not available!"];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is not available!", MONSTER_NAME.lowercaseString]];
   } else if (um.curHealth >= [gl calculateMaxHealthForMonster:um]) {
-    [Globals addAlertNotification:@"This mobster is already healthy!"];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is already healthy!", MONSTER_NAME.lowercaseString]];
   } else if (self.monsterHealingQueue.count >= self.maxQueueSize) {
-    [Globals addAlertNotification:@"The hospital queue is already full!"];
+    [Globals addAlertNotification:@"The healing queue is already full!"];
   } else {
     int cost = [gl calculateCostToHealMonster:um];
     int curAmount = gs.silver;

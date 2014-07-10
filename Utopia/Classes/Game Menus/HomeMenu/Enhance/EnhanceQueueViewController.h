@@ -60,6 +60,9 @@
 @property (nonatomic, retain) UserMonster *baseMonster;
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 
+@property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 - (void) waitTimeComplete;

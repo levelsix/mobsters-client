@@ -90,13 +90,14 @@
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
   GameState *gs = [GameState sharedGameState];
-  if (gs.isTutorial && [event rangeOfString:@"Tut"].length > 0) {
+  if (gs.isTutorial && [event rangeOfString:@"Tut"].length == 0) {
     return;
   }
   
 #ifndef DEBUG
 //  [Crittercism leaveBreadcrumb:event];
 #endif
+  NSLog(@"Logging event: %@ with args:%@", event, args);
   [Amplitude logEvent:event withEventProperties:args];
 }
 

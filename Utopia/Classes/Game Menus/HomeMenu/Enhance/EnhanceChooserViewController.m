@@ -24,6 +24,9 @@
   
   self.title = [NSString stringWithFormat:@"ENHANCE %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"enhancelabmenuheader.png";
+  
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME.lowercaseString];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to enhance.", MONSTER_NAME.lowercaseString];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

@@ -1,4 +1,5 @@
 PODS:
+  - Adjust (3.3.4)
   - AFNetworking (2.2.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
@@ -24,13 +25,20 @@ PODS:
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
+  - Adjust (from `git://github.com/adjust/ios_sdk.git`, tag `v3.3.4`)
   - AFNetworking (~> 2.0)
   - Amplitude-iOS (~> 2.1)
   - GPUImage
   - NRTouchPoints
   - UIImage+BlurredFrame
 
+EXTERNAL SOURCES:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v3.3.4
+
 SPEC CHECKSUMS:
+  Adjust: 5cf64691681a7baf27e5e06bcb15ff9b7d4e0796
   AFNetworking: 5f2538aa2d150b71d4e6cca3a420d796e1e1c374
   Amplitude-iOS: f0e9a04e7bb7003a3576f2b0954fa2d1d128adc2
   GPUImage: ac2bde5f4dbea02a81ced6313964cec1f2043ca9

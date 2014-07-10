@@ -12,7 +12,9 @@
                 <outlet property="listView" destination="e4E-pu-6n1" id="q2r-fg-hVh"/>
                 <outlet property="monsterNameLabel" destination="0KM-1v-mWA" id="7KI-Sv-Ycx"/>
                 <outlet property="monsterView" destination="eKz-Jf-vqH" id="Mgn-e8-Ego"/>
+                <outlet property="noMobstersLabel" destination="eiV-HJ-Wfk" id="JvZ-6F-8us"/>
                 <outlet property="notEnhancingView" destination="UnZ-te-6hi" id="EmF-8s-bys"/>
+                <outlet property="queueEmptyLabel" destination="UnZ-te-6hi" id="Vbc-EG-Gum"/>
                 <outlet property="timeLeftLabel" destination="KI3-cd-K3i" id="YXE-GK-FIB"/>
                 <outlet property="view" destination="kIN-r6-rA6" id="Xcz-1g-Hcu"/>
             </connections>
@@ -102,7 +104,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ZarkT1Thumbnail.png" id="pWX-M2-LcP">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="pWX-M2-LcP">
                                                     <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -148,7 +150,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ZarkT1Thumbnail.png" width="36" height="42"/>
         <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="enhancebottompressed.png" width="424" height="59"/>

@@ -9,6 +9,7 @@
 #import "TutorialHomeMap.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "SoundEngine.h"
 
 #define BOAT_UNLOAD_POSITION ccp(765, 80)
 
@@ -187,6 +188,8 @@
   [self moveToSprite:s animated:YES];
   
   [self.guideSprite restoreStandingFrame:MapDirectionNearRight];
+  
+  [SoundEngine tutorialBoatScene];
 }
 
 - (void) jumpGuysOffBoat {
@@ -600,9 +603,9 @@
 }
 
 - (void) drag:(UIGestureRecognizer *)recognizer {
-  if (_canMove) {
+//  if (_canMove) {
     [super drag:recognizer];
-  }
+//  }
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer {

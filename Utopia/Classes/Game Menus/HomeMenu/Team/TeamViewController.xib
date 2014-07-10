@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TeamViewController">
             <connections>
                 <outlet property="listView" destination="aH6-pJ-Lge" id="tZD-t9-feU"/>
+                <outlet property="unavailableLabel" destination="PMN-jt-NmU" id="ULM-dM-hQe"/>
                 <outlet property="view" destination="qkx-7N-swe" id="15W-iU-8Zw"/>
                 <outletCollection property="teamSlotViews" destination="GkW-ol-yeO" id="E4z-Wz-Rge"/>
                 <outletCollection property="teamSlotViews" destination="Ikt-QA-sJc" id="zbh-kK-Tpv"/>
