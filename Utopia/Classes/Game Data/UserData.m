@@ -316,16 +316,15 @@
 }
 
 - (float) currentPercentage {
-  Globals *gl = [Globals sharedGlobals];
   float totalSecs = [self totalSeconds];
   float timeLeft = [self.endTime timeIntervalSinceNow];
   float timeCompleted = MAX(totalSecs-timeLeft, 0);
-  float totalHealth = [gl calculateMaxHealthForMonster:self.userMonster]-self.userMonster.curHealth;
   
   float healthToHeal = 0;
   for (int i = 1; i < self.timeDistribution.count; i += 2) {
     healthToHeal += [self.timeDistribution[i] intValue];
   }
+  float totalHealth = self.healthProgress+healthToHeal;
   
   float basePerc = self.healthProgress/totalHealth;
   float percentage = basePerc;
