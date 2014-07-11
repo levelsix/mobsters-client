@@ -181,6 +181,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   BOOL hasName_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasFacebookId_:1;
+  BOOL hasEmail_:1;
+  BOOL hasFbData_:1;
   int32_t cash;
   int32_t oil;
   int32_t gems;
@@ -188,6 +190,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   NSString* name;
   NSString* deviceToken;
   NSString* facebookId;
+  NSString* email;
+  NSString* fbData;
   NSMutableArray* mutableStructsJustBuiltList;
 }
 - (BOOL) hasUdid;
@@ -197,6 +201,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasCash;
 - (BOOL) hasOil;
 - (BOOL) hasGems;
+- (BOOL) hasEmail;
+- (BOOL) hasFbData;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* deviceToken;
@@ -204,6 +210,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
 @property (readonly) int32_t gems;
+@property (readonly, retain) NSString* email;
+@property (readonly, retain) NSString* fbData;
 - (NSArray*) structsJustBuiltList;
 - (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index;
 
@@ -282,6 +290,16 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (int32_t) gems;
 - (UserCreateRequestProto_Builder*) setGems:(int32_t) value;
 - (UserCreateRequestProto_Builder*) clearGems;
+
+- (BOOL) hasEmail;
+- (NSString*) email;
+- (UserCreateRequestProto_Builder*) setEmail:(NSString*) value;
+- (UserCreateRequestProto_Builder*) clearEmail;
+
+- (BOOL) hasFbData;
+- (NSString*) fbData;
+- (UserCreateRequestProto_Builder*) setFbData:(NSString*) value;
+- (UserCreateRequestProto_Builder*) clearFbData;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -702,17 +720,25 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 @private
   BOOL hasIsUserCreate_:1;
   BOOL hasFbId_:1;
+  BOOL hasEmail_:1;
+  BOOL hasFbData_:1;
   BOOL hasSender_:1;
   BOOL isUserCreate_:1;
   NSString* fbId;
+  NSString* email;
+  NSString* fbData;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFbId;
 - (BOOL) hasIsUserCreate;
+- (BOOL) hasEmail;
+- (BOOL) hasFbData;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* fbId;
 - (BOOL) isUserCreate;
+@property (readonly, retain) NSString* email;
+@property (readonly, retain) NSString* fbData;
 
 + (SetFacebookIdRequestProto*) defaultInstance;
 - (SetFacebookIdRequestProto*) defaultInstance;
@@ -764,6 +790,16 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) isUserCreate;
 - (SetFacebookIdRequestProto_Builder*) setIsUserCreate:(BOOL) value;
 - (SetFacebookIdRequestProto_Builder*) clearIsUserCreate;
+
+- (BOOL) hasEmail;
+- (NSString*) email;
+- (SetFacebookIdRequestProto_Builder*) setEmail:(NSString*) value;
+- (SetFacebookIdRequestProto_Builder*) clearEmail;
+
+- (BOOL) hasFbData;
+- (NSString*) fbData;
+- (SetFacebookIdRequestProto_Builder*) setFbData:(NSString*) value;
+- (SetFacebookIdRequestProto_Builder*) clearFbData;
 @end
 
 @interface SetFacebookIdResponseProto : PBGeneratedMessage {

@@ -18,9 +18,9 @@ typedef enum {
   TutorialTeamStepClose,
 } TutorialTeamStep;
 
-@interface TutorialTeamController : MiniTutorialController <DialogueViewControllerDelegate, TutorialHomeMapDelegate, TutorialTeamDelegate> {
-  TutorialTeamStep _currentStep;
-}
+@interface TutorialTeamController : MiniTutorialController <DialogueViewControllerDelegate, TutorialHomeMapDelegate, TutorialTeamDelegate> 
+
+@property (nonatomic, assign) TutorialTeampStemp currentStep;
 
 @property (nonatomic, retain) TutorialHomeMap *homeMap;
 

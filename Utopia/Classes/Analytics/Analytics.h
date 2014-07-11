@@ -58,6 +58,7 @@
 + (void) postedToEnemyProfile;
 + (void) postedToAllyProfile;
 
++ (void) equipTutorialStep:(int)tutorialStep;
 + (void) tutorialStep:(int)tutorialStep;
 
 + (void) tutorialFbPopup;

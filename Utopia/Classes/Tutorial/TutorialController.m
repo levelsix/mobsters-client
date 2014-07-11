@@ -341,7 +341,7 @@
     [str addObject:bldr.build];
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] createUserWithName:_name facebookId:_facebookId structs:str cash:_cash oil:_oil gems:_gems delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] createUserWithName:_name facebookId:_facebookId email:_email otherFbInfo:_otherFbInfo structs:str cash:_cash oil:_oil gems:_gems delegate:self];
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
@@ -900,10 +900,12 @@
 }
 
 - (void) facebookConnectAccepted {
-  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
-    if (facebookId) {
-      _facebookId = facebookId;
-      [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:YES delegate:self];
+  [FacebookDelegate getFacebookUserAndDoAction:^(NSDictionary<FBGraphUser> *facebookUser) {
+    if (facebookUser) {
+      _facebookId = facebookUser[@"id"];
+      _email = facebookUser[@"email"];
+      _otherFbInfo = facebookUser;
+      [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:_facebookId isFreshRestart:YES delegate:self];
     } else {
       [Globals popupMessage:@"Something went wrong. Your facebook account could not be retrieved! Please try again."];
     }
@@ -922,6 +924,8 @@
     }
   } else {
     _facebookId = nil;
+    _email = nil;
+    _otherFbInfo = nil;
     self.facebookStartupResponse = proto;
     NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.sender.name];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];

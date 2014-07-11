@@ -12,7 +12,14 @@
 #import "GameViewController.h"
 #import "Globals.h"
 
+#import "Analytics.h"
+
 @implementation TutorialTeamController
+
+- (void) setCurrentStep:(TutorialTeamStep)currentStep {
+  _currentStep = currentStep;
+  [Analytics equipTutorialStep:_currentStep];
+}
 
 - (void) displayTeamDialogue:(NSArray *)dialogue {
   DialogueProto_Builder *dp = [DialogueProto builder];
@@ -35,6 +42,7 @@
   dvc.delegate = self;
   [self.gameViewController addChildViewController:dvc];
   [self.gameViewController.view addSubview:dvc.view];
+  self.dialogueViewController.view.frame = self.gameViewController.view.bounds;
   self.dialogueViewController = dvc;
   self.dialogueViewController.view.userInteractionEnabled = NO;
   [dvc.bottomGradient removeFromSuperview];
@@ -86,18 +94,18 @@
 }
 
 - (void) beginClickBuildingPhase {
-  NSArray *dialogue = @[@NO, @"Yippee! You caught your first Toon! Click here to equip him."];
+  NSArray *dialogue = @[@NO, [NSString stringWithFormat:@"Yippee! You caught your first %@! Click here to equip him.", MONSTER_NAME]];
   [self displayTeamDialogue:dialogue];
   
   [self.homeMap moveToTeamCenter];
   
-  _currentStep = TutorialTeamStepClickBuilding;
+  self.currentStep = TutorialTeamStepClickBuilding;
 }
 
 - (void) beginEquipPhase {
   [self initTeamViewController];
   
-  _currentStep = TutorialTeamStepEquip;
+  self.currentStep = TutorialTeamStepEquip;
 }
 
 - (void) beginClosePhase {
@@ -106,7 +114,7 @@
   
   [self.teamViewController allowClose];
   
-  _currentStep = TutorialTeamStepEquip;
+  self.currentStep = TutorialTeamStepEquip;
 }
 
 - (void) teamCenterClicked {

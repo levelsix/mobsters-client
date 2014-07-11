@@ -35,6 +35,7 @@
 
 + (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler;
 
++ (void) getFacebookUserAndDoAction:(void (^)(NSDictionary<FBGraphUser> *facebookId))handler;
 + (void) getFacebookIdAndDoAction:(void (^)(NSString *facebookId))handler;
 + (void) getFacebookUsernameAndDoAction:(void (^)(NSString *username))handler;
 

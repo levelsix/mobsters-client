@@ -52,11 +52,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] removeClanEventObserver:delegate];
 }
 
-- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId structs:structs cash:cash oil:oil gems:gems];
+  NSError *error;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
+                                                     options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                       error:&error];
+  NSString *jsonString;
+  if (! jsonData) {
+    NSLog(@"Got an error: %@", error);
+  } else {
+    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  }
+  
+  int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId email:email otherFbInfo:jsonString structs:structs cash:cash oil:oil gems:gems];
   [sc setDelegate:delegate forTag:tag];
   
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -581,14 +592,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendSetGameCenterMessage:gameCenterId];
 }
 
-- (void) setFacebookId:(NSString *)facebookId delegate:(id)delegate {
+- (void) setFacebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   if (gs.facebookId) {
     [Globals popupMessage:@"Trying to set new facebook id when there is one already.."];
     return;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId];
+  NSError *error;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
+                                                     options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                       error:&error];
+  NSString *jsonString;
+  if (! jsonData) {
+    LNLog(@"Got an error: %@", error);
+  } else {
+    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  }
+  LNLog(@"JSON: %@", jsonString);
+  int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId email:email otherFbInfo:jsonString];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   gs.facebookId = facebookId;

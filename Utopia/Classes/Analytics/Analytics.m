@@ -72,6 +72,7 @@
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
 #define TUTORIAL_STEP @"tut_step"
+#define EQUIP_TUTORIAL_STEP @"equip_tut_step"
 #define TUTORIAL_STEP_NUM @"step_num"
 #define TUTORIAL_FACEBOOK_POPUP @"tut_fb_popup"
 #define TUTORIAL_FACEBOOK_POPUP_CONNECT @"tut_fb_popup_cnct"
@@ -337,6 +338,10 @@
 
 + (void) tutorialStep:(int)tutorialStep {
   [Analytics event:TUTORIAL_STEP withArgs:@{TUTORIAL_STEP_NUM: @(tutorialStep)}];
+}
+
++ (void) equipTutorialStep:(int)tutorialStep {
+  [Analytics event:EQUIP_TUTORIAL_STEP withArgs:@{TUTORIAL_STEP_NUM: @(tutorialStep)}];
 }
 
 + (void) tutorialFbPopup {

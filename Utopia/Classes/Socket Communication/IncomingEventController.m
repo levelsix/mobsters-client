@@ -408,7 +408,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
     if (fd.myFacebookUser) {
-      [[GameViewController baseController] canProceedWithFacebookId:fd.myFacebookUser[@"id"]];
+      [[GameViewController baseController] canProceedWithFacebookUser:fd.myFacebookUser];
     }
     
     // Display generic popups for strings that haven't been seen before

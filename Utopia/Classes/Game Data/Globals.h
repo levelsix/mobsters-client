@@ -118,6 +118,9 @@
 @property (nonatomic, assign) int maxObstacles;
 @property (nonatomic, assign) int minutesPerObstacle;
 
+@property (nonatomic, assign) float battleRunAwayBasePercent;
+@property (nonatomic, assign) float battleRunAwayIncrement;
+
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
 // Monster Constants

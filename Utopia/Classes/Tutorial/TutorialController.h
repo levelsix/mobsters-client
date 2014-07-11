@@ -101,6 +101,8 @@ typedef enum {
   
   NSString *_name;
   NSString *_facebookId;
+  NSString *_email;
+  NSDictionary *_otherFbInfo;
   NSMutableDictionary *_structs;
   
   int _cash;

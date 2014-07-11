@@ -20,7 +20,7 @@
 - (void) registerClanEventDelegate:(id)delegate;
 - (void) unregisterClanEventDelegate:(id)delegate;
 
-- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate;
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate;
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate;
 - (void) logout;
@@ -51,7 +51,7 @@
 
 - (void) enableApns:(NSString *)deviceToken;
 - (void) setGameCenterId:(NSString *)gameCenterId;
-- (void) setFacebookId:(NSString *)facebookId delegate:(id)delegate;
+- (void) setFacebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSDictionary *)otherFbInfo delegate:(id)delegate;
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
 

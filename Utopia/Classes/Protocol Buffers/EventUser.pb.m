@@ -31,6 +31,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t cash;
 @property int32_t oil;
 @property int32_t gems;
+@property (retain) NSString* email;
+@property (retain) NSString* fbData;
 @end
 
 @implementation UserCreateRequestProto
@@ -85,12 +87,28 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasGems_ = !!value;
 }
 @synthesize gems;
+- (BOOL) hasEmail {
+  return !!hasEmail_;
+}
+- (void) setHasEmail:(BOOL) value {
+  hasEmail_ = !!value;
+}
+@synthesize email;
+- (BOOL) hasFbData {
+  return !!hasFbData_;
+}
+- (void) setHasFbData:(BOOL) value {
+  hasFbData_ = !!value;
+}
+@synthesize fbData;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
   self.deviceToken = nil;
   self.facebookId = nil;
   self.mutableStructsJustBuiltList = nil;
+  self.email = nil;
+  self.fbData = nil;
   [super dealloc];
 }
 - (id) init {
@@ -102,6 +120,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.cash = 0;
     self.oil = 0;
     self.gems = 0;
+    self.email = @"";
+    self.fbData = @"";
   }
   return self;
 }
@@ -152,6 +172,12 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasGems) {
     [output writeInt32:12 value:self.gems];
   }
+  if (self.hasEmail) {
+    [output writeString:13 value:self.email];
+  }
+  if (self.hasFbData) {
+    [output writeString:14 value:self.fbData];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -184,6 +210,12 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasGems) {
     size += computeInt32Size(12, self.gems);
+  }
+  if (self.hasEmail) {
+    size += computeStringSize(13, self.email);
+  }
+  if (self.hasFbData) {
+    size += computeStringSize(14, self.fbData);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -287,6 +319,12 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasGems) {
     [self setGems:other.gems];
   }
+  if (other.hasEmail) {
+    [self setEmail:other.email];
+  }
+  if (other.hasFbData) {
+    [self setFbData:other.fbData];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -340,6 +378,14 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 96: {
         [self setGems:[input readInt32]];
+        break;
+      }
+      case 106: {
+        [self setEmail:[input readString]];
+        break;
+      }
+      case 114: {
+        [self setFbData:[input readString]];
         break;
       }
     }
@@ -484,6 +530,38 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearGems {
   result.hasGems = NO;
   result.gems = 0;
+  return self;
+}
+- (BOOL) hasEmail {
+  return result.hasEmail;
+}
+- (NSString*) email {
+  return result.email;
+}
+- (UserCreateRequestProto_Builder*) setEmail:(NSString*) value {
+  result.hasEmail = YES;
+  result.email = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearEmail {
+  result.hasEmail = NO;
+  result.email = @"";
+  return self;
+}
+- (BOOL) hasFbData {
+  return result.hasFbData;
+}
+- (NSString*) fbData {
+  return result.fbData;
+}
+- (UserCreateRequestProto_Builder*) setFbData:(NSString*) value {
+  result.hasFbData = YES;
+  result.fbData = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearFbData {
+  result.hasFbData = NO;
+  result.fbData = @"";
   return self;
 }
 @end
@@ -2216,6 +2294,8 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* fbId;
 @property BOOL isUserCreate;
+@property (retain) NSString* email;
+@property (retain) NSString* fbData;
 @end
 
 @implementation SetFacebookIdRequestProto
@@ -2246,9 +2326,25 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 - (void) setIsUserCreate:(BOOL) value {
   isUserCreate_ = !!value;
 }
+- (BOOL) hasEmail {
+  return !!hasEmail_;
+}
+- (void) setHasEmail:(BOOL) value {
+  hasEmail_ = !!value;
+}
+@synthesize email;
+- (BOOL) hasFbData {
+  return !!hasFbData_;
+}
+- (void) setHasFbData:(BOOL) value {
+  hasFbData_ = !!value;
+}
+@synthesize fbData;
 - (void) dealloc {
   self.sender = nil;
   self.fbId = nil;
+  self.email = nil;
+  self.fbData = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2256,6 +2352,8 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
     self.sender = [MinimumUserProto defaultInstance];
     self.fbId = @"";
     self.isUserCreate = NO;
+    self.email = @"";
+    self.fbData = @"";
   }
   return self;
 }
@@ -2284,6 +2382,12 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   if (self.hasIsUserCreate) {
     [output writeBool:3 value:self.isUserCreate];
   }
+  if (self.hasEmail) {
+    [output writeString:4 value:self.email];
+  }
+  if (self.hasFbData) {
+    [output writeString:5 value:self.fbData];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2301,6 +2405,12 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   }
   if (self.hasIsUserCreate) {
     size += computeBoolSize(3, self.isUserCreate);
+  }
+  if (self.hasEmail) {
+    size += computeStringSize(4, self.email);
+  }
+  if (self.hasFbData) {
+    size += computeStringSize(5, self.fbData);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2386,6 +2496,12 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   if (other.hasIsUserCreate) {
     [self setIsUserCreate:other.isUserCreate];
   }
+  if (other.hasEmail) {
+    [self setEmail:other.email];
+  }
+  if (other.hasFbData) {
+    [self setFbData:other.fbData];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2422,6 +2538,14 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
       }
       case 24: {
         [self setIsUserCreate:[input readBool]];
+        break;
+      }
+      case 34: {
+        [self setEmail:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setFbData:[input readString]];
         break;
       }
     }
@@ -2487,6 +2611,38 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
 - (SetFacebookIdRequestProto_Builder*) clearIsUserCreate {
   result.hasIsUserCreate = NO;
   result.isUserCreate = NO;
+  return self;
+}
+- (BOOL) hasEmail {
+  return result.hasEmail;
+}
+- (NSString*) email {
+  return result.email;
+}
+- (SetFacebookIdRequestProto_Builder*) setEmail:(NSString*) value {
+  result.hasEmail = YES;
+  result.email = value;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clearEmail {
+  result.hasEmail = NO;
+  result.email = @"";
+  return self;
+}
+- (BOOL) hasFbData {
+  return result.hasFbData;
+}
+- (NSString*) fbData {
+  return result.fbData;
+}
+- (SetFacebookIdRequestProto_Builder*) setFbData:(NSString*) value {
+  result.hasFbData = YES;
+  result.fbData = value;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clearFbData {
+  result.hasFbData = NO;
+  result.fbData = @"";
   return self;
 }
 @end

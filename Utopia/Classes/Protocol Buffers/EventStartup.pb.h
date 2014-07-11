@@ -650,9 +650,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasAddAllFbFriends_:1;
-  BOOL hasMinutesPerGem_:1;
   BOOL hasGemsPerResource_:1;
+  BOOL hasMinutesPerGem_:1;
   BOOL hasContinueBattleGemCostMultiplier_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
@@ -675,9 +677,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
   BOOL addAllFbFriends_:1;
-  Float32 minutesPerGem;
   Float32 gemsPerResource;
+  Float32 minutesPerGem;
   Float32 continueBattleGemCostMultiplier;
+  Float32 battleRunAwayBasePercent;
+  Float32 battleRunAwayIncrement;
   int32_t pvpRequiredMinLvl;
   int32_t numBeginnerSalesAllowed;
   int32_t fbConnectRewardDiamonds;
@@ -722,6 +726,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPvpRequiredMinLvl;
 - (BOOL) hasGemsPerResource;
 - (BOOL) hasContinueBattleGemCostMultiplier;
+- (BOOL) hasBattleRunAwayBasePercent;
+- (BOOL) hasBattleRunAwayIncrement;
 - (BOOL) hasAddAllFbFriends;
 - (BOOL) hasMiniTuts;
 - (BOOL) hasMaxObstacles;
@@ -747,6 +753,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t pvpRequiredMinLvl;
 @property (readonly) Float32 gemsPerResource;
 @property (readonly) Float32 continueBattleGemCostMultiplier;
+@property (readonly) Float32 battleRunAwayBasePercent;
+@property (readonly) Float32 battleRunAwayIncrement;
 - (BOOL) addAllFbFriends;
 @property (readonly, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @property (readonly) int32_t maxObstacles;
@@ -1482,6 +1490,16 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) continueBattleGemCostMultiplier;
 - (StartupResponseProto_StartupConstants_Builder*) setContinueBattleGemCostMultiplier:(Float32) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier;
+
+- (BOOL) hasBattleRunAwayBasePercent;
+- (Float32) battleRunAwayBasePercent;
+- (StartupResponseProto_StartupConstants_Builder*) setBattleRunAwayBasePercent:(Float32) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleRunAwayBasePercent;
+
+- (BOOL) hasBattleRunAwayIncrement;
+- (Float32) battleRunAwayIncrement;
+- (StartupResponseProto_StartupConstants_Builder*) setBattleRunAwayIncrement:(Float32) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleRunAwayIncrement;
 
 - (BOOL) hasAddAllFbFriends;
 - (BOOL) addAllFbFriends;

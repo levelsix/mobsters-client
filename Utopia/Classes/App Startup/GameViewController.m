@@ -56,7 +56,7 @@
 #define PART_2_PERCENT 0.75f
 #define PART_3_PERCENT 0.9f
 
-#define EQUIP_MINI_TUTORIAL_DEFAULT_KEY @"EquipMiniTutComplete"
+#define EQUIP_MINI_TUTORIAL_DEFAULT_KEY [NSString stringWithFormat:@"EquipMiniTutComplete%d", gs.userId]
 
 @implementation GameViewController
 
@@ -1046,7 +1046,7 @@
   }
 }
 
-- (BOOL) canProceedWithFacebookId:(NSString *)facebookId {
+- (BOOL) canProceedWithFacebookUser:(NSDictionary<FBGraphUser> *)fbUser {
   GameState *gs = [GameState sharedGameState];
   if (_shouldRejectFacebook) {
     _shouldRejectFacebook = NO;
@@ -1054,10 +1054,10 @@
     [FacebookDelegate logout];
   } else if ((!_isFromFacebook && !gs.connected) || gs.isTutorial) {
     return YES;
-  } else if ([gs.facebookId isEqualToString:facebookId]) {
+  } else if ([gs.facebookId isEqualToString:fbUser[@"id"]]) {
     return YES;
   } else if (!gs.facebookId.length) {
-    [[OutgoingEventController sharedOutgoingEventController] setFacebookId:facebookId delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] setFacebookId:fbUser[@"id"] email:fbUser[@"email"] otherFbInfo:fbUser delegate:self];
   } else {
     // Logged in with different fb
     NSString *desc = [NSString stringWithFormat:@"This Facebook account is different from the one linked to this player. Would you like to reload the game?"];

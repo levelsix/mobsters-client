@@ -77,22 +77,22 @@ static NSString *udid = nil;
   
   // With all configured interfaces requested, get handle index
   if ((mgmtInfoBase[5] = if_nametoindex("en0")) == 0)
-    errorFlag = @"if_nametoindex failure";
+  errorFlag = @"if_nametoindex failure";
   else
   {
     // Get the size of the data available (store in len)
     if (sysctl(mgmtInfoBase, 6, NULL, &length, NULL, 0) < 0)
-      errorFlag = @"sysctl mgmtInfoBase failure";
+    errorFlag = @"sysctl mgmtInfoBase failure";
     else
     {
       // Alloc memory based on above call
       if ((msgBuffer = malloc(length)) == NULL)
-        errorFlag = @"buffer allocation failure";
+      errorFlag = @"buffer allocation failure";
       else
       {
         // Get system information, store in buffer
         if (sysctl(mgmtInfoBase, 6, msgBuffer, &length, NULL, 0) < 0)
-          errorFlag = @"sysctl msgBuffer failure";
+        errorFlag = @"sysctl msgBuffer failure";
       }
     }
   }
@@ -429,15 +429,15 @@ static NSString *udid = nil;
 
 - (BOOL) isEventTypeClanEvent:(EventProtocolResponse)eventType {
   switch (eventType) {
-    case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
-    case EventProtocolResponseSPromoteDemoteClanMemberEvent:
-    case EventProtocolResponseSCreateClanEvent:
-    case EventProtocolResponseSChangeClanSettingsEvent:
-    case EventProtocolResponseSLeaveClanEvent:
-    case EventProtocolResponseSRequestJoinClanEvent:
-    case EventProtocolResponseSRetractRequestJoinClanEvent:
-    case EventProtocolResponseSBootPlayerFromClanEvent:
-    case EventProtocolResponseSTransferClanOwnership:
+      case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
+      case EventProtocolResponseSPromoteDemoteClanMemberEvent:
+      case EventProtocolResponseSCreateClanEvent:
+      case EventProtocolResponseSChangeClanSettingsEvent:
+      case EventProtocolResponseSLeaveClanEvent:
+      case EventProtocolResponseSRequestJoinClanEvent:
+      case EventProtocolResponseSRetractRequestJoinClanEvent:
+      case EventProtocolResponseSBootPlayerFromClanEvent:
+      case EventProtocolResponseSTransferClanOwnership:
       return YES;
       break;
       
@@ -449,7 +449,7 @@ static NSString *udid = nil;
 
 #pragma mark - Events
 
-- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems {
+- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSString *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
@@ -460,6 +460,8 @@ static NSString *udid = nil;
   bldr.oil = oil;
   bldr.cash = cash;
   bldr.gems = gems;
+  bldr.email = email;
+  bldr.fbData = otherFbInfo;
   
   UserCreateRequestProto *req = [bldr build];
   return [self sendData:req withMessageType:EventProtocolRequestCUserCreateEvent];
@@ -669,10 +671,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetGameCenterIdEvent];
 }
 
-- (int) sendSetFacebookIdMessage:(NSString *)facebookId {
-  SetFacebookIdRequestProto *req = [[[[SetFacebookIdRequestProto builder]
-                                      setSender:_sender]
-                                     setFbId:facebookId]
+- (int) sendSetFacebookIdMessage:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSString *)otherFbInfo {
+  SetFacebookIdRequestProto *req = [[[[[[SetFacebookIdRequestProto builder]
+                                        setSender:_sender]
+                                       setFbId:facebookId]
+                                      setEmail:email]
+                                     setFbData:otherFbInfo]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolResponseSSetFacebookIdEvent];

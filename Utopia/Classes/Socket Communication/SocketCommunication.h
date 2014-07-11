@@ -75,7 +75,7 @@
 - (void) removeClanEventObserver:(id)object;
 
 // Send different event messages
-- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems;
+- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSString *)otherFbInfo structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems;
 
 - (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
@@ -106,7 +106,7 @@
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
 - (int) sendSetGameCenterMessage:(NSString *)gameCenterId;
-- (int) sendSetFacebookIdMessage:(NSString *)facebookId;
+- (int) sendSetFacebookIdMessage:(NSString *)facebookId email:(NSString *)email otherFbInfo:(NSString *)otherFbInfo;
 
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time;
 

@@ -95,7 +95,7 @@
     [self getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
       if (facebookUser) {
         LNLog(@"Got facebook user.. Checking if okay to use.");
-        if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser[@"id"]]) {
+        if ([[GameViewController baseController] canProceedWithFacebookUser:facebookUser]) {
           [self facebookIdIsValid];
         }
       }
@@ -336,7 +336,7 @@
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
   if (!self.myFacebookUser) {
     LNLog(@"Attempting login for my facebook user.");
-    [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
+    [self openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
       LNLog(@"Getting my facebook user.");
       if (success) {
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
@@ -355,6 +355,10 @@
   } else {
     handler(self.myFacebookUser);
   }
+}
+
++ (void) getFacebookUserAndDoAction:(void (^)(NSDictionary<FBGraphUser> *facebookId))handler {
+  [[FacebookDelegate sharedFacebookDelegate] getMyFacebookUser:handler];
 }
 
 + (void) getFacebookIdAndDoAction:(void (^)(NSString *facebookId))handler {

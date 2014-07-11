@@ -105,7 +105,8 @@
 }
 
 - (float) runAwayChance {
-  return 0.5+_numAttemptedRunaways*0.25;
+  Globals *gl = [Globals sharedGlobals];
+  return gl.battleRunAwayBasePercent+_numAttemptedRunaways*gl.battleRunAwayIncrement;
 }
 
 - (void) attemptRunaway {

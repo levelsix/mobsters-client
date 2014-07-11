@@ -82,6 +82,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxObstacles = constants.maxObstacles;
   self.minutesPerObstacle = constants.minutesPerObstacle;
   
+  self.battleRunAwayBasePercent = constants.battleRunAwayBasePercent;
+  self.battleRunAwayIncrement = constants.battleRunAwayIncrement;
+  
   self.miniTutorialConstants = constants.miniTuts;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;

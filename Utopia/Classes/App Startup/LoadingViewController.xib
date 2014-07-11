@@ -27,12 +27,12 @@
                             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="splashguys.png" id="GRZ-NS-Xpi">
-                            <rect key="frame" x="65" y="30" width="468" height="260"/>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="left" image="splashguys.png" id="GRZ-NS-Xpi">
+                            <rect key="frame" x="65" y="24" width="468" height="260"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="VTe-e1-YQ8">
-                            <rect key="frame" x="29" y="189" width="248" height="74"/>
+                            <rect key="frame" x="29" y="195" width="248" height="74"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tipbg.png" id="Mho-EV-F3J">

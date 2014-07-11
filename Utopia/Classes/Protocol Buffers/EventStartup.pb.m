@@ -1796,6 +1796,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t pvpRequiredMinLvl;
 @property Float32 gemsPerResource;
 @property Float32 continueBattleGemCostMultiplier;
+@property Float32 battleRunAwayBasePercent;
+@property Float32 battleRunAwayIncrement;
 @property BOOL addAllFbFriends;
 @property (retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @property int32_t maxObstacles;
@@ -1947,6 +1949,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasContinueBattleGemCostMultiplier_ = !!value;
 }
 @synthesize continueBattleGemCostMultiplier;
+- (BOOL) hasBattleRunAwayBasePercent {
+  return !!hasBattleRunAwayBasePercent_;
+}
+- (void) setHasBattleRunAwayBasePercent:(BOOL) value {
+  hasBattleRunAwayBasePercent_ = !!value;
+}
+@synthesize battleRunAwayBasePercent;
+- (BOOL) hasBattleRunAwayIncrement {
+  return !!hasBattleRunAwayIncrement_;
+}
+- (void) setHasBattleRunAwayIncrement:(BOOL) value {
+  hasBattleRunAwayIncrement_ = !!value;
+}
+@synthesize battleRunAwayIncrement;
 - (BOOL) hasAddAllFbFriends {
   return !!hasAddAllFbFriends_;
 }
@@ -2023,6 +2039,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.pvpRequiredMinLvl = 0;
     self.gemsPerResource = 0;
     self.continueBattleGemCostMultiplier = 0;
+    self.battleRunAwayBasePercent = 0;
+    self.battleRunAwayIncrement = 0;
     self.addAllFbFriends = NO;
     self.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
     self.maxObstacles = 0;
@@ -2142,6 +2160,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasTaskMapConstants) {
     [output writeMessage:27 value:self.taskMapConstants];
   }
+  if (self.hasBattleRunAwayBasePercent) {
+    [output writeFloat:28 value:self.battleRunAwayBasePercent];
+  }
+  if (self.hasBattleRunAwayIncrement) {
+    [output writeFloat:29 value:self.battleRunAwayIncrement];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2231,6 +2255,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasTaskMapConstants) {
     size += computeMessageSize(27, self.taskMapConstants);
+  }
+  if (self.hasBattleRunAwayBasePercent) {
+    size += computeFloatSize(28, self.battleRunAwayBasePercent);
+  }
+  if (self.hasBattleRunAwayIncrement) {
+    size += computeFloatSize(29, self.battleRunAwayIncrement);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4580,6 +4610,12 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasContinueBattleGemCostMultiplier) {
     [self setContinueBattleGemCostMultiplier:other.continueBattleGemCostMultiplier];
   }
+  if (other.hasBattleRunAwayBasePercent) {
+    [self setBattleRunAwayBasePercent:other.battleRunAwayBasePercent];
+  }
+  if (other.hasBattleRunAwayIncrement) {
+    [self setBattleRunAwayIncrement:other.battleRunAwayIncrement];
+  }
   if (other.hasAddAllFbFriends) {
     [self setAddAllFbFriends:other.addAllFbFriends];
   }
@@ -4766,6 +4802,14 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setTaskMapConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 229: {
+        [self setBattleRunAwayBasePercent:[input readFloat]];
+        break;
+      }
+      case 237: {
+        [self setBattleRunAwayIncrement:[input readFloat]];
         break;
       }
     }
@@ -5231,6 +5275,38 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier {
   result.hasContinueBattleGemCostMultiplier = NO;
   result.continueBattleGemCostMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleRunAwayBasePercent {
+  return result.hasBattleRunAwayBasePercent;
+}
+- (Float32) battleRunAwayBasePercent {
+  return result.battleRunAwayBasePercent;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBattleRunAwayBasePercent:(Float32) value {
+  result.hasBattleRunAwayBasePercent = YES;
+  result.battleRunAwayBasePercent = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleRunAwayBasePercent {
+  result.hasBattleRunAwayBasePercent = NO;
+  result.battleRunAwayBasePercent = 0;
+  return self;
+}
+- (BOOL) hasBattleRunAwayIncrement {
+  return result.hasBattleRunAwayIncrement;
+}
+- (Float32) battleRunAwayIncrement {
+  return result.battleRunAwayIncrement;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBattleRunAwayIncrement:(Float32) value {
+  result.hasBattleRunAwayIncrement = YES;
+  result.battleRunAwayIncrement = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleRunAwayIncrement {
+  result.hasBattleRunAwayIncrement = NO;
+  result.battleRunAwayIncrement = 0;
   return self;
 }
 - (BOOL) hasAddAllFbFriends {

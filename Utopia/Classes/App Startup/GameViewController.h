@@ -102,6 +102,6 @@
 - (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion;
 - (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion;
 
-- (BOOL) canProceedWithFacebookId:(NSString *)facebookId;
+- (BOOL) canProceedWithFacebookUser:(NSDictionary *)fbUser;
 
 @end
