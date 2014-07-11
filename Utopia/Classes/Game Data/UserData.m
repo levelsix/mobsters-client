@@ -316,16 +316,19 @@
 }
 
 - (float) currentPercentage {
+  Globals *gl = [Globals sharedGlobals];
   float totalSecs = [self totalSeconds];
   float timeLeft = [self.endTime timeIntervalSinceNow];
   float timeCompleted = MAX(totalSecs-timeLeft, 0);
+  float totalHealth = [gl calculateMaxHealthForMonster:self.userMonster]-self.userMonster.curHealth;
   
   float healthToHeal = 0;
   for (int i = 1; i < self.timeDistribution.count; i += 2) {
     healthToHeal += [self.timeDistribution[i] intValue];
   }
   
-  float percentage = self.healthProgress/healthToHeal;
+  float basePerc = self.healthProgress/totalHealth;
+  float percentage = basePerc;
   for (int i = 0; i < self.timeDistribution.count; i += 2) {
     float secs = [self.timeDistribution[i] floatValue];
     float health = [self.timeDistribution[i+1] floatValue];
@@ -334,7 +337,7 @@
       timeCompleted -= secs;
       percentage += health/healthToHeal;
     } else {
-      percentage += health/healthToHeal*timeCompleted/secs;
+      percentage += health/healthToHeal*timeCompleted/secs*(1-basePerc);
       break;
     }
   }
@@ -1254,7 +1257,7 @@
       [userMonsters addObject:um];
       totalAttack += [gl calculateTotalDamageForMonster:um];
     } else {
-      [Globals popupMessage:[NSString stringWithFormat:@"Unable to find %@ on mini job.", MONSTER_NAME.lowercaseString]];
+      [Globals popupMessage:[NSString stringWithFormat:@"Unable to find %@ on mini job.", MONSTER_NAME]];
       return nil;
     }
   }

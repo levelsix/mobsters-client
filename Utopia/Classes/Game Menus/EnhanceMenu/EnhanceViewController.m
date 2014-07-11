@@ -218,7 +218,7 @@
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:_confirmUserMonsterId];
   if (um.teamSlot > 0) {
-    NSString *description = [NSString stringWithFormat:@"Enhancing %@s removes them from your squad. Continue?", MONSTER_NAME.lowercaseString];
+    NSString *description = [NSString stringWithFormat:@"Enhancing %@s removes them from your squad. Continue?", MONSTER_NAME];
     [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
   } else {
     [self confirmationAccepted];

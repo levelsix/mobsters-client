@@ -99,7 +99,7 @@
   [self stopSpinning];
   
   self.availableMonstersLabel.text = [NSString stringWithFormat:@"AVAILABLE %@S", MONSTER_NAME.uppercaseString];
-  self.tapMobsterLabel.text = [NSString stringWithFormat:@"Tap a %@ to fill slot", MONSTER_NAME.lowercaseString];
+  self.tapMobsterLabel.text = [NSString stringWithFormat:@"Tap a %@ to fill slot", MONSTER_NAME];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -353,7 +353,7 @@
     MiniJobsDetailsCell *cell = (MiniJobsDetailsCell *)[self.monstersTable cellForRowAtIndexPath:ip];
     
     if (um.curHealth <= 0) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is not healthy enough to go on this mini job.", MONSTER_NAME.lowercaseString]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is not healthy enough to go on this mini job.", MONSTER_NAME]];
     } else {
       [self.pickedMonsters addObject:um];
       [self.monsterArray removeObjectAtIndex:row];
@@ -379,7 +379,7 @@
       [self updateBottomLabels];
     }
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't send any more %@s on this mini job.", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't send any more %@s on this mini job.", MONSTER_NAME]];
   }
 }
 

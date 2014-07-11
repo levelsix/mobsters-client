@@ -228,7 +228,7 @@
       [self.detailsViewController beginEngageSpinning];
     } else {
       if (userMonsters.count == 0) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You must select %@s before engaging.", MONSTER_NAME.lowercaseString]];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You must select %@s before engaging.", MONSTER_NAME]];
       } else {
         if (totalHp < reqHp && totalAtk < reqAtk) {
           [Globals addAlertNotification:@"You need more hp and attack to engage."];

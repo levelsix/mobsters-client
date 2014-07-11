@@ -102,7 +102,7 @@
 
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
-  [Kamcord setFacebookAppID:FACEBOOK_APP_ID sharedAuth:YES];
+  [Kamcord setFacebookAppID:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"FacebookAppID"] sharedAuth:YES];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -285,7 +285,7 @@
   }
   
   if (gs.monsterHealingQueueEndTime) {
-    [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME.lowercaseString] badge:1 date:gs.monsterHealingQueueEndTime];
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME] badge:1 date:gs.monsterHealingQueueEndTime];
   }
   
   if (gs.userEvolution) {
@@ -299,23 +299,23 @@
   for (UserMiniJob *miniJob in gs.myMiniJobs) {
     if (miniJob.timeStarted && !miniJob.timeCompleted) {
       MSDate *date = [miniJob.timeStarted dateByAddingTimeInterval:miniJob.durationMinutes*60];
-      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME.lowercaseString, miniJob.miniJob.name] badge:1 date:date];
+      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:date];
     }
   }
   
-  NSString *text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  NSString *text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s need a leader.", gs.name, MONSTER_NAME];
   MSDate *date = [MSDate dateWithTimeIntervalSinceNow:12*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];
   
-  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really need a leader.", gs.name, MONSTER_NAME];
   date = [MSDate dateWithTimeIntervalSinceNow:3*24*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];
   
-  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really need a leader.", gs.name, MONSTER_NAME];
   date = [MSDate dateWithTimeIntervalSinceNow:7*24*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];
   
-  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really, REALLY need a leader.", gs.name, MONSTER_NAME.lowercaseString];
+  text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really, really, REALLY need a leader.", gs.name, MONSTER_NAME];
   date = [MSDate dateWithTimeIntervalSinceNow:30*24*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];
 }

@@ -30,8 +30,8 @@
   
   self.titleImageName = @"residencemenuheader.png";
   
-  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME.lowercaseString];
-  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to sell.", MONSTER_NAME.lowercaseString];
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to sell.", MONSTER_NAME];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -127,7 +127,7 @@
     [self animateUserMonsterIntoQueue:um];
     [self reloadListViewAnimated:YES];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME]];
   }
 }
 
@@ -190,7 +190,7 @@
     }
     
     int queueSize = (int)self.sellQueue.count;
-    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d %@s", queueSize, MONSTER_NAME.lowercaseString] : @"this mobster";
+    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d %@s", queueSize, MONSTER_NAME] : @"this mobster";
     NSString *text = [NSString stringWithFormat:@"Would you like to sell %@ for %@?", amt, [Globals cashStringForNumber:sellAmt]];
     [GenericPopupController displayConfirmationWithDescription:text title:[NSString stringWithFormat:@"Sell %@s?", MONSTER_NAME] okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
   }

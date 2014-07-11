@@ -165,9 +165,9 @@
     }
     
     if (!gs.userEnhancement.baseMonster) {
-      self.instructionLabel.text = [NSString stringWithFormat:@"Select a %@ to enhance", MONSTER_NAME.lowercaseString];
+      self.instructionLabel.text = [NSString stringWithFormat:@"Select a %@ to enhance", MONSTER_NAME];
     } else {
-      self.instructionLabel.text = [NSString stringWithFormat:@"Select a %@ to sacrifice", MONSTER_NAME.lowercaseString];
+      self.instructionLabel.text = [NSString stringWithFormat:@"Select a %@ to sacrifice", MONSTER_NAME];
     }
   } else {
     if (self.alpha == 0.f) {

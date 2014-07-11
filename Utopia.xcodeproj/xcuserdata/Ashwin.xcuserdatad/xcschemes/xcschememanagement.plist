@@ -6,25 +6,32 @@
 	<dict>
 		<key>LegendsOfChaos.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>Mobsters copy.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>6</integer>
 		</dict>
 		<key>Mobsters-Release.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Mobsters.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+		<key>Toon Squad App Store.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Toon Squad.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -35,6 +42,11 @@
 			<true/>
 		</dict>
 		<key>CF0CE188196F367500ECD301</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF0CECF2196F452900ECD301</key>
 		<dict>
 			<key>primary</key>
 			<true/>

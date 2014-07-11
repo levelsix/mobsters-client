@@ -22,6 +22,7 @@
 - (void) setTag:(NSInteger)tag {
   [super setTag:tag];
   self.slotNumLabel.text = [NSString stringWithFormat:@"%d", (int)tag];
+  self.botLabel.text = [NSString stringWithFormat:@"Tap to Add %@", MONSTER_NAME];
 }
 
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {
@@ -129,7 +130,7 @@
   
   self.titleImageName = @"manageteammenuheader.png";
   
-  self.unavailableLabel.text = [NSString stringWithFormat:@"You have no more available %@s.", MONSTER_NAME.lowercaseString];
+  self.unavailableLabel.text = [NSString stringWithFormat:@"You have no more available %@s.", MONSTER_NAME];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

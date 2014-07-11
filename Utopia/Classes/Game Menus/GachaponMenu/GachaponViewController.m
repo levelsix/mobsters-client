@@ -180,7 +180,7 @@
   if (gs.gold < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count > gs.maxInventorySlots) {
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME.lowercaseString] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
     [self.topBar updateLabels];

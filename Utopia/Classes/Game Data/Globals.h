@@ -19,7 +19,11 @@
 
 #define BUTTON_CLICKED_LEEWAY 30
 
+#ifdef APPSTORE
+#define LNLog(...)
+#else
 #define LNLog(...) NSLog(__VA_ARGS__)
+#endif
 
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
@@ -68,9 +72,10 @@
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"
 
-#ifdef LEGENDS_OF_CHAOS
-#define GAME_NAME @"Legends of Chaos"
-#define GAME_ABBREV @"LoC"
+#ifdef MOBSTERS
+#define GAME_NAME @"Mob Squad"
+#define GAME_ABBREV @"MS"
+#define MONSTER_NAME @"Mobster"
 #else
 #define GAME_NAME @"Toon Squad"
 #define GAME_ABBREV @"TS"

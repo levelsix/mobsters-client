@@ -8,85 +8,71 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>10</integer>
 		</dict>
 		<key>Pods-Adjust.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>9</integer>
 		</dict>
 		<key>Pods-Amplitude-iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>11</integer>
 		</dict>
 		<key>Pods-GPUImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>12</integer>
 		</dict>
 		<key>Pods-NRTouchPoints.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>13</integer>
 		</dict>
 		<key>Pods-UIImage+BlurredFrame.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>14</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>8</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0EDC524EF2344BF79A9215AC</key>
+		<key>4290B737D0F34DC1B00569D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6BD2AA1B3B474AE0B8FDF236</key>
+		<key>A123BD653BAB4541A9F9A7BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AE85DE4979D14E8A9ED185AA</key>
+		<key>A495440BF3444E369008CD0F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EBF1D088699141CA89CB4235</key>
+		<key>C75B8759E30348D1BE29086F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F59460D5C818458BBDF1D90D</key>
+		<key>D2029838A82D41DAA8012FD8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F80ABA063170481FAA35DA2B</key>
+		<key>DC23A02755F845F0A901934F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FBB8B84445224A53B4F0EE05</key>
+		<key>F217EE8828C844329C112FC2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

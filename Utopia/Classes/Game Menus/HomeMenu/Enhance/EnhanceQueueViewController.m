@@ -86,8 +86,8 @@
   
   self.monsterImageView.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
   
-  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME.lowercaseString];
-  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to use", MONSTER_NAME.lowercaseString];
+  self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to use", MONSTER_NAME];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -317,7 +317,7 @@
     _confirmUserMonster = self.userMonsters[indexPath.row];
     [self checkMonsterIsNotMaxed];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already enhancing a different %@.", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already enhancing a different %@.", MONSTER_NAME]];
   }
 }
 
@@ -330,14 +330,14 @@
   if (percIncrease) {
     [self checkUserMonsterOnTeam];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you already have enough to max out this %@.", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you already have enough to max out this %@.", MONSTER_NAME]];
   }
 }
 
 - (void) checkUserMonsterOnTeam {
   UserMonster *um = _confirmUserMonster;
   if (um.teamSlot > 0) {
-    NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME.lowercaseString];
+    NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME];
     [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
   } else {
     [self confirmationAccepted];

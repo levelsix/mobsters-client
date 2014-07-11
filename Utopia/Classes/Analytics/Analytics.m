@@ -106,7 +106,6 @@
 #ifndef DEBUG
 //  [Crittercism leaveBreadcrumb:event];
 #endif
-  NSLog(@"Logging event: %@ with args:%@", event, args);
   [Amplitude logEvent:event withEventProperties:args];
 }
 
@@ -140,7 +139,7 @@
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         package, @"package",
                         [NSNumber numberWithFloat:price], @"price",
-                        [NSNumber numberWithInt:gold], @"gold",
+                        [NSNumber numberWithInt:gold], @"gems",
                         nil];
   
   [Analytics event:[NSString stringWithFormat:PURCHASED_GOLD, package] withArgs:args];

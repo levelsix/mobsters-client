@@ -176,8 +176,6 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  //[self createCloseButton];
-  
 #ifdef DEBUG
   [self initHomeMap];
   [self beginGuideGreetingPhase];
@@ -186,6 +184,7 @@
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
+  //[self createCloseButton];
 #else
   [self initHomeMap];
   [self beginGuideGreetingPhase];
@@ -634,7 +633,7 @@
 
 - (void) beginBuildingThreePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Good work! The Vault will protect your money from being stolen, so remember to upgrade it!",
-                        @(TutorialDialogueSpeakerMark), [NSString stringWithFormat:@"Another important resource is Oil, which is used to upgrade your %@s and buildings.", MONSTER_NAME.lowercaseString],
+                        @(TutorialDialogueSpeakerMark), [NSString stringWithFormat:@"Another important resource is Oil, which is used to upgrade your %@s and buildings.", MONSTER_NAME],
                         @(TutorialDialogueSpeakerMark), @"We'll need a place to store the oil you drill, so construct an Oil Silo now!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -674,7 +673,7 @@
 
 - (void) beginAttackMapPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Is that really on your birth certificate? Seems legit I guess.",
-                        @(TutorialDialogueSpeakerGuide2), [NSString stringWithFormat:@"Yippee! Now let's go recruit some %@s to join your team.", MONSTER_NAME.lowercaseString]];
+                        @(TutorialDialogueSpeakerGuide2), [NSString stringWithFormat:@"Yippee! Now let's go recruit some %@s to join your team.", MONSTER_NAME]];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   self.currentStep = TutorialStepAttackMap;

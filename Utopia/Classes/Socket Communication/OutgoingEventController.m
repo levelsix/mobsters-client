@@ -55,10 +55,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-
+  
   int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId structs:structs cash:cash oil:oil gems:gems];
   [sc setDelegate:delegate forTag:tag];
-
+  
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -606,8 +606,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to send msg that exceeds appropriate length"];
   } else {
     NSRange r = [msg rangeOfString:CODE_PREFIX];
-    if (gs.isAdmin && r.length > 0) {
+    if (r.length > 0) {
       NSString *code = [msg stringByReplacingCharactersInRange:r withString:@""];
+      
+#ifndef APPSTORE
       @try {
         int cashAmt = 0, oilAmt = 0, gemsAmt = 0;
         NSString *reason = nil;
@@ -648,24 +650,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         msg = @"You must enter a quantity of currency!";
       }
       
+      if ([code isEqualToString:UNLOCK_BUILDINGS_CODE]) {
+        msg = @"Unlocked all buildings.";
+        [gs unlockAllTasks];
+      } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
+        msg = @"Quests can now be skipped.";
+        gs.allowQuestSkipping = YES;
+      }
+#endif
+      
       if ([code isEqualToString:PURGE_CODE]) {
         [[Downloader sharedDownloader] purgeAllDownloadedData];
         msg = @"All downloaded data has been purged.";
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
         [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:1234 oilChange:1234 gemChange:1234 reason:RESET_CODE];
-      } else if ([code isEqualToString:UNMUTE_CODE]) {
-        msg = @"Unmuted all players.";
-        [gl unmuteAllPlayers];
-      } else if ([code isEqualToString:UNLOCK_BUILDINGS_CODE]) {
-        msg = @"Unlocked all buildings.";
-        [gs unlockAllTasks];
-      } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
-        msg = @"Quests can now be skipped.";
-        gs.allowQuestSkipping = YES;
       } else if ([code isEqualToString:FB_LOGOUT_CODE]) {
         msg = @"Logged out of Facebook.";
         [FacebookDelegate logout];
+      } else if ([code isEqualToString:UNMUTE_CODE]) {
+        msg = @"Unmuted all players.";
+        [gl unmuteAllPlayers];
       }
       
       else if (!msg) {

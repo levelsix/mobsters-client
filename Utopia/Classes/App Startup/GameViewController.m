@@ -1018,6 +1018,10 @@
     if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
       [self spawnLevelUp];
+      
+      if (gl.levelToShowRateUsPopup && gs.level > gl.levelToShowRateUsPopup) {
+        [Globals checkRateUsPopup];
+      }
     }
   }
 }

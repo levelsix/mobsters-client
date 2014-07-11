@@ -1855,7 +1855,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MSDate *lastSeen = [defaults objectForKey:RATE_US_POPUP_DEFAULT_KEY];
   if (!lastSeen) {
     [[Globals sharedGlobals] displayRateUsPopup];
-    [defaults setObject:[MSDate date] forKey:RATE_US_POPUP_DEFAULT_KEY];
+    [defaults setObject:[NSDate date] forKey:RATE_US_POPUP_DEFAULT_KEY];
   }
 }
 
@@ -1926,9 +1926,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (!hasValidTeam) {
     NSString *description = @"";
     if (team.count == 0) {
-      description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME.lowercaseString];
+      description = [NSString stringWithFormat:@"You have no %@s on your team. Manage your team now.", MONSTER_NAME];
     } else {
-      description = [NSString stringWithFormat:@"Uh oh, you have no healthy %@s on your team. Manage your team now.", MONSTER_NAME.lowercaseString];
+      description = [NSString stringWithFormat:@"Uh oh, you have no healthy %@s on your team. Manage your team now.", MONSTER_NAME];
     }
     [Globals addAlertNotification:description];
     [target performSelector:noTeamSelector];
@@ -1939,7 +1939,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that inventory is not full
   NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME.lowercaseString];
+    NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME];
     [Globals addAlertNotification:description];
     [target performSelector:inventoryFullSelector];
     return NO;

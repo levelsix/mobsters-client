@@ -77,7 +77,7 @@
 }
 
 - (void) beginFirstMove {
-  NSArray *dialogue = @[[NSString stringWithFormat:@"Unlike your world, we %@s find violence more civil than words when resolving issues.", MONSTER_NAME.lowercaseString],
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Unlike your world, we %@s find violence more civil than words when resolving issues.", MONSTER_NAME],
                         @"Earn the respect of this Goonie and recruit him to your squad by defeating him now!"];
   [self displayDialogue:dialogue];
   
@@ -109,7 +109,7 @@
   
   NSArray *dialogue = @[@YES, @"It’s your lucky day guys -- You’ve just recruited a star to your team without even knowing it.",
                         @NO, @"Wow... this is coming from the guy that didn’t even shoot back?",
-                        @YES, [NSString stringWithFormat:@"Typical noob. Any real %@ would’ve known I was acting. Can you believe this guy?", MONSTER_NAME.lowercaseString],
+                        @YES, [NSString stringWithFormat:@"Typical noob. Any real %@ would’ve known I was acting. Can you believe this guy?", MONSTER_NAME],
                         @NO, @"I cannot wait to use you as a meat shield. Let’s just assign this guy to your team and get it over with.",
                         @NO, @"Click on the top bar now to manage your squad."];
   [self displayLootDialogue:dialogue];
@@ -120,7 +120,7 @@
 - (void) beginEquipPhase {
   [self initMyCronies];
   
-  NSArray *dialogue = @[[NSString stringWithFormat:@"The %@s at the top are the ones currently assigned to your team.", MONSTER_NAME.lowercaseString],
+  NSArray *dialogue = @[[NSString stringWithFormat:@"The %@s at the top are the ones currently assigned to your team.", MONSTER_NAME],
                         @"Click here now to assign this Goonie to your squad."];
   [self displayDialogue:dialogue];
   [self.myCroniesViewController addChildViewController:self.dialogueViewController];

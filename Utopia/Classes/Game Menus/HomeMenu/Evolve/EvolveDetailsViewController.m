@@ -160,9 +160,9 @@
   GameState *gs = [GameState sharedGameState];
   
   if (!_allowEvolution) {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already evolving a different %@.", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already evolving a different %@.", MONSTER_NAME]];
   } else if (![self.evoItem isReadyForEvolution]) {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, this %@ is not yet ready to evolve.", MONSTER_NAME.lowercaseString]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, this %@ is not yet ready to evolve.", MONSTER_NAME]];
   } else  {
     int oilCost = self.evoItem.userMonster1.staticMonster.evolutionCost;
     

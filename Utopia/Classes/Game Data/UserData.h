@@ -77,7 +77,6 @@
 - (UserMonster *)userMonster;
 - (UserMonsterHealingProto *) convertToProto;
 
-- (float) totalSeconds;
 - (float) currentPercentage;
 
 @end

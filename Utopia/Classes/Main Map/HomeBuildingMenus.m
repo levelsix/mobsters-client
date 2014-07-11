@@ -85,7 +85,7 @@
 }
 
 - (void) updateForPercentage:(float)percentage {
-  self.percentage = percentage;//clampf(percentage, 0, 1);
+  self.percentage = clampf(percentage, 0, 1);
   
   float totalWidth = _percentage*self.contentSize.width;
   CGRect r;

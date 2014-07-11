@@ -319,7 +319,7 @@
     
     _donateJobId = jobId;
     if (numOnTeam) {
-      NSString *desc = [NSString stringWithFormat:@"%@ of these %@s %@ on your team. Would you still like to donate?", numOnTeam == 1 ? @"One" : numOnTeam == 2 ? @"Two" : @"Three", MONSTER_NAME.lowercaseString, numOnTeam == 1 ? @"is" : @"are"];
+      NSString *desc = [NSString stringWithFormat:@"%@ of these %@s %@ on your team. Would you still like to donate?", numOnTeam == 1 ? @"One" : numOnTeam == 2 ? @"Two" : @"Three", MONSTER_NAME, numOnTeam == 1 ? @"is" : @"are"];
       [GenericPopupController displayConfirmationWithDescription:desc title:[NSString stringWithFormat:@"%@s on Team", MONSTER_NAME] okayButton:@"Donate" cancelButton:@"Cancel" target:self selector:@selector(donateConfirmed)];
     } else {
       [self donateConfirmed];

@@ -8,10 +8,14 @@
 
 #include "OpenUDID.h"
 
-#ifndef DEBUG
+#ifdef APPSTORE
 
-#define USE_PROD
+#define USE_STAGING
+#define UDID [OpenUDID value]
 
+#elif RELEASE
+
+#define USE_STAGING
 #define UDID [OpenUDID value]
 
 #else
@@ -25,6 +29,13 @@
 
 #ifdef USE_PROD
 
+#define HOST_NAME @"prod.mobsters.lvl6.com"
+#define HOST_PORT 5672
+#define MQ_USERNAME @"lvl6client"
+#define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
+#define MQ_VHOST @"prodmobsters"
+
+#elif defined(USE_STAGING)
 
 #define HOST_NAME @"staging.mobsters.lvl6.com"
 #define HOST_PORT 5672
