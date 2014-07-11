@@ -336,7 +336,7 @@
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
   if (!self.myFacebookUser) {
     LNLog(@"Attempting login for my facebook user.");
-    [self openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
+    [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
       LNLog(@"Getting my facebook user.");
       if (success) {
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {

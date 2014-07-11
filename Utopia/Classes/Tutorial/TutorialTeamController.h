@@ -20,7 +20,7 @@ typedef enum {
 
 @interface TutorialTeamController : MiniTutorialController <DialogueViewControllerDelegate, TutorialHomeMapDelegate, TutorialTeamDelegate> 
 
-@property (nonatomic, assign) TutorialTeampStemp currentStep;
+@property (nonatomic, assign) TutorialTeamStep currentStep;
 
 @property (nonatomic, retain) TutorialHomeMap *homeMap;
 
