@@ -59,7 +59,7 @@
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
 - (void) performFarFlinchAnimationWithDelay:(float)delay;
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
 
 - (void) showRarityTag;
 - (void) doRarityTagShine;

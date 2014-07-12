@@ -270,7 +270,7 @@
     movesLabel.anchorPoint = ccp(1, 0.5);
     _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
-    _movesBgd.position = ccp(0, 36);
+    _movesBgd.position = ccp(0, 38);
     movesLabel.position = ccp(45, 3);
     _movesLeftLabel.position = ccp(45, 24);
   }
@@ -309,7 +309,7 @@
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
   mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
@@ -419,7 +419,7 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.attrName rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
   bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.enemyPlayerObject.element];
   [bs showRarityTag];
   [self.bgdContainer addChild:bs];
@@ -660,8 +660,13 @@
   if (eff) {
     [self.bgdContainer addChild:eff z:100];
     
+    // Ignore position and use center point
+    CGPoint pt1 = ccpAdd(self.myPlayer.position, ccp(self.myPlayer.contentSize.width/2, self.myPlayer.contentSize.height/2));
+    CGPoint pt2 = ccpAdd(self.currentEnemy.position, ccp(self.currentEnemy.contentSize.width/2, self.currentEnemy.contentSize.height/2));
+    eff.position = ccpMidpoint(pt1, pt2);
+    
     eff.scale = 0.5f;
-    eff.position = position;
+    //eff.position = position;
     eff.opacity = 0.f;
     [eff runAction:
      [CCActionSequence actions:
@@ -765,24 +770,46 @@
 - (void) displayWaveNumber {
   float initDelay = TIME_TO_SCROLL_PER_SCENE-2.2;
   float fadeTime = 0.35;
-  float delayTime = 1.8;
+  float delayTime = 2.1;
   
   CCNodeColor *bgd = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
   [self addChild:bgd];
   
-  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fntFile:@"wavefont.fnt"];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fontName:@"Ziggurat-HTF-Black" fontSize:21];
   [self addChild:label];
-  label.position = ccp(35, self.contentSize.height/2+30);
+  label.position = ccp(24, self.contentSize.height/2+29);
   label.anchorPoint = ccp(0, 0.5);
+  label.color = [CCColor colorWithRed:255/255.f green:204/255.f blue:0.f];
+  label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
+  label.shadowOffset = ccp(0, -1);
+  label.shadowBlurRadius = 1.3;
   
   CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
   [self addChild:spr];
-  spr.scaleX = label.contentSize.width;
+  spr.scaleX = self.contentSize.width-label.position.x*2-self.orbBgdLayer.contentSize.width-30;
   spr.anchorPoint = ccp(0, 0.5);
-  spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-3));
+  spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-8));
   
-  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:self.enemyPlayerObject.name fontName:[Globals font] fontSize:20];
-  [self addChild:nameLabel];
+  
+  CCSprite *bgdIcon = [CCSprite spriteWithImageNamed:@"youwonitembg.png"];
+  [self addChild:bgdIcon];
+  bgdIcon.anchorPoint = ccp(0, 0.5);
+  bgdIcon.position = ccpAdd(label.position, ccp(0, -58));
+  
+  CCSprite *inside = [CCSprite spriteWithImageNamed:[self.enemyPlayerObject.spritePrefix stringByAppendingString:@"Card.png"]];
+  [bgdIcon addChild:inside];
+  inside.position = ccp(bgdIcon.contentSize.width/2, bgdIcon.contentSize.height/2);
+  inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
+  
+  CCSprite *border = [CCSprite spriteWithImageNamed:@"youwonitemborder.png"];
+  [bgdIcon addChild:border];
+  border.position = ccp(bgdIcon.contentSize.width/2, bgdIcon.contentSize.height/2);
+  
+  
+  
+  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Ziggurat-HTF-Black" fontSize:10];
+  nameLabel.attributedString = self.enemyPlayerObject.attrName;
+  [bgdIcon addChild:nameLabel];
   nameLabel.color = [CCColor whiteColor];
   nameLabel.shadowOffset = ccp(0, -1);
   nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
@@ -790,28 +817,41 @@
   nameLabel.anchorPoint = ccp(0, 0.5);
   
   CCSprite *elem = [CCSprite spriteWithImageNamed:[Globals imageNameForElement:self.enemyPlayerObject.element suffix:@"orb.png"]];
-  elem.scale = 0.55;
+  elem.scale = 0.5;
   elem.anchorPoint = ccp(0, 0.5);
   [nameLabel addChild:elem];
-  
   elem.position = ccp(-elem.contentSize.width*elem.scale-3, nameLabel.contentSize.height/2);
   
-  NSMutableArray *arr = [NSMutableArray array];
-  [arr addObject:label];
+  
+  
+  if (self.enemyPlayerObject.monsterType != TaskStageMonsterProto_MonsterTypeRegular) {
+    NSString *newText = self.enemyPlayerObject.monsterType == TaskStageMonsterProto_MonsterTypeMiniBoss ? @"Mini Boss" : @"Boss";
+    label.string = newText;
+    label.color = [CCColor whiteColor];
+    [label runAction:[CCActionRepeatForever actionWithAction:
+                      [CCActionSequence actions:
+                       [CCActionTintTo actionWithDuration:0.25 color:[CCColor colorWithRed:1.f green:84/255.f blue:0.f]],
+                       [CCActionTintTo actionWithDuration:0.25 color:[CCColor whiteColor]], nil]]];
+    
+    delayTime = 3;
+  }
+  
+  
   if (self.enemyPlayerObject.rarity != QualityCommon) {
     NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.enemyPlayerObject.rarity suffix:@"tag.png"]];
     CCSprite *rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
-    [self addChild:rarityTag];
+    [bgdIcon addChild:rarityTag];
     rarityTag.anchorPoint = ccp(0, 0.5);
-    rarityTag.position = ccpAdd(label.position, ccp(0, -35));
+    rarityTag.position = ccp(bgdIcon.contentSize.width+9, 34);
     
-    nameLabel.position = ccpAdd(label.position, ccp(-elem.position.x, -60));
-    
-    [arr addObject:rarityTag];
+    nameLabel.position = ccp(bgdIcon.contentSize.width+9-elem.position.x, 10);
   } else {
-    nameLabel.position = ccpAdd(label.position, ccp(-elem.position.x, -42));
+    nameLabel.position = ccp(bgdIcon.contentSize.width+9-elem.position.x, 29);
   }
-  [arr addObject:nameLabel];
+
+  NSMutableArray *arr = [NSMutableArray array];
+  [arr addObject:label];
+  [arr addObject:bgdIcon];
   
   int moveAmt = 50;//s.contentSize.width/2;
   for (int i = 0; i < arr.count; i++) {
@@ -840,14 +880,15 @@
   [spr runAction:[label getActionByTag:12].copy];
   
   [bgd runAction:[CCActionSequence actions:
-                [CCActionDelay actionWithDuration:initDelay],
-                [CCActionFadeTo actionWithDuration:fadeTime opacity:0.65f],
-                [CCActionDelay actionWithDuration:delayTime],
-                [CCActionFadeTo actionWithDuration:fadeTime opacity:0.f],
-                [CCActionCallBlock actionWithBlock:
-                 ^{
-                   [bgd removeFromParentAndCleanup:YES];
-                 }], nil]];
+                  [CCActionDelay actionWithDuration:initDelay],
+                  [CCActionFadeTo actionWithDuration:fadeTime opacity:0.65f],
+                  [CCActionDelay actionWithDuration:delayTime],
+                  [CCActionFadeTo actionWithDuration:fadeTime opacity:0.f],
+                  [CCActionCallBlock actionWithBlock:
+                   ^{
+                     [bgd removeFromParentAndCleanup:YES];
+                   }],
+                  nil]];
 }
 
 - (void) dropLoot:(CCSprite *)ed {
@@ -1076,7 +1117,8 @@
     } else {
       [self addChild:self.lostView z:10000];
       self.lostView.anchorPoint = ccp(0.5, 0.5);
-      self.lostView.continueButton.visible = [self shouldShowContinueButton];
+      if ([self shouldShowContinueButton]) [self.lostView.shareButton removeFromParent];
+      else [self.lostView.continueButton removeFromParent];
       self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
       
       [SoundEngine puzzleYouLose];
@@ -1475,14 +1517,16 @@
 #pragma mark - Continue View Actions
 
 - (IBAction)forfeitClicked:(id)sender {
-  [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
-                                                               title:@"Forfeit Battle"
-                                                          okayButton:@"Forfeit"
-                                                        cancelButton:@"Cancel"
-                                                            okTarget:self
-                                                          okSelector:@selector(youLost)
-                                                        cancelTarget:nil
-                                                      cancelSelector:nil];
+  if (_movesLeft > 0) {
+    [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
+                                                                 title:@"Forfeit Battle"
+                                                            okayButton:@"Forfeit"
+                                                          cancelButton:@"Cancel"
+                                                              okTarget:self
+                                                            okSelector:@selector(youLost)
+                                                          cancelTarget:nil
+                                                        cancelSelector:nil];
+  }
 }
 
 - (IBAction)winExitClicked:(id)sender {

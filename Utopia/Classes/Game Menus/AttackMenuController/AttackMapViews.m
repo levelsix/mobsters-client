@@ -24,16 +24,18 @@
   self.spinner.hidden = YES;
 }
 
-- (void)setIsLocked:(BOOL)isLocked {
+- (void) setIsLocked:(BOOL)isLocked isBoss:(BOOL)isBoss {
   _isLocked = isLocked;
   if (isLocked) {
-    [self.cityButton setImage:[UIImage imageNamed:@"lockedcitypin.png"] forState:UIControlStateNormal];
+    NSString *str = [NSString stringWithFormat:@"locked%@pin.png", isBoss ? @"boss" : @"city"];
+    [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = YES;
     
     self.nameLabel.gradientStartColor = [UIColor whiteColor];
     self.nameLabel.gradientEndColor = [UIColor colorWithWhite:245/255.f alpha:1.f];
   } else {
-    [self.cityButton setImage:[UIImage imageNamed:@"opencitypin.png"] forState:UIControlStateNormal];
+    NSString *str = [NSString stringWithFormat:@"open%@pin.png", isBoss ? @"boss" : @"city"];
+    [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = NO;
     
     self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];

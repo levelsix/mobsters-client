@@ -138,7 +138,6 @@
 }
 
 - (CGPoint) nearestCellMiddleFromPoint:(CGPoint)pt withBoosterItem:(BoosterItemProto *)bip {
-  NSLog(@"1:%@", NSStringFromCGPoint(pt));
   UITableView *table = self.gachaTable.tableView;
   int row = (pt.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
   int rowIdx = row % self.items.count;
@@ -147,7 +146,6 @@
   GameState *gs = [GameState sharedGameState];
   for (int i = 0; i < self.items.count; i++) {
     int j = (rowIdx+i) % self.items.count;
-    NSLog(@"%d", j);
     BoosterDisplayItemProto *disp = self.items[j];
     if (disp.isMonster && bip.monsterId && disp.isComplete == bip.isComplete) {
       MonsterProto *mp = [gs monsterWithId:bip.monsterId];
@@ -166,7 +164,6 @@
   float base = floorf(row/(float)self.items.count)*self.items.count;
   float nearest = base+arrIndex+0.5;
   pt.y = nearest*TABLE_CELL_WIDTH-table.frame.size.width/2;
-  NSLog(@"2:%@", NSStringFromCGPoint(pt));
   return pt;
 }
 

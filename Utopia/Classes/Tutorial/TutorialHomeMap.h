@@ -78,6 +78,7 @@
 - (void) moveToOilDrill;
 - (void) panToMark;
 - (void) friendFaceForward;
+- (void) guideFaceForward;
 - (void) moveToTeamCenter;
 
 @end

@@ -14,14 +14,14 @@
 @implementation BattlePlayer
 
 + (id) playerWithMonster:(UserMonster *)monster {
-  return [[self alloc] initWithMonster:monster dmgMultiplier:1];
+  return [[self alloc] initWithMonster:monster dmgMultiplier:1 monsterType:TaskStageMonsterProto_MonsterTypeRegular];
 }
 
-+ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier {
-  return [[self alloc] initWithMonster:monster dmgMultiplier:dmgMultiplier];
++ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType {
+  return [[self alloc] initWithMonster:monster dmgMultiplier:dmgMultiplier monsterType:monsterType];
 }
 
-- (id) initWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier {
+- (id) initWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType {
   if ((self = [super init])) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
@@ -36,16 +36,23 @@
     self.lightDamage = [gl calculateElementalDamageForMonster:monster element:ElementLight];
     self.nightDamage = [gl calculateElementalDamageForMonster:monster element:ElementDark];
     self.rockDamage = [gl calculateElementalDamageForMonster:monster element:ElementRock];
-    self.name = [NSString stringWithFormat:@"%@ (Lvl %d)", mp.displayName, monster.level];
     self.spritePrefix = mp.imagePrefix;
     self.monsterId = monster.monsterId;
     self.userMonsterId = monster.userMonsterId;
     self.slotNum = monster.teamSlot;
     self.animationType = mp.attackAnimationType;
     self.verticalOffset = mp.verticalPixelOffset;
+    self.monsterType = monsterType;
     
     self.lowerBound = 0.6*dmgMultiplier;
     self.upperBound = 1.*dmgMultiplier;
+    
+    NSString *p1 = [Globals isLongiPhone] ? mp.displayName : mp.monsterName;
+    NSString *p2 = [NSString stringWithFormat:@" L%d", monster.level];
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
+    [as addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, p1.length)];
+    [as addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0 green:202/255.f blue:1.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
+    self.attrName = as;
   }
   return self;
 }

@@ -474,6 +474,10 @@
   [self.friendSprite restoreStandingFrame:MapDirectionFront];
 }
 
+- (void) guideFaceForward {
+  [self.guideSprite restoreStandingFrame:MapDirectionFront];
+}
+
 #pragma mark - Overwritten methods
 
 - (void) createBoat {

@@ -115,7 +115,7 @@
     MonsterProto *avMonster = [gs monsterWithId:self.fup.avatarMonsterId];
     NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];
     [Globals imageNamed:file withView:self.avatarBgd greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
-    file = [avMonster.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+    file = [avMonster.imagePrefix stringByAppendingString:@"Card.png"];
     [Globals imageNamed:file withView:self.avatarIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     [self button1Clicked:self.navBar];

@@ -22,6 +22,7 @@
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
 
+- (void) setIsLocked:(BOOL)isLocked isBoss:(BOOL)isBoss;
 - (void) doShake;
 
 @end

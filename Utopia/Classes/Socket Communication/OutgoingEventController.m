@@ -56,15 +56,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  NSError *error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
-                                                     options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
-                                                       error:&error];
-  NSString *jsonString;
-  if (! jsonData) {
-    NSLog(@"Got an error: %@", error);
-  } else {
-    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  NSString *jsonString = nil;
+  if (otherFbInfo) {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    if (! jsonData) {
+      NSLog(@"Got an error: %@", error);
+    } else {
+      jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
   }
   
   int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId email:email otherFbInfo:jsonString structs:structs cash:cash oil:oil gems:gems];
@@ -599,17 +601,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  NSError *error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
-                                                     options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
-                                                       error:&error];
-  NSString *jsonString;
-  if (! jsonData) {
-    LNLog(@"Got an error: %@", error);
-  } else {
-    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  NSString *jsonString = nil;
+  if (otherFbInfo) {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:otherFbInfo
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    if (! jsonData) {
+      LNLog(@"Got an error: %@", error);
+    } else {
+      jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
   }
-  LNLog(@"JSON: %@", jsonString);
   int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId email:email otherFbInfo:jsonString];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   

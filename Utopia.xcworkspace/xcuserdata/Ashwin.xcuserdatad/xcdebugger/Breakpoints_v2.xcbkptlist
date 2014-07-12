@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/GachaponMenu/GachaponViewController.m"
-            timestampString = "426511167.701441"
+            timestampString = "426818247.244233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "-nearestCellMiddleFromPoint:withBoosterItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -210,6 +210,22 @@
             startingLineNumber = "615"
             endingLineNumber = "615"
             landmarkName = "-readjustAllMonsterHealingProtos"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Utopia/Classes/New Battle/BattleSprite.m"
+            timestampString = "426819662.247087"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "-doRarityTagShine"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

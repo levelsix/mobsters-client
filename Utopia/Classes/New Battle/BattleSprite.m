@@ -23,7 +23,7 @@
 
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -67,8 +67,9 @@
       [self.healthBgd addChild:self.rarityTag];
       self.rarityTag.opacity = 0.f;
     }
-    
-    self.nameLabel = [CCLabelTTF labelWithString:name fontName:@"GothamNarrow-Ultra" fontSize:12];
+  
+    self.nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"GothamNarrow-Ultra" fontSize:12];
+    self.nameLabel.attributedString = name;
     [self.healthBgd addChild:self.nameLabel];
     self.nameLabel.position = ccp(self.healthBgd.contentSize.width/2, 28);
     self.nameLabel.color = [CCColor whiteColor];
@@ -76,6 +77,13 @@
     self.nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
     self.nameLabel.shadowBlurRadius = 1.5f;
     self.nameLabel.opacity = 0.f;
+    
+    // Preload flinch stars
+    NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"flinchstars.plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    [dict setObject:[NSNumber numberWithInt:1] forKey:@"maxParticles"];
+    CCParticleSystem *q = [[CCParticleSystem alloc] initWithDictionary:dict];
+    q.angle = 0;
     
     self.userInteractionEnabled = YES;
   }
@@ -154,26 +162,31 @@
 
 - (void) doRarityTagShine {
   if (self.rarityTag) {
-    CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rarityTag.spriteFrame];
-    CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
-    clip.contentSize = stencil.contentSize;
-    stencil.position = ccp(stencil.contentSize.width/2, stencil.contentSize.height/2);
-    clip.alphaThreshold = 0.5;
+//    CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rarityTag.spriteFrame];
     
-    CCSprite *lines = [CCSprite spriteWithImageNamed:@"tagshine.png"];
-    [clip addChild:lines];
-    lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-    lines.position = ccp(-lines.contentSize.width/2, clip.contentSize.height/2);
-    lines.opacity = 0.5f;
-    
-    [lines runAction:
-     [CCActionSequence actions:
-      [CCActionDelay actionWithDuration:0.3],
-      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.45f position:ccp(clip.contentSize.width+lines.contentSize.width/2, clip.contentSize.height/2)]
-                                  rate:5.f],
-      [CCActionCallBlock actionWithBlock:^{ [clip removeFromParent]; }], nil]];
-    
-    [self.rarityTag addChild:clip];
+//    CGSize size = self.rarityTag.contentSize;
+//    CCDrawNode *stencil = [CCDrawNode node];
+//    CGPoint rectangle[] = {{0, 0}, {size.width, 0}, {size.width, size.height}, {0, size.height}};
+//    [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+//    
+//    CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
+//    clip.contentSize = size;
+//    stencil.position = ccp(size.width/2, size.height/2);
+//    
+//    CCSprite *lines = [CCSprite spriteWithImageNamed:@"tagshine.png"];
+//    [clip addChild:lines];
+//    lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+//    lines.position = ccp(-lines.contentSize.width/2, clip.contentSize.height/2);
+//    lines.opacity = 0.5f;
+//    
+//    [lines runAction:
+//     [CCActionSequence actions:
+//      [CCActionDelay actionWithDuration:0.3],
+//      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.45f position:ccp(clip.contentSize.width+lines.contentSize.width/2, clip.contentSize.height/2)]
+//                                  rate:5.f],
+//      [CCActionCallBlock actionWithBlock:^{ [clip removeFromParent]; }], nil]];
+//    
+//    [self.rarityTag addChild:clip];
   }
 }
 

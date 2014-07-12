@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TutorialFacebookViewController">
             <connections>
-                <outlet property="bgdView" destination="WMr-pY-3Yg" id="wZW-BZ-N1x"/>
+                <outlet property="bgdView" destination="XV0-Gq-Av2" id="kcY-qu-REi"/>
                 <outlet property="connectLabel" destination="3fG-UO-Vm3" id="6Tx-Nt-kTu"/>
                 <outlet property="mainView" destination="ndC-fn-7ER" id="Evl-Ut-PWz"/>
                 <outlet property="spinner" destination="e5k-p1-BpP" id="Slf-iW-eDl"/>
@@ -19,10 +19,11 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupglow.png" id="WMr-pY-3Yg">
+                <view contentMode="scaleToFill" id="XV0-Gq-Av2">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                </view>
                 <view contentMode="scaleToFill" id="ndC-fn-7ER">
                     <rect key="frame" x="44" y="0.0" width="480" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -175,7 +176,6 @@
         <image name="connectshadow.png" width="108" height="56"/>
         <image name="limitededitionbg.png" width="149" height="23"/>
         <image name="markfree.png" width="162" height="221"/>
-        <image name="popupglow.png" width="480" height="320"/>
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>
     </resources>

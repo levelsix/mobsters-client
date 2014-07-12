@@ -184,7 +184,8 @@
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
-  //[self createCloseButton];
+  
+  [self createCloseButton];
 #else
   [self initHomeMap];
   [self beginGuideGreetingPhase];
@@ -994,6 +995,8 @@
     [self.battleLayer enemyTwoLookAtEnemy];
   } else if (self.currentStep == TutorialStepFacebookLogin && index == dvc.dialogue.speechSegmentList.count-1) {
     //[dvc showFbButtonView];
+  } else if (self.currentStep == TutorialStepAttackMap && index == dvc.dialogue.speechSegmentList.count-1) {
+    [self.homeMap guideFaceForward];
   }
 }
 

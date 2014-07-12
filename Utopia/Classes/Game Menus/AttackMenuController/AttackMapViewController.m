@@ -139,7 +139,7 @@
   for (TaskMapElementProto *elem in gs.staticMapElements) {
     FullTaskProto *task = [gs taskWithId:elem.taskId];
     AttackMapIconView *icon = [[NSBundle mainBundle] loadNibNamed:@"AttackMapIconView" owner:self options:nil][0];
-    icon.isLocked = ![gs isTaskUnlocked:elem.taskId];
+    [icon setIsLocked:![gs isTaskUnlocked:elem.taskId] isBoss:elem.boss];
     icon.tag = elem.mapElementId;
     icon.nameLabel.text = [NSString stringWithFormat:@"%@ »", task.name];
     icon.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];

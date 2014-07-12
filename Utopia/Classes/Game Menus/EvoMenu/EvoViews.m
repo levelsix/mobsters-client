@@ -67,7 +67,7 @@
 @implementation EvoScientistView
 
 - (void) awakeFromNib {
-  NSString *str = [NSString stringWithFormat:@"Scientist%dThumbnail.png", (int)self.tag];
+  NSString *str = [NSString stringWithFormat:@"Scientist%dCard.png", (int)self.tag];
   [Globals imageNamed:str withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 

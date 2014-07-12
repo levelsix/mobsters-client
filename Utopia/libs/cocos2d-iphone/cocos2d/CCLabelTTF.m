@@ -1037,6 +1037,9 @@ static __strong NSMutableDictionary* ccLabelTTF_registeredFonts;
 
 + (void) registerCustomTTF:(NSString *)fontFile
 {
+  // LVL6 Addition: don't register
+  return;
+  
     // Do not register a font if it has already been registered
     if (!ccLabelTTF_registeredFonts)
     {

@@ -18,10 +18,7 @@
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
-  self.doneButton.title = @"GO HOME";
-  
-  [self.manageButton removeFromParent];
-  self.manageButton = nil;
+  self.continueButton.label.position = ccp(0.5, 0.52);
 }
 
 - (void) onExitTransitionDidStart {
@@ -31,7 +28,6 @@
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
   
-  self.doneButton.title = @"GO HOME";
   [super onExitTransitionDidStart];
 }
 
@@ -229,11 +225,6 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-  
-  self.doneButton.title = @"GO HOME";
-  
-  [self.manageButton removeFromParent];
-  self.manageButton = nil;
 }
 
 - (void) onExitTransitionDidStart {
@@ -243,7 +234,6 @@
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
   
-  self.doneButton.title = @"GO HOME";
   [super onExitTransitionDidStart];
 }
 

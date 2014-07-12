@@ -16,13 +16,14 @@
 @property (nonatomic, assign) int curHealth;
 @property (nonatomic, assign) int maxHealth;
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSAttributedString *attrName;
 @property (nonatomic, retain) NSString *spritePrefix;
 @property (nonatomic, assign) MonsterProto_AnimationType animationType;
 @property (nonatomic, assign) float verticalOffset;
 
 @property (nonatomic, assign) Element element;
 @property (nonatomic, assign) Quality rarity;
+@property (nonatomic, assign) TaskStageMonsterProto_MonsterType monsterType;
 
 @property (nonatomic, assign) int fireDamage;
 @property (nonatomic, assign) int waterDamage;
@@ -41,7 +42,7 @@
 @property (nonatomic, assign) int slotNum;
 
 + (id) playerWithMonster:(UserMonster *)monster;
-+ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier;
++ (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;
 
 - (int) damageForColor:(GemColorId)color;

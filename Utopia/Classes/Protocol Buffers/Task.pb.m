@@ -2256,6 +2256,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property int32_t xPos;
 @property int32_t yPos;
 @property Element element;
+@property BOOL boss;
 @end
 
 @implementation TaskMapElementProto
@@ -2295,6 +2296,18 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   hasElement_ = !!value;
 }
 @synthesize element;
+- (BOOL) hasBoss {
+  return !!hasBoss_;
+}
+- (void) setHasBoss:(BOOL) value {
+  hasBoss_ = !!value;
+}
+- (BOOL) boss {
+  return !!boss_;
+}
+- (void) setBoss:(BOOL) value {
+  boss_ = !!value;
+}
 - (void) dealloc {
   [super dealloc];
 }
@@ -2305,6 +2318,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.xPos = 0;
     self.yPos = 0;
     self.element = ElementFire;
+    self.boss = NO;
   }
   return self;
 }
@@ -2339,6 +2353,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasElement) {
     [output writeEnum:5 value:self.element];
   }
+  if (self.hasBoss) {
+    [output writeBool:6 value:self.boss];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2362,6 +2379,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasElement) {
     size += computeEnumSize(5, self.element);
+  }
+  if (self.hasBoss) {
+    size += computeBoolSize(6, self.boss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2453,6 +2473,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasElement) {
     [self setElement:other.element];
   }
+  if (other.hasBoss) {
+    [self setBoss:other.boss];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2497,6 +2520,10 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
         } else {
           [unknownFields mergeVarintField:5 value:value];
         }
+        break;
+      }
+      case 48: {
+        [self setBoss:[input readBool]];
         break;
       }
     }
@@ -2580,6 +2607,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearElement {
   result.hasElement = NO;
   result.element = ElementFire;
+  return self;
+}
+- (BOOL) hasBoss {
+  return result.hasBoss;
+}
+- (BOOL) boss {
+  return result.boss;
+}
+- (TaskMapElementProto_Builder*) setBoss:(BOOL) value {
+  result.hasBoss = YES;
+  result.boss = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearBoss {
+  result.hasBoss = NO;
+  result.boss = NO;
   return self;
 }
 @end

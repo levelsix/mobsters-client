@@ -23,7 +23,7 @@
 - (void) updateForListObject:(UserMonster *)listObject userEnhancement:(UserEnhancement *)ue {
   MonsterProto *mp = listObject.staticMonster;
   
-  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"];

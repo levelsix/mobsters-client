@@ -22,13 +22,16 @@
 @property (nonatomic, retain) CCSprite *youLostHeader;
 @property (nonatomic, retain) CCSprite *spinner;
 @property (nonatomic, retain) CCSprite *stickerHead;
-@property (nonatomic, retain) CCNode *shareButton;
-@property (nonatomic, retain) CCNode *continueButton;
+@property (nonatomic, retain) CCButton *shareButton;
+@property (nonatomic, retain) CCButton *continueButton;
 @property (nonatomic, retain) CCButton *doneButton;
 @property (nonatomic, retain) CCButton *manageButton;
 @property (nonatomic, retain) CCNode *lostLabel;
 @property (nonatomic, retain) CCNode *rewardsBgd;
 @property (nonatomic, retain) CCNode *rewardsView;
+
+@property (nonatomic, retain) CCNode *shareLabel;
+@property (nonatomic, retain) CCNode *continueLabel;
 
 @property (nonatomic, retain) UIScrollView *rewardsScrollView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
@@ -43,7 +46,7 @@
 @interface BattleWonView : CCNode <UIScrollViewDelegate>
 
 @property (nonatomic, retain) CCNode *bgdNode;
-@property (nonatomic, retain) CCNode *shareButton;
+@property (nonatomic, retain) CCButton *shareButton;
 @property (nonatomic, retain) CCButton *doneButton;
 @property (nonatomic, retain) CCButton *manageButton;
 @property (nonatomic, retain) CCNode *headerView;

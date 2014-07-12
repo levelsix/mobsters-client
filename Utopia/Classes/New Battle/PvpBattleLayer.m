@@ -316,7 +316,7 @@
     NSMutableArray *mut = [NSMutableArray array];
     for (BattlePlayer *bp in self.enemyTeam) {
       NSInteger idx = [self.enemyTeam indexOfObject:bp];
-      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
       bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
       [self.bgdContainer addChild:bs z:-idx];
       bs.isFacingNear = YES;

@@ -92,16 +92,18 @@
 #pragma mark - Run away
 
 - (IBAction)forfeitClicked:(id)sender {
-  [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
-  self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
-  [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
-                                                              title:@"Run Away?"
-                                                         okayButton:@"Run Away"
-                                                       cancelButton:@"Cancel"
-                                                           okTarget:self
-                                                         okSelector:@selector(attemptRunaway)
-                                                       cancelTarget:nil
-                                                     cancelSelector:nil];
+  if (_movesLeft > 0) {
+    [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
+    self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
+    [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
+                                                                title:@"Run Away?"
+                                                           okayButton:@"Run Away"
+                                                         cancelButton:@"Cancel"
+                                                             okTarget:self
+                                                           okSelector:@selector(attemptRunaway)
+                                                         cancelTarget:nil
+                                                       cancelSelector:nil];
+  }
 }
 
 - (float) runAwayChance {
@@ -110,21 +112,23 @@
 }
 
 - (void) attemptRunaway {
-  BOOL success = drand48() < [self runAwayChance];
-  if (success) {
-    [self runawaySuccess];
-  } else {
-    _movesLeft = 0;
-    _myDamageDealt = 0;
-    _numAttemptedRunaways++;
-    [self saveCurrentState];
+  if (_movesLeft > 0) {
+    BOOL success = drand48() < [self runAwayChance];
+    if (success) {
+      [self runawaySuccess];
+    } else {
+      _movesLeft = 0;
+      _myDamageDealt = 0;
+      _numAttemptedRunaways++;
+      [self saveCurrentState];
+      
+      [self runawayFailed];
+    }
     
-    [self runawayFailed];
+    [self removeButtons];
+    [self displayNoInputLayer];
+    [self.orbLayer disallowInput];
   }
-  
-  [self removeButtons];
-  [self displayNoInputLayer];
-  [self.orbLayer disallowInput];
 }
 
 - (void) runawaySuccess {
@@ -227,7 +231,7 @@
     for (TaskStageProto *tsp in proto.tspList) {
       TaskStageMonsterProto *tsm = [tsp.stageMonstersList objectAtIndex:0];
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
-      BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier];
+      BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier monsterType:tsm.monsterType];
       [enemyTeam addObject:bp];
       
       [set addObject:bp.spritePrefix];
