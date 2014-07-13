@@ -14,7 +14,6 @@
 #import "OutgoingEventController.h"
 #import "IAPHelper.h"
 #import "GenericPopupController.h"
-#import "MyCroniesViewController.h"
 #import "UIImage+ImageEffects.h"
 #import "GPUImage.h"
 #import "HomeViewController.h"

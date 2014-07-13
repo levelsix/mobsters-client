@@ -11,7 +11,6 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
-#import "MyCroniesViewController.h"
 #import "GenericPopupController.h"
 
 #define TABLE_CELL_WIDTH 223.f
@@ -202,7 +201,7 @@
 }
 
 - (IBAction)manageClicked:(id)sender {
-  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+  //[self.navigationController pushViewController:[[_parentViewController alloc] init] animated:YES];
 }
 
 - (void) handleBeginClanRaidResponseProto:(FullEvent *)fe {

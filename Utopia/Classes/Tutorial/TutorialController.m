@@ -7,7 +7,6 @@
 //
 
 #import "TutorialController.h"
-#import "TutorialMissionMap.h"
 #import "GameViewController.h"
 #import "GameState.h"
 #import "MenuNavigationController.h"
@@ -16,7 +15,6 @@
 #import "FacebookDelegate.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
-#import "TutorialDoublePowerupController.h"
 #import "SoundEngine.h"
 #import "Analytics.h"
 

@@ -12,7 +12,6 @@
 #import "GameViewController.h"
 #import "PersistentEventProto+Time.h"
 #import "MenuNavigationController.h"
-#import "MyCroniesViewController.h"
 #import "GenericPopupController.h"
 #import "AchievementUtil.h"
 #import "CAKeyframeAnimation+AHEasing.h"

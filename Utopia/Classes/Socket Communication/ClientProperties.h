@@ -13,7 +13,7 @@
 #define USE_STAGING
 #define UDID [OpenUDID value]
 
-#elif RELEASE
+#elif !defined(DEBUG)
 
 #define USE_STAGING
 #define UDID [OpenUDID value]

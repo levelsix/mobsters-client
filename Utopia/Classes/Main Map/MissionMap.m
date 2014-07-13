@@ -16,7 +16,6 @@
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 #import "MenuNavigationController.h"
-#import "MyCroniesViewController.h"
 
 @implementation MissionMap
 
@@ -221,7 +220,7 @@
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
   GameViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+//  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
 }
 
 - (void) setAllLocksAndArrowsForBuildings {

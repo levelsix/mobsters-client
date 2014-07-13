@@ -8,16 +8,13 @@
 
 #import "TopBarViewController.h"
 #import "cocos2d.h"
-#import "MainMenuController.h"
 #import "Globals.h"
 #import "GameViewController.h"
 #import "MenuNavigationController.h"
-#import "DiamondShopViewController.h"
 #import "AttackMapViewController.h"
 #import "GameState.h"
 #import "ProfileViewController.h"
 #import "QuestLogViewController.h"
-#import "MyCroniesViewController.h"
 #import "RequestsViewController.h"
 #import "DialogueViewController.h"
 #import "UnreadNotifications.h"
@@ -412,13 +409,6 @@
 - (IBAction)myCityClicked:(id)sender {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   [gvc visitCityClicked:0];
-}
-
-- (IBAction)monsterViewsClicked:(id)sender {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
 }
 
 - (IBAction)mailClicked:(id)sender {

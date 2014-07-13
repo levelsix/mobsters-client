@@ -11,7 +11,6 @@
 #import "GameViewController.h"
 #import "ProfileViewController.h"
 #import "MenuNavigationController.h"
-#import "MyCroniesViewController.h"
 #import "UnreadNotifications.h"
 #import "GenericPopupController.h"
 #import "ClanInfoViewController.h"

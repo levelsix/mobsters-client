@@ -8,12 +8,6 @@
 
 #import "MiniTutorialController.h"
 #import "GameState.h"
-#import "TutorialElementsController.h"
-#import "TutorialRainbowController.h"
-#import "TutorialBasicComboController.h"
-#import "TutorialDoublePowerupController.h"
-#import "TutorialPowerupController.h"
-#import "TutorialDropController.h"
 #import "GameViewController.h"
 
 @implementation MiniTutorialController
