@@ -73,22 +73,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kcC-4T-Yhp" customClass="GeneralButton">
-                                    <rect key="frame" x="25" y="237" width="190" height="60"/>
+                                    <rect key="frame" x="16" y="237" width="209" height="63"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" backgroundImage="findmatchbig.png">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
+                                    <state key="normal" image="findmatchbig.png"/>
+                                    <state key="highlighted" image="findmatchbigpressed.png"/>
                                     <connections>
                                         <action selector="findMatchClicked:" destination="-1" eventType="touchUpInside" id="32W-f2-Vel"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find A Match" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="BFV-fB-Swm" customClass="NiceFontLabel12">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find A Match" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="BFV-fB-Swm" customClass="NiceFontLabel12B">
                                     <rect key="frame" x="76" y="252" width="119" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <color key="textColor" red="0.87450980392156863" green="0.18823529411764706" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.62745098039215685" green="0.10588235294117647" blue="0.0039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.99215686274509807" green="0.89803921568627454" blue="0.58431372549019611" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" red="1" green="0.92941176470588238" blue="0.30980392156862746" alpha="0.75" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match Cost: $500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h1t-BB-HD2" customClass="NiceFontLabel8B">
@@ -212,7 +211,8 @@
         <image name="championbig.png" width="107" height="100"/>
         <image name="championribbon.png" width="271" height="98"/>
         <image name="closepopupx.png" width="25" height="26"/>
-        <image name="findmatchbig.png" width="190" height="60"/>
+        <image name="findmatchbig.png" width="209" height="63"/>
+        <image name="findmatchbigpressed.png" width="209" height="63"/>
         <image name="multiplayerheader.png" width="1" height="40"/>
         <image name="multiplayerworldbg.png" width="240" height="194"/>
         <image name="pveshadow.png" width="94" height="1"/>
