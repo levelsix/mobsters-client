@@ -54,7 +54,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="4cE-wY-drm">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="4cE-wY-drm">
                                         <rect key="frame" x="1" y="2" width="28" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
@@ -99,7 +99,6 @@
         </view>
     </objects>
     <resources>
-        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="greyopenarrow.png" width="10" height="16"/>
         <image name="greywhite3.png" width="2" height="2"/>
         <image name="newchatdot.png" width="6" height="6"/>

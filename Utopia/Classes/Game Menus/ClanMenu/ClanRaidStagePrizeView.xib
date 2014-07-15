@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="gDr-60-jGA">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="gDr-60-jGA">
                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="SE6-Mf-Tev">
+                <imageView userInteractionEnabled="NO" contentMode="top" id="SE6-Mf-Tev">
                     <rect key="frame" x="-8" y="4" width="59" height="59"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -41,8 +41,4 @@
             </connections>
         </view>
     </objects>
-    <resources>
-        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
-        <image name="firemteam.png" width="21" height="21"/>
-    </resources>
 </document>

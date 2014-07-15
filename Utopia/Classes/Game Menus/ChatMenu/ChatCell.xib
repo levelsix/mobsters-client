@@ -93,7 +93,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="Mx3-Yv-xtN">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Mx3-Yv-xtN">
                                         <rect key="frame" x="1" y="2" width="28" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
@@ -122,7 +122,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="bluechatcorner.png" width="17" height="17"/>
         <image name="bluechatmiddle.png" width="1" height="1"/>
         <image name="bluechattail.png" width="23" height="17"/>

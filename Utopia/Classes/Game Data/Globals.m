@@ -1185,28 +1185,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
           if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-            CCSprite *newSprite = [CCSprite spriteWithImageNamed:imageName];
-            [s.parent addChild:newSprite];
-            newSprite.position = s.position;
-            newSprite.anchorPoint = s.anchorPoint;
-            newSprite.scale = s.scale;
-            newSprite.name = s.name;
+            [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
           }
-          [s removeFromParentAndCleanup:YES];
         }
       }];
       return;
     }
   }
   
-  CCSprite *newSprite = [CCSprite spriteWithImageNamed:imageName];
-  [s.parent addChild:newSprite];
-  newSprite.position = s.position;
-  newSprite.anchorPoint = s.anchorPoint;
-  newSprite.scale = s.scale;
-  newSprite.name = s.name;
-  [s removeFromParentAndCleanup:YES];
-  
+  [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
 }
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {

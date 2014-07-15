@@ -1148,7 +1148,6 @@
       }]];
       [self runAction:[CCActionSequence actionWithArray:seq]];
     }
-    _foundMatch = YES;
     return YES;
   } else if (_swapGem && (_realDragGem.powerup == powerup_all_of_one_color || _swapGem.powerup == powerup_all_of_one_color)) {
     Gem *powerupGem = nil;
@@ -1163,7 +1162,6 @@
     
     powerupGem.color = colorGem.color;
     [self destroyGem:powerupGem fromColor:colorGem.color fromPowerup:powerup_none];
-    _foundMatch = YES;
     return YES;
   }
   return NO;

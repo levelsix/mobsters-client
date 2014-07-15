@@ -284,7 +284,7 @@
     }
   }
   
-  if (gs.monsterHealingQueueEndTime) {
+  if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME] badge:1 date:gs.monsterHealingQueueEndTime];
   }
   

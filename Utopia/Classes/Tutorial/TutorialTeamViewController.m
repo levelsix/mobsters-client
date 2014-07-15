@@ -23,6 +23,7 @@
   [super viewWillAppear:animated];
   [self unequipSlotThree];
   [self.listView.collectionView reloadData];
+  [self.listView.collectionView layoutIfNeeded];
   
   [self.teamSlotViews[0] superview].userInteractionEnabled = NO;
   self.listView.collectionView.scrollEnabled = NO;

@@ -120,6 +120,9 @@
 @property (nonatomic, retain) IBOutlet CCLabelTTF *leagueLabel;
 @property (nonatomic, retain) IBOutlet CCLabelTTF *placeLabel;
 
+@property (nonatomic, retain) IBOutlet CCSprite *monsterBgd;
+@property (nonatomic, retain) IBOutlet CCSprite *monsterIcon;
+
 - (void) updateForPvpProto:(PvpProto *)pvp;
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge;
 - (void) fadeOutAnimation;

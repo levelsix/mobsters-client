@@ -411,7 +411,7 @@
   BOOL isPiece = NO;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
-    imgName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+    imgName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
     isPiece = mp.numPuzzlePieces > 1;
@@ -450,6 +450,9 @@
     CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
     [self addChild:inside];
     inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    if (inside.contentSize.height > self.contentSize.height) {
+      inside.scale = self.contentSize.height/inside.contentSize.height;
+    }
     
     float labelPosition = loss ? -10.f : -13.f;
     if (labelName) {
@@ -550,6 +553,27 @@
 
 @implementation BattleQueueNode
 
+- (void) didLoadFromCCB {
+  self.cashLabel.fontName = @"Gotham-Ultra";
+  self.oilLabel.fontName = @"Gotham-Ultra";
+  self.leagueLabel.fontName = @"Ziggurat-HTF-Black-Italic";
+  
+  CCClippingNode *clip = [CCClippingNode clippingNode];
+  CCNode *stencil = [CCNode node];
+  CCSprite *spr = [CCSprite spriteWithImageNamed:@"nightbigavatar.png"];
+  [stencil addChild:spr];
+  spr.position = ccp(spr.contentSize.width/2, spr.contentSize.height/2);
+  clip.stencil = stencil;
+  clip.alphaThreshold = 0.f;
+  clip.contentSize = self.monsterBgd.contentSize;
+  self.monsterIcon = [CCSprite spriteWithImageNamed:@"Zark1T1Card.png"];
+  self.monsterIcon.scale = clip.contentSize.height/self.monsterIcon.contentSize.height;
+  self.monsterIcon.position = ccp(clip.contentSize.width/2, clip.contentSize.height/2);
+  [clip addChild:self.monsterIcon];
+  [self.monsterBgd addChild:clip];
+  
+}
+
 - (void) updateForPvpProto:(PvpProto *)pvp {
   self.nameLabel.string = pvp.defender.minUserProto.name;
   self.cashLabel.string = [Globals cashStringForNumber:pvp.prospectiveCashWinnings];
@@ -559,21 +583,32 @@
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
+  int avatarId = pvp.defender.minUserProto.avatarMonsterId;
+  if (!avatarId) {
+    NSMutableArray *arr = gs.staticMonsters.allKeys.mutableCopy;
+    [arr shuffle];
+    avatarId = [arr[0] intValue];
+  }
+  MonsterProto *avMonster = [gs monsterWithId:avatarId];
+  NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];
+  [self.monsterBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:file]];
+  file = [avMonster.imagePrefix stringByAppendingString:@"Card.png"];
+  self.monsterIcon.spriteFrame = nil;
+  [Globals imageNamed:file toReplaceSprite:self.monsterIcon];
+  
   if (pvp.pvpLeagueStats) {
     PvpLeagueProto *pvpLeague = [gs leagueForId:pvp.pvpLeagueStats.leagueId];
     NSString *league = pvpLeague.imgPrefix;
     int rank = pvp.pvpLeagueStats.rank;
-    [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"leaguebg.png"]]];
+    [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[@"pvp" stringByAppendingString:[league stringByAppendingString:@"ribbon.png"]]]];
     [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
     self.leagueLabel.string = pvpLeague.leagueName;
     self.rankLabel.string = [Globals commafyNumber:rank];
     self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
     
-    float leftSide = self.rankLabel.position.x-self.rankLabel.contentSize.width;
-    float rightSide = self.placeLabel.position.x+self.placeLabel.contentSize.width;
-    float midX = leftSide+(rightSide-leftSide)/2;
-    
-    self.rankLabel.parent.position = ccp(-midX, self.rankLabel.parent.position.y);
+    float leftSide = self.rankLabel.position.x+self.rankLabel.contentSize.width;
+    self.rankQualifierLabel.position = ccp(leftSide+5, self.rankQualifierLabel.position.y);
+    self.placeLabel.position = ccp(leftSide+5, self.placeLabel.position.y);
   }
 }
 
@@ -587,7 +622,7 @@
     self.attackButtonNode.position = ccp(left+(right-left)/2, self.attackButtonNode.position.y);
   }
   
-  NSArray *nodes = @[self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
+  NSArray *nodes = @[self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
   for (int i = 0; i < nodes.count; i++) {
     CCNode *node = nodes[i];
     
@@ -618,7 +653,7 @@
 - (void) fadeOutAnimation {
   float dur = 0.2f;
   
-  NSArray *nodes = @[self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
+  NSArray *nodes = @[self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
   for (int i = 0; i < nodes.count; i++) {
     CCNode *node = nodes[nodes.count-i-1];
     
