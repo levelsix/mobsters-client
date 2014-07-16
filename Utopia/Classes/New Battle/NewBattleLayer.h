@@ -99,6 +99,7 @@
 @property (nonatomic, retain) CCSprite *comboBgd;
 @property (nonatomic, retain) CCLabelTTF *comboLabel;
 @property (nonatomic, retain) CCLabelTTF *comboBotLabel;
+@property (nonatomic, retain) CCLabelTTF *waveNumLabel;
 
 @property (nonatomic, retain) OrbLayer *orbLayer;
 @property (nonatomic, retain) OrbBgdLayer *orbBgdLayer;

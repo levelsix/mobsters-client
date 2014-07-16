@@ -676,7 +676,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
       
       if ([code isEqualToString:UNLOCK_BUILDINGS_CODE]) {
-        msg = @"Unlocked all buildings.";
+        msg = @"Unlocked all dungeons.";
         [gs unlockAllTasks];
       } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
         msg = @"Quests can now be skipped.";

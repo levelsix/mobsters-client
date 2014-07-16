@@ -298,6 +298,14 @@
   _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
   [_comboBgd addChild:_comboBotLabel z:1];
   
+  _waveNumLabel = [CCLabelTTF labelWithString:@"Enemy 1/3" fontName:@"Ziggurat-HTF-Black" fontSize:14];
+  [self addChild:_waveNumLabel z:2];
+  _waveNumLabel.position = ccp((self.contentSize.width-puzzleBg.contentSize.width-10)/2, self.contentSize.height-20);
+  _waveNumLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
+  _waveNumLabel.shadowOffset = ccp(0, -1);
+  _waveNumLabel.shadowBlurRadius = 1.f;
+  _waveNumLabel.opacity = 0.f;
+  
   _movesLeft = NUM_MOVES_PER_TURN;
   _curStage = -1;
   
@@ -771,12 +779,13 @@
   float initDelay = TIME_TO_SCROLL_PER_SCENE-2.2;
   float fadeTime = 0.35;
   float delayTime = 2.1;
+  int z = 2;
   
   CCNodeColor *bgd = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
-  [self addChild:bgd];
+  [self addChild:bgd z:z];
   
   CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fontName:@"Ziggurat-HTF-Black" fontSize:21];
-  [self addChild:label];
+  [self addChild:label z:z];
   label.position = ccp(24, self.contentSize.height/2+29);
   label.anchorPoint = ccp(0, 0.5);
   label.color = [CCColor colorWithRed:255/255.f green:204/255.f blue:0.f];
@@ -785,14 +794,14 @@
   label.shadowBlurRadius = 1.3;
   
   CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
-  [self addChild:spr];
+  [self addChild:spr z:z];
   spr.scaleX = self.contentSize.width-label.position.x*2-self.orbBgdLayer.contentSize.width-30;
   spr.anchorPoint = ccp(0, 0.5);
   spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-8));
   
   
   CCSprite *bgdIcon = [CCSprite spriteWithImageNamed:@"youwonitembg.png"];
-  [self addChild:bgdIcon];
+  [self addChild:bgdIcon z:z];
   bgdIcon.anchorPoint = ccp(0, 0.5);
   bgdIcon.position = ccpAdd(label.position, ccp(0, -58));
   
@@ -889,6 +898,11 @@
                      [bgd removeFromParentAndCleanup:YES];
                    }],
                   nil]];
+  
+  _waveNumLabel.string = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  if (!_waveNumLabel.opacity) {
+    [_waveNumLabel runAction:[CCActionFadeIn actionWithDuration:0.3f]];
+  }
 }
 
 - (void) dropLoot:(CCSprite *)ed {
@@ -1124,6 +1138,10 @@
       [SoundEngine puzzleYouLose];
     }
   }];
+  
+  if (_waveNumLabel.opacity) {
+    [_waveNumLabel runAction:[CCActionFadeOut actionWithDuration:0.3f]];
+  }
 }
 
 - (BOOL) shouldShowContinueButton {
@@ -1591,6 +1609,10 @@
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
+  
+  if (!_waveNumLabel.opacity) {
+    [_waveNumLabel runAction:[CCActionFadeIn actionWithDuration:0.3f]];
+  }
 }
 
 @end

@@ -36,7 +36,7 @@
   } else {
     NSString *str = [NSString stringWithFormat:@"open%@pin.png", isBoss ? @"boss" : @"city"];
     [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
-    self.cityNumLabel.hidden = NO;
+    self.cityNumLabel.hidden = isBoss;
     
     self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
     self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];

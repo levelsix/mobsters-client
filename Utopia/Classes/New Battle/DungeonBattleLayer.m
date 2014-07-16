@@ -217,6 +217,7 @@
       [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId myTeam:self.myTeam];
     }
     [super continueConfirmed];
+    _numAttemptedRunaways = 0;
   }
 }
 
