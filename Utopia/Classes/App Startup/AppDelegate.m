@@ -28,7 +28,9 @@
 #import <BugSense-iOS/BugSenseController.h>
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <AdSupport/AdSupport.h>
-#import <Adjust/Adjust.h>
+#import "ScopelyAttributionWrapper.h"
+
+//#import <Adjust/Adjust.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
@@ -38,7 +40,12 @@
 
 #define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
 
+#ifdef MOBSTERS
+#define ADJUST_APP_TOKEN     @"stfgmupd2vmn"
+#define ADJUST_TRACKED_PROPS @"AdjustTrackedProps"
+#else
 #define ADJUST_APP_TOKEN     @"53jsdw73785p"
+#endif
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
@@ -52,6 +59,8 @@
 
 #define BUG_SENSE_API_KEY    @"ff946ee1"
 
+#define APP_OPEN_KEY         @"AppOpenKey"
+
 @implementation AppDelegate
 
 @synthesize window;
@@ -62,6 +71,10 @@
 }
 
 - (void) setUpMobileAppTracker {
+#ifdef MOBSTERS
+  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
+  [ScopelyAttributionWrapper mat_startSession];
+#else
   [MobileAppTracker initializeWithMATAdvertiserId:MAT_ADVERTISER_ID
                                  MATConversionKey:MAT_APP_KEY];
   
@@ -69,17 +82,8 @@
   // Required for many advertising networks.
   [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
                        advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
+#endif
 }
-
-//- (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
-//  LNLog(@"MAT.didSucceed:");
-//  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-//}
-//
-//- (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
-//  LNLog(@"MAT.didFail:");
-//  LNLog(@"%@", error);
-//}
 
 - (void) setUpChartboost {
 //  Chartboost *cb = [Chartboost sharedChartboost];
@@ -91,18 +95,39 @@
 }
 
 - (void) setUpAdjust {
+#ifdef DEBUG
+  BOOL sandbox = YES;
+#else
+  BOOL sandbox = NO;
+#endif
+  
+#ifdef MOBSTERS
+  [ScopelyAttributionWrapper adjust_initWithApptoken:ADJUST_APP_TOKEN usingSandboxMode:sandbox];
+  
+  CFStringRef ver = CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey);
+  NSLog(@"%@", ver);
+  [ScopelyAttributionWrapper adjust_customVersion:(__bridge NSString *)ver];
+  
+  [ScopelyAttributionWrapper adjust_trackEvent:@"jqrk7y"];
+#else
   [Adjust appDidLaunch:ADJUST_APP_TOKEN];
   [Adjust setLogLevel:AILogLevelInfo];
-#ifdef DEBUG
-  [Adjust setEnvironment:AIEnvironmentSandbox];
-#else
-  [Adjust setEnvironment:AIEnvironmentProduction];
+  [Adjust setEnvironment:sandbox ? AIEnvironmentSandbox : AIEnvironmentProduction];
 #endif
 }
 
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
   [Kamcord setFacebookAppID:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"FacebookAppID"] sharedAuth:YES];
+}
+
+- (void) registerAppOpen {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int numOpens = [def integerForKey:APP_OPEN_KEY];
+  numOpens++;
+  [def setInteger:numOpens forKey:APP_OPEN_KEY];
+  LNLog(@"Registering num opens: %d", numOpens);
+  [Analytics appOpen:numOpens];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -117,18 +142,16 @@
   
 	[window makeKeyAndVisible];
   
-#ifndef DEBUG
-#endif
   [Amplitude initializeApiKey:AMPLITUDE_KEY];
-  [Analytics beganApp];
-  [Analytics openedApp];
   
   // New relic
   [NewRelicAgent startWithApplicationToken:NEW_RELIC_TOKEN];
   [NRLogger setLogLevels:NRLogLevelNone];
   
+#ifdef MOBSTERS
   // Bug sense
-  //[BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
+  [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
+#endif
   
   // Publish install
   [FacebookDelegate activateApp];
@@ -136,12 +159,11 @@
   // Game center
   [GameCenterDelegate authenticateGameCenter];
   
-//  [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
-  
   [self setUpKamcord:nav];
   
   [self setUpMobileAppTracker];
   [self setUpAdjust];
+  [self registerAppOpen];
   
   [self removeLocalNotifications];
   
@@ -178,13 +200,13 @@
   [FacebookDelegate handleDidBecomeActive];
 }
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application {
   NSLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
 }
 
--(void) applicationDidEnterBackground:(UIApplication*)application {
+-(void) applicationDidEnterBackground:(UIApplication *)application {
   LNLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
@@ -193,27 +215,26 @@
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   [[GameState sharedGameState] setConnected:NO];
 
-  [Analytics suspendedApp];
 #ifndef DEBUG
   //  [Apsalar endSession];
 #endif
 }
 
--(void) applicationWillEnterForeground:(UIApplication*)application {
+- (void) applicationWillEnterForeground:(UIApplication *)application {
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
 #ifndef DEBUG
   //  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
 #endif
-  [Analytics beganApp];
-  [Analytics resumedApp];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
   }
+  
+  [self registerAppOpen];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void) applicationWillTerminate:(UIApplication *)application {
   LNLog(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
   [self registerLocalNotifications];
@@ -225,7 +246,6 @@
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
-  [Analytics terminatedApp];
 #ifndef DEBUG
   //  [Apsalar endSession];
 #endif

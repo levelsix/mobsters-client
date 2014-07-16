@@ -10,10 +10,12 @@
 
 @property (retain) NSDictionary *products;
 @property (retain) SKProductsRequest *request;
+@property (retain) SKPaymentTransaction *lastTransaction;
 
 + (IAPHelper *) sharedIAPHelper;
 - (void) requestProducts;
 - (void) buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate;
 - (NSString *) priceForProduct:(SKProduct *)product;
+- (NSString *) base64forData:(NSData *)theData;
 
 @end

@@ -21,9 +21,13 @@
 }
 
 - (void) displayView {
-  MSWindow *window = (MSWindow *)[[UIApplication sharedApplication] keyWindow];
-  [window displayOmnipresentView:self.view];
-  [[GameViewController baseController] addChildViewController:self];
+  NSLog(@"%@", [[UIApplication sharedApplication] windows]);
+  for (MSWindow *window in [[UIApplication sharedApplication] windows]) {
+    if ([window isKindOfClass:[MSWindow class]]) {
+      [window displayOmnipresentView:self.view];
+      [[GameViewController baseController] addChildViewController:self];
+    }
+  }
 }
 
 - (void) removeView {

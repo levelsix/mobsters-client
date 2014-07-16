@@ -327,6 +327,8 @@
   
   [self.gameViewController.topBarViewController showMyCityView];
   [self.gameViewController tutorialFinished];
+  
+  [Analytics tutorialComplete];
 }
 
 - (void) sendUserCreate {
@@ -348,6 +350,8 @@
   if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
     _sendingUserCreateStartup = YES;
     [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:_facebookId isFreshRestart:YES delegate:self];
+    
+    [Analytics newAccountCreated];
   } else {
     [Globals popupMessage:@"Something went wrong with creating your account. Please contact support about this issue."];
   }

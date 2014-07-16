@@ -1,6 +1,6 @@
 CLANG_MODULES_AUTOLINK = YES
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/Adjust" "${PODS_ROOT}/Headers/Amplitude-iOS" "${PODS_ROOT}/Headers/GPUImage" "${PODS_ROOT}/Headers/NRTouchPoints" "${PODS_ROOT}/Headers/UIImage+BlurredFrame"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/AFNetworking" -isystem "${PODS_ROOT}/Headers/Adjust" -isystem "${PODS_ROOT}/Headers/Amplitude-iOS" -isystem "${PODS_ROOT}/Headers/GPUImage" -isystem "${PODS_ROOT}/Headers/NRTouchPoints" -isystem "${PODS_ROOT}/Headers/UIImage+BlurredFrame"
-OTHER_LDFLAGS = -ObjC -framework AVFoundation -framework CoreGraphics -framework CoreMedia -framework MobileCoreServices -framework OpenGLES -framework QuartzCore -framework Security -framework SystemConfiguration -weak_framework AdSupport -weak_framework iAd
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/Amplitude-iOS" "${PODS_ROOT}/Headers/GPUImage" "${PODS_ROOT}/Headers/NRTouchPoints" "${PODS_ROOT}/Headers/UIImage+BlurredFrame"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/AFNetworking" -isystem "${PODS_ROOT}/Headers/Amplitude-iOS" -isystem "${PODS_ROOT}/Headers/GPUImage" -isystem "${PODS_ROOT}/Headers/NRTouchPoints" -isystem "${PODS_ROOT}/Headers/UIImage+BlurredFrame"
+OTHER_LDFLAGS = -ObjC -framework AVFoundation -framework CoreGraphics -framework CoreMedia -framework MobileCoreServices -framework OpenGLES -framework QuartzCore -framework Security -framework SystemConfiguration
 PODS_ROOT = ${SRCROOT}/Pods

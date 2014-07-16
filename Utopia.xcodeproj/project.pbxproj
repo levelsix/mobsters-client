@@ -100,7 +100,7 @@
 		CF0CE14F196D705700ECD301 /* menuclosex.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE14D196D705700ECD301 /* menuclosex.png */; };
 		CF0CE150196D705700ECD301 /* menuclosex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE14E196D705700ECD301 /* menuclosex@2x.png */; };
 		CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */; };
-		CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0CE153196E2B1100ECD301 /* iAd.framework */; };
+		CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0CE153196E2B1100ECD301 /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF0CE165196E500600ECD301 /* splashloadingbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE15A196E500600ECD301 /* splashloadingbarbg.png */; };
 		CF0CE166196E500600ECD301 /* splashloadingbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE15B196E500600ECD301 /* splashloadingbarbg@2x.png */; };
 		CF0CE177196E552500ECD301 /* 1splashbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE16B196E552500ECD301 /* 1splashbg.png */; };
@@ -5045,6 +5045,8 @@
 		CFF2A66A1975D56C00269084 /* findmatchbigpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6671975D56B00269084 /* findmatchbigpressed.png */; };
 		CFF2A66B1975D56C00269084 /* findmatchbigpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6681975D56C00269084 /* findmatchbigpressed@2x.png */; };
 		CFF2A66C1975D56C00269084 /* findmatchbigpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6681975D56C00269084 /* findmatchbigpressed@2x.png */; };
+		CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
+		CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CFF2C8EF193E9C8500F28D9E /* bluechatmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8ED193E9C8500F28D9E /* bluechatmiddle.png */; };
 		CFF2C8F0193E9C8500F28D9E /* bluechatmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8EE193E9C8500F28D9E /* bluechatmiddle@2x.png */; };
 		CFF2C8F3193E9CC700F28D9E /* greychatmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8F1193E9CC700F28D9E /* greychatmiddle.png */; };
@@ -5859,6 +5861,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
+		};
+		CFF2A6731975DA2900269084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A966D1A91940B5B40071E519;
+			remoteInfo = ScopelyAttributionWrapper;
+		};
+		CFF2A6751975DA2900269084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A966D1B91940B5B50071E519;
+			remoteInfo = ScopelyAttributionWrapperTests;
+		};
+		CFF2A6771975DA4A00269084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A966D1A81940B5B40071E519;
+			remoteInfo = ScopelyAttributionWrapper;
+		};
+		CFF2A6791975FE9E00269084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A966D1A81940B5B40071E519;
+			remoteInfo = ScopelyAttributionWrapper;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -8257,6 +8287,7 @@
 		CFF2A6491974997A00269084 /* pvpsilverribbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pvpsilverribbon@2x.png"; sourceTree = "<group>"; };
 		CFF2A6671975D56B00269084 /* findmatchbigpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = findmatchbigpressed.png; sourceTree = "<group>"; };
 		CFF2A6681975D56C00269084 /* findmatchbigpressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "findmatchbigpressed@2x.png"; sourceTree = "<group>"; };
+		CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ScopelyAttributionWrapper.xcodeproj; path = ScopelyAttributionWrapper/ScopelyAttributionWrapper.xcodeproj; sourceTree = "<group>"; };
 		CFF2C8ED193E9C8500F28D9E /* bluechatmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluechatmiddle.png; sourceTree = "<group>"; };
 		CFF2C8EE193E9C8500F28D9E /* bluechatmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluechatmiddle@2x.png"; sourceTree = "<group>"; };
 		CFF2C8F1193E9CC700F28D9E /* greychatmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greychatmiddle.png; sourceTree = "<group>"; };
@@ -9091,6 +9122,7 @@
 				CF0CEE18196F452900ECD301 /* UIKit.framework in Frameworks */,
 				CF0CEE19196F452900ECD301 /* Foundation.framework in Frameworks */,
 				CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */,
+				CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CEE1B196F452900ECD301 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9099,6 +9131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
 				CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */,
 				CFEF25DD18CAB8B200FB867A /* GameKit.framework in Frameworks */,
@@ -9628,6 +9661,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
 				CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */,
 				CFCD0EF91954E83800EDC233 /* NewRelicAgent.framework */,
@@ -13274,6 +13308,15 @@
 			path = Obstacles;
 			sourceTree = "<group>";
 		};
+		CFF2A66E1975DA2800269084 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */,
+				CFF2A6761975DA2900269084 /* ScopelyAttributionWrapperTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		CFF2C8F5193ECF5500F28D9E /* Chat input bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -14437,6 +14480,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CFF2A67A1975FE9E00269084 /* PBXTargetDependency */,
 				CF0CECF3196F452900ECD301 /* PBXTargetDependency */,
 				CF0CECF5196F452900ECD301 /* PBXTargetDependency */,
 			);
@@ -14458,8 +14502,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				CFC04ED71891027200F2DB59 /* PBXTargetDependency */,
+				CFF2A6781975DA4A00269084 /* PBXTargetDependency */,
 				CF1273C01538B6C700E0C1AD /* PBXTargetDependency */,
+				CFC04ED71891027200F2DB59 /* PBXTargetDependency */,
 			);
 			name = Mobsters;
 			productName = Utopia;
@@ -14507,6 +14552,10 @@
 					ProductGroup = CF12671D1538ACC500E0C1AD /* Products */;
 					ProjectRef = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
 				},
+				{
+					ProductGroup = CFF2A66E1975DA2800269084 /* Products */;
+					ProjectRef = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -14543,6 +14592,20 @@
 			fileType = archive.ar;
 			path = libcocos2d.a;
 			remoteRef = CFC04ED41890FFC800F2DB59 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libScopelyAttributionWrapper.a;
+			remoteRef = CFF2A6731975DA2900269084 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CFF2A6761975DA2900269084 /* ScopelyAttributionWrapperTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ScopelyAttributionWrapperTests.xctest;
+			remoteRef = CFF2A6751975DA2900269084 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -20381,6 +20444,16 @@
 			name = cocos2d;
 			targetProxy = CFC04ED61891027200F2DB59 /* PBXContainerItemProxy */;
 		};
+		CFF2A6781975DA4A00269084 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScopelyAttributionWrapper;
+			targetProxy = CFF2A6771975DA4A00269084 /* PBXContainerItemProxy */;
+		};
+		CFF2A67A1975FE9E00269084 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScopelyAttributionWrapper;
+			targetProxy = CFF2A6791975FE9E00269084 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -20457,6 +20530,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";
@@ -20812,6 +20886,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -20882,6 +20957,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";

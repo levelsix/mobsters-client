@@ -10,13 +10,6 @@
 
 @interface Analytics : NSObject
 
-// App
-+ (void) openedApp;
-+ (void) beganApp;
-+ (void) resumedApp;
-+ (void) suspendedApp;
-+ (void) terminatedApp;
-
 // Monetization
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold;
 + (void) cancelledGoldPackage:(NSString *)package;
@@ -70,5 +63,12 @@
 + (void) tutorialFbConfirmConnectSuccess;
 + (void) tutorialFbConfirmConnectFail;
 + (void) tutorialFbConfirmSkip;
+
++ (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email;
++ (void) newAccountCreated;
++ (void) tutorialComplete;
++ (void) appOpen:(int)numTimesOpened;
++ (void) inviteFacebook;
++ (void) iapWithSKProduct:(id)product forTransacton:(id)transaction;
 
 @end

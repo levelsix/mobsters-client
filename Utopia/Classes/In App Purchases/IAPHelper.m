@@ -55,7 +55,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   //  }
 }
 
-- (NSString*)base64forData:(NSData*)theData {
+- (NSString *) base64forData:(NSData *)theData {
   const uint8_t* input = (const uint8_t*)[theData bytes];
   NSInteger length = [theData length];
   
@@ -105,6 +105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   int goldAmt = pkg.currencyAmount;
   SKProduct *prod = [self.products objectForKey:productId];
   
+  self.lastTransaction = transaction;
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
@@ -113,7 +114,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     LNLog(@"Transaction error: %@", transaction.error.localizedDescription);
-    [Globals popupMessage:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
   } else {
     // Transaction was cancelled
     [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
@@ -147,15 +148,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 - (void)buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate {
   if (!product) {
     [Globals popupMessage:@"An error has occurred processing this transaction.."];
-    return;
+  } else if (![SKPaymentQueue canMakePayments]) {
+    [Globals addAlertNotification:@"Sorry, you are not authorized to make payments at this time."];
+  } else {
+    LNLog(@"Buying %@...", product.debugDescription);
+    
+    SKPayment *payment = [SKPayment paymentWithProduct:product];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
+    
+    _purchaseDelegate = delegate;
   }
-  
-  LNLog(@"Buying %@...", product.debugDescription);
-  
-  SKPayment *payment = [SKPayment paymentWithProduct:product];
-  [[SKPaymentQueue defaultQueue] addPayment:payment];
-  
-  _purchaseDelegate = delegate;
 }
 
 @end

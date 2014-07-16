@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Adjust.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Amplitude-iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,37 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4290B737D0F34DC1B00569D3</key>
+		<key>5EE955055F5E414788E0386D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A123BD653BAB4541A9F9A7BA</key>
+		<key>673DBA31367E4A0FA57DBF28</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A495440BF3444E369008CD0F</key>
+		<key>98B22B79AC4A41968DAF5CB3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C75B8759E30348D1BE29086F</key>
+		<key>C189E5C658944CAAB3F35294</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D2029838A82D41DAA8012FD8</key>
+		<key>F655AC62CD124BE3B1D6AADA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DC23A02755F845F0A901934F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F217EE8828C844329C112FC2</key>
+		<key>FFFC21856FBC4D2593CE6E2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

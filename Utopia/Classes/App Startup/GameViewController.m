@@ -45,6 +45,7 @@
 #import "QuestCompleteLayer.h"
 #import "ChatViewController.h"
 #import "TutorialTeamController.h"
+#import "Analytics.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -344,6 +345,10 @@
       self.resumeUserTask = proto.curTask;
       self.resumeTaskStages = proto.curTaskStagesList;
     }
+    
+    // Track analytics
+    NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
+    [Analytics setUserId:gs.userId name:gs.name email:email];
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
       [self dismissViewControllerAnimated:YES completion:nil];
@@ -777,7 +782,7 @@
   
   GameState *gs = [GameState sharedGameState];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  if (![def boolForKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY] &&
+  if (false && ![def boolForKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY] &&
            gs.level < 5 && [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY]) {
     [def setBool:YES forKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY];
     

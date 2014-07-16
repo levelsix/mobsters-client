@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "GenericPopupController.h"
 #import "OutgoingEventController.h"
+#import "Analytics.h"
 
 @implementation FriendAcceptView
 
@@ -391,6 +392,8 @@
     [self.bonusView.chooserView sendRequestWithString:req completionBlock:^(BOOL success, NSArray *friendIds) {
       if (success && friendIds.count > 0) {
         [[OutgoingEventController sharedOutgoingEventController] inviteAllFacebookFriends:friendIds forStruct:self.userStruct];
+        
+        [Analytics inviteFacebook];
       }
       
       if (success && _isOnFriendFinder) {

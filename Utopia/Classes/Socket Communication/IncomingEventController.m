@@ -492,7 +492,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
-      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please 	email at support@lvl6.com"];
+      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com"];
       [Analytics inAppPurchaseFailed];
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -501,6 +501,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
     [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
+    
+    IAPHelper *iap = [IAPHelper sharedIAPHelper];
+    SKPaymentTransaction *lastTransaction = iap.lastTransaction;
+    SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
+    if (lastTransaction && prod) {
+      NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
+      if ([encodedReceipt isEqualToString:proto.receipt]) {
+        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction];
+      }
+    }
   }
 }
 

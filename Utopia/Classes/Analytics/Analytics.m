@@ -14,6 +14,8 @@
 //#import "Crittercism.h"
 #import "Amplitude.h"
 
+#import "ScopelyAttributionWrapper.h"
+
 #define OPENED_APP @"App: Opened"
 #define BEGAN_APP @"App: Began"
 #define RESUMED_APP @"App: Resumed"
@@ -83,6 +85,9 @@
 #define TUTORIAL_FACEBOOK_CONFIRM_CONNECT_SUCCESS @"tut_fb_cnfrm_cnct_success"
 #define TUTORIAL_FACEBOOK_CONFIRM_CONNECT_FAIL @"tut_fb_cnfrm_cnct_fail"
 #define TUTORIAL_FACEBOOK_CONFIRM_SKIP @"tut_fb_cnfrm_skip"
+#define TUTORIAL_COMPLETE @"tut_complete"
+
+#define ADJUST_TRACKED_USER_ID_KEY @"AdjustTrackedUserId%@"
 
 @implementation Analytics
 
@@ -114,26 +119,6 @@
 #ifndef DEBUG
 #endif
   [Amplitude logRevenue:num];
-}
-
-+ (void) openedApp {
-  [Analytics event:OPENED_APP];
-}
-
-+ (void) beganApp {
-  [Analytics event:BEGAN_APP];
-}
-
-+ (void) resumedApp {
-  [Analytics event:RESUMED_APP];
-}
-
-+ (void) suspendedApp {
-  [Analytics event:SUSPENDED_APP];
-}
-
-+ (void) terminatedApp {
-  [Analytics event:TERMINATED_APP];
 }
 
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold {
@@ -344,6 +329,8 @@
   [Analytics event:EQUIP_TUTORIAL_STEP withArgs:@{TUTORIAL_STEP_NUM: @(tutorialStep)}];
 }
 
+#pragma mark - Tutorial stuff
+
 + (void) tutorialFbPopup {
   [Analytics event:TUTORIAL_FACEBOOK_POPUP];
 }
@@ -378,6 +365,40 @@
 
 + (void) tutorialFbConfirmSkip {
   [Analytics event:TUTORIAL_FACEBOOK_CONFIRM_SKIP];
+}
+
+#pragma mark - Init stuff
+
++ (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email {
+  NSString *uid = [NSString stringWithFormat:@"%d", userId];
+  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
+  [ScopelyAttributionWrapper adjust_setUserId:uid];
+  [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
+}
+
++ (void) newAccountCreated {
+  [ScopelyAttributionWrapper mat_newAccountCreated];
+}
+
++ (void) tutorialComplete {
+  [ScopelyAttributionWrapper mat_tutorialComplete];
+  [Analytics event:TUTORIAL_COMPLETE];
+}
+
++ (void) appOpen:(int)numTimesOpened {
+  if (numTimesOpened == 2) {
+    [ScopelyAttributionWrapper mat_appOpen_002];
+  } else if (numTimesOpened == 20) {
+    [ScopelyAttributionWrapper mat_appOpen_020];
+  }
+}
+
++ (void) inviteFacebook {
+  [ScopelyAttributionWrapper mat_inviteFacebook];
+}
+
++ (void) iapWithSKProduct:(SKProduct*)product forTransacton:(SKPaymentTransaction*)transaction {
+  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
 }
 
 @end
