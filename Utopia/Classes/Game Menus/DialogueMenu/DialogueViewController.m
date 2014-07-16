@@ -72,6 +72,7 @@
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   [paragraphStyle setLineSpacing:1.2];
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
   self.dialogueLabel.attributedText = attributedString;
 }

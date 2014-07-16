@@ -81,7 +81,7 @@
 }
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
-  StructureInfoProto *fsp = userStruct.staticStruct.structInfo;
+  StructureInfoProto *fsp = userStruct.isComplete ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
   NSString *file = fsp.imgName;
   CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
   if ((self = [self initWithFile:file location:loc map:map])) {
@@ -130,11 +130,25 @@
   if (_isConstructing != isConstructing) {
     _isConstructing = isConstructing;
     if (isConstructing) {
-      NSString *poles = self.location.size.width == 3 ? @"3x3poles.png" : @"4x4poles.png";
-      CCSprite *sprite = [CCSprite spriteWithImageNamed:poles];
-      sprite.anchorPoint = ccp(0.5, 0);
-      sprite.position = ccp(self.contentSize.width/2, 1);
-      [self addChild:sprite z:1 name:CONSTRUCTION_TAG];
+      BOOL smallSquare = self.location.size.width == 3;
+      NSString *poles = smallSquare ? @"3x3poles.png" : @"4x4poles.png";
+      CCSprite *pole = [CCSprite spriteWithImageNamed:poles];
+      pole.anchorPoint = ccp(0.5, 0);
+      pole.position = ccp(self.contentSize.width/2, 1);
+      [self addChild:pole z:1 name:CONSTRUCTION_TAG];
+      
+      if (self.userStruct.staticStruct.structInfo.level < 2) {
+        self.buildingSprite.visible = NO;
+        [self getChildByName:DARK_SHADOW_TAG recursively:YES].visible = NO;
+        NSString *frame = smallSquare ? @"3x3buildingframe.png" : @"4x4buildingframe.png";
+        CCSprite *sprite = [CCSprite spriteWithImageNamed:frame];
+        sprite.anchorPoint = ccp(0.5, 0);
+        [pole addChild:sprite z:-1];
+        
+        int horizOffset = smallSquare ? -4 : -1;
+        int vertOffset = smallSquare ? 12 : 16;
+        sprite.position = ccp(self.contentSize.width/2+horizOffset, vertOffset);
+      }
     } else {
       // This means we just finished constructing, so reload the building sprite
       StructureInfoProto *fsp = self.userStruct.staticStruct.structInfo;
