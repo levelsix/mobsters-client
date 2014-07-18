@@ -115,5 +115,7 @@
  */
 +(void) adjust_trackEvent : (NSString*)eventToken;
 // --- Adjust --- <<<
+
+void setAdjustAttributes(bool useSandbox);
     
 @end

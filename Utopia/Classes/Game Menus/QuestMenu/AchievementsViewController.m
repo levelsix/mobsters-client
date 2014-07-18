@@ -151,6 +151,8 @@
     cell.collectLabel.hidden = NO;
   }
   
+  [Analytics redeemedAchievement:_redeemingAchievementId];
+  
   _redeemingAchievementId = 0;
 }
 

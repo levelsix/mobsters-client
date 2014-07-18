@@ -68,6 +68,8 @@
   self.view.hidden = YES;
   
   [[CCDirector sharedDirector] pause];
+  
+  [Analytics openChat];
 }
 
 - (void) viewDidAppear:(BOOL)animated {

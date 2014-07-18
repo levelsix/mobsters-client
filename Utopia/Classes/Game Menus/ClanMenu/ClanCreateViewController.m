@@ -341,6 +341,11 @@
   self.spinner.hidden = YES;
   self.createButtonView.hidden = NO;
   _waitingForResponse = NO;
+  
+  CreateClanResponseProto *proto = (CreateClanResponseProto *)e.event;
+  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
+    [Analytics createSquad:proto.clanInfo.name];
+  }
 }
 
 - (void) handleChangeClanSettingsResponseProto:(FullEvent *)e {

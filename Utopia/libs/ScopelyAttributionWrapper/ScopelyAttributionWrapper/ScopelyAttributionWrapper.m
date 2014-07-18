@@ -177,7 +177,7 @@ static NSMutableDictionary* dict = nil;
     return dict;
 }
 
-static void setAdjustAttributes(bool useSandbox)
+void setAdjustAttributes(bool useSandbox)
 {
     //app_version - we go ahead and set this, but this can be changed if a cutom version is set with adjust_customVersion()
     [[ScopelyAttributionWrapper adjustEventParams] setObject:urlEncodeString([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]) forKey:@"app_version"];
@@ -214,12 +214,12 @@ static NSString* urlEncodeString(NSString* nonEncodedString)
     return [nonEncodedString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
-static void printAttributes()
-{
-    for(id key in [ScopelyAttributionWrapper adjustEventParams]) {
-        NSLog(@"adjustEventParams - %@: %@ \n", key, [[ScopelyAttributionWrapper adjustEventParams] objectForKey:key]);
-    }
-}
+//static void printAttributes()
+//{
+//    for(id key in [ScopelyAttributionWrapper adjustEventParams]) {
+//        NSLog(@"adjustEventParams - %@: %@ \n", key, [[ScopelyAttributionWrapper adjustEventParams] objectForKey:key]);
+//    }
+//}
 
 +(void) adjust_initWithApptoken : (NSString *)appToken usingSandboxMode:(bool)useSandbox
 {
@@ -230,7 +230,7 @@ static void printAttributes()
     
     //set log level
 #ifdef DEBUG
-    [Adjust setLogLevel:AILogLevelVerbose];
+    [Adjust setLogLevel:AILogLevelInfo];
 #else
     [Adjust setLogLevel:AILogLevelError];
 #endif

@@ -13,6 +13,7 @@
 #import "GameViewController.h"
 
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
+#define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email"]
 
 @implementation FacebookDelegate
 
@@ -24,8 +25,6 @@
   {
     if (!sharedSingleton) {
       sharedSingleton = [[FacebookDelegate alloc] init];
-      
-      //[FacebookDelegate logout];
     }
     
     return sharedSingleton;
@@ -179,7 +178,7 @@
                                                        [self sessionStateChanged:session state:state error:error];
                                                      }];
     } else {
-      FBSession *session = [[FBSession alloc] initWithPermissions:@[@"public_profile", @"user_friends", @"email"]];
+      FBSession *session = [[FBSession alloc] initWithPermissions:READ_PERMISSIONS];
       [FBSession setActiveSession:session];
       if (login || session.state == FBSessionStateCreatedTokenLoaded) {
         [session openWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {

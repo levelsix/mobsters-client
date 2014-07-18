@@ -46,6 +46,9 @@
     }
     
     _name = @"NewUser";
+    
+    // Log out of facebook
+    [FacebookDelegate logout];
   }
   return self;
 }
@@ -313,6 +316,8 @@
   [self.gameViewController.topBarViewController.chatBottomView setHidden:NO];
   
   [self.touchView removeFromSuperview];
+  
+  self.currentStep = TutorialStepComplete;
 }
 
 - (void) tutorialFinished {
@@ -351,6 +356,10 @@
     _sendingUserCreateStartup = YES;
     [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:_facebookId isFreshRestart:YES delegate:self];
     
+    FacebookDelegate *fbDelegate = [FacebookDelegate sharedFacebookDelegate];
+    if (fbDelegate.myFacebookUser) {
+      [Analytics connectedToFacebookWithData:fbDelegate.myFacebookUser];
+    }
     [Analytics newAccountCreated];
   } else {
     [Globals popupMessage:@"Something went wrong with creating your account. Please contact support about this issue."];
@@ -682,6 +691,12 @@
   self.currentStep = TutorialStepAttackMap;
 }
 
+- (void) beginAttackMapOpenedPhase {
+  [self initAttackMapViewController];
+  
+  self.currentStep = TutorialStepAttackMapOpened;
+}
+
 #pragma mark - BattleLayer delegate
 
 - (void) battleLayerReachedEnemy {
@@ -885,7 +900,7 @@
 }
 
 - (void) attackClicked {
-  [self initAttackMapViewController];
+  [self beginAttackMapOpenedPhase];
 }
 
 #pragma mark - Carpenter delegate
@@ -961,7 +976,7 @@
 #pragma mark - AttackMap delegate
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
-  if (self.currentStep == TutorialStepAttackMap) {
+  if (self.currentStep == TutorialStepAttackMapOpened) {
     if (self.userCreateStartupResponse) {
       // Will be auto closed by game view controller
       //[self.attackMapViewController close];
@@ -970,8 +985,12 @@
       [self.gameViewController enterDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems];
     } else {
       [Globals addAlertNotification:@"Hold on, we're still creating your account!"];
-      _waitingOnUserCreate = YES;
-      _taskIdToEnter = taskId;
+      if (!_waitingOnUserCreate) {
+        _waitingOnUserCreate = YES;
+        _taskIdToEnter = taskId;
+        
+        [Analytics tutorialWaitingOnUserCreate];
+      }
     }
   }
 }

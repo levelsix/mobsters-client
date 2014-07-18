@@ -18,7 +18,6 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 #import "Downloader.h"
-#import "Amplitude.h"
 #import "TestFlight.h"
 #import <Kamcord/Kamcord.h>
 #import "FacebookDelegate.h"
@@ -26,26 +25,8 @@
 #import "GameCenterDelegate.h"
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
-#import <MobileAppTracker/MobileAppTracker.h>
-#import <AdSupport/AdSupport.h>
-#import "ScopelyAttributionWrapper.h"
-
-//#import <Adjust/Adjust.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
-
-#define MAT_ADVERTISER_ID    @"21754"
-#define MAT_APP_KEY          @"f2f5c8b9c43496e4e0f988fa9f8827f4"
-#define MAT_VERSION_KEY      @"MATVersionKey"
-
-#define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
-
-#ifdef MOBSTERS
-#define ADJUST_APP_TOKEN     @"stfgmupd2vmn"
-#define ADJUST_TRACKED_PROPS @"AdjustTrackedProps"
-#else
-#define ADJUST_APP_TOKEN     @"53jsdw73785p"
-#endif
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
@@ -66,23 +47,7 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  [MobileAppTracker applicationDidOpenURL:[url absoluteString] sourceApplication:sourceApplication];
   return [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
-}
-
-- (void) setUpMobileAppTracker {
-#ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
-  [ScopelyAttributionWrapper mat_startSession];
-#else
-  [MobileAppTracker initializeWithMATAdvertiserId:MAT_ADVERTISER_ID
-                                 MATConversionKey:MAT_APP_KEY];
-  
-  // Used to pass us the IFA, enabling highly accurate 1-to-1 attribution.
-  // Required for many advertising networks.
-  [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
-                       advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
-#endif
 }
 
 - (void) setUpChartboost {
@@ -92,28 +57,6 @@
 //  
 //  [cb startSession];
 //  [cb showInterstitial];
-}
-
-- (void) setUpAdjust {
-#ifdef DEBUG
-  BOOL sandbox = YES;
-#else
-  BOOL sandbox = NO;
-#endif
-  
-#ifdef MOBSTERS
-  [ScopelyAttributionWrapper adjust_initWithApptoken:ADJUST_APP_TOKEN usingSandboxMode:sandbox];
-  
-  CFStringRef ver = CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey);
-  NSLog(@"%@", ver);
-  [ScopelyAttributionWrapper adjust_customVersion:(__bridge NSString *)ver];
-  
-  [ScopelyAttributionWrapper adjust_trackEvent:@"jqrk7y"];
-#else
-  [Adjust appDidLaunch:ADJUST_APP_TOKEN];
-  [Adjust setLogLevel:AILogLevelInfo];
-  [Adjust setEnvironment:sandbox ? AIEnvironmentSandbox : AIEnvironmentProduction];
-#endif
 }
 
 - (void) setUpKamcord:(UIViewController *)vc {
@@ -142,7 +85,8 @@
   
 	[window makeKeyAndVisible];
   
-  [Amplitude initializeApiKey:AMPLITUDE_KEY];
+  [Analytics initAnalytics];
+  [Analytics checkInstall];
   
   // New relic
   [NewRelicAgent startWithApplicationToken:NEW_RELIC_TOKEN];
@@ -161,41 +105,30 @@
   
   [self setUpKamcord:nav];
   
-  [self setUpMobileAppTracker];
-  [self setUpAdjust];
   [self registerAppOpen];
   
   [self removeLocalNotifications];
+  
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   
   return YES;
 }
 
 - (void) registerForPushNotifications {
 	// Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+//	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+//   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
 	[[CCDirector sharedDirector] pause];
   [[SocketCommunication sharedSocketCommunication] flush];
-  [MobileAppTracker measureSession];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   LNLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
-  
-  GameState *gs = [GameState sharedGameState];
-  if (!gs.connected) {
-    GameViewController *gvc = [GameViewController baseController];
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
-  }
-  
-  // This will restart loading screen
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc handleSignificantTimeChange];
   
   [FacebookDelegate handleDidBecomeActive];
 }
@@ -214,22 +147,25 @@
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   [[GameState sharedGameState] setConnected:NO];
-
-#ifndef DEBUG
-  //  [Apsalar endSession];
-#endif
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
-#ifndef DEBUG
-  //  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
-#endif
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    GameViewController *gvc = [GameViewController baseController];
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+  }
+  
+  // This will restart loading screen
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc handleSignificantTimeChange];
   
   [self registerAppOpen];
 }
@@ -245,10 +181,6 @@
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
-  
-#ifndef DEBUG
-  //  [Apsalar endSession];
-#endif
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

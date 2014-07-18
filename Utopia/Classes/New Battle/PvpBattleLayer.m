@@ -78,10 +78,16 @@
                                                     okayButton:@"Leave"
                                                   cancelButton:@"Cancel"
                                                       okTarget:self
-                                                    okSelector:@selector(exitFinal)
+                                                    okSelector:@selector(leaveBattle)
                                                   cancelTarget:nil
                                                 cancelSelector:nil];
   }
+}
+
+- (void) leaveBattle {
+  [self exitFinal];
+  
+  [Analytics foundMatch:@"closed"];
 }
 
 - (IBAction)winExitClicked:(id)sender {
@@ -200,6 +206,8 @@
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.5f],
     [CCActionCallFunc actionWithTarget:self selector:@selector(reachedNextScene)], nil]];
+  
+  [Analytics foundMatch:@"skip"];
 }
 
 - (void) startMatchClicked {
@@ -240,6 +248,8 @@
   _hasChosenEnemy = YES;
   _curStage = 0;
   _hasStarted = YES;
+  
+  [Analytics foundMatch:@"attack"];
 }
 
 #pragma mark - Waiting for server

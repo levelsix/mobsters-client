@@ -93,6 +93,9 @@ typedef enum {
   TutorialStepEnterName,
   
   TutorialStepAttackMap,
+  TutorialStepAttackMapOpened,
+  
+  TutorialStepComplete,
 } TutorialStep;
 
 @interface TutorialController : NSObject <DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialHealDelegate, TutorialTopBarDelegate, BuildingViewDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate> {

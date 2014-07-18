@@ -629,6 +629,12 @@
 #pragma mark Self Actions
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)e {
+  RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)e.event;
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin ||
+      proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+    [Analytics joinSquad:proto.minClan.name isRequestType:proto.minClan.requestToJoinRequired];
+  }
+  
   [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   [self.infoView stopAllSpinners];
   _waitingForResponse = NO;

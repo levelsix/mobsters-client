@@ -1019,11 +1019,16 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
+      int prevLevel = gs.level;
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
       [self spawnLevelUp];
       
       if (gl.levelToShowRateUsPopup && gs.level > gl.levelToShowRateUsPopup) {
         [Globals checkRateUsPopup];
+      }
+      
+      if (prevLevel != gs.level) {
+        [Analytics levelUpWithPrevLevel:prevLevel curLevel:gs.level];
       }
     }
   }
@@ -1075,6 +1080,8 @@
     NSString *desc = [NSString stringWithFormat:@"This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.existing.name];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   } else if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
+    FacebookDelegate *fbDelegate = [FacebookDelegate sharedFacebookDelegate];
+    [Analytics connectedToFacebookWithData:fbDelegate.myFacebookUser];
     [FacebookDelegate facebookIdIsValid];
   } else {
     [FacebookDelegate logout];

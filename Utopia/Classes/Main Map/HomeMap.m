@@ -780,6 +780,7 @@
   
   UserStruct *us = [[UserStruct alloc] init];
   us.structId = structId;
+  us.isComplete = YES;
   StructureInfoProto *fsp = us.staticStruct.structInfo;
   us.coordinates = [self openSpaceNearCenterWithSize:CGSizeMake(fsp.width, fsp.height)];
   

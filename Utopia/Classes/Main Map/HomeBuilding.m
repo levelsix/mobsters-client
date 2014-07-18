@@ -15,6 +15,7 @@
 #import "SoundEngine.h"
 
 #define DARK_SHADOW_TAG @"DarkShadow"
+#define CONSTR_FRAME_TAG @"ConstrFrame"
 
 @implementation HomeBuilding
 
@@ -22,7 +23,7 @@
   if ((self = [super initWithFile:file location:loc map:map])) {
     _homeMap = map;
     
-    if (loc.size.width == loc.size.height) {
+    if (loc.size.width == loc.size.height && loc.size.width > 0) {
       NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
       CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
       [self addChild:shadow z:-1 name:SHADOW_TAG];
@@ -110,11 +111,21 @@
   }
 }
 
+- (void) setColor:(CCColor *)color {
+  [super setColor:color];
+  [[self getChildByName:CONSTR_FRAME_TAG recursively:YES] recursivelyApplyColor:color];
+}
+
 - (BOOL) select {
   BOOL ret = [super select];
   _startMoveCoordinate = _location.origin;
   _startOrientation = self.orientation;
   [self displayMoveArrows];
+  
+  CCSprite *frame = (CCSprite *)[self getChildByName:CONSTR_FRAME_TAG recursively:YES];
+  [frame stopActionByTag:BOUNCE_ACTION_TAG];
+  [frame runAction:[self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG].copy];
+  
   return ret;
 }
 
@@ -143,7 +154,7 @@
         NSString *frame = smallSquare ? @"3x3buildingframe.png" : @"4x4buildingframe.png";
         CCSprite *sprite = [CCSprite spriteWithImageNamed:frame];
         sprite.anchorPoint = ccp(0.5, 0);
-        [pole addChild:sprite z:-1];
+        [pole addChild:sprite z:-1 name:CONSTR_FRAME_TAG];
         
         int horizOffset = smallSquare ? -4 : -1;
         int vertOffset = smallSquare ? 12 : 16;

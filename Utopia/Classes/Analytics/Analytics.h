@@ -10,49 +10,9 @@
 
 @interface Analytics : NSObject
 
-// Monetization
-+ (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold;
-+ (void) cancelledGoldPackage:(NSString *)package;
-+ (void) inAppPurchaseFailed;
-+ (void) viewedGoldShopFromTopMenu;
-
-// Engagement events
-+ (void) levelUp:(int)level;
-
-+ (void) fleeWithHealth:(int)curHealth enemyHealth:(int)enemyHealth;
-
-+ (void) questAccept:(int)questId;
-+ (void) questComplete:(int)questId;
-+ (void) questRedeem:(int)questId;
-
-+ (void) taskViewed:(int)taskId;
-+ (void) taskExecuted:(int)taskId;
-+ (void) taskClosed:(int)taskId;
-
-+ (void) normStructUpgrade:(int)structId level:(int)level;
-+ (void) normStructPurchase:(int)structId;
-+ (void) normStructSell:(int)structId level:(int)level;
-+ (void) normStructInstaUpgrade:(int)structId level:(int)level;
-+ (void) normStructInstaBuild:(int)structId;
-
-+ (void) openedPathMenu;
-+ (void) openedNotifications;
-+ (void) openedQuestLog;
-+ (void) openedMyProfile;
-
-+ (void) clickedVisit;
-+ (void) receivedNotification;
-+ (void) clickedRevenge;
-+ (void) clickedCollect;
-
-+ (void) enemyProfileFromBattle;
-+ (void) enemyProfileFromSprite;
-+ (void) enemyProfileFromAttackMap;
-+ (void) postedToEnemyProfile;
-+ (void) postedToAllyProfile;
++ (void) initAnalytics;
 
 + (void) equipTutorialStep:(int)tutorialStep;
-+ (void) tutorialStep:(int)tutorialStep;
 
 + (void) tutorialFbPopup;
 + (void) tutorialFbPopupConnect;
@@ -63,12 +23,27 @@
 + (void) tutorialFbConfirmConnectSuccess;
 + (void) tutorialFbConfirmConnectFail;
 + (void) tutorialFbConfirmSkip;
++ (void) tutorialWaitingOnUserCreate;
 
 + (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email;
 + (void) newAccountCreated;
 + (void) tutorialComplete;
 + (void) appOpen:(int)numTimesOpened;
 + (void) inviteFacebook;
-+ (void) iapWithSKProduct:(id)product forTransacton:(id)transaction;
+
++ (void) tutorialStep:(int)tutorialStep;
++ (void) checkInstall;
++ (void) levelUpWithPrevLevel:(int)prevLevel curLevel:(int)curLevel;
++ (void) connectedToFacebookWithData:(NSDictionary *)fbData;
++ (void) redeemedAchievement:(int)achievementId;
++ (void) iapWithSKProduct:(id)product forTransacton:(id)transaction amountUS:(float)amountUS;
++ (void) iapFailedWithSKProduct:(id)product error:(NSString *)error;
+
++ (void) foundMatch:(NSString *)action;
++ (void) openChat;
++ (void) createSquad:(NSString *)squadName;
++ (void) joinSquad:(NSString *)squadName isRequestType:(BOOL)isRequestType;
++ (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome;
++ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(int)oppId numContinues:(int)numContinues outcome:(NSString *)outcome league:(NSString *)league;
 
 @end

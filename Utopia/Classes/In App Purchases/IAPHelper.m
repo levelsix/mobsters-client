@@ -111,13 +111,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
+  SKProduct *prod = self.products[transaction.payment.productIdentifier];
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     LNLog(@"Transaction error: %@", transaction.error.localizedDescription);
     [Globals addAlertNotification:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
+    [Analytics iapFailedWithSKProduct:prod error:transaction.error.description];
   } else {
     // Transaction was cancelled
-    [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
+    [Analytics iapFailedWithSKProduct:prod error:@"Cancelled"];
   }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"

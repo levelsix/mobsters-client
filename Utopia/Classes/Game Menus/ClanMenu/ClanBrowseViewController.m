@@ -242,6 +242,7 @@
   } else {
     [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId delegate:self];
   }
+  
   cell.buttonLabel.hidden = YES;
   cell.spinner.hidden = NO;
   [cell.spinner startAnimating];
@@ -261,6 +262,12 @@
 }
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
+  RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin ||
+      proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
+    [Analytics joinSquad:proto.minClan.name isRequestType:proto.minClan.requestToJoinRequired];
+  }
+  
   [self.browseClansTable reloadData];
   _waitingForResponse = NO;
 }

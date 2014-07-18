@@ -489,26 +489,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [defaults synchronize];
   }
   
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+    SKProduct *prod = iap.products[proto.packageName];
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
       [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email support@lvl6.com"];
-      [Analytics inAppPurchaseFailed];
+      [Analytics iapFailedWithSKProduct:prod error:@"Receipt verification failed"];
+    } else {
+      [Analytics iapFailedWithSKProduct:prod error:@"Duplicate receipt"];
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
-    [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
     
-    IAPHelper *iap = [IAPHelper sharedIAPHelper];
     SKPaymentTransaction *lastTransaction = iap.lastTransaction;
     SKProduct *prod = [iap.products objectForKey:lastTransaction.payment.productIdentifier];
     if (lastTransaction && prod) {
       NSString *encodedReceipt = [iap base64forData:lastTransaction.transactionReceipt];
       if ([encodedReceipt isEqualToString:proto.receipt]) {
-        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction];
+        [Analytics iapWithSKProduct:prod forTransacton:lastTransaction amountUS:proto.packagePrice];
       }
     }
   }
@@ -778,8 +780,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   UserNotification *un = [[UserNotification alloc] initWithReferralResponse:proto];
   [gs addNotification:un];
-  
-  [Analytics receivedNotification];
 }
 
 - (void) handleEnableAPNSResponseProto:(FullEvent *)fe {

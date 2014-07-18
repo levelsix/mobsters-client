@@ -153,8 +153,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
-    [Analytics normStructPurchase:structId];
-    
     [gs readjustAllMonsterHealingProtos];
   }
   return us;
