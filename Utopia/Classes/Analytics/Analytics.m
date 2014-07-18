@@ -190,8 +190,6 @@ static Class amplitudeClass = nil;
   [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
   
   [Amplitude setUserId:uid];
-  
-  // At this point startup has completed
 }
 
 + (void) newAccountCreated {
@@ -204,6 +202,11 @@ static Class amplitudeClass = nil;
   } else if (numTimesOpened == 20) {
     [ScopelyAttributionWrapper mat_appOpen_020];
   }
+}
+
++ (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil {
+  NSDictionary *dict = @{@"gems": @(gems), @"cash": @(cash), @"oil": @(oil)};
+  [WBAnalyticService trackAppOpenWithLevel:S(level) extraParameters:dict];
 }
 
 #pragma mark - Titan Standard Logs
@@ -250,8 +253,10 @@ static NSDate *timeSinceLastTutStep = nil;
   NSString *lastName = fbData[@"last_name"];
   NSString *gender = fbData[@"gender"];
   NSString *birthday = fbData[@"birthday"];
+  NSString *fbId = fbData[@"id"];
   
   if (gender) dict[@"gender"] = gender;
+  if (fbId) dict[@"id"] = fbId;
   
   [titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName birthDate:birthday extraParams:dict];
   

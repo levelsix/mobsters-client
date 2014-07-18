@@ -349,6 +349,7 @@
     // Track analytics
     NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
     [Analytics setUserId:gs.userId name:gs.name email:email];
+    [Analytics connectedToServerWithLevel:gs.level gems:gs.gold cash:gs.silver oil:gs.oil];
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
       [self dismissViewControllerAnimated:YES completion:nil];

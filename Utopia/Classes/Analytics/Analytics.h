@@ -30,6 +30,7 @@
 + (void) tutorialComplete;
 + (void) appOpen:(int)numTimesOpened;
 + (void) inviteFacebook;
++ (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil;
 
 + (void) tutorialStep:(int)tutorialStep;
 + (void) checkInstall;

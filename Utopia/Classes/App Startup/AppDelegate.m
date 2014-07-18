@@ -66,7 +66,7 @@
 
 - (void) registerAppOpen {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  int numOpens = [def integerForKey:APP_OPEN_KEY];
+  int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
   numOpens++;
   [def setInteger:numOpens forKey:APP_OPEN_KEY];
   LNLog(@"Registering num opens: %d", numOpens);
