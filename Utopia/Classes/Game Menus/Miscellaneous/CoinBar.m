@@ -31,18 +31,18 @@
   GameState *gs = [GameState sharedGameState];
   
   if (![self.cashLabel isKindOfClass:[NumTransitionLabel class]]) {
-    self.cashLabel.text = [Globals cashStringForNumber:gs.silver];
+    self.cashLabel.text = [Globals cashStringForNumber:gs.cash];
     self.oilLabel.text = [Globals commafyNumber:gs.oil];
-    self.gemsLabel.text = [Globals commafyNumber:gs.gold];
+    self.gemsLabel.text = [Globals commafyNumber:gs.gems];
   } else {
     if (animated) {
-      [self.cashLabel transitionToNum:gs.silver];
+      [self.cashLabel transitionToNum:gs.cash];
       [self.oilLabel transitionToNum:gs.oil];
-      [self.gemsLabel transitionToNum:gs.gold];
+      [self.gemsLabel transitionToNum:gs.gems];
     } else {
-      [self.cashLabel instaMoveToNum:gs.silver];
+      [self.cashLabel instaMoveToNum:gs.cash];
       [self.oilLabel instaMoveToNum:gs.oil];
-      [self.gemsLabel instaMoveToNum:gs.gold];
+      [self.gemsLabel instaMoveToNum:gs.gems];
     }
   }
 }

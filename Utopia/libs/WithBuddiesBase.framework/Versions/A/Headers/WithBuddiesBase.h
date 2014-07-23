@@ -60,6 +60,7 @@
 #import <WithBuddiesBase/UIDevice+ScreenSize.h>
 #import <WithBuddiesBase/UIImage+BundleImage.h>
 #import <WithBuddiesBase/UIImage+GIF.h>
+#import <WithBuddiesBase/UIImage+ImageEffects.h>
 #import <WithBuddiesBase/UIImage+ImageNamedForDevice.h>
 #import <WithBuddiesBase/UIImage+MultiFormat.h>
 #import <WithBuddiesBase/UIImage+WebP.h>
@@ -72,6 +73,7 @@
 #import <WithBuddiesBase/UIView+RotateToOrientation.h>
 #import <WithBuddiesBase/UIView+ViewPositioning.h>
 #import <WithBuddiesBase/UIViewController+ChildViewController.h>
+#import <WithBuddiesBase/UIWindow+Snapshot.h>
 #import <WithBuddiesBase/WBAccessibilityService.h>
 #import <WithBuddiesBase/WBAssetCache.h>
 #import <WithBuddiesBase/WBBaseConstants.h>

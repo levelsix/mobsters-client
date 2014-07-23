@@ -84,6 +84,11 @@
   }
 }
 
+- (void) youForfeited {
+  [super youForfeited];
+  _didRunaway = YES;
+}
+
 - (void) leaveBattle {
   [self exitFinal];
   
@@ -112,6 +117,7 @@
   _receivedEndPvpResponse = YES;
   
   [self checkQuests];
+  [self sendAnalytics];
   
   if (_waitingForEndPvpResponse) {
     [self exitFinal];
@@ -121,6 +127,20 @@
 - (void) checkQuests {
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [AchievementUtil checkAchievementsForPvpBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken pvpInfo:pvp wonBattle:_wonBattle];
+}
+
+- (void) sendAnalytics {
+  NSMutableArray *mobsterIdsUsed = [NSMutableArray array];
+  for (BattlePlayer *bp in self.myTeam) {
+    [mobsterIdsUsed addObject:@(bp.monsterId)];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
+  
+  NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
+  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userId outcome:outcome league:league.leagueName];
 }
 
 #pragma mark - Queue Node Methods
@@ -156,8 +176,8 @@
   if (!self.queueNode.userInteractionEnabled) return;
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-  if (gs.silver < thp.pvpQueueCashCost) {
-    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.silver target:self selector:@selector(nextMatchUseGems)];
+  if (gs.cash < thp.pvpQueueCashCost) {
+    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.cash target:self selector:@selector(nextMatchUseGems)];
   } else {
     [self nextMatch:NO];
   }
@@ -168,10 +188,10 @@
   Globals *gl = [Globals sharedGlobals];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   int cost = thp.pvpQueueCashCost;
-  int curAmount = gs.silver;
+  int curAmount = gs.cash;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
   
-  if (gemCost > gs.gold) {
+  if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self nextMatch:YES];

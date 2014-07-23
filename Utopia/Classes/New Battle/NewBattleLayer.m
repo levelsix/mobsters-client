@@ -1110,6 +1110,10 @@
   [self endBattle:NO];
 }
 
+- (void) youForfeited {
+  [self youLost];
+}
+
 - (void) endBattle:(BOOL)won {
   _wonBattle = won;
   
@@ -1541,7 +1545,7 @@
                                                             okayButton:@"Forfeit"
                                                           cancelButton:@"Cancel"
                                                               okTarget:self
-                                                            okSelector:@selector(youLost)
+                                                            okSelector:@selector(youForfeited)
                                                           cancelTarget:nil
                                                         cancelSelector:nil];
   }

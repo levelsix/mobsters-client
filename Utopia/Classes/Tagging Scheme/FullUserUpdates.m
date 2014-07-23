@@ -34,12 +34,12 @@
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
-  gs.gold += _change;
+  gs.gems += _change;
 }
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.gold -= _change;
+  gs.gems -= _change;
   
   [super undo];
 }
@@ -50,18 +50,18 @@
 
 - (id) initWithTag:(int)t change:(int)change {
   GameState *gs = [GameState sharedGameState];
-  change = MIN(change, MAX(0, gs.maxCash-gs.silver));
+  change = MIN(change, MAX(0, gs.maxCash-gs.cash));
   return [super initWithTag:t change:change];
 }
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
-  gs.silver += _change;
+  gs.cash += _change;
 }
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.silver -= _change;
+  gs.cash -= _change;
   
   [super undo];
 }

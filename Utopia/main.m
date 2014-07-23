@@ -21,8 +21,9 @@ int main(int argc, char *argv[]) {
     retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
   @catch (NSException* exception) {
-    NSDictionary *data = nil;
-    BUGSENSE_LOG(exception, data);
+#ifndef DEBUG
+    BUGSENSE_LOG(exception, nil);
+#endif
 
     NSLog(@"Uncaught exception: %@", exception.description);
     NSLog(@"Stack trace: %@", [exception callStackSymbols]);

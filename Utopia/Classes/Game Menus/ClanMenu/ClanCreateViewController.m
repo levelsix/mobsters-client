@@ -247,8 +247,8 @@
   } else if (tag.length > gl.maxCharLengthForClanTag) {
     [Globals addAlertNotification:@"The tag you entered is too long."];
   } else {
-    if (gs.silver < gl.coinPriceToCreateClan) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:gl.coinPriceToCreateClan-gs.silver target:self selector:@selector(allowCreateWithGems)];
+    if (gs.cash < gl.coinPriceToCreateClan) {
+      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:gl.coinPriceToCreateClan-gs.cash target:self selector:@selector(allowCreateWithGems)];
     } else {
       [self createClanWithGems:NO];
     }
@@ -259,10 +259,10 @@
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   int cost = gl.coinPriceToCreateClan;
-  int curAmount = gs.silver;
+  int curAmount = gs.cash;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
   
-  if (gs.gold < gemCost) {
+  if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self createClanWithGems:YES];

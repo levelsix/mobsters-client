@@ -307,7 +307,7 @@
 - (IBAction) hireWithGemsClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   ResidenceProto *res = (ResidenceProto *)self.userStruct.staticStructForNextFbLevel;
-  if (gs.gold < res.numGemsRequired) {
+  if (gs.gems < res.numGemsRequired) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:self.userStruct withGems:YES delegate:self];

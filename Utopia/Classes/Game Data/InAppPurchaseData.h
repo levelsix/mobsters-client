@@ -30,8 +30,10 @@
 
 @end
 
-@interface ResourcePurchaseData : NSObject<InAppPurchaseData>
+@interface ResourcePurchaseData : NSObject<InAppPurchaseData> {
+  int _percFill;
+}
 
-+ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title;
++ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount percFill:(int)percFill storageTier:(int)storageTier title:(NSString *)title;
 
 @end

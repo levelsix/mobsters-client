@@ -12,7 +12,8 @@
 typedef NS_ENUM(NSInteger, WBAnalyticAdType)
 {
     WBAnalyticAdTypeBanner,
-    WBAnalyticAdTypeInterstitial
+    WBAnalyticAdTypeInterstitial,
+    WBAnalyticAdTypeIncentivized,
 };
 
 #endif

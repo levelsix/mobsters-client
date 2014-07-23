@@ -225,7 +225,7 @@
     [Globals addAlertNotification:@"The healing queue is already full!"];
   } else {
     int cost = [gl calculateCostToHealMonster:um];
-    int curAmount = gs.silver;
+    int curAmount = gs.cash;
     if (cost > curAmount) {
       _tempMonster = um;
       [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForHeal)];
@@ -240,10 +240,10 @@
   Globals *gl = [Globals sharedGlobals];
   
   int cost = [gl calculateCostToHealMonster:_tempMonster];
-  int curAmount = gs.silver;
+  int curAmount = gs.cash;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
   
-  if (gemCost > gs.gold) {
+  if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self sendHeal:_tempMonster allowGems:YES];
@@ -335,7 +335,7 @@
   
   if ([self numValidHospitals] == 0) {
     [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
-  } else if (gs.gold < goldCost) {
+  } else if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     BOOL success = [self speedupHealingQueue];

@@ -168,7 +168,7 @@
     int timeLeft = [date timeIntervalSinceNow];
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    if (gs.gold < gemCost) {
+    if (gs.gems < gemCost) {
       [GenericPopupController displayNotEnoughGemsView];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:listCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];

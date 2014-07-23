@@ -428,9 +428,9 @@
 
 - (void) gameStateUpdated {
   GameState *gs = [GameState sharedGameState];
-  [self.cashLabel transitionToNum:clampf(gs.silver, 0, [gs maxCash])];
+  [self.cashLabel transitionToNum:clampf(gs.cash, 0, [gs maxCash])];
   [self.oilLabel transitionToNum:clampf(gs.oil, 0, [gs maxOil])];
-  [self.gemsLabel transitionToNum:gs.gold];
+  [self.gemsLabel transitionToNum:gs.gems];
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
     [self.expLabel transitionToNum:gs.currentExpForLevel];

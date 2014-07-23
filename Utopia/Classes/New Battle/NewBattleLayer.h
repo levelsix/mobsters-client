@@ -154,6 +154,7 @@
 - (void) moveToNextEnemy;
 - (void) youWon;
 - (void) youLost;
+- (void) youForfeited;
 - (BOOL) shouldShowContinueButton;
 - (IBAction)forfeitClicked:(id)sender;
 - (void) continueConfirmed;

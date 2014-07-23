@@ -133,52 +133,52 @@ static Class amplitudeClass = nil;
 #pragma mark - Tutorial stuff
 
 + (void) equipTutorialStep:(int)tutorialStep {
-  [Analytics event:@"equip_tut_step" withArgs:@{@"step_num": @(tutorialStep)}];
+  [self event:@"equip_tut_step" withArgs:@{@"step_num": @(tutorialStep)}];
 }
 
 + (void) tutorialFbPopup {
-  [Analytics event:@"tut_fb_popup"];
+  [self event:@"tut_fb_popup"];
 }
 
 + (void) tutorialFbPopupConnect {
-  [Analytics event:@"tut_fb_popup_cnct"];
+  [self event:@"tut_fb_popup_cnct"];
 }
 
 + (void) tutorialFbPopupConnectSuccess {
-  [Analytics event:@"tut_fb_popup_cnct_success"];
+  [self event:@"tut_fb_popup_cnct_success"];
 }
 
 + (void) tutorialFbPopupConnectFail {
-  [Analytics event:@"tut_fb_popup_cnct_fail"];
+  [self event:@"tut_fb_popup_cnct_fail"];
 }
 
 + (void) tutorialFbPopupConnectSkip {
-  [Analytics event:@"tut_fb_popup_skip"];
+  [self event:@"tut_fb_popup_skip"];
 }
 
 + (void) tutorialFbConfirmConnect {
-  [Analytics event:@"tut_fb_cnfrm_cnct"];
+  [self event:@"tut_fb_cnfrm_cnct"];
 }
 
 + (void) tutorialFbConfirmConnectSuccess {
-  [Analytics event:@"tut_fb_cnfrm_cnct_success"];
+  [self event:@"tut_fb_cnfrm_cnct_success"];
 }
 
 + (void) tutorialFbConfirmConnectFail {
-  [Analytics event:@"tut_fb_cnfrm_cnct_fail"];
+  [self event:@"tut_fb_cnfrm_cnct_fail"];
 }
 
 + (void) tutorialFbConfirmSkip {
-  [Analytics event:@"tut_fb_cnfrm_skip"];
+  [self event:@"tut_fb_cnfrm_skip"];
 }
 
 + (void) tutorialWaitingOnUserCreate {
-  [Analytics event:@"tut_wait_for_user_create"];
+  [self event:@"tut_wait_for_user_create"];
 }
 
 + (void) tutorialComplete {
   [ScopelyAttributionWrapper mat_tutorialComplete];
-  [Analytics event:@"tut_complete"];
+  [self event:@"tut_complete"];
 }
 
 #pragma mark - Attribution stuff
@@ -189,7 +189,7 @@ static Class amplitudeClass = nil;
   [ScopelyAttributionWrapper adjust_setUserId:uid];
   [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
   
-  [Amplitude setUserId:uid];
+  [amplitudeClass setUserId:uid];
 }
 
 + (void) newAccountCreated {
@@ -205,8 +205,12 @@ static Class amplitudeClass = nil;
 }
 
 + (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil {
-  NSDictionary *dict = @{@"gems": @(gems), @"cash": @(cash), @"oil": @(oil)};
-  [WBAnalyticService trackAppOpenWithLevel:S(level) extraParameters:dict];
+  NSDictionary *dict = @{@"gems_balance": @(gems), @"cash_balance": @(cash), @"oil_balance": @(oil)};
+  [titanClass trackAppOpenWithLevel:S(level) extraParameters:dict];
+  
+  NSMutableDictionary *d2 = [dict mutableCopy];
+  d2[@"level"] = @(level);
+  [self event:@"app_open" withArgs:d2];
 }
 
 #pragma mark - Titan Standard Logs
@@ -218,7 +222,7 @@ static NSString *installTimeDefaultsKey = @"InstallTimeKey";
   NSDate *installTime = [def objectForKey:installTimeDefaultsKey];
   
   if (!installTime) {
-    [Analytics event:@"install"];
+    [self event:@"install"];
     [titanClass trackEvent:@"install" type:WBAnalyticEventTypeGame parameters:nil];
     [def setObject:[NSDate date] forKey:installTimeDefaultsKey];
   }
@@ -233,7 +237,7 @@ static NSDate *timeSinceLastTutStep = nil;
   
   BOOL isComplete = tutorialStep == TutorialStepComplete;
   
-  [Analytics event:@"tut_step" withArgs:@{@"step_num": @(tutorialStep),
+  [self event:@"tut_step" withArgs:@{@"step_num": @(tutorialStep),
                                           @"duration": @(duration),
                                           @"is_complete:": @(isComplete)}];
   
@@ -241,7 +245,7 @@ static NSDate *timeSinceLastTutStep = nil;
 }
 
 + (void) levelUpWithPrevLevel:(int)prevLevel curLevel:(int)curLevel {
-  [Analytics event:@"level_up" withArgs:@{@"prev_level": @(prevLevel),
+  [self event:@"level_up" withArgs:@{@"prev_level": @(prevLevel),
                                           @"cur_level": @(curLevel)}];
   
   [titanClass trackLevelUp:S(prevLevel) newLevel:S(curLevel) extraParams:nil];
@@ -251,32 +255,44 @@ static NSDate *timeSinceLastTutStep = nil;
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   NSString *firstName = fbData[@"first_name"];
   NSString *lastName = fbData[@"last_name"];
-  NSString *gender = fbData[@"gender"];
+  NSString *gender = [fbData[@"gender"] lowercaseString];
   NSString *birthday = fbData[@"birthday"];
   NSString *fbId = fbData[@"id"];
   
-  if (gender) dict[@"gender"] = gender;
   if (fbId) dict[@"id"] = fbId;
   
-  [titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName birthDate:birthday extraParams:dict];
+  WBAnalyticGender gen = WBAnalyticGenderUnknown;
+  char f = [gender characterAtIndex:0];
+  if (f == 'm') {
+    gen = WBAnalyticGenderMale;
+  } else if (f == 'f') {
+    gen = WBAnalyticGenderFemale;
+  }
+  
+  NSDateFormatter *df = [[NSDateFormatter alloc] init];
+  [df setDateFormat:@"MM/dd/yyyy"];
+  NSDate *date = birthday ? [df dateFromString:birthday] : nil;
+  
+  [titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName gender:gen birthDate:date extraParams:dict];
   
   if (firstName) dict[@"first_name"] = firstName;
   if (lastName) dict[@"last_name"] = lastName;
   if (birthday) dict[@"birthday"] = birthday;
+  if (gender) dict[@"gender"] = gender;
   
-  [Analytics event:@"fb_connect" withArgs:dict];
+  [self event:@"fb_connect" withArgs:dict];
 }
 
 + (void) inviteFacebook {
   [ScopelyAttributionWrapper mat_inviteFacebook];
   
-  [Analytics event:@"fb_invite"];
+  [self event:@"fb_invite"];
   
   [titanClass trackViral:@"FacebookInvite" extraParams:nil];
 }
 
 + (void) redeemedAchievement:(int)achievementId {
-  [Analytics event:@"achievement" withArgs:@{@"achievement_id": @(achievementId)}];
+  [self event:@"achievement" withArgs:@{@"achievement_id": @(achievementId)}];
   
   [titanClass trackAchievement:S(achievementId) extraParams:nil];
 }
@@ -288,12 +304,12 @@ static NSDate *timeSinceLastTutStep = nil;
   NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
   float unitPrice = [product.price floatValue];
   
-  [Analytics event:@"iap_purchased" withArgs:@{@"amount_us": @(amountUS),
+  [self event:@"iap_purchased" withArgs:@{@"amount_us": @(amountUS),
                                                @"amount_local": @(unitPrice),
                                                @"local_cur_code": currencyCode,
                                                @"store_sku": product.productIdentifier}];
   
-  [Analytics logRevenue:@(amountUS)];
+  [self logRevenue:@(amountUS)];
   
   [titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
 }
@@ -301,7 +317,7 @@ static NSDate *timeSinceLastTutStep = nil;
 + (void) iapFailedWithSKProduct:(SKProduct *)product error:(NSString *)error {
   if (!product) return;
   
-  [Analytics event:@"iap_failed" withArgs:@{@"reason": error, @"store_sku": product.productIdentifier}];
+  [self event:@"iap_failed" withArgs:@{@"reason": error, @"store_sku": product.productIdentifier}];
   
   NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
   float unitPrice = [product.price floatValue];
@@ -344,7 +360,7 @@ static NSDate *timeSinceLastTutStep = nil;
   [self event:@"pve_match_end" withArgs:dict sendToTitan:YES];
 }
 
-+ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(int)oppId numContinues:(int)numContinues outcome:(NSString *)outcome league:(NSString *)league {
++ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(int)oppId outcome:(NSString *)outcome league:(NSString *)league {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
@@ -354,11 +370,193 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"elo"] = @(elo);
   dict[@"opp_elo"] = @(oppElo);
   dict[@"opp_id"] = @(oppId);
-  dict[@"continue"] = @(numContinues);
   dict[@"outcome"] = outcome;
   dict[@"league"] = league;
   
   [self event:@"pvp_match_end" withArgs:dict sendToTitan:YES];
+}
+
+#pragma mark - Game Transaction Logs
+
++ (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context itemIds:(NSArray *)itemIds itemChanges:(NSArray *)itemChanges itemBalances:(NSArray *)itemBalances extraParams:(NSDictionary *)extraParams  {
+  NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:extraParams];
+  params[@"transaction_type"] = transactionType;
+  
+  if (context) {
+    params[@"context"] = context;
+  }
+  
+  for (int i = 0; i < itemIds.count; i++) {
+    params[itemIds[i]] = itemChanges[i];
+    params[[NSString stringWithFormat:@"%@_balance", itemIds[i]]] = itemBalances[i];
+  }
+  
+  [self event:@"game_transaction" withArgs:params];
+  
+  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
+}
+
++ (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance extraParams:(NSDictionary *)extraParams {
+  NSMutableArray *itemIds = [NSMutableArray array];
+  NSMutableArray *itemChanges = [NSMutableArray array];
+  NSMutableArray *itemBalances = [NSMutableArray array];
+  
+  if (gemChange) {
+    [itemIds addObject:@"gems"];
+    [itemChanges addObject:@(gemChange)];
+    [itemBalances addObject:@(gemBalance)];
+  }
+  
+  if (cashChange) {
+    [itemIds addObject:@"cash"];
+    [itemChanges addObject:@(cashChange)];
+    [itemBalances addObject:@(cashBalance)];
+  }
+  
+  if (oilChange) {
+    [itemIds addObject:@"oil"];
+    [itemChanges addObject:@(oilChange)];
+    [itemBalances addObject:@(oilBalance)];
+  }
+  
+  
+  if (itemIds.count) {
+    [self gameTransactionWithTransactionType:transactionType context:context itemIds:itemIds itemChanges:itemChanges itemBalances:itemBalances extraParams:extraParams];
+  }
+}
+
++ (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"user_create" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:nil];
+}
+
++ (void) instantFinish:(NSString *)waitType gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"instant_finish" context:waitType cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:nil];
+}
+
++ (void) buyBuilding:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"build_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
+}
+
++ (void) upgradeBuilding:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"upgrade_building" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(buildingId)}];
+}
+
++ (void) removeObstacle:(int)obstacleId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"remove_obstacle" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(obstacleId)}];
+}
+
++ (void) retrieveCurrency:(int)buildingId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
+  [self gameTransactionWithTransactionType:@"collect_currency" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(buildingId)}];
+}
+
+
++ (void) donateMonsters:(int)monsterId amountDonated:(int)amountDonated numLeft:(int)numLeft questJobId:(int)questJobId {
+  [self gameTransactionWithTransactionType:@"donate_monster" context:nil itemIds:@[[NSString stringWithFormat:@"monster_%d", monsterId]] itemChanges:@[@(-amountDonated)] itemBalances:@[@(numLeft)] extraParams:@{@"quest_job_id": @(questJobId)}];
+}
+
++ (void) redeemQuest:(int)questId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"redeem_quest" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(questId)}];
+}
+
++ (void) redeemAchievement:(int)achievementId gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"redeem_achievement" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(achievementId)}];
+}
+
+
++ (void) iapPurchased:(NSString *)productId gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"iap_purchased" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": productId}];
+}
+
++ (void) fillStorage:(NSString *)resourceType percAmount:(int)percAmount cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"fill_storage" context:resourceType cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"fill": @(percAmount)}];
+}
+
+
++ (void) createClan:(NSString *)clanName cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"create_squad" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"name": clanName}];
+}
+
+
++ (void) buyGacha:(int)machineId monsterId:(int)monsterId isPiece:(BOOL)isPiece gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  NSMutableDictionary *params = [NSMutableDictionary dictionary];
+  params[@"machine_id"] = @(machineId);
+  
+  if (monsterId) {
+    params[@"monster_id"] = @(monsterId);
+    params[@"piece"] = @(isPiece);
+  }
+  
+  NSString *context = monsterId ? @"monster" : @"gems";
+  [self gameTransactionWithTransactionType:@"buy_gacha" context:context cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:params];
+}
+
+
++ (void) enterDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"enter_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(dungeonId)}];
+}
+
++ (void) endDungeon:(int)dungeonId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
+  [self gameTransactionWithTransactionType:@"end_dungeon" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(dungeonId)}];
+}
+
++ (void) continueDungeon:(int)dungeonId gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"continue_dungeon" context:nil cashChange:0 cashBalance:0 oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(dungeonId)}];
+}
+
+
++ (void) nextPvpWithCashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"next_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:nil];
+}
+
++ (void) endPvpWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
+  [self gameTransactionWithTransactionType:@"end_pvp" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:nil];
+}
+
+
++ (void) bonusSlots:(NSString *)position askedFriends:(BOOL)askedFriends invChange:(int)invChange invBalance:(int)invBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  NSMutableArray *itemIds = [NSMutableArray array];
+  NSMutableArray *itemChanges = [NSMutableArray array];
+  NSMutableArray *itemBalances = [NSMutableArray array];
+  
+  if (gemChange) {
+    [itemIds addObject:@"gems"];
+    [itemChanges addObject:@(gemChange)];
+    [itemBalances addObject:@(gemBalance)];
+  }
+  
+  [itemIds addObject:@"inv_size"];
+  [itemChanges addObject:@(invChange)];
+  [itemBalances addObject:@(invBalance)];
+  
+  [self gameTransactionWithTransactionType:@"bonus_slot" context:position itemIds:itemIds itemChanges:itemChanges itemBalances:itemBalances extraParams:@{@"ask_friends": @(askedFriends)}];
+}
+
+
++ (void) healMonster:(int)monsterId cashChange:(int)cashChange cashBalance:(int)cashBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(monsterId)}];
+}
+
++ (void) cancelHealMonster:(int)monsterId cashChange:(int)cashChange cashBalance:(int)cashBalance {
+  [self gameTransactionWithTransactionType:@"cancel_heal_monster" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:0 oilBalance:0 gemChange:0 gemBalance:0 extraParams:@{@"id": @(monsterId)}];
+}
+
+
++ (void) enhanceMonster:(int)baseMonsterId feederId:(int)feederId oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
+}
+
++ (void) cancelEnhanceMonster:(int)baseMonsterId feederId:(int)feederId oilChange:(int)oilChange oilBalance:(int)oilBalance {
+  [self gameTransactionWithTransactionType:@"cancel_enhance_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"base_id": @(baseMonsterId), @"feeder_id": @(feederId)}];
+}
+
+
++ (void) evolveMonster:(int)monsterId oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance {
+  [self gameTransactionWithTransactionType:@"evolve_monster" context:nil cashChange:0 cashBalance:0 oilChange:oilChange oilBalance:oilBalance gemChange:gemChange gemBalance:gemBalance extraParams:@{@"id": @(monsterId)}];
+}
+
+
++ (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance {
+  [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(miniJobId)}];
 }
 
 @end

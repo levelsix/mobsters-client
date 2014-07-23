@@ -173,7 +173,7 @@
   }
   
   GameState *gs = [GameState sharedGameState];
-  if (gs.gold < self.boosterPack.gemPrice) {
+  if (gs.gems < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count > gs.maxInventorySlots) {
     [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
@@ -208,8 +208,8 @@
     
     self.prize = proto.prize;
     
+    GameState *gs = [GameState sharedGameState];
     if (self.prize.monsterId) {
-      GameState *gs = [GameState sharedGameState];
       MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
       NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
       [Globals imageNamed:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
@@ -224,6 +224,9 @@
         _numPuzzlePieces = 0;
       }
     }
+    
+    int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
+    [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
   }
   
   self.spinner.hidden = YES;
@@ -274,17 +277,6 @@
   if (_isSpinning) {
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
-      //      UITableView* table = self.gachaTable.tableView;
-      //      int row = (table.contentOffset.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
-      //      GachaponItemCell *cell = (GachaponItemCell *)[self.gachaTable viewAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-      //      [cell shakeIconNumTimes:1 durationPerShake:0.2 delay:0.f completion:^{
-      //        [cell shakeIconNumTimes:3 durationPerShake:0.15 delay:0.5f completion:^{
-      //          [cell shakeIconNumTimes:8 durationPerShake:0.1 delay:0.5f completion:^{
-      //            [self displayWhiteFlash];
-      //            [cell shakeIconNumTimes:4 durationPerShake:0.1 delay:0.f completion:nil];
-      //          }];
-      //        }];
-      //      }];
     } else {
       [self displayWhiteFlash];
       self.gachaTable.userInteractionEnabled = YES;

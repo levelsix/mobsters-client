@@ -24,8 +24,11 @@
   BOOL _damageWasDealt;
   
   int _numAttemptedRunaways;
+  BOOL _didRunaway;
+  BOOL _numContinues;
 }
 
+@property (nonatomic, retain) IBOutlet NSString *dungeonType;
 @property (nonatomic, retain) IBOutlet UIView *runawayMiddleView;
 @property (nonatomic, retain) IBOutlet UILabel *runawayPercentLabel;
 

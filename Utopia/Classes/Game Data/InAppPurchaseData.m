@@ -56,11 +56,12 @@
 @synthesize primaryTitle, moneyPrice, rewardPicName;
 @synthesize resourceType, amountGained, gemPrice;
 
-- (id) initWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title {
+- (id) initWithResourceType:(ResourceType)type amount:(int)amount percFill:(int)percFill storageTier:(int)storageTier title:(NSString *)title {
   if ((self = [super init])) {
     primaryTitle = title;
     resourceType = type;
     amountGained = amount;
+    _percFill = percFill;
     
     Globals *gl = [Globals sharedGlobals];
     gemPrice = [gl calculateGemConversionForResourceType:type amount:amount];
@@ -83,20 +84,20 @@
   return self;
 }
 
-+ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount storageTier:(int)storageTier title:(NSString *)title {
-  return [[self alloc] initWithResourceType:type amount:amount storageTier:storageTier title:title];
++ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount percFill:(int)percFill storageTier:(int)storageTier title:(NSString *)title {
+  return [[self alloc] initWithResourceType:type amount:amount percFill:percFill storageTier:storageTier title:title];
 }
 
 - (BOOL) makePurchaseWithDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  if (resourceType == ResourceTypeCash && (gs.maxCash-gs.silver < amountGained || amountGained <= 0)) {
+  if (resourceType == ResourceTypeCash && (gs.maxCash-gs.cash < amountGained || amountGained <= 0)) {
     [Globals addAlertNotification:@"Not enough storage!"];
   } else if (resourceType == ResourceTypeOil && (gs.maxOil-gs.oil < amountGained || amountGained <= 0)) {
     [Globals addAlertNotification:@"Not enough storage!"];
-  } else if (gemPrice > gs.gold) {
+  } else if (gemPrice > gs.gems) {
     [Globals addAlertNotification:@"Need more gems!"];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemPrice resources:amountGained resType:resourceType delegate:delegate];
+    [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemPrice resources:amountGained percFill:_percFill resType:resourceType delegate:delegate];
     return YES;
   }
   return NO;

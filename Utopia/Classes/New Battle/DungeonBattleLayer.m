@@ -67,6 +67,8 @@
   
   self.userMonstersGained = proto.updatedOrNewList;
   
+  [self sendAnalytics];
+  
   if (_waitingForEndDungeonResponse) {
     [self exitFinal];
   }
@@ -87,6 +89,29 @@
     }
     [AchievementUtil checkAchievementsForDungeonBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken dungeonInfo:self.dungeonInfo wonBattle:_wonBattle];
   }
+}
+
+- (void) sendAnalytics {
+  NSMutableArray *mobsterIdsUsed = [NSMutableArray array];
+  for (BattlePlayer *bp in self.myTeam) {
+    [mobsterIdsUsed addObject:@(bp.monsterId)];
+  }
+  
+  NSMutableArray *mobsterIdsGained = [NSMutableArray array];
+  int numPiecesGained = 0;
+  if (_wonBattle) {
+    for (TaskStageProto *stage in self.dungeonInfo.tspList) {
+      for (TaskStageMonsterProto *tsm in stage.stageMonstersList) {
+        if (tsm.puzzlePieceDropped) {
+          numPiecesGained++;
+          [mobsterIdsGained addObject:@(tsm.monsterId)];
+        }
+      }
+    }
+  }
+  
+  NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
+  [Analytics pveMatchEnd:_wonBattle numEnemiesDefeated:_curStage type:self.dungeonType mobsterIdsUsed:mobsterIdsUsed numPiecesGained:numPiecesGained mobsterIdsGained:mobsterIdsGained totalRounds:(int)self.enemyTeam.count dungeonId:self.dungeonInfo.taskId numContinues:_numContinues outcome:outcome];
 }
 
 #pragma mark - Run away
@@ -132,6 +157,7 @@
 }
 
 - (void) runawaySuccess {
+  _didRunaway = YES;
   [self animateImageLabel:@"runawaysuccess.png" completion:^{
     [self youLost];
   }];
@@ -210,14 +236,16 @@
   Globals *gl = [Globals sharedGlobals];
   int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
   
-  if (gs.gold < gemsAmount) {
+  if (gs.gems < gemsAmount) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     if (gemsAmount > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId myTeam:self.myTeam];
+      [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId taskId:self.dungeonInfo.taskId myTeam:self.myTeam];
     }
     [super continueConfirmed];
     _numAttemptedRunaways = 0;
+    _didRunaway = NO;
+    _numContinues++;
   }
 }
 

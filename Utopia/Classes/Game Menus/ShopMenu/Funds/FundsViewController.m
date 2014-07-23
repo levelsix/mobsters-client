@@ -51,14 +51,14 @@
   }
   
   int maxCash = [gs maxCash];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 storageTier:2 title:@"Fill (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 storageTier:3 title:@"Fill (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver storageTier:4 title:@"Fill Storages"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.cash percFill:100 storageTier:4 title:@"Fill Storages"]];
   
   int maxOil = [gs maxOil];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 storageTier:2 title:@"Fill (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 storageTier:3 title:@"Fill (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil storageTier:4 title:@"Fill Storages"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
+  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil percFill:100 storageTier:4 title:@"Fill Storages"]];
   
   self.packages = packages;
 }
@@ -71,7 +71,7 @@
   
   if (purch.resourceType == ResourceTypeCash) {
     int max = [gs maxCash];
-    int avail = max - gs.silver;
+    int avail = max - gs.cash;
     
     greyscale = (avail < purch.amountGained || avail <= 0);
   } else if (purch.resourceType == ResourceTypeOil) {
@@ -92,7 +92,7 @@
   _purchase = purch;
   if (purch.gemPrice) {
     GameState *gs = [GameState sharedGameState];
-    if ((purch.resourceType == ResourceTypeCash && (purch.amountGained > gs.maxCash-gs.silver)) ||
+    if ((purch.resourceType == ResourceTypeCash && (purch.amountGained > gs.maxCash-gs.cash)) ||
         (purch.resourceType == ResourceTypeOil && (purch.amountGained > gs.maxOil-gs.oil))) {
       [Globals addAlertNotification:@"Not enough storage!"];
     } else {

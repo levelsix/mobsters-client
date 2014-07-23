@@ -296,6 +296,7 @@
 }
 
 - (void) handleConnectedToHost {
+  GameState *gs = [GameState sharedGameState];
   if (!self.tutController && !_isFromFacebook) {
     [self progressTo:PART_2_PERCENT animated:YES];
     
@@ -323,10 +324,11 @@
       _isFreshRestart = NO;
     }];
   } else if (_isFromFacebook) {
-    GameState *gs = [GameState sharedGameState];
     gs.connected = YES;
     
     [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
+  } else if (self.tutController) {
+    [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   }
   _isFromFacebook = NO;
 }
@@ -349,7 +351,7 @@
     // Track analytics
     NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
     [Analytics setUserId:gs.userId name:gs.name email:email];
-    [Analytics connectedToServerWithLevel:gs.level gems:gs.gold cash:gs.silver oil:gs.oil];
+    [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
       [self dismissViewControllerAnimated:YES completion:nil];
@@ -372,6 +374,7 @@
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
       DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+      bl.dungeonType = task.description;
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
       [self beginBattleLayer:bl];
@@ -653,6 +656,7 @@
     FullTaskProto *task = [gs taskWithId:taskId];
   
     DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+    bl.dungeonType = task.description;
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
     [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
@@ -665,6 +669,7 @@
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
   DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+  bl.dungeonType = task.description;
   bl.delegate = self;
   
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];

@@ -433,7 +433,7 @@
   GameState *gs = [GameState sharedGameState];
   ResourceType type = ((ResourceGeneratorProto *)self.userStruct.staticStruct).resourceType;
   NSString *res = type == ResourceTypeCash ? @"cash" : @"oil";
-  int amount = type == ResourceTypeCash ? gs.silver : gs.oil;
+  int amount = type == ResourceTypeCash ? gs.cash : gs.oil;
   int max = type == ResourceTypeCash ? gs.maxCash : gs.maxOil;
   NSString *end = amount >= max ? @"overflow" : @"ready";
   float pxlOffset = type == ResourceTypeCash ? 10 : 16;

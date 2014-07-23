@@ -373,7 +373,7 @@
   int curAmount = gs.oil;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
   
-  if (gemCost > gs.gold) {
+  if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self sendEnhanceAllowGems:YES];
@@ -502,7 +502,7 @@
   int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (gs.gold < goldCost) {
+  if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupEnhancingQueue];

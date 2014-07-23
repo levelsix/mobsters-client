@@ -670,16 +670,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
       [gs beginEnhanceTimer];
-      [gs beginMiniJobTimer];
-      
-      NSMutableArray *exp = [NSMutableArray array];
-      if (proto.userCityExpansionDataProtoListList.count > 0) {
-        for (UserCityExpansionDataProto *e in proto.userCityExpansionDataProtoListList) {
-          [exp  addObject:[UserExpansion userExpansionWithUserCityExpansionDataProto:e]];
-        }
-      }
-      gs.userExpansions = exp;
-      [gs beginExpansionTimer];
+      [gs beginMiniJobTimer];;
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
@@ -1254,7 +1245,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
     [gs addToMyMonsters:proto.updatedOrNewList];
-    
+
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to purchase booster pack."];

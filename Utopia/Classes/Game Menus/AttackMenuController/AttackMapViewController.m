@@ -238,8 +238,8 @@
 - (void) findMatch {
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-  if (gs.silver < thp.pvpQueueCashCost) {
-    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.silver target:self selector:@selector(nextMatchUseGems)];
+  if (gs.cash < thp.pvpQueueCashCost) {
+    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.cash target:self selector:@selector(nextMatchUseGems)];
   } else {
     [self nextMatch:NO];
   }
@@ -251,10 +251,10 @@
     Globals *gl = [Globals sharedGlobals];
     TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
     int cost = thp.pvpQueueCashCost;
-    int curAmount = gs.silver;
+    int curAmount = gs.cash;
     int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
     
-    if (gemCost > gs.gold) {
+    if (gemCost > gs.gems) {
       [GenericPopupController displayNotEnoughGemsView];
     } else {
       _buttonClicked = YES;

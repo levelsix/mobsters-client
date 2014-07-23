@@ -32,9 +32,9 @@
     um.monsterId = constants.startingMonsterId;
     _damageDealtToFriend = [gl calculateMaxHealthForMonster:um]*0.93;
     
-    gs.silver = _cash = constants.cashInit;
+    gs.cash = _cash = constants.cashInit;
     gs.oil = _oil = constants.oilInit;
-    gs.gold = _gems = constants.gemsInit;
+    gs.gems = _gems = constants.gemsInit;
     [gs.myMonsters removeAllObjects];
     [gs.myMiniJobs removeAllObjects];
     [gs.monsterHealingQueue removeAllObjects];
@@ -825,7 +825,7 @@
   GameState *gs = [GameState sharedGameState];
   _cash -= cashCost;
   _oil -= oilCost;
-  gs.silver = _cash;
+  gs.cash = _cash;
   gs.oil = _oil;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
@@ -836,7 +836,7 @@
   
   GameState *gs = [GameState sharedGameState];
   _gems -= gemsSpent;
-  gs.gold = _gems;
+  gs.gems = _gems;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
@@ -863,7 +863,7 @@
   
   GameState *gs = [GameState sharedGameState];
   _cash -= cashSpent;
-  gs.silver = _cash;
+  gs.cash = _cash;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
@@ -874,7 +874,7 @@
   
   GameState *gs = [GameState sharedGameState];
   _gems -= gemsSpent;
-  gs.gold = _gems;
+  gs.gems = _gems;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }

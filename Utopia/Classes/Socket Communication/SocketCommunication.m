@@ -1392,7 +1392,7 @@ static NSString *udid = nil;
   }
 }
 
-- (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
+- (int) setEnhanceQueueDirtyWithOilChange:(int)coinChange gemCost:(int)gemCost {
   [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
   _enhanceQueueOilChange += coinChange;
   _enhanceQueueGemCost += gemCost;

@@ -552,7 +552,7 @@
     }
   }
   
-  int curCash = gs.silver;
+  int curCash = gs.cash;
   int curOil = gs.oil;
   BOOL cashFull = curCash >= [gs maxCash];
   BOOL oilFull = curOil >= [gs maxOil];
@@ -1123,23 +1123,25 @@
 
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
-  [self sendNormStructComplete:mb.userStruct];
-  [self updateTimersForBuilding:mb];
-  mb.isConstructing = NO;
-  [mb removeProgressBar];
-  [mb displayUpgradeComplete];
-  if (mb == self.selected) {
-    [mb cancelMove];
-    [self reselectCurrentSelection];
+  if (mb.userStruct.userStructId) {
+    [self sendNormStructComplete:mb.userStruct];
+    [self updateTimersForBuilding:mb];
+    mb.isConstructing = NO;
+    [mb removeProgressBar];
+    [mb displayUpgradeComplete];
+    if (mb == self.selected) {
+      [mb cancelMove];
+      [self reselectCurrentSelection];
+    }
+    _constrBuilding = nil;
+    
+    [self reloadAllBubbles];
+    
+    [QuestUtil checkAllStructQuests];
+    [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
   }
-  _constrBuilding = nil;
-  
-  [self reloadAllBubbles];
-  
-  [QuestUtil checkAllStructQuests];
-  [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
-  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) obstacleComplete:(NSTimer *)timer {
@@ -1183,7 +1185,7 @@
     } else {
       int cost = fsp.buildCost;
       BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
-      int curAmount = isOilBuilding ? gs.oil : gs.silver;
+      int curAmount = isOilBuilding ? gs.oil : gs.cash;
       
       if (cost > curAmount) {
         [GenericPopupController displayExchangeForGemsViewWithResourceType:fsp.buildResourceType amount:cost-curAmount target:self selector:@selector(useGemsForPurchase)];
@@ -1206,10 +1208,10 @@
   
   int cost = fsp.buildCost;
   BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
-  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int curAmount = isOilBuilding ? gs.oil : gs.cash;
   int gemCost = [gl calculateGemConversionForResourceType:fsp.buildResourceType amount:cost-curAmount];
   
-  if (gemCost > gs.gold) {
+  if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self purchaseBuildingAllowGems:YES];
@@ -1396,7 +1398,7 @@
     isOilBuilding = op.removalCostType == ResourceTypeOil;
   }
   
-  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int curAmount = isOilBuilding ? gs.oil : gs.cash;
   if (_constrBuilding) {
     int timeLeft = [self timeLeftForConstructionBuilding];
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
@@ -1436,10 +1438,10 @@
     isOilBuilding = op.removalCostType == ResourceTypeOil;
   }
   
-  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int curAmount = isOilBuilding ? gs.oil : gs.cash;
   int gemCost = [gl calculateGemConversionForResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount];
   
-  if (gemCost > gs.gold) {
+  if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self sendUpgradeAllowGems:YES];
@@ -1501,7 +1503,7 @@
   
   int timeLeft = [self timeLeftForConstructionBuilding];
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-  if (gs.gold < gemCost) {
+  if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {

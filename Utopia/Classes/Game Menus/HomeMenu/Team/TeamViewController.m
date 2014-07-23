@@ -287,7 +287,7 @@
   int timeLeft = um.timeLeftForCombining;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (gs.gold < goldCost) {
+  if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:um.userMonsterId];

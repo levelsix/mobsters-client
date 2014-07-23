@@ -26,7 +26,7 @@
 - (void) logout;
 
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate;
-- (void) exchangeGemsForResources:(int)gems resources:(int)resources resType:(ResourceType)resType delegate:(id)delegate;
+- (void) exchangeGemsForResources:(int)gems resources:(int)resources percFill:(int)percFill resType:(ResourceType)resType delegate:(id)delegate;
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
@@ -70,9 +70,6 @@
 - (void) setClanRaidTeam:(NSArray *)userMonsterIds delegate:(id)delegate;
 - (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)userMonsterId curTeam:(NSArray *)curTeam;
 
-- (void) purchaseCityExpansionAtX:(int)x atY:(int)y;
-- (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y;
-
 - (void) purchaseBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
@@ -86,7 +83,7 @@
 - (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth;
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
-- (void) reviveInDungeon:(uint64_t)userTaskId myTeam:(NSArray *)team;
+- (void) reviveInDungeon:(uint64_t)userTaskId taskId:(int)taskId myTeam:(NSArray *)team;
 
 - (void) queueUpEvent:(NSArray *)seenUserIds withDelegate:(id)delegate;
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;

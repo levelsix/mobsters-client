@@ -10,6 +10,7 @@
 #import <WithBuddiesAnalytics/WBAnalyticEventPriority.h>
 #import <WithBuddiesAnalytics/WBAnalyticAdEventType.h>
 #import <WithBuddiesAnalytics/WBAnalyticAdType.h>
+#import <WithBuddiesAnalytics/WBAnalyticGender.h>
 
 @class WBAnalyticSettings;
 @class WBAnalyticDeviceInfo;
@@ -91,7 +92,9 @@
  *
  * @param test name of test to attach device to
  * @param variant that device is in
+ * @param parameters - optional parameters to pass along with event
  */
++(void)assignABTest:(NSString *)test variant:(NSString *)variant parameters:(NSDictionary *)parameters;
 +(void)assignABTest:(NSString *)test variant:(NSString *)variant;
 
 /*!
@@ -142,16 +145,16 @@
  * players current level (optional)
  */
 +(void)trackAppOpenWithLevel:(NSString*)level extraParameters:(NSDictionary*)extraParameters;
-+(void)trackFteFlow:(NSInteger)step isComplete:(BOOL)isComplete skip:(BOOL)skip duration:(double)duration extraParams:(NSDictionary*)extraParams;
-+(void)trackGameTransactions:(NSArray*)itemIds itemBalances:(NSArray*)itemBalances transactionType:(NSString*)transactionType context:(NSString*)context extraParams:(NSDictionary*)extraParams;
-+(void)trackGameTransaction:(NSString*)itemId itemBalance:(NSNumber*)itemBalance transactionType:(NSString*)transactionType context:(NSString*)context extraParams:(NSDictionary*)extraParams;
++(void)trackFteFlow:(NSInteger)step isComplete:(BOOL)isComplete skip:(BOOL)skip duration:(NSInteger)duration extraParams:(NSDictionary*)extraParams;
++(void)trackGameTransactions:(NSArray*)itemIds quantities:(NSArray *)quantities itemBalances:(NSArray*)itemBalances transactionType:(NSString*)transactionType context:(NSString*)context extraParams:(NSDictionary*)extraParams;
++(void)trackGameTransaction:(NSString*)itemId quantity:(NSNumber *)quantity itemBalance:(NSNumber*)itemBalance transactionType:(NSString*)transactionType context:(NSString*)context extraParams:(NSDictionary*)extraParams;
 +(void)trackLevelUp:(NSString*) previousLevel newLevel:(NSString*)newLevel extraParams:(NSDictionary*)extraParams;
-+(void)trackRegistration:(NSString*)email registrationType:(NSString*)registrationType errorCode:(NSInteger)errorCode isNew:(NSNumber *)isNew extraParams:(NSDictionary*)extraParams;
++(void)trackRegistration:(NSString*)email registrationType:(NSString*)registrationType error:(NSString *)error isNew:(NSNumber *)isNew extraParams:(NSDictionary*)extraParams;
 +(void)trackPayment:(BOOL)success error:(NSString*)error amountLocal:(NSNumber*)amountLocal amountUS:(NSNumber*)amountUS localCurrencyName:(NSString*)localCurrencyName special:(NSString*)special specialId:(NSString*)specialId storeSku:(NSString*)storeSku gameSku:(NSString*)gameSku extraParams:(NSDictionary*)extraParams;
 +(void)trackViral:(NSString*)viralType extraParams:(NSDictionary*)extraParams;
 +(void)trackPromo:(NSString*)action type:(NSString*)type promoId:(NSString*)promoId extraParams:(NSDictionary*)extraParams;
 +(void)trackAchievement:(NSString*)achievementId extraParams:(NSDictionary*)extraParams;
-+(void)trackSocialConnect:(NSString*)connection firstName:(NSString*)firstName lastName:(NSString*)lastName birthDate:(NSString*)birthDate extraParams:(NSDictionary*)extraParams;
++(void)trackSocialConnect:(NSString*)connection firstName:(NSString*)firstName lastName:(NSString*)lastName gender:(WBAnalyticGender)gender birthDate:(NSDate*)birthDate extraParams:(NSDictionary*)extraParams;
 +(void)trackAd:(WBAnalyticAdEventType)adEvent isBackFill:(BOOL)isBackFill failureReason:(NSString*)failureReason adNetwork:(NSString*)adNetwork adType:(WBAnalyticAdType)adType extraParams:(NSDictionary*)extraParams;
 +(void)trackAdController:(WBAnalyticAdEventType)adEvent failureReason:(NSString*)failureReason adNetwork:(NSString*)adNetwork adType:(WBAnalyticAdType)adType extraParams:(NSDictionary*)extraParams;
 

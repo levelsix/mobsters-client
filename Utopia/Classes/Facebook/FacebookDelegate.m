@@ -13,7 +13,7 @@
 #import "GameViewController.h"
 
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
-#define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email"]
+#define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email", @"user_birthday"]
 
 @implementation FacebookDelegate
 

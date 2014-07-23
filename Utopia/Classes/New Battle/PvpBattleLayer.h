@@ -23,6 +23,8 @@
   
   BOOL _isRevenge;
   uint64_t _prevBattleStartTime;
+  
+  BOOL _didRunaway;
 }
 
 @property (nonatomic, retain) NSArray *defendersList;

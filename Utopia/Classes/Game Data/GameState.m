@@ -84,8 +84,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
-  self.gold = user.gems;
-  self.silver = user.cash;
+  self.gems = user.gems;
+  self.cash = user.cash;
   self.oil = user.oil;
   self.experience = user.experience;
   self.tasksCompleted = user.tasksCompleted;
@@ -107,6 +107,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (user.hasPvpLeagueInfo) {
     self.pvpLeague = user.pvpLeagueInfo;
     self.shieldEndTime = [MSDate dateWithTimeIntervalSince1970:user.pvpLeagueInfo.shieldEndTime/1000.0];
+    self.elo = user.pvpLeagueInfo.elo;
   }
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
@@ -124,8 +125,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.name = self.name;
   if (self.clan) fup.clan = self.clan;
   fup.level = self.level;
-  fup.gems = self.gold;
-  fup.cash = self.silver;
+  fup.gems = self.gems;
+  fup.cash = self.cash;
   fup.experience = self.experience;
   fup.tasksCompleted = self.tasksCompleted;
   fup.pvpLeagueInfo = self.pvpLeague;
@@ -1191,43 +1192,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return MAX(1, nextLevel-thisLevel);
 }
 
-- (UserExpansion *) getExpansionForX:(int)x y:(int)y {
-  for (UserExpansion *e in self.userExpansions) {
-    if (e.xPosition == x && e.yPosition == y) {
-      return e;
-    }
-  }
-  return nil;
-}
-
-- (int) numCompletedExpansions {
-  int count = 0;
-  for (UserExpansion *e in self.userExpansions) {
-    if (!e.isExpanding) {
-      count++;
-    }
-  }
-  return count;
-}
-
-- (BOOL) isExpanding {
-  for (UserExpansion *e in self.userExpansions) {
-    if (e.isExpanding) {
-      return YES;
-    }
-  }
-  return NO;
-}
-
-- (UserExpansion *) currentExpansion {
-  for (UserExpansion *e in self.userExpansions) {
-    if (e.isExpanding) {
-      return e;
-    }
-  }
-  return nil;
-}
-
 - (PersistentClanEventUserInfoProto *) myClanRaidInfo {
   for (PersistentClanEventUserInfoProto *info in self.curClanRaidUserInfos) {
     if (info.userId == self.userId) {
@@ -1242,40 +1206,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 #pragma mark -
-#pragma mark Expansion Timer
-
-- (void) beginExpansionTimer {
-  [self stopExpansionTimer];
-  Globals *gl = [Globals sharedGlobals];
-  
-  for (UserExpansion *ue in self.userExpansions) {
-    if (ue.isExpanding) {
-      float seconds = [gl calculateNumMinutesForNewExpansion]*60;
-      MSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
-      
-      _expansionTimer = [NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete:) userInfo:ue repeats:NO];
-      if ([endTime compare:[MSDate date]] == NSOrderedDescending) {
-        [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
-      } else {
-        [self expansionWaitTimeComplete:_expansionTimer];
-        _expansionTimer = nil;
-      }
-    }
-  }
-}
-
-- (void) expansionWaitTimeComplete:(NSTimer *)timer {
-  UserExpansion *exp = [timer userInfo];
-  [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:NO atX:exp.xPosition atY:exp.yPosition];
-}
-
-- (void) stopExpansionTimer {
-  if (_expansionTimer) {
-    [_expansionTimer invalidate];
-    _expansionTimer = nil;
-  }
-}
-
 #pragma mark Healing Timer
 
 - (void) beginHealingTimer {

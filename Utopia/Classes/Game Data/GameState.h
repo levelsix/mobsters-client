@@ -14,7 +14,6 @@
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
-  NSTimer *_expansionTimer;
   NSTimer *_evolutionTimer;
   NSTimer *_healingTimer;
   NSTimer *_combineTimer;
@@ -26,8 +25,8 @@
 @property (nonatomic, assign) int userId;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int level;
-@property (nonatomic, assign) int gold;
-@property (nonatomic, assign) int silver;
+@property (nonatomic, assign) int gems;
+@property (nonatomic, assign) int cash;
 @property (nonatomic, assign) int oil;
 @property (nonatomic, retain) NSString *referralCode;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
@@ -241,13 +240,6 @@
 
 - (void) beginMiniJobTimer;
 - (void) stopMiniJobTimer;
-
-- (UserExpansion *) getExpansionForX:(int)x y:(int)y;
-- (int) numCompletedExpansions;
-- (BOOL) isExpanding;
-- (UserExpansion *) currentExpansion;
-- (void) beginExpansionTimer;
-- (void) stopExpansionTimer;
 
 - (void) addToRequestedClans:(NSArray *)arr;
 

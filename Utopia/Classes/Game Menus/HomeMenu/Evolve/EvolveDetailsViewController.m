@@ -181,7 +181,7 @@
   int oilCost = self.evoItem.userMonster1.staticMonster.evolutionCost;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
   
-  if (gs.gold < gemCost) {
+  if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     [self beginEvo:YES];
@@ -212,7 +212,7 @@
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
     int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     
-    if (gs.gold < goldCost) {
+    if (gs.gems < goldCost) {
       [GenericPopupController displayNotEnoughGemsView];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
