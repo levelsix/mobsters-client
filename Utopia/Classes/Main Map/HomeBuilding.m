@@ -82,7 +82,7 @@
 }
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
-  StructureInfoProto *fsp = userStruct.isComplete ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
+  StructureInfoProto *fsp = userStruct.isComplete || !userStruct.staticStruct.structInfo.predecessorStructId ? userStruct.staticStruct.structInfo : userStruct.staticStructForPrevLevel.structInfo;
   NSString *file = fsp.imgName;
   CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
   if ((self = [self initWithFile:file location:loc map:map])) {
