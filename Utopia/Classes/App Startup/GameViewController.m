@@ -373,7 +373,7 @@
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
       bl.dungeonType = task.description;
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
@@ -655,7 +655,7 @@
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
   
-    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
     bl.dungeonType = task.description;
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
@@ -668,7 +668,7 @@
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight)];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
   bl.dungeonType = task.description;
   bl.delegate = self;
   

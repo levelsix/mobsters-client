@@ -767,7 +767,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
 @property int32_t userStructId;
 @property MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (retain) CoordinateProto* curStructCoordinates;
-@property StructOrientation newOrientation;
+@property StructOrientation orientationNew;
 @end
 
 @implementation MoveOrRotateNormStructureRequestProto
@@ -800,13 +800,13 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
   hasCurStructCoordinates_ = !!value;
 }
 @synthesize curStructCoordinates;
-- (BOOL) hasNewOrientation {
-  return !!hasNewOrientation_;
+- (BOOL) hasOrientationNew {
+  return !!hasOrientationNew_;
 }
-- (void) setHasNewOrientation:(BOOL) value {
-  hasNewOrientation_ = !!value;
+- (void) setHasOrientationNew:(BOOL) value {
+  hasOrientationNew_ = !!value;
 }
-@synthesize newOrientation;
+@synthesize orientationNew;
 - (void) dealloc {
   self.sender = nil;
   self.curStructCoordinates = nil;
@@ -818,7 +818,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
     self.userStructId = 0;
     self.type = MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove;
     self.curStructCoordinates = [CoordinateProto defaultInstance];
-    self.newOrientation = StructOrientationPosition1;
+    self.orientationNew = StructOrientationPosition1;
   }
   return self;
 }
@@ -850,8 +850,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   if (self.hasCurStructCoordinates) {
     [output writeMessage:4 value:self.curStructCoordinates];
   }
-  if (self.hasNewOrientation) {
-    [output writeEnum:5 value:self.newOrientation];
+  if (self.hasOrientationNew) {
+    [output writeEnum:5 value:self.orientationNew];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -874,8 +874,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   if (self.hasCurStructCoordinates) {
     size += computeMessageSize(4, self.curStructCoordinates);
   }
-  if (self.hasNewOrientation) {
-    size += computeEnumSize(5, self.newOrientation);
+  if (self.hasOrientationNew) {
+    size += computeEnumSize(5, self.orientationNew);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -972,8 +972,8 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   if (other.hasCurStructCoordinates) {
     [self mergeCurStructCoordinates:other.curStructCoordinates];
   }
-  if (other.hasNewOrientation) {
-    [self setNewOrientation:other.newOrientation];
+  if (other.hasOrientationNew) {
+    [self setOrientationNew:other.orientationNew];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1030,7 +1030,7 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
       case 40: {
         int32_t value = [input readEnum];
         if (StructOrientationIsValidValue(value)) {
-          [self setNewOrientation:value];
+          [self setOrientationNew:value];
         } else {
           [unknownFields mergeVarintField:5 value:value];
         }
@@ -1131,20 +1131,20 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   result.curStructCoordinates = [CoordinateProto defaultInstance];
   return self;
 }
-- (BOOL) hasNewOrientation {
-  return result.hasNewOrientation;
+- (BOOL) hasOrientationNew {
+  return result.hasOrientationNew;
 }
-- (StructOrientation) newOrientation {
-  return result.newOrientation;
+- (StructOrientation) orientationNew {
+  return result.orientationNew;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) setNewOrientation:(StructOrientation) value {
-  result.hasNewOrientation = YES;
-  result.newOrientation = value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setOrientationNew:(StructOrientation) value {
+  result.hasOrientationNew = YES;
+  result.orientationNew = value;
   return self;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearNewOrientation {
-  result.hasNewOrientation = NO;
-  result.newOrientation = StructOrientationPosition1;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNew {
+  result.hasOrientationNew = NO;
+  result.orientationNew = StructOrientationPosition1;
   return self;
 }
 @end

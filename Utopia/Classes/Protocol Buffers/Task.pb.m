@@ -265,6 +265,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property int32_t prerequisiteQuestId;
 @property int32_t boardWidth;
 @property int32_t boardHeight;
+@property (retain) NSString* groundImgPrefix;
 @end
 
 @implementation FullTaskProto
@@ -332,9 +333,17 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasBoardHeight_ = !!value;
 }
 @synthesize boardHeight;
+- (BOOL) hasGroundImgPrefix {
+  return !!hasGroundImgPrefix_;
+}
+- (void) setHasGroundImgPrefix:(BOOL) value {
+  hasGroundImgPrefix_ = !!value;
+}
+@synthesize groundImgPrefix;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
+  self.groundImgPrefix = nil;
   [super dealloc];
 }
 - (id) init {
@@ -348,6 +357,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.prerequisiteQuestId = 0;
     self.boardWidth = 0;
     self.boardHeight = 0;
+    self.groundImgPrefix = @"";
   }
   return self;
 }
@@ -394,6 +404,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasBoardHeight) {
     [output writeInt32:9 value:self.boardHeight];
   }
+  if (self.hasGroundImgPrefix) {
+    [output writeString:10 value:self.groundImgPrefix];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -429,6 +442,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasBoardHeight) {
     size += computeInt32Size(9, self.boardHeight);
+  }
+  if (self.hasGroundImgPrefix) {
+    size += computeStringSize(10, self.groundImgPrefix);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -532,6 +548,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasBoardHeight) {
     [self setBoardHeight:other.boardHeight];
   }
+  if (other.hasGroundImgPrefix) {
+    [self setGroundImgPrefix:other.groundImgPrefix];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -587,6 +606,10 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       }
       case 72: {
         [self setBoardHeight:[input readInt32]];
+        break;
+      }
+      case 82: {
+        [self setGroundImgPrefix:[input readString]];
         break;
       }
     }
@@ -734,6 +757,22 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearBoardHeight {
   result.hasBoardHeight = NO;
   result.boardHeight = 0;
+  return self;
+}
+- (BOOL) hasGroundImgPrefix {
+  return result.hasGroundImgPrefix;
+}
+- (NSString*) groundImgPrefix {
+  return result.groundImgPrefix;
+}
+- (FullTaskProto_Builder*) setGroundImgPrefix:(NSString*) value {
+  result.hasGroundImgPrefix = YES;
+  result.groundImgPrefix = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearGroundImgPrefix {
+  result.hasGroundImgPrefix = NO;
+  result.groundImgPrefix = @"";
   return self;
 }
 @end

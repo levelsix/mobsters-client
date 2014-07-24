@@ -123,9 +123,8 @@
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (void) initOrbLayer;
-
-- (NSString *) bgdPrefix;
 
 - (void) begin;
 - (BattlePlayer *) firstMyPlayer;

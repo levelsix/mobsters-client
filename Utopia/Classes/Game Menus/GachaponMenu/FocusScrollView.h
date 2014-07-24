@@ -9,21 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GPUImage.h"
 
-@interface FocusImageView : UIView {
-  float _blurRadius;
-  CGSize _initSize;
-  BOOL _isProcessing;
-}
-
-@property (nonatomic, retain) GPUImagePicture *picture;
-@property (nonatomic, retain) GPUImageGaussianBlurFilter *blurFilter;
-@property (nonatomic, retain) GPUImageView *blurView;
-
-- (id) initWithFrame:(CGRect)frame image:(UIImage *)image;
-- (void) setBlurRadius:(float)blurRadius;
-
-@end
-
 @protocol FocusScrollViewDelegate
 
 - (int) numberOfItems;

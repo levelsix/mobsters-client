@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C189E5C658944CAAB3F35294"
+               BlueprintIdentifier = "F34D254CB077485091EE1B03"
                BuildableName = "libPods-NRTouchPoints.a"
                BlueprintName = "Pods-NRTouchPoints"
                ReferencedContainer = "container:Pods.xcodeproj">

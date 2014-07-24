@@ -115,6 +115,10 @@
 #pragma mark - Setup
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1"];
+}
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
     _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
@@ -143,7 +147,8 @@
     self.bgdContainer.contentSize = self.contentSize;
     [self addChild:self.bgdContainer z:0];
     
-    self.bgdLayer = [[BattleBgdLayer alloc] initWithPrefix:[self bgdPrefix]];
+    bgdPrefix = bgdPrefix.length ? bgdPrefix : @"1";
+    self.bgdLayer = [[BattleBgdLayer alloc] initWithPrefix:bgdPrefix];
     [self.bgdContainer addChild:self.bgdLayer z:-100];
     self.bgdLayer.position = BGD_LAYER_INIT_POSITION;
     if (_puzzleIsOnLeft) self.bgdLayer.position = ccpAdd(BGD_LAYER_INIT_POSITION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
@@ -167,10 +172,6 @@
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
   return self;
-}
-
-- (NSString *) bgdPrefix {
-  return @"2";
 }
 
 - (void) initOrbLayer {

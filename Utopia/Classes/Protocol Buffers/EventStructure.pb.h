@@ -386,23 +386,23 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasCurStructCoordinates_:1;
   BOOL hasType_:1;
-  BOOL hasNewOrientation_:1;
+  BOOL hasOrientationNew_:1;
   int32_t userStructId;
   MinimumUserProto* sender;
   CoordinateProto* curStructCoordinates;
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
-  StructOrientation newOrientation;
+  StructOrientation orientationNew;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
 - (BOOL) hasType;
 - (BOOL) hasCurStructCoordinates;
-- (BOOL) hasNewOrientation;
+- (BOOL) hasOrientationNew;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (readonly, retain) CoordinateProto* curStructCoordinates;
-@property (readonly) StructOrientation newOrientation;
+@property (readonly) StructOrientation orientationNew;
 
 + (MoveOrRotateNormStructureRequestProto*) defaultInstance;
 - (MoveOrRotateNormStructureRequestProto*) defaultInstance;
@@ -462,10 +462,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (MoveOrRotateNormStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value;
 - (MoveOrRotateNormStructureRequestProto_Builder*) clearCurStructCoordinates;
 
-- (BOOL) hasNewOrientation;
-- (StructOrientation) newOrientation;
-- (MoveOrRotateNormStructureRequestProto_Builder*) setNewOrientation:(StructOrientation) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearNewOrientation;
+- (BOOL) hasOrientationNew;
+- (StructOrientation) orientationNew;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setOrientationNew:(StructOrientation) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearOrientationNew;
 @end
 
 @interface MoveOrRotateNormStructureResponseProto : PBGeneratedMessage {

@@ -117,7 +117,7 @@
   
   // If its a new set of map sections, delete the last one
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  int lastNum = [def integerForKey:MAP_SECTION_NUM_KEY];
+  int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
   if (lastNum != gl.mapNumberOfSections) {
     NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
     [[Downloader sharedDownloader] deleteFile:imgName];

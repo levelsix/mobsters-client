@@ -136,6 +136,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasBoardHeight_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
+  BOOL hasGroundImgPrefix_:1;
   int32_t taskId;
   int32_t cityId;
   int32_t assetNumWithinCity;
@@ -145,6 +146,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t boardHeight;
   NSString* name;
   NSString* description;
+  NSString* groundImgPrefix;
 }
 - (BOOL) hasTaskId;
 - (BOOL) hasName;
@@ -155,6 +157,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasPrerequisiteQuestId;
 - (BOOL) hasBoardWidth;
 - (BOOL) hasBoardHeight;
+- (BOOL) hasGroundImgPrefix;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
@@ -164,6 +167,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t prerequisiteQuestId;
 @property (readonly) int32_t boardWidth;
 @property (readonly) int32_t boardHeight;
+@property (readonly, retain) NSString* groundImgPrefix;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -243,6 +247,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) boardHeight;
 - (FullTaskProto_Builder*) setBoardHeight:(int32_t) value;
 - (FullTaskProto_Builder*) clearBoardHeight;
+
+- (BOOL) hasGroundImgPrefix;
+- (NSString*) groundImgPrefix;
+- (FullTaskProto_Builder*) setGroundImgPrefix:(NSString*) value;
+- (FullTaskProto_Builder*) clearGroundImgPrefix;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
