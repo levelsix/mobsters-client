@@ -25,17 +25,22 @@
 #define MAT_APP_KEY          @"f2f5c8b9c43496e4e0f988fa9f8827f4"
 #define MAT_VERSION_KEY      @"MATVersionKey"
 
-#define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
 
 #ifdef MOBSTERS
+
 #define TITAN_CLASS [WBAnalyticService class]
 #define TITAN_API_KEY @"08db55ae-2d33-4de8-8dd3-18c07a350f8a"
 #define ADJUST_APP_TOKEN     @"stfgmupd2vmn"
 #define ADJUST_TRACKED_PROPS @"AdjustTrackedProps"
+#define AMPLITUDE_KEY        @"8e54e30d4126a84a784328c4117bf72c"
+
 #else
+
 #define TITAN_CLASS nil
 #define TITAN_API_KEY nil
 #define ADJUST_APP_TOKEN     @"53jsdw73785p"
+#define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
+
 #endif
 #define AMPLITUDE_CLASS [Amplitude class]
 
@@ -349,13 +354,18 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
   dict[@"type"] = type;
-  dict[@"mobster_ids_used"] = mobsterIdsUsed;
   dict[@"num_pieces_gained"] = @(numPieces);
-  dict[@"mobster_ids_gained"] = mobsterIdsGained;
   dict[@"rounds"] = @(totalRounds);
   dict[@"dungeon_id"] = @(dungeonId);
   dict[@"continue"] = @(numContinues);
   dict[@"outcome"] = outcome;
+  
+  for (int i = 0; i < mobsterIdsUsed.count; i++) {
+    dict[[NSString stringWithFormat:@"mobster_%d", i+1]] = mobsterIdsUsed[i];
+  }
+  for (int i = 0; i < mobsterIdsGained.count; i++) {
+    dict[[NSString stringWithFormat:@"mobster_gained_%d", i+1]] = mobsterIdsGained[i];
+  }
   
   [self event:@"pve_match_end" withArgs:dict sendToTitan:YES];
 }
@@ -364,14 +374,17 @@ static NSDate *timeSinceLastTutStep = nil;
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
-  dict[@"type"] = @"PVP";
-  dict[@"mobster_ids_used"] = mobsterIdsUsed;
+  dict[@"type"] = @"PvP";
   dict[@"rounds"] = @(totalRounds);
   dict[@"elo"] = @(elo);
   dict[@"opp_elo"] = @(oppElo);
   dict[@"opp_id"] = @(oppId);
   dict[@"outcome"] = outcome;
   dict[@"league"] = league;
+  
+  for (int i = 0; i < mobsterIdsUsed.count; i++) {
+    dict[[NSString stringWithFormat:@"mobster_%d", i+1]] = mobsterIdsUsed[i];
+  }
   
   [self event:@"pvp_match_end" withArgs:dict sendToTitan:YES];
 }

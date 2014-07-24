@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/Miscellaneous/NibUtils.m"
-            timestampString = "426710770.615672"
+            timestampString = "427847685.163402"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
+            startingLineNumber = "923"
+            endingLineNumber = "923"
             landmarkName = "-remakeImage"
             landmarkType = "5">
          </BreakpointContent>
@@ -226,6 +226,22 @@
             startingLineNumber = "165"
             endingLineNumber = "165"
             landmarkName = "-doRarityTagShine"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Utopia/Classes/Game Menus/AttackMenuController/AttackMapViews.m"
+            timestampString = "427853782.285007"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-displayLabelAndGlow"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

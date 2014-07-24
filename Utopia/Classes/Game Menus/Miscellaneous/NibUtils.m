@@ -268,6 +268,16 @@
 
 @end
 
+@implementation NiceFontLabel13B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black-Italic" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation NiceFontLabel13S
 
 - (void) awakeFromNib {

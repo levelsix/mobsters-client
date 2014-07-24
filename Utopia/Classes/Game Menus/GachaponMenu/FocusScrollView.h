@@ -29,18 +29,18 @@
 - (int) numberOfItems;
 - (CGFloat) widthPerItem;
 - (BOOL) shouldLoopItems;
-- (UIView *) viewForItemNum:(int)itemNum;
+- (UIView *) viewForItemNum:(int)itemNum reusableView:(id)view;
 - (CGFloat) scaleForOutOfFocusView;
 
 @end
 
 @interface FocusScrollView : UIView <UIScrollViewDelegate> {
   int _numItems;
-  CGSize _initSize;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
+@property (nonatomic, retain) NSMutableArray *reusableViews;
 @property (nonatomic, retain) NSMutableArray *innerViews;
 
 @property (nonatomic, assign) IBOutlet id<FocusScrollViewDelegate> delegate;

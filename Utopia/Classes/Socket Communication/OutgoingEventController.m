@@ -1804,18 +1804,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     NSMutableArray *arr = [NSMutableArray array];
     EnhancementItem *base = gs.userEnhancement.baseMonster;
+    UserMonster *baseUm = base.userMonster;
+    float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-      base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
+      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
       [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
     
-    UserMonster *baseMonster = base.userMonster;
     UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
-    bldr.userMonsterId = baseMonster.userMonsterId;
-    bldr.expectedExperience = baseMonster.experience;
-    bldr.expectedLevel = baseMonster.level;
+    bldr.userMonsterId = baseUm.userMonsterId;
+    bldr.expectedExperience = baseUm.experience;
+    bldr.expectedLevel = baseUm.level;
+    bldr.expectedHp = perc*[gl calculateMaxHealthForMonster:baseUm];
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
@@ -1835,23 +1837,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   EnhancementItem *base = gs.userEnhancement.baseMonster;
+  UserMonster *baseUm = base.userMonster;
+  float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
   for (EnhancementItem *item in enhancingItems) {
     MSDate *endTime = [gs.userEnhancement expectedEndTimeForItem:item];
     if ([endTime timeIntervalSinceNow] > 0) {
       [Globals popupMessage:@"Trying to finish enhancing item before time."];
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-      base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
+      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
       [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
   }
   
-  UserMonster *baseMonster = base.userMonster;
   UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
-  bldr.userMonsterId = baseMonster.userMonsterId;
-  bldr.expectedExperience = baseMonster.experience;
-  bldr.expectedLevel = baseMonster.level;
+  bldr.userMonsterId = baseUm.userMonsterId;
+  bldr.expectedExperience = baseUm.experience;
+  bldr.expectedLevel = baseUm.level;
+  bldr.expectedHp = perc*[gl calculateMaxHealthForMonster:baseUm];
   
   [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueWaitTimeComplete:bldr.build userMonsterIds:arr];
   

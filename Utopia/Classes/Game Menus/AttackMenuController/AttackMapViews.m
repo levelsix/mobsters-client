@@ -15,8 +15,6 @@
 @implementation AttackMapIconView
 
 - (void) awakeFromNib {
-  self.nameLabel.strokeSize = 1.2f;
-  
   self.glowIcon.hidden = YES;
   
   self.layer.anchorPoint = ccp(0.5, 1);
@@ -30,21 +28,44 @@
     NSString *str = [NSString stringWithFormat:@"locked%@pin.png", isBoss ? @"boss" : @"city"];
     [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = YES;
-    
-    self.nameLabel.gradientStartColor = [UIColor whiteColor];
-    self.nameLabel.gradientEndColor = [UIColor colorWithWhite:245/255.f alpha:1.f];
   } else {
     NSString *str = [NSString stringWithFormat:@"open%@pin.png", isBoss ? @"boss" : @"city"];
     [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
     self.cityNumLabel.hidden = isBoss;
+  }
+}
+
+- (void) doShake {
+  [Globals shakeView:self.cityNameIcon duration:0.5f offset:5.f];
+}
+
+- (void) updateForTaskMapElement:(TaskMapElementProto *)elem task:(FullTaskProto *)task isLocked:(BOOL)isLocked {
+  [self setIsLocked:isLocked isBoss:elem.boss];
+  self.tag = elem.mapElementId;
+  self.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
+  _name = task.name;
+  
+  [self removeLabelAndGlow];
+}
+
+- (void) displayLabelAndGlow {
+  // Optimized so all strokes don't get rewritten immediately
+  self.nameLabel.strokeSize = 1.2f;
+  self.nameLabel.text = [NSString stringWithFormat:@"%@ »", _name];
+  
+  self.nameLabel.hidden = NO;
+  
+  if (!self.isLocked) {
+    self.glowIcon.hidden = NO;
     
     self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
     self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
   }
 }
 
-- (void) doShake {
-  [Globals shakeView:self.cityNameIcon duration:0.5f offset:5.f];
+- (void) removeLabelAndGlow {
+  self.nameLabel.hidden = YES;
+  self.glowIcon.hidden = YES;
 }
 
 @end

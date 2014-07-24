@@ -10,7 +10,9 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-@interface AttackMapIconView : UIView
+@interface AttackMapIconView : UIView {
+  NSString *_name;
+}
 
 @property (nonatomic, strong) IBOutlet UIImageView *cityNameIcon;
 @property (nonatomic, strong) IBOutlet THLabel *nameLabel;
@@ -24,6 +26,11 @@
 
 - (void) setIsLocked:(BOOL)isLocked isBoss:(BOOL)isBoss;
 - (void) doShake;
+
+- (void) updateForTaskMapElement:(TaskMapElementProto *)elem task:(FullTaskProto *)task isLocked:(BOOL)isLocked;
+
+- (void) displayLabelAndGlow;
+- (void) removeLabelAndGlow;
 
 @end
 

@@ -336,11 +336,14 @@
   return 180;
 }
 
-- (UIView *) viewForItemNum:(int)itemNum {
-  [[NSBundle mainBundle] loadNibNamed:@"GachaponFeaturedView" owner:self options:nil];
+- (UIView *) viewForItemNum:(int)itemNum reusableView:(GachaponFeaturedView *)view {
+  if (!view) {
+    [[NSBundle mainBundle] loadNibNamed:@"GachaponFeaturedView" owner:self options:nil];
+    view = self.featuredView;
+  }
   BoosterItemProto *item = self.boosterPack.specialItemsList[itemNum];
-  [self.featuredView updateForMonsterId:item.monsterId];
-  return self.featuredView;
+  [view updateForMonsterId:item.monsterId];
+  return view;
 }
 
 - (CGFloat) scaleForOutOfFocusView {

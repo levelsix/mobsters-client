@@ -15,8 +15,11 @@
 #import "GenericPopupController.h"
 #import "AchievementUtil.h"
 #import "CAKeyframeAnimation+AHEasing.h"
+#import "Downloader.h"
 
 #define NUM_CITIES 10
+
+#define MAP_SECTION_NUM_KEY @"MapSectionNumKey"
 
 @implementation AttackMapViewController
 
@@ -112,6 +115,16 @@
     [sv removeFromSuperview];
   }
   
+  // If its a new set of map sections, delete the last one
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  int lastNum = [def integerForKey:MAP_SECTION_NUM_KEY];
+  if (lastNum != gl.mapNumberOfSections) {
+    NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
+    [[Downloader sharedDownloader] deleteFile:imgName];
+    
+    [def setInteger:gl.mapNumberOfSections forKey:MAP_SECTION_NUM_KEY];
+  }
+  
   // Assemble map sections
   float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
   for (int i = 1; i <= gl.mapNumberOfSections; i++) {
@@ -135,14 +148,12 @@
   }
   self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, gl.mapTotalHeight*scaleFactor);
   
+  UINib *nib = [UINib nibWithNibName:@"AttackMapIconView" bundle:nil];
   for (TaskMapElementProto *elem in gs.staticMapElements) {
     FullTaskProto *task = [gs taskWithId:elem.taskId];
-    AttackMapIconView *icon = [[NSBundle mainBundle] loadNibNamed:@"AttackMapIconView" owner:self options:nil][0];
-    [icon setIsLocked:![gs isTaskUnlocked:elem.taskId] isBoss:elem.boss];
-    icon.tag = elem.mapElementId;
-    icon.nameLabel.text = [NSString stringWithFormat:@"%@ »", task.name];
-    icon.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
-    icon.nameLabel.hidden = YES;
+    
+    AttackMapIconView *icon = [nib instantiateWithOwner:self options:nil][0];
+    [icon updateForTaskMapElement:elem task:task isLocked:![gs isTaskUnlocked:elem.taskId]];
     
     [self.mapScrollView addSubview:icon];
     icon.center = ccpMult(ccp(elem.xPos, gl.mapTotalHeight-elem.yPos), scaleFactor);
@@ -193,11 +204,9 @@
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   [self showTaskStatusForMapElement:(int)icon.tag];
   
-  _selectedIcon.glowIcon.hidden = YES;
-  _selectedIcon.nameLabel.hidden = YES;
+  [_selectedIcon removeLabelAndGlow];
   _selectedIcon = icon;
-  if (!icon.isLocked) _selectedIcon.glowIcon.hidden = NO;
-  _selectedIcon.nameLabel.hidden = NO;
+  [_selectedIcon displayLabelAndGlow];
   [_selectedIcon.superview bringSubviewToFront:_selectedIcon];
 }
 
@@ -316,8 +325,7 @@
       self.taskStatusView = nil;
     }];
     
-    _selectedIcon.glowIcon.hidden = YES;
-    _selectedIcon.nameLabel.hidden = YES;
+    [_selectedIcon removeLabelAndGlow];
     _selectedIcon = nil;
   }
 }
