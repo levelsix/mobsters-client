@@ -46,7 +46,6 @@
 
 - (void) loadFAQ {
   Globals *gl = [Globals sharedGlobals];
-  gl.faqFileName = @"FAQ.txt";
   [self loadFile:gl.faqFileName ? gl.faqFileName : @"FAQ.txt"];
 }
 

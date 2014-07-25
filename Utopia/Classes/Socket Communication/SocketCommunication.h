@@ -179,6 +179,8 @@
 - (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths ;
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId;
 
+- (int) sendDevRequestProto:(DevRequest)request num:(int)num;
+
 - (void) flush;
 - (void) flushAllExceptEventType:(int)val;
 - (void) flushAllExcept:(NSNumber *)type;

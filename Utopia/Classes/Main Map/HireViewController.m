@@ -89,7 +89,7 @@
       self.slotsLabel.text = [NSString stringWithFormat:@"Requires a level %d %@", res.structInfo.level, res.structInfo.name];
     }
   }
-  [Globals imageNamed:iconName withView:self.occupationIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:iconName withView:self.occupationIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 @end

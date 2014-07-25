@@ -18,12 +18,14 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
+    [DevRoot registerAllExtensions:registry];
     [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
     [EventBoosterPackRoot registerAllExtensions:registry];
     [EventChatRoot registerAllExtensions:registry];
     [EventCityRoot registerAllExtensions:registry];
     [EventClanRoot registerAllExtensions:registry];
+    [EventDevRoot registerAllExtensions:registry];
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
     [EventMiniJobRoot registerAllExtensions:registry];
@@ -129,6 +131,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRedeemMiniJobEvent:
     case EventProtocolRequestCSetAvatarMonsterEvent:
     case EventProtocolRequestCLogoutEvent:
+    case EventProtocolRequestCDevEvent:
       return YES;
     default:
       return NO;
@@ -218,6 +221,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
     case EventProtocolResponseSAwardClanRaidStageRewardEvent:
     case EventProtocolResponseSForceLogoutEvent:
+    case EventProtocolResponseSDevEvent:
       return YES;
     default:
       return NO;

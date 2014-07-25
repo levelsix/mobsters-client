@@ -806,10 +806,12 @@
   bgdIcon.anchorPoint = ccp(0, 0.5);
   bgdIcon.position = ccpAdd(label.position, ccp(0, -58));
   
-  CCSprite *inside = [CCSprite spriteWithImageNamed:[self.enemyPlayerObject.spritePrefix stringByAppendingString:@"Card.png"]];
-  [bgdIcon addChild:inside];
-  inside.position = ccp(bgdIcon.contentSize.width/2, bgdIcon.contentSize.height/2);
-  inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
+  if (self.enemyPlayerObject.spritePrefix.length) {
+    CCSprite *inside = [CCSprite spriteWithImageNamed:[self.enemyPlayerObject.spritePrefix stringByAppendingString:@"Card.png"]];
+    [bgdIcon addChild:inside];
+    inside.position = ccp(bgdIcon.contentSize.width/2, bgdIcon.contentSize.height/2);
+    inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
+  }
   
   CCSprite *border = [CCSprite spriteWithImageNamed:@"youwonitemborder.png"];
   [bgdIcon addChild:border];

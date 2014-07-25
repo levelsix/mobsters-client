@@ -33,6 +33,7 @@
 #define UNLOCK_BUILDINGS_CODE @"unlockdown"
 #define SKIP_QUESTS_CODE @"quickquests"
 #define FB_LOGOUT_CODE @"unfb"
+#define GET_MONSTER_CODE @"magicmob"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -812,43 +813,48 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int cashAmt = 0, oilAmt = 0, gemsAmt = 0;
-        NSString *reason = nil;
+        int amt = 0;
+        DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          cashAmt = code.intValue;
-          reason = CASH_CODE;
-          msg = [NSString stringWithFormat:@"Awarded %d cash.", cashAmt];
+          amt = code.intValue;
+          req = DevRequestFBGetCash;
+          msg = [NSString stringWithFormat:@"Awarded %d cash.", amt];
         } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          oilAmt = code.intValue;
-          reason = OIL_CODE;
-          msg = [NSString stringWithFormat:@"Awarded %d oil.", oilAmt];
-        } else if ((r = [code rangeOfString:CASH_AND_OIL_CODE]).length > 0) {
-          r.length++;
-          code = [code stringByReplacingCharactersInRange:r withString:@""];
-          cashAmt = code.intValue;
-          oilAmt = code.intValue;
-          reason = CASH_AND_OIL_CODE;
-          msg = [NSString stringWithFormat:@"Awarded %d cash and oil.", cashAmt];
+          amt = code.intValue;
+          req = DevRequestFBGetOil;
+          msg = [NSString stringWithFormat:@"Awarded %d oil.", amt];
         } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          gemsAmt = code.intValue;
-          reason = GEMS_CODE;
-          msg = [NSString stringWithFormat:@"Awarded %d gems.", gemsAmt];
+          amt = code.intValue;
+          req = DevRequestFBGetGems;
+          msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
+        } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          amt = code.intValue;
+          req = DevRequestGetMonzter;
+          
+          MonsterProto *mp = [gs monsterWithId:amt];
+          if (mp) {
+            msg = [NSString stringWithFormat:@"Awarded %@.", mp.displayName];
+          } else {
+            amt = 0;
+          }
         }
         
-        if (cashAmt || oilAmt || gemsAmt) {
-          [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:cashAmt oilChange:oilAmt gemChange:gemsAmt reason:reason];
-        } else if (reason) {
+        if (amt) {
+          [[OutgoingEventController sharedOutgoingEventController] devRequest:req num:amt];
+        } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
       }
       @catch (NSException *exception) {
-        msg = @"You must enter a quantity of currency!";
+        msg = @"You must enter a valid number!";
       }
       
       if ([code isEqualToString:UNLOCK_BUILDINGS_CODE]) {
@@ -865,7 +871,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         msg = @"All downloaded data has been purged.";
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
-        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:1234 oilChange:1234 gemChange:1234 reason:RESET_CODE];
+        [[OutgoingEventController sharedOutgoingEventController] devRequest:DevRequestResetAccount num:0];
       } else if ([code isEqualToString:FB_LOGOUT_CODE]) {
         msg = @"Logged out of Facebook.";
         [FacebookDelegate logout];
@@ -888,6 +894,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     });
   }
+}
+
+- (void) devRequest:(DevRequest)req num:(int)num {
+  [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req num:num];
 }
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content {
@@ -1885,7 +1895,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to evolve without max monsters."];
   } else if (!gems && gs.oil < oilCost) {
     [Globals popupMessage:@"Trying to enhance item without enough oil."];
-  } else {
+  } else { 
     int gemCost = 0;
     if (gems && gs.oil < oilCost) {
       gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];

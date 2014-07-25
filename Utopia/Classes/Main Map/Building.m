@@ -26,7 +26,7 @@
     if (file) [self setupBuildingSprite:file];
     
     _bubble = [[BuildingBubble alloc] init];
-    [self addChild:_bubble];
+    [self addChild:_bubble z:5];
     _bubble.anchorPoint = ccp(0.5, 0);
     _bubble.type = BuildingBubbleTypeNone;
   }

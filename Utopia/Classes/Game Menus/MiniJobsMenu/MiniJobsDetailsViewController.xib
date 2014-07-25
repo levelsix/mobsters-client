@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="animMonsterView" destination="pTh-Iw-u9v" id="B1L-VL-ynI"/>
                 <outlet property="attackLabel" destination="lZ5-Rb-0Hb" id="WgM-UC-a9z"/>
+                <outlet property="attackProgressBar" destination="92M-CU-4iU" id="hEo-He-Cal"/>
                 <outlet property="availableMonstersLabel" destination="WmH-ta-jjg" id="IdF-Gf-ydM"/>
                 <outlet property="engageArrow" destination="XSM-M2-PCa" id="suB-fe-78z"/>
                 <outlet property="engageButton" destination="TKy-e7-3Tf" id="Kmb-Ks-Yvo"/>
@@ -103,6 +104,30 @@
                                     <rect key="frame" x="0.0" y="19" width="87" height="8"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
+                                <view contentMode="scaleToFill" id="92M-CU-4iU" customClass="SplitImageProgressBar">
+                                    <rect key="frame" x="0.0" y="19" width="87" height="8"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="attackbarmiddlemj.png" id="Xee-cN-R3q">
+                                            <rect key="frame" x="4" y="0.0" width="52" height="8"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="attackbarcapmj.png" id="1py-u9-lxC">
+                                            <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="attackbarcapmj.png" id="BEK-wv-gLn" customClass="FlipImageView">
+                                            <rect key="frame" x="55" y="0.0" width="3" height="8"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="leftCap" destination="1py-u9-lxC" id="8XA-et-IEB"/>
+                                        <outlet property="middleBar" destination="Xee-cN-R3q" id="zDV-Cj-Frv"/>
+                                        <outlet property="rightCap" destination="BEK-wv-gLn" id="BzE-J0-fRH"/>
+                                    </connections>
+                                </view>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="REQ. ATTACK: 110/250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="lZ5-Rb-0Hb" customClass="NiceFontLabel9">
                                     <rect key="frame" x="0.0" y="2" width="112" height="19"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -550,6 +575,8 @@ before starting another.</string>
         </view>
     </objects>
     <resources>
+        <image name="attackbarcapmj.png" width="3" height="8"/>
+        <image name="attackbarmiddlemj.png" width="1" height="8"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagebutton.png" width="65" height="29"/>

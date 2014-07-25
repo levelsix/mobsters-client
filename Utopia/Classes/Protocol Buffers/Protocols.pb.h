@@ -8,12 +8,14 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
+#import "Dev.pb.h"
 #import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
 #import "EventBoosterPack.pb.h"
 #import "EventChat.pb.h"
 #import "EventCity.pb.h"
 #import "EventClan.pb.h"
+#import "EventDev.pb.h"
 #import "EventDungeon.pb.h"
 #import "EventInAppPurchase.pb.h"
 #import "EventMiniJob.pb.h"
@@ -129,6 +131,10 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class DevRequestProto;
+@class DevRequestProto_Builder;
+@class DevResponseProto;
+@class DevResponseProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -626,6 +632,7 @@ typedef enum {
   EventProtocolRequestCRedeemMiniJobEvent = 73,
   EventProtocolRequestCSetAvatarMonsterEvent = 74,
   EventProtocolRequestCLogoutEvent = 101,
+  EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -713,6 +720,7 @@ typedef enum {
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
   EventProtocolResponseSAwardClanRaidStageRewardEvent = 108,
   EventProtocolResponseSForceLogoutEvent = 109,
+  EventProtocolResponseSDevEvent = 200,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

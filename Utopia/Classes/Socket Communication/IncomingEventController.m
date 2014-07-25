@@ -270,6 +270,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSetAvatarMonsterEvent:
       responseClass = [SetAvatarMonsterResponseProto class];
       break;
+    case EventProtocolResponseSDevEvent:
+      responseClass = [DevResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1773,6 +1776,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set avatar monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleDevResponseProto:(FullEvent *)fe {
+  DevResponseProto *proto = (DevResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Dev response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == DevResponseProto_DevStatusSuccess) {
+    if (proto.hasFump) {
+      [gs addToMyMonsters:@[proto.fump]];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to execute cheat code."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
