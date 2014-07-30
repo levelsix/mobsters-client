@@ -244,8 +244,7 @@
   NSArray *arr = @[[NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT1],
                    [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT2],
                    [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT3],
-                   [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT4],
-                   ];
+                   [NSValue valueWithCGPoint:HIDE_GUIDE_LOCATION_POINT4]];
   [self.guideSprite walkToTileCoords:arr completionTarget:self selector:@selector(guideReachedObstacle) speedMultiplier:4.f];
 }
 
@@ -494,6 +493,7 @@
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
   // Do nothing
+  [_timers removeObject:timer];
 }
 
 - (NSArray *) reloadObstacles {

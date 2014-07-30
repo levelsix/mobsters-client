@@ -26,7 +26,9 @@
   [self.topContainer.monsterCardView updateForMonster:evoItem.userMonster1];
   [self.botContainer.monsterCardView updateForMonster:evoItem.userMonster2];
   
-  if (evoItem.userMonster2 && evoItem.catalystMonster) {
+  BOOL lvl1 = evoItem.userMonster1.level >= evoItem.userMonster1.staticMonster.maxLevel;
+  BOOL lvl2 = evoItem.userMonster2.level >= evoItem.userMonster2.staticMonster.maxLevel;
+  if (evoItem.userMonster2 && evoItem.catalystMonster && lvl1 && lvl2) {
     self.statusLabel.text = @"Ready!";
     self.statusLabel.textColor = [UIColor colorWithRed:106/255.f green:180/255.f blue:0.f alpha:1.f];
   } else {

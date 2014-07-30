@@ -73,7 +73,7 @@ static int sessionId;
   [self performSelector:@selector(initUserIdMessageQueue) onThread:self withObject:nil waitUntilDone:NO];
 }
 
-- (void) initUserIdMessageQueue { 
+- (void) initUserIdMessageQueue {
   GameState *gs = [GameState sharedGameState];
   NSString *useridKey = USER_ID_KEY;
   _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
@@ -86,6 +86,10 @@ static int sessionId;
   _chatConsumer = [_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
   
   LNLog(@"Created queues");
+  
+  if ([_delegate respondsToSelector:@selector(connectedToUserIdQueue)]) {
+    [_delegate performSelectorOnMainThread:@selector(connectedToUserIdQueue) withObject:nil waitUntilDone:NO];
+  }
 }
 
 - (void) reloadClanMessageQueue {
@@ -110,8 +114,14 @@ static int sessionId;
   _clanQueue = nil;
 }
 
-- (void) sendData:(NSData *)data {
-  [self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:NO];
+- (void) sendData:(NSData *)data withDelay:(float)delay {
+  //[self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:NO];
+  NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(timerPostData:) userInfo:data repeats:NO];
+  [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+}
+
+- (void) timerPostData:(NSTimer *)timer {
+  [self postDataToExchange:timer.userInfo];
 }
 
 - (void) postDataToExchange:(NSData *)data {
@@ -143,7 +153,7 @@ static int sessionId;
 
 - (void) endAndDestroyThread {
   [self endConnection];
-//  _shouldStop = YES;
+  //  _shouldStop = YES;
 }
 
 - (void) closeDownConnection {
@@ -172,7 +182,7 @@ static int sessionId;
 	while(!_shouldStop)
 	{
     @try {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
     } @catch (NSException *exception) {
       NSLog(@"Exception in AMQP thread: %@", exception);
     }

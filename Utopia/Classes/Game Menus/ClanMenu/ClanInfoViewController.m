@@ -485,11 +485,11 @@
 
 - (IBAction)leaveClicked:(id)sender {
   if (self.clan.clanSize == 1) {
-    [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to delete this clan?" title:@"Delete?" okayButton:@"Delete" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
+    [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to delete this squad?" title:@"Delete?" okayButton:@"Delete" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
   } else if (self.myUser.clanStatus == UserClanStatusLeader) {
-    [Globals popupMessage:@"You must transfer ownership before leaving this clan."];
+    [Globals popupMessage:@"You must transfer ownership before leaving this squad."];
   } else {
-    [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to leave this clan?" title:@"Leave?" okayButton:@"Leave" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
+    [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to leave this squad?" title:@"Leave?" okayButton:@"Leave" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
   }
 }
 

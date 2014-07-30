@@ -36,7 +36,7 @@
 
 - (void) reloadClanMessageQueue;
 - (void) connectWithUdid:(NSString *)udid facebookId:(NSString *)facebookId;
-- (void) sendData:(NSData *)data;
+- (void) sendData:(NSData *)data withDelay:(float)delay;
 - (void) startUserIdQueue;
 - (void) closeDownConnection;
 - (void) end;

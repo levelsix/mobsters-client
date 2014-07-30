@@ -237,9 +237,9 @@
   NSString *description = self.descriptionField.text;
   
   if (name.length <= 0) {
-    [Globals addAlertNotification:@"You must enter a clan name."];
+    [Globals addAlertNotification:@"You must enter a squad name."];
   } else if (tag.length <= 0) {
-    [Globals addAlertNotification:@"You must enter a clan tag."];
+    [Globals addAlertNotification:@"You must enter a squad tag."];
   } else if (description.length <= 0) {
     [Globals addAlertNotification:@"You must enter a description."];
   } else if (name.length > gl.maxCharLengthForClanName) {

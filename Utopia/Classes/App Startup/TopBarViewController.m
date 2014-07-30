@@ -502,6 +502,11 @@
   [self.shopViewController openFundsShop];
 }
 
+- (void) openShopWithBuildings {
+  [self openShop];
+  [self.shopViewController openBuildingsShop];
+}
+
 - (void) openShopWithGacha {
   [self openShop];
   [self.shopViewController openGachaShop];

@@ -330,7 +330,7 @@
   if (percIncrease) {
     [self checkUserMonsterOnTeam];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you already have enough to max out this %@.", MONSTER_NAME]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, this %@ is already at max level.", MONSTER_NAME]];
   }
 }
 

@@ -584,10 +584,14 @@
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
   int avatarId = pvp.defender.minUserProto.avatarMonsterId;
-  if (!avatarId) {
-    NSMutableArray *arr = gs.staticMonsters.allKeys.mutableCopy;
+  while (!avatarId) {
+    NSMutableArray *arr = gs.staticMonsters.allValues.mutableCopy;
     [arr shuffle];
-    avatarId = [arr[0] intValue];
+    
+    MonsterProto *mp = arr[0];
+    if (mp.imagePrefix.length) {
+      avatarId = mp.monsterId;
+    }
   }
   MonsterProto *avMonster = [gs monsterWithId:avatarId];
   NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];

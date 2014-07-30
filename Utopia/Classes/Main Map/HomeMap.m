@@ -655,25 +655,30 @@
 
 #pragma mark - Moving
 
-- (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
-  //  Globals *gl = [Globals sharedGlobals];
-  HomeBuilding *mb = nil;
-  //  for (int tag = baseTag; tag < baseTag+gl.maxRepeatedNormStructs; tag++) {
-  //    MoneyBuilding *check;
-  //    if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
-  //      if (!mb || check.userStruct.staticStruct.structInfo.level > mb.userStruct.staticStruct.structInfo.level) {
-  //        mb = check;
-  //      }
-  //    } else {
-  //      break;
-  //    }
-  //  }
+- (BOOL) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
+  
+  // Attempt to go to the prev struct or lower, otherwise return no
+  UserStruct *baseTester = [[UserStruct alloc] init];
+  baseTester.structId = structId;
+  
+  UserStruct *chosen = nil;
+  for (UserStruct *us in gs.myStructs) {
+    if (us.baseStructId == baseTester.baseStructId && us.structId > chosen.structId && us.structId < structId) {
+      chosen = us;
+    }
+  }
+  
+  HomeBuilding *mb = (HomeBuilding *)[self getChildByName:STRUCT_TAG(chosen.userStructId) recursively:NO];
   
   if (mb) {
     [self moveToSprite:mb animated:animated];
     if (showArrow) {
       [mb displayArrow];
     }
+    return YES;
+  } else {
+    return NO;
   }
 }
 

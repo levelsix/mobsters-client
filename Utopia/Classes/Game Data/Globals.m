@@ -517,16 +517,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *typeText = @"";
   switch (status) {
     case UserClanStatusLeader:
-      typeText = @"Clan Leader";
+      typeText = @"Squad Leader";
       break;
     case UserClanStatusJuniorLeader:
       typeText = @"Jr. Leader";
       break;
     case UserClanStatusCaptain:
-      typeText = @"Clan Captain";
+      typeText = @"Squad Captain";
       break;
     case UserClanStatusMember:
-      typeText = @"Clan Member";
+      typeText = @"Squad Member";
       break;
     case UserClanStatusRequesting:
       typeText = @"Requestee";

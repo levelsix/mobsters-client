@@ -512,6 +512,7 @@
 }
 
 - (void) setPercentage:(float)percentage {
+  percentage = clampf(percentage, 0.f, 1.f);
   NSInteger mult = self.anim.frames.count-1;
   int imgNum = roundf(percentage*mult);
   CCSpriteFrame *frame = [self.anim.frames[imgNum] spriteFrame];

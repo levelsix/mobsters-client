@@ -10,7 +10,6 @@
 #import "Globals.h"
 #import "TopBarViewController.h"
 #import "GameMap.h"
-#import "AttackMapViewController.h"
 #import "DungeonBattleLayer.h"
 #import "OneLineNotificationViewController.h"
 #import "CCDirector+Downloader.h"
@@ -23,6 +22,7 @@
 #import "AchievementUtil.h"
 #import "ChatViewController.h"
 #import "ClanViewController.h"
+#import "AttackMapViewController.h"
 
 @class TutorialController;
 

@@ -213,6 +213,8 @@ static NSString *udid = nil;
   
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
+  
+  [self.queuedMessages removeAllObjects];
 }
 
 - (void) reloadClanMessageQueue {
@@ -222,7 +224,7 @@ static NSString *udid = nil;
 - (void) connectedToHost {
   LNLog(@"Connected to host");
   
-  _isCreatingQueues = NO;
+  _canSendPreDbEvents = YES;
   
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
   if (delegate) {
@@ -252,8 +254,10 @@ static NSString *udid = nil;
 
 - (void) initUserIdMessageQueue {
   [self.connectionThread startUserIdQueue];
-  
-  LNLog(@"Created user id queue");
+}
+
+- (void) connectedToUserIdQueue {
+  _isCreatingQueues = NO;
   
   for (FullEvent *fe in self.queuedMessages) {
     [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
@@ -290,23 +294,23 @@ static NSString *udid = nil;
 
 - (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum flush:(BOOL)flush {
   if (flush) {
-    [self flush];
+    if ([self flush]) {
+      _lastFlushedTime = [NSDate date];
+    }
   }
   
-  if (_isCreatingQueues) {
+  if (!_canSendPreDbEvents) {
     FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
     [self.queuedMessages addObject:fe];
     LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
     return;
   } else {
-    GameState *gs = [GameState sharedGameState];
-    if (_sender.userId == 0 || !gs.connected) {
+    if (_isCreatingQueues) {
       if (![self isPreDbEventType:type]) {
-        LNLog(@"User id is 0 or GameState is not connected!!!");
-        LNLog(@"Ignoring event of type %@.", NSStringFromClass(msg.class));
+        LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
         
-        //FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
-        //[self.queuedMessages addObject:fe];
+        FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
+        [self.queuedMessages addObject:fe];
         return;
       }
     }
@@ -336,7 +340,9 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-  [self.connectionThread sendData:messageWithHeader];
+  float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:2.f] timeIntervalSinceNow]);
+  LNLog(@"Sent event of type %@ with delay %f.", NSStringFromClass(msg.class), delay);
+  [self.connectionThread sendData:messageWithHeader withDelay:delay];
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
@@ -1468,15 +1474,17 @@ static NSString *udid = nil;
   }
 }
 
-- (void) flush {
-  [self flushAllExceptEventType:-1];
+- (BOOL) flush {
+  return [self flushAllExceptEventType:-1];
 }
 
-- (void) flushAllExceptEventType:(int)val {
-  [self flushAllExcept:[NSNumber numberWithInt:val]];
+- (BOOL) flushAllExceptEventType:(int)val {
+  return [self flushAllExcept:[NSNumber numberWithInt:val]];
 }
 
-- (void) flushAllExcept:(NSNumber *)num {
+- (BOOL) flushAllExcept:(NSNumber *)num {
+  BOOL found = NO;
+  
   int type = num.intValue;
   if (type != EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent) {
     if (self.structRetrievals.count > 0) {
@@ -1486,29 +1494,41 @@ static NSString *udid = nil;
       if (self.structRetrievalAchievements.count) {
         [self sendAchievementProgressMessage:self.structRetrievalAchievements.allValues clientTime:self.lastClientTime];
         [self.structRetrievalAchievements removeAllObjects];
+        
+        found = YES;
       }
     }
   }
   
   if (type != EventProtocolRequestCHealMonsterEvent) {
     if (_healingQueuePotentiallyChanged) {
-      [self sendHealMonsterMessage];
+      int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
       _healingQueuePotentiallyChanged = NO;
       _healingQueueGemCost = 0;
       _healingQueueCashChange = 0;
+      
+      if (val) {
+        found = YES;
+      }
     }
   }
   
   if (type != EventProtocolRequestCSubmitMonsterEnhancementEvent) {
     if (_enhancementPotentiallyChanged) {
-      [self sendEnhanceMonsterMessage];
+      int val = [self sendEnhanceMonsterMessage];
       [self reloadEnhancementSnapshot];
       _enhancementPotentiallyChanged = NO;
       _enhanceQueueGemCost = 0;
       _enhanceQueueOilChange = 0;
+      
+      if (val) {
+        found = YES;
+      }
     }
   }
+  
+  return found;
 }
 
 - (void) closeDownConnection {

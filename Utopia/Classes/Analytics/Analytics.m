@@ -244,7 +244,7 @@ static NSDate *timeSinceLastTutStep = nil;
   
   [self event:@"tut_step" withArgs:@{@"step_num": @(tutorialStep),
                                           @"duration": @(duration),
-                                          @"is_complete:": @(isComplete)}];
+                                          @"is_complete": @(isComplete)}];
   
   [titanClass trackFteFlow:tutorialStep isComplete:isComplete skip:NO duration:duration extraParams:nil];
 }

@@ -13,6 +13,7 @@
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 #import "OutgoingEventController.h"
+#import "AchievementUtil.h"
 
 #define NIB_NAME @"SellCardCell"
 
@@ -204,6 +205,7 @@
   
   [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:arr];
   [self.sellQueue removeAllObjects];
+  [AchievementUtil checkSellMonsters:(int)arr.count];
   
   [self reloadQueueViewAnimated:YES];
   [self reloadTitleView];

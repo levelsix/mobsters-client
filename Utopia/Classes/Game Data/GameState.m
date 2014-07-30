@@ -462,7 +462,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
       ResidenceProto *res = (ResidenceProto *)us.staticStructForNextFbLevel;
       NSArray *arr = [self acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
-      if (res.numAcceptedFbInvites <= arr.count) {
+      if (res && res.numAcceptedFbInvites <= arr.count) {
         [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:us withGems:NO delegate:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@(us.userStructId), @"UserStructId", nil]];
       }

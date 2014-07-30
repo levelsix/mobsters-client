@@ -584,10 +584,19 @@
       [gvc addChildViewController:amvc];
       amvc.view.frame = gvc.view.bounds;
       [gvc.view addSubview:amvc.view];
+      
+      if (assetId) {
+        [amvc showTaskStatusForMapElement:assetId];
+      }
     }
   } else {
     if (cityId == 0) {
-      [(HomeMap *)self.currentMap refresh];
+      if (assetId) {
+        HomeMap *hm = (HomeMap *)self.currentMap;
+        if (![hm moveToStruct:assetId showArrow:YES animated:YES]) {
+          [self.topBarViewController openShopWithBuildings];
+        }
+      }
     } else {
       if (assetId) {
         [(MissionMap *)self.currentMap moveToAssetId:assetId animated:YES];
@@ -903,6 +912,9 @@
     [self dismissViewControllerAnimated:YES completion:^{
       [self.topBarViewController openShopWithFunds];
     }];
+  } else if (_isInBattle) {
+    [self battleComplete:nil];
+    [self.topBarViewController openShopWithFunds];
   } else {
     [self.topBarViewController openShopWithFunds];
   }

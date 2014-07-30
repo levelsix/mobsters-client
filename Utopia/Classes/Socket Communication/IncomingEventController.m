@@ -904,7 +904,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to retrieve clan information."];
+    [Globals popupMessage:@"Server failed to retrieve squad information."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -928,7 +928,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     } else {
       if (proto.accept) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.name]];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.name]];
       }
     }
     
@@ -936,11 +936,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan ||
         proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized) {
-      [Globals popupMessage:@"Hmm, it seems that this user has already joined another clan."];
+      [Globals popupMessage:@"Hmm, it seems that this user has already joined another squad."];
     } else if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull) {
-      [Globals popupMessage:@"Your clan is full. Boot a member and try again."];
+      [Globals popupMessage:@"Your squad is full. Boot a member and try again."];
     } else {
-      [Globals popupMessage:@"Server failed to respond to clan request."];
+      [Globals popupMessage:@"Server failed to respond to squad request."];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -963,12 +963,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.clanChatMessages removeAllObjects];
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your clan.", proto.sender.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to leave clan."];
+    [Globals popupMessage:@"Server failed to leave squad."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -985,7 +985,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
     } else {
       if (gs.myClanStatus == UserClanStatusLeader || gs.myClanStatus == UserClanStatusJuniorLeader) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your clan!", proto.sender.name]];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your squad!", proto.sender.name]];
       }
     }
     
@@ -997,13 +997,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       gs.myClanStatus = UserClanStatusMember;
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name]];
     }
   } else {
     if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {
-      [Globals popupMessage:@"Sorry, this clan is full. Please try another."];
+      [Globals popupMessage:@"Sorry, this squad is full. Please try another."];
     } else {
-      [Globals popupMessage:@"Server failed to request to join clan request."];
+      [Globals popupMessage:@"Server failed to request to join squad request."];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1023,7 +1023,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to retract clan request."];
+    [Globals popupMessage:@"Server failed to retract squad request."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1048,14 +1048,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     if (proto.clanOwnerNew.userId == gs.userId) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just become the new clan leader!"]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just become the new squad leader!"]];
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just become the new clan leader!", proto.clanOwnerNew.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just become the new squad leader!", proto.clanOwnerNew.name]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to transfer clan ownership."];
+    [Globals popupMessage:@"Server failed to transfer squad ownership."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1076,9 +1076,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized) {
-      [Globals popupMessage:@"You do not have the permissions to change clan settings!"];
+      [Globals popupMessage:@"You do not have the permissions to change squad settings!"];
     } else if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan) {
-      [Globals popupMessage:@"You can't change the settings of a clan you don't belong to!"];
+      [Globals popupMessage:@"You can't change the settings of a squad you don't belong to!"];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1104,7 +1104,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to promote or demote player from clan."];
+    [Globals popupMessage:@"Server failed to promote or demote player from squad."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1130,12 +1130,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been booted from %@.", clanName]];
       }
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the clan.", proto.playerToBoot.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the squad.", proto.playerToBoot.name]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to boot player from clan."];
+    [Globals popupMessage:@"Server failed to boot player from squad."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

@@ -28,6 +28,7 @@
   
   int _numDisconnects;
   BOOL _isCreatingQueues;
+  BOOL _canSendPreDbEvents;
   
   BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;
@@ -36,6 +37,8 @@
   BOOL _enhancementPotentiallyChanged;
   int _enhanceQueueOilChange;
   int _enhanceQueueGemCost;
+  
+  NSDate *_lastFlushedTime;
 }
 
 @property (nonatomic, retain) GenericPopupController *popupController;
@@ -181,8 +184,8 @@
 
 - (int) sendDevRequestProto:(DevRequest)request num:(int)num;
 
-- (void) flush;
-- (void) flushAllExceptEventType:(int)val;
-- (void) flushAllExcept:(NSNumber *)type;
+- (BOOL) flush;
+- (BOOL) flushAllExceptEventType:(int)val;
+- (BOOL) flushAllExcept:(NSNumber *)type;
 
 @end

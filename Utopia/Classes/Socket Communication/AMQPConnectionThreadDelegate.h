@@ -14,6 +14,7 @@
 
 @optional
 - (void) connectedToHost;
+- (void) connectedToUserIdQueue;
 - (void) unableToConnectToHost:(NSString *)error;
 
 @end

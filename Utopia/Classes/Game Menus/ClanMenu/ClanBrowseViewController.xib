@@ -22,7 +22,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="454" height="46"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading More Clans..." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="19" customClass="NiceFontLabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading More Squads..." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="19" customClass="NiceFontLabel">
                         <rect key="frame" x="115" y="12" width="236" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -93,7 +93,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Find a clan" clearsOnBeginEditing="YES" minimumFontSize="17" id="h1z-7T-SF3" customClass="NiceFontTextField17">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Find a squad" clearsOnBeginEditing="YES" minimumFontSize="17" id="h1z-7T-SF3" customClass="NiceFontTextField17">
                             <rect key="frame" x="48" y="12" width="279" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

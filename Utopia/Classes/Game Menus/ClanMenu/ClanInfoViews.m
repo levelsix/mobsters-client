@@ -221,7 +221,7 @@
   switch (setting) {
     case ClanSettingBoot:
       topText = @"Boot From";
-      botText = @"Clan";
+      botText = @"Squad";
       break;
     case ClanSettingDemoteToCaptain:
       topText = @"Demote To";

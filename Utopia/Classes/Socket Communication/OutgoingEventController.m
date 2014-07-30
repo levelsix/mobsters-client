@@ -1278,7 +1278,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cashCost > gs.cash || gemCost > gs.gems) {
     [Globals popupMessage:@"Trying to view next pvp guy without enough resources."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:-cashCost oilSpent:0 gemsSpent:-gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
     
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashCost];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
@@ -1688,9 +1688,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
   if (gs.userEnhancement) {
-    [Globals popupMessage:@"Trying to set base monster while already enhancing."];
+    [Globals popupMessage:@"Trying to set base mobster while already enhancing."];
   } else if (![um isAvailable]) {
-    [Globals popupMessage:@"Trying to enhance item that is unavailable."];
+    [Globals popupMessage:@"Trying to enhance mobster that is unavailable."];
   } else {
     EnhancementItem *ei = [[EnhancementItem alloc] init];
     ei.userMonsterId = userMonsterId;
@@ -1815,7 +1815,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     NSMutableArray *arr = [NSMutableArray array];
     EnhancementItem *base = gs.userEnhancement.baseMonster;
     UserMonster *baseUm = base.userMonster;
-    float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
+    float perc = baseUm.curHealth/(float)[gl calculateMaxHealthForMonster:baseUm];
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
       baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
@@ -1823,11 +1823,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.myMonsters removeObject:um];
     }
     
+    baseUm.curHealth = perc*[gl calculateMaxHealthForMonster:baseUm];
+    
     UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
     bldr.userMonsterId = baseUm.userMonsterId;
     bldr.expectedExperience = baseUm.experience;
     bldr.expectedLevel = baseUm.level;
-    bldr.expectedHp = perc*[gl calculateMaxHealthForMonster:baseUm];
+    bldr.expectedHp = baseUm.curHealth;
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
@@ -1861,11 +1863,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  baseUm.curHealth = perc*[gl calculateMaxHealthForMonster:baseUm];
+  
   UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
   bldr.userMonsterId = baseUm.userMonsterId;
   bldr.expectedExperience = baseUm.experience;
   bldr.expectedLevel = baseUm.level;
-  bldr.expectedHp = perc*[gl calculateMaxHealthForMonster:baseUm];
+  bldr.expectedHp = baseUm.curHealth;
   
   [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueWaitTimeComplete:bldr.build userMonsterIds:arr];
   

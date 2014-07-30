@@ -96,6 +96,7 @@
 
 - (void) openShop;
 - (void) openShopWithFunds;
+- (void) openShopWithBuildings;
 - (void) openShopWithGacha;
 
 @end

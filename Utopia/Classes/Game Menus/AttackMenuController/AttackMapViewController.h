@@ -43,10 +43,12 @@
 
 @property (nonatomic, weak) id<AttackMapDelegate> delegate;
 
-- (IBAction)cityClicked:(id)sender;
-- (IBAction)enterEventClicked:(id)sender;
-- (IBAction)findMatchClicked:(id)sender;
-- (IBAction)close:(id)sender;
-- (IBAction)close;
+- (void) showTaskStatusForMapElement:(int)mapElementId;
+
+- (IBAction) cityClicked:(id)sender;
+- (IBAction) enterEventClicked:(id)sender;
+- (IBAction) findMatchClicked:(id)sender;
+- (IBAction) close:(id)sender;
+- (IBAction) close;
 
 @end
