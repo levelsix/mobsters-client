@@ -68,4 +68,8 @@
   // Do nothing
 }
 
+- (void) createMyPositionViewForIcon:(AttackMapIconView *)icon {
+  // Do nothing
+}
+
 @end

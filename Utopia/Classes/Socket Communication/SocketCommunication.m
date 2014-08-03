@@ -224,6 +224,7 @@ static NSString *udid = nil;
 - (void) connectedToHost {
   LNLog(@"Connected to host");
   
+  _isCreatingQueues = YES;
   _canSendPreDbEvents = YES;
   
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
@@ -253,6 +254,9 @@ static NSString *udid = nil;
 }
 
 - (void) initUserIdMessageQueue {
+  _isCreatingQueues = YES;
+  _canSendPreDbEvents = YES;
+  
   [self.connectionThread startUserIdQueue];
 }
 

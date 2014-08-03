@@ -4407,8 +4407,6 @@
 		CFDA7905198C303C0014A8CD /* profilecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDA78DD198C303C0014A8CD /* profilecircle.png */; };
 		CFDA7906198C303C0014A8CD /* profilecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDA78DE198C303C0014A8CD /* profilecircle@2x.png */; };
 		CFDA7907198C303C0014A8CD /* profilecircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDA78DE198C303C0014A8CD /* profilecircle@2x.png */; };
-		CFDA7913198E089E0014A8CD /* SuperGirl1T1Map.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDA7912198E089E0014A8CD /* SuperGirl1T1Map.png */; };
-		CFDA7914198E089E0014A8CD /* SuperGirl1T1Map.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDA7912198E089E0014A8CD /* SuperGirl1T1Map.png */; };
 		CFE02AD318207CF40016C1E2 /* enter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE02ACB18207CF40016C1E2 /* enter.png */; };
 		CFE02AD518207CF40016C1E2 /* enter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE02ACC18207CF40016C1E2 /* enter@2x.png */; };
 		CFE02AD718207CF40016C1E2 /* lockedup.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE02ACD18207CF40016C1E2 /* lockedup.png */; };
@@ -7822,7 +7820,6 @@
 		CFDA78DC198C303C0014A8CD /* openwater@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "openwater@2x.png"; sourceTree = "<group>"; };
 		CFDA78DD198C303C0014A8CD /* profilecircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profilecircle.png; sourceTree = "<group>"; };
 		CFDA78DE198C303C0014A8CD /* profilecircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profilecircle@2x.png"; sourceTree = "<group>"; };
-		CFDA7912198E089E0014A8CD /* SuperGirl1T1Map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SuperGirl1T1Map.png; sourceTree = "<group>"; };
 		CFE02ACB18207CF40016C1E2 /* enter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enter.png; sourceTree = "<group>"; };
 		CFE02ACC18207CF40016C1E2 /* enter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enter@2x.png"; sourceTree = "<group>"; };
 		CFE02ACD18207CF40016C1E2 /* lockedup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockedup.png; sourceTree = "<group>"; };
@@ -12541,7 +12538,6 @@
 		CFDA78CA198C303C0014A8CD /* New buttons */ = {
 			isa = PBXGroup;
 			children = (
-				CFDA7912198E089E0014A8CD /* SuperGirl1T1Map.png */,
 				CFDA78CB198C303C0014A8CD /* glowring.png */,
 				CFDA78CC198C303C0014A8CD /* glowring@2x.png */,
 				CFDA78CD198C303C0014A8CD /* lockedboss.png */,
@@ -15778,7 +15774,6 @@
 				CF0CF23B196F452900ECD301 /* baggems.png in Resources */,
 				CF0CF23C196F452900ECD301 /* sfx_confirm_selection.mp3 in Resources */,
 				CF0CF23D196F452900ECD301 /* fireteamhealthbar.png in Resources */,
-				CFDA7914198E089E0014A8CD /* SuperGirl1T1Map.png in Resources */,
 				CF0CF23E196F452900ECD301 /* 1scene2left@2x.png in Resources */,
 				CF0CF240196F452900ECD301 /* raidlost@2x.png in Resources */,
 				CF0CF241196F452900ECD301 /* sellbubble3@2x.png in Resources */,
@@ -18416,7 +18411,6 @@
 				CFC4D28D18D7BD04004681FD /* sfx_confirm_selection.mp3 in Resources */,
 				CFFEB10C1834539C007C4BA3 /* fireteamhealthbar.png in Resources */,
 				CF74612C196A02E8002D6AE6 /* 1scene2left@2x.png in Resources */,
-				CFDA7913198E089E0014A8CD /* SuperGirl1T1Map.png in Resources */,
 				CF6A291B18C2B2F200AD676F /* raidlost@2x.png in Resources */,
 				CF29EA091964BD0500B40DA4 /* sellbubble3@2x.png in Resources */,
 				CF2A4B191901B8F500B2D7D7 /* upgradepopupbottom.png in Resources */,

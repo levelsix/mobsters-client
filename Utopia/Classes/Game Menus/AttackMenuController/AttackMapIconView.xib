@@ -48,7 +48,7 @@
                     <rect key="frame" x="3" y="27" width="40" height="24"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="bottom" image="SuperGirl1T1Map.png" id="LWI-Vb-2LK">
+                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="bottom" id="LWI-Vb-2LK">
                     <rect key="frame" x="5" y="-11" width="36" height="64"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -65,7 +65,6 @@
         </view>
     </objects>
     <resources>
-        <image name="SuperGirl1T1Map.png" width="63" height="63"/>
         <image name="glowring.png" width="49" height="40"/>
         <image name="openearth.png" width="35" height="31"/>
         <image name="shadow.png" width="47" height="28"/>

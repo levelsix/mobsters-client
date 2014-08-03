@@ -16,6 +16,7 @@
 #import "AchievementUtil.h"
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Downloader.h"
+#import "DBFBProfilePictureView.h"
 
 #define NUM_CITIES 10
 
@@ -192,9 +193,45 @@
     if (!((self.evoEventView && !self.evoEventView.hidden) || (self.enhanceEventView && !self.enhanceEventView.hidden))) {
       [self cityClicked:icon];
     }
+    
+    [self createMyPositionViewForIcon:icon];
   } else {
     self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
   }
+}
+
+- (void) createMyPositionViewForIcon:(AttackMapIconView *)icon {
+  GameState *gs = [GameState sharedGameState];
+  UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"profilecircle.png"]];
+  
+  UIView *pos = [[UIView alloc] initWithFrame:iv.frame];
+  
+  CGRect frame = CGRectInset(pos.bounds, 2, 2);
+  if (gs.facebookId) {
+    DBFBProfilePictureView *pf = [[DBFBProfilePictureView alloc] initWithFrame:frame];
+    pf.layer.cornerRadius = pf.frame.size.width/2;
+    pf.clipsToBounds = YES;
+    pf.profileID = gs.facebookId;
+    [pos addSubview:pf];
+  } else {
+    CircleMonsterView *cmv = [[CircleMonsterView alloc] initWithFrame:frame];
+    cmv.bgdIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
+    cmv.monsterIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
+    [cmv addSubview:cmv.bgdIcon];
+    [cmv addSubview:cmv.monsterIcon];
+    cmv.monsterIcon.clipsToBounds = YES;
+    [cmv awakeFromNib];
+    
+    [cmv updateForMonsterId:gs.avatarMonsterId];
+    [pos addSubview:cmv];
+  }
+  
+  [self.mapScrollView addSubview:pos];
+  
+  [pos addSubview:iv];
+  pos.center = ccpAdd(icon.center, ccp(-16, -14));
+  
+  self.myPositionView = pos;
 }
 
 - (void) cityClicked:(id)sender {
@@ -208,6 +245,7 @@
   _selectedIcon = icon;
   [_selectedIcon displayLabelAndGlow];
   [_selectedIcon.superview bringSubviewToFront:_selectedIcon];
+  [self.myPositionView.superview bringSubviewToFront:self.myPositionView];
 }
 
 - (IBAction)enterDungeonClicked:(id)sender {

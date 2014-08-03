@@ -39,6 +39,8 @@
 @property (nonatomic, strong) IBOutlet AttackEventView *enhanceEventView;
 @property (nonatomic, strong) IBOutlet AttackMapStatusView *taskStatusView;
 
+@property (nonatomic, strong) IBOutlet UIView *myPositionView;
+
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, weak) id<AttackMapDelegate> delegate;
