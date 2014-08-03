@@ -78,7 +78,7 @@
 @property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
 @property (nonatomic, readonly) int clanChatBadgeNum;
 
-@property (nonatomic, retain) IBOutlet ShopViewController *shopViewController;
+@property (nonatomic, retain) ShopViewController *shopViewController;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 
@@ -96,7 +96,7 @@
 
 - (void) openShop;
 - (void) openShopWithFunds;
-- (void) openShopWithBuildings;
+- (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
 
 @end

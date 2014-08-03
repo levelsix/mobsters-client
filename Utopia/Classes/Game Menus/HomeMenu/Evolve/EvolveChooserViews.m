@@ -102,7 +102,7 @@
   GameState *gs = [GameState sharedGameState];
   for (EvolveScientistView *sci in self.scientistViews) {
     for (MonsterProto *mp in gs.staticMonsters.allValues) {
-      if (mp.monsterElement == sci.tag && [mp.monsterGroup rangeOfString:@"Scientist"].length > 0) {
+      if (mp.monsterElement == sci.tag && [mp.monsterGroup rangeOfString:@"Scientist"].length > 0 && mp.evolutionLevel == 1) {
         // Found..
         
         // Add up quantities

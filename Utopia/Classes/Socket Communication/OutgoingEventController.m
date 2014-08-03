@@ -813,7 +813,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int amt = 0;
+        int amt = 0, numTimes = 1;
         DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
@@ -839,16 +839,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           amt = code.intValue;
           req = DevRequestGetMonzter;
           
+          r = [code rangeOfString:[NSString stringWithFormat:@"%d", amt]];
+          if (code.length > r.length+1) {
+            r.length++;
+            code = [code stringByReplacingCharactersInRange:r withString:@""];
+            numTimes = code.intValue;
+          }
+          
           MonsterProto *mp = [gs monsterWithId:amt];
           if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %@.", mp.displayName];
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", numTimes, mp.displayName];
           } else {
             amt = 0;
           }
         }
         
         if (amt) {
-          [[OutgoingEventController sharedOutgoingEventController] devRequest:req num:amt];
+          for (int i = 0; i < numTimes; i++) {
+            [[OutgoingEventController sharedOutgoingEventController] devRequest:req num:amt];
+          }
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
@@ -1573,7 +1582,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) speedupHealingQueue {
+- (BOOL) speedupHealingQueue:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1597,6 +1606,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
     // Remove after to let the queue update to not be affected
@@ -1802,7 +1812,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) speedupEnhancingQueue {
+- (BOOL) speedupEnhancingQueue:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1832,6 +1842,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     bldr.expectedHp = baseUm.curHealth;
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
     [gs.userEnhancement.feeders removeAllObjects];
@@ -1885,7 +1896,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Evolving
 
-- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems {
+- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1914,6 +1925,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       evoItem.catalystMonster.teamSlot = 0;
       
       int tag = [[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
+      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
       GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];

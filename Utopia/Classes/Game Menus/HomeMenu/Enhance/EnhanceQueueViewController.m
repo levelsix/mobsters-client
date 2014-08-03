@@ -88,6 +88,8 @@
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
   self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to use", MONSTER_NAME];
+  
+  self.buttonSpinner.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -155,6 +157,10 @@
 }
 
 - (void) updateLabels {
+  if (_waitingForResponse) {
+    return;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
   
   UserEnhancement *ue = self.currentEnhancement;
@@ -177,10 +183,10 @@
   int additionalNewLevel = (int)(newPerc/100.f);
   int curLevel = um.level+additionalLevel;
   int maxLevel = um.staticMonster.maxLevel;
-  int newLevel = MIN(curLevel+additionalNewLevel+1, maxLevel);
+  int newLevel = MIN(curLevel+additionalNewLevel+1, maxLevel+1);
   self.curLevelLabel.text = [NSString stringWithFormat:@"Level %d:", curLevel];
   
-  if (newLevel < maxLevel) {
+  if (newLevel <= maxLevel) {
     int expToNewLevel = [gl calculateExperienceRequiredForMonster:um.monsterId level:newLevel];
     int curExp = [gl calculateExperienceIncrease:ue]+um.experience;
     self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
@@ -330,7 +336,12 @@
   if (percIncrease) {
     [self checkUserMonsterOnTeam];
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, this %@ is already at max level.", MONSTER_NAME]];
+    UserMonster *um = ue.baseMonster.userMonster;
+    if (um.level >= um.staticMonster.maxLevel) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, this %@ is already at max level.", MONSTER_NAME]];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you already have enough to max this %@.", MONSTER_NAME]];
+    }
   }
 }
 
@@ -381,21 +392,25 @@
 }
 
 - (void) sendEnhanceAllowGems:(BOOL)allowGems {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonster.userMonsterId useGems:allowGems];
-  
-  if (success) {
-    [self reloadQueueViewAnimated:YES];
-    [self animateUserMonsterIntoQueue:_confirmUserMonster];
-    [self reloadListViewAnimated:YES];
+  if (!_waitingForResponse) {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonster.userMonsterId useGems:allowGems];
     
-    if (self.currentEnhancement.feeders.count == 1) {
-      [self pulseMonsterView];
+    if (success) {
+      [self reloadQueueViewAnimated:YES];
+      [self animateUserMonsterIntoQueue:_confirmUserMonster];
+      [self reloadListViewAnimated:YES];
+      
+      if (self.currentEnhancement.feeders.count == 1) {
+        [self pulseMonsterView];
+      }
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      
+      [self updateLabels];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-    
-    [self updateLabels];
+  } else {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
@@ -455,22 +470,26 @@
 #pragma mark Queue
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
-  EnhancementItem *ei = self.currentEnhancement.feeders[indexPath.row];
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromEnhancingQueue:ei];
-  
-  if (success) {
-    [self reloadListViewAnimated:YES];
-    [self animateEnhancementItemOutOfQueue:ei];
-    [self reloadQueueViewAnimated:YES];
+  if (!_waitingForResponse) {
+    EnhancementItem *ei = self.currentEnhancement.feeders[indexPath.row];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromEnhancingQueue:ei];
     
-    if (!self.currentEnhancement.feeders.count) {
-      [self stopPulsingMonsterView];
+    if (success) {
+      [self reloadListViewAnimated:YES];
+      [self animateEnhancementItemOutOfQueue:ei];
+      [self reloadQueueViewAnimated:YES];
+      
+      if (!self.currentEnhancement.feeders.count) {
+        [self stopPulsingMonsterView];
+      }
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      
+      [self updateLabels];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-    
-    [self updateLabels];
+  } else {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
@@ -496,28 +515,43 @@
 }
 
 - (IBAction) speedupClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserEnhancement *ue = [self currentEnhancement];
-  int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-  
-  if (gs.gems < goldCost) {
-    [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupEnhancingQueue];
+  if (!_waitingForResponse) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    UserEnhancement *ue = [self currentEnhancement];
+    int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     
-    if (success) {
-      [self reloadListViewAnimated:YES];
-      [self reloadQueueViewAnimated:YES];
-      [self updateLabels];
+    if (gs.gems < goldCost) {
+      [GenericPopupController displayNotEnoughGemsView];
+    } else {
+      BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupEnhancingQueue:self];
       
-      [self stopPulsingMonsterView];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      if (success) {
+        self.buttonLabelsView.hidden = YES;
+        self.buttonSpinner.hidden = NO;
+        [self.buttonSpinner startAnimating];
+        
+        _waitingForResponse = YES;
+      }
     }
   }
+}
+
+- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
+  self.buttonLabelsView.hidden = NO;
+  self.buttonSpinner.hidden = YES;
+  
+  [self reloadListViewAnimated:YES];
+  [self reloadQueueViewAnimated:YES];
+  [self updateLabels];
+  
+  [self stopPulsingMonsterView];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  _waitingForResponse = NO;
 }
 
 #pragma mark - Pulsing monster view

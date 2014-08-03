@@ -856,7 +856,6 @@
 }
 
 - (void) displayProgressBar {
-  [self removeProgressBar];
   [super displayProgressBar];
   
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];

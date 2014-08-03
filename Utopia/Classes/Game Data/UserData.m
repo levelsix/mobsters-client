@@ -165,7 +165,7 @@
   
   Globals *gl = [Globals sharedGlobals];
   float newLevel = [gl calculateLevelForMonster:self.monsterId experience:experience];
-  self.level = MAX(self.level, newLevel);
+  self.level = newLevel;
 }
 
 - (MonsterProto *) staticMonster {

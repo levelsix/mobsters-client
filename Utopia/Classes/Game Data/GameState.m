@@ -309,6 +309,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     NSInteger index = [self.myMonsters indexOfObject:um];
     if (index != NSNotFound) {
       [self.myMonsters replaceObjectAtIndex:index withObject:um];
+      NSLog(@"Found matching user monster..");
     } else {
       [self.myMonsters addObject:um];
     }

@@ -25,6 +25,27 @@
   [self reloadListView];
   
   self.listView.collectionView.contentOffset = ccp(0,0);
+  
+  [Globals removeUIArrowFromViewRecursively:self.view];
+}
+
+- (void) displayArrowOverStructId:(int)structId {
+  // Find the struct
+  NSInteger section = 0, row = -1;
+  for (StructureInfoProto *fsp in self.staticStructs) {
+    if (fsp.structId == structId) {
+      row = [self.staticStructs indexOfObject:fsp];
+    }
+  }
+  
+  if (row != -1) {
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:row inSection:section];
+    [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    [self.listView.collectionView layoutIfNeeded];
+    
+    UIView *v = [self.listView.collectionView cellForItemAtIndexPath:ip];
+    [Globals createUIArrowForView:v atAngle:0];
+  }
 }
 
 #pragma mark - Refreshing list view

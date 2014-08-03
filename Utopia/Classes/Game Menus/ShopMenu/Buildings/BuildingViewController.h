@@ -25,4 +25,6 @@
 
 @property (nonatomic, assign) id<BuildingViewDelegate> delegate;
 
+- (void) displayArrowOverStructId:(int)structId;
+
 @end

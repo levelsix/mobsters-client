@@ -34,10 +34,10 @@
   
   if (row != -1) {
     NSIndexPath *ip = [NSIndexPath indexPathForRow:row inSection:section];
+    [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    
     UIView *v = [self.listView.collectionView cellForItemAtIndexPath:ip];
     [Globals createUIArrowForView:v atAngle:0];
-    
-    [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
   }
 }
 

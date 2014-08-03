@@ -20,11 +20,12 @@
 @property (nonatomic, strong) IBOutlet UILabel *cityNumLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *shadowIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *glowIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *bossIcon;
 @property (nonatomic, assign) BOOL isLocked;
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
 
-- (void) setIsLocked:(BOOL)isLocked isBoss:(BOOL)isBoss;
+- (void) setIsLocked:(BOOL)isLocked bossImage:(NSString *)bossImage element:(Element)element;
 - (void) doShake;
 
 - (void) updateForTaskMapElement:(TaskMapElementProto *)elem task:(FullTaskProto *)task isLocked:(BOOL)isLocked;

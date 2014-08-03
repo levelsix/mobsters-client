@@ -97,7 +97,7 @@
 - (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId;
 - (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
-- (BOOL) speedupHealingQueue;
+- (BOOL) speedupHealingQueue:(id)delegate;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 - (void) sellUserMonsters:(NSArray *)userMonsterIds;
 
@@ -105,13 +105,13 @@
 - (BOOL) removeBaseEnhanceMonster;
 - (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
-- (BOOL) speedupEnhancingQueue;
+- (BOOL) speedupEnhancingQueue:(id)delegate;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
 
-- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems;
+- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems delegate:(id)delegate;
 - (void) finishEvolutionWithGems:(BOOL)gems withDelegate:(id)delegate;
 
 - (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason;

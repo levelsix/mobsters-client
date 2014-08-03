@@ -24,6 +24,8 @@
   UserMonster *_tempMonster;
   
   HealQueueFooterView *_footerView;
+  
+  BOOL _waitingForResponse;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
@@ -39,6 +41,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
+
+@property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
 @property (nonatomic, retain) NSArray *userMonsters;
 

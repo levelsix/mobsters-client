@@ -633,12 +633,14 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasTaskId_:1;
   BOOL hasXPos_:1;
   BOOL hasYPos_:1;
+  BOOL hasBossImgName_:1;
   BOOL hasElement_:1;
   BOOL boss_:1;
   int32_t mapElementId;
   int32_t taskId;
   int32_t xPos;
   int32_t yPos;
+  NSString* bossImgName;
   Element element;
 }
 - (BOOL) hasMapElementId;
@@ -647,12 +649,14 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasYPos;
 - (BOOL) hasElement;
 - (BOOL) hasBoss;
+- (BOOL) hasBossImgName;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
 @property (readonly) int32_t yPos;
 @property (readonly) Element element;
 - (BOOL) boss;
+@property (readonly, retain) NSString* bossImgName;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -717,5 +721,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) boss;
 - (TaskMapElementProto_Builder*) setBoss:(BOOL) value;
 - (TaskMapElementProto_Builder*) clearBoss;
+
+- (BOOL) hasBossImgName;
+- (NSString*) bossImgName;
+- (TaskMapElementProto_Builder*) setBossImgName:(NSString*) value;
+- (TaskMapElementProto_Builder*) clearBossImgName;
 @end
 

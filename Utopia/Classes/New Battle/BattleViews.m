@@ -418,7 +418,7 @@
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
     bgdName = @"cashfound.png";
-    labelName = [Globals cashStringForNumber:reward.silverAmount];
+    labelName = [Globals commafyNumber:reward.silverAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";

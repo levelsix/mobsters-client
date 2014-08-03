@@ -2296,6 +2296,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property int32_t yPos;
 @property Element element;
 @property BOOL boss;
+@property (retain) NSString* bossImgName;
 @end
 
 @implementation TaskMapElementProto
@@ -2347,7 +2348,15 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 - (void) setBoss:(BOOL) value {
   boss_ = !!value;
 }
+- (BOOL) hasBossImgName {
+  return !!hasBossImgName_;
+}
+- (void) setHasBossImgName:(BOOL) value {
+  hasBossImgName_ = !!value;
+}
+@synthesize bossImgName;
 - (void) dealloc {
+  self.bossImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2358,6 +2367,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.yPos = 0;
     self.element = ElementFire;
     self.boss = NO;
+    self.bossImgName = @"";
   }
   return self;
 }
@@ -2395,6 +2405,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasBoss) {
     [output writeBool:6 value:self.boss];
   }
+  if (self.hasBossImgName) {
+    [output writeString:7 value:self.bossImgName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2421,6 +2434,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasBoss) {
     size += computeBoolSize(6, self.boss);
+  }
+  if (self.hasBossImgName) {
+    size += computeStringSize(7, self.bossImgName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2515,6 +2531,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasBoss) {
     [self setBoss:other.boss];
   }
+  if (other.hasBossImgName) {
+    [self setBossImgName:other.bossImgName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2563,6 +2582,10 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 48: {
         [self setBoss:[input readBool]];
+        break;
+      }
+      case 58: {
+        [self setBossImgName:[input readString]];
         break;
       }
     }
@@ -2662,6 +2685,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearBoss {
   result.hasBoss = NO;
   result.boss = NO;
+  return self;
+}
+- (BOOL) hasBossImgName {
+  return result.hasBossImgName;
+}
+- (NSString*) bossImgName {
+  return result.bossImgName;
+}
+- (TaskMapElementProto_Builder*) setBossImgName:(NSString*) value {
+  result.hasBossImgName = YES;
+  result.bossImgName = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearBossImgName {
+  result.hasBossImgName = NO;
+  result.bossImgName = @"";
   return self;
 }
 @end

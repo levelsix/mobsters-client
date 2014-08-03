@@ -25,8 +25,6 @@
   self.battleController = [[RequestsBattleTableController alloc] init];
   
   [self updateBadgeIcons];
-  
-  [self updateBadgeIcons];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -91,6 +89,8 @@
 
 - (void) button3Clicked:(id)sender {
   [self changeTableController:nil];
+  [self.requestsTable reloadData];
+  self.noRequestsLabel.hidden = NO;
   self.noRequestsLabel.text = @"There are no events in progress.";
   
   [self.topBar clickButton:3];

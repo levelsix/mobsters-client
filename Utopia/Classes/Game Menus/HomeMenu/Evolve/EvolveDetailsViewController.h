@@ -28,6 +28,7 @@
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UIView *gemLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *oilLabelsView;
 
 @property (nonatomic, retain) UIView *greyscaleView;
 @property (nonatomic, retain) IBOutlet UIView *bottomView;

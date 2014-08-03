@@ -1790,6 +1790,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
     if (proto.hasFump) {
+      NSLog(@"Mobster %lld.", proto.fump.userMonsterId);
       [gs addToMyMonsters:@[proto.fump]];
     }
     

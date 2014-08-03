@@ -1577,15 +1577,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 #pragma mark Bounce View
-+ (void) bounceView:(UIView *)view {
-  view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
++ (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale {
+  view.layer.transform = CATransform3DMakeScale(fScale, fScale, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
   bounceAnimation.values = [NSArray arrayWithObjects:
-                            [NSNumber numberWithFloat:0.3],
-                            [NSNumber numberWithFloat:1.1],
-                            [NSNumber numberWithFloat:0.95],
-                            [NSNumber numberWithFloat:1.0], nil];
+                            [NSNumber numberWithFloat:fScale],
+                            [NSNumber numberWithFloat:1.1*tScale],
+                            [NSNumber numberWithFloat:0.95*tScale],
+                            [NSNumber numberWithFloat:tScale], nil];
   
   bounceAnimation.keyTimes = [NSArray arrayWithObjects:
                               [NSNumber numberWithFloat:0],
@@ -1602,7 +1602,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   bounceAnimation.duration = 0.5;
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
-  view.layer.transform = CATransform3DIdentity;
+  view.layer.transform = CATransform3DMakeScale(tScale, tScale, 1.0);
+}
+
++ (void) bounceView:(UIView *)view {
+  [self bounceView:view fromScale:0.3 toScale:1.f];
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed {

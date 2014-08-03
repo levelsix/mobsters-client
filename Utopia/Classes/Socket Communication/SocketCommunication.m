@@ -341,7 +341,6 @@ static NSString *udid = nil;
   [messageWithHeader appendData:data];
   
   float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:2.f] timeIntervalSinceNow]);
-  LNLog(@"Sent event of type %@ with delay %f.", NSStringFromClass(msg.class), delay);
   [self.connectionThread sendData:messageWithHeader withDelay:delay];
 }
 

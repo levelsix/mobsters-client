@@ -562,22 +562,6 @@
       
       [self playMapMusic];
     } else {
-//      _assetIdForMissionMap = assetId;
-//      
-//      [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
-//      
-//      if (!_amvc) {
-//        GameState *gs = [GameState sharedGameState];
-//        FullCityProto *city = [gs cityWithId:cityId];
-//        NSString *labelText = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
-//        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
-//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//        [paragraphStyle setLineSpacing:3];
-//        [paragraphStyle setAlignment:NSTextAlignmentCenter];
-//        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
-//        self.loadingView.label.attributedText = attributedString;
-//        [self.loadingView display:self.view];
-//      }
       GameViewController *gvc = self;
       AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
       amvc.delegate = gvc;
@@ -594,7 +578,9 @@
       if (assetId) {
         HomeMap *hm = (HomeMap *)self.currentMap;
         if (![hm moveToStruct:assetId showArrow:YES animated:YES]) {
-          [self.topBarViewController openShopWithBuildings];
+          UserStruct *us = [[UserStruct alloc] init];
+          us.structId = assetId;
+          [self.topBarViewController openShopWithBuildings:us.baseStructId];
         }
       }
     } else {

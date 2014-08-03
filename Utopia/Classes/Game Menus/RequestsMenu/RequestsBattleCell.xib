@@ -191,6 +191,7 @@
                 <outlet property="rankIcon" destination="wi9-JA-sqZ" id="10I-2A-tfy"/>
                 <outlet property="resultLabel" destination="dbC-AW-d7K" id="p6H-mN-Jbb"/>
                 <outlet property="revengeButton" destination="lZl-dj-PJh" id="7EW-rB-PbA"/>
+                <outlet property="revengeButtonView" destination="YeH-fL-NkV" id="eKj-DZ-8gW"/>
                 <outlet property="timeLabel" destination="41U-5L-Qfj" id="PT1-Oh-FUc"/>
                 <outletCollection property="monsterViews" destination="W7r-eh-qLQ" id="KXf-YG-xCB"/>
                 <outletCollection property="monsterViews" destination="0tP-iH-wMW" id="DKs-Ch-SB1"/>

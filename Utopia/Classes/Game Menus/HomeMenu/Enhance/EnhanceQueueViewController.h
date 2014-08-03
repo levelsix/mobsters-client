@@ -28,6 +28,8 @@
   
   UserMonster *_confirmUserMonster;
   int _percentIncrease;
+  
+  BOOL _waitingForResponse;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *queueView;
@@ -62,6 +64,9 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 

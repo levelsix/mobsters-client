@@ -306,8 +306,6 @@
     }
   }
   
-  [self reloadAllBubbles];
-  
   [arr addObjectsFromArray:[self reloadObstacles]];
   
   NSMutableArray *toRemove = [NSMutableArray array];
@@ -321,6 +319,7 @@
     [c removeFromParent];
   }
   
+  [self reloadAllBubbles];
   [_constrBuilding displayProgressBar];
   
   [self doReorder];

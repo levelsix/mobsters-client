@@ -189,19 +189,29 @@
 }
 
 - (void) beginEvo:(BOOL)useGems {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] evolveMonster:self.evoItem useGems:useGems];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] evolveMonster:self.evoItem useGems:useGems delegate:self];
   
   if (success) {
-    CATransition *animation = [CATransition animation];
-    animation.type = kCATransitionFade;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [self.bottomView.layer addAnimation:animation forKey:@"fade"];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-    
-    [self updateButtonConfiguration];
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    self.oilLabelsView.hidden = YES;
   }
+}
+
+- (void) handleEvolveMonsterResponseProto:(FullEvent *)fe {
+  self.spinner.hidden = YES;
+  self.gemLabelsView.hidden = NO;
+  self.oilLabelsView.hidden = NO;
+  
+  CATransition *animation = [CATransition animation];
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [self.bottomView.layer addAnimation:animation forKey:@"fade"];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  [self updateButtonConfiguration];
 }
 
 - (IBAction)speedupClicked:(id)sender {
@@ -217,9 +227,6 @@
     } else {
       [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-      
       self.spinner.hidden = NO;
       [self.spinner startAnimating];
       self.gemLabelsView.hidden = YES;
@@ -233,8 +240,12 @@
   if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
     [self.parentViewController popViewControllerAnimated:YES];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    
     self.spinner.hidden = YES;
     self.gemLabelsView.hidden = NO;
+    self.oilLabelsView.hidden = NO;
   }
 }
 

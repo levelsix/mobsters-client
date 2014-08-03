@@ -235,6 +235,7 @@
 + (void) addGreenAlertNotification:(NSString *)msg;
 
 + (void) bounceView:(UIView *)view;
++ (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;

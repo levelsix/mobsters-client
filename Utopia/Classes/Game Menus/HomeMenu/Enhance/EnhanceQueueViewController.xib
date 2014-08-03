@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="addedProgressBar" destination="Hz1-IQ-Kgo" id="GOQ-NQ-Y70"/>
                 <outlet property="attackLabel" destination="TcE-yO-5JZ" id="NlD-s7-gHL"/>
+                <outlet property="buttonLabelsView" destination="cYo-OF-noD" id="kGi-zb-ID9"/>
+                <outlet property="buttonSpinner" destination="mMP-xF-Qyt" id="ZTh-iQ-gKY"/>
                 <outlet property="curExpLabel" destination="buu-8d-K9C" id="zCz-Lm-fyZ"/>
                 <outlet property="curLevelLabel" destination="irF-az-SyA" id="Xer-M6-3xu"/>
                 <outlet property="curProgressBar" destination="llh-uV-ARX" id="6Ao-tO-jhB"/>
@@ -306,32 +308,43 @@
                                                 <action selector="speedupClicked:" destination="-1" eventType="touchUpInside" id="aXR-eI-liG"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vFC-Pr-ZHB" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="20" y="2" width="40" height="17"/>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" id="mMP-xF-Qyt">
+                                            <rect key="frame" x="30" y="8" width="20" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="03l-ds-04v">
-                                            <rect key="frame" x="20" y="16" width="40" height="18"/>
+                                        </activityIndicatorView>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="cYo-OF-noD">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="DCZ-bM-vCL">
-                                                    <rect key="frame" x="0.0" y="2" width="14" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="fIQ-pH-8rX" customClass="NiceFontLabel12B">
-                                                    <rect key="frame" x="17" y="-2" width="37" height="23"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vFC-Pr-ZHB" customClass="NiceFontLabel12B">
+                                                    <rect key="frame" x="20" y="2" width="40" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
-                                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
+                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="03l-ds-04v">
+                                                    <rect key="frame" x="20" y="16" width="40" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="DCZ-bM-vCL">
+                                                            <rect key="frame" x="0.0" y="2" width="14" height="16"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="fIQ-pH-8rX" customClass="NiceFontLabel12B">
+                                                            <rect key="frame" x="17" y="-2" width="37" height="23"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>

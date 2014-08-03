@@ -502,9 +502,10 @@
   [self.shopViewController openFundsShop];
 }
 
-- (void) openShopWithBuildings {
+- (void) openShopWithBuildings:(int)structId {
   [self openShop];
   [self.shopViewController openBuildingsShop];
+  [self.shopViewController.buildingViewController displayArrowOverStructId:structId];
 }
 
 - (void) openShopWithGacha {

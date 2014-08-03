@@ -38,6 +38,8 @@
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no injured %@s.", MONSTER_NAME];
   self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to heal.", MONSTER_NAME];
+  
+  self.buttonSpinner.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -148,7 +150,7 @@
 
 - (BOOL) speedupHealingQueue {
   int queueSize = (int)self.monsterHealingQueue.count;
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue:self];
   if (success) {
     [AchievementUtil checkMonstersHealed:queueSize];
   }
@@ -252,18 +254,22 @@
 }
 
 - (void) sendHeal:(UserMonster *)um allowGems:(BOOL)allowGems {
-  BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
-  if (success) {
-    // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
-    [self reloadQueueViewAnimated:YES];
-    [self animateUserMonsterIntoQueue:um];
-    [self reloadListViewAnimated:YES];
-    
-    [self updateLabels];
-    
-    if (um.teamSlot) {
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  if (!_waitingForResponse) {
+    BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
+    if (success) {
+      // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
+      [self reloadQueueViewAnimated:YES];
+      [self animateUserMonsterIntoQueue:um];
+      [self reloadListViewAnimated:YES];
+      
+      [self updateLabels];
+      
+      if (um.teamSlot) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      }
     }
+  } else {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
@@ -289,19 +295,23 @@
 }
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
-  UserMonsterHealingItem *hi = self.monsterHealingQueue[indexPath.row];
-  UserMonster *um = self.monsterList[[self.monsterList indexOfObject:hi]];
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:hi];
-  if (success) {
-    [self reloadListViewAnimated:YES];
-    [self animateUserMonsterOutOfQueue:um];
-    [self reloadQueueViewAnimated:YES];
-    
-    [self updateLabels];
-    
-    if (um.teamSlot) {
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  if (!_waitingForResponse) {
+    UserMonsterHealingItem *hi = self.monsterHealingQueue[indexPath.row];
+    UserMonster *um = self.monsterList[[self.monsterList indexOfObject:hi]];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:hi];
+    if (success) {
+      [self reloadListViewAnimated:YES];
+      [self animateUserMonsterOutOfQueue:um];
+      [self reloadQueueViewAnimated:YES];
+      
+      [self updateLabels];
+      
+      if (um.teamSlot) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      }
     }
+  } else {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request."];
   }
 }
 
@@ -327,26 +337,41 @@
 }
 
 - (IBAction) speedupButtonClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-  
-  if ([self numValidHospitals] == 0) {
-    [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
-  } else if (gs.gems < goldCost) {
-    [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    BOOL success = [self speedupHealingQueue];
-    if (success) {
-      [self reloadListViewAnimated:YES];
-      [self reloadQueueViewAnimated:YES];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  if (!_waitingForResponse) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    
+    int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    
+    if ([self numValidHospitals] == 0) {
+      [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
+    } else if (gs.gems < goldCost) {
+      [GenericPopupController displayNotEnoughGemsView];
+    } else {
+      BOOL success = [self speedupHealingQueue];
+      if (success) {
+        self.buttonLabelsView.hidden = YES;
+        self.buttonSpinner.hidden = NO;
+        [self.buttonSpinner startAnimating];
+        
+        _waitingForResponse = YES;
+      }
     }
   }
+}
+
+- (void) handleHealMonsterResponseProto:(FullEvent *)fe {
+  self.buttonLabelsView.hidden = NO;
+  self.buttonSpinner.hidden = YES;
+  
+  [self reloadListViewAnimated:YES];
+  [self reloadQueueViewAnimated:YES];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  
+  _waitingForResponse = NO;
 }
 
 @end

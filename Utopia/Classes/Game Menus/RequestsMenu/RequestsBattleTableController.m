@@ -156,11 +156,22 @@
       GameState *gs = [GameState sharedGameState];
       if (gs.hasActiveShield) {
         NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
-        [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(performRevenge) cancelTarget:self cancelSelector:@selector(deniedRevenge)];
+        [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(checkEnemyShield) cancelTarget:self cancelSelector:@selector(deniedRevenge)];
       } else {
-        [self performRevenge];
+        [self checkEnemyShield];
       }
     }
+  }
+}
+
+- (void) checkEnemyShield {
+  FullUserProto *fup = _curClickedCell.battleHistory.attacker;
+  MSDate *shieldTime = [MSDate dateWithTimeIntervalSince1970:fup.pvpLeagueInfo.shieldEndTime/1000.];
+  if (shieldTime.timeIntervalSinceNow > 0) {
+    [self performRevenge];
+  } else {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has an active shield right now and can't be attacked. Try again later.", fup.name]];
+    _curClickedCell = nil;
   }
 }
 

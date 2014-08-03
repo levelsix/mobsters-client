@@ -59,7 +59,7 @@
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
   self.monsterNameLabel.text = proto.displayName;
-  self.enhanceLabel.text = [NSString stringWithFormat:@"%d", self.monster.level];
+  self.enhanceLabel.text = [NSString stringWithFormat:@"%d (Max. %d)", self.monster.level, proto.maxLevel];
   [self setDescriptionLabelString:proto.description];
   
   self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];

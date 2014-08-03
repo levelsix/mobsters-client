@@ -15,23 +15,33 @@
 @implementation AttackMapIconView
 
 - (void) awakeFromNib {
-  self.glowIcon.hidden = YES;
-  
-  self.layer.anchorPoint = ccp(0.5, 1);
+  self.layer.anchorPoint = ccp(0.5, 0.713);
+  [self removeLabelAndGlow];
   
   self.spinner.hidden = YES;
 }
 
-- (void) setIsLocked:(BOOL)isLocked isBoss:(BOOL)isBoss {
+- (void) setIsLocked:(BOOL)isLocked bossImage:(NSString *)bossImage element:(Element)element {
+  BOOL isBoss = bossImage != nil;
+  
   _isLocked = isLocked;
   if (isLocked) {
-    NSString *str = [NSString stringWithFormat:@"locked%@pin.png", isBoss ? @"boss" : @"city"];
+    NSString *str = [NSString stringWithFormat:@"locked%@.png", isBoss ? @"boss" : @"city"];
     [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
-    self.cityNumLabel.hidden = YES;
   } else {
-    NSString *str = [NSString stringWithFormat:@"open%@pin.png", isBoss ? @"boss" : @"city"];
+    NSString *str = [@"open" stringByAppendingString:[Globals imageNameForElement:element suffix:@".png"]];
     [self.cityButton setImage:[Globals imageNamed:str] forState:UIControlStateNormal];
-    self.cityNumLabel.hidden = isBoss;
+  }
+  
+  if (isBoss) {
+    [Globals imageNamed:bossImage withView:self.bossIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    self.cityNumLabel.hidden = YES;
+    self.bossIcon.hidden = NO;
+    self.shadowIcon.hidden = NO;
+  } else {
+    self.cityNumLabel.hidden = isLocked;
+    self.bossIcon.hidden = YES;
+    self.shadowIcon.hidden = YES;
   }
 }
 
@@ -40,7 +50,7 @@
 }
 
 - (void) updateForTaskMapElement:(TaskMapElementProto *)elem task:(FullTaskProto *)task isLocked:(BOOL)isLocked {
-  [self setIsLocked:isLocked isBoss:elem.boss];
+  [self setIsLocked:isLocked bossImage:(elem.boss ? elem.bossImgName : nil) element:elem.element];
   self.tag = elem.mapElementId;
   self.cityNumLabel.text = [NSString stringWithFormat:@"%d", elem.mapElementId];
   _name = task.name;
@@ -60,12 +70,25 @@
     
     self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
     self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
+    
+    self.glowIcon.transform = CGAffineTransformMakeScale(0.7, 0.7);
+    self.glowIcon.alpha = 1.f;
+    [UIView animateWithDuration:1.5f delay:0.f options:UIViewAnimationOptionRepeat animations:^{
+      self.glowIcon.transform = CGAffineTransformMakeScale(1.15, 1.15);
+      self.glowIcon.alpha = 0.f;
+    } completion:nil];
+    
+    [Globals bounceView:self fromScale:1.f toScale:1.25f];
   }
 }
 
 - (void) removeLabelAndGlow {
   self.nameLabel.hidden = YES;
   self.glowIcon.hidden = YES;
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    self.transform = CGAffineTransformIdentity;
+  }];
 }
 
 @end
