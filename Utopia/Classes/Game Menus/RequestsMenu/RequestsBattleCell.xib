@@ -119,6 +119,16 @@
                                 <rect key="frame" x="198" y="10" width="22" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="msD-sY-bzt">
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nameClicked:" destination="-1" eventType="touchUpInside" id="IbD-NU-Qok"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" id="Hwx-Hh-6Ae">
                                 <rect key="frame" x="267" y="0.0" width="80" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

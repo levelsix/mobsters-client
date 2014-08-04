@@ -36,7 +36,7 @@
     
     self.lootLostView.hidden = NO;
     self.oilLabel.text = [Globals commafyNumber:ABS(history.defenderOilChange)];
-    self.cashLabel.text = [Globals cashStringForNumber:ABS(history.defenderCashChange)];
+    self.cashLabel.text = [Globals commafyNumber:ABS(history.defenderCashChange)];
   } else {
     // You won
     self.resultLabel.text = @"Victory";

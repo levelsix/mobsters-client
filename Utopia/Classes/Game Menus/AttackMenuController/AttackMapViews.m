@@ -15,7 +15,7 @@
 @implementation AttackMapIconView
 
 - (void) awakeFromNib {
-  self.layer.anchorPoint = ccp(0.5, 0.713);
+  self.layer.anchorPoint = ccp(0.5, 1-18/70.f);
   [self removeLabelAndGlow];
   
   self.spinner.hidden = YES;
@@ -78,7 +78,7 @@
       self.glowIcon.alpha = 0.f;
     } completion:nil];
     
-    [Globals bounceView:self fromScale:1.f toScale:1.25f];
+    [Globals bounceView:self fromScale:0.85f toScale:1.f duration:0.35f];
   }
 }
 
@@ -86,8 +86,8 @@
   self.nameLabel.hidden = YES;
   self.glowIcon.hidden = YES;
   
-  [UIView animateWithDuration:0.3f animations:^{
-    self.transform = CGAffineTransformIdentity;
+  [UIView animateWithDuration:0.15f animations:^{
+    self.transform = CGAffineTransformMakeScale(0.85, 0.85);
   }];
 }
 

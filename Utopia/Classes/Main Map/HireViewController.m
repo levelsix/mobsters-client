@@ -123,6 +123,7 @@
     FriendAcceptView *av = self.acceptViews[i];
     RequestFromFriend *req = i < accepted.count ? accepted[i] : nil;
     
+    av.hidden = i >= slots;
     [av updateForFacebookId:req.invite.recipientFacebookId];
   }
 }

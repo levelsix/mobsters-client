@@ -1577,7 +1577,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 #pragma mark Bounce View
-+ (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale {
++ (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
   view.layer.transform = CATransform3DMakeScale(fScale, fScale, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -1599,14 +1599,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
   
-  bounceAnimation.duration = 0.5;
+  bounceAnimation.duration = duration;
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
   view.layer.transform = CATransform3DMakeScale(tScale, tScale, 1.0);
 }
 
 + (void) bounceView:(UIView *)view {
-  [self bounceView:view fromScale:0.3 toScale:1.f];
+  [self bounceView:view fromScale:0.3 toScale:1.f duration:0.5];
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed {
