@@ -22,7 +22,7 @@
 - (void) setTag:(NSInteger)tag {
   [super setTag:tag];
   self.slotNumLabel.text = [NSString stringWithFormat:@"%d", (int)tag];
-  self.botLabel.text = [NSString stringWithFormat:@"Tap to Add %@", MONSTER_NAME];
+  self.botLabel.text = [NSString stringWithFormat:@"Tap %@ to Add", MONSTER_NAME];
 }
 
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {

@@ -21,6 +21,7 @@
 #define NUM_CITIES 10
 
 #define MAP_SECTION_NUM_KEY @"MapSectionNumKey"
+#define LAST_ELEM_KEY @"LastMapElemKey"
 
 @implementation AttackMapViewController
 
@@ -190,11 +191,20 @@
     float min = 0;
     self.mapScrollView.contentOffset = ccp(0, clampf(center, min, max));
     
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    int lastKey = (int)[def integerForKey:LAST_ELEM_KEY];
+    [def setInteger:bestElem.mapElementId forKey:LAST_ELEM_KEY];
+    if (lastKey == bestElem.mapElementId-1) {
+      AttackMapIconView *prevIcon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId-1];
+      [self createMyPositionViewFromIcon:prevIcon toIcon:icon];
+      icon = prevIcon;
+    } else {
+      [self createMyPositionViewForIcon:icon];
+    }
+    
     if (!((self.evoEventView && !self.evoEventView.hidden) || (self.enhanceEventView && !self.enhanceEventView.hidden))) {
       [self cityClicked:icon];
     }
-    
-    [self createMyPositionViewForIcon:icon];
   } else {
     self.mapScrollView.contentOffset = ccp(0, self.mapScrollView.contentSize.height-self.mapScrollView.frame.size.height);
   }
@@ -233,6 +243,27 @@
   
   self.myPositionView = pos;
 }
+
+- (void) createMyPositionViewFromIcon:(AttackMapIconView *)fIcon toIcon:(AttackMapIconView *)tIcon {
+  GameState *gs = [GameState sharedGameState];
+  TaskMapElementProto *elem = [gs mapElementWithId:(int)tIcon.tag];
+  FullTaskProto *task = [gs taskWithId:elem.taskId];
+  
+  [tIcon updateForTaskMapElement:elem task:task isLocked:YES];
+  
+  [self createMyPositionViewForIcon:fIcon];
+  
+  CGPoint diff = ccpSub(self.myPositionView.center, fIcon.center);
+  [UIView animateWithDuration:1.05f delay:0.61f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.myPositionView.center = ccpAdd(tIcon.center, diff);
+  } completion:^(BOOL finished) {
+    [tIcon updateForTaskMapElement:elem task:task isLocked:NO];
+    
+    [self cityClicked:tIcon];
+  }];
+}
+
+#pragma mark - IBActions
 
 - (void) cityClicked:(id)sender {
   while (sender && ![sender isKindOfClass:[AttackMapIconView class]]) {
