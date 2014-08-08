@@ -30,7 +30,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 - (void)requestProducts {
   Globals *gl = [Globals sharedGlobals];
   NSMutableSet *productIds = [NSMutableSet setWithArray:gl.productIdsToPackages.allKeys];
-  
   if (productIds.count > 0) {
     self.request = [[SKProductsRequest alloc] initWithProductIdentifiers:productIds];
     _request.delegate = self;
@@ -53,6 +52,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   //  if (response.products.count == 0) {
   //    [self requestProducts];
   //  }
+}
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+  NSLog(@"Error requesting: %@", error);
+}
+
+- (void)requestDidFinish:(SKRequest *)request {
+  NSLog(@"Store kit request finished.");
 }
 
 - (NSString *) base64forData:(NSData *)theData {

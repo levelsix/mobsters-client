@@ -10,7 +10,7 @@
 
 #ifdef APPSTORE
 
-#define USE_STAGING
+#define USE_PROD
 #define UDID [OpenUDID value]
 
 #elif !defined(DEBUG)

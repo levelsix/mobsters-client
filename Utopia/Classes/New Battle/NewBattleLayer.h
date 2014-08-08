@@ -13,6 +13,7 @@
 #import "BattlePlayer.h"
 #import "BattleViews.h"
 #import "OrbBgdLayer.h"
+#import "BattleSchedule.h"
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 120
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
@@ -119,6 +120,7 @@
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;
+@property (nonatomic, retain) BattleSchedule *battleSchedule;
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 

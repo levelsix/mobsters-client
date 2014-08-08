@@ -30,6 +30,7 @@
     self.curHealth = MIN(self.maxHealth, monster.curHealth);
     self.element = mp.monsterElement;
     self.rarity = mp.quality;
+    self.speed = [gl calculateSpeedForMonster:monster];
     self.fireDamage = [gl calculateElementalDamageForMonster:monster element:ElementFire];
     self.waterDamage = [gl calculateElementalDamageForMonster:monster element:ElementWater];
     self.earthDamage = [gl calculateElementalDamageForMonster:monster element:ElementEarth];
@@ -76,6 +77,8 @@
     self.monsterId = monster.monsterId;
     self.userMonsterId = monster.crsmId;
     self.verticalOffset = mp.verticalPixelOffset;
+    
+    // Need to get a speed value for this guy
   }
   return self;
 }

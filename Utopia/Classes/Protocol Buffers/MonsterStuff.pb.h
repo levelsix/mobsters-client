@@ -539,6 +539,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @interface FullUserMonsterProto : PBGeneratedMessage {
 @private
   BOOL hasIsComplete_:1;
+  BOOL hasIsRestrictd_:1;
   BOOL hasUserMonsterId_:1;
   BOOL hasCombineStartTime_:1;
   BOOL hasUserId_:1;
@@ -549,6 +550,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasNumPieces_:1;
   BOOL hasTeamSlotNum_:1;
   BOOL isComplete_:1;
+  BOOL isRestrictd_:1;
   int64_t userMonsterId;
   int64_t combineStartTime;
   int32_t userId;
@@ -569,6 +571,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasIsComplete;
 - (BOOL) hasCombineStartTime;
 - (BOOL) hasTeamSlotNum;
+- (BOOL) hasIsRestrictd;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t monsterId;
@@ -579,6 +582,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) isComplete;
 @property (readonly) int64_t combineStartTime;
 @property (readonly) int32_t teamSlotNum;
+- (BOOL) isRestrictd;
 
 + (FullUserMonsterProto*) defaultInstance;
 - (FullUserMonsterProto*) defaultInstance;
@@ -663,6 +667,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) teamSlotNum;
 - (FullUserMonsterProto_Builder*) setTeamSlotNum:(int32_t) value;
 - (FullUserMonsterProto_Builder*) clearTeamSlotNum;
+
+- (BOOL) hasIsRestrictd;
+- (BOOL) isRestrictd;
+- (FullUserMonsterProto_Builder*) setIsRestrictd:(BOOL) value;
+- (FullUserMonsterProto_Builder*) clearIsRestrictd;
 @end
 
 @interface MinimumUserMonsterProto : PBGeneratedMessage {

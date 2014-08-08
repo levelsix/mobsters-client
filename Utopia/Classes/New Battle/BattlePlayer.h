@@ -25,6 +25,8 @@
 @property (nonatomic, assign) Quality rarity;
 @property (nonatomic, assign) TaskStageMonsterProto_MonsterType monsterType;
 
+@property (nonatomic, assign) int speed;
+
 @property (nonatomic, assign) int fireDamage;
 @property (nonatomic, assign) int waterDamage;
 @property (nonatomic, assign) int earthDamage;

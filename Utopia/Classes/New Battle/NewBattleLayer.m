@@ -225,6 +225,15 @@
   return bp;
 }
 
+- (void) createScheduleWithSwap:(BOOL)swap {
+  if (self.myPlayerObject && self.enemyPlayerObject) {
+    BattleSchedule *sched = [[BattleSchedule alloc] initWithBattlePlayerA:self.myPlayerObject battlePlayerB:self.enemyPlayerObject justSwapped:swap];
+    self.battleSchedule = sched;
+  } else {
+    self.battleSchedule = nil;
+  }
+}
+
 - (void) begin {
   BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
@@ -440,6 +449,8 @@
 - (void) createNextEnemyObject {
   if (self.enemyTeam.count > _curStage) {
     self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
+    
+    [self createScheduleWithSwap:NO];
   } else {
     self.enemyPlayerObject = nil;
   }
@@ -481,6 +492,15 @@
 }
 
 #pragma mark - Turn Sequence
+
+- (void) beginNextTurn {
+  BOOL nextMove = [self.battleSchedule dequeueNextMove];
+  if (nextMove) {
+    [self beginMyTurn];
+  } else {
+    [self beginEnemyTurn];
+  }
+}
 
 - (void) beginMyTurn {
   _comboCount = 0;
@@ -557,7 +577,7 @@
     float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
     [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
   } else {
-    [self beginEnemyTurn];
+    [self beginNextTurn];
   }
 }
 
@@ -734,7 +754,7 @@
     [self sendServerUpdatedValues];
   } else {
     if (_enemyShouldAttack) {
-      [self beginEnemyTurn];
+      [self beginNextTurn];
     }
   }
 }
@@ -757,7 +777,7 @@
     }];
     self.myPlayer = nil;
   } else {
-    [self beginMyTurn];
+    [self beginNextTurn];
   }
 }
 
@@ -860,7 +880,7 @@
   } else {
     nameLabel.position = ccp(bgdIcon.contentSize.width+9-elem.position.x, 29);
   }
-
+  
   NSMutableArray *arr = [NSMutableArray array];
   [arr addObject:label];
   [arr addObject:bgdIcon];
@@ -1363,7 +1383,7 @@
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
-    [self beginMyTurn];
+    [self beginNextTurn];
     [self updateHealthBars];
     [self.currentEnemy doRarityTagShine];
   }
@@ -1518,6 +1538,8 @@
   if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
     self.myPlayerObject = bp;
     
+    [self createScheduleWithSwap:isSwap];
+    
     if (isSwap) {
       [self makeMyPlayerWalkOutWithBlock:nil];
     }
@@ -1526,7 +1548,7 @@
     // If it is swap, enemy should attack
     // If it is game start, wait till battle response has arrived
     // Otherwise, it is coming back from player just dying
-    SEL selector = isSwap ? @selector(beginMyTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginMyTurn);
+    SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
     [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
   } else if (isSwap) {
     [self displaySwapButton];

@@ -2073,6 +2073,7 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 @property BOOL isComplete;
 @property int64_t combineStartTime;
 @property int32_t teamSlotNum;
+@property BOOL isRestrictd;
 @end
 
 @implementation FullUserMonsterProto
@@ -2152,6 +2153,18 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   hasTeamSlotNum_ = !!value;
 }
 @synthesize teamSlotNum;
+- (BOOL) hasIsRestrictd {
+  return !!hasIsRestrictd_;
+}
+- (void) setHasIsRestrictd:(BOOL) value {
+  hasIsRestrictd_ = !!value;
+}
+- (BOOL) isRestrictd {
+  return !!isRestrictd_;
+}
+- (void) setIsRestrictd:(BOOL) value {
+  isRestrictd_ = !!value;
+}
 - (void) dealloc {
   [super dealloc];
 }
@@ -2167,6 +2180,7 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
     self.isComplete = NO;
     self.combineStartTime = 0L;
     self.teamSlotNum = 0;
+    self.isRestrictd = NO;
   }
   return self;
 }
@@ -2216,6 +2230,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (self.hasTeamSlotNum) {
     [output writeInt32:10 value:self.teamSlotNum];
   }
+  if (self.hasIsRestrictd) {
+    [output writeBool:12 value:self.isRestrictd];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2254,6 +2271,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   }
   if (self.hasTeamSlotNum) {
     size += computeInt32Size(10, self.teamSlotNum);
+  }
+  if (self.hasIsRestrictd) {
+    size += computeBoolSize(12, self.isRestrictd);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2360,6 +2380,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (other.hasTeamSlotNum) {
     [self setTeamSlotNum:other.teamSlotNum];
   }
+  if (other.hasIsRestrictd) {
+    [self setIsRestrictd:other.isRestrictd];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2419,6 +2442,10 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
       }
       case 80: {
         [self setTeamSlotNum:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setIsRestrictd:[input readBool]];
         break;
       }
     }
@@ -2582,6 +2609,22 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 - (FullUserMonsterProto_Builder*) clearTeamSlotNum {
   result.hasTeamSlotNum = NO;
   result.teamSlotNum = 0;
+  return self;
+}
+- (BOOL) hasIsRestrictd {
+  return result.hasIsRestrictd;
+}
+- (BOOL) isRestrictd {
+  return result.isRestrictd;
+}
+- (FullUserMonsterProto_Builder*) setIsRestrictd:(BOOL) value {
+  result.hasIsRestrictd = YES;
+  result.isRestrictd = value;
+  return self;
+}
+- (FullUserMonsterProto_Builder*) clearIsRestrictd {
+  result.hasIsRestrictd = NO;
+  result.isRestrictd = NO;
   return self;
 }
 @end

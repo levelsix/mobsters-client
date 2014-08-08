@@ -1212,6 +1212,8 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetAvatarMonsterEvent];
 }
 
+- (int) send Se
+
 - (int) sendDevRequestProto:(DevRequest)request num:(int)num {
   DevRequestProto *req = [[[[[DevRequestProto builder]
                              setDevRequest:request]
