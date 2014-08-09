@@ -495,7 +495,7 @@
   if ((self = [super initWithMyUserMonsters:myMons puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)])) {
     self.constants = constants;
     
-    [self.forfeitButton removeFromSuperview];
+    [self.forfeitView removeFromSuperview];
     [self.elementButton removeFromSuperview];
     [self.elementView removeFromSuperview];
     

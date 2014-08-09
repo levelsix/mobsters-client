@@ -10,17 +10,21 @@
 
 #import "BattlePlayer.h"
 
-@interface BattleSchedule : NSObject {
-  int _currentIndex;
-}
+@interface BattleSchedule : NSObject
 
 @property (nonatomic, retain) NSArray *schedule;
 
+@property (nonatomic, assign) int currentIndex;
+
 // Player A should be your character
 - (id) initWithBattlePlayerA:(BattlePlayer *)bpA battlePlayerB:(BattlePlayer *)bpB justSwapped:(BOOL)justSwapped;
+- (id) initWithSequence:(NSArray *)sequence currentIndex:(int)currentIndex;
 
 // YES means player A gets to attack next
 // NO means player B gets to attack next
 - (BOOL) dequeueNextMove;
+
+- (NSArray *)getNextNMoves:(int)n;
+- (BOOL)getNthMove:(int)n;
 
 @end

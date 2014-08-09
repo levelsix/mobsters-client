@@ -28,7 +28,7 @@
 
 #ifdef MOBSTERS
 
-#define TITAN_CLASS [WBAnalyticService class]
+#define TITAN_CLASS nil//[WBAnalyticService class]
 #define TITAN_API_KEY @"08db55ae-2d33-4de8-8dd3-18c07a350f8a"
 #define ADJUST_APP_TOKEN     @"stfgmupd2vmn"
 #define ADJUST_TRACKED_PROPS @"AdjustTrackedProps"

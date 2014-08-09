@@ -14,6 +14,7 @@
 #import "BattleViews.h"
 #import "OrbBgdLayer.h"
 #import "BattleSchedule.h"
+#import "BattleScheduleView.h"
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 120
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
@@ -92,6 +93,8 @@
   int _totalDamageTaken;
   
   CGSize _gridSize;
+  
+  BOOL _shouldDisplayNewSchedule;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -100,7 +103,6 @@
 @property (nonatomic, retain) CCSprite *comboBgd;
 @property (nonatomic, retain) CCLabelTTF *comboLabel;
 @property (nonatomic, retain) CCLabelTTF *comboBotLabel;
-@property (nonatomic, retain) CCLabelTTF *waveNumLabel;
 
 @property (nonatomic, retain) OrbLayer *orbLayer;
 @property (nonatomic, retain) OrbBgdLayer *orbBgdLayer;
@@ -120,6 +122,7 @@
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;
+
 @property (nonatomic, retain) BattleSchedule *battleSchedule;
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
@@ -130,6 +133,7 @@
 
 - (void) begin;
 - (BattlePlayer *) firstMyPlayer;
+- (void) beginNextTurn;
 - (void) beginMyTurn;
 - (void) myTurnEnded;
 - (void) beginEnemyTurn;
@@ -138,6 +142,8 @@
 - (void) createNextMyPlayerSprite;
 - (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
+
+- (void) createScheduleWithSwap:(BOOL)swap;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector;
@@ -189,19 +195,23 @@
 @property (nonatomic, retain) BattleLostView *lostView;
 @property (nonatomic, retain) BattleWonView *wonView;
 
+@property (nonatomic, retain) IBOutlet UIView *hudView;
+
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet UILabel *swapLabel;
 @property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
-@property (nonatomic, retain) IBOutlet UIButton *forfeitButton;
-@property (nonatomic, retain) IBOutlet UIButton *deployCancelButton;
+@property (nonatomic, retain) IBOutlet UIView *forfeitView;
+@property (nonatomic, retain) UIButton *deployCancelButton;
+@property (nonatomic, retain) IBOutlet THLabel *waveNumLabel;
 
 @property (nonatomic, retain) IBOutlet UIButton *elementButton;
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
+@property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
 
-- (void) loadDeployView;
+- (void) loadHudView;
 - (void) removeSwapButton;
 - (void) removeDeployView;
 

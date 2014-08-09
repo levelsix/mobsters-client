@@ -139,11 +139,6 @@
   }
 }
 
-- (void) loadDeployView {
-  [super loadDeployView];
-  self.forfeitButton.center = ccp(self.forfeitButton.center.x, self.forfeitButton.center.y+23);
-}
-
 - (void) moveToNextEnemy {
   [super moveToNextEnemy];
   

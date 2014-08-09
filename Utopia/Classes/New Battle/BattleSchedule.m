@@ -18,7 +18,8 @@
     
     int speedA = bpA.speed, speedB = bpB.speed;
     int numInterleavings = MIN(speedA, speedB);
-    BOOL firstAttackerIsA = [self chooseFirstAttackerWithSpeedA:speedA speedB:speedB];
+    // If its a swap, B always gets to go first
+    BOOL firstAttackerIsA = justSwapped ? NO : [self chooseFirstAttackerWithSpeedA:speedA speedB:speedB];
     int numBpA = 1, numBpB = 1;
     if (speedA < speedB) {
       numBpB = speedB/speedA;
@@ -90,6 +91,14 @@
   return self;
 }
 
+- (id) initWithSequence:(NSArray *)sequence currentIndex:(int)currentIndex {
+  if ((self = [super init])) {
+    self.schedule = sequence;
+    _currentIndex = currentIndex;
+  }
+  return self;
+}
+
 - (BOOL) chooseFirstAttackerWithSpeedA:(int)speedA speedB:(int)speedB {
   int total = speedA + speedB;
   return (arc4random() % total) < speedA;
@@ -100,6 +109,21 @@
   
   NSNumber *num = self.schedule[_currentIndex];
   return [num boolValue];
+}
+
+- (BOOL) getNthMove:(int)n {
+  int idx = (_currentIndex+n+1) % (self.schedule.count);
+  
+  NSNumber *num = self.schedule[idx];
+  return [num boolValue];
+}
+
+- (NSArray *)getNextNMoves:(int)n {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (int i = 0; i < n; i++) {
+    [arr addObject:@([self getNthMove:i])];
+  }
+  return arr;
 }
 
 @end

@@ -375,6 +375,17 @@
 
 @end
 
+@implementation NiceFontLabel18S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:self.font.pointSize];
+  self.strokeSize = 1.f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {

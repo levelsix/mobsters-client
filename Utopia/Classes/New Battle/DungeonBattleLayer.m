@@ -169,7 +169,7 @@
 
 - (void) runawayFailed {
   [self animateImageLabel:@"runawayfailed.png" completion:^{
-    [self checkIfAnyMovesLeft];
+    [self beginNextTurn];
   }];
 }
 
@@ -351,6 +351,17 @@
   }
 }
 
+- (void) createScheduleWithSwap:(BOOL)swap {
+  if (!_isResumingState || !self.battleSchedule.schedule) {
+    [super createScheduleWithSwap:swap];
+  }
+}
+
+- (void) beginNextTurn {
+  [super beginNextTurn];
+  [self saveCurrentState];
+}
+
 - (void) beginMyTurn {
   if (_isResumingState && !_damageWasDealt) {
     int moves = _movesLeft;
@@ -371,7 +382,6 @@
   }
   
   _damageWasDealt = NO;
-  [self saveCurrentState];
 }
 
 - (void) reachedNextScene {
@@ -413,6 +423,8 @@
 #define ORB_COUNTS_KEY @"OrbCountsKey"
 #define POWERUP_COUNTS_KEY @"PowerupCountsKey"
 #define RUNAWAY_COUNT_KEY @"RunawayCountKey"
+#define SCHEDULE_KEY @"BattleScheduleKey"
+#define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
 
 - (void) saveCurrentState {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -445,6 +457,11 @@
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
   [dict setObject:@(self.dungeonInfo.userTaskId) forKey:USER_TASK_KEY];
   [dict setObject:@(_numAttemptedRunaways) forKey:RUNAWAY_COUNT_KEY];
+  
+  if (self.battleSchedule.schedule) {
+    [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
+    [dict setObject:@(self.battleSchedule.currentIndex) forKey:SCHEDULE_INDEX_KEY];
+  }
   
   // Achievement info
   [dict setObject:@(_totalDamageTaken) forKey:TOTAL_DAMAGE_TAKEN_KEY];
@@ -482,6 +499,11 @@
   
   NSData *powerupCounts = [stateDict objectForKey:POWERUP_COUNTS_KEY];
   [powerupCounts getBytes:_powerupCounts length:sizeof(_powerupCounts)];
+  
+  NSArray *schedule = [stateDict objectForKey:SCHEDULE_KEY];
+  int curIdx = (int)[[stateDict objectForKey:SCHEDULE_INDEX_KEY] integerValue];
+  self.battleSchedule = [[BattleSchedule alloc] initWithSequence:schedule currentIndex:curIdx-1];
+  _shouldDisplayNewSchedule = YES;
 }
 
 @end

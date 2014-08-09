@@ -33,7 +33,7 @@
 
 #define NO_INPUT_LAYER_OPACITY 0.6f
 
-#define BGD_SCALE ((self.contentSize.width-480)/88.f*0.3+1.f)
+#define BGD_SCALE 1.f//((self.contentSize.width-480)/88.f*0.3+1.f)
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
@@ -168,7 +168,7 @@
     _canPlayNextComboSound = YES;
     _canPlayNextGemPop = YES;
     
-    [self loadDeployView];
+    [self loadHudView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
   return self;
@@ -207,12 +207,8 @@
   clip.stencil = nil;
   [super onExitTransitionDidStart];
   
-  [self.forfeitButton removeFromSuperview];
-  [self.swapView removeFromSuperview];
-  [self.deployView removeFromSuperview];
   [self.deployCancelButton removeFromSuperview];
-  [self.elementButton removeFromSuperview];
-  [self.elementView removeFromSuperview];
+  [self.hudView removeFromSuperview];
 }
 
 - (BattlePlayer *) firstMyPlayer {
@@ -229,7 +225,10 @@
   if (self.myPlayerObject && self.enemyPlayerObject) {
     BattleSchedule *sched = [[BattleSchedule alloc] initWithBattlePlayerA:self.myPlayerObject battlePlayerB:self.enemyPlayerObject justSwapped:swap];
     self.battleSchedule = sched;
+    
+    _shouldDisplayNewSchedule = YES;
   } else {
+    self.battleScheduleView.hidden = YES;
     self.battleSchedule = nil;
   }
 }
@@ -276,18 +275,18 @@
     
     _movesBgd.flipX = YES;
   } else {
-    _movesBgd.anchorPoint = ccp(1, 0.5);
+    _movesBgd.anchorPoint = ccp(1, 0);
     movesLabel.anchorPoint = ccp(1, 0.5);
     _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
-    _movesBgd.position = ccp(0, 38);
+    _movesBgd.position = ccp(3, -2);
     movesLabel.position = ccp(45, 3);
     _movesLeftLabel.position = ccp(45, 24);
   }
   
   CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [puzzleBg addChild:lootBgd];
-  lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*2.5);
+  lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*1.8);
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
   [lootBgd addChild:_lootLabel];
@@ -307,14 +306,6 @@
   _comboBotLabel.anchorPoint = ccp(1, 0.5);
   _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
   [_comboBgd addChild:_comboBotLabel z:1];
-  
-  _waveNumLabel = [CCLabelTTF labelWithString:@"Enemy 1/3" fontName:@"Ziggurat-HTF-Black" fontSize:14];
-  [self addChild:_waveNumLabel z:2];
-  _waveNumLabel.position = ccp((self.contentSize.width-puzzleBg.contentSize.width-10)/2, self.contentSize.height-20);
-  _waveNumLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
-  _waveNumLabel.shadowOffset = ccp(0, -1);
-  _waveNumLabel.shadowBlurRadius = 1.f;
-  _waveNumLabel.opacity = 0.f;
   
   _movesLeft = NUM_MOVES_PER_TURN;
   _curStage = -1;
@@ -397,7 +388,7 @@
 - (void) moveToNextEnemy {
   [self removeSwapButton];
   [self removeDeployView];
-  self.forfeitButton.hidden = YES;
+  self.forfeitView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
   
@@ -494,6 +485,28 @@
 #pragma mark - Turn Sequence
 
 - (void) beginNextTurn {
+  if (_shouldDisplayNewSchedule) {
+    NSArray *bools = [self.battleSchedule getNextNMoves:self.battleScheduleView.numSlots];
+    NSMutableArray *ids = [NSMutableArray array];
+    for (NSNumber *num in bools) {
+      BOOL val = num.boolValue;
+      if (val) {
+        [ids addObject:@(self.myPlayerObject.monsterId)];
+      } else {
+        [ids addObject:@(self.enemyPlayerObject.monsterId)];
+      }
+    }
+    [self.battleScheduleView setOrdering:ids];
+    
+    _shouldDisplayNewSchedule = NO;
+    
+    self.battleScheduleView.hidden = NO;
+  } else {
+    BOOL nth = [self.battleSchedule getNthMove:self.battleScheduleView.numSlots-1];
+    int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
+    [self.battleScheduleView addMonster:monsterId];
+  }
+  
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
   if (nextMove) {
     [self beginMyTurn];
@@ -518,7 +531,7 @@
   [self.orbLayer allowInput];
   
   [self displaySwapButton];
-  self.forfeitButton.hidden = NO;
+  self.forfeitView.hidden = NO;
   self.elementButton.hidden = NO;
 }
 
@@ -548,7 +561,7 @@
 - (void) removeButtons {
   [self removeSwapButton];
   [self removeDeployView];
-  self.forfeitButton.hidden = YES;
+  self.forfeitView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
 }
@@ -922,10 +935,10 @@
                    }],
                   nil]];
   
-  _waveNumLabel.string = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
-  if (!_waveNumLabel.opacity) {
-    [_waveNumLabel runAction:[CCActionFadeIn actionWithDuration:0.3f]];
-  }
+  _waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  [UIView animateWithDuration:0.3f animations:^{
+    _waveNumLabel.alpha = 1.f;
+  }];
 }
 
 - (void) dropLoot:(CCSprite *)ed {
@@ -1142,9 +1155,10 @@
   
   [self removeSwapButton];
   [self removeDeployView];
-  self.forfeitButton.hidden = YES;
+  self.forfeitView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
+  self.battleScheduleView.hidden = YES;
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
@@ -1166,9 +1180,9 @@
     }
   }];
   
-  if (_waveNumLabel.opacity) {
-    [_waveNumLabel runAction:[CCActionFadeOut actionWithDuration:0.3f]];
-  }
+  [UIView animateWithDuration:0.3f animations:^{
+    _waveNumLabel.alpha = 0.f;
+  }];
 }
 
 - (BOOL) shouldShowContinueButton {
@@ -1423,31 +1437,32 @@
   }
 }
 
-#pragma mark - Deploy and Swap views
+#pragma mark - Hud views
 
-- (void) loadDeployView {
+- (void) loadHudView {
   GameViewController *gvc = [GameViewController baseController];
   UIView *view = gvc.view;
   
-  [[NSBundle mainBundle] loadNibNamed:@"BattleDeployView" owner:self options:nil];
-  [view addSubview:self.swapView];
-  [view addSubview:self.deployView];
-  [view addSubview:self.forfeitButton];
-  [view addSubview:self.elementButton];
-  [view addSubview:self.elementView];
+  [[NSBundle mainBundle] loadNibNamed:@"BattleHudView" owner:self options:nil];
+  [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
+  
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
-  self.forfeitButton.hidden = YES;
+  self.forfeitView.hidden = YES;
   self.elementButton.hidden = YES;
+  self.battleScheduleView.hidden = YES;
   
-  self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
-  self.elementButton.center = ccp(self.elementButton.frame.size.width/2+5, CGRectGetMaxY(self.forfeitButton.frame)+8);
-  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame)-3, self.elementButton.center.y);
-  self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
+  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementButton.center.y);
+  
+  self.waveNumLabel.shadowBlur = 1.f;
+  self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
+  self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
+  
+  self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy:", MONSTER_NAME];
 }
 
 #define ANIMATION_TIME 0.4f
-#define SWAP_CENTER_Y 268
+#define SWAP_CENTER_Y self.swapView.center.y
 #define DEPLOY_CENTER_Y self.contentSize.height-16-self.deployView.frame.size.height/2
 
 - (void) displaySwapButton {
@@ -1486,7 +1501,7 @@
   } completion:^(BOOL finished) {
     if (finished && cancel) {
       self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
-      [Globals displayUIView:self.deployCancelButton];
+      [self.hudView addSubview:self.deployCancelButton];
       [self.deployCancelButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
       [self.deployView.superview bringSubviewToFront:self.deployView];
     }
@@ -1595,7 +1610,7 @@
     _isExiting = YES;
     
     self.swapView.hidden  = YES;
-    self.forfeitButton.hidden = YES;
+    self.forfeitView.hidden = YES;
     self.elementButton.hidden = YES;
     [self.elementView close];
     
@@ -1639,9 +1654,9 @@
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
   
-  if (!_waveNumLabel.opacity) {
-    [_waveNumLabel runAction:[CCActionFadeIn actionWithDuration:0.3f]];
-  }
+  [UIView animateWithDuration:0.3f animations:^{
+    _waveNumLabel.alpha = 1.f;
+  }];
 }
 
 @end
