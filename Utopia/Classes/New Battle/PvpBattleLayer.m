@@ -44,6 +44,20 @@
   _userAttacked = YES;
 }
 
+#pragma mark - Close Button
+
+- (void) createCloseButton {
+  self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  [self.closeButton setImage:[Globals imageNamed:@"closebattle.png"] forState:UIControlStateNormal];
+  [Globals displayUIView:self.closeButton];
+  self.closeButton.frame = CGRectMake(4, 4, 30, 30);
+  [self.closeButton addTarget:self action:@selector(forfeitClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) removeCloseButton {
+  [self.closeButton removeFromSuperview];
+}
+
 #pragma mark - Continue View Actions
 
 - (void) youWon {
@@ -268,6 +282,7 @@
   _reachedNextScene = YES;
   [self createScheduleWithSwap:NO];
   [self beginNextTurn];
+  [self removeCloseButton];
   
   _hasChosenEnemy = YES;
   _curStage = 0;
@@ -294,11 +309,7 @@
   
   [self loadQueueNode];
   
-  [self scheduleOnce:@selector(showForfeitButton) delay:2.f];
-}
-
-- (void) showForfeitButton {
-  self.forfeitButton.hidden = NO;
+  [self scheduleOnce:@selector(createCloseButton) delay:2.f];
 }
 
 - (void) prepareNextEnemyTeam {

@@ -116,7 +116,7 @@ static Class amplitudeClass = nil;
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args sendToTitan:(BOOL)toTitan {
-  LNLog(@"Logging event %@ with args: %@", event, args);
+  //LNLog(@"Logging event %@ with args: %@", event, args);
   [amplitudeClass logEvent:event withEventProperties:args];
   
   if (toTitan) {

@@ -85,8 +85,8 @@
     for (NSNumber *n in sch) {
       [str appendFormat:@"%@ ", n];
     }
-    LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
-    LNLog(@"%@", str);
+    //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
+    //LNLog(@"%@", str);
     
     _currentIndex = -1;
     self.schedule = sch;

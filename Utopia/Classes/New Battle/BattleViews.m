@@ -503,9 +503,11 @@
 }
 
 - (void) open {
-  [UIView animateWithDuration:0.15f animations:^{
-    self.transform = CGAffineTransformMakeScale(1.f, 1.f);
-  }];
+  if (!self.layer.animationKeys) {
+    [UIView animateWithDuration:0.15f animations:^{
+      self.transform = CGAffineTransformMakeScale(1.f, 1.f);
+    }];
+  }
 }
 
 - (void) close {

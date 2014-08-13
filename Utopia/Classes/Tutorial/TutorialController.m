@@ -179,17 +179,19 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  [self beginGuideGreetingPhase];
-  //[self beginEnterBattlePhase];
+  //[self beginGuideGreetingPhase];
+  [self beginEnterBattlePhase];
   //[self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
-  
-  [self createCloseButton];
 #else
   [self initHomeMap];
   [self beginGuideGreetingPhase];
+#endif
+  
+#ifndef APPSTORE
+  [self createCloseButton];
 #endif
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];

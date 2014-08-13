@@ -10,6 +10,8 @@
 
 #import "Globals.h"
 
+#import "CAKeyFrameAnimation+Jumping.h"
+
 #define VIEW_SPACING 4
 
 @implementation BattleScheduleView
@@ -44,6 +46,14 @@
 - (void) setOrdering:(NSArray *)ordering {
   NSMutableArray *oldArr = self.monsterViews;
   
+  // If it was hidden just remove all the old monster views
+  if (self.hidden) {
+    for (UIView *v in oldArr) {
+      [v removeFromSuperview];
+    }
+    oldArr = nil;
+  }
+  
   self.monsterViews = [NSMutableArray array];
   int i = 0;
   for (NSNumber *num in ordering) {
@@ -54,8 +64,13 @@
     if (i < oldArr.count) {
       MiniMonsterView *ommv = oldArr[i];
       
+      BOOL isLast = i == oldArr.count-1;
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (self.numSlots-i-1)*0.05f*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [UIView transitionFromView:ommv toView:mmv duration:0.3 options:UIViewAnimationOptionTransitionFlipFromTop completion:nil];
+        [UIView transitionFromView:ommv toView:mmv duration:0.3 options:UIViewAnimationOptionTransitionFlipFromTop completion:^(BOOL finished) {
+          if (isLast) {
+            [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.2f];
+          }
+        }];
       });
     } else {
       // We have to put them into a superview because otherwise the whole container view flips when we transition
@@ -63,6 +78,8 @@
       v.center = [self centerForIndex:i width:mmv.frame.size.width];
       [v addSubview:mmv];
       [self.containerView addSubview:v];
+      
+      [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.3f];
     }
     
     i++;
@@ -90,8 +107,23 @@
     first.superview.center = ccp(first.superview.center.x, -first.superview.frame.size.height/2);
     first.superview.alpha = 0.f;
   } completion:^(BOOL finished) {
+    [self bounceView:self.monsterViews[0]];
+    
     [first.superview removeFromSuperview];
   }];
+}
+
+- (void) bounceView:(UIView *)view {
+  float iconHeight = view.frame.size.height/3;
+  float duration = 0.8f;
+  
+  CAKeyframeAnimation *anim = [CAKeyframeAnimation dockBounceAnimationWithIconHeight:iconHeight];
+  anim.duration = duration;
+  [view.layer addAnimation:anim forKey:@"bounce"];
+  
+  CAKeyframeAnimation *anim2 = [CAKeyframeAnimation dockBounceAnimationWithIconHeight:iconHeight];
+  anim2.duration = duration;
+  [self.currentBorder.layer addAnimation:anim2 forKey:@"bounce"];
 }
 
 - (CGPoint) centerForIndex:(int)i width:(float)width {

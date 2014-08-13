@@ -24,15 +24,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="gM6-4S-27Q" customClass="BattleScheduleView">
-                    <rect key="frame" x="13" y="13" width="142" height="62"/>
+                    <rect key="frame" x="13" y="0.0" width="142" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="movesqueuebg.png" id="XdL-Z4-Y4a">
-                            <rect key="frame" x="0.0" y="0.0" width="142" height="62"/>
+                            <rect key="frame" x="0.0" y="13" width="142" height="62"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MaP-FG-KFe" customClass="NiceFontLabel18">
-                            <rect key="frame" x="93" y="49" width="49" height="12"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MaP-FG-KFe" customClass="NiceFontLabel18B">
+                            <rect key="frame" x="93" y="61" width="49" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <color key="textColor" red="0.65882354970000001" green="1" blue="0.34117648010000001" alpha="1" colorSpace="deviceRGB"/>
@@ -41,12 +41,12 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <view contentMode="scaleToFill" id="Khg-Xa-g6c">
-                            <rect key="frame" x="0.0" y="0.0" width="142" height="50"/>
+                            <rect key="frame" x="0.0" y="13" width="142" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="currentborder.png" id="9zk-OI-CN4">
-                            <rect key="frame" x="95" y="4" width="43" height="43"/>
+                            <rect key="frame" x="95" y="17" width="43" height="43"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -56,6 +56,7 @@
                     <connections>
                         <outlet property="bgdView" destination="XdL-Z4-Y4a" id="Y4D-tm-HUr"/>
                         <outlet property="containerView" destination="Khg-Xa-g6c" id="ncm-MP-kFN"/>
+                        <outlet property="currentBorder" destination="9zk-OI-CN4" id="pqM-H1-2fx"/>
                     </connections>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2kS-qV-7b6" userLabel="Element Button" customClass="GeneralButton">
@@ -80,7 +81,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="MRM-zP-qe8">
-                    <rect key="frame" x="44" y="265" width="84" height="40"/>
+                    <rect key="frame" x="44" y="265" width="84" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENEMY 1/3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lh2-01-Mam" customClass="NiceFontLabel18S">
@@ -93,7 +94,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O3q-JV-QJI">
-                            <rect key="frame" x="21" y="18" width="43" height="21"/>
+                            <rect key="frame" x="21" y="20" width="43" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" backgroundImage="runawaybg.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -103,8 +104,8 @@
                                 <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Run" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12">
-                            <rect key="frame" x="21" y="17" width="42" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Run" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
+                            <rect key="frame" x="21" y="19" width="42" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

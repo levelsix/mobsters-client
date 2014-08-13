@@ -13,6 +13,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bgdView;
 @property (nonatomic, assign) UIImageView *overlayView;
 @property (nonatomic, assign) IBOutlet UIView *containerView;
+@property (nonatomic, assign) IBOutlet UIImageView *currentBorder;
 
 @property (nonatomic, assign) int numSlots;
 @property (nonatomic, retain) NSMutableArray *monsterViews;

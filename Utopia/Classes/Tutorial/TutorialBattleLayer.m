@@ -361,7 +361,11 @@
   // Do nothing
 }
 
-
+- (void) beginNextTurn {
+  _displayedWaveNumber = YES;
+  _reachedNextScene = YES;
+  [super beginNextTurn];
+}
 
 #pragma mark - Actual battle
 

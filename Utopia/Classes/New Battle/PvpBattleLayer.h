@@ -29,15 +29,9 @@
 
 @property (nonatomic, retain) NSArray *defendersList;
 
-@property (nonatomic, retain) BattleLostView *lostView;
-@property (nonatomic, retain) BattleWonView *wonView;
 @property (nonatomic, retain) BattleQueueNode *queueNode;
 
-@property (nonatomic, retain) IBOutlet UIView *swapView;
-@property (nonatomic, retain) IBOutlet UILabel *swapLabel;
-@property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
-@property (nonatomic, retain) IBOutlet UIButton *forfeitButton;
-@property (nonatomic, retain) IBOutlet UIButton *deployCancelButton;
+@property (nonatomic, retain) UIButton *closeButton;
 
 @property (nonatomic, retain) IBOutlet NSMutableArray *seenUserIds;
 

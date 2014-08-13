@@ -375,6 +375,16 @@
 
 @end
 
+@implementation NiceFontLabel18B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:self.font.pointSize];
+  self.shadowBlur = 1.2f;
+}
+
+@end
+
 @implementation NiceFontLabel18S
 
 - (void) awakeFromNib {

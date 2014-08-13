@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/Miscellaneous/NibUtils.m"
-            timestampString = "429237568.43654"
+            timestampString = "429654955.532871"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "944"
+            endingLineNumber = "944"
             landmarkName = "-remakeImage"
             landmarkType = "5">
          </BreakpointContent>
@@ -242,6 +242,22 @@
             startingLineNumber = "32"
             endingLineNumber = "32"
             landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Utopia/libs/cocos2d-iphone/cocos2d/CCClippingNode.m"
+            timestampString = "429659711.154037"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "-initWithStencil:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

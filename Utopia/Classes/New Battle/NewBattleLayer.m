@@ -511,13 +511,7 @@
       shouldDelay = YES;
       
       if (self.battleScheduleView.hidden) {
-        self.battleScheduleView.hidden = NO;
-        
-        CGPoint pt = self.battleScheduleView.center;
-        self.battleScheduleView.center = ccpAdd(pt, ccp(0, -50));
-        [UIView animateWithDuration:0.3f animations:^{
-          self.battleScheduleView.center = pt;
-        }];
+        [self displayBattleScheduleView];
       } else {
         [self.battleScheduleView removeOverlayView];
       }
@@ -531,16 +525,12 @@
     if (nextMove) {
       [self beginMyTurn];
     } else {
-      if (shouldDelay) {
-        [self runAction:[CCActionSequence actions:
-                         [CCActionDelay actionWithDuration:0.5f],
-                         [CCActionCallBlock actionWithBlock:
-                          ^{
-                            [self.currentEnemy jumpNumTimes:2 completionTarget:self selector:@selector(beginEnemyTurn)];
-                          }], nil]];
-      } else {
-        [self beginEnemyTurn];
-      }
+      [self runAction:[CCActionSequence actions:
+                       [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
+                       [CCActionCallBlock actionWithBlock:
+                        ^{
+                          [self beginEnemyTurn];
+                        }], nil]];
     }
   }
 }
@@ -685,7 +675,7 @@
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
                          }],
-                        [CCActionDelay actionWithDuration:MAX(0.1, 0.5-duration)],
+                        [CCActionDelay actionWithDuration:MAX(0.1, 0.7-duration)],
                         [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
   
@@ -1193,7 +1183,7 @@
   self.forfeitView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
-  self.battleScheduleView.hidden = YES;
+  [self removeBattleScheduleView];
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
@@ -1535,6 +1525,8 @@
   [UIView animateWithDuration:ANIMATION_TIME animations:^{
     float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
     self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
+    
+    self.forfeitView.alpha = 0.f;
   } completion:^(BOOL finished) {
     if (finished && cancel) {
       self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
@@ -1555,6 +1547,7 @@
     self.deployCancelButton = nil;
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
+      self.forfeitView.alpha = 1.f;
     } completion:^(BOOL finished) {
       self.deployView.hidden = YES;
     }];
@@ -1611,6 +1604,27 @@
 
 - (IBAction)elementButtonClicked:(id)sender {
   [self.elementView open];
+}
+
+- (void) displayBattleScheduleView {
+  self.battleScheduleView.hidden = NO;
+  
+  CGPoint pt = self.battleScheduleView.center;
+  self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
+  [UIView animateWithDuration:0.3f animations:^{
+    self.battleScheduleView.center = pt;
+  }];
+}
+
+- (void) removeBattleScheduleView {
+  CGPoint pt = self.battleScheduleView.center;
+  [UIView animateWithDuration:0.3f animations:^{
+    self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
+  } completion:^(BOOL finished) {
+    self.battleScheduleView.center = pt;
+    
+    self.battleScheduleView.hidden = YES;
+  }];
 }
 
 #pragma mark - Continue View Actions
