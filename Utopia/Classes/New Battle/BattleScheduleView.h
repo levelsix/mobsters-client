@@ -10,10 +10,15 @@
 
 @interface BattleScheduleView : UIView
 
+@property (nonatomic, assign) IBOutlet UIImageView *bgdView;
+@property (nonatomic, assign) UIImageView *overlayView;
 @property (nonatomic, assign) IBOutlet UIView *containerView;
 
 @property (nonatomic, assign) int numSlots;
 @property (nonatomic, retain) NSMutableArray *monsterViews;
+
+- (void) displayOverlayView;
+- (void) removeOverlayView;
 
 - (void) setOrdering:(NSArray *)ordering;
 - (void) addMonster:(int)monsterId;

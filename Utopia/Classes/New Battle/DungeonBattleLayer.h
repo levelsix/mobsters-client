@@ -26,6 +26,8 @@
   int _numAttemptedRunaways;
   BOOL _didRunaway;
   BOOL _numContinues;
+  
+  uint64_t _resumedUserMonsterId;
 }
 
 @property (nonatomic, retain) IBOutlet NSString *dungeonType;

@@ -250,6 +250,7 @@
   FullTaskProto *task = [gs taskWithId:elem.taskId];
   
   [tIcon updateForTaskMapElement:elem task:task isLocked:YES];
+  _curEventView.userInteractionEnabled = NO;
   
   [self createMyPositionViewForIcon:fIcon];
   
@@ -258,6 +259,7 @@
     self.myPositionView.center = ccpAdd(tIcon.center, diff);
   } completion:^(BOOL finished) {
     [tIcon updateForTaskMapElement:elem task:task isLocked:NO];
+    _curEventView.userInteractionEnabled = YES;
     
     [self cityClicked:tIcon];
   }];

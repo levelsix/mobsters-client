@@ -27,13 +27,14 @@
     um.level = 1;
     um.curHealth = [gl calculateMaxHealthForMonster:um];
     BattlePlayer *bp1 = [BattlePlayer playerWithMonster:um];
+    bp1.speed = 0;
     
     um.monsterId = constants.enemyMonsterIdTwo;
     um.curHealth = [gl calculateMaxHealthForMonster:um];
     BattlePlayer *bp2 = [BattlePlayer playerWithMonster:um];
     bp2.minDamage = damage;
     bp2.maxDamage = damage;
-    
+    bp2.speed = 0;
     
     um.monsterId = constants.enemyBossMonsterId;
     um.curHealth = [gl calculateMaxHealthForMonster:um];
@@ -514,6 +515,12 @@
 }
 
 #pragma mark - Overwritten methods
+
+- (void) loadHudView {
+  [super loadHudView];
+  [self.battleScheduleView removeFromSuperview];
+  self.battleScheduleView = nil;
+}
 
 - (void) sendServerUpdatedValues {
   // Do nothing

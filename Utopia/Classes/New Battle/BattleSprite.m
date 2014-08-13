@@ -366,6 +366,10 @@
   CCAnimation *anim = self.attackAnimationN.copy;
   
   CCActionSequence *seq;
+  [self stopActionByTag:924];
+  
+  [self stopWalking];
+  [self setIsFacingNear:YES];
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
     [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
     
@@ -402,6 +406,7 @@
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            nil];
   }
+  seq.tag = 924;
   [self runAction:seq];
 }
 
@@ -412,6 +417,9 @@
   int numTimes = strength*(MAX_SHOTS-1);
   
   CCActionSequence *seq;
+  [self stopActionByTag:924];
+  [self stopWalking];
+  [self setIsFacingNear:NO];
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
     [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
     [anim repeatFrames:NSMakeRange(4, 6) numTimes:numTimes];
@@ -451,6 +459,7 @@
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            nil];
   }
+  seq.tag = 924;
   [self runAction:seq];
 }
 

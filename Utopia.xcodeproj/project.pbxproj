@@ -63,10 +63,10 @@
 		CF023CBE19935D8F0082FE61 /* BattleScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF023CBC19935D8F0082FE61 /* BattleScheduleView.m */; };
 		CF023CC019959B7E0082FE61 /* BattleHudView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CBF19959B7E0082FE61 /* BattleHudView.xib */; };
 		CF023CC119959B7E0082FE61 /* BattleHudView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CBF19959B7E0082FE61 /* BattleHudView.xib */; };
-		CF023CC319959B8B0082FE61 /* BattleHudViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC219959B8B0082FE61 /* BattleHudViewSmall.xib */; };
-		CF023CC419959B8B0082FE61 /* BattleHudViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC219959B8B0082FE61 /* BattleHudViewSmall.xib */; };
 		CF023CC61995B2AC0082FE61 /* runawaybgwidepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC51995B2AC0082FE61 /* runawaybgwidepressed@2x.png */; };
 		CF023CC71995B2AC0082FE61 /* runawaybgwidepressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC51995B2AC0082FE61 /* runawaybgwidepressed@2x.png */; };
+		CF023CC9199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC8199B3D0F0082FE61 /* BattleHudViewSmall.xib */; };
+		CF023CCA199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF023CC8199B3D0F0082FE61 /* BattleHudViewSmall.xib */; };
 		CF06B5D1193699FC008BF892 /* buildinginfobg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B57B193699FB008BF892 /* buildinginfobg.png */; };
 		CF06B5D2193699FC008BF892 /* buildinginfobg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B57C193699FB008BF892 /* buildinginfobg@2x.png */; };
 		CF06B5D3193699FC008BF892 /* buildingbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B57D193699FB008BF892 /* buildingbg.png */; };
@@ -5959,8 +5959,8 @@
 		CF023CBB19935D8F0082FE61 /* BattleScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleScheduleView.h; sourceTree = "<group>"; };
 		CF023CBC19935D8F0082FE61 /* BattleScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleScheduleView.m; sourceTree = "<group>"; };
 		CF023CBF19959B7E0082FE61 /* BattleHudView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleHudView.xib; sourceTree = "<group>"; };
-		CF023CC219959B8B0082FE61 /* BattleHudViewSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleHudViewSmall.xib; sourceTree = "<group>"; };
 		CF023CC51995B2AC0082FE61 /* runawaybgwidepressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "runawaybgwidepressed@2x.png"; sourceTree = "<group>"; };
+		CF023CC8199B3D0F0082FE61 /* BattleHudViewSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleHudViewSmall.xib; sourceTree = "<group>"; };
 		CF06B57B193699FB008BF892 /* buildinginfobg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildinginfobg.png; sourceTree = "<group>"; };
 		CF06B57C193699FB008BF892 /* buildinginfobg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildinginfobg@2x.png"; sourceTree = "<group>"; };
 		CF06B57D193699FB008BF892 /* buildingbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingbg.png; sourceTree = "<group>"; };
@@ -14541,7 +14541,7 @@
 				CF023CBB19935D8F0082FE61 /* BattleScheduleView.h */,
 				CF023CBC19935D8F0082FE61 /* BattleScheduleView.m */,
 				CF023CBF19959B7E0082FE61 /* BattleHudView.xib */,
-				CF023CC219959B8B0082FE61 /* BattleHudViewSmall.xib */,
+				CF023CC8199B3D0F0082FE61 /* BattleHudViewSmall.xib */,
 			);
 			name = BattleViews;
 			sourceTree = "<group>";
@@ -16241,7 +16241,6 @@
 				CF0CF3B6196F452900ECD301 /* enhancepercentbg.png in Resources */,
 				CF0CF3B7196F452900ECD301 /* bubblemiddle@2x.png in Resources */,
 				CF0CF3B8196F452900ECD301 /* purplesmallbutton.png in Resources */,
-				CF023CC419959B8B0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CF0CF3B9196F452900ECD301 /* Scientist2Turn08@2x.png in Resources */,
 				CF0CF3BA196F452900ECD301 /* silverprofribbon@2x.png in Resources */,
 				CF0CF3BB196F452900ECD301 /* GachaponFeaturedView.xib in Resources */,
@@ -17417,6 +17416,7 @@
 				CF0CF838196F452900ECD301 /* itemdurabilitybg.png in Resources */,
 				CF0CF839196F452900ECD301 /* timercapleft@2x.png in Resources */,
 				CF0CF83B196F452900ECD301 /* menufloatleft@2x.png in Resources */,
+				CF023CCA199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CFF2A53119709C4800269084 /* TeamCenterT1@2x.pvr.ccz in Resources */,
 				CF0CF83C196F452900ECD301 /* itemdurabilitybg@2x.png in Resources */,
 				CF0CF83D196F452900ECD301 /* attackbarcapmj.png in Resources */,
@@ -18891,7 +18891,6 @@
 				CFF646FB195D3B4500C43641 /* purplesmallbutton.png in Resources */,
 				CFFBDF7718ACA3D90090CA9A /* Scientist2Turn08@2x.png in Resources */,
 				CFF5DC25194FDD390019EB2B /* silverprofribbon@2x.png in Resources */,
-				CF023CC319959B8B0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CF37671C18333D0A00D0A77E /* GachaponFeaturedView.xib in Resources */,
 				CFC04DB8188FE8D400F2DB59 /* wonlostbg.png in Resources */,
 				CF746153196B7F65002D6AE6 /* bubbleline.png in Resources */,
@@ -20067,6 +20066,7 @@
 				CFFF9A5718BEB67D0036EEC3 /* timercapleft@2x.png in Resources */,
 				CF0CECED196F450C00ECD301 /* splashguys@2x.png in Resources */,
 				CFC8B61118E53FC100CFD652 /* menufloatleft@2x.png in Resources */,
+				CF023CC9199B3D0F0082FE61 /* BattleHudViewSmall.xib in Resources */,
 				CFF2A53019709C4800269084 /* TeamCenterT1@2x.pvr.ccz in Resources */,
 				CFF2081217FF4C2000AA6F84 /* itemdurabilitybg@2x.png in Resources */,
 				CF68902F1912E7B500FF1F71 /* attackbarcapmj.png in Resources */,

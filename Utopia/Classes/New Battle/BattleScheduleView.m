@@ -20,6 +20,25 @@
   } else {
     self.numSlots = 3;
   }
+  
+  UIImage *dark = [Globals maskImage:self.bgdView.image withColor:[UIColor colorWithWhite:0.f alpha:1.f]];
+  UIImageView *img = [[UIImageView alloc] initWithImage:dark];
+  [self.bgdView.superview addSubview:img];
+  img.frame = self.bgdView.frame;
+  self.overlayView = img;
+  img.alpha = 0.f;
+}
+
+- (void) displayOverlayView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.overlayView.alpha = 1.f;
+  }];
+}
+
+- (void) removeOverlayView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.overlayView.alpha = 0.f;
+  }];
 }
 
 - (void) setOrdering:(NSArray *)ordering {

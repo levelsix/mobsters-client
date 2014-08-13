@@ -399,6 +399,13 @@
     
     [self spawnNextEnemy];
     [self displayWaveNumber];
+    
+    if (!self.battleScheduleView.hidden) {
+      [self.battleScheduleView displayOverlayView];
+    }
+    
+    _reachedNextScene = NO;
+    _displayedWaveNumber = NO;
   } else {
     if (_lootDropped) {
       [self.myPlayer beginWalking];
@@ -485,33 +492,56 @@
 #pragma mark - Turn Sequence
 
 - (void) beginNextTurn {
-  if (_shouldDisplayNewSchedule) {
-    NSArray *bools = [self.battleSchedule getNextNMoves:self.battleScheduleView.numSlots];
-    NSMutableArray *ids = [NSMutableArray array];
-    for (NSNumber *num in bools) {
-      BOOL val = num.boolValue;
-      if (val) {
-        [ids addObject:@(self.myPlayerObject.monsterId)];
+  if (_displayedWaveNumber && _reachedNextScene) {
+    BOOL shouldDelay = NO;
+    if (_shouldDisplayNewSchedule) {
+      NSArray *bools = [self.battleSchedule getNextNMoves:self.battleScheduleView.numSlots];
+      NSMutableArray *ids = [NSMutableArray array];
+      for (NSNumber *num in bools) {
+        BOOL val = num.boolValue;
+        if (val) {
+          [ids addObject:@(self.myPlayerObject.monsterId)];
+        } else {
+          [ids addObject:@(self.enemyPlayerObject.monsterId)];
+        }
+      }
+      [self.battleScheduleView setOrdering:ids];
+      
+      _shouldDisplayNewSchedule = NO;
+      shouldDelay = YES;
+      
+      if (self.battleScheduleView.hidden) {
+        self.battleScheduleView.hidden = NO;
+        
+        CGPoint pt = self.battleScheduleView.center;
+        self.battleScheduleView.center = ccpAdd(pt, ccp(0, -50));
+        [UIView animateWithDuration:0.3f animations:^{
+          self.battleScheduleView.center = pt;
+        }];
       } else {
-        [ids addObject:@(self.enemyPlayerObject.monsterId)];
+        [self.battleScheduleView removeOverlayView];
+      }
+    } else {
+      BOOL nth = [self.battleSchedule getNthMove:self.battleScheduleView.numSlots-1];
+      int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
+      [self.battleScheduleView addMonster:monsterId];
+    }
+    
+    BOOL nextMove = [self.battleSchedule dequeueNextMove];
+    if (nextMove) {
+      [self beginMyTurn];
+    } else {
+      if (shouldDelay) {
+        [self runAction:[CCActionSequence actions:
+                         [CCActionDelay actionWithDuration:0.5f],
+                         [CCActionCallBlock actionWithBlock:
+                          ^{
+                            [self.currentEnemy jumpNumTimes:2 completionTarget:self selector:@selector(beginEnemyTurn)];
+                          }], nil]];
+      } else {
+        [self beginEnemyTurn];
       }
     }
-    [self.battleScheduleView setOrdering:ids];
-    
-    _shouldDisplayNewSchedule = NO;
-    
-    self.battleScheduleView.hidden = NO;
-  } else {
-    BOOL nth = [self.battleSchedule getNthMove:self.battleScheduleView.numSlots-1];
-    int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
-    [self.battleScheduleView addMonster:monsterId];
-  }
-  
-  BOOL nextMove = [self.battleSchedule dequeueNextMove];
-  if (nextMove) {
-    [self beginMyTurn];
-  } else {
-    [self beginEnemyTurn];
   }
 }
 
@@ -644,16 +674,18 @@
   int newHealth = MIN(def.maxHealth, MAX(0, curHealth-damageDone));
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);
+  float duration = percChange/HEALTH_BAR_SPEED;
   
   [SoundEngine puzzleDamageTickStart];
   [healthBar runAction:[CCActionSequence actions:
-                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:percChange/HEALTH_BAR_SPEED percent:newPercent]],
+                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
                         [CCActionCallBlock actionWithBlock:
                          ^{
                            [healthLabel stopActionByTag:1015];
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
                          }],
+                        [CCActionDelay actionWithDuration:MAX(0.1, 0.5-duration)],
                         [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
   
@@ -932,6 +964,9 @@
                   [CCActionCallBlock actionWithBlock:
                    ^{
                      [bgd removeFromParentAndCleanup:YES];
+                     
+                     _displayedWaveNumber = YES;
+                     [self beginNextTurn];
                    }],
                   nil]];
   
@@ -1394,6 +1429,7 @@
 
 - (void) reachedNextScene {
   _hasStarted = YES;
+  _reachedNextScene = YES;
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
@@ -1443,7 +1479,8 @@
   GameViewController *gvc = [GameViewController baseController];
   UIView *view = gvc.view;
   
-  [[NSBundle mainBundle] loadNibNamed:@"BattleHudView" owner:self options:nil];
+  NSString *bundleName = [Globals isLongiPhone] ? @"BattleHudView" : @"BattleHudViewSmall";
+  [[NSBundle mainBundle] loadNibNamed:bundleName owner:self options:nil];
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
   
   self.swapView.hidden = YES;
@@ -1452,7 +1489,7 @@
   self.elementButton.hidden = YES;
   self.battleScheduleView.hidden = YES;
   
-  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementButton.center.y);
+  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
   
   self.waveNumLabel.shadowBlur = 1.f;
   self.waveNumLabel.gradientStartColor = [UIColor whiteColor];

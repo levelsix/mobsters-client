@@ -263,7 +263,11 @@
   }
   self.enemyTeamSprites = nil;
   
-  [self beginMyTurn];
+  // Have to fake this
+  _displayedWaveNumber = YES;
+  _reachedNextScene = YES;
+  [self createScheduleWithSwap:NO];
+  [self beginNextTurn];
   
   _hasChosenEnemy = YES;
   _curStage = 0;

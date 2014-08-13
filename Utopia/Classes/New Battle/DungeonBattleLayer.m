@@ -341,6 +341,28 @@
   }
 }
 
+- (BattlePlayer *) firstMyPlayer {
+  // If we are resuming state, check that the member is viable. If not, recalculate the schedule.
+  BattlePlayer *bp = nil;
+  if (_isResumingState) {
+    for (BattlePlayer *b in self.myTeam) {
+      if (b.userMonsterId == _resumedUserMonsterId) {
+        bp = b;
+      }
+    }
+    
+    if (bp.curHealth <= 0) {
+      bp = nil;
+      self.battleSchedule = nil;
+    }
+  }
+  
+  if (!bp) {
+    bp = [super firstMyPlayer];
+  }
+  return bp;
+}
+
 - (void) begin {
   [super begin];
   
@@ -423,8 +445,10 @@
 #define ORB_COUNTS_KEY @"OrbCountsKey"
 #define POWERUP_COUNTS_KEY @"PowerupCountsKey"
 #define RUNAWAY_COUNT_KEY @"RunawayCountKey"
+
 #define SCHEDULE_KEY @"BattleScheduleKey"
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
+#define MY_USER_MONSTER_ID_KEY @"MyUserIdMonsterKey"
 
 - (void) saveCurrentState {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -457,6 +481,7 @@
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
   [dict setObject:@(self.dungeonInfo.userTaskId) forKey:USER_TASK_KEY];
   [dict setObject:@(_numAttemptedRunaways) forKey:RUNAWAY_COUNT_KEY];
+  [dict setObject:@(self.myPlayerObject.userMonsterId) forKey:MY_USER_MONSTER_ID_KEY];
   
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
@@ -504,6 +529,8 @@
   int curIdx = (int)[[stateDict objectForKey:SCHEDULE_INDEX_KEY] integerValue];
   self.battleSchedule = [[BattleSchedule alloc] initWithSequence:schedule currentIndex:curIdx-1];
   _shouldDisplayNewSchedule = YES;
+  
+  _resumedUserMonsterId = [[stateDict objectForKey:MY_USER_MONSTER_ID_KEY] longLongValue];
 }
 
 @end

@@ -16,7 +16,7 @@
 #import "BattleSchedule.h"
 #import "BattleScheduleView.h"
 
-#define Y_MOVEMENT_FOR_NEW_SCENE 120
+#define Y_MOVEMENT_FOR_NEW_SCENE 160
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
 #define HEALTH_BAR_SPEED 40
 #define MY_WALKING_SPEED 250.f
@@ -95,6 +95,8 @@
   CGSize _gridSize;
   
   BOOL _shouldDisplayNewSchedule;
+  BOOL _displayedWaveNumber;
+  BOOL _reachedNextScene;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
