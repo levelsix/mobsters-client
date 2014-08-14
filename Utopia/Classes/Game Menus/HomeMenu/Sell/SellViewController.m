@@ -92,13 +92,15 @@
   NSMutableArray *avail = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
-    if (um.isAvailableForSelling && ![self.sellQueue containsObject:um]) {
+    if ((um.isAvailableForSelling || (um.isAvailable && um.isProtected)) && ![self.sellQueue containsObject:um]) {
       [avail addObject:um];
     }
   }
   
   NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    if (obj1.isComplete != obj2.isComplete) {
+    if (obj1.isProtected != obj2.isProtected) {
+      return [@(obj1.isProtected) compare:@(obj2.isProtected)];
+    } else if (obj1.isComplete != obj2.isComplete) {
       return [@(obj1.isComplete) compare:@(obj2.isComplete)];
     } else {
       return [obj2 compare:obj1];
@@ -110,25 +112,42 @@
 
 #pragma mark - Monster Card delegate
 
+- (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
+  if (listView == self.listView) {
+    BOOL greyscale = listObject.isProtected;
+    [cell updateForListObject:listObject greyscale:greyscale];
+  } else if (listView == self.queueView) {
+    [cell updateForListObject:listObject];
+  }
+}
+
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
   
-  // Check that he has atleast one other complete mobster
-  BOOL hasCompleteMobster = NO;
-  for (UserMonster *u in self.userMonsters) {
-    if (u.isComplete && um != u) {
-      hasCompleteMobster = YES;
+  if (!um.isProtected) {
+    // Check that he has atleast one other complete mobster
+    BOOL hasCompleteMobster = NO;
+    for (UserMonster *u in self.userMonsters) {
+      if (u.isComplete && um != u) {
+        hasCompleteMobster = YES;
+      }
     }
-  }
-  
-  if (hasCompleteMobster) {
-    [self.sellQueue addObject:um];
     
-    [self reloadQueueViewAnimated:YES];
-    [self animateUserMonsterIntoQueue:um];
-    [self reloadListViewAnimated:YES];
+    if (hasCompleteMobster) {
+      [self.sellQueue addObject:um];
+      
+      [self reloadQueueViewAnimated:YES];
+      [self animateUserMonsterIntoQueue:um];
+      [self reloadListViewAnimated:YES];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME]];
+    }
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME]];
+    MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
+    UIViewController *parent = [GameViewController baseController];
+    mpvc.view.frame = parent.view.bounds;
+    [parent.view addSubview:mpvc.view];
+    [parent addChildViewController:mpvc];
   }
 }
 

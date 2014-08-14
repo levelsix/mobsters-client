@@ -8091,3 +8091,1019 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 }
 @end
 
+@interface RestrictUserMonsterRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableUserMonsterIdsList;
+@end
+
+@implementation RestrictUserMonsterRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableUserMonsterIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserMonsterIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RestrictUserMonsterRequestProto* defaultRestrictUserMonsterRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RestrictUserMonsterRequestProto class]) {
+    defaultRestrictUserMonsterRequestProtoInstance = [[RestrictUserMonsterRequestProto alloc] init];
+  }
+}
++ (RestrictUserMonsterRequestProto*) defaultInstance {
+  return defaultRestrictUserMonsterRequestProtoInstance;
+}
+- (RestrictUserMonsterRequestProto*) defaultInstance {
+  return defaultRestrictUserMonsterRequestProtoInstance;
+}
+- (NSArray*) userMonsterIdsList {
+  return mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  id value = [mutableUserMonsterIdsList objectAtIndex:index];
+  return [value longLongValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableUserMonsterIdsList) {
+    [output writeInt64:3 value:[value longLongValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUserMonsterIdsList) {
+      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUserMonsterIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RestrictUserMonsterRequestProto*) parseFromData:(NSData*) data {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromData:data] build];
+}
++ (RestrictUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RestrictUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterRequestProto*)[[[RestrictUserMonsterRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterRequestProto_Builder*) builder {
+  return [[[RestrictUserMonsterRequestProto_Builder alloc] init] autorelease];
+}
++ (RestrictUserMonsterRequestProto_Builder*) builderWithPrototype:(RestrictUserMonsterRequestProto*) prototype {
+  return [[RestrictUserMonsterRequestProto builder] mergeFrom:prototype];
+}
+- (RestrictUserMonsterRequestProto_Builder*) builder {
+  return [RestrictUserMonsterRequestProto builder];
+}
+@end
+
+@interface RestrictUserMonsterRequestProto_Builder()
+@property (retain) RestrictUserMonsterRequestProto* result;
+@end
+
+@implementation RestrictUserMonsterRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RestrictUserMonsterRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RestrictUserMonsterRequestProto_Builder*) clear {
+  self.result = [[[RestrictUserMonsterRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) clone {
+  return [RestrictUserMonsterRequestProto builderWithPrototype:result];
+}
+- (RestrictUserMonsterRequestProto*) defaultInstance {
+  return [RestrictUserMonsterRequestProto defaultInstance];
+}
+- (RestrictUserMonsterRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RestrictUserMonsterRequestProto*) buildPartial {
+  RestrictUserMonsterRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RestrictUserMonsterRequestProto_Builder*) mergeFrom:(RestrictUserMonsterRequestProto*) other {
+  if (other == [RestrictUserMonsterRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserMonsterIdsList.count > 0) {
+    if (result.mutableUserMonsterIdsList == nil) {
+      result.mutableUserMonsterIdsList = [NSMutableArray array];
+    }
+    [result.mutableUserMonsterIdsList addObjectsFromArray:other.mutableUserMonsterIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RestrictUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RestrictUserMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) userMonsterIdsList {
+  if (result.mutableUserMonsterIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  return [result userMonsterIdsAtIndex:index];
+}
+- (RestrictUserMonsterRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value {
+  [result.mutableUserMonsterIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) addUserMonsterIds:(int64_t) value {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RestrictUserMonsterRequestProto_Builder*) clearUserMonsterIdsList {
+  result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+@end
+
+@interface RestrictUserMonsterResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RestrictUserMonsterResponseProto_RestrictUserMonsterStatus status;
+@end
+
+@implementation RestrictUserMonsterResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
+  }
+  return self;
+}
+static RestrictUserMonsterResponseProto* defaultRestrictUserMonsterResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RestrictUserMonsterResponseProto class]) {
+    defaultRestrictUserMonsterResponseProtoInstance = [[RestrictUserMonsterResponseProto alloc] init];
+  }
+}
++ (RestrictUserMonsterResponseProto*) defaultInstance {
+  return defaultRestrictUserMonsterResponseProtoInstance;
+}
+- (RestrictUserMonsterResponseProto*) defaultInstance {
+  return defaultRestrictUserMonsterResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RestrictUserMonsterResponseProto*) parseFromData:(NSData*) data {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromData:data] build];
+}
++ (RestrictUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RestrictUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RestrictUserMonsterResponseProto*)[[[RestrictUserMonsterResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RestrictUserMonsterResponseProto_Builder*) builder {
+  return [[[RestrictUserMonsterResponseProto_Builder alloc] init] autorelease];
+}
++ (RestrictUserMonsterResponseProto_Builder*) builderWithPrototype:(RestrictUserMonsterResponseProto*) prototype {
+  return [[RestrictUserMonsterResponseProto builder] mergeFrom:prototype];
+}
+- (RestrictUserMonsterResponseProto_Builder*) builder {
+  return [RestrictUserMonsterResponseProto builder];
+}
+@end
+
+BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus value) {
+  switch (value) {
+    case RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess:
+    case RestrictUserMonsterResponseProto_RestrictUserMonsterStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RestrictUserMonsterResponseProto_Builder()
+@property (retain) RestrictUserMonsterResponseProto* result;
+@end
+
+@implementation RestrictUserMonsterResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RestrictUserMonsterResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RestrictUserMonsterResponseProto_Builder*) clear {
+  self.result = [[[RestrictUserMonsterResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RestrictUserMonsterResponseProto_Builder*) clone {
+  return [RestrictUserMonsterResponseProto builderWithPrototype:result];
+}
+- (RestrictUserMonsterResponseProto*) defaultInstance {
+  return [RestrictUserMonsterResponseProto defaultInstance];
+}
+- (RestrictUserMonsterResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RestrictUserMonsterResponseProto*) buildPartial {
+  RestrictUserMonsterResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RestrictUserMonsterResponseProto_Builder*) mergeFrom:(RestrictUserMonsterResponseProto*) other {
+  if (other == [RestrictUserMonsterResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RestrictUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RestrictUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RestrictUserMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RestrictUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RestrictUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RestrictUserMonsterResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) status {
+  return result.status;
+}
+- (RestrictUserMonsterResponseProto_Builder*) setStatus:(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RestrictUserMonsterResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
+  return self;
+}
+@end
+
+@interface UnrestrictUserMonsterRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableUserMonsterIdsList;
+@end
+
+@implementation UnrestrictUserMonsterRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableUserMonsterIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserMonsterIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static UnrestrictUserMonsterRequestProto* defaultUnrestrictUserMonsterRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [UnrestrictUserMonsterRequestProto class]) {
+    defaultUnrestrictUserMonsterRequestProtoInstance = [[UnrestrictUserMonsterRequestProto alloc] init];
+  }
+}
++ (UnrestrictUserMonsterRequestProto*) defaultInstance {
+  return defaultUnrestrictUserMonsterRequestProtoInstance;
+}
+- (UnrestrictUserMonsterRequestProto*) defaultInstance {
+  return defaultUnrestrictUserMonsterRequestProtoInstance;
+}
+- (NSArray*) userMonsterIdsList {
+  return mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  id value = [mutableUserMonsterIdsList objectAtIndex:index];
+  return [value longLongValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableUserMonsterIdsList) {
+    [output writeInt64:3 value:[value longLongValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUserMonsterIdsList) {
+      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUserMonsterIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromData:(NSData*) data {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromData:data] build];
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromInputStream:input] build];
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UnrestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterRequestProto*)[[[UnrestrictUserMonsterRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterRequestProto_Builder*) builder {
+  return [[[UnrestrictUserMonsterRequestProto_Builder alloc] init] autorelease];
+}
++ (UnrestrictUserMonsterRequestProto_Builder*) builderWithPrototype:(UnrestrictUserMonsterRequestProto*) prototype {
+  return [[UnrestrictUserMonsterRequestProto builder] mergeFrom:prototype];
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) builder {
+  return [UnrestrictUserMonsterRequestProto builder];
+}
+@end
+
+@interface UnrestrictUserMonsterRequestProto_Builder()
+@property (retain) UnrestrictUserMonsterRequestProto* result;
+@end
+
+@implementation UnrestrictUserMonsterRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UnrestrictUserMonsterRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) clear {
+  self.result = [[[UnrestrictUserMonsterRequestProto alloc] init] autorelease];
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) clone {
+  return [UnrestrictUserMonsterRequestProto builderWithPrototype:result];
+}
+- (UnrestrictUserMonsterRequestProto*) defaultInstance {
+  return [UnrestrictUserMonsterRequestProto defaultInstance];
+}
+- (UnrestrictUserMonsterRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UnrestrictUserMonsterRequestProto*) buildPartial {
+  UnrestrictUserMonsterRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) mergeFrom:(UnrestrictUserMonsterRequestProto*) other {
+  if (other == [UnrestrictUserMonsterRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserMonsterIdsList.count > 0) {
+    if (result.mutableUserMonsterIdsList == nil) {
+      result.mutableUserMonsterIdsList = [NSMutableArray array];
+    }
+    [result.mutableUserMonsterIdsList addObjectsFromArray:other.mutableUserMonsterIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) userMonsterIdsList {
+  if (result.mutableUserMonsterIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  return [result userMonsterIdsAtIndex:index];
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value {
+  [result.mutableUserMonsterIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) addUserMonsterIds:(int64_t) value {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObjectsFromArray:values];
+  return self;
+}
+- (UnrestrictUserMonsterRequestProto_Builder*) clearUserMonsterIdsList {
+  result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+@end
+
+@interface UnrestrictUserMonsterResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus status;
+@end
+
+@implementation UnrestrictUserMonsterResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
+  }
+  return self;
+}
+static UnrestrictUserMonsterResponseProto* defaultUnrestrictUserMonsterResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [UnrestrictUserMonsterResponseProto class]) {
+    defaultUnrestrictUserMonsterResponseProtoInstance = [[UnrestrictUserMonsterResponseProto alloc] init];
+  }
+}
++ (UnrestrictUserMonsterResponseProto*) defaultInstance {
+  return defaultUnrestrictUserMonsterResponseProtoInstance;
+}
+- (UnrestrictUserMonsterResponseProto*) defaultInstance {
+  return defaultUnrestrictUserMonsterResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromData:(NSData*) data {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromData:data] build];
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromInputStream:input] build];
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UnrestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnrestrictUserMonsterResponseProto*)[[[UnrestrictUserMonsterResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnrestrictUserMonsterResponseProto_Builder*) builder {
+  return [[[UnrestrictUserMonsterResponseProto_Builder alloc] init] autorelease];
+}
++ (UnrestrictUserMonsterResponseProto_Builder*) builderWithPrototype:(UnrestrictUserMonsterResponseProto*) prototype {
+  return [[UnrestrictUserMonsterResponseProto builder] mergeFrom:prototype];
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) builder {
+  return [UnrestrictUserMonsterResponseProto builder];
+}
+@end
+
+BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus value) {
+  switch (value) {
+    case UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess:
+    case UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UnrestrictUserMonsterResponseProto_Builder()
+@property (retain) UnrestrictUserMonsterResponseProto* result;
+@end
+
+@implementation UnrestrictUserMonsterResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UnrestrictUserMonsterResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) clear {
+  self.result = [[[UnrestrictUserMonsterResponseProto alloc] init] autorelease];
+  return self;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) clone {
+  return [UnrestrictUserMonsterResponseProto builderWithPrototype:result];
+}
+- (UnrestrictUserMonsterResponseProto*) defaultInstance {
+  return [UnrestrictUserMonsterResponseProto defaultInstance];
+}
+- (UnrestrictUserMonsterResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UnrestrictUserMonsterResponseProto*) buildPartial {
+  UnrestrictUserMonsterResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) mergeFrom:(UnrestrictUserMonsterResponseProto*) other {
+  if (other == [UnrestrictUserMonsterResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) status {
+  return result.status;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) setStatus:(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UnrestrictUserMonsterResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
+  return self;
+}
+@end
+

@@ -289,7 +289,7 @@
   QuestJobProto *jp = [fqp jobForId:jobId];
   NSMutableArray *potentials = [NSMutableArray array];
   for (UserMonster *um in gs.myMonsters) {
-    if (um.monsterId == jp.staticDataId && um.isAvailable) {
+    if (um.monsterId == jp.staticDataId && um.isAvailable && !um.isProtected) {
       [potentials addObject:um];
     }
   }

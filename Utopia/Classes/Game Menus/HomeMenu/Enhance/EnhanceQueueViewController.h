@@ -20,6 +20,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *qualityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
 @property (nonatomic, retain) IBOutlet MonsterCardView *cardView;
+@property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
 
 @end
 

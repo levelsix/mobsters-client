@@ -31,6 +31,7 @@
 @property (nonatomic, assign) int isComplete;
 @property (nonatomic, assign) int numPieces;
 @property (nonatomic, retain) MSDate *combineStartTime;
+@property (nonatomic, assign) int isProtected;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;

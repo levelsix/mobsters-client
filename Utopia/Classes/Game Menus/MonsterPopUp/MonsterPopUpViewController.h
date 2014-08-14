@@ -48,6 +48,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
 
 @property (nonatomic, strong) IBOutlet UIButton *avatarButton;
+@property (nonatomic, strong) IBOutlet UIButton *protectedButton;
+@property (nonatomic, strong) IBOutlet UIView *buttonsContainer;
 
 @property (nonatomic, strong) IBOutlet UIImageView *monsterImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *elementType;

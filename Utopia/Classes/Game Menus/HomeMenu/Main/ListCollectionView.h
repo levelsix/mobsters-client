@@ -47,6 +47,8 @@
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
+
 @property (nonatomic, retain) IBOutlet UILabel *statusLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *availableView;

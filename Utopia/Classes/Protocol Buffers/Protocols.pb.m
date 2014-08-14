@@ -130,6 +130,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCCompleteMiniJobEvent:
     case EventProtocolRequestCRedeemMiniJobEvent:
     case EventProtocolRequestCSetAvatarMonsterEvent:
+    case EventProtocolRequestCRestrictUserMonsterEvent:
+    case EventProtocolRequestCUnrestrictUserMonsterEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -212,6 +214,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSCompleteMiniJobEvent:
     case EventProtocolResponseSRedeemMiniJobEvent:
     case EventProtocolResponseSSetAvatarMonsterEvent:
+    case EventProtocolResponseSRestrictUserMonsterEvent:
+    case EventProtocolResponseSUnrestrictUserMonsterEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

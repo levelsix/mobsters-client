@@ -46,6 +46,7 @@
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define MINI_JOB_WAIT_COMPLETE_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
+#define MONSTER_LOCK_CHANGED_NOTIFICATION @"MonsterLockChangedNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
 #define GLOBAL_CHAT_RECEIVED_NOTIFICATION @"GlobalChatReceivedNotification"
@@ -283,7 +284,7 @@
 
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
 
-+(NSString*) getDoubleResolutionImage:(NSString*)path;
++ (NSString*) getDoubleResolutionImage:(NSString*)path;
 
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;

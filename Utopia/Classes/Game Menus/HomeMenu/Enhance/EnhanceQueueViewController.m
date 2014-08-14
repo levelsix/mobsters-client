@@ -12,6 +12,8 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
+#import "MonsterPopUpViewController.h"
+#import "GameViewController.h"
 
 @implementation EnhanceSmallCardCell
 
@@ -22,20 +24,27 @@
 
 - (void) updateForListObject:(UserMonster *)listObject userEnhancement:(UserEnhancement *)ue {
   MonsterProto *mp = listObject.staticMonster;
+  BOOL greyscale = listObject.isProtected;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
-  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"];
-  [Globals imageNamed:bgdImgName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:bgdImgName withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  int ptsIncrease = [ue experienceIncreaseOfNewUserMonster:listObject];
-  self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:ptsIncrease]];
+  if (listObject.isProtected) {
+    self.enhancePercentLabel.text = @"Locked";
+  } else {
+    int ptsIncrease = [ue experienceIncreaseOfNewUserMonster:listObject];
+    self.enhancePercentLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:ptsIncrease]];
+  }
+  
+  self.lockIcon.hidden = !listObject.isProtected;
   
   self.qualityLabel.text = [[Globals shortenedStringForRarity:mp.quality] uppercaseString];
   
   NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"band.png"];
-  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:tagName withView:self.qualityBgdView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end
@@ -278,6 +287,10 @@
   Globals *gl = [Globals sharedGlobals];
   UserEnhancement *ue = self.currentEnhancement;
   [arr sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    if (obj1.isProtected != obj2.isProtected) {
+      return [@(obj1.isProtected) compare:@(obj2.isProtected)];
+    }
+    
     EnhancementItem *ei = [[EnhancementItem alloc] init];
     ei.userMonsterId = obj1.userMonsterId;
     float exp1 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
@@ -319,11 +332,20 @@
 #pragma mark List
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
-  if (_allowAddingToQueue) {
-    _confirmUserMonster = self.userMonsters[indexPath.row];
-    [self checkMonsterIsNotMaxed];
+  UserMonster *um = self.userMonsters[indexPath.row];
+  if (!um.isProtected) {
+    if (_allowAddingToQueue) {
+      _confirmUserMonster = self.userMonsters[indexPath.row];
+      [self checkMonsterIsNotMaxed];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already enhancing a different %@.", MONSTER_NAME]];
+    }
   } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, you are already enhancing a different %@.", MONSTER_NAME]];
+    MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
+    UIViewController *parent = [GameViewController baseController];
+    mpvc.view.frame = parent.view.bounds;
+    [parent.view addSubview:mpvc.view];
+    [parent addChildViewController:mpvc];
   }
 }
 

@@ -273,6 +273,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSDevEvent:
       responseClass = [DevResponseProto class];
       break;
+    case EventProtocolResponseSRestrictUserMonsterEvent:
+      responseClass = [RestrictUserMonsterResponseProto class];
+      break;
+    case EventProtocolResponseSUnrestrictUserMonsterEvent:
+      responseClass = [UnrestrictUserMonsterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1776,6 +1782,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set avatar monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRestrictUserMonsterResponseProto:(FullEvent *)fe {
+  RestrictUserMonsterResponseProto *proto = (RestrictUserMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Restrict user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to restrict user monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUnrestrictUserMonsterResponseProto:(FullEvent *)fe {
+  UnrestrictUserMonsterResponseProto *proto = (UnrestrictUserMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Unrestrict user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to unrestrict user monster."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

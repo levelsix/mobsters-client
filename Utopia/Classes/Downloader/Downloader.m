@@ -139,7 +139,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) syncDownloadBundle:(NSString *)bundleName {
   LNLog(@"Beginning sync download of bundle %@", bundleName);
-  //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:bundleName waitUntilDone:YES];
   [self beginLoading:bundleName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_syncQueue, ^{
@@ -171,10 +170,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) deleteFile:(NSString *)file {
   NSFileManager *fileMgr = [NSFileManager defaultManager];
-  BOOL success = [fileMgr removeItemAtPath:[_cacheDir stringByAppendingPathComponent:file] error:NULL];
+  NSError *error;
+  NSString *str = [_cacheDir stringByAppendingPathComponent:file];
+  BOOL success = [fileMgr removeItemAtPath:str error:&error];
   
   if (success) {
     LNLog(@"Deleted %@.", file);
+  } else {
+    LNLog(@"Failed to delete %@.", file);
   }
 }
 

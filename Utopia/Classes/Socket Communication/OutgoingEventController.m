@@ -798,6 +798,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) protectUserMonster:(uint64_t)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  if (um && !um.isProtected) {
+    [[SocketCommunication sharedSocketCommunication] sendRestrictUserMonsterMessage:@[@(userMonsterId)]];
+    
+    um.isProtected = YES;
+  }
+}
+
+- (void) unprotectUserMonster:(uint64_t)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  if (um && um.isProtected) {
+    [[SocketCommunication sharedSocketCommunication] sendUnrestrictUserMonsterMessage:@[@(userMonsterId)]];
+    
+    um.isProtected = NO;
+  }
+}
+
 #pragma mark - Chat
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg {

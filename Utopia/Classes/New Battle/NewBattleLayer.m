@@ -675,7 +675,6 @@
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
                          }],
-                        [CCActionDelay actionWithDuration:MAX(0.1, 0.7-duration)],
                         [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
   
@@ -783,6 +782,8 @@
        [self moveToNextEnemy];
      }];
     self.currentEnemy = nil;
+    
+    [self removeBattleScheduleView];
     
     // Send server updated values here because monster just died
     // But make sure that I actually did damage..

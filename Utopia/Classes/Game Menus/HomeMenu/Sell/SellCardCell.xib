@@ -83,6 +83,10 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lockedmobster.png" id="jAy-ne-MLK">
+                                <rect key="frame" x="26" y="16" width="23" height="27"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -94,6 +98,7 @@
                 <outlet property="cardContainer" destination="Qbd-Of-syd" id="nrP-PQ-og2"/>
                 <outlet property="healthBar" destination="c9T-dK-0Zj" id="wLe-AA-2nM"/>
                 <outlet property="healthLabel" destination="Llo-gu-Y3Z" id="LTT-cM-qEz"/>
+                <outlet property="lockIcon" destination="jAy-ne-MLK" id="sds-bQ-Y9t"/>
                 <outlet property="sellCostLabel" destination="vsy-qA-omh" id="Ar6-jm-CDS"/>
                 <outlet property="statusLabel" destination="0jD-Cy-eQP" id="Zea-zd-0Fx"/>
                 <outlet property="unavailableView" destination="0jD-Cy-eQP" id="gdH-Wo-mFn"/>
@@ -103,6 +108,7 @@
     <resources>
         <image name="bigsquarebottom.png" width="74" height="19"/>
         <image name="hpbarbg.png" width="56" height="8"/>
+        <image name="lockedmobster.png" width="23" height="27"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>
         <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>

@@ -122,6 +122,7 @@
   int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
   if (lastNum != gl.mapNumberOfSections) {
     NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
+    imgName = [Globals getDoubleResolutionImage:imgName];
     [[Downloader sharedDownloader] deleteFile:imgName];
     
     [def setInteger:gl.mapNumberOfSections forKey:MAP_SECTION_NUM_KEY];

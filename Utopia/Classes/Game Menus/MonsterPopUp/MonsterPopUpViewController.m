@@ -64,8 +64,9 @@
   
   self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
   
-  self.avatarButton.hidden = self.monster.userId != gs.userId;
+  self.buttonsContainer.hidden = self.monster.userId != gs.userId;
   self.avatarButton.enabled = self.monster.monsterId != gs.avatarMonsterId;
+  [self updateProtectedButton];
   
   self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
   self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
@@ -95,6 +96,10 @@
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
+
+- (void) updateProtectedButton {
+  [self.protectedButton setImage:[Globals imageNamed:(self.monster.isProtected ? @"lockedactive.png" : @"lockedinactive.png")] forState:UIControlStateNormal];
 }
 
 - (void) setDescriptionLabelString:(NSString *)labelText {
@@ -179,6 +184,18 @@
     [[OutgoingEventController sharedOutgoingEventController] setAvatarMonster:self.monster.monsterId];
     self.avatarButton.enabled = NO;
   }
+}
+
+- (IBAction)lockClicked:(id)sender {
+  if (!self.monster.isProtected) {
+    [[OutgoingEventController sharedOutgoingEventController] protectUserMonster:self.monster.userMonsterId];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] unprotectUserMonster:self.monster.userMonsterId];
+  }
+  
+  [self updateProtectedButton];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_LOCK_CHANGED_NOTIFICATION object:nil];
 }
 
 - (IBAction)close:(id)sender {

@@ -51,6 +51,17 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aWu-kN-Z0U" customClass="MaskedButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="darkOverlayClicked:" destination="Jvz-ka-5Bc" eventType="touchUpInside" id="5Tx-Ei-v78"/>
+                                            <outlet property="baseImage" destination="lmM-LX-zEo" id="C5u-W8-MtM"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -65,17 +76,10 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aWu-kN-Z0U" customClass="MaskedButton">
-                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="darkOverlayClicked:" destination="Jvz-ka-5Bc" eventType="touchUpInside" id="5Tx-Ei-v78"/>
-                                    <outlet property="baseImage" destination="lmM-LX-zEo" id="C5u-W8-MtM"/>
-                                </connections>
-                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lockedmobster.png" id="fjE-tw-ryJ">
+                                <rect key="frame" x="16" y="11" width="16" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <connections>
@@ -90,6 +94,7 @@
                 <outlet property="bgdIcon" destination="lmM-LX-zEo" id="lKc-4y-Twh"/>
                 <outlet property="cardView" destination="Jvz-ka-5Bc" id="Ndc-uI-HZg"/>
                 <outlet property="enhancePercentLabel" destination="Bxr-6u-khk" id="dYY-mI-9Wh"/>
+                <outlet property="lockIcon" destination="fjE-tw-ryJ" id="VZ7-sK-wrI"/>
                 <outlet property="monsterIcon" destination="UB9-ih-Xho" id="aD2-Ss-5cs"/>
                 <outlet property="qualityBgdView" destination="X8t-4K-qPT" id="7lI-L6-HKr"/>
                 <outlet property="qualityLabel" destination="Kn4-9D-0np" id="BiU-J4-kXw"/>
@@ -98,6 +103,7 @@
     </objects>
     <resources>
         <image name="earthmediumsquare.png" width="48" height="48"/>
+        <image name="lockedmobster.png" width="23" height="27"/>
         <image name="mediumsquarebottom.png" width="48" height="14"/>
         <image name="rareband.png" width="33" height="33"/>
     </resources>

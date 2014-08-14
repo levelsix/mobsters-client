@@ -180,7 +180,10 @@
 - (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime;
 - (int) sendCompleteMiniJobMessage:(uint64_t)userMiniJobId isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
 - (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths ;
+
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId;
+- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterIds;
+- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterIds;
 
 - (int) sendDevRequestProto:(DevRequest)request num:(int)num;
 

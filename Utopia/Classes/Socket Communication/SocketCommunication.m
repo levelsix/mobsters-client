@@ -1212,6 +1212,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetAvatarMonsterEvent];
 }
 
+- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterIds {
+  RestrictUserMonsterRequestProto *req = [[[[RestrictUserMonsterRequestProto builder]
+                                            setSender:_sender]
+                                           addAllUserMonsterIds:userMonsterIds]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRestrictUserMonsterEvent];
+}
+
+- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterIds {
+  UnrestrictUserMonsterRequestProto *req = [[[[UnrestrictUserMonsterRequestProto builder]
+                                            setSender:_sender]
+                                           addAllUserMonsterIds:userMonsterIds]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUnrestrictUserMonsterEvent];
+}
+
 - (int) sendDevRequestProto:(DevRequest)request num:(int)num {
   DevRequestProto *req = [[[[[DevRequestProto builder]
                              setDevRequest:request]

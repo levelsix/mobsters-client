@@ -94,7 +94,11 @@
   self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
   self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
   
-  if ([um isAvailable]) {
+  // For selling
+  self.lockIcon.hidden = !um.isProtected;
+  self.sellCostLabel.hidden = um.isProtected;
+  
+  if ([um isAvailable] && !greyscale) {
     self.availableView.hidden = NO;
     self.unavailableView.hidden = YES;
     self.combiningView.hidden = YES;

@@ -33,6 +33,7 @@
     self.numPieces = proto.numPieces;
     self.isComplete = proto.isComplete;
     self.combineStartTime = [MSDate dateWithTimeIntervalSince1970:proto.combineStartTime/1000.];
+    self.isProtected = proto.isRestrictd;
   }
   return self;
 }
@@ -129,6 +130,8 @@
     } else {
       str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
     }
+  } else if (self.isProtected ) {
+    str = @"Locked";
   }
   return str;
 }
@@ -150,7 +153,7 @@
 }
 
 - (BOOL) isAvailableForSelling {
-  return self.isAvailable || !self.isComplete;
+  return (self.isAvailable || !self.isComplete) && !self.isProtected;
 }
 
 - (int) sellPrice {

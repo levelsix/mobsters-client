@@ -391,6 +391,10 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class RestrictUserMonsterRequestProto;
+@class RestrictUserMonsterRequestProto_Builder;
+@class RestrictUserMonsterResponseProto;
+@class RestrictUserMonsterResponseProto_Builder;
 @class RetractRequestJoinClanRequestProto;
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
@@ -509,6 +513,10 @@
 @class TransferClanOwnershipResponseProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UnrestrictUserMonsterRequestProto;
+@class UnrestrictUserMonsterRequestProto_Builder;
+@class UnrestrictUserMonsterResponseProto;
+@class UnrestrictUserMonsterResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpdateMonsterHealthRequestProto;
@@ -631,6 +639,8 @@ typedef enum {
   EventProtocolRequestCCompleteMiniJobEvent = 72,
   EventProtocolRequestCRedeemMiniJobEvent = 73,
   EventProtocolRequestCSetAvatarMonsterEvent = 74,
+  EventProtocolRequestCRestrictUserMonsterEvent = 75,
+  EventProtocolRequestCUnrestrictUserMonsterEvent = 76,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -711,6 +721,8 @@ typedef enum {
   EventProtocolResponseSCompleteMiniJobEvent = 72,
   EventProtocolResponseSRedeemMiniJobEvent = 73,
   EventProtocolResponseSSetAvatarMonsterEvent = 74,
+  EventProtocolResponseSRestrictUserMonsterEvent = 75,
+  EventProtocolResponseSUnrestrictUserMonsterEvent = 76,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

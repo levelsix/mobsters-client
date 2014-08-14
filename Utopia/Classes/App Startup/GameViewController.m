@@ -383,8 +383,8 @@
       self.resumeTaskStages = nil;
     }
     
-    [[CCDirector sharedDirector] startAnimation];
-    [[CCDirector sharedDirector] drawScene];
+    //[[CCDirector sharedDirector] startAnimation];
+    //[[CCDirector sharedDirector] drawScene];
     
     [self dismissViewControllerAnimated:YES completion:^{
       [self checkLevelUp];

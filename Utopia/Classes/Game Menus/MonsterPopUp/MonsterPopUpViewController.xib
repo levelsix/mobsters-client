@@ -28,8 +28,10 @@
                 <outlet property="monsterNameLabel" destination="YH8-8k-D11" id="hTV-0q-ImJ"/>
                 <outlet property="nightView" destination="qQB-Xa-YNg" id="07z-26-0fp"/>
                 <outlet property="progressBar" destination="y5u-CF-vVy" id="wky-Jk-xz4"/>
+                <outlet property="protectedButton" destination="j2O-jp-6fS" id="EUb-FR-EXO"/>
                 <outlet property="rarityTag" destination="Ubv-eZ-E9j" id="RfK-T2-c9x"/>
                 <outlet property="rockView" destination="eRb-l0-Hoh" id="wCi-CZ-shD"/>
+                <outlet property="sellButtonView" destination="27D-X9-wi5" id="Ioi-L4-rAC"/>
                 <outlet property="speedLabel" destination="PF7-bJ-lcr" id="kC2-ci-d2P"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="waterView" destination="ouW-th-ZhY" id="2Vp-r6-dWw"/>
@@ -333,17 +335,35 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kkH-Yh-Jb1">
-                            <rect key="frame" x="8" y="6" width="37" height="34"/>
+                        <view contentMode="scaleToFill" id="27D-X9-wi5">
+                            <rect key="frame" x="7" y="4" width="69" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="inactiveheart.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="disabled" image="activeheart.png"/>
-                            <connections>
-                                <action selector="heartClicked:" destination="-1" eventType="touchUpInside" id="f4W-pV-yTc"/>
-                            </connections>
-                        </button>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kkH-Yh-Jb1">
+                                    <rect key="frame" x="4" y="1" width="24" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="avatarinactive.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" image="avataractive.png"/>
+                                    <connections>
+                                        <action selector="heartClicked:" destination="-1" eventType="touchUpInside" id="f4W-pV-yTc"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="j2O-jp-6fS">
+                                    <rect key="frame" x="30" y="1" width="24" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="lockedinactive.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" image="avataractive.png"/>
+                                    <connections>
+                                        <action selector="lockClicked:" destination="-1" eventType="touchUpInside" id="Nua-jh-RNY"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -589,11 +609,12 @@
         </view>
     </objects>
     <resources>
-        <image name="activeheart.png" width="17" height="15"/>
+        <image name="avataractive.png" width="22" height="22"/>
+        <image name="avatarinactive.png" width="20" height="21"/>
         <image name="battleepictag.png" width="29" height="14"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="detailshadow.png" width="66" height="31"/>
-        <image name="inactiveheart.png" width="17" height="15"/>
+        <image name="lockedinactive.png" width="20" height="21"/>
         <image name="menuteamhealthbar.png" width="87" height="11"/>
         <image name="menuteamhealthbarbg.png" width="87" height="11"/>
         <image name="mobsterdescriptionbg.png" width="363" height="43"/>

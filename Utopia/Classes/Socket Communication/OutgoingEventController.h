@@ -76,6 +76,8 @@
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
 - (void) setAvatarMonster:(int)avatarMonsterId;
+- (void) protectUserMonster:(uint64_t)userMonsterId;
+- (void) unprotectUserMonster:(uint64_t)userMonsterId;
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate;
