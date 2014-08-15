@@ -388,9 +388,13 @@
 - (void) moveToNextEnemy {
   [self removeSwapButton];
   [self removeDeployView];
-  self.forfeitView.hidden = YES;
+  self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    self.waveNumLabel.alpha = 0.3f;
+  }];
   
   _curStage++;
   if (_curStage < self.enemyTeam.count) {
@@ -521,6 +525,12 @@
       [self.battleScheduleView addMonster:monsterId];
     }
     
+    self.bottomView.hidden = NO;
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      self.waveNumLabel.alpha = 1.f;
+    }];
+    
     BOOL nextMove = [self.battleSchedule dequeueNextMove];
     if (nextMove) {
       [self beginMyTurn];
@@ -551,7 +561,7 @@
   [self.orbLayer allowInput];
   
   [self displaySwapButton];
-  self.forfeitView.hidden = NO;
+  self.forfeitButtonView.hidden = NO;
   self.elementButton.hidden = NO;
 }
 
@@ -581,7 +591,7 @@
 - (void) removeButtons {
   [self removeSwapButton];
   [self removeDeployView];
-  self.forfeitView.hidden = YES;
+  self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
 }
@@ -724,9 +734,7 @@
     [self.bgdContainer addChild:eff z:100];
     
     // Ignore position and use center point
-    CGPoint pt1 = ccpAdd(self.myPlayer.position, ccp(self.myPlayer.contentSize.width/2, self.myPlayer.contentSize.height/2));
-    CGPoint pt2 = ccpAdd(self.currentEnemy.position, ccp(self.currentEnemy.contentSize.width/2, self.currentEnemy.contentSize.height/2));
-    eff.position = ccpMidpoint(pt1, pt2);
+    eff.position = ccpAdd(CENTER_OF_BATTLE, ccp(20, 10));
     
     eff.scale = 0.5f;
     //eff.position = position;
@@ -962,9 +970,6 @@
                   nil]];
   
   _waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
-  [UIView animateWithDuration:0.3f animations:^{
-    _waveNumLabel.alpha = 1.f;
-  }];
 }
 
 - (void) dropLoot:(CCSprite *)ed {
@@ -1053,7 +1058,7 @@
     CGPoint endPos = ccpAdd(self.currentEnemy.position, ccp(5,10));
     endPos = ccpAdd(endPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.02*(i-2)));
     
-    bomb.position = ccp(endPos.x, endPos.y+130);
+    bomb.position = ccp(endPos.x, endPos.y+250);
     
     [bomb runAction:
      [CCActionSequence actions:
@@ -1179,12 +1184,9 @@
 - (void) endBattle:(BOOL)won {
   _wonBattle = won;
   
-  [self removeSwapButton];
-  [self removeDeployView];
-  self.forfeitView.hidden = YES;
-  self.elementButton.hidden = YES;
-  [self.elementView close];
+  [self removeButtons];
   [self removeBattleScheduleView];
+  self.bottomView.hidden = YES;
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
@@ -1204,10 +1206,6 @@
       
       [SoundEngine puzzleYouLose];
     }
-  }];
-  
-  [UIView animateWithDuration:0.3f animations:^{
-    _waveNumLabel.alpha = 0.f;
   }];
 }
 
@@ -1476,7 +1474,7 @@
   
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
-  self.forfeitView.hidden = YES;
+  self.bottomView.hidden = YES;
   self.elementButton.hidden = YES;
   self.battleScheduleView.hidden = YES;
   
@@ -1485,6 +1483,7 @@
   self.waveNumLabel.shadowBlur = 1.f;
   self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
   self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
+  self.waveNumLabel.alpha = 0.f;
   
   self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy:", MONSTER_NAME];
 }
@@ -1527,7 +1526,7 @@
     float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
     self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
     
-    self.forfeitView.alpha = 0.f;
+    self.bottomView.alpha = 0.f;
   } completion:^(BOOL finished) {
     if (finished && cancel) {
       self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
@@ -1548,7 +1547,7 @@
     self.deployCancelButton = nil;
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-      self.forfeitView.alpha = 1.f;
+      self.bottomView.alpha = 1.f;
     } completion:^(BOOL finished) {
       self.deployView.hidden = YES;
     }];
@@ -1662,7 +1661,7 @@
     _isExiting = YES;
     
     self.swapView.hidden  = YES;
-    self.forfeitView.hidden = YES;
+    self.bottomView.hidden = YES;
     self.elementButton.hidden = YES;
     [self.elementView close];
     
@@ -1705,10 +1704,6 @@
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
-  
-  [UIView animateWithDuration:0.3f animations:^{
-    _waveNumLabel.alpha = 1.f;
-  }];
 }
 
 @end

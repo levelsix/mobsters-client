@@ -13,6 +13,8 @@
 #import "QuestUtil.h"
 #import "GenericPopupController.h"
 
+#define LOCK_MOBSTER_DEFAULTS_KEY @"LockMobsterConfirmation"
+
 @implementation ElementDisplayView
 
 - (void) updateStatsWithElementType:(Element)element andDamage:(int)damage {
@@ -187,6 +189,18 @@
 }
 
 - (IBAction)lockClicked:(id)sender {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  if (![def boolForKey:LOCK_MOBSTER_DEFAULTS_KEY]) {
+    NSString *str = [NSString stringWithFormat:@"Locking this %@ will prevent you from accidentally selling, sacrificing in enhancement, or donating them.", MONSTER_NAME];
+    [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Lock %@?", MONSTER_NAME] okayButton:@"Lock" cancelButton:@"Cancel" target:self selector:@selector(doLock)];
+    
+    [def setBool:YES forKey:LOCK_MOBSTER_DEFAULTS_KEY];
+  } else {
+    [self doLock];
+  }
+}
+
+- (void) doLock {
   if (!self.monster.isProtected) {
     [[OutgoingEventController sharedOutgoingEventController] protectUserMonster:self.monster.userMonsterId];
   } else {

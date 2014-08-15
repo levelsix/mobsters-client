@@ -172,15 +172,19 @@
   TaskMapElementProto *bestElem = nil;
   for (TaskMapElementProto *elem in gs.staticMapElements) {
     if ([gs isTaskUnlocked:elem.taskId]) {
-      BOOL bestCompleted = [gs isTaskCompleted:bestElem.taskId];
-      BOOL curCompleted = [gs isTaskCompleted:elem.taskId];
-      
-      if (bestCompleted != curCompleted) {
-        // Choose non-completed one
-        bestElem = bestCompleted ? elem : bestElem;
+      if (!bestElem) {
+        bestElem = elem;
       } else {
-        // Choose higher map elem id
-        bestElem = bestElem.mapElementId > elem.mapElementId ? bestElem : elem;
+        BOOL bestCompleted = [gs isTaskCompleted:bestElem.taskId];
+        BOOL curCompleted = [gs isTaskCompleted:elem.taskId];
+        
+        if (bestCompleted != curCompleted) {
+          // Choose non-completed one
+          bestElem = bestCompleted ? elem : bestElem;
+        } else {
+          // Choose higher map elem id
+          bestElem = bestElem.mapElementId > elem.mapElementId ? bestElem : elem;
+        }
       }
     }
   }

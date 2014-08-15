@@ -222,7 +222,7 @@ static NSString *udid = nil;
 }
 
 - (void) connectedToHost {
-  LNLog(@"Connected to host");
+  LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
   
   _isCreatingQueues = YES;
   _canSendPreDbEvents = YES;

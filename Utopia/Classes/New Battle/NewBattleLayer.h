@@ -202,7 +202,8 @@
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet UILabel *swapLabel;
 @property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
-@property (nonatomic, retain) IBOutlet UIView *forfeitView;
+@property (nonatomic, retain) IBOutlet UIView *forfeitButtonView;
+@property (nonatomic, retain) IBOutlet UIView *bottomView;
 @property (nonatomic, retain) UIButton *deployCancelButton;
 @property (nonatomic, retain) IBOutlet THLabel *waveNumLabel;
 
