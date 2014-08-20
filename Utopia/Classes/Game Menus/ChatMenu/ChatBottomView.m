@@ -171,11 +171,11 @@
   for (ChatScope i = ChatScopeGlobal; i <= ChatScopePrivate; i++) {
     NSString *filename = nil;
     if (i == _chatScope) {
-      filename = @"chatactivedot.png";
+      filename = @"activechatline.png";
     } else if ([self.delegate shouldShowNotificationDotForScope:i]) {
-      filename = @"chatnotificationdot.png";
+      filename = @"newchatline.png";
     } else {
-      filename = @"chatinactivedot.png";
+      filename = @"inactivechatline.png";
     }
     
     if (filename) {
@@ -216,6 +216,17 @@
       }
     }];
   }
+  
+  if (self.currentLineViews.count) {
+    // Create a new reference so that we can deallocate it in completion block
+    UILabel *label = self.emptyLabel;
+    [UIView animateWithDuration:0.3f animations:^{
+      label.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [label removeFromSuperview];
+    }];
+    self.emptyLabel = nil;
+  }
 }
 
 - (void) reloadDataAnimated {
@@ -223,7 +234,7 @@
   int numNew = MIN(newNumChats-_numChats, NUM_ROWS_DISPLAYED);
   _numChats = newNumChats;
   _numToDisplay = MIN(_numChats, NUM_ROWS_DISPLAYED);
-
+  
   if (numNew > 0) {
     for (int i = numNew-1; i >= 0; i--) {
       ChatBottomLineView *lv = [self getLineViewForLineNum:i];
@@ -266,15 +277,50 @@
   }
   [self.currentLineViews removeAllObjects];
   
-  for (int i = 0; i < _numToDisplay; i++) {
-    ChatBottomLineView *lv = [self getLineViewForLineNum:i];
-    lv.center = ccpAdd([self centerForLineView:lv lineNum:i], ccpCompMult(delta, ccp(self.openedView.frame.size.width, 0)));
+  // Move the empty label as well
+  if (self.emptyLabel) {
+    // Create a new reference so that we can deallocate it in completion block
+    UILabel *label = self.emptyLabel;
+    [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      label.center = ccpAdd(label.center, ccpCompMult(ccpMult(delta, -1), ccp(self.openedView.frame.size.width, 0)));
+    } completion:^(BOOL finished) {
+      [label removeFromSuperview];
+    }];
+    self.emptyLabel = nil;
+  }
+  
+  if (_numToDisplay) {
+    for (int i = 0; i < _numToDisplay; i++) {
+      ChatBottomLineView *lv = [self getLineViewForLineNum:i];
+      lv.center = ccpAdd([self centerForLineView:lv lineNum:i], ccpCompMult(delta, ccp(self.openedView.frame.size.width, 0)));
+      
+      [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        lv.center = [self centerForLineView:lv lineNum:i];
+      } completion:nil];
+      
+      [self.currentLineViews addObject:lv];
+    }
+  } else {
+    CGRect r = CGRectZero;
+    r.size.width = self.openedView.frame.size.width;
+    r.size.height = self.lineViewContainer.frame.size.height;
+    NiceFontLabel14B *label = [[NiceFontLabel14B alloc] initWithFrame:r];
+    label.font = [UIFont systemFontOfSize:12.f];
+    [label awakeFromNib];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.8f];
+    label.shadowOffset = CGSizeMake(0, 1);
+    [self.lineViewContainer addSubview:label];
+    
+    CGPoint center = ccp(self.openedView.frame.size.width/2, self.lineViewContainer.frame.size.height/2);
+    label.center = ccpAdd(center, ccpCompMult(delta, ccp(self.openedView.frame.size.width, 0)));
+    label.text = [self.delegate emptyStringForScope:scope];
     
     [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      lv.center = [self centerForLineView:lv lineNum:i];
+      label.center = center;
     } completion:nil];
-    
-    [self.currentLineViews addObject:lv];
+    self.emptyLabel = label;
   }
   
   [self performSelector:@selector(reloadPageControl) withObject:nil afterDelay:duration];

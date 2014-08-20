@@ -31,6 +31,7 @@ typedef enum {
 @protocol ChatBottomViewDelegate <MapBotViewDelegate>
 
 - (int) numChatsAvailableForScope:(ChatScope)scope;
+- (NSString *) emptyStringForScope:(ChatScope)scope;
 - (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (void) bottomViewClicked;
@@ -53,6 +54,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIView *closedView;
 @property (nonatomic, retain) IBOutlet UIView *openedView;
+
+@property (nonatomic, retain) UILabel *emptyLabel;
 
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) ChatScope chatScope;

@@ -392,10 +392,6 @@
   self.elementButton.hidden = YES;
   [self.elementView close];
   
-  [UIView animateWithDuration:0.3f animations:^{
-    self.waveNumLabel.alpha = 0.3f;
-  }];
-  
   _curStage++;
   if (_curStage < self.enemyTeam.count) {
     [self.myPlayer beginWalking];
@@ -970,6 +966,14 @@
                   nil]];
   
   _waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  
+  [UIView animateWithDuration:fadeTime delay:initDelay options:UIViewAnimationOptionCurveLinear animations:^{
+    self.waveNumLabel.alpha = 0.3f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:fadeTime delay:delayTime options:UIViewAnimationOptionCurveLinear animations:^{
+      self.waveNumLabel.alpha = 1.f;
+    } completion:nil];
+  }];
 }
 
 - (void) dropLoot:(CCSprite *)ed {

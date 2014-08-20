@@ -312,6 +312,17 @@
   return 0;
 }
 
+- (NSString *) emptyStringForScope:(ChatScope)scope {
+  if (scope == ChatScopeGlobal) {
+    return @"Global chat is empty, say something!";
+  } else if (scope == ChatScopeClan) {
+    return @"Join a squad to chat with them.";
+  } else if (scope == ChatScopePrivate) {
+    return @"You have no private conversations.";
+  }
+  return nil;
+}
+
 - (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopeGlobal) {

@@ -344,6 +344,10 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
+//  NSString *cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
+//  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
+//  [messageWithHeader writeToFile:filePath atomically:YES];
+  
   float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:2.f] timeIntervalSinceNow]);
   [self.connectionThread sendData:messageWithHeader withDelay:delay];
 }

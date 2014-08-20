@@ -67,7 +67,7 @@
     [gs currentLeagueWasShown];
   }
   
-  [self loadCities];
+  [self loadInitialMapSegments];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -108,66 +108,97 @@
 
 #pragma mark - PVE
 
-- (void)loadCities {
+- (void) loadInitialMapSegments {
   Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  
-  NSArray *svs = [self.mapScrollView.subviews copy];
-  for (UIView *sv in svs) {
-    [sv removeFromSuperview];
-  }
-  
-  // If its a new set of map sections, delete the last one
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
-  if (lastNum != gl.mapNumberOfSections) {
-    NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
-    imgName = [Globals getDoubleResolutionImage:imgName];
-    [[Downloader sharedDownloader] deleteFile:imgName];
-    
-    [def setInteger:gl.mapNumberOfSections forKey:MAP_SECTION_NUM_KEY];
-  }
-  
-  // Assemble map sections
+  TaskMapElementProto *bestElem = [self bestMapElement];
   float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
-  for (int i = 1; i <= gl.mapNumberOfSections; i++) {
-    NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, i];
-    
-    CGRect frame = CGRectZero;
-    frame.size.width = self.mapScrollView.frame.size.width;
-    frame.size.height = scaleFactor*gl.mapSectionHeight;
-    frame.origin.y = gl.mapTotalHeight*scaleFactor-frame.size.height*i;
-    
-    // The last section might be smaller than the section height
-    if (frame.origin.y < 0) {
-      frame.size.height = frame.origin.y+frame.size.height;
-      frame.origin.y = 0;
-    }
-    
-    UIImageView *iv = [[UIImageView alloc] initWithFrame:frame];
-    iv.contentMode = UIViewContentModeScaleToFill;
-    [self.mapScrollView addSubview:iv];
-    [Globals imageNamed:imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  }
-  self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, gl.mapTotalHeight*scaleFactor);
-  
-  UINib *nib = [UINib nibWithNibName:@"AttackMapIconView" bundle:nil];
-  for (TaskMapElementProto *elem in gs.staticMapElements) {
-    FullTaskProto *task = [gs taskWithId:elem.taskId];
-    
-    AttackMapIconView *icon = [nib instantiateWithOwner:self options:nil][0];
-    [icon updateForTaskMapElement:elem task:task isLocked:![gs isTaskUnlocked:elem.taskId]];
-    
-    [self.mapScrollView addSubview:icon];
-    icon.center = ccpMult(ccp(elem.xPos, gl.mapTotalHeight-elem.yPos), scaleFactor);
-    
-    [icon.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
-  }
-  
+  [self loadMapInfoAroundPoint:ccp(bestElem.xPos, bestElem.yPos+self.mapScrollView.frame.size.height/3/scaleFactor)];
   [self centerOnAppropriateMapIcon];
 }
 
-- (void) centerOnAppropriateMapIcon {
+#define MAP_SECTION_TAG_BASE 2834
+
+- (void) loadMapInfoAroundPoint:(CGPoint)pt {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
+  
+  // This if statement means this is the first time we're calling this method
+  if (!self.mapSegmentContainer) {
+    // If its a new set of map sections, delete the last one
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
+    if (lastNum != gl.mapNumberOfSections) {
+      NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
+      imgName = [Globals getDoubleResolutionImage:imgName];
+      [[Downloader sharedDownloader] deleteFile:imgName];
+      
+      [def setInteger:gl.mapNumberOfSections forKey:MAP_SECTION_NUM_KEY];
+    }
+    
+    self.mapSegmentContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mapScrollView.frame.size.width, gl.mapTotalHeight*scaleFactor)];
+    [self.mapScrollView addSubview:self.mapSegmentContainer];
+    self.mapScrollView.contentSize = self.mapSegmentContainer.frame.size;
+  }
+  
+  // Check for map sections
+  int section = floorf(pt.y/gl.mapSectionHeight)+1;
+  for (int i = section-1; i <= section+1; i++) {
+    // Make sure it doesn't already exist
+    if (i > 0 && i <= gl.mapNumberOfSections && ![self.mapSegmentContainer viewWithTag:i+MAP_SECTION_TAG_BASE]) {
+      NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, i];
+      
+      CGRect frame = CGRectZero;
+      frame.size.width = self.mapScrollView.frame.size.width;
+      frame.size.height = scaleFactor*gl.mapSectionHeight;
+      frame.origin.y = gl.mapTotalHeight*scaleFactor-frame.size.height*i;
+      
+      // The last section might be smaller than the section height
+      if (frame.origin.y < 0) {
+        frame.size.height = frame.origin.y+frame.size.height;
+        frame.origin.y = 0;
+      }
+      
+      UIImageView *iv = [[UIImageView alloc] initWithFrame:frame];
+      iv.contentMode = UIViewContentModeScaleToFill;
+      [self.mapSegmentContainer addSubview:iv];
+      [Globals imageNamed:imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+      iv.tag = i+MAP_SECTION_TAG_BASE;
+    }
+  }
+  
+  // Check map icons
+  UINib *nib = nil;
+  // Do it in reverse so that the lower ones are higher
+  float scaledHeight = self.mapScrollView.frame.size.height/scaleFactor;
+  for (TaskMapElementProto *elem in gs.staticMapElements.reverseObjectEnumerator) {
+    if (elem.yPos > pt.y-scaledHeight && elem.yPos < pt.y+scaledHeight && ![self.mapScrollView viewWithTag:elem.mapElementId]) {
+      if (!nib) {
+        nib = [UINib nibWithNibName:@"AttackMapIconView" bundle:nil];
+      }
+      
+      FullTaskProto *task = [gs taskWithId:elem.taskId];
+      
+      AttackMapIconView *icon = [nib instantiateWithOwner:self options:nil][0];
+      [icon updateForTaskMapElement:elem task:task isLocked:![gs isTaskUnlocked:elem.taskId]];
+      
+      [self.mapScrollView addSubview:icon];
+      icon.center = ccpMult(ccp(elem.xPos, gl.mapTotalHeight-elem.yPos), scaleFactor);
+      
+      [icon.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+  }
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  Globals *gl = [Globals sharedGlobals];
+  float scaleFactor = self.mapScrollView.frame.size.width/gl.mapTotalWidth;
+  CGPoint center = ccp(gl.mapTotalWidth/2, (self.mapScrollView.contentSize.height-self.mapScrollView.contentOffset.y-self.mapScrollView.frame.size.height/2)/scaleFactor);
+  [self loadMapInfoAroundPoint:center];
+}
+
+- (TaskMapElementProto *) bestMapElement {
   GameState *gs = [GameState sharedGameState];
   TaskMapElementProto *bestElem = nil;
   for (TaskMapElementProto *elem in gs.staticMapElements) {
@@ -188,6 +219,11 @@
       }
     }
   }
+  return bestElem;
+}
+
+- (void) centerOnAppropriateMapIcon {
+  TaskMapElementProto *bestElem = [self bestMapElement];
   
   if (bestElem) {
     AttackMapIconView *icon = (AttackMapIconView *)[self.mapScrollView viewWithTag:bestElem.mapElementId];
@@ -282,8 +318,6 @@
   [_selectedIcon removeLabelAndGlow];
   _selectedIcon = icon;
   [_selectedIcon displayLabelAndGlow];
-  [_selectedIcon.superview bringSubviewToFront:_selectedIcon];
-  [self.myPositionView.superview bringSubviewToFront:self.myPositionView];
 }
 
 - (IBAction)enterDungeonClicked:(id)sender {

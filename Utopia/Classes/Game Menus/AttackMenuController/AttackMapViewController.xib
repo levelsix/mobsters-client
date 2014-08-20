@@ -26,6 +26,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                             <gestureRecognizers/>
                             <connections>
+                                <outlet property="delegate" destination="-1" id="ggm-0a-MJw"/>
                                 <outletCollection property="gestureRecognizers" destination="nR6-FE-bOz" appends="YES" id="5w7-nz-b6g"/>
                             </connections>
                         </scrollView>

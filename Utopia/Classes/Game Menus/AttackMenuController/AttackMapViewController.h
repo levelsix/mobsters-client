@@ -21,7 +21,7 @@
 
 @end
 
-@interface AttackMapViewController : UIViewController <AttackEventViewDelegate> {
+@interface AttackMapViewController : UIViewController <AttackEventViewDelegate, UIScrollViewDelegate> {
   BOOL _buttonClicked;
   
   AttackMapIconView *_selectedIcon;
@@ -34,6 +34,7 @@
 @property (nonatomic, strong) IBOutlet UIView *pveView;
 
 @property (nonatomic, strong) IBOutlet UIScrollView *mapScrollView;
+@property (nonatomic, strong) IBOutlet UIView *mapSegmentContainer;
 
 @property (nonatomic, strong) IBOutlet AttackEventView *evoEventView;
 @property (nonatomic, strong) IBOutlet AttackEventView *enhanceEventView;
