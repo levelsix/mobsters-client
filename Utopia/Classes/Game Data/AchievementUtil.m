@@ -105,7 +105,7 @@
       if (ap.element != ElementNoElement) {
         increment = orbCounts[ap.element];
       } else {
-        for (int i = 0; i < color_all; i++) {
+        for (int i = 0; i < OrbColorNone; i++) {
           increment += orbCounts[i];
         }
       }
@@ -120,15 +120,15 @@
 + (NSSet *) createPowerups:(int[])powerupCounts {
   NSMutableSet *changedAchievements = [NSMutableSet set];
   
-  int increment = powerupCounts[powerup_vertical_line]+powerupCounts[powerup_horizontal_line];
+  int increment = powerupCounts[PowerupTypeVerticalLine]+powerupCounts[PowerupTypeHorizontalLine];
   NSSet *rockets = [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeCreateRocket byAmount:increment];
   [changedAchievements unionSet:rockets];
   
-  increment = powerupCounts[powerup_explosion];
+  increment = powerupCounts[PowerupTypeExplosion];
   NSSet *grenades = [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeCreateGrenade byAmount:increment];
   [changedAchievements unionSet:grenades];
   
-  increment = powerupCounts[powerup_all_of_one_color];
+  increment = powerupCounts[PowerupTypeAllOfOneColor];
   NSSet *rainbows = [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeCreateRainbow byAmount:increment];
   [changedAchievements unionSet:rainbows];
   

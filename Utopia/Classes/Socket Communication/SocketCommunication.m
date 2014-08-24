@@ -202,7 +202,6 @@ static NSString *udid = nil;
   [self tryConnect];
   
   // In case we just came from inactive state
-  _sender = nil;
   _currentTagNum = arc4random();
   _shouldReconnect = YES;
   _numDisconnects = 0;

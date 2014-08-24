@@ -130,6 +130,12 @@
   LNLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
   
+  // This will restart loading screen
+  // Must put this here instead of willEnterForeground because the ordering is foreground, openURL, active
+  // This is required for Facebook App Switch
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc handleSignificantTimeChange];
+  
   [FacebookDelegate handleDidBecomeActive];
 }
 
@@ -162,10 +168,6 @@
     GameViewController *gvc = [GameViewController baseController];
     [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   }
-  
-  // This will restart loading screen
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc handleSignificantTimeChange];
   
   [self registerAppOpen];
 }

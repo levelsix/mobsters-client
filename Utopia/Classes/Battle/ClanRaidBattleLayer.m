@@ -80,7 +80,7 @@
   [self displayOrbLayer];
   
   ClanRaidStageProto *stage = [self.clanEventDetails currentStage];
-  float width = self.contentSize.width-self.orbBgdLayer.contentSize.width-14-2*10;
+  float width = self.contentSize.width-self.orbLayer.contentSize.width-14-2*10;
   ClanRaidHealthBar *healthBar = [[ClanRaidHealthBar alloc] initWithStage:stage width:width];
   [self addChild:healthBar];
   healthBar.position = ccp(-healthBar.contentSize.width, self.contentSize.height-healthBar.contentSize.height-5);

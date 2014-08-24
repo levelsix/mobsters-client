@@ -131,16 +131,14 @@
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
     
-    OrbBgdLayer *puzzleBg = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
-    [self addChild:puzzleBg z:2];
-    float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
-    puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
-    self.orbBgdLayer = puzzleBg;
-    
     [self initOrbLayer];
     
+    OrbMainLayer *puzzleBg = self.orbLayer;
+    float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
+    puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
+    
     self.noInputLayer = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, NO_INPUT_LAYER_OPACITY)] width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
-    [self.orbBgdLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
+    [self.orbLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
     self.noInputLayer.position = self.orbLayer.position;
     
     self.bgdContainer = [CCNode node];
@@ -175,8 +173,8 @@
 }
 
 - (void) initOrbLayer {
-  OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:_gridSize numColors:6];
-  [self.orbBgdLayer addChild:ol z:2];
+  OrbMainLayer *ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  [self addChild:ol z:2];
   ol.delegate = self;
   self.orbLayer = ol;
 }
@@ -187,7 +185,7 @@
   [self begin];
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbBgdLayer addChild:clip z:self.orbLayer.zOrder];
+  [self.orbLayer addChild:clip z:self.orbLayer.zOrder];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
   clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width, 54);
@@ -243,7 +241,7 @@
 }
 
 - (void) setupUI {
-  OrbBgdLayer *puzzleBg = self.orbBgdLayer;
+  OrbMainLayer *puzzleBg = self.orbLayer;
   
   _movesBgd = [CCSprite spriteWithImageNamed:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
@@ -319,7 +317,7 @@
 
 - (void) createNextMyPlayerSprite {
   BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.attrName rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
-  mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
+  mp.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
   if (_puzzleIsOnLeft) mp.position = ccpAdd(mp.position, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
@@ -436,7 +434,7 @@
 
 - (void) createNextEnemySprite {
   BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.attrName rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
-  bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.enemyPlayerObject.element];
+  bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)self.enemyPlayerObject.element];
   [bs showRarityTag];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
@@ -856,7 +854,7 @@
   
   CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
   [self addChild:spr z:z];
-  spr.scaleX = self.contentSize.width-label.position.x*2-self.orbBgdLayer.contentSize.width-30;
+  spr.scaleX = self.contentSize.width-label.position.x*2-self.orbLayer.contentSize.width-30;
   spr.anchorPoint = ccp(0, 0.5);
   spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-8));
   
@@ -1272,7 +1270,7 @@
 #pragma mark - Delegate Methods
 
 - (void) moveBegan {
-  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+//  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
   
   _movesLeft--;
   [self updateHealthBars];
@@ -1336,21 +1334,23 @@
   _canPlayNextComboSound = YES;
 }
 
-- (void) gemKilled:(Gem *)gem {
-  _orbCount++;
-  _orbCounts[gem.color]++;
+- (void) orbKilled:(BattleOrb *)orb {
+  OrbColor color = orb.orbColor;
   
-  int dmg = [self.myPlayerObject damageForColor:gem.color];
+  _orbCount++;
+  _orbCounts[color]++;
+  
+  int dmg = [self.myPlayerObject damageForColor:color];
   _myDamageDealt += dmg;
   _myDamageForThisTurn += dmg;
-  if (ElementIsValidValue((Element)gem.color)) {
+  if (ElementIsValidValue((Element)color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
-    NSString *fntFile = [Globals imageNameForElement:(Element)gem.color suffix:@"pointsfont.fnt"];
-    fntFile = gem.color != color_filler ? fntFile : @"nightpointsfont.fnt";
+    NSString *fntFile = [Globals imageNameForElement:(Element)color suffix:@"pointsfont.fnt"];
+    fntFile = color != OrbColorRock ? fntFile : @"nightpointsfont.fnt";
     if (fntFile) {
       CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
-      dmgLabel.position = [self.orbLayer pointForGridPosition:[self.orbLayer coordinateOfGem:gem]];
-      [self.orbLayer addChild:dmgLabel z:101];
+      dmgLabel.position = [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row];
+      [self.orbLayer.swipeLayer addChild:dmgLabel z:101];
       
       dmgLabel.scale = 0.25;
       [dmgLabel runAction:[CCActionSequence actions:
@@ -1373,11 +1373,8 @@
   _canPlayNextGemPop = YES;
 }
 
-- (void) gemReachedFlyLocation:(Gem *)gem {
-}
-
-- (void) powerupCreated:(Gem *)gem {
-  _powerupCounts[gem.powerup]++;
+- (void) powerupCreated:(BattleOrb *)orb {
+  _powerupCounts[orb.powerupType]++;
 }
 
 - (void) moveComplete {
@@ -1444,7 +1441,7 @@
 }
 
 - (void) displayOrbLayer {
-  [self.orbBgdLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.position.y)] rate:3]];
+  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
   [SoundEngine puzzleOrbsSlideIn];
 }
 
@@ -1453,15 +1450,15 @@
     block = ^{};
   }
   
-  CGPoint pos = ccp(self.contentSize.width+self.orbBgdLayer.contentSize.width,
-                    self.orbBgdLayer.position.y);
+  CGPoint pos = ccp(self.contentSize.width+self.orbLayer.contentSize.width,
+                    self.orbLayer.position.y);
   if (animated) {
-    [self.orbBgdLayer runAction:
+    [self.orbLayer runAction:
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:0.3f position:pos],
       [CCActionCallBlock actionWithBlock:block], nil]];
   } else {
-    self.orbBgdLayer.position = pos;
+    self.orbLayer.position = pos;
     block();
   }
 }
@@ -1513,7 +1510,7 @@
 }
 
 - (IBAction)swapClicked:(id)sender {
-  if (_orbCount == 0 && !self.orbLayer.isTrackingTouch) {
+  if (_orbCount == 0 && !self.orbLayer.swipeLayer.isTrackingTouch) {
     [self removeSwapButton];
     [self displayDeployViewAndIsCancellable:YES];
   }
@@ -1528,7 +1525,7 @@
   self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
   [UIView animateWithDuration:ANIMATION_TIME animations:^{
     float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
-    self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
+    self.deployView.center = ccp((self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
     
     self.bottomView.alpha = 0.f;
   } completion:^(BOOL finished) {

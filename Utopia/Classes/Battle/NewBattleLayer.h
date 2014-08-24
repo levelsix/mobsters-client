@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
-#import "OrbLayer.h"
 #import "BattleSprite.h"
 #import "BattlePlayer.h"
 #import "BattleViews.h"
-#import "OrbBgdLayer.h"
+#import "OrbMainLayer.h"
 #import "BattleSchedule.h"
 #import "BattleScheduleView.h"
 
@@ -28,7 +27,7 @@
 #define RED_TINT_TAG 6789
 #define LOOT_TAG @"Loot"
 
-#define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
+#define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
 #define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
 #define MY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(-PLAYER_X_DISTANCE_FROM_CENTER, -PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
 #define ENEMY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(PLAYER_X_DISTANCE_FROM_CENTER, PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
@@ -60,7 +59,7 @@
 
 @end
 
-@interface NewBattleLayer : CCNode <OrbLayerDelegate, BattleBgdLayerDelegate> {
+@interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate> {
   int _orbCount;
   int _comboCount;
   int _movesLeft;
@@ -87,8 +86,8 @@
   BOOL _hasStarted;
   BOOL _isExiting;
   
-  int _orbCounts[color_all];
-  int _powerupCounts[powerup_end];
+  int _orbCounts[OrbColorNone];
+  int _powerupCounts[PowerupTypeEnd];
   int _totalComboCount;
   int _totalDamageTaken;
   
@@ -106,8 +105,7 @@
 @property (nonatomic, retain) CCLabelTTF *comboLabel;
 @property (nonatomic, retain) CCLabelTTF *comboBotLabel;
 
-@property (nonatomic, retain) OrbLayer *orbLayer;
-@property (nonatomic, retain) OrbBgdLayer *orbBgdLayer;
+@property (nonatomic, retain) OrbMainLayer *orbLayer;
 
 // bgdContainer holds the bgdLayer as well as battlesprites and all animations on the ground
 @property (nonatomic, retain) CCNode *bgdContainer;

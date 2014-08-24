@@ -83,29 +83,29 @@
   return self;
 }
 
-- (int) damageForColor:(GemColorId)color {
+- (int) damageForColor:(OrbColor)color {
   switch (color) {
-    case color_red:
+    case OrbColorFire:
       return self.fireDamage;
       break;
       
-    case color_blue:
+    case OrbColorWater:
       return self.waterDamage;
       break;
       
-    case color_green:
+    case OrbColorEarth:
       return self.earthDamage;
       break;
       
-    case color_white:
+    case OrbColorLight:
       return self.lightDamage;
       break;
       
-    case color_purple:
+    case OrbColorDark:
       return self.nightDamage;
       break;
       
-    case color_filler:
+    case OrbColorRock:
       return self.rockDamage;
       break;
       

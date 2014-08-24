@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UserData.h"
-#import "OrbLayer.h"
+#import "OrbMainLayer.h"
 #import "Protocols.pb.h"
 
 @interface BattlePlayer : NSObject
@@ -47,7 +47,7 @@
 + (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;
 
-- (int) damageForColor:(GemColorId)color;
+- (int) damageForColor:(OrbColor)color;
 - (int) totalAttackPower;
 - (int) randomDamage;
 

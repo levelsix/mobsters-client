@@ -176,7 +176,7 @@
 - (void) animateImageLabel:(NSString *)imgName completion:(void (^)(void))completion {
   CCSprite *label = [CCSprite spriteWithImageNamed:imgName];
   [self addChild:label];
-  label.position = ccp((self.orbBgdLayer.position.x-self.orbBgdLayer.contentSize.width/2)/2, self.contentSize.height/2);
+  label.position = ccp((self.orbLayer.position.x-self.orbLayer.contentSize.width/2)/2, self.contentSize.height/2);
   
   label.scale = 0.3f;
   [label runAction:[CCActionSequence actions:

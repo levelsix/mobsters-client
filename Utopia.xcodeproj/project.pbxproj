@@ -3844,9 +3844,24 @@
 		CF7461AA196C0CBE002D6AE6 /* minijobsredbubble5.png in Resources */ = {isa = PBXBuildFile; fileRef = CF74619E196C0CBE002D6AE6 /* minijobsredbubble5.png */; };
 		CF7461AB196C0CBE002D6AE6 /* minijobsredbubble5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF74619F196C0CBE002D6AE6 /* minijobsredbubble5@2x.png */; };
 		CF7461AD196C1475002D6AE6 /* RunawayMiddleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */; };
+		CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
+		CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
+		CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1919A55A68009338A2 /* BattleOrb.m */; };
+		CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1919A55A68009338A2 /* BattleOrb.m */; };
+		CF7CFE2419A55A68009338A2 /* BattleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1B19A55A68009338A2 /* BattleLayout.m */; };
+		CF7CFE2519A55A68009338A2 /* BattleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1B19A55A68009338A2 /* BattleLayout.m */; };
+		CF7CFE2619A55A68009338A2 /* BattleSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1D19A55A68009338A2 /* BattleSwap.m */; };
+		CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1D19A55A68009338A2 /* BattleSwap.m */; };
+		CF7CFE2819A55A68009338A2 /* BattleTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1F19A55A68009338A2 /* BattleTile.m */; };
+		CF7CFE2919A55A68009338A2 /* BattleTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1F19A55A68009338A2 /* BattleTile.m */; };
 		CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
 		CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7F27D7165EC8CA00D967DC /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
+		CF81C96919A57406002682A2 /* BaseBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96819A57406002682A2 /* BaseBattleLayer.m */; };
+		CF81C96C19A575EA002682A2 /* OrbSwipeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */; };
+		CF81C96D19A58511002682A2 /* OrbSwipeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */; };
+		CF81C96E19A58515002682A2 /* BaseBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C96819A57406002682A2 /* BaseBattleLayer.m */; };
+		CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C97019A67224002682A2 /* OrbMainLayer.m */; };
 		CF864D5E193D492D00DE0D7A /* AttackEventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF864D5D193D492D00DE0D7A /* AttackEventView.xib */; };
 		CF864D60193D493A00DE0D7A /* AttackEventViewSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF864D5F193D493A00DE0D7A /* AttackEventViewSmall.xib */; };
 		CF864D63193E639900DE0D7A /* NRTouchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF864D61193E639900DE0D7A /* NRTouchImage@2x.png */; };
@@ -4017,6 +4032,12 @@
 		CF9AE70E180CA78C0013DD44 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9AE70C180CA78C0013DD44 /* LoadingViewController.m */; };
 		CF9AE70F180CA78C0013DD44 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9AE70D180CA78C0013DD44 /* LoadingViewController.xib */; };
 		CF9AE717180CE5100013DD44 /* GenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9AE716180CE5100013DD44 /* GenViewController.m */; };
+		CF9F41A119A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */; };
+		CF9F41A219A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */; };
+		CF9F41AA19A7EE87002EBF03 /* cakeorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A819A7EE87002EBF03 /* cakeorb.png */; };
+		CF9F41AB19A7EE87002EBF03 /* cakeorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A819A7EE87002EBF03 /* cakeorb.png */; };
+		CF9F41AC19A7EE87002EBF03 /* cakeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */; };
+		CF9F41AD19A7EE87002EBF03 /* cakeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */; };
 		CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */; };
 		CFA7502418CAD30000AC66FC /* TutorialNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */; };
 		CFA7502A18CAD3B900AC66FC /* nameinput.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502818CAD3B900AC66FC /* nameinput.png */; };
@@ -7292,11 +7313,27 @@
 		CF74619E196C0CBE002D6AE6 /* minijobsredbubble5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minijobsredbubble5.png; sourceTree = "<group>"; };
 		CF74619F196C0CBE002D6AE6 /* minijobsredbubble5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minijobsredbubble5@2x.png"; sourceTree = "<group>"; };
 		CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RunawayMiddleView.xib; sourceTree = "<group>"; };
+		CF7CFE1619A55A68009338A2 /* BattleChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleChain.h; sourceTree = "<group>"; };
+		CF7CFE1719A55A68009338A2 /* BattleChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleChain.m; sourceTree = "<group>"; };
+		CF7CFE1819A55A68009338A2 /* BattleOrb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleOrb.h; sourceTree = "<group>"; };
+		CF7CFE1919A55A68009338A2 /* BattleOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrb.m; sourceTree = "<group>"; };
+		CF7CFE1A19A55A68009338A2 /* BattleLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleLayout.h; sourceTree = "<group>"; };
+		CF7CFE1B19A55A68009338A2 /* BattleLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleLayout.m; sourceTree = "<group>"; };
+		CF7CFE1C19A55A68009338A2 /* BattleSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleSwap.h; sourceTree = "<group>"; };
+		CF7CFE1D19A55A68009338A2 /* BattleSwap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSwap.m; sourceTree = "<group>"; };
+		CF7CFE1E19A55A68009338A2 /* BattleTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleTile.h; sourceTree = "<group>"; };
+		CF7CFE1F19A55A68009338A2 /* BattleTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleTile.m; sourceTree = "<group>"; };
 		CF7F27D1165B36CF00D967DC /* AMQPConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThread.h; sourceTree = "<group>"; };
 		CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionThread.m; sourceTree = "<group>"; };
 		CF7F27D4165B371500D967DC /* AMQPConnectionThreadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionThreadDelegate.h; sourceTree = "<group>"; };
 		CF7F27D7165EC8CA00D967DC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CF7FEF0F1540C3D000716E37 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		CF81C96719A57406002682A2 /* BaseBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBattleLayer.h; sourceTree = "<group>"; };
+		CF81C96819A57406002682A2 /* BaseBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBattleLayer.m; sourceTree = "<group>"; };
+		CF81C96A19A575EA002682A2 /* OrbSwipeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrbSwipeLayer.h; sourceTree = "<group>"; };
+		CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrbSwipeLayer.m; sourceTree = "<group>"; };
+		CF81C96F19A67224002682A2 /* OrbMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrbMainLayer.h; sourceTree = "<group>"; };
+		CF81C97019A67224002682A2 /* OrbMainLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrbMainLayer.m; sourceTree = "<group>"; };
 		CF864D5D193D492D00DE0D7A /* AttackEventView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackEventView.xib; sourceTree = "<group>"; };
 		CF864D5F193D493A00DE0D7A /* AttackEventViewSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttackEventViewSmall.xib; sourceTree = "<group>"; };
 		CF864D61193E639900DE0D7A /* NRTouchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NRTouchImage@2x.png"; sourceTree = "<group>"; };
@@ -7468,6 +7505,10 @@
 		CF9AE70D180CA78C0013DD44 /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		CF9AE715180CE5100013DD44 /* GenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenViewController.h; sourceTree = "<group>"; };
 		CF9AE716180CE5100013DD44 /* GenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenViewController.m; sourceTree = "<group>"; };
+		CF9F419F19A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OrbSwipeLayer+PowerupAnimations.h"; sourceTree = "<group>"; };
+		CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OrbSwipeLayer+PowerupAnimations.m"; sourceTree = "<group>"; };
+		CF9F41A819A7EE87002EBF03 /* cakeorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cakeorb.png; sourceTree = "<group>"; };
+		CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cakeorb@2x.png"; sourceTree = "<group>"; };
 		CFA7502018CAD30000AC66FC /* TutorialNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialNameViewController.h; sourceTree = "<group>"; };
 		CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialNameViewController.m; sourceTree = "<group>"; };
 		CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialNameViewController.xib; sourceTree = "<group>"; };
@@ -11755,6 +11796,49 @@
 			path = "New Building Options";
 			sourceTree = "<group>";
 		};
+		CF7CFE1419A55A2B009338A2 /* BaseBattleLayer */ = {
+			isa = PBXGroup;
+			children = (
+				CF81C96119A573B4002682A2 /* Layers */,
+				CF7CFE1519A55A35009338A2 /* Models */,
+			);
+			name = BaseBattleLayer;
+			sourceTree = "<group>";
+		};
+		CF7CFE1519A55A35009338A2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CF7CFE1A19A55A68009338A2 /* BattleLayout.h */,
+				CF7CFE1B19A55A68009338A2 /* BattleLayout.m */,
+				CF7CFE1619A55A68009338A2 /* BattleChain.h */,
+				CF7CFE1719A55A68009338A2 /* BattleChain.m */,
+				CF7CFE1819A55A68009338A2 /* BattleOrb.h */,
+				CF7CFE1919A55A68009338A2 /* BattleOrb.m */,
+				CF7CFE1C19A55A68009338A2 /* BattleSwap.h */,
+				CF7CFE1D19A55A68009338A2 /* BattleSwap.m */,
+				CF7CFE1E19A55A68009338A2 /* BattleTile.h */,
+				CF7CFE1F19A55A68009338A2 /* BattleTile.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		CF81C96119A573B4002682A2 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				CF81C96719A57406002682A2 /* BaseBattleLayer.h */,
+				CF81C96819A57406002682A2 /* BaseBattleLayer.m */,
+				CF81C96F19A67224002682A2 /* OrbMainLayer.h */,
+				CF81C97019A67224002682A2 /* OrbMainLayer.m */,
+				CF81C96A19A575EA002682A2 /* OrbSwipeLayer.h */,
+				CF81C96B19A575EA002682A2 /* OrbSwipeLayer.m */,
+				CF9F419F19A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.h */,
+				CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */,
+				CFFEB1B7183704DA007C4BA3 /* OrbBgdLayer.h */,
+				CFFEB1B8183704DA007C4BA3 /* OrbBgdLayer.m */,
+			);
+			name = Layers;
+			sourceTree = "<group>";
+		};
 		CF864D6D193E7C5B00DE0D7A /* New Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -13099,9 +13183,10 @@
 		CFF1D64A17DFC2F500874339 /* Battle */ = {
 			isa = PBXGroup;
 			children = (
+				CF7CFE1419A55A2B009338A2 /* BaseBattleLayer */,
 				CFFEB1B618370479007C4BA3 /* CCAnimation Extensions */,
 				CFFEB1B518370463007C4BA3 /* BattleViews */,
-				CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayer */,
+				CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayerOld */,
 				CFF2080417FE269300AA6F84 /* DungeonBattleLayer.h */,
 				CFF2080517FE269300AA6F84 /* DungeonBattleLayer.m */,
 				CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */,
@@ -13109,13 +13194,14 @@
 				CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */,
 				CF30277C18BF06D6009D2D25 /* Clan Raid */,
 			);
-			name = Battle;
-			path = "New Battle";
+			path = Battle;
 			sourceTree = "<group>";
 		};
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF9F41A819A7EE87002EBF03 /* cakeorb.png */,
+				CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */,
 				CF74610D19661B22002D6AE6 /* makeitrain.plist */,
 				CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */,
 				CF29EA201964E4ED00B40DA4 /* collectioncapsule.png */,
@@ -14622,7 +14708,7 @@
 			path = "Home buttons";
 			sourceTree = "<group>";
 		};
-		CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayer */ = {
+		CFFF9A1D18BE9E560036EEC3 /* BaseBattleLayerOld */ = {
 			isa = PBXGroup;
 			children = (
 				CFE0E6B617E3C05F002ECA84 /* BattlePlayer.h */,
@@ -14637,10 +14723,8 @@
 				CFF1D77017DFC47700874339 /* NewBattleLayer.m */,
 				CFF1D77317DFC4A900874339 /* OrbLayer.h */,
 				CFF1D77417DFC4A900874339 /* OrbLayer.m */,
-				CFFEB1B7183704DA007C4BA3 /* OrbBgdLayer.h */,
-				CFFEB1B8183704DA007C4BA3 /* OrbBgdLayer.m */,
 			);
-			name = BaseBattleLayer;
+			name = BaseBattleLayerOld;
 			sourceTree = "<group>";
 		};
 		CFFF9A1E18BEB67D0036EEC3 /* Raid Puzzle */ = {
@@ -15102,6 +15186,7 @@
 				CF0CEF18196F452900ECD301 /* watermediumsquare.png in Resources */,
 				CF0CEF19196F452900ECD301 /* youfound@2x.png in Resources */,
 				CF0CEF1A196F452900ECD301 /* nightpointsfont@2x.png in Resources */,
+				CF9F41AB19A7EE87002EBF03 /* cakeorb.png in Resources */,
 				CF0CEF1B196F452900ECD301 /* oilready@2x.png in Resources */,
 				CF0CEF1C196F452900ECD301 /* fightarrow@2x.png in Resources */,
 				CF0CEF1D196F452900ECD301 /* waterpointsfont.fnt in Resources */,
@@ -15518,6 +15603,7 @@
 				CF0CF0B4196F452900ECD301 /* raidwonbg@2x.png in Resources */,
 				CF0CF0B5196F452900ECD301 /* commonfound@2x.png in Resources */,
 				CF0CF0B6196F452900ECD301 /* underring.png in Resources */,
+				CF9F41AD19A7EE87002EBF03 /* cakeorb@2x.png in Resources */,
 				CF0CF0B7196F452900ECD301 /* arrowdown@2x.png in Resources */,
 				CF0CF0B8196F452900ECD301 /* firefeederevent.png in Resources */,
 				CF0CF0B9196F452900ECD301 /* Scientist3Turn05@2x.png in Resources */,
@@ -17766,6 +17852,7 @@
 				CFCD0EEE1953F07400EDC233 /* watermediumsquare.png in Resources */,
 				CF06B5E7193699FC008BF892 /* youfound@2x.png in Resources */,
 				CFC97186182C74E500FF1D83 /* nightpointsfont@2x.png in Resources */,
+				CF9F41AA19A7EE87002EBF03 /* cakeorb.png in Resources */,
 				CFC04CE4188DC90C00F2DB59 /* oilready@2x.png in Resources */,
 				CF74611419662F03002D6AE6 /* fightarrow@2x.png in Resources */,
 				CFC97188182C74E500FF1D83 /* waterpointsfont.fnt in Resources */,
@@ -18182,6 +18269,7 @@
 				CF6A291D18C2B2F200AD676F /* raidwonbg@2x.png in Resources */,
 				CFC04D8E188FE8D400F2DB59 /* commonfound@2x.png in Resources */,
 				CFB2502E18569FB800BE0C05 /* underring.png in Resources */,
+				CF9F41AC19A7EE87002EBF03 /* cakeorb@2x.png in Resources */,
 				CFE7CD0C1819FC3300930847 /* arrowdown@2x.png in Resources */,
 				CF9520401939690800A98290 /* firefeederevent.png in Resources */,
 				CFFBDF9F18ACA3D90090CA9A /* Scientist3Turn05@2x.png in Resources */,
@@ -20235,6 +20323,7 @@
 				CF0CECFB196F452900ECD301 /* Analytics.m in Sources */,
 				CF0CECFC196F452900ECD301 /* EventClan.pb.m in Sources */,
 				CF0CECFD196F452900ECD301 /* SettingSwitchButton.m in Sources */,
+				CF81C96D19A58511002682A2 /* OrbSwipeLayer.m in Sources */,
 				CF0CECFE196F452900ECD301 /* easing.c in Sources */,
 				CF0CED00196F452900ECD301 /* TutorialAttackMapViewController.m in Sources */,
 				CF0CED01196F452900ECD301 /* HospitalQueueSimulator.m in Sources */,
@@ -20305,6 +20394,7 @@
 				CF0CED46196F452900ECD301 /* StaticData.pb.m in Sources */,
 				CF0CED47196F452900ECD301 /* ClanRaidHealthBar.m in Sources */,
 				CF0CED48196F452900ECD301 /* FBChooserView.m in Sources */,
+				CF7CFE2519A55A68009338A2 /* BattleLayout.m in Sources */,
 				CF0CED4B196F452900ECD301 /* OpenUDID.m in Sources */,
 				CF0CED4C196F452900ECD301 /* BattleSpeechBubble.m in Sources */,
 				CF0CED4D196F452900ECD301 /* ChatCell.m in Sources */,
@@ -20354,6 +20444,8 @@
 				CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */,
 				CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */,
 				CF413C411977494500848AF5 /* AppDelegate.m in Sources */,
+				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
+				CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */,
 				CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */,
 				CF0CED7F196F452900ECD301 /* ChatBottomView.m in Sources */,
 				CF0CED80196F452900ECD301 /* SettingsViewController.m in Sources */,
@@ -20375,6 +20467,7 @@
 				CF0CED91196F452900ECD301 /* AMQPMessage.m in Sources */,
 				CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */,
 				CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */,
+				CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */,
 				CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */,
 				CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */,
 				CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */,
@@ -20386,6 +20479,7 @@
 				CF0CED9E196F452900ECD301 /* ProfileViewController.m in Sources */,
 				CF0CEDA0196F452900ECD301 /* TutorialBattleLayer.m in Sources */,
 				CF0CEDA1196F452900ECD301 /* AMQPQueue.m in Sources */,
+				CF9F41A219A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				CF0CEDA2196F452900ECD301 /* TutorialBuildingViewController.m in Sources */,
 				CF0CEDA3196F452900ECD301 /* socket.c in Sources */,
 				CF0CEDA4196F452900ECD301 /* amqp_api.c in Sources */,
@@ -20446,6 +20540,7 @@
 				CF0CEDE2196F452900ECD301 /* BattleViews.m in Sources */,
 				CF0CEDE3196F452900ECD301 /* BuildingViews.m in Sources */,
 				CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */,
+				CF81C96E19A58515002682A2 /* BaseBattleLayer.m in Sources */,
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				CF0CEDE7196F452900ECD301 /* ChatView.m in Sources */,
 				CF0CEDE8196F452900ECD301 /* DungeonBattleLayer.m in Sources */,
@@ -20460,6 +20555,7 @@
 				CF0CEDF1196F452900ECD301 /* MiniJobsListViewController.m in Sources */,
 				CF0CEDF2196F452900ECD301 /* QuestUtil.m in Sources */,
 				CF0CEDF3196F452900ECD301 /* QuestListViewController.m in Sources */,
+				CF7CFE2919A55A68009338A2 /* BattleTile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -20474,6 +20570,7 @@
 				CF62932A180D2AFB00C6C196 /* SettingSwitchButton.m in Sources */,
 				CFFEB17A1834C2FD007C4BA3 /* easing.c in Sources */,
 				CF126D181538ACCA00E0C1AD /* AppDelegate.m in Sources */,
+				CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFC371311884C2BC000348D8 /* HospitalQueueSimulator.m in Sources */,
 				CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */,
@@ -20512,6 +20609,7 @@
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
 				CF6574E21909CAF200ABF1F4 /* Structure.pb.m in Sources */,
 				CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */,
+				CF81C96919A57406002682A2 /* BaseBattleLayer.m in Sources */,
 				CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */,
 				CF4DB8DA1807DA1F00062258 /* AnimatedSprite.m in Sources */,
 				CF3764FC182DD6BD00D0A77E /* ChatViewController.m in Sources */,
@@ -20539,6 +20637,7 @@
 				CF7064BE1845E2F2005B30A1 /* OmnipresentViewController.m in Sources */,
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
 				CFF5DC2A195143140019EB2B /* HireViewController.m in Sources */,
+				CF81C96C19A575EA002682A2 /* OrbSwipeLayer.m in Sources */,
 				CF6574E11909CAF200ABF1F4 /* StaticData.pb.m in Sources */,
 				CF30277B18BF0583009D2D25 /* ClanRaidHealthBar.m in Sources */,
 				CF0A8D7D183ABDE600B32CDC /* FBChooserView.m in Sources */,
@@ -20551,6 +20650,7 @@
 				CFEF25D618C9DFC400FB867A /* MSWindow.m in Sources */,
 				CF20F04B180E142B005551B5 /* AttackMapViewController.m in Sources */,
 				CF54942E18C58ECF001E7D32 /* TutorialOrbLayer.m in Sources */,
+				CF7CFE2819A55A68009338A2 /* BattleTile.m in Sources */,
 				CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */,
 				CFF6470A195E1DEE00C43641 /* EvolveChooserViews.m in Sources */,
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
@@ -20653,9 +20753,11 @@
 				CFFA31ED18B3DC46008B81B9 /* ClanRaidListViewController.m in Sources */,
 				CFBF031A17C595F60082A9BF /* ClanBrowseViewController.m in Sources */,
 				CF6574A81909CAF200ABF1F4 /* BoosterPackStuff.pb.m in Sources */,
+				CF9F41A119A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				CFCD0EF81954D01600EDC233 /* PopupSubViewController.m in Sources */,
 				CF6574A71909CAF200ABF1F4 /* Battle.pb.m in Sources */,
 				CFF7408518199478009DE4A4 /* MyTeamSprite.m in Sources */,
+				CF7CFE2619A55A68009338A2 /* BattleSwap.m in Sources */,
 				CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */,
 				CFBF032117C596890082A9BF /* ClanCreateViewController.m in Sources */,
 				CF4DB8ED1807DA1F00062258 /* MissionMap.m in Sources */,
@@ -20664,12 +20766,14 @@
 				CFBF032817C596A10082A9BF /* ClanInfoViewController.m in Sources */,
 				CF6574B81909CAF200ABF1F4 /* EventStartup.pb.m in Sources */,
 				CFADDB3517D00ED000B1FF3C /* MonsterCardView.m in Sources */,
+				CF7CFE2419A55A68009338A2 /* BattleLayout.m in Sources */,
 				CFF64713195E368800C43641 /* EvolveDetailsViews.m in Sources */,
 				CFF1D77117DFC47700874339 /* NewBattleLayer.m in Sources */,
 				CFF513B918C8C432004B0E56 /* TutorialFacebookViewController.m in Sources */,
 				CF6574E31909CAF200ABF1F4 /* Task.pb.m in Sources */,
 				CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */,
 				CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */,
+				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
 				CFF1D77517DFC4A900874339 /* OrbLayer.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				CFF1D7C917E2646000874339 /* CCAnimation+SpriteLoading.m in Sources */,
@@ -20683,6 +20787,7 @@
 				CF3765AA183175DE00D0A77E /* ChatView.m in Sources */,
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
 				CF74611E19675926002D6AE6 /* TutorialHealViewController.m in Sources */,
+				CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */,
 				CFFF9A1C18BE72910036EEC3 /* ClanRaidBattleLayer.m in Sources */,
 				CFFA31F518B3E836008B81B9 /* ClanRaidViews.m in Sources */,
 				CF9AE717180CE5100013DD44 /* GenViewController.m in Sources */,

@@ -46,6 +46,7 @@
 #import "ChatViewController.h"
 #import "TutorialTeamController.h"
 #import "Analytics.h"
+#import "OrbMainLayer.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -545,6 +546,10 @@
       [scene addChild:hm];
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
+      
+      OrbMainLayer *main = [[OrbMainLayer alloc] initWithGridSize:CGSizeMake(8, 7) numColors:6];
+      [hm addChild:main z:10000];
+      main.position = ccp(hm.contentSize.width/2, hm.contentSize.height/2);
       
       CCDirector *dir = [CCDirector sharedDirector];
       float dur = 0.4f;

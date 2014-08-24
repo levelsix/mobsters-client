@@ -363,7 +363,7 @@
     for (BattlePlayer *bp in self.enemyTeam) {
       NSInteger idx = [self.enemyTeam indexOfObject:bp];
       BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
-      bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
+      bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
       [self.bgdContainer addChild:bs z:-idx];
       bs.isFacingNear = YES;
       
