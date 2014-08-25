@@ -45,8 +45,6 @@
     self.contentSize = contentSize;
     self.layout = layout;
     
-    self.userInteractionEnabled = YES;
-    
     // NSNotFound means that these properties have invalid values.
     self.swipeFromColumn = self.swipeFromRow = NSNotFound;
   }
@@ -522,5 +520,68 @@
                                        [CCActionCallBlock actionWithBlock:completion]
                                        ]]];
 }
+
+#pragma mark - Pulsing
+
+
+
+#define PULSING_ANIMATION_TAG 82930
+
+//- (void) pulseValidMove {
+//  if (_isPulsing) return;
+//  _isPulsing = YES;
+//  
+//  NSSet *move = [self getValidMove];
+//  for (Gem *gem in move) {
+//    NSString *key = [NSString stringWithFormat:@"%d%dOverlay", gem.color, gem.powerup];
+//    CCTexture *texture = [[CCTextureCache sharedTextureCache] textureForKey:key];
+//    if (!texture) {
+//      UIImage *img = [Globals imageNamed:[self gemSpriteImageNameWithColor:gem.color powerup:gem.powerup]];
+//      img = [Globals maskImage:img withColor:[UIColor whiteColor]];
+//      texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
+//      texture.contentScale = gem.sprite.texture.contentScale;
+//    }
+//    CCSprite *spr = [CCSprite spriteWithTexture:texture];
+//    spr.position = ccp(gem.sprite.contentSize.width/2, gem.sprite.contentSize.height/2);
+//    [gem.sprite addChild:spr z:0 name:@"Overlay"];
+//    spr.opacity = 0.f;
+//    spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
+//    
+//    float pulseDur = 0.4f;
+//    float numTimes = 4;
+//    float delay = 1.3f;
+//    CCAction *action =
+//    [CCActionRepeatForever actionWithAction:
+//     [CCActionSequence actions:
+//      [CCActionRepeat actionWithAction:
+//       [CCActionSequence actions:
+//        [CCActionScaleTo actionWithDuration:pulseDur scale:1.15f],
+//        [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
+//      [CCActionDelay actionWithDuration:delay], nil]];
+//    action.tag = PULSING_ANIMATION_TAG;
+//    [gem.sprite runAction:action];
+//    
+//    [spr runAction:
+//     [CCActionRepeatForever actionWithAction:
+//      [CCActionSequence actions:
+//       [CCActionRepeat actionWithAction:
+//        [CCActionSequence actions:
+//         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.4f],
+//         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.f], nil] times:numTimes],
+//       [CCActionDelay actionWithDuration:delay], nil]]];
+//  }
+//}
+//
+//- (void) stopValidMovePulsing {
+//  // Stop the pulsing gems
+//  for (Gem *gem in self.gems) {
+//    [gem.sprite stopActionByTag:PULSING_ANIMATION_TAG];
+//    gem.sprite.scale = 1.f;
+//    
+//    CCNode *n = [gem.sprite getChildByName:@"Overlay" recursively:NO];
+//    [n removeFromParent];
+//  }
+//  _isPulsing = NO;
+//}
 
 @end

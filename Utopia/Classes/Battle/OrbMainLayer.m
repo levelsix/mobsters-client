@@ -20,6 +20,10 @@
     [self addChild:self.bgdLayer];
     [self.bgdLayer addChild:self.swipeLayer z:2];
     
+    self.contentSize = self.bgdLayer.contentSize;
+    self.bgdLayer.position = ccp(self.bgdLayer.contentSize.width/2, self.bgdLayer.contentSize.height/2);
+    self.anchorPoint = ccp(0.5, 0.5);
+    
     // This is the swipe handler. MyScene invokes this block whenever it
     // detects that the player performs a swipe.
     id block = ^(BattleSwap *swap) {
@@ -85,8 +89,6 @@
     
     // If there are no more matches, then the player gets to move again.
     if ([chains count] == 0) {
-      [self.delegate moveComplete];
-      
       NSSet *swaps = [self.layout detectPossibleSwaps];
       if (!swaps.count) {
         NSSet *newOrbs = [self.layout shuffle];

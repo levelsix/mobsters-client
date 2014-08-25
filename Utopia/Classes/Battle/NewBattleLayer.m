@@ -17,6 +17,7 @@
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 #import <Kamcord/Kamcord.h>
+#import "DestroyedOrb.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -138,8 +139,8 @@
     puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
     
     self.noInputLayer = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, NO_INPUT_LAYER_OPACITY)] width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
-    [self.orbLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
-    self.noInputLayer.position = self.orbLayer.position;
+    [self.orbLayer addChild:self.noInputLayer z:self.orbLayer.swipeLayer.zOrder];
+    self.noInputLayer.position = self.orbLayer.swipeLayer.position;
     
     self.bgdContainer = [CCNode node];
     self.bgdContainer.contentSize = self.contentSize;
@@ -185,10 +186,10 @@
   [self begin];
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbLayer addChild:clip z:self.orbLayer.zOrder];
+  [self.orbLayer.bgdLayer addChild:clip z:self.orbLayer.swipeLayer.zOrder];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
-  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width, 54);
+  clip.position = ccp(self.orbLayer.swipeLayer.position.x+self.orbLayer.swipeLayer.contentSize.width, 54);
   clip.scale = 1.5;
   
   [clip addChild:_comboBgd];
@@ -1169,6 +1170,41 @@
   }
 }
 
+- (void) spawnRibbonForOrb:(BattleOrb *)orb {
+  
+  // Create random bezier
+  if (orb.orbColor != OrbColorNone) {
+    ccBezierConfig bez;
+    bez.endPosition = [self.orbLayer.swipeLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+    CGPoint initPoint = [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row];
+    
+    // basePt1 is chosen with any y and x is between some neg num and approx .5
+    // basePt2 is chosen with any y and x is anywhere between basePt1's x and .85
+    BOOL chooseRight = arc4random()%2;
+    CGPoint basePt1 = ccp(drand48()-0.8, drand48());
+    CGPoint basePt2 = ccp(basePt1.x+drand48()*(0.7-basePt1.x), drand48());
+    
+    // outward potential increases based on distance between orbs
+    float xScale = ccpDistance(initPoint, bez.endPosition);
+    float yScale = (50+xScale/5)*(chooseRight?-1:1);
+    float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
+    
+    // Transforms are applied in reverse order!! So rotate, then scale
+    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMakeRotation(angle), xScale, yScale);
+    bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
+    bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
+    
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
+    DestroyedOrb *dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
+    [self.orbLayer.swipeLayer addChild:dg z:10];
+    dg.position = initPoint;
+    [dg runAction:[CCActionSequence actions:move,
+                   [CCActionFadeOut actionWithDuration:0.5f],
+                   [CCActionDelay actionWithDuration:0.7f],
+                   [CCActionCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
+  }
+}
+
 - (void) youWon {
   [CCBReader load:@"BattleWonView" owner:self];
   [self endBattle:YES];
@@ -1343,7 +1379,8 @@
   int dmg = [self.myPlayerObject damageForColor:color];
   _myDamageDealt += dmg;
   _myDamageForThisTurn += dmg;
-  if (ElementIsValidValue((Element)color)) {
+  
+  if (color != OrbColorNone && ElementIsValidValue((Element)color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
     NSString *fntFile = [Globals imageNameForElement:(Element)color suffix:@"pointsfont.fnt"];
     fntFile = color != OrbColorRock ? fntFile : @"nightpointsfont.fnt";
@@ -1360,6 +1397,8 @@
                             [CCActionMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
                            [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
     }
+    
+    [self spawnRibbonForOrb:orb];
   }
   
   if (_canPlayNextGemPop) {

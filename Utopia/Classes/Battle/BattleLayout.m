@@ -28,23 +28,32 @@
     _numColors = numColors;
     
     _tiles = (__strong id **)calloc(sizeof(id *), _numColumns);
+    _orbs = (__strong id **)calloc(sizeof(id *), _numColumns);
     for (int i = 0; i < _numColumns; i++) {
       _tiles[i] = (__strong id *)calloc(sizeof(id *), _numRows);
+      _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
       
       for (int j = 0; j < _numRows; j++) {
         _tiles[i][j] = [[BattleTile alloc] init];
       }
     }
-    
-    _orbs = (__strong id **)calloc(sizeof(id *), _numColumns);
-    for (int i = 0; i < _numColumns; i++) {
-      _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
-    }
-    
-    self.specialOrbPercentages = @{@(SpecialOrbTypeCake): @(0.1)};
 	}
 	
 	return self;
+}
+
+- (void) dealloc {
+  for (int i = 0; i < _numColumns; i++) {
+    for (int j = 0; j < _numRows; j++) {
+      _tiles[i][j] = nil;
+      _orbs[i][j] = nil;
+    }
+    
+    free(_tiles[i]);
+    free(_orbs[i]);
+  }
+  free(_tiles);
+  free(_orbs);
 }
 
 #pragma mark - Restoration
@@ -56,6 +65,8 @@
       _orbs[orb.column][orb.row] = orb;
     }
   }
+  
+  [self detectPossibleSwaps];
 }
 
 #pragma mark - Game Setup

@@ -4038,6 +4038,8 @@
 		CF9F41AB19A7EE87002EBF03 /* cakeorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A819A7EE87002EBF03 /* cakeorb.png */; };
 		CF9F41AC19A7EE87002EBF03 /* cakeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */; };
 		CF9F41AD19A7EE87002EBF03 /* cakeorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */; };
+		CF9F41B019AAB520002EBF03 /* DestroyedOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41AF19AAB520002EBF03 /* DestroyedOrb.m */; };
+		CF9F41B119AAB521002EBF03 /* DestroyedOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41AF19AAB520002EBF03 /* DestroyedOrb.m */; };
 		CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */; };
 		CFA7502418CAD30000AC66FC /* TutorialNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */; };
 		CFA7502A18CAD3B900AC66FC /* nameinput.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502818CAD3B900AC66FC /* nameinput.png */; };
@@ -7509,6 +7511,8 @@
 		CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OrbSwipeLayer+PowerupAnimations.m"; sourceTree = "<group>"; };
 		CF9F41A819A7EE87002EBF03 /* cakeorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cakeorb.png; sourceTree = "<group>"; };
 		CF9F41A919A7EE87002EBF03 /* cakeorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cakeorb@2x.png"; sourceTree = "<group>"; };
+		CF9F41AE19AAB520002EBF03 /* DestroyedOrb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DestroyedOrb.h; sourceTree = "<group>"; };
+		CF9F41AF19AAB520002EBF03 /* DestroyedOrb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DestroyedOrb.m; sourceTree = "<group>"; };
 		CFA7502018CAD30000AC66FC /* TutorialNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialNameViewController.h; sourceTree = "<group>"; };
 		CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialNameViewController.m; sourceTree = "<group>"; };
 		CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialNameViewController.xib; sourceTree = "<group>"; };
@@ -11835,6 +11839,8 @@
 				CF9F41A019A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m */,
 				CFFEB1B7183704DA007C4BA3 /* OrbBgdLayer.h */,
 				CFFEB1B8183704DA007C4BA3 /* OrbBgdLayer.m */,
+				CF9F41AE19AAB520002EBF03 /* DestroyedOrb.h */,
+				CF9F41AF19AAB520002EBF03 /* DestroyedOrb.m */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -20528,6 +20534,7 @@
 				CF0CEDD5196F452900ECD301 /* MonsterCardView.m in Sources */,
 				CF0CEDD6196F452900ECD301 /* EvolveDetailsViews.m in Sources */,
 				CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */,
+				CF9F41B119AAB521002EBF03 /* DestroyedOrb.m in Sources */,
 				CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */,
 				CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */,
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
@@ -20639,6 +20646,7 @@
 				CFF5DC2A195143140019EB2B /* HireViewController.m in Sources */,
 				CF81C96C19A575EA002682A2 /* OrbSwipeLayer.m in Sources */,
 				CF6574E11909CAF200ABF1F4 /* StaticData.pb.m in Sources */,
+				CF9F41B019AAB520002EBF03 /* DestroyedOrb.m in Sources */,
 				CF30277B18BF0583009D2D25 /* ClanRaidHealthBar.m in Sources */,
 				CF0A8D7D183ABDE600B32CDC /* FBChooserView.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,

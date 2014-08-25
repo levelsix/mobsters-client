@@ -580,7 +580,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [self setupTeamSprites];
   
-  //[self loadGestureRecognizers];
+  [self loadGestureRecognizers];
 }
 
 - (void) onExit {
