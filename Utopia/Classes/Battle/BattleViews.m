@@ -19,6 +19,9 @@
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
   self.continueButton.label.position = ccp(0.5, 0.52);
+  
+  self.tipLabel.fontName = @"Whitney-Semibold";
+  self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
 }
 
 - (void) onExitTransitionDidStart {
@@ -112,9 +115,9 @@
     [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:sixthDur scale:1.f]], nil]];
   
   time += sixthDur-0.1;
-  CGPoint pt = self.manageButton.position;
-  self.manageButton.position = ccpAdd(pt, ccp(0, -50));
-  [self.manageButton runAction:
+  CGPoint pt = self.tipLabel.position;
+  self.tipLabel.position = ccpAdd(pt, ccp(0, -50));
+  [self.tipLabel runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:time],
     [CCActionMoveTo actionWithDuration:seventhDur position:pt], nil]];
@@ -225,6 +228,9 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  
+  self.tipLabel.fontName = @"Whitney-Semibold";
+  self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
 }
 
 - (void) onExitTransitionDidStart {
@@ -351,9 +357,9 @@
     [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:sixthDur scale:1.f]], nil]];
   
   time += sixthDur-0.1;
-  CGPoint pt = self.manageButton.position;
-  self.manageButton.position = ccpAdd(pt, ccp(0, -50));
-  [self.manageButton runAction:
+  CGPoint pt = self.tipLabel.position;
+  self.tipLabel.position = ccpAdd(pt, ccp(0, -50));
+  [self.tipLabel runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:time],
     [CCActionMoveTo actionWithDuration:seventhDur position:pt], nil]];

@@ -29,6 +29,7 @@
 @property (nonatomic, retain) CCNode *lostLabel;
 @property (nonatomic, retain) CCNode *rewardsBgd;
 @property (nonatomic, retain) CCNode *rewardsView;
+@property (nonatomic, retain) CCLabelTTF *tipLabel;
 
 @property (nonatomic, retain) CCNode *shareLabel;
 @property (nonatomic, retain) CCNode *continueLabel;
@@ -54,6 +55,7 @@
 @property (nonatomic, retain) CCSprite *spinner;
 @property (nonatomic, retain) CCNode *rewardsBgd;
 @property (nonatomic, retain) CCNode *rewardsView;
+@property (nonatomic, retain) CCLabelTTF *tipLabel;
 
 @property (nonatomic, retain) UIScrollView *rewardsScrollView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;

@@ -17,7 +17,9 @@
 
 @end
 
-@interface BuildingViewController : PopupSubViewController <ListCollectionDelegate>
+@interface BuildingViewController : PopupSubViewController <ListCollectionDelegate> {
+  int _recommendedStructId;
+}
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 

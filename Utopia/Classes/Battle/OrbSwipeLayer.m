@@ -8,13 +8,15 @@
 
 #import "OrbSwipeLayer.h"
 #import "BattleOrb.h"
-#import "BattleLayout.h"
+#import "BattleOrbLayout.h"
 #import "BattleSwap.h"
 
 #import "OrbSwipeLayer+PowerupAnimations.h"
 
 #import "Globals.h"
 #import "SoundEngine.h"
+
+#import <CCTextureCache.h>
 
 #define ORB_NAME_TAG(d) [NSString stringWithFormat:@"%p", d]
 
@@ -35,7 +37,7 @@
 
 @implementation OrbSwipeLayer
 
-- (id) initWithContentSize:(CGSize)contentSize layout:(BattleLayout *)layout {
+- (id) initWithContentSize:(CGSize)contentSize layout:(BattleOrbLayout *)layout {
   if ((self = [super init])) {
     _numColumns = layout.numColumns;
     _numRows = layout.numRows;
@@ -523,65 +525,69 @@
 
 #pragma mark - Pulsing
 
-
-
 #define PULSING_ANIMATION_TAG 82930
 
-//- (void) pulseValidMove {
-//  if (_isPulsing) return;
-//  _isPulsing = YES;
-//  
-//  NSSet *move = [self getValidMove];
-//  for (Gem *gem in move) {
-//    NSString *key = [NSString stringWithFormat:@"%d%dOverlay", gem.color, gem.powerup];
-//    CCTexture *texture = [[CCTextureCache sharedTextureCache] textureForKey:key];
-//    if (!texture) {
-//      UIImage *img = [Globals imageNamed:[self gemSpriteImageNameWithColor:gem.color powerup:gem.powerup]];
-//      img = [Globals maskImage:img withColor:[UIColor whiteColor]];
-//      texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
-//      texture.contentScale = gem.sprite.texture.contentScale;
-//    }
-//    CCSprite *spr = [CCSprite spriteWithTexture:texture];
-//    spr.position = ccp(gem.sprite.contentSize.width/2, gem.sprite.contentSize.height/2);
-//    [gem.sprite addChild:spr z:0 name:@"Overlay"];
-//    spr.opacity = 0.f;
-//    spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
-//    
-//    float pulseDur = 0.4f;
-//    float numTimes = 4;
-//    float delay = 1.3f;
-//    CCAction *action =
-//    [CCActionRepeatForever actionWithAction:
-//     [CCActionSequence actions:
-//      [CCActionRepeat actionWithAction:
-//       [CCActionSequence actions:
-//        [CCActionScaleTo actionWithDuration:pulseDur scale:1.15f],
-//        [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
-//      [CCActionDelay actionWithDuration:delay], nil]];
-//    action.tag = PULSING_ANIMATION_TAG;
-//    [gem.sprite runAction:action];
-//    
-//    [spr runAction:
-//     [CCActionRepeatForever actionWithAction:
-//      [CCActionSequence actions:
-//       [CCActionRepeat actionWithAction:
-//        [CCActionSequence actions:
-//         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.4f],
-//         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.f], nil] times:numTimes],
-//       [CCActionDelay actionWithDuration:delay], nil]]];
-//  }
-//}
-//
-//- (void) stopValidMovePulsing {
-//  // Stop the pulsing gems
-//  for (Gem *gem in self.gems) {
-//    [gem.sprite stopActionByTag:PULSING_ANIMATION_TAG];
-//    gem.sprite.scale = 1.f;
-//    
-//    CCNode *n = [gem.sprite getChildByName:@"Overlay" recursively:NO];
-//    [n removeFromParent];
-//  }
-//  _isPulsing = NO;
-//}
+- (void) pulseValidMove:(NSSet *)set {
+  if (_isPulsing) return;
+  _isPulsing = YES;
+  
+  for (BattleOrb *orb in set) {
+    CCSprite *orbSprite = [self spriteForOrb:orb];
+    OrbColor color = orb.orbColor;
+    PowerupType powerup = orb.powerupType;
+    
+    // Try to see if the texture has been created yet
+    NSString *key = [NSString stringWithFormat:@"%d%dOverlay", color, powerup];
+    CCTexture *texture = [[CCTextureCache sharedTextureCache] textureForKey:key];
+    
+    if (!texture) {
+      // Create a new texture from UIImage and mask it
+      UIImage *img = [Globals imageNamed:[self orbSpriteImageNameWithOrb:orb]];
+      img = [Globals maskImage:img withColor:[UIColor whiteColor]];
+      texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
+      texture.contentScale = orbSprite.texture.contentScale;
+    }
+    CCSprite *spr = [CCSprite spriteWithTexture:texture];
+    spr.position = ccp(orbSprite.contentSize.width/2, orbSprite.contentSize.height/2);
+    [orbSprite addChild:spr z:0 name:@"Overlay"];
+    spr.opacity = 0.f;
+    spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
+    
+    float pulseDur = 0.4f;
+    float numTimes = 4;
+    float delay = 1.3f;
+    CCAction *action =
+    [CCActionRepeatForever actionWithAction:
+     [CCActionSequence actions:
+      [CCActionRepeat actionWithAction:
+       [CCActionSequence actions:
+        [CCActionScaleTo actionWithDuration:pulseDur scale:1.15f],
+        [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
+      [CCActionDelay actionWithDuration:delay], nil]];
+    action.tag = PULSING_ANIMATION_TAG;
+    [orbSprite runAction:action];
+    
+    [spr runAction:
+     [CCActionRepeatForever actionWithAction:
+      [CCActionSequence actions:
+       [CCActionRepeat actionWithAction:
+        [CCActionSequence actions:
+         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.4f],
+         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.f], nil] times:numTimes],
+       [CCActionDelay actionWithDuration:delay], nil]]];
+  }
+}
+
+- (void) stopValidMovePulsing {
+  // Stop the pulsing gems
+  for (CCNode *node in self.children) {
+    [node stopActionByTag:PULSING_ANIMATION_TAG];
+    node.scale = 1.f;
+    
+    CCNode *n = [node getChildByName:@"Overlay" recursively:NO];
+    [n removeFromParent];
+  }
+  _isPulsing = NO;
+}
 
 @end

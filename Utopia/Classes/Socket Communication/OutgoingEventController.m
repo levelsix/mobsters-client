@@ -1388,7 +1388,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       BOOL found = NO;
       for (UserMonster *m in curMembers) {
         if (m.teamSlot == teamSlot) {
-          if (![m isAvailable]) {
+          if (!potentialUm && (![m isAvailable] || m.curHealth <= 0)) {
             potentialUm = m;
           }
           found = YES;

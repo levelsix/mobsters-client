@@ -8,7 +8,7 @@
 
 #import <cocos2d.h>
 
-#import "BattleLayout.h"
+#import "BattleOrbLayout.h"
 #import "battleSwap.h"
 
 @interface OrbSwipeLayer : CCNode {
@@ -20,9 +20,14 @@
   int _numOrbsStillAnimating;
   int _numPowerupsStillAnimating;
   dispatch_block_t _matchesCompletionBlock;
+  
+  BOOL _isPulsing;
 }
 
-@property (strong, nonatomic) BattleLayout *layout;
+@property (strong, nonatomic) BattleOrbLayout *layout;
+
+@property (nonatomic, assign) float tileWidth;
+@property (nonatomic, assign) float tileHeight;
 
 // The scene handles touches. If it recognizes that the user makes a swipe,
 // it will call this swipe handler. This is how it communicates back to the
@@ -32,7 +37,7 @@
 @property (copy, nonatomic) void (^orbDestroyedHandler)(BattleOrb *orb);
 @property (copy, nonatomic) void (^chainFiredHandler)(BattleChain *chain);
 
-- (id) initWithContentSize:(CGSize)contentSize layout:(BattleLayout *)layout;
+- (id) initWithContentSize:(CGSize)contentSize layout:(BattleOrbLayout *)layout;
 
 - (CCSprite *) createOrbSpriteForOrb:(BattleOrb *)orb;
 - (void)addSpritesForOrbs:(NSSet *)orbs;
@@ -50,6 +55,10 @@
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion;
 - (void)animateFallingOrbs:(NSArray *)fallingOrbColumns newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion;
 - (void)animateShuffle:(NSSet *)orbs completion:(dispatch_block_t)completion;
+
+// Pulsing
+- (void) pulseValidMove:(NSSet *)set;
+- (void) stopValidMovePulsing;
 
 // For the category
 - (void) destroyOrb:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup;

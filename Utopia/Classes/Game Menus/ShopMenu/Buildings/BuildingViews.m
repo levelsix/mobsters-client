@@ -42,12 +42,14 @@
   self.numOwnedLabel.text = [NSString stringWithFormat:@"Built: %d/%d", cur, max];
   
   BOOL greyscale = NO;
-  int reqThLevel = structInfo.prerequisiteTownHallLvl > thLevel ? structInfo.prerequisiteTownHallLvl : cur >= max ? nextThLevel : 0;
+  int reqThLevel = structInfo.prerequisiteTownHallLvl > thLevel ? structInfo.prerequisiteTownHallLvl : (cur >= max ? nextThLevel : 0);
   if (reqThLevel) {
     self.lockedLabel.text = [NSString stringWithFormat:@"Requires Level %d %@", reqThLevel, thp.structInfo.name];
     self.lockedLabel.textColor = [UIColor colorWithRed:254/255.f green:2/255.f blue:0.f alpha:1.f];
     greyscale = YES;
-  } else if (cur >= max) {
+  }
+  // This means that nextThLevel was not found, meaning that the max number of this structure has already been built
+  else if (cur >= max) {
     self.lockedLabel.text = @"Max Number Built";
     self.lockedLabel.textColor = [UIColor colorWithWhite:90/255.f alpha:1.f];
     greyscale = YES;

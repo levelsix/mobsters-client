@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "OrbLayer.h"
+#import "OrbMainLayer.h"
 
-@interface TutorialOrbLayer : OrbLayer
+@interface TutorialOrbLayer : OrbMainLayer
 
 @property (nonatomic, retain) NSMutableArray *presetOrbs;
 @property (nonatomic, retain) NSMutableArray *presetOrbIndices;
@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSArray *shownGems;
 @property (nonatomic, retain) NSArray *forcedMove;
 
-- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors presetLayoutFile:(NSString *)presetLayoutFile;
+- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors presetLayoutFile:(NSString *)presetLayoutFile;
 
 - (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSArray *)forcedMove;
 

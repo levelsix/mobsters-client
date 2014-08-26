@@ -176,6 +176,7 @@
                 <outlet property="notEmptyView" destination="E26-tT-cuj" id="u0q-C3-uLs"/>
                 <outlet property="rightView" destination="RxB-R7-azi" id="8pi-cd-kib"/>
                 <outlet property="slotNumLabel" destination="gpb-df-4gT" id="avp-e2-FMA"/>
+                <outlet property="tapToAddLabel" destination="eVs-42-kRu" id="1kA-9v-pb1"/>
                 <outlet property="topLabel" destination="r8a-FQ-5Jn" id="F3I-S1-U0c"/>
                 <outlet property="unavailableBorder" destination="BGh-cm-PAZ" id="vKa-w8-8vK"/>
             </connections>

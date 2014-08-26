@@ -8,31 +8,15 @@
 
 #import "TutorialOrbLayer.h"
 #import "Globals.h"
+#import "TutorialBattleLayout.h"
 
 @implementation TutorialOrbLayer
 
-- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors presetLayoutFile:(NSString *)presetLayoutFile {
-  if ((self = [super initWithContentSize:size gridSize:gridSize numColors:numColors])) {
-    NSString* path = [[NSBundle mainBundle] pathForResource:presetLayoutFile.stringByDeletingPathExtension
-                                                     ofType:presetLayoutFile.pathExtension];
-    NSString* content = [NSString stringWithContentsOfFile:path
-                                                  encoding:NSUTF8StringEncoding
-                                                     error:NULL];
-    NSArray* allLinedStrings = [content componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    self.presetOrbIndices = [NSMutableArray array];
-    self.presetOrbs = [NSMutableArray array];
-    
-    for (NSString *str in allLinedStrings.reverseObjectEnumerator) {
-      NSMutableArray *nums = [NSMutableArray array];
-      for (int i = 0; i < str.length; i++) {
-        NSString *ch = [str substringWithRange:NSMakeRange(i, 1)];
-        [nums addObject:@(ch.intValue)];
-      }
-      [self.presetOrbs addObject:nums];
-      [self.presetOrbIndices addObject:@(0)];
-    }
-    [self initBoard];
-    
+- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors presetLayoutFile:(NSString *)presetLayoutFile {
+  
+  TutorialBattleLayout *layout = [[TutorialBattleLayout alloc] initWithGridSize:gridSize numColors:numColors presetLayoutFile:presetLayoutFile];
+  
+  if ((self = [super initWithGridSize:gridSize numColors:numColors layout:layout])) {
     self.handSprite = [CCSprite spriteWithImageNamed:@"hand.png"];
     self.handSprite.anchorPoint = ccp(0.065, 0.735);
     self.handSprite.rotation = 30;
@@ -40,26 +24,13 @@
   return self;
 }
 
-- (Gem *) createRandomGemForPosition:(CGPoint)pt {
-  int idx = (int)pt.x;
-  int curIndex = [self.presetOrbIndices[idx] intValue];
-  if (curIndex < self.presetOrbs.count) {
-    NSMutableArray *column = self.presetOrbs[curIndex];
-    GemColorId color = (GemColorId)[column[idx] intValue];
-    [self.presetOrbIndices replaceObjectAtIndex:idx withObject:@(curIndex+1)];
-    return [self createGemWithColor:color powerup:powerup_none];
-  } else {
-    return [super createRandomGemForPosition:pt];
-  }
-}
-
 - (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSArray *)forcedMove {
   [self.forcedMoveLayer removeFromParent];
   self.forcedMoveLayer = [CCNode node];
   
-  CGSize squareSize = self.squareSize;
-  for (int i = 0; i < self.gridSize.width; i++) {
-    for (int j = 0; j < self.gridSize.height; j++) {
+  CGSize squareSize = CGSizeMake(self.swipeLayer.tileWidth, self.swipeLayer.tileHeight);
+  for (int i = 0; i < self.layout.numColumns; i++) {
+    for (int j = 0; j < self.layout.numRows; j++) {
       BOOL shouldBeCovered = YES;
       for (NSValue *val in shownGems) {
         CGPoint pt = [val CGPointValue];
@@ -81,8 +52,8 @@
   for (NSValue *val in shownGems) {
     CGPoint pt = [val CGPointValue];
     int x = pt.x, y = pt.y;
-    Gem *gem = self.gems[x+y*(int)self.gridSize.width];
-    [sg addObject:gem];
+    BattleOrb *orb = [self.layout orbAtColumn:x row:y];
+    [sg addObject:orb];
   }
   self.shownGems = sg;
   
@@ -90,21 +61,24 @@
   for (NSValue *val in forcedMove) {
     CGPoint pt = [val CGPointValue];
     int x = pt.x, y = pt.y;
-    Gem *gem = self.gems[x+y*(int)self.gridSize.width];
-    [fm addObject:gem];
+    BattleOrb *orb = [self.layout orbAtColumn:x row:y];
+    [fm addObject:orb];
   }
   self.forcedMove = fm;
   
   // Move the hand
   if (self.forcedMove.count >= 2) {
-    Gem *gem1 = self.forcedMove[0];
-    Gem *gem2 = self.forcedMove[1];
+    BattleOrb *gem1 = self.forcedMove[0];
+    BattleOrb *gem2 = self.forcedMove[1];
     
-    self.handSprite.position = gem2.sprite.position;
+    CGPoint startPos = [self.swipeLayer pointForColumn:gem2.column row:gem2.row];
+    CGPoint endPos = [self.swipeLayer pointForColumn:gem1.column row:gem1.row];
+    
+    self.handSprite.position = startPos;
     [self addChild:self.handSprite z:101];
     
     self.handSprite.opacity = 0.f;
-    CCActionMoveBy *move = [CCActionEaseIn actionWithAction:[CCActionMoveBy actionWithDuration:0.5f position:ccpSub(gem1.sprite.position, self.handSprite.position)] rate:2.f];
+    CCActionMoveBy *move = [CCActionEaseIn actionWithAction:[CCActionMoveBy actionWithDuration:0.5f position:ccpSub(endPos, startPos)] rate:2.f];
     [self.handSprite runAction:
      [CCActionRepeatForever actionWithAction:
       [CCActionSequence actions:
@@ -113,60 +87,40 @@
        move,
        [CCActionDelay actionWithDuration:0.3f],
        [CCActionFadeOut actionWithDuration:0.3f],
-       [CCActionCallBlock actionWithBlock:^{ self.handSprite.position = gem2.sprite.position; }],
+       [CCActionCallBlock actionWithBlock:^{ self.handSprite.position = startPos; }],
        nil]]];
   }
   
   [self pulseValidMove];
 }
 
-- (void) doGemSwapAnimationWithGem:(Gem *)gem1 andGem:(Gem *)gem2 {
-  if (self.forcedMove && !([self.forcedMove containsObject:gem1] && [self.forcedMove containsObject:gem2])) {
-    _realDragGem.sprite.opacity = 1.f;
-    [_dragGem.sprite removeFromParent];
+- (void) pulseValidMove {
+  if (self.forcedMove) {
+    NSMutableSet *set = [NSMutableSet setWithArray:self.shownGems];
     
-    _realDragGem = nil;
-    _dragGem = nil;
-    _swapGem = nil;
+    // Remove the odd one out.. This will be the first orb of the forced move assuming its not a powerup match
+    if (set.count > 2) {
+      [set removeObject:self.forcedMove[0]];
+    }
     
-    self.isTrackingTouch = NO;
+    [self.swipeLayer pulseValidMove:set];
+    _isPulseScheduled = NO;
+  } else {
+    [super pulseValidMove];
+  }
+}
+
+- (void) checkSwap:(BattleSwap *)swap {
+  if (self.forcedMove && !([self.forcedMove containsObject:swap.orbA] && [self.forcedMove containsObject:swap.orbB])) {
+    // Do nothing
   } else {
     self.forcedMove = nil;
     self.shownGems = nil;
     [self.forcedMoveLayer removeFromParent];
     self.forcedMoveLayer = nil;
     [self.handSprite removeFromParent];
-    [super doGemSwapAnimationWithGem:gem1 andGem:gem2];
-  }
-}
-
-- (NSSet *) getValidMove {
-  if (!self.forcedMove) {
-    return [super getValidMove];
-  } else {
-    NSMutableSet *set = [NSMutableSet setWithArray:self.shownGems];
-    // Make sure shown gems is not a powerup match
-    if (self.shownGems.count > 2) {
-      Gem *toRemove = nil;
-      for (Gem *gem in self.forcedMove) {
-        int count = 0;
-        for (Gem *gem2 in self.shownGems) {
-          if (gem2.color == gem.color) {
-            count++;
-          }
-        }
-        
-        // If the color is only equal to itself
-        if (count == 1) {
-          toRemove = gem;
-        }
-      }
-      
-      if (toRemove) {
-        [set removeObject:toRemove];
-      }
-    }
-    return set;
+    
+    [super checkSwap:swap];
   }
 }
 

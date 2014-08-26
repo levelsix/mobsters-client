@@ -706,6 +706,8 @@
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
   [_arrowBuilding removeArrowAnimated:YES];
   
+  self.selected = nil;
+  
   [b displayArrow];
   [self moveToSprite:b animated:YES];
   

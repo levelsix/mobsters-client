@@ -54,4 +54,6 @@
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um;
 
+- (void) handleHealMonsterResponseProto:(id)fe;
+
 @end

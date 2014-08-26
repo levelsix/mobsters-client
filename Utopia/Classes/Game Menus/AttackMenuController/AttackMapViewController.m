@@ -327,17 +327,43 @@
 }
 
 - (IBAction)enterEventClicked:(UIView *)sender {
-  int tag = (int)sender.tag;
-  while (sender && ![sender isKindOfClass:[AttackEventView class]]) {
-    sender = [sender superview];
-  }
-  
-  AttackEventView *eventView = (AttackEventView *)sender;
   if (!_buttonClicked && [Globals checkEnteringDungeon]) {
-    _buttonClicked = YES;
-    [self.timer invalidate];
-    [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:tag];
+    if (!sender.tag) {
+      [self enterEventConfirmed:_curEventView useGems:NO];
+    } else {
+      GameState *gs = [GameState sharedGameState];
+      Globals *gl = [Globals sharedGlobals];
+      PersistentEventProto *pe = [gs persistentEventWithId:_curEventView.persistentEventId];
+      FullTaskProto *ftp = [gs taskWithId:pe.taskId];
+      
+      int timeLeft = [pe.cooldownEndTime timeIntervalSinceNow];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      
+      NSString *str = [NSString stringWithFormat:@"Would you like to enter the %@ for %@ gems?", ftp.name, [Globals commafyNumber:speedupCost]];
+      [GenericPopupController displayGemConfirmViewWithDescription:str title:[NSString stringWithFormat:@"Enter %@?", ftp.name] gemCost:speedupCost target:self selector:@selector(enterEventWithGems)];
+    }
   }
+}
+
+- (void) enterEventWithGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  PersistentEventProto *pe = [gs persistentEventWithId:_curEventView.persistentEventId];
+  
+  int timeLeft = [pe.cooldownEndTime timeIntervalSinceNow];
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
+  if (gs.gems >= speedupCost) {
+    [self enterEventConfirmed:_curEventView useGems:YES];
+  } else {
+    [GenericPopupController displayNotEnoughGemsView];
+  }
+}
+
+- (void) enterEventConfirmed:(AttackEventView *)eventView useGems:(BOOL)useGems {
+  [self.timer invalidate];
+  [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:useGems];
+  _buttonClicked = YES;
 }
 
 #pragma mark - PVP

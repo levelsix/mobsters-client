@@ -43,15 +43,16 @@
   [self updateBadges];
   
   // Move to tab with badge if we are not specifically trying to view details page
-  if (!self.questDetailsViewController) {
-    if (self.questBadge.badgeNum) {
-      [self button1Clicked:nil];
-    } else if (self.achievementBadge.badgeNum) {
-      [self button2Clicked:nil];
-    } else {
-      [self button1Clicked:nil];
-    }
-  }
+//  if (!self.questDetailsViewController) {
+//    if (self.questBadge.badgeNum) {
+//      [self button1Clicked:nil];
+//    } else if (self.achievementBadge.badgeNum) {
+//      [self button2Clicked:nil];
+//    } else {
+//      [self button1Clicked:nil];
+//    }
+//  }
+  [self button2Clicked:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -158,6 +159,9 @@
     
     [self.questListViewController.view removeFromSuperview];
     [self.containerView addSubview:self.achievementsViewController.view];
+    
+    self.titleLabel.alpha = 1.f;
+    self.titleLabel.text = @"Achievements";
   }
 }
 

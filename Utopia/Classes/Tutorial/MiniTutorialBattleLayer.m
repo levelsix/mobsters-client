@@ -47,10 +47,10 @@
 #pragma mark - Overwritten methods
 
 - (void) initOrbLayer {
-//  TutorialOrbLayer *ol = [[TutorialOrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:self.gridSize numColors:6 presetLayoutFile:[self presetLayoutFile]];
-//  [self.orbBgdLayer addChild:ol z:2];
-//  ol.delegate = self;
-//  self.orbLayer = ol;
+  TutorialOrbLayer *ol = [[TutorialOrbLayer alloc] initWithGridSize:self.gridSize numColors:6 presetLayoutFile:[self presetLayoutFile]];
+  [self addChild:ol z:2];
+  ol.delegate = self;
+  self.orbLayer = ol;
 }
 
 - (CGPoint) myPlayerLocation {

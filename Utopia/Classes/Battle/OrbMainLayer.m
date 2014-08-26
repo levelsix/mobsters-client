@@ -11,8 +11,12 @@
 @implementation OrbMainLayer
 
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors {
+  BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithGridSize:gridSize numColors:numColors];
+  return [self initWithGridSize:gridSize numColors:numColors layout:layout];
+}
+
+- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout {
   if (self = [super init]) {
-    BattleLayout *layout = [[BattleLayout alloc] initWithGridSize:gridSize numColors:numColors];
     self.layout = layout;
     
     self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
@@ -27,23 +31,7 @@
     // This is the swipe handler. MyScene invokes this block whenever it
     // detects that the player performs a swipe.
     id block = ^(BattleSwap *swap) {
-      
-      // While cookies are being matched and new cookies fall down to fill up
-      // the holes, we don't want the player to tap on anything.
-      [self disallowInput];
-      
-      if ([self.layout isPossibleSwap:swap]) {
-        [self.delegate moveBegan];
-        
-        [self.layout performSwap:swap];
-        [self.swipeLayer animateSwap:swap completion:^{
-          [self handleMatches:swap];
-        }];
-      } else {
-        [self.swipeLayer animateInvalidSwap:swap completion:^{
-          [self allowInput];
-        }];
-      }
+      [self checkSwap:swap];
     };
     
     self.swipeLayer.swipeHandler = block;
@@ -70,12 +58,42 @@
 }
 
 - (void) beginInitialBoard {
+  
   // Fill up the level with new cookies, and create sprites for them.
   NSSet *newOrbs = [self.layout createInitialOrbs];
   [self.swipeLayer addSpritesForOrbs:newOrbs];
 }
 
+- (void) checkSwap:(BattleSwap *)swap {
+  
+  // While cookies are being matched and new cookies fall down to fill up
+  // the holes, we don't want the player to tap on anything.
+  [self disallowInput];
+  
+  if ([self.layout isPossibleSwap:swap]) {
+    [self.delegate moveBegan];
+    
+    [self.layout performSwap:swap];
+    [self.swipeLayer animateSwap:swap completion:^{
+      [self handleMatches:swap];
+    }];
+    
+    
+    if (_isPulseScheduled) {
+      [self unschedule:@selector(pulseValidMove)];
+      _isPulseScheduled = NO;
+    }
+    [self.swipeLayer stopValidMovePulsing];
+    
+  } else {
+    [self.swipeLayer animateInvalidSwap:swap completion:^{
+      [self allowInput];
+    }];
+  }
+}
+
 - (void) handleMatches:(BattleSwap *)initialSwap {
+  
   // This is the main loop that removes any matching cookies and fills up the
   // holes with new cookies. While this happens, the user cannot interact with
   // the app.
@@ -153,8 +171,18 @@
 
 #pragma mark - Allowing input
 
+- (void) pulseValidMove {
+  NSSet *set = [self.layout getRandomValidMove];
+  [self.swipeLayer pulseValidMove:set];
+  
+  _isPulseScheduled = NO;
+}
+
 - (void) allowInput {
   self.swipeLayer.userInteractionEnabled = YES;
+  
+  [self scheduleOnce:@selector(pulseValidMove) delay:3.f];
+  _isPulseScheduled = YES;
 }
 
 - (void) disallowInput {

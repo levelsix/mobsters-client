@@ -131,13 +131,17 @@
                                 <rect key="frame" x="17" y="134" width="91" height="1"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="1FundsCashStorageT1.png" id="LBg-6f-I6J">
+                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="LBg-6f-I6J">
                                 <rect key="frame" x="0.0" y="0.0" width="125" height="94"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="recommendedtag.png" id="hMn-MJ-kSa">
+                        <rect key="frame" x="4" y="60" width="81" height="28"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -153,13 +157,13 @@
                 <outlet property="nameLabel" destination="vCY-aC-JIF" id="6Yi-Fb-USe"/>
                 <outlet property="numOwnedLabel" destination="Jz2-dT-blj" id="Wvl-N1-xpG"/>
                 <outlet property="oilIcon" destination="HSx-Ib-u6m" id="Bhj-pz-ZCi"/>
+                <outlet property="recommendedTag" destination="hMn-MJ-kSa" id="0Xy-kV-9zt"/>
                 <outlet property="timeLabel" destination="YwN-2U-4HV" id="0aO-DR-zLl"/>
                 <outlet property="unlockedView" destination="T9o-uq-JmG" id="bF0-QS-61i"/>
             </connections>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="1FundsCashStorageT1.png" width="100" height="94"/>
         <image name="activedividerline.png" width="91" height="1"/>
         <image name="buildtimeclock.png" width="14" height="14"/>
         <image name="menusquareactive.png" width="125" height="130"/>
@@ -168,5 +172,6 @@
         <image name="menusquareinactivepressed.png" width="125" height="130"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
+        <image name="recommendedtag.png" width="81" height="28"/>
     </resources>
 </document>

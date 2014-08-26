@@ -235,7 +235,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="4qU-Ah-sZv">
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="4qU-Ah-sZv">
                             <rect key="frame" x="19" y="16" width="40" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -310,7 +310,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="wrA-IK-2Rl">
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="wrA-IK-2Rl">
                             <rect key="frame" x="19" y="16" width="40" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

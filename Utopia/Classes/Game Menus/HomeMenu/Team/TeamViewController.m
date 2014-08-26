@@ -36,14 +36,24 @@
     
     [self.monsterView updateForMonsterId:um.monsterId greyscale:um.curHealth <= 0];
     self.unavailableBorder.hidden = [um isAvailable];
+    
+    while (self.unavailableBorder.subviews.count > 0) {
+      [self.unavailableBorder.subviews[0] removeFromSuperview];
+    }
+    
+    if (![um isAvailable]) {
+      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:um.statusImageName]];
+      [self.unavailableBorder addSubview:img];
+      img.center = ccp(self.unavailableBorder.frame.size.width/2, self.unavailableBorder.frame.size.height/2);
+      
+      [UIView animateWithDuration:0.75 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+        img.alpha = 0.6;
+      } completion:nil];
+    }
   }
 }
 
 - (void) updateRightViewForUserMonster:(UserMonster *)um {
-  while (self.topLabel.subviews.count > 0) {
-    [self.topLabel.subviews[0] removeFromSuperview];
-  }
-  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (!um) {
@@ -55,7 +65,6 @@
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    
     NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.monsterName];
     NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
@@ -64,15 +73,6 @@
     self.topLabel.attributedText = attr;
     
     if (![um isAvailable]) {
-      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:um.statusImageName]];
-      [self.topLabel addSubview:img];
-      CGSize s = [self.topLabel.text sizeWithFont:self.topLabel.font constrainedToSize:self.topLabel.frame.size];
-      img.center = ccp(s.width+img.frame.size.width/2+3, self.topLabel.frame.size.height/2);
-      
-      [UIView animateWithDuration:0.75 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
-        img.alpha = 0.6;
-      } completion:nil];
-      
       self.botLabel.hidden = NO;
       self.healthBarView.hidden = YES;
     } else {
@@ -172,9 +172,22 @@
 }
 
 - (void) updateTeamSlotViews {
+  NSUInteger nextSlot = self.teamSlotViews.count+1;
+  BOOL foundAvailSlot = NO;
   for (TeamSlotView *slot in self.teamSlotViews) {
     UserMonster *um = [self monsterForSlot:slot.tag];
     [slot updateForUserMonster:um];
+    
+    if (!um && nextSlot > slot.tag) {
+      nextSlot = slot.tag;
+      foundAvailSlot = YES;
+    } else if (!foundAvailSlot && ![um isAvailable] && nextSlot > slot.tag) {
+      nextSlot = slot.tag;
+    }
+  }
+  
+  for (TeamSlotView *slot in self.teamSlotViews) {
+    slot.tapToAddLabel.hidden = slot.tag != nextSlot;
   }
 }
 
@@ -219,7 +232,14 @@
   }
   
   NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    return [obj1 compare:obj2];
+    BOOL isDead1 = obj1.curHealth <= 0;
+    BOOL isDead2 = obj2.curHealth <= 0;
+    
+    if (isDead1 != isDead2) {
+      return [@(isDead1) compare:@(isDead2)];
+    } else {
+      return [obj1 compare:obj2];
+    }
   };
   [avail sortUsingComparator:comp];
   self.userMonsters = avail;
@@ -228,14 +248,21 @@
 #pragma mark - Monster card delegate
 
 - (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
-  BOOL greyscale = !listObject.isAvailable;
+  BOOL greyscale = !listObject.isAvailable || listObject.curHealth <= 0;
   [cell updateForListObject:listObject greyscale:greyscale];
   cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = !greyscale;
+  
+  // Need to do this because if monster's health is 0, it will not show the healthbar since greyscale = YES
+  if (listObject.isAvailable) {
+    cell.availableView.hidden = NO;
+    
+    cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = YES;
+  }
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  if ([um isAvailable]) {
+  if ([um isAvailable] && um.curHealth > 0) {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterId];
     
     if (success) {
@@ -247,6 +274,8 @@
       
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
+  } else if (um.curHealth <= 0) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You must heal %@ before adding to your team.", um.staticMonster.displayName]];
   }
 }
 

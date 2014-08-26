@@ -210,6 +210,9 @@
     }
   }
   
+  // No longer using quests
+  badgeNum = 0;
+  
   // Check for completed achievements
   for (UserAchievement *ua in gs.myAchievements.allValues) {
     if (ua.isComplete && !ua.isRedeemed) {

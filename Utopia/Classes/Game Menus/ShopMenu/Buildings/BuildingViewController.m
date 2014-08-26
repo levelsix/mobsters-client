@@ -57,6 +57,7 @@
 
 - (void) reloadCarpenterStructs {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   NSArray *structs = [[gs staticStructs] allValues];
   NSMutableArray *validStructs = [NSMutableArray array];
   
@@ -72,16 +73,41 @@
     [validStructs addObject:fsp];
   }
   
+  UserStruct *townHall = gs.myTownHall;
+  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  NSArray *myStructs = gs.myStructs;
   NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
-    if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
-      return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
+    int cur = [gl calculateCurrentQuantityOfStructId:obj1.structId structs:myStructs];
+    int max = [gl calculateMaxQuantityOfStructId:obj1.structId withTownHall:thp];
+    BOOL avail1 = cur < max;
+    
+    cur = [gl calculateCurrentQuantityOfStructId:obj2.structId structs:myStructs];
+    max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
+    BOOL avail2 = cur < max;
+    
+    BOOL isSpecial1 = avail1 && (obj1.structType == StructureInfoProto_StructTypeEvo || obj1.structType == StructureInfoProto_StructTypeLab);
+    BOOL isSpecial2 = avail2 && (obj2.structType == StructureInfoProto_StructTypeEvo || obj2.structType == StructureInfoProto_StructTypeLab);
+    
+    if (avail1 != avail2) {
+      return [@(avail2) compare:@(avail1)];
+    } else if (isSpecial1 != isSpecial2) {
+      return [@(isSpecial2) compare:@(isSpecial1)];
     } else {
-      return [@(obj1.structId) compare:@(obj2.structId)];
+      if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
+        return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
+      } else {
+        return [@(obj1.structId) compare:@(obj2.structId)];
+      }
     }
   };
   
   [validStructs sortUsingComparator:comp];
   self.staticStructs = validStructs;
+  
+  StructureInfoProto *potRec = [self.staticStructs firstObject];
+  if (potRec.structType == StructureInfoProto_StructTypeEvo || potRec.structType == StructureInfoProto_StructTypeLab) {
+    _recommendedStructId = potRec.structId;
+  }
 }
 
 #pragma mark - Overridable methods
@@ -107,8 +133,9 @@
 
 #pragma mark - List view delegate
 
-- (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject {
+- (void) listView:(ListCollectionView *)listView updateCell:(BuildingCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(StructureInfoProto *)listObject {
   [cell updateForStructInfo:listObject townHall:[self townHall] structs:[self curStructsList]];
+  cell.recommendedTag.hidden = listObject.structId != _recommendedStructId;
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {

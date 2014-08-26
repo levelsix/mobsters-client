@@ -1220,7 +1220,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return dict;
 }
 
-// Formulas
+#pragma mark - Formulas
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
   return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
@@ -1908,12 +1908,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector {
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
-  //  Globals *gl = [Globals sharedGlobals];
+  Globals *gl = [Globals sharedGlobals];
   NSArray *team = [gs allBattleAvailableMonstersOnTeam];
   BOOL hasValidTeam = NO;
+  BOOL hasDeadMonster = NO;
   for (UserMonster *um in team) {
     if (um.curHealth > 0) {
       hasValidTeam = YES;
+    } else {
+      hasDeadMonster = YES;
+    }
+  }
+  
+  BOOL hasFullTeam = team.count >= gl.maxTeamSize && !hasDeadMonster;
+  BOOL hasAvailMobsters = NO;
+  for (UserMonster *um in gs.myMonsters) {
+    if ([um isAvailable] && !um.teamSlot && um.curHealth > 0) {
+      hasAvailMobsters = YES;
     }
   }
   
@@ -1925,6 +1936,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       description = [NSString stringWithFormat:@"Uh oh, you have no healthy %@s on your team. Manage your team now.", MONSTER_NAME];
     }
     [Globals addAlertNotification:description];
+    [target performSelector:noTeamSelector];
+    
+    return NO;
+  } else if (!hasFullTeam && hasAvailMobsters) {
+    NSString *description = [NSString stringWithFormat:@"You have healthy %@s available. Manage your team now.", MONSTER_NAME];
+    
+    [Globals addGreenAlertNotification:description];
     [target performSelector:noTeamSelector];
     
     return NO;
@@ -2033,6 +2051,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     startView.hidden = NO;
     endView.hidden = NO;
   }];
+}
+
++ (NSString *) getRandomTipFromFile:(NSString *)file {
+  NSError *e;
+  NSString *s = [[NSBundle mainBundle] pathForResource:file.lastPathComponent.stringByDeletingPathExtension ofType:@"txt"];
+  NSString *fileContents = [NSString stringWithContentsOfFile:s encoding:NSUTF8StringEncoding error:&e];
+  if (fileContents) {
+    NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
+    NSMutableArray *mut = [lines mutableCopy];
+    [mut shuffle];
+    NSString *first = mut[0];
+    first = [first stringByReplacingOccurrencesOfString:@"x_character" withString:MONSTER_NAME];
+    return first;
+  }
+  return nil;
 }
 
 #pragma mark - Muting Players

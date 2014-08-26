@@ -43,7 +43,7 @@
   }];
 }
 
-- (void) setOrdering:(NSArray *)ordering {
+- (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands {
   NSMutableArray *oldArr = self.monsterViews;
   
   // If it was hidden just remove all the old monster views
@@ -55,10 +55,13 @@
   }
   
   self.monsterViews = [NSMutableArray array];
-  int i = 0;
-  for (NSNumber *num in ordering) {
+  for (int i = 0; i < ordering.count; i++) {
+    NSNumber *num = ordering[i];
+    NSNumber *enemyBand = showEnemyBands[i];
+    
     int monsterId = num.intValue;
-    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId];
+    BOOL showEnemyBand = enemyBand.boolValue;
+    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand];
     [self.monsterViews addObject:mmv];
     
     if (i < oldArr.count) {
@@ -81,14 +84,12 @@
       
       [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.3f];
     }
-    
-    i++;
   }
 }
 
-- (void) addMonster:(int)monsterId {
+- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand {
   MiniMonsterView *first = [self.monsterViews firstObject];
-  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId];
+  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand];
   
   [self.monsterViews removeObject:first];
   [self.monsterViews addObject:new];
@@ -131,9 +132,29 @@
              self.containerView.frame.size.height/2);
 }
 
-- (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId {
+- (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand {
   MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
+  
+  if (showEnemyBand) {
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"enemystripes.png"]];
+    [mmv insertSubview:iv aboveSubview:mmv.bgdIcon];
+    iv.alpha = 0.6;
+    
+    THLabel *label = [[THLabel alloc] initWithFrame:CGRectMake(1, mmv.frame.size.height-15, mmv.frame.size.width, 15)];
+    label.font = [UIFont fontWithName:@"GothamNarrow-Ultra" size:8];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.gradientStartColor = [UIColor colorWithRed:255/255.f green:182/255.f blue:0.f alpha:1.f];
+    label.gradientEndColor = [UIColor colorWithRed:255/255.f green:53/255.f blue:0.f alpha:1.f];
+    label.strokeColor = [UIColor whiteColor];
+    label.strokeSize = 1.f;
+    label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.7f];
+    label.shadowBlur = 0.9;
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.text = @"ENEMY";
+    [mmv addSubview:label];
+  }
+  
   return mmv;
 }
 

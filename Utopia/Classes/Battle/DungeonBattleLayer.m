@@ -237,7 +237,7 @@
   int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
   
   if (gs.gems < gemsAmount) {
-    [GenericPopupController displayNotEnoughGemsView];
+    [GenericPopupController displayNotificationViewWithText:@"You do not have enough gems to continue this dungeon." title:@"Not enough gems"];
   } else {
     if (gemsAmount > 0) {
       [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId taskId:self.dungeonInfo.taskId myTeam:self.myTeam];

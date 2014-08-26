@@ -95,6 +95,8 @@
                                                     okSelector:@selector(leaveBattle)
                                                   cancelTarget:nil
                                                 cancelSelector:nil];
+    
+    [self removeCloseButton];
   }
 }
 

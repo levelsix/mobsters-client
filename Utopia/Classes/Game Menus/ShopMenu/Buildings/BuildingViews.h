@@ -20,6 +20,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *lockedLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView *recommendedTag;
+
 @property (nonatomic, retain) IBOutlet UIView *lockedView;
 @property (nonatomic, retain) IBOutlet UIView *unlockedView;
 

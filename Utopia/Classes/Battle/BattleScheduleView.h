@@ -21,7 +21,7 @@
 - (void) displayOverlayView;
 - (void) removeOverlayView;
 
-- (void) setOrdering:(NSArray *)ordering;
-- (void) addMonster:(int)monsterId;
+- (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands;
+- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand;
 
 @end

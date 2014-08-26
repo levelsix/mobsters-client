@@ -45,17 +45,7 @@
     self.fgdImageView.image = [Globals imageNamed:@"splashguyswide.png"];
   }
   
-  NSError *e;
-  NSString *s = [[NSBundle mainBundle] pathForResource:@"tips" ofType:@"txt"];
-  NSString *fileContents = [NSString stringWithContentsOfFile:s encoding:NSUTF8StringEncoding error:&e];
-  if (fileContents) {
-    NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
-    NSMutableArray *mut = [lines mutableCopy];
-    [mut shuffle];
-    NSString *first = mut[0];
-    first = [first stringByReplacingOccurrencesOfString:@"x_character" withString:MONSTER_NAME];
-    self.tipLabel.text = first;
-  }
+  self.tipLabel.text = [Globals getRandomTipFromFile:@"tips"];
 }
 
 - (void) progressToPercentage:(float)percentage {

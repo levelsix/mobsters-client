@@ -142,6 +142,7 @@
   
   int cashCost = [gl calculateCostToHealMonster:um];
   [self.delegate queuedUpMonster:cashCost];
+  
   return YES;
 }
 
@@ -159,7 +160,11 @@
   
   [Globals removeUIArrowFromViewRecursively:self.view];
   self.queueView.userInteractionEnabled = NO;
-  return YES;
+  
+  [self handleHealMonsterResponseProto:nil];
+  
+  // Return no so that the spinner doesn't appear
+  return NO;
 }
 
 - (void) updateLabels {

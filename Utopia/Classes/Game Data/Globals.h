@@ -286,6 +286,8 @@
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path;
 
++ (NSString *) getRandomTipFromFile:(NSString *)file;
+
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;

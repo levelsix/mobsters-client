@@ -8,7 +8,7 @@
 
 #import "CCNode.h"
 
-#import "BattleLayout.h"
+#import "BattleOrbLayout.h"
 
 #import "OrbSwipeLayer.h"
 #import "OrbBgdLayer.h"
@@ -24,10 +24,12 @@
 
 @end
 
-@interface OrbMainLayer : CCNode
+@interface OrbMainLayer : CCNode {
+  BOOL _isPulseScheduled;
+}
 
 // The level contains the tiles, the cookies, and most of the gameplay logic.
-@property (strong, nonatomic) BattleLayout *layout;
+@property (strong, nonatomic) BattleOrbLayout *layout;
 
 @property (nonatomic, retain) OrbSwipeLayer *swipeLayer;
 @property (nonatomic, retain) OrbBgdLayer *bgdLayer;
@@ -35,7 +37,11 @@
 @property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
 
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
+- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout;
 
+- (void) checkSwap:(BattleSwap *)swap;
+
+- (void) pulseValidMove;
 - (void) allowInput;
 - (void) disallowInput;
 

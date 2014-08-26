@@ -496,15 +496,18 @@
     if (_shouldDisplayNewSchedule) {
       NSArray *bools = [self.battleSchedule getNextNMoves:self.battleScheduleView.numSlots];
       NSMutableArray *ids = [NSMutableArray array];
+      NSMutableArray *enemyBands = [NSMutableArray array];
       for (NSNumber *num in bools) {
         BOOL val = num.boolValue;
         if (val) {
           [ids addObject:@(self.myPlayerObject.monsterId)];
+          [enemyBands addObject:@NO];
         } else {
           [ids addObject:@(self.enemyPlayerObject.monsterId)];
+          [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
         }
       }
-      [self.battleScheduleView setOrdering:ids];
+      [self.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
       
       _shouldDisplayNewSchedule = NO;
       shouldDelay = YES;
@@ -515,9 +518,11 @@
         [self.battleScheduleView removeOverlayView];
       }
     } else {
+      // If nth is YES, this is your move, otherwise enemy's move
       BOOL nth = [self.battleSchedule getNthMove:self.battleScheduleView.numSlots-1];
       int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
-      [self.battleScheduleView addMonster:monsterId];
+      BOOL showEnemyBand = nth ? NO : self.enemyPlayerObject.element == self.myPlayerObject.element;
+      [self.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand];
     }
     
     self.bottomView.hidden = NO;
@@ -1175,8 +1180,8 @@
   // Create random bezier
   if (orb.orbColor != OrbColorNone) {
     ccBezierConfig bez;
-    bez.endPosition = [self.orbLayer.swipeLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
-    CGPoint initPoint = [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row];
+    bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+    CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
     
     // basePt1 is chosen with any y and x is between some neg num and approx .5
     // basePt2 is chosen with any y and x is anywhere between basePt1's x and .85
@@ -1196,7 +1201,7 @@
     
     CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
     DestroyedOrb *dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
-    [self.orbLayer.swipeLayer addChild:dg z:10];
+    [self.orbLayer addChild:dg z:10];
     dg.position = initPoint;
     [dg runAction:[CCActionSequence actions:move,
                    [CCActionFadeOut actionWithDuration:0.5f],
@@ -1386,8 +1391,10 @@
     fntFile = color != OrbColorRock ? fntFile : @"nightpointsfont.fnt";
     if (fntFile) {
       CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
-      dmgLabel.position = [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row];
-      [self.orbLayer.swipeLayer addChild:dmgLabel z:101];
+      dmgLabel.position = [self.orbLayer convertToNodeSpace:
+                           [self.orbLayer.swipeLayer convertToWorldSpace:
+                            [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
+      [self.orbLayer addChild:dmgLabel z:101];
       
       dmgLabel.scale = 0.25;
       [dmgLabel runAction:[CCActionSequence actions:
