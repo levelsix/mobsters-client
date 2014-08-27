@@ -53,6 +53,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  _cachedFreeGachas = [[Globals sharedGlobals] calculateFreeGachasCount];
+  
   [self setUpCloseButton];
   
   [self setupGachaTable];
@@ -108,6 +110,25 @@
   [Globals imageNamed:bpp.machineImgName withView:self.machineImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
+- (void) updateFreeGachasCounter
+{
+  BOOL firstPageSelected = (self.boosterPack == self.badBoosterPack);
+  
+  if (_cachedFreeGachas > 0 && firstPageSelected)
+  {
+    self.gemCostLabel.superview.hidden = YES;
+    self.spinActionLabel.hidden = NO;
+    self.spinActionLabel.text = [NSString stringWithFormat:self.spinActionLabel.text, _cachedFreeGachas > 1 ? @"s" : @""];
+    self.spinCountLabel.text = [NSString stringWithFormat:@"%d Free", _cachedFreeGachas];
+  }
+  else
+  {
+    self.gemCostLabel.superview.hidden = NO;
+    self.spinActionLabel.hidden = YES;
+    self.spinCountLabel.text = @"1 Spin";
+  }
+}
+
 #pragma mark - Button Top Bar
 
 - (void) button1Clicked:(id)sender {
@@ -115,6 +136,8 @@
     [self.navBar clickButton:1];
     
     [self updateForBoosterPack:self.badBoosterPack];
+    
+    [self updateFreeGachasCounter];
   }
 }
 
@@ -123,6 +146,8 @@
     [self.navBar clickButton:2];
     
     [self updateForBoosterPack:self.goodBoosterPack];
+    
+    [self updateFreeGachasCounter];
   }
 }
 
@@ -173,12 +198,14 @@
   }
   
   GameState *gs = [GameState sharedGameState];
-  if (gs.gems < self.boosterPack.gemPrice) {
+  BOOL freeGachasAvailable = (self.boosterPack == self.badBoosterPack) && (_cachedFreeGachas > 0);
+  if (gs.gems < self.boosterPack.gemPrice && ! freeGachasAvailable) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count > gs.maxInventorySlots) {
     [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
+    _lastSpinWasFree = freeGachasAvailable;
+    [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:freeGachasAvailable delegate:self];
     [self.topBar updateLabels];
     
     self.spinner.hidden = NO;
@@ -227,6 +254,11 @@
     
     int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
     [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
+    
+    // Decrement cached free gachas count locally and update UI
+    if ( _lastSpinWasFree )
+      _cachedFreeGachas--;
+    [self updateFreeGachasCounter];
   }
   
   self.spinner.hidden = YES;

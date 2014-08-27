@@ -1979,6 +1979,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t avatarMonsterId;
 @property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property int64_t lastMiniJobSpawnedTime;
+@property int64_t lastFreeBoosterPackTime;
 @property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2190,6 +2191,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastMiniJobSpawnedTime_ = !!value;
 }
 @synthesize lastMiniJobSpawnedTime;
+- (BOOL) hasLastFreeBoosterPackTime {
+  return !!hasLastFreeBoosterPackTime_;
+}
+- (void) setHasLastFreeBoosterPackTime:(BOOL) value {
+  hasLastFreeBoosterPackTime_ = !!value;
+}
+@synthesize lastFreeBoosterPackTime;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2306,6 +2314,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.avatarMonsterId = 0;
     self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
     self.lastMiniJobSpawnedTime = 0L;
+    self.lastFreeBoosterPackTime = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2443,6 +2452,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasAvatarMonsterId) {
     [output writeInt32:51 value:self.avatarMonsterId];
   }
+  if (self.hasLastFreeBoosterPackTime) {
+    [output writeInt64:52 value:self.lastFreeBoosterPackTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2559,6 +2571,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasAvatarMonsterId) {
     size += computeInt32Size(51, self.avatarMonsterId);
+  }
+  if (self.hasLastFreeBoosterPackTime) {
+    size += computeInt64Size(52, self.lastFreeBoosterPackTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2712,6 +2727,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastMiniJobSpawnedTime) {
     [self setLastMiniJobSpawnedTime:other.lastMiniJobSpawnedTime];
+  }
+  if (other.hasLastFreeBoosterPackTime) {
+    [self setLastFreeBoosterPackTime:other.lastFreeBoosterPackTime];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -2916,6 +2934,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 408: {
         [self setAvatarMonsterId:[input readInt32]];
+        break;
+      }
+      case 416: {
+        [self setLastFreeBoosterPackTime:[input readInt64]];
         break;
       }
     }
@@ -3363,6 +3385,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastMiniJobSpawnedTime {
   result.hasLastMiniJobSpawnedTime = NO;
   result.lastMiniJobSpawnedTime = 0L;
+  return self;
+}
+- (BOOL) hasLastFreeBoosterPackTime {
+  return result.hasLastFreeBoosterPackTime;
+}
+- (int64_t) lastFreeBoosterPackTime {
+  return result.lastFreeBoosterPackTime;
+}
+- (FullUserProto_Builder*) setLastFreeBoosterPackTime:(int64_t) value {
+  result.hasLastFreeBoosterPackTime = YES;
+  result.lastFreeBoosterPackTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastFreeBoosterPackTime {
+  result.hasLastFreeBoosterPackTime = NO;
+  result.lastFreeBoosterPackTime = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {

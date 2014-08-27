@@ -486,6 +486,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *badgeLabel;
 @property (nonatomic, assign) NSInteger badgeNum;
 
+- (void) instantlySetBadgeNum:(NSInteger)badgeNum;
+
 @end
 
 @interface TouchableSubviewsView : UIView

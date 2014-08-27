@@ -861,10 +861,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
 }
 
-- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime {
-  PurchaseBoosterPackRequestProto *req = [[[[[PurchaseBoosterPackRequestProto builder]
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime {
+  PurchaseBoosterPackRequestProto *req = [[[[[[PurchaseBoosterPackRequestProto builder]
                                              setSender:_sender]
                                             setBoosterPackId:boosterPackId]
+                                            setFreeBoosterPack:free]
                                            setClientTime:clientTime]
                                           build];
   

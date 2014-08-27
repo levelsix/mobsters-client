@@ -19,6 +19,9 @@
   NSInteger _curPage;
   
   NSInteger _numPuzzlePieces;
+  
+  NSInteger _cachedFreeGachas;
+  BOOL      _lastSpinWasFree;
 }
 
 @property (nonatomic, retain) BoosterPackProto *boosterPack;
@@ -34,6 +37,8 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UIView *spinView;
+@property (nonatomic, retain) IBOutlet UILabel *spinCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *spinActionLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet GachaponItemCell *itemCell;

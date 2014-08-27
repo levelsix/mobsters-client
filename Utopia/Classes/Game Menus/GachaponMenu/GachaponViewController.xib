@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -12,6 +12,8 @@
                 <outlet property="machineImage" destination="URF-Oq-F7Q" id="i2G-vz-VBm"/>
                 <outlet property="navBar" destination="z56-SY-IOJ" id="dNn-On-hzi"/>
                 <outlet property="prizeView" destination="wBp-uJ-7UM" id="yic-3H-kNL"/>
+                <outlet property="spinActionLabel" destination="Rvh-nX-jSQ" id="Wil-4F-w8t"/>
+                <outlet property="spinCountLabel" destination="Hxk-z3-Ekv" id="HWF-sB-RvQ"/>
                 <outlet property="spinView" destination="j3V-IT-xbv" id="hQe-Ng-fN2"/>
                 <outlet property="spinner" destination="5fh-Fc-BAS" id="VbR-fS-l1h"/>
                 <outlet property="tableContainerView" destination="uZU-xc-fTc" id="Igz-wZ-Zl5"/>
@@ -141,12 +143,19 @@
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 Spin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hxk-z3-Ekv" customClass="NiceFontLabel12">
                                                     <rect key="frame" x="9" y="0.0" width="43" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Spin%@" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rvh-nX-jSQ" customClass="NiceFontLabel12B">
+                                                    <rect key="frame" x="0.0" y="11" width="61" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" id="1hw-T7-JJw">
                                                     <rect key="frame" x="12" y="14" width="36" height="17"/>

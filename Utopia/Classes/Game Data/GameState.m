@@ -100,6 +100,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.facebookId = user.hasFacebookId ? user.facebookId : nil;
   self.gameCenterId = user.hasGameCenterId ? user.gameCenterId : nil;
   self.deviceToken = user.hasDeviceToken ? user.deviceToken : nil;
+  self.lastFreeGachaSpin = user.hasLastFreeBoosterPackTime ? [MSDate dateWithTimeIntervalSince1970:user.lastFreeBoosterPackTime/1000.0] : nil;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;

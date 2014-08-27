@@ -1308,16 +1308,21 @@
 }
 
 - (void) setBadgeNum:(NSInteger)badgeNum {
+  [UIView animateWithDuration:0.2f animations:^{
+    [self instantlySetBadgeNum:badgeNum];
+  }];
+}
+
+- (void) instantlySetBadgeNum:(NSInteger)badgeNum
+{
   _badgeNum = badgeNum;
   
-  [UIView animateWithDuration:0.2f animations:^{
-    if (_badgeNum > 0) {
-      self.badgeLabel.text = [NSString stringWithFormat:@"%d", (int)_badgeNum];
-      self.alpha = 1.f;
-    } else {
-      self.alpha = 0.f;
-    }
-  }];
+  if (_badgeNum > 0) {
+    self.badgeLabel.text = [NSString stringWithFormat:@"%d", (int)_badgeNum];
+    self.alpha = 1.f;
+  } else {
+    self.alpha = 0.f;
+  }
 }
 
 @end
