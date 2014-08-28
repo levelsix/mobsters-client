@@ -9,6 +9,7 @@
 #import "Clan.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
+#import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
@@ -135,6 +136,10 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class SkillPropertyProto;
+@class SkillPropertyProto_Builder;
+@class SkillProto;
+@class SkillProto_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -192,34 +197,35 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableAchievementsList;
-  NSMutableArray* mutableLeaguesList;
-  NSMutableArray* mutableClanIconsList;
-  NSMutableArray* mutableObstaclesList;
-  NSMutableArray* mutableItemsList;
-  NSMutableArray* mutablePersistentClanEventsList;
-  NSMutableArray* mutableRaidsList;
-  NSMutableArray* mutableMbdsList;
-  NSMutableArray* mutablePersistentEventsList;
-  NSMutableArray* mutableAllTeamCentersList;
-  NSMutableArray* mutableAllEvoChambersList;
-  NSMutableArray* mutableAllMiniJobCentersList;
-  NSMutableArray* mutableAllTownHallsList;
-  NSMutableArray* mutableAllLabsList;
-  NSMutableArray* mutableAllResidencesList;
-  NSMutableArray* mutableAllHospitalsList;
-  NSMutableArray* mutableAllStoragesList;
-  NSMutableArray* mutableAllGeneratorsList;
-  NSMutableArray* mutableBoosterPacksList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableSlipList;
-  NSMutableArray* mutableAllMonstersList;
-  NSMutableArray* mutableAllTaskMapElementsList;
-  NSMutableArray* mutableAllTasksList;
-  NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableAllTasksList;
+  NSMutableArray* mutableAllTaskMapElementsList;
+  NSMutableArray* mutableAllMonstersList;
+  NSMutableArray* mutableSlipList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableUnredeemedQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableBoosterPacksList;
+  NSMutableArray* mutableAllGeneratorsList;
+  NSMutableArray* mutableAllStoragesList;
+  NSMutableArray* mutableAllHospitalsList;
+  NSMutableArray* mutableAllResidencesList;
+  NSMutableArray* mutableAllLabsList;
+  NSMutableArray* mutableAllTownHallsList;
+  NSMutableArray* mutableAllMiniJobCentersList;
+  NSMutableArray* mutableAllEvoChambersList;
+  NSMutableArray* mutableAllTeamCentersList;
+  NSMutableArray* mutablePersistentEventsList;
+  NSMutableArray* mutableMbdsList;
+  NSMutableArray* mutableRaidsList;
+  NSMutableArray* mutablePersistentClanEventsList;
+  NSMutableArray* mutableItemsList;
+  NSMutableArray* mutableObstaclesList;
+  NSMutableArray* mutableClanIconsList;
+  NSMutableArray* mutableLeaguesList;
+  NSMutableArray* mutableAchievementsList;
+  NSMutableArray* mutableSkillsList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
@@ -279,6 +285,8 @@
 - (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
 - (NSArray*) achievementsList;
 - (AchievementProto*) achievementsAtIndex:(int32_t) index;
+- (NSArray*) skillsList;
+- (SkillProto*) skillsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -516,5 +524,12 @@
 - (StaticDataProto_Builder*) addAchievements:(AchievementProto*) value;
 - (StaticDataProto_Builder*) addAllAchievements:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAchievementsList;
+
+- (NSArray*) skillsList;
+- (SkillProto*) skillsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceSkillsAtIndex:(int32_t) index with:(SkillProto*) value;
+- (StaticDataProto_Builder*) addSkills:(SkillProto*) value;
+- (StaticDataProto_Builder*) addAllSkills:(NSArray*) values;
+- (StaticDataProto_Builder*) clearSkillsList;
 @end
 

@@ -19,6 +19,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ClanRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
@@ -59,6 +60,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableClanIconsList;
 @property (retain) NSMutableArray* mutableLeaguesList;
 @property (retain) NSMutableArray* mutableAchievementsList;
+@property (retain) NSMutableArray* mutableSkillsList;
 @end
 
 @implementation StaticDataProto
@@ -98,6 +100,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableClanIconsList;
 @synthesize mutableLeaguesList;
 @synthesize mutableAchievementsList;
+@synthesize mutableSkillsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -128,6 +131,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableClanIconsList = nil;
   self.mutableLeaguesList = nil;
   self.mutableAchievementsList = nil;
+  self.mutableSkillsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -344,6 +348,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableAchievementsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) skillsList {
+  return mutableSkillsList;
+}
+- (SkillProto*) skillsAtIndex:(int32_t) index {
+  id value = [mutableSkillsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -434,6 +445,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (TeamCenterProto* element in self.allTeamCentersList) {
     [output writeMessage:30 value:element];
+  }
+  for (SkillProto* element in self.skillsList) {
+    [output writeMessage:31 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -530,6 +544,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (TeamCenterProto* element in self.allTeamCentersList) {
     size += computeMessageSize(30, element);
+  }
+  for (SkillProto* element in self.skillsList) {
+    size += computeMessageSize(31, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -777,6 +794,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableAchievementsList addObjectsFromArray:other.mutableAchievementsList];
   }
+  if (other.mutableSkillsList.count > 0) {
+    if (result.mutableSkillsList == nil) {
+      result.mutableSkillsList = [NSMutableArray array];
+    }
+    [result.mutableSkillsList addObjectsFromArray:other.mutableSkillsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -973,6 +996,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         TeamCenterProto_Builder* subBuilder = [TeamCenterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllTeamCenters:[subBuilder buildPartial]];
+        break;
+      }
+      case 250: {
+        SkillProto_Builder* subBuilder = [SkillProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSkills:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1818,6 +1847,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAchievementsList = [NSMutableArray array];
   }
   [result.mutableAchievementsList addObject:value];
+  return self;
+}
+- (NSArray*) skillsList {
+  if (result.mutableSkillsList == nil) { return [NSArray array]; }
+  return result.mutableSkillsList;
+}
+- (SkillProto*) skillsAtIndex:(int32_t) index {
+  return [result skillsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceSkillsAtIndex:(int32_t) index with:(SkillProto*) value {
+  [result.mutableSkillsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllSkills:(NSArray*) values {
+  if (result.mutableSkillsList == nil) {
+    result.mutableSkillsList = [NSMutableArray array];
+  }
+  [result.mutableSkillsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearSkillsList {
+  result.mutableSkillsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addSkills:(SkillProto*) value {
+  if (result.mutableSkillsList == nil) {
+    result.mutableSkillsList = [NSMutableArray array];
+  }
+  [result.mutableSkillsList addObject:value];
   return self;
 }
 @end
