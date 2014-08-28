@@ -15,6 +15,8 @@
 #import "GachaponViewController.h"
 #import "MenuNavigationController.h"
 
+#import "GachaViews.h"
+
 @implementation GachaChooserViewController
 
 - (void) viewDidLoad {
@@ -67,14 +69,17 @@
 
 #pragma mark - List view delegate
 
-- (void) listView:(ListCollectionView *)listView updateCell:(ListCollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(BoosterPackProto *)bpp {
-  UIButton *button = [cell.subviews[0] subviews][0];
-  [Globals imageNamed:bpp.listBackgroundImgName withView:button greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+- (void) listView:(ListCollectionView *)listView updateCell:(GachaCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(BoosterPackProto *)bpp {
+  [Globals imageNamed:bpp.listBackgroundImgName withView:cell.mainButton greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (indexPath.row == 0)
+    [cell.badge instantlySetBadgeNum:[[Globals sharedGlobals] calculateFreeGachasCount]];
+  else
+    [cell.badge instantlySetBadgeNum:0];
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  GameViewController *gvc = [GameViewController baseController];;
+  GameViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
   GachaponViewController *gach = [[GachaponViewController alloc] initWithBoosterPack:self.boosterPacks[indexPath.row]];
   [m pushViewController:gach animated:NO];

@@ -251,6 +251,73 @@
 
 @end
 
+@implementation LeagueListView
+
+- (void) awakeFromNib
+{
+  [super awakeFromNib];
+  [self.leagueTable registerNib:[UINib nibWithNibName:@"LeagueListViewCell" bundle:nil] forCellReuseIdentifier:@"leagueCell"];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+  GameState* gs = [GameState sharedGameState];
+  return gs.staticLeagues.count;
+}
+
+static NSString* const leagueColors[] = {@"b37858", @"808586", @"e39633", @"675f6f", @"3a94bc", @"b7271a"};
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  LeagueListViewCell* cell = [self.leagueTable dequeueReusableCellWithIdentifier:@"leagueCell"];
+  
+  GameState* gs = [GameState sharedGameState];
+  NSInteger leagueNumber = gs.staticLeagues.count - indexPath.row - 1;
+  PvpLeagueProto* league = gs.staticLeagues[leagueNumber];
+  
+  BOOL thisLeagueIsPlayers = FALSE;
+  if ( gs.pvpLeague && gs.pvpLeague.leagueId == league.leagueId )
+    thisLeagueIsPlayers = TRUE;
+  
+  // League image
+  NSString* imageName = league.imgPrefix;
+  if ( imageName )
+    cell.leagueImage.image = [Globals imageNamed:[NSString stringWithFormat:@"%@icon.png", imageName]];
+  
+  // League text and background color
+  NSString* leagueText = league.leagueName;
+  if (thisLeagueIsPlayers)
+  {
+    leagueText = [leagueText stringByAppendingString:[NSString stringWithFormat:@" - %dth Place", gs.pvpLeague.rank]];
+    cell.backgroundColor = [UIColor colorWithHexString:@"fff7dc"];
+  }
+  else
+  {
+    cell.backgroundColor = [UIColor whiteColor];
+  }
+  cell.leagueLabel.text = leagueText;
+  
+  // Label color
+  UIColor* textColor = [UIColor blackColor];
+  if ( indexPath.row < sizeof(leagueColors)/sizeof(NSString*) )
+    textColor = [UIColor colorWithHexString:leagueColors[leagueNumber]];
+  cell.leagueLabel.textColor = textColor;
+  
+  // Hide separator for some cases (last row, selected row and row previous to selected)
+  if ( indexPath.row == gs.staticLeagues.count - 1 || thisLeagueIsPlayers || (gs.pvpLeague && leagueNumber == gs.pvpLeague.leagueId ) )
+    cell.separatorView.hidden = TRUE;
+  else
+    cell.separatorView.hidden = FALSE;
+  cell.separatorView.height = 0.5;
+  
+  return cell;
+}
+
+@end
+
+@implementation LeagueListViewCell
+@end
+
 @implementation MultiplayerView
 
 - (void) awakeFromNib {
@@ -301,6 +368,38 @@
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
   self.titleLabel.text = @"Multiplayer";
+}
+
+- (void) showHideLeagueList
+{
+  self.userInteractionEnabled = NO;
+  
+  if ( self.leagueListView.hidden )
+  {
+    self.leagueListView.hidden = NO;
+    self.leagueListView.originY = self.leagueView.originY + self.leagueView.height - self.leagueListView.height;
+    
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.leagueView.originY -= self.multiplayerHeaderView.height;
+      self.leagueListView.originY = self.leagueView.originY + self.leagueView.height;
+      self.leagueListButton.height = self.leagueView.height + self.leagueListView.height;
+      self.leagueListButton.originY = 0;
+    } completion:^(BOOL finished) {
+      self.userInteractionEnabled = YES;
+    }];
+  }
+  else
+  {
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.leagueView.originY += self.multiplayerHeaderView.height;
+      self.leagueListView.originY = self.leagueView.originY + self.leagueView.height - self.leagueListView.height;
+      self.leagueListButton.height = self.leagueView.height;
+      self.leagueListButton.originY = self.multiplayerHeaderView.height;
+    } completion:^(BOOL finished) {
+      self.userInteractionEnabled = YES;
+      self.leagueListView.hidden = YES;
+    }];
+  }
 }
 
 @end

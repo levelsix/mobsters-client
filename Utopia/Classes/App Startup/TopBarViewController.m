@@ -177,7 +177,18 @@
 
 - (void) updateShopBadge {
   Globals *gl = [Globals sharedGlobals];
-  self.shopBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
+
+  NSInteger bonusGachas = [gl calculateFreeGachasCount];
+  if ( bonusGachas > 0 )
+  {
+    self.shopBadge.badgeNum = bonusGachas;
+    self.shopBadgeImage.image = [Globals imageNamed:@"bluenotificationbubble.png"];
+  }
+  else
+  {
+    self.shopBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
+    self.shopBadgeImage.image = [Globals imageNamed:@"badgeicon.png"];
+  }
 }
 
 - (void) updateMailBadge {

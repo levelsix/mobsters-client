@@ -51,6 +51,7 @@
 - (IBAction) cityClicked:(id)sender;
 - (IBAction) enterEventClicked:(id)sender;
 - (IBAction) findMatchClicked:(id)sender;
+- (IBAction) openLeagueListClicked:(id)sender;
 - (IBAction) close:(id)sender;
 - (IBAction) close;
 

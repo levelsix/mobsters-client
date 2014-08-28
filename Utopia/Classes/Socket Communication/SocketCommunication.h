@@ -131,7 +131,7 @@
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
-- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime;
+- (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
 
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;

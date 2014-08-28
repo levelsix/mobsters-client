@@ -5889,6 +5889,22 @@
 		CFFF9A5A18BEB67D0036EEC3 /* watertimermobster.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3C18BEB67D0036EEC3 /* watertimermobster.png */; };
 		CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */; };
 		CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
+		DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
+		DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
+		DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
+		DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
+		DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
+		DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
+		DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
+		DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
+		DAF7994919AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
+		DAF7994A19AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
+		DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */; };
+		DAF7994C19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */; };
+		DAF7994D19AD65EF00586583 /* bluenotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994719AD65EF00586583 /* bluenotificationbubble.png */; };
+		DAF7994E19AD65EF00586583 /* bluenotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994719AD65EF00586583 /* bluenotificationbubble.png */; };
+		DAF7994F19AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */; };
+		DAF7995019AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -9264,6 +9280,17 @@
 		CFFF9A5C18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ClanRaidProto+EasyAccess.h"; sourceTree = "<group>"; };
 		CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ClanRaidProto+EasyAccess.m"; sourceTree = "<group>"; };
 		D735B04C45CD4C97941C415D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		DA07DFCE19AD63AE009860CE /* GachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaViews.h; sourceTree = "<group>"; };
+		DA07DFCF19AD63AE009860CE /* GachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaViews.m; sourceTree = "<group>"; };
+		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
+		DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
+		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
+		DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Coordinates.m"; sourceTree = "<group>"; };
+		DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeagueListViewCell.xib; sourceTree = "<group>"; };
+		DAF7994519AD65EF00586583 /* bignotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bignotificationbubble.png; sourceTree = "<group>"; };
+		DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bignotificationbubble@2x.png"; sourceTree = "<group>"; };
+		DAF7994719AD65EF00586583 /* bluenotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluenotificationbubble.png; sourceTree = "<group>"; };
+		DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluenotificationbubble@2x.png"; sourceTree = "<group>"; };
 		E3B014266D6444DCA5AD786C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -9845,6 +9872,10 @@
 				CFFEB1661834A80A007C4BA3 /* MonsterTeamSlotView.h */,
 				CFFEB1671834A80A007C4BA3 /* MonsterTeamSlotView.m */,
 				CFFEB16A1834A82C007C4BA3 /* MonsterTeamSlotView.xib */,
+				DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */,
+				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
+				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
+				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -10362,6 +10393,7 @@
 				CF864D5D193D492D00DE0D7A /* AttackEventView.xib */,
 				CF864D5F193D493A00DE0D7A /* AttackEventViewSmall.xib */,
 				CF32EAAC195FAC1400A4AEE3 /* AttackMapTaskStatusView.xib */,
+				DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */,
 			);
 			path = AttackMenuController;
 			sourceTree = "<group>";
@@ -10448,6 +10480,8 @@
 		CF29E9251961517000B40DA4 /* Gacha */ = {
 			isa = PBXGroup;
 			children = (
+				DA07DFCE19AD63AE009860CE /* GachaViews.h */,
+				DA07DFCF19AD63AE009860CE /* GachaViews.m */,
 				CF29E926196151CD00B40DA4 /* GachaChooserViewController.h */,
 				CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */,
 				CF29E928196151CD00B40DA4 /* GachaChooserViewController.xib */,
@@ -10488,6 +10522,10 @@
 				CF29E94C1962236600B40DA4 /* mediumbubbleover@2x.png */,
 				CF29E94D1962236600B40DA4 /* badgeicon.png */,
 				CF29E94E1962236600B40DA4 /* badgeicon@2x.png */,
+				DAF7994519AD65EF00586583 /* bignotificationbubble.png */,
+				DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */,
+				DAF7994719AD65EF00586583 /* bluenotificationbubble.png */,
+				DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */,
 				CF29E9511962236600B40DA4 /* shopbutton.png */,
 				CF29E9521962236600B40DA4 /* shopbutton@2x.png */,
 				CF29E9531962236600B40DA4 /* smallbubbleover.png */,
@@ -15144,6 +15182,7 @@
 				CF0CEECE196F452900ECD301 /* OneLineNotificationView.xib in Resources */,
 				CF0CEECF196F452900ECD301 /* EvolveScientistView.xib in Resources */,
 				CF0CEED0196F452900ECD301 /* spinnertest.png in Resources */,
+				DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CFF2A54919709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CF0CEED1196F452900ECD301 /* questactivetab.png in Resources */,
 				CF0CEED2196F452900ECD301 /* lightbigavatar.png in Resources */,
@@ -15965,6 +16004,7 @@
 				CFF2A55519709C4800269084 /* Goonie4T1P2TutBig@2x.png in Resources */,
 				CF0CF1F2196F452900ECD301 /* gacharevealspinner.png in Resources */,
 				CF0CF1F3196F452900ECD301 /* bigavatarbg.png in Resources */,
+				DAF7994E19AD65EF00586583 /* bluenotificationbubble.png in Resources */,
 				CF0CF1F4196F452900ECD301 /* overring@2x.png in Resources */,
 				CF0CF1F5196F452900ECD301 /* rockgrenade@2x.png in Resources */,
 				CF0CF1F6196F452900ECD301 /* chatglobalinactive@2x.png in Resources */,
@@ -16309,6 +16349,7 @@
 				CF0CF342196F452900ECD301 /* goldleaguebg.png in Resources */,
 				CF0CF343196F452900ECD301 /* popupheader@2x.png in Resources */,
 				CF0CF344196F452900ECD301 /* raretag.png in Resources */,
+				DAF7994C19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */,
 				CFF2A55319709C4800269084 /* Goonie4T1P2TutBig.png in Resources */,
 				CFF2A5AD19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */,
 				CF65ECC819A2B1CC00ABBC77 /* chatmiddle.png in Resources */,
@@ -16384,6 +16425,7 @@
 				CF0CF387196F452900ECD301 /* Scientist1Turn14@2x.png in Resources */,
 				CF0CF388196F452900ECD301 /* Scientist4Blink02@2x.png in Resources */,
 				CF0CF389196F452900ECD301 /* timerbgrightcap.png in Resources */,
+				DAF7995019AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */,
 				CF0CF38A196F452900ECD301 /* nameinput@2x.png in Resources */,
 				CF0CF38C196F452900ECD301 /* loststickerhead.png in Resources */,
 				CF0CF38D196F452900ECD301 /* Scientist2Blink05@2x.png in Resources */,
@@ -17016,6 +17058,7 @@
 				CF0CF5F1196F452900ECD301 /* levelxpbg@2x.png in Resources */,
 				CF0CF5F2196F452900ECD301 /* closedcity@2x.png in Resources */,
 				CF0CF5F3196F452900ECD301 /* silverribbon@2x.png in Resources */,
+				DAF7994A19AD65EF00586583 /* bignotificationbubble.png in Resources */,
 				CF0CF5F4196F452900ECD301 /* sfx_points_fly_from_match_01.mp3 in Resources */,
 				CF0CF5F5196F452900ECD301 /* menubrute.png in Resources */,
 				CF0CF5F6196F452900ECD301 /* profsenmessagebutton@2x.png in Resources */,
@@ -17813,6 +17856,7 @@
 				CFEE89A418EA625200047CA4 /* OneLineNotificationView.xib in Resources */,
 				CFF64724195E541000C43641 /* EvolveScientistView.xib in Resources */,
 				CF1908B918D9221A00D6F0E4 /* spinnertest.png in Resources */,
+				DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CFF2A54819709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CFEE897018EA0ED200047CA4 /* questactivetab.png in Resources */,
 				CFF5DBE7194F90720019EB2B /* lightbigavatar.png in Resources */,
@@ -18634,6 +18678,7 @@
 				CFF2A55419709C4800269084 /* Goonie4T1P2TutBig@2x.png in Resources */,
 				CFF5DBE1194F90720019EB2B /* bigavatarbg.png in Resources */,
 				CFB2502C18569FB800BE0C05 /* overring@2x.png in Resources */,
+				DAF7994D19AD65EF00586583 /* bluenotificationbubble.png in Resources */,
 				CFFF6AFB18DA69A4003A320C /* rockgrenade@2x.png in Resources */,
 				CFF2C941193FD71F00F28D9E /* chatglobalinactive@2x.png in Resources */,
 				CFC9716B182C5AA400FF1D83 /* streak@2x.png in Resources */,
@@ -18978,6 +19023,7 @@
 				CF0A8D96183AD03400B32CDC /* popupheader@2x.png in Resources */,
 				CFFEB13C1834539C007C4BA3 /* raretag.png in Resources */,
 				CF0A8D8E183AD03400B32CDC /* confirm@2x.png in Resources */,
+				DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */,
 				CFF2A55219709C4800269084 /* Goonie4T1P2TutBig.png in Resources */,
 				CFF2A5AC19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */,
 				CF65ECC719A2B1CC00ABBC77 /* chatmiddle.png in Resources */,
@@ -19053,6 +19099,7 @@
 				CFFF9A5418BEB67D0036EEC3 /* timerbgrightcap.png in Resources */,
 				CFA7502B18CAD3B900AC66FC /* nameinput@2x.png in Resources */,
 				CFC04DA4188FE8D400F2DB59 /* loststickerhead.png in Resources */,
+				DAF7994F19AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */,
 				CFFBDF5A18ACA3D90090CA9A /* Scientist2Blink05@2x.png in Resources */,
 				CF864DCA193E7C5C00DE0D7A /* sendchat.png in Resources */,
 				CFF6469A195A6A0B00C43641 /* sortbuttonsmall.png in Resources */,
@@ -19685,6 +19732,7 @@
 				CF3765EC183203FE00D0A77E /* closedcity@2x.png in Resources */,
 				CF9520651939690800A98290 /* silverribbon@2x.png in Resources */,
 				CFC4D29918D7BD04004681FD /* sfx_points_fly_from_match_01.mp3 in Resources */,
+				DAF7994919AD65EF00586583 /* bignotificationbubble.png in Resources */,
 				CFEE025C17BDC76000F3BB19 /* menubrute.png in Resources */,
 				CFF5DBF2194F90720019EB2B /* profsenmessagebutton@2x.png in Resources */,
 				CFEE025E17BDC76000F3BB19 /* menubrute@2x.png in Resources */,
@@ -20417,6 +20465,7 @@
 				CF0CED31196F452900ECD301 /* SBGradientOverlayLayer.m in Sources */,
 				CF0CED32196F452900ECD301 /* SBTickerView.m in Sources */,
 				CF0CED33196F452900ECD301 /* MiniJobConfig.pb.m in Sources */,
+				DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF0CED34196F452900ECD301 /* ClanRaidDetailsViewController.m in Sources */,
 				CF0CED35196F452900ECD301 /* UIView+SBExtras.m in Sources */,
 				CF0CED36196F452900ECD301 /* main.m in Sources */,
@@ -20552,6 +20601,7 @@
 				CF0CEDBE196F452900ECD301 /* GachaponViews.m in Sources */,
 				CF0CEDBF196F452900ECD301 /* ODIN.m in Sources */,
 				CF0CEDC0196F452900ECD301 /* GameState.m in Sources */,
+				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
@@ -20566,6 +20616,7 @@
 				CF0CEDD0196F452900ECD301 /* MissionMap.m in Sources */,
 				CF0CEDD1196F452900ECD301 /* EvolveDetailsViewController.m in Sources */,
 				CF0CEDD2196F452900ECD301 /* TutorialTeamController.m in Sources */,
+				DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */,
 				CF0CEDD3196F452900ECD301 /* ClanInfoViewController.m in Sources */,
 				CF0CEDD4196F452900ECD301 /* EventStartup.pb.m in Sources */,
 				CF0CEDD5196F452900ECD301 /* MonsterCardView.m in Sources */,
@@ -20632,11 +20683,13 @@
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
+				DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */,
 				CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */,
 				CFF6464A195A578800C43641 /* ListCollectionView.m in Sources */,
 				CF126D381538ACCA00E0C1AD /* UserData.m in Sources */,
 				CF688FFD1912E5D000FF1F71 /* MiniJobsDetailsViewController.m in Sources */,
 				CF0CE07F196D21CC00ECD301 /* TutorialTeamViewController.m in Sources */,
+				DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CFF5ACCE1941508500571298 /* FocusScrollView.m in Sources */,
 				CF4DB8EB1807DA1F00062258 /* MapSprite.m in Sources */,
 				CF20F22F180FCDCB005551B5 /* EasyTableView.m in Sources */,
@@ -20827,6 +20880,7 @@
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
+				DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF6574B51909CAF200ABF1F4 /* EventPvp.pb.m in Sources */,
 				CF3765AA183175DE00D0A77E /* ChatView.m in Sources */,
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
@@ -20924,7 +20978,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alex Lin (D4KGEV27YQ)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -20976,7 +21030,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -21347,8 +21401,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				"PROVISIONING_PROFILE[sdk=*]" = "6331a0e3-be0c-473f-a9cb-93e304090a39";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -21423,8 +21477,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "e07b6f9d-90fa-4d4d-8990-762f31e290d6";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

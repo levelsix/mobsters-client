@@ -18,6 +18,7 @@
   
   Globals *gl = [Globals sharedGlobals];
   self.buildingsBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
+  self.gachasBadge.badgeNum = [gl calculateFreeGachasCount];
   
   [self initializeSubViewControllers];
   

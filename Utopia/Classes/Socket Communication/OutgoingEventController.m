@@ -1133,17 +1133,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Gacha
 
-- (void) purchaseBoosterPack:(int)boosterPackId delegate:(id)delegate {
+- (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   BoosterPackProto *bpp = [gs boosterPackForId:boosterPackId];
   if (!bpp) {
     [Globals popupMessage:@"Unable to find booster pack."];
-  } else if (bpp.gemPrice > gs.gems) {
+  } else if (bpp.gemPrice > gs.gems && ! free) {
     [Globals popupMessage:@"Attempting to spin without enough gems."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId clientTime:[self getCurrentMilliseconds]];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId isFree:free clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-bpp.gemPrice]];
+    if ( ! free )
+      [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-bpp.gemPrice]];
+    else
+      gs.lastFreeGachaSpin = [MSDate date];
   }
 }
 

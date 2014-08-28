@@ -10,6 +10,8 @@
 #import "THLabel.h"
 #import "Protocols.pb.h"
 #import "MonsterCardView.h"
+#import "UIColor+HexColor.h"
+#import "UIView+Coordinates.h"
 
 typedef enum {
   kButton1 = 1,
@@ -485,6 +487,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *badgeLabel;
 @property (nonatomic, assign) NSInteger badgeNum;
+
+- (void) instantlySetBadgeNum:(NSInteger)badgeNum;
 
 @end
 

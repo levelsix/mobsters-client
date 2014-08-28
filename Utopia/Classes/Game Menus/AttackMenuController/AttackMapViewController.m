@@ -413,6 +413,10 @@
   [self.delegate findPvpMatch:useGems];
 }
 
+- (IBAction)openLeagueListClicked:(id)sender {
+  [self.multiplayerView showHideLeagueList];
+}
+
 #pragma mark - EventView and TaskStatusView
 
 - (void) showTaskStatusForMapElement:(int)mapElementId {
