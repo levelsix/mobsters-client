@@ -10,6 +10,8 @@
 #import "THLabel.h"
 #import "Protocols.pb.h"
 #import "MonsterCardView.h"
+#import "UIColor+HexColor.h"
+#import "UIView+Coordinates.h"
 
 typedef enum {
   kButton1 = 1,

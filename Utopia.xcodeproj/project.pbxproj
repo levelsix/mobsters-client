@@ -5882,6 +5882,12 @@
 		CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
 		DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
 		DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
+		DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
+		DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
+		DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
+		DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
+		DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
+		DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
 		DAF7994919AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994A19AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */; };
@@ -9257,6 +9263,11 @@
 		D735B04C45CD4C97941C415D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DA07DFCE19AD63AE009860CE /* GachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaViews.h; sourceTree = "<group>"; };
 		DA07DFCF19AD63AE009860CE /* GachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaViews.m; sourceTree = "<group>"; };
+		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
+		DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
+		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
+		DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Coordinates.m"; sourceTree = "<group>"; };
+		DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeagueListViewCell.xib; sourceTree = "<group>"; };
 		DAF7994519AD65EF00586583 /* bignotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bignotificationbubble.png; sourceTree = "<group>"; };
 		DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bignotificationbubble@2x.png"; sourceTree = "<group>"; };
 		DAF7994719AD65EF00586583 /* bluenotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluenotificationbubble.png; sourceTree = "<group>"; };
@@ -9837,6 +9848,10 @@
 				CFFEB1661834A80A007C4BA3 /* MonsterTeamSlotView.h */,
 				CFFEB1671834A80A007C4BA3 /* MonsterTeamSlotView.m */,
 				CFFEB16A1834A82C007C4BA3 /* MonsterTeamSlotView.xib */,
+				DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */,
+				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
+				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
+				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -10353,6 +10368,7 @@
 				CF864D5D193D492D00DE0D7A /* AttackEventView.xib */,
 				CF864D5F193D493A00DE0D7A /* AttackEventViewSmall.xib */,
 				CF32EAAC195FAC1400A4AEE3 /* AttackMapTaskStatusView.xib */,
+				DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */,
 			);
 			path = AttackMenuController;
 			sourceTree = "<group>";
@@ -15125,6 +15141,7 @@
 				CF0CEECE196F452900ECD301 /* OneLineNotificationView.xib in Resources */,
 				CF0CEECF196F452900ECD301 /* EvolveScientistView.xib in Resources */,
 				CF0CEED0196F452900ECD301 /* spinnertest.png in Resources */,
+				DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CFF2A54919709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CF0CEED1196F452900ECD301 /* questactivetab.png in Resources */,
 				CF0CEED2196F452900ECD301 /* lightbigavatar.png in Resources */,
@@ -17796,6 +17813,7 @@
 				CFEE89A418EA625200047CA4 /* OneLineNotificationView.xib in Resources */,
 				CFF64724195E541000C43641 /* EvolveScientistView.xib in Resources */,
 				CF1908B918D9221A00D6F0E4 /* spinnertest.png in Resources */,
+				DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CFF2A54819709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CFEE897018EA0ED200047CA4 /* questactivetab.png in Resources */,
 				CFF5DBE7194F90720019EB2B /* lightbigavatar.png in Resources */,
@@ -20402,6 +20420,7 @@
 				CF0CED31196F452900ECD301 /* SBGradientOverlayLayer.m in Sources */,
 				CF0CED32196F452900ECD301 /* SBTickerView.m in Sources */,
 				CF0CED33196F452900ECD301 /* MiniJobConfig.pb.m in Sources */,
+				DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF0CED34196F452900ECD301 /* ClanRaidDetailsViewController.m in Sources */,
 				CF0CED35196F452900ECD301 /* UIView+SBExtras.m in Sources */,
 				CF0CED36196F452900ECD301 /* main.m in Sources */,
@@ -20536,6 +20555,7 @@
 				CF0CEDBE196F452900ECD301 /* GachaponViews.m in Sources */,
 				CF0CEDBF196F452900ECD301 /* ODIN.m in Sources */,
 				CF0CEDC0196F452900ECD301 /* GameState.m in Sources */,
+				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
@@ -20623,6 +20643,7 @@
 				CF126D381538ACCA00E0C1AD /* UserData.m in Sources */,
 				CF688FFD1912E5D000FF1F71 /* MiniJobsDetailsViewController.m in Sources */,
 				CF0CE07F196D21CC00ECD301 /* TutorialTeamViewController.m in Sources */,
+				DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CFF5ACCE1941508500571298 /* FocusScrollView.m in Sources */,
 				CF4DB8EB1807DA1F00062258 /* MapSprite.m in Sources */,
 				CF20F22F180FCDCB005551B5 /* EasyTableView.m in Sources */,
@@ -20813,6 +20834,7 @@
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
+				DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF6574B51909CAF200ABF1F4 /* EventPvp.pb.m in Sources */,
 				CF3765AA183175DE00D0A77E /* ChatView.m in Sources */,
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
@@ -20910,7 +20932,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alex Lin (D4KGEV27YQ)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -20961,7 +20983,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -21328,8 +21350,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				"PROVISIONING_PROFILE[sdk=*]" = "6331a0e3-be0c-473f-a9cb-93e304090a39";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -21403,8 +21425,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "e07b6f9d-90fa-4d4d-8990-762f31e290d6";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

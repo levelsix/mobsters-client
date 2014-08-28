@@ -80,6 +80,20 @@
 
 @end
 
+@interface LeagueListView : UIView <UITableViewDataSource>
+
+@property (nonatomic, strong) IBOutlet UITableView* leagueTable;
+
+@end
+
+@interface LeagueListViewCell : UITableViewCell
+
+@property (nonatomic, strong) IBOutlet UIImageView *leagueImage;
+@property (nonatomic, strong) IBOutlet NiceFontLabel12 *leagueLabel;
+@property (weak, nonatomic) IBOutlet UIView *separatorView;
+
+@end
+
 @interface MultiplayerView : UIView
 
 @property (nonatomic, strong) IBOutlet UILabel *multiplayerUnlockLabel;
@@ -93,10 +107,16 @@
 
 @property (nonatomic, strong) IBOutlet LeagueView *leagueView;
 
+@property (nonatomic, strong) IBOutlet LeagueListView *leagueListView;
+@property (nonatomic, strong) IBOutlet UIButton *leagueListButton;
+@property (nonatomic, strong) IBOutlet UIView *multiplayerHeaderView;
+
 //@property (nonatomic, strong) IBOutletCollection(LeagueDescriptionView) NSArray *leagueDescriptionViews;
 
 - (void) updateForLeague;
 - (IBAction) leagueSelected:(id)sender;
 - (IBAction) backClicked:(id)sender;
+
+- (void) showHideLeagueList;
 
 @end
