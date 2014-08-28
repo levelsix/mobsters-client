@@ -3,3 +3,9 @@ build/
 **/*.pbxuser
 xcuserdata
 xcshareddata
+xcuserstate
+*.lock
+*.swp
+DerivedData/
+build/
+*.pbxuser
