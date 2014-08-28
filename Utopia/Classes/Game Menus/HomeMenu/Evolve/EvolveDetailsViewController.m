@@ -111,8 +111,8 @@
   MonsterProto *evo = self.evoItem.userMonster1.staticEvolutionMonster;
   
   if ([self.evoItem isReadyForEvolution]) {
-    NSString *str = [NSString stringWithFormat:@"You have all the pieces to create %@:\n%@ L%d, another %@ %d, and a %@ (Evo %d).",
-                     evo.monsterName, mp.monsterName, mp.maxLevel, mp.monsterName, mp.maxLevel, cata.monsterName, cata.evolutionLevel];
+    NSString *str = [NSString stringWithFormat:@"You have all the pieces to create %@:\n%@ L%d, another %@, and a %@ (Evo %d).",
+                     evo.monsterName, mp.monsterName, mp.maxLevel, mp.monsterName, cata.monsterName, cata.evolutionLevel];
     self.descriptionLabel.text = str;
     self.descriptionLabel.highlighted = YES;
     self.descriptionLabel.highlightedTextColor = greenColor;
@@ -130,14 +130,14 @@
     attr = [[NSAttributedString alloc] initWithString:@", another "];
     [strs addObject:attr];
     
-    color = self.evoItem.userMonster2.level >= mp.maxLevel ? greenColor : redColor;
-    attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color}];
+    color = self.evoItem.userMonster2 ? greenColor : redColor;
+    attr = [[NSAttributedString alloc] initWithString:mp.monsterName attributes:@{NSForegroundColorAttributeName: color}];
     [strs addObject:attr];
     
     attr = [[NSAttributedString alloc] initWithString:@", and a "];
     [strs addObject:attr];
     
-    color = self.evoItem.catalystMonster.level >= cata.maxLevel ? greenColor : redColor;
+    color = self.evoItem.catalystMonster ? greenColor : redColor;
     str = [NSString stringWithFormat:@"%@ (Evo %d)", cata.monsterName, cata.evolutionLevel];
     attr = [[NSAttributedString alloc] initWithString:str attributes:@{NSForegroundColorAttributeName: color}];
     [strs addObject:attr];

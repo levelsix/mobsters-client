@@ -1070,8 +1070,8 @@
     
     [bomb runAction:
      [CCActionSequence actions:
-      [CCActionDelay actionWithDuration:0.85f+0.1*i],
-      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.7f position:endPos]],
+      [CCActionDelay actionWithDuration:0.75f+0.1*i],
+      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.9f position:endPos]],
       [CCActionCallBlock actionWithBlock:
        ^{
          [[CCTextureCache sharedTextureCache] addImage:@"bombdrop.png"];

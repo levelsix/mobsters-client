@@ -100,22 +100,6 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/Game Menus/HomeMenu/Evolve/EvolveDetailsViews.m"
-            timestampString = "425611037.298513"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-updateWithMonsterImagePrefix:maskedColor:showNonMaskedImage:labelText:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
@@ -138,22 +122,6 @@
             startingLineNumber = "163"
             endingLineNumber = "163"
             landmarkName = "-nearestCellMiddleFromPoint:withBoosterItem:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/Game Menus/HomeMenu/Main/ListCollectionView.m"
-            timestampString = "429743800.487894"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "-reloadTableAnimated:listObjects:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -273,7 +241,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "752"
             endingLineNumber = "752"
-            landmarkName = "-detectPossibleSwaps"
+            landmarkName = "-detectPowerupCreationFromChains:withInitialSwap:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

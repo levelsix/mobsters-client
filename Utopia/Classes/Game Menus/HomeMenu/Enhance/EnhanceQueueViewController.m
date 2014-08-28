@@ -15,6 +15,8 @@
 #import "MonsterPopUpViewController.h"
 #import "GameViewController.h"
 
+#define ENHANCE_FIRST_TIME_DEFAULTS_KEY @"EnhanceFirstTime"
+
 @implementation EnhanceSmallCardCell
 
 - (void) awakeFromNib {
@@ -378,22 +380,35 @@
 }
 
 - (void) confirmationAccepted {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  
   if (self.currentEnhancement.feeders.count >= self.maxQueueSize) {
     [Globals addAlertNotification:@"The laboratory queue is already full!"];
   } else {
-    EnhancementItem *newItem = [[EnhancementItem alloc] init];
-    newItem.userMonsterId = _confirmUserMonster.userMonsterId;
-    int oilCost = [gl calculateOilCostForEnhancement:self.currentEnhancement feeder:newItem];
-    int curAmount = gs.oil;
-    if (oilCost > curAmount) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:oilCost-curAmount target:self selector:@selector(useGemsForEnhance)];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    if (![def boolForKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY]) {
+      NSString *str = [NSString stringWithFormat:@"You will lose this %@ by sacrificing it for enhancement. Continue?", MONSTER_NAME];
+      [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Sacrifice %@?", MONSTER_NAME] okayButton:@"Sacrifice" cancelButton:@"Cancel" target:self selector:@selector(verifiedFirstTimeEnhance)];
     } else {
-      [self sendEnhanceAllowGems:NO];
+      [self verifiedFirstTimeEnhance];
     }
   }
+}
+
+- (void) verifiedFirstTimeEnhance {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  EnhancementItem *newItem = [[EnhancementItem alloc] init];
+  newItem.userMonsterId = _confirmUserMonster.userMonsterId;
+  int oilCost = [gl calculateOilCostForEnhancement:self.currentEnhancement feeder:newItem];
+  int curAmount = gs.oil;
+  if (oilCost > curAmount) {
+    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:oilCost-curAmount target:self selector:@selector(useGemsForEnhance)];
+  } else {
+    [self sendEnhanceAllowGems:NO];
+  }
+
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def setBool:YES forKey:ENHANCE_FIRST_TIME_DEFAULTS_KEY];
 }
 
 - (void) useGemsForEnhance {

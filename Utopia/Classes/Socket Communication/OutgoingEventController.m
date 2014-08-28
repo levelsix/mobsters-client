@@ -154,8 +154,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
-    FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+    FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
     [gs readjustAllMonsterHealingProtos];
@@ -217,8 +217,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       userStruct.structId = nextFsp.structId;
       
       // Update game state
-      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
-      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
+      GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
       
       [gs readjustAllMonsterHealingProtos];
@@ -269,7 +269,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       FullUserUpdate *up = nil;
       int oilChange = 0, cashChange = 0;
       if (gen.resourceType == ResourceTypeCash) {
-        up = [SilverUpdate updateWithTag:tag change:amountCollected];
+        up = [CashUpdate updateWithTag:tag change:amountCollected];
         cashChange = amountCollected;
       } else if (gen.resourceType == ResourceTypeOil) {
         up = [OilUpdate updateWithTag:tag change:amountCollected];
@@ -309,7 +309,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gemCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
     [gs readjustAllMonsterHealingProtos];
     
@@ -417,8 +417,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       obstacle.removalTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
       
       // Update game state
-      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
-      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
+      GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
       
       int cashChange = isOilBuilding ? 0 : -cost;
@@ -451,7 +451,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       BOOL shouldResetTime = gs.myObstacles.count >= gl.maxObstacles;
       
       int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleId speedup:numGems > 0 gemsSpent:numGems maxObstacles:shouldResetTime clientTime:ms];
-      [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-numGems]];
+      [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
       
       obstacle.removalTime = nil;
       [gs.myObstacles removeObject:obstacle];
@@ -608,8 +608,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     [gs.inProgressCompleteQuests removeObjectForKey:questIdNum];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.cashReward];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fqp.gemReward];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:fqp.cashReward];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:fqp.gemReward];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:fqp.oilReward];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expReward];
     
@@ -646,7 +646,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     ua.isRedeemed = YES;
     
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:ap.gemReward];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:ap.gemReward];
     [gs addUnrespondedUpdate:gu];
     
     [Analytics redeemAchievement:achievementId gemChange:ap.gemReward gemBalance:gs.gems];
@@ -668,7 +668,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
-    [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gold], [SilverUpdate updateWithTag:tag change:silver], nil];
+    [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:gold], [CashUpdate updateWithTag:tag change:silver], nil];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     if ([product.productIdentifier rangeOfString:@"bsale"].length > 0) {
@@ -701,7 +701,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int oilChange = 0, cashChange = 0;
     NSString *res = nil;
     if (resType == ResourceTypeCash) {
-      up = [SilverUpdate updateWithTag:tag change:resources];
+      up = [CashUpdate updateWithTag:tag change:resources];
       cashChange = resources;
       res = @"cash";
     } else if (resType == ResourceTypeOil) {
@@ -709,7 +709,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       oilChange = resources;
       res = @"oil";
     }
-    [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:-gems], up, nil];
+    [gs addUnrespondedUpdates:[GemsUpdate updateWithTag:tag change:-gems], up, nil];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     [Analytics fillStorage:res percAmount:percFill cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil gemChange:-gems gemBalance:gs.gems];
@@ -971,7 +971,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to create clan without enough resources."];
     } else {
       int tag = [[SocketCommunication sharedSocketCommunication] sendCreateClanMessage:clanName tag:clanTag description:description requestOnly:requestOnly iconId:iconId cashChange:-cost gemsSpent:gemCost];
-      [gs addUnrespondedUpdates:[SilverUpdate updateWithTag:tag change:-cost], [GoldUpdate updateWithTag:tag change:-gemCost], nil];
+      [gs addUnrespondedUpdates:[CashUpdate updateWithTag:tag change:-cost], [GemsUpdate updateWithTag:tag change:-gemCost], nil];
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       
       [Analytics createClan:clanName cashChange:-cost cashBalance:gs.cash gemChange:-gemCost gemBalance:gs.gems];
@@ -1143,7 +1143,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-bpp.gemPrice]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-bpp.gemPrice]];
   }
 }
 
@@ -1189,7 +1189,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   BOOL mini = taskId == gl.miniTutorialConstants.miniTutorialTaskId && [gs.completedTasks containsObject:@(taskId)];
   int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO alreadyCompletedMiniTutorialTask:mini questIds:nil];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
+  [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gems]];
   
   [gs.eventCooldownTimes setObject:[MSDate date] forKey:@(eventId)];
   
@@ -1249,7 +1249,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
     }
     
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:silverAmount];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:silverAmount];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilAmount];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:expAmount];
     [gs addUnrespondedUpdates: su, ou, eu, nil];
@@ -1279,7 +1279,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendReviveInDungeonMessage:userTaskId clientTime:[self getCurrentMilliseconds] userHealths:arr gems:gemCost];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gemCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
     [Analytics continueDungeon:taskId gemChange:-gemCost gemBalance:gs.gems];
   }
@@ -1311,8 +1311,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:-cashCost oilSpent:0 gemsSpent:-gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
     
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashCost];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:-cashCost];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:su, gu, nil];
     
     [Analytics nextPvpWithCashChange:-cashCost cashBalance:gs.cash gemChange:-gemCost gemBalance:gs.gems];
@@ -1349,7 +1349,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int cashGained = userWon ? proto.prospectiveCashWinnings : 0;
   int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userId userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-  [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [SilverUpdate updateWithTag:tag change:cashGained], nil];
+  [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   
   if (userWon) {
     [Analytics endPvpWithCashChange:cashGained cashBalance:gs.cash oilChange:oilGained oilBalance:gs.oil];
@@ -1471,7 +1471,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.fbInviteStructLvl++;
     
     int gemsSpent = gems ? -fbRes.numGemsRequired : 0;
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gemsSpent]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:gemsSpent]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     int invSize = [gs maxInventorySlots];
@@ -1534,7 +1534,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     um.isComplete = YES;
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:[NSArray arrayWithObject:[NSNumber numberWithUnsignedLongLong:userMonsterId]] gemCost:goldCost];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     [gs beginCombineTimer];
     
@@ -1571,8 +1571,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUserMonsterHealingItemToEndOfQueue:item];
     
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:gemCost];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverCost];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:-silverCost];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:su, gu, nil];
     
     [Analytics healMonster:um.monsterId cashChange:-silverCost cashBalance:gs.cash gemChange:-gemCost gemBalance:gs.gems];
@@ -1595,7 +1595,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     silverCost = MIN(silverCost, MAX(0, gs.maxCash-gs.cash));
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverCost]];
+    [gs addUnrespondedUpdate:[CashUpdate updateWithTag:tag change:silverCost]];
     
     [Analytics cancelHealMonster:um.monsterId cashChange:silverCost cashBalance:gs.cash];
     
@@ -1629,7 +1629,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     // Remove after to let the queue update to not be affected
     [gs.monsterHealingQueue removeAllObjects];
@@ -1707,7 +1707,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"You can't sell your last monster!"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendSellUserMonstersMessage:sellProtos];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:moneyGained]];
+    [gs addUnrespondedUpdate:[CashUpdate updateWithTag:tag change:moneyGained]];
     
     [gs.myMonsters removeObjectsInArray:monstersToRemove];
   }
@@ -1800,7 +1800,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithOilChange:-oilCost gemCost:gemCost];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
-      GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
+      GemsUpdate *gold = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];
       
       int baseMonsterId = ue.baseMonster.userMonster.monsterId;
@@ -1865,7 +1865,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     [gs.userEnhancement.feeders removeAllObjects];
     
@@ -1927,8 +1927,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!evoItem.userMonster1 || !evoItem.userMonster2 || !evoItem.catalystMonster) {
     [Globals popupMessage:@"Trying to evolve without proper monsters."];
-  } else if (evoItem.userMonster1.level < evoItem.userMonster1.staticMonster.maxLevel ||
-             evoItem.userMonster2.level < evoItem.userMonster2.staticMonster.maxLevel) {
+  } else if (evoItem.userMonster1.level < evoItem.userMonster1.staticMonster.maxLevel) {
     [Globals popupMessage:@"Trying to evolve without max monsters."];
   } else if (!gems && gs.oil < oilCost) {
     [Globals popupMessage:@"Trying to enhance item without enough oil."];
@@ -1949,7 +1948,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       int tag = [[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
-      GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
+      GemsUpdate *gold = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];
       
       gs.userEvolution = evo;
@@ -1980,7 +1979,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-numGems]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
     
     [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
     [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
@@ -1999,9 +1998,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashChange oilSpent:oilChange gemsSpent:gemChange clientTime:[self getCurrentMilliseconds] reason:reason];
   
-  SilverUpdate *su = [SilverUpdate updateWithTag:tag change:cashChange];
+  CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
-  GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gemChange];
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemChange];
   [gs addUnrespondedUpdates:su, ou, gu, nil];
 }
 
@@ -2042,7 +2041,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     userMiniJob.timeCompleted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
     
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gemCost]];
+    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
     [gs beginMiniJobTimer];
     
@@ -2079,8 +2078,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.myMiniJobs removeObject:userMiniJob];
     
     int cashChange = userMiniJob.miniJob.cashReward, gemChange = userMiniJob.miniJob.gemReward, oilChange = userMiniJob.miniJob.oilReward;
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gemChange];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:cashChange];
+    GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemChange];
+    CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
     [gs addUnrespondedUpdates:gu, su, ou, nil];
     

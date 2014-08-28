@@ -19,10 +19,10 @@
 
 @end
 
-@interface GoldUpdate : FullUserUpdate
+@interface GemsUpdate : FullUserUpdate
 @end
 
-@interface SilverUpdate : FullUserUpdate
+@interface CashUpdate : FullUserUpdate
 @end
 
 @interface OilUpdate : FullUserUpdate

@@ -17,13 +17,13 @@
   self.monsterImage.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
 }
 
-- (void) updateBaseMonsterWithMonsterId:(int)monsterId level:(int)level {
+- (void) updateBaseMonsterWithMonsterId:(int)monsterId level:(int)level requireMax:(BOOL)requireMax {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:monsterId];
   
   UIColor *masked;
   BOOL showNonMasked = level > 0;
-  if (level >= mp.maxLevel) {
+  if ((!requireMax && level > 0) || level >= mp.maxLevel) {
     masked = nil;
   } else if (level > 0) {
     masked = [UIColor colorWithWhite:1.f alpha:0.8f];
@@ -93,12 +93,12 @@
 
 - (void) updateWithEvoItem:(EvoItem *)evoItem {
   UserMonster *um1 = evoItem.userMonster1, *um2 = evoItem.userMonster2, *cata = evoItem.catalystMonster;
-  [self.baseMonsterView1 updateBaseMonsterWithMonsterId:um1.monsterId level:um1.level];
+  [self.baseMonsterView1 updateBaseMonsterWithMonsterId:um1.monsterId level:um1.level requireMax:YES];
   
   if (um2) {
-    [self.baseMonsterView2 updateBaseMonsterWithMonsterId:um2.monsterId level:um2.level];
+    [self.baseMonsterView2 updateBaseMonsterWithMonsterId:um2.monsterId level:um2.level requireMax:NO];
   } else {
-    [self.baseMonsterView2 updateBaseMonsterWithMonsterId:um1.monsterId level:0];
+    [self.baseMonsterView2 updateBaseMonsterWithMonsterId:um1.monsterId level:0 requireMax:NO];
   }
   
   if (cata) {

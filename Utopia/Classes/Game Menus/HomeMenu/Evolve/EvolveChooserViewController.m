@@ -98,54 +98,60 @@
   }
   [self.bottomView updateWithUserMonsters:avail];
   
-  NSMutableArray *validMonsters = [NSMutableArray array];
+  // validMonsters will be a dictionary of monsterId -> sorted array of monsters from highest level to lowest
+  // catalysts will be a dictionary of monsterId -> sorted array of catalysts with that monsterId from highest to lowest level
+  // Catalyst monsters can be in both dictionaries (assuming they can be evolved).
+  NSMutableDictionary *validMonsters = [NSMutableDictionary dictionary];
   NSMutableArray *ready = [NSMutableArray array];
   NSMutableArray *notReady = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
     if (um.isAvailable && um.staticMonster.evolutionMonsterId) {
-      [validMonsters addObject:um];
+      int monsterId = um.staticMonster.monsterId;
+      NSMutableArray *arr = validMonsters[@(monsterId)];
+      
+      if (!arr) {
+        arr = [NSMutableArray array];
+        validMonsters[@(monsterId)] = arr;
+      }
+      
+      [arr addObject:um];
     }
   }
   
-  [validMonsters sortUsingSelector:@selector(compare:)];
+  NSMutableDictionary *catalyts = [NSMutableDictionary dictionary];
+  for (NSNumber *num in validMonsters) {
+    NSMutableArray *arr = validMonsters[num];
+    [arr sortUsingSelector:@selector(compare:)];
+    
+    catalyts[num] = [arr copy];
+  }
   
-  while (validMonsters.count) {
-    UserMonster *um = validMonsters[0];
-    UserMonster *um2 = nil;
-    UserMonster *cata = nil;
-    int cataId = um.staticMonster.evolutionCatalystMonsterId;
-    
-    for (int i = 1; i < validMonsters.count; i++) {
-      UserMonster *temp = validMonsters[i];
-      // Because it's already sorted, we can assume that the first one found will be the next highest level
-      if (!um2 && temp.monsterId == um.monsterId) {
-        um2 = temp;
-      } else if (temp.monsterId == cataId) {
-        cata = temp;
-      }
-    }
-    
-    // Check if there is a cata within the already created evo items
-    // Also check if we can find a higher level suggested monster
-    for (NSArray *arr in @[ready, notReady]) {
-      for (EvoItem *evo in arr) {
-        NSArray *ums = evo.userMonsters;
-        for (UserMonster *temp in ums) {
-          if (temp.monsterId == cataId) {
-            cata = temp;
-          }
+  // Now go through every array in validMonsters and pair up with highest and lowest monsters (first and last object).
+  for (NSMutableArray *arr in validMonsters.allValues) {
+    while (arr.count) {
+      UserMonster *um1 = [arr firstObject];
+      UserMonster *um2 = arr.count > 1 ? [arr lastObject] : nil;
+      UserMonster *cata = nil;
+      
+      // Go backwards through the cata array since its ordered from highest to lowest
+      NSMutableArray *catas = catalyts[@(um1.staticMonster.evolutionCatalystMonsterId)];
+      for (UserMonster *um in catas.reverseObjectEnumerator) {
+        if (um.userMonsterId != um1.userMonsterId && um.userMonsterId != um2.userMonsterId) {
+          cata = um;
+          break;
         }
       }
-    }
-    
-    [validMonsters removeObject:um];
-    [validMonsters removeObject:um2];
-    EvoItem *evo = [[EvoItem alloc] initWithUserMonster:um andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
-    if ([evo isReadyForEvolution]) {
-      [ready addObject:evo];
-    } else {
-      [notReady addObject:evo];
+      
+      [arr removeObject:um1];
+      [arr removeObject:um2];
+      
+      EvoItem *evo = [[EvoItem alloc] initWithUserMonster:um1 andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
+      if ([evo isReadyForEvolution]) {
+        [ready addObject:evo];
+      } else {
+        [notReady addObject:evo];
+      }
     }
   }
   

@@ -10,7 +10,9 @@
 #import "NibUtils.h"
 #import "ListCollectionView.h"
 
-@interface SellViewController : PopupSubViewController <ListCollectionDelegate>
+@interface SellViewController : PopupSubViewController <ListCollectionDelegate> {
+  UserMonster *_confirmUserMonster;
+}
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 @property (nonatomic, strong) IBOutlet ListCollectionView *queueView;

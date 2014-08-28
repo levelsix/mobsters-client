@@ -10,8 +10,8 @@
 
 #import "Globals.h"
 
-// Uncomment this line to allow user to swap wherever they want
-#define FREE_BATTLE_MOVEMENT 1
+// Make this 1 to allow user to swap wherever they want
+#define FREE_BATTLE_MOVEMENT 0
 
 @interface BattleOrbLayout ()
 

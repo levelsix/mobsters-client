@@ -26,10 +26,12 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
 
+#import "Chartboost.h"
+
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
-#define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
-#define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
+#define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"
+#define CHARTBOOST_APP_SIG   @"91b5231f8da2a3f7698c29e2692b4addf8102a12"
 
 //#define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
 //#define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
@@ -51,12 +53,14 @@
 }
 
 - (void) setUpChartboost {
-//  Chartboost *cb = [Chartboost sharedChartboost];
-//  cb.appId = CHARTBOOST_APP_ID;
-//  cb.appSignature = CHARTBOOST_APP_SIG;
-//  
-//  [cb startSession];
-//  [cb showInterstitial];
+#ifdef TOONSQUAD
+  //[Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
+  //[[Chartboost sharedChartboost] showInterstitial:CBLocationHomeScreen];
+#endif
+}
+
+- (BOOL)shouldRequestInterstitialsInFirstSession {
+  return NO;
 }
 
 - (void) setUpKamcord:(UIViewController *)vc {
@@ -77,6 +81,8 @@
 {
   //Init the window
 	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  
+  [self setUpChartboost];
   
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];

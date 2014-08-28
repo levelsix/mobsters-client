@@ -38,7 +38,7 @@
 
 #define TITAN_CLASS nil
 #define TITAN_API_KEY nil
-#define ADJUST_APP_TOKEN     @"53jsdw73785p"
+#define ADJUST_APP_TOKEN     @"7t35a4nm9x7f"
 #define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
 
 #endif

@@ -30,7 +30,7 @@
 
 @end
 
-@implementation GoldUpdate
+@implementation GemsUpdate
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation SilverUpdate
+@implementation CashUpdate
 
 - (id) initWithTag:(int)t change:(int)change {
   GameState *gs = [GameState sharedGameState];

@@ -16,7 +16,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *monsterImageOverlay;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 
-- (void) updateBaseMonsterWithMonsterId:(int)monsterId level:(int)level;
+- (void) updateBaseMonsterWithMonsterId:(int)monsterId level:(int)level requireMax:(BOOL)requireMax;
 - (void) updateCatalystMonsterWithMonsterId:(int)monsterId ownsMonster:(BOOL)ownsMonster;
 - (void) updateEvolutionMonsterWithMonsterId:(int)monsterId;
 

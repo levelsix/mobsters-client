@@ -3481,6 +3481,15 @@
 		CF4251A719AD2C9D00964547 /* recommendedtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A419AD2C9D00964547 /* recommendedtag.png */; };
 		CF4251A819AD2C9D00964547 /* recommendedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */; };
 		CF4251A919AD2C9D00964547 /* recommendedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */; };
+		CF42537719AD72F200964547 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537319AD72F200964547 /* CHANGELOG.md */; };
+		CF42537819AD72F200964547 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537319AD72F200964547 /* CHANGELOG.md */; };
+		CF42537919AD72F200964547 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537519AD72F200964547 /* libChartboost.a */; };
+		CF42537A19AD72F300964547 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537519AD72F200964547 /* libChartboost.a */; };
+		CF42537B19AD72F300964547 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537619AD72F200964547 /* README.md */; };
+		CF42537C19AD72F300964547 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537619AD72F200964547 /* README.md */; };
+		CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537D19AD746B00964547 /* CoreData.framework */; };
+		CF42537F19AD764000964547 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537D19AD746B00964547 /* CoreData.framework */; };
+		CF42538019AD76EF00964547 /* OrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C97019A67224002682A2 /* OrbMainLayer.m */; };
 		CF4DB8DA1807DA1F00062258 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */; };
 		CF4DB8DC1807DA1F00062258 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8B01807DA1E00062258 /* Building.m */; };
 		CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8BD1807DA1E00062258 /* GameMap.m */; };
@@ -6836,6 +6845,16 @@
 		CF42519F19AC131000964547 /* enemystripes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemystripes@2x.png"; sourceTree = "<group>"; };
 		CF4251A419AD2C9D00964547 /* recommendedtag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recommendedtag.png; sourceTree = "<group>"; };
 		CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recommendedtag@2x.png"; sourceTree = "<group>"; };
+		CF42536E19AD72F200964547 /* CBMoreAppsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBMoreAppsButton.h; sourceTree = "<group>"; };
+		CF42536F19AD72F200964547 /* CBNewsfeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBNewsfeed.h; sourceTree = "<group>"; };
+		CF42537019AD72F200964547 /* CBNewsfeedUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBNewsfeedUI.h; sourceTree = "<group>"; };
+		CF42537119AD72F200964547 /* CBPostInstallAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBPostInstallAnalyticsTracker.h; sourceTree = "<group>"; };
+		CF42537219AD72F200964547 /* CBStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBStory.h; sourceTree = "<group>"; };
+		CF42537319AD72F200964547 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
+		CF42537419AD72F200964547 /* Chartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chartboost.h; sourceTree = "<group>"; };
+		CF42537519AD72F200964547 /* libChartboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChartboost.a; sourceTree = "<group>"; };
+		CF42537619AD72F200964547 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		CF42537D19AD746B00964547 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedSprite.m; sourceTree = "<group>"; };
 		CF4DB8AF1807DA1E00062258 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
@@ -9253,6 +9272,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0CEE09196F452900ECD301 /* CoreMedia.framework in Frameworks */,
+				CF42537F19AD764000964547 /* CoreData.framework in Frameworks */,
 				CF0CEDF5196F452900ECD301 /* iAd.framework in Frameworks */,
 				CF0CEDF6196F452900ECD301 /* MobileAppTracker.framework in Frameworks */,
 				CF0CEDF7196F452900ECD301 /* GameKit.framework in Frameworks */,
@@ -9260,6 +9281,7 @@
 				CF0CEDF9196F452900ECD301 /* FacebookSDK.framework in Frameworks */,
 				CF0CEDFA196F452900ECD301 /* libsqlite3.dylib in Frameworks */,
 				CF0CEDFB196F452900ECD301 /* CoreImage.framework in Frameworks */,
+				CF42537A19AD72F300964547 /* libChartboost.a in Frameworks */,
 				CF0CEDFC196F452900ECD301 /* Kamcord.framework in Frameworks */,
 				CF0CEDFD196F452900ECD301 /* CoreTelephony.framework in Frameworks */,
 				CF0CEDFE196F452900ECD301 /* Social.framework in Frameworks */,
@@ -9273,7 +9295,6 @@
 				CF0CEE06196F452900ECD301 /* NewRelicAgent.framework in Frameworks */,
 				CF0CEE07196F452900ECD301 /* QuartzCore.framework in Frameworks */,
 				CF0CEE08196F452900ECD301 /* MediaPlayer.framework in Frameworks */,
-				CF0CEE09196F452900ECD301 /* CoreMedia.framework in Frameworks */,
 				CF0CEE0A196F452900ECD301 /* CoreVideo.framework in Frameworks */,
 				CF0CEE0B196F452900ECD301 /* Security.framework in Frameworks */,
 				CF0CEE0C196F452900ECD301 /* MessageUI.framework in Frameworks */,
@@ -9300,6 +9321,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */,
+				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
 				CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
 				CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */,
@@ -9316,13 +9339,13 @@
 				CF093021193849DA0008D97F /* libTestFlight.a in Frameworks */,
 				CFEAB54416BBD32900AEB7BD /* Accounts.framework in Frameworks */,
 				CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */,
+				CF42537919AD72F200964547 /* libChartboost.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
 				CFCD0EFA1954E83800EDC233 /* NewRelicAgent.framework in Frameworks */,
 				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
 				454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */,
-				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
 				CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */,
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
@@ -9620,6 +9643,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF42537D19AD746B00964547 /* CoreData.framework */,
 				CF0CE153196E2B1100ECD301 /* iAd.framework */,
 				CFEF25DC18CAB8B200FB867A /* GameKit.framework */,
 				CFE02D9618261F6F0016C1E2 /* libsqlite3.dylib */,
@@ -9856,6 +9880,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF42536D19AD72F100964547 /* Chartboost */,
 				CF86503C198055E500D82D7C /* Scopely */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
 				CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */,
@@ -11137,6 +11162,22 @@
 				CF41D194158BFAE900A4DBC3 /* OpenUDID.m */,
 			);
 			path = OpenUDID;
+			sourceTree = "<group>";
+		};
+		CF42536D19AD72F100964547 /* Chartboost */ = {
+			isa = PBXGroup;
+			children = (
+				CF42536E19AD72F200964547 /* CBMoreAppsButton.h */,
+				CF42536F19AD72F200964547 /* CBNewsfeed.h */,
+				CF42537019AD72F200964547 /* CBNewsfeedUI.h */,
+				CF42537119AD72F200964547 /* CBPostInstallAnalyticsTracker.h */,
+				CF42537219AD72F200964547 /* CBStory.h */,
+				CF42537319AD72F200964547 /* CHANGELOG.md */,
+				CF42537419AD72F200964547 /* Chartboost.h */,
+				CF42537519AD72F200964547 /* libChartboost.a */,
+				CF42537619AD72F200964547 /* README.md */,
+			);
+			path = Chartboost;
 			sourceTree = "<group>";
 		};
 		CF4DB8AB1807DA1E00062258 /* Main Map */ = {
@@ -15311,6 +15352,7 @@
 				CF0CEF96196F452900ECD301 /* ultraband.png in Resources */,
 				CF0CEF97196F452900ECD301 /* menumobstersinactive.png in Resources */,
 				CF0CEF98196F452900ECD301 /* teambubble0@2x.png in Resources */,
+				CF42537819AD72F200964547 /* CHANGELOG.md in Resources */,
 				CF0CEF99196F452900ECD301 /* enhancetime@2x.png in Resources */,
 				CF0CEF9B196F452900ECD301 /* epictag@2x.png in Resources */,
 				CF0CEF9C196F452900ECD301 /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
@@ -15464,6 +15506,7 @@
 				CFF2A5D319709C4800269084 /* mapsection1.png in Resources */,
 				CF0CF02D196F452900ECD301 /* Scientist1Breath03@2x.png in Resources */,
 				CF0CF02E196F452900ECD301 /* nightteamhealthbar.png in Resources */,
+				CF42537C19AD72F300964547 /* README.md in Resources */,
 				CF0CF02F196F452900ECD301 /* GachaChooserViewController.xib in Resources */,
 				CF0CF030196F452900ECD301 /* attackbutton.png in Resources */,
 				CF0CF031196F452900ECD301 /* chatinputtop.png in Resources */,
@@ -17978,6 +18021,7 @@
 				CF29E979196228FA00B40DA4 /* menumobstersinactive.png in Resources */,
 				CF29EA191964BD0500B40DA4 /* teambubble0@2x.png in Resources */,
 				CFCD0EC11953F07400EDC233 /* enhancetime@2x.png in Resources */,
+				CF42537719AD72F200964547 /* CHANGELOG.md in Resources */,
 				CF0CECEC196F450C00ECD301 /* splashguys.png in Resources */,
 				CFFEB0FE1834539C007C4BA3 /* epictag@2x.png in Resources */,
 				CFC4D2AB18D7BD04004681FD /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
@@ -18131,6 +18175,7 @@
 				CFF2A5D219709C4800269084 /* mapsection1.png in Resources */,
 				CFFBDF3A18ACA3D90090CA9A /* Scientist1Breath03@2x.png in Resources */,
 				CFFEB1341834539C007C4BA3 /* nightteamhealthbar.png in Resources */,
+				CF42537B19AD72F300964547 /* README.md in Resources */,
 				CF29E92A196151CD00B40DA4 /* GachaChooserViewController.xib in Resources */,
 				CF29E9551962236600B40DA4 /* attackbutton.png in Resources */,
 				CFF2C904193ECF5600F28D9E /* chatinputtop.png in Resources */,
@@ -20461,6 +20506,7 @@
 				CF0CED8D196F452900ECD301 /* AMQPConsumerThread.m in Sources */,
 				CF0CED8E196F452900ECD301 /* MiniTutorialController.m in Sources */,
 				CF0CED8F196F452900ECD301 /* AMQPExchange.m in Sources */,
+				CF42538019AD76EF00964547 /* OrbMainLayer.m in Sources */,
 				CF0CED91196F452900ECD301 /* AMQPMessage.m in Sources */,
 				CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */,
 				CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */,
@@ -20919,6 +20965,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -20992,6 +21039,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -21066,6 +21114,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -21141,6 +21190,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -21286,6 +21336,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -21361,6 +21412,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
 					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

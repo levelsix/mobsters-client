@@ -574,7 +574,7 @@
 
 - (BOOL) isReadyForEvolution {
   MonsterProto *mp = self.userMonster1.staticMonster;
-  return self.catalystMonster && self.userMonster1.level >= mp.maxLevel && self.userMonster2.level >= mp.maxLevel;
+  return self.catalystMonster && self.userMonster1.level >= mp.maxLevel && self.userMonster2;
 }
 
 - (BOOL) isEqual:(EvoItem *)object {
@@ -582,7 +582,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"1:%lld, 2:%lld, C:%lld", self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
+  return [NSString stringWithFormat:@"%@ - 1:%lld, 2:%lld, C:%lld", self, self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
 }
 
 - (NSUInteger) hash {

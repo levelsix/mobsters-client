@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
+#import "Chartboost.h"
+
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, ChartboostDelegate> {
 	UIWindow *window;
 }
 

@@ -134,11 +134,8 @@
     }
     
     if (hasCompleteMobster) {
-      [self.sellQueue addObject:um];
-      
-      [self reloadQueueViewAnimated:YES];
-      [self animateUserMonsterIntoQueue:um];
-      [self reloadListViewAnimated:YES];
+      _confirmUserMonster = um;
+      [self checkUserMonsterOnTeam];
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"You can't sell your last complete %@!", MONSTER_NAME]];
     }
@@ -149,6 +146,25 @@
     [parent.view addSubview:mpvc.view];
     [parent addChildViewController:mpvc];
   }
+}
+
+- (void) checkUserMonsterOnTeam {
+  UserMonster *um = _confirmUserMonster;
+  if (um.teamSlot > 0) {
+    NSString *description = [NSString stringWithFormat:@"This %@ is currently on your team. Continue?", MONSTER_NAME];
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
+  } else {
+    [self confirmationAccepted];
+  }
+}
+
+- (void) confirmationAccepted {
+  UserMonster *um = _confirmUserMonster;
+  [self.sellQueue addObject:um];
+  
+  [self reloadQueueViewAnimated:YES];
+  [self animateUserMonsterIntoQueue:um];
+  [self reloadListViewAnimated:YES];
 }
 
 - (void) animateUserMonsterIntoQueue:(UserMonster *)um {
