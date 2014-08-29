@@ -33,6 +33,7 @@
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "SharedEnumConfig.pb.h"
+#import "Skill.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -447,6 +448,10 @@
 @class SetGameCenterIdRequestProto_Builder;
 @class SetGameCenterIdResponseProto;
 @class SetGameCenterIdResponseProto_Builder;
+@class SkillPropertyProto;
+@class SkillPropertyProto_Builder;
+@class SkillProto;
+@class SkillProto_Builder;
 @class SpawnMiniJobRequestProto;
 @class SpawnMiniJobRequestProto_Builder;
 @class SpawnMiniJobResponseProto;

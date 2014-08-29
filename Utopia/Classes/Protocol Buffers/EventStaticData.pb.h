@@ -128,6 +128,10 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class SkillPropertyProto;
+@class SkillPropertyProto_Builder;
+@class SkillProto;
+@class SkillProto_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;

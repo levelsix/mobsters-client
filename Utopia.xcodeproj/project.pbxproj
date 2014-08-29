@@ -5891,6 +5891,9 @@
 		CFFF9A5A18BEB67D0036EEC3 /* watertimermobster.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3C18BEB67D0036EEC3 /* watertimermobster.png */; };
 		CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */; };
 		CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
+		DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; };
+		DA075FBF19AFEA4C00E43E5A /* Skill.proto in Resources */ = {isa = PBXBuildFile; fileRef = DA075FBE19AFEA4C00E43E5A /* Skill.proto */; };
 		DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
 		DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
 		DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
@@ -9284,6 +9287,9 @@
 		CFFF9A5C18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ClanRaidProto+EasyAccess.h"; sourceTree = "<group>"; };
 		CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ClanRaidProto+EasyAccess.m"; sourceTree = "<group>"; };
 		D735B04C45CD4C97941C415D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		DA075FB519AFEA3500E43E5A /* Skill.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.pb.h; sourceTree = "<group>"; };
+		DA075FB619AFEA3500E43E5A /* Skill.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.pb.m; sourceTree = "<group>"; };
+		DA075FBE19AFEA4C00E43E5A /* Skill.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Skill.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Skill.proto"; sourceTree = SOURCE_ROOT; };
 		DA07DFCE19AD63AE009860CE /* GachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaViews.h; sourceTree = "<group>"; };
 		DA07DFCF19AD63AE009860CE /* GachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaViews.m; sourceTree = "<group>"; };
 		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
@@ -11236,6 +11242,8 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				DA075FB519AFEA3500E43E5A /* Skill.pb.h */,
+				DA075FB619AFEA3500E43E5A /* Skill.pb.m */,
 				CFFB3B6E19820E8F005D7AF5 /* Dev.pb.h */,
 				CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */,
 				CFFB3B7019820E8F005D7AF5 /* EventDev.pb.h */,
@@ -11439,6 +11447,7 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				DA075FBE19AFEA4C00E43E5A /* Skill.proto */,
 				CFFB3B6C19820E6C005D7AF5 /* Dev.proto */,
 				CFFB3B6D19820E6C005D7AF5 /* EventDev.proto */,
 				CF68906919145DA300FF1F71 /* EventMiniJob.proto */,
@@ -20084,6 +20093,7 @@
 				CFE0E69917E2BFD3002ECA84 /* percent.png in Resources */,
 				CFE0E69A17E2BFD3002ECA84 /* percent@2x.png in Resources */,
 				CF68904F1912E7B500FF1F71 /* rarejob.png in Resources */,
+				DA075FBF19AFEA4C00E43E5A /* Skill.proto in Resources */,
 				CFBB37BF18F754D300FD6C8C /* bigshadow@2x.png in Resources */,
 				CFF2C958193FE69600F28D9E /* minimizechatx.png in Resources */,
 				CFCD0EF51953F07400EDC233 /* ultraband@2x.png in Resources */,
@@ -20450,6 +20460,7 @@
 				CF0CED0A196F452900ECD301 /* Downloader.m in Sources */,
 				CF0CED0B196F452900ECD301 /* HomeMap.m in Sources */,
 				CF0CED0C196F452900ECD301 /* LoadingViewController.m in Sources */,
+				DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */,
 				CF0CED0D196F452900ECD301 /* Globals.m in Sources */,
 				CF0CED0E196F452900ECD301 /* Clan.pb.m in Sources */,
 				CF023CB71992ED9E0082FE61 /* BattleSchedule.m in Sources */,
@@ -20771,6 +20782,7 @@
 				CFFEB1681834A80A007C4BA3 /* MonsterTeamSlotView.m in Sources */,
 				CFEF25D618C9DFC400FB867A /* MSWindow.m in Sources */,
 				CF20F04B180E142B005551B5 /* AttackMapViewController.m in Sources */,
+				DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */,
 				CF54942E18C58ECF001E7D32 /* TutorialOrbLayer.m in Sources */,
 				CF7CFE2819A55A68009338A2 /* BattleTile.m in Sources */,
 				CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */,
