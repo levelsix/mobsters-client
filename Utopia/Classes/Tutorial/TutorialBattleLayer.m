@@ -500,8 +500,7 @@
   NSArray *myMons = [NSArray arrayWithObjects:um1, um2, nil];
   if ((self = [super initWithMyUserMonsters:myMons puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)])) {
     self.constants = constants;
-    
-    //[self.hudView removeFromSuperview];
+  
     
     BattlePlayer *mark = self.myTeam[1];
     float mult = 50;
@@ -520,7 +519,11 @@
 #pragma mark - Overwritten methods
 
 - (void) loadHudView {
-  // Do nothing
+  [super loadHudView];
+  [self.hudView.battleScheduleView removeFromSuperview];
+  [self.hudView.bottomView removeFromSuperview];
+  [self.hudView.elementButton removeFromSuperview];
+  [self.hudView.elementView removeFromSuperview];
 }
 
 - (void) sendServerUpdatedValues {
