@@ -84,6 +84,7 @@
   //Init the window
 	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
+#ifdef TOONSQUAD
   [TangoSession sessionInitialize];
   [[TangoSession sharedSession] authenticateWithHandler:^(TangoSession *session, NSError *error) {
     if(error.code == TANGO_SDK_SUCCESS) {
@@ -91,6 +92,7 @@
       NSLog(@"Tango Success.");
     }
   }];
+#endif
   
   [self setUpChartboost];
   
