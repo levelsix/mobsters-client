@@ -9,6 +9,8 @@
 typedef enum {
   SkillTypeNoSkill = 1,
   SkillTypeCakeDrop = 2,
+  SkillTypeJelly = 3,
+  SkillTypeQuickAttack = 4,
 } SkillType;
 
 BOOL SkillTypeIsValidValue(SkillType value);

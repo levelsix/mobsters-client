@@ -18,6 +18,7 @@
 #import "GenericPopupController.h"
 #import <Kamcord/Kamcord.h>
 #import "DestroyedOrb.h"
+#import "SkillManager.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -442,6 +443,11 @@
   } else {
     self.enemyPlayerObject = nil;
   }
+  
+  // Setup SkillManager for enemy
+#ifdef MOBSTERS
+  [skillManager updateEnemy:_enemyPlayerObject];
+#endif
 }
 
 #pragma mark - UI Updates
@@ -1319,6 +1325,8 @@
     _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
   }
   
+#if !(TARGET_IPHONE_SIMULATOR)
+  
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
     [[_comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO] removeFromParent];
@@ -1343,6 +1351,8 @@
     
     [SoundEngine puzzleComboFire];
   }
+  
+#endif
   
   if (_canPlayNextComboSound) {
     _soundComboCount++;
@@ -1571,6 +1581,21 @@
     [self.orbLayer allowInput];
     [self removeNoInputLayer];
   }
+  
+  // Setup SkillManager for player
+#ifdef MOBSTERS
+  [skillManager updatePlayer:_myPlayerObject];
+  if ( _skillIndicator )
+    [_skillIndicator removeFromParentAndCleanup:YES];
+  
+  if ( skillManager.playerSkill )
+  {
+    _skillIndicator = [[SkillBattleIndicatorView alloc] initWithPlayerColor:skillManager.playerColor activationType:skillManager.playerSkillActivation skillType:skillManager.playerSkill];
+    if ( _skillIndicator )
+      [self.orbLayer addChild:_skillIndicator];
+  }
+#endif
+
 }
 
 #pragma mark - Continue View Actions

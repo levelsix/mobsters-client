@@ -15,6 +15,7 @@
 #import "BattleSchedule.h"
 #import "BattleScheduleView.h"
 #import "BattleHudView.h"
+#import "SkillBattleIndicatorView.h"
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 160
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
@@ -135,6 +136,7 @@
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicator;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
