@@ -30,14 +30,14 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 
 @interface SkillProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasSkillId_:1;
   BOOL hasOrbCost_:1;
   BOOL hasPredecId_:1;
   BOOL hasSucId_:1;
   BOOL hasName_:1;
   BOOL hasType_:1;
   BOOL hasActivationType_:1;
-  int32_t id;
+  int32_t skillId;
   int32_t orbCost;
   int32_t predecId;
   int32_t sucId;
@@ -46,14 +46,14 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   SkillActivationType activationType;
   NSMutableArray* mutablePropertiesList;
 }
-- (BOOL) hasId;
+- (BOOL) hasSkillId;
 - (BOOL) hasName;
 - (BOOL) hasOrbCost;
 - (BOOL) hasType;
 - (BOOL) hasActivationType;
 - (BOOL) hasPredecId;
 - (BOOL) hasSucId;
-@property (readonly) int32_t id;
+@property (readonly) int32_t skillId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t orbCost;
 @property (readonly) SkillType type;
@@ -97,10 +97,10 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (SkillProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (SkillProto_Builder*) setId:(int32_t) value;
-- (SkillProto_Builder*) clearId;
+- (BOOL) hasSkillId;
+- (int32_t) skillId;
+- (SkillProto_Builder*) setSkillId:(int32_t) value;
+- (SkillProto_Builder*) clearSkillId;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -142,19 +142,19 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 
 @interface SkillPropertyProto : PBGeneratedMessage {
 @private
-  BOOL hasValue_:1;
-  BOOL hasId_:1;
+  BOOL hasSkillValue_:1;
+  BOOL hasSkillPropertyId_:1;
   BOOL hasName_:1;
-  Float32 value;
-  int32_t id;
+  Float32 skillValue;
+  int32_t skillPropertyId;
   NSString* name;
 }
-- (BOOL) hasId;
+- (BOOL) hasSkillPropertyId;
 - (BOOL) hasName;
-- (BOOL) hasValue;
-@property (readonly) int32_t id;
+- (BOOL) hasSkillValue;
+@property (readonly) int32_t skillPropertyId;
 @property (readonly, retain) NSString* name;
-@property (readonly) Float32 value;
+@property (readonly) Float32 skillValue;
 
 + (SkillPropertyProto*) defaultInstance;
 - (SkillPropertyProto*) defaultInstance;
@@ -190,19 +190,19 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillPropertyProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (SkillPropertyProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (SkillPropertyProto_Builder*) setId:(int32_t) value;
-- (SkillPropertyProto_Builder*) clearId;
+- (BOOL) hasSkillPropertyId;
+- (int32_t) skillPropertyId;
+- (SkillPropertyProto_Builder*) setSkillPropertyId:(int32_t) value;
+- (SkillPropertyProto_Builder*) clearSkillPropertyId;
 
 - (BOOL) hasName;
 - (NSString*) name;
 - (SkillPropertyProto_Builder*) setName:(NSString*) value;
 - (SkillPropertyProto_Builder*) clearName;
 
-- (BOOL) hasValue;
-- (Float32) value;
-- (SkillPropertyProto_Builder*) setValue:(Float32) value;
-- (SkillPropertyProto_Builder*) clearValue;
+- (BOOL) hasSkillValue;
+- (Float32) skillValue;
+- (SkillPropertyProto_Builder*) setSkillValue:(Float32) value;
+- (SkillPropertyProto_Builder*) clearSkillValue;
 @end
 

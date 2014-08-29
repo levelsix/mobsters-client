@@ -39,7 +39,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
   }
 }
 @interface SkillProto ()
-@property int32_t id;
+@property int32_t skillId;
 @property (retain) NSString* name;
 @property int32_t orbCost;
 @property SkillType type;
@@ -51,13 +51,13 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 
 @implementation SkillProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasSkillId {
+  return !!hasSkillId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasSkillId:(BOOL) value {
+  hasSkillId_ = !!value;
 }
-@synthesize id;
+@synthesize skillId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -108,7 +108,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.skillId = 0;
     self.name = @"";
     self.orbCost = 0;
     self.type = SkillTypeNoSkill;
@@ -141,8 +141,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasSkillId) {
+    [output writeInt32:1 value:self.skillId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -174,8 +174,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasSkillId) {
+    size += computeInt32Size(1, self.skillId);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
@@ -273,8 +273,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (other == [SkillProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasSkillId) {
+    [self setSkillId:other.skillId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -322,7 +322,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setSkillId:[input readInt32]];
         break;
       }
       case 18: {
@@ -368,20 +368,20 @@ static SkillProto* defaultSkillProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasSkillId {
+  return result.hasSkillId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) skillId {
+  return result.skillId;
 }
-- (SkillProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (SkillProto_Builder*) setSkillId:(int32_t) value {
+  result.hasSkillId = YES;
+  result.skillId = value;
   return self;
 }
-- (SkillProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (SkillProto_Builder*) clearSkillId {
+  result.hasSkillId = NO;
+  result.skillId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -512,20 +512,20 @@ static SkillProto* defaultSkillProtoInstance = nil;
 @end
 
 @interface SkillPropertyProto ()
-@property int32_t id;
+@property int32_t skillPropertyId;
 @property (retain) NSString* name;
-@property Float32 value;
+@property Float32 skillValue;
 @end
 
 @implementation SkillPropertyProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasSkillPropertyId {
+  return !!hasSkillPropertyId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasSkillPropertyId:(BOOL) value {
+  hasSkillPropertyId_ = !!value;
 }
-@synthesize id;
+@synthesize skillPropertyId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -533,22 +533,22 @@ static SkillProto* defaultSkillProtoInstance = nil;
   hasName_ = !!value;
 }
 @synthesize name;
-- (BOOL) hasValue {
-  return !!hasValue_;
+- (BOOL) hasSkillValue {
+  return !!hasSkillValue_;
 }
-- (void) setHasValue:(BOOL) value {
-  hasValue_ = !!value;
+- (void) setHasSkillValue:(BOOL) value {
+  hasSkillValue_ = !!value;
 }
-@synthesize value;
+@synthesize skillValue;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.skillPropertyId = 0;
     self.name = @"";
-    self.value = 0;
+    self.skillValue = 0;
   }
   return self;
 }
@@ -568,14 +568,14 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasSkillPropertyId) {
+    [output writeInt32:1 value:self.skillPropertyId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
-  if (self.hasValue) {
-    [output writeFloat:3 value:self.value];
+  if (self.hasSkillValue) {
+    [output writeFloat:3 value:self.skillValue];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -586,14 +586,14 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasSkillPropertyId) {
+    size += computeInt32Size(1, self.skillPropertyId);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
   }
-  if (self.hasValue) {
-    size += computeFloatSize(3, self.value);
+  if (self.hasSkillValue) {
+    size += computeFloatSize(3, self.skillValue);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -670,14 +670,14 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (other == [SkillPropertyProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasSkillPropertyId) {
+    [self setSkillPropertyId:other.skillPropertyId];
   }
   if (other.hasName) {
     [self setName:other.name];
   }
-  if (other.hasValue) {
-    [self setValue:other.value];
+  if (other.hasSkillValue) {
+    [self setSkillValue:other.skillValue];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -701,7 +701,7 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setSkillPropertyId:[input readInt32]];
         break;
       }
       case 18: {
@@ -709,26 +709,26 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
         break;
       }
       case 29: {
-        [self setValue:[input readFloat]];
+        [self setSkillValue:[input readFloat]];
         break;
       }
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasSkillPropertyId {
+  return result.hasSkillPropertyId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) skillPropertyId {
+  return result.skillPropertyId;
 }
-- (SkillPropertyProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (SkillPropertyProto_Builder*) setSkillPropertyId:(int32_t) value {
+  result.hasSkillPropertyId = YES;
+  result.skillPropertyId = value;
   return self;
 }
-- (SkillPropertyProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (SkillPropertyProto_Builder*) clearSkillPropertyId {
+  result.hasSkillPropertyId = NO;
+  result.skillPropertyId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -747,20 +747,20 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   result.name = @"";
   return self;
 }
-- (BOOL) hasValue {
-  return result.hasValue;
+- (BOOL) hasSkillValue {
+  return result.hasSkillValue;
 }
-- (Float32) value {
-  return result.value;
+- (Float32) skillValue {
+  return result.skillValue;
 }
-- (SkillPropertyProto_Builder*) setValue:(Float32) value {
-  result.hasValue = YES;
-  result.value = value;
+- (SkillPropertyProto_Builder*) setSkillValue:(Float32) value {
+  result.hasSkillValue = YES;
+  result.skillValue = value;
   return self;
 }
-- (SkillPropertyProto_Builder*) clearValue {
-  result.hasValue = NO;
-  result.value = 0;
+- (SkillPropertyProto_Builder*) clearSkillValue {
+  result.hasSkillValue = NO;
+  result.skillValue = 0;
   return self;
 }
 @end
