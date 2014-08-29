@@ -26,6 +26,8 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
 
+#import <TangoSDK/TangoSDK.h>
+
 #import "Chartboost.h"
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
@@ -81,6 +83,14 @@
 {
   //Init the window
 	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  
+  [TangoSession sessionInitialize];
+  [[TangoSession sharedSession] authenticateWithHandler:^(TangoSession *session, NSError *error) {
+    if(error.code == TANGO_SDK_SUCCESS) {
+      // Authentication was successful.
+      NSLog(@"Tango Success.");
+    }
+  }];
   
   [self setUpChartboost];
   

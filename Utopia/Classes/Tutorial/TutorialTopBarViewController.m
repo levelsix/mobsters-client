@@ -134,4 +134,8 @@
   // Do nothing
 }
 
+- (void) updateShopBadge {
+  // Do nothing
+}
+
 @end

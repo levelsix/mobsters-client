@@ -17,6 +17,16 @@
   return self;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  // Make sure it actually opens the building menu
+  [super openBuildingsShop];
+  
+  self.gachasBadge.badgeNum = 0;
+  self.buildingsBadge.badgeNum = 0;
+}
+
 - (void) initializeSubViewControllers {
   // Do nothing
 }
@@ -30,6 +40,10 @@
 }
 
 - (void) button3Clicked:(id)sender {
+  // Do nothing
+}
+
+- (void) closeClicked:(id)sender {
   // Do nothing
 }
 

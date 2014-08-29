@@ -9,7 +9,6 @@
 #import "Downloader.h"
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
-#import "SSZipArchive.h"
 
 #define URL_BASE @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/";
 
@@ -116,7 +115,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 {
   NSString *filePath = [self downloadFile:zipFile];
   if (filePath) {
-    [SSZipArchive unzipFileAtPath:filePath toDestination:_cacheDir];
+    //[SSZipArchive unzipFileAtPath:filePath toDestination:_cacheDir];
     [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
   }
 }

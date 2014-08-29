@@ -88,8 +88,14 @@
     //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
     //LNLog(@"%@", str);
     
-    _currentIndex = arc4random() % self.schedule.count;
     self.schedule = sch;
+    
+    do {
+      _currentIndex = arc4random() % self.schedule.count;
+    } while (justSwapped && [self.schedule[_currentIndex] boolValue]);
+    
+    // Subtract 1 so it will be autoincremented in the next dequeue
+    _currentIndex--;
   }
   return self;
 }

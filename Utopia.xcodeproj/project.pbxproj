@@ -267,10 +267,7 @@
 		CF0CED6F196F452900ECD301 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EAF1195FFA6400A4AEE3 /* ShopViewController.m */; };
 		CF0CED70196F452900ECD301 /* ClanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF62E70515FEC6D500DF850F /* ClanViewController.m */; };
 		CF0CED71196F452900ECD301 /* ClanRaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF30279018C0176B009D2D25 /* ClanRaidViewController.m */; };
-		CF0CED72196F452900ECD301 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF01628EEEA0012F1C1 /* ioapi.c */; };
-		CF0CED73196F452900ECD301 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF21628EEEA0012F1C1 /* mztools.c */; };
 		CF0CED74196F452900ECD301 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB2508F18587BF300BE0C05 /* THLabel.m */; };
-		CF0CED75196F452900ECD301 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF41628EEEA0012F1C1 /* unzip.c */; };
 		CF0CED76196F452900ECD301 /* City.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744E1909CAF100ABF1F4 /* City.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED77196F452900ECD301 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8FF1808975500062258 /* GameViewController.m */; };
 		CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE56E118137C9000494F8C /* MonsterPopUpViewController.m */; };
@@ -282,7 +279,6 @@
 		CF0CED81196F452900ECD301 /* TutorialHomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54943D18C71F3C001E7D32 /* TutorialHomeMap.m */; };
 		CF0CED82196F452900ECD301 /* TutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6A292D18C430E800AD676F /* TutorialController.m */; };
 		CF0CED83196F452900ECD301 /* SellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64634195A3A3B00C43641 /* SellViewController.m */; };
-		CF0CED84196F452900ECD301 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */; };
 		CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA6D16572A8400A51F85 /* AMQPChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E927196151CD00B40DA4 /* GachaChooserViewController.m */; };
 		CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25D218C9D6F100FB867A /* FacebookSpammer.m */; };
@@ -2853,7 +2849,7 @@
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
 		CF126D171538ACCA00E0C1AD /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265101538ACC400E0C1AD /* Analytics.m */; };
-		CF126D181538ACCA00E0C1AD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265131538ACC400E0C1AD /* AppDelegate.m */; };
+		CF126D181538ACCA00E0C1AD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CF1265131538ACC400E0C1AD /* AppDelegate.mm */; };
 		CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12653F1538ACC400E0C1AD /* Downloader.m */; };
 		CF126D361538ACCA00E0C1AD /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265441538ACC400E0C1AD /* Globals.m */; };
 		CF126D381538ACCA00E0C1AD /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265481538ACC400E0C1AD /* UserData.m */; };
@@ -3028,7 +3024,6 @@
 		CF22F98A17F24E4A00DFD79D /* confirmbuild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF22F98317F24E4A00DFD79D /* confirmbuild@2x.png */; };
 		CF22F98E17F27EDA00DFD79D /* buildingspinner.png in Resources */ = {isa = PBXBuildFile; fileRef = CF22F98C17F27EDA00DFD79D /* buildingspinner.png */; };
 		CF22F99017F27EDA00DFD79D /* buildingspinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF22F98D17F27EDA00DFD79D /* buildingspinner@2x.png */; };
-		CF28BBFE1628EEEA0012F1C1 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */; };
 		CF29E9121960E85100B40DA4 /* BuildingViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9111960E85100B40DA4 /* BuildingViews.m */; };
 		CF29E9171961006500B40DA4 /* FundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9151961006500B40DA4 /* FundsViewController.m */; };
 		CF29E9181961006500B40DA4 /* FundsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF29E9161961006500B40DA4 /* FundsViewController.xib */; };
@@ -3466,8 +3461,7 @@
 		CF413C2E19761A0600848AF5 /* 4x4buildingframe.png in Resources */ = {isa = PBXBuildFile; fileRef = CF413C2719761A0500848AF5 /* 4x4buildingframe.png */; };
 		CF413C2F19761A0600848AF5 /* 4x4buildingframe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF413C2819761A0500848AF5 /* 4x4buildingframe@2x.png */; };
 		CF413C3019761A0600848AF5 /* 4x4buildingframe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF413C2819761A0500848AF5 /* 4x4buildingframe@2x.png */; };
-		CF413C3D19773E2C00848AF5 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CF28BBF61628EEEA0012F1C1 /* zip.c */; };
-		CF413C411977494500848AF5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265131538ACC400E0C1AD /* AppDelegate.m */; };
+		CF413C411977494500848AF5 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CF1265131538ACC400E0C1AD /* AppDelegate.mm */; };
 		CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41D0F3158BDBBE00A4DBC3 /* SoundEngine.m */; };
 		CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41D194158BFAE900A4DBC3 /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF42519719ABDB7400964547 /* TutorialBattleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42519619ABDB7400964547 /* TutorialBattleLayout.m */; };
@@ -5761,6 +5755,7 @@
 		CFFCF55B19AFB112007E316D /* BattleHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55419AFAEC9007E316D /* BattleHudView.m */; };
 		CFFCF56019AFDBFB007E316D /* BattleSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */; };
 		CFFCF56119AFF141007E316D /* BattleSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */; };
+		CFFCF56F19B01C58007E316D /* TangoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCF56D19B01C4E007E316D /* TangoDelegate.m */; };
 		CFFD311E18503E880091E315 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFD311D18503E880091E315 /* UpgradeViewController.m */; };
 		CFFD3120185061720091E315 /* UpgradeBonusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFD311F185061720091E315 /* UpgradeBonusCell.xib */; };
 		CFFEB0D81834539C007C4BA3 /* cardbottomoverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFEB0941834539A007C4BA3 /* cardbottomoverlay.png */; };
@@ -5892,7 +5887,7 @@
 		CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */; };
 		CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
 		DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; };
+		DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA075FBF19AFEA4C00E43E5A /* Skill.proto in Resources */ = {isa = PBXBuildFile; fileRef = DA075FBE19AFEA4C00E43E5A /* Skill.proto */; };
 		DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
 		DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
@@ -6155,7 +6150,7 @@
 		CF12650F1538ACC400E0C1AD /* Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
 		CF1265101538ACC400E0C1AD /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		CF1265121538ACC400E0C1AD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		CF1265131538ACC400E0C1AD /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CF1265131538ACC400E0C1AD /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		CF12653E1538ACC400E0C1AD /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		CF12653F1538ACC400E0C1AD /* Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		CF1265411538ACC400E0C1AD /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
@@ -6391,17 +6386,6 @@
 		CF22F98317F24E4A00DFD79D /* confirmbuild@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confirmbuild@2x.png"; sourceTree = "<group>"; };
 		CF22F98C17F27EDA00DFD79D /* buildingspinner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingspinner.png; sourceTree = "<group>"; };
 		CF22F98D17F27EDA00DFD79D /* buildingspinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingspinner@2x.png"; sourceTree = "<group>"; };
-		CF28BBEF1628EEEA0012F1C1 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		CF28BBF01628EEEA0012F1C1 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		CF28BBF11628EEEA0012F1C1 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		CF28BBF21628EEEA0012F1C1 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
-		CF28BBF31628EEEA0012F1C1 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
-		CF28BBF41628EEEA0012F1C1 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		CF28BBF51628EEEA0012F1C1 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		CF28BBF61628EEEA0012F1C1 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		CF28BBF71628EEEA0012F1C1 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		CF28BBF81628EEEA0012F1C1 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
-		CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
 		CF29E9101960E85100B40DA4 /* BuildingViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingViews.h; sourceTree = "<group>"; };
 		CF29E9111960E85100B40DA4 /* BuildingViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingViews.m; sourceTree = "<group>"; };
 		CF29E9141961006500B40DA4 /* FundsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FundsViewController.h; sourceTree = "<group>"; };
@@ -9146,6 +9130,8 @@
 		CFFCF55419AFAEC9007E316D /* BattleHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleHudView.m; sourceTree = "<group>"; };
 		CFFCF55E19AFDBFB007E316D /* BattleSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleSimulation.h; sourceTree = "<group>"; };
 		CFFCF55F19AFDBFB007E316D /* BattleSimulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleSimulation.m; sourceTree = "<group>"; };
+		CFFCF56C19B01C4E007E316D /* TangoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TangoDelegate.h; sourceTree = "<group>"; };
+		CFFCF56D19B01C4E007E316D /* TangoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TangoDelegate.m; sourceTree = "<group>"; };
 		CFFD311C18503E880091E315 /* UpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeViewController.h; sourceTree = "<group>"; };
 		CFFD311D18503E880091E315 /* UpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpgradeViewController.m; sourceTree = "<group>"; };
 		CFFD311F185061720091E315 /* UpgradeBonusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeBonusCell.xib; sourceTree = "<group>"; };
@@ -9733,6 +9719,7 @@
 		CF12650D1538ACC400E0C1AD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CFFCF56B19B01BFB007E316D /* Tango */,
 				CFEF25D818CAB54200FB867A /* GameCenter */,
 				CF6A292A18C42F7600AD676F /* Tutorial */,
 				CFEF25B418C97C2300FB867A /* Facebook */,
@@ -9765,7 +9752,7 @@
 			isa = PBXGroup;
 			children = (
 				CF1265121538ACC400E0C1AD /* AppDelegate.h */,
-				CF1265131538ACC400E0C1AD /* AppDelegate.m */,
+				CF1265131538ACC400E0C1AD /* AppDelegate.mm */,
 				CF4DB8FE1808975500062258 /* GameViewController.h */,
 				CF4DB8FF1808975500062258 /* GameViewController.m */,
 				CF9AE70B180CA78C0013DD44 /* LoadingViewController.h */,
@@ -9938,7 +9925,6 @@
 				CF20F22C180FCDCB005551B5 /* EasyTableView */,
 				CFC1414D1657484A0060188D /* librabbitmq */,
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
-				CF28BBED1628EEB00012F1C1 /* SSZipArchive */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
 				CF1266D01538ACC500E0C1AD /* Products */,
@@ -10446,32 +10432,6 @@
 				CFE5C58219380D9C001B0531 /* EasyTableHeaderView.xib */,
 			);
 			path = EasyTableView;
-			sourceTree = "<group>";
-		};
-		CF28BBED1628EEB00012F1C1 /* SSZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				CF28BBEE1628EEEA0012F1C1 /* minizip */,
-				CF28BBF81628EEEA0012F1C1 /* SSZipArchive.h */,
-				CF28BBF91628EEEA0012F1C1 /* SSZipArchive.m */,
-			);
-			path = SSZipArchive;
-			sourceTree = "<group>";
-		};
-		CF28BBEE1628EEEA0012F1C1 /* minizip */ = {
-			isa = PBXGroup;
-			children = (
-				CF28BBEF1628EEEA0012F1C1 /* crypt.h */,
-				CF28BBF01628EEEA0012F1C1 /* ioapi.c */,
-				CF28BBF11628EEEA0012F1C1 /* ioapi.h */,
-				CF28BBF21628EEEA0012F1C1 /* mztools.c */,
-				CF28BBF31628EEEA0012F1C1 /* mztools.h */,
-				CF28BBF41628EEEA0012F1C1 /* unzip.c */,
-				CF28BBF51628EEEA0012F1C1 /* unzip.h */,
-				CF28BBF61628EEEA0012F1C1 /* zip.c */,
-				CF28BBF71628EEEA0012F1C1 /* zip.h */,
-			);
-			path = minizip;
 			sourceTree = "<group>";
 		};
 		CF29E9131961003300B40DA4 /* Funds */ = {
@@ -14658,6 +14618,15 @@
 				CF023CB51992ED9E0082FE61 /* BattleSchedule.m */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		CFFCF56B19B01BFB007E316D /* Tango */ = {
+			isa = PBXGroup;
+			children = (
+				CFFCF56C19B01C4E007E316D /* TangoDelegate.h */,
+				CFFCF56D19B01C4E007E316D /* TangoDelegate.m */,
+			);
+			path = Tango;
 			sourceTree = "<group>";
 		};
 		CFFD311B18503B650091E315 /* HomeMap */ = {
@@ -20537,7 +20506,6 @@
 				CF0CED5D196F452900ECD301 /* MiniJobsViewController.m in Sources */,
 				CF0CED5E196F452900ECD301 /* AttackMapViews.m in Sources */,
 				CF0CED5F196F452900ECD301 /* EventBoosterPack.pb.m in Sources */,
-				CF413C3D19773E2C00848AF5 /* zip.c in Sources */,
 				CF0CED60196F452900ECD301 /* NSString+SBJSON.m in Sources */,
 				CF0CED61196F452900ECD301 /* FAQViewController.m in Sources */,
 				CF0CED62196F452900ECD301 /* ClanRaidLeaderboardViewController.m in Sources */,
@@ -20555,18 +20523,15 @@
 				CF0CED6F196F452900ECD301 /* ShopViewController.m in Sources */,
 				CF0CED70196F452900ECD301 /* ClanViewController.m in Sources */,
 				CF0CED71196F452900ECD301 /* ClanRaidViewController.m in Sources */,
-				CF0CED72196F452900ECD301 /* ioapi.c in Sources */,
 				CF023CBE19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
-				CF0CED73196F452900ECD301 /* mztools.c in Sources */,
 				CF0CED74196F452900ECD301 /* THLabel.m in Sources */,
-				CF0CED75196F452900ECD301 /* unzip.c in Sources */,
 				CF0CED76196F452900ECD301 /* City.pb.m in Sources */,
 				CF0CED77196F452900ECD301 /* GameViewController.m in Sources */,
 				CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */,
 				CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */,
 				CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */,
 				CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */,
-				CF413C411977494500848AF5 /* AppDelegate.m in Sources */,
+				CF413C411977494500848AF5 /* AppDelegate.mm in Sources */,
 				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
 				CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */,
 				CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */,
@@ -20575,7 +20540,6 @@
 				CF0CED81196F452900ECD301 /* TutorialHomeMap.m in Sources */,
 				CF0CED82196F452900ECD301 /* TutorialController.m in Sources */,
 				CF0CED83196F452900ECD301 /* SellViewController.m in Sources */,
-				CF0CED84196F452900ECD301 /* SSZipArchive.m in Sources */,
 				CF0CED85196F452900ECD301 /* AMQPChannel.m in Sources */,
 				CF0CED86196F452900ECD301 /* GachaChooserViewController.m in Sources */,
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
@@ -20680,6 +20644,7 @@
 				CF0CEDEE196F452900ECD301 /* LevelUpNode.m in Sources */,
 				CF0CEDEF196F452900ECD301 /* TournamentStuff.pb.m in Sources */,
 				CF0CEDF0196F452900ECD301 /* TopBarQuestProgressView.m in Sources */,
+				CFFCF56F19B01C58007E316D /* TangoDelegate.m in Sources */,
 				CF0CEDF1196F452900ECD301 /* MiniJobsListViewController.m in Sources */,
 				CFFCF55B19AFB112007E316D /* BattleHudView.m in Sources */,
 				CF0CEDF2196F452900ECD301 /* QuestUtil.m in Sources */,
@@ -20697,7 +20662,7 @@
 				CF126D171538ACCA00E0C1AD /* Analytics.m in Sources */,
 				CF6574B11909CAF200ABF1F4 /* EventClan.pb.m in Sources */,
 				CFFEB17A1834C2FD007C4BA3 /* easing.c in Sources */,
-				CF126D181538ACCA00E0C1AD /* AppDelegate.m in Sources */,
+				CF126D181538ACCA00E0C1AD /* AppDelegate.mm in Sources */,
 				CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */,
@@ -20825,7 +20790,6 @@
 				CF54943E18C71F3C001E7D32 /* TutorialHomeMap.m in Sources */,
 				CF6A292E18C430E800AD676F /* TutorialController.m in Sources */,
 				CFF6463A195A3A3B00C43641 /* SellViewController.m in Sources */,
-				CF28BBFE1628EEEA0012F1C1 /* SSZipArchive.m in Sources */,
 				CF15BA7F16572A8400A51F85 /* AMQPChannel.m in Sources */,
 				CF29E929196151CD00B40DA4 /* GachaChooserViewController.m in Sources */,
 				CFEF25D318C9D6F100FB867A /* FacebookSpammer.m in Sources */,
@@ -21014,7 +20978,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alex Lin (D4KGEV27YQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -21052,9 +21016,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -21066,7 +21027,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -21087,6 +21048,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -21119,6 +21081,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -21126,10 +21089,8 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
+					"\"$(SRCROOT)/Utopia/libs/Tango/lib_clang\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -21138,11 +21099,14 @@
 					"-fobjc-arc",
 					"-lsqlite3.0",
 					"$(inherited)",
+					"-ltango_sdk",
+					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -21162,6 +21126,7 @@
 				ALTERNATE_OWNER = "$(USER)";
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -21193,6 +21158,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
@@ -21201,10 +21167,8 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
+					"\"$(SRCROOT)/Utopia/libs/Tango/lib_clang\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -21213,12 +21177,15 @@
 					"-fobjc-arc",
 					"-lsqlite3.0",
 					"$(inherited)",
+					"-ltango_sdk",
+					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -21238,9 +21205,10 @@
 				ALTERNATE_OWNER = "$(USER)";
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -21269,6 +21237,7 @@
 					"\"Utopia/libs/cocos2d-iphone/cocos2d-ui\"/**",
 					"\"Utopia/libs/cocos2d-iphone/external/ObjectAL\"/**",
 					"Utopia/libs/**",
+					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
@@ -21277,10 +21246,8 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
+					"\"$(SRCROOT)/Utopia/libs/Tango/lib_clang\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -21289,11 +21256,14 @@
 					"-fobjc-arc",
 					"-lsqlite3.0",
 					"$(inherited)",
+					"-ltango_sdk",
+					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
-				PROVISIONING_PROFILE = "EF1E45FC-DFEE-4E0D-9063-A013231E135D";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -21423,9 +21393,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -21437,7 +21404,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "6331a0e3-be0c-473f-a9cb-93e304090a39";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -21499,9 +21466,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
 					"$(PROJECT_DIR)/Utopia/libs/TestFlightSDK3.0.2",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/examples/unity/UnityRock/Assets/Plugins/iOS",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib",
-					"$(PROJECT_DIR)/Utopia/libs/Tango/lib_clang",
 					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -21513,7 +21477,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = Mobsters;
-				PROVISIONING_PROFILE = "6331a0e3-be0c-473f-a9cb-93e304090a39";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "e07b6f9d-90fa-4d4d-8990-762f31e290d6";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;

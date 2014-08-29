@@ -228,7 +228,7 @@
   BattleSprite *bs = self.enemyTeamSprites[idx];
   CGPoint startPos = bs.position;
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
-  float startY = self.contentSize.height+10;
+  float startY = self.contentSize.height+20;
   float yDelta = startPos.y-startY;
   CGPoint endPos = ccp(startPos.x-yDelta*ptOffset.x/ptOffset.y, startY);
   
@@ -469,6 +469,12 @@
 - (void) deployBattleSprite:(BattlePlayer *)bp {
   if (!self.myPlayer || bp.slotNum == self.swappableTeamSlot) {
     [super deployBattleSprite:bp];
+    
+    // Make sure zark is the next attacker in the schedule. There will only be 2 values so dequeue if he's not.
+    if (![[self.battleSchedule getNextNMoves:1][0] boolValue]) {
+      [self.battleSchedule dequeueNextMove];
+    }
+    
     [self.delegate swappedToMark];
     [Globals removeUIArrowFromViewRecursively:self.hudView.deployView];
   }

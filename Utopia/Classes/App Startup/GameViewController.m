@@ -156,11 +156,11 @@
   
   self.completedQuests = [NSMutableArray array];
   self.progressedJobs = [NSMutableArray array];
+  
+  [self setupNotificationViewController];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [self setupNotificationViewController];
-  
+- (void) viewWillAppear:(BOOL)animated {
   [self checkQuests];
   
   //GameState *gs = [GameState sharedGameState];
