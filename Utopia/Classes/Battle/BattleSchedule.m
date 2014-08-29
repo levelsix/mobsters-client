@@ -88,7 +88,7 @@
     //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
     //LNLog(@"%@", str);
     
-    _currentIndex = -1;
+    _currentIndex = arc4random() % self.schedule.count;
     self.schedule = sch;
   }
   return self;

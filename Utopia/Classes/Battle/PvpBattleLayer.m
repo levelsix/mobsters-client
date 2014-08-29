@@ -142,7 +142,7 @@
 
 - (void) checkQuests {
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [AchievementUtil checkAchievementsForPvpBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken pvpInfo:pvp wonBattle:_wonBattle];
+  [AchievementUtil checkAchievementsForPvpBattleWithOrbCounts:_totalOrbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken pvpInfo:pvp wonBattle:_wonBattle];
 }
 
 - (void) sendAnalytics {
@@ -285,7 +285,7 @@
   [self createScheduleWithSwap:NO];
   [self beginNextTurn];
   [self removeCloseButton];
-  self.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   _hasChosenEnemy = YES;
   _curStage = 0;

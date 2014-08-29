@@ -61,6 +61,9 @@
   if (_allowTurnBegin) {
     _allowTurnBegin = NO;
     [super beginMyTurn];
+    
+    self.hudView.swapView.hidden = self.swappableTeamSlot == 0;
+    [self.hudView removeSwapButton];
   }
 }
 
@@ -135,12 +138,6 @@
 
 - (BOOL) canSkipResponseWait {
   return YES;
-}
-
-- (void) displaySwapButton {
-  if (self.swappableTeamSlot) {
-    [super displaySwapButton];
-  }
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {

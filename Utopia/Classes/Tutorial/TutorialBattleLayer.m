@@ -439,28 +439,29 @@
 - (void) swapToMark {
   _orbCount = 0;
   self.swappableTeamSlot = 2;
-  [self displaySwapButton];
+  self.hudView.swapView.hidden = NO;
+  [self.hudView displaySwapButton];
   
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.3f],
     [CCActionCallBlock actionWithBlock:
      ^{
-       [Globals createUIArrowForView:self.swapView atAngle:0];
+       [Globals createUIArrowForView:self.hudView.swapView atAngle:0];
      }], nil]];
 }
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
   [super displayDeployViewAndIsCancellable:cancel];
   
-  [Globals removeUIArrowFromViewRecursively:self.swapView.superview];
+  [Globals removeUIArrowFromViewRecursively:self.hudView.swapView.superview];
   
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:0.3f],
     [CCActionCallBlock actionWithBlock:
      ^{
-       BattleDeployCardView *card = self.deployView.cardViews[1];
+       BattleDeployCardView *card = self.hudView.deployView.cardViews[1];
        [Globals createUIArrowForView:card atAngle:M_PI_2];
      }], nil]];
 }
@@ -469,7 +470,7 @@
   if (!self.myPlayer || bp.slotNum == self.swappableTeamSlot) {
     [super deployBattleSprite:bp];
     [self.delegate swappedToMark];
-    [Globals removeUIArrowFromViewRecursively:self.deployView];
+    [Globals removeUIArrowFromViewRecursively:self.hudView.deployView];
   }
 }
 
@@ -500,9 +501,7 @@
   if ((self = [super initWithMyUserMonsters:myMons puzzleIsOnLeft:NO gridSize:CGSizeMake(6, 6)])) {
     self.constants = constants;
     
-    [self.bottomView removeFromSuperview];
-    [self.elementButton removeFromSuperview];
-    [self.elementView removeFromSuperview];
+    //[self.hudView removeFromSuperview];
     
     BattlePlayer *mark = self.myTeam[1];
     float mult = 50;
@@ -521,9 +520,7 @@
 #pragma mark - Overwritten methods
 
 - (void) loadHudView {
-  [super loadHudView];
-  [self.battleScheduleView removeFromSuperview];
-  self.battleScheduleView = nil;
+  // Do nothing
 }
 
 - (void) sendServerUpdatedValues {

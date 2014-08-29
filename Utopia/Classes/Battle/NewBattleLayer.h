@@ -14,6 +14,7 @@
 #import "OrbMainLayer.h"
 #import "BattleSchedule.h"
 #import "BattleScheduleView.h"
+#import "BattleHudView.h"
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 160
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
@@ -87,6 +88,7 @@
   BOOL _isExiting;
   
   int _orbCounts[OrbColorNone];
+  int _totalOrbCounts[OrbColorNone];
   int _powerupCounts[PowerupTypeEnd];
   int _totalComboCount;
   int _totalDamageTaken;
@@ -127,6 +129,13 @@
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
+
+@property (nonatomic, retain) BattleLostView *lostView;
+@property (nonatomic, retain) BattleWonView *wonView;
+
+@property (nonatomic, retain) IBOutlet BattleHudView *hudView;
+
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (void) initOrbLayer;
@@ -151,8 +160,6 @@
 
 - (void) updateHealthBars;
 - (void) displayWaveNumber;
-
-- (void) removeButtons;
 
 - (void) createNextEnemyObject;
 - (CCSprite *) getCurrentEnemyLoot;
@@ -183,8 +190,6 @@
 - (void) displayOrbLayer;
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;
 
-- (void) displaySwapButton;
-
 - (NSDictionary *) battleCompleteValues;
 
 - (IBAction)winExitClicked:(id)sender;
@@ -192,31 +197,10 @@
 - (IBAction)shareClicked:(id)sender;
 
 
-@property (nonatomic, retain) BattleLostView *lostView;
-@property (nonatomic, retain) BattleWonView *wonView;
-
-@property (nonatomic, retain) IBOutlet UIView *hudView;
-
-@property (nonatomic, retain) IBOutlet UIView *swapView;
-@property (nonatomic, retain) IBOutlet UILabel *swapLabel;
-@property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
-@property (nonatomic, retain) IBOutlet UIView *forfeitButtonView;
-@property (nonatomic, retain) IBOutlet UIView *bottomView;
-@property (nonatomic, retain) UIButton *deployCancelButton;
-@property (nonatomic, retain) IBOutlet THLabel *waveNumLabel;
-
-@property (nonatomic, retain) IBOutlet UIButton *elementButton;
-@property (nonatomic, retain) IBOutlet BattleElementView *elementView;
-@property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
-
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
 
 - (void) loadHudView;
-- (void) removeSwapButton;
-- (void) removeDeployView;
-
-- (IBAction)elementButtonClicked:(id)sender;
 
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position;
 

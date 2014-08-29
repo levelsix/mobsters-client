@@ -206,7 +206,6 @@
   clip.stencil = nil;
   [super onExitTransitionDidStart];
   
-  [self.deployCancelButton removeFromSuperview];
   [self.hudView removeFromSuperview];
 }
 
@@ -227,7 +226,7 @@
     
     _shouldDisplayNewSchedule = YES;
   } else {
-    self.battleScheduleView.hidden = YES;
+    [self.hudView removeBattleScheduleView];
     self.battleSchedule = nil;
   }
 }
@@ -385,11 +384,7 @@
 }
 
 - (void) moveToNextEnemy {
-  [self removeSwapButton];
-  [self removeDeployView];
-  self.forfeitButtonView.hidden = YES;
-  self.elementButton.hidden = YES;
-  [self.elementView close];
+  [self.hudView removeButtons];
   
   _curStage++;
   if (_curStage < self.enemyTeam.count) {
@@ -398,10 +393,6 @@
     
     [self spawnNextEnemy];
     [self displayWaveNumber];
-    
-    if (!self.battleScheduleView.hidden) {
-      [self.battleScheduleView displayOverlayView];
-    }
     
     _reachedNextScene = NO;
     _displayedWaveNumber = NO;
@@ -494,7 +485,7 @@
   if (_displayedWaveNumber && _reachedNextScene) {
     BOOL shouldDelay = NO;
     if (_shouldDisplayNewSchedule) {
-      NSArray *bools = [self.battleSchedule getNextNMoves:self.battleScheduleView.numSlots];
+      NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
       NSMutableArray *ids = [NSMutableArray array];
       NSMutableArray *enemyBands = [NSMutableArray array];
       for (NSNumber *num in bools) {
@@ -507,28 +498,25 @@
           [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
         }
       }
-      [self.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
+      [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
       
       _shouldDisplayNewSchedule = NO;
       shouldDelay = YES;
       
-      if (self.battleScheduleView.hidden) {
-        [self displayBattleScheduleView];
-      } else {
-        [self.battleScheduleView removeOverlayView];
-      }
+      [self.hudView displayBattleScheduleView];
+      
     } else {
       // If nth is YES, this is your move, otherwise enemy's move
-      BOOL nth = [self.battleSchedule getNthMove:self.battleScheduleView.numSlots-1];
+      BOOL nth = [self.battleSchedule getNthMove:self.hudView.battleScheduleView.numSlots-1];
       int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
       BOOL showEnemyBand = nth ? NO : self.enemyPlayerObject.element == self.myPlayerObject.element;
-      [self.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand];
+      [self.hudView.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand];
     }
     
-    self.bottomView.hidden = NO;
+    self.hudView.bottomView.hidden = NO;
     
     [UIView animateWithDuration:0.3f animations:^{
-      self.waveNumLabel.alpha = 1.f;
+      self.hudView.waveNumLabel.alpha = 1.f;
     }];
     
     BOOL nextMove = [self.battleSchedule dequeueNextMove];
@@ -556,16 +544,20 @@
   _myDamageForThisTurn = 0;
   _enemyDamageDealt = 0;
   
+  for (int i = 0; i < OrbColorNone; i++) {
+    _orbCounts[i] = 0;
+  }
+  
   [self updateHealthBars];
   [self removeNoInputLayer];
   [self.orbLayer allowInput];
   
-  [self displaySwapButton];
-  self.forfeitButtonView.hidden = NO;
-  self.elementButton.hidden = NO;
+  [self.hudView prepareForMyTurn];
 }
 
 - (void) beginEnemyTurn {
+  [self.hudView removeButtons];
+  
   _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
   _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
   
@@ -588,18 +580,10 @@
   }
 }
 
-- (void) removeButtons {
-  [self removeSwapButton];
-  [self removeDeployView];
-  self.forfeitButtonView.hidden = YES;
-  self.elementButton.hidden = YES;
-  [self.elementView close];
-}
-
 - (void) myTurnEnded {
   [self showHighScoreWord];
   [self displayNoInputLayer];
-  [self removeButtons];
+  [self.hudView removeButtons];
   
   self.movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
 }
@@ -791,7 +775,7 @@
      }];
     self.currentEnemy = nil;
     
-    [self removeBattleScheduleView];
+    [self.hudView removeBattleScheduleView];
     
     // Send server updated values here because monster just died
     // But make sure that I actually did damage..
@@ -969,13 +953,13 @@
                    }],
                   nil]];
   
-  _waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   [UIView animateWithDuration:fadeTime delay:initDelay options:UIViewAnimationOptionCurveLinear animations:^{
-    self.waveNumLabel.alpha = 0.3f;
+    self.hudView.waveNumLabel.alpha = 0.3f;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:fadeTime delay:delayTime options:UIViewAnimationOptionCurveLinear animations:^{
-      self.waveNumLabel.alpha = 1.f;
+      self.hudView.waveNumLabel.alpha = 1.f;
     } completion:nil];
   }];
 }
@@ -1227,9 +1211,9 @@
 - (void) endBattle:(BOOL)won {
   _wonBattle = won;
   
-  [self removeButtons];
-  [self removeBattleScheduleView];
-  self.bottomView.hidden = YES;
+  [self.hudView removeButtons];
+  [self.hudView removeBattleScheduleView];
+  self.hudView.bottomView.hidden = YES;
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
@@ -1311,11 +1295,9 @@
 #pragma mark - Delegate Methods
 
 - (void) moveBegan {
-//  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
-  
   _movesLeft--;
   [self updateHealthBars];
-  [self removeSwapButton];
+  [self.hudView removeSwapButton];
 }
 
 - (void) newComboFound {
@@ -1380,6 +1362,7 @@
   
   _orbCount++;
   _orbCounts[color]++;
+  _totalOrbCounts[color]++;
   
   int dmg = [self.myPlayerObject damageForColor:color];
   _myDamageDealt += dmg;
@@ -1518,88 +1501,28 @@
   NSString *bundleName = [Globals isLongiPhone] ? @"BattleHudView" : @"BattleHudViewSmall";
   [[NSBundle mainBundle] loadNibNamed:bundleName owner:self options:nil];
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
-  
-  self.swapView.hidden = YES;
-  self.deployView.hidden = YES;
-  self.bottomView.hidden = YES;
-  self.elementButton.hidden = YES;
-  self.battleScheduleView.hidden = YES;
-  
-  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
-  
-  self.waveNumLabel.shadowBlur = 1.f;
-  self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
-  self.waveNumLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
-  self.waveNumLabel.alpha = 0.f;
-  
-  self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy:", MONSTER_NAME];
-}
-
-#define ANIMATION_TIME 0.4f
-#define SWAP_CENTER_Y self.swapView.center.y
-#define DEPLOY_CENTER_Y self.contentSize.height-16-self.deployView.frame.size.height/2
-
-- (void) displaySwapButton {
-  self.swapView.hidden = NO;
-  self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  }];
-}
-
-- (void) removeSwapButton {
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  } completion:^(BOOL finished) {
-    self.swapView.hidden = YES;
-  }];
 }
 
 - (IBAction)swapClicked:(id)sender {
   if (_orbCount == 0 && !self.orbLayer.swipeLayer.isTrackingTouch) {
-    [self removeSwapButton];
+    [self.hudView removeSwapButton];
     [self displayDeployViewAndIsCancellable:YES];
   }
 }
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
   [self displayNoInputLayer];
-  
-  [self.deployView updateWithBattlePlayers:self.myTeam];
-  
-  self.deployView.hidden = NO;
-  self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
-    self.deployView.center = ccp((self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
-    
-    self.bottomView.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    if (finished && cancel) {
-      self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
-      [self.hudView addSubview:self.deployCancelButton];
-      [self.deployCancelButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
-      [self.deployView.superview bringSubviewToFront:self.deployView];
-    }
-  }];
-  
   [self.orbLayer disallowInput];
+  
+  [self.hudView.deployView updateWithBattlePlayers:self.myTeam];
+  
+  float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
+  float centerX = (self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2;
+  [self.hudView displayDeployViewToCenterX:centerX cancelTarget:self selector:@selector(cancelDeploy:)];
   
   [SoundEngine puzzleSwapWindow];
 }
 
-- (void) removeDeployView {
-  if (!self.deployView.hidden) {
-    [self.deployCancelButton removeFromSuperview];
-    self.deployCancelButton = nil;
-    [UIView animateWithDuration:ANIMATION_TIME animations:^{
-      self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-      self.bottomView.alpha = 1.f;
-    } completion:^(BOOL finished) {
-      self.deployView.hidden = YES;
-    }];
-  }
-}
 
 - (IBAction)cancelDeploy:(id)sender {
   [self deployBattleSprite:nil];
@@ -1625,7 +1548,7 @@
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
-  [self removeDeployView];
+  [self.hudView removeDeployView];
   BOOL isSwap = self.myPlayer != nil;
   if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
     self.myPlayerObject = bp;
@@ -1634,6 +1557,7 @@
     
     if (isSwap) {
       [self makeMyPlayerWalkOutWithBlock:nil];
+      [self.hudView removeButtons];
     }
     [self createNextMyPlayerSprite];
     
@@ -1643,35 +1567,10 @@
     SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
     [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
   } else if (isSwap) {
-    [self displaySwapButton];
+    [self.hudView displaySwapButton];
     [self.orbLayer allowInput];
     [self removeNoInputLayer];
   }
-}
-
-- (IBAction)elementButtonClicked:(id)sender {
-  [self.elementView open];
-}
-
-- (void) displayBattleScheduleView {
-  self.battleScheduleView.hidden = NO;
-  
-  CGPoint pt = self.battleScheduleView.center;
-  self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
-  [UIView animateWithDuration:0.3f animations:^{
-    self.battleScheduleView.center = pt;
-  }];
-}
-
-- (void) removeBattleScheduleView {
-  CGPoint pt = self.battleScheduleView.center;
-  [UIView animateWithDuration:0.3f animations:^{
-    self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
-  } completion:^(BOOL finished) {
-    self.battleScheduleView.center = pt;
-    
-    self.battleScheduleView.hidden = YES;
-  }];
 }
 
 #pragma mark - Continue View Actions
@@ -1707,10 +1606,7 @@
   if (!_isExiting) {
     _isExiting = YES;
     
-    self.swapView.hidden  = YES;
-    self.bottomView.hidden = YES;
-    self.elementButton.hidden = YES;
-    [self.elementView close];
+    [self.hudView removeButtons];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil];
     [dict addEntriesFromDictionary:[self battleCompleteValues]];

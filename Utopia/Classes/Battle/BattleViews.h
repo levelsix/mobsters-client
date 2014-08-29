@@ -73,32 +73,6 @@
 
 @end
 
-@interface BattleElementView : UIView
-
-- (void) open;
-- (void) close;
-
-@end
-
-@interface BattleDeployCardView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *emptyView;
-
-@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
-@property (nonatomic, retain) IBOutlet ProgressBar *healthbar;
-@property (nonatomic, retain) IBOutlet UILabel *healthLabel;
-
-@end
-
-@interface BattleDeployView : UIView
-
-@property (nonatomic, retain) IBOutletCollection(BattleDeployCardView) NSArray *cardViews;
-
-- (void) updateWithBattlePlayers:(NSArray *)players;
-
-@end
-
 @interface BattleQueueNode : CCNode {
   CGPoint _originalRankCenter;
 }

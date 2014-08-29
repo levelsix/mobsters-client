@@ -87,7 +87,7 @@
     if (_wonBattle) {
       [QuestUtil checkQuestsForDungeon:self.dungeonInfo];
     }
-    [AchievementUtil checkAchievementsForDungeonBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken dungeonInfo:self.dungeonInfo wonBattle:_wonBattle];
+    [AchievementUtil checkAchievementsForDungeonBattleWithOrbCounts:_totalOrbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken dungeonInfo:self.dungeonInfo wonBattle:_wonBattle];
   }
 }
 
@@ -150,7 +150,7 @@
       [self runawayFailed];
     }
     
-    [self removeButtons];
+    [self.hudView removeButtons];
     [self displayNoInputLayer];
     [self.orbLayer disallowInput];
   }
@@ -492,7 +492,7 @@
   [dict setObject:@(_totalDamageTaken) forKey:TOTAL_DAMAGE_TAKEN_KEY];
   [dict setObject:@(_totalComboCount) forKey:TOTAL_COMBO_COUNT_KEY];
   
-  NSData *orbCounts = [NSData dataWithBytes:_orbCounts length:sizeof(_orbCounts)];
+  NSData *orbCounts = [NSData dataWithBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
   [dict setObject:orbCounts forKey:ORB_COUNTS_KEY];
   
   NSData *powerupCounts = [NSData dataWithBytes:_powerupCounts length:sizeof(_powerupCounts)];
@@ -520,7 +520,7 @@
   
   // Use the c array's length as opposed to the NSData's in case the c array is shorter
   NSData *orbCounts = [stateDict objectForKey:ORB_COUNTS_KEY];
-  [orbCounts getBytes:_orbCounts length:sizeof(_orbCounts)];
+  [orbCounts getBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
   
   NSData *powerupCounts = [stateDict objectForKey:POWERUP_COUNTS_KEY];
   [powerupCounts getBytes:_powerupCounts length:sizeof(_powerupCounts)];

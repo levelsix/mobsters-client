@@ -23,7 +23,9 @@
   [self initializeSubViewControllers];
   
   if (!self.topViewController) {
-    if (self.buildingsBadge.badgeNum) {
+    if (self.gachasBadge.badgeNum) {
+      [self button3Clicked:nil];
+    } else if (self.buildingsBadge.badgeNum) {
       [self button1Clicked:nil];
     } else {
       [self button3Clicked:nil];
