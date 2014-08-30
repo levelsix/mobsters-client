@@ -7,12 +7,20 @@
 //
 
 #import "SkillQuickAttack.h"
+#import "NewBattleLayer.h"
 
 @implementation SkillQuickAttack
 
-- (BOOL) triggerSkillAfterTurn
+- (void) callbackForAnimation
 {
-  return YES;
+  [self.battleLayer dealDamage:50 enemyIsAttacker:NO withTarget:self withSelector:@selector(skillExecutionFinished)];
+  // MISHA: TODO damage from proto and add animation
 }
+
+- (void) skillExecutionStarted
+{
+  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(callbackForAnimation)];
+}
+
 
 @end

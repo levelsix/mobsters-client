@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <cocos2d.h>
-#import "SkillController.h"
+#import "SkillControllerActive.h"
 
 @interface SkillBattleIndicatorView : CCNode
 {

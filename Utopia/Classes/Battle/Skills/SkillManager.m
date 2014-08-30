@@ -8,6 +8,7 @@
 #import "SkillManager.h"
 #import "StaticStructure.h"
 #import "GameState.h"
+#import "NewBattleLayer.h"
 
 @implementation SkillManager
 
@@ -27,9 +28,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Setup
 
-- (void) updatePlayer:(BattlePlayer*)player
+- (void) updateBattleLayer:(NewBattleLayer*)battleLayer
+{
+  _battleLayer = battleLayer;
+}
+
+- (void) updatePlayer:(BattlePlayer*)player andSprite:(BattleSprite*)playerSprite
 {
   _player = player;
+  _playerSprite = playerSprite;
   _playerColor = OrbColorNone;
   _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
   _playerSkillController = nil;
@@ -52,14 +59,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
         _playerColor = (OrbColor)player.element;
         _playerSkillActivation = playerSkillProto.activationType;
         _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+        [self setDataForController:_playerSkillController];
       }
     }
   }
 }
 
-- (void) updateEnemy:(BattlePlayer*)enemy
+- (void) updateEnemy:(BattlePlayer*)enemy andSprite:(BattleSprite *)enemySprite
 {
   _enemy = enemy;
+  _enemySprite = enemySprite;
   _enemyColor = OrbColorNone;
   _enemySkillType = SkillTypeNoSkill;   // MISHA: take it from enemy skill
   _enemySkillController = nil;
@@ -82,9 +91,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
         _enemyColor = (OrbColor)enemy.element;
         _enemySkillActivation = enemySkillProto.activationType;
         _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+        [self setDataForController:_enemySkillController];
       }
     }
   }
+}
+
+- (void) setDataForController:(SkillController*)controller
+{
+  controller.battleLayer = _battleLayer;
+  controller.player = _player;
+  controller.playerSprite = _playerSprite;
+  controller.enemy = _enemy;
+  controller.enemySprite = _enemySprite;
 }
 
 #pragma mark - External calls
@@ -105,8 +124,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   {
     if ( _playerSkillController.skillIsReady )
     {
-      [_playerSkillController activateSkillWithBlock:block];
-      return YES;
+      if ( _playerSkillController.activationType == SkillActivationTypeAutoActivated )
+      {
+        [_playerSkillController activateSkillWithBlock:block];
+        return YES;
+      }
     }
   }
   

@@ -5951,6 +5951,7 @@
 		DA0760B919B12A2000E43E5A /* quickattacktext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA07608519B12A2000E43E5A /* quickattacktext@2x.png */; };
 		DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
 		DA07DFD119AD63AE009860CE /* GachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07DFCF19AD63AE009860CE /* GachaViews.m */; };
+		DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */; };
 		DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
 		DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
 		DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
@@ -9373,6 +9374,8 @@
 		DA07DFCE19AD63AE009860CE /* GachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaViews.h; sourceTree = "<group>"; };
 		DA07DFCF19AD63AE009860CE /* GachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaViews.m; sourceTree = "<group>"; };
 		DA0FC55419B15A6C00393BF4 /* CustomAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAssert.h; sourceTree = "<group>"; };
+		DA0FC55A19B1861500393BF4 /* SkillControllerActive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerActive.h; sourceTree = "<group>"; };
+		DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerActive.m; sourceTree = "<group>"; };
 		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
@@ -14952,6 +14955,8 @@
 				DA07605719B129EC00E43E5A /* SkillManager.m */,
 				DA07605419B129EC00E43E5A /* SkillController.h */,
 				DA07605519B129EC00E43E5A /* SkillController.m */,
+				DA0FC55A19B1861500393BF4 /* SkillControllerActive.h */,
+				DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */,
 				DA07605819B129EC00E43E5A /* SkillQuickAttack.h */,
 				DA07605919B129EC00E43E5A /* SkillQuickAttack.m */,
 			);
@@ -21023,6 +21028,7 @@
 				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
 				CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */,
 				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
+				DA0FC55C19B1861500393BF4 /* SkillControllerActive.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */,
 				CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */,

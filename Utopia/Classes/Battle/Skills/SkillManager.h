@@ -7,15 +7,18 @@
 
 #import <Foundation/Foundation.h>
 #import "SynthesizeSingleton.h"
-#import "BattlePlayer.h"
 #import "SkillController.h"
 
 #define skillManager [SkillManager sharedInstance]
 
 @interface SkillManager : NSObject
 {
+  NewBattleLayer* _battleLayer;
+  
   BattlePlayer*   _player;
   BattlePlayer*   _enemy;
+  BattleSprite*   _playerSprite;
+  BattleSprite*   _enemySprite;
   
   SkillController* _playerSkillController;
   SkillController* _enemySkillController;
@@ -34,8 +37,9 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
 // Setup
-- (void) updatePlayer:(BattlePlayer*)player;
-- (void) updateEnemy:(BattlePlayer*)enemy;
+- (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
+- (void) updatePlayer:(BattlePlayer*)player andSprite:(BattleSprite*)playerSprite;
+- (void) updateEnemy:(BattlePlayer*)enemy andSprite:(BattleSprite*)enemySprite;
 
 // External calls
 - (void) orbDestroyed:(OrbColor)color;

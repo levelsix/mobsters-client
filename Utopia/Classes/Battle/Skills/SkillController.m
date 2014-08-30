@@ -8,16 +8,6 @@
 #import "SkillController.h"
 #import "SkillQuickAttack.h"
 
-///////////////////////////////////////////////////////////
-// Generic skill controller
-///////////////////////////////////////////////////////////
-
-@interface SkillController()
-
-- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
-
-@end
-
 @implementation SkillController
 
 + (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color // Factory call, can create different skill types
@@ -53,48 +43,18 @@
 
 - (void) activateSkillWithBlock:(SkillControllerBlock)block
 {
-  block();
+  _callbackBlock = block;
+  [self skillExecutionStarted];
 }
 
-@end
-
-
-///////////////////////////////////////////////////////////
-// Active skill controller
-///////////////////////////////////////////////////////////
-
-@implementation SkillControllerActive
-
-- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
+- (void) skillExecutionStarted
 {
-  self = [super initWithProto:proto andMobsterColor:color];
-  if ( ! self )
-    return nil;
   
-  _orbColor = color;
-  _orbRequirement = proto.orbCost;
-  _orbCounter = _orbRequirement;
-  
-  return self;
 }
 
-- (BOOL) skillIsReady
+- (void) skillExecutionFinished
 {
-  return _orbCounter == 0;
-}
-
-- (void) orbDestroyed:(OrbColor)color
-{
-  if ( color == _orbColor && _orbCounter > 0 )
-    _orbCounter--;
-}
-
-- (void) activateSkillWithBlock:(SkillControllerBlock)block
-{
-  _orbCounter = _orbRequirement;
-  
-  // DO STUFF that can take some time, wrap it in block
-  block();
+  _callbackBlock();
 }
 
 @end

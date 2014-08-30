@@ -9,44 +9,41 @@
 #import <Foundation/Foundation.h>
 #import "Skill.pb.h"
 #import "BattleOrb.h"
+#import "BattlePlayer.h"
+#import "BattleSprite.h"
 
 typedef void(^SkillControllerBlock)(void);
 
-@protocol SkillProtocol
+@class NewBattleLayer;
 
+/*@protocol SkillProtocol
 @optional
-
 - (BOOL) triggerSkillAfterTurn;
+@end*/
 
-@end
 
-///////////////////////////////////////////////////////////
-
-@interface SkillController : NSObject <SkillProtocol>
+@interface SkillController : NSObject //<SkillProtocol>
 {
-
+  SkillControllerBlock  _callbackBlock;
 }
 
 @property (readonly) SkillType            skillType;
 @property (readonly) SkillActivationType  activationType;
 
+@property (weak, nonatomic) NewBattleLayer  *battleLayer;
+@property (weak, nonatomic) BattlePlayer    *player;
+@property (weak, nonatomic) BattlePlayer    *enemy;
+@property (weak, nonatomic) BattleSprite    *playerSprite;
+@property (weak, nonatomic) BattleSprite    *enemySprite;
+
+- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
 + (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color; // Factory call, can create different skill types
 
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
 
 - (void) activateSkillWithBlock:(SkillControllerBlock)block;
-
-@end
-
-///////////////////////////////////////////////////////////
-
-@interface SkillControllerActive : SkillController
-{
-}
-
-@property (readonly) OrbColor orbColor;
-@property (readonly) NSInteger orbCounter;
-@property (readonly) NSInteger orbRequirement;
+- (void) skillExecutionStarted;   // To be overriden
+- (void) skillExecutionFinished;  // To be overriden
 
 @end

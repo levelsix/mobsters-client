@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SkillController.h"
+#import "SkillControllerActive.h"
 
 @interface SkillQuickAttack : SkillControllerActive
 

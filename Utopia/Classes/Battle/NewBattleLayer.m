@@ -163,6 +163,10 @@
     CGPoint diff = ccpSub(afterScale, beforeScale);
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
     
+#ifdef MOBSTERS
+    [skillManager updateBattleLayer:self];
+#endif
+    
     [self setupUI];
     
     _canPlayNextComboSound = YES;
@@ -446,7 +450,7 @@
   
   // Setup SkillManager for enemy
 #ifdef MOBSTERS
-  [skillManager updateEnemy:_enemyPlayerObject];
+  [skillManager updateEnemy:_enemyPlayerObject andSprite:_currentEnemy];
 #endif
 }
 
@@ -617,7 +621,7 @@
 - (void) dealMyDamage {
   _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
   _enemyShouldAttack = YES;
-  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withSelector:@selector(checkEnemyHealth)];
+  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
@@ -630,7 +634,7 @@
 
 - (void) dealEnemyDamage {
   _totalDamageTaken += _enemyDamageDealt;
-  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withSelector:@selector(checkMyHealth)];
+  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withTarget:self withSelector:@selector(checkMyHealth)];
   
   float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
   if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -645,7 +649,7 @@
   }
 }
 
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -675,7 +679,7 @@
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
                          }],
-                        [CCActionCallFunc actionWithTarget:self selector:selector],
+                        [CCActionCallFunc actionWithTarget:target selector:selector],
                         nil]];
   
   CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
@@ -1445,10 +1449,9 @@
 #ifdef MOBSTERS
   // Trying to apply the skills after this move if ready
   BOOL triggered = [skillManager triggerSkillAfterMoveWithBlock:^{
+    [_skillIndicator update];
     [self checkIfAnyMovesLeft];
   }];
-  if ( triggered )
-    [_skillIndicator update];
 #else
   [self checkIfAnyMovesLeft];
 #endif
@@ -1607,7 +1610,7 @@
   
   // Setup SkillManager for player
 #ifdef MOBSTERS
-  [skillManager updatePlayer:_myPlayerObject];
+  [skillManager updatePlayer:_myPlayerObject andSprite:_myPlayer];
   if ( _skillIndicator )
     [_skillIndicator removeFromParentAndCleanup:YES];
   
