@@ -18,6 +18,8 @@
 #import "Downloader.h"
 #import "DBFBProfilePictureView.h"
 
+#import "TangoDelegate.h"
+
 #define NUM_CITIES 10
 
 #define MAP_SECTION_NUM_KEY @"MapSectionNumKey"
@@ -258,6 +260,23 @@
   UIView *pos = [[UIView alloc] initWithFrame:iv.frame];
   
   CGRect frame = CGRectInset(pos.bounds, 2, 2);
+  
+#ifdef TOONSQUAD
+  if ([TangoDelegate isTangoAuthenticated]) {
+    UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
+    img.layer.cornerRadius = img.frame.size.width/2;
+    img.clipsToBounds = YES;
+    img.contentMode = UIViewContentModeScaleAspectFill;
+    [pos addSubview:img];
+    
+    [TangoDelegate getProfilePicture:^(UIImage *i) {
+        img.image = i;
+    }];
+  }
+  
+  else
+#endif
+  
   if (gs.facebookId) {
     DBFBProfilePictureView *pf = [[DBFBProfilePictureView alloc] initWithFrame:frame];
     pf.layer.cornerRadius = pf.frame.size.width/2;

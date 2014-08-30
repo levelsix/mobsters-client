@@ -10,4 +10,13 @@
 
 @interface TangoDelegate : NSObject
 
++ (void) attemptInitialLogin;
++ (void) authenticate;
+
++ (BOOL) isTangoAvailable;
++ (BOOL) isTangoAuthenticated;
++ (void) getProfilePicture:(void (^)(UIImage *img))comp;
+
++ (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester;
+
 @end

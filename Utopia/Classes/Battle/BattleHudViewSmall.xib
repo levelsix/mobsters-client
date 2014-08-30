@@ -20,7 +20,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TouchableSubviewsView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BattleHudView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -81,7 +81,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="MRM-zP-qe8">
+                <view contentMode="scaleToFill" id="MRM-zP-qe8" userLabel="Bottom View">
                     <rect key="frame" x="53" y="265" width="67" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -124,7 +124,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="9tG-Yt-5ot">
+                <view contentMode="scaleToFill" id="9tG-Yt-5ot" userLabel="Swap View">
                     <rect key="frame" x="0.0" y="265" width="50" height="46"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -411,6 +411,17 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <connections>
+                <outlet property="battleScheduleView" destination="gM6-4S-27Q" id="DfE-9e-kZr"/>
+                <outlet property="bottomView" destination="MRM-zP-qe8" id="JSe-K0-5fT"/>
+                <outlet property="deployView" destination="zMQ-pc-wO7" id="icc-jI-hdV"/>
+                <outlet property="elementButton" destination="2kS-qV-7b6" id="vuG-6I-cQe"/>
+                <outlet property="elementView" destination="Qgz-Lk-NDV" id="zGJ-Fr-1eZ"/>
+                <outlet property="forfeitButtonView" destination="Sb3-AQ-Vv6" id="KnX-Jx-Ekp"/>
+                <outlet property="swapLabel" destination="MBM-Xk-jdF" id="Mi6-XP-mOk"/>
+                <outlet property="swapView" destination="9tG-Yt-5ot" id="eOe-Vp-k2h"/>
+                <outlet property="waveNumLabel" destination="lh2-01-Mam" id="mlZ-Up-Ax5"/>
+            </connections>
         </view>
     </objects>
     <resources>

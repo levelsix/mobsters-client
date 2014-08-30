@@ -25,7 +25,7 @@ enum ValidationStatus
 /// @param status The validation status code.
 /// @param error The reason validation failed or returned an error. Check the error code against the
 /// enumeration in error_codes.h.
-typedef void (^ReceiptValidationHandler)(ValidationStatus status, NSError *error);
+typedef void (^ReceiptValidationHandler)(enum ValidationStatus status, NSError *error);
 
 
 /** TangoTools is a collection of utilities that are too small for their own classes and don't

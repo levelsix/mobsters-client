@@ -15,11 +15,14 @@
 
 @property (nonatomic, strong) IBOutlet UISwitch *musicSwitch;
 @property (nonatomic, strong) IBOutlet UISwitch *soundSwitch;
-@property (nonatomic, strong) IBOutlet DBFBProfilePictureView *profilePicIcon;
 
+@property (nonatomic, strong) IBOutlet DBFBProfilePictureView *fbProfilePicIcon;
 @property (nonatomic, strong) IBOutlet UIView *fbConnectButton;
-@property (nonatomic, strong) IBOutlet UILabel *fbConnectLabel;
+@property (nonatomic, strong) IBOutlet UIView *fbConnectLabelView;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *fbConnectSpinner;
+
+@property (nonatomic, strong) IBOutlet UIImageView *tangoProfilePicIcon;
+@property (nonatomic, strong) IBOutlet UIView *tangoConnectButton;
 
 - (IBAction) emailSupport:(id)sender;
 - (IBAction) forums:(id)sender;

@@ -26,7 +26,7 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
 
-#import <TangoSDK/TangoSDK.h>
+#import "TangoDelegate.h"
 
 #import "Chartboost.h"
 
@@ -51,7 +51,13 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
+  BOOL success = [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
+  
+#ifdef TOONSQUAD
+  success = success || [TangoDelegate handleOpenURL:url sourceApplication:sourceApplication];
+#endif
+  
+  return success;
 }
 
 - (void) setUpChartboost {
@@ -83,16 +89,6 @@
 {
   //Init the window
 	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  
-#ifdef TOONSQUAD
-  [TangoSession sessionInitialize];
-  [[TangoSession sharedSession] authenticateWithHandler:^(TangoSession *session, NSError *error) {
-    if(error.code == TANGO_SDK_SUCCESS) {
-      // Authentication was successful.
-      NSLog(@"Tango Success.");
-    }
-  }];
-#endif
   
   [self setUpChartboost];
   
@@ -154,6 +150,11 @@
   GameViewController *gvc = [GameViewController baseController];
   [gvc handleSignificantTimeChange];
   
+  
+#ifdef TOONSQUAD
+  [TangoDelegate attemptInitialLogin];
+#endif
+  
   [FacebookDelegate handleDidBecomeActive];
 }
 
@@ -168,9 +169,12 @@
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
-  [[OutgoingEventController sharedOutgoingEventController] logout];
-  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
-  [[GameState sharedGameState] setConnected:NO];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.connected) {
+    [[OutgoingEventController sharedOutgoingEventController] logout];
+    [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+    [[GameState sharedGameState] setConnected:NO];
+  }
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application {

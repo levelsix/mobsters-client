@@ -59,11 +59,13 @@
 }
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-  [[GameViewController baseController] openedFromFacebook];
-  [FBSession.activeSession setStateChangeHandler:
-   ^(FBSession *session, FBSessionState state, NSError *error) {
-     [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];
-   }];
+  if ([url.scheme rangeOfString:@"fb"].length > 0) {
+    [[GameViewController baseController] openedFromFacebook];
+    [FBSession.activeSession setStateChangeHandler:
+     ^(FBSession *session, FBSessionState state, NSError *error) {
+       [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];
+     }];
+  }
   return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 

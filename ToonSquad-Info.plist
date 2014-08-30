@@ -25,11 +25,12 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-      <key>CFBundleURLName </key>
-      <string >com.tango.toonsquad</string>
+			<key>CFBundleURLName </key>
+			<string>com.lvl6.toonsquad</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb788673811165936</string>
+				<string>toonsquad4t</string>
 			</array>
 		</dict>
 	</array>
@@ -37,6 +38,10 @@
 	<string>1.0.0.134</string>
 	<key>FacebookAppID</key>
 	<string>788673811165936</string>
+	<key>TangoAppID</key>
+	<string>ToonSquad</string>
+	<key>TangoUrlScheme</key>
+	<string>toonsquad4t</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

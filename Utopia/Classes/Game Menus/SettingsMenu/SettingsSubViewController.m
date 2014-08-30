@@ -13,12 +13,14 @@
 #import "FacebookDelegate.h"
 #import "SoundEngine.h"
 
+#import "TangoDelegate.h"
+
 @implementation SettingsSubViewController
 
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.profilePicIcon.layer.cornerRadius = self.profilePicIcon.frame.size.width/2;
+  self.fbProfilePicIcon.layer.cornerRadius = self.fbProfilePicIcon.frame.size.width/2;
   self.fbConnectSpinner.hidden = YES;
 }
 
@@ -36,12 +38,33 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.facebookId) {
     self.fbConnectButton.hidden = YES;
-    self.profilePicIcon.hidden = NO;
-    self.profilePicIcon.profileID = gs.facebookId;
+    self.fbProfilePicIcon.hidden = NO;
+    self.fbProfilePicIcon.profileID = gs.facebookId;
   } else {
     self.fbConnectButton.hidden = NO;
-    self.profilePicIcon.hidden = YES;
+    self.fbProfilePicIcon.hidden = YES;
   }
+  
+#ifdef TOONSQUAD
+  
+  if ([TangoDelegate isTangoAuthenticated]) {
+    self.tangoConnectButton.hidden = YES;
+    self.tangoProfilePicIcon.hidden = NO;
+    
+    [TangoDelegate getProfilePicture:^(UIImage *img) {
+      self.tangoProfilePicIcon.image = img;
+    }];
+  } else {
+    self.tangoConnectButton.hidden = NO;
+    self.tangoProfilePicIcon.hidden = YES;
+  }
+  
+#else
+  
+  self.tangoConnectButton.hidden = YES;
+  self.tangoProfilePicIcon.hidden = YES;
+  
+#endif
 }
 
 - (IBAction) emailSupport:(id)sender {
@@ -82,16 +105,22 @@
 
 - (IBAction) facebookConnectClicked:(id)sender {
   if (self.fbConnectSpinner.hidden) {
-    self.fbConnectLabel.hidden = YES;
+    self.fbConnectLabelView.hidden = YES;
     self.fbConnectSpinner.hidden = NO;
     [self.fbConnectSpinner startAnimating];
     [FacebookDelegate openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
-      self.fbConnectLabel.hidden = NO;
+      self.fbConnectLabelView.hidden = NO;
       self.fbConnectSpinner.hidden = YES;
       
       [self loadSettings];
     }];
   }
+}
+
+- (IBAction)tangoClicked:(id)sender {
+#ifdef TOONSQUAD
+  [TangoDelegate authenticate];
+#endif
 }
 
 - (IBAction) musicChanged:(id)sender {
