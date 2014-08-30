@@ -10,13 +10,19 @@
 #import <cocos2d.h>
 #import "SkillController.h"
 
-@interface SkillBattleIndicatorView : CCSprite
+@interface SkillBattleIndicatorView : CCNode
 {
-  CCLabelTTF *_orbsLabel;
+  CCSprite    *_bgImage;
+  CCSprite    *_skillIcon;
+  CCSprite    *_orbIcon;
+  
+  CCLabelTTF  *_orbsCountLabel;
 }
 
-- (instancetype) initWithPlayerColor:(OrbColor)color activationType:(SkillActivationType)activationType skillType:(SkillType)skillType;
+@property (nonatomic) NSInteger orbsCount;  // Change it to update the counter
 
-@property (nonatomic) NSInteger orbsCount;
+- (instancetype) initWithSkillController:(SkillController*)skillController;
+
+- (void) update;
 
 @end

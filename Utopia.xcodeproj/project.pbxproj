@@ -9372,6 +9372,7 @@
 		DA07608519B12A2000E43E5A /* quickattacktext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quickattacktext@2x.png"; sourceTree = "<group>"; };
 		DA07DFCE19AD63AE009860CE /* GachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GachaViews.h; sourceTree = "<group>"; };
 		DA07DFCF19AD63AE009860CE /* GachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GachaViews.m; sourceTree = "<group>"; };
+		DA0FC55419B15A6C00393BF4 /* CustomAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAssert.h; sourceTree = "<group>"; };
 		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
@@ -9967,6 +9968,7 @@
 				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
 				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
 				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
+				DA0FC55419B15A6C00393BF4 /* CustomAssert.h */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -14946,10 +14948,10 @@
 			children = (
 				DA07605119B129EC00E43E5A /* SkillBattleIndicatorView.h */,
 				DA07605219B129EC00E43E5A /* SkillBattleIndicatorView.m */,
-				DA07605419B129EC00E43E5A /* SkillController.h */,
-				DA07605519B129EC00E43E5A /* SkillController.m */,
 				DA07605619B129EC00E43E5A /* SkillManager.h */,
 				DA07605719B129EC00E43E5A /* SkillManager.m */,
+				DA07605419B129EC00E43E5A /* SkillController.h */,
+				DA07605519B129EC00E43E5A /* SkillController.m */,
 				DA07605819B129EC00E43E5A /* SkillQuickAttack.h */,
 				DA07605919B129EC00E43E5A /* SkillQuickAttack.m */,
 			);

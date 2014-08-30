@@ -20,7 +20,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     return nil;
   
   _playerColor = _enemyColor = OrbColorNone;
-  _playerSkill = _enemySkill = SkillTypeNoSkill;
+  _playerSkillType = _enemySkillType = SkillTypeNoSkill;
   
   return self;
 }
@@ -31,46 +31,60 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   _player = player;
   _playerColor = OrbColorNone;
-  _playerSkill = SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
   
   // Player skill
   if ( player )
   {
-    if ( _playerSkill != SkillTypeNoSkill )
+    if ( _playerSkillType != SkillTypeNoSkill )
     {
-      SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_playerSkill]];
-      _playerColor = (OrbColor)player.element;
-      _playerSkillActivation = playerSkillProto.activationType;
-      _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_playerSkillType]];
+      if ( ! playerSkillProto )
+      {
+        NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
+        return;
+      }
+      else
+      {
+        _playerColor = (OrbColor)player.element;
+        _playerSkillActivation = playerSkillProto.activationType;
+        _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
+      }
     }
   }
-  else
-    _playerSkillController = nil;
 }
 
 - (void) updateEnemy:(BattlePlayer*)enemy
 {
   _enemy = enemy;
   _enemyColor = OrbColorNone;
-  _enemySkill = SkillTypeNoSkill;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeNoSkill;   // MISHA: take it from enemy skill
+  _enemySkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
   
   // Enemy skill
   if ( enemy )
   {
-    if ( _enemySkill != SkillTypeNoSkill )
+    if ( _enemySkillType != SkillTypeNoSkill )
     {
-      SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_enemySkill]];
-      _enemyColor = (OrbColor)enemy.element;
-      _enemySkillActivation = enemySkillProto.activationType;
-      _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_enemySkillType]];
+      if ( ! enemySkillProto )
+      {
+        NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
+        return;
+      }
+      else
+      {
+        _enemyColor = (OrbColor)enemy.element;
+        _enemySkillActivation = enemySkillProto.activationType;
+        _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
+      }
     }
   }
-  else
-    _enemySkillController = nil;
 }
 
 #pragma mark - External calls
@@ -85,17 +99,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Checks
 
-- (BOOL) triggerSkillAfterTurn
+- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block
 {
   if (_playerSkillController)
   {
     if ( _playerSkillController.skillIsReady )
     {
-      // MISHA: TRIGGER
+      [_playerSkillController activateSkillWithBlock:block];
       return YES;
     }
   }
   
+  block();
   return NO;
 }
 

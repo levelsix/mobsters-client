@@ -10,6 +10,8 @@
 #import "Skill.pb.h"
 #import "BattleOrb.h"
 
+typedef void(^SkillControllerBlock)(void);
+
 @protocol SkillProtocol
 
 @optional
@@ -32,6 +34,8 @@
 
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
+
+- (void) activateSkillWithBlock:(SkillControllerBlock)block;
 
 @end
 

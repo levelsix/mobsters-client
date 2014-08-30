@@ -283,15 +283,15 @@
     _movesLeftLabel.position = ccp(45, 24);
   }
   
-  CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
-  [puzzleBg addChild:lootBgd];
-  lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*1.8);
+  _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
+  [self addChild:_lootBgd];
+  _lootBgd.position = ccp(-self.lootBgd.contentSize.width/2, 80);
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
-  [lootBgd addChild:_lootLabel];
+  [_lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;
-  _lootLabel.position = ccp(lootBgd.contentSize.width-13, lootBgd.contentSize.height/2-1);
+  _lootLabel.position = ccp(_lootBgd.contentSize.width-13, _lootBgd.contentSize.height/2-1);
   
   _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
@@ -1373,6 +1373,11 @@
   _orbCount++;
   _orbCounts[color]++;
   _totalOrbCounts[color]++;
+
+#ifdef MOBSTERS
+  [skillManager orbDestroyed:orb.orbColor];
+  [_skillIndicator update];
+#endif
   
   int dmg = [self.myPlayerObject damageForColor:color];
   _myDamageDealt += dmg;
@@ -1436,7 +1441,17 @@
      }], nil]];
   
   [self updateHealthBars];
+  
+#ifdef MOBSTERS
+  // Trying to apply the skills after this move if ready
+  BOOL triggered = [skillManager triggerSkillAfterMoveWithBlock:^{
+    [self checkIfAnyMovesLeft];
+  }];
+  if ( triggered )
+    [_skillIndicator update];
+#else
   [self checkIfAnyMovesLeft];
+#endif
   
   _comboCount = 0;
 }
@@ -1481,6 +1496,8 @@
 
 - (void) displayOrbLayer {
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
+  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
+  
   [SoundEngine puzzleOrbsSlideIn];
 }
 
@@ -1491,13 +1508,19 @@
   
   CGPoint pos = ccp(self.contentSize.width+self.orbLayer.contentSize.width,
                     self.orbLayer.position.y);
+  CGPoint lootPos = ccp(-self.lootBgd.contentSize.width/2, self.lootBgd.position.y);
+  
   if (animated) {
     [self.orbLayer runAction:
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:0.3f position:pos],
       [CCActionCallBlock actionWithBlock:block], nil]];
+    [self.lootBgd runAction:
+     [CCActionSequence actions:
+      [CCActionMoveTo actionWithDuration:0.3f position:lootPos], nil]];
   } else {
     self.orbLayer.position = pos;
+    self.lootBgd.position = lootPos;
     block();
   }
 }
@@ -1588,11 +1611,13 @@
   if ( _skillIndicator )
     [_skillIndicator removeFromParentAndCleanup:YES];
   
-  if ( skillManager.playerSkill )
+  if ( skillManager.playerSkillType )
   {
-    _skillIndicator = [[SkillBattleIndicatorView alloc] initWithPlayerColor:skillManager.playerColor activationType:skillManager.playerSkillActivation skillType:skillManager.playerSkill];
+    _skillIndicator = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.playerSkillController];
+    _skillIndicator.position = CGPointMake(-_skillIndicator.contentSize.width/2, 60);
+    [_skillIndicator update];
     if ( _skillIndicator )
-      [self.orbLayer addChild:_skillIndicator];
+      [self.orbLayer addChild:_skillIndicator z:-10];
   }
 #endif
 

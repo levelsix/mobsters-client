@@ -950,7 +950,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.staticSkills = [NSMutableDictionary dictionary];
   for (SkillProto* skillProto in proto.skillsList)
-    [self.staticSkills setObject:skillProto forKey:[NSNumber numberWithInteger:skillProto.skillId]];
+    [self.staticSkills setObject:skillProto forKey:[NSNumber numberWithInteger:skillProto.type]];
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {

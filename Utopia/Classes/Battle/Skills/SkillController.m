@@ -22,7 +22,7 @@
 
 + (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color // Factory call, can create different skill types
 {
-  switch( proto.skillId )
+  switch( proto.type )
   {
     case SkillTypeQuickAttack: return [[SkillQuickAttack alloc] initWithProto:proto andMobsterColor:color];
     default: return nil;
@@ -49,6 +49,11 @@
 - (void) orbDestroyed:(OrbColor)color
 {
   return;
+}
+
+- (void) activateSkillWithBlock:(SkillControllerBlock)block
+{
+  block();
 }
 
 @end
@@ -82,6 +87,14 @@
 {
   if ( color == _orbColor && _orbCounter > 0 )
     _orbCounter--;
+}
+
+- (void) activateSkillWithBlock:(SkillControllerBlock)block
+{
+  _orbCounter = _orbRequirement;
+  
+  // DO STUFF that can take some time, wrap it in block
+  block();
 }
 
 @end

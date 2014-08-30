@@ -104,6 +104,7 @@
 @property (nonatomic, retain) CCSprite *movesBgd;
 @property (nonatomic, retain) CCLabelTTF *movesLeftLabel;
 @property (nonatomic, retain) CCLabelTTF *lootLabel;
+@property (nonatomic, retain) CCSprite *lootBgd;
 @property (nonatomic, retain) CCSprite *comboBgd;
 @property (nonatomic, retain) CCLabelTTF *comboLabel;
 @property (nonatomic, retain) CCLabelTTF *comboBotLabel;

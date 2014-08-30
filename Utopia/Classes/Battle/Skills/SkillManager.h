@@ -23,10 +23,13 @@
 
 @property (readonly) OrbColor playerColor;
 @property (readonly) OrbColor enemyColor;
-@property (readonly) SkillType playerSkill;
-@property (readonly) SkillType enemySkill;
+@property (readonly) SkillType playerSkillType;
+@property (readonly) SkillType enemySkillType;
 @property (readonly) SkillActivationType playerSkillActivation;
 @property (readonly) SkillActivationType enemySkillActivation;
+
+@property (readonly) SkillController *playerSkillController;
+@property (readonly) SkillController *enemySkillController;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
@@ -38,6 +41,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) orbDestroyed:(OrbColor)color;
 
 // Checks
-- (BOOL) triggerSkillAfterTurn;
+- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block;
 
 @end
