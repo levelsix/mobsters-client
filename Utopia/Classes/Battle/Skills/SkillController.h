@@ -39,11 +39,15 @@ typedef void(^SkillControllerBlock)(void);
 - (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
 + (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color; // Factory call, can create different skill types
 
+// External callers
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
-
 - (void) activateSkillWithBlock:(SkillControllerBlock)block;
-- (void) skillExecutionStarted;   // To be overriden
-- (void) skillExecutionFinished;  // To be overriden
+
+// To be overriden by specific skills
+- (void) skillExecutionStarted;
+- (void) skillExecutionFinished;
+- (void) setDefaultValuesForProperties;
+- (void) setValue:(float)value forProperty:(NSString*)property;
 
 @end

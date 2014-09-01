@@ -15,6 +15,7 @@
   CCSprite    *_bgImage;
   CCSprite    *_skillIcon;
   CCSprite    *_orbIcon;
+  CCSprite    *_checkIcon;
   
   CCLabelTTF  *_orbsCountLabel;
 }

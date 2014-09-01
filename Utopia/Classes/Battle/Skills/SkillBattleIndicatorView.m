@@ -75,21 +75,36 @@
     case OrbColorWater: bgImageName = @"watercounterbg.png"; orbImageName = @"waterorbcounter.png"; break;
     default: return;
   }
+  
+  if (_bgImage)
+    [_bgImage removeFromParentAndCleanup:YES];
   _bgImage = [CCSprite spriteWithImageNamed:bgImageName];
   [self addChild:_bgImage];
   
+  if (_orbIcon)
+    [_orbIcon removeFromParentAndCleanup:YES];
   _orbIcon = [CCSprite spriteWithImageNamed:orbImageName];
   _orbIcon.position = CGPointMake(-5, 0);
   [self addChild:_orbIcon];
   
-  _orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-UltraItalic" fontSize:12];
-  _orbsCountLabel.color = [CCColor whiteColor];
-  _orbsCountLabel.shadowOffset = ccp(0,-1);
-  _orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
-  _orbsCountLabel.shadowBlurRadius = 1.f;
-  _orbsCountLabel.position = CGPointMake(11, 0);
-  _orbsCountLabel.horizontalAlignment = CCTextAlignmentLeft;
-  [self addChild:_orbsCountLabel];
+  if (! _orbsCountLabel)
+  {
+    _orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-UltraItalic" fontSize:12];
+    _orbsCountLabel.color = [CCColor whiteColor];
+    _orbsCountLabel.shadowOffset = ccp(0,-1);
+    _orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    _orbsCountLabel.shadowBlurRadius = 1.f;
+    _orbsCountLabel.position = CGPointMake(11, 0);
+    _orbsCountLabel.horizontalAlignment = CCTextAlignmentLeft;
+    [self addChild:_orbsCountLabel];
+  }
+  
+  if (! _checkIcon)
+  {
+    _checkIcon = [CCSprite spriteWithImageNamed:@"orbschecked.png"];
+    _checkIcon.position = CGPointMake(11, 0);
+    [self addChild:_checkIcon];
+  }
 }
 
 - (void) setSkillIcon:(SkillType)skillType
@@ -110,8 +125,20 @@
 
 - (void) setOrbsCount:(NSInteger)orbsCount
 {
-  if (_orbsCountLabel)
+  if (!_orbsCountLabel || !_checkIcon)
+    return;
+  
+  if (orbsCount == 0)
+  {
+    _orbsCountLabel.visible = NO;
+    _checkIcon.visible = YES;
+  }
+  else
+  {
     [_orbsCountLabel setString:[NSString stringWithFormat:@"%d", orbsCount]];
+    _orbsCountLabel.visible = YES;
+    _checkIcon.visible = NO;
+  }
 }
 
 - (void) update

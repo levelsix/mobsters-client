@@ -10,5 +10,12 @@
 #import "SkillControllerActive.h"
 
 @interface SkillQuickAttack : SkillControllerActive
+{
+  // Properties
+  float       _damage;
+  
+  // Animations
+  CCSprite*   _attackSprite;
+}
 
 @end

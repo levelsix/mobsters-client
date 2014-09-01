@@ -28,11 +28,23 @@
   _skillType = proto.type;
   _activationType = proto.activationType;
   
+  // Properties
+  [self setDefaultValuesForProperties];
+  for (SkillPropertyProto* property in proto.propertiesList)
+  {
+    NSString* name = property.name;
+    float value = property.skillValue;
+    [self setValue:value forProperty:name];
+  }
+  
   return self;
 }
 
+#pragma mark - External calls
+
 - (BOOL) skillIsReady
 {
+  CustomAssert(NO, @"Calling skillIsReady for SkillController class - should be overrided.");
   return NO;
 }
 
@@ -47,6 +59,8 @@
   [self skillExecutionStarted];
 }
 
+#pragma mark - Placeholders to be overriden
+
 - (void) skillExecutionStarted
 {
   
@@ -55,6 +69,17 @@
 - (void) skillExecutionFinished
 {
   _callbackBlock();
+}
+
+- (void) setDefaultValuesForProperties
+{
+  
+}
+
+- (void) setValue:(float)value forProperty:(NSString*)property
+{
+  CustomAssert(NO, @"Calling setProperty for SkillController class - override it in inherited class to load properties");
+  // There could be some cases where a skill doesn't have any properties at all. Implement empty setProperty.
 }
 
 @end
