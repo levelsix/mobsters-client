@@ -22,10 +22,16 @@
     _damage = value;
 }
 
+- (void) callbackForDealDamage
+{
+  [self.battleLayer checkEnemyHealth];
+  [self skillExecutionFinished];
+}
+
 - (void) callbackForAnimation
 {
   // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(skillExecutionFinished)];
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(callbackForDealDamage)];
 }
 
 - (void) skillExecutionStarted

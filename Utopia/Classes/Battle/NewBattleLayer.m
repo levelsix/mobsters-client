@@ -621,7 +621,7 @@
 - (void) dealMyDamage {
   _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
   _enemyShouldAttack = YES;
-  [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+  [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
@@ -770,7 +770,8 @@
   [SoundEngine puzzleMonsterDefeated];
 }
 
-- (void) checkEnemyHealth {
+- (BOOL) checkEnemyHealth {
+  
   if (self.enemyPlayerObject.curHealth <= 0) {
     CCSprite *loot = [self getCurrentEnemyLoot];
     if (loot) {
@@ -793,7 +794,17 @@
     // Send server updated values here because monster just died
     // But make sure that I actually did damage..
     [self sendServerUpdatedValues];
-  } else {
+    
+    return YES;
+  }
+  
+  return NO;
+}
+
+- (void) checkEnemyHealthAndStartNewTurn {
+  BOOL enemyIsDead = [self checkEnemyHealth];
+  if (! enemyIsDead)
+  {
     if (_enemyShouldAttack) {
       [self beginNextTurn];
     }
@@ -1451,7 +1462,7 @@
   
 #ifdef MOBSTERS
   // Trying to apply the skills after this move if ready
-  BOOL triggered = [skillManager triggerSkillAfterMoveWithBlock:^{
+  [skillManager triggerSkillAfterMoveWithBlock:^{
     [_skillIndicator update];
     [self checkIfAnyMovesLeft];
   }];

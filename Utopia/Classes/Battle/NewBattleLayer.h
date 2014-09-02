@@ -178,7 +178,8 @@
 - (void) exitFinal;
 - (void) shakeScreenWithIntensity:(float)intensity;
 
-- (void) checkEnemyHealth;
+- (BOOL) checkEnemyHealth;
+- (void) checkEnemyHealthAndStartNewTurn;
 
 - (void) sendServerUpdatedValues;
 
