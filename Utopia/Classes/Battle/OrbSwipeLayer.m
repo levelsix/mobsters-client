@@ -317,6 +317,7 @@
     _numOrbsStillAnimating++;
     
     CCActionCallBlock *crack = [CCActionCallBlock actionWithBlock:^{
+#if !(TARGET_IPHONE_SIMULATOR)
       if (powerup == PowerupTypeHorizontalLine || powerup == PowerupTypeVerticalLine || powerup == PowerupTypeAllOfOneColor) {
         CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
         [self addChild:q z:100];
@@ -342,6 +343,7 @@
         x.autoRemoveOnFinish = YES;
         x.startColor = [self colorForSparkle:orb.orbColor];
       }
+#endif
     }];
     
     CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];

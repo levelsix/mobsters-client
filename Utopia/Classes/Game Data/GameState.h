@@ -119,6 +119,8 @@
 @property (nonatomic, retain) NSMutableDictionary *staticLevelInfos;
 @property (nonatomic, retain) NSMutableDictionary *battleDialogueInfo;
 
+@property (nonatomic, retain) NSMutableDictionary *staticSkills;
+
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 

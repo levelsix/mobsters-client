@@ -15,6 +15,7 @@
 #import "BattleSchedule.h"
 #import "BattleScheduleView.h"
 #import "BattleHudView.h"
+#import "SkillBattleIndicatorView.h"
 
 #define Y_MOVEMENT_FOR_NEW_SCENE 160
 #define TIME_TO_SCROLL_PER_SCENE 2.4f
@@ -103,6 +104,7 @@
 @property (nonatomic, retain) CCSprite *movesBgd;
 @property (nonatomic, retain) CCLabelTTF *movesLeftLabel;
 @property (nonatomic, retain) CCLabelTTF *lootLabel;
+@property (nonatomic, retain) CCSprite *lootBgd;
 @property (nonatomic, retain) CCSprite *comboBgd;
 @property (nonatomic, retain) CCLabelTTF *comboLabel;
 @property (nonatomic, retain) CCLabelTTF *comboBotLabel;
@@ -135,6 +137,7 @@
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicator;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
@@ -155,7 +158,7 @@
 - (void) createScheduleWithSwap:(BOOL)swap;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector;
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector;
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
 
 - (void) updateHealthBars;

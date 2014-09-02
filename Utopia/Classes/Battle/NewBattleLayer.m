@@ -18,6 +18,7 @@
 #import "GenericPopupController.h"
 #import <Kamcord/Kamcord.h>
 #import "DestroyedOrb.h"
+#import "SkillManager.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -162,6 +163,10 @@
     CGPoint diff = ccpSub(afterScale, beforeScale);
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
     
+#ifdef MOBSTERS
+    [skillManager updateBattleLayer:self];
+#endif
+    
     [self setupUI];
     
     _canPlayNextComboSound = YES;
@@ -282,15 +287,15 @@
     _movesLeftLabel.position = ccp(45, 24);
   }
   
-  CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
-  [puzzleBg addChild:lootBgd];
-  lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*1.8);
+  _lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
+  [self addChild:_lootBgd];
+  _lootBgd.position = ccp(-self.lootBgd.contentSize.width/2, 80);
   
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Ziggurat-HTF-Black" fontSize:10];
-  [lootBgd addChild:_lootLabel];
+  [_lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;
-  _lootLabel.position = ccp(lootBgd.contentSize.width-13, lootBgd.contentSize.height/2-1);
+  _lootLabel.position = ccp(_lootBgd.contentSize.width-13, _lootBgd.contentSize.height/2-1);
   
   _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
@@ -442,6 +447,11 @@
   } else {
     self.enemyPlayerObject = nil;
   }
+  
+  // Setup SkillManager for enemy
+#ifdef MOBSTERS
+  [skillManager updateEnemy:_enemyPlayerObject andSprite:_currentEnemy];
+#endif
 }
 
 #pragma mark - UI Updates
@@ -611,7 +621,7 @@
 - (void) dealMyDamage {
   _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
   _enemyShouldAttack = YES;
-  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withSelector:@selector(checkEnemyHealth)];
+  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
@@ -624,7 +634,7 @@
 
 - (void) dealEnemyDamage {
   _totalDamageTaken += _enemyDamageDealt;
-  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withSelector:@selector(checkMyHealth)];
+  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withTarget:self withSelector:@selector(checkMyHealth)];
   
   float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
   if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -639,7 +649,7 @@
   }
 }
 
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -669,7 +679,7 @@
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
                          }],
-                        [CCActionCallFunc actionWithTarget:self selector:selector],
+                        [CCActionCallFunc actionWithTarget:target selector:selector],
                         nil]];
   
   CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
@@ -1319,6 +1329,8 @@
     _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
   }
   
+#if !(TARGET_IPHONE_SIMULATOR)
+  
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
     [[_comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO] removeFromParent];
@@ -1344,6 +1356,8 @@
     [SoundEngine puzzleComboFire];
   }
   
+#endif
+  
   if (_canPlayNextComboSound) {
     _soundComboCount++;
     [SoundEngine puzzleComboCreated];
@@ -1363,6 +1377,11 @@
   _orbCount++;
   _orbCounts[color]++;
   _totalOrbCounts[color]++;
+
+#ifdef MOBSTERS
+  [skillManager orbDestroyed:orb.orbColor];
+  [_skillIndicator update];
+#endif
   
   int dmg = [self.myPlayerObject damageForColor:color];
   _myDamageDealt += dmg;
@@ -1426,7 +1445,16 @@
      }], nil]];
   
   [self updateHealthBars];
+  
+#ifdef MOBSTERS
+  // Trying to apply the skills after this move if ready
+  BOOL triggered = [skillManager triggerSkillAfterMoveWithBlock:^{
+    [_skillIndicator update];
+    [self checkIfAnyMovesLeft];
+  }];
+#else
   [self checkIfAnyMovesLeft];
+#endif
   
   _comboCount = 0;
 }
@@ -1471,6 +1499,8 @@
 
 - (void) displayOrbLayer {
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
+  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
+  
   [SoundEngine puzzleOrbsSlideIn];
 }
 
@@ -1481,13 +1511,19 @@
   
   CGPoint pos = ccp(self.contentSize.width+self.orbLayer.contentSize.width,
                     self.orbLayer.position.y);
+  CGPoint lootPos = ccp(-self.lootBgd.contentSize.width/2, self.lootBgd.position.y);
+  
   if (animated) {
     [self.orbLayer runAction:
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:0.3f position:pos],
       [CCActionCallBlock actionWithBlock:block], nil]];
+    [self.lootBgd runAction:
+     [CCActionSequence actions:
+      [CCActionMoveTo actionWithDuration:0.3f position:lootPos], nil]];
   } else {
     self.orbLayer.position = pos;
+    self.lootBgd.position = lootPos;
     block();
   }
 }
@@ -1571,6 +1607,23 @@
     [self.orbLayer allowInput];
     [self removeNoInputLayer];
   }
+  
+  // Setup SkillManager for player
+#ifdef MOBSTERS
+  [skillManager updatePlayer:_myPlayerObject andSprite:_myPlayer];
+  if ( _skillIndicator )
+    [_skillIndicator removeFromParentAndCleanup:YES];
+  
+  if ( skillManager.playerSkillType )
+  {
+    _skillIndicator = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.playerSkillController];
+    _skillIndicator.position = CGPointMake(-_skillIndicator.contentSize.width/2, 60);
+    [_skillIndicator update];
+    if ( _skillIndicator )
+      [self.orbLayer addChild:_skillIndicator z:-10];
+  }
+#endif
+
 }
 
 #pragma mark - Continue View Actions

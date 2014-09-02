@@ -23,6 +23,8 @@ BOOL SkillTypeIsValidValue(SkillType value) {
   switch (value) {
     case SkillTypeNoSkill:
     case SkillTypeCakeDrop:
+    case SkillTypeJelly:
+    case SkillTypeQuickAttack:
       return YES;
     default:
       return NO;
