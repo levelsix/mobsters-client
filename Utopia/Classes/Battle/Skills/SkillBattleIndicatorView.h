@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <cocos2d.h>
-#import "SkillControllerActive.h"
+#import "SkillController.h"
 
 @interface SkillBattleIndicatorView : CCNode
 {
@@ -18,6 +18,7 @@
   CCSprite    *_checkIcon;
   
   CCLabelTTF  *_orbsCountLabel;
+  CCLabelTTF  *_passiveOnLabel;
 }
 
 @property (nonatomic) NSInteger orbsCount;  // Change it to update the counter
@@ -25,5 +26,8 @@
 - (instancetype) initWithSkillController:(SkillController*)skillController;
 
 - (void) update;
+
+- (void) appear:(BOOL)instantly;
+- (void) disappear;
 
 @end

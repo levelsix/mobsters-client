@@ -15,4 +15,6 @@
 // that sits on a jelly tile, you'd set isJelly to NO to make it a normal tile.
 //@property (assign, nonatomic) BOOL isJelly;
 
+@property (assign, nonatomic) BOOL isJelly;
+
 @end

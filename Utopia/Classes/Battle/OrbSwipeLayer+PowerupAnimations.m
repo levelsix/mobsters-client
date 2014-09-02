@@ -267,9 +267,9 @@
   __block int projectileCount = 0;
   for (int i = 0; i < orbs.count; i++) {
     BattleOrb *orb = orbs[i];
-    CCSprite *orbSprite = [self spriteForOrb:orb];
+    OrbLayer *orbLayer = [self spriteForOrb:orb];
     
-    if (orbSprite) {
+    if (orbLayer) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
       q.particlePositionType = CCParticleSystemPositionTypeFree;
       [self addChild:q z:POWERUP_Z];
@@ -280,7 +280,7 @@
       [q runAction:
        [CCActionSequence actions:
         [CCActionDelay actionWithDuration:i*0.1],
-        [CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:orbSprite.position],
+        [CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:orbLayer.position],
         [CCActionCallBlock actionWithBlock:
          ^{
            [q removeFromParentAndCleanup:YES];
@@ -305,13 +305,13 @@
   
   NSMutableArray *toDestroy = [NSMutableArray array];
   for (BattleOrb *orb in chain.orbs) {
-    CCSprite *orbSprite = [self spriteForOrb:orb];
+    OrbLayer *orbLayer = [self spriteForOrb:orb];
     
-    if (orbSprite) {
+    if (orbLayer) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
       [self addChild:q z:10];
       q.position = [self pointForColumn:baseOrb.column row:baseOrb.row];
-      [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:orbSprite.position]];
+      [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:orbLayer.position]];
       q.duration = MOLOTOV_PARTICLE_DURATION;
       q.autoRemoveOnFinish = YES;
       
@@ -333,7 +333,7 @@
     [seq addObject:[CCActionDelay actionWithDuration:0.2]];
     
     for (BattleOrb *orb in toDestroy) {
-      CCSprite *oldSprite = [self spriteForOrb:orb];
+      OrbLayer *oldSprite = [self spriteForOrb:orb];
       [oldSprite removeFromParent];
       
       // Since the orb should already be updated by the model we can just create a new one

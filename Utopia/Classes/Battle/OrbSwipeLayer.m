@@ -85,72 +85,23 @@
 
 #pragma mark - Game Setup
 
-- (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb {
-  OrbColor orbColor = orb.orbColor;
-  PowerupType powerupType = orb.powerupType;
-  SpecialOrbType special = orb.specialOrbType;
-  
-  if (special != SpecialOrbTypeNone) {
-    switch (special) {
-      case SpecialOrbTypeCake:
-        return @"cakeorb.png";
-        break;
-        
-      default:
-        break;
-    }
-  }
-  
-  NSString *colorPrefix = @"";
-  switch (orbColor) {
-    case OrbColorFire:
-    case OrbColorDark:
-    case OrbColorLight:
-    case OrbColorEarth:
-    case OrbColorWater:
-    case OrbColorRock:
-      colorPrefix = [Globals imageNameForElement:(Element)orbColor suffix:@""];
-      break;
-    case OrbColorNone:
-      colorPrefix = @"all";
-      break;
-    default: return nil; break;
-  }
-  
-  NSString *powerupSuffix = @"";
-  switch (powerupType) {
-    case PowerupTypeNone: powerupSuffix = @"orb"; break;
-    case PowerupTypeHorizontalLine: powerupSuffix = @"sideways"; break;
-    case PowerupTypeVerticalLine: powerupSuffix = @"updown"; break;
-    case PowerupTypeExplosion: powerupSuffix = @"grenade"; break;
-    case PowerupTypeAllOfOneColor:
-      colorPrefix = @"all";
-      powerupSuffix = @"cocktail";
-      break;
-    default: return nil; break;
-  }
-  
-  return [NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix];
-}
-
-- (CCSprite *) createOrbSpriteForOrb:(BattleOrb *)orb {
-  // Create a new sprite for the orb.
-  NSString *imageName = [self orbSpriteImageNameWithOrb:orb];
-  CCSprite *sprite = [CCSprite spriteWithImageNamed:imageName];
-  sprite.position = [self pointForColumn:orb.column row:orb.row];
-  [self addChild:sprite z:0 name:ORB_NAME_TAG(orb)];
-  return sprite;
+- (OrbLayer*) createOrbSpriteForOrb:(BattleOrb*)orb
+{
+  OrbLayer* orbLayer = [OrbLayer orbLayerWithOrb:orb];
+  orbLayer.position = [self pointForColumn:orb.column row:orb.row];
+  [self addChild:orbLayer z:0 name:ORB_NAME_TAG(orb)];
+  return orbLayer;
 }
 
 - (void) addSpritesForOrbs:(NSSet *)orbs {
   for (BattleOrb *orb in orbs) {
-    // Create a new sprite for the orb and add it to the orbsLayer.
+    // Create a new sprite for the orb and add it to the orbSwipeLayer.
     [self createOrbSpriteForOrb:orb];
   }
 }
 
-- (CCSprite *) spriteForOrb:(BattleOrb *)orb {
-  return (CCSprite *)[self getChildByName:ORB_NAME_TAG(orb) recursively:NO];
+- (OrbLayer*) spriteForOrb:(BattleOrb *)orb {
+  return (OrbLayer*)[self getChildByName:ORB_NAME_TAG(orb) recursively:NO];
 }
 
 - (void) removeAllOrbSprites {
@@ -266,8 +217,8 @@
 #pragma mark - Animations
 
 - (void)animateSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
-  CCSprite *spriteA = [self spriteForOrb:swap.orbA];
-  CCSprite *spriteB = [self spriteForOrb:swap.orbB];
+  OrbLayer *spriteA = [self spriteForOrb:swap.orbA];
+  OrbLayer *spriteB = [self spriteForOrb:swap.orbB];
   
   // Put the orb you started with on top.
   spriteA.zOrder = 2;
@@ -283,8 +234,8 @@
 }
 
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
-  CCSprite *spriteA = [self spriteForOrb:swap.orbA];
-  CCSprite *spriteB = [self spriteForOrb:swap.orbB];
+  OrbLayer *spriteA = [self spriteForOrb:swap.orbA];
+  OrbLayer *spriteB = [self spriteForOrb:swap.orbB];
   
   // Put the orb you started with on top.
   spriteA.zOrder = 2;
@@ -311,9 +262,9 @@
 // Color and powerup of gem that destroyed this gem
 - (void) destroyOrb:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
   
-  CCSprite *orbSprite = [self spriteForOrb:orb];
+  OrbLayer *orbLayer = [self spriteForOrb:orb];
   
-  if (orbSprite) {
+  if (orbLayer) {
     _numOrbsStillAnimating++;
     
     CCActionCallBlock *crack = [CCActionCallBlock actionWithBlock:^{
@@ -321,14 +272,14 @@
       if (powerup == PowerupTypeHorizontalLine || powerup == PowerupTypeVerticalLine || powerup == PowerupTypeAllOfOneColor) {
         CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
         [self addChild:q z:100];
-        q.position = orbSprite.position;
+        q.position = orbLayer.position;
         q.autoRemoveOnFinish = YES;
         
         [SoundEngine puzzleBoardExplosion];
       } else {
         CCSprite *q = [CCSprite spriteWithImageNamed:@"ring.png"];
         [self addChild:q];
-        q.position = orbSprite.position;
+        q.position = orbLayer.position;
         q.scale = 0.5;
         [q runAction:[CCActionSequence actions:
                       [CCActionSpawn actions:[CCActionFadeOut actionWithDuration:0.2], [CCActionScaleTo actionWithDuration:0.2 scale:1], nil],
@@ -339,7 +290,7 @@
         
         CCParticleSystem *x = [CCParticleSystem particleWithFile:@"sparkle1.plist"];
         [self addChild:x z:12];
-        x.position = orbSprite.position;
+        x.position = orbLayer.position;
         x.autoRemoveOnFinish = YES;
         x.startColor = [self colorForSparkle:orb.orbColor];
       }
@@ -351,11 +302,11 @@
       _numOrbsStillAnimating--;
       [self checkIfAllOrbsAndPowerupsAreDone];
       
-      [orbSprite removeFromParentAndCleanup:YES];
+      [orbLayer removeFromParentAndCleanup:YES];
     }];
     
     CCActionSequence *sequence = [CCActionSequence actions:crack, scale, completion, nil];
-    [orbSprite runAction:sequence];
+    [orbLayer runAction:sequence];
     
     // Spawn any chains that rely on this orb
     [self animateChainedChainsFromBattleOrb:orb chains:chains];
@@ -367,7 +318,7 @@
     // It may happen that the same BattleOrb object is part of two chains
     // (L-shape match). In that case, its sprite should only be removed
     // once.
-    orbSprite.name = nil;
+    orbLayer.name = nil;
   }
 }
 
@@ -378,8 +329,8 @@
   for (BattleChain *chain in chains) {
     if (!chain.prerequisiteOrb) {
       for (BattleOrb *orb in chain.orbs) {
-        CCSprite *sprite = [self spriteForOrb:orb];
-        if (sprite != nil) {
+        OrbLayer *orbLayer = [self spriteForOrb:orb];
+        if (orbLayer != nil) {
           [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
         }
       }
@@ -391,11 +342,11 @@
   }
   
   for (BattleOrb *orb in powerupCreations) {
-    CCSprite *sprite = [self createOrbSpriteForOrb:orb];
+    CCNode *orbLayer = [self createOrbSpriteForOrb:orb];
     // Make sure it appears on top of the orb it is replacing
-    sprite.zOrder = 100;
+    orbLayer.zOrder = 100;
     
-    [sprite runAction:
+    [orbLayer runAction:
      [CCActionSequence actions:
       [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:duration scale:1.3]],
       [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:duration scale:1]], nil]];
@@ -454,10 +405,10 @@
   for (NSArray *array in newOrbColumns) {
     for (int i = 0; i < array.count; i++) {
       BattleOrb *orb = array[i];
-      CCSprite *spr = [self createOrbSpriteForOrb:orb];
+      OrbLayer *orbLayer = [self createOrbSpriteForOrb:orb];
       
       // Orbs are given in top down order so we must subtract i from count
-      spr.position = [self pointForColumn:orb.column row:_numRows+i];
+      orbLayer.position = [self pointForColumn:orb.column row:_numRows+i];
     }
   }
   
@@ -473,13 +424,13 @@
   
   for (BattleOrb *orb in allOrbs) {
     if (![bottomFeeders containsObject:orb]) {
-      CCSprite *sprite = [self spriteForOrb:orb];
+      OrbLayer *orbLayer = [self spriteForOrb:orb];
       CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
       
-      int numSquares = (sprite.position.y - newPosition.y) / _tileHeight;
+      int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
       float duration = 0.4+0.1*numSquares;
       CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-      [sprite runAction:[CCActionEaseBounceOut actionWithAction:moveTo]];
+      [orbLayer runAction:[CCActionEaseBounceOut actionWithAction:moveTo]];
       
       longestDuration = MAX(longestDuration, duration);
     }
@@ -487,13 +438,13 @@
   
   // Make the bottomFeeders just go to the bottom
   for (BattleOrb *orb in bottomFeeders) {
-    CCSprite *sprite = [self spriteForOrb:orb];
+    OrbLayer *orbLayer = [self spriteForOrb:orb];
     CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
     
-    int numSquares = (sprite.position.y - newPosition.y) / _tileHeight;
+    int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
     float duration = 0.05+0.05*numSquares;
     CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-    [sprite runAction:
+    [orbLayer runAction:
      [CCActionSequence actions:
       [CCActionEaseSineOut actionWithAction:moveTo],
       [CCActionCallBlock actionWithBlock:
@@ -513,9 +464,9 @@
 
 - (void) animateShuffle:(NSSet *)orbs completion:(dispatch_block_t)completion {
   for (BattleOrb *orb in orbs) {
-    CCSprite *orbSprite = [self spriteForOrb:orb];
+    OrbLayer *orbLayer = [self spriteForOrb:orb];
     CCAction *move = [CCActionMoveTo actionWithDuration:0.3 position:[self pointForColumn:orb.column row:orb.row]];
-    [orbSprite runAction:move];
+    [orbLayer runAction:move];
   }
   
   // Wait until all the orbs have swapped before we continue.
@@ -534,7 +485,7 @@
   _isPulsing = YES;
   
   for (BattleOrb *orb in set) {
-    CCSprite *orbSprite = [self spriteForOrb:orb];
+    OrbLayer *orbLayer = [self spriteForOrb:orb];
     OrbColor color = orb.orbColor;
     PowerupType powerup = orb.powerupType;
     
@@ -544,14 +495,14 @@
     
     if (!texture) {
       // Create a new texture from UIImage and mask it
-      UIImage *img = [Globals imageNamed:[self orbSpriteImageNameWithOrb:orb]];
+      UIImage *img = [Globals imageNamed:[OrbLayer orbSpriteImageNameWithOrb:orb]];
       img = [Globals maskImage:img withColor:[UIColor whiteColor]];
       texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
-      texture.contentScale = orbSprite.texture.contentScale;
+      texture.contentScale = orbLayer.orbSprite.texture.contentScale;
     }
     CCSprite *spr = [CCSprite spriteWithTexture:texture];
-    spr.position = ccp(orbSprite.contentSize.width/2, orbSprite.contentSize.height/2);
-    [orbSprite addChild:spr z:0 name:@"Overlay"];
+    spr.position = ccp(orbLayer.contentSize.width/2, orbLayer.contentSize.height/2);
+    [orbLayer addChild:spr z:0 name:@"Overlay"];
     spr.opacity = 0.f;
     spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
     
@@ -567,7 +518,7 @@
         [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
       [CCActionDelay actionWithDuration:delay], nil]];
     action.tag = PULSING_ANIMATION_TAG;
-    [orbSprite runAction:action];
+    [orbLayer runAction:action];
     
     [spr runAction:
      [CCActionRepeatForever actionWithAction:

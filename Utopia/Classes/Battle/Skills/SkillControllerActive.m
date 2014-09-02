@@ -16,7 +16,6 @@
   if ( ! self )
     return nil;
   
-  _orbColor = color;
   _orbRequirement = proto.orbCost;
   _orbCounter = _orbRequirement;
   
@@ -30,7 +29,7 @@
 
 - (void) orbDestroyed:(OrbColor)color
 {
-  if ( /*color == _orbColor &&*/ _orbCounter > 0 )
+  if (color == self.orbColor && _orbCounter > 0)
     _orbCounter--;
 }
 

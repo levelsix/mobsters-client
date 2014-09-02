@@ -10,6 +10,7 @@
 #import "THLabel.h"
 #import "Protocols.pb.h"
 #import "MonsterCardView.h"
+#import "UIDefinitions.h"
 #import "UIColor+HexColor.h"
 #import "UIView+Coordinates.h"
 

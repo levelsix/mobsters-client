@@ -137,7 +137,8 @@
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
-@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicator;
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicatorPlayer;
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicatorEnemy;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
@@ -158,7 +159,7 @@
 - (void) createScheduleWithSwap:(BOOL)swap;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector;
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
 
 - (void) updateHealthBars;
@@ -178,7 +179,8 @@
 - (void) exitFinal;
 - (void) shakeScreenWithIntensity:(float)intensity;
 
-- (void) checkEnemyHealth;
+- (BOOL) checkEnemyHealth;
+- (void) checkEnemyHealthAndStartNewTurn;
 
 - (void) sendServerUpdatedValues;
 

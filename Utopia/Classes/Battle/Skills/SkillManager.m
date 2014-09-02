@@ -70,7 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _enemy = enemy;
   _enemySprite = enemySprite;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeNoSkill;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
   _enemySkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -132,7 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
   
-  block();
+  block(FALSE);
   return NO;
 }
 
