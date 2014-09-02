@@ -450,7 +450,29 @@
   
   // Setup SkillManager for enemy
 #ifdef MOBSTERS
-  [skillManager updateEnemy:_enemyPlayerObject andSprite:_currentEnemy];
+  if ( _enemyPlayerObject )
+  {
+    [skillManager updateEnemy:_enemyPlayerObject andSprite:_currentEnemy];
+    if (skillManager.enemySkillType != SkillTypeNoSkill)
+    {
+      BOOL existedBefore = (_skillIndicatorEnemy != nil && _skillIndicatorEnemy.parent);
+      if ( existedBefore )
+        [_skillIndicatorEnemy removeFromParent];
+      _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.enemySkillController];
+      if (_skillIndicatorEnemy)
+      {
+        _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 120 - (UI_DEVICE_IS_IPHONE_4 ? 10 : 0));
+        [_skillIndicatorEnemy update];
+        [self.orbLayer addChild:_skillIndicatorEnemy z:-10];
+        [_skillIndicatorEnemy appear:existedBefore];
+      }
+    }
+  }
+  else
+  {
+    if (_skillIndicatorEnemy)
+      [_skillIndicatorEnemy disappear];
+  }
 #endif
 }
 
@@ -780,6 +802,11 @@
     } else {
       _lootDropped = NO;
     }
+    
+#ifdef MOBSTERS
+    if (_skillIndicatorEnemy && _skillIndicatorEnemy.parent)
+      [_skillIndicatorEnemy disappear];
+#endif
     
     [self blowupBattleSprite:self.currentEnemy withBlock:
      ^{
@@ -1394,7 +1421,10 @@
 
 #ifdef MOBSTERS
   [skillManager orbDestroyed:orb.orbColor];
-  [_skillIndicator update];
+  if (_skillIndicatorPlayer)
+    [_skillIndicatorPlayer update];
+  if (_skillIndicatorEnemy)
+    [_skillIndicatorEnemy update];
 #endif
   
   int dmg = [self.myPlayerObject damageForColor:color];
@@ -1462,9 +1492,13 @@
   
 #ifdef MOBSTERS
   // Trying to apply the skills after this move if ready
-  [skillManager triggerSkillAfterMoveWithBlock:^{
-    [_skillIndicator update];
-    [self checkIfAnyMovesLeft];
+  [skillManager triggerSkillAfterMoveWithBlock:^(BOOL enemyKilled) {
+    if (_skillIndicatorPlayer)
+      [_skillIndicatorPlayer update];
+    if (_skillIndicatorEnemy)
+      [_skillIndicatorEnemy update];
+    if (! enemyKilled)
+      [self checkIfAnyMovesLeft];
   }];
 #else
   [self checkIfAnyMovesLeft];
@@ -1622,22 +1656,25 @@
     [self removeNoInputLayer];
   }
   
-  // Setup SkillManager for player
 #ifdef MOBSTERS
-  [skillManager updatePlayer:_myPlayerObject andSprite:_myPlayer];
-  if ( _skillIndicator )
-    [_skillIndicator removeFromParentAndCleanup:YES];
-  
-  if ( skillManager.playerSkillType )
+  // Setup SkillManager for the player
+  if (_skillIndicatorPlayer)
+    [_skillIndicatorPlayer removeFromParentAndCleanup:YES];
+  if (_myPlayer)
   {
-    _skillIndicator = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.playerSkillController];
-    _skillIndicator.position = CGPointMake(-_skillIndicator.contentSize.width/2, 60);
-    [_skillIndicator update];
-    if ( _skillIndicator )
-      [self.orbLayer addChild:_skillIndicator z:-10];
+    [skillManager updatePlayer:_myPlayerObject andSprite:_myPlayer];
+    if (skillManager.playerSkillType != SkillTypeNoSkill)
+    {
+      _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.playerSkillController];
+      if (_skillIndicatorPlayer)
+      {
+        _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 60 - (UI_DEVICE_IS_IPHONE_4 ? 5 : 0));
+        [_skillIndicatorPlayer update];
+        [self.orbLayer addChild:_skillIndicatorPlayer z:-10];
+      }
+    }
   }
 #endif
-
 }
 
 #pragma mark - Continue View Actions

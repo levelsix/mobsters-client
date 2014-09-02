@@ -12,7 +12,7 @@
 #import "BattlePlayer.h"
 #import "BattleSprite.h"
 
-typedef void(^SkillControllerBlock)(void);
+typedef void(^SkillControllerBlock)(BOOL enemyKilled);
 
 @class NewBattleLayer;
 
@@ -35,6 +35,8 @@ typedef void(^SkillControllerBlock)(void);
 @property (weak, nonatomic) BattlePlayer    *enemy;
 @property (weak, nonatomic) BattleSprite    *playerSprite;
 @property (weak, nonatomic) BattleSprite    *enemySprite;
+
+@property (readonly) OrbColor orbColor;
 
 - (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
 + (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color; // Factory call, can create different skill types

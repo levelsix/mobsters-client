@@ -5960,6 +5960,10 @@
 		DA0FC57D19B6523200393BF4 /* jellypiece.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0FC57A19B6523200393BF4 /* jellypiece.png */; };
 		DA0FC57E19B6523200393BF4 /* jellypiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0FC57B19B6523200393BF4 /* jellypiece@2x.png */; };
 		DA0FC57F19B6523200393BF4 /* jellypiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0FC57B19B6523200393BF4 /* jellypiece@2x.png */; };
+		DA0FC58219B65B0200393BF4 /* SkillControllerPassive.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */; };
+		DA0FC58319B65B0200393BF4 /* SkillControllerPassive.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */; };
+		DA0FC58619B65F2A00393BF4 /* SkillJelly.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58519B65F2A00393BF4 /* SkillJelly.m */; };
+		DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC58519B65F2A00393BF4 /* SkillJelly.m */; };
 		DA58F51019AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
 		DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */; };
 		DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
@@ -9390,6 +9394,11 @@
 		DA0FC57119B64E6800393BF4 /* OrbLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrbLayer.m; sourceTree = "<group>"; };
 		DA0FC57A19B6523200393BF4 /* jellypiece.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jellypiece.png; sourceTree = "<group>"; };
 		DA0FC57B19B6523200393BF4 /* jellypiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jellypiece@2x.png"; sourceTree = "<group>"; };
+		DA0FC58019B65B0200393BF4 /* SkillControllerPassive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillControllerPassive.h; sourceTree = "<group>"; };
+		DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillControllerPassive.m; sourceTree = "<group>"; };
+		DA0FC58419B65F2A00393BF4 /* SkillJelly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillJelly.h; sourceTree = "<group>"; };
+		DA0FC58519B65F2A00393BF4 /* SkillJelly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillJelly.m; sourceTree = "<group>"; };
+		DA0FC58819B6616800393BF4 /* UIDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIDefinitions.h; sourceTree = "<group>"; };
 		DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
@@ -9981,6 +9990,7 @@
 				CFFEB1661834A80A007C4BA3 /* MonsterTeamSlotView.h */,
 				CFFEB1671834A80A007C4BA3 /* MonsterTeamSlotView.m */,
 				CFFEB16A1834A82C007C4BA3 /* MonsterTeamSlotView.xib */,
+				DA0FC58819B6616800393BF4 /* UIDefinitions.h */,
 				DA58F50E19AE6C5200D025BC /* UIColor+HexColor.h */,
 				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
 				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
@@ -10241,7 +10251,6 @@
 				CF12682B1538ACC500E0C1AD /* Fonts */,
 				CF12684F1538ACC500E0C1AD /* Home Building Images */,
 				DA07606919B12A2000E43E5A /* Skills Images */,
-				DA0FC57919B6523200393BF4 /* Jelly */,
 			);
 			path = "Utopia Images";
 			sourceTree = "<group>";
@@ -14976,8 +14985,12 @@
 				DA07605519B129EC00E43E5A /* SkillController.m */,
 				DA0FC55A19B1861500393BF4 /* SkillControllerActive.h */,
 				DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */,
+				DA0FC58019B65B0200393BF4 /* SkillControllerPassive.h */,
+				DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */,
 				DA07605819B129EC00E43E5A /* SkillQuickAttack.h */,
 				DA07605919B129EC00E43E5A /* SkillQuickAttack.m */,
+				DA0FC58419B65F2A00393BF4 /* SkillJelly.h */,
+				DA0FC58519B65F2A00393BF4 /* SkillJelly.m */,
 			);
 			path = Skills;
 			sourceTree = "<group>";
@@ -14985,6 +14998,7 @@
 		DA07606919B12A2000E43E5A /* Skills Images */ = {
 			isa = PBXGroup;
 			children = (
+				DA0FC57919B6523200393BF4 /* Jelly */,
 				DA07606A19B12A2000E43E5A /* Orb Counter */,
 				DA07608119B12A2000E43E5A /* Quick Attack */,
 			);
@@ -15037,8 +15051,7 @@
 				DA0FC57A19B6523200393BF4 /* jellypiece.png */,
 				DA0FC57B19B6523200393BF4 /* jellypiece@2x.png */,
 			);
-			name = Jelly;
-			path = "Skills Images/Jelly";
+			path = Jelly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -20713,6 +20726,7 @@
 				CF0CED28196F452900ECD301 /* OutgoingEventController.m in Sources */,
 				CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */,
 				CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */,
+				DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
 				CF0CED2D196F452900ECD301 /* RequestsFacebookTableController.m in Sources */,
@@ -20847,6 +20861,7 @@
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
 				CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */,
+				DA0FC58319B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */,
 				CF0CEDB7196F452900ECD301 /* AchievementStuff.pb.m in Sources */,
 				CF0CEDB8196F452900ECD301 /* DBFBProfilePictureView.m in Sources */,
@@ -20964,6 +20979,7 @@
 				CF126D5E1538ACCA00E0C1AD /* NibUtils.m in Sources */,
 				CF376713183305DD00D0A77E /* TimingFunctionTableView.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
+				DA0FC58619B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CFCD0E6E1953EFE500EDC233 /* PopupNavViewController.m in Sources */,
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
@@ -21098,6 +21114,7 @@
 				CFC142031658B70D0060188D /* amqp_url.c in Sources */,
 				CFF7406A1817D3D2009DE4A4 /* RewardsView.m in Sources */,
 				CFF64650195A69A300C43641 /* EnhanceQueueViewController.m in Sources */,
+				DA0FC58219B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,

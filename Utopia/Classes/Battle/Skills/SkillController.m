@@ -5,8 +5,8 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "SkillController.h"
 #import "SkillQuickAttack.h"
+#import "SkillJelly.h"
 
 @implementation SkillController
 
@@ -15,7 +15,8 @@
   switch( proto.type )
   {
     case SkillTypeQuickAttack: return [[SkillQuickAttack alloc] initWithProto:proto andMobsterColor:color];
-    default: return nil;
+    case SkillTypeJelly: return [[SkillJelly alloc] initWithProto:proto andMobsterColor:color];
+    default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
 
@@ -25,6 +26,7 @@
   if ( ! self )
     return nil;
   
+  _orbColor = color;
   _skillType = proto.type;
   _activationType = proto.activationType;
   
@@ -63,23 +65,18 @@
 
 - (void) skillExecutionStarted
 {
-  
 }
 
 - (void) skillExecutionFinished
 {
-  _callbackBlock();
 }
 
 - (void) setDefaultValuesForProperties
 {
-  
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
-  CustomAssert(NO, @"Calling setProperty for SkillController class - override it in inherited class to load properties");
-  // There could be some cases where a skill doesn't have any properties at all. Implement empty setProperty.
 }
 
 @end

@@ -137,7 +137,8 @@
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
-@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicator;
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicatorPlayer;
+@property (nonatomic, strong) SkillBattleIndicatorView *skillIndicatorEnemy;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;

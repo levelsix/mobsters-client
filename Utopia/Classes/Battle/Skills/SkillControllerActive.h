@@ -8,10 +8,7 @@
 #import "SkillController.h"
 
 @interface SkillControllerActive : SkillController
-{
-}
 
-@property (readonly) OrbColor orbColor;
 @property (readonly) NSInteger orbCounter;
 @property (readonly) NSInteger orbRequirement;
 
