@@ -22,6 +22,8 @@
   
   self.fbProfilePicIcon.layer.cornerRadius = self.fbProfilePicIcon.frame.size.width/2;
   self.fbConnectSpinner.hidden = YES;
+  
+  self.tangoProfilePicIcon.layer.cornerRadius = self.tangoProfilePicIcon.frame.size.width/2;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
