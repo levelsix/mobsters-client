@@ -156,6 +156,10 @@
 @class EndPvpBattleRequestProto_Builder;
 @class EndPvpBattleResponseProto;
 @class EndPvpBattleResponseProto_Builder;
+@class EnhanceMonsterRequestProto;
+@class EnhanceMonsterRequestProto_Builder;
+@class EnhanceMonsterResponseProto;
+@class EnhanceMonsterResponseProto_Builder;
 @class EnhancementWaitTimeCompleteRequestProto;
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
@@ -646,6 +650,7 @@ typedef enum {
   EventProtocolRequestCSetAvatarMonsterEvent = 74,
   EventProtocolRequestCRestrictUserMonsterEvent = 75,
   EventProtocolRequestCUnrestrictUserMonsterEvent = 76,
+  EventProtocolRequestCEnhanceMonsterEvent = 77,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -728,6 +733,7 @@ typedef enum {
   EventProtocolResponseSSetAvatarMonsterEvent = 74,
   EventProtocolResponseSRestrictUserMonsterEvent = 75,
   EventProtocolResponseSUnrestrictUserMonsterEvent = 76,
+  EventProtocolResponseSEnhanceMonsterEvent = 77,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

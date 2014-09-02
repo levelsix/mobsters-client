@@ -17,6 +17,10 @@
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
 @class CombineUserMonsterPiecesResponseProto_Builder;
+@class EnhanceMonsterRequestProto;
+@class EnhanceMonsterRequestProto_Builder;
+@class EnhanceMonsterResponseProto;
+@class EnhanceMonsterResponseProto_Builder;
 @class EnhancementWaitTimeCompleteRequestProto;
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
@@ -148,6 +152,15 @@ typedef enum {
 } EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus;
 
 BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value);
+
+typedef enum {
+  EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess = 1,
+  EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientGems = 2,
+  EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientOil = 3,
+  EnhanceMonsterResponseProto_EnhanceMonsterStatusFailOther = 4,
+} EnhanceMonsterResponseProto_EnhanceMonsterStatus;
+
+BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonsterResponseProto_EnhanceMonsterStatus value);
 
 typedef enum {
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess = 1,
@@ -823,6 +836,155 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus;
+@end
+
+@interface EnhanceMonsterRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasGemsSpent_:1;
+  BOOL hasSender_:1;
+  BOOL hasUep_:1;
+  BOOL hasEnhancingResult_:1;
+  BOOL hasOilChange_:1;
+  int32_t gemsSpent;
+  MinimumUserProto* sender;
+  UserEnhancementProto* uep;
+  UserMonsterCurrentExpProto* enhancingResult;
+  int32_t oilChange;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUep;
+- (BOOL) hasEnhancingResult;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasOilChange;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) UserEnhancementProto* uep;
+@property (readonly, retain) UserMonsterCurrentExpProto* enhancingResult;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t oilChange;
+
++ (EnhanceMonsterRequestProto*) defaultInstance;
+- (EnhanceMonsterRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnhanceMonsterRequestProto_Builder*) builder;
++ (EnhanceMonsterRequestProto_Builder*) builder;
++ (EnhanceMonsterRequestProto_Builder*) builderWithPrototype:(EnhanceMonsterRequestProto*) prototype;
+
++ (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data;
++ (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhanceMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnhanceMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhanceMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnhanceMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnhanceMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnhanceMonsterRequestProto* result;
+}
+
+- (EnhanceMonsterRequestProto*) defaultInstance;
+
+- (EnhanceMonsterRequestProto_Builder*) clear;
+- (EnhanceMonsterRequestProto_Builder*) clone;
+
+- (EnhanceMonsterRequestProto*) build;
+- (EnhanceMonsterRequestProto*) buildPartial;
+
+- (EnhanceMonsterRequestProto_Builder*) mergeFrom:(EnhanceMonsterRequestProto*) other;
+- (EnhanceMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnhanceMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnhanceMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUep;
+- (UserEnhancementProto*) uep;
+- (EnhanceMonsterRequestProto_Builder*) setUep:(UserEnhancementProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) setUepBuilder:(UserEnhancementProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) mergeUep:(UserEnhancementProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) clearUep;
+
+- (BOOL) hasEnhancingResult;
+- (UserMonsterCurrentExpProto*) enhancingResult;
+- (EnhanceMonsterRequestProto_Builder*) setEnhancingResult:(UserMonsterCurrentExpProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) setEnhancingResultBuilder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) mergeEnhancingResult:(UserMonsterCurrentExpProto*) value;
+- (EnhanceMonsterRequestProto_Builder*) clearEnhancingResult;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (EnhanceMonsterRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (EnhanceMonsterRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasOilChange;
+- (int32_t) oilChange;
+- (EnhanceMonsterRequestProto_Builder*) setOilChange:(int32_t) value;
+- (EnhanceMonsterRequestProto_Builder*) clearOilChange;
+@end
+
+@interface EnhanceMonsterResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EnhanceMonsterResponseProto_EnhanceMonsterStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EnhanceMonsterResponseProto_EnhanceMonsterStatus status;
+
++ (EnhanceMonsterResponseProto*) defaultInstance;
+- (EnhanceMonsterResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnhanceMonsterResponseProto_Builder*) builder;
++ (EnhanceMonsterResponseProto_Builder*) builder;
++ (EnhanceMonsterResponseProto_Builder*) builderWithPrototype:(EnhanceMonsterResponseProto*) prototype;
+
++ (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data;
++ (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhanceMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnhanceMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhanceMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnhanceMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnhanceMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnhanceMonsterResponseProto* result;
+}
+
+- (EnhanceMonsterResponseProto*) defaultInstance;
+
+- (EnhanceMonsterResponseProto_Builder*) clear;
+- (EnhanceMonsterResponseProto_Builder*) clone;
+
+- (EnhanceMonsterResponseProto*) build;
+- (EnhanceMonsterResponseProto*) buildPartial;
+
+- (EnhanceMonsterResponseProto_Builder*) mergeFrom:(EnhanceMonsterResponseProto*) other;
+- (EnhanceMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnhanceMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnhanceMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnhanceMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhanceMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnhanceMonsterResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (EnhanceMonsterResponseProto_EnhanceMonsterStatus) status;
+- (EnhanceMonsterResponseProto_Builder*) setStatus:(EnhanceMonsterResponseProto_EnhanceMonsterStatus) value;
+- (EnhanceMonsterResponseProto_Builder*) clearStatus;
 @end
 
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {

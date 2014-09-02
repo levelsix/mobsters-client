@@ -133,6 +133,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSetAvatarMonsterEvent:
     case EventProtocolRequestCRestrictUserMonsterEvent:
     case EventProtocolRequestCUnrestrictUserMonsterEvent:
+    case EventProtocolRequestCEnhanceMonsterEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -217,6 +218,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSetAvatarMonsterEvent:
     case EventProtocolResponseSRestrictUserMonsterEvent:
     case EventProtocolResponseSUnrestrictUserMonsterEvent:
+    case EventProtocolResponseSEnhanceMonsterEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

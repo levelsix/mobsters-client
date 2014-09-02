@@ -2493,6 +2493,646 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 }
 @end
 
+@interface EnhanceMonsterRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) UserEnhancementProto* uep;
+@property (retain) UserMonsterCurrentExpProto* enhancingResult;
+@property int32_t gemsSpent;
+@property int32_t oilChange;
+@end
+
+@implementation EnhanceMonsterRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUep {
+  return !!hasUep_;
+}
+- (void) setHasUep:(BOOL) value {
+  hasUep_ = !!value;
+}
+@synthesize uep;
+- (BOOL) hasEnhancingResult {
+  return !!hasEnhancingResult_;
+}
+- (void) setHasEnhancingResult:(BOOL) value {
+  hasEnhancingResult_ = !!value;
+}
+@synthesize enhancingResult;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasOilChange {
+  return !!hasOilChange_;
+}
+- (void) setHasOilChange:(BOOL) value {
+  hasOilChange_ = !!value;
+}
+@synthesize oilChange;
+- (void) dealloc {
+  self.sender = nil;
+  self.uep = nil;
+  self.enhancingResult = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.uep = [UserEnhancementProto defaultInstance];
+    self.enhancingResult = [UserMonsterCurrentExpProto defaultInstance];
+    self.gemsSpent = 0;
+    self.oilChange = 0;
+  }
+  return self;
+}
+static EnhanceMonsterRequestProto* defaultEnhanceMonsterRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EnhanceMonsterRequestProto class]) {
+    defaultEnhanceMonsterRequestProtoInstance = [[EnhanceMonsterRequestProto alloc] init];
+  }
+}
++ (EnhanceMonsterRequestProto*) defaultInstance {
+  return defaultEnhanceMonsterRequestProtoInstance;
+}
+- (EnhanceMonsterRequestProto*) defaultInstance {
+  return defaultEnhanceMonsterRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUep) {
+    [output writeMessage:2 value:self.uep];
+  }
+  if (self.hasEnhancingResult) {
+    [output writeMessage:3 value:self.enhancingResult];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:4 value:self.gemsSpent];
+  }
+  if (self.hasOilChange) {
+    [output writeSInt32:5 value:self.oilChange];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUep) {
+    size += computeMessageSize(2, self.uep);
+  }
+  if (self.hasEnhancingResult) {
+    size += computeMessageSize(3, self.enhancingResult);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(4, self.gemsSpent);
+  }
+  if (self.hasOilChange) {
+    size += computeSInt32Size(5, self.oilChange);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromData:data] build];
+}
++ (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EnhanceMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EnhanceMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterRequestProto*)[[[EnhanceMonsterRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterRequestProto_Builder*) builder {
+  return [[[EnhanceMonsterRequestProto_Builder alloc] init] autorelease];
+}
++ (EnhanceMonsterRequestProto_Builder*) builderWithPrototype:(EnhanceMonsterRequestProto*) prototype {
+  return [[EnhanceMonsterRequestProto builder] mergeFrom:prototype];
+}
+- (EnhanceMonsterRequestProto_Builder*) builder {
+  return [EnhanceMonsterRequestProto builder];
+}
+@end
+
+@interface EnhanceMonsterRequestProto_Builder()
+@property (retain) EnhanceMonsterRequestProto* result;
+@end
+
+@implementation EnhanceMonsterRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EnhanceMonsterRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EnhanceMonsterRequestProto_Builder*) clear {
+  self.result = [[[EnhanceMonsterRequestProto alloc] init] autorelease];
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clone {
+  return [EnhanceMonsterRequestProto builderWithPrototype:result];
+}
+- (EnhanceMonsterRequestProto*) defaultInstance {
+  return [EnhanceMonsterRequestProto defaultInstance];
+}
+- (EnhanceMonsterRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EnhanceMonsterRequestProto*) buildPartial {
+  EnhanceMonsterRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeFrom:(EnhanceMonsterRequestProto*) other {
+  if (other == [EnhanceMonsterRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUep) {
+    [self mergeUep:other.uep];
+  }
+  if (other.hasEnhancingResult) {
+    [self mergeEnhancingResult:other.enhancingResult];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasOilChange) {
+    [self setOilChange:other.oilChange];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserEnhancementProto_Builder* subBuilder = [UserEnhancementProto builder];
+        if (self.hasUep) {
+          [subBuilder mergeFrom:self.uep];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUep:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        UserMonsterCurrentExpProto_Builder* subBuilder = [UserMonsterCurrentExpProto builder];
+        if (self.hasEnhancingResult) {
+          [subBuilder mergeFrom:self.enhancingResult];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEnhancingResult:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setOilChange:[input readSInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EnhanceMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUep {
+  return result.hasUep;
+}
+- (UserEnhancementProto*) uep {
+  return result.uep;
+}
+- (EnhanceMonsterRequestProto_Builder*) setUep:(UserEnhancementProto*) value {
+  result.hasUep = YES;
+  result.uep = value;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) setUepBuilder:(UserEnhancementProto_Builder*) builderForValue {
+  return [self setUep:[builderForValue build]];
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeUep:(UserEnhancementProto*) value {
+  if (result.hasUep &&
+      result.uep != [UserEnhancementProto defaultInstance]) {
+    result.uep =
+      [[[UserEnhancementProto builderWithPrototype:result.uep] mergeFrom:value] buildPartial];
+  } else {
+    result.uep = value;
+  }
+  result.hasUep = YES;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clearUep {
+  result.hasUep = NO;
+  result.uep = [UserEnhancementProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEnhancingResult {
+  return result.hasEnhancingResult;
+}
+- (UserMonsterCurrentExpProto*) enhancingResult {
+  return result.enhancingResult;
+}
+- (EnhanceMonsterRequestProto_Builder*) setEnhancingResult:(UserMonsterCurrentExpProto*) value {
+  result.hasEnhancingResult = YES;
+  result.enhancingResult = value;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) setEnhancingResultBuilder:(UserMonsterCurrentExpProto_Builder*) builderForValue {
+  return [self setEnhancingResult:[builderForValue build]];
+}
+- (EnhanceMonsterRequestProto_Builder*) mergeEnhancingResult:(UserMonsterCurrentExpProto*) value {
+  if (result.hasEnhancingResult &&
+      result.enhancingResult != [UserMonsterCurrentExpProto defaultInstance]) {
+    result.enhancingResult =
+      [[[UserMonsterCurrentExpProto builderWithPrototype:result.enhancingResult] mergeFrom:value] buildPartial];
+  } else {
+    result.enhancingResult = value;
+  }
+  result.hasEnhancingResult = YES;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clearEnhancingResult {
+  result.hasEnhancingResult = NO;
+  result.enhancingResult = [UserMonsterCurrentExpProto defaultInstance];
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (EnhanceMonsterRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasOilChange {
+  return result.hasOilChange;
+}
+- (int32_t) oilChange {
+  return result.oilChange;
+}
+- (EnhanceMonsterRequestProto_Builder*) setOilChange:(int32_t) value {
+  result.hasOilChange = YES;
+  result.oilChange = value;
+  return self;
+}
+- (EnhanceMonsterRequestProto_Builder*) clearOilChange {
+  result.hasOilChange = NO;
+  result.oilChange = 0;
+  return self;
+}
+@end
+
+@interface EnhanceMonsterResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property EnhanceMonsterResponseProto_EnhanceMonsterStatus status;
+@end
+
+@implementation EnhanceMonsterResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess;
+  }
+  return self;
+}
+static EnhanceMonsterResponseProto* defaultEnhanceMonsterResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EnhanceMonsterResponseProto class]) {
+    defaultEnhanceMonsterResponseProtoInstance = [[EnhanceMonsterResponseProto alloc] init];
+  }
+}
++ (EnhanceMonsterResponseProto*) defaultInstance {
+  return defaultEnhanceMonsterResponseProtoInstance;
+}
+- (EnhanceMonsterResponseProto*) defaultInstance {
+  return defaultEnhanceMonsterResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromData:data] build];
+}
++ (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EnhanceMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EnhanceMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnhanceMonsterResponseProto*)[[[EnhanceMonsterResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnhanceMonsterResponseProto_Builder*) builder {
+  return [[[EnhanceMonsterResponseProto_Builder alloc] init] autorelease];
+}
++ (EnhanceMonsterResponseProto_Builder*) builderWithPrototype:(EnhanceMonsterResponseProto*) prototype {
+  return [[EnhanceMonsterResponseProto builder] mergeFrom:prototype];
+}
+- (EnhanceMonsterResponseProto_Builder*) builder {
+  return [EnhanceMonsterResponseProto builder];
+}
+@end
+
+BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonsterResponseProto_EnhanceMonsterStatus value) {
+  switch (value) {
+    case EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess:
+    case EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientGems:
+    case EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientOil:
+    case EnhanceMonsterResponseProto_EnhanceMonsterStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EnhanceMonsterResponseProto_Builder()
+@property (retain) EnhanceMonsterResponseProto* result;
+@end
+
+@implementation EnhanceMonsterResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EnhanceMonsterResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EnhanceMonsterResponseProto_Builder*) clear {
+  self.result = [[[EnhanceMonsterResponseProto alloc] init] autorelease];
+  return self;
+}
+- (EnhanceMonsterResponseProto_Builder*) clone {
+  return [EnhanceMonsterResponseProto builderWithPrototype:result];
+}
+- (EnhanceMonsterResponseProto*) defaultInstance {
+  return [EnhanceMonsterResponseProto defaultInstance];
+}
+- (EnhanceMonsterResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EnhanceMonsterResponseProto*) buildPartial {
+  EnhanceMonsterResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EnhanceMonsterResponseProto_Builder*) mergeFrom:(EnhanceMonsterResponseProto*) other {
+  if (other == [EnhanceMonsterResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EnhanceMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EnhanceMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EnhanceMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EnhanceMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EnhanceMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EnhanceMonsterResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EnhanceMonsterResponseProto_EnhanceMonsterStatus) status {
+  return result.status;
+}
+- (EnhanceMonsterResponseProto_Builder*) setStatus:(EnhanceMonsterResponseProto_EnhanceMonsterStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EnhanceMonsterResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess;
+  return self;
+}
+@end
+
 @interface UpdateMonsterHealthRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableUmchpList;
