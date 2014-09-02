@@ -433,7 +433,7 @@
     }
   }
   
-  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker withTarget:self withSelector:selector];
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:NO withTarget:self withSelector:selector];
 }
 
 - (void) swapToMark {

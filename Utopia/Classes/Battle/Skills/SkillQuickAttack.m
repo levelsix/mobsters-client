@@ -25,7 +25,7 @@
 - (void) callbackForAnimation
 {
   // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO withTarget:self withSelector:@selector(skillExecutionFinished)];
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(skillExecutionFinished)];
 }
 
 - (void) skillExecutionStarted

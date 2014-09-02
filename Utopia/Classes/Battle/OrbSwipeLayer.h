@@ -10,6 +10,7 @@
 
 #import "BattleOrbLayout.h"
 #import "battleSwap.h"
+#import "OrbLayer.h"
 
 @interface OrbSwipeLayer : CCNode {
   int _numRows;
@@ -39,9 +40,9 @@
 
 - (id) initWithContentSize:(CGSize)contentSize layout:(BattleOrbLayout *)layout;
 
-- (CCSprite *) createOrbSpriteForOrb:(BattleOrb *)orb;
+- (OrbLayer*) createOrbSpriteForOrb:(BattleOrb *)orb;
 - (void)addSpritesForOrbs:(NSSet *)orbs;
-- (CCSprite *) spriteForOrb:(BattleOrb *)orb;
+- (OrbLayer*) spriteForOrb:(BattleOrb*)orb;
 - (void)removeAllOrbSprites;
 
 - (BOOL) isTrackingTouch;

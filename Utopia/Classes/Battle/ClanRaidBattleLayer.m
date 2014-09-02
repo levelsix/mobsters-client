@@ -285,7 +285,7 @@
 - (void) clanMemberAttacked {
   if (self.clanMemberAttacks.count > 0) {
     ClanMemberAttack *cma = self.clanMemberAttacks[0];
-    [self dealDamage:cma.attackDamage enemyIsAttacker:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+    [self dealDamage:cma.attackDamage enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
     [self.clanMemberAttacks removeObject:cma];
   } else {
     NSLog(@"SOMETHING IS WRONG.... No clan member attack.");
@@ -349,7 +349,7 @@
 - (void) dealPlaneDamage {
   if (self.clanMemberAttacks.count == 1) {
     ClanMemberAttack *cma = self.clanMemberAttacks[0];
-    [self dealDamage:cma.attackDamage enemyIsAttacker:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+    [self dealDamage:cma.attackDamage enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
     [self.clanMemberAttacks removeObject:cma];
   } else {
     NSLog(@"SOMETHING IS WRONG.... More than one attack for plane.");

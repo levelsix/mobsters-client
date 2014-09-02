@@ -30,7 +30,7 @@
 
 - (void) orbDestroyed:(OrbColor)color
 {
-  if ( /*color == _orbColor &&*/ _orbCounter > 0 )
+  if (color == _orbColor && _orbCounter > 0)
     _orbCounter--;
 }
 

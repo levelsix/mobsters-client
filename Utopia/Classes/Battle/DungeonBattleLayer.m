@@ -333,7 +333,7 @@
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
-  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker withTarget:self withSelector:selector];
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:NO withTarget:self withSelector:selector];
   
   if (enemyIsAttacker) {
     _damageWasDealt = YES;

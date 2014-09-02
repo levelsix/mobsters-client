@@ -621,7 +621,7 @@
 - (void) dealMyDamage {
   _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
   _enemyShouldAttack = YES;
-  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
+  [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealth)];
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
@@ -634,7 +634,7 @@
 
 - (void) dealEnemyDamage {
   _totalDamageTaken += _enemyDamageDealt;
-  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withTarget:self withSelector:@selector(checkMyHealth)];
+  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(checkMyHealth)];
   
   float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
   if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -649,7 +649,7 @@
   }
 }
 
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector {
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -705,10 +705,13 @@
                            [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
                           [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
   
-  CGPoint pos = defSpr.position;
-  int val = 40*(enemyIsAttacker ? 1 : -1);
-  pos = ccpAdd(pos, ccp(val, 15));
-  [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+  if ( ! usingAbility )
+  {
+    CGPoint pos = defSpr.position;
+    int val = 40*(enemyIsAttacker ? 1 : -1);
+    pos = ccpAdd(pos, ccp(val, 15));
+    [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+  }
   
   def.curHealth = newHealth;
 }

@@ -158,7 +158,7 @@
 - (void) createScheduleWithSwap:(BOOL)swap;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
-- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withTarget:(id)target withSelector:(SEL)selector;
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector;
 
 - (void) updateHealthBars;
