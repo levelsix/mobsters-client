@@ -18,8 +18,11 @@ typedef void(^SkillControllerBlock)(BOOL enemyKilled);
 
 typedef enum {
   SkillTriggerPointEnemyAppeared    = 1,
-  SkillTriggerPointEndOfPlayerMove  = 2,
-  SkillTriggerPointStartOfEnemyTurn = 3,
+  SkillTriggerPointEnemyDefeated    = 2,
+  SkillTriggerPointPlayerAppeared   = 3,
+  SkillTriggerPointEndOfPlayerMove  = 4,
+  SkillTriggerPointStartOfEnemyTurn = 5
+  
 } SkillTriggerPoint;
 
 @interface SkillController : NSObject //<SkillProtocol>

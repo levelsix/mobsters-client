@@ -163,9 +163,7 @@
     CGPoint diff = ccpSub(afterScale, beforeScale);
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
     
-#ifdef MOBSTERS
     [skillManager updateBattleLayer:self];
-#endif
     
     [self setupUI];
     
@@ -447,33 +445,6 @@
   } else {
     self.enemyPlayerObject = nil;
   }
-  
-  // Setup SkillManager for enemy
-#ifdef MOBSTERS
-  if ( _enemyPlayerObject )
-  {
-    [skillManager updateEnemy:_enemyPlayerObject andSprite:_currentEnemy];
-    if (skillManager.enemySkillType != SkillTypeNoSkill)
-    {
-      BOOL existedBefore = (_skillIndicatorEnemy != nil && _skillIndicatorEnemy.parent);
-      if ( existedBefore )
-        [_skillIndicatorEnemy removeFromParent];
-      _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.enemySkillController];
-      if (_skillIndicatorEnemy)
-      {
-        _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 120 - (UI_DEVICE_IS_IPHONE_4 ? 10 : 0));
-        [_skillIndicatorEnemy update];
-        [self.orbLayer addChild:_skillIndicatorEnemy z:-10];
-        [_skillIndicatorEnemy appear:existedBefore];
-      }
-    }
-  }
-  else
-  {
-    if (_skillIndicatorEnemy)
-      [_skillIndicatorEnemy disappear];
-  }
-#endif
 }
 
 #pragma mark - UI Updates
@@ -592,14 +563,9 @@
   
   // Skills trigger for enemy turn started
   [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
-    if (_skillIndicatorPlayer)
-      [_skillIndicatorPlayer update];
-    if (_skillIndicatorEnemy)
-      [_skillIndicatorEnemy update];
     
     _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
     _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-    
     [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
     
   } andTrigger:SkillTriggerPointStartOfEnemyTurn];
@@ -812,24 +778,24 @@
       _lootDropped = NO;
     }
     
-#ifdef MOBSTERS
-    if (_skillIndicatorEnemy && _skillIndicatorEnemy.parent)
-      [_skillIndicatorEnemy disappear];
-#endif
-    
-    [self blowupBattleSprite:self.currentEnemy withBlock:
-     ^{
-       self.enemyPlayerObject = nil;
-       [self updateHealthBars];
-       [self moveToNextEnemy];
-     }];
-    self.currentEnemy = nil;
-    
-    [self.hudView removeBattleScheduleView];
-    
-    // Send server updated values here because monster just died
-    // But make sure that I actually did damage..
-    [self sendServerUpdatedValues];
+    // Trigger skills for move made by the player
+    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+      
+      [self blowupBattleSprite:self.currentEnemy withBlock:
+       ^{
+         self.enemyPlayerObject = nil;
+         [self updateHealthBars];
+         [self moveToNextEnemy];
+       }];
+      self.currentEnemy = nil;
+      
+      [self.hudView removeBattleScheduleView];
+      
+      // Send server updated values here because monster just died
+      // But make sure that I actually did damage..
+      [self sendServerUpdatedValues];
+      
+    } andTrigger:SkillTriggerPointEnemyDefeated];
     
     return YES;
   }
@@ -1427,14 +1393,8 @@
   _orbCount++;
   _orbCounts[color]++;
   _totalOrbCounts[color]++;
-
-#ifdef MOBSTERS
+  
   [skillManager orbDestroyed:orb.orbColor];
-  if (_skillIndicatorPlayer)
-    [_skillIndicatorPlayer update];
-  if (_skillIndicatorEnemy)
-    [_skillIndicatorEnemy update];
-#endif
   
   // Update tile
   BattleTile* tile = [self.orbLayer.layout tileAtColumn:orb.column row:orb.row];
@@ -1512,10 +1472,6 @@
   
   // Trigger skills for move made by the player
   [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
-    if (_skillIndicatorPlayer)
-      [_skillIndicatorPlayer update];
-    if (_skillIndicatorEnemy)
-      [_skillIndicatorEnemy update];
     if (! enemyKilled)
       [self checkIfAnyMovesLeft];
   } andTrigger:SkillTriggerPointEndOfPlayerMove];
@@ -1547,10 +1503,6 @@
     
     // Trigger skills for when new enemy joins the battle
     [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
-      if (_skillIndicatorPlayer)
-        [_skillIndicatorPlayer update];
-      if (_skillIndicatorEnemy)
-        [_skillIndicatorEnemy update];
       [self beginNextTurn];
       [self updateHealthBars];
       [self.currentEnemy doRarityTagShine];
@@ -1669,36 +1621,22 @@
     }
     [self createNextMyPlayerSprite];
     
-    // If it is swap, enemy should attack
-    // If it is game start, wait till battle response has arrived
-    // Otherwise, it is coming back from player just dying
-    SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
-    [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
+    // Skills trigger for player appeared
+    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+      
+      // If it is swap, enemy should attack
+      // If it is game start, wait till battle response has arrived
+      // Otherwise, it is coming back from player just dying
+      SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
+      [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
+      
+    } andTrigger:SkillTriggerPointPlayerAppeared];
+    
   } else if (isSwap) {
     [self.hudView displaySwapButton];
     [self.orbLayer allowInput];
     [self removeNoInputLayer];
   }
-  
-#ifdef MOBSTERS
-  // Setup SkillManager for the player
-  if (_skillIndicatorPlayer)
-    [_skillIndicatorPlayer removeFromParentAndCleanup:YES];
-  if (_myPlayer)
-  {
-    [skillManager updatePlayer:_myPlayerObject andSprite:_myPlayer];
-    if (skillManager.playerSkillType != SkillTypeNoSkill)
-    {
-      _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:skillManager.playerSkillController];
-      if (_skillIndicatorPlayer)
-      {
-        _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 60 - (UI_DEVICE_IS_IPHONE_4 ? 5 : 0));
-        [_skillIndicatorPlayer update];
-        [self.orbLayer addChild:_skillIndicatorPlayer z:-10];
-      }
-    }
-  }
-#endif
 }
 
 #pragma mark - Continue View Actions
