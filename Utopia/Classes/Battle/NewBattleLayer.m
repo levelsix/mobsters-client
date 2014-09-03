@@ -1427,32 +1427,43 @@
     [_skillIndicatorEnemy update];
 #endif
   
-  int dmg = [self.myPlayerObject damageForColor:color];
-  _myDamageDealt += dmg;
-  _myDamageForThisTurn += dmg;
+  // Update tile
+  BattleTile* tile = [self.orbLayer.layout tileAtColumn:orb.column row:orb.row];
   
-  if (color != OrbColorNone && ElementIsValidValue((Element)color)) {
-    NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
-    NSString *fntFile = [Globals imageNameForElement:(Element)color suffix:@"pointsfont.fnt"];
-    fntFile = color != OrbColorRock ? fntFile : @"nightpointsfont.fnt";
-    if (fntFile) {
-      CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
-      dmgLabel.position = [self.orbLayer convertToNodeSpace:
-                           [self.orbLayer.swipeLayer convertToWorldSpace:
-                            [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
-      [self.orbLayer addChild:dmgLabel z:101];
+  // Increment damage, create label and ribbon
+  if (tile.allowsDamage)
+  {
+    int dmg = [self.myPlayerObject damageForColor:color];
+    _myDamageDealt += dmg;
+    _myDamageForThisTurn += dmg;
+  
+    if (color != OrbColorNone && ElementIsValidValue((Element)color)) {
+      NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
+      NSString *fntFile = [Globals imageNameForElement:(Element)color suffix:@"pointsfont.fnt"];
+      fntFile = color != OrbColorRock ? fntFile : @"nightpointsfont.fnt";
+      if (fntFile) {
+        CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
+        dmgLabel.position = [self.orbLayer convertToNodeSpace:
+                             [self.orbLayer.swipeLayer convertToWorldSpace:
+                              [self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
+        [self.orbLayer addChild:dmgLabel z:101];
+        
+        dmgLabel.scale = 0.25;
+        [dmgLabel runAction:[CCActionSequence actions:
+                             [CCActionScaleTo actionWithDuration:0.2f scale:1],
+                             [CCActionSpawn actions:
+                              [CCActionFadeOut actionWithDuration:0.5f],
+                              [CCActionMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
+                             [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
+      }
       
-      dmgLabel.scale = 0.25;
-      [dmgLabel runAction:[CCActionSequence actions:
-                           [CCActionScaleTo actionWithDuration:0.2f scale:1],
-                           [CCActionSpawn actions:
-                            [CCActionFadeOut actionWithDuration:0.5f],
-                            [CCActionMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
-                           [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
+      [self spawnRibbonForOrb:orb];
     }
-    
-    [self spawnRibbonForOrb:orb];
   }
+  
+  // Update tile
+  [tile orbRemoved];
+  [self.orbLayer.bgdLayer updateTile:tile];
   
   if (_canPlayNextGemPop) {
     [SoundEngine puzzleDestroyPiece];

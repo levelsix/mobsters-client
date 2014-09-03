@@ -7,9 +7,16 @@
 //
 
 #import "cocos2d.h"
+#import "BattleOrbLayout.h"
 
 @interface OrbBgdLayer : CCNode
+{
+  CCNode* _tilesLayerBottom;
+  CCNode* _tilesLayerTop;
+}
 
-- (id) initWithGridSize:(CGSize)gridSize;
+- (id) initWithGridSize:(CGSize)gridSize layout:(BattleOrbLayout *)layout;
+
+- (void) updateTile:(BattleTile*)tile;
 
 @end

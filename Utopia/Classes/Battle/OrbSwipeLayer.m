@@ -85,9 +85,9 @@
 
 #pragma mark - Game Setup
 
-- (OrbLayer*) createOrbSpriteForOrb:(BattleOrb*)orb
+- (OrbSprite*) createOrbSpriteForOrb:(BattleOrb*)orb
 {
-  OrbLayer* orbLayer = [OrbLayer orbLayerWithOrb:orb];
+  OrbSprite* orbLayer = [OrbSprite orbSpriteWithOrb:orb];
   orbLayer.position = [self pointForColumn:orb.column row:orb.row];
   [self addChild:orbLayer z:0 name:ORB_NAME_TAG(orb)];
   return orbLayer;
@@ -100,8 +100,8 @@
   }
 }
 
-- (OrbLayer*) spriteForOrb:(BattleOrb *)orb {
-  return (OrbLayer*)[self getChildByName:ORB_NAME_TAG(orb) recursively:NO];
+- (OrbSprite*) spriteForOrb:(BattleOrb *)orb {
+  return (OrbSprite*)[self getChildByName:ORB_NAME_TAG(orb) recursively:NO];
 }
 
 - (void) removeAllOrbSprites {
@@ -217,8 +217,8 @@
 #pragma mark - Animations
 
 - (void)animateSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
-  OrbLayer *spriteA = [self spriteForOrb:swap.orbA];
-  OrbLayer *spriteB = [self spriteForOrb:swap.orbB];
+  OrbSprite *spriteA = [self spriteForOrb:swap.orbA];
+  OrbSprite *spriteB = [self spriteForOrb:swap.orbB];
   
   // Put the orb you started with on top.
   spriteA.zOrder = 2;
@@ -234,8 +234,8 @@
 }
 
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
-  OrbLayer *spriteA = [self spriteForOrb:swap.orbA];
-  OrbLayer *spriteB = [self spriteForOrb:swap.orbB];
+  OrbSprite *spriteA = [self spriteForOrb:swap.orbA];
+  OrbSprite *spriteB = [self spriteForOrb:swap.orbB];
   
   // Put the orb you started with on top.
   spriteA.zOrder = 2;
@@ -262,7 +262,7 @@
 // Color and powerup of gem that destroyed this gem
 - (void) destroyOrb:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
   
-  OrbLayer *orbLayer = [self spriteForOrb:orb];
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
   
   if (orbLayer) {
     _numOrbsStillAnimating++;
@@ -329,7 +329,7 @@
   for (BattleChain *chain in chains) {
     if (!chain.prerequisiteOrb) {
       for (BattleOrb *orb in chain.orbs) {
-        OrbLayer *orbLayer = [self spriteForOrb:orb];
+        OrbSprite *orbLayer = [self spriteForOrb:orb];
         if (orbLayer != nil) {
           [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
         }
@@ -405,7 +405,7 @@
   for (NSArray *array in newOrbColumns) {
     for (int i = 0; i < array.count; i++) {
       BattleOrb *orb = array[i];
-      OrbLayer *orbLayer = [self createOrbSpriteForOrb:orb];
+      OrbSprite *orbLayer = [self createOrbSpriteForOrb:orb];
       
       // Orbs are given in top down order so we must subtract i from count
       orbLayer.position = [self pointForColumn:orb.column row:_numRows+i];
@@ -424,7 +424,7 @@
   
   for (BattleOrb *orb in allOrbs) {
     if (![bottomFeeders containsObject:orb]) {
-      OrbLayer *orbLayer = [self spriteForOrb:orb];
+      OrbSprite *orbLayer = [self spriteForOrb:orb];
       CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
       
       int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
@@ -438,7 +438,7 @@
   
   // Make the bottomFeeders just go to the bottom
   for (BattleOrb *orb in bottomFeeders) {
-    OrbLayer *orbLayer = [self spriteForOrb:orb];
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
     CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
     
     int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
@@ -464,7 +464,7 @@
 
 - (void) animateShuffle:(NSSet *)orbs completion:(dispatch_block_t)completion {
   for (BattleOrb *orb in orbs) {
-    OrbLayer *orbLayer = [self spriteForOrb:orb];
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
     CCAction *move = [CCActionMoveTo actionWithDuration:0.3 position:[self pointForColumn:orb.column row:orb.row]];
     [orbLayer runAction:move];
   }
@@ -485,7 +485,7 @@
   _isPulsing = YES;
   
   for (BattleOrb *orb in set) {
-    OrbLayer *orbLayer = [self spriteForOrb:orb];
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
     OrbColor color = orb.orbColor;
     PowerupType powerup = orb.powerupType;
     
@@ -495,7 +495,7 @@
     
     if (!texture) {
       // Create a new texture from UIImage and mask it
-      UIImage *img = [Globals imageNamed:[OrbLayer orbSpriteImageNameWithOrb:orb]];
+      UIImage *img = [Globals imageNamed:[OrbSprite orbSpriteImageNameWithOrb:orb]];
       img = [Globals maskImage:img withColor:[UIColor whiteColor]];
       texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
       texture.contentScale = orbLayer.orbSprite.texture.contentScale;

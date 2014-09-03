@@ -19,7 +19,7 @@
   if (self = [super init]) {
     self.layout = layout;
     
-    self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
+    self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
     self.swipeLayer = [[OrbSwipeLayer alloc] initWithContentSize:self.bgdLayer.contentSize layout:layout];
     [self addChild:self.bgdLayer];
     [self.bgdLayer addChild:self.swipeLayer z:2];
