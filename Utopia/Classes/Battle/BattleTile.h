@@ -24,8 +24,8 @@ typedef enum {
 
 @property (assign, nonatomic) NSInteger column;
 @property (assign, nonatomic) NSInteger row;
-@property (assign, nonatomic) TileType tileTypeTop;
-@property (assign, nonatomic) TileType tileTypeBottom;
+@property (assign, nonatomic) TileType typeTop;
+@property (assign, nonatomic) TileType typeBottom;
 
 -(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom;
 

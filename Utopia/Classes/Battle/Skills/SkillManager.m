@@ -116,24 +116,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_enemySkillController orbDestroyed:color];
 }
 
-#pragma mark - Checks
-
-- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block
+- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
-  if (_playerSkillController)
-  {
-    if ( _playerSkillController.skillIsReady )
-    {
-      if ( _playerSkillController.activationType == SkillActivationTypeAutoActivated )
-      {
-        [_playerSkillController activateSkillWithBlock:block];
-        return YES;
-      }
-    }
-  }
+#ifndef MOBSTERS
+  block(NO);
+#endif
   
-  block(FALSE);
-  return NO;
+  // Sequencing player and enemy skills in case both will be triggered by this call
+  SkillControllerBlock newBlock = ^(BOOL enemyKilled) {
+    BOOL enemySkillTriggered = FALSE;
+    if (! enemyKilled)
+      if (_enemySkillController)
+      {
+        [_enemySkillController triggerSkillWithBlock:block andTrigger:trigger];
+        enemySkillTriggered = TRUE;
+      }
+    
+    if (!enemySkillTriggered)
+      block(enemyKilled);
+  };
+  
+  // Triggering player with complex block or enemy with a simple
+  if (_playerSkillController)
+    [_playerSkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+  else if (_enemySkillController)
+    [_enemySkillController triggerSkillWithBlock:block andTrigger:trigger];
 }
 
 @end

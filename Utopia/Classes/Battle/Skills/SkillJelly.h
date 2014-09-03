@@ -14,6 +14,8 @@
   NSInteger _spawnTurns;
   NSInteger _spawnCount;
   NSInteger _initialCount;
+  
+  NSInteger _turnCounter;
 }
 
 @end

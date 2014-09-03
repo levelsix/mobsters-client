@@ -16,11 +16,11 @@ typedef void(^SkillControllerBlock)(BOOL enemyKilled);
 
 @class NewBattleLayer;
 
-/*@protocol SkillProtocol
-@optional
-- (BOOL) triggerSkillAfterTurn;
-@end*/
-
+typedef enum {
+  SkillTriggerPointEnemyAppeared    = 1,
+  SkillTriggerPointEndOfPlayerMove  = 2,
+  SkillTriggerPointStartOfEnemyTurn = 3,
+} SkillTriggerPoint;
 
 @interface SkillController : NSObject //<SkillProtocol>
 {
@@ -44,12 +44,12 @@ typedef void(^SkillControllerBlock)(BOOL enemyKilled);
 // External callers
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
-- (void) activateSkillWithBlock:(SkillControllerBlock)block;
+- (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 // To be overriden by specific skills
-- (void) skillExecutionStarted;
-- (void) skillExecutionFinished;
-- (void) setDefaultValuesForProperties;
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger;
+- (void) skillTriggerFinished;
+- (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
 
 @end

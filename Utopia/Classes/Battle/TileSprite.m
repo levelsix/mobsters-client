@@ -24,13 +24,9 @@
   _tile = tile;
   _depth = depth;
   if (_depth == TileDepthTop)
-    _tileType = tile.tileTypeTop;
+    _tileType = tile.typeTop;
   else
-    _tileType = tile.tileTypeBottom;
-  
-  // Check if this tile is empty
-  if (_tileType == TileTypeNormal)
-    return nil;
+    _tileType = tile.typeBottom;
   
   // Reload sprite
   [self reloadSprite];
@@ -70,9 +66,9 @@
 {
   TileType oldType = _tileType;
   if (_depth == TileDepthTop)
-    _tileType = _tile.tileTypeTop;
+    _tileType = _tile.typeTop;
   else
-    _tileType = _tile.tileTypeBottom;
+    _tileType = _tile.typeBottom;
   
   if (oldType != _tileType)
     [self reloadSprite];

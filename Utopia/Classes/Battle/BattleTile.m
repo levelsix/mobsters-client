@@ -18,8 +18,8 @@
   
   _column = column;
   _row = row;
-  _tileTypeTop = typeTop;
-  _tileTypeBottom = typeBottom;
+  _typeTop = typeTop;
+  _typeBottom = typeBottom;
   
   return self;
 }
@@ -30,15 +30,15 @@
 
 - (BOOL) allowsDamage
 {
-  if (_tileTypeBottom == TileTypeJelly)
+  if (_typeBottom == TileTypeJelly)
     return NO;
   return YES;
 }
 
 - (void) orbRemoved
 {
-  if (_tileTypeBottom == TileTypeJelly)
-    _tileTypeBottom = TileTypeNormal;
+  if (_typeBottom == TileTypeJelly)
+    _typeBottom = TileTypeNormal;
 }
 
 @end

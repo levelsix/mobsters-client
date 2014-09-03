@@ -43,8 +43,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
 // External calls
 - (void) orbDestroyed:(OrbColor)color;
-
-// Checks
-- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block;
+- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 @end

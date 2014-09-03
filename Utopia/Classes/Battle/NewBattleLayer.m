@@ -590,10 +590,19 @@
 - (void) beginEnemyTurn {
   [self.hudView removeButtons];
   
-  _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-  _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-  
-  [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
+  // Skills trigger for enemy turn started
+  [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+    if (_skillIndicatorPlayer)
+      [_skillIndicatorPlayer update];
+    if (_skillIndicatorEnemy)
+      [_skillIndicatorEnemy update];
+    
+    _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+    _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+    
+    [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
+    
+  } andTrigger:SkillTriggerPointStartOfEnemyTurn];
 }
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy {
@@ -1501,19 +1510,15 @@
   
   [self updateHealthBars];
   
-#ifdef MOBSTERS
-  // Trying to apply the skills after this move if ready
-  [skillManager triggerSkillAfterMoveWithBlock:^(BOOL enemyKilled) {
+  // Trigger skills for move made by the player
+  [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
     if (_skillIndicatorPlayer)
       [_skillIndicatorPlayer update];
     if (_skillIndicatorEnemy)
       [_skillIndicatorEnemy update];
     if (! enemyKilled)
       [self checkIfAnyMovesLeft];
-  }];
-#else
-  [self checkIfAnyMovesLeft];
-#endif
+  } andTrigger:SkillTriggerPointEndOfPlayerMove];
   
   _comboCount = 0;
 }
@@ -1539,9 +1544,17 @@
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
-    [self beginNextTurn];
-    [self updateHealthBars];
-    [self.currentEnemy doRarityTagShine];
+    
+    // Trigger skills for when new enemy joins the battle
+    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+      if (_skillIndicatorPlayer)
+        [_skillIndicatorPlayer update];
+      if (_skillIndicatorEnemy)
+        [_skillIndicatorEnemy update];
+      [self beginNextTurn];
+      [self updateHealthBars];
+      [self.currentEnemy doRarityTagShine];
+    } andTrigger:SkillTriggerPointEnemyAppeared];
   }
 }
 
