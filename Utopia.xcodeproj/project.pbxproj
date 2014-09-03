@@ -5472,6 +5472,7 @@
 		CFF7876518E28FE200413E78 /* upgradeinactivetab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF7872118E28FE200413E78 /* upgradeinactivetab@2x.png */; };
 		CFF7876618E28FE200413E78 /* upgradestarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF7872218E28FE200413E78 /* upgradestarbg.png */; };
 		CFF7876718E28FE200413E78 /* upgradestarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF7872318E28FE200413E78 /* upgradestarbg@2x.png */; };
+		CFF9DD5119B66B1000CA9A8E /* SkillControllerActive.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */; };
 		CFFA31D618B30954008B81B9 /* klavika bold bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31C318B30954008B81B9 /* klavika bold bold.ttf */; };
 		CFFA31D718B30955008B81B9 /* lockedraidbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31C418B30954008B81B9 /* lockedraidbg.png */; };
 		CFFA31D818B30955008B81B9 /* lockedraidbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31C518B30954008B81B9 /* lockedraidbg@2x.png */; };
@@ -20807,6 +20808,7 @@
 				CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */,
 				CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */,
 				CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */,
+				CFF9DD5119B66B1000CA9A8E /* SkillControllerActive.m in Sources */,
 				CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */,
 				CF413C411977494500848AF5 /* AppDelegate.mm in Sources */,
 				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
@@ -21338,7 +21340,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -21400,7 +21402,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = "armv7 armv7s";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -21416,7 +21418,7 @@
 				ALTERNATE_OWNER = "$(USER)";
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -21479,7 +21481,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = "armv7 armv7s";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -21495,7 +21497,7 @@
 				ALTERNATE_OWNER = "$(USER)";
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -21557,7 +21559,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = "armv7 armv7s";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

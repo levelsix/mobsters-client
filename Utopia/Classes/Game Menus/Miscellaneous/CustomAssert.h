@@ -55,9 +55,9 @@ else NSLog(@"%s, %d: could not break into debugger.", __FILE__, __LINE__); }
 #else  //NOT in DEBUG
 
 #define CustomAssert(condition, desc, ...) \
-if (!(condition)) { \
-DDLogError((desc), ## __VA_ARGS__); \   //use NSLog if not using Lumberjack
-NSAssert((condition), (desc), ## __VA_ARGS__); \
-}
+//if (!(condition)) { \
+//NSLog((desc), ## __VA_ARGS__); \   //use NSLog if not using Lumberjack
+//NSAssert((condition), (desc), ## __VA_ARGS__); \
+//}
 
 #endif //end  DEBUG
