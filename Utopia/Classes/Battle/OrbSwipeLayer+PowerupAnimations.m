@@ -267,7 +267,7 @@
   __block int projectileCount = 0;
   for (int i = 0; i < orbs.count; i++) {
     BattleOrb *orb = orbs[i];
-    OrbLayer *orbLayer = [self spriteForOrb:orb];
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
     
     if (orbLayer) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
@@ -305,7 +305,7 @@
   
   NSMutableArray *toDestroy = [NSMutableArray array];
   for (BattleOrb *orb in chain.orbs) {
-    OrbLayer *orbLayer = [self spriteForOrb:orb];
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
     
     if (orbLayer) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
@@ -333,7 +333,7 @@
     [seq addObject:[CCActionDelay actionWithDuration:0.2]];
     
     for (BattleOrb *orb in toDestroy) {
-      OrbLayer *oldSprite = [self spriteForOrb:orb];
+      OrbSprite *oldSprite = [self spriteForOrb:orb];
       [oldSprite removeFromParent];
       
       // Since the orb should already be updated by the model we can just create a new one

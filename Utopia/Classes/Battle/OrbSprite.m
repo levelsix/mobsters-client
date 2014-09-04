@@ -1,21 +1,20 @@
 //
-//  OrbLayer.m
+//  OrbSprite.m
 //  Utopia
 //
-//  Created by Mikhail Larionov on 9/2/14.
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "OrbLayer.h"
+#import "OrbSprite.h"
 #import "Globals.h"
 
-@implementation OrbLayer
+@implementation OrbSprite
 
 #pragma mark - Initialization
 
-+ (OrbLayer*) orbLayerWithOrb:(BattleOrb*)orb
++ (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb
 {
-  return [[OrbLayer alloc] initWithOrb:orb];
+  return [[OrbSprite alloc] initWithOrb:orb];
 }
 
 - (id) initWithOrb:(BattleOrb*)orb
@@ -25,7 +24,7 @@
     return nil;
     
   // Create a new sprite for the orb
-  NSString *imageName = [OrbLayer orbSpriteImageNameWithOrb:orb];
+  NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:orb];
   self.orbSprite = [CCSprite spriteWithImageNamed:imageName];
   [self addChild:self.orbSprite];
   

@@ -9,5 +9,13 @@
 #import "SkillControllerPassive.h"
 
 @interface SkillJelly : SkillControllerPassive
+{
+  // Properties
+  NSInteger _spawnTurns;
+  NSInteger _spawnCount;
+  NSInteger _initialCount;
+  
+  NSInteger _turnCounter;
+}
 
 @end

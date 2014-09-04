@@ -12,18 +12,27 @@
 
 @interface SkillBattleIndicatorView : CCNode
 {
-  CCSprite    *_bgImage;
+  //CCSprite    *_bgImage;
   CCSprite    *_skillIcon;
-  CCSprite    *_orbIcon;
-  CCSprite    *_checkIcon;
+  CCDrawNode  *_stencilNode;
+  //CCSprite    *_orbIcon;
+  //CCSprite    *_checkIcon;
+  
+  CCSprite    *_skillLabel;
   
   CCLabelTTF  *_orbsCountLabel;
   CCLabelTTF  *_passiveOnLabel;
+  
+  CCParticleSystem* _chargedEffect;
+  
+  BOOL        _enemy;
 }
 
-@property (nonatomic) NSInteger orbsCount;  // Change it to update the counter
+//@property (nonatomic) NSInteger orbsCount;  // Change it to update the counter
 
-- (instancetype) initWithSkillController:(SkillController*)skillController;
+@property (nonatomic) float percentage;  // Change it to update the indicator
+
+- (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
 
 - (void) update;
 

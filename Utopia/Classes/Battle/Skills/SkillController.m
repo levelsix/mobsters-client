@@ -7,6 +7,7 @@
 
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
+#import "NewBattleLayer.h"
 
 @implementation SkillController
 
@@ -31,7 +32,7 @@
   _activationType = proto.activationType;
   
   // Properties
-  [self setDefaultValuesForProperties];
+  [self setDefaultValues];
   for (SkillPropertyProto* property in proto.propertiesList)
   {
     NSString* name = property.name;
@@ -55,23 +56,29 @@
   return;
 }
 
-- (void) activateSkillWithBlock:(SkillControllerBlock)block
+- (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
+  // Try to trigger the skill and use callback right away if it's not responding
   _callbackBlock = block;
-  [self skillExecutionStarted];
+  BOOL triggered = [self skillCalledWithTrigger:trigger];
+  if (! triggered)
+    _callbackBlock(NO);
 }
 
 #pragma mark - Placeholders to be overriden
 
-- (void) skillExecutionStarted
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  return NO;
 }
 
-- (void) skillExecutionFinished
+- (void) skillTriggerFinished
 {
+  BOOL enemyIsKilled = [self.battleLayer checkEnemyHealth];
+  _callbackBlock(enemyIsKilled);
 }
 
-- (void) setDefaultValuesForProperties
+- (void) setDefaultValues
 {
 }
 

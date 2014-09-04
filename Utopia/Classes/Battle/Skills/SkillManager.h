@@ -8,43 +8,41 @@
 #import <Foundation/Foundation.h>
 #import "SynthesizeSingleton.h"
 #import "SkillController.h"
+#import "SkillBattleIndicatorView.h"
 
 #define skillManager [SkillManager sharedInstance]
 
 @interface SkillManager : NSObject
 {
-  NewBattleLayer* _battleLayer;
+  // External objects
+  __weak NewBattleLayer* _battleLayer;
+  __weak BattlePlayer*   _player;
+  __weak BattlePlayer*   _enemy;
+  __weak BattleSprite*   _playerSprite;
+  __weak BattleSprite*   _enemySprite;
   
-  BattlePlayer*   _player;
-  BattlePlayer*   _enemy;
-  BattleSprite*   _playerSprite;
-  BattleSprite*   _enemySprite;
+  // Properties
+  OrbColor            _playerColor;
+  OrbColor            _enemyColor;
+  SkillType           _playerSkillType;
+  SkillType           _enemySkillType;
+  SkillActivationType _playerSkillActivation;
+  SkillActivationType _enemySkillActivation;
   
-  SkillController* _playerSkillController;
-  SkillController* _enemySkillController;
+  // Skill controllers
+  SkillController*  _playerSkillController;
+  SkillController*  _enemySkillController;
+  
+  // Skill indicators for UI
+  SkillBattleIndicatorView* _skillIndicatorPlayer;
+  SkillBattleIndicatorView* _skillIndicatorEnemy;
 }
-
-@property (readonly) OrbColor playerColor;
-@property (readonly) OrbColor enemyColor;
-@property (readonly) SkillType playerSkillType;
-@property (readonly) SkillType enemySkillType;
-@property (readonly) SkillActivationType playerSkillActivation;
-@property (readonly) SkillActivationType enemySkillActivation;
-
-@property (readonly) SkillController *playerSkillController;
-@property (readonly) SkillController *enemySkillController;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
-// Setup
-- (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
-- (void) updatePlayer:(BattlePlayer*)player andSprite:(BattleSprite*)playerSprite;
-- (void) updateEnemy:(BattlePlayer*)enemy andSprite:(BattleSprite*)enemySprite;
-
 // External calls
-- (void) orbDestroyed:(OrbColor)color;
-
-// Checks
-- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block;
+- (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
+- (void) orbDestroyed:(OrbColor)color;  // Potentially it could become a trigger too (bomb orb?) with a BattleOrb as a parameter to pass
+- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 @end

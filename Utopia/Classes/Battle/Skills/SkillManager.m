@@ -28,15 +28,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Setup
 
-- (void) updateBattleLayer:(NewBattleLayer*)battleLayer
+- (void) updatePlayer
 {
-  _battleLayer = battleLayer;
-}
-
-- (void) updatePlayer:(BattlePlayer*)player andSprite:(BattleSprite*)playerSprite
-{
-  _player = player;
-  _playerSprite = playerSprite;
+  _player = _battleLayer.myPlayerObject;
+  _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
   _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
   _playerSkillController = nil;
@@ -44,7 +39,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   GameState* gs = [GameState sharedGameState];
   
   // Player skill
-  if ( player )
+  if ( _player )
   {
     if ( _playerSkillType != SkillTypeNoSkill )
     {
@@ -56,7 +51,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
       else
       {
-        _playerColor = (OrbColor)player.element;
+        _playerColor = (OrbColor)_player.element;
         _playerSkillActivation = playerSkillProto.activationType;
         _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
         [self setDataForController:_playerSkillController];
@@ -65,10 +60,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
 }
 
-- (void) updateEnemy:(BattlePlayer*)enemy andSprite:(BattleSprite *)enemySprite
+- (void) updateEnemy
 {
-  _enemy = enemy;
-  _enemySprite = enemySprite;
+  _enemy = _battleLayer.enemyPlayerObject;
+  _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
   _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
   _enemySkillController = nil;
@@ -76,7 +71,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   GameState* gs = [GameState sharedGameState];
   
   // Enemy skill
-  if ( enemy )
+  if ( _enemy )
   {
     if ( _enemySkillType != SkillTypeNoSkill )
     {
@@ -88,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
       else
       {
-        _enemyColor = (OrbColor)enemy.element;
+        _enemyColor = (OrbColor)_enemy.element;
         _enemySkillActivation = enemySkillProto.activationType;
         _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
         [self setDataForController:_enemySkillController];
@@ -108,32 +103,120 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - External calls
 
+- (void) updateBattleLayer:(NewBattleLayer*)battleLayer
+{
+  _battleLayer = battleLayer;
+}
+
 - (void) orbDestroyed:(OrbColor)color
 {
+#ifndef MOBSTERS
+  return;
+#endif
+
   if (_playerSkillController)
     [_playerSkillController orbDestroyed:color];
   if (_enemySkillController)
     [_enemySkillController orbDestroyed:color];
+  if (_skillIndicatorPlayer)
+    [_skillIndicatorPlayer update];
+  if (_skillIndicatorEnemy)
+    [_skillIndicatorEnemy update];
 }
 
-#pragma mark - Checks
-
-- (BOOL) triggerSkillAfterMoveWithBlock:(SkillControllerBlock)block
+- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
-  if (_playerSkillController)
+#ifndef MOBSTERS
+  block(NO);
+#endif
+  
+  // Update enemy skill indicator
+  if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    if ( _playerSkillController.skillIsReady )
-    {
-      if ( _playerSkillController.activationType == SkillActivationTypeAutoActivated )
-      {
-        [_playerSkillController activateSkillWithBlock:block];
-        return YES;
-      }
-    }
+    [skillManager updateEnemy];
+    [self createEnemySkillIndicator];
+  }
+  if (trigger == SkillTriggerPointEnemyDefeated)
+    [self removeEnemySkillIndicator];
+  
+  // Update player skill indicator
+  if (trigger == SkillTriggerPointPlayerAppeared)
+  {
+    [self updatePlayer];
+    [self createPlayerSkillIndicator];
   }
   
-  block(FALSE);
-  return NO;
+  // Wrapping indicators update into the block
+  SkillControllerBlock newBlock = ^(BOOL enemyKilled) {
+    if (_skillIndicatorPlayer)
+      [_skillIndicatorPlayer update];
+    if (_skillIndicatorEnemy)
+      [_skillIndicatorEnemy update];
+    block(enemyKilled);
+  };
+  
+  // Sequencing player and enemy skills in case both will be triggered by this call
+  SkillControllerBlock sequenceBlock = ^(BOOL enemyKilled) {
+    BOOL enemySkillTriggered = FALSE;
+    if (! enemyKilled)
+      if (_enemySkillController)
+      {
+        [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+        enemySkillTriggered = TRUE;
+      }
+    
+    if (!enemySkillTriggered)
+      block(enemyKilled);
+  };
+  
+  // Triggering player with complex block or enemy with a simple
+  if (_playerSkillController)
+    [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
+  else if (_enemySkillController)
+    [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+}
+
+#pragma mark - UI
+
+- (void) createEnemySkillIndicator
+{
+  if (_enemySkillType != SkillTypeNoSkill)
+  {
+    BOOL existedBefore = (_skillIndicatorEnemy != nil && _skillIndicatorEnemy.parent);
+    if ( existedBefore )
+      [_skillIndicatorEnemy removeFromParent];
+    _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
+    if (_skillIndicatorEnemy)
+    {
+      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150);
+      [_skillIndicatorEnemy update];
+      [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
+      [_skillIndicatorEnemy appear:existedBefore];
+    }
+  }
+}
+
+- (void) removeEnemySkillIndicator
+{
+  if (_skillIndicatorEnemy)
+    [_skillIndicatorEnemy disappear];
+}
+
+- (void) createPlayerSkillIndicator
+{
+  if (_skillIndicatorPlayer)
+    [_skillIndicatorPlayer removeFromParentAndCleanup:YES];
+
+  if (_playerSkillType != SkillTypeNoSkill)
+  {
+    _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
+    if (_skillIndicatorPlayer)
+    {
+      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 38);
+      [_skillIndicatorPlayer update];
+      [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
+    }
+  }
 }
 
 @end

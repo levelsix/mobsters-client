@@ -11,7 +11,9 @@
 
 @implementation SkillQuickAttack
 
-- (void) setDefaultValuesForProperties
+#pragma mark - Initialization
+
+- (void) setDefaultValues
 {
   _damage = 1;
 }
@@ -22,20 +24,25 @@
     _damage = value;
 }
 
-- (void) callbackForDealDamage
+#pragma mark - Overrides
+
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
-  BOOL enemyIsKilled = [self.battleLayer checkEnemyHealth];
-  [self skillExecutionFinished];
-  _callbackBlock(enemyIsKilled);
+  if (trigger == SkillTriggerPointEndOfPlayerMove)
+  {
+    if ([self skillIsReady])
+    {
+      [self dealQuickAttack];
+      return YES;
+    }
+  }
+  
+  return NO;
 }
 
-- (void) callbackForAnimation
-{
-  // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(callbackForDealDamage)];
-}
+#pragma mark - Skill logic
 
-- (void) skillExecutionStarted
+- (void) dealQuickAttack
 {
   // Perform attack animation
   [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(callbackForAnimation)];
@@ -43,18 +50,24 @@
   // Show attack label
   _attackSprite = [CCSprite spriteWithImageNamed:@"quickattacktext.png"];
   _attackSprite.position = CGPointMake((self.playerSprite.position.x - self.enemySprite.position.x)/2 + 40,
-                                     (self.playerSprite.position.y - self.enemySprite.position.y)/2 + 40);
+                                       (self.playerSprite.position.y - self.enemySprite.position.y)/2 + 40);
   _attackSprite.scale = 0.0;
   [self.playerSprite addChild:_attackSprite z:50];
   
   // Run animation
   [_attackSprite runAction:[CCActionSequence actions:
-                        [CCActionDelay actionWithDuration:0.3],
-                        [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]],
-                        [CCActionDelay actionWithDuration:1.0],
-                        [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:0.0]],
-                        [CCActionRemove action],
-                        nil]];
+                            [CCActionDelay actionWithDuration:0.3],
+                            [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]],
+                            [CCActionDelay actionWithDuration:1.0],
+                            [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:0.0]],
+                            [CCActionRemove action],
+                            nil]];
+}
+
+- (void) callbackForAnimation
+{
+  // Deal damage
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(skillTriggerFinished)];
 }
 
 @end

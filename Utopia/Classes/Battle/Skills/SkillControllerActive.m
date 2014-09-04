@@ -34,10 +34,10 @@
 }
 
 // To be called by every specific skill when execution is finished
-- (void) skillExecutionFinished
+- (void) skillTriggerFinished
 {
   _orbCounter = _orbRequirement;
-  [super skillExecutionFinished];
+  [super skillTriggerFinished];
 }
 
 @end

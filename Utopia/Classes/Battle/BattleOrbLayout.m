@@ -37,7 +37,7 @@
       _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
       
       for (int j = 0; j < _numRows; j++) {
-        _tiles[i][j] = [[BattleTile alloc] init];
+        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal];
       }
     }
 	}
