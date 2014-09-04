@@ -12,7 +12,7 @@
 #import "BattlePlayer.h"
 #import "BattleSprite.h"
 
-typedef void(^SkillControllerBlock)(BOOL enemyKilled);
+typedef void(^SkillControllerBlock)();
 
 @class NewBattleLayer;
 

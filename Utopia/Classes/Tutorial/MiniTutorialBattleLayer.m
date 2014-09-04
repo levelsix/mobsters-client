@@ -12,21 +12,18 @@
 @implementation MiniTutorialBattleLayer
 
 - (void) beginFirstMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
+  [self.orbLayer.bgdLayer turnTheLights:YES instantly:YES];
   _allowTurnBegin = YES;
   [self beginMyTurn];
 }
 
 - (void) beginSecondMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
+  [self.orbLayer.bgdLayer turnTheLights:YES instantly:YES];
   [self.orbLayer allowInput];
 }
 
 - (void) beginThirdMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
+  [self.orbLayer.bgdLayer turnTheLights:YES instantly:YES];
   [self.orbLayer allowInput];
 }
 
@@ -35,7 +32,7 @@
     _allowTurnBegin = YES;
     [self beginMyTurn];
   } else {
-    [self removeNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOn];
   }
   [self.orbLayer allowInput];
 }
@@ -96,7 +93,7 @@
   if (_movesLeft == 0) {
     [self myTurnEnded];
   } else {
-    [self displayNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOff];
     _myDamageForThisTurn = 0;
     if ([self.delegate respondsToSelector:@selector(moveFinished)]) {
       [self.delegate moveFinished];

@@ -131,7 +131,7 @@
   _allowClanMembersAttack = NO;
   
   if (self.clanSprites.count > 0) {
-    [self displayNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOff];
     _waitingForMyAttack = YES;
   } else {
     _waitingForMyAttack = NO;
@@ -159,7 +159,7 @@
   
   if (isDead) {
     [self.orbLayer disallowInput];
-    [self displayNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOff];
     _myDamageDealt = 0;
     
     if (self.clanMemberAttacks.count > 5) {

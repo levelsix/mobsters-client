@@ -151,7 +151,7 @@
     }
     
     [self.hudView removeButtons];
-    [self displayNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOff];
     [self.orbLayer disallowInput];
   }
 }

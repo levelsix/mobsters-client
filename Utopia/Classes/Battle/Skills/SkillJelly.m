@@ -41,14 +41,12 @@
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
     [self spawnInitialJelly];
-    [self skillTriggerFinished];
     return YES;
   }
   
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
     [self spawnNewJelly];
-    [self skillTriggerFinished];
     return YES;
   }
   
@@ -57,7 +55,7 @@
 
 #pragma mark - Skill logic
 
-- (void) spawnRandomJelly
+- (void) spawnRandomJellyWithCallback:(SEL)callback
 {
   // Find the tile
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
@@ -77,14 +75,37 @@
   
     // Update visuals
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    [bgdLayer updateTile:tile];
+    [bgdLayer updateTile:tile withTarget:self andCallback:callback];
+  }
+}
+
+static NSInteger _spawnCounter;
+
+- (void) spawnNextBatch
+{
+  NSInteger counter = 500;  // Change it to enable batching, now it's disabled. Counter should be of batch size (say, 3)
+  if ( _spawnCounter < counter )
+    counter = _spawnCounter;
+  _spawnCounter -= counter;
+  for (NSInteger n = 0; n < counter; n++)
+  {
+    SEL callback = nil;
+    if (n == counter - 1) // last item from the batch
+    {
+      if (_spawnCounter == 0) // last batch
+        callback = @selector(skillTriggerFinished);
+      else
+        callback = @selector(spawnNextBatch);
+    }
+    [self spawnRandomJellyWithCallback:callback];
   }
 }
 
 - (void) spawnInitialJelly
 {
-  for (NSInteger n = 0; n < _initialCount; n++)
-    [self spawnRandomJelly];
+  // Spawn the next one or finish the skill
+  _spawnCounter = _initialCount;
+  [self spawnNextBatch];
 }
 
 - (void) spawnNewJelly
@@ -97,9 +118,9 @@
   }
   
   // Spawn and reset turn counter
-  for (NSInteger n = 0; n < _spawnCount; n++)
-    [self spawnRandomJelly];
+  _spawnCounter = _spawnCount;
   _turnCounter = 0;
+  [self spawnNextBatch];
 }
 
 @end

@@ -33,8 +33,6 @@
 
 #define PUZZLE_BGD_TAG 1456
 
-#define NO_INPUT_LAYER_OPACITY 0.6f
-
 #define BGD_SCALE 1.f//((self.contentSize.width-480)/88.f*0.3+1.f)
 
 #define COMBO_FIRE_TAG @"ComboFire"
@@ -138,10 +136,6 @@
     OrbMainLayer *puzzleBg = self.orbLayer;
     float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
     puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
-    
-    self.noInputLayer = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, NO_INPUT_LAYER_OPACITY)] width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
-    [self.orbLayer addChild:self.noInputLayer z:self.orbLayer.swipeLayer.zOrder];
-    self.noInputLayer.position = self.orbLayer.swipeLayer.position;
     
     self.bgdContainer = [CCNode node];
     self.bgdContainer.contentSize = self.contentSize;
@@ -552,7 +546,7 @@
   }
   
   [self updateHealthBars];
-  [self removeNoInputLayer];
+  [self.orbLayer.bgdLayer turnTheLightsOn];
   [self.orbLayer allowInput];
   
   [self.hudView prepareForMyTurn];
@@ -562,7 +556,7 @@
   [self.hudView removeButtons];
   
   // Skills trigger for enemy turn started
-  [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+  [skillManager triggerSkillsWithBlock:^() {
     
     _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
     _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
@@ -589,7 +583,7 @@
 
 - (void) myTurnEnded {
   [self showHighScoreWord];
-  [self displayNoInputLayer];
+  [self.orbLayer.bgdLayer turnTheLightsOff];
   [self.hudView removeButtons];
   
   self.movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
@@ -779,7 +773,7 @@
     }
     
     // Trigger skills for move made by the player
-    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+    [skillManager triggerSkillsWithBlock:^() {
       
       [self blowupBattleSprite:self.currentEnemy withBlock:
        ^{
@@ -975,7 +969,7 @@
                      [bgd removeFromParentAndCleanup:YES];
                      
                      _displayedWaveNumber = YES;
-                     [self beginNextTurn];
+                     //[self beginNextTurn];
                    }],
                   nil]];
   
@@ -1471,8 +1465,9 @@
   [self updateHealthBars];
   
   // Trigger skills for move made by the player
-  [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
-    if (! enemyKilled)
+  [skillManager triggerSkillsWithBlock:^() {
+    BOOL enemyIsKilled = [self checkEnemyHealth];
+    if (! enemyIsKilled)
       [self checkIfAnyMovesLeft];
   } andTrigger:SkillTriggerPointEndOfPlayerMove];
   
@@ -1483,15 +1478,19 @@
   CCLabelTTF *label = [CCLabelTTF labelWithString:@"No more moves!\nShuffling..." fontName:@"GothamBlack" fontSize:20];
   label.horizontalAlignment = CCTextAlignmentCenter;
   label.verticalAlignment = CCVerticalTextAlignmentCenter;
-  label.position = ccp(self.noInputLayer.contentSize.width/2, self.noInputLayer.contentSize.height/2);
-  [self.noInputLayer addChild:label];
+  label.position = ccp(self.orbLayer.contentSize.width/2, self.orbLayer.contentSize.height/2);
+  label.opacity = 0.0;
+  [self.orbLayer addChild:label];
   
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = NO_INPUT_LAYER_OPACITY;
-  [self.noInputLayer runAction:[CCActionSequence actions:
+  [label runAction:[CCActionSequence actions:
+                                [CCActionCallBlock actionWithBlock:^{
+                                  [self.orbLayer.bgdLayer turnTheLightsOff]; }],
+                                [CCActionFadeIn actionWithDuration:0.3],
                                 [CCActionDelay actionWithDuration:0.7f],
-                                [RecursiveFadeTo actionWithDuration:0.3 opacity:0],
-                                [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+                                [CCActionCallBlock actionWithBlock:^{
+                                  [self.orbLayer.bgdLayer turnTheLightsOn]; }],
+                                [CCActionFadeOut actionWithDuration:0.3],
+                                [CCActionRemove action], nil]];
 }
 
 - (void) reachedNextScene {
@@ -1502,7 +1501,7 @@
   if (self.enemyPlayerObject) {
     
     // Trigger skills for when new enemy joins the battle
-    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+    [skillManager triggerSkillsWithBlock:^() {
       [self beginNextTurn];
       [self updateHealthBars];
       [self.currentEnemy doRarityTagShine];
@@ -1511,15 +1510,6 @@
 }
 
 #pragma mark - No Input Layer Methods
-
-- (void) displayNoInputLayer {
-  [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:NO_INPUT_LAYER_OPACITY]];
-}
-
-- (void) removeNoInputLayer {
-  [self.noInputLayer stopAllActions];
-  [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:0]];
-}
 
 - (void) displayOrbLayer {
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
@@ -1571,7 +1561,7 @@
 }
 
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
-  [self displayNoInputLayer];
+  [self.orbLayer.bgdLayer turnTheLightsOff];
   [self.orbLayer disallowInput];
   
   [self.hudView.deployView updateWithBattlePlayers:self.myTeam];
@@ -1622,7 +1612,7 @@
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared
-    [skillManager triggerSkillsWithBlock:^(BOOL enemyKilled) {
+    [skillManager triggerSkillsWithBlock:^() {
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
@@ -1635,7 +1625,7 @@
   } else if (isSwap) {
     [self.hudView displaySwapButton];
     [self.orbLayer allowInput];
-    [self removeNoInputLayer];
+    [self.orbLayer.bgdLayer turnTheLightsOn];
   }
 }
 

@@ -74,8 +74,7 @@
 
 - (void) skillTriggerFinished
 {
-  BOOL enemyIsKilled = [self.battleLayer checkEnemyHealth];
-  _callbackBlock(enemyIsKilled);
+  _callbackBlock();
 }
 
 - (void) setDefaultValues

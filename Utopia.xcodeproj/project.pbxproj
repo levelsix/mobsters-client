@@ -5983,6 +5983,8 @@
 		DA88EB3419B7E01C005EE827 /* jellyicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB3019B7E01C005EE827 /* jellyicon@2x.png */; };
 		DA88EB3619B7E224005EE827 /* skillactive.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB3519B7E224005EE827 /* skillactive.plist */; };
 		DA88EB3719B7E224005EE827 /* skillactive.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB3519B7E224005EE827 /* skillactive.plist */; };
+		DA88EB3A19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = DA88EB3919B90250005EE827 /* NSObject+PerformBlockAfterDelay.m */; };
+		DA88EB3B19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */ = {isa = PBXBuildFile; fileRef = DA88EB3919B90250005EE827 /* NSObject+PerformBlockAfterDelay.m */; };
 		DAF7994919AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994A19AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */; };
@@ -9424,6 +9426,8 @@
 		DA88EB2F19B7E01C005EE827 /* jellyicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jellyicon.png; sourceTree = "<group>"; };
 		DA88EB3019B7E01C005EE827 /* jellyicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jellyicon@2x.png"; sourceTree = "<group>"; };
 		DA88EB3519B7E224005EE827 /* skillactive.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = skillactive.plist; sourceTree = "<group>"; };
+		DA88EB3819B90250005EE827 /* NSObject+PerformBlockAfterDelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlockAfterDelay.h"; sourceTree = "<group>"; };
+		DA88EB3919B90250005EE827 /* NSObject+PerformBlockAfterDelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlockAfterDelay.m"; sourceTree = "<group>"; };
 		DAF7994519AD65EF00586583 /* bignotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bignotificationbubble.png; sourceTree = "<group>"; };
 		DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bignotificationbubble@2x.png"; sourceTree = "<group>"; };
 		DAF7994719AD65EF00586583 /* bluenotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluenotificationbubble.png; sourceTree = "<group>"; };
@@ -10015,6 +10019,8 @@
 				DA58F50F19AE6C5200D025BC /* UIColor+HexColor.m */,
 				DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */,
 				DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */,
+				DA88EB3819B90250005EE827 /* NSObject+PerformBlockAfterDelay.h */,
+				DA88EB3919B90250005EE827 /* NSObject+PerformBlockAfterDelay.m */,
 				DA0FC55419B15A6C00393BF4 /* CustomAssert.h */,
 			);
 			path = Miscellaneous;
@@ -20841,6 +20847,7 @@
 				CFF9DD5119B66B1000CA9A8E /* SkillControllerActive.m in Sources */,
 				CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */,
 				CF413C411977494500848AF5 /* AppDelegate.mm in Sources */,
+				DA88EB3B19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
 				CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */,
 				CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */,
@@ -21060,6 +21067,7 @@
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
 				CFF3905918284BF90010A3BE /* BattleSpeechBubble.m in Sources */,
 				CF3765A6182F06BA00D0A77E /* ChatCell.m in Sources */,
+				DA88EB3A19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */,
 				CFF64640195A3EE400C43641 /* EnhanceChooserViewController.m in Sources */,
 				CF6574A91909CAF200ABF1F4 /* Chat.pb.m in Sources */,
 				CFFEB1681834A80A007C4BA3 /* MonsterTeamSlotView.m in Sources */,

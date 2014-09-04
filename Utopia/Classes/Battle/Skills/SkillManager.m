@@ -54,10 +54,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
         _playerColor = (OrbColor)_player.element;
         _playerSkillActivation = playerSkillProto.activationType;
         _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
-        [self setDataForController:_playerSkillController];
       }
     }
   }
+  
+  if (_enemySkillController)
+    [self setDataForController:_enemySkillController];
+  if (_playerSkillController)
+    [self setDataForController:_playerSkillController];
 }
 
 - (void) updateEnemy
@@ -86,10 +90,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
         _enemyColor = (OrbColor)_enemy.element;
         _enemySkillActivation = enemySkillProto.activationType;
         _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
-        [self setDataForController:_enemySkillController];
       }
     }
   }
+  
+  if (_enemySkillController)
+    [self setDataForController:_enemySkillController];
+  if (_playerSkillController)
+    [self setDataForController:_playerSkillController];
 }
 
 - (void) setDataForController:(SkillController*)controller
@@ -147,18 +155,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
   
   // Wrapping indicators update into the block
-  SkillControllerBlock newBlock = ^(BOOL enemyKilled) {
+  SkillControllerBlock newBlock = ^() {
     if (_skillIndicatorPlayer)
       [_skillIndicatorPlayer update];
     if (_skillIndicatorEnemy)
       [_skillIndicatorEnemy update];
-    block(enemyKilled);
+    block();
   };
   
   // Sequencing player and enemy skills in case both will be triggered by this call
-  SkillControllerBlock sequenceBlock = ^(BOOL enemyKilled) {
+  SkillControllerBlock sequenceBlock = ^() {
     BOOL enemySkillTriggered = FALSE;
-    if (! enemyKilled)
+    if (_enemy.curHealth > 0)
       if (_enemySkillController)
       {
         [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
@@ -166,7 +174,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
     
     if (!enemySkillTriggered)
-      block(enemyKilled);
+      block();
   };
   
   // Triggering player with complex block or enemy with a simple
@@ -188,7 +196,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
     if (_skillIndicatorEnemy)
     {
-      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150);
+      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150 + (UI_DEVICE_IS_IPHONE_4 ? 45 : 0));
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];

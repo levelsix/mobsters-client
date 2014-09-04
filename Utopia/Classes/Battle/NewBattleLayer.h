@@ -122,8 +122,6 @@
 
 @property (nonatomic, retain) CCSprite *bloodSplatter;
 
-@property (nonatomic, retain) CCNodeColor *noInputLayer;
-
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;
 
@@ -185,9 +183,6 @@
 - (void) pulseBloodContinuously;
 - (void) pulseHealthLabel:(BOOL)isEnemy;
 - (void) stopPulsing;
-
-- (void) displayNoInputLayer;
-- (void) removeNoInputLayer;
 
 - (void) displayOrbLayer;
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;

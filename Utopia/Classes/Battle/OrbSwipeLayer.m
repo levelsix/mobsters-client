@@ -234,8 +234,15 @@
 }
 
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion {
+
+  
   OrbSprite *spriteA = [self spriteForOrb:swap.orbA];
   OrbSprite *spriteB = [self spriteForOrb:swap.orbB];
+  
+  CustomAssert(swap.orbA, @"Missing orb for the swap");
+  CustomAssert(spriteA, @"Missing sprite for the first orb");
+  CustomAssert(swap.orbB, @"Missing orb for the swap");
+  CustomAssert(spriteB, @"Missing sprite for the second orb");
   
   // Put the orb you started with on top.
   spriteA.zOrder = 2;
