@@ -1528,6 +1528,31 @@
   }
 }
 
+- (void) animateToPercentage:(float)percentage duration:(float)duration completion:(dispatch_block_t)completion {
+  _basePercentage = self.percentage;
+  _finalPercentage = percentage;
+  _duration = duration;
+  _completion = completion;
+  _timePassed = 0;
+  
+  CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateBar:)];
+  [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+- (void) updateBar:(CADisplayLink *)link {
+  _timePassed += link.duration;
+  float timePerc = clampf(_timePassed/_duration, 0.f, 1.f);
+  self.percentage = _basePercentage + (_finalPercentage-_basePercentage)*timePerc;
+  
+  if (timePerc >= 1.f) {
+    [link invalidate];
+    
+    if (_completion) {
+      _completion();
+    }
+  }
+}
+
 @end
 
 @implementation EmbeddedNibView

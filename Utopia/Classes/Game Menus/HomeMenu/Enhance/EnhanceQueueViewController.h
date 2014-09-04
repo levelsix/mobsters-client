@@ -25,10 +25,9 @@
 @end
 
 @interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate> {
-  BOOL _allowAddingToQueue;
-  
   UserMonster *_confirmUserMonster;
-  int _percentIncrease;
+  
+  UserEnhancement *_currentEnhancement;
   
   BOOL _waitingForResponse;
 }
@@ -36,21 +35,24 @@
 @property (nonatomic, retain) IBOutlet ListCollectionView *queueView;
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
-@property (nonatomic, retain) IBOutlet MonsterQueueCell *queueCell;
-@property (nonatomic, retain) IBOutlet EnhanceSmallCardCell *cardCell;
+@property (nonatomic, retain) MonsterQueueCell *queueCell;
+@property (nonatomic, retain) EnhanceSmallCardCell *cardCell;
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterImageView;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
-@property (nonatomic, retain) IBOutlet UILabel *curPercentLabel;
-@property (nonatomic, retain) IBOutlet UILabel *addedPercentLabel;
+@property (nonatomic, retain) IBOutlet UILabel *afterEnhanceLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *nextLevelLabel;
-@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *totalQueueCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueingCostLabel;
 
 @property (nonatomic, retain) IBOutlet THLabel *selectMobsterLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *monsterGlowIcon;
+@property (nonatomic, retain) IBOutlet UIView *levelUpView;
+@property (nonatomic, retain) IBOutlet UIImageView *levelIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *upIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curExpLabel;
@@ -60,7 +62,6 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 
-@property (nonatomic, retain) UserMonster *baseMonster;
 @property (nonatomic, retain) NSMutableArray *userMonsters;
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
@@ -72,11 +73,14 @@
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 - (void) waitTimeComplete;
-- (void) updateLabels;
 
-- (id) initWithBaseMonster:(UserMonster *)um allowAddingToQueue:(BOOL)allowAddingToQueue;
-- (id) initWithCurrentEnhancement;
+- (id) initWithBaseMonster:(UserMonster *)um;
 
 - (UserEnhancement *) currentEnhancement;
+
+- (void) reloadQueueViewAnimated:(BOOL)animated;
+- (void) reloadListViewAnimated:(BOOL)animated;
+- (void) updateLabelsNonTimer;
+- (void) updateStats;
 
 @end

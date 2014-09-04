@@ -517,6 +517,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
 @property int32_t skillPropertyId;
 @property (retain) NSString* name;
 @property Float32 skillValue;
+@property (retain) NSString* shorterName;
 @end
 
 @implementation SkillPropertyProto
@@ -542,8 +543,16 @@ static SkillProto* defaultSkillProtoInstance = nil;
   hasSkillValue_ = !!value;
 }
 @synthesize skillValue;
+- (BOOL) hasShorterName {
+  return !!hasShorterName_;
+}
+- (void) setHasShorterName:(BOOL) value {
+  hasShorterName_ = !!value;
+}
+@synthesize shorterName;
 - (void) dealloc {
   self.name = nil;
+  self.shorterName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -551,6 +560,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
     self.skillPropertyId = 0;
     self.name = @"";
     self.skillValue = 0;
+    self.shorterName = @"";
   }
   return self;
 }
@@ -579,6 +589,9 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (self.hasSkillValue) {
     [output writeFloat:3 value:self.skillValue];
   }
+  if (self.hasShorterName) {
+    [output writeString:4 value:self.shorterName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -596,6 +609,9 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   }
   if (self.hasSkillValue) {
     size += computeFloatSize(3, self.skillValue);
+  }
+  if (self.hasShorterName) {
+    size += computeStringSize(4, self.shorterName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -681,6 +697,9 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (other.hasSkillValue) {
     [self setSkillValue:other.skillValue];
   }
+  if (other.hasShorterName) {
+    [self setShorterName:other.shorterName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -712,6 +731,10 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
       }
       case 29: {
         [self setSkillValue:[input readFloat]];
+        break;
+      }
+      case 34: {
+        [self setShorterName:[input readString]];
         break;
       }
     }
@@ -763,6 +786,22 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
 - (SkillPropertyProto_Builder*) clearSkillValue {
   result.hasSkillValue = NO;
   result.skillValue = 0;
+  return self;
+}
+- (BOOL) hasShorterName {
+  return result.hasShorterName;
+}
+- (NSString*) shorterName {
+  return result.shorterName;
+}
+- (SkillPropertyProto_Builder*) setShorterName:(NSString*) value {
+  result.hasShorterName = YES;
+  result.shorterName = value;
+  return self;
+}
+- (SkillPropertyProto_Builder*) clearShorterName {
+  result.hasShorterName = NO;
+  result.shorterName = @"";
   return self;
 }
 @end

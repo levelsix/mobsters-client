@@ -42,7 +42,7 @@
 
 - (void) waitTimeComplete {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.userEnhancement) {
+  if (!gs.userEvolution) {
     if (_allowEvolution) {
       // Waiting for evo to complete.. go back to chooser screen
       [self.parentViewController popViewControllerAnimated:YES];

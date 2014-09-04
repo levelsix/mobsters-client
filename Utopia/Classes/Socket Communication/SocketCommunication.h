@@ -171,10 +171,7 @@
 - (void) reloadHealQueueSnapshot;
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 
-- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds;
-- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost;
-- (int) setEnhanceQueueDirtyWithOilChange:(int)coinChange gemCost:(int)gemCost;
-- (void) reloadEnhancementSnapshot;
+- (int) sendEnhanceMessage:(UserEnhancementProto *)enhancement monsterExp:(UserMonsterCurrentExpProto *)monsterExp gemCost:(int)gemCost oilChange:(int)oilChange;
 
 - (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId;
 - (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime;

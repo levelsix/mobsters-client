@@ -343,9 +343,9 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-//  NSString *cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
-//  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
-//  [messageWithHeader writeToFile:filePath atomically:YES];
+  //  NSString *cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
+  //  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
+  //  [messageWithHeader writeToFile:filePath atomically:YES];
   
   float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:2.f] timeIntervalSinceNow]);
   [self.connectionThread sendData:messageWithHeader withDelay:delay];
@@ -863,8 +863,8 @@ static NSString *udid = nil;
 
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime {
   PurchaseBoosterPackRequestProto *req = [[[[[[PurchaseBoosterPackRequestProto builder]
-                                             setSender:_sender]
-                                            setBoosterPackId:boosterPackId]
+                                              setSender:_sender]
+                                             setBoosterPackId:boosterPackId]
                                             setFreeBoosterPack:free]
                                            setClientTime:clientTime]
                                           build];
@@ -1227,9 +1227,9 @@ static NSString *udid = nil;
 
 - (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterIds {
   UnrestrictUserMonsterRequestProto *req = [[[[UnrestrictUserMonsterRequestProto builder]
-                                            setSender:_sender]
-                                           addAllUserMonsterIds:userMonsterIds]
-                                          build];
+                                              setSender:_sender]
+                                             addAllUserMonsterIds:userMonsterIds]
+                                            build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUnrestrictUserMonsterEvent];
 }
@@ -1242,38 +1242,6 @@ static NSString *udid = nil;
                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCDevEvent];
-}
-
-#pragma mark - Batch/Flush events
-
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
-  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
-                                    setSender:[self senderWithMaxResources]]
-                                   addAllUmchp:monsterHealths]
-                                  build];
-  
-  // Must manually flush in case heal is being batched
-  [self flush];
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  [self reloadHealQueueSnapshot];
-  
-  return tag;
-}
-
-- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
-  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
-                                      setSender:[self senderWithMaxResources]]
-                                     setIsSpeedup:YES]
-                                    setGemsForSpeedup:goldCost]
-                                   addAllUmchp:monsterHealths]
-                                  build];
-  
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  [self reloadHealQueueSnapshot];
-  
-  return tag;
 }
 
 - (int) sendAddMonsterToTeam:(uint64_t)userMonsterId teamSlot:(int)teamSlot {
@@ -1316,32 +1284,46 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
 }
 
-- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds {
-  EnhancementWaitTimeCompleteRequestProto *req = [[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                     setSender:_sender]
-                                                    setUmcep:monsterExp]
-                                                   addAllUserMonsterIds:userMonsterIds]
-                                                  build];
+- (int) sendEnhanceMessage:(UserEnhancementProto *)enhancement monsterExp:(UserMonsterCurrentExpProto *)monsterExp gemCost:(int)gemCost oilChange:(int)oilChange {
+  EnhanceMonsterRequestProto *req = [[[[[[[EnhanceMonsterRequestProto builder]
+                                          setSender:_sender]
+                                         setUep:enhancement]
+                                        setEnhancingResult:monsterExp]
+                                       setGemsSpent:gemCost]
+                                      setOilChange:oilChange]
+                                     build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCEnhanceMonsterEvent];
+}
+
+#pragma mark - Batch/Flush events
+
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
+  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
+                                    setSender:[self senderWithMaxResources]]
+                                   addAllUmchp:monsterHealths]
+                                  build];
   
-  [self reloadEnhancementSnapshot];
+  // Must manually flush in case heal is being batched
+  [self flush];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
+  
+  [self reloadHealQueueSnapshot];
   
   return tag;
 }
 
-- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost {
-  EnhancementWaitTimeCompleteRequestProto *req = [[[[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                       setSender:_sender]
-                                                      setUmcep:monsterExp]
-                                                     setIsSpeedup:YES]
-                                                    setGemsForSpeedup:goldCost]
-                                                   addAllUserMonsterIds:userMonsterIds]
-                                                  build];
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
+  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
+                                      setSender:[self senderWithMaxResources]]
+                                     setIsSpeedup:YES]
+                                    setGemsForSpeedup:goldCost]
+                                   addAllUmchp:monsterHealths]
+                                  build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
   
-  [self reloadEnhancementSnapshot];
+  [self reloadHealQueueSnapshot];
   
   return tag;
 }
@@ -1433,72 +1415,6 @@ static NSString *udid = nil;
   }
 }
 
-- (int) setEnhanceQueueDirtyWithOilChange:(int)coinChange gemCost:(int)gemCost {
-  [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
-  _enhanceQueueOilChange += coinChange;
-  _enhanceQueueGemCost += gemCost;
-  _enhancementPotentiallyChanged = YES;
-  return _currentTagNum;
-}
-
-- (void) reloadEnhancementSnapshot {
-  GameState *gs = [GameState sharedGameState];
-  self.enhancementSnapshot = [gs.userEnhancement clone];
-}
-
-- (int) sendEnhanceMonsterMessage {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableSet *old = [NSMutableSet setWithArray:self.enhancementSnapshot.feeders];
-  if (self.enhancementSnapshot.baseMonster) [old addObject:self.enhancementSnapshot.baseMonster];
-  NSMutableSet *cur = [NSMutableSet setWithArray:gs.userEnhancement.feeders];
-  if (gs.userEnhancement.baseMonster) [cur addObject:gs.userEnhancement.baseMonster];
-  
-  NSMutableSet *added = cur.mutableCopy;
-  [added minusSet:old];
-  
-  NSMutableSet *removed = old.mutableCopy;
-  [removed minusSet:cur];
-  
-  NSMutableSet *modifiedOld = old.mutableCopy;
-  [modifiedOld intersectSet:cur];
-  
-  NSMutableSet *modifiedCur = cur.mutableCopy;
-  [modifiedCur intersectSet:old];
-  
-  NSMutableSet *changed = [NSMutableSet set];
-  for (EnhancementItem *itemOld in modifiedOld) {
-    EnhancementItem *itemNew = [modifiedCur member:itemOld];
-    if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
-      [changed addObject:itemNew];
-    }
-  }
-  
-  if (added.count || removed.count || changed.count || _enhanceQueueOilChange || _enhanceQueueGemCost) {
-    SubmitMonsterEnhancementRequestProto_Builder *bldr = [[SubmitMonsterEnhancementRequestProto builder] setSender:[self senderWithMaxResources]];
-    
-    for (EnhancementItem *item in added) {
-      [bldr addUeipNew:[item convertToProto]];
-    }
-    
-    for (EnhancementItem *item in removed) {
-      [bldr addUeipDelete:[item convertToProto]];
-    }
-    
-    for (EnhancementItem *item in changed) {
-      [bldr addUeipUpdate:[item convertToProto]];
-    }
-    
-    [bldr setOilChange:_enhanceQueueOilChange];
-    [bldr setGemsSpent:_enhanceQueueGemCost];
-    
-    NSLog(@"Sending enhancement update with %d adds, %d removals, %d updates, %d oil, and %d gems.",  (int)added.count,  (int)removed.count,  (int)changed.count, _enhanceQueueOilChange, _enhanceQueueGemCost);
-    
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
-  } else {
-    return 0;
-  }
-}
-
 - (BOOL) flush {
   return [self flushAllExceptEventType:-1];
 }
@@ -1532,20 +1448,6 @@ static NSString *udid = nil;
       _healingQueuePotentiallyChanged = NO;
       _healingQueueGemCost = 0;
       _healingQueueCashChange = 0;
-      
-      if (val) {
-        found = YES;
-      }
-    }
-  }
-  
-  if (type != EventProtocolRequestCSubmitMonsterEnhancementEvent) {
-    if (_enhancementPotentiallyChanged) {
-      int val = [self sendEnhanceMonsterMessage];
-      [self reloadEnhancementSnapshot];
-      _enhancementPotentiallyChanged = NO;
-      _enhanceQueueGemCost = 0;
-      _enhanceQueueOilChange = 0;
       
       if (val) {
         found = YES;

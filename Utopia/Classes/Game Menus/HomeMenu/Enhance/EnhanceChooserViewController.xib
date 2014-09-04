@@ -8,14 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EnhanceChooserViewController">
             <connections>
                 <outlet property="bottomBarButton" destination="3Rx-by-QeR" id="v7v-s0-RNj"/>
-                <outlet property="enhancingView" destination="Rr5-qa-eT5" id="kyb-1H-rED"/>
                 <outlet property="listView" destination="e4E-pu-6n1" id="q2r-fg-hVh"/>
-                <outlet property="monsterNameLabel" destination="0KM-1v-mWA" id="7KI-Sv-Ycx"/>
-                <outlet property="monsterView" destination="eKz-Jf-vqH" id="Mgn-e8-Ego"/>
                 <outlet property="noMobstersLabel" destination="eiV-HJ-Wfk" id="JvZ-6F-8us"/>
                 <outlet property="notEnhancingView" destination="UnZ-te-6hi" id="EmF-8s-bys"/>
                 <outlet property="queueEmptyLabel" destination="UnZ-te-6hi" id="Vbc-EG-Gum"/>
-                <outlet property="timeLeftLabel" destination="KI3-cd-K3i" id="YXE-GK-FIB"/>
                 <outlet property="view" destination="kIN-r6-rA6" id="Xcz-1g-Hcu"/>
             </connections>
         </placeholder>
@@ -92,52 +88,6 @@
                                     <rect key="frame" x="4" y="-12" width="94" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="Rr5-qa-eT5">
-                                    <rect key="frame" x="106" y="0.0" width="318" height="60"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" id="eKz-Jf-vqH" customClass="MiniMonsterView">
-                                            <rect key="frame" x="7" y="6" width="48" height="48"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthmediumsquare.png" id="B35-5p-Qj5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="pWX-M2-LcP">
-                                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <outlet property="bgdIcon" destination="B35-5p-Qj5" id="ssK-Yk-kJv"/>
-                                                <outlet property="monsterIcon" destination="pWX-M2-LcP" id="Vau-Ce-rW3"/>
-                                            </connections>
-                                        </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enhancing: Zark M." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0KM-1v-mWA" customClass="NiceFontLabel12">
-                                            <rect key="frame" x="66" y="6" width="196" height="29"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Time Left: 6M 12S" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="KI3-cd-K3i" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="66" y="25" width="196" height="27"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="vXk-yr-D99">
-                                            <rect key="frame" x="285" y="19" width="13" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -150,10 +100,8 @@
         </view>
     </objects>
     <resources>
-        <image name="earthmediumsquare.png" width="48" height="48"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="enhancebottompressed.png" width="424" height="59"/>
         <image name="enhancesquirrel.png" width="94" height="72"/>
-        <image name="openquestarrow.png" width="13" height="21"/>
     </resources>
 </document>

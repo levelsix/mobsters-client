@@ -643,68 +643,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self beginHealingTimer];
 }
 
-- (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item {
-  if (self.userEnhancement.feeders.count == 0) {
-    item.expectedStartTime = [MSDate date];
-  } else {
-    EnhancementItem *prevItem = [self.userEnhancement.feeders lastObject];
-    item.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:prevItem];
-  }
-  
-  [self.userEnhancement.feeders addObject:item];
-  
-  [self beginEnhanceTimer];
-  
-  [QuestUtil checkAllDonateQuests];
-}
-
-- (void) removeEnhancingItem:(EnhancementItem *)item {
-  NSMutableArray *feeders = self.userEnhancement.feeders;
-  NSInteger index = [feeders indexOfObject:item];
-  NSInteger total = feeders.count;
-  
-  if (index != NSNotFound) {
-    if (total > index+1) {
-      EnhancementItem *next = [feeders objectAtIndex:index+1];
-      if (index == 0) {
-        next.expectedStartTime = [MSDate date];
-      } else {
-        EnhancementItem *prev = [feeders objectAtIndex:index-1];
-        next.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:prev];
-      }
-      
-      for (NSInteger i = index+2; i < total; i++) {
-        EnhancementItem *next2 = [feeders objectAtIndex:i];
-        EnhancementItem *next1 = [feeders objectAtIndex:i-1];
-        next2.expectedStartTime = [self.userEnhancement expectedEndTimeForItem:next1];
-        
-      }
-    }
-  }
-  [feeders removeObject:item];
-  
-  [self beginEnhanceTimer];
-  
-  [QuestUtil checkAllDonateQuests];
-}
-
-- (void) addEnhancementProto:(UserEnhancementProto *)proto {
-  if (proto) {
-    self.userEnhancement = [UserEnhancement enhancementWithUserEnhancementProto:proto];
-    [[SocketCommunication sharedSocketCommunication] reloadEnhancementSnapshot];
-    
-    if (self.userEnhancement.feeders.count == 0) {
-      [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
-    
-    [self beginEnhanceTimer];
-    
-    [QuestUtil checkAllDonateQuests];
-  }
-}
-
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
   PersistentClanEventUserInfoProto *toRemove = nil;
   for (PersistentClanEventUserInfoProto *p in self.curClanRaidUserInfos) {
@@ -1266,49 +1204,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (_healingTimer) {
     [_healingTimer invalidate];
     _healingTimer = nil;
-  }
-}
-
-#pragma mark Enhance Timer
-
-- (void) beginEnhanceTimer {
-  [self stopEnhanceTimer];
-  
-  if (self.userEnhancement.feeders.count > 0) {
-    EnhancementItem *item = [self.userEnhancement.feeders objectAtIndex:0];
-    MSDate *time = [self.userEnhancement expectedEndTimeForItem:item];
-    if ([time timeIntervalSinceNow] <= 0) {
-      [self enhancingWaitTimeComplete];
-    } else {
-      _enhanceTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
-      [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
-    }
-  }
-}
-
-- (void) enhancingWaitTimeComplete {
-  NSMutableArray *arr = [NSMutableArray array];
-  for (EnhancementItem *item in self.userEnhancement.feeders) {
-    MSDate *time = [self.userEnhancement expectedEndTimeForItem:item];
-    if ([time timeIntervalSinceNow] <= 0) {
-      [arr addObject:item];
-    }
-  }
-  
-  if (arr.count > 0) {
-    [[OutgoingEventController sharedOutgoingEventController] enhanceQueueWaitTimeComplete:arr];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
-    [self beginEnhanceTimer];
-    
-    [QuestUtil checkAllDonateQuests];
-  }
-}
-
-- (void) stopEnhanceTimer {
-  if (_enhanceTimer) {
-    [_enhanceTimer invalidate];
-    _enhanceTimer = nil;
   }
 }
 

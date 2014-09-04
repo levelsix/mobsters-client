@@ -32,7 +32,7 @@ static NSString* CONVERSION_KEY = @"c0fcfa638c9984a2c18ee4af12617857";
     
     //TODO - set NO for production
 #ifdef DEBUG
-    [MobileAppTracker setDebugMode:YES];
+    [MobileAppTracker setDebugMode:NO];
     //[MobileAppTracker setAllowDuplicateRequests:YES];
 #else
     [MobileAppTracker setDebugMode:NO];

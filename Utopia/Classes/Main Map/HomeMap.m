@@ -491,24 +491,24 @@
   
   NSArray *hosps = [gs myValidHospitals];
   for (CCSprite *spr in [self childrenOfClassType:[HospitalBuilding class]]) {
-      HospitalBuilding *hosp = (HospitalBuilding *)spr;
-      UserStruct *s = hosp.userStruct;
-      NSInteger index = [hosps indexOfObject:s];
-      UserMonsterHealingItem *hi = nil;
+    HospitalBuilding *hosp = (HospitalBuilding *)spr;
+    UserStruct *s = hosp.userStruct;
+    NSInteger index = [hosps indexOfObject:s];
+    UserMonsterHealingItem *hi = nil;
+    
+    if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
+      hi = gs.monsterHealingQueue[index];
+    }
+    
+    if (hi) {
+      [hosp beginAnimatingWithHealingItem:hi];
       
-      if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
-        hi = gs.monsterHealingQueue[index];
-      }
+      [hosp setBubbleType:BuildingBubbleTypeNone];
+    } else {
+      [hosp stopAnimating];
       
-      if (hi) {
-        [hosp beginAnimatingWithHealingItem:hi];
-        
-        [hosp setBubbleType:BuildingBubbleTypeNone];
-      } else {
-        [hosp stopAnimating];
-        
-        [hosp setBubbleType:hurtMobsters ? BuildingBubbleTypeHeal : BuildingBubbleTypeNone withNum:hurtMobsters];
-      }
+      [hosp setBubbleType:hurtMobsters ? BuildingBubbleTypeHeal : BuildingBubbleTypeNone withNum:hurtMobsters];
+    }
   }
 }
 
@@ -632,15 +632,8 @@
     }
   }
   
-  BOOL enhanceInProgress = gs.userEnhancement != nil;
   for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
-    if (!enhanceInProgress) {
-      [b setBubbleType:BuildingBubbleTypeEnhance];
-      [b stopAnimating];
-    } else {
-      [b setBubbleType:BuildingBubbleTypeNone];
-      [b beginAnimatingWithEnhancement:gs.userEnhancement];
-    }
+    [b setBubbleType:BuildingBubbleTypeEnhance];
   }
 }
 
@@ -1380,10 +1373,7 @@
     cost = nextFsp.buildCost;
     isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
     
-    if (nextFsp.structType == StructureInfoProto_StructTypeLab && gs.userEnhancement) {
-      [GenericPopupController displayConfirmationWithDescription:@"Your current enhancement will be cancelled. Continue?" title:@"Cancel Enhancement" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(cancelEnhancementAndUpgrade)];
-      return;
-    } else if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
+    if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
       BOOL activeQuest = NO;
       for (UserMiniJob *mj in gs.myMiniJobs) {
         if (mj.timeStarted || mj.timeCompleted) {
@@ -1417,11 +1407,6 @@
       [self sendUpgradeAllowGems:NO];
     }
   }
-}
-
-- (void) cancelEnhancementAndUpgrade {
-  [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
-  [self bigUpgradeClicked];
 }
 
 - (void) useGemsForUpgrade {
@@ -1681,7 +1666,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];

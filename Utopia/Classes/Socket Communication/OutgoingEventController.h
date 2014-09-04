@@ -103,12 +103,7 @@
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 - (void) sellUserMonsters:(NSArray *)userMonsterIds;
 
-- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId;
-- (BOOL) removeBaseEnhanceMonster;
-- (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
-- (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
-- (BOOL) speedupEnhancingQueue:(id)delegate;
-- (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
+- (BOOL) enhanceMonster:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;

@@ -96,7 +96,10 @@
 
 @end
 
-@interface EnhancementItem : NSObject
+@interface EnhancementItem : NSObject {
+  // This is used to fake a UserEnhancement with different user monsters that the gamestate's.
+  UserMonster *_fakedUserMonster;
+}
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
 
@@ -105,6 +108,7 @@
 @property (nonatomic, retain) MSDate *expectedStartTime;
 
 - (UserMonster *)userMonster;
+- (void) setFakedUserMonster:(UserMonster *)userMonster;
 - (UserEnhancementItemProto *) convertToProto;
 
 @end

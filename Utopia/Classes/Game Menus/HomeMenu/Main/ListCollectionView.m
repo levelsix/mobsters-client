@@ -46,6 +46,7 @@
   
   self.botLabel.hidden = YES;
   self.timerView.hidden = YES;
+  self.minusButton.hidden = NO;
 }
 
 - (void) updateTimeWithTimeLeft:(int)timeLeft percent:(float)percentage {

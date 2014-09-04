@@ -1352,9 +1352,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if ( gs.lastFreeGachaSpin )
   {
     // Midnight date
-    NSDate *date = [NSDate date];
+    MSDate *date = [MSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *comps = [gregorian components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
+    NSDateComponents *comps = [gregorian components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date.relativeNSDate];
     NSDate *lastMidnight = [gregorian dateFromComponents:comps];
     
     if ( [gs.lastFreeGachaSpin.relativeNSDate compare:lastMidnight] == NSOrderedAscending )
@@ -1464,9 +1464,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
 }
 
-- (int) calculateOilCostForEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
+- (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
   int additionalLevel = [ue currentPercentageOfLevel];
   return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
+}
+
+- (int) calculateTotalOilCostForEnhancement:(UserEnhancement *)ue {
+  int oilCost = 0;
+  for (EnhancementItem *ei in ue.feeders) {
+    oilCost += [self calculateOilCostForNewMonsterWithEnhancement:ue feeder:ei];
+  }
+  return oilCost;
 }
 
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {

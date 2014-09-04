@@ -113,6 +113,7 @@
             </view>
             <connections>
                 <outlet property="botLabel" destination="8ck-qn-DeT" id="nEJ-vZ-ILP"/>
+                <outlet property="minusButton" destination="Szu-zg-dpV" id="4oo-9v-Cg3"/>
                 <outlet property="monsterView" destination="ENd-8C-uec" id="zO0-lz-o9b"/>
                 <outlet property="progressBar" destination="sDb-sf-CFV" id="Zgi-a5-EG4"/>
                 <outlet property="timeLabel" destination="d1w-2T-6Ys" id="xpb-6S-qJ4"/>

@@ -83,8 +83,9 @@
 }
 
 - (BOOL) isEnhancing {
-  GameState *gs = [GameState sharedGameState];
-  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+//  GameState *gs = [GameState sharedGameState];
+//  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+  return NO;
 }
 
 - (BOOL) isEvolving {
@@ -95,12 +96,12 @@
 }
 
 - (BOOL) isSacrificing {
-  GameState *gs = [GameState sharedGameState];
-  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
-    if (self.userMonsterId == ei.userMonsterId) {
-      return YES;
-    }
-  }
+//  GameState *gs = [GameState sharedGameState];
+//  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
+//    if (self.userMonsterId == ei.userMonsterId) {
+//      return YES;
+//    }
+//  }
   return NO;
 }
 
@@ -253,6 +254,10 @@
   }
 }
 
+- (id) copy {
+  return [[UserMonster alloc] initWithMonsterProto:[self convertToProto]];
+}
+
 - (FullUserMonsterProto *) convertToProto {
   FullUserMonsterProto_Builder *bldr = [FullUserMonsterProto builder];
   bldr.userMonsterId = self.userMonsterId;
@@ -265,6 +270,7 @@
   bldr.isComplete = self.isComplete;
   bldr.numPieces = self.numPieces;
   bldr.combineStartTime = self.combineStartTime.timeIntervalSince1970*1000.;
+  bldr.isRestrictd = self.isProtected;
   return bldr.build;
 }
 
@@ -404,16 +410,7 @@
   UserMonster *base = self.baseMonster.userMonster;
   float baseLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience];
   float basePerc = baseLevel-(int)baseLevel;
-  
-  if (self.feeders.count == 0) {
-    return basePerc;
-  }
-  
-  EnhancementItem *feeder = [self.feeders objectAtIndex:0];
-  int expGained = [gl calculateExperienceIncrease:self.baseMonster feeder:feeder];
-  float curPerc = [self currentPercentageForItem:feeder];
-  float curLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained*curPerc];
-  return basePerc+(curLevel-baseLevel);
+  return basePerc;
 }
 
 - (float) finalPercentageFromCurrentLevel {
@@ -430,7 +427,7 @@
   
   // add this item to UserEnhancement
   EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = um.userMonsterId;
+  [item setFakedUserMonster:um];
   [self.feeders addObject:item];
   
   float newPerc = [self finalPercentageFromCurrentLevel]*100;
@@ -448,7 +445,7 @@
 
 - (int) experienceIncreaseOfNewUserMonster:(UserMonster *)um {
   EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = um.userMonsterId;
+  [item setFakedUserMonster:um];
   
   return [self experienceIncreaseOfItem:item];
 }
@@ -608,7 +605,11 @@
 
 - (UserMonster *) userMonster {
   GameState *gs = [GameState sharedGameState];
-  return [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  return _fakedUserMonster ? _fakedUserMonster : [gs myMonsterWithUserMonsterId:self.userMonsterId];
+}
+
+- (void) setFakedUserMonster:(UserMonster *)userMonster {
+  _fakedUserMonster = userMonster;
 }
 
 - (UserEnhancementItemProto *) convertToProto {

@@ -52,7 +52,7 @@
 //      [self button1Clicked:nil];
 //    }
 //  }
-  [self button2Clicked:nil];
+  [self button1Clicked:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

@@ -279,6 +279,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUnrestrictUserMonsterEvent:
       responseClass = [UnrestrictUserMonsterResponseProto class];
       break;
+    case EventProtocolResponseSEnhanceMonsterEvent:
+      responseClass = [EnhanceMonsterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -290,6 +293,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTimeOutOfSync {
   [Globals popupMessage:@"Your time is out of sync! Please fix in Settings->General->Date & Time."];
 }
+
+#pragma mark - Startup
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
@@ -351,12 +356,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
-    
-    if (proto.hasEnhancements) {
-      [gs addEnhancementProto:proto.enhancements];
-    } else {
-      gs.userEnhancement = nil;
-    }
     
     if (proto.hasEvolution) {
       gs.userEvolution = [UserEvolution evolutionWithUserEvolutionProto:proto.evolution];
@@ -474,6 +473,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - IAP
+
 - (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
   InAppPurchaseResponseProto *proto = (InAppPurchaseResponseProto *)fe.event;
   int tag = fe.tag;
@@ -549,6 +550,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs removeFullUserUpdatesForTag:tag];
   [gs updateUser:proto.sender timestamp:proto.timeOfUserUpdate];
 }
+
+#pragma mark - Structure
 
 - (void) handlePurchaseNormStructureResponseProto:(FullEvent *)fe {
   PurchaseNormStructureResponseProto *proto = (PurchaseNormStructureResponseProto *)fe.event;
@@ -660,6 +663,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - City
+
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
   LoadPlayerCityResponseProto *proto = (LoadPlayerCityResponseProto *)fe.event;
   int tag = fe.tag;
@@ -678,8 +683,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
-      [gs beginEnhanceTimer];
-      [gs beginMiniJobTimer];;
+      [gs beginMiniJobTimer];
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
@@ -719,6 +723,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
+
+#pragma mark - Quest
 
 - (void) handleQuestAcceptResponseProto:(FullEvent *)fe {
   QuestAcceptResponseProto *proto = (QuestAcceptResponseProto *)fe.event;
@@ -763,6 +769,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - User
+
 - (void) handleRetrieveUsersForUserIdsResponseProto:(FullEvent *)fe {
   int tag = fe.tag;
   
@@ -770,6 +778,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   [gs removeNonFullUserUpdatesForTag:tag];
+}
+
+- (void) handleUpdateUserCurrencyResponseProto:(FullEvent *)fe {
+  UpdateUserCurrencyResponseProto *proto = (UpdateUserCurrencyResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Update user currency response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to update user currency."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 - (void) handleReferralCodeUsedResponseProto:(FullEvent *)fe {
@@ -846,6 +870,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs updateStaticData:proto.staticDataStuff];
 }
 
+- (void) handleSetAvatarMonsterResponseProto:(FullEvent *)fe {
+  SetAvatarMonsterResponseProto *proto = (SetAvatarMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Set avatar monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to set avatar monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Chat
+
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
@@ -877,6 +919,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   }
 }
+
+- (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
+  PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
+  LNLog(@"Private chat post response received with status %d.", proto.status);
+  
+  if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
+    GameState *gs = [GameState sharedGameState];
+    [gs addPrivateChat:proto.post];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
+     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userId]]];
+  }
+}
+
+- (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
+  RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
+  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status,  (int)proto.postsList.count);
+}
+
+#pragma mark - Clan
 
 - (void) handleCreateClanResponseProto:(FullEvent *)fe {
   CreateClanResponseProto *proto = (CreateClanResponseProto *)fe.event;
@@ -1147,35 +1209,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleExpansionWaitCompleteResponseProto:(FullEvent *)fe {
-  ExpansionWaitCompleteResponseProto *proto = (ExpansionWaitCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Expansion wait complete response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to complete expansion wait time."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
+#pragma mark - Misc
 
-- (void) handlePurchaseCityExpansionResponseProto:(FullEvent *)fe {
-  PurchaseCityExpansionResponseProto *proto = (PurchaseCityExpansionResponseProto *)fe.event;
+- (void) handleDevResponseProto:(FullEvent *)fe {
+  DevResponseProto *proto = (DevResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Purchase city expansion response received with status %d.", proto.status);
+  
+  LNLog(@"Dev response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
+  if (proto.status == DevResponseProto_DevStatusSuccess) {
+    if (proto.hasFump) {
+      NSLog(@"Mobster %lld.", proto.fump.userMonsterId);
+      [gs addToMyMonsters:@[proto.fump]];
+    }
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to purchase city expansion."];
-    }
+    [Globals popupMessage:@"Server failed to execute cheat code."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1201,50 +1252,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   //  [un release];
 }
 
-- (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
-  RetrieveTournamentRankingsResponseProto *proto = (RetrieveTournamentRankingsResponseProto *)fe.event;
+#pragma mark - Enhance
+
+- (void) handleEnhanceMonsterResponseProto:(FullEvent *)fe {
+  EnhanceMonsterResponseProto *proto = (EnhanceMonsterResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Retrieve tournament response received with status %d and %d rankings.",  proto.status, (int)proto.resultPlayersList.count);
+  LNLog(@"Enhance monster received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess) {
+  if (proto.status == EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to send back leaderboard rankings."];
+    [Globals popupMessage:@"Server failed to enhance monster."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
-- (void) handleSubmitMonsterEnhancementResponseProto:(FullEvent *)fe {
-  SubmitMonsterEnhancementResponseProto *proto = (SubmitMonsterEnhancementResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Submit monster enhancement received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to submit monster enhancement."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  EnhancementWaitTimeCompleteResponseProto *proto = (EnhancementWaitTimeCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Enhancement wait time complete received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to complete enhance wait time."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
+#pragma mark - Booster pack
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
@@ -1269,23 +1294,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addBoosterPurchase:proto.rareBoosterPurchase];
 }
 
-- (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
-  PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
-  LNLog(@"Private chat post response received with status %d.", proto.status);
-  
-  if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
-    GameState *gs = [GameState sharedGameState];
-    [gs addPrivateChat:proto.post];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
-     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userId]]];
-  }
-}
-
-- (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
-  RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
-  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status,  (int)proto.postsList.count);
-}
+#pragma mark - Dungeon
 
 - (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
   BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
@@ -1331,6 +1340,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - PVP
+
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
   QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1344,6 +1355,41 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
+
+- (void) handleBeginPvpBattleResponseProto:(FullEvent *)fe {
+  BeginPvpBattleResponseProto *proto = (BeginPvpBattleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Begin pvp battle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to begin pvp battle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
+  EndPvpBattleResponseProto *proto = (EndPvpBattleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"End pvp battle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to end pvp battle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Healing
 
 - (void) handleHealMonsterResponseProto:(FullEvent *)fe {
   HealMonsterResponseProto *proto = (HealMonsterResponseProto *)fe.event;
@@ -1359,6 +1405,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
+
+#pragma mark - Team
 
 - (void) handleAddMonsterToBattleTeamResponseProto:(FullEvent *)fe {
   AddMonsterToBattleTeamResponseProto *proto = (AddMonsterToBattleTeamResponseProto *)fe.event;
@@ -1450,6 +1498,40 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+- (void) handleRestrictUserMonsterResponseProto:(FullEvent *)fe {
+  RestrictUserMonsterResponseProto *proto = (RestrictUserMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Restrict user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to restrict user monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUnrestrictUserMonsterResponseProto:(FullEvent *)fe {
+  UnrestrictUserMonsterResponseProto *proto = (UnrestrictUserMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Unrestrict user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to unrestrict user monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Invites
+
 - (void) handleInviteFbFriendsForSlotsResponseProto:(FullEvent *)fe {
   InviteFbFriendsForSlotsResponseProto *proto = (InviteFbFriendsForSlotsResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1487,6 +1569,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Evolve
+
 - (void) handleEvolveMonsterResponseProto:(FullEvent *)fe {
   EvolveMonsterResponseProto *proto = (EvolveMonsterResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1521,54 +1605,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUpdateUserCurrencyResponseProto:(FullEvent *)fe {
-  UpdateUserCurrencyResponseProto *proto = (UpdateUserCurrencyResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Update user currency response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to update user currency."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleBeginPvpBattleResponseProto:(FullEvent *)fe {
-  BeginPvpBattleResponseProto *proto = (BeginPvpBattleResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Begin pvp battle response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to begin pvp battle."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
-  EndPvpBattleResponseProto *proto = (EndPvpBattleResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"End pvp battle response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to end pvp battle."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
+#pragma mark - Raids
 
 - (void) handleBeginClanRaidResponseProto:(FullEvent *)fe {
   BeginClanRaidResponseProto *proto = (BeginClanRaidResponseProto *)fe.event;
@@ -1620,6 +1657,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Obstacle
+
 - (void) handleSpawnObstacleResponseProto:(FullEvent *)fe {
   SpawnObstacleResponseProto *proto = (SpawnObstacleResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1669,6 +1708,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+#pragma mark - Achievement
+
 - (void) handleAchievementProgressResponseProto:(FullEvent *)fe {
   AchievementProgressResponseProto *proto = (AchievementProgressResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1700,6 +1741,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
+
+#pragma mark - Mini Job
 
 - (void) handleSpawnMiniJobResponseProto:(FullEvent *)fe {
   SpawnMiniJobResponseProto *proto = (SpawnMiniJobResponseProto *)fe.event;
@@ -1766,75 +1809,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem mini job."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleSetAvatarMonsterResponseProto:(FullEvent *)fe {
-  SetAvatarMonsterResponseProto *proto = (SetAvatarMonsterResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Set avatar monster response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to set avatar monster."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRestrictUserMonsterResponseProto:(FullEvent *)fe {
-  RestrictUserMonsterResponseProto *proto = (RestrictUserMonsterResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Restrict user monster response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to restrict user monster."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleUnrestrictUserMonsterResponseProto:(FullEvent *)fe {
-  UnrestrictUserMonsterResponseProto *proto = (UnrestrictUserMonsterResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Unrestrict user monster response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to unrestrict user monster."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleDevResponseProto:(FullEvent *)fe {
-  DevResponseProto *proto = (DevResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Dev response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == DevResponseProto_DevStatusSuccess) {
-    if (proto.hasFump) {
-      NSLog(@"Mobster %lld.", proto.fump.userMonsterId);
-      [gs addToMyMonsters:@[proto.fump]];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to execute cheat code."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

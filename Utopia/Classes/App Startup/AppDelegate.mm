@@ -268,10 +268,6 @@
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished evolving.", gs.userEvolution.evoItem.userMonster1.staticEvolutionMonster.displayName] badge:1 date:gs.userEvolution.endTime];
   }
   
-  if (gs.userEnhancement.feeders.count) {
-    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished enhancing.", gs.userEnhancement.baseMonster.userMonster.staticMonster.displayName] badge:1 date:gs.userEnhancement.expectedEndTime];
-  }
-  
   for (UserMiniJob *miniJob in gs.myMiniJobs) {
     if (miniJob.timeStarted && !miniJob.timeCompleted) {
       MSDate *date = [miniJob.timeStarted dateByAddingTimeInterval:miniJob.durationMinutes*60];

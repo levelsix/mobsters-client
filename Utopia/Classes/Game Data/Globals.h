@@ -39,8 +39,7 @@
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define HEAL_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
-#define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
-#define ENHANCE_QUEUE_CHANGED_NOTIFICATION @"EnhanceQueueChangedNotification"
+#define ENHANCE_MONSTER_NOTIFICATION @"EnhanceMonsterNotification"
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define EVOLUTION_CHANGED_NOTIFICATION @"EvolutionChangedNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
@@ -313,7 +312,8 @@
 - (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement;
 
 // Enhancement formulas
-- (int) calculateOilCostForEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder;
+- (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder;
+- (int) calculateTotalOilCostForEnhancement:(UserEnhancement *)ue;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;

@@ -333,38 +333,46 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @private
   BOOL hasPuzzlePieceDropped_:1;
   BOOL hasDmgMultiplier_:1;
+  BOOL hasTsmId_:1;
   BOOL hasMonsterId_:1;
   BOOL hasExpReward_:1;
   BOOL hasCashReward_:1;
   BOOL hasOilReward_:1;
+  BOOL hasPuzzlePieceMonsterId_:1;
   BOOL hasLevel_:1;
   BOOL hasItemId_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
+  int32_t tsmId;
   int32_t monsterId;
   int32_t expReward;
   int32_t cashReward;
   int32_t oilReward;
+  int32_t puzzlePieceMonsterId;
   int32_t level;
   int32_t itemId;
   TaskStageMonsterProto_MonsterType monsterType;
 }
+- (BOOL) hasTsmId;
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterType;
 - (BOOL) hasExpReward;
 - (BOOL) hasCashReward;
 - (BOOL) hasOilReward;
 - (BOOL) hasPuzzlePieceDropped;
+- (BOOL) hasPuzzlePieceMonsterId;
 - (BOOL) hasLevel;
 - (BOOL) hasItemId;
 - (BOOL) hasDmgMultiplier;
+@property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 - (BOOL) puzzlePieceDropped;
+@property (readonly) int32_t puzzlePieceMonsterId;
 @property (readonly) int32_t level;
 @property (readonly) int32_t itemId;
 @property (readonly) Float32 dmgMultiplier;
@@ -403,6 +411,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
+- (BOOL) hasTsmId;
+- (int32_t) tsmId;
+- (TaskStageMonsterProto_Builder*) setTsmId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearTsmId;
+
 - (BOOL) hasMonsterId;
 - (int32_t) monsterId;
 - (TaskStageMonsterProto_Builder*) setMonsterId:(int32_t) value;
@@ -432,6 +445,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) puzzlePieceDropped;
 - (TaskStageMonsterProto_Builder*) setPuzzlePieceDropped:(BOOL) value;
 - (TaskStageMonsterProto_Builder*) clearPuzzlePieceDropped;
+
+- (BOOL) hasPuzzlePieceMonsterId;
+- (int32_t) puzzlePieceMonsterId;
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterId;
 
 - (BOOL) hasLevel;
 - (int32_t) level;

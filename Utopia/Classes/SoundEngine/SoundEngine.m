@@ -139,6 +139,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_notification_box_pop_up.mp3"];
 }
 
++ (void) enhanceFlying {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_firework_02.mp3"];
+}
+
 + (void) chatOpened {
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_out.mp3"];
 }

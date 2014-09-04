@@ -514,7 +514,13 @@ typedef enum {
 
 @end
 
-@interface SplitImageProgressBar : UIView
+@interface SplitImageProgressBar : UIView {
+  float _basePercentage;
+  float _finalPercentage;
+  float _duration;
+  float _timePassed;
+  dispatch_block_t _completion;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftCap;
 @property (nonatomic, retain) IBOutlet UIImageView *rightCap;
@@ -522,6 +528,8 @@ typedef enum {
 
 @property (nonatomic, assign) float percentage;
 @property (nonatomic, assign) BOOL isRightToLeft;
+
+- (void) animateToPercentage:(float)percentage duration:(float)duration completion:(dispatch_block_t)completion;
 
 @end
 

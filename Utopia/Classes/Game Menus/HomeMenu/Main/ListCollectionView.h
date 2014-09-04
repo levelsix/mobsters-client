@@ -70,6 +70,8 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *botLabel;
 
+@property (nonatomic, strong) IBOutlet UIButton *minusButton;
+
 - (void) updateTimeWithTimeLeft:(int)timeLeft percent:(float)percentage;
 
 @end
