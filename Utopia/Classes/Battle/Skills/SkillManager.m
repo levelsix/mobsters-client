@@ -185,10 +185,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     BOOL existedBefore = (_skillIndicatorEnemy != nil && _skillIndicatorEnemy.parent);
     if ( existedBefore )
       [_skillIndicatorEnemy removeFromParent];
-    _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController];
+    _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
     if (_skillIndicatorEnemy)
     {
-      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 120 - (UI_DEVICE_IS_IPHONE_4 ? 10 : 0));
+      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150);
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];
@@ -209,10 +209,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
   if (_playerSkillType != SkillTypeNoSkill)
   {
-    _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController];
+    _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
     if (_skillIndicatorPlayer)
     {
-      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 60 - (UI_DEVICE_IS_IPHONE_4 ? 5 : 0));
+      _skillIndicatorPlayer.position = CGPointMake(-_skillIndicatorPlayer.contentSize.width/2, 38);
       [_skillIndicatorPlayer update];
       [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
     }

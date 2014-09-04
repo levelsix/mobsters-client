@@ -6,7 +6,9 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
+#import "CCTextureCache.h"
 #import "UIDefinitions.h"
+#import "Globals.h"
 #import "SkillBattleIndicatorView.h"
 #import "SkillControllerActive.h"
 #import "SkillControllerPassive.h"
@@ -21,7 +23,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype) initWithSkillController:(SkillController*)skillController
+- (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy
 {
   if (! skillController)
   {
@@ -35,8 +37,9 @@
     return nil;
   
   _skillController = skillController;
+  _enemy = enemy;
   
-  switch (skillController.activationType)
+  /*switch (skillController.activationType)
   {
     case SkillActivationTypeAutoActivated:
       [self setForAutoactivatedSkill];
@@ -46,14 +49,16 @@
       break;
     default:
       break;
-  }
+  }*/
   
-  [self setSkillIcon:skillController.skillType];
+  [self setSkillIcon];
+  
+  [self setSkillLabel];
   
   return self;
 }
 
-- (void) setForAutoactivatedSkill
+/*- (void) setForAutoactivatedSkill
 {
   if (! [_skillController isKindOfClass:[SkillControllerActive class]])
   {
@@ -150,26 +155,72 @@
     _checkIcon.position = CGPointMake(11, 0);
     [self addChild:_checkIcon];
   }
-}
+}*/
 
-- (void) setSkillIcon:(SkillType)skillType
+- (void) setSkillIcon
 {
   NSString* iconName;
-  switch (skillType)
+  switch (_skillController.skillType)
   {
     case SkillTypeQuickAttack: iconName = @"quickattackicon.png"; break;
-    case SkillTypeJelly: iconName = @"jellypiece.png"; break;
+    case SkillTypeJelly: iconName = @"jellyicon.png"; break;
     default: return;
   }
   
   _skillIcon = [CCSprite spriteWithImageNamed:iconName];
-  _skillIcon.position = ccp(2, UI_DEVICE_IS_IPHONE_4 ? 20 : 25);
+  _skillIcon.position = ccp(0, 25);
   [self addChild:_skillIcon];
+  
+  if (_skillController.activationType != SkillActivationTypePassive)
+  {
+    // Greyscale image
+    UIImage *image = [Globals imageNamed:iconName];
+    image = [Globals greyScaleImageWithBaseImage:image];
+    CCTexture* texture = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[iconName stringByAppendingString:@"gs"]];
+    texture.contentScale = _skillIcon.texture.contentScale;
+    CCSprite* greyscaleIcon = [CCSprite spriteWithTexture:texture];
+    
+    // Stencil node
+    _stencilNode = [CCDrawNode node];
+    CGPoint rectangle[] = {{0, 0}, {_skillIcon.contentSize.width, 0}, {_skillIcon.contentSize.width, _skillIcon.contentSize.height}, {0, _skillIcon.contentSize.height}};
+    _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, -_skillIcon.contentSize.height/2);
+    _stencilNode.contentSize = CGSizeMake(_skillIcon.contentSize.width, _skillIcon.contentSize.height * 0.5);
+    [_stencilNode drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+    
+    // Clipping node
+    CCClippingNode* clippingNode = [CCClippingNode clippingNodeWithStencil:_stencilNode];
+    clippingNode.position = _skillIcon.position;
+    [clippingNode addChild:greyscaleIcon];
+    [self addChild:clippingNode];
+  }
+}
+
+- (void) setSkillLabel
+{
+  NSString* iconName;
+  switch (_skillController.orbColor)
+  {
+    case OrbColorEarth: iconName = @"earth"; break;
+    case OrbColorFire: iconName = @"fire"; break;
+    case OrbColorLight: iconName = @"light"; break;
+    case OrbColorDark: iconName = @"night"; break;
+    case OrbColorWater: iconName = @"water"; break;
+    default: return;
+  }
+  
+  if (_enemy)
+    iconName = [iconName stringByAppendingString:@"enemyskill.png"];
+  else
+    iconName = [iconName stringByAppendingString:@"yourskill.png"];
+  
+  _skillLabel = [CCSprite spriteWithImageNamed:iconName];
+  _skillLabel.position = ccp(0, 10);
+  [self addChild:_skillLabel];
 }
 
 #pragma mark - Setters
 
-- (void) setOrbsCount:(NSInteger)orbsCount
+/*- (void) setOrbsCount:(NSInteger)orbsCount
 {
   if (!_orbsCountLabel || !_checkIcon)
     return;
@@ -185,6 +236,35 @@
     _orbsCountLabel.visible = YES;
     _checkIcon.visible = NO;
   }
+}*/
+
+- (void) setPercentage:(float)percentage
+{
+  _percentage = percentage;
+  
+  if (_stencilNode)
+    _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5));
+  
+  if (_skillController.activationType != SkillActivationTypePassive)
+  {
+    if (_percentage == 1.0)
+    {
+      if (! _chargedEffect)
+      {
+        _chargedEffect = [CCParticleSystem particleWithFile:@"skillactive.plist"];
+        _chargedEffect.contentSize = _skillIcon.contentSize;
+        _chargedEffect.position = CGPointMake(_chargedEffect.contentSize.width/2, _chargedEffect.contentSize.height/2);
+        [_skillIcon addChild:_chargedEffect];
+      }
+      
+      [_chargedEffect resetSystem];
+    }
+    else
+    {
+      if (_chargedEffect)
+        [_chargedEffect stopSystem];
+    }
+  }
 }
 
 - (void) update
@@ -193,7 +273,8 @@
   if ( [_skillController isKindOfClass:[SkillControllerActive class]] )
   {
     SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
-    self.orbsCount = activeSkill.orbCounter;
+    self.percentage = 1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement;
+    //self.orbsCount = activeSkill.orbCounter;
   }
 }
 

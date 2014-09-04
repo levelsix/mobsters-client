@@ -25,7 +25,7 @@ typedef enum {
   
 } SkillTriggerPoint;
 
-@interface SkillController : NSObject //<SkillProtocol>
+@interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
 }
@@ -42,7 +42,7 @@ typedef enum {
 @property (readonly) OrbColor orbColor;
 
 - (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
-+ (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color; // Factory call, can create different skill types
++ (id) skillWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color; // Factory call, creates different skill types
 
 // External callers
 - (BOOL) skillIsReady;

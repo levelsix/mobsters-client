@@ -27,7 +27,7 @@
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
   if ( [property isEqualToString:@"SPAWN_TURNS"] )
-    _spawnTurns = 2;//value;
+    _spawnTurns = value;
   else if ( [property isEqualToString:@"SPAWN_COUNT"] )
     _spawnCount = value;
   else if ( [property isEqualToString:@"INITIAL_COUNT"] )
