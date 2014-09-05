@@ -40,4 +40,25 @@
   [super skillTriggerFinished];
 }
 
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+  [result setObject:@(_orbCounter) forKey:@"orbCounter"];
+  return result;
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! [super deserialize:dict])
+    return NO;
+  
+  NSNumber* orbCounter = [dict objectForKey:@"orbCounter"];
+  if (orbCounter)
+    _orbCounter = [orbCounter integerValue];
+  
+  return YES;
+}
+
 @end

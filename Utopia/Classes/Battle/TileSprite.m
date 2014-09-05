@@ -6,6 +6,7 @@
 //
 
 #import "TileSprite.h"
+#import <cocos2d/cocos2d.h>
 
 @implementation TileSprite
 
@@ -39,8 +40,10 @@
   // Remove previous
   if (_sprite)
   {
-    [_sprite removeFromParent];
-    _sprite = nil;
+    [_sprite runAction:[CCActionSequence actions:
+                              [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:0.0]],
+                              [CCActionRemove action],
+                              nil]];
   }
   
   // Check if this tile is not empty
@@ -58,7 +61,11 @@
   if (imageName)
   {
     _sprite = [CCSprite spriteWithImageNamed:imageName];
+    _sprite.scale = 0.0;
     [self addChild:_sprite];
+    [_sprite runAction:[CCActionSequence actions:
+                        [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:1.0]],
+                        nil]];
   }
 }
 

@@ -196,17 +196,26 @@
 #define POWERUP_KEY @"PowerupKey"
 #define GEM_COLOR_KEY @"GemColorKey"
 #define SPECIAL_TYPE_KEY @"SpecialTypeKey"
+#define TILE_TOP_KEY @"TileTopKey"
+#define TILE_BOTTOM_KEY @"TileBottomKey"
 
 - (id) serialize {
   NSMutableArray *arr = [NSMutableArray array];
   for (int i = 0; i < self.layout.numColumns; i++) {
     for (int j = 0; j < self.layout.numRows; j++) {
-      BattleOrb *orb = [self.layout orbAtColumn:i row:j];
       
       NSMutableDictionary *gemInfo = [NSMutableDictionary dictionary];
+      
+      // Orb info
+      BattleOrb *orb = [self.layout orbAtColumn:i row:j];
       [gemInfo setObject:@(orb.powerupType) forKey:POWERUP_KEY];
       [gemInfo setObject:@(orb.orbColor) forKey:GEM_COLOR_KEY];
       [gemInfo setObject:@(orb.specialOrbType) forKey:SPECIAL_TYPE_KEY];
+      
+      // Tile info
+      BattleTile *tile = [self.layout tileAtColumn:i row:j];
+      [gemInfo setObject:@(tile.typeTop) forKey:TILE_TOP_KEY];
+      [gemInfo setObject:@(tile.typeBottom) forKey:TILE_BOTTOM_KEY];
       
       [gemInfo setObject:@(orb.column) forKey:POSITION_X_KEY];
       [gemInfo setObject:@(orb.row) forKey:POSITION_Y_KEY];
@@ -233,6 +242,12 @@
     orb.specialOrbType = special;
     orb.column = x;
     orb.row = y;
+    
+    // Tile info
+    BattleTile* tile = [self.layout tileAtColumn:x row:y];
+    tile.typeTop = [[gemInfo objectForKey:TILE_TOP_KEY] integerValue];
+    tile.typeBottom = [[gemInfo objectForKey:TILE_BOTTOM_KEY] integerValue];
+    [self.bgdLayer updateTile:tile];
     
     [set addObject:orb];
   }

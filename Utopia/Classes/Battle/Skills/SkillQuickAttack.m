@@ -15,11 +15,13 @@
 
 - (void) setDefaultValues
 {
+  [super setDefaultValues];
   _damage = 1;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
+  [super setValue:value forProperty:property];
   if ( [property isEqualToString:@"DAMAGE"] )
     _damage = value;
 }
@@ -32,7 +34,9 @@
   {
     if ([self skillIsReady])
     {
-      [self dealQuickAttack];
+      [self showSkillPopupOverlayWithCompletion:^{
+        [self dealQuickAttack];
+      }];
       return YES;
     }
   }
@@ -49,10 +53,9 @@
   
   // Show attack label
   _attackSprite = [CCSprite spriteWithImageNamed:@"quickattacktext.png"];
-  _attackSprite.position = CGPointMake((self.playerSprite.position.x - self.enemySprite.position.x)/2 + 40,
-                                       (self.playerSprite.position.y - self.enemySprite.position.y)/2 + 40);
+  _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
   _attackSprite.scale = 0.0;
-  [self.playerSprite addChild:_attackSprite z:50];
+  [self.playerSprite.parent addChild:_attackSprite z:50];
   
   // Run animation
   [_attackSprite runAction:[CCActionSequence actions:

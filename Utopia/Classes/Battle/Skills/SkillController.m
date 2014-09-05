@@ -8,6 +8,7 @@
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "NewBattleLayer.h"
+#import "GameViewController.h"
 
 @implementation SkillController
 
@@ -74,8 +75,7 @@
 
 - (void) skillTriggerFinished
 {
-  BOOL enemyIsKilled = [self.battleLayer checkEnemyHealth];
-  _callbackBlock(enemyIsKilled);
+  _callbackBlock();
 }
 
 - (void) setDefaultValues
@@ -84,6 +84,39 @@
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
+}
+
+#pragma mark - UI
+
+- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion
+{
+  GameViewController *gvc = [GameViewController baseController];
+  UIView *parentView = gvc.view;
+  SkillPopupOverlay* popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  [parentView addSubview:popupOverlay];
+  popupOverlay.origin = CGPointMake((parentView.width - popupOverlay.width)/2, (parentView.height - popupOverlay.height)/2);
+  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withCompletion:completion];
+}
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", nil];
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! dict)
+    return NO;
+  
+  // Comparing stored skill id with the one from server and break serialization if differ
+  // This is needed in case skill id changed on server
+  if (dict[@"skillType"])
+    if (_skillType != [dict[@"skillType"] integerValue])
+      return NO;
+  
+  return YES;
 }
 
 @end

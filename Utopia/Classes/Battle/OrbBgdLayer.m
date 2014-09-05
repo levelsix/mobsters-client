@@ -9,6 +9,7 @@
 #import "OrbBgdLayer.h"
 #import "cocos2d.h"
 #import "TileSprite.h"
+#import "NibUtils.h"
 
 @implementation OrbBgdLayer
 
@@ -16,6 +17,8 @@
   self = [super init];
   if (! self)
     return nil;
+  
+  _layout = layout;
   
   // Setup board background
   CCSprite *square;
@@ -35,27 +38,37 @@
     
   [self assembleBorder];
   
-  // Setup bottom and top tile layers
+  // Setup bottom, top and darkness tile layers
   _tilesLayerBottom = [CCNode node];
   _tilesLayerTop = [CCNode node];
+  _tilesLayerDarkness = [CCNode node];
   [self addChild:_tilesLayerBottom z:1];  // z=2 is for OrbSwipeLayer
   [self addChild:_tilesLayerTop z:3];
+  [self addChild:_tilesLayerDarkness z:4];
   
   for (NSInteger col = 0; col < layout.numColumns; col++)
     for (NSInteger row = 0; row < layout.numRows; row++) {
+      
+      // Top and bottom tiles
       BattleTile* tile = [layout tileAtColumn:col row:row];
       TileSprite* spriteTop = [TileSprite tileSpriteWithTile:tile depth:TileDepthTop];
       TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
       if (spriteTop)
       {
-        [_tilesLayerTop addChild:spriteTop z:1 name:tile.description];
         spriteTop.position = ccp((col+0.5)*square.contentSize.width, (row+0.5)*square.contentSize.height);
+        [_tilesLayerTop addChild:spriteTop z:1 name:tile.description];
       }
       if (spriteBottom)
       {
-        [_tilesLayerBottom addChild:spriteBottom z:1 name:tile.description];
         spriteBottom.position = ccp((col+0.5)*square.contentSize.width, (row+0.5)*square.contentSize.height);
+        [_tilesLayerBottom addChild:spriteBottom z:1 name:tile.description];
       }
+      
+      // Dark tile
+      CCNodeColor *spriteDark = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, darknessForTilesOpacity)]
+                                                     width:square.contentSize.width height:square.contentSize.height];
+      spriteDark.position = ccp(col*square.contentSize.width, row*square.contentSize.height);
+      [_tilesLayerDarkness addChild:spriteDark z:1 name:tile.description];
     }
   
   return self;
@@ -121,7 +134,9 @@
     return (TileSprite*)[_tilesLayerBottom getChildByName:tile.description recursively:NO];
 }
 
-- (void) updateTile:(BattleTile*)tile
+#pragma mark Tiles updating and darkness
+
+- (void) updateTileInternal:(BattleTile *)tile
 {
   TileSprite* spriteTop = [self spriteForTile:tile depth:TileDepthTop];
   if (spriteTop)
@@ -129,6 +144,80 @@
   TileSprite* spriteBottom = [self spriteForTile:tile depth:TileDepthBottom];
   if (spriteBottom)
     [spriteBottom updateSprite];
+}
+
+- (void) updateTile:(BattleTile*)tile
+{
+  return [self updateTile:tile withTarget:nil andCallback:nil];
+}
+
+- (void) updateTile:(BattleTile*)tile withTarget:(id)target andCallback:(SEL)callback
+{
+  if ([self isTileDarkened:tile])
+  {
+    [self turnTheLightForTile:tile on:YES instantly:NO];
+    [self performAfterDelay:0.5 block:^{
+      [self updateTileInternal:tile];
+      [self performAfterDelay:0.3 block:^{
+        [self turnTheLightForTile:tile on:NO instantly:NO];
+        if (target && callback)
+          [target performSelector:callback withObject:nil afterDelay:darknessForTilesAnimDuration];
+      }];
+    }];
+  }
+  else
+  {
+    [self updateTileInternal:tile];
+    if (target && callback)
+      [target performSelector:callback withObject:nil afterDelay:tileUpdateAnimDuration];
+  }
+}
+
+- (void) turnTheLightsOn
+{
+  [self turnTheLights:YES instantly:NO];
+}
+
+- (void) turnTheLightsOff
+{
+  [self turnTheLights:NO instantly:NO];
+}
+
+- (BOOL) isTileDarkened:(BattleTile*)tile
+{
+  CCNodeColor* darkTile = (CCNodeColor*)[_tilesLayerDarkness getChildByName:tile.description recursively:NO];
+  if (darkTile.opacity == 0.0)
+    return NO;
+  return YES;
+}
+
+- (void) turnTheLightForTile:(BattleTile*)tile on:(BOOL)on instantly:(BOOL)instantly
+{
+  CCNodeColor* darkTile = (CCNodeColor*)[_tilesLayerDarkness getChildByName:tile.description recursively:NO];
+  [darkTile stopAllActions];
+  if (instantly)
+  {
+    if (on)
+      darkTile.opacity = 0.0;
+    else
+      darkTile.opacity = darknessForTilesOpacity;
+  }
+  else
+  {
+    if (on)
+      [darkTile runAction:[CCActionFadeTo actionWithDuration:darknessForTilesAnimDuration opacity:0.0]];
+    else
+      [darkTile runAction:[CCActionFadeTo actionWithDuration:darknessForTilesAnimDuration opacity:darknessForTilesOpacity]];
+  }
+}
+
+- (void) turnTheLights:(BOOL)on instantly:(BOOL)instantly
+{
+  for (NSInteger col = 0; col < _layout.numColumns; col++)
+    for (NSInteger row = 0; row < _layout.numRows; row++) {
+      BattleTile* tile = [_layout tileAtColumn:col row:row];
+      [self turnTheLightForTile:tile on:on instantly:instantly];
+    }
 }
 
 @end

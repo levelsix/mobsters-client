@@ -8,6 +8,8 @@
 #import <CCSprite.h>
 #import "BattleTile.h"
 
+static const float tileUpdateAnimDuration = 0.3f;
+
 typedef enum {
   TileDepthTop,
   TileDepthBottom

@@ -16,6 +16,9 @@
   NSInteger _initialCount;
   
   NSInteger _turnCounter;
+  
+  // Temporary variable used for batching
+  NSInteger _spawnCounter;
 }
 
 @end

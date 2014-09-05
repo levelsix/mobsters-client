@@ -240,11 +240,21 @@
 
 - (void) setPercentage:(float)percentage
 {
+  if (_percentage == percentage)
+    return;
+  
   _percentage = percentage;
   
+  // Show greyscale progress
   if (_stencilNode)
-    _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5));
+  {
+    [_stencilNode stopAllActions];
+    [_stencilNode runAction:[CCActionSequence actions:
+                              [CCActionMoveTo actionWithDuration:0.3 position:CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5))],
+                              nil]];
+  }
   
+  // Enable/disable charged effect
   if (_skillController.activationType != SkillActivationTypePassive)
   {
     if (_percentage == 1.0)
@@ -254,6 +264,7 @@
         _chargedEffect = [CCParticleSystem particleWithFile:@"skillactive.plist"];
         _chargedEffect.contentSize = _skillIcon.contentSize;
         _chargedEffect.position = CGPointMake(_chargedEffect.contentSize.width/2, _chargedEffect.contentSize.height/2);
+        _chargedEffect.scale = 0.5;
         [_skillIcon addChild:_chargedEffect];
       }
       
