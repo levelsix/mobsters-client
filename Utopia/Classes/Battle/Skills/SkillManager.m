@@ -28,12 +28,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Setup
 
-- (void) updatePlayer
+- (BOOL) updatePlayerSkill
 {
+  BOOL newPlayer = YES;
+  
   _player = _battleLayer.myPlayerObject;
   _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
-  _playerSkillType = SkillTypeNoSkill;//SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
   _playerSkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -47,7 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       if ( ! playerSkillProto )
       {
         NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
-        return;
+        return NO;
       }
       else
       {
@@ -62,14 +64,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [self setDataForController:_enemySkillController];
   if (_playerSkillController)
     [self setDataForController:_playerSkillController];
+  
+  // Deserialize if needed
+  if (_playerSkillController && _playerSkillSerializedState)
+  {
+    [_playerSkillController deserialize:_playerSkillSerializedState];
+    _playerSkillSerializedState = nil;
+    newPlayer = NO;
+  }
+  
+  // Create indicator
+  [self createPlayerSkillIndicator];
+  
+  return newPlayer;
 }
 
-- (void) updateEnemy
+- (BOOL) updateEnemySkill
 {
+  BOOL newEnemy = YES;
+  
   _enemy = _battleLayer.enemyPlayerObject;
   _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeNoSkill;//SkillTypeJelly;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
   _enemySkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -83,7 +100,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       if ( ! enemySkillProto )
       {
         NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
-        return;
+        return NO;
       }
       else
       {
@@ -94,10 +111,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
   
+  // Update data references
   if (_enemySkillController)
     [self setDataForController:_enemySkillController];
   if (_playerSkillController)
     [self setDataForController:_playerSkillController];
+  
+  // Deserialize if needed
+  if (_enemySkillController && _enemySkillSerializedState)
+  {
+    [_enemySkillController deserialize:_enemySkillSerializedState];
+    _enemySkillSerializedState = nil;
+    newEnemy = NO;
+  }
+  
+  // Create indicator
+  [self createEnemySkillIndicator];
+  
+  return newEnemy;
 }
 
 - (void) setDataForController:(SkillController*)controller
@@ -139,21 +170,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   block(NO);
 #endif
   
-  // Update enemy skill indicator
+  // Don't trigger player and enemy skills if they were just deserialized - to avoid double initial jelly spawn, etc
+  BOOL shouldTriggerEnemySkill = YES;
+  BOOL shouldTriggerPlayerSkill = YES;
+  
+  // Update enemy
   if (trigger == SkillTriggerPointEnemyAppeared)
-  {
-    [skillManager updateEnemy];
-    [self createEnemySkillIndicator];
-  }
+    shouldTriggerEnemySkill = [self updateEnemySkill];
+  
+  // Update player
+  if (trigger == SkillTriggerPointPlayerAppeared)
+    shouldTriggerPlayerSkill = [self updatePlayerSkill];
+  
+  // Remove enemy indicator if enemy was defeated
   if (trigger == SkillTriggerPointEnemyDefeated)
     [self removeEnemySkillIndicator];
-  
-  // Update player skill indicator
-  if (trigger == SkillTriggerPointPlayerAppeared)
-  {
-    [self updatePlayer];
-    [self createPlayerSkillIndicator];
-  }
   
   // Wrapping indicators update into the block
   SkillControllerBlock newBlock = ^() {
@@ -168,7 +199,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   SkillControllerBlock sequenceBlock = ^() {
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0)
-      if (_enemySkillController)
+      if (_enemySkillController && shouldTriggerEnemySkill)
       {
         [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
         enemySkillTriggered = TRUE;
@@ -179,9 +210,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
-  if (_playerSkillController)
+  if (_playerSkillController && shouldTriggerPlayerSkill)
     [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
-  else if (_enemySkillController)
+  else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
   else
     block();
@@ -228,6 +259,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       [_battleLayer.orbLayer addChild:_skillIndicatorPlayer z:-10];
     }
   }
+}
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionary];
+  if (_playerSkillController)
+      [result setObject:[_playerSkillController serialize] forKey:@"playerSkill"];
+  if (_enemySkillController)
+    [result setObject:[_enemySkillController serialize] forKey:@"enemySkill"];
+  return result;
+}
+
+- (void) deserialize:(NSDictionary*)dict
+{
+  if (! dict)
+    return;
+  
+  _playerSkillSerializedState = [dict objectForKey:@"playerSkill"];
+  _enemySkillSerializedState = [dict objectForKey:@"enemySkill"];
 }
 
 @end

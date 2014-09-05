@@ -59,4 +59,8 @@ typedef enum {
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion;
 
+// Serialization
+- (NSDictionary*) serialize;
+- (BOOL) deserialize:(NSDictionary*)dict;
+
 @end
