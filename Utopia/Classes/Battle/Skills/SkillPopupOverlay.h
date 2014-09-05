@@ -18,6 +18,6 @@ typedef void(^SkillControllerBlock)();
   __weak IBOutlet UIImageView *_usedImage;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withBlock:(SkillControllerBlock)block;
+- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withCompletion:(SkillControllerBlock)completion;
 
 @end

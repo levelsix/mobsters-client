@@ -88,13 +88,14 @@
 
 #pragma mark - UI
 
-- (void) showSkillPopupOverlayWithBlock:(SkillControllerBlock)block
+- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion
 {
   GameViewController *gvc = [GameViewController baseController];
   UIView *parentView = gvc.view;
   SkillPopupOverlay* popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   [parentView addSubview:popupOverlay];
-  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withBlock:block];
+  popupOverlay.origin = CGPointMake((parentView.width - popupOverlay.width)/2, (parentView.height - popupOverlay.height)/2);
+  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withCompletion:completion];
 }
 
 @end

@@ -57,6 +57,6 @@ typedef enum {
 - (void) setValue:(float)value forProperty:(NSString*)property;
 
 // To be called by inherited skills to show the overlay
-- (void) showSkillPopupOverlayWithBlock:(SkillControllerBlock)block;
+- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion;
 
 @end

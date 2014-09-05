@@ -40,7 +40,7 @@
 {
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self showSkillPopupOverlayWithBlock:^{
+    [self showSkillPopupOverlayWithCompletion:^{
       [self spawnInitialJelly];
     }];
     return YES;
