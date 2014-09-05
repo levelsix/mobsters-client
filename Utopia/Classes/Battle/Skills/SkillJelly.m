@@ -40,7 +40,9 @@
 {
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self spawnInitialJelly];
+    [self showSkillPopupOverlayWithBlock:^{
+      [self spawnInitialJelly];
+    }];
     return YES;
   }
   
@@ -103,7 +105,7 @@ static NSInteger _spawnCounter;
 
 - (void) spawnInitialJelly
 {
-  // Spawn the next one or finish the skill
+  // Spawn initial jelly skills
   _spawnCounter = _initialCount;
   [self spawnNextBatch];
 }

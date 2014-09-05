@@ -8,6 +8,7 @@
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "NewBattleLayer.h"
+#import "GameViewController.h"
 
 @implementation SkillController
 
@@ -83,6 +84,17 @@
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
+}
+
+#pragma mark - UI
+
+- (void) showSkillPopupOverlayWithBlock:(SkillControllerBlock)block
+{
+  GameViewController *gvc = [GameViewController baseController];
+  UIView *parentView = gvc.view;
+  SkillPopupOverlay* popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  [parentView addSubview:popupOverlay];
+  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withBlock:block];
 }
 
 @end

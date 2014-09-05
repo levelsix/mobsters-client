@@ -107,6 +107,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   controller.playerSprite = _playerSprite;
   controller.enemy = _enemy;
   controller.enemySprite = _enemySprite;
+  controller.belongsToPlayer = (controller == _playerSkillController);
 }
 
 #pragma mark - External calls
@@ -177,7 +178,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       block();
   };
   
-  // Triggering player with complex block or enemy with a simple
+  // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
   if (_playerSkillController)
     [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
   else if (_enemySkillController)

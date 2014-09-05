@@ -11,8 +11,7 @@
 #import "BattleOrb.h"
 #import "BattlePlayer.h"
 #import "BattleSprite.h"
-
-typedef void(^SkillControllerBlock)();
+#import "SkillPopupOverlay.h"
 
 @class NewBattleLayer;
 
@@ -39,6 +38,8 @@ typedef enum {
 @property (weak, nonatomic) BattleSprite    *playerSprite;
 @property (weak, nonatomic) BattleSprite    *enemySprite;
 
+@property (assign, nonatomic) BOOL          belongsToPlayer;
+
 @property (readonly) OrbColor orbColor;
 
 - (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color;
@@ -54,5 +55,8 @@ typedef enum {
 - (void) skillTriggerFinished;
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
+
+// To be called by inherited skills to show the overlay
+- (void) showSkillPopupOverlayWithBlock:(SkillControllerBlock)block;
 
 @end

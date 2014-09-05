@@ -248,6 +248,7 @@
   // Show greyscale progress
   if (_stencilNode)
   {
+    [_stencilNode stopAllActions];
     [_stencilNode runAction:[CCActionSequence actions:
                               [CCActionMoveTo actionWithDuration:0.3 position:CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5))],
                               nil]];

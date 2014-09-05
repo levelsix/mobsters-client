@@ -32,7 +32,9 @@
   {
     if ([self skillIsReady])
     {
-      [self dealQuickAttack];
+      [self showSkillPopupOverlayWithBlock:^{
+        [self dealQuickAttack];
+      }];
       return YES;
     }
   }

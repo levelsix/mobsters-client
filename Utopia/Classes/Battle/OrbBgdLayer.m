@@ -200,7 +200,7 @@
     if (on)
       darkTile.opacity = 0.0;
     else
-      darkTile.opacity = 1.0;
+      darkTile.opacity = darknessForTilesOpacity;
   }
   else
   {
