@@ -42,7 +42,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
-- (void) orbDestroyed:(OrbColor)color;  // Potentially it could become a trigger too (bomb orb?) with a BattleOrb as a parameter to pass
+- (void) orbDestroyed:(OrbColor)color;
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 @end

@@ -33,7 +33,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _player = _battleLayer.myPlayerObject;
   _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
-  _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillType = SkillTypeNoSkill;//SkillTypeQuickAttack;   // MISHA: take it from player
   _playerSkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -69,7 +69,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _enemy = _battleLayer.enemyPlayerObject;
   _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeNoSkill;//SkillTypeJelly;   // MISHA: take it from enemy skill
   _enemySkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -183,6 +183,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
   else if (_enemySkillController)
     [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+  else
+    block();
 }
 
 #pragma mark - UI

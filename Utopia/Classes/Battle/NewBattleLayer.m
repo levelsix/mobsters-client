@@ -969,7 +969,7 @@
                      [bgd removeFromParentAndCleanup:YES];
                      
                      _displayedWaveNumber = YES;
-                     //[self beginNextTurn];
+                     [self beginNextTurn];
                    }],
                   nil]];
   
@@ -1494,14 +1494,15 @@
 }
 
 - (void) reachedNextScene {
-  _hasStarted = YES;
-  _reachedNextScene = YES;
+  
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
     
     // Trigger skills for when new enemy joins the battle
     [skillManager triggerSkillsWithBlock:^() {
+      _hasStarted = YES;
+      _reachedNextScene = YES;
       [self beginNextTurn];
       [self updateHealthBars];
       [self.currentEnemy doRarityTagShine];
