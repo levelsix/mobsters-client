@@ -87,14 +87,21 @@
 
 + (id) speedupButtonWithGemCost:(int)gemCost {
   MapBotViewButton *button = [[NSBundle mainBundle] loadNibNamed:@"MapBotViewSpeedupButton" owner:nil options:nil][0];
-  [button updateWithImageName:@"" actionText:@"Finish Now" config:MapBotViewButtonSpeedup];
-  [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
+  [button updateWithImageName:nil actionText:@"Finish Now" config:MapBotViewButtonSpeedup];
+  
+  if (gemCost) {
+    [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
+    button.freeLabel.hidden = YES;
+  } else {
+    button.topLabel.superview.hidden = YES;
+  }
+  
   button.topLabel.strokeSize = 0.f;
   return button;
 }
 
 - (void) updateWithImageName:(NSString *)imageName actionText:(NSString *)actionText config:(MapBotViewButtonConfig)config {
-  [Globals imageNamed:imageName withView:self.actionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  if (imageName) [Globals imageNamed:imageName withView:self.actionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.actionLabel.text = actionText;
   self.topLabel.superview.hidden = YES;
   self.config = config;

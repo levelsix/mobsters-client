@@ -128,6 +128,8 @@
   return finalPath;
 }
 
+static int totalLevelUps = 0;
+
 - (void) animateEnhancement {
   self.queueView.collectionView.contentOffset = CGPointMake(0, 0);
   [self.queueView.collectionView layoutIfNeeded];
@@ -135,9 +137,15 @@
   self.queueView.userInteractionEnabled = NO;
   self.listView.userInteractionEnabled = NO;
   
-  UserMonster *base = self.currentEnhancement.baseMonster.userMonster;
+  UserEnhancement *ue = self.currentEnhancement;
+  UserMonster *base = ue.baseMonster.userMonster;
   NSString *imgName = [Globals imageNameForElement:base.staticMonster.monsterElement suffix:@"enhancebg.png"];
   self.monsterGlowIcon.image = [Globals imageNamed:imgName];
+  
+  totalLevelUps = (int)[ue finalPercentageFromCurrentLevel];
+  
+  self.skipButtonView.hidden = NO;
+  self.enhanceButtonView.hidden = YES;
   
   [self animateNextEnhancementItem];
 }
@@ -173,7 +181,6 @@
     [UIView animateWithDuration:animDuration*(1-percBeforeFading) delay:animDuration*percBeforeFading options:UIViewAnimationOptionTransitionNone animations:^{
       self.queueCell.alpha = 0.f;
     } completion:^(BOOL finished) {
-      [self spiralAnimationFinished:finished enhancementItem:ei];
     }];
     
     [UIView animateWithDuration:animDuration animations:^{
@@ -181,15 +188,41 @@
     }];
     
     // Pulse the glow and time it accordingly
+    // Since this is the last animation, let it call the completion block
     float appearTime = 0.3f;
     float pulseDelay = 0.1f;
     float initDelay = animDuration-appearTime;
-    [UIView animateWithDuration:appearTime delay:initDelay options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:appearTime delay:initDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
       self.monsterGlowIcon.alpha = 1.f;
     } completion:^(BOOL finished) {
-      [UIView animateWithDuration:appearTime delay:pulseDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
+      if (finished) {
+        [UIView animateWithDuration:appearTime delay:pulseDelay options:UIViewAnimationOptionCurveEaseIn animations:^{
+          self.monsterGlowIcon.alpha = 0.f;
+        } completion:^(BOOL finished) {
+          [self spiralAnimationFinished:finished enhancementItem:ei];
+        }];
+      } else {
         self.monsterGlowIcon.alpha = 0.f;
-      } completion:nil];
+        [self spiralAnimationFinished:finished enhancementItem:ei];
+      }
+    }];
+    
+    // Make the monster bounce as if he is sucking in the feeder
+    appearTime = 0.1f;
+    pulseDelay = 0.f;
+    initDelay += 0.2f;
+    float imgScale = 1.05;
+    CGAffineTransform t = self.monsterImageView.superview.transform;
+    [UIView animateWithDuration:appearTime delay:initDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
+      self.monsterImageView.superview.transform = CGAffineTransformScale(t, imgScale, imgScale);
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [UIView animateWithDuration:appearTime delay:pulseDelay options:UIViewAnimationOptionCurveEaseIn animations:^{
+          self.monsterImageView.superview.transform = t;
+        } completion:nil];
+      } else {
+        self.monsterImageView.superview.transform = t;
+      }
     }];
     
     [SoundEngine enhanceFlying];
@@ -199,12 +232,12 @@
 }
 
 - (void) spiralAnimationFinished:(BOOL)flag enhancementItem:(EnhancementItem *)ei {
+  self.queueCell.alpha = 1.f;
+  self.queueCell.transform = CGAffineTransformIdentity;
+  [self.queueCell removeFromSuperview];
+  [self.queueCell.layer removeAllAnimations];
+  
   if (flag) {
-    self.queueCell.alpha = 1.f;
-    self.queueCell.transform = CGAffineTransformIdentity;
-    [self.queueCell removeFromSuperview];
-    [self.queueCell.layer removeAllAnimations];
-    
     Globals *gl = [Globals sharedGlobals];
     UserMonster *baseUm = self.currentEnhancement.baseMonster.userMonster;
     float startLevel = [gl calculateLevelForMonster:baseUm.monsterId experience:baseUm.experience];
@@ -223,6 +256,11 @@
   int baseLevel = (int)startLevel;
   float basePerc = startLevel - baseLevel;
   float nextPerc = clampf(endLevel-baseLevel, 0.f, 1.f);
+  
+  if (baseLevel >= baseUm.staticMonster.maxLevel) {
+    basePerc = 1.f;
+    nextPerc = 1.f;
+  }
   
   // Need to update hp and what not.. This is kind of hacky but works
   int origLevel = baseUm.level;
@@ -243,7 +281,7 @@
   float duration = (nextPerc-basePerc)*0.9f;
   [self.curProgressBar animateToPercentage:nextPerc duration:duration completion:^{
     if (baseLevel < nextLevel) {
-      [self spawnLevelUpWithCompletion:^{
+      [self spawnLevelUp:1 completion:^{
         [self animateProgressBarAndLevelUpsWithLevel:baseLevel+1];
       }];
     } else {
@@ -252,7 +290,7 @@
   }];
 }
 
-- (void) spawnLevelUpWithCompletion:(dispatch_block_t)completion {
+- (void) spawnLevelUp:(int)numLevelUps completion:(dispatch_block_t)completion {
   CGPoint delta = ccp(-60, 11);
   
   CGPoint levelCenter = self.levelIcon.center;
@@ -300,10 +338,21 @@
   [UIView animateWithDuration:animOut delay:animDelay+animIn+animHold options:UIViewAnimationOptionTransitionNone animations:^{
     self.levelUpView.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self.levelUpView removeFromSuperview];
-    
-    completion();
+    if (finished) {
+      [self.levelUpView removeFromSuperview];
+      
+      completion();
+    }
   }];
+  
+  self.levelUpNumLabel.alpha = 0.f;
+  if (numLevelUps > 1) {
+    self.levelUpNumLabel.text = [NSString stringWithFormat:@"x%d", numLevelUps];
+    
+    [UIView animateWithDuration:animIn delay:animDelay*2 options:UIViewAnimationOptionTransitionNone animations:^{
+      self.levelUpNumLabel.alpha = 1.f;
+    } completion:nil];
+  }
   
   [SoundEngine structCompleted];
 }
@@ -312,15 +361,49 @@
   v.transform = CGAffineTransformIdentity;
 }
 
+- (void) speedupEnhancement {
+  // Stop the currently animating 
+  [self.queueCell removeFromSuperview];
+  [self.levelUpView removeFromSuperview];
+  [self.curProgressBar stopAnimation];
+  [self.monsterImageView.superview.layer removeAllAnimations];
+  [self.monsterGlowIcon.layer removeAllAnimations];
+  
+  // Reload queue immediately so monsters disappear
+  [self.currentEnhancement.feeders removeAllObjects];
+  [self reloadQueueViewAnimated:YES];
+  
+  [self enhancementAnimationComplete];
+  
+  // Start new level up animation
+  if (totalLevelUps) {
+    // Eat up the touches
+    self.levelUpView.userInteractionEnabled = YES;
+    [self spawnLevelUp:totalLevelUps completion:^{
+      self.levelUpView.userInteractionEnabled = NO;
+    }];
+  }
+}
+
 - (void) enhancementAnimationComplete {
   [self.currentEnhancement.baseMonster setFakedUserMonster:nil];
   
-  [self reloadQueueViewAnimated:YES];
+  // Don't animate queue view or the enhance button will show up and fade out...
+  [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:YES];
   [self updateLabelsNonTimer];
   
   self.queueView.userInteractionEnabled = YES;
   self.listView.userInteractionEnabled = YES;
+  
+  self.enhanceButtonView.hidden = NO;
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    self.skipButtonView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.skipButtonView.hidden = YES;
+    self.skipButtonView.alpha = 1.f;
+  }];
 }
 
 @end

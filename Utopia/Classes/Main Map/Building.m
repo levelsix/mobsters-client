@@ -133,8 +133,9 @@
   [self removeProgressBar];
   
   UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBarWithPrefix:[self progressBarPrefix]];
-  [self addChild:upgrIcon z:5 name:UPGRADING_TAG];
+  [self addChild:upgrIcon z:5];
   upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
+  self.progressBar = upgrIcon;
   [self schedule:@selector(updateProgressBar) interval:0.05f];
   
   _percentage = 0;
@@ -148,9 +149,9 @@
 }
 
 - (void) removeProgressBar {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (n) {
-    [n removeFromParent];
+  if (self.progressBar) {
+    [self.progressBar removeFromParent];
+    self.progressBar = nil;
     
     if (!_percentage) {
       [self unschedule:@selector(updateProgressBar)];
@@ -161,9 +162,7 @@
 }
 
 - (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-    UpgradeProgressBar *u = (UpgradeProgressBar *)n;
+    UpgradeProgressBar *u = (UpgradeProgressBar *)self.progressBar;
     [self unschedule:@selector(updateProgressBar)];
     
     float interval = 0.015;
@@ -190,7 +189,6 @@
          }
        }],
       nil]];
-  }
 }
 
 - (void) setBubbleType:(BuildingBubbleType)bubbleType {
@@ -208,8 +206,7 @@
 }
 
 - (void) displayBubble {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (!n && !self.arrow) {
+  if (!self.progressBar && !self.arrow) {
     [_bubble stopAllActions];
     [_bubble runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.f]];
   }
@@ -289,9 +286,7 @@
 }
 
 - (void) updateProgressBar {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-    UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+    UpgradeProgressBar *bar = self.progressBar;
     
     NSTimeInterval time = self.obstacle.endTime.timeIntervalSinceNow;
     int totalTime = self.obstacle.staticObstacle.secondsToRemove;
@@ -301,7 +296,6 @@
     }
     
     [bar updateForSecsLeft:time totalSecs:totalTime];
-  }
 }
 
 - (void) disappear {

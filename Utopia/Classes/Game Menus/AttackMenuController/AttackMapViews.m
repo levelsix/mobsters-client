@@ -235,7 +235,7 @@
       self.cooldownView.hidden = YES;
     } else {
       self.cooldownLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
       self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
       [Globals adjustViewForCentering:self.speedupGemsLabel.superview withLabel:self.speedupGemsLabel];
       

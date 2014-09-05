@@ -71,6 +71,8 @@
     _timeLabel.shadowBlurRadius = 0.8f;
     [self addChild:_timeLabel];
     _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height);
+    
+    self.prefix = prefix;
   }
   return self;
 }
@@ -102,6 +104,42 @@
   self.middleBar.scaleX = MAX(0, ((self.contentSize.width*self.percentage)-self.leftCap.textureRect.size.width-self.rightCap.textureRect.size.width)/self.middleBar.contentSize.width);
   
   self.rightCap.position = ccp(self.contentSize.width*self.percentage-self.rightCap.textureRect.size.width, 0);
+}
+
+- (void) animateFreeLabel {
+  if (!_isAnimatingFreeLabel) {
+    CCLabelTTF *freeLabel = [CCLabelTTF labelWithString:@"Free!" fontName:_timeLabel.fontName fontSize:_timeLabel.fontSize];
+    [self addChild:freeLabel];
+    freeLabel.position = _timeLabel.position;
+    freeLabel.horizontalAlignment = _timeLabel.horizontalAlignment;
+    freeLabel.fontColor = _timeLabel.fontColor;
+    freeLabel.shadowOffset = _timeLabel.shadowOffset;
+    freeLabel.shadowColor = _timeLabel.shadowColor;
+    freeLabel.shadowBlurRadius = _timeLabel.shadowBlurRadius;
+    
+    freeLabel.opacity = 0.f;
+    
+    float fadeTime = 1.2f;
+    // Delay time 1 is how long free is up, 2 is how long timer is up
+    float delayTime1 = 3.f;
+    float delayTime2 = 5.f;
+    
+    [freeLabel runAction:[CCActionRepeatForever actionWithAction:
+                          [CCActionSequence actions:
+                           [CCActionFadeIn actionWithDuration:fadeTime],
+                           [CCActionDelay actionWithDuration:delayTime1],
+                           [CCActionFadeOut actionWithDuration:fadeTime],
+                           [CCActionDelay actionWithDuration:delayTime2], nil]]];
+    
+    [_timeLabel runAction:[CCActionRepeatForever actionWithAction:
+                           [CCActionSequence actions:
+                            [CCActionFadeOut actionWithDuration:fadeTime],
+                            [CCActionDelay actionWithDuration:delayTime1],
+                            [CCActionFadeIn actionWithDuration:fadeTime],
+                            [CCActionDelay actionWithDuration:delayTime2], nil]]];
+    
+    _isAnimatingFreeLabel = YES;
+  }
 }
 
 @end

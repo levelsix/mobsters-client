@@ -247,18 +247,18 @@
     LabProto *next = (LabProto *)nextSS;
     LabProto *max = (LabProto *)maxSS;
     
-    requiresTwoBars = YES;
-    
     curStat1 = cur.queueSize;
     newStat1 = next.queueSize;
     maxStat1 = max.queueSize;
     statName1 = @"Queue Size:";
     
-    curStat2 = cur.pointsPerSecond;
-    newStat2 = next.pointsPerSecond;
-    maxStat2 = max.pointsPerSecond;
-    statName2 = @"Rate:";
-    suffix2 = @"Points Per Sec";
+//    requiresTwoBars = YES;
+//    
+//    curStat2 = cur.pointsPerSecond;
+//    newStat2 = next.pointsPerSecond;
+//    maxStat2 = max.pointsPerSecond;
+//    statName2 = @"Rate:";
+//    suffix2 = @"Points Per Sec";
   } else if (structType == StructureInfoProto_StructTypeResidence) {
     ResidenceProto *cur = (ResidenceProto *)curSS;
     ResidenceProto *next = (ResidenceProto *)nextSS;

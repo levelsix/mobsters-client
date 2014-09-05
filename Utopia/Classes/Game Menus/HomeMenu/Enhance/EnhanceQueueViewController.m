@@ -92,11 +92,12 @@
   self.monsterImageView.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
-  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to use", MONSTER_NAME];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to sacrifice", MONSTER_NAME];
   
   self.buttonSpinner.hidden = YES;
   
   self.monsterGlowIcon.alpha = 0.f;
+  self.skipButtonView.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -133,7 +134,7 @@
   int curPerc = floorf([ue currentPercentageOfLevel]*100);
   int newPerc = floorf([ue finalPercentageFromCurrentLevel]*100);
   
-  self.curProgressBar.percentage = curPerc/100.f;
+  self.curProgressBar.percentage = um.level >= um.staticMonster.maxLevel ? 1.f : curPerc/100.f;
   self.addedProgressBar.percentage = newPerc/100.f;
   
   int additionalNewLevel = (int)(newPerc/100.f);
@@ -499,6 +500,10 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
   _waitingForResponse = NO;
+}
+
+- (IBAction)skipCLicked:(id)sender {
+  [self speedupEnhancement];
 }
 
 @end

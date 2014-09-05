@@ -127,7 +127,7 @@
   if (!um.isComplete && um.numPieces >= um.staticMonster.numPuzzlePieces) {
     int timeLeft = [um timeLeftForCombining];
     self.combineTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    self.combineCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+    self.combineCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]];
     [Globals adjustViewForCentering:self.combineCostLabel.superview withLabel:self.combineCostLabel];
   }
 }

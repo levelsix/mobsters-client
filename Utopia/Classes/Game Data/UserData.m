@@ -932,7 +932,7 @@
       expAmount += tsm.expReward;
       
       if (tsm.puzzlePieceDropped) {
-        Reward *r = [[Reward alloc] initWithMonsterId:tsm.monsterId isPuzzlePiece:YES];
+        Reward *r = [[Reward alloc] initWithMonsterId:tsm.puzzlePieceMonsterId isPuzzlePiece:YES];
         [rewards addObject:r];
       } else if (tsm.hasItemId) {
         Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];

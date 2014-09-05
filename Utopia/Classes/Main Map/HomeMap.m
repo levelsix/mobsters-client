@@ -897,7 +897,7 @@
       }
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES]]];
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     ObstacleSprite *ob = (ObstacleSprite *)self.selected;
@@ -909,7 +909,7 @@
       [buttonViews addObject:[MapBotViewButton removeButtonWithResourceType:op.removalCostType removeCost:op.cost]];
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
     }
   }
   
@@ -1178,9 +1178,15 @@
   if (homeBuilding.isSetDown && _purchasing) {
     if (_constrBuilding) {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-      NSString *desc = [NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gem%@ and purchase this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
-      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+      
+      if (gemCost) {
+        NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+        [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      } else {
+        [self speedupBuildingAndUpgradeOrPurchase];
+      }
     } else {
       int cost = fsp.buildCost;
       BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
@@ -1397,9 +1403,15 @@
   int curAmount = isOilBuilding ? gs.oil : gs.cash;
   if (_constrBuilding) {
     int timeLeft = [self timeLeftForConstructionBuilding];
-    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
-    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+    
+    if (gemCost) {
+      NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    } else {
+      [self speedupBuildingAndUpgradeOrPurchase];
+    }
   } else if (cost) {
     if (cost > curAmount) {
       [GenericPopupController displayExchangeForGemsViewWithResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForUpgrade)];
@@ -1474,11 +1486,13 @@
   
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = [self timeLeftForConstructionBuilding];
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (goldCost) {
     NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
     [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
+  } else {
+    [self speedUpBuilding];
   }
 }
 
@@ -1488,12 +1502,14 @@
 
 - (BOOL) speedUpBuilding {
   if (_isSpeedingUp) return NO;
+  if (!_constrBuilding) return NO;
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
   int timeLeft = [self timeLeftForConstructionBuilding];
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
   if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {

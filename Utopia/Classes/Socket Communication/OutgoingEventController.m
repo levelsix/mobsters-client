@@ -292,7 +292,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   int timeLeft = userStruct.timeLeftForBuildComplete;
   
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
@@ -440,7 +440,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     int numGems = 0;
     if (speedup) {
-      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     }
     
     if (gs.gems < numGems) {
@@ -1181,7 +1181,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (useGems) {
-      gems = [gl calculateGemSpeedupCostForTimeLeft:time];
+      gems = [gl calculateGemSpeedupCostForTimeLeft:time allowFreeSpeedup:NO];
       if (gs.gems < gems) {
         [Globals popupMessage:@"Trying to enter dungeon without enough gems"];
         return;
@@ -1529,7 +1529,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   int timeLeft = um.timeLeftForCombining;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
   
   if (gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup combine monster without enough gems"];
@@ -1612,7 +1612,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   
   int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup heal queue without enough gold"];
@@ -2058,7 +2058,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
     int numGems = 0;
     if (gems) {
-      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];

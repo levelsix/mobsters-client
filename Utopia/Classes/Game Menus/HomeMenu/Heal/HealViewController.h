@@ -36,6 +36,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *freeLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;

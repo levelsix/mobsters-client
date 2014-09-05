@@ -81,6 +81,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.addAllFbFriends = constants.addAllFbFriends;
   self.maxObstacles = constants.maxObstacles;
   self.minutesPerObstacle = constants.minutesPerObstacle;
+  self.maxMinutesForFreeSpeedUp = constants.maxMinutesForFreeSpeedUp;
   
   self.battleRunAwayBasePercent = constants.battleRunAwayBasePercent;
   self.battleRunAwayIncrement = constants.battleRunAwayIncrement;
@@ -1222,7 +1223,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Formulas
 
-- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
+- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free {
+  // 5 mins are free
+  if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60) {
+    return 0;
+  }
   return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
 }
 
@@ -1591,6 +1596,40 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return 1.f;
 }
 
+- (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team {
+  GameState *gs = [GameState sharedGameState];
+  int cashCost = 0;
+  int gemCost = 0;
+  
+  for (BattlePlayer *bp in team) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:bp.userMonsterId];
+    cashCost += [self calculateCostToHealMonster:um];
+  }
+  gemCost += [self calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost];
+  
+  NSMutableArray *fakeQueue = [NSMutableArray array];
+  for (BattlePlayer *bp in team) {
+    UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
+    heal.queueTime = [MSDate date];
+    heal.userMonsterId = bp.userMonsterId;
+    [fakeQueue addObject:heal];
+  }
+  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
+  [sim simulate];
+  
+  MSDate *lastDate = nil;
+  for (HealingItemSim *hi in sim.healingItems) {
+    if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
+      lastDate = hi.endTime;
+    }
+  }
+  gemCost += [self calculateGemSpeedupCostForTimeLeft:lastDate.timeIntervalSinceNow allowFreeSpeedup:NO];
+  
+  return gemCost*self.continueBattleGemCostMultiplier;
+}
+
+#pragma mark - Alerts
+
 + (void) popupMessage:(NSString *)msg {
   [GenericPopupController displayNotificationViewWithText:msg title:@"Notification"];
 }
@@ -1607,7 +1646,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [oln addNotification:msg isGreen:YES];
 }
 
-#pragma mark Bounce View
+#pragma mark - Bounce View
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
   view.layer.transform = CATransform3DMakeScale(fScale, fScale, 1.0);
   
@@ -1991,38 +2030,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return YES;
 }
 #pragma clang diagnostic pop
-
-- (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team {
-  GameState *gs = [GameState sharedGameState];
-  int cashCost = 0;
-  int gemCost = 0;
-  
-  for (BattlePlayer *bp in team) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:bp.userMonsterId];
-    cashCost += [self calculateCostToHealMonster:um];
-  }
-  gemCost += [self calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost];
-  
-  NSMutableArray *fakeQueue = [NSMutableArray array];
-  for (BattlePlayer *bp in team) {
-    UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
-    heal.queueTime = [MSDate date];
-    heal.userMonsterId = bp.userMonsterId;
-    [fakeQueue addObject:heal];
-  }
-  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
-  [sim simulate];
-  
-  MSDate *lastDate = nil;
-  for (HealingItemSim *hi in sim.healingItems) {
-    if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
-      lastDate = hi.endTime;
-    }
-  }
-  gemCost += [self calculateGemSpeedupCostForTimeLeft:lastDate.timeIntervalSinceNow];
-  
-  return gemCost*self.continueBattleGemCostMultiplier;
-}
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path {
 	if([CCDirector sharedDirector].contentScaleFactor == 2) {

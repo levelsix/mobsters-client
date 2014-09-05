@@ -53,6 +53,7 @@
 @property (nonatomic, retain) IBOutlet UIView *levelUpView;
 @property (nonatomic, retain) IBOutlet UIImageView *levelIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *upIcon;
+@property (nonatomic, retain) IBOutlet UILabel *levelUpNumLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *curLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curExpLabel;
@@ -69,6 +70,9 @@
 
 @property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
+
+@property (nonatomic, retain) IBOutlet UIView *skipButtonView;
+@property (nonatomic, retain) IBOutlet UIView *enhanceButtonView;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 

@@ -11,5 +11,6 @@
 @interface EnhanceQueueViewController (Animations)
 
 - (void) animateEnhancement;
+- (void) speedupEnhancement;
 
 @end

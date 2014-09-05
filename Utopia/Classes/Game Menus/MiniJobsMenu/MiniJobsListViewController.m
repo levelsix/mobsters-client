@@ -68,7 +68,7 @@
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     self.gemCostLabel.text = [Globals commafyNumber:gemCost];
     [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   }

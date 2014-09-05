@@ -121,6 +121,8 @@
 @property (nonatomic, assign) float battleRunAwayBasePercent;
 @property (nonatomic, assign) float battleRunAwayIncrement;
 
+@property (nonatomic, assign) float maxMinutesForFreeSpeedUp;
+
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
 // Monster Constants
@@ -288,7 +290,7 @@
 + (NSString *) getRandomTipFromFile:(NSString *)file;
 
 // Formulas
-- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
+- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
 

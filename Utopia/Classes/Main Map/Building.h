@@ -14,7 +14,6 @@
 #define CONSTRUCTION_TAG @"Construction"
 #define SHADOW_TAG @"Shadow"
 #define BOUNCE_ACTION_TAG 25334
-#define UPGRADING_TAG @"Upgrade"
 
 @class GameMap;
 @class HomeMap;
@@ -31,6 +30,8 @@
 @property (nonatomic, assign) float horizontalOffset;
 
 @property (nonatomic, assign) float baseScale;
+
+@property (nonatomic, retain) UpgradeProgressBar *progressBar;
 
 - (void) setupBuildingSprite:(NSString *)fileName;
 - (void) adjustBuildingSprite;

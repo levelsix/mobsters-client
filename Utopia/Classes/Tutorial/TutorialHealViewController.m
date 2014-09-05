@@ -150,7 +150,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   [self.monsterHealingQueue removeAllObjects];
   UserMonster *um = self.myMonsters[0];

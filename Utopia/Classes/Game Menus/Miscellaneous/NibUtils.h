@@ -184,6 +184,9 @@ typedef enum {
 @interface NiceFontButton10 : GeneralButton
 @end
 
+@interface NiceFontButton12 : GeneralButton
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;
@@ -520,6 +523,7 @@ typedef enum {
   float _duration;
   float _timePassed;
   dispatch_block_t _completion;
+  BOOL _shouldStopAnimating;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftCap;
@@ -530,6 +534,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isRightToLeft;
 
 - (void) animateToPercentage:(float)percentage duration:(float)duration completion:(dispatch_block_t)completion;
+- (void) stopAnimation;
 
 @end
 

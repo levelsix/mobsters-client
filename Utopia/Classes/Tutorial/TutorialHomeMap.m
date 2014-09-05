@@ -590,7 +590,7 @@
 - (void) sendSpeedupBuilding:(UserStruct *)us {
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = us.timeLeftForBuildComplete;
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:gemCost];
   self.clickableUserStructId = 0;
