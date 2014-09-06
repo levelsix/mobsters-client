@@ -150,7 +150,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) orbDestroyed:(OrbColor)color
 {
-#ifndef MOBSTERS
+#ifndef MOBSTERS2
   return;
 #endif
 
@@ -166,8 +166,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
-#ifndef MOBSTERS
-  block(NO);
+#ifndef MOBSTERS2
+  block();
+  return;
 #endif
   
   // Don't trigger player and enemy skills if they were just deserialized - to avoid double initial jelly spawn, etc
