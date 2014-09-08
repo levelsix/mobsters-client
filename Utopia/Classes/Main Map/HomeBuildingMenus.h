@@ -26,6 +26,7 @@
 
 @interface UpgradeProgressBar : CCSprite {
   CCLabelTTF *_timeLabel;
+  BOOL _isAnimatingFreeLabel;
 }
 
 @property (nonatomic, retain) CCSprite *leftCap;
@@ -34,11 +35,15 @@
 
 @property (nonatomic, assign) float percentage;
 
+@property (nonatomic, assign) NSString *prefix;
+
 - (id) initBarWithPrefix:(NSString *)prefix;
 
 - (void) updateForSecsLeft:(float)secs totalSecs:(int)totalSecs;
 - (void) updateTimeLabel:(float)secs;
 - (void) updateForPercentage:(float)percentage;
+
+- (void) animateFreeLabel;
 
 @end
 

@@ -456,6 +456,16 @@
 
 @end
 
+@implementation NiceFontButton12
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;
@@ -1525,6 +1535,40 @@
     self.transform = CGAffineTransformMakeScale(-1, 1);
   } else {
     self.transform = CGAffineTransformIdentity;
+  }
+}
+
+- (void) animateToPercentage:(float)percentage duration:(float)duration completion:(dispatch_block_t)completion {
+  _basePercentage = self.percentage;
+  _finalPercentage = percentage;
+  _duration = duration;
+  _completion = completion;
+  _timePassed = 0;
+  _shouldStopAnimating = NO;
+  
+  CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateBar:)];
+  [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+- (void) stopAnimation {
+  _shouldStopAnimating = YES;
+}
+
+- (void) updateBar:(CADisplayLink *)link {
+  if (!_shouldStopAnimating) {
+    _timePassed += link.duration;
+    float timePerc = clampf(_timePassed/_duration, 0.f, 1.f);
+    self.percentage = _basePercentage + (_finalPercentage-_basePercentage)*timePerc;
+    
+    if (timePerc >= 1.f) {
+      [link invalidate];
+      
+      if (_completion) {
+        _completion();
+      }
+    }
+  } else {
+    [link invalidate];
   }
 }
 

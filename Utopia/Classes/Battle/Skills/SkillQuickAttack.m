@@ -15,11 +15,13 @@
 
 - (void) setDefaultValues
 {
+  [super setDefaultValues];
   _damage = 1;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
+  [super setValue:value forProperty:property];
   if ( [property isEqualToString:@"DAMAGE"] )
     _damage = value;
 }

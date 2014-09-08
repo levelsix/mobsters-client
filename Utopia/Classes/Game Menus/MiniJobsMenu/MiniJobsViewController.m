@@ -167,7 +167,7 @@
     MSDate *date = [listCell.userMiniJob.timeStarted dateByAddingTimeInterval:listCell.userMiniJob.durationMinutes*60];
     int timeLeft = [date timeIntervalSinceNow];
     
-    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     if (gs.gems < gemCost) {
       [GenericPopupController displayNotEnoughGemsView];
     } else {

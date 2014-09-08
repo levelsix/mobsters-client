@@ -17,12 +17,7 @@
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
-@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
-@property (nonatomic, retain) IBOutlet UILabel *monsterNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
-
 @property (nonatomic, retain) IBOutlet UIView *notEnhancingView;
-@property (nonatomic, retain) IBOutlet UIView *enhancingView;
 @property (nonatomic, retain) IBOutlet UIButton *bottomBarButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;

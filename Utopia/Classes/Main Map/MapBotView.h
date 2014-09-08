@@ -42,6 +42,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *cashIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *oilIcon;
 
+// Only used for gems
+@property (nonatomic, retain) IBOutlet THLabel *freeLabel;
+
 @property (nonatomic, assign) MapBotViewButtonConfig config;
 
 @property (nonatomic, assign) id<MapBotViewButtonDelegate> delegate;

@@ -22,6 +22,15 @@
                         <action selector="buttonClicked:" destination="1cF-Fq-l60" eventType="touchUpInside" id="d1T-BM-diG"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="c1Y-D3-AHH" customClass="NiceFontLabel14B">
+                    <rect key="frame" x="18" y="8" width="45" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="CL7-Gs-5BM">
                     <rect key="frame" x="20" y="12" width="40" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -55,6 +64,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="actionLabel" destination="7Tk-c2-yPq" id="6cP-DL-cfa"/>
+                <outlet property="freeLabel" destination="c1Y-D3-AHH" id="Ku8-iC-yt2"/>
                 <outlet property="topLabel" destination="5zN-Se-A2s" id="LVy-Wu-yLO"/>
             </connections>
         </view>

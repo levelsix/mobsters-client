@@ -1803,6 +1803,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxObstacles;
 @property int32_t minutesPerObstacle;
 @property (retain) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
+@property int32_t maxMinutesForFreeSpeedUp;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -2003,6 +2004,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasTaskMapConstants_ = !!value;
 }
 @synthesize taskMapConstants;
+- (BOOL) hasMaxMinutesForFreeSpeedUp {
+  return !!hasMaxMinutesForFreeSpeedUp_;
+}
+- (void) setHasMaxMinutesForFreeSpeedUp:(BOOL) value {
+  hasMaxMinutesForFreeSpeedUp_ = !!value;
+}
+@synthesize maxMinutesForFreeSpeedUp;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -2046,6 +2054,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxObstacles = 0;
     self.minutesPerObstacle = 0;
     self.taskMapConstants = [StartupResponseProto_StartupConstants_TaskMapConstants defaultInstance];
+    self.maxMinutesForFreeSpeedUp = 0;
   }
   return self;
 }
@@ -2166,6 +2175,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBattleRunAwayIncrement) {
     [output writeFloat:29 value:self.battleRunAwayIncrement];
   }
+  if (self.hasMaxMinutesForFreeSpeedUp) {
+    [output writeInt32:30 value:self.maxMinutesForFreeSpeedUp];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2261,6 +2273,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasBattleRunAwayIncrement) {
     size += computeFloatSize(29, self.battleRunAwayIncrement);
+  }
+  if (self.hasMaxMinutesForFreeSpeedUp) {
+    size += computeInt32Size(30, self.maxMinutesForFreeSpeedUp);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4631,6 +4646,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasTaskMapConstants) {
     [self mergeTaskMapConstants:other.taskMapConstants];
   }
+  if (other.hasMaxMinutesForFreeSpeedUp) {
+    [self setMaxMinutesForFreeSpeedUp:other.maxMinutesForFreeSpeedUp];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4810,6 +4828,10 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 237: {
         [self setBattleRunAwayIncrement:[input readFloat]];
+        break;
+      }
+      case 240: {
+        [self setMaxMinutesForFreeSpeedUp:[input readInt32]];
         break;
       }
     }
@@ -5415,6 +5437,22 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskMapConstants {
   result.hasTaskMapConstants = NO;
   result.taskMapConstants = [StartupResponseProto_StartupConstants_TaskMapConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasMaxMinutesForFreeSpeedUp {
+  return result.hasMaxMinutesForFreeSpeedUp;
+}
+- (int32_t) maxMinutesForFreeSpeedUp {
+  return result.maxMinutesForFreeSpeedUp;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxMinutesForFreeSpeedUp:(int32_t) value {
+  result.hasMaxMinutesForFreeSpeedUp = YES;
+  result.maxMinutesForFreeSpeedUp = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxMinutesForFreeSpeedUp {
+  result.hasMaxMinutesForFreeSpeedUp = NO;
+  result.maxMinutesForFreeSpeedUp = 0;
   return self;
 }
 @end

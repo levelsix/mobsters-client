@@ -98,4 +98,25 @@
   [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withCompletion:completion];
 }
 
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", nil];
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! dict)
+    return NO;
+  
+  // Comparing stored skill id with the one from server and break serialization if differ
+  // This is needed in case skill id changed on server
+  if (dict[@"skillType"])
+    if (_skillType != [dict[@"skillType"] integerValue])
+      return NO;
+  
+  return YES;
+}
+
 @end

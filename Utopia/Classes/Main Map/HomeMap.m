@@ -491,24 +491,24 @@
   
   NSArray *hosps = [gs myValidHospitals];
   for (CCSprite *spr in [self childrenOfClassType:[HospitalBuilding class]]) {
-      HospitalBuilding *hosp = (HospitalBuilding *)spr;
-      UserStruct *s = hosp.userStruct;
-      NSInteger index = [hosps indexOfObject:s];
-      UserMonsterHealingItem *hi = nil;
+    HospitalBuilding *hosp = (HospitalBuilding *)spr;
+    UserStruct *s = hosp.userStruct;
+    NSInteger index = [hosps indexOfObject:s];
+    UserMonsterHealingItem *hi = nil;
+    
+    if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
+      hi = gs.monsterHealingQueue[index];
+    }
+    
+    if (hi) {
+      [hosp beginAnimatingWithHealingItem:hi];
       
-      if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
-        hi = gs.monsterHealingQueue[index];
-      }
+      [hosp setBubbleType:BuildingBubbleTypeNone];
+    } else {
+      [hosp stopAnimating];
       
-      if (hi) {
-        [hosp beginAnimatingWithHealingItem:hi];
-        
-        [hosp setBubbleType:BuildingBubbleTypeNone];
-      } else {
-        [hosp stopAnimating];
-        
-        [hosp setBubbleType:hurtMobsters ? BuildingBubbleTypeHeal : BuildingBubbleTypeNone withNum:hurtMobsters];
-      }
+      [hosp setBubbleType:hurtMobsters ? BuildingBubbleTypeHeal : BuildingBubbleTypeNone withNum:hurtMobsters];
+    }
   }
 }
 
@@ -632,15 +632,8 @@
     }
   }
   
-  BOOL enhanceInProgress = gs.userEnhancement != nil;
   for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
-    if (!enhanceInProgress) {
-      [b setBubbleType:BuildingBubbleTypeEnhance];
-      [b stopAnimating];
-    } else {
-      [b setBubbleType:BuildingBubbleTypeNone];
-      [b beginAnimatingWithEnhancement:gs.userEnhancement];
-    }
+    [b setBubbleType:BuildingBubbleTypeEnhance];
   }
 }
 
@@ -904,7 +897,7 @@
       }
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES]]];
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     ObstacleSprite *ob = (ObstacleSprite *)self.selected;
@@ -916,7 +909,7 @@
       [buttonViews addObject:[MapBotViewButton removeButtonWithResourceType:op.removalCostType removeCost:op.cost]];
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]]];
     }
   }
   
@@ -1185,9 +1178,15 @@
   if (homeBuilding.isSetDown && _purchasing) {
     if (_constrBuilding) {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-      NSString *desc = [NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gem%@ and purchase this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
-      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+      
+      if (gemCost) {
+        NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+        [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      } else {
+        [self speedupBuildingAndUpgradeOrPurchase];
+      }
     } else {
       int cost = fsp.buildCost;
       BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
@@ -1380,10 +1379,7 @@
     cost = nextFsp.buildCost;
     isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
     
-    if (nextFsp.structType == StructureInfoProto_StructTypeLab && gs.userEnhancement) {
-      [GenericPopupController displayConfirmationWithDescription:@"Your current enhancement will be cancelled. Continue?" title:@"Cancel Enhancement" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(cancelEnhancementAndUpgrade)];
-      return;
-    } else if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
+    if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
       BOOL activeQuest = NO;
       for (UserMiniJob *mj in gs.myMiniJobs) {
         if (mj.timeStarted || mj.timeCompleted) {
@@ -1407,9 +1403,15 @@
   int curAmount = isOilBuilding ? gs.oil : gs.cash;
   if (_constrBuilding) {
     int timeLeft = [self timeLeftForConstructionBuilding];
-    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
-    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+    
+    if (gemCost) {
+      NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    } else {
+      [self speedupBuildingAndUpgradeOrPurchase];
+    }
   } else if (cost) {
     if (cost > curAmount) {
       [GenericPopupController displayExchangeForGemsViewWithResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForUpgrade)];
@@ -1417,11 +1419,6 @@
       [self sendUpgradeAllowGems:NO];
     }
   }
-}
-
-- (void) cancelEnhancementAndUpgrade {
-  [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
-  [self bigUpgradeClicked];
 }
 
 - (void) useGemsForUpgrade {
@@ -1489,11 +1486,13 @@
   
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = [self timeLeftForConstructionBuilding];
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (goldCost) {
     NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
     [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
+  } else {
+    [self speedUpBuilding];
   }
 }
 
@@ -1503,12 +1502,14 @@
 
 - (BOOL) speedUpBuilding {
   if (_isSpeedingUp) return NO;
+  if (!_constrBuilding) return NO;
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
   int timeLeft = [self timeLeftForConstructionBuilding];
-  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
   if (gs.gems < gemCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
@@ -1681,7 +1682,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];

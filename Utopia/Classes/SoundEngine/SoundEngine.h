@@ -46,6 +46,8 @@ typedef enum {
 + (void) chatOpened;
 + (void) chatClosed;
 
++ (void) enhanceFlying;
+
 + (void) structSpeedupConstruction;
 + (void) structUpgradeClicked;
 + (void) structDropped;

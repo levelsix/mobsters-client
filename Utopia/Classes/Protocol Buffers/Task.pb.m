@@ -1069,12 +1069,14 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @end
 
 @interface TaskStageMonsterProto ()
+@property int32_t tsmId;
 @property int32_t monsterId;
 @property TaskStageMonsterProto_MonsterType monsterType;
 @property int32_t expReward;
 @property int32_t cashReward;
 @property int32_t oilReward;
 @property BOOL puzzlePieceDropped;
+@property int32_t puzzlePieceMonsterId;
 @property int32_t level;
 @property int32_t itemId;
 @property Float32 dmgMultiplier;
@@ -1082,6 +1084,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 
 @implementation TaskStageMonsterProto
 
+- (BOOL) hasTsmId {
+  return !!hasTsmId_;
+}
+- (void) setHasTsmId:(BOOL) value {
+  hasTsmId_ = !!value;
+}
+@synthesize tsmId;
 - (BOOL) hasMonsterId {
   return !!hasMonsterId_;
 }
@@ -1129,6 +1138,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 - (void) setPuzzlePieceDropped:(BOOL) value {
   puzzlePieceDropped_ = !!value;
 }
+- (BOOL) hasPuzzlePieceMonsterId {
+  return !!hasPuzzlePieceMonsterId_;
+}
+- (void) setHasPuzzlePieceMonsterId:(BOOL) value {
+  hasPuzzlePieceMonsterId_ = !!value;
+}
+@synthesize puzzlePieceMonsterId;
 - (BOOL) hasLevel {
   return !!hasLevel_;
 }
@@ -1155,12 +1171,14 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
+    self.tsmId = 0;
     self.monsterId = 0;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
     self.expReward = 0;
     self.cashReward = 0;
     self.oilReward = 0;
     self.puzzlePieceDropped = NO;
+    self.puzzlePieceMonsterId = 0;
     self.level = 0;
     self.itemId = 0;
     self.dmgMultiplier = 0;
@@ -1210,6 +1228,12 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasDmgMultiplier) {
     [output writeFloat:9 value:self.dmgMultiplier];
   }
+  if (self.hasPuzzlePieceMonsterId) {
+    [output writeInt32:10 value:self.puzzlePieceMonsterId];
+  }
+  if (self.hasTsmId) {
+    [output writeInt32:11 value:self.tsmId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1245,6 +1269,12 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasDmgMultiplier) {
     size += computeFloatSize(9, self.dmgMultiplier);
+  }
+  if (self.hasPuzzlePieceMonsterId) {
+    size += computeInt32Size(10, self.puzzlePieceMonsterId);
+  }
+  if (self.hasTsmId) {
+    size += computeInt32Size(11, self.tsmId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1331,6 +1361,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other == [TaskStageMonsterProto defaultInstance]) {
     return self;
   }
+  if (other.hasTsmId) {
+    [self setTsmId:other.tsmId];
+  }
   if (other.hasMonsterId) {
     [self setMonsterId:other.monsterId];
   }
@@ -1348,6 +1381,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   }
   if (other.hasPuzzlePieceDropped) {
     [self setPuzzlePieceDropped:other.puzzlePieceDropped];
+  }
+  if (other.hasPuzzlePieceMonsterId) {
+    [self setPuzzlePieceMonsterId:other.puzzlePieceMonsterId];
   }
   if (other.hasLevel) {
     [self setLevel:other.level];
@@ -1420,8 +1456,32 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
         [self setDmgMultiplier:[input readFloat]];
         break;
       }
+      case 80: {
+        [self setPuzzlePieceMonsterId:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setTsmId:[input readInt32]];
+        break;
+      }
     }
   }
+}
+- (BOOL) hasTsmId {
+  return result.hasTsmId;
+}
+- (int32_t) tsmId {
+  return result.tsmId;
+}
+- (TaskStageMonsterProto_Builder*) setTsmId:(int32_t) value {
+  result.hasTsmId = YES;
+  result.tsmId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearTsmId {
+  result.hasTsmId = NO;
+  result.tsmId = 0;
+  return self;
 }
 - (BOOL) hasMonsterId {
   return result.hasMonsterId;
@@ -1517,6 +1577,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearPuzzlePieceDropped {
   result.hasPuzzlePieceDropped = NO;
   result.puzzlePieceDropped = NO;
+  return self;
+}
+- (BOOL) hasPuzzlePieceMonsterId {
+  return result.hasPuzzlePieceMonsterId;
+}
+- (int32_t) puzzlePieceMonsterId {
+  return result.puzzlePieceMonsterId;
+}
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterId:(int32_t) value {
+  result.hasPuzzlePieceMonsterId = YES;
+  result.puzzlePieceMonsterId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterId {
+  result.hasPuzzlePieceMonsterId = NO;
+  result.puzzlePieceMonsterId = 0;
   return self;
 }
 - (BOOL) hasLevel {

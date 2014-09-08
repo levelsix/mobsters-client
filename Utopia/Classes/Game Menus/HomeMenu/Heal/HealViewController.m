@@ -70,12 +70,23 @@
   int hospitalCount = self.numValidHospitals;
   
   Globals *gl = [Globals sharedGlobals];
-  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (hospitalCount > 0) {
-    self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
-    [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
+    if (timeLeft > 0) {
+      self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+      
+      if (speedupCost > 0) {
+        self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
+        [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
+        
+        self.speedupCostLabel.superview.hidden = NO;
+        self.freeLabel.hidden = YES;
+      } else {
+        self.speedupCostLabel.superview.hidden = YES;
+        self.freeLabel.hidden = NO;
+      }
+    }
     
     for (int i = 0; i < hospitalCount && i < self.monsterHealingQueue.count; i++) {
       MonsterQueueCell *cell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -342,7 +353,7 @@
     Globals *gl = [Globals sharedGlobals];
     
     int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
     if ([self numValidHospitals] == 0) {
       [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];

@@ -314,7 +314,7 @@
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = self.userMonsters[indexPath.row];
   int timeLeft = um.timeLeftForCombining;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
   
   if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];

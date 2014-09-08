@@ -479,6 +479,9 @@
 #pragma mark - Turn Sequence
 
 - (void) beginNextTurn {
+  
+  // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
+  // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
     BOOL shouldDelay = NO;
     if (_shouldDisplayNewSchedule) {
@@ -968,8 +971,9 @@
                    ^{
                      [bgd removeFromParentAndCleanup:YES];
                      
+                     // One of the two racing calls for beginNextTurn. _displayWaveNumber is used as the flag
                      _displayedWaveNumber = YES;
-                     //[self beginNextTurn];
+                     [self beginNextTurn];
                    }],
                   nil]];
   
@@ -1494,15 +1498,16 @@
 }
 
 - (void) reachedNextScene {
-  _hasStarted = YES;
-  _reachedNextScene = YES;
+  
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
     
     // Trigger skills for when new enemy joins the battle
     [skillManager triggerSkillsWithBlock:^() {
-      [self beginNextTurn];
+      _hasStarted = YES;
+      _reachedNextScene = YES;
+      [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
       [self updateHealthBars];
       [self.currentEnemy doRarityTagShine];
     } andTrigger:SkillTriggerPointEnemyAppeared];

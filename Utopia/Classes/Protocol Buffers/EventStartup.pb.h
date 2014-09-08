@@ -654,59 +654,61 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasAddAllFbFriends_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
-  BOOL hasBattleRunAwayBasePercent_:1;
-  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasMaxMinutesForFreeSpeedUp_:1;
+  BOOL hasMinutesPerObstacle_:1;
+  BOOL hasMaxObstacles_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasMaxObstacles_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMinutesPerObstacle_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForUser_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasMiniTuts_:1;
   BOOL hasTaskMapConstants_:1;
+  BOOL hasMiniTuts_:1;
+  BOOL hasClanConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
   BOOL hasMonsterConstants_:1;
   BOOL hasUserMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
-  BOOL hasDownloadableNibConstants_:1;
-  BOOL hasClanConstants_:1;
   BOOL addAllFbFriends_:1;
+  Float32 battleRunAwayIncrement;
+  Float32 battleRunAwayBasePercent;
+  Float32 continueBattleGemCostMultiplier;
   Float32 gemsPerResource;
   Float32 minutesPerGem;
-  Float32 continueBattleGemCostMultiplier;
-  Float32 battleRunAwayBasePercent;
-  Float32 battleRunAwayIncrement;
+  int32_t maxMinutesForFreeSpeedUp;
+  int32_t minutesPerObstacle;
+  int32_t maxObstacles;
   int32_t pvpRequiredMinLvl;
   int32_t numBeginnerSalesAllowed;
   int32_t fbConnectRewardDiamonds;
-  int32_t levelToShowRateUsPopup;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t maxObstacles;
-  int32_t maxLengthOfChatString;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t minutesPerObstacle;
-  int32_t maxNumOfSingleStruct;
   int32_t maxLevelForUser;
+  int32_t levelToShowRateUsPopup;
+  int32_t maxNumOfSingleStruct;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t maxLengthOfChatString;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
 }
@@ -737,6 +739,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMaxObstacles;
 - (BOOL) hasMinutesPerObstacle;
 - (BOOL) hasTaskMapConstants;
+- (BOOL) hasMaxMinutesForFreeSpeedUp;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -764,6 +767,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t maxObstacles;
 @property (readonly) int32_t minutesPerObstacle;
 @property (readonly, retain) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
+@property (readonly) int32_t maxMinutesForFreeSpeedUp;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1533,6 +1537,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstantsBuilder:(StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeTaskMapConstants:(StartupResponseProto_StartupConstants_TaskMapConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskMapConstants;
+
+- (BOOL) hasMaxMinutesForFreeSpeedUp;
+- (int32_t) maxMinutesForFreeSpeedUp;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxMinutesForFreeSpeedUp:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxMinutesForFreeSpeedUp;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

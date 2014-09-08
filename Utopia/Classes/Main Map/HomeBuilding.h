@@ -19,6 +19,8 @@
   
   CGPoint _startMoveCoordinate;
   StructOrientation _startOrientation;
+  
+  BOOL _progressBarIsDisplayingFree; 
 }
 
 @property (nonatomic, assign) CGPoint startTouchLocation;

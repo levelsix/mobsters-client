@@ -42,7 +42,7 @@
 
 - (void) waitTimeComplete {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.userEnhancement) {
+  if (!gs.userEvolution) {
     if (_allowEvolution) {
       // Waiting for evo to complete.. go back to chooser screen
       [self.parentViewController popViewControllerAnimated:YES];
@@ -59,7 +59,7 @@
   Globals *gl = [Globals sharedGlobals];
   if (gs.userEvolution && _allowEvolution) {
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
-    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
@@ -220,7 +220,7 @@
   
   if (gs.userEvolution) {
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
     
     if (gs.gems < goldCost) {
       [GenericPopupController displayNotEnoughGemsView];

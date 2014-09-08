@@ -20,7 +20,9 @@
 - (NSTimeInterval) timeIntervalSinceDate:(MSDate *)date;
 - (NSTimeInterval) timeIntervalSince1970;
 
+// This is the date with delta applied.
 - (NSDate *) relativeNSDate;
+// This is the actual date relative to phone's current date. (Should only really be used for local notifications.)
 - (NSDate *) actualNSDate;
 
 + (MSDate *) date;

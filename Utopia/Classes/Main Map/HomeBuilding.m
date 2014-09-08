@@ -345,9 +345,27 @@
                    [CCActionCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
 }
 
+#pragma mark - Upgrade
+
+- (BOOL) isFreeSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:self.userStruct.timeLeftForBuildComplete allowFreeSpeedup:YES];
+  return gemCost == 0;
+}
+
+- (NSString *) progressBarPrefix {
+  if (![self isFreeSpeedup]) {
+    return @"building";
+  } else {
+    return @"instant";
+  }
+}
+
 - (void) updateProgressBar {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+  UpgradeProgressBar *n = self.progressBar;
+  // Check the prefix
+  NSString *prefix = [self progressBarPrefix];
+  if (_percentage || [n.prefix isEqualToString:prefix]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
     
     NSTimeInterval time = self.userStruct.timeLeftForBuildComplete;
@@ -358,6 +376,12 @@
     }
     
     [bar updateForSecsLeft:time totalSecs:totalTime];
+    
+    if ([self isFreeSpeedup]) {
+      [self.progressBar animateFreeLabel];
+    }
+  } else {
+    [self displayProgressBar];
   }
 }
 
@@ -587,11 +611,9 @@
     
     [self displayProgressBar];
     
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:hi.userMonster.monsterId];
-    [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
 }
 
@@ -612,11 +634,28 @@
   _healingItem = nil;
 }
 
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    // Check the entire healing queue to see if it can be sped up for free
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
 - (NSString *) progressBarPrefix {
   if (self.isConstructing) {
     return [super progressBarPrefix];
   } else {
-    return @"healing";
+    if (![self isFreeSpeedup]) {
+      return @"healing";
+    } else {
+      return @"instant";
+    }
   }
 }
 
@@ -624,13 +663,20 @@
   if (self.isConstructing) {
     [super updateProgressBar];
   } else {
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-      
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
       NSTimeInterval time = _healingItem.endTime.timeIntervalSinceNow;
       [bar updateTimeLabel:time];
       [bar updateForPercentage:_healingItem.currentPercentage];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
     }
   }
 }
@@ -675,18 +721,16 @@
   if (ue.feeders.count) {
     [self displayProgressBar];
     
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    
     EnhancementItem *ei = [ue.feeders lastObject];
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:ei.userMonster.monsterId];
-    [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
 }
 
 - (void) stopAnimating {
   _enhancement = nil;
-//  [self.buildingSprite stopAllActions];
+  //  [self.buildingSprite stopAllActions];
   //  [self.buildingSprite setSpriteFrame:[self.anim.frames[0] spriteFrame]];
   
   if (!self.isConstructing) {
@@ -706,15 +750,12 @@
   if (self.isConstructing) {
     [super updateProgressBar];
   } else {
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-      
-      EnhancementItem *feeder = _enhancement.feeders.firstObject;
-      NSTimeInterval time = [_enhancement expectedEndTimeForItem:feeder].timeIntervalSinceNow;
-      NSTimeInterval totalSecs = [_enhancement secondsForCompletionForItem:feeder];
-      [bar updateForSecsLeft:time totalSecs:totalSecs];
-    }
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    EnhancementItem *feeder = _enhancement.feeders.firstObject;
+    NSTimeInterval time = [_enhancement expectedEndTimeForItem:feeder].timeIntervalSinceNow;
+    NSTimeInterval totalSecs = [_enhancement secondsForCompletionForItem:feeder];
+    [bar updateForSecsLeft:time totalSecs:totalSecs];
   }
 }
 
@@ -730,11 +771,9 @@
   if (ue) {
     [self displayProgressBar];
     
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_evolution.evoItem.userMonster1.monsterId];
-    [n addChild:spr];
-    spr.position = ccp(-spr.contentSize.width/2-4.f, n.contentSize.height/2+1.f);
+    [self.progressBar addChild:spr];
+    spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
 }
 
@@ -760,14 +799,9 @@
   if (self.isConstructing) {
     [super updateProgressBar];
   } else {
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-      
-      NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
-      NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
-      [bar updateForSecsLeft:time totalSecs:totalSecs];
-    }
+    NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
+    NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
+    [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
   }
 }
 
@@ -858,7 +892,7 @@
 - (void) displayProgressBar {
   [super displayProgressBar];
   
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+  CCNode *n = self.progressBar;
   n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
   
   if (!self.isConstructing && self.activeMiniJob) {
@@ -878,14 +912,11 @@
   if (self.isConstructing) {
     [super updateProgressBar];
   } else {
-    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-      
-      float dur = self.activeMiniJob.durationMinutes*60;
-      MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
-      [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
-    }
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    float dur = self.activeMiniJob.durationMinutes*60;
+    MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+    [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
   }
 }
 

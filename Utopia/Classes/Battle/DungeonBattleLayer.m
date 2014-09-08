@@ -15,6 +15,7 @@
 #import "CCBReader.h"
 #import "FacebookDelegate.h"
 #import "AchievementUtil.h"
+#import "SkillManager.h"
 
 @implementation DungeonBattleLayer
 
@@ -451,6 +452,8 @@
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
 #define MY_USER_MONSTER_ID_KEY @"MyUserIdMonsterKey"
 
+#define SKILL_MANAGER_KEY @"BattleSkillManager"
+
 - (void) saveCurrentState {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:[self serializeState] forKey:DUNGEON_DEFAULT_KEY];
@@ -499,6 +502,8 @@
   NSData *powerupCounts = [NSData dataWithBytes:_powerupCounts length:sizeof(_powerupCounts)];
   [dict setObject:powerupCounts forKey:POWERUP_COUNTS_KEY];
   
+  [dict setObject:skillManager.serialize forKey:SKILL_MANAGER_KEY];
+  
   return dict;
 }
 
@@ -532,6 +537,8 @@
   _shouldDisplayNewSchedule = YES;
   
   _resumedUserMonsterId = [[stateDict objectForKey:MY_USER_MONSTER_ID_KEY] longLongValue];
+  
+  [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];
 }
 
 @end

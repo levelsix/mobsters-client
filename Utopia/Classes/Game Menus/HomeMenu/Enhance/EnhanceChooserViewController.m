@@ -35,49 +35,13 @@
   self.listView.collectionView.contentOffset = ccp(0,0);
   
   [self reloadListViewAnimated:NO];
-  
-  [self updateBottomView];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
-  [self updateBottomView];
-}
-
-- (void) updateBottomView {
-  GameState *gs = [GameState sharedGameState];
-  UserEnhancement *ue = gs.userEnhancement;
-  
-  if (ue) {
-    [self.monsterView updateForMonsterId:ue.baseMonster.userMonster.monsterId];
-    self.monsterNameLabel.text = [NSString stringWithFormat:@"Enhancing: %@", ue.baseMonster.userMonster.staticMonster.displayName];
-    
-    [self updateLabels];
-    
-    self.bottomBarButton.enabled = YES;
-    self.enhancingView.hidden = NO;
-    self.notEnhancingView.hidden = YES;
-  } else {
-    self.bottomBarButton.enabled = NO;
-    self.enhancingView.hidden = YES;
-    self.notEnhancingView.hidden = NO;
-  }
 }
 
 #pragma mark - Current enhancement
-
-- (IBAction)bottomBarClicked:(id)sender {
-  EnhanceQueueViewController *eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-  [self.parentViewController pushViewController:eqvc animated:YES];
-}
-
-- (void) updateLabels {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  UserEnhancement *ue = gs.userEnhancement;
-  int timeLeft = [gl calculateTimeLeftForEnhancement:ue];
-  self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
-}
 
 #pragma mark - Reloading collection view
 
@@ -115,11 +79,7 @@
 #pragma mark - Monster card delegate
 
 - (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
-  GameState *gs = [GameState sharedGameState];
-  BOOL greyscale = NO;
-  if ((gs.userEnhancement && !listObject.isEnhancing) || listObject.staticMonster.maxLevel <= listObject.level) {
-    greyscale = YES;
-  }
+  BOOL greyscale = listObject.staticMonster.maxLevel <= listObject.level;
   
   [cell updateForListObject:listObject greyscale:greyscale];
 }
@@ -129,20 +89,15 @@
   
   EnhanceQueueViewController *eqvc = nil;
   
-  GameState *gs = [GameState sharedGameState];
-  if (gs.userEnhancement && um.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId) {
-    eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-  } else {
-    if (um.level >= um.staticMonster.maxLevel) {
-      NSString *name = um.staticMonster.monsterName;
-      if (um.staticMonster.evolutionMonsterId) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ is at max level. Use the evolution lab to create the next form.", name]];
-      } else {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, %@ is at max enhancement level.", name]];
-      }
+  if (um.level >= um.staticMonster.maxLevel) {
+    NSString *name = um.staticMonster.monsterName;
+    if (um.staticMonster.evolutionMonsterId) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ is at max level. Use the evolution lab to create the next form.", name]];
     } else {
-      eqvc = [[EnhanceQueueViewController alloc] initWithBaseMonster:um allowAddingToQueue:(gs.userEnhancement == nil)];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, %@ is at max enhancement level.", name]];
     }
+  } else {
+    eqvc = [[EnhanceQueueViewController alloc] initWithBaseMonster:um];
   }
   
   if (eqvc) {

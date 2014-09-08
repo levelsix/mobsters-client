@@ -356,7 +356,7 @@
       FullTaskProto *ftp = [gs taskWithId:pe.taskId];
       
       int timeLeft = [pe.cooldownEndTime timeIntervalSinceNow];
-      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
       
       NSString *str = [NSString stringWithFormat:@"Would you like to enter the %@ for %@ gems?", ftp.name, [Globals commafyNumber:speedupCost]];
       [GenericPopupController displayGemConfirmViewWithDescription:str title:[NSString stringWithFormat:@"Enter %@?", ftp.name] gemCost:speedupCost target:self selector:@selector(enterEventWithGems)];
@@ -370,7 +370,7 @@
   PersistentEventProto *pe = [gs persistentEventWithId:_curEventView.persistentEventId];
   
   int timeLeft = [pe.cooldownEndTime timeIntervalSinceNow];
-  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
   
   if (gs.gems >= speedupCost) {
     [self enterEventConfirmed:_curEventView useGems:YES];
