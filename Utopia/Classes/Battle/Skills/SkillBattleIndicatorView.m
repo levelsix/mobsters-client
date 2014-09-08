@@ -163,7 +163,7 @@
   switch (_skillController.skillType)
   {
     case SkillTypeQuickAttack: iconName = @"quickattackicon.png"; break;
-    case SkillTypeJelly: iconName = @"jellyicon.png"; break;
+    case SkillTypeJelly: iconName = @"goosplashicon.png"; break;
     default: return;
   }
   

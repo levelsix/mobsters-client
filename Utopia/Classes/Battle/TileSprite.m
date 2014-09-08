@@ -51,7 +51,7 @@
   switch (_tileType)
   {
     case TileTypeJelly:
-      imageName = @"jellypiece.png";
+      imageName = @"boardgoo.png";
       break;
       
     default: break;

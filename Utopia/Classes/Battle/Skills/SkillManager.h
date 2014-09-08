@@ -40,6 +40,9 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
+@property (assign, nonatomic) SkillType cheatEnemySkillType;  // If not SkillTypeNothing, overrides skills from protos
+@property (assign, nonatomic) SkillType cheatPlayerSkillType;
+
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color;  // Potentially it could become a trigger too (bomb orb?) with a BattleOrb as a parameter to pass

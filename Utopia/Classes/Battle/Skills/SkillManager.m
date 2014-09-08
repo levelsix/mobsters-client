@@ -22,6 +22,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   _playerColor = _enemyColor = OrbColorNone;
   _playerSkillType = _enemySkillType = SkillTypeNoSkill;
+  _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
   
   return self;
 }
@@ -33,7 +34,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _player = _battleLayer.myPlayerObject;
   _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
-  _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillType = SkillTypeNoSkill;   // MISHA: take it from player
+  if (_cheatPlayerSkillType != SkillTypeNoSkill)
+    _playerSkillType = _cheatPlayerSkillType;
   _playerSkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -69,7 +72,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _enemy = _battleLayer.enemyPlayerObject;
   _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeNoSkill;   // MISHA: take it from enemy skill
+  if (_cheatEnemySkillType != SkillTypeNoSkill)
+    _enemySkillType = _cheatEnemySkillType;
   _enemySkillController = nil;
   
   GameState* gs = [GameState sharedGameState];
@@ -136,13 +141,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
 #ifndef MOBSTERS
-  block(NO);
+  block();
 #endif
   
   // Update enemy skill indicator
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [skillManager updateEnemy];
+    [self updateEnemy];
     [self createEnemySkillIndicator];
   }
   if (trigger == SkillTriggerPointEnemyDefeated)
@@ -183,6 +188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
   else if (_enemySkillController)
     [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+  else block();
 }
 
 #pragma mark - UI
@@ -215,7 +221,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   if (_skillIndicatorPlayer)
     [_skillIndicatorPlayer removeFromParentAndCleanup:YES];
-
+  
   if (_playerSkillType != SkillTypeNoSkill)
   {
     _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];
