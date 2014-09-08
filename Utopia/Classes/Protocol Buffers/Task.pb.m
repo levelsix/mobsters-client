@@ -1080,6 +1080,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t level;
 @property int32_t itemId;
 @property Float32 dmgMultiplier;
+@property int32_t defensiveSkillId;
 @end
 
 @implementation TaskStageMonsterProto
@@ -1166,6 +1167,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasDmgMultiplier_ = !!value;
 }
 @synthesize dmgMultiplier;
+- (BOOL) hasDefensiveSkillId {
+  return !!hasDefensiveSkillId_;
+}
+- (void) setHasDefensiveSkillId:(BOOL) value {
+  hasDefensiveSkillId_ = !!value;
+}
+@synthesize defensiveSkillId;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1182,6 +1190,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.level = 0;
     self.itemId = 0;
     self.dmgMultiplier = 0;
+    self.defensiveSkillId = 0;
   }
   return self;
 }
@@ -1234,6 +1243,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasTsmId) {
     [output writeInt32:11 value:self.tsmId];
   }
+  if (self.hasDefensiveSkillId) {
+    [output writeInt32:12 value:self.defensiveSkillId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1275,6 +1287,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasTsmId) {
     size += computeInt32Size(11, self.tsmId);
+  }
+  if (self.hasDefensiveSkillId) {
+    size += computeInt32Size(12, self.defensiveSkillId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1394,6 +1409,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasDmgMultiplier) {
     [self setDmgMultiplier:other.dmgMultiplier];
   }
+  if (other.hasDefensiveSkillId) {
+    [self setDefensiveSkillId:other.defensiveSkillId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1462,6 +1480,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 88: {
         [self setTsmId:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setDefensiveSkillId:[input readInt32]];
         break;
       }
     }
@@ -1641,6 +1663,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearDmgMultiplier {
   result.hasDmgMultiplier = NO;
   result.dmgMultiplier = 0;
+  return self;
+}
+- (BOOL) hasDefensiveSkillId {
+  return result.hasDefensiveSkillId;
+}
+- (int32_t) defensiveSkillId {
+  return result.defensiveSkillId;
+}
+- (TaskStageMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value {
+  result.hasDefensiveSkillId = YES;
+  result.defensiveSkillId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearDefensiveSkillId {
+  result.hasDefensiveSkillId = NO;
+  result.defensiveSkillId = 0;
   return self;
 }
 @end

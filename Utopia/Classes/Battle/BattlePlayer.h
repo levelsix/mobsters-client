@@ -43,6 +43,9 @@
 @property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int slotNum;
 
+@property (nonatomic, assign) int offensiveSkillId;
+@property (nonatomic, assign) int defensiveSkillId;
+
 + (id) playerWithMonster:(UserMonster *)monster;
 + (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;

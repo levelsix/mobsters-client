@@ -49,6 +49,9 @@ message MonsterProto {
 	//optional string shorterName = 28; defined above
 	optional float shadowScaleFactor = 29;
 	
+	optional int32 baseOffensiveSkillId = 30;
+	optional int32 baseDefensiveSkillId = 31;
+	
 	enum AnimationType {
 		NO_ANIMATION = 3;
 		MELEE = 1;
@@ -96,6 +99,9 @@ message FullUserMonsterProto {
 	optional int32 teamSlotNum = 10;
 	//optional string sourceOfPieces = 11;	//not needed for client
 	optional bool isRestrictd = 12;
+	
+	optional int32 offensiveSkillId = 13;
+	optional int32 defensiveSkillId = 14;
 }
 
 message MinimumUserMonsterProto {

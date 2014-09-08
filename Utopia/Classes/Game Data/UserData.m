@@ -34,6 +34,8 @@
     self.isComplete = proto.isComplete;
     self.combineStartTime = [MSDate dateWithTimeIntervalSince1970:proto.combineStartTime/1000.];
     self.isProtected = proto.isRestrictd;
+    self.offensiveSkillId = proto.offensiveSkillId;
+    self.defensiveSkillId = proto.defensiveSkillId;
   }
   return self;
 }
@@ -64,6 +66,7 @@
     self.monsterId = proto.monsterId;
     self.level = proto.level;
     self.curHealth = [gl calculateMaxHealthForMonster:self];
+    self.defensiveSkillId = proto.defensiveSkillId;
   }
   return self;
 }
@@ -271,6 +274,8 @@
   bldr.numPieces = self.numPieces;
   bldr.combineStartTime = self.combineStartTime.timeIntervalSince1970*1000.;
   bldr.isRestrictd = self.isProtected;
+  bldr.offensiveSkillId = self.offensiveSkillId;
+  bldr.defensiveSkillId = self.defensiveSkillId;
   return bldr.build;
 }
 

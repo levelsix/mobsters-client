@@ -50,6 +50,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t atkAnimationRepeatedFramesStart;
 @property int32_t atkAnimationRepeatedFramesEnd;
 @property Float32 shadowScaleFactor;
+@property int32_t baseOffensiveSkillId;
+@property int32_t baseDefensiveSkillId;
 @end
 
 @implementation MonsterProto
@@ -251,6 +253,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasShadowScaleFactor_ = !!value;
 }
 @synthesize shadowScaleFactor;
+- (BOOL) hasBaseOffensiveSkillId {
+  return !!hasBaseOffensiveSkillId_;
+}
+- (void) setHasBaseOffensiveSkillId:(BOOL) value {
+  hasBaseOffensiveSkillId_ = !!value;
+}
+@synthesize baseOffensiveSkillId;
+- (BOOL) hasBaseDefensiveSkillId {
+  return !!hasBaseDefensiveSkillId_;
+}
+- (void) setHasBaseDefensiveSkillId:(BOOL) value {
+  hasBaseDefensiveSkillId_ = !!value;
+}
+@synthesize baseDefensiveSkillId;
 - (void) dealloc {
   self.evolutionGroup = nil;
   self.shorterName = nil;
@@ -295,6 +311,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.atkAnimationRepeatedFramesStart = 0;
     self.atkAnimationRepeatedFramesEnd = 0;
     self.shadowScaleFactor = 0;
+    self.baseOffensiveSkillId = 0;
+    self.baseDefensiveSkillId = 0;
   }
   return self;
 }
@@ -408,6 +426,12 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasShadowScaleFactor) {
     [output writeFloat:29 value:self.shadowScaleFactor];
   }
+  if (self.hasBaseOffensiveSkillId) {
+    [output writeInt32:30 value:self.baseOffensiveSkillId];
+  }
+  if (self.hasBaseDefensiveSkillId) {
+    [output writeInt32:31 value:self.baseDefensiveSkillId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -503,6 +527,12 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   }
   if (self.hasShadowScaleFactor) {
     size += computeFloatSize(29, self.shadowScaleFactor);
+  }
+  if (self.hasBaseOffensiveSkillId) {
+    size += computeInt32Size(30, self.baseOffensiveSkillId);
+  }
+  if (self.hasBaseDefensiveSkillId) {
+    size += computeInt32Size(31, self.baseDefensiveSkillId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -679,6 +709,12 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   if (other.hasShadowScaleFactor) {
     [self setShadowScaleFactor:other.shadowScaleFactor];
   }
+  if (other.hasBaseOffensiveSkillId) {
+    [self setBaseOffensiveSkillId:other.baseOffensiveSkillId];
+  }
+  if (other.hasBaseDefensiveSkillId) {
+    [self setBaseDefensiveSkillId:other.baseDefensiveSkillId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -831,6 +867,14 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
       }
       case 237: {
         [self setShadowScaleFactor:[input readFloat]];
+        break;
+      }
+      case 240: {
+        [self setBaseOffensiveSkillId:[input readInt32]];
+        break;
+      }
+      case 248: {
+        [self setBaseDefensiveSkillId:[input readInt32]];
         break;
       }
     }
@@ -1311,6 +1355,38 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (MonsterProto_Builder*) clearShadowScaleFactor {
   result.hasShadowScaleFactor = NO;
   result.shadowScaleFactor = 0;
+  return self;
+}
+- (BOOL) hasBaseOffensiveSkillId {
+  return result.hasBaseOffensiveSkillId;
+}
+- (int32_t) baseOffensiveSkillId {
+  return result.baseOffensiveSkillId;
+}
+- (MonsterProto_Builder*) setBaseOffensiveSkillId:(int32_t) value {
+  result.hasBaseOffensiveSkillId = YES;
+  result.baseOffensiveSkillId = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearBaseOffensiveSkillId {
+  result.hasBaseOffensiveSkillId = NO;
+  result.baseOffensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasBaseDefensiveSkillId {
+  return result.hasBaseDefensiveSkillId;
+}
+- (int32_t) baseDefensiveSkillId {
+  return result.baseDefensiveSkillId;
+}
+- (MonsterProto_Builder*) setBaseDefensiveSkillId:(int32_t) value {
+  result.hasBaseDefensiveSkillId = YES;
+  result.baseDefensiveSkillId = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearBaseDefensiveSkillId {
+  result.hasBaseDefensiveSkillId = NO;
+  result.baseDefensiveSkillId = 0;
   return self;
 }
 @end
@@ -2074,6 +2150,8 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 @property int64_t combineStartTime;
 @property int32_t teamSlotNum;
 @property BOOL isRestrictd;
+@property int32_t offensiveSkillId;
+@property int32_t defensiveSkillId;
 @end
 
 @implementation FullUserMonsterProto
@@ -2165,6 +2243,20 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (void) setIsRestrictd:(BOOL) value {
   isRestrictd_ = !!value;
 }
+- (BOOL) hasOffensiveSkillId {
+  return !!hasOffensiveSkillId_;
+}
+- (void) setHasOffensiveSkillId:(BOOL) value {
+  hasOffensiveSkillId_ = !!value;
+}
+@synthesize offensiveSkillId;
+- (BOOL) hasDefensiveSkillId {
+  return !!hasDefensiveSkillId_;
+}
+- (void) setHasDefensiveSkillId:(BOOL) value {
+  hasDefensiveSkillId_ = !!value;
+}
+@synthesize defensiveSkillId;
 - (void) dealloc {
   [super dealloc];
 }
@@ -2181,6 +2273,8 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
     self.combineStartTime = 0L;
     self.teamSlotNum = 0;
     self.isRestrictd = NO;
+    self.offensiveSkillId = 0;
+    self.defensiveSkillId = 0;
   }
   return self;
 }
@@ -2233,6 +2327,12 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (self.hasIsRestrictd) {
     [output writeBool:12 value:self.isRestrictd];
   }
+  if (self.hasOffensiveSkillId) {
+    [output writeInt32:13 value:self.offensiveSkillId];
+  }
+  if (self.hasDefensiveSkillId) {
+    [output writeInt32:14 value:self.defensiveSkillId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2274,6 +2374,12 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   }
   if (self.hasIsRestrictd) {
     size += computeBoolSize(12, self.isRestrictd);
+  }
+  if (self.hasOffensiveSkillId) {
+    size += computeInt32Size(13, self.offensiveSkillId);
+  }
+  if (self.hasDefensiveSkillId) {
+    size += computeInt32Size(14, self.defensiveSkillId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2383,6 +2489,12 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (other.hasIsRestrictd) {
     [self setIsRestrictd:other.isRestrictd];
   }
+  if (other.hasOffensiveSkillId) {
+    [self setOffensiveSkillId:other.offensiveSkillId];
+  }
+  if (other.hasDefensiveSkillId) {
+    [self setDefensiveSkillId:other.defensiveSkillId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2446,6 +2558,14 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
       }
       case 96: {
         [self setIsRestrictd:[input readBool]];
+        break;
+      }
+      case 104: {
+        [self setOffensiveSkillId:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setDefensiveSkillId:[input readInt32]];
         break;
       }
     }
@@ -2625,6 +2745,38 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 - (FullUserMonsterProto_Builder*) clearIsRestrictd {
   result.hasIsRestrictd = NO;
   result.isRestrictd = NO;
+  return self;
+}
+- (BOOL) hasOffensiveSkillId {
+  return result.hasOffensiveSkillId;
+}
+- (int32_t) offensiveSkillId {
+  return result.offensiveSkillId;
+}
+- (FullUserMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value {
+  result.hasOffensiveSkillId = YES;
+  result.offensiveSkillId = value;
+  return self;
+}
+- (FullUserMonsterProto_Builder*) clearOffensiveSkillId {
+  result.hasOffensiveSkillId = NO;
+  result.offensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasDefensiveSkillId {
+  return result.hasDefensiveSkillId;
+}
+- (int32_t) defensiveSkillId {
+  return result.defensiveSkillId;
+}
+- (FullUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value {
+  result.hasDefensiveSkillId = YES;
+  result.defensiveSkillId = value;
+  return self;
+}
+- (FullUserMonsterProto_Builder*) clearDefensiveSkillId {
+  result.hasDefensiveSkillId = NO;
+  result.defensiveSkillId = 0;
   return self;
 }
 @end

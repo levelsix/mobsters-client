@@ -341,6 +341,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasPuzzlePieceMonsterId_:1;
   BOOL hasLevel_:1;
   BOOL hasItemId_:1;
+  BOOL hasDefensiveSkillId_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
@@ -352,6 +353,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t puzzlePieceMonsterId;
   int32_t level;
   int32_t itemId;
+  int32_t defensiveSkillId;
   TaskStageMonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasTsmId;
@@ -365,6 +367,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasLevel;
 - (BOOL) hasItemId;
 - (BOOL) hasDmgMultiplier;
+- (BOOL) hasDefensiveSkillId;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
@@ -376,6 +379,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t level;
 @property (readonly) int32_t itemId;
 @property (readonly) Float32 dmgMultiplier;
+@property (readonly) int32_t defensiveSkillId;
 
 + (TaskStageMonsterProto*) defaultInstance;
 - (TaskStageMonsterProto*) defaultInstance;
@@ -465,6 +469,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (Float32) dmgMultiplier;
 - (TaskStageMonsterProto_Builder*) setDmgMultiplier:(Float32) value;
 - (TaskStageMonsterProto_Builder*) clearDmgMultiplier;
+
+- (BOOL) hasDefensiveSkillId;
+- (int32_t) defensiveSkillId;
+- (TaskStageMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearDefensiveSkillId;
 @end
 
 @interface PersistentEventProto : PBGeneratedMessage {

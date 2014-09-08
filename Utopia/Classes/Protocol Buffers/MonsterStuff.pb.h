@@ -55,61 +55,65 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @interface MonsterProto : PBGeneratedMessage {
 @private
   BOOL hasShadowScaleFactor_:1;
-  BOOL hasAtkAnimationRepeatedFramesEnd_:1;
-  BOOL hasAtkAnimationRepeatedFramesStart_:1;
-  BOOL hasAtkSoundAnimationFrame_:1;
-  BOOL hasVerticalPixelOffset_:1;
-  BOOL hasEvolutionCost_:1;
   BOOL hasNumCatalystMonstersRequired_:1;
-  BOOL hasMinutesToEvolve_:1;
-  BOOL hasEvolutionCatalystMonsterId_:1;
-  BOOL hasEvolutionMonsterId_:1;
-  BOOL hasMaxLevel_:1;
-  BOOL hasMonsterId_:1;
   BOOL hasEvolutionLevel_:1;
   BOOL hasNumPuzzlePieces_:1;
   BOOL hasMinutesToCombinePieces_:1;
-  BOOL hasImagePrefix_:1;
+  BOOL hasMaxLevel_:1;
+  BOOL hasEvolutionMonsterId_:1;
+  BOOL hasEvolutionCatalystMonsterId_:1;
+  BOOL hasMinutesToEvolve_:1;
+  BOOL hasEvolutionCost_:1;
+  BOOL hasVerticalPixelOffset_:1;
+  BOOL hasAtkSoundAnimationFrame_:1;
+  BOOL hasAtkAnimationRepeatedFramesStart_:1;
+  BOOL hasAtkAnimationRepeatedFramesEnd_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasBaseOffensiveSkillId_:1;
+  BOOL hasBaseDefensiveSkillId_:1;
+  BOOL hasShorterName_:1;
+  BOOL hasMonsterGroup_:1;
   BOOL hasDisplayName_:1;
+  BOOL hasImagePrefix_:1;
+  BOOL hasEvolutionGroup_:1;
   BOOL hasCarrotRecruited_:1;
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
   BOOL hasDescription_:1;
   BOOL hasAtkSoundFile_:1;
-  BOOL hasMonsterGroup_:1;
-  BOOL hasShorterName_:1;
-  BOOL hasEvolutionGroup_:1;
+  BOOL hasQuality_:1;
   BOOL hasMonsterElement_:1;
   BOOL hasAttackAnimationType_:1;
-  BOOL hasQuality_:1;
   Float32 shadowScaleFactor;
-  int32_t atkAnimationRepeatedFramesEnd;
-  int32_t atkAnimationRepeatedFramesStart;
-  int32_t atkSoundAnimationFrame;
-  int32_t verticalPixelOffset;
-  int32_t evolutionCost;
   int32_t numCatalystMonstersRequired;
-  int32_t minutesToEvolve;
-  int32_t evolutionCatalystMonsterId;
-  int32_t evolutionMonsterId;
-  int32_t maxLevel;
-  int32_t monsterId;
   int32_t evolutionLevel;
   int32_t numPuzzlePieces;
   int32_t minutesToCombinePieces;
-  NSString* imagePrefix;
+  int32_t maxLevel;
+  int32_t evolutionMonsterId;
+  int32_t evolutionCatalystMonsterId;
+  int32_t minutesToEvolve;
+  int32_t evolutionCost;
+  int32_t verticalPixelOffset;
+  int32_t atkSoundAnimationFrame;
+  int32_t atkAnimationRepeatedFramesStart;
+  int32_t atkAnimationRepeatedFramesEnd;
+  int32_t monsterId;
+  int32_t baseOffensiveSkillId;
+  int32_t baseDefensiveSkillId;
+  NSString* shorterName;
+  NSString* monsterGroup;
   NSString* displayName;
+  NSString* imagePrefix;
+  NSString* evolutionGroup;
   NSString* carrotRecruited;
   NSString* carrotDefeated;
   NSString* carrotEvolved;
   NSString* description;
   NSString* atkSoundFile;
-  NSString* monsterGroup;
-  NSString* shorterName;
-  NSString* evolutionGroup;
+  Quality quality;
   Element monsterElement;
   MonsterProto_AnimationType attackAnimationType;
-  Quality quality;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
@@ -140,6 +144,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasAtkAnimationRepeatedFramesStart;
 - (BOOL) hasAtkAnimationRepeatedFramesEnd;
 - (BOOL) hasShadowScaleFactor;
+- (BOOL) hasBaseOffensiveSkillId;
+- (BOOL) hasBaseDefensiveSkillId;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* evolutionGroup;
 @property (readonly, retain) NSString* shorterName;
@@ -168,6 +174,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t atkAnimationRepeatedFramesStart;
 @property (readonly) int32_t atkAnimationRepeatedFramesEnd;
 @property (readonly) Float32 shadowScaleFactor;
+@property (readonly) int32_t baseOffensiveSkillId;
+@property (readonly) int32_t baseDefensiveSkillId;
 - (NSArray*) lvlInfoList;
 - (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
@@ -351,6 +359,16 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (Float32) shadowScaleFactor;
 - (MonsterProto_Builder*) setShadowScaleFactor:(Float32) value;
 - (MonsterProto_Builder*) clearShadowScaleFactor;
+
+- (BOOL) hasBaseOffensiveSkillId;
+- (int32_t) baseOffensiveSkillId;
+- (MonsterProto_Builder*) setBaseOffensiveSkillId:(int32_t) value;
+- (MonsterProto_Builder*) clearBaseOffensiveSkillId;
+
+- (BOOL) hasBaseDefensiveSkillId;
+- (int32_t) baseDefensiveSkillId;
+- (MonsterProto_Builder*) setBaseDefensiveSkillId:(int32_t) value;
+- (MonsterProto_Builder*) clearBaseDefensiveSkillId;
 @end
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {
@@ -549,6 +567,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasCurrentHealth_:1;
   BOOL hasNumPieces_:1;
   BOOL hasTeamSlotNum_:1;
+  BOOL hasOffensiveSkillId_:1;
+  BOOL hasDefensiveSkillId_:1;
   BOOL isComplete_:1;
   BOOL isRestrictd_:1;
   int64_t userMonsterId;
@@ -560,6 +580,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t currentHealth;
   int32_t numPieces;
   int32_t teamSlotNum;
+  int32_t offensiveSkillId;
+  int32_t defensiveSkillId;
 }
 - (BOOL) hasUserMonsterId;
 - (BOOL) hasUserId;
@@ -572,6 +594,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasCombineStartTime;
 - (BOOL) hasTeamSlotNum;
 - (BOOL) hasIsRestrictd;
+- (BOOL) hasOffensiveSkillId;
+- (BOOL) hasDefensiveSkillId;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t monsterId;
@@ -583,6 +607,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int64_t combineStartTime;
 @property (readonly) int32_t teamSlotNum;
 - (BOOL) isRestrictd;
+@property (readonly) int32_t offensiveSkillId;
+@property (readonly) int32_t defensiveSkillId;
 
 + (FullUserMonsterProto*) defaultInstance;
 - (FullUserMonsterProto*) defaultInstance;
@@ -672,6 +698,16 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) isRestrictd;
 - (FullUserMonsterProto_Builder*) setIsRestrictd:(BOOL) value;
 - (FullUserMonsterProto_Builder*) clearIsRestrictd;
+
+- (BOOL) hasOffensiveSkillId;
+- (int32_t) offensiveSkillId;
+- (FullUserMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value;
+- (FullUserMonsterProto_Builder*) clearOffensiveSkillId;
+
+- (BOOL) hasDefensiveSkillId;
+- (int32_t) defensiveSkillId;
+- (FullUserMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
+- (FullUserMonsterProto_Builder*) clearDefensiveSkillId;
 @end
 
 @interface MinimumUserMonsterProto : PBGeneratedMessage {
