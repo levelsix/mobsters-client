@@ -7,6 +7,7 @@
 
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
+#import "SkillCakeDrop.h"
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 
@@ -18,6 +19,7 @@
   {
     case SkillTypeQuickAttack: return [[SkillQuickAttack alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeJelly: return [[SkillJelly alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeCakeDrop: return [[SkillCakeDrop alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -55,6 +57,11 @@
 - (void) orbDestroyed:(OrbColor)color
 {
   return;
+}
+
+- (SpecialOrbType) generateSpecialOrb
+{
+  return SpecialOrbTypeNone;
 }
 
 - (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger

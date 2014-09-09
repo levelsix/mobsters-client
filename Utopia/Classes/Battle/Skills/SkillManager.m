@@ -112,26 +112,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSInteger skillId = _enemy.defensiveSkillId;
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
+  //skillId = 3;
   
   // Enemy skill
   if (skillId > 0)
   {
-    if (_enemySkillType != SkillTypeNoSkill)
+    GameState* gs = [GameState sharedGameState];
+    SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+    if ( ! enemySkillProto )
     {
-      GameState* gs = [GameState sharedGameState];
-      SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-      if ( ! enemySkillProto )
-      {
-        NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
-        return NO;
-      }
-      else
-      {
-        _enemySkillType = enemySkillProto.type;
-        _enemyColor = (OrbColor)_enemy.element;
-        _enemySkillActivation = enemySkillProto.activationType;
-        _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
-      }
+      NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
+      return NO;
+    }
+    else
+    {
+      _enemySkillType = enemySkillProto.type;
+      _enemyColor = (OrbColor)_enemy.element;
+      _enemySkillActivation = enemySkillProto.activationType;
+      _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
     }
   }
   
@@ -170,14 +168,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer
 {
   _battleLayer = battleLayer;
+  _playerSkillController = nil;
+  _enemySkillController = nil;
 }
 
 - (void) orbDestroyed:(OrbColor)color
 {
-/*#ifndef MOBSTERS  // Uncomment this and the following one defs to totally disable skills.
-  return;
-#endif*/
-
   if (_playerSkillController)
     [_playerSkillController orbDestroyed:color];
   if (_enemySkillController)
@@ -188,9 +184,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_skillIndicatorEnemy update];
 }
 
+- (SpecialOrbType) generateSpecialOrb
+{
+  SpecialOrbType color = SpecialOrbTypeNone;
+  
+  if (_playerSkillController)
+    color = [_playerSkillController generateSpecialOrb];
+  
+  if (color == SpecialOrbTypeNone)
+    if (_enemySkillController)
+      color = [_enemySkillController generateSpecialOrb];
+  
+  return color;
+}
+
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
-/*#ifndef MOBSTERS
+/*#ifndef MOBSTERS  // Uncomment this to totally disable skills.
   block();
   return;
 #endif*/
@@ -223,7 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Sequencing player and enemy skills in case both will be triggered by this call
   SkillControllerBlock sequenceBlock = ^() {
     BOOL enemySkillTriggered = FALSE;
-    if (_enemy.curHealth > 0)
+    if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
         [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];

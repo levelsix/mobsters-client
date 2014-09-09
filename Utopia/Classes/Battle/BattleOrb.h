@@ -20,8 +20,7 @@ typedef enum {
 
 typedef enum {
   SpecialOrbTypeNone = 0,
-  SpecialOrbTypeCake = 1,
-  SpecialOrbTypeJelly = 2
+  SpecialOrbTypeCake = 1
 } SpecialOrbType;
 
 typedef enum {

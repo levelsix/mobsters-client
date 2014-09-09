@@ -15,6 +15,7 @@
 
 @class NewBattleLayer;
 
+// Skill triggers
 typedef enum {
   SkillTriggerPointEnemyAppeared    = 1,
   SkillTriggerPointEnemyDefeated    = 2,
@@ -23,6 +24,13 @@ typedef enum {
   SkillTriggerPointStartOfEnemyTurn = 5
   
 } SkillTriggerPoint;
+
+// Cheat codes (indices are taken from SkillType enum)
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk"};
+
+///////////////////////////////////////////////////////////////////////////
+// SkillController interface
+///////////////////////////////////////////////////////////////////////////
 
 @interface SkillController : NSObject
 {
@@ -48,6 +56,7 @@ typedef enum {
 // External callers
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
+- (SpecialOrbType) generateSpecialOrb;
 - (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 // To be overriden by specific skills

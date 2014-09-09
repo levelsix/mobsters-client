@@ -7,7 +7,7 @@
 //
 
 #import "BattleOrbLayout.h"
-
+#import "SkillManager.h"
 #import "Globals.h"
 
 // Make this 1 to allow user to swap wherever they want
@@ -128,34 +128,17 @@
 }
 
 - (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row {
-  // First attempt special
-  float rand = (float)arc4random()/UINT_MAX;
   
-  BOOL shouldAssignColor = YES;
-  
-  *specialOrbType = SpecialOrbTypeNone;
-  
-  for (NSNumber *num in self.specialOrbPercentages) {
-    SpecialOrbType special = num.intValue;
-    CGFloat perc = [self.specialOrbPercentages[num] floatValue];
-    
-    if (rand < perc) {
-      // Choose this special
-      if (special == SpecialOrbTypeCake && row > _numRows/2) {
-        *orbColor = OrbColorNone;
-        *specialOrbType = SpecialOrbTypeCake;
-        
-        shouldAssignColor = NO;
-      }
-      
-      break;
-    } else {
-      rand -= perc;
-    }
-  }
-  
-  if (shouldAssignColor) {
+  SpecialOrbType orbType = [skillManager generateSpecialOrb];
+  if (orbType == SpecialOrbTypeNone || row <= _numRows/2)
+  {
+    *specialOrbType = SpecialOrbTypeNone;
     *orbColor = arc4random_uniform(_numColors) + OrbColorFire;
+  }
+  else
+  {
+    *orbColor = OrbColorNone;
+    *specialOrbType = orbType;
   }
 }
 

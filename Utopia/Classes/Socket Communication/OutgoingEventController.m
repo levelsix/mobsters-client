@@ -883,23 +883,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
             BOOL enemy = ([code characterAtIndex:0] == 'e');
             NSString* skillName = [code substringFromIndex:2];
             SkillType skillType = SkillTypeNoSkill;
-            BOOL error = FALSE;
-            if ([skillName isEqualToString:@"atk"])
-              skillType = SkillTypeQuickAttack;
-            else if ([skillName isEqualToString:@"goo"])
-              skillType = SkillTypeJelly;
-            else if ([skillName isEqualToString:@"reset"])
+            BOOL found = NO;
+            for (NSInteger n = 1; n < sizeof(cheatCodesForSkills)/sizeof(NSString*); n++)
             {
-              skillType = SkillTypeNoSkill;
-              skillName = @"no skill";
-            }
-            else
-            {
-              error = TRUE;
-              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo", skillName];
+              if ([skillName isEqualToString:cheatCodesForSkills[n]])
+              {
+                skillType = (SkillType)n;
+                if (skillType == SkillTypeNoSkill)
+                  skillName = @"no skill";
+                found = YES;
+              }
             }
             
-            if (! error)
+            if (! found)
+              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo", skillName];
+            else
             {
               if (enemy)
               {

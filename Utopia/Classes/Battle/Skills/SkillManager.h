@@ -50,6 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color;
+- (SpecialOrbType) generateSpecialOrb;
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
 
 // Serialization
