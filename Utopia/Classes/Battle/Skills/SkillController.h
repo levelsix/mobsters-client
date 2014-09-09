@@ -21,7 +21,8 @@ typedef enum {
   SkillTriggerPointEnemyDefeated    = 2,
   SkillTriggerPointPlayerAppeared   = 3,
   SkillTriggerPointEndOfPlayerMove  = 4,
-  SkillTriggerPointStartOfEnemyTurn = 5
+  SkillTriggerPointStartOfPlayerTurn = 5,
+  SkillTriggerPointStartOfEnemyTurn = 6
   
 } SkillTriggerPoint;
 
@@ -57,7 +58,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color;
 - (SpecialOrbType) generateSpecialOrb;
-- (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
+- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // To be overriden by specific skills
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger;
@@ -67,6 +68,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion;
+- (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization
 - (NSDictionary*) serialize;

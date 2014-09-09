@@ -478,6 +478,24 @@
 
 #pragma mark - Turn Sequence
 
+- (void) prepareScheduleView
+{
+  NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
+  NSMutableArray *ids = [NSMutableArray array];
+  NSMutableArray *enemyBands = [NSMutableArray array];
+  for (NSNumber *num in bools) {
+    BOOL val = num.boolValue;
+    if (val) {
+      [ids addObject:@(self.myPlayerObject.monsterId)];
+      [enemyBands addObject:@NO];
+    } else {
+      [ids addObject:@(self.enemyPlayerObject.monsterId)];
+      [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
+    }
+  }
+  [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
+}
+
 - (void) beginNextTurn {
   
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
@@ -485,24 +503,10 @@
   if (_displayedWaveNumber && _reachedNextScene) {
     BOOL shouldDelay = NO;
     if (_shouldDisplayNewSchedule) {
-      NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
-      NSMutableArray *ids = [NSMutableArray array];
-      NSMutableArray *enemyBands = [NSMutableArray array];
-      for (NSNumber *num in bools) {
-        BOOL val = num.boolValue;
-        if (val) {
-          [ids addObject:@(self.myPlayerObject.monsterId)];
-          [enemyBands addObject:@NO];
-        } else {
-          [ids addObject:@(self.enemyPlayerObject.monsterId)];
-          [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
-        }
-      }
-      [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
       
+      [self prepareScheduleView];
       _shouldDisplayNewSchedule = NO;
       shouldDelay = YES;
-      
       [self.hudView displayBattleScheduleView];
       
     } else {
@@ -519,17 +523,31 @@
       self.hudView.waveNumLabel.alpha = 1.f;
     }];
     
-    BOOL nextMove = [self.battleSchedule dequeueNextMove];
-    if (nextMove) {
-      [self beginMyTurn];
-    } else {
-      [self runAction:[CCActionSequence actions:
-                       [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
-                       [CCActionCallBlock actionWithBlock:
-                        ^{
-                          [self beginEnemyTurn];
-                        }], nil]];
+    // Trigger skills for when new enemy joins the battle
+    if (_firstTurn)
+    {
+      _firstTurn = NO;
+      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^() {
+        [self proceessNextTurn:shouldDelay];
+      }];
     }
+    else
+      [self proceessNextTurn:shouldDelay];
+  }
+}
+
+- (void) proceessNextTurn:(BOOL)shouldDelay
+{
+  BOOL nextMove = [self.battleSchedule dequeueNextMove];
+  if (nextMove) {
+    [self beginMyTurn];
+  } else {
+    [self runAction:[CCActionSequence actions:
+                     [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
+                     [CCActionCallBlock actionWithBlock:
+                      ^{
+                        [self beginEnemyTurn];
+                      }], nil]];
   }
 }
 
@@ -549,23 +567,28 @@
   }
   
   [self updateHealthBars];
-  [self.orbLayer.bgdLayer turnTheLightsOn];
-  [self.orbLayer allowInput];
   
-  [self.hudView prepareForMyTurn];
+  // Skills trigger for enemy turn started
+  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^() {
+    
+    [self.orbLayer.bgdLayer turnTheLightsOn];
+    [self.orbLayer allowInput];
+    [self.hudView prepareForMyTurn];
+    
+  }];
 }
 
 - (void) beginEnemyTurn {
   [self.hudView removeButtons];
   
   // Skills trigger for enemy turn started
-  [skillManager triggerSkillsWithBlock:^() {
+  [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^() {
     
     _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
     _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
     [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
     
-  } andTrigger:SkillTriggerPointStartOfEnemyTurn];
+  }];
 }
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy {
@@ -776,7 +799,7 @@
     }
     
     // Trigger skills for move made by the player
-    [skillManager triggerSkillsWithBlock:^() {
+    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^() {
       
       [self blowupBattleSprite:self.currentEnemy withBlock:
        ^{
@@ -792,7 +815,7 @@
       // But make sure that I actually did damage..
       [self sendServerUpdatedValues];
       
-    } andTrigger:SkillTriggerPointEnemyDefeated];
+    }];
     
     return YES;
   }
@@ -1469,11 +1492,11 @@
   [self updateHealthBars];
   
   // Trigger skills for move made by the player
-  [skillManager triggerSkillsWithBlock:^() {
+  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^() {
     BOOL enemyIsKilled = [self checkEnemyHealth];
     if (! enemyIsKilled)
       [self checkIfAnyMovesLeft];
-  } andTrigger:SkillTriggerPointEndOfPlayerMove];
+  }];
   
   _comboCount = 0;
 }
@@ -1503,14 +1526,14 @@
   
   if (self.enemyPlayerObject) {
     
-    // Trigger skills for when new enemy joins the battle
-    [skillManager triggerSkillsWithBlock:^() {
-      _hasStarted = YES;
-      _reachedNextScene = YES;
-      [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
-      [self updateHealthBars];
-      [self.currentEnemy doRarityTagShine];
-    } andTrigger:SkillTriggerPointEnemyAppeared];
+    // Here was SkillTriggerPointPlayerAppeared before we decided to show schedule before
+    
+    _hasStarted = YES;
+    _reachedNextScene = YES;
+    _firstTurn = YES;
+    [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
+    [self updateHealthBars];
+    [self.currentEnemy doRarityTagShine];
   }
 }
 
@@ -1617,7 +1640,7 @@
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared
-    [skillManager triggerSkillsWithBlock:^() {
+    [skillManager triggerSkills:SkillTriggerPointPlayerAppeared withCompletion:^() {
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
@@ -1625,7 +1648,7 @@
       SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
       [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
       
-    } andTrigger:SkillTriggerPointPlayerAppeared];
+    }];
     
   } else if (isSwap) {
     [self.hudView displaySwapButton];

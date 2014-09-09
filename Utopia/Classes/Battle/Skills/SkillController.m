@@ -64,10 +64,10 @@
   return SpecialOrbTypeNone;
 }
 
-- (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
+- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 {
   // Try to trigger the skill and use callback right away if it's not responding
-  _callbackBlock = block;
+  _callbackBlock = completion;
   BOOL triggered = [self skillCalledWithTrigger:trigger];
   if (! triggered)
     _callbackBlock(NO);
@@ -103,6 +103,14 @@
   [parentView addSubview:popupOverlay];
   popupOverlay.origin = CGPointMake((parentView.width - popupOverlay.width)/2, (parentView.height - popupOverlay.height)/2);
   [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withCompletion:completion];
+}
+
+- (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion
+{
+  if (_belongsToPlayer)
+    [_playerSprite jumpNumTimes:2 completionTarget:target selector:completion];
+  else
+    [_enemySprite jumpNumTimes:2 completionTarget:target selector:completion];
 }
 
 #pragma mark - Serialization

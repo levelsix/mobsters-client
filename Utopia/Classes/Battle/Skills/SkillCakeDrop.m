@@ -58,7 +58,12 @@
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
     [self showSkillPopupOverlayWithCompletion:^{
-      [self spawnCakeOnTop];
+      
+      // Do nothing if there are some cakes already or start jumping and spawning otherwise
+      if ([self cakesOnBoardCount] > 0)
+        [self skillTriggerFinished];
+      else
+        [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnCakeOnTop)];
     }];
     return YES;
   }
@@ -83,13 +88,6 @@
 
 - (void) spawnCakeOnTop
 {
-  // Do nothing if there are some cakes already
-  if ([self cakesOnBoardCount] > 0)
-  {
-    [self skillTriggerFinished];
-    return;
-  }
-  
   // Calculate position
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   NSInteger column = arc4random_uniform(layout.numColumns);

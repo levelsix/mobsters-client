@@ -43,14 +43,22 @@
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
     [self showSkillPopupOverlayWithCompletion:^{
-      [self spawnInitialJelly];
+      [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnInitialJelly)];
     }];
     return YES;
   }
   
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
-    [self spawnNewJelly];
+    // Check for the turn
+    if (_turnCounter < _spawnTurns - 1)
+    {
+      _turnCounter++;
+      return NO;
+    }
+    else // Jumping owner and jelly spawning
+      [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnNewJelly)];
+    
     return YES;
   }
   
@@ -120,13 +128,6 @@
 
 - (void) spawnNewJelly
 {
-  // Check for the turn
-  if (_turnCounter < _spawnTurns - 1)
-  {
-    _turnCounter++;
-    return;
-  }
-  
   // Spawn and reset turn counter
   _spawnCounter = _spawnCount;
   _turnCounter = 0;

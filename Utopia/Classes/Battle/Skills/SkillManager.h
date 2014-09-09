@@ -40,6 +40,8 @@
   // Serialization cache
   NSDictionary*     _playerSkillSerializedState;
   NSDictionary*     _enemySkillSerializedState;
+  
+  NSInteger         _turnsCounter;
 }
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
@@ -51,7 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color;
 - (SpecialOrbType) generateSpecialOrb;
-- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
+- (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // Serialization
 - (NSDictionary*) serialize;

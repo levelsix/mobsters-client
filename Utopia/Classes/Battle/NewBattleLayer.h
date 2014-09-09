@@ -99,6 +99,7 @@
   BOOL _shouldDisplayNewSchedule;
   BOOL _displayedWaveNumber;
   BOOL _reachedNextScene;
+  BOOL _firstTurn;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;

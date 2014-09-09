@@ -112,7 +112,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSInteger skillId = _enemy.defensiveSkillId;
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
-  //skillId = 3;
+  //skillId = 2;
   
   // Enemy skill
   if (skillId > 0)
@@ -170,6 +170,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _battleLayer = battleLayer;
   _playerSkillController = nil;
   _enemySkillController = nil;
+  _turnsCounter = 0;
 }
 
 - (void) orbDestroyed:(OrbColor)color
@@ -198,7 +199,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return color;
 }
 
-- (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
+- (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
 /*#ifndef MOBSTERS  // Uncomment this to totally disable skills.
   block();
@@ -221,13 +222,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (trigger == SkillTriggerPointEnemyDefeated)
     [self removeEnemySkillIndicator];
   
+  // Skip first skill attack for an enemy
+  if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
+    shouldTriggerEnemySkill = NO;
+  
   // Wrapping indicators update into the block
   SkillControllerBlock newBlock = ^() {
+    
+    // Update indicators
     if (_skillIndicatorPlayer)
       [_skillIndicatorPlayer update];
     if (_skillIndicatorEnemy)
       [_skillIndicatorEnemy update];
-    block();
+    
+    // Execute the completion block
+    completion();
+    
+    // Count turns
+    if (trigger == SkillTriggerPointStartOfEnemyTurn || trigger == SkillTriggerPointStartOfPlayerTurn)
+      _turnsCounter++;
   };
   
   // Sequencing player and enemy skills in case both will be triggered by this call
@@ -236,7 +249,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
-        [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+        [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
         enemySkillTriggered = TRUE;
       }
     
@@ -246,11 +259,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
   if (_playerSkillController && shouldTriggerPlayerSkill)
-    [_playerSkillController triggerSkillWithBlock:sequenceBlock andTrigger:trigger];
+    [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
-    [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
+    [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
   else
-    block();
+    newBlock();
 }
 
 #pragma mark - UI
