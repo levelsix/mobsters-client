@@ -162,8 +162,9 @@
   NSString* iconName;
   switch (_skillController.skillType)
   {
-    case SkillTypeQuickAttack: iconName = @"quickattackicon.png"; break;
-    case SkillTypeJelly: iconName = @"jellyicon.png"; break;
+    case SkillTypeQuickAttack: iconName = @"cheapshoticon.png"; break;
+    case SkillTypeJelly: iconName = @"goosplashicon.png"; break;
+    case SkillTypeCakeDrop: iconName = @"cakedropicon.png"; break;
     default: return;
   }
   

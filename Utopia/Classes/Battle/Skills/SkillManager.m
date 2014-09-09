@@ -22,11 +22,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   _playerColor = _enemyColor = OrbColorNone;
   _playerSkillType = _enemySkillType = SkillTypeNoSkill;
+  _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
   
   return self;
 }
 
 #pragma mark - Setup
+
+// Returns first skill found with that skill type
+- (NSInteger) skillIdForSkillType:(SkillType)type
+{
+  GameState* gs = [GameState sharedGameState];
+  for (SkillProto* skill in gs.staticSkills.allValues)
+    if (skill.type == type)
+      return skill.skillId;
+  return 0;
+}
 
 - (BOOL) updatePlayerSkill
 {
@@ -35,28 +46,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _player = _battleLayer.myPlayerObject;
   _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
-  _playerSkillType = SkillTypeQuickAttack;   // MISHA: take it from player
+  _playerSkillType = SkillTypeNoSkill;
   _playerSkillController = nil;
   
-  GameState* gs = [GameState sharedGameState];
+  if (! _player)
+    return NO;
+  
+  // Skill data
+  NSInteger skillId = _player.offensiveSkillId;
+  if (_cheatPlayerSkillType != SkillTypeNoSkill)
+    skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   
   // Player skill
-  if ( _player )
+  if (skillId > 0)
   {
-    if ( _playerSkillType != SkillTypeNoSkill )
+    GameState* gs = [GameState sharedGameState];
+    SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+    if (! playerSkillProto)
     {
-      SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_playerSkillType]];
-      if ( ! playerSkillProto )
-      {
-        NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
-        return NO;
-      }
-      else
-      {
-        _playerColor = (OrbColor)_player.element;
-        _playerSkillActivation = playerSkillProto.activationType;
-        _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
-      }
+      NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
+      return NO;
+    }
+    else
+    {
+      _playerSkillType = playerSkillProto.type;
+      _playerColor = (OrbColor)_player.element;
+      _playerSkillActivation = playerSkillProto.activationType;
+      _playerSkillController = [SkillController skillWithProto:playerSkillProto andMobsterColor:_playerColor];
     }
   }
   
@@ -86,28 +102,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _enemy = _battleLayer.enemyPlayerObject;
   _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeJelly;   // MISHA: take it from enemy skill
+  _enemySkillType = SkillTypeNoSkill;
   _enemySkillController = nil;
   
-  GameState* gs = [GameState sharedGameState];
+  if (!_enemy)
+    return NO;
+  
+  // Skill data
+  NSInteger skillId = _enemy.defensiveSkillId;
+  if (_cheatEnemySkillType != SkillTypeNoSkill)
+    skillId = [self skillIdForSkillType:_cheatEnemySkillType];
+  //skillId = 3;
   
   // Enemy skill
-  if ( _enemy )
+  if (skillId > 0)
   {
-    if ( _enemySkillType != SkillTypeNoSkill )
+    GameState* gs = [GameState sharedGameState];
+    SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+    if ( ! enemySkillProto )
     {
-      SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:_enemySkillType]];
-      if ( ! enemySkillProto )
-      {
-        NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
-        return NO;
-      }
-      else
-      {
-        _enemyColor = (OrbColor)_enemy.element;
-        _enemySkillActivation = enemySkillProto.activationType;
-        _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
-      }
+      NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
+      return NO;
+    }
+    else
+    {
+      _enemySkillType = enemySkillProto.type;
+      _enemyColor = (OrbColor)_enemy.element;
+      _enemySkillActivation = enemySkillProto.activationType;
+      _enemySkillController = [SkillController skillWithProto:enemySkillProto andMobsterColor:_enemyColor];
     }
   }
   
@@ -146,14 +168,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer
 {
   _battleLayer = battleLayer;
+  _playerSkillController = nil;
+  _enemySkillController = nil;
 }
 
 - (void) orbDestroyed:(OrbColor)color
 {
-#ifndef MOBSTERS2
-  return;
-#endif
-
   if (_playerSkillController)
     [_playerSkillController orbDestroyed:color];
   if (_enemySkillController)
@@ -164,12 +184,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_skillIndicatorEnemy update];
 }
 
+- (SpecialOrbType) generateSpecialOrb
+{
+  SpecialOrbType color = SpecialOrbTypeNone;
+  
+  if (_playerSkillController)
+    color = [_playerSkillController generateSpecialOrb];
+  
+  if (color == SpecialOrbTypeNone)
+    if (_enemySkillController)
+      color = [_enemySkillController generateSpecialOrb];
+  
+  return color;
+}
+
 - (void) triggerSkillsWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger
 {
-#ifndef MOBSTERS2
+/*#ifndef MOBSTERS  // Uncomment this to totally disable skills.
   block();
   return;
-#endif
+#endif*/
   
   // Don't trigger player and enemy skills if they were just deserialized - to avoid double initial jelly spawn, etc
   BOOL shouldTriggerEnemySkill = YES;
@@ -199,7 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Sequencing player and enemy skills in case both will be triggered by this call
   SkillControllerBlock sequenceBlock = ^() {
     BOOL enemySkillTriggered = FALSE;
-    if (_enemy.curHealth > 0)
+    if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
         [_enemySkillController triggerSkillWithBlock:newBlock andTrigger:trigger];
@@ -207,7 +241,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
     
     if (!enemySkillTriggered)
-      block();
+      newBlock();
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
@@ -249,7 +283,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   if (_skillIndicatorPlayer)
     [_skillIndicatorPlayer removeFromParentAndCleanup:YES];
-
+  
   if (_playerSkillType != SkillTypeNoSkill)
   {
     _skillIndicatorPlayer = [[SkillBattleIndicatorView alloc] initWithSkillController:_playerSkillController enemy:NO];

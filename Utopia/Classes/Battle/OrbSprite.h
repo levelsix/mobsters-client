@@ -8,12 +8,19 @@
 #import <CCSprite.h>
 #import "BattleOrb.h"
 
-@interface OrbSprite : CCNode
+static const float orbUpdateAnimDuration = 0.3f;
 
-@property (nonatomic, strong) CCSprite* orbSprite;
+@interface OrbSprite : CCNode
+{
+  BattleOrb*  _orb;
+}
+
+@property (nonatomic, strong, readonly) CCSprite* orbSprite;
 
 + (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb;
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb;
+
+- (void) reloadSprite:(BOOL)animated;
 
 @end

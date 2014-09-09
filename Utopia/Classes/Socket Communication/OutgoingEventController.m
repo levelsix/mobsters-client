@@ -21,6 +21,7 @@
 #import "PersistentEventProto+Time.h"
 #import "FullQuestProto+JobAccess.h"
 #import "FacebookDelegate.h"
+#import "SkillManager.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -34,6 +35,7 @@
 #define SKIP_QUESTS_CODE @"quickquests"
 #define FB_LOGOUT_CODE @"unfb"
 #define GET_MONSTER_CODE @"magicmob"
+#define SKILL_CODE @"skill"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -874,7 +876,42 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           } else {
             amt = 0;
           }
-        }
+        } else if ((r = [code rangeOfString:SKILL_CODE]).length > 0) {    // Skill stuff
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          if (code.length > 0)
+          {
+            BOOL enemy = ([code characterAtIndex:0] == 'e');
+            NSString* skillName = [code substringFromIndex:2];
+            SkillType skillType = SkillTypeNoSkill;
+            BOOL found = NO;
+            for (NSInteger n = 1; n < sizeof(cheatCodesForSkills)/sizeof(NSString*); n++)
+            {
+              if ([skillName isEqualToString:cheatCodesForSkills[n]])
+              {
+                skillType = (SkillType)n;
+                if (skillType == SkillTypeNoSkill)
+                  skillName = @"no skill";
+                found = YES;
+              }
+            }
+            
+            if (! found)
+              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo", skillName];
+            else
+            {
+              if (enemy)
+              {
+                skillManager.cheatEnemySkillType = skillType;
+                msg = [NSString stringWithFormat:@"Enemy skill set for %@.", skillName];
+              }
+              else
+              {
+                skillManager.cheatPlayerSkillType = skillType;
+                msg = [NSString stringWithFormat:@"Player skill set for %@.", skillName];
+              }
+            }
+          }
+        } // Skill stuff ends
         
         if (amt) {
           for (int i = 0; i < numTimes; i++) {

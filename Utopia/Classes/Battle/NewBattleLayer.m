@@ -131,6 +131,8 @@
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
     
+    [skillManager updateBattleLayer:self];
+    
     [self initOrbLayer];
     
     OrbMainLayer *puzzleBg = self.orbLayer;
@@ -156,8 +158,6 @@
     CGPoint afterScale = [self.bgdContainer convertToNodeSpace:basePt];
     CGPoint diff = ccpSub(afterScale, beforeScale);
     self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
-    
-    [skillManager updateBattleLayer:self];
     
     [self setupUI];
     
@@ -1152,7 +1152,7 @@
   
   if (phrase) {
     CCNodeColor *l = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
-    [self addChild:l z:1];
+    [self addChild:l z:3];  // was 1, changed by Mikhail to darken skill indicators
     [l runAction:[CCActionSequence actions:
                   [CCActionFadeTo actionWithDuration:0.3 opacity:0.6f],
                   [CCActionDelay actionWithDuration:1.1],
@@ -1162,7 +1162,7 @@
                      [l removeFromParentAndCleanup:YES];
                    }], nil]];
     
-    [self addChild:phrase z:3];
+    [self addChild:phrase z:4]; // was 3, see above
     phrase.position = ccp(-phrase.contentSize.width/2, self.contentSize.height/2);
     CCActionSequence *seq =
     [CCActionSequence actions:

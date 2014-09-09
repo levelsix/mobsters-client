@@ -43,6 +43,8 @@
     self.slotNum = monster.teamSlot;
     self.animationType = mp.attackAnimationType;
     self.verticalOffset = mp.verticalPixelOffset;
+    self.offensiveSkillId = monster.offensiveSkillId;
+    self.defensiveSkillId = monster.defensiveSkillId;
     self.monsterType = monsterType;
     
     self.lowerBound = 0.6*dmgMultiplier;

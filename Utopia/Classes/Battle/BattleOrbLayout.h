@@ -90,6 +90,9 @@
 // If they are, then fire them off and return chains representing destroyed orbs.
 - (NSSet *) detectPowerupChainsWithMatchChains:(NSSet *)chains;
 
+// Detect if there are any chains for this position (used by skillManager
+- (BOOL)hasChainAtColumn:(NSInteger)column row:(NSInteger)row;
+
 // Detects where there are holes and shifts any orbs down to fill up those
 // holes. In effect, this "bubbles" the holes up to the top of the column.
 // Returns an array that contains a sub-array for each column that had holes,

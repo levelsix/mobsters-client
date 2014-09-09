@@ -22,13 +22,20 @@
   self = [super init];
   if ( ! self )
     return nil;
-    
+  
+  _orb = orb;
+  
   // Create a new sprite for the orb
-  NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:orb];
-  self.orbSprite = [CCSprite spriteWithImageNamed:imageName];
-  [self addChild:self.orbSprite];
+  [self reloadSprite:NO];
   
   return self;
+}
+
+- (void) loadSprite
+{
+  NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:_orb];
+  _orbSprite = [CCSprite spriteWithImageNamed:imageName];
+  [self addChild:self.orbSprite];
 }
 
 #pragma mark - Helpers
@@ -79,6 +86,29 @@
   }
   
   return [NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix];
+}
+
+- (void) reloadSprite:(BOOL)animated
+{
+  if (! animated)
+    [_orbSprite removeFromParent];
+  else
+  {
+    [_orbSprite runAction:[CCActionSequence actions:
+                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:0.0]],
+                           [CCActionRemove action],
+                           nil]];
+  }
+  
+  [self loadSprite];
+  
+  if (animated)
+  {
+    [_orbSprite setScale:0.0];
+    [_orbSprite runAction:[CCActionSequence actions:
+                     [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:1.0]],
+                     nil]];
+  }
 }
 
 @end

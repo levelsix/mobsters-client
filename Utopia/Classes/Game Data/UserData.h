@@ -32,6 +32,8 @@
 @property (nonatomic, assign) int numPieces;
 @property (nonatomic, retain) MSDate *combineStartTime;
 @property (nonatomic, assign) int isProtected;
+@property (nonatomic, assign) int offensiveSkillId;
+@property (nonatomic, assign) int defensiveSkillId;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;

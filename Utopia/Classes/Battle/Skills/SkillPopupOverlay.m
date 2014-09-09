@@ -28,7 +28,7 @@
   // Skill image
   switch (skill)
   {
-    case SkillTypeQuickAttack: _skillImage.image = [Globals imageNamed:@"quickattacklogo.png"]; break;
+    case SkillTypeQuickAttack: _skillImage.image = [Globals imageNamed:@"cheapshotlogo.png"]; break;
     case SkillTypeJelly: _skillImage.image = [Globals imageNamed:@"skillgoosplashlogo.png"]; break;
     case SkillTypeCakeDrop: _skillImage.image = [Globals imageNamed:@"skillgoosplashlogo.png"]; break;
     case SkillTypeNoSkill: return;
