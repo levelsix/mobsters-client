@@ -3500,6 +3500,18 @@
 		CF4F780E19B950FC001B7B7C /* instantmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4F780719B950FC001B7B7C /* instantmiddle.png */; };
 		CF4F780F19B950FC001B7B7C /* instantmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4F780819B950FC001B7B7C /* instantmiddle@2x.png */; };
 		CF4F781019B950FC001B7B7C /* instantmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4F780819B950FC001B7B7C /* instantmiddle@2x.png */; };
+		CF4F781F19BACF4F001B7B7C /* maptestleft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781A19BACF4E001B7B7C /* maptestleft.jpg */; };
+		CF4F782019BACF4F001B7B7C /* maptestleft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781A19BACF4E001B7B7C /* maptestleft.jpg */; };
+		CF4F782119BACF4F001B7B7C /* maptestleft@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781B19BACF4F001B7B7C /* maptestleft@2x.jpg */; };
+		CF4F782219BACF4F001B7B7C /* maptestleft@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781B19BACF4F001B7B7C /* maptestleft@2x.jpg */; };
+		CF4F782319BACF4F001B7B7C /* maptestright.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781C19BACF4F001B7B7C /* maptestright.jpg */; };
+		CF4F782419BACF4F001B7B7C /* maptestright.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781C19BACF4F001B7B7C /* maptestright.jpg */; };
+		CF4F782519BACF4F001B7B7C /* maptestright@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781D19BACF4F001B7B7C /* maptestright@2x.jpg */; };
+		CF4F782619BACF4F001B7B7C /* maptestright@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781D19BACF4F001B7B7C /* maptestright@2x.jpg */; };
+		CF4F782719BACF4F001B7B7C /* missionmap3@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781E19BACF4F001B7B7C /* missionmap3@2x.tmx */; };
+		CF4F782819BACF4F001B7B7C /* missionmap3@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF4F781E19BACF4F001B7B7C /* missionmap3@2x.tmx */; };
+		CF4F783119BE4932001B7B7C /* HudNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4F783019BE4932001B7B7C /* HudNotificationController.m */; };
+		CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4F783019BE4932001B7B7C /* HudNotificationController.m */; };
 		CF52D08017E9400500A067A6 /* bloodsplatter.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52D07E17E9400500A067A6 /* bloodsplatter.png */; };
 		CF52D08217E9400500A067A6 /* bloodsplatter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52D07F17E9400500A067A6 /* bloodsplatter@2x.png */; };
 		CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF52D0AC17EA3E7D00A067A6 /* BattleViews.m */; };
@@ -7037,6 +7049,13 @@
 		CF4F780619B950FC001B7B7C /* instantcap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instantcap@2x.png"; sourceTree = "<group>"; };
 		CF4F780719B950FC001B7B7C /* instantmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instantmiddle.png; sourceTree = "<group>"; };
 		CF4F780819B950FC001B7B7C /* instantmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instantmiddle@2x.png"; sourceTree = "<group>"; };
+		CF4F781A19BACF4E001B7B7C /* maptestleft.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maptestleft.jpg; sourceTree = "<group>"; };
+		CF4F781B19BACF4F001B7B7C /* maptestleft@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "maptestleft@2x.jpg"; sourceTree = "<group>"; };
+		CF4F781C19BACF4F001B7B7C /* maptestright.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maptestright.jpg; sourceTree = "<group>"; };
+		CF4F781D19BACF4F001B7B7C /* maptestright@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "maptestright@2x.jpg"; sourceTree = "<group>"; };
+		CF4F781E19BACF4F001B7B7C /* missionmap3@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "missionmap3@2x.tmx"; sourceTree = "<group>"; };
+		CF4F782F19BE4932001B7B7C /* HudNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudNotificationController.h; sourceTree = "<group>"; };
+		CF4F783019BE4932001B7B7C /* HudNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudNotificationController.m; sourceTree = "<group>"; };
 		CF52D07E17E9400500A067A6 /* bloodsplatter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bloodsplatter.png; sourceTree = "<group>"; };
 		CF52D07F17E9400500A067A6 /* bloodsplatter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bloodsplatter@2x.png"; sourceTree = "<group>"; };
 		CF52D0AB17EA3E7C00A067A6 /* BattleViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleViews.h; sourceTree = "<group>"; };
@@ -7393,8 +7412,8 @@
 		CF7064A41845A340005B30A1 /* upgradebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upgradebg@2x.png"; sourceTree = "<group>"; };
 		CF7064BC1845E2F2005B30A1 /* OmnipresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OmnipresentViewController.h; sourceTree = "<group>"; };
 		CF7064BD1845E2F2005B30A1 /* OmnipresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OmnipresentViewController.m; sourceTree = "<group>"; };
-		CF7064C11845E4C7005B30A1 /* OneLineNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneLineNotificationViewController.h; sourceTree = "<group>"; };
-		CF7064C21845E4C7005B30A1 /* OneLineNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneLineNotificationViewController.m; sourceTree = "<group>"; };
+		CF7064C11845E4C7005B30A1 /* OneLineNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OneLineNotificationViewController.h; path = "../Game Menus/Generic Popup/OneLineNotificationViewController.h"; sourceTree = "<group>"; };
+		CF7064C21845E4C7005B30A1 /* OneLineNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OneLineNotificationViewController.m; path = "../Game Menus/Generic Popup/OneLineNotificationViewController.m"; sourceTree = "<group>"; };
 		CF7064E41846D58E005B30A1 /* home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "home@2x.tmx"; sourceTree = "<group>"; };
 		CF7064E818470051005B30A1 /* addgems.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addgems.png; sourceTree = "<group>"; };
 		CF7064E918470051005B30A1 /* addgems@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addgems@2x.png"; sourceTree = "<group>"; };
@@ -8362,7 +8381,7 @@
 		CFEE899518EA610D00047CA4 /* notmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notmiddle@2x.png"; sourceTree = "<group>"; };
 		CFEE899618EA610D00047CA4 /* notmiddlegreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notmiddlegreen.png; sourceTree = "<group>"; };
 		CFEE899718EA610D00047CA4 /* notmiddlegreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notmiddlegreen@2x.png"; sourceTree = "<group>"; };
-		CFEE89A318EA625200047CA4 /* OneLineNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneLineNotificationView.xib; sourceTree = "<group>"; };
+		CFEE89A318EA625200047CA4 /* OneLineNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OneLineNotificationView.xib; path = "../Game Menus/Generic Popup/OneLineNotificationView.xib"; sourceTree = "<group>"; };
 		CFEE89A518EA67EF00047CA4 /* GothamBlack.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamBlack.otf; sourceTree = "<group>"; };
 		CFEE89A618EBB01600047CA4 /* cashoverflow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cashoverflow.png; sourceTree = "<group>"; };
 		CFEE89A718EBB01600047CA4 /* cashoverflow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cashoverflow@2x.png"; sourceTree = "<group>"; };
@@ -8937,8 +8956,8 @@
 		CFF7408418199478009DE4A4 /* MyTeamSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTeamSprite.m; sourceTree = "<group>"; };
 		CFF786C118E1045C00413E78 /* activeraid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activeraid.png; sourceTree = "<group>"; };
 		CFF786C218E1045C00413E78 /* activeraid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activeraid@2x.png"; sourceTree = "<group>"; };
-		CFF786CC18E16BD700413E78 /* LevelUpNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelUpNode.h; sourceTree = "<group>"; };
-		CFF786CD18E16BD700413E78 /* LevelUpNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelUpNode.m; sourceTree = "<group>"; };
+		CFF786CC18E16BD700413E78 /* LevelUpNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelUpNode.h; path = "../Game Menus/LevelUp/LevelUpNode.h"; sourceTree = "<group>"; };
+		CFF786CD18E16BD700413E78 /* LevelUpNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LevelUpNode.m; path = "../Game Menus/LevelUp/LevelUpNode.m"; sourceTree = "<group>"; };
 		CFF786D018E16C2600413E78 /* levelupbadge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelupbadge.png; sourceTree = "<group>"; };
 		CFF786D118E16C2600413E78 /* levelupbadge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "levelupbadge@2x.png"; sourceTree = "<group>"; };
 		CFF786D218E16C2600413E78 /* levelupspinner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelupspinner.png; sourceTree = "<group>"; };
@@ -9997,6 +10016,7 @@
 		CF1265111538ACC400E0C1AD /* App Startup */ = {
 			isa = PBXGroup;
 			children = (
+				CF4F782E19BE4780001B7B7C /* HUD */,
 				CF1265121538ACC400E0C1AD /* AppDelegate.h */,
 				CF1265131538ACC400E0C1AD /* AppDelegate.mm */,
 				CF4DB8FE1808975500062258 /* GameViewController.h */,
@@ -10004,13 +10024,6 @@
 				CF9AE70B180CA78C0013DD44 /* LoadingViewController.h */,
 				CF9AE70C180CA78C0013DD44 /* LoadingViewController.m */,
 				CF9AE70D180CA78C0013DD44 /* LoadingViewController.xib */,
-				CF32E9EA180D015900CBD50D /* TopBarViewController.h */,
-				CF32E9EB180D015900CBD50D /* TopBarViewController.m */,
-				CF32E9EC180D015900CBD50D /* TopBarViewController.xib */,
-				CF1279A718202DE900211623 /* TopBarMonsterView.xib */,
-				CFEE898518EA39BB00047CA4 /* TopBarQuestProgressView.h */,
-				CFEE898618EA39BB00047CA4 /* TopBarQuestProgressView.m */,
-				CFEE898118EA325200047CA4 /* TopBarQuestProgressView.xib */,
 			);
 			path = "App Startup";
 			sourceTree = "<group>";
@@ -10072,7 +10085,6 @@
 				CF688FEF1912E3CB00FF1F71 /* MiniJobsMenu */,
 				CF6F197A1815154600CFF2B9 /* QuestMenu */,
 				CFCE57121813BC0600494F8C /* ProfileMenu */,
-				CFF786CB18E16B3900413E78 /* Level Up */,
 				CF62E6FE15FEC65600DF850F /* ClanMenu */,
 				CFF390781828BB010010A3BE /* RequestsMenu */,
 				CF3766061832CD3D00D0A77E /* DialogueMenu */,
@@ -10092,9 +10104,6 @@
 				CF12656F1538ACC400E0C1AD /* GenericPopupController.xib */,
 				CF7064BC1845E2F2005B30A1 /* OmnipresentViewController.h */,
 				CF7064BD1845E2F2005B30A1 /* OmnipresentViewController.m */,
-				CF7064C11845E4C7005B30A1 /* OneLineNotificationViewController.h */,
-				CF7064C21845E4C7005B30A1 /* OneLineNotificationViewController.m */,
-				CFEE89A318EA625200047CA4 /* OneLineNotificationView.xib */,
 			);
 			path = "Generic Popup";
 			sourceTree = "<group>";
@@ -11540,6 +11549,35 @@
 			path = "Protocol Buffers";
 			sourceTree = "<group>";
 		};
+		CF4F782E19BE4780001B7B7C /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				CF4F783319BE4A3C001B7B7C /* Notifications */,
+				CF32E9EA180D015900CBD50D /* TopBarViewController.h */,
+				CF32E9EB180D015900CBD50D /* TopBarViewController.m */,
+				CF32E9EC180D015900CBD50D /* TopBarViewController.xib */,
+				CF1279A718202DE900211623 /* TopBarMonsterView.xib */,
+			);
+			name = HUD;
+			sourceTree = "<group>";
+		};
+		CF4F783319BE4A3C001B7B7C /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				CF4F782F19BE4932001B7B7C /* HudNotificationController.h */,
+				CF4F783019BE4932001B7B7C /* HudNotificationController.m */,
+				CFEE898518EA39BB00047CA4 /* TopBarQuestProgressView.h */,
+				CFEE898618EA39BB00047CA4 /* TopBarQuestProgressView.m */,
+				CFEE898118EA325200047CA4 /* TopBarQuestProgressView.xib */,
+				CF7064C11845E4C7005B30A1 /* OneLineNotificationViewController.h */,
+				CF7064C21845E4C7005B30A1 /* OneLineNotificationViewController.m */,
+				CFEE89A318EA625200047CA4 /* OneLineNotificationView.xib */,
+				CFF786CC18E16BD700413E78 /* LevelUpNode.h */,
+				CFF786CD18E16BD700413E78 /* LevelUpNode.m */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
 		CF54942F18C5B955001E7D32 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
@@ -11808,6 +11846,11 @@
 		CF68907C191C514000FF1F71 /* Piers:Map */ = {
 			isa = PBXGroup;
 			children = (
+				CF4F781A19BACF4E001B7B7C /* maptestleft.jpg */,
+				CF4F781B19BACF4F001B7B7C /* maptestleft@2x.jpg */,
+				CF4F781C19BACF4F001B7B7C /* maptestright.jpg */,
+				CF4F781D19BACF4F001B7B7C /* maptestright@2x.jpg */,
+				CF4F781E19BACF4F001B7B7C /* missionmap3@2x.tmx */,
 				CF145B351922F84800AD1D5A /* dockshadow.png */,
 				CF145B361922F84800AD1D5A /* dockshadow@2x.png */,
 				CF145B371922F84800AD1D5A /* mjdone.png */,
@@ -14333,16 +14376,6 @@
 			name = MapSprites;
 			sourceTree = "<group>";
 		};
-		CFF786CB18E16B3900413E78 /* Level Up */ = {
-			isa = PBXGroup;
-			children = (
-				CFF786CC18E16BD700413E78 /* LevelUpNode.h */,
-				CFF786CD18E16BD700413E78 /* LevelUpNode.m */,
-			);
-			name = "Level Up";
-			path = LevelUp;
-			sourceTree = "<group>";
-		};
 		CFF786CF18E16C0000413E78 /* Level Up */ = {
 			isa = PBXGroup;
 			children = (
@@ -15533,6 +15566,7 @@
 				CF0CEE9F196F452900ECD301 /* menutopbar@2x.png in Resources */,
 				CF0CEEA0196F452900ECD301 /* sellbubble5.png in Resources */,
 				CF0CEEA1196F452900ECD301 /* nighttimermobster.png in Resources */,
+				CF4F782019BACF4F001B7B7C /* maptestleft.jpg in Resources */,
 				CF0CEEA2196F452900ECD301 /* lightbigavatar@2x.png in Resources */,
 				CF0CEEA3196F452900ECD301 /* Scientist5Turn08@2x.png in Resources */,
 				CF0CEEA5196F452900ECD301 /* mjdone@2x.png in Resources */,
@@ -15892,6 +15926,7 @@
 				CFF9DD8519B861F200CA9A8E /* level@2x.png in Resources */,
 				CF0CEFF3196F452900ECD301 /* backgroundleft@2x.png in Resources */,
 				CF0CEFF4196F452900ECD301 /* Scientist2Turn11@2x.png in Resources */,
+				CF4F782819BACF4F001B7B7C /* missionmap3@2x.tmx in Resources */,
 				CF0CEFF5196F452900ECD301 /* safegems@2x.png in Resources */,
 				CF0CEFF6196F452900ECD301 /* doneusername.png in Resources */,
 				CF0CEFF7196F452900ECD301 /* Scientist1Blink10@2x.png in Resources */,
@@ -15960,6 +15995,7 @@
 				CF0CF030196F452900ECD301 /* attackbutton.png in Resources */,
 				CF0CF031196F452900ECD301 /* chatinputtop.png in Resources */,
 				CF0CF032196F452900ECD301 /* beigemenuoption.png in Resources */,
+				CF4F782419BACF4F001B7B7C /* maptestright.jpg in Resources */,
 				CF0CF033196F452900ECD301 /* greysquirrel@2x.png in Resources */,
 				CF0CF035196F452900ECD301 /* Whitney-Black.otf in Resources */,
 				CF0CF036196F452900ECD301 /* teamsemiemptyslot.png in Resources */,
@@ -16988,6 +17024,7 @@
 				CF0CF3FA196F452900ECD301 /* watertimermobster@2x.png in Resources */,
 				CF0CF3FB196F452900ECD301 /* sfx_attack_button.mp3 in Resources */,
 				CF0CF3FC196F452900ECD301 /* waterorb@2x.png in Resources */,
+				CF4F782619BACF4F001B7B7C /* maptestright@2x.jpg in Resources */,
 				CF0CF3FD196F452900ECD301 /* clanbrowseactiveicon2@2x.png in Resources */,
 				DA88EB5E19B935C5005EE827 /* skillenemyusedused@2x.png in Resources */,
 				CF0CF3FE196F452900ECD301 /* Scientist1Breath10@2x.png in Resources */,
@@ -17645,6 +17682,7 @@
 				CF4F781019B950FC001B7B7C /* instantmiddle@2x.png in Resources */,
 				CF0CF674196F452900ECD301 /* buildingoptionbutton.png in Resources */,
 				CF0CF675196F452900ECD301 /* hireallfriendsinactive@2x.png in Resources */,
+				CF4F782219BACF4F001B7B7C /* maptestleft@2x.jpg in Resources */,
 				CF0CF676196F452900ECD301 /* lightbluemenuoption@2x.png in Resources */,
 				CF0CF677196F452900ECD301 /* timerclock@2x.png in Resources */,
 				CF0CF678196F452900ECD301 /* greysmallsquare.png in Resources */,
@@ -19521,6 +19559,7 @@
 				CFF2A52419709C4800269084 /* OilDrillT1@2x.pvr.ccz in Resources */,
 				CFE7CD7C1819FC3300930847 /* mediumdivider@2x.png in Resources */,
 				CFF5DC7E19514FA50019EB2B /* hiremobsquadactive.png in Resources */,
+				CF4F781F19BACF4F001B7B7C /* maptestleft.jpg in Resources */,
 				CFC4D28918D7BD04004681FD /* sfx_chat_slide_out.mp3 in Resources */,
 				CF746174196B9A5F002D6AE6 /* buildingbonusslots@2x.png in Resources */,
 				CF65ECC919A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
@@ -19865,6 +19904,7 @@
 				CF0CE17C196E552500ECD301 /* 3splashbg@2x.png in Resources */,
 				CF4F780919B950FC001B7B7C /* instantcap.png in Resources */,
 				CFF2A5B019709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz in Resources */,
+				CF4F782519BACF4F001B7B7C /* maptestright@2x.jpg in Resources */,
 				CFFBDF5C18ACA3D90090CA9A /* Scientist2Blink07@2x.png in Resources */,
 				CFEC99251946BD0300BD893E /* gachaspinbutton@2x.png in Resources */,
 				CFF7872F18E28FE200413E78 /* commandcenterunlocksbg@2x.png in Resources */,
@@ -20026,6 +20066,7 @@
 				CF2A4AC31901B8F500B2D7D7 /* purplepressed.png in Resources */,
 				CFE7CD7A1819FC3300930847 /* mediumdivider.png in Resources */,
 				CFFBDFCD18ACA3D90090CA9A /* Scientist4Turn08@2x.png in Resources */,
+				CF4F782719BACF4F001B7B7C /* missionmap3@2x.tmx in Resources */,
 				CF134A8A18A5E4B500D7D700 /* FatBoy5Move07@2x.png in Resources */,
 				CF70650F18470051005B30A1 /* cashcap@2x.png in Resources */,
 				CF29E9F71964BD0500B40DA4 /* healredbubble4@2x.png in Resources */,
@@ -20522,6 +20563,7 @@
 				CFF1D79217E101C900874339 /* canttouchthis@2x.png in Resources */,
 				CFF513CC18C8DE3C004B0E56 /* 1timeoffer.png in Resources */,
 				CFF9DD7819B861F200CA9A8E /* lightenhancebg@2x.png in Resources */,
+				CF4F782319BACF4F001B7B7C /* maptestright.jpg in Resources */,
 				CFFBDFBD18ACA3D90090CA9A /* Scientist4Breath05@2x.png in Resources */,
 				CF4251A819AD2C9D00964547 /* recommendedtag@2x.png in Resources */,
 				CFF2A57419709C4800269084 /* Chicken1T1AttackNF.pvr.ccz in Resources */,
@@ -20649,6 +20691,7 @@
 				CF4DB8EC1807DA1F00062258 /* MissionBuildingMenu.xib in Resources */,
 				CF68903B1912E7B500FF1F71 /* commonjob.png in Resources */,
 				CFF2A51419709C4800269084 /* CashStorageT1@2x.plist in Resources */,
+				CF4F782119BACF4F001B7B7C /* maptestleft@2x.jpg in Resources */,
 				CFEE89EB18EC388000047CA4 /* platinumbig@2x.png in Resources */,
 				CFF2A5D419709C4800269084 /* mapsection1@2x.png in Resources */,
 				CFE0E6D017E7B886002ECA84 /* bomb.png in Resources */,
@@ -21163,6 +21206,7 @@
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */,
 				CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */,
+				CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */,
 				CF0CEDE0196F452900ECD301 /* RequestsViewController.m in Sources */,
 				CF0CEDE2196F452900ECD301 /* BattleViews.m in Sources */,
 				CF0CEDE3196F452900ECD301 /* BuildingViews.m in Sources */,
@@ -21327,6 +21371,7 @@
 				CFCE56E318137C9000494F8C /* MonsterPopUpViewController.m in Sources */,
 				CF6574AF1909CAF200ABF1F4 /* EventChat.pb.m in Sources */,
 				CFF513B218C89D98004B0E56 /* TutorialTopBarViewController.m in Sources */,
+				CF4F783119BE4932001B7B7C /* HudNotificationController.m in Sources */,
 				DA07605A19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */,
 				CF6574F3190F2AE500ABF1F4 /* AchievementUtil.m in Sources */,
 				CFF2C95C193FE75B00F28D9E /* ChatBottomView.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "OmnipresentViewController.h"
+#import "HudNotificationController.h"
 
 @interface OneLineNotificationView : UIView
 
@@ -15,10 +16,13 @@
 
 @end
 
-@interface OneLineNotificationViewController : OmnipresentViewController
+@interface OneLineNotificationViewController : OmnipresentViewController <TopBarNotification> {
+  dispatch_block_t _completion;
+  NotificationPriority _priority;
+}
 
 @property (nonatomic, retain) IBOutlet OneLineNotificationView *notificationView;
 
-- (void) addNotification:(NSString *)string isGreen:(BOOL)isGreen;
+- (id) initWithNotificationString:(NSString *)str isGreen:(BOOL)isGreen isImmediate:(BOOL)isImmediate;
 
 @end

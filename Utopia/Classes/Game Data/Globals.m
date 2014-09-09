@@ -22,6 +22,7 @@
 #import "ODIN.h"
 #import "AppDelegate.h"
 #import "HospitalQueueSimulator.h"
+#import "OneLineNotificationViewController.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -305,7 +306,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(Quality)rarity {
   switch (rarity) {
     case QualityCommon:
-      return [UIColor colorWithRed:156/255.f green:131/255.f blue:29/255.f alpha:1.f];
+      return [UIColor colorWithWhite:40/255.f alpha:1.f];
       
     case QualityRare:
       return [self blueColor];
@@ -1636,14 +1637,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) addAlertNotification:(NSString *)msg {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = gvc.notifViewController;
-  [oln addNotification:msg isGreen:NO];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg isGreen:NO isImmediate:YES];
+  [gvc.notificationController addNotification:oln];
 }
 
-+ (void) addGreenAlertNotification:(NSString *)msg {
++ (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = gvc.notifViewController;
-  [oln addNotification:msg isGreen:YES];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg isGreen:YES isImmediate:isImmediate];
+  [gvc.notificationController addNotification:oln];
 }
 
 #pragma mark - Bounce View
@@ -2012,7 +2013,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   } else if (!hasFullTeam && hasAvailMobsters) {
     NSString *description = [NSString stringWithFormat:@"You have healthy %@s available. Manage your team now.", MONSTER_NAME];
     
-    [Globals addGreenAlertNotification:description];
+    [Globals addGreenAlertNotification:description isImmediate:NO];
     [target performSelector:noTeamSelector];
     
     return NO;

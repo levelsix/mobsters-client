@@ -104,10 +104,16 @@
     
     [self moveToCenterAnimated:NO];
     
-    CCSprite *map = [CCSprite spriteWithImageNamed:@"mapnopier.jpg"];
+    CCSprite *map = [CCSprite spriteWithImageNamed:@"maptestleft.jpg"];
     [self addChild:map z:-1000];
     
-    map.position = ccp(map.contentSize.width/2-33, map.contentSize.height/2-50);
+    
+    CCSprite *map2 = [CCSprite spriteWithImageNamed:@"maptestright.jpg"];
+    [map addChild:map2];
+    map2.position = ccp(map.contentSize.width+map2.contentSize.width/2, map.contentSize.height/2);
+    map.contentSize = CGSizeMake(map.contentSize.width+map2.contentSize.width, map.contentSize.height);
+    
+    map.position = ccp(map.contentSize.width/2-35, map.contentSize.height/2-30 );
     
     [self beginMapAnimations];
     

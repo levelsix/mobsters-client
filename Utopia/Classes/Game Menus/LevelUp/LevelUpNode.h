@@ -8,7 +8,11 @@
 
 #import <cocos2d-ui.h>
 
-@interface LevelUpNode : CCNode
+#import "HudNotificationController.h"
+
+@interface LevelUpNode : CCNode <TopBarNotification, CCBAnimationManagerDelegate> {
+  dispatch_block_t _completion;
+}
 
 @property (nonatomic, retain) CCLabelTTF *levelLabel;
 @property (nonatomic, retain) CCSprite *spinner;

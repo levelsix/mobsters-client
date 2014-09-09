@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="26" height="26" tilewidth="68" tileheight="51">
+<map version="1.0" orientation="isometric" width="32" height="32" tilewidth="68" tileheight="51">
  <tileset firstgid="1" name="tiles@2x" tilewidth="68" tileheight="51">
   <image source="tiles@2x.png" width="136" height="51"/>
  </tileset>
- <layer name="Walkable" width="26" height="26">
+ <layer name="Walkable" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYByGGBeglvyoPaP2DGdMabgQkh+1Z9Se4YwpDRdC8qP2jNozHDEAULkBYQ==
+   eJztzbENAAAIw7D2/6f5AgYcKbObpF6Pz+fz+Xw+n8/n8/k3/tcHkkkA8Q==
   </data>
  </layer>
- <layer name="Buildable" width="26" height="26">
+ <layer name="Buildable" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBiegIlGeNSeUXtG7Rm1Z9SeUXtG7Rm1Z7DYM1wAAAuMA8k=
+   eJztzbEJAAAIBLHH/YcWl9DCHFydRFMtz+fz+Xw+n8/n8/n8G/9rDR8fBiE=
   </data>
  </layer>
- <layer name="MetaLayer" width="26" height="26">
+ <layer name="MetaLayer" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBaMAFTDSyR4mIAYACwQABA==
+   eJztzbENAAAIw7DC/0fDE4jFljInAQAAAC7V87+3ARCMAAQ=
   </data>
  </layer>
 </map>

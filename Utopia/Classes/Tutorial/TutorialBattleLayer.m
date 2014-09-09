@@ -45,6 +45,8 @@
     
     NSString *effect = @"sfx_muckerburg_hit_luchador.mp3";
     [[SoundEngine sharedSoundEngine] preloadEffect:effect];
+    
+    [self.lootBgd removeFromParent];
   }
   return self;
 }

@@ -1518,7 +1518,7 @@
 
 - (void) displayOrbLayer {
   [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
-  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
+  [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.2f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
   
   [SoundEngine puzzleOrbsSlideIn];
 }
@@ -1573,7 +1573,7 @@
   
   float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
   float centerX = (self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2;
-  [self.hudView displayDeployViewToCenterX:centerX cancelTarget:self selector:@selector(cancelDeploy:)];
+  [self.hudView displayDeployViewToCenterX:centerX cancelTarget:cancel ? self : nil selector:@selector(cancelDeploy:)];
   
   [SoundEngine puzzleSwapWindow];
 }

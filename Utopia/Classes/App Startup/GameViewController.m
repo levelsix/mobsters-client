@@ -135,13 +135,6 @@
   [self.view addSubview:self.topBarViewController.view];
 }
 
-- (void) setupNotificationViewController {
-  if (!self.notifViewController) {
-    self.notifViewController = [[OneLineNotificationViewController alloc] init];
-    [self.notifViewController displayView];
-  }
-}
-
 - (void) viewDidLoad {
   [self setupTopBar];
   [self fadeToLoadingScreenPercentage:0.f animated:NO];
@@ -150,14 +143,14 @@
   [QuestUtil setDelegate:self];
   [AchievementUtil setDelegate:self];
   
-  [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
+  //[[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkLevelUp) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   
   self.completedQuests = [NSMutableArray array];
   self.progressedJobs = [NSMutableArray array];
   
-  [self setupNotificationViewController];
+  self.notificationController = [[HudNotificationController alloc] init];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -169,18 +162,13 @@
   //[self questComplete:arr[0]];
 }
 
-- (void) dealloc {
-  // Must do this manually since it will be in the key window
-  [self.notifViewController.view removeFromSuperview];
-}
-
 - (void) removeAllViewControllers {
   [self removeAllViewControllersWithExceptions:nil];
 }
 
 - (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
-    NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.notifViewController];
+    NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     for (UIViewController *vc in self.childViewControllers) {
       if (![acceptable containsObject:vc]) {
@@ -313,6 +301,8 @@
       }
       self.questCompleteLayer = nil;
       _isInBattle = NO;
+      
+      [self.notificationController clearAll];
     }
     
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
@@ -498,7 +488,9 @@
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap pointArrowOnManageTeam];
     
-    [self removeAllViewControllers];
+    // Make sure notifications don't get the removed or else the alert message will be killed
+    // Some of these may not be view controllers but since we're just comparing objects, it's okay.
+    [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
   }
 }
 
@@ -509,7 +501,8 @@
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap pointArrowOnSellMobsters];
     
-    [self removeAllViewControllers];
+    // Look at comment above
+    [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
   }
 }
 
@@ -649,7 +642,7 @@
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
-  
+    
     DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
     bl.dungeonType = task.description;
     bl.delegate = self;
@@ -725,10 +718,10 @@
   
   CCDirector *dir = (CCDirector *)[CCDirector sharedDirector];
   if (dir.runningScene) {
-//    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
+    //    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
   }// else {
-//    [dir replaceScene:scene];
-//  }
+  //    [dir replaceScene:scene];
+  //  }
   [dir pushScene:scene];
   [dir drawScene];
   
@@ -784,7 +777,7 @@
   GameState *gs = [GameState sharedGameState];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   if (false && ![def boolForKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY] &&
-           gs.level < 5 && [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY]) {
+      gs.level < 5 && [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY]) {
     [def setBool:YES forKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY];
     
     [[CCDirector sharedDirector] popScene];
@@ -915,29 +908,15 @@
     if (self.progressedJobs.count) {
       [self jobProgress:self.progressedJobs[0]];
     }
-    if (self.completedAchievement) {
-      [self achievementComplete:self.completedAchievement];
-    }
   }
 }
 
-- (void) achievementComplete:(AchievementProto *)ap {
-  if (!_isInBattle && !self.miniTutController && !self.presentedViewController && !self.questCompleteLayer) {
-    if (self.numAchievementsComplete > 1 || (self.completedAchievement && ap != self.completedAchievement)) {
-      if (self.completedAchievement && ap != self.completedAchievement) {
-        self.numAchievementsComplete++;
-      }
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", self.numAchievementsComplete]];
-    } else {
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl]];
-    }
-    self.completedAchievement = nil;
-    self.numAchievementsComplete = 0;
+- (void) achievementsComplete:(NSArray *)aps {
+  if (aps.count > 1) {
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", aps.count] isImmediate:NO];
   } else {
-    if (ap != self.completedAchievement) {
-      self.numAchievementsComplete++;
-      self.completedAchievement = ap;
-    }
+    AchievementProto *ap = [aps firstObject];
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl] isImmediate:NO];
   }
 }
 
@@ -1019,7 +998,7 @@
 #pragma mark - Level Up
 
 - (void) checkLevelUp {
-  if (!_isInBattle && !self.miniTutController && !self.completedQuests.count && [CCDirector sharedDirector].isAnimating && !self.questCompleteLayer) {
+  if ([CCDirector sharedDirector].isAnimating) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
@@ -1039,9 +1018,10 @@
 }
 
 - (void) spawnLevelUp {
-  LevelUpNode *levelUp = (LevelUpNode *)[CCBReader load:@"LevelUpNode"];
-  [[[CCDirector sharedDirector] runningScene] addChild:levelUp];
-  levelUp.position = ccp(levelUp.parent.contentSize.width/2-levelUp.contentSize.width/2, 0);
+  CCBReader *reader = [CCBReader reader];
+  LevelUpNode *levelUp = (LevelUpNode *)[reader load:@"LevelUpNode"];
+  reader.animationManager.delegate = levelUp;
+  [self.notificationController addNotification:levelUp];
 }
 
 #pragma mark - Facebook stuff

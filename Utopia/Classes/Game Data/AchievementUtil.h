@@ -11,7 +11,7 @@
 
 @protocol AchievementUtilDelegate <NSObject>
 
-- (void) achievementComplete:(AchievementProto *)ap;
+- (void) achievementsComplete:(NSArray *)aps;
 
 @end
 

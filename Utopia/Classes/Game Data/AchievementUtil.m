@@ -36,11 +36,16 @@
     [[OutgoingEventController sharedOutgoingEventController] achievementProgress:achievements.allObjects];
     
     GameState *gs = [GameState sharedGameState];
+    NSMutableArray *completedAchievements = [NSMutableArray array];
     for (UserAchievement *ua in achievements) {
       if (ua.isComplete) {
         AchievementProto *ap = [gs achievementWithId:ua.achievementId];
-        [[[AchievementUtil sharedAchievementUtil] delegate] achievementComplete:ap];
+        [completedAchievements addObject:ap];
       }
+    }
+    
+    if (completedAchievements.count) {
+      [[[AchievementUtil sharedAchievementUtil] delegate] achievementsComplete:completedAchievements];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];

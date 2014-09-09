@@ -30,7 +30,7 @@
   }
 }
 
-- (void) animateIn:(void (^)(void))completion {
+- (void) animateIn:(dispatch_block_t)completion {
   CGPoint pt = self.center;
   self.center = ccp(self.center.x, -self.frame.size.height/2);
   [UIView animateWithDuration:0.3f animations:^{
@@ -42,17 +42,33 @@
   }];
 }
 
-- (void) animateOut {
+- (void) animateOut:(dispatch_block_t)completion {
   [UIView animateWithDuration:0.3f animations:^{
     self.center = ccp(self.center.x, -self.frame.size.height/2);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
+    if (completion) {
+      completion();
+    }
   }];
 }
 
 @end
 
 @implementation OneLineNotificationViewController
+
+- (id) initWithNotificationString:(NSString *)str isGreen:(BOOL)isGreen isImmediate:(BOOL)isImmediate {
+  if ((self = [super init])) {
+    [[NSBundle mainBundle] loadNibNamed:@"OneLineNotificationView" owner:self options:nil];
+    [self.notificationView updateForString:str isGreen:isGreen];
+    _priority = isImmediate ? NotificationPriorityImmediate : NotificationPriorityRegular;
+  }
+  return self;
+}
+
+- (void) viewDidLoad {
+  [self.view addSubview:self.notificationView];
+}
 
 - (void) loadView {
   UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
@@ -66,25 +82,41 @@
   self.view.frame = self.view.superview.bounds;
 }
 
-- (void) addNotification:(NSString *)string isGreen:(BOOL)isGreen {
-  [self animateCurrentNotificationViewOut];
-  
-  [[NSBundle mainBundle] loadNibNamed:@"OneLineNotificationView" owner:self options:nil];
-  [self.notificationView updateForString:string isGreen:isGreen];
-  [self.view addSubview:self.notificationView];
+- (void) animateWithCompletionBlock:(dispatch_block_t)completion {
+  [self displayView];
   
   // Have to use height because omnipresent views don't have proper orientation
   self.notificationView.center = ccp(self.view.frame.size.height/2, LOWEST_LABEL_BOT_POINT);
   
+  _completion = completion;
+  
   [self.notificationView animateIn:^{
-    [self performSelector:@selector(animateCurrentNotificationViewOut) withObject:nil afterDelay:3.f];
+    [self performSelector:@selector(end) withObject:nil afterDelay:3.f];
   }];
 }
 
-- (void) animateCurrentNotificationViewOut {
+- (void) end {
+  [self.notificationView animateOut:^{
+    [self removeView];
+    
+    if (_completion) {
+      _completion();
+      _completion = nil;
+    }
+  }];
+}
+
+- (void) endAbruptly {
   [NSObject cancelPreviousPerformRequestsWithTarget:self];
-  [self.notificationView animateOut];
-  self.notificationView = nil;
+  [self end];
+}
+
+- (NotificationPriority) priority {
+  return _priority;
+}
+
+- (NotificationLocationType) locationType {
+  return NotificationLocationTypeTop;
 }
 
 @end

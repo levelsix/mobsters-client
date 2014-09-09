@@ -234,7 +234,7 @@
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;
 + (void) addAlertNotification:(NSString *)msg;
-+ (void) addGreenAlertNotification:(NSString *)msg;
++ (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

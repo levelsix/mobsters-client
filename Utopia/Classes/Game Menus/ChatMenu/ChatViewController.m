@@ -241,7 +241,7 @@
   Globals *gl = [Globals sharedGlobals];
   [gl muteUserId:_muteUserId];
   
-  [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just been muted.", _muteName]];
+  [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just been muted.", _muteName] isImmediate:YES];
   
   _muteUserId = 0;
   _muteName = nil;

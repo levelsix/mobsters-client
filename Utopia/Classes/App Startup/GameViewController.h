@@ -11,7 +11,6 @@
 #import "TopBarViewController.h"
 #import "GameMap.h"
 #import "DungeonBattleLayer.h"
-#import "OneLineNotificationViewController.h"
 #import "CCDirector+Downloader.h"
 #import "DialogueViewController.h"
 #import "ClanRaidDetailsViewController.h"
@@ -23,6 +22,7 @@
 #import "ChatViewController.h"
 #import "ClanViewController.h"
 #import "AttackMapViewController.h"
+#import "HudNotificationController.h"
 
 @class TutorialController;
 
@@ -42,7 +42,7 @@
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
-@property (nonatomic, strong) OneLineNotificationViewController *notifViewController;
+@property (nonatomic, strong) HudNotificationController *notificationController;
 @property (nonatomic, strong) GameMap *currentMap;
 
 @property (nonatomic, strong) ChatViewController *chatViewController;
@@ -60,8 +60,6 @@
 @property (nonatomic, strong) TopBarQuestProgressView *topBarQuestProgressView;
 @property (nonatomic, strong) NSMutableArray *completedQuests;
 @property (nonatomic, strong) NSMutableArray *progressedJobs;
-@property (nonatomic, strong) AchievementProto *completedAchievement;
-@property (nonatomic, assign) int numAchievementsComplete;
 
 + (id) baseController;
 
