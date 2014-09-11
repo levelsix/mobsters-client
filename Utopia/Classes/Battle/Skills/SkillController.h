@@ -37,7 +37,9 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
+  SkillControllerBlock  _callbackBlockForPopup;
   UIImageView*          _characterImage;
+  SkillPopupOverlay*    _popupOverlay;
 }
 
 @property (readonly) SkillType            skillType;
@@ -70,7 +72,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (void) setValue:(float)value forProperty:(NSString*)property;
 
 // To be called by inherited skills to show the overlay
-- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion;
+- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization

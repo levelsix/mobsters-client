@@ -116,24 +116,16 @@
 
 #pragma mark - Skill logic
 
-// Jumping
+// Jumping and showing overlay
 - (void) initialSequence
 {
-  [self performAfterDelay:0.5 block:^{
-    [self makeSkillOwnerJumpWithTarget:self selector:@selector(initialSequence2)];
-  }];
-}
-
-// Skill overlay
-- (void) initialSequence2
-{
-  [self showSkillPopupOverlayWithCompletion:^{
-    [self initialSequence3];
+  [self showSkillPopupOverlay:YES withCompletion:^{
+    [self initialSequence2];
   }];
 }
 
 // Adding cake
-- (void) initialSequence3
+- (void) initialSequence2
 {
   // Calculate position
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;

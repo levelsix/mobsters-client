@@ -37,7 +37,7 @@
   {
     if ([self skillIsReady])
     {
-      [self showSkillPopupOverlayWithCompletion:^{
+      [self showSkillPopupOverlay:YES withCompletion:^{
         [self dealQuickAttack];
       }];
       return YES;
@@ -55,10 +55,10 @@
   [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(callbackForAnimation)];
   
   // Show attack label
-  _attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
+  /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
   _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
   _attackSprite.scale = 0.0;
-  [self.playerSprite.parent addChild:_attackSprite z:50];
+  [self.playerSprite.parent addChild:_attackSprite z:50];*/
   
   // Run animation
   [_attackSprite runAction:[CCActionSequence actions:

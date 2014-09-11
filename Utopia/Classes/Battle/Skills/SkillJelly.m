@@ -45,8 +45,8 @@
   
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self showSkillPopupOverlayWithCompletion:^{
-      [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnInitialJelly)];
+    [self showSkillPopupOverlay:YES withCompletion:^{
+      [self spawnInitialJelly];
     }];
     return YES;
   }

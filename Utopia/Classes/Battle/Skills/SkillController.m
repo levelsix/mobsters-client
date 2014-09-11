@@ -96,6 +96,11 @@
 
 - (void) skillTriggerFinished
 {
+  if (_popupOverlay)
+  {
+    [_popupOverlay hide];
+    _popupOverlay = nil;
+  }
   _callbackBlock();
 }
 
@@ -120,14 +125,24 @@
   [Globals imageNamed:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];  
 }
 
-- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion
+- (void) showSkillPopupOverlayInternal
 {
   GameViewController *gvc = [GameViewController baseController];
   UIView *parentView = gvc.view;
-  SkillPopupOverlay* popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
-  [parentView addSubview:popupOverlay];
-  popupOverlay.origin = CGPointMake((parentView.width - popupOverlay.width)/2, (parentView.height - popupOverlay.height)/2);
-  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:completion];
+  _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  [parentView addSubview:_popupOverlay];
+  _popupOverlay.origin = CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2);
+  [_popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];
+}
+
+- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion
+{
+  _callbackBlockForPopup = completion;
+  
+  if (jumpFirst)
+    [self makeSkillOwnerJumpWithTarget:self selector:@selector(showSkillPopupOverlayInternal)];
+  else
+    [self showSkillPopupOverlayInternal];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion

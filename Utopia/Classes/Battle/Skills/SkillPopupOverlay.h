@@ -26,5 +26,6 @@ typedef void(^SkillControllerBlock)();
 }
 
 - (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillControllerBlock)completion;
+- (void) hide;
 
 @end

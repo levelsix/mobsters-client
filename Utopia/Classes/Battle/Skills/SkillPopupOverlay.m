@@ -66,15 +66,18 @@
       skillImage.transform = CGAffineTransformIdentity;
       imageView.originY -= 200;
     } completion:^(BOOL finished) {
-      
-      // Hide view
-      [UIView animateWithDuration:0.3 delay:1.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.alpha = 0.0;
-      } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-        completion();
-      }];
+      completion();
     }];
+  }];
+}
+
+- (void) hide
+{
+  // Hide view
+  [UIView animateWithDuration:0.3 delay:1.0 options:UIViewAnimationOptionCurveLinear animations:^{
+    self.alpha = 0.0;
+  } completion:^(BOOL finished) {
+    [self removeFromSuperview];
   }];
 }
 
