@@ -27,7 +27,7 @@
   return _orbCounter == 0;
 }
 
-- (void) orbDestroyed:(OrbColor)color
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   if (color == self.orbColor && _orbCounter > 0)
     _orbCounter--;

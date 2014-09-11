@@ -66,7 +66,7 @@
 
 - (void) beginEnemyTurn {
   [super beginEnemyTurn];
-  _enemyDamageDealt = MIN(_enemyDamageDealt, self.myPlayerObject.curHealth-1);
+  self.enemyDamageDealt = MIN(self.enemyDamageDealt, self.myPlayerObject.curHealth-1);
 }
 
 - (void) displayWaveNumber {

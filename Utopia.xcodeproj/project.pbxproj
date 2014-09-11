@@ -5951,6 +5951,16 @@
 		DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
 		DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
 		DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
+		DA6DBAB019BFE70700BD7B7F /* cakedroplogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAAE19BFE70700BD7B7F /* cakedroplogo.png */; };
+		DA6DBAB119BFE70700BD7B7F /* cakedroplogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAAE19BFE70700BD7B7F /* cakedroplogo.png */; };
+		DA6DBAB219BFE70700BD7B7F /* cakedroplogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAAF19BFE70700BD7B7F /* cakedroplogo@2x.png */; };
+		DA6DBAB319BFE70700BD7B7F /* cakedroplogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAAF19BFE70700BD7B7F /* cakedroplogo@2x.png */; };
+		DA6DBABA19BFE77800BD7B7F /* cakekidexplode.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */; };
+		DA6DBABB19BFE77800BD7B7F /* cakekidexplode.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */; };
+		DA6DBACA19C0F7E900BD7B7F /* skillgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */; };
+		DA6DBACB19C0F7E900BD7B7F /* skillgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */; };
+		DA6DBACC19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAC919C0F7E900BD7B7F /* skillgradient@2x.png */; };
+		DA6DBACD19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAC919C0F7E900BD7B7F /* skillgradient@2x.png */; };
 		DA88EAFA19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFB19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFC19B7CF3E005EE827 /* earthenemyskill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */; };
@@ -6007,10 +6017,6 @@
 		DA88EB3F19B93542005EE827 /* SkillPopupOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = DA88EB3D19B93542005EE827 /* SkillPopupOverlay.m */; };
 		DA88EB4119B93553005EE827 /* SkillPopupOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */; };
 		DA88EB4219B93553005EE827 /* SkillPopupOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */; };
-		DA88EB5119B935C5005EE827 /* quickattacklogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4419B935C5005EE827 /* quickattacklogo.png */; };
-		DA88EB5219B935C5005EE827 /* quickattacklogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4419B935C5005EE827 /* quickattacklogo.png */; };
-		DA88EB5319B935C5005EE827 /* quickattacklogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4519B935C5005EE827 /* quickattacklogo@2x.png */; };
-		DA88EB5419B935C5005EE827 /* quickattacklogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4519B935C5005EE827 /* quickattacklogo@2x.png */; };
 		DA88EB5719B935C5005EE827 /* skillenemyusedenemy.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4719B935C5005EE827 /* skillenemyusedenemy.png */; };
 		DA88EB5819B935C5005EE827 /* skillenemyusedenemy.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4719B935C5005EE827 /* skillenemyusedenemy.png */; };
 		DA88EB5919B935C5005EE827 /* skillenemyusedenemy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB4819B935C5005EE827 /* skillenemyusedenemy@2x.png */; };
@@ -9482,6 +9488,11 @@
 		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
 		DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Coordinates.m"; sourceTree = "<group>"; };
 		DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeagueListViewCell.xib; sourceTree = "<group>"; };
+		DA6DBAAE19BFE70700BD7B7F /* cakedroplogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cakedroplogo.png; sourceTree = "<group>"; };
+		DA6DBAAF19BFE70700BD7B7F /* cakedroplogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cakedroplogo@2x.png"; sourceTree = "<group>"; };
+		DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = cakekidexplode.plist; path = "Cake Drop/cakekidexplode.plist"; sourceTree = "<group>"; };
+		DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillgradient.png; sourceTree = "<group>"; };
+		DA6DBAC919C0F7E900BD7B7F /* skillgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillgradient@2x.png"; sourceTree = "<group>"; };
 		DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthenemyskill.png; sourceTree = "<group>"; };
 		DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthenemyskill@2x.png"; sourceTree = "<group>"; };
 		DA88EAE419B7CF3E005EE827 /* earthyourskill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthyourskill.png; sourceTree = "<group>"; };
@@ -9512,8 +9523,6 @@
 		DA88EB3C19B93542005EE827 /* SkillPopupOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPopupOverlay.h; sourceTree = "<group>"; };
 		DA88EB3D19B93542005EE827 /* SkillPopupOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPopupOverlay.m; sourceTree = "<group>"; };
 		DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SkillPopupOverlay.xib; sourceTree = "<group>"; };
-		DA88EB4419B935C5005EE827 /* quickattacklogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickattacklogo.png; sourceTree = "<group>"; };
-		DA88EB4519B935C5005EE827 /* quickattacklogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quickattacklogo@2x.png"; sourceTree = "<group>"; };
 		DA88EB4719B935C5005EE827 /* skillenemyusedenemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillenemyusedenemy.png; sourceTree = "<group>"; };
 		DA88EB4819B935C5005EE827 /* skillenemyusedenemy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillenemyusedenemy@2x.png"; sourceTree = "<group>"; };
 		DA88EB4919B935C5005EE827 /* skillenemyusedused.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillenemyusedused.png; sourceTree = "<group>"; };
@@ -15168,6 +15177,7 @@
 			isa = PBXGroup;
 			children = (
 				DA88EB3519B7E224005EE827 /* skillactive.plist */,
+				DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */,
 				DA0FC57919B6523200393BF4 /* Jelly */,
 				DA07608119B12A2000E43E5A /* Quick Attack */,
 				DA88EB4319B935C5005EE827 /* Skill Intro */,
@@ -15233,8 +15243,8 @@
 		DA88EB4319B935C5005EE827 /* Skill Intro */ = {
 			isa = PBXGroup;
 			children = (
-				DA88EB4419B935C5005EE827 /* quickattacklogo.png */,
-				DA88EB4519B935C5005EE827 /* quickattacklogo@2x.png */,
+				DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */,
+				DA6DBAC919C0F7E900BD7B7F /* skillgradient@2x.png */,
 				DA88EB4719B935C5005EE827 /* skillenemyusedenemy.png */,
 				DA88EB4819B935C5005EE827 /* skillenemyusedenemy@2x.png */,
 				DA88EB4919B935C5005EE827 /* skillenemyusedused.png */,
@@ -15256,6 +15266,8 @@
 				DA88EB9319BE82C5005EE827 /* cakedropicon@2x.png */,
 				DA88EB8C19BE6B80005EE827 /* cakeorb.png */,
 				DA88EB8D19BE6B80005EE827 /* cakeorb@2x.png */,
+				DA6DBAAE19BFE70700BD7B7F /* cakedroplogo.png */,
+				DA6DBAAF19BFE70700BD7B7F /* cakedroplogo@2x.png */,
 			);
 			path = "Cake Drop";
 			sourceTree = "<group>";
@@ -15589,7 +15601,6 @@
 				CF0CEEC1196F452900ECD301 /* FatBoy2Move10@2x.png in Resources */,
 				CF0CEEC2196F452900ECD301 /* Scientist4Turn15@2x.png in Resources */,
 				CF0CEEC3196F452900ECD301 /* covergradient.png in Resources */,
-				DA88EB5419B935C5005EE827 /* quickattacklogo@2x.png in Resources */,
 				CF0CEEC4196F452900ECD301 /* GachaponViewController.xib in Resources */,
 				CF0CEEC5196F452900ECD301 /* FBFriendCell.xib in Resources */,
 				CF0CEEC6196F452900ECD301 /* memberrow@2x.png in Resources */,
@@ -15912,7 +15923,6 @@
 				CFF2A6271970C81200269084 /* battledonegrey@2x.png in Resources */,
 				CF0CEFF0196F452900ECD301 /* bigsquareempty.png in Resources */,
 				CF0CEFF1196F452900ECD301 /* sfx_piece_swap.mp3 in Resources */,
-				DA88EB5219B935C5005EE827 /* quickattacklogo.png in Resources */,
 				CF0CEFF2196F452900ECD301 /* sfx_menu_click.mp3 in Resources */,
 				CFF2A5A919709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz in Resources */,
 				CFF9DD8519B861F200CA9A8E /* level@2x.png in Resources */,
@@ -16723,6 +16733,7 @@
 				CFF2A5EF19709C4800269084 /* MenuOilDrillT1.png in Resources */,
 				CF0CF2F5196F452900ECD301 /* teamhealthbarbg@2x.png in Resources */,
 				CF0CF2F6196F452900ECD301 /* buildingfinishnow.png in Resources */,
+				DA6DBACD19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */,
 				CF0CF2F7196F452900ECD301 /* ProfileViewController.xib in Resources */,
 				CFF2A5E519709C4800269084 /* MenuHealingCenterT1@2x.png in Resources */,
 				CF0CF2FA196F452900ECD301 /* pier_0@2x.png in Resources */,
@@ -16764,6 +16775,7 @@
 				CF0CF31E196F452900ECD301 /* imgtestchardetail.png in Resources */,
 				CF0CF31F196F452900ECD301 /* commondot.png in Resources */,
 				CF0CF320196F452900ECD301 /* chatglobalactive@2x.png in Resources */,
+				DA6DBAB319BFE70700BD7B7F /* cakedroplogo@2x.png in Resources */,
 				CF0CF321196F452900ECD301 /* donebtn@2x.png in Resources */,
 				CF0CF322196F452900ECD301 /* clandetailgradient.png in Resources */,
 				CF0CF323196F452900ECD301 /* gachalegendpiece@2x.png in Resources */,
@@ -17071,6 +17083,7 @@
 				CFF2A56D19709C4800269084 /* Zark1T1Card@2x.png in Resources */,
 				CF0CF436196F452900ECD301 /* mus_mobsquad_gameplay.mp3 in Resources */,
 				CFF2A60B19709CE300269084 /* Chicken1T1TutBig@2x.png in Resources */,
+				DA6DBABB19BFE77800BD7B7F /* cakekidexplode.plist in Resources */,
 				CF0CF437196F452900ECD301 /* firedailylab.png in Resources */,
 				CF0CF438196F452900ECD301 /* FatBoy4Move07@2x.png in Resources */,
 				CF0CF439196F452900ECD301 /* newcircle.png in Resources */,
@@ -17365,6 +17378,7 @@
 				CF0CF551196F452900ECD301 /* sfx_piece_fall_02.mp3 in Resources */,
 				CF0CF552196F452900ECD301 /* Scientist2Breath11@2x.png in Resources */,
 				CF0CF553196F452900ECD301 /* fireupdown.png in Resources */,
+				DA6DBACB19C0F7E900BD7B7F /* skillgradient.png in Resources */,
 				CF0CF554196F452900ECD301 /* inactivedividerline.png in Resources */,
 				CF0CF555196F452900ECD301 /* sortedbyarrow@2x.png in Resources */,
 				CF0CF556196F452900ECD301 /* Scientist3Turn09@2x.png in Resources */,
@@ -18068,6 +18082,7 @@
 				CF0CF7F0196F452900ECD301 /* blacksquareoverlay@2x.png in Resources */,
 				CF0CF7F1196F452900ECD301 /* Scientist5Turn06@2x.png in Resources */,
 				CF0CF7F2196F452900ECD301 /* Gotham-Bold.otf in Resources */,
+				DA6DBAB119BFE70700BD7B7F /* cakedroplogo.png in Resources */,
 				CF0CF7F3196F452900ECD301 /* buildingoptionbuttonpressed@2x.png in Resources */,
 				CF0CF7F5196F452900ECD301 /* spinbutton.png in Resources */,
 				CF0CF7F6196F452900ECD301 /* MonsterPopUpViewController.xib in Resources */,
@@ -18648,7 +18663,6 @@
 				CFC4D2A418D7BD04004681FD /* sfx_damage_click_lp.mp3 in Resources */,
 				CFF2A6261970C81200269084 /* battledonegrey@2x.png in Resources */,
 				CFF64721195E50FA00C43641 /* bigsquareempty.png in Resources */,
-				DA88EB5319B935C5005EE827 /* quickattacklogo@2x.png in Resources */,
 				CFC4D29818D7BD04004681FD /* sfx_piece_swap.mp3 in Resources */,
 				CFC4D29318D7BD04004681FD /* sfx_menu_click.mp3 in Resources */,
 				CFF2A5A819709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz in Resources */,
@@ -19300,6 +19314,7 @@
 				CFCD0EF01953F07400EDC233 /* watersmallsquare.png in Resources */,
 				CF1279A818202DE900211623 /* TopBarMonsterView.xib in Resources */,
 				CF70652D18470051005B30A1 /* levelxpbglong@2x.png in Resources */,
+				DA6DBACC19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */,
 				CF86506F19807FDB00D82D7C /* 2scene2right@2x.png in Resources */,
 				CFF2A5AA19709C4800269084 /* Kim1T1RunNF.plist in Resources */,
 				CFFA322718B44473008B81B9 /* bubblemiddle.png in Resources */,
@@ -19433,6 +19448,7 @@
 				CF2A4AF41901B8F500B2D7D7 /* fullachievementstar@2x.png in Resources */,
 				CF864DC5193E7C5C00DE0D7A /* newchatdot.png in Resources */,
 				CF9520371939690800A98290 /* firedailylab@2x.png in Resources */,
+				DA6DBAB019BFE70700BD7B7F /* cakedroplogo.png in Resources */,
 				CFE7CDCA1819FC3300930847 /* wide@2x.png in Resources */,
 				CFC8B5E618E4547200CFD652 /* bubble_middle_middle.png in Resources */,
 				CFDA78EA198C303C0014A8CD /* lockedcity@2x.png in Resources */,
@@ -19469,6 +19485,7 @@
 				CF2A4B031901B8F500B2D7D7 /* questiconactive.png in Resources */,
 				CFEE899918EA610D00047CA4 /* GothamBlack.otf in Resources */,
 				CFC8B5DF18E4547200CFD652 /* bubble_top_left@2x.png in Resources */,
+				DA6DBAB219BFE70700BD7B7F /* cakedroplogo@2x.png in Resources */,
 				CFF64690195A6A0B00C43641 /* legenddot.png in Resources */,
 				CFEC993D1947FBF300BD893E /* gachalegendtag.png in Resources */,
 				CFF2162818FDEA200057B5CE /* imgtestnews.png in Resources */,
@@ -19726,6 +19743,7 @@
 				CF9520591939690800A98290 /* opencitypin@2x.png in Resources */,
 				CFDA78E8198C303C0014A8CD /* lockedcity.png in Resources */,
 				CF06B621193699FC008BF892 /* teaminfoi@2x.png in Resources */,
+				DA6DBACA19C0F7E900BD7B7F /* skillgradient.png in Resources */,
 				CFF6472C195EA04D00C43641 /* EvolveDescriptionHeaderView.xib in Resources */,
 				CFF2C92A193FD4C000F28D9E /* chatpressedmiddle@2x.png in Resources */,
 				CFF2A5FC19709C4800269084 /* decstone@2x.png in Resources */,
@@ -19826,7 +19844,6 @@
 				CFF2161218FDC7660057B5CE /* battleultratag.png in Resources */,
 				CF40D02218DFCC6C0034A721 /* championrankbg@2x.png in Resources */,
 				CF06B5E1193699FC008BF892 /* prizebg.png in Resources */,
-				DA88EB5119B935C5005EE827 /* quickattacklogo.png in Resources */,
 				CFF5DC20194FDD390019EB2B /* goldprofribbon.png in Resources */,
 				CFCD0ED01953F07400EDC233 /* minusteam.png in Resources */,
 				CFF5DCBA19514FA50019EB2B /* teamslotmask@2x.png in Resources */,
@@ -19982,6 +19999,7 @@
 				CFF2A51819709C4800269084 /* CityHallT1@2x.png in Resources */,
 				CFE7CD8E1819FC3300930847 /* minidivider.png in Resources */,
 				CFF2A5D619709C4800269084 /* MenuCashStorageT1.png in Resources */,
+				DA6DBABA19BFE77800BD7B7F /* cakekidexplode.plist in Resources */,
 				CF6F1A0B181518C900CFF2B9 /* sharecheckmark@2x.png in Resources */,
 				CF12799F181F5F1600211623 /* sell.png in Resources */,
 				CFFBDF2F18ACA3D90090CA9A /* Scientist1Blink05@2x.png in Resources */,

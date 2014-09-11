@@ -51,9 +51,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
-- (void) orbDestroyed:(OrbColor)color;
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+- (BOOL) cakeKidSchedule;
 
 // Serialization
 - (NSDictionary*) serialize;

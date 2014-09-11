@@ -10,6 +10,7 @@
 #import "SkillCakeDrop.h"
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
+#import "GameState.h"
 
 @implementation SkillController
 
@@ -33,6 +34,7 @@
   _orbColor = color;
   _skillType = proto.type;
   _activationType = proto.activationType;
+  _shouldExecuteInitialAction = YES;
   
   // Properties
   [self setDefaultValues];
@@ -54,7 +56,7 @@
   return NO;
 }
 
-- (void) orbDestroyed:(OrbColor)color
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   return;
 }
@@ -70,13 +72,25 @@
   _callbackBlock = completion;
   BOOL triggered = [self skillCalledWithTrigger:trigger];
   if (! triggered)
-    _callbackBlock(NO);
+    _callbackBlock();
 }
 
 #pragma mark - Placeholders to be overriden
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  // Cache image if needed
+  if (! _characterImage)
+    [self prepareCharacterImage];
+
+  // Skip initial attack (if deserialized)
+  if (! _shouldExecuteInitialAction && trigger == SkillTriggerPointEnemyAppeared)
+  {
+    _callbackBlock();
+    _shouldExecuteInitialAction = YES;
+    return YES;
+  }
+  
   return NO;
 }
 
@@ -95,6 +109,17 @@
 
 #pragma mark - UI
 
+- (void) prepareCharacterImage
+{
+  BattlePlayer* owner = self.belongsToPlayer ? self.player : self.enemy;
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *proto = [gs monsterWithId:owner.monsterId];
+  
+  _characterImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+  NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
+  [Globals imageNamed:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];  
+}
+
 - (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion
 {
   GameViewController *gvc = [GameViewController baseController];
@@ -102,7 +127,7 @@
   SkillPopupOverlay* popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   [parentView addSubview:popupOverlay];
   popupOverlay.origin = CGPointMake((parentView.width - popupOverlay.width)/2, (parentView.height - popupOverlay.height)/2);
-  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withCompletion:completion];
+  [popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:completion];
 }
 
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion
@@ -130,6 +155,8 @@
   if (dict[@"skillType"])
     if (_skillType != [dict[@"skillType"] integerValue])
       return NO;
+  
+  _shouldExecuteInitialAction = NO;
   
   return YES;
 }

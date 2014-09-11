@@ -30,6 +30,9 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  if ([super skillCalledWithTrigger:trigger])
+    return YES;
+  
   if (trigger == SkillTriggerPointEndOfPlayerMove)
   {
     if ([self skillIsReady])

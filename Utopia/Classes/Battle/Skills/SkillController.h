@@ -17,12 +17,13 @@
 
 // Skill triggers
 typedef enum {
-  SkillTriggerPointEnemyAppeared    = 1,
-  SkillTriggerPointEnemyDefeated    = 2,
-  SkillTriggerPointPlayerAppeared   = 3,
-  SkillTriggerPointEndOfPlayerMove  = 4,
-  SkillTriggerPointStartOfPlayerTurn = 5,
-  SkillTriggerPointStartOfEnemyTurn = 6
+  SkillTriggerPointEnemyInitialized   = 1,
+  SkillTriggerPointPlayerInitialized  = 2,
+  SkillTriggerPointEnemyAppeared      = 3,
+  SkillTriggerPointEnemyDefeated      = 4,
+  SkillTriggerPointEndOfPlayerMove    = 5,
+  SkillTriggerPointStartOfPlayerTurn  = 6,
+  SkillTriggerPointStartOfEnemyTurn   = 7
   
 } SkillTriggerPoint;
 
@@ -36,6 +37,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
+  UIImageView*          _characterImage;
 }
 
 @property (readonly) SkillType            skillType;
@@ -48,6 +50,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @property (weak, nonatomic) BattleSprite    *enemySprite;
 
 @property (assign, nonatomic) BOOL          belongsToPlayer;
+@property (assign, nonatomic) BOOL          shouldExecuteInitialAction; // is set to NO if was serialized
 
 @property (readonly) OrbColor orbColor;
 
@@ -56,7 +59,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 
 // External callers
 - (BOOL) skillIsReady;
-- (void) orbDestroyed:(OrbColor)color;
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
 - (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 

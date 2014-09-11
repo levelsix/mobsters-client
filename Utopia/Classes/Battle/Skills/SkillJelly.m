@@ -40,6 +40,9 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  if ([super skillCalledWithTrigger:trigger])
+    return YES;
+  
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
     [self showSkillPopupOverlayWithCompletion:^{
@@ -154,6 +157,5 @@
   
   return YES;
 }
-
 
 @end

@@ -12,90 +12,113 @@
 
 @implementation BattleSchedule
 
-- (id) initWithBattlePlayerA:(BattlePlayer *)bpA battlePlayerB:(BattlePlayer *)bpB justSwapped:(BOOL)justSwapped {
-  if ((self = [super init])) {
-    NSMutableArray *sch = [NSMutableArray array];
+- (void) createScheduleForPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order
+{
+  NSMutableArray *sch = [NSMutableArray array];
+  
+  if (!speedA || !speedB) {
+    [sch addObject:@YES];
+    [sch addObject:@NO];
     
-    if (!bpA.speed || !bpB.speed) {
-      [sch addObject:@YES];
-      [sch addObject:@NO];
-      
-      LNLog(@"Cannot create proper schedule. Using default..");
+    LNLog(@"Cannot create proper schedule. Using default..");
+  } else {
+    int numInterleavings = MIN(speedA, speedB);
+    
+    // If its a swap, B always gets to go first
+    BOOL firstAttackerIsA;
+    switch (order)
+    {
+      case ScheduleFirstTurnPlayer: firstAttackerIsA = YES; break;
+      case ScheduleFirstTurnEnemy: firstAttackerIsA = NO; break;
+      case ScheduleFirstTurnRandom: firstAttackerIsA = [self chooseFirstAttackerWithSpeedA:speedA speedB:speedB]; break;
+    }
+    
+    int numBpA = 1, numBpB = 1;
+    if (speedA < speedB) {
+      numBpB = speedB/speedA;
     } else {
-      int speedA = bpA.speed, speedB = bpB.speed;
-      int numInterleavings = MIN(speedA, speedB);
-      
-      // If its a swap, B always gets to go first
-      BOOL firstAttackerIsA = justSwapped ? NO : [self chooseFirstAttackerWithSpeedA:speedA speedB:speedB];
-      int numBpA = 1, numBpB = 1;
-      if (speedA < speedB) {
-        numBpB = speedB/speedA;
+      numBpA = speedA/speedB;
+    }
+    
+    // Add the initial interleaving
+    // Whoever is first attacker will be placed into queue first
+    for (int i = 0; i < numInterleavings; i++) {
+      if (firstAttackerIsA) {
+        for (int j = 0; j < numBpA; j++) {
+          [sch addObject:@YES];
+        }
+        for (int j = 0; j < numBpB; j++) {
+          [sch addObject:@NO];
+        }
       } else {
-        numBpA = speedA/speedB;
+        for (int j = 0; j < numBpB; j++) {
+          [sch addObject:@NO];
+        }
+        for (int j = 0; j < numBpA; j++) {
+          [sch addObject:@YES];
+        }
       }
       
-      // Add the initial interleaving
-      // Whoever is first attacker will be placed into queue first
+      speedA -= numBpA;
+      speedB -= numBpB;
+    }
+    
+    // Now we place the leftovers into the initial slots
+    int numLeft = MAX(speedA, speedB);
+    BOOL val = speedA ? YES : NO;
+    BOOL firstAttkIsVal = speedA ? firstAttackerIsA : !firstAttackerIsA;
+    int numToSkip = speedA ? numBpB : numBpA;
+    
+    if (numLeft) {
+      // Choose the interleavings
+      NSMutableArray *arr = [NSMutableArray array];
       for (int i = 0; i < numInterleavings; i++) {
-        if (firstAttackerIsA) {
-          for (int j = 0; j < numBpA; j++) {
-            [sch addObject:@YES];
-          }
-          for (int j = 0; j < numBpB; j++) {
-            [sch addObject:@NO];
-          }
-        } else {
-          for (int j = 0; j < numBpB; j++) {
-            [sch addObject:@NO];
-          }
-          for (int j = 0; j < numBpA; j++) {
-            [sch addObject:@YES];
-          }
-        }
-        
-        speedA -= numBpA;
-        speedB -= numBpB;
+        [arr addObject:@(i)];
       }
+      [arr shuffle];
+      NSArray *slots = [arr subarrayWithRange:NSMakeRange(0, numLeft)];
+      slots = [slots sortedArrayUsingSelector:@selector(compare:)];
       
-      // Now we place the leftovers into the initial slots
-      int numLeft = MAX(speedA, speedB);
-      BOOL val = speedA ? YES : NO;
-      BOOL firstAttkIsVal = speedA ? firstAttackerIsA : !firstAttackerIsA;
-      int numToSkip = speedA ? numBpB : numBpA;
-      
-      if (numLeft) {
-        // Choose the interleavings
-        NSMutableArray *arr = [NSMutableArray array];
-        for (int i = 0; i < numInterleavings; i++) {
-          [arr addObject:@(i)];
-        }
-        [arr shuffle];
-        NSArray *slots = [arr subarrayWithRange:NSMakeRange(0, numLeft)];
-        slots = [slots sortedArrayUsingSelector:@selector(compare:)];
-        
-        for (NSNumber *num in slots.reverseObjectEnumerator) {
-          int slot = num.intValue;
-          int idx = slot * (numBpA + numBpB) + (firstAttkIsVal ? 0 : numToSkip);
-          [sch insertObject:@(val) atIndex:idx];
-        }
+      for (NSNumber *num in slots.reverseObjectEnumerator) {
+        int slot = num.intValue;
+        int idx = slot * (numBpA + numBpB) + (firstAttkIsVal ? 0 : numToSkip);
+        [sch insertObject:@(val) atIndex:idx];
       }
     }
-    
-    NSMutableString *str = [NSMutableString stringWithFormat:@""];
-    for (NSNumber *n in sch) {
-      [str appendFormat:@"%@ ", n];
-    }
-    //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
-    //LNLog(@"%@", str);
-    
-    self.schedule = sch;
-    
+  }
+  
+  NSMutableString *str = [NSMutableString stringWithFormat:@""];
+  for (NSNumber *n in sch) {
+    [str appendFormat:@"%@ ", n];
+  }
+  //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
+  //LNLog(@"%@", str);
+  
+  self.schedule = sch;
+  
+  if (order == ScheduleFirstTurnRandom)
+  {
+    _currentIndex = arc4random() % self.schedule.count;
+  }
+  else if (order == ScheduleFirstTurnEnemy)
+  {
     do {
       _currentIndex = arc4random() % self.schedule.count;
-    } while (justSwapped && [self.schedule[_currentIndex] boolValue]);
+    } while ([self.schedule[_currentIndex] boolValue]);
+  }
+  else if (order == ScheduleFirstTurnPlayer)
+  {
+    _currentIndex = 0;  // For the Cake Drop special case.
+  }
+  
+  // Subtract 1 so it will be autoincremented in the next dequeue
+  _currentIndex--;
+}
+
+- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order {
+  if ((self = [super init])) {
     
-    // Subtract 1 so it will be autoincremented in the next dequeue
-    _currentIndex--;
+    [self createScheduleForPlayerA:speedA playerB:speedB andOrder:order];
   }
   return self;
 }

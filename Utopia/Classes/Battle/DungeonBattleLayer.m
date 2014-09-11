@@ -489,7 +489,8 @@
   
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
-    [dict setObject:@(self.battleSchedule.currentIndex) forKey:SCHEDULE_INDEX_KEY];
+    [dict setObject:@(self.battleSchedule.currentIndex + _firstTurn ? 1 : 0) forKey:SCHEDULE_INDEX_KEY];
+        // For the situation when user leaves before the first move has been dequeued
   }
   
   // Achievement info

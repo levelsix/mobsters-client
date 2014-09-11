@@ -9,6 +9,7 @@
 #import "StaticStructure.h"
 #import "GameState.h"
 #import "NewBattleLayer.h"
+#import "SkillCakeDrop.h"
 
 @implementation SkillManager
 
@@ -39,21 +40,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return 0;
 }
 
-- (BOOL) updatePlayerSkill
+- (void) updatePlayerSkill
 {
-  BOOL newPlayer = YES;
-  
   _player = _battleLayer.myPlayerObject;
-  _playerSprite = _battleLayer.myPlayer;
   _playerColor = OrbColorNone;
   _playerSkillType = SkillTypeNoSkill;
   _playerSkillController = nil;
   
   if (! _player)
-    return NO;
+    return;
   
   // Skill data
   NSInteger skillId = _player.offensiveSkillId;
+  //_cheatPlayerSkillType = SkillTypeQuickAttack;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   
@@ -65,7 +64,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (! playerSkillProto)
     {
       NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
-      return NO;
+      return;
     }
     else
     {
@@ -76,43 +75,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
   
-  if (_enemySkillController)
-    [self setDataForController:_enemySkillController];
-  if (_playerSkillController)
-    [self setDataForController:_playerSkillController];
-  
   // Deserialize if needed
   if (_playerSkillController && _playerSkillSerializedState)
   {
     [_playerSkillController deserialize:_playerSkillSerializedState];
     _playerSkillSerializedState = nil;
-    newPlayer = NO;
   }
-  
-  // Create indicator
-  [self createPlayerSkillIndicator];
-  
-  return newPlayer;
 }
 
-- (BOOL) updateEnemySkill
+- (void) updateEnemySkill
 {
-  BOOL newEnemy = YES;
-  
   _enemy = _battleLayer.enemyPlayerObject;
-  _enemySprite = _battleLayer.currentEnemy;
   _enemyColor = OrbColorNone;
   _enemySkillType = SkillTypeNoSkill;
   _enemySkillController = nil;
   
   if (!_enemy)
-    return NO;
+    return;
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
+  //_cheatEnemySkillType = SkillTypeCakeDrop; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
-  //skillId = 2;
   
   // Enemy skill
   if (skillId > 0)
@@ -122,7 +107,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if ( ! enemySkillProto )
     {
       NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
-      return NO;
+      return;
     }
     else
     {
@@ -133,24 +118,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
   
-  // Update data references
-  if (_enemySkillController)
-    [self setDataForController:_enemySkillController];
-  if (_playerSkillController)
-    [self setDataForController:_playerSkillController];
-  
   // Deserialize if needed
   if (_enemySkillController && _enemySkillSerializedState)
   {
     [_enemySkillController deserialize:_enemySkillSerializedState];
     _enemySkillSerializedState = nil;
-    newEnemy = NO;
   }
+}
+
+- (void) updateReferences
+{
+  _enemySprite = _battleLayer.currentEnemy;
+  _playerSprite = _battleLayer.myPlayer;
   
-  // Create indicator
-  [self createEnemySkillIndicator];
-  
-  return newEnemy;
+  if (_enemySkillController)
+    [self setDataForController:_enemySkillController];
+  if (_playerSkillController)
+    [self setDataForController:_playerSkillController];
 }
 
 - (void) setDataForController:(SkillController*)controller
@@ -173,12 +157,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _turnsCounter = 0;
 }
 
-- (void) orbDestroyed:(OrbColor)color
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   if (_playerSkillController)
-    [_playerSkillController orbDestroyed:color];
+    [_playerSkillController orbDestroyed:color special:type];
   if (_enemySkillController)
-    [_enemySkillController orbDestroyed:color];
+    [_enemySkillController orbDestroyed:color special:type];
   if (_skillIndicatorPlayer)
     [_skillIndicatorPlayer update];
   if (_skillIndicatorEnemy)
@@ -206,21 +190,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return;
 #endif*/
   
-  // Don't trigger player and enemy skills if they were just deserialized - to avoid double initial jelly spawn, etc
+  // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
   BOOL shouldTriggerEnemySkill = YES;
-  BOOL shouldTriggerPlayerSkill = YES;
   
-  // Update enemy
+  // Update enemy, part 1
+  if (trigger == SkillTriggerPointEnemyInitialized)
+  {
+    [self updateEnemySkill];
+    [self updateReferences];
+  }
+  
+  // Update enemy, part 2
   if (trigger == SkillTriggerPointEnemyAppeared)
-    shouldTriggerEnemySkill = [self updateEnemySkill];
+  {
+    [self createEnemySkillIndicator];
+    [self updateReferences];
+  }
   
   // Update player
-  if (trigger == SkillTriggerPointPlayerAppeared)
-    shouldTriggerPlayerSkill = [self updatePlayerSkill];
+  if (trigger == SkillTriggerPointPlayerInitialized)
+  {
+    [self updatePlayerSkill];
+    [self updateReferences];
+    [self createPlayerSkillIndicator];
+  }
   
   // Remove enemy indicator if enemy was defeated
-  if (trigger == SkillTriggerPointEnemyDefeated)
-    [self removeEnemySkillIndicator];
+  //if (trigger == SkillTriggerPointEnemyDefeated)
+  //  [self removeEnemySkillIndicator];
   
   // Skip first skill attack for an enemy
   if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
@@ -258,12 +255,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
-  if (_playerSkillController && shouldTriggerPlayerSkill)
+  if (_playerSkillController)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
   else
     newBlock();
+}
+
+- (BOOL) cakeKidSchedule
+{
+  return (_enemySkillController && [_enemySkillController isKindOfClass:[SkillCakeDrop class]]);
 }
 
 #pragma mark - UI
@@ -286,11 +288,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
 }
 
-- (void) removeEnemySkillIndicator
+/*- (void) removeEnemySkillIndicator
 {
   if (_skillIndicatorEnemy)
     [_skillIndicatorEnemy disappear];
-}
+}*/
 
 - (void) createPlayerSkillIndicator
 {

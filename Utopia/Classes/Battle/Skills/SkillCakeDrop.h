@@ -16,6 +16,10 @@
   float     _initialSpeed;
   float     _speedMultiplier;
   float     _cakeChance;
+  float     _damage;
+  
+  // Counters
+  float     _currentSpeed;
 }
 
 @end

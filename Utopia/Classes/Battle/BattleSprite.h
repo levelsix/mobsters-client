@@ -53,7 +53,7 @@
 - (void) faceNearWithoutUpdate;
 - (void) faceFarWithoutUpdate;
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn target:(id)target selector:(SEL)selector;
 - (void) performFarAttackAnimationWithStrength:(float)strength enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
 
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;

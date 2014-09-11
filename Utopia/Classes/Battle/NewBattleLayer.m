@@ -218,8 +218,14 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (self.myPlayerObject && self.enemyPlayerObject) {
-    BattleSchedule *sched = [[BattleSchedule alloc] initWithBattlePlayerA:self.myPlayerObject battlePlayerB:self.enemyPlayerObject justSwapped:swap];
-    self.battleSchedule = sched;
+    
+    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    
+    // Cake kid mechanics handling and creating schedule
+    if ([skillManager cakeKidSchedule])
+      order = ScheduleFirstTurnPlayer;
+    if (! swap || ! [skillManager cakeKidSchedule]) // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
+      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order];
     
     _shouldDisplayNewSchedule = YES;
   } else {
@@ -380,6 +386,11 @@
     nil]];
 }
 
+- (NSInteger) stagesLeft
+{
+  return self.enemyTeam.count - _curStage - 1;
+}
+
 - (void) moveToNextEnemy {
   [self.hudView removeButtons];
   
@@ -435,7 +446,9 @@
   if (self.enemyTeam.count > _curStage) {
     self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
     
-    [self createScheduleWithSwap:NO];
+    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^() {
+      [self createScheduleWithSwap:NO];
+    }];
   } else {
     self.enemyPlayerObject = nil;
   }
@@ -498,6 +511,13 @@
 
 - (void) beginNextTurn {
   
+  // Enemy could be reset during Cake Drop explosion
+  if (! _currentEnemy)
+  {
+    [self moveToNextEnemy];
+    return;
+  }
+  
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
@@ -526,7 +546,6 @@
     // Trigger skills for when new enemy joins the battle
     if (_firstTurn)
     {
-      _firstTurn = NO;
       [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^() {
         [self proceessNextTurn:shouldDelay];
       }];
@@ -538,6 +557,7 @@
 
 - (void) proceessNextTurn:(BOOL)shouldDelay
 {
+  _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
   if (nextMove) {
     [self beginMyTurn];
@@ -584,10 +604,16 @@
   // Skills trigger for enemy turn started
   [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^() {
     
-    _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-    _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-    [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
-    
+    if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
+    {
+      BOOL enemyIsKilled = [self checkEnemyHealth];
+      if (! enemyIsKilled)
+      {
+        _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+        _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+        [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+      }
+    }
   }];
 }
 
@@ -855,15 +881,18 @@
   }
 }
 
+- (NSInteger) playerMobstersLeft
+{
+  NSInteger result = 0;
+  for (BattlePlayer *bp in self.myTeam)
+    if (bp.curHealth > 0)
+      result++;
+  return result;
+}
+
 - (void) currentMyPlayerDied {
-  BOOL someoneIsAlive = NO;
-  for (BattlePlayer *bp in self.myTeam) {
-    if (bp.curHealth > 0) {
-      someoneIsAlive = YES;
-    }
-  }
   
-  if (someoneIsAlive) {
+  if ([self playerMobstersLeft] > 0) {
     [self displayDeployViewAndIsCancellable:NO];
   } else {
     [self youLost];
@@ -1415,7 +1444,7 @@
   _orbCounts[color]++;
   _totalOrbCounts[color]++;
   
-  [skillManager orbDestroyed:orb.orbColor];
+  [skillManager orbDestroyed:orb.orbColor special:orb.specialOrbType];
   
   // Update tile
   BattleTile* tile = [self.orbLayer.layout tileAtColumn:orb.column row:orb.row];
@@ -1526,7 +1555,7 @@
   
   if (self.enemyPlayerObject) {
     
-    // Here was SkillTriggerPointPlayerAppeared before we decided to show schedule before
+    // Here was SkillTriggerPointPlayerInitialized before we decided to show schedule before
     
     _hasStarted = YES;
     _reachedNextScene = YES;
@@ -1640,7 +1669,7 @@
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared
-    [skillManager triggerSkills:SkillTriggerPointPlayerAppeared withCompletion:^() {
+    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^() {
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
