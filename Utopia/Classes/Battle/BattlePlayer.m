@@ -29,6 +29,7 @@
     self.maxHealth = [gl calculateMaxHealthForMonster:monster];
     self.curHealth = MIN(self.maxHealth, monster.curHealth);
     self.element = mp.monsterElement;
+    self.level = monster.level;
     self.rarity = mp.quality;
     self.speed = [gl calculateSpeedForMonster:monster];
     self.fireDamage = [gl calculateElementalDamageForMonster:monster element:ElementFire];
@@ -136,6 +137,18 @@
     float amt = self.lowerBound+(rand*(self.upperBound-self.lowerBound));
     return amt*self.totalAttackPower*NUM_MOVES_PER_TURN;
   }
+}
+
+- (UserMonster*) getIncompleteUserMonster
+{
+  UserMonster* monster = [[UserMonster alloc] init];
+  
+  monster.monsterId = self.monsterId;
+  monster.curHealth = self.curHealth;
+  monster.level = self.level;
+  monster.offensiveSkillId = self.offensiveSkillId;
+  monster.defensiveSkillId = self.defensiveSkillId;
+  return monster;
 }
 
 @end

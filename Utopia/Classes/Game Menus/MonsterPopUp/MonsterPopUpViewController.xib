@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -11,6 +11,7 @@
                 <outlet property="avatarButton" destination="kkH-Yh-Jb1" id="cql-z9-UQm"/>
                 <outlet property="backButtonView" destination="cuZ-cY-UIH" id="fe7-yt-r6R"/>
                 <outlet property="bgdView" destination="lMC-OL-ZPt" id="r7s-WG-LKM"/>
+                <outlet property="buttonsContainer" destination="27D-X9-wi5" id="lu9-AN-Hry"/>
                 <outlet property="container" destination="Jaw-hG-ITL" id="VWy-Vc-kJy"/>
                 <outlet property="descriptionView" destination="yeT-bI-41d" id="Z32-mw-zTP"/>
                 <outlet property="earthView" destination="Zyf-r6-sln" id="ybO-55-LpY"/>
@@ -31,7 +32,6 @@
                 <outlet property="protectedButton" destination="j2O-jp-6fS" id="EUb-FR-EXO"/>
                 <outlet property="rarityTag" destination="Ubv-eZ-E9j" id="RfK-T2-c9x"/>
                 <outlet property="rockView" destination="eRb-l0-Hoh" id="wCi-CZ-shD"/>
-                <outlet property="sellButtonView" destination="27D-X9-wi5" id="Ioi-L4-rAC"/>
                 <outlet property="speedLabel" destination="PF7-bJ-lcr" id="kC2-ci-d2P"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="waterView" destination="ouW-th-ZhY" id="2Vp-r6-dWw"/>

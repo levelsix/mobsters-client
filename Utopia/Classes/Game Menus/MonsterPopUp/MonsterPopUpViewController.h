@@ -58,9 +58,6 @@
 @property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;
 
-@property (nonatomic, strong) IBOutlet UILabel *sellLabel;
-@property (nonatomic, strong) IBOutlet UIView *sellButtonView;
-
 @property (nonatomic, strong) UserMonster *monster;
 
 - (id)initWithMonsterProto:(UserMonster *)monster;

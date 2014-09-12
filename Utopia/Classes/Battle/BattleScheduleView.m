@@ -43,7 +43,7 @@
   }];
 }
 
-- (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands {
+- (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands playerTurns:(NSArray*)playerTurns{
   NSMutableArray *oldArr = self.monsterViews;
   
   // If it was hidden just remove all the old monster views
@@ -58,10 +58,12 @@
   for (int i = 0; i < ordering.count; i++) {
     NSNumber *num = ordering[i];
     NSNumber *enemyBand = showEnemyBands[i];
+    NSNumber *playersTurn = playerTurns[i];
     
     int monsterId = num.intValue;
     BOOL showEnemyBand = enemyBand.boolValue;
-    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand];
+    BOOL isPlayersTurn = playersTurn.boolValue;
+    MiniMonsterView *mmv = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:isPlayersTurn];
     [self.monsterViews addObject:mmv];
     
     if (i < oldArr.count) {
@@ -95,9 +97,9 @@
     [self bounceView:self.monsterViews[0]];
 }
 
-- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand {
+- (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player{
   MiniMonsterView *first = [self.monsterViews firstObject];
-  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand];
+  MiniMonsterView *new = [self monsterViewForMonsterId:monsterId showEnemyBand:showEnemyBand player:player];
   
   [self.monsterViews removeObject:first];
   [self.monsterViews addObject:new];
@@ -140,7 +142,7 @@
              self.containerView.frame.size.height/2);
 }
 
-- (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand {
+- (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player {
   MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
   
@@ -161,6 +163,17 @@
     label.shadowOffset = CGSizeMake(0, 1);
     label.text = @"ENEMY";
     [mmv addSubview:label];
+  }
+  
+  // Button to activate mobster window
+  if (self.delegate)
+  {
+    MaskedButton *button = [[MaskedButton alloc] initWithFrame:mmv.bgdIcon.frame];
+    button.baseImage = mmv.bgdIcon;
+    button.tag = player;
+    [button remakeImage];
+    [button addTarget:self.delegate action:@selector(mobsterViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [mmv addSubview:button];
   }
   
   return mmv;

@@ -25,6 +25,7 @@
 #import "GameCenterDelegate.h"
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
+#import <Crashlytics/Crashlytics.h>
 
 #import "TangoDelegate.h"
 
@@ -120,6 +121,9 @@
   [self setUpKamcord:nav];
   
   [self registerAppOpen];
+  
+  // Crashlytics
+  [Crashlytics startWithAPIKey:@"5001803420c4d8732cf317109988902188f28beb"];
   
   [self removeLocalNotifications];
   
