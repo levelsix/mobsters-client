@@ -34,7 +34,7 @@
   _orbColor = color;
   _skillType = proto.type;
   _activationType = proto.activationType;
-  _shouldExecuteInitialAction = YES;
+  _executedInitialAction = NO;
   
   // Properties
   [self setDefaultValues];
@@ -79,15 +79,16 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  _currentTrigger = trigger;
+  
   // Cache image if needed
   if (! _characterImage)
     [self prepareCharacterImage];
 
   // Skip initial attack (if deserialized)
-  if (! _shouldExecuteInitialAction && trigger == SkillTriggerPointEnemyAppeared)
+  if (trigger == SkillTriggerPointEnemyAppeared && _executedInitialAction)
   {
     _callbackBlock();
-    _shouldExecuteInitialAction = YES;
     return YES;
   }
   
@@ -96,12 +97,16 @@
 
 - (void) skillTriggerFinished
 {
+  if (_currentTrigger == SkillTriggerPointEnemyAppeared)
+    _executedInitialAction = YES;
+  
   if (_popupOverlay)
   {
-    [_popupOverlay hide];
+    [self hideSkillPopupOverlayInternal];
     _popupOverlay = nil;
   }
-  _callbackBlock();
+  else
+    _callbackBlock();
 }
 
 - (void) setDefaultValues
@@ -127,12 +132,44 @@
 
 - (void) showSkillPopupOverlayInternal
 {
+  // Create overlay
   GameViewController *gvc = [GameViewController baseController];
   UIView *parentView = gvc.view;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   [parentView addSubview:_popupOverlay];
   _popupOverlay.origin = CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2);
   [_popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];
+  
+  // Hide pieces of battle hud
+  if (self.belongsToPlayer)
+  {
+    [UIView animateWithDuration:0.1 animations:^{
+      self.battleLayer.hudView.bottomView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      self.battleLayer.hudView.bottomView.hidden = YES;
+    }];
+  }
+}
+
+- (void) hideSkillPopupOverlayInternal
+{
+  // Restore pieces of the battle hud in a block
+  SkillControllerBlock newCompletion = ^(){
+    
+    if (self.belongsToPlayer)
+    {
+      self.battleLayer.hudView.bottomView.hidden = NO;
+      self.battleLayer.hudView.bottomView.alpha = 0.0;
+      [UIView animateWithDuration:0.1 animations:^{
+        self.battleLayer.hudView.bottomView.alpha = 1.0;
+      }];
+    }
+    
+    _callbackBlock();
+  };
+  
+  // Hide overlay
+  [_popupOverlay hideWithCompletion:newCompletion];
 }
 
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion
@@ -157,7 +194,7 @@
 
 - (NSDictionary*) serialize
 {
-  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", nil];
 }
 
 - (BOOL) deserialize:(NSDictionary*)dict
@@ -171,9 +208,24 @@
     if (_skillType != [dict[@"skillType"] integerValue])
       return NO;
   
-  _shouldExecuteInitialAction = NO;
+  // Keeping track of initialization flag so we won't cast initial skill stage again if player reopens the battle
+  if (dict[@"initialized"])
+    if ([dict[@"initialized"] boolValue])
+      _executedInitialAction = YES;
   
   return YES;
+}
+
+#pragma mark - Helpers
+
+- (void) preseedRandomization
+{
+  // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
+  NSInteger seed = 0;
+  for (NSInteger n = 0; n < self.battleLayer.orbLayer.layout.numColumns; n++)
+    for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
+      seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
+  srand(seed);
 }
 
 @end

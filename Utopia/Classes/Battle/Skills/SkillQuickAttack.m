@@ -37,6 +37,7 @@
   {
     if ([self skillIsReady])
     {
+      [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
       [self showSkillPopupOverlay:YES withCompletion:^{
         [self dealQuickAttack];
       }];
@@ -52,7 +53,7 @@
 - (void) dealQuickAttack
 {
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(callbackForAnimation)];
+  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
   
   // Show attack label
   /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
@@ -70,10 +71,17 @@
                             nil]];
 }
 
-- (void) callbackForAnimation
+- (void) dealQuickAttack1
 {
   // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(skillTriggerFinished)];
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
+}
+
+- (void) dealQuickAttack2
+{
+  // Turn on the lights for the board and finish skill execution
+  [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self skillTriggerFinished];
 }
 
 @end

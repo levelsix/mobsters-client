@@ -23,5 +23,6 @@
 
 - (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands;
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand;
+- (void) bounceLastView;
 
 @end

@@ -51,15 +51,11 @@
 {
   if (type == SpecialOrbTypeCake)
   {
-    // Accelerate enemy
-    _currentSpeed *= _speedMultiplier;
-    self.enemy.speed = _currentSpeed;
-    
-    // Reset schedule
-    [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed playerB:self.enemy.speed andOrder:ScheduleFirstTurnPlayer];
-    
-    // Reload schedule UI
-    [self.battleLayer prepareScheduleView];
+    // Eat the cake animation
+    [self performAfterDelay:1.5 block:^{
+      self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
+      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES target:self selector:@selector(eatTheCake)];
+    }];
   }
 }
 
@@ -89,10 +85,6 @@
   // Initial cake spawn
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-/*      // Do nothing if there are some cakes already or start jumping and spawning otherwise
-      if ([self cakesOnBoardCount] > 0)
-        [self skillTriggerFinished];
-      else*/
     [self initialSequence];
     return YES;
   }
@@ -127,13 +119,19 @@
 // Adding cake
 - (void) initialSequence2
 {
-  // Calculate position
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  NSInteger column = arc4random_uniform(layout.numColumns);
-  NSInteger row = layout.numRows - 1;
-  
   // Replace one of the top orbs with a cake
-  BattleOrb* orb = [layout orbAtColumn:column row:row];
+  [self preseedRandomization];
+  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
+  BattleOrb* orb;
+  NSInteger column, row;
+  NSInteger counter = 0;
+  do {
+    column = rand() % layout.numColumns;
+    row = layout.numRows - 1;
+    orb = [layout orbAtColumn:column row:row];
+    counter++;
+  }
+  while (orb.specialOrbType != SpecialOrbTypeNone && counter < 8);
   orb.specialOrbType = SpecialOrbTypeCake;
   orb.orbColor = OrbColorNone;
   
@@ -175,8 +173,10 @@
   self.battleLayer.enemyDamageDealt = self.player.curHealth;
   self.player.curHealth = 0.0;
   
-  // Remove enemy sprite
-  [self.battleLayer blowupBattleSprite:self.enemySprite withBlock:^{}];
+  // Remove enemy sprite and destroy all cakes after that
+  [self.battleLayer blowupBattleSprite:self.enemySprite withBlock:^{
+    [self destroyAllCakes];
+  }];
   
   // Deal damage to the enemy and erase him/her
   self.enemy.curHealth = 0.0;
@@ -203,6 +203,19 @@
   }
   else
     [self.battleLayer checkMyHealth]; // Switch mobster and proceed to new enemy or fail if no mobsters left
+}
+
+- (void) eatTheCake
+{
+  // Accelerate enemy
+  _currentSpeed *= _speedMultiplier;
+  self.enemy.speed = _currentSpeed;
+  
+  // Reset schedule
+  [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed playerB:self.enemy.speed andOrder:ScheduleFirstTurnPlayer];
+  
+  // Reload schedule UI
+  [self.battleLayer prepareScheduleView];
 }
 
 - (void) destroyAllCakes

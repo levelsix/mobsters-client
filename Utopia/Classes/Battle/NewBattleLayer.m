@@ -547,6 +547,7 @@
     if (_firstTurn)
     {
       [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^() {
+        [self.hudView.battleScheduleView bounceLastView];
         [self proceessNextTurn:shouldDelay];
       }];
     }
@@ -893,7 +894,9 @@
 - (void) currentMyPlayerDied {
   
   if ([self playerMobstersLeft] > 0) {
-    [self displayDeployViewAndIsCancellable:NO];
+    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^() {
+      [self displayDeployViewAndIsCancellable:NO];
+    }];
   } else {
     [self youLost];
   }
@@ -1237,10 +1240,15 @@
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb {
   
+  BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
+  
   // Create random bezier
-  if (orb.orbColor != OrbColorNone) {
+  if (orb.orbColor != OrbColorNone || cake) {
     ccBezierConfig bez;
-    bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+    if (cake)
+      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
+    else
+      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
     CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
     
     // basePt1 is chosen with any y and x is between some neg num and approx .5
@@ -1253,14 +1261,26 @@
     float xScale = ccpDistance(initPoint, bez.endPosition);
     float yScale = (50+xScale/5)*(chooseRight?-1:1);
     float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
+    if (cake)
+    {
+      xScale = 1.0;
+      yScale = 1.0;
+      angle = 0.0;
+      basePt1 = ccp(-10.0, -50.0);
+      basePt2 = ccp(-100.0, -20.0);
+    }
     
     // Transforms are applied in reverse order!! So rotate, then scale
     CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMakeRotation(angle), xScale, yScale);
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
-    DestroyedOrb *dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.25f+xScale/600.f)) bezier:bez];
+    DestroyedOrb *dg;
+    if (cake)
+      dg = [[DestroyedOrb alloc] initWithCake];
+    else
+      dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
     [self.orbLayer addChild:dg z:10];
     dg.position = initPoint;
     [dg runAction:[CCActionSequence actions:move,
@@ -1476,6 +1496,10 @@
                              [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
       }
       
+      [self spawnRibbonForOrb:orb];
+    }
+    else if (orb.specialOrbType == SpecialOrbTypeCake)
+    {
       [self spawnRibbonForOrb:orb];
     }
   }

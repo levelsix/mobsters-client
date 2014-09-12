@@ -98,11 +98,7 @@
 - (void) spawnNextBatch
 {
   // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
-  NSInteger seed = 0;
-  for (NSInteger n = 0; n < self.battleLayer.orbLayer.layout.numColumns; n++)
-    for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
-      seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
-  srand(seed);
+  [self preseedRandomization];
   
   NSInteger counter = 500;  // Change it to enable batching, now it's disabled. Counter reflects the batch size (say, 3)
   if ( _spawnCounter < counter )

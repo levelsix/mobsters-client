@@ -71,13 +71,14 @@
   }];
 }
 
-- (void) hide
+- (void) hideWithCompletion:(SkillControllerBlock)completion
 {
   // Hide view
   [UIView animateWithDuration:0.3 delay:1.0 options:UIViewAnimationOptionCurveLinear animations:^{
     self.alpha = 0.0;
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
+    completion();
   }];
 }
 

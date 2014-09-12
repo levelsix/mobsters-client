@@ -21,9 +21,10 @@ typedef enum {
   SkillTriggerPointPlayerInitialized  = 2,
   SkillTriggerPointEnemyAppeared      = 3,
   SkillTriggerPointEnemyDefeated      = 4,
-  SkillTriggerPointEndOfPlayerMove    = 5,
-  SkillTriggerPointStartOfPlayerTurn  = 6,
-  SkillTriggerPointStartOfEnemyTurn   = 7
+  SkillTriggerPointPlayerMobDefeated  = 5,
+  SkillTriggerPointEndOfPlayerMove    = 6,
+  SkillTriggerPointStartOfPlayerTurn  = 7,
+  SkillTriggerPointStartOfEnemyTurn   = 8
   
 } SkillTriggerPoint;
 
@@ -40,6 +41,9 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
   SkillControllerBlock  _callbackBlockForPopup;
   UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;
+  
+  SkillTriggerPoint     _currentTrigger;
+  BOOL                  _executedInitialAction;
 }
 
 @property (readonly) SkillType            skillType;
@@ -52,7 +56,6 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @property (weak, nonatomic) BattleSprite    *enemySprite;
 
 @property (assign, nonatomic) BOOL          belongsToPlayer;
-@property (assign, nonatomic) BOOL          shouldExecuteInitialAction; // is set to NO if was serialized
 
 @property (readonly) OrbColor orbColor;
 
@@ -78,5 +81,8 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 // Serialization
 - (NSDictionary*) serialize;
 - (BOOL) deserialize:(NSDictionary*)dict;
+
+// Helpers
+- (void) preseedRandomization;
 
 @end

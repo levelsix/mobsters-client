@@ -129,8 +129,11 @@
 
 - (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row {
   
-  SpecialOrbType orbType = [skillManager generateSpecialOrb];
-  if (orbType == SpecialOrbTypeNone || row <= _numRows/2)
+  SpecialOrbType orbType = SpecialOrbTypeNone;
+  if (row > _numRows/2)
+    orbType = [skillManager generateSpecialOrb];
+  
+  if (orbType == SpecialOrbTypeNone)
   {
     *specialOrbType = SpecialOrbTypeNone;
     *orbColor = arc4random_uniform(_numColors) + OrbColorFire;

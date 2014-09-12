@@ -67,12 +67,14 @@
     if (i < oldArr.count) {
       MiniMonsterView *ommv = oldArr[i];
       
-      BOOL isLast = i == oldArr.count-1;
+      // Mikhail: now we jumping the current element right before the actual turn from the NewBattleLayer
+      // using bounceLastView. So no need for doing it here anymore. Left the code just in case
+      //BOOL isLast = i == oldArr.count-1;
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (self.numSlots-i-1)*0.05f*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [UIView transitionFromView:ommv toView:mmv duration:0.3 options:UIViewAnimationOptionTransitionFlipFromTop completion:^(BOOL finished) {
-          if (isLast) {
-            [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.2f];
-          }
+          //if (isLast) {
+          //  [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.2f];
+          //}
         }];
       });
     } else {
@@ -82,9 +84,15 @@
       [v addSubview:mmv];
       [self.containerView addSubview:v];
       
-      [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.3f];
+      //[self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.3f];
     }
   }
+}
+
+- (void) bounceLastView
+{
+  if (self.monsterViews && self.monsterViews.count > 0)
+    [self bounceView:self.monsterViews[0]];
 }
 
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand {
@@ -108,7 +116,7 @@
     first.superview.center = ccp(first.superview.center.x, -first.superview.frame.size.height/2);
     first.superview.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self bounceView:self.monsterViews[0]];
+    [self bounceLastView];
     
     [first.superview removeFromSuperview];
   }];
