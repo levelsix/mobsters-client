@@ -67,6 +67,8 @@
   }
   
   self.userMonstersGained = proto.updatedOrNewList;
+  self.itemIdGained = proto.userItem.itemId;
+  self.sectionName = proto.taskMapSectionName;
   
   [self sendAnalytics];
   
@@ -76,10 +78,16 @@
 }
 
 - (NSDictionary *) battleCompleteValues {
+  NSMutableDictionary *vals = [NSMutableDictionary dictionary];
   if (self.userMonstersGained.count) {
-    return @{BATTLE_USER_MONSTERS_GAINED_KEY: self.userMonstersGained};
+    vals[BATTLE_USER_MONSTERS_GAINED_KEY] = self.userMonstersGained;
   }
-  return nil;
+  
+  if (self.itemIdGained) {
+    vals[BATTLE_SECTION_COMPLETE_KEY] = @{BATTLE_SECTION_NAME_KEY: self.sectionName, BATTLE_SECTION_ITEM_KEY : @(self.itemIdGained)};
+  }
+  
+  return vals;
 }
 
 - (void) checkQuests {
@@ -133,8 +141,12 @@
 }
 
 - (float) runAwayChance {
+#ifdef DEBUG
+  return 1.f;
+#else
   Globals *gl = [Globals sharedGlobals];
   return gl.battleRunAwayBasePercent+_numAttemptedRunaways*gl.battleRunAwayIncrement;
+#endif
 }
 
 - (void) attemptRunaway {

@@ -41,7 +41,7 @@
     ItemProto *item = [gs itemForId:reward.itemId];
     imgName = item.imgName;
     labelName = item.name;
-    color = [Globals creamColor];
+    color = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f];
   }
   
   if ((self = [super init])) {
@@ -52,7 +52,7 @@
     CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:@"GothamBlack" fontSize:13.f];
     label.color = [CCColor colorWithUIColor:color];
     [self addChild:label];
-    label.position = ccp(0, -20);
+    label.position = ccp(0, -25);
   }
   return self;
 }

@@ -19,6 +19,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
@@ -531,6 +532,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCurTaskStagesList;
 @property (retain) NSMutableArray* mutableUserAchievementsList;
 @property (retain) NSMutableArray* mutableUserMiniJobProtosList;
+@property (retain) NSMutableArray* mutableUserItemsList;
 @end
 
 @implementation StartupResponseProto
@@ -675,6 +677,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableCurTaskStagesList;
 @synthesize mutableUserAchievementsList;
 @synthesize mutableUserMiniJobProtosList;
+@synthesize mutableUserItemsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -711,6 +714,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableCurTaskStagesList = nil;
   self.mutableUserAchievementsList = nil;
   self.mutableUserMiniJobProtosList = nil;
+  self.mutableUserItemsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -907,6 +911,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserMiniJobProtosList objectAtIndex:index];
   return value;
 }
+- (NSArray*) userItemsList {
+  return mutableUserItemsList;
+}
+- (UserItemProto*) userItemsAtIndex:(int32_t) index {
+  id value = [mutableUserItemsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1027,6 +1038,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserMiniJobProto* element in self.userMiniJobProtosList) {
     [output writeMessage:39 value:element];
+  }
+  for (UserItemProto* element in self.userItemsList) {
+    [output writeMessage:40 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1173,6 +1187,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserMiniJobProto* element in self.userMiniJobProtosList) {
     size += computeMessageSize(39, element);
+  }
+  for (UserItemProto* element in self.userItemsList) {
+    size += computeMessageSize(40, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6513,6 +6530,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableUserMiniJobProtosList addObjectsFromArray:other.mutableUserMiniJobProtosList];
   }
+  if (other.mutableUserItemsList.count > 0) {
+    if (result.mutableUserItemsList == nil) {
+      result.mutableUserItemsList = [NSMutableArray array];
+    }
+    [result.mutableUserItemsList addObjectsFromArray:other.mutableUserItemsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6776,6 +6799,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserMiniJobProto_Builder* subBuilder = [UserMiniJobProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserMiniJobProtos:[subBuilder buildPartial]];
+        break;
+      }
+      case 322: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserItems:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7822,6 +7851,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableUserMiniJobProtosList = [NSMutableArray array];
   }
   [result.mutableUserMiniJobProtosList addObject:value];
+  return self;
+}
+- (NSArray*) userItemsList {
+  if (result.mutableUserItemsList == nil) { return [NSArray array]; }
+  return result.mutableUserItemsList;
+}
+- (UserItemProto*) userItemsAtIndex:(int32_t) index {
+  return [result userItemsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserItemsAtIndex:(int32_t) index with:(UserItemProto*) value {
+  [result.mutableUserItemsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserItems:(NSArray*) values {
+  if (result.mutableUserItemsList == nil) {
+    result.mutableUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableUserItemsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserItemsList {
+  result.mutableUserItemsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserItems:(UserItemProto*) value {
+  if (result.mutableUserItemsList == nil) {
+    result.mutableUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableUserItemsList addObject:value];
   return self;
 }
 @end

@@ -47,6 +47,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myObstacles = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
     _myMiniJobs = [[NSMutableArray alloc] init];
+    _myItems = [[NSMutableArray alloc] init];
     _myQuests = [[NSMutableDictionary alloc] init];
     _myAchievements = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
@@ -310,7 +311,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     NSInteger index = [self.myMonsters indexOfObject:um];
     if (index != NSNotFound) {
       [self.myMonsters replaceObjectAtIndex:index withObject:um];
-      NSLog(@"Found matching user monster..");
+      LNLog(@"Found matching user monster..");
     } else {
       [self.myMonsters addObject:um];
     }
@@ -391,6 +392,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self.myMiniJobs addObject:[UserMiniJob userMiniJobWithProto:p]];
   }
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+}
+
+- (void) addToMyItems:(NSArray *)items {
+  for (UserItemProto *p in items) {
+    UserItem *ui = [UserItem userItemWithProto:p];
+    NSInteger index = [self.myMonsters indexOfObject:ui];
+    if (index != NSNotFound) {
+      [self.myItems replaceObjectAtIndex:index withObject:ui];
+      LNLog(@"Found matching user item..");
+    } else {
+      [self.myItems addObject:ui];
+    }
+  }
 }
 
 - (void) addToStaticLevelInfos:(NSArray *)lurep {
@@ -1149,6 +1163,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return self.shieldEndTime.timeIntervalSinceNow > 0;
 }
 
+- (BOOL) hasDailyFreeSpin {
+  // Daily spin
+  if (self.lastFreeGachaSpin) {
+    // Midnight date
+    MSDate *date = [MSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [gregorian components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date.relativeNSDate];
+    NSDate *lastMidnight = [gregorian dateFromComponents:comps];
+    
+    return [self.lastFreeGachaSpin.relativeNSDate compare:lastMidnight] == NSOrderedAscending;
+  } else {
+    return YES;
+  }
+}
+
+- (int) numberOfFreeSpinsForBoosterPack:(int)boosterPackId {
+  int numSpins = 0;
+  for (UserItem *ui in self.myItems) {
+    ItemProto *ip = ui.staticItem;
+    if (ip.itemType == ItemTypeBoosterPack && ip.staticDataId == boosterPackId) {
+      numSpins += ui.quantity;
+    }
+  }
+  return numSpins;
+}
+
 #pragma mark -
 #pragma mark Healing Timer
 
@@ -1187,8 +1227,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (arr.count > 0) {
-    [self saveHealthProgressesFromIndex:0];
     [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
+    [self saveHealthProgressesFromIndex:0];
     [self readjustAllMonsterHealingProtos];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];

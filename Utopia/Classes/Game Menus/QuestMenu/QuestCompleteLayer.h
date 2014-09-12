@@ -13,6 +13,8 @@
 
 @interface QuestRewardNode : CCNode
 
+- (id) initWithReward:(Reward *)reward;
+
 @end
 
 @class QuestCompleteLayer;

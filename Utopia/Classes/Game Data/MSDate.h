@@ -23,6 +23,8 @@
 // This is the date with delta applied.
 - (NSDate *) relativeNSDate;
 // This is the actual date relative to phone's current date. (Should only really be used for local notifications.)
+// i.e. if phone time is Jan 1 and server time is Jan 3, and this date represents Jan 4 in game time, this method
+// will return Jan 2.
 - (NSDate *) actualNSDate;
 
 + (MSDate *) date;

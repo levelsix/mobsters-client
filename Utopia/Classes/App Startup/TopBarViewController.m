@@ -102,7 +102,8 @@
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
-  [self updateShopBadge];
+  // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
+  self.shopBadge.alpha = [self updateShopBadge] ? 0.f : 1.f;
   
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -131,6 +132,11 @@
     r.size.width = self.view.frame.size.width-r.origin.x;
     self.coinBarsView.frame = r;
   }
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  // Have to do it again since animation gets cancelled otherwise
+  [self updateShopBadge] ? [self animateShopBadge] : [self stopAnimatingShopBadge];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -175,20 +181,75 @@
   [self.chatBottomView reloadDataAnimated];
 }
 
-- (void) updateShopBadge {
+// Will return whether or not it should animate
+- (BOOL) updateShopBadge {
   Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
 
-  NSInteger bonusGachas = [gl calculateFreeGachasCount];
-  if ( bonusGachas > 0 )
-  {
-    self.shopBadge.badgeNum = bonusGachas;
+  BOOL dailyFreeSpin = [gs hasDailyFreeSpin];
+  int numGoodSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[1] boosterPackId]];
+  int numBadSpins = [gs numberOfFreeSpinsForBoosterPack:[gs.boosterPacks[0] boosterPackId]];
+  
+  if (dailyFreeSpin) {
+    self.shopBadge.badgeNum = 1;
+    self.shopBadgeImage.image = [Globals imageNamed:@"bluenotificationbubble.png"];
+    return YES;
+  }
+  else if (numGoodSpins) {
+    self.shopBadge.badgeNum = numGoodSpins;
+    self.shopBadgeImage.image = [Globals imageNamed:@"pinknotificationbubble.png"];
+  }
+  else if (numBadSpins) {
+    self.shopBadge.badgeNum = numBadSpins;
     self.shopBadgeImage.image = [Globals imageNamed:@"bluenotificationbubble.png"];
   }
-  else
-  {
+  else {
     self.shopBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
     self.shopBadgeImage.image = [Globals imageNamed:@"badgeicon.png"];
   }
+  return NO;
+}
+
+- (void) animateShopBadge {
+  [self stopAnimatingShopBadge];
+  
+  float scale = 3.f;
+  self.shopBadge.transform = CGAffineTransformMakeScale(scale, scale);
+  self.shopBadge.alpha = 0.f;
+  [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.shopBadge.alpha = 1.f;
+    self.shopBadge.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      [self rotateShopBadge];
+    }
+  }];
+}
+
+- (void) rotateShopBadge {
+  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  // Divide by 2 to account for autoreversing
+  int repeatCt = 3;
+  float rotationAmt = M_PI/7;
+  [animation setDuration:0.05];
+  [animation setRepeatCount:repeatCt];
+  [animation setAutoreverses:YES];
+  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+  [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
+  [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
+  [animation setDelegate:self];
+  [animation setBeginTime:CACurrentMediaTime()+5.f];
+  [self.shopBadge.layer addAnimation:animation forKey:@"rotation"];
+}
+
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  if (flag) {
+    [self rotateShopBadge];
+  }
+}
+
+- (void) stopAnimatingShopBadge {
+  [self.shopBadge.layer removeAllAnimations];
 }
 
 - (void) updateMailBadge {

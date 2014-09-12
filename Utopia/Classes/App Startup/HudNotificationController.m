@@ -36,11 +36,16 @@
 }
 
 - (void) addNotification:(id<TopBarNotification>)notification {
-  [self.notifications addObject:notification];
-  
-  [self.notifications sortUsingComparator:^NSComparisonResult(id<TopBarNotification> obj1, id<TopBarNotification> obj2) {
-    return [@([obj1 priority]) compare:@([obj2 priority])];
-  }];
+  // Immediate and first notifications should be added to the front of the list
+  if ([notification priority] == NotificationPriorityFirst || [notification priority] == NotificationPriorityImmediate) {
+    [self.notifications insertObject:notification atIndex:0];
+  } else {
+    [self.notifications addObject:notification];
+    
+    [self.notifications sortUsingComparator:^NSComparisonResult(id<TopBarNotification> obj1, id<TopBarNotification> obj2) {
+      return [@([obj1 priority]) compare:@([obj2 priority])];
+    }];
+  }
   
   // If the priority is immediate, then we want to display it right away even if paused.
   if ([notification priority] == NotificationPriorityImmediate) {

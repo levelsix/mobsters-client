@@ -1349,29 +1349,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return quantity;
 }
 
-- (int) calculateFreeGachasCount
-{
-  GameState *gs = [GameState sharedGameState];
-  NSInteger bonusGacha = 0;
-  
-  // Daily spin
-  if ( gs.lastFreeGachaSpin )
-  {
-    // Midnight date
-    MSDate *date = [MSDate date];
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *comps = [gregorian components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date.relativeNSDate];
-    NSDate *lastMidnight = [gregorian dateFromComponents:comps];
-    
-    if ( [gs.lastFreeGachaSpin.relativeNSDate compare:lastMidnight] == NSOrderedAscending )
-      bonusGacha++;
-  }
-  else
-    bonusGacha++;
-  
-  return bonusGacha;
-}
-
 - (int) calculateNumMinutesForNewExpansion {
   GameState *gs = [GameState sharedGameState];
   NSInteger totalExp = gs.userExpansions.count;

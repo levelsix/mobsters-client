@@ -81,11 +81,11 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 
 @interface PurchaseBoosterPackRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasFreeBoosterPack_:1;
+  BOOL hasDailyFreeBoosterPack_:1;
   BOOL hasClientTime_:1;
   BOOL hasBoosterPackId_:1;
   BOOL hasSender_:1;
-  BOOL freeBoosterPack_:1;
+  BOOL dailyFreeBoosterPack_:1;
   int64_t clientTime;
   int32_t boosterPackId;
   MinimumUserProto* sender;
@@ -93,11 +93,11 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasSender;
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasClientTime;
-- (BOOL) hasFreeBoosterPack;
+- (BOOL) hasDailyFreeBoosterPack;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t boosterPackId;
 @property (readonly) int64_t clientTime;
-- (BOOL) freeBoosterPack;
+- (BOOL) dailyFreeBoosterPack;
 
 + (PurchaseBoosterPackRequestProto*) defaultInstance;
 - (PurchaseBoosterPackRequestProto*) defaultInstance;
@@ -150,10 +150,10 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackRequestProto_Builder*) setClientTime:(int64_t) value;
 - (PurchaseBoosterPackRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasFreeBoosterPack;
-- (BOOL) freeBoosterPack;
-- (PurchaseBoosterPackRequestProto_Builder*) setFreeBoosterPack:(BOOL) value;
-- (PurchaseBoosterPackRequestProto_Builder*) clearFreeBoosterPack;
+- (BOOL) hasDailyFreeBoosterPack;
+- (BOOL) dailyFreeBoosterPack;
+- (PurchaseBoosterPackRequestProto_Builder*) setDailyFreeBoosterPack:(BOOL) value;
+- (PurchaseBoosterPackRequestProto_Builder*) clearDailyFreeBoosterPack;
 @end
 
 @interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {

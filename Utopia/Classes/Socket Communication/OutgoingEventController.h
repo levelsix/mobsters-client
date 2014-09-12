@@ -71,6 +71,7 @@
 - (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)userMonsterId curTeam:(NSArray *)curTeam;
 
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate;
+- (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;

@@ -1333,3 +1333,25 @@
 }
 
 @end
+
+@implementation UserItem
+
++ (id) userItemWithProto:(UserItemProto *)proto {
+  return [[UserItem alloc] initWithProto:proto];
+}
+
+- (id) initWithProto:(UserItemProto *)proto {
+  if ((self = [super init])) {
+    self.userId = proto.userId;
+    self.itemId = proto.itemId;
+    self.quantity = proto.quantity;
+  }
+  return self;
+}
+
+- (ItemProto *) staticItem {
+  GameState *gs = [GameState sharedGameState];
+  return [gs itemForId:self.itemId];
+}
+
+@end

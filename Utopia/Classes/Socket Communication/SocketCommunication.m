@@ -205,10 +205,13 @@ static NSString *udid = nil;
   _currentTagNum = arc4random();
   _shouldReconnect = YES;
   _numDisconnects = 0;
-  _isCreatingQueues = YES;
+  
+  _canSendRegularEvents = NO;
+  _canSendPreDbEvents = NO;
   
   self.structRetrievals = [NSMutableArray array];
   self.structRetrievalAchievements = [NSMutableDictionary dictionary];
+  _healingQueuePotentiallyChanged = NO;
   
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
@@ -223,7 +226,7 @@ static NSString *udid = nil;
 - (void) connectedToHost {
   LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
   
-  _isCreatingQueues = YES;
+  _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
@@ -242,7 +245,7 @@ static NSString *udid = nil;
   NSMutableArray *toRemove = [NSMutableArray array];
   for (FullEvent *fe in self.queuedMessages) {
     if ([self isPreDbEventType:fe.requestType]) {
-      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
+      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
       NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
       [toRemove addObject:fe];
     }
@@ -253,17 +256,17 @@ static NSString *udid = nil;
 }
 
 - (void) initUserIdMessageQueue {
-  _isCreatingQueues = YES;
+  _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
   [self.connectionThread startUserIdQueue];
 }
 
 - (void) connectedToUserIdQueue {
-  _isCreatingQueues = NO;
+  _canSendRegularEvents = YES;
   
   for (FullEvent *fe in self.queuedMessages) {
-    [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
+    [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
     NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
   }
   [self.queuedMessages removeAllObjects];
@@ -295,20 +298,14 @@ static NSString *udid = nil;
   return type == EventProtocolRequestCStartupEvent || type == EventProtocolRequestCUserCreateEvent;
 }
 
-- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum flush:(BOOL)flush {
-  if (flush) {
-    if ([self flush]) {
-      _lastFlushedTime = [NSDate date];
-    }
-  }
-  
+- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
   if (!_canSendPreDbEvents) {
     FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
     [self.queuedMessages addObject:fe];
     LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
     return;
   } else {
-    if (_isCreatingQueues) {
+    if (!_canSendRegularEvents) {
       if (![self isPreDbEventType:type]) {
         LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
         
@@ -352,10 +349,16 @@ static NSString *udid = nil;
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
+  if (flush) {
+    if ([self flush]) {
+      _lastFlushedTime = [NSDate date];
+    }
+  }
+  
   int tag = _currentTagNum;
   _currentTagNum++;
   _currentTagNum %= RAND_MAX;
-  [self sendData:msg withMessageType:type tagNum:tag flush:flush];
+  [self sendData:msg withMessageType:type tagNum:tag];
   return tag;
 }
 
@@ -865,11 +868,21 @@ static NSString *udid = nil;
   PurchaseBoosterPackRequestProto *req = [[[[[[PurchaseBoosterPackRequestProto builder]
                                               setSender:_sender]
                                              setBoosterPackId:boosterPackId]
-                                            setFreeBoosterPack:free]
+                                            setDailyFreeBoosterPack:free]
                                            setClientTime:clientTime]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseBoosterPackEvent];
+}
+
+- (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime {
+  TradeItemForBoosterRequestProto *req = [[[[[TradeItemForBoosterRequestProto builder]
+                                            setSender:_sender]
+                                           setItemId:itemId]
+                                          setClientTime:clientTime]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForBoosterEvent];
 }
 
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content {
@@ -1304,11 +1317,7 @@ static NSString *udid = nil;
                                    addAllUmchp:monsterHealths]
                                   build];
   
-  // Must manually flush in case heal is being batched
-  [self flush];
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  [self reloadHealQueueSnapshot];
   
   return tag;
 }
@@ -1322,8 +1331,6 @@ static NSString *udid = nil;
                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  [self reloadHealQueueSnapshot];
   
   return tag;
 }
@@ -1463,6 +1470,8 @@ static NSString *udid = nil;
   _flushTimer = nil;
   [self flush];
   [self.connectionThread end];
+  _canSendRegularEvents = NO;
+  _canSendPreDbEvents = NO;
 }
 
 @end

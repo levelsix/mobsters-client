@@ -150,11 +150,6 @@
   GameViewController *gvc = [GameViewController baseController];
   [gvc handleSignificantTimeChange];
   
-  
-#ifdef TOONSQUAD
-  [TangoDelegate attemptInitialLogin];
-#endif
-  
   [FacebookDelegate handleDidBecomeActive];
 }
 

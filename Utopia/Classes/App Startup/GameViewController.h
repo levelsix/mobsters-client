@@ -23,10 +23,11 @@
 #import "ClanViewController.h"
 #import "AttackMapViewController.h"
 #import "HudNotificationController.h"
+#import "StageCompleteNode.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate, ClanViewControllerDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate, ClanViewControllerDelegate, StageCompleteDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;

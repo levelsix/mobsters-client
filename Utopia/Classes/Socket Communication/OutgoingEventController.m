@@ -1187,6 +1187,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) tradeItemForFreeBoosterPack:(int)boosterPackId delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItem *item = nil;
+  for (UserItem *ui in gs.myItems) {
+    ItemProto *ip = ui.staticItem;
+    if (ip.itemType == ItemTypeBoosterPack && ip.staticDataId == boosterPackId && ui.quantity > 0) {
+      item = ui;
+    }
+  }
+  
+  if (!item) {
+    [Globals popupMessage:@"Attempting to get free booster pack without voucher."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForBoosterMessage:item.itemId clientTime:[self getCurrentMilliseconds]];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    item.quantity--;
+  }
+}
+
 #pragma mark - Dungeons
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
@@ -1673,6 +1694,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     // Remove after to let the queue update to not be affected
     [gs.monsterHealingQueue removeAllObjects];
+    [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs stopHealingTimer];
     
     [Analytics instantFinish:@"healWait" gemChange:-goldCost gemBalance:gs.gems];
@@ -1707,6 +1729,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   // Remove after to let the queue update to not be affected
   [gs.monsterHealingQueue removeObjectsInArray:healingItems];
+  [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   [gs beginHealingTimer];
 }
 

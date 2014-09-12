@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Task.pb.h"
@@ -21,6 +22,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
@@ -65,6 +68,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -433,11 +438,15 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasUserWon_:1;
   BOOL hasTaskId_:1;
+  BOOL hasTaskMapSectionName_:1;
   BOOL hasSender_:1;
+  BOOL hasUserItem_:1;
   BOOL hasStatus_:1;
   BOOL userWon_:1;
   int32_t taskId;
+  NSString* taskMapSectionName;
   MinimumUserProtoWithMaxResources* sender;
+  UserItemProto* userItem;
   EndDungeonResponseProto_EndDungeonStatus status;
   NSMutableArray* mutableUpdatedOrNewList;
 }
@@ -445,10 +454,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (BOOL) hasTaskId;
 - (BOOL) hasUserWon;
+- (BOOL) hasUserItem;
+- (BOOL) hasTaskMapSectionName;
 @property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
 @property (readonly) int32_t taskId;
 - (BOOL) userWon;
+@property (readonly, retain) UserItemProto* userItem;
+@property (readonly, retain) NSString* taskMapSectionName;
 - (NSArray*) updatedOrNewList;
 - (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
 
@@ -514,6 +527,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) userWon;
 - (EndDungeonResponseProto_Builder*) setUserWon:(BOOL) value;
 - (EndDungeonResponseProto_Builder*) clearUserWon;
+
+- (BOOL) hasUserItem;
+- (UserItemProto*) userItem;
+- (EndDungeonResponseProto_Builder*) setUserItem:(UserItemProto*) value;
+- (EndDungeonResponseProto_Builder*) setUserItemBuilder:(UserItemProto_Builder*) builderForValue;
+- (EndDungeonResponseProto_Builder*) mergeUserItem:(UserItemProto*) value;
+- (EndDungeonResponseProto_Builder*) clearUserItem;
+
+- (BOOL) hasTaskMapSectionName;
+- (NSString*) taskMapSectionName;
+- (EndDungeonResponseProto_Builder*) setTaskMapSectionName:(NSString*) value;
+- (EndDungeonResponseProto_Builder*) clearTaskMapSectionName;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {

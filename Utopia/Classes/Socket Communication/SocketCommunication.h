@@ -27,16 +27,12 @@
   NSTimer *_flushTimer;
   
   int _numDisconnects;
-  BOOL _isCreatingQueues;
+  BOOL _canSendRegularEvents;
   BOOL _canSendPreDbEvents;
   
   BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;
   int _healingQueueGemCost;
-  
-  BOOL _enhancementPotentiallyChanged;
-  int _enhanceQueueOilChange;
-  int _enhanceQueueGemCost;
   
   NSDate *_lastFlushedTime;
 }
@@ -132,6 +128,7 @@
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
+- (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime;
 
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;

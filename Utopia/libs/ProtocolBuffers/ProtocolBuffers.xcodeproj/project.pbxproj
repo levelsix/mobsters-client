@@ -416,7 +416,7 @@
 			name = UnitTests;
 			productName = UnitTests;
 			productReference = 7401C1A80F950347006D8281 /* UnitTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		7461B52D0F94FAF800A0C422 /* ProtocolBuffers */ = {
 			isa = PBXNativeTarget;
@@ -458,7 +458,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ProtocolBuffers" */;

@@ -162,6 +162,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;

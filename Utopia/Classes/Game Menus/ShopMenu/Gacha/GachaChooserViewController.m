@@ -70,11 +70,12 @@
 #pragma mark - List view delegate
 
 - (void) listView:(ListCollectionView *)listView updateCell:(GachaCardCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(BoosterPackProto *)bpp {
+  GameState *gs = [GameState sharedGameState];
   [Globals imageNamed:bpp.listBackgroundImgName withView:cell.mainButton greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   if (indexPath.row == 0)
-    [cell.badge instantlySetBadgeNum:[[Globals sharedGlobals] calculateFreeGachasCount]];
+    [cell.badge instantlySetBadgeNum:[gs hasDailyFreeSpin]+[gs numberOfFreeSpinsForBoosterPack:bpp.boosterPackId]];
   else
-    [cell.badge instantlySetBadgeNum:0];
+    [cell.badge instantlySetBadgeNum:[gs numberOfFreeSpinsForBoosterPack:bpp.boosterPackId]];
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {

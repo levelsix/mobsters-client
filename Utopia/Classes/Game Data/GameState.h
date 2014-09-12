@@ -83,6 +83,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 @property (nonatomic, retain) NSMutableDictionary *myAchievements;
 @property (nonatomic, retain) NSMutableArray *myMiniJobs;
+@property (nonatomic, retain) NSMutableArray *myItems;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
@@ -165,6 +166,7 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addToMiniJobs:(NSArray *)miniJobs;
+- (void) addToMyItems:(NSArray *)items;
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addPrivateChat:(PrivateChatPostProto *)post;
@@ -241,6 +243,8 @@
 - (PersistentClanEventUserInfoProto *) myClanRaidInfo;
 
 - (BOOL) hasActiveShield;
+- (BOOL) hasDailyFreeSpin;
+- (int) numberOfFreeSpinsForBoosterPack:(int)boosterPackId;
 
 - (int) lastLeagueShown;
 - (void) currentLeagueWasShown;

@@ -80,8 +80,11 @@
     self.hospitals = hosp;
     self.healingItems = heal;
     
+    SimLog(@" ");
+    SimLog(@"-------------------------------------");
     SimLog(@"Hospitals: %@", self.hospitals);
     SimLog(@"Healing Items: %@", self.healingItems);
+    SimLog(@"-------------------------------------");
   }
   return self;
 }
@@ -102,7 +105,7 @@
     SimLog(@"Round %d: %@", i, next);
     i++;
     [self readjustAllItemsForDate:next];
-    SimLog(@"");
+    SimLog(@" ");
     SimLog(@"%@", self.healingItems);
     SimLog(@"-------------------------------------");
   }
@@ -115,7 +118,6 @@
   }
   
   SimLog(@"Healing Items: %@", self.healingItems);
-  SimLog(@"-------------------------------------");
   SimLog(@"-------------------------------------");
   SimLog(@"-------------------------------------");
 }

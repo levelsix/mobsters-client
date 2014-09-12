@@ -10,6 +10,7 @@
 
 #import "GameViewController.h"
 #import "SettingsViewController.h"
+#import "GameState.h"
 
 @implementation ShopViewController
 
@@ -17,8 +18,13 @@
   [super viewWillAppear:animated];
   
   Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
   self.buildingsBadge.badgeNum = [gl calculateNumberOfUnpurchasedStructs];
-  self.gachasBadge.badgeNum = [gl calculateFreeGachasCount];
+  
+  self.gachasBadge.badgeNum = [gs hasDailyFreeSpin];
+  for (BoosterPackProto *bpp in gs.boosterPacks) {
+    self.gachasBadge.badgeNum += [gs numberOfFreeSpinsForBoosterPack:bpp.boosterPackId];
+  }
   
   [self initializeSubViewControllers];
   

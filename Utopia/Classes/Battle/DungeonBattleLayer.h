@@ -12,6 +12,9 @@
 
 #define BATTLE_MANAGE_CLICKED_KEY @"BattleManageClicked"
 #define BATTLE_USER_MONSTERS_GAINED_KEY @"BattleMonstersGained"
+#define BATTLE_SECTION_COMPLETE_KEY @"BattleSectionComplete"
+#define BATTLE_SECTION_NAME_KEY @"BattleSectionName"
+#define BATTLE_SECTION_ITEM_KEY @"BattleSectionItem"
 
 @interface DungeonBattleLayer : NewBattleLayer {
   BOOL _receivedEndDungeonResponse;
@@ -35,6 +38,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *runawayPercentLabel;
 
 @property (nonatomic, retain) NSArray *userMonstersGained;
+@property (nonatomic, assign) int itemIdGained;
+@property (nonatomic, retain) NSString *sectionName;
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 

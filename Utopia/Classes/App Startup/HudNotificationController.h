@@ -15,7 +15,12 @@ typedef enum {
 } NotificationLocationType;
 
 typedef enum {
+  // This priority will always be displayed even if controller is paused
   NotificationPriorityImmediate = 1,
+  
+  // Added to the front of the list
+  NotificationPriorityFirst,
+  
   NotificationPriorityFullScreen,
   NotificationPriorityRegular
 } NotificationPriority;

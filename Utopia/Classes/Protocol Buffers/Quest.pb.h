@@ -31,8 +31,6 @@
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MiniJobCenterProto;
@@ -124,16 +122,16 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 @interface FullQuestProto : PBGeneratedMessage {
 @private
   BOOL hasIsCompleteMonster_:1;
-  BOOL hasQuestId_:1;
-  BOOL hasCashReward_:1;
-  BOOL hasOilReward_:1;
-  BOOL hasGemReward_:1;
-  BOOL hasExpReward_:1;
-  BOOL hasMonsterIdReward_:1;
   BOOL hasPriority_:1;
-  BOOL hasName_:1;
-  BOOL hasDescription_:1;
+  BOOL hasMonsterIdReward_:1;
+  BOOL hasExpReward_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasOilReward_:1;
+  BOOL hasCashReward_:1;
+  BOOL hasQuestId_:1;
   BOOL hasDoneResponse_:1;
+  BOOL hasDescription_:1;
+  BOOL hasName_:1;
   BOOL hasQuestGiverName_:1;
   BOOL hasQuestGiverImagePrefix_:1;
   BOOL hasCarrotId_:1;
@@ -141,16 +139,16 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
   BOOL hasQuestGiverImgOffset_:1;
   BOOL hasMonsterElement_:1;
   BOOL isCompleteMonster_:1;
-  int32_t questId;
-  int32_t cashReward;
-  int32_t oilReward;
-  int32_t gemReward;
-  int32_t expReward;
-  int32_t monsterIdReward;
   int32_t priority;
-  NSString* name;
-  NSString* description;
+  int32_t monsterIdReward;
+  int32_t expReward;
+  int32_t gemReward;
+  int32_t oilReward;
+  int32_t cashReward;
+  int32_t questId;
   NSString* doneResponse;
+  NSString* description;
+  NSString* name;
   NSString* questGiverName;
   NSString* questGiverImagePrefix;
   NSString* carrotId;
@@ -739,91 +737,5 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (int32_t) progress;
 - (UserQuestJobProto_Builder*) setProgress:(int32_t) value;
 - (UserQuestJobProto_Builder*) clearProgress;
-@end
-
-@interface ItemProto : PBGeneratedMessage {
-@private
-  BOOL hasItemId_:1;
-  BOOL hasName_:1;
-  BOOL hasImgName_:1;
-  BOOL hasBorderImgName_:1;
-  BOOL hasColor_:1;
-  int32_t itemId;
-  NSString* name;
-  NSString* imgName;
-  NSString* borderImgName;
-  ColorProto* color;
-}
-- (BOOL) hasItemId;
-- (BOOL) hasName;
-- (BOOL) hasImgName;
-- (BOOL) hasBorderImgName;
-- (BOOL) hasColor;
-@property (readonly) int32_t itemId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* imgName;
-@property (readonly, retain) NSString* borderImgName;
-@property (readonly, retain) ColorProto* color;
-
-+ (ItemProto*) defaultInstance;
-- (ItemProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ItemProto_Builder*) builder;
-+ (ItemProto_Builder*) builder;
-+ (ItemProto_Builder*) builderWithPrototype:(ItemProto*) prototype;
-
-+ (ItemProto*) parseFromData:(NSData*) data;
-+ (ItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ItemProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ItemProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ItemProto* result;
-}
-
-- (ItemProto*) defaultInstance;
-
-- (ItemProto_Builder*) clear;
-- (ItemProto_Builder*) clone;
-
-- (ItemProto*) build;
-- (ItemProto*) buildPartial;
-
-- (ItemProto_Builder*) mergeFrom:(ItemProto*) other;
-- (ItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasItemId;
-- (int32_t) itemId;
-- (ItemProto_Builder*) setItemId:(int32_t) value;
-- (ItemProto_Builder*) clearItemId;
-
-- (BOOL) hasName;
-- (NSString*) name;
-- (ItemProto_Builder*) setName:(NSString*) value;
-- (ItemProto_Builder*) clearName;
-
-- (BOOL) hasImgName;
-- (NSString*) imgName;
-- (ItemProto_Builder*) setImgName:(NSString*) value;
-- (ItemProto_Builder*) clearImgName;
-
-- (BOOL) hasBorderImgName;
-- (NSString*) borderImgName;
-- (ItemProto_Builder*) setBorderImgName:(NSString*) value;
-- (ItemProto_Builder*) clearBorderImgName;
-
-- (BOOL) hasColor;
-- (ColorProto*) color;
-- (ItemProto_Builder*) setColor:(ColorProto*) value;
-- (ItemProto_Builder*) setColorBuilder:(ColorProto_Builder*) builderForValue;
-- (ItemProto_Builder*) mergeColor:(ColorProto*) value;
-- (ItemProto_Builder*) clearColor;
 @end
 

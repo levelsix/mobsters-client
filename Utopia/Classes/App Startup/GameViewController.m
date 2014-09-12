@@ -46,6 +46,8 @@
 #import "ChatViewController.h"
 #import "TutorialTeamController.h"
 #import "Analytics.h"
+#import "TangoDelegate.h"
+#import "StageCompleteNode.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -351,6 +353,10 @@
     [self fadeToLoadingScreenPercentage:PART_2_PERCENT animated:YES];
     [GenericPopupController displayNotificationViewWithText:@"Sorry, the server is undergoing maintenance right now. Try again?" title:@"Server Maintenance" okayButton:@"Retry" target:self selector:@selector(handleConnectedToHost)];
   }
+  
+#ifdef TOONSQUAD
+  [TangoDelegate attemptInitialLogin];
+#endif
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
@@ -689,6 +695,7 @@
   
   [self hideTopBarDuration:duration completion:nil];
   [self removeAllViewControllers];
+  [self.notificationController pauseNotifications];
   
   [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
@@ -706,6 +713,7 @@
   
   [self hideTopBarDuration:0.f completion:nil];
   [self removeAllViewControllers];
+  [self.notificationController pauseNotifications];
   
   [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
@@ -727,6 +735,7 @@
   
   [self hideTopBarDuration:0.f completion:nil];
   [self removeAllViewControllers];
+  [self.notificationController pauseNotifications];
   
   [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
@@ -795,17 +804,34 @@
   
   else {
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+    
     // Don't show top bar if theres a completed quest because it will just be faded out immediately
-    if (self.completedQuests.count) {
-      [self performSelector:@selector(checkQuests) withObject:nil afterDelay:duration+0.1];
+    NSDictionary *stageComplete = params[BATTLE_SECTION_COMPLETE_KEY];
+    if (stageComplete) {
+      NSString *name = stageComplete[BATTLE_SECTION_NAME_KEY];
+      int itemId = (int)[stageComplete[BATTLE_SECTION_ITEM_KEY] integerValue];
+      
+      CCBReader *reader = [CCBReader reader];
+      StageCompleteNode *node = (StageCompleteNode *)[reader load:@"StageCompleteNode"];
+      [node setSectionName:name itemId:itemId];
+      reader.animationManager.delegate = node;
+      node.delegate = self;
+      [self.notificationController addNotification:node];
+      
+      [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
     } else {
       [self showTopBarDuration:duration completion:^{
         [self checkQuests];
+        [self.notificationController resumeNotifications];
       }];
     }
   }
   
   [self playMapMusic];
+}
+
+- (void) stageCompleteNodeCompleted {
+  [self showTopBarDuration:0.3 completion:nil];
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods

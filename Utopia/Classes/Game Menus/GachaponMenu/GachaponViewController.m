@@ -53,7 +53,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  _cachedFreeGachas = [[Globals sharedGlobals] calculateFreeGachasCount];
+  GameState *gs = [GameState sharedGameState];
+  _cachedDailySpin = [gs hasDailyFreeSpin];
   
   [self setUpCloseButton];
   
@@ -114,12 +115,22 @@
 {
   BOOL firstPageSelected = (self.boosterPack == self.badBoosterPack);
   
-  if (_cachedFreeGachas > 0 && firstPageSelected)
+  GameState *gs = [GameState sharedGameState];
+  int numFreeSpins = [gs numberOfFreeSpinsForBoosterPack:self.boosterPack.boosterPackId];
+  
+  if (_cachedDailySpin && firstPageSelected)
   {
     self.gemCostLabel.superview.hidden = YES;
     self.spinActionLabel.hidden = NO;
-    self.spinActionLabel.text = [NSString stringWithFormat:self.spinActionLabel.text, _cachedFreeGachas > 1 ? @"s" : @""];
-    self.spinCountLabel.text = [NSString stringWithFormat:@"%d Free", _cachedFreeGachas];
+    self.spinActionLabel.text = @"Spin";
+    self.spinCountLabel.text = @"Daily Free";
+  }
+  else if (numFreeSpins)
+  {
+    self.gemCostLabel.superview.hidden = YES;
+    self.spinActionLabel.hidden = NO;
+    self.spinActionLabel.text = [NSString stringWithFormat:@"Spin%@", numFreeSpins > 1 ? @"s" : @""];
+    self.spinCountLabel.text = [NSString stringWithFormat:@"%d Free", numFreeSpins];
   }
   else
   {
@@ -127,6 +138,11 @@
     self.spinActionLabel.hidden = YES;
     self.spinCountLabel.text = @"1 Spin";
   }
+  
+  int badSpins = [gs numberOfFreeSpinsForBoosterPack:self.badBoosterPack.boosterPackId];
+  int goodSpins = [gs numberOfFreeSpinsForBoosterPack:self.goodBoosterPack.boosterPackId];
+  self.badBadge.badgeNum = _cachedDailySpin + badSpins;
+  self.goodBadge.badgeNum = goodSpins;
 }
 
 #pragma mark - Button Top Bar
@@ -198,14 +214,22 @@
   }
   
   GameState *gs = [GameState sharedGameState];
-  BOOL freeGachasAvailable = (self.boosterPack == self.badBoosterPack) && (_cachedFreeGachas > 0);
-  if (gs.gems < self.boosterPack.gemPrice && ! freeGachasAvailable) {
+  BOOL isDailySpin = (self.boosterPack == self.badBoosterPack) && _cachedDailySpin;
+  int numFreeSpins = [gs numberOfFreeSpinsForBoosterPack:self.boosterPack.boosterPackId];
+  if (gs.gems < self.boosterPack.gemPrice && !isDailySpin && !numFreeSpins) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gs.myMonsters.count > gs.maxInventorySlots) {
     [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Uh oh, your residences are full. Sell some %@s to free up space.", MONSTER_NAME] title:@"Residences Full" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
-    _lastSpinWasFree = freeGachasAvailable;
-    [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:freeGachasAvailable delegate:self];
+    _lastSpinWasFree = isDailySpin;
+    
+    // Prioritize daily spin
+    if (isDailySpin || !numFreeSpins) {
+      [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId isFree:isDailySpin delegate:self];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForFreeBoosterPack:self.boosterPack.boosterPackId delegate:self];
+    }
+    
     [self.topBar updateLabels];
     
     self.spinner.hidden = NO;
@@ -223,17 +247,15 @@
   }];
 }
 
-- (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
-  PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
-  
-  if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+- (void) responseReceivedWithSuccess:(BOOL)success prize:(BoosterItemProto *)prize monsters:(NSArray *)monsters {
+  if (success) {
     TimingFunctionTableView *table = self.gachaTable.tableView;
     CGPoint pt = table.contentOffset;
-    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:proto.prize];
+    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:prize];
     float time = rand()/(float)RAND_MAX*3.5+3.5;
     [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:.23 :.9 :.28 :.95] duration:time];
     
-    self.prize = proto.prize;
+    self.prize = prize;
     
     GameState *gs = [GameState sharedGameState];
     if (self.prize.monsterId) {
@@ -242,8 +264,8 @@
       [Globals imageNamed:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
       
       if (!self.prize.isComplete) {
-        if (proto.updatedOrNewList.count > 0) {
-          _numPuzzlePieces = [(FullUserMonsterProto *)proto.updatedOrNewList[0] numPieces];
+        if (monsters.count > 0) {
+          _numPuzzlePieces = [(FullUserMonsterProto *)monsters[0] numPieces];
         } else {
           _numPuzzlePieces = 1;
         }
@@ -255,14 +277,35 @@
     int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
     [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];
     
-    // Decrement cached free gachas count locally and update UI
+    // Decrement cached daily spin count locally and update UI
     if ( _lastSpinWasFree )
-      _cachedFreeGachas--;
+      _cachedDailySpin = NO;
+    
     [self updateFreeGachasCounter];
   }
   
   self.spinner.hidden = YES;
   self.spinView.hidden = NO;
+}
+
+- (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
+  PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
+  
+  BOOL success = proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
+  BoosterItemProto *prize = proto.prize;
+  NSArray *monsters = proto.updatedOrNewList;
+  
+  [self responseReceivedWithSuccess:success prize:prize monsters:monsters];
+}
+
+- (void) handleTradeItemForBoosterResponseProto:(FullEvent *)fe {
+  TradeItemForBoosterResponseProto *proto = (TradeItemForBoosterResponseProto *)fe.event;
+  
+  BOOL success = proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess;
+  BoosterItemProto *prize = proto.prize;
+  NSArray *monsters = proto.updatedOrNewList;
+  
+  [self responseReceivedWithSuccess:success prize:prize monsters:monsters];
 }
 
 - (IBAction)menuCloseClicked:(id)sender {

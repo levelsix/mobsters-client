@@ -28,6 +28,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventDevRoot registerAllExtensions:registry];
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
+    [EventItemRoot registerAllExtensions:registry];
     [EventMiniJobRoot registerAllExtensions:registry];
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
@@ -39,6 +40,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventTournamentRoot registerAllExtensions:registry];
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
@@ -134,6 +136,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRestrictUserMonsterEvent:
     case EventProtocolRequestCUnrestrictUserMonsterEvent:
     case EventProtocolRequestCEnhanceMonsterEvent:
+    case EventProtocolRequestCTradeItemForBoosterEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -219,6 +222,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRestrictUserMonsterEvent:
     case EventProtocolResponseSUnrestrictUserMonsterEvent:
     case EventProtocolResponseSEnhanceMonsterEvent:
+    case EventProtocolResponseSTradeItemForBoosterEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

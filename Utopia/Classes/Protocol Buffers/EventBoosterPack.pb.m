@@ -26,7 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) MinimumUserProto* sender;
 @property int32_t boosterPackId;
 @property int64_t clientTime;
-@property BOOL freeBoosterPack;
+@property BOOL dailyFreeBoosterPack;
 @end
 
 @implementation PurchaseBoosterPackRequestProto
@@ -52,17 +52,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasClientTime_ = !!value;
 }
 @synthesize clientTime;
-- (BOOL) hasFreeBoosterPack {
-  return !!hasFreeBoosterPack_;
+- (BOOL) hasDailyFreeBoosterPack {
+  return !!hasDailyFreeBoosterPack_;
 }
-- (void) setHasFreeBoosterPack:(BOOL) value {
-  hasFreeBoosterPack_ = !!value;
+- (void) setHasDailyFreeBoosterPack:(BOOL) value {
+  hasDailyFreeBoosterPack_ = !!value;
 }
-- (BOOL) freeBoosterPack {
-  return !!freeBoosterPack_;
+- (BOOL) dailyFreeBoosterPack {
+  return !!dailyFreeBoosterPack_;
 }
-- (void) setFreeBoosterPack:(BOOL) value {
-  freeBoosterPack_ = !!value;
+- (void) setDailyFreeBoosterPack:(BOOL) value {
+  dailyFreeBoosterPack_ = !!value;
 }
 - (void) dealloc {
   self.sender = nil;
@@ -73,7 +73,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.boosterPackId = 0;
     self.clientTime = 0L;
-    self.freeBoosterPack = NO;
+    self.dailyFreeBoosterPack = NO;
   }
   return self;
 }
@@ -102,8 +102,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
   }
-  if (self.hasFreeBoosterPack) {
-    [output writeBool:4 value:self.freeBoosterPack];
+  if (self.hasDailyFreeBoosterPack) {
+    [output writeBool:4 value:self.dailyFreeBoosterPack];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -123,8 +123,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
   }
-  if (self.hasFreeBoosterPack) {
-    size += computeBoolSize(4, self.freeBoosterPack);
+  if (self.hasDailyFreeBoosterPack) {
+    size += computeBoolSize(4, self.dailyFreeBoosterPack);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -210,8 +210,8 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
-  if (other.hasFreeBoosterPack) {
-    [self setFreeBoosterPack:other.freeBoosterPack];
+  if (other.hasDailyFreeBoosterPack) {
+    [self setDailyFreeBoosterPack:other.dailyFreeBoosterPack];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -252,7 +252,7 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
         break;
       }
       case 32: {
-        [self setFreeBoosterPack:[input readBool]];
+        [self setDailyFreeBoosterPack:[input readBool]];
         break;
       }
     }
@@ -320,20 +320,20 @@ static PurchaseBoosterPackRequestProto* defaultPurchaseBoosterPackRequestProtoIn
   result.clientTime = 0L;
   return self;
 }
-- (BOOL) hasFreeBoosterPack {
-  return result.hasFreeBoosterPack;
+- (BOOL) hasDailyFreeBoosterPack {
+  return result.hasDailyFreeBoosterPack;
 }
-- (BOOL) freeBoosterPack {
-  return result.freeBoosterPack;
+- (BOOL) dailyFreeBoosterPack {
+  return result.dailyFreeBoosterPack;
 }
-- (PurchaseBoosterPackRequestProto_Builder*) setFreeBoosterPack:(BOOL) value {
-  result.hasFreeBoosterPack = YES;
-  result.freeBoosterPack = value;
+- (PurchaseBoosterPackRequestProto_Builder*) setDailyFreeBoosterPack:(BOOL) value {
+  result.hasDailyFreeBoosterPack = YES;
+  result.dailyFreeBoosterPack = value;
   return self;
 }
-- (PurchaseBoosterPackRequestProto_Builder*) clearFreeBoosterPack {
-  result.hasFreeBoosterPack = NO;
-  result.freeBoosterPack = NO;
+- (PurchaseBoosterPackRequestProto_Builder*) clearDailyFreeBoosterPack {
+  result.hasDailyFreeBoosterPack = NO;
+  result.dailyFreeBoosterPack = NO;
   return self;
 }
 @end

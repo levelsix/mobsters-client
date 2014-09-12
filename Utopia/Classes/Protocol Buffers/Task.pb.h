@@ -335,51 +335,55 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasDmgMultiplier_:1;
   BOOL hasTsmId_:1;
   BOOL hasMonsterId_:1;
+  BOOL hasLevel_:1;
   BOOL hasExpReward_:1;
   BOOL hasCashReward_:1;
   BOOL hasOilReward_:1;
   BOOL hasPuzzlePieceMonsterId_:1;
-  BOOL hasLevel_:1;
   BOOL hasItemId_:1;
   BOOL hasDefensiveSkillId_:1;
+  BOOL hasPuzzlePieceMonsterDropLvl_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
   int32_t tsmId;
   int32_t monsterId;
+  int32_t level;
   int32_t expReward;
   int32_t cashReward;
   int32_t oilReward;
   int32_t puzzlePieceMonsterId;
-  int32_t level;
   int32_t itemId;
   int32_t defensiveSkillId;
+  int32_t puzzlePieceMonsterDropLvl;
   TaskStageMonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasTsmId;
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterType;
+- (BOOL) hasLevel;
 - (BOOL) hasExpReward;
 - (BOOL) hasCashReward;
 - (BOOL) hasOilReward;
 - (BOOL) hasPuzzlePieceDropped;
 - (BOOL) hasPuzzlePieceMonsterId;
-- (BOOL) hasLevel;
 - (BOOL) hasItemId;
 - (BOOL) hasDmgMultiplier;
 - (BOOL) hasDefensiveSkillId;
+- (BOOL) hasPuzzlePieceMonsterDropLvl;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
+@property (readonly) int32_t level;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 - (BOOL) puzzlePieceDropped;
 @property (readonly) int32_t puzzlePieceMonsterId;
-@property (readonly) int32_t level;
 @property (readonly) int32_t itemId;
 @property (readonly) Float32 dmgMultiplier;
 @property (readonly) int32_t defensiveSkillId;
+@property (readonly) int32_t puzzlePieceMonsterDropLvl;
 
 + (TaskStageMonsterProto*) defaultInstance;
 - (TaskStageMonsterProto*) defaultInstance;
@@ -430,6 +434,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) setMonsterType:(TaskStageMonsterProto_MonsterType) value;
 - (TaskStageMonsterProto_Builder*) clearMonsterType;
 
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearLevel;
+
 - (BOOL) hasExpReward;
 - (int32_t) expReward;
 - (TaskStageMonsterProto_Builder*) setExpReward:(int32_t) value;
@@ -455,11 +464,6 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterId:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterId;
 
-- (BOOL) hasLevel;
-- (int32_t) level;
-- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value;
-- (TaskStageMonsterProto_Builder*) clearLevel;
-
 - (BOOL) hasItemId;
 - (int32_t) itemId;
 - (TaskStageMonsterProto_Builder*) setItemId:(int32_t) value;
@@ -474,6 +478,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) defensiveSkillId;
 - (TaskStageMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearDefensiveSkillId;
+
+- (BOOL) hasPuzzlePieceMonsterDropLvl;
+- (int32_t) puzzlePieceMonsterDropLvl;
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterDropLvl:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterDropLvl;
 @end
 
 @interface PersistentEventProto : PBGeneratedMessage {

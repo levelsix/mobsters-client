@@ -20,7 +20,7 @@
   
   NSInteger _numPuzzlePieces;
   
-  NSInteger _cachedFreeGachas;
+  NSInteger _cachedDailySpin;
   BOOL      _lastSpinWasFree;
 }
 
@@ -46,6 +46,9 @@
 @property (nonatomic, retain) IBOutlet GachaponPrizeView *prizeView;
 
 @property (nonatomic, retain) IBOutlet ButtonTabBar *navBar;
+@property (nonatomic, retain) IBOutlet BadgeIcon *badBadge;
+@property (nonatomic, retain) IBOutlet BadgeIcon *goodBadge;
+@property (nonatomic, retain) IBOutlet BadgeIcon *eventBadge;
 
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp;
 

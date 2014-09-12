@@ -177,8 +177,8 @@
     }
   }
   while (![self detectPossibleSwaps].count);
-    
-    return set;
+  
+  return set;
 }
 
 - (BattleOrb *)createOrbAtColumn:(NSInteger)column row:(NSInteger)row type:(OrbColor)orbColor powerup:(PowerupType)powerup special:(SpecialOrbType)special {
@@ -729,84 +729,118 @@
 
 #pragma mark - Detecting Powerup Creation
 
+- (BattleOrb *) findIntersectingOrbForChainA:(BattleChain *)chainA chainB:(BattleChain *)chainB {
+  for (BattleOrb *orb in chainA.orbs) {
+    if ([chainB.orbs containsObject:orb]) {
+      return orb;
+    }
+  }
+  return nil;
+}
+
+- (BattleChain *) findIntersectingChain:(NSArray *)allChains baseChains:(NSArray *)baseChains {
+  // Loop through both lists and find any orbs that are shared.
+  for (BattleChain *checkChain in allChains) {
+    
+    // Make sure the chain isn't already in base chains.
+    if (![baseChains containsObject:checkChain]) {
+      
+      for (BattleChain *alreadyUsedChain in baseChains) {
+        
+        if ([self findIntersectingOrbForChainA:checkChain chainB:alreadyUsedChain]) {
+          return checkChain;
+        }
+      }
+    }
+  }
+  return nil;
+}
+
 - (NSSet *) detectPowerupCreationFromChains:(NSSet *)chains withInitialSwap:(BattleSwap *)swap {
   NSMutableSet *newOrbs = [NSMutableSet set];
   NSMutableArray *chainsArr = [NSMutableArray arrayWithArray:chains.allObjects];
   
+  // Sort by longest chains
+  [chainsArr sortUsingComparator:^NSComparisonResult(BattleChain *obj1, BattleChain *obj2) {
+    return [@(obj2.orbs.count) compare:@(obj1.orbs.count)];
+  }];
+  
   while (chainsArr.count > 0) {
-    BattleChain *chain = chainsArr[0];
+    // This will be the longest chain in the group since the list is ordered.
+    BattleChain *mainChain = chainsArr[0];
+    
+    // This is all the chains that are connected to main chain
+    NSMutableArray *chainSequence = [NSMutableArray arrayWithObject:mainChain];
+    BattleChain *nextChain;
+    while ((nextChain = [self findIntersectingChain:chainsArr baseChains:chainSequence])) {
+      [chainSequence addObject:nextChain];
+    }
     
     // If this chain is the result of a powerup, it is impossible to create a new powerup orb
-    if (!chain.powerupInitiatorOrb) {
+    if (!mainChain.powerupInitiatorOrb) {
+      
       // We know the non-powerup chains are in a straight line, but we still must look for L or T shapes
       // Priority: rainbow, grenade, rocket
-      NSUInteger chainLength = chain.orbs.count;
+      NSUInteger chainLength = mainChain.orbs.count;
       
       if (chainLength >= 5) {
+        
         // Get the middle orb, or randomize if it is 6 orbs for example
         NSUInteger idx = chainLength % 2 == 1 ? (chainLength-1)/2 : (chainLength-1)/2.f+arc4random_uniform(2)-0.5f;
         
-        BattleOrb *replacedOrb = chain.orbs[idx];
+        BattleOrb *replacedOrb = mainChain.orbs[idx];
         BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:OrbColorNone powerup:PowerupTypeAllOfOneColor special:SpecialOrbTypeNone];
         [newOrbs addObject:newOrb];
-      } else if (chainLength >= 3) {
         
-        // Now check for L or T
+      }
+      
+      // If the chain sequence has more than 1 chain and none are 5 length, create a grenade on a random intersection
+      else if (chainSequence.count > 1) {
+        
+        // Keep picking two random chains and try to find intersection orb
+        BattleOrb *replacedOrb;
+        do {
+          [chainSequence shuffle];
+          replacedOrb = [self findIntersectingOrbForChainA:chainSequence[0] chainB:chainSequence[1]];
+        } while (!replacedOrb);
+        
+        BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:replacedOrb.orbColor powerup:PowerupTypeExplosion special:SpecialOrbTypeNone];
+        [newOrbs addObject:newOrb];
+      }
+      
+      // Now as long as length is 4, it will be rocket
+      else if (chainLength >= 4) {
+        // Check if any of the orbs are one of the swapped orbs
         BattleOrb *replacedOrb = nil;
-        BattleChain *intersectingChain = nil;
-        for (BattleOrb *orb in chain.orbs) {
-          for (int i = 1; i < chainsArr.count; i++) {
-            BattleChain *testChain = chainsArr[i];
-            if ([testChain.orbs containsObject:orb]) {
-              // We have a winner..
-              intersectingChain = testChain;
-              replacedOrb = orb;
-            }
-          }
+        if ([mainChain.orbs containsObject:swap.orbA]) {
+          replacedOrb = swap.orbA;
+        } else if ([mainChain.orbs containsObject:swap.orbB]) {
+          replacedOrb = swap.orbB;
+        } else {
+          // Get one of the middle orbs
+          NSUInteger idx = chainLength % 2 == 1 ? (chainLength-1)/2 : (chainLength-1)/2.f+arc4random_uniform(2)-0.5f;
+          replacedOrb = mainChain.orbs[idx];
         }
         
-        if (replacedOrb) {
-          BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:replacedOrb.orbColor powerup:PowerupTypeExplosion special:SpecialOrbTypeNone];
-          [newOrbs addObject:newOrb];
-          
-          // Only need to remove intersecting chain since main chain is removed regardless
-          [chainsArr removeObject:intersectingChain];
-        }
+        BattleOrb *firstOrb = mainChain.orbs[0];
+        BattleOrb *secondOrb = mainChain.orbs[1];
+        BOOL isHorizontal = (firstOrb.row == secondOrb.row);
         
-        // Now as long as length is 4, it will be rocket
-        else if (chainLength >= 4) {
-          // Check if any of the orbs are one of the swapped orbs
-          BattleOrb *replacedOrb = nil;
-          if ([chain.orbs containsObject:swap.orbA]) {
-            replacedOrb = swap.orbA;
-          } else if ([chain.orbs containsObject:swap.orbB]) {
-            replacedOrb = swap.orbB;
-          } else {
-            // Get one of the middle orbs
-            NSUInteger idx = chainLength % 2 == 1 ? (chainLength-1)/2 : (chainLength-1)/2.f+arc4random_uniform(2)-0.5f;
-            replacedOrb = chain.orbs[idx];
-          }
-          
-          BattleOrb *firstOrb = chain.orbs[0];
-          BattleOrb *secondOrb = chain.orbs[1];
-          BOOL isHorizontal = (firstOrb.row == secondOrb.row);
-          
-          // Horizontal chains will create vertical rocket powerup and vice versa
-          PowerupType powerupType = isHorizontal ? PowerupTypeVerticalLine : PowerupTypeHorizontalLine;
-          BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:replacedOrb.orbColor powerup:powerupType special:SpecialOrbTypeNone];
-          [newOrbs addObject:newOrb];
-        }
+        // Horizontal chains will create vertical rocket powerup and vice versa
+        PowerupType powerupType = isHorizontal ? PowerupTypeVerticalLine : PowerupTypeHorizontalLine;
+        BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:replacedOrb.orbColor powerup:powerupType special:SpecialOrbTypeNone];
+        [newOrbs addObject:newOrb];
       }
     }
     
-    // Remove this chain regardless
-    [chainsArr removeObject:chain];
+    // Remove all chains from this group
+    [chainsArr removeObjectsInArray:chainSequence];
   }
   return newOrbs;
 }
 
 #pragma mark - Detecting Powerup Chains
-    
+
 - (void) changeOrb:(BattleOrb *)orb fromPowerupInitiatorOrb:(BattleOrb *)powerupOrb {
   
   // Give rainbow orbs the color of the chain creator
@@ -1021,7 +1055,7 @@
         
         // Commented out while loop because it screws up tutorial..
         //do {
-          [self generateRandomOrbColor:&newOrbColor specialOrbType:&newSpecial atColumn:column row:row];
+        [self generateRandomOrbColor:&newOrbColor specialOrbType:&newSpecial atColumn:column row:row];
         //} while (newOrbColor == orbColor && special == newSpecial);
         
         orbColor = newOrbColor;

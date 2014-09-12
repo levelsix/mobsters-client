@@ -299,8 +299,6 @@
 - (int) calculateNumberOfUnpurchasedStructs;
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs;
 
-- (int) calculateFreeGachasCount;
-
 - (int) calculateNumMinutesForNewExpansion;
 - (int) calculateSilverCostForNewExpansion;
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;

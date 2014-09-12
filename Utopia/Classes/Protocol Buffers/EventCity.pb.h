@@ -37,8 +37,6 @@
 @class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class LoadCityRequestProto;

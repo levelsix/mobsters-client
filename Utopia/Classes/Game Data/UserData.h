@@ -358,3 +358,16 @@ typedef enum {
 - (NSDictionary *) damageDealtPerUserMonsterId;
 
 @end
+
+@interface UserItem : NSObject
+
+@property (nonatomic, assign) int userId;
+@property (nonatomic, assign) int itemId;
+@property (nonatomic, assign) int userItemId;
+@property (nonatomic, assign) int quantity;
+
++ (id) userItemWithProto:(UserItemProto *)proto;
+
+- (ItemProto *) staticItem;
+
+@end

@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventDungeonRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -1439,6 +1440,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUpdatedOrNewList;
 @property int32_t taskId;
 @property BOOL userWon;
+@property (retain) UserItemProto* userItem;
+@property (retain) NSString* taskMapSectionName;
 @end
 
 @implementation EndDungeonResponseProto
@@ -1477,9 +1480,25 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (void) setUserWon:(BOOL) value {
   userWon_ = !!value;
 }
+- (BOOL) hasUserItem {
+  return !!hasUserItem_;
+}
+- (void) setHasUserItem:(BOOL) value {
+  hasUserItem_ = !!value;
+}
+@synthesize userItem;
+- (BOOL) hasTaskMapSectionName {
+  return !!hasTaskMapSectionName_;
+}
+- (void) setHasTaskMapSectionName:(BOOL) value {
+  hasTaskMapSectionName_ = !!value;
+}
+@synthesize taskMapSectionName;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUpdatedOrNewList = nil;
+  self.userItem = nil;
+  self.taskMapSectionName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1488,6 +1507,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
     self.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
     self.taskId = 0;
     self.userWon = NO;
+    self.userItem = [UserItemProto defaultInstance];
+    self.taskMapSectionName = @"";
   }
   return self;
 }
@@ -1529,6 +1550,12 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasUserWon) {
     [output writeBool:5 value:self.userWon];
   }
+  if (self.hasUserItem) {
+    [output writeMessage:6 value:self.userItem];
+  }
+  if (self.hasTaskMapSectionName) {
+    [output writeString:7 value:self.taskMapSectionName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1552,6 +1579,12 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasUserWon) {
     size += computeBoolSize(5, self.userWon);
+  }
+  if (self.hasUserItem) {
+    size += computeMessageSize(6, self.userItem);
+  }
+  if (self.hasTaskMapSectionName) {
+    size += computeStringSize(7, self.taskMapSectionName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1655,6 +1688,12 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   if (other.hasUserWon) {
     [self setUserWon:other.userWon];
   }
+  if (other.hasUserItem) {
+    [self mergeUserItem:other.userItem];
+  }
+  if (other.hasTaskMapSectionName) {
+    [self setTaskMapSectionName:other.taskMapSectionName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1706,6 +1745,19 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
       }
       case 40: {
         [self setUserWon:[input readBool]];
+        break;
+      }
+      case 50: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        if (self.hasUserItem) {
+          [subBuilder mergeFrom:self.userItem];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserItem:[subBuilder buildPartial]];
+        break;
+      }
+      case 58: {
+        [self setTaskMapSectionName:[input readString]];
         break;
       }
     }
@@ -1816,6 +1868,52 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (EndDungeonResponseProto_Builder*) clearUserWon {
   result.hasUserWon = NO;
   result.userWon = NO;
+  return self;
+}
+- (BOOL) hasUserItem {
+  return result.hasUserItem;
+}
+- (UserItemProto*) userItem {
+  return result.userItem;
+}
+- (EndDungeonResponseProto_Builder*) setUserItem:(UserItemProto*) value {
+  result.hasUserItem = YES;
+  result.userItem = value;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) setUserItemBuilder:(UserItemProto_Builder*) builderForValue {
+  return [self setUserItem:[builderForValue build]];
+}
+- (EndDungeonResponseProto_Builder*) mergeUserItem:(UserItemProto*) value {
+  if (result.hasUserItem &&
+      result.userItem != [UserItemProto defaultInstance]) {
+    result.userItem =
+      [[[UserItemProto builderWithPrototype:result.userItem] mergeFrom:value] buildPartial];
+  } else {
+    result.userItem = value;
+  }
+  result.hasUserItem = YES;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) clearUserItem {
+  result.hasUserItem = NO;
+  result.userItem = [UserItemProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTaskMapSectionName {
+  return result.hasTaskMapSectionName;
+}
+- (NSString*) taskMapSectionName {
+  return result.taskMapSectionName;
+}
+- (EndDungeonResponseProto_Builder*) setTaskMapSectionName:(NSString*) value {
+  result.hasTaskMapSectionName = YES;
+  result.taskMapSectionName = value;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) clearTaskMapSectionName {
+  result.hasTaskMapSectionName = NO;
+  result.taskMapSectionName = @"";
   return self;
 }
 @end

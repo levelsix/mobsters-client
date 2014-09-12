@@ -17,6 +17,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];

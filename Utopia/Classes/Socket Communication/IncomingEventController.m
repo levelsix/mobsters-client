@@ -282,6 +282,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEnhanceMonsterEvent:
       responseClass = [EnhanceMonsterResponseProto class];
       break;
+    case EventProtocolResponseSTradeItemForBoosterEvent:
+      responseClass = [TradeItemForBoosterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -368,6 +371,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList];
+    
+    [gs.myItems removeAllObjects];
+    [gs addToMyItems:proto.userItemsList];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -1288,6 +1294,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+- (void) handleTradeItemForBoosterResponseProto:(FullEvent *)fe {
+  TradeItemForBoosterResponseProto *proto = (TradeItemForBoosterResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Trade item for booster pack received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
+    [gs addToMyMonsters:proto.updatedOrNewList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem booster pack."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 - (void) handleReceivedRareBoosterPurchaseResponseProto:(FullEvent *)fe {
   ReceivedRareBoosterPurchaseResponseProto *proto = (ReceivedRareBoosterPurchaseResponseProto *)fe.event;
   GameState *gs = [GameState sharedGameState];
@@ -1317,6 +1340,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.userWon) {
       [gs.completedTasks addObject:@(proto.taskId)];
+    }
+    
+    if (proto.hasUserItem) {
+      [gs addToMyItems:@[proto.userItem]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];

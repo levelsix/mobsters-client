@@ -1072,15 +1072,16 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t tsmId;
 @property int32_t monsterId;
 @property TaskStageMonsterProto_MonsterType monsterType;
+@property int32_t level;
 @property int32_t expReward;
 @property int32_t cashReward;
 @property int32_t oilReward;
 @property BOOL puzzlePieceDropped;
 @property int32_t puzzlePieceMonsterId;
-@property int32_t level;
 @property int32_t itemId;
 @property Float32 dmgMultiplier;
 @property int32_t defensiveSkillId;
+@property int32_t puzzlePieceMonsterDropLvl;
 @end
 
 @implementation TaskStageMonsterProto
@@ -1106,6 +1107,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasMonsterType_ = !!value;
 }
 @synthesize monsterType;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
 - (BOOL) hasExpReward {
   return !!hasExpReward_;
 }
@@ -1146,13 +1154,6 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasPuzzlePieceMonsterId_ = !!value;
 }
 @synthesize puzzlePieceMonsterId;
-- (BOOL) hasLevel {
-  return !!hasLevel_;
-}
-- (void) setHasLevel:(BOOL) value {
-  hasLevel_ = !!value;
-}
-@synthesize level;
 - (BOOL) hasItemId {
   return !!hasItemId_;
 }
@@ -1174,6 +1175,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasDefensiveSkillId_ = !!value;
 }
 @synthesize defensiveSkillId;
+- (BOOL) hasPuzzlePieceMonsterDropLvl {
+  return !!hasPuzzlePieceMonsterDropLvl_;
+}
+- (void) setHasPuzzlePieceMonsterDropLvl:(BOOL) value {
+  hasPuzzlePieceMonsterDropLvl_ = !!value;
+}
+@synthesize puzzlePieceMonsterDropLvl;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1182,15 +1190,16 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.tsmId = 0;
     self.monsterId = 0;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
+    self.level = 0;
     self.expReward = 0;
     self.cashReward = 0;
     self.oilReward = 0;
     self.puzzlePieceDropped = NO;
     self.puzzlePieceMonsterId = 0;
-    self.level = 0;
     self.itemId = 0;
     self.dmgMultiplier = 0;
     self.defensiveSkillId = 0;
+    self.puzzlePieceMonsterDropLvl = 0;
   }
   return self;
 }
@@ -1246,6 +1255,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasDefensiveSkillId) {
     [output writeInt32:12 value:self.defensiveSkillId];
   }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    [output writeInt32:13 value:self.puzzlePieceMonsterDropLvl];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1290,6 +1302,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasDefensiveSkillId) {
     size += computeInt32Size(12, self.defensiveSkillId);
+  }
+  if (self.hasPuzzlePieceMonsterDropLvl) {
+    size += computeInt32Size(13, self.puzzlePieceMonsterDropLvl);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1385,6 +1400,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasMonsterType) {
     [self setMonsterType:other.monsterType];
   }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
   if (other.hasExpReward) {
     [self setExpReward:other.expReward];
   }
@@ -1400,9 +1418,6 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasPuzzlePieceMonsterId) {
     [self setPuzzlePieceMonsterId:other.puzzlePieceMonsterId];
   }
-  if (other.hasLevel) {
-    [self setLevel:other.level];
-  }
   if (other.hasItemId) {
     [self setItemId:other.itemId];
   }
@@ -1411,6 +1426,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   }
   if (other.hasDefensiveSkillId) {
     [self setDefensiveSkillId:other.defensiveSkillId];
+  }
+  if (other.hasPuzzlePieceMonsterDropLvl) {
+    [self setPuzzlePieceMonsterDropLvl:other.puzzlePieceMonsterDropLvl];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1486,6 +1504,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
         [self setDefensiveSkillId:[input readInt32]];
         break;
       }
+      case 104: {
+        [self setPuzzlePieceMonsterDropLvl:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -1535,6 +1557,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearMonsterType {
   result.hasMonsterType = NO;
   result.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 - (BOOL) hasExpReward {
@@ -1617,22 +1655,6 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   result.puzzlePieceMonsterId = 0;
   return self;
 }
-- (BOOL) hasLevel {
-  return result.hasLevel;
-}
-- (int32_t) level {
-  return result.level;
-}
-- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value {
-  result.hasLevel = YES;
-  result.level = value;
-  return self;
-}
-- (TaskStageMonsterProto_Builder*) clearLevel {
-  result.hasLevel = NO;
-  result.level = 0;
-  return self;
-}
 - (BOOL) hasItemId {
   return result.hasItemId;
 }
@@ -1679,6 +1701,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearDefensiveSkillId {
   result.hasDefensiveSkillId = NO;
   result.defensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasPuzzlePieceMonsterDropLvl {
+  return result.hasPuzzlePieceMonsterDropLvl;
+}
+- (int32_t) puzzlePieceMonsterDropLvl {
+  return result.puzzlePieceMonsterDropLvl;
+}
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterDropLvl:(int32_t) value {
+  result.hasPuzzlePieceMonsterDropLvl = YES;
+  result.puzzlePieceMonsterDropLvl = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterDropLvl {
+  result.hasPuzzlePieceMonsterDropLvl = NO;
+  result.puzzlePieceMonsterDropLvl = 0;
   return self;
 }
 @end

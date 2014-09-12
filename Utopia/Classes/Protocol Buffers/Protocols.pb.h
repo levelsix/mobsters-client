@@ -18,6 +18,7 @@
 #import "EventDev.pb.h"
 #import "EventDungeon.pb.h"
 #import "EventInAppPurchase.pb.h"
+#import "EventItem.pb.h"
 #import "EventMiniJob.pb.h"
 #import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
@@ -29,6 +30,7 @@
 #import "EventTournament.pb.h"
 #import "EventUser.pb.h"
 #import "InAppPurchase.pb.h"
+#import "Item.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
@@ -516,6 +518,10 @@
 @class TournamentEventRewardProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TradeItemForBoosterRequestProto;
+@class TradeItemForBoosterRequestProto_Builder;
+@class TradeItemForBoosterResponseProto;
+@class TradeItemForBoosterResponseProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
@@ -556,6 +562,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -651,6 +659,7 @@ typedef enum {
   EventProtocolRequestCRestrictUserMonsterEvent = 75,
   EventProtocolRequestCUnrestrictUserMonsterEvent = 76,
   EventProtocolRequestCEnhanceMonsterEvent = 77,
+  EventProtocolRequestCTradeItemForBoosterEvent = 78,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -734,6 +743,7 @@ typedef enum {
   EventProtocolResponseSRestrictUserMonsterEvent = 75,
   EventProtocolResponseSUnrestrictUserMonsterEvent = 76,
   EventProtocolResponseSEnhanceMonsterEvent = 77,
+  EventProtocolResponseSTradeItemForBoosterEvent = 78,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,
