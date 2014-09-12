@@ -21,7 +21,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"type:%ld powerup:%ld square:(%ld,%ld)", (long)self.orbColor, (long)self.powerupType, (long)self.column, (long)self.row];
+  return [NSString stringWithFormat:@"%@: type - %ld powerup - %ld square - (%ld,%ld)", [super description], (long)self.orbColor, (long)self.powerupType, (long)self.column, (long)self.row];
 }
 
 @end

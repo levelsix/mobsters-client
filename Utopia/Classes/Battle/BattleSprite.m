@@ -553,7 +553,7 @@
        q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
        q.speedVar = 40+strength*15;
        q.endSizeVar = 5+strength*10;
-       [self.parent addChild:q z:self.zOrder];
+       [self.parent addChild:q z:self.zOrder+1];
      }],
     [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
     [CCActionDelay actionWithDuration:delayTime],

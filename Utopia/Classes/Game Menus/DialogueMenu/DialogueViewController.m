@@ -135,7 +135,7 @@
       self.bottomGradient.alpha = 0.f;
     }];
   }
-}                                
+}
 
 - (void) showFbButtonView {
   self.speechBubbleImage.image = [Globals imageNamed:@"zarkbubble.png"];
@@ -212,9 +212,7 @@
     // This will only do anything on first animation
     self.bottomGradient.alpha = 1.f;
   } completion:^(BOOL finished) {
-    if (finished) {
-      [self animateBubbleIn];
-    }
+    [self animateBubbleIn];
   }];
 }
 

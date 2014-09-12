@@ -8,6 +8,10 @@
 
 #import "OrbMainLayer.h"
 
+#import "Globals.h"
+
+#define OrbLog(...) LNLog(__VA_ARGS__)
+
 @implementation OrbMainLayer
 
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors {
@@ -59,14 +63,18 @@
 
 - (void) beginInitialBoard {
   
-  // Fill up the level with new cookies, and create sprites for them.
+  // Fill up the level with new orbs, and create sprites for them.
   NSSet *newOrbs = [self.layout createInitialOrbs];
+  
+  OrbLog(@"Created layout: %@", newOrbs);
+  OrbLog(@"Layout: %@", self.layout);
+  
   [self.swipeLayer addSpritesForOrbs:newOrbs];
 }
 
 - (void) checkSwap:(BattleSwap *)swap {
   
-  // While cookies are being matched and new cookies fall down to fill up
+  // While orbs are being matched and new orbs fall down to fill up
   // the holes, we don't want the player to tap on anything.
   [self disallowInput];
   
@@ -78,13 +86,6 @@
       [self handleMatches:swap];
     }];
     
-    
-    if (_isPulseScheduled) {
-      [self unschedule:@selector(pulseValidMove)];
-      _isPulseScheduled = NO;
-    }
-    [self.swipeLayer stopValidMovePulsing];
-    
   } else {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
       [self allowInput];
@@ -94,22 +95,40 @@
 
 - (void) handleMatches:(BattleSwap *)initialSwap {
   
-  // This is the main loop that removes any matching cookies and fills up the
-  // holes with new cookies. While this happens, the user cannot interact with
+  // This is the main loop that removes any matching orbs and fills up the
+  // holes with new orbs. While this happens, the user cannot interact with
   // the app.
+  
+  OrbLog(@"------------------------------------");
+  OrbLog(@"Initial swap:\n%@", initialSwap);
+  OrbLog(@"Initial layout: %@", self.layout);
   
   NSSet *chains = nil;
   if (initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
     chains = [self.layout performPowerupMatchWithSwap:initialSwap];
-  } else {
+    
+    OrbLog(@"Found powerup match with chains %@", chains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
+  else {
     // Detect if there are any matches left.
     chains = [self.layout removeMatches];
     
-    // If there are no more matches, then the player gets to move again.
+    OrbLog(@"Found regular chains %@", chains);
+    OrbLog(@"Layout: %@", self.layout);
+    
+    // If there are no more matches, then the move is complete.
     if ([chains count] == 0) {
       NSSet *swaps = [self.layout detectPossibleSwaps];
+      
+      OrbLog(@"Turn ending.. Detecting swaps: %@", swaps);
+      
       if (!swaps.count) {
         NSSet *newOrbs = [self.layout shuffle];
+        
+        OrbLog(@"No swaps found.. Shuffling.");
+        OrbLog(@"Layout: %@", self.layout);
+        
         [self.swipeLayer animateShuffle:newOrbs completion:^{
           [self.delegate moveComplete];
         }];
@@ -118,12 +137,18 @@
       } else {
         [self.delegate moveComplete];
       }
+      
+      OrbLog(@"------------------------------------");
+      
       return;
     }
   }
   
   // Look for any powerup creations
   NSSet *powerupOrbs = [self.layout detectPowerupCreationFromChains:chains withInitialSwap:initialSwap];
+  
+  OrbLog(@"Detecting powerup creations %@", powerupOrbs);
+  OrbLog(@"Layout: %@", self.layout);
   
   for (BattleOrb *powerup in powerupOrbs) {
     [self.delegate powerupCreated:powerup];
@@ -133,23 +158,44 @@
   NSSet *powerupChains = [self.layout detectPowerupChainsWithMatchChains:chains];
   chains = [chains setByAddingObjectsFromSet:powerupChains];
   
+  OrbLog(@"Detecting powerup chains %@", powerupChains);
+  OrbLog(@"Layout: %@", self.layout);
+  
   // First, remove any matches...
   [self.swipeLayer animateMatchedOrbs:chains powerupCreations:powerupOrbs completion:^{
     
     NSArray *fallingColumns = [self.layout fillHoles];
+    
+    OrbLog(@"Filling holes %@", fallingColumns);
+    OrbLog(@"Layout: %@", self.layout);
+    
     NSArray *newColumns = [self.layout topUpOrbs];
+    
+    OrbLog(@"Topping up orbs %@", newColumns);
+    OrbLog(@"Layout: %@", self.layout);
+    
     NSSet *bottomFeeders = [NSSet set];
     NSSet *newBottomFeeders;
     
     while ((newBottomFeeders = [self.layout detectBottomFeeders]).count) {
       // Redo calls to fallingColumns and newColumns and add to our current arrays
       
+      NSLog(@"Detected bottom feeders: %@", newBottomFeeders);
+      OrbLog(@"Layout: %@", self.layout);
+      
       // Don't need to do any consolidation of arrays with this because all orbs will be updated
       // in the arrays.
       [self.layout fillHoles];
       
+      OrbLog(@"Filling holes...");
+      OrbLog(@"Layout: %@", self.layout);
+      
       // Must consolidate this with the initial newColumns so that newOrbs get added
       NSArray *moreNewColumns = [self.layout topUpOrbs];
+      
+      OrbLog(@"Topping up orbs %@", moreNewColumns);
+      OrbLog(@"Layout: %@", self.layout);
+      
       for (int i = 0; i < newColumns.count; i++) {
         NSMutableArray *firstArr = newColumns[i];
         NSArray *secondArr = moreNewColumns[i];
@@ -160,7 +206,13 @@
       bottomFeeders = [bottomFeeders setByAddingObjectsFromSet:newBottomFeeders];
     }
     
+    OrbLog(@"Calling animate falling orbs.");
+    OrbLog(@"Layout: %@", self.layout);
+    
     [self.swipeLayer animateFallingOrbs:fallingColumns newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
+      
+      OrbLog(@"Re-running cycle.");
+      OrbLog(@"Layout: %@", self.layout);
       
       // Keep repeating this cycle until there are no more matches.
       // Don't require swap here because these matches are organic.
@@ -172,21 +224,43 @@
 #pragma mark - Allowing input
 
 - (void) pulseValidMove {
+  OrbLog(@"Firing pulse..");
+  
   NSSet *set = [self.layout getRandomValidMove];
   [self.swipeLayer pulseValidMove:set];
   
   _isPulseScheduled = NO;
 }
 
+- (void) schedulePulse {
+  if (!_isPulseScheduled) {
+    OrbLog(@"Scheduling pulse..");
+    
+    [self scheduleOnce:@selector(pulseValidMove) delay:3.f];
+    //[self schedule:@selector(pulseValidMove) interval:1.f];
+    _isPulseScheduled = YES;
+  }
+}
+
+- (void) stopPulse {
+  if (_isPulseScheduled) {
+    OrbLog(@"Unscheduling pulse..");
+    [self unschedule:@selector(pulseValidMove)];
+    _isPulseScheduled = NO;
+  }
+  [self.swipeLayer stopValidMovePulsing];
+}
+
 - (void) allowInput {
   self.swipeLayer.userInteractionEnabled = YES;
   
-  [self scheduleOnce:@selector(pulseValidMove) delay:3.f];
-  _isPulseScheduled = YES;
+  [self schedulePulse];
 }
 
 - (void) disallowInput {
   self.swipeLayer.userInteractionEnabled = NO;
+  
+  [self stopPulse];
 }
 
 #pragma mark - Serialization

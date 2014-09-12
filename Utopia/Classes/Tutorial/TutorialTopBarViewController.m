@@ -134,8 +134,9 @@
   // Do nothing
 }
 
-- (void) updateShopBadge {
+- (BOOL) updateShopBadge {
   // Do nothing
+  return NO;
 }
 
 @end

@@ -32,7 +32,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"%@ swap %@ with %@", [super description], self.orbA, self.orbB];
+  return [NSString stringWithFormat:@"%@: %@, %@", [super description], self.orbA, self.orbB];
 }
 
 @end

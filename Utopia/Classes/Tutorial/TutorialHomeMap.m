@@ -11,7 +11,7 @@
 #import "GameState.h"
 #import "SoundEngine.h"
 
-#define BOAT_UNLOAD_POSITION ccp(765, 80)
+#define BOAT_UNLOAD_POSITION ccp(self.contentSize.width/2+325, 80)
 
 #define PIER_JUMP_LOCATION ccp(13.2, -1.5)
 #define PIER_JUMP_TALK_Y 0.5

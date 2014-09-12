@@ -60,7 +60,7 @@
     int idx = (int)[self.enemyTeam indexOfObject:bp];
     BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
     bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
-    [self.bgdContainer addChild:bs z:-idx];
+    [self.bgdContainer addChild:bs z:-idx-2];
     
     bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
     bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
@@ -79,7 +79,7 @@
   
   if (idx == ENEMY_INDEX) {
     finalPos = ccpAdd(finalPos, ccp(46, 3));
-    bs.zOrder = 1;
+    bs.zOrder = -1;
   } else if (idx == ENEMY_TWO_INDEX) {
     finalPos = ccpAdd(finalPos, ccp(-7, 35));
   }
@@ -372,8 +372,6 @@
 #pragma mark - Actual battle
 
 - (void) beginFirstMove {
-  [super beginFirstMove];
-  
   if (_curStage == ENEMY_INDEX) {
     [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
                                                    [NSValue valueWithCGPoint:ccp(3, 1)],
@@ -394,11 +392,11 @@
                                                    [NSValue valueWithCGPoint:ccp(4, 4)],
                                                    [NSValue valueWithCGPoint:ccp(4, 5)], nil]];
   }
+  
+  [super beginFirstMove];
 }
 
 - (void) beginSecondMove {
-  [super beginSecondMove];
-  
   if (_curStage == ENEMY_INDEX) {
     [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
                                                    [NSValue valueWithCGPoint:ccp(3, 2)],
@@ -418,6 +416,8 @@
                                                    [NSValue valueWithCGPoint:ccp(4, 3)],
                                                    [NSValue valueWithCGPoint:ccp(4, 4)], nil]];
   }
+  
+  [super beginSecondMove];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {

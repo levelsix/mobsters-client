@@ -103,7 +103,9 @@
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
-  self.shopBadge.alpha = [self updateShopBadge] ? 0.f : 1.f;
+  if ([self updateShopBadge]) {
+    self.shopBadge.alpha = 0.f;
+  }
   
   [self.updateTimer invalidate];
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];

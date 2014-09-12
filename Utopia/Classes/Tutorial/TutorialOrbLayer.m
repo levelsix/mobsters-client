@@ -104,9 +104,15 @@
     }
     
     [self.swipeLayer pulseValidMove:set];
-    _isPulseScheduled = NO;
   } else {
     [super pulseValidMove];
+  }
+}
+
+- (void) schedulePulse {
+  // Do nothing
+  if (!self.forcedMove) {
+    [super schedulePulse];
   }
 }
 

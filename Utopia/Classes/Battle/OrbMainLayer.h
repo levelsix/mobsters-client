@@ -42,6 +42,7 @@
 - (void) checkSwap:(BattleSwap *)swap;
 
 - (void) pulseValidMove;
+- (void) schedulePulse;
 - (void) allowInput;
 - (void) disallowInput;
 

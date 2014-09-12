@@ -108,7 +108,7 @@
         break;
       case TutorialDialogueSpeakerEnemy2:
         monsterId = self.constants.enemyMonsterId;
-        suffix = [@"P2" stringByAppendingString:suffix];
+        //suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyTwo:

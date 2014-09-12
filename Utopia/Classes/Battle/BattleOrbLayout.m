@@ -65,7 +65,7 @@
   for (BattleOrb *orb in orbs) {
     if (orb.column >= 0 && orb.column < _numColumns &&
         orb.row >= 0 && orb.row < _numRows) {
-      _orbs[orb.column][orb.row] = orb;
+      [self setOrb:orb column:orb.column row:orb.row];
     }
   }
   
@@ -87,7 +87,7 @@
     for (int i = 0; i < _numColumns; i++) {
       for (int j = 0; j < _numRows; j++) {
         [array addObject:[self orbAtColumn:i row:j]];
-        _orbs[i][j] = nil;
+        [self setOrb:nil column:i row:j];
       }
     }
     
@@ -98,7 +98,7 @@
     for (int i = 0; i < _numColumns; i++) {
       for (int j = 0; j < _numRows; j++) {
         BattleOrb *orb = array[j*_numColumns+i];
-        _orbs[i][j] = orb;
+        [self setOrb:orb column:i row:j];
         orb.column = i;
         orb.row = j;
         
@@ -156,7 +156,7 @@
       for (NSInteger column = 0; column < _numColumns; column++) {
         
         // Only make a new orb if there is a tile at this spot.
-        if (_tiles[column][row] != nil) {
+        if ([self tileAtColumn:column row:row] != nil) {
           
           // Pick the orb type at random, and make sure that this never
           // creates a chain of 3 or more. We want there to be 0 matches in
@@ -191,7 +191,7 @@
   orb.row = row;
   orb.powerupType = powerup;
   orb.specialOrbType = special;
-  _orbs[column][row] = orb;
+  [self setOrb:orb column:column row:row];
   return orb;
 }
 
@@ -204,7 +204,7 @@
   for (NSInteger row = 0; row < _numRows; row++) {
     for (NSInteger column = 0; column < _numColumns; column++) {
       
-      BattleOrb *orb = _orbs[column][row];
+      BattleOrb *orb = [self orbAtColumn:column row:row];
       if (orb != nil) {
         
         // Is it possible to swap this orb with the one on the right?
@@ -212,7 +212,7 @@
         if (column < _numColumns - 1) {
           
           // Have a orb in this spot? If there is no tile, there is no orb.
-          BattleOrb *other = _orbs[column + 1][row];
+          BattleOrb *other = [self orbAtColumn:column+1 row:row];
           if (other != nil) {
             // Two powerups automatically count as a match
             if (FREE_BATTLE_MOVEMENT || [self isPowerupMatch:orb otherOrb:other]) {
@@ -223,7 +223,7 @@
             } else {
               // Swap them
               _orbs[column][row] = other;
-              _orbs[column + 1][row] = orb;
+              _orbs[column+1][row] = orb;
               
               // Is either orb now part of a chain?
               if ([self hasChainAtColumn:column + 1 row:row] ||
@@ -237,7 +237,7 @@
               
               // Swap them back
               _orbs[column][row] = orb;
-              _orbs[column + 1][row] = other;
+              _orbs[column+1][row] = other;
             }
           }
         }
@@ -247,7 +247,7 @@
         if (row < _numRows - 1) {
           
           // Have a orb in this spot? If there is no tile, there is no orb.
-          BattleOrb *other = _orbs[column][row + 1];
+          BattleOrb *other = [self orbAtColumn:column row:row+1];
           if (other != nil) {
             if (FREE_BATTLE_MOVEMENT || [self isPowerupMatch:orb otherOrb:other]) {
               BattleSwap *swap = [[BattleSwap alloc] init];
@@ -257,7 +257,7 @@
             } else {
               // Swap them
               _orbs[column][row] = other;
-              _orbs[column][row + 1] = orb;
+              _orbs[column][row+1] = orb;
               
               // Is either orb now part of a chain?
               if ([self hasChainAtColumn:column row:row + 1] ||
@@ -271,7 +271,7 @@
               
               // Swap them back
               _orbs[column][row] = orb;
-              _orbs[column][row + 1] = other;
+              _orbs[column][row+1] = other;
             }
           }
         }
@@ -346,11 +346,11 @@
   
   // Swap the orbs. We need to update the array as well as the column
   // and row properties of the BattleOrb objects, or they go out of sync!
-  _orbs[columnA][rowA] = swap.orbB;
+  [self setOrb:swap.orbB column:columnA row:rowA];
   swap.orbB.column = columnA;
   swap.orbB.row = rowA;
   
-  _orbs[columnB][rowB] = swap.orbA;
+  [self setOrb:swap.orbA column:columnB row:rowB];
   swap.orbA.column = columnB;
   swap.orbA.row = rowB;
 }
@@ -398,7 +398,7 @@
             BattleChain *chain = [[BattleChain alloc] init];
             chain.chainType = ChainTypeMatch;
             do {
-              [chain addOrb:_orbs[column][row]];
+              [chain addOrb:[self orbAtColumn:column row:row]];
               column += 1;
             }
             while (column < _numColumns && [self orbAtColumn:column row:row].orbColor == matchType);
@@ -422,7 +422,7 @@
   
   for (NSInteger column = 0; column < _numColumns; column++) {
     for (NSInteger row = 0; row < _numRows - 2; ) {
-      if (_orbs[column][row] != nil) {
+      if ([self orbAtColumn:column row:row] != nil) {
         OrbColor matchType = [self orbAtColumn:column row:row].orbColor;
         
         if (matchType != OrbColorNone) {
@@ -432,7 +432,7 @@
             BattleChain *chain = [[BattleChain alloc] init];
             chain.chainType = ChainTypeMatch;
             do {
-              [chain addOrb:_orbs[column][row]];
+              [chain addOrb:[self orbAtColumn:column row:row]];
               row += 1;
             }
             while (row < _numRows && [self orbAtColumn:column row:row].orbColor == matchType);
@@ -451,7 +451,7 @@
 - (void)removeOrbs:(NSSet *)chains {
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
-      _orbs[orb.column][orb.row] = nil;
+      [self setOrb:nil column:orb.column row:orb.row];
     }
   }
 }
@@ -1002,15 +1002,15 @@
     for (NSInteger row = 0; row < _numRows; row++) {
       
       // If there is a tile at this position but no orb, then there's a hole.
-      if (_tiles[column][row] != nil && _orbs[column][row] == nil) {
+      if ([self tileAtColumn:column row:row] != nil && [self orbAtColumn:column row:row] == nil) {
         
         // Scan upward to find a orb.
         for (NSInteger lookup = row + 1; lookup < _numRows; lookup++) {
-          BattleOrb *orb = _orbs[column][lookup];
+          BattleOrb *orb = [self orbAtColumn:column row:lookup];
           if (orb != nil) {
             // Swap that orb with the hole.
-            _orbs[column][lookup] = nil;
-            _orbs[column][row] = orb;
+            [self setOrb:nil column:column row:lookup];
+            [self setOrb:orb column:column row:row];
             orb.row = row;
             
             // For each column, we return an array with the orbs that have
@@ -1048,7 +1048,7 @@
     for (NSInteger row = 0; row < _numRows; row++) {
       
       // Found a hole?
-      if (_tiles[column][row] != nil && _orbs[column][row] == nil) {
+      if ([self tileAtColumn:column row:row] != nil && [self orbAtColumn:column row:row] == nil) {
         
         // Randomly create a new orb type. The only restriction is that
         // it cannot be equal to the previous type. This prevents too many
@@ -1082,7 +1082,7 @@
     BattleOrb *orb = [self orbAtColumn:i row:0];
     if ([self orbIsBottomFeeder:orb]) {
       [set addObject:orb];
-      _orbs[i][0] = nil;
+      [self setOrb:nil column:i row:0];
     }
   }
   
@@ -1092,21 +1092,84 @@
 #pragma mark - Querying the Level
 
 - (BattleTile *)tileAtColumn:(NSInteger)column row:(NSInteger)row {
-  NSAssert1(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
-  NSAssert1(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
+  CustomAssert(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
+  CustomAssert(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
   
   return _tiles[column][row];
 }
 
 - (BattleOrb *)orbAtColumn:(NSInteger)column row:(NSInteger)row {
-  NSAssert1(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
-  NSAssert1(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
+  CustomAssert(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
+  CustomAssert(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
   
   return _orbs[column][row];
 }
 
+- (void) setTile:(BattleTile *)tile column:(NSInteger)column row:(NSInteger)row {
+  CustomAssert(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
+  CustomAssert(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
+  
+  _tiles[column][row] = tile;
+}
+
+- (void) setOrb:(BattleOrb *)orb column:(NSInteger)column row:(NSInteger)row {
+  CustomAssert(column >= 0 && column < _numColumns, @"Invalid column: %ld", (long)column);
+  CustomAssert(row >= 0 && row < _numRows, @"Invalid row: %ld", (long)row);
+  
+  //LNLog(@"Changing (%d, %d) orb from %@ to %@.", column, row, _orbs[column][row], orb);
+  
+  _orbs[column][row] = orb;
+}
+
 - (BOOL)isPossibleSwap:(BattleSwap *)swap {
   return [self.possibleSwaps containsObject:swap];
+}
+
+#pragma mark - Description
+
+- (NSString *) description {
+  NSMutableString *str = [NSMutableString stringWithFormat:@"\n"];
+  
+  for (int i = _numRows-1; i >= 0; i--) {
+    [str appendFormat:@"%d |", i];
+    for (int j = 0; j < _numColumns; j++) {
+      BattleOrb *orb = [self orbAtColumn:j row:i];
+      
+      if (orb) {
+        [str appendFormat:@" %d", orb.orbColor];
+      } else {
+        [str appendFormat:@"  "];
+      }
+    }
+    
+    [str appendFormat:@"\t\t\t\t\t\t"];
+    
+    // Print addresses far to the right
+    for (int j = 0; j < _numColumns; j++) {
+      BattleOrb *orb = [self orbAtColumn:j row:i];
+      
+      if (orb) {
+        [str appendFormat:@" %p", orb];
+      } else {
+        [str appendFormat:@" ----------"];
+      }
+    }
+    
+    [str appendFormat:@"\n"];
+  }
+  
+  [str appendFormat:@"  |"];
+  
+  for (int i = 0; i < _numColumns; i++) {
+    [str appendFormat:@"--"];
+  }
+  
+  [str appendFormat:@"\n   "];
+  for (int i = 0; i < _numColumns; i++) {
+    [str appendFormat:@" %d", i];
+  }
+  
+  return str;
 }
 
 @end
