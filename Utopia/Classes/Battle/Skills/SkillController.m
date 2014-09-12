@@ -136,6 +136,7 @@
   GameViewController *gvc = [GameViewController baseController];
   UIView *parentView = gvc.view;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
+  _popupOverlay.frame = parentView.bounds;
   [parentView addSubview:_popupOverlay];
   _popupOverlay.origin = CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2);
   [_popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];

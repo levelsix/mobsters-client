@@ -37,4 +37,6 @@ typedef enum
 // Used by skillManager for Cake Drop schedule reset
 - (void) createScheduleForPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order;
 
+- (BOOL) nextTurnIsPlayers;
+
 @end

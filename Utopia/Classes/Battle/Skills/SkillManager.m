@@ -95,7 +95,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeCakeDrop; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypeJelly; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -155,6 +155,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _playerSkillController = nil;
   _enemySkillController = nil;
   _turnsCounter = 0;
+  _skillIndicatorEnemy = _skillIndicatorPlayer = nil;
 }
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type

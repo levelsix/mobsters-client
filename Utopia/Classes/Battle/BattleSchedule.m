@@ -158,4 +158,9 @@
   return arr;
 }
 
+- (BOOL) nextTurnIsPlayers
+{
+  return [self getNthMove:0];
+}
+
 @end

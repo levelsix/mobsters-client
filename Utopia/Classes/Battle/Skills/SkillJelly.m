@@ -91,7 +91,8 @@
   
     // Update visuals
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    [bgdLayer updateTile:tile withTarget:self andCallback:callback];
+    BOOL keepLit = [self.battleLayer.battleSchedule nextTurnIsPlayers];
+    [bgdLayer updateTile:tile keepLit:keepLit withTarget:self andCallback:callback];
   }
 }
 
@@ -122,7 +123,7 @@
 {
   // Spawn initial jelly skills
   _spawnCounter = _initialCount;
-  [self spawnNextBatch];
+  [self performSelector:@selector(spawnNextBatch) withObject:nil afterDelay:0.5];
 }
 
 - (void) spawnNewJelly

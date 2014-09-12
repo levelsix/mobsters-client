@@ -34,7 +34,7 @@
   switch (skill)
   {
     case SkillTypeQuickAttack: skillImage.image = [Globals imageNamed:@"cheapshotlogo.png"]; break;
-    case SkillTypeJelly: skillImage.image = [Globals imageNamed:@"skillgoosplashlogo.png"]; break;
+    case SkillTypeJelly: skillImage.image = [Globals imageNamed:@"goosplashlogo.png"]; break;
     case SkillTypeCakeDrop: skillImage.image = [Globals imageNamed:@"cakedroplogo.png"]; break;
     case SkillTypeNoSkill: return;
   }
@@ -74,7 +74,7 @@
 - (void) hideWithCompletion:(SkillControllerBlock)completion
 {
   // Hide view
-  [UIView animateWithDuration:0.3 delay:1.0 options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:0.3 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
     self.alpha = 0.0;
   } completion:^(BOOL finished) {
     [self removeFromSuperview];

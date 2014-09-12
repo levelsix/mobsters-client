@@ -112,7 +112,7 @@
 - (void) initialSequence
 {
   [self showSkillPopupOverlay:YES withCompletion:^{
-    [self initialSequence2];
+    [self performSelector:@selector(initialSequence2) withObject:nil afterDelay:0.5];
   }];
 }
 
@@ -141,7 +141,7 @@
   // Update visuals
   OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
   BattleTile* tile = [layout tileAtColumn:column row:row];
-  [bgdLayer updateTile:tile withTarget:self andCallback:@selector(skillTriggerFinished)]; // returning from the skill
+  [bgdLayer updateTile:tile keepLit:YES withTarget:self andCallback:@selector(skillTriggerFinished)]; // returning from the skill
   
   [self performAfterDelay:0.5 block:^{
     OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];

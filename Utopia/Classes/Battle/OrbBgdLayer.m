@@ -148,18 +148,19 @@
 
 - (void) updateTile:(BattleTile*)tile
 {
-  return [self updateTile:tile withTarget:nil andCallback:nil];
+  return [self updateTile:tile keepLit:NO withTarget:nil andCallback:nil];
 }
 
-- (void) updateTile:(BattleTile*)tile withTarget:(id)target andCallback:(SEL)callback
+- (void) updateTile:(BattleTile*)tile keepLit:(BOOL)keepLit withTarget:(id)target andCallback:(SEL)callback
 {
   if ([self isTileDarkened:tile])
   {
     [self turnTheLightForTile:tile on:YES instantly:NO];
     [self performAfterDelay:0.5 block:^{
       [self updateTileInternal:tile];
-      [self performAfterDelay:0.3 block:^{
-        [self turnTheLightForTile:tile on:NO instantly:NO];
+      [self performAfterDelay:keepLit?0.0:0.3 block:^{
+        if (! keepLit)
+          [self turnTheLightForTile:tile on:NO instantly:NO];
         if (target && callback)
           [target performSelector:callback withObject:nil afterDelay:darknessForTilesAnimDuration];
       }];

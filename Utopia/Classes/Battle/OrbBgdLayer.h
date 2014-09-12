@@ -24,7 +24,7 @@ static const float darknessForTilesAnimDuration = 0.3f;
 - (id) initWithGridSize:(CGSize)gridSize layout:(BattleOrbLayout *)layout;
 
 - (void) updateTile:(BattleTile*)tile;
-- (void) updateTile:(BattleTile*)tile withTarget:(id)target andCallback:(SEL)callback;
+- (void) updateTile:(BattleTile*)tile keepLit:(BOOL)keepLit withTarget:(id)target andCallback:(SEL)callback;
 
 - (void) turnTheLightsOn;
 - (void) turnTheLightsOff;
