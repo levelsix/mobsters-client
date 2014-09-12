@@ -25,6 +25,8 @@
 @property (nonatomic, assign) Quality rarity;
 @property (nonatomic, assign) TaskStageMonsterProto_MonsterType monsterType;
 
+@property (nonatomic, assign) int level;
+
 @property (nonatomic, assign) int speed;
 
 @property (nonatomic, assign) int fireDamage;
@@ -53,5 +55,7 @@
 - (int) damageForColor:(OrbColor)color;
 - (int) totalAttackPower;
 - (int) randomDamage;
+
+- (UserMonster*) getIncompleteUserMonster;
 
 @end

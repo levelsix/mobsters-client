@@ -61,7 +61,7 @@
 
 @end
 
-@interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate> {
+@interface NewBattleLayer : CCNode <OrbMainLayerDelegate, BattleBgdLayerDelegate, BattleScheduleViewDelegate> {
   int _orbCount;
   int _comboCount;
   int _movesLeft;

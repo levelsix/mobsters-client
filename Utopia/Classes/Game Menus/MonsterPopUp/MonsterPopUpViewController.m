@@ -122,7 +122,6 @@
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
-    self.sellButtonView.alpha = 0.f;
     self.avatarButton.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
@@ -143,7 +142,6 @@
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
     self.backButtonView.alpha = 0.f;
-    self.sellButtonView.alpha = 1.f;
     self.avatarButton.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];

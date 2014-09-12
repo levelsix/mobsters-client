@@ -6010,6 +6010,8 @@
 		DA6EBF5019C273EE0020B628 /* goosplashlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4519C273EE0020B628 /* goosplashlogo.png */; };
 		DA6EBF5119C273EE0020B628 /* goosplashlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */; };
 		DA6EBF5219C273EE0020B628 /* goosplashlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */; };
+		DA6EBF6319C3908A0020B628 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA6EBF6219C3908A0020B628 /* Crashlytics.framework */; };
+		DA6EBF6419C3908A0020B628 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA6EBF6219C3908A0020B628 /* Crashlytics.framework */; };
 		DA88EAFA19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFB19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFC19B7CF3E005EE827 /* earthenemyskill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */; };
@@ -9546,6 +9548,7 @@
 		DA6EBF4419C273EE0020B628 /* cheapshotlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cheapshotlogo@2x.png"; sourceTree = "<group>"; };
 		DA6EBF4519C273EE0020B628 /* goosplashlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goosplashlogo.png; sourceTree = "<group>"; };
 		DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goosplashlogo@2x.png"; sourceTree = "<group>"; };
+		DA6EBF6219C3908A0020B628 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthenemyskill.png; sourceTree = "<group>"; };
 		DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthenemyskill@2x.png"; sourceTree = "<group>"; };
 		DA88EAE419B7CF3E005EE827 /* earthyourskill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthyourskill.png; sourceTree = "<group>"; };
@@ -9642,6 +9645,7 @@
 				CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */,
 				CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CEE1B196F452900ECD301 /* libPods.a in Frameworks */,
+				DA6EBF6419C3908A0020B628 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9650,6 +9654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */,
+				DA6EBF6319C3908A0020B628 /* Crashlytics.framework in Frameworks */,
 				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
 				CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
@@ -9971,6 +9976,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA6EBF6219C3908A0020B628 /* Crashlytics.framework */,
 				CF42537D19AD746B00964547 /* CoreData.framework */,
 				CF0CE153196E2B1100ECD301 /* iAd.framework */,
 				CFEF25DC18CAB8B200FB867A /* GameKit.framework */,
@@ -15364,6 +15370,7 @@
 				CF0CEDF4196F452900ECD301 /* Frameworks */,
 				CF0CEE1C196F452900ECD301 /* Resources */,
 				CF0CF842196F452900ECD301 /* Copy Pods Resources */,
+				DA6EBF5C19C38F850020B628 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -15386,6 +15393,7 @@
 				CF12563F1538A94D00E0C1AD /* Frameworks */,
 				CF1256401538A94D00E0C1AD /* Resources */,
 				E6C4A62AA7D642E69BB2508F /* Copy Pods Resources */,
+				DA6EBF6519C390EE0020B628 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -21052,6 +21060,32 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DA6EBF5C19C38F850020B628 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
+		};
+		DA6EBF6519C390EE0020B628 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
+		};
 		E6C4A62AA7D642E69BB2508F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -21683,6 +21717,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -21753,6 +21788,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -21828,6 +21864,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -21904,6 +21941,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22051,6 +22089,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22123,6 +22162,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";

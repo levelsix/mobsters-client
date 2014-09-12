@@ -19,6 +19,7 @@
 #import <Kamcord/Kamcord.h>
 #import "DestroyedOrb.h"
 #import "SkillManager.h"
+#import "MonsterPopUpViewController.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -496,17 +497,21 @@
   NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
   NSMutableArray *ids = [NSMutableArray array];
   NSMutableArray *enemyBands = [NSMutableArray array];
+  NSMutableArray *playerTurns = [NSMutableArray array];
   for (NSNumber *num in bools) {
     BOOL val = num.boolValue;
     if (val) {
       [ids addObject:@(self.myPlayerObject.monsterId)];
       [enemyBands addObject:@NO];
+      [playerTurns addObject:@YES];
     } else {
       [ids addObject:@(self.enemyPlayerObject.monsterId)];
       [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
+      [playerTurns addObject:@NO];
     }
   }
-  [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
+  self.hudView.battleScheduleView.delegate = self;
+  [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands playerTurns:playerTurns];
 }
 
 - (void) beginNextTurn {
@@ -534,7 +539,7 @@
       BOOL nth = [self.battleSchedule getNthMove:self.hudView.battleScheduleView.numSlots-1];
       int monsterId = nth ? self.myPlayerObject.monsterId : self.enemyPlayerObject.monsterId;
       BOOL showEnemyBand = nth ? NO : self.enemyPlayerObject.element == self.myPlayerObject.element;
-      [self.hudView.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand];
+      [self.hudView.battleScheduleView addMonster:monsterId showEnemyBand:showEnemyBand player:nth];
     }
     
     self.hudView.bottomView.hidden = NO;
@@ -1588,6 +1593,22 @@
     [self updateHealthBars];
     [self.currentEnemy doRarityTagShine];
   }
+}
+
+- (void) mobsterViewTapped:(id)sender
+{
+  UIButton* senderButton = sender;
+  UserMonster* monster;
+  if (senderButton.tag)
+    monster = [self.myPlayerObject getIncompleteUserMonster];
+  else
+    monster = [self.enemyPlayerObject getIncompleteUserMonster];
+  
+  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:monster allowSell:YES];
+  UIViewController *parent = [GameViewController baseController];
+  mpvc.view.frame = parent.view.bounds;
+  [parent.view addSubview:mpvc.view];
+  [parent addChildViewController:mpvc];
 }
 
 #pragma mark - No Input Layer Methods

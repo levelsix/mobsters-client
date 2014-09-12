@@ -133,8 +133,7 @@
 - (void) showSkillPopupOverlayInternal
 {
   // Create overlay
-  GameViewController *gvc = [GameViewController baseController];
-  UIView *parentView = gvc.view;
+  UIView *parentView = self.battleLayer.hudView;
   _popupOverlay = [[[NSBundle mainBundle] loadNibNamed:@"SkillPopupOverlay" owner:self options:nil] objectAtIndex:0];
   _popupOverlay.frame = parentView.bounds;
   [parentView addSubview:_popupOverlay];
