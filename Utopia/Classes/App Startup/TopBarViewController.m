@@ -127,6 +127,7 @@
   [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(clanChatsViewed) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+  [self.chatBottomView reloadData];
   
   if (![Globals isLongiPhone]) {
     CGRect r = self.coinBarsView.frame;
@@ -215,10 +216,10 @@
 - (void) animateShopBadge {
   [self stopAnimatingShopBadge];
   
-  float scale = 3.f;
+  float scale = 6.f;
   self.shopBadge.transform = CGAffineTransformMakeScale(scale, scale);
   self.shopBadge.alpha = 0.f;
-  [UIView animateWithDuration:0.4f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+  [UIView animateWithDuration:0.15f delay:0.3f options:UIViewAnimationOptionCurveEaseOut animations:^{
     self.shopBadge.alpha = 1.f;
     self.shopBadge.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
@@ -233,15 +234,15 @@
   // Divide by 2 to account for autoreversing
   int repeatCt = 3;
   float rotationAmt = M_PI/7;
-  [animation setDuration:0.05];
+  [animation setDuration:0.1];
   [animation setRepeatCount:repeatCt];
   [animation setAutoreverses:YES];
   [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
   [animation setFromValue:[NSNumber numberWithFloat:-rotationAmt]];
   [animation setToValue:[NSNumber numberWithFloat:rotationAmt]];
   [animation setDelegate:self];
-  [animation setBeginTime:CACurrentMediaTime()+5.f];
-  [self.shopBadge.layer addAnimation:animation forKey:@"rotation"];
+  [animation setBeginTime:CACurrentMediaTime()+4.f];
+  [self.shopBadge.badgeLabel.layer addAnimation:animation forKey:@"rotation"];
 }
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
@@ -252,6 +253,7 @@
 
 - (void) stopAnimatingShopBadge {
   [self.shopBadge.layer removeAllAnimations];
+  [self.shopBadge.badgeLabel.layer removeAllAnimations];
 }
 
 - (void) updateMailBadge {
