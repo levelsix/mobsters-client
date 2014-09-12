@@ -10,6 +10,13 @@
 
 #import "BattlePlayer.h"
 
+typedef enum
+{
+  ScheduleFirstTurnPlayer = 0,
+  ScheduleFirstTurnEnemy  = 1,
+  ScheduleFirstTurnRandom = 2
+} ScheduleFirstTurn;
+
 @interface BattleSchedule : NSObject
 
 @property (nonatomic, retain) NSArray *schedule;
@@ -17,7 +24,7 @@
 @property (nonatomic, assign) int currentIndex;
 
 // Player A should be your character
-- (id) initWithBattlePlayerA:(BattlePlayer *)bpA battlePlayerB:(BattlePlayer *)bpB justSwapped:(BOOL)justSwapped;
+- (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order;
 - (id) initWithSequence:(NSArray *)sequence currentIndex:(int)currentIndex;
 
 // YES means player A gets to attack next
@@ -26,5 +33,10 @@
 
 - (NSArray *)getNextNMoves:(int)n;
 - (BOOL)getNthMove:(int)n;
+
+// Used by skillManager for Cake Drop schedule reset
+- (void) createScheduleForPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order;
+
+- (BOOL) nextTurnIsPlayers;
 
 @end

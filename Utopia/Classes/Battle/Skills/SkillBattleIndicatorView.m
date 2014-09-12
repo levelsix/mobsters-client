@@ -288,6 +288,11 @@
     self.percentage = 1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement;
     //self.orbsCount = activeSkill.orbCounter;
   }
+  
+  // Hide if owner died
+  BattlePlayer* owner = _skillController.belongsToPlayer ? _skillController.player : _skillController.enemy;
+  if (owner.curHealth <= 0.0)
+    [self disappear];
 }
 
 #pragma mark - UI Calls

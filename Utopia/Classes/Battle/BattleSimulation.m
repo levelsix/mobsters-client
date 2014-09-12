@@ -59,7 +59,8 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (self.currentMyPlayer && self.currentEnemy) {
-    BattleSchedule *sched = [[BattleSchedule alloc] initWithBattlePlayerA:self.currentMyPlayer battlePlayerB:self.currentEnemy justSwapped:swap];
+    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    BattleSchedule *sched = [[BattleSchedule alloc] initWithPlayerA:self.currentMyPlayer.speed playerB:self.currentEnemy.speed andOrder:order];
     self.battleSchedule = sched;
   } else {
     self.battleSchedule = nil;

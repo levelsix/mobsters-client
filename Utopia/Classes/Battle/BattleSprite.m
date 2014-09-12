@@ -362,7 +362,7 @@
   //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationN.copy;
   
   CCActionSequence *seq;
@@ -390,21 +390,28 @@
     float moveTime = distToTravel/MELEE_RUN_SPEED;
     float moveAmount = -distToTravel/ccpLength(pointOffset);
     
-    seq = [CCActionSequence actions:
-           [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
-           [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
-           [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
-           [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.3]; }],
-            [CCSoundAnimate actionWithAnimation:anim],
-            nil],
-           [CCActionCallFunc actionWithTarget:target selector:selector],
-           [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
-           [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
-           [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, -moveAmount)],
-           [CCActionCallFunc actionWithTarget:self selector:@selector(faceNearWithoutUpdate)],
-           [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
-           nil];
+    CCActionSequence* seqAttack = [CCActionSequence actions:
+                                  [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
+                                  [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
+                                  nil];
+    if (shouldReturn)
+      seq = [CCActionSequence actions:seqAttack,
+             [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
+             [CCActionSpawn actions:
+              [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.3]; }],
+              [CCSoundAnimate actionWithAnimation:anim],
+              nil],
+             [CCActionCallFunc actionWithTarget:target selector:selector],
+             [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
+             [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
+             [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, -moveAmount)],
+             [CCActionCallFunc actionWithTarget:self selector:@selector(faceNearWithoutUpdate)],
+             [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
+             nil];
+    else
+      seq = [CCActionSequence actions:seqAttack,
+             [CCActionCallFunc actionWithTarget:target selector:selector],
+             nil];
   }
   seq.tag = 924;
   [self runAction:seq];

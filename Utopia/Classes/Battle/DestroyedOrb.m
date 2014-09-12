@@ -20,19 +20,28 @@
   return self;
 }
 
+- (id) initWithCake {
+  if ((self = [super initWithImageNamed:@"cakeorb.png"])) {
+    self.color = [CCColor whiteColor];
+  }
+  return self;
+}
+
 - (void) setParent:(CCNode *)parent {
   [super setParent:parent];
-  if (parent && !self.streak.parent) {
+  if (parent && self.streak && !self.streak.parent) {
     [self.parent addChild:self.streak z:self.zOrder];
   }
 }
 
 - (void) update:(CCTime)delta {
-	[self.streak setPosition:self.position];
+  if (self.streak)
+    [self.streak setPosition:self.position];
 }
 
 - (void) dealloc {
-  [self.streak removeFromParent];
+  if (self.streak)
+    [self.streak removeFromParent];
 }
 
 @end

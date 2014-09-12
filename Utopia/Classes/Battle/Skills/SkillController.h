@@ -17,11 +17,14 @@
 
 // Skill triggers
 typedef enum {
-  SkillTriggerPointEnemyAppeared    = 1,
-  SkillTriggerPointEnemyDefeated    = 2,
-  SkillTriggerPointPlayerAppeared   = 3,
-  SkillTriggerPointEndOfPlayerMove  = 4,
-  SkillTriggerPointStartOfEnemyTurn = 5
+  SkillTriggerPointEnemyInitialized   = 1,
+  SkillTriggerPointPlayerInitialized  = 2,
+  SkillTriggerPointEnemyAppeared      = 3,
+  SkillTriggerPointEnemyDefeated      = 4,
+  SkillTriggerPointPlayerMobDefeated  = 5,
+  SkillTriggerPointEndOfPlayerMove    = 6,
+  SkillTriggerPointStartOfPlayerTurn  = 7,
+  SkillTriggerPointStartOfEnemyTurn   = 8
   
 } SkillTriggerPoint;
 
@@ -35,6 +38,12 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
+  SkillControllerBlock  _callbackBlockForPopup;
+  UIImageView*          _characterImage;
+  SkillPopupOverlay*    _popupOverlay;
+  
+  SkillTriggerPoint     _currentTrigger;
+  BOOL                  _executedInitialAction;
 }
 
 @property (readonly) SkillType            skillType;
@@ -55,9 +64,9 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 
 // External callers
 - (BOOL) skillIsReady;
-- (void) orbDestroyed:(OrbColor)color;
+- (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
-- (void) triggerSkillWithBlock:(SkillControllerBlock)block andTrigger:(SkillTriggerPoint)trigger;
+- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // To be overriden by specific skills
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger;
@@ -66,10 +75,14 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (void) setValue:(float)value forProperty:(NSString*)property;
 
 // To be called by inherited skills to show the overlay
-- (void) showSkillPopupOverlayWithCompletion:(SkillControllerBlock)completion;
+- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion;
+- (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization
 - (NSDictionary*) serialize;
 - (BOOL) deserialize:(NSDictionary*)dict;
+
+// Helpers
+- (void) preseedRandomization;
 
 @end

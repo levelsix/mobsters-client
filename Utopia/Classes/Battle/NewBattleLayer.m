@@ -218,8 +218,14 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (self.myPlayerObject && self.enemyPlayerObject) {
-    BattleSchedule *sched = [[BattleSchedule alloc] initWithBattlePlayerA:self.myPlayerObject battlePlayerB:self.enemyPlayerObject justSwapped:swap];
-    self.battleSchedule = sched;
+    
+    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    
+    // Cake kid mechanics handling and creating schedule
+    if ([skillManager cakeKidSchedule])
+      order = ScheduleFirstTurnPlayer;
+    if (! swap || ! [skillManager cakeKidSchedule]) // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
+      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order];
     
     _shouldDisplayNewSchedule = YES;
   } else {
@@ -380,6 +386,11 @@
     nil]];
 }
 
+- (NSInteger) stagesLeft
+{
+  return self.enemyTeam.count - _curStage - 1;
+}
+
 - (void) moveToNextEnemy {
   [self.hudView removeButtons];
   
@@ -435,7 +446,9 @@
   if (self.enemyTeam.count > _curStage) {
     self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
     
-    [self createScheduleWithSwap:NO];
+    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^() {
+      [self createScheduleWithSwap:NO];
+    }];
   } else {
     self.enemyPlayerObject = nil;
   }
@@ -478,31 +491,42 @@
 
 #pragma mark - Turn Sequence
 
+- (void) prepareScheduleView
+{
+  NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
+  NSMutableArray *ids = [NSMutableArray array];
+  NSMutableArray *enemyBands = [NSMutableArray array];
+  for (NSNumber *num in bools) {
+    BOOL val = num.boolValue;
+    if (val) {
+      [ids addObject:@(self.myPlayerObject.monsterId)];
+      [enemyBands addObject:@NO];
+    } else {
+      [ids addObject:@(self.enemyPlayerObject.monsterId)];
+      [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
+    }
+  }
+  [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
+}
+
 - (void) beginNextTurn {
+  
+  // Enemy could be reset during Cake Drop explosion
+  if (! _currentEnemy)
+  {
+    [self moveToNextEnemy];
+    return;
+  }
   
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
     BOOL shouldDelay = NO;
     if (_shouldDisplayNewSchedule) {
-      NSArray *bools = [self.battleSchedule getNextNMoves:self.hudView.battleScheduleView.numSlots];
-      NSMutableArray *ids = [NSMutableArray array];
-      NSMutableArray *enemyBands = [NSMutableArray array];
-      for (NSNumber *num in bools) {
-        BOOL val = num.boolValue;
-        if (val) {
-          [ids addObject:@(self.myPlayerObject.monsterId)];
-          [enemyBands addObject:@NO];
-        } else {
-          [ids addObject:@(self.enemyPlayerObject.monsterId)];
-          [enemyBands addObject:@(self.enemyPlayerObject.element == self.myPlayerObject.element)];
-        }
-      }
-      [self.hudView.battleScheduleView setOrdering:ids showEnemyBands:enemyBands];
       
+      [self prepareScheduleView];
       _shouldDisplayNewSchedule = NO;
       shouldDelay = YES;
-      
       [self.hudView displayBattleScheduleView];
       
     } else {
@@ -519,17 +543,32 @@
       self.hudView.waveNumLabel.alpha = 1.f;
     }];
     
-    BOOL nextMove = [self.battleSchedule dequeueNextMove];
-    if (nextMove) {
-      [self beginMyTurn];
-    } else {
-      [self runAction:[CCActionSequence actions:
-                       [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
-                       [CCActionCallBlock actionWithBlock:
-                        ^{
-                          [self beginEnemyTurn];
-                        }], nil]];
+    // Trigger skills for when new enemy joins the battle
+    if (_firstTurn)
+    {
+      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^() {
+        [self.hudView.battleScheduleView bounceLastView];
+        [self proceessNextTurn:shouldDelay];
+      }];
     }
+    else
+      [self proceessNextTurn:shouldDelay];
+  }
+}
+
+- (void) proceessNextTurn:(BOOL)shouldDelay
+{
+  _firstTurn = NO;
+  BOOL nextMove = [self.battleSchedule dequeueNextMove];
+  if (nextMove) {
+    [self beginMyTurn];
+  } else {
+    [self runAction:[CCActionSequence actions:
+                     [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
+                     [CCActionCallBlock actionWithBlock:
+                      ^{
+                        [self beginEnemyTurn];
+                      }], nil]];
   }
 }
 
@@ -549,23 +588,34 @@
   }
   
   [self updateHealthBars];
-  [self.orbLayer.bgdLayer turnTheLightsOn];
-  [self.orbLayer allowInput];
   
-  [self.hudView prepareForMyTurn];
+  // Skills trigger for enemy turn started
+  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^() {
+    
+    [self.orbLayer.bgdLayer turnTheLightsOn];
+    [self.orbLayer allowInput];
+    [self.hudView prepareForMyTurn];
+    
+  }];
 }
 
 - (void) beginEnemyTurn {
   [self.hudView removeButtons];
   
   // Skills trigger for enemy turn started
-  [skillManager triggerSkillsWithBlock:^() {
+  [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^() {
     
-    _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-    _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-    [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
-    
-  } andTrigger:SkillTriggerPointStartOfEnemyTurn];
+    if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
+    {
+      BOOL enemyIsKilled = [self checkEnemyHealth];
+      if (! enemyIsKilled)
+      {
+        _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+        _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+        [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+      }
+    }
+  }];
 }
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy {
@@ -776,7 +826,7 @@
     }
     
     // Trigger skills for move made by the player
-    [skillManager triggerSkillsWithBlock:^() {
+    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^() {
       
       [self blowupBattleSprite:self.currentEnemy withBlock:
        ^{
@@ -792,7 +842,7 @@
       // But make sure that I actually did damage..
       [self sendServerUpdatedValues];
       
-    } andTrigger:SkillTriggerPointEnemyDefeated];
+    }];
     
     return YES;
   }
@@ -832,16 +882,21 @@
   }
 }
 
+- (NSInteger) playerMobstersLeft
+{
+  NSInteger result = 0;
+  for (BattlePlayer *bp in self.myTeam)
+    if (bp.curHealth > 0)
+      result++;
+  return result;
+}
+
 - (void) currentMyPlayerDied {
-  BOOL someoneIsAlive = NO;
-  for (BattlePlayer *bp in self.myTeam) {
-    if (bp.curHealth > 0) {
-      someoneIsAlive = YES;
-    }
-  }
   
-  if (someoneIsAlive) {
-    [self displayDeployViewAndIsCancellable:NO];
+  if ([self playerMobstersLeft] > 0) {
+    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^() {
+      [self displayDeployViewAndIsCancellable:NO];
+    }];
   } else {
     [self youLost];
   }
@@ -1185,10 +1240,15 @@
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb {
   
+  BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
+  
   // Create random bezier
-  if (orb.orbColor != OrbColorNone) {
+  if (orb.orbColor != OrbColorNone || cake) {
     ccBezierConfig bez;
-    bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+    if (cake)
+      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
+    else
+      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
     CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
     
     // basePt1 is chosen with any y and x is between some neg num and approx .5
@@ -1201,14 +1261,26 @@
     float xScale = ccpDistance(initPoint, bez.endPosition);
     float yScale = (50+xScale/5)*(chooseRight?-1:1);
     float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
+    if (cake)
+    {
+      xScale = 1.0;
+      yScale = 1.0;
+      angle = 0.0;
+      basePt1 = ccp(-10.0, -50.0);
+      basePt2 = ccp(-100.0, -20.0);
+    }
     
     // Transforms are applied in reverse order!! So rotate, then scale
     CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMakeRotation(angle), xScale, yScale);
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
-    DestroyedOrb *dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.25f+xScale/600.f)) bezier:bez];
+    DestroyedOrb *dg;
+    if (cake)
+      dg = [[DestroyedOrb alloc] initWithCake];
+    else
+      dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
     [self.orbLayer addChild:dg z:10];
     dg.position = initPoint;
     [dg runAction:[CCActionSequence actions:move,
@@ -1392,7 +1464,7 @@
   _orbCounts[color]++;
   _totalOrbCounts[color]++;
   
-  [skillManager orbDestroyed:orb.orbColor];
+  [skillManager orbDestroyed:orb.orbColor special:orb.specialOrbType];
   
   // Update tile
   BattleTile* tile = [self.orbLayer.layout tileAtColumn:orb.column row:orb.row];
@@ -1424,6 +1496,10 @@
                              [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
       }
       
+      [self spawnRibbonForOrb:orb];
+    }
+    else if (orb.specialOrbType == SpecialOrbTypeCake)
+    {
       [self spawnRibbonForOrb:orb];
     }
   }
@@ -1469,11 +1545,11 @@
   [self updateHealthBars];
   
   // Trigger skills for move made by the player
-  [skillManager triggerSkillsWithBlock:^() {
+  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^() {
     BOOL enemyIsKilled = [self checkEnemyHealth];
     if (! enemyIsKilled)
       [self checkIfAnyMovesLeft];
-  } andTrigger:SkillTriggerPointEndOfPlayerMove];
+  }];
   
   _comboCount = 0;
 }
@@ -1503,14 +1579,14 @@
   
   if (self.enemyPlayerObject) {
     
-    // Trigger skills for when new enemy joins the battle
-    [skillManager triggerSkillsWithBlock:^() {
-      _hasStarted = YES;
-      _reachedNextScene = YES;
-      [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
-      [self updateHealthBars];
-      [self.currentEnemy doRarityTagShine];
-    } andTrigger:SkillTriggerPointEnemyAppeared];
+    // Here was SkillTriggerPointPlayerInitialized before we decided to show schedule before
+    
+    _hasStarted = YES;
+    _reachedNextScene = YES;
+    _firstTurn = YES;
+    [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
+    [self updateHealthBars];
+    [self.currentEnemy doRarityTagShine];
   }
 }
 
@@ -1617,7 +1693,7 @@
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared
-    [skillManager triggerSkillsWithBlock:^() {
+    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^() {
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
@@ -1625,7 +1701,7 @@
       SEL selector = isSwap ? @selector(beginNextTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginNextTurn);
       [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
       
-    } andTrigger:SkillTriggerPointPlayerAppeared];
+    }];
     
   } else if (isSwap) {
     [self.hudView displaySwapButton];

@@ -13,11 +13,19 @@ typedef void(^SkillControllerBlock)();
 
 @interface SkillPopupOverlay : UIView
 {
-  __weak IBOutlet UIImageView *_skillImage;
-  __weak IBOutlet UIImageView *_ownerImage;
-  __weak IBOutlet UIImageView *_usedImage;
+  __weak IBOutlet UIView *_avatarPlayer;
+  __weak IBOutlet UIView *_avatarEnemy;
+  
+  __weak IBOutlet UIImageView *_imagePlayer;
+  __weak IBOutlet UIImageView *_imageEnemy;
+  
+  __weak IBOutlet UIImageView *_skillImagePlayer;
+  __weak IBOutlet UIImageView *_skillImageEnemy;
+  
+  __weak IBOutlet UIImageView *_enemyGradient;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withCompletion:(SkillControllerBlock)completion;
+- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillControllerBlock)completion;
+- (void) hideWithCompletion:(SkillControllerBlock)completion;
 
 @end

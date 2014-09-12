@@ -83,7 +83,6 @@
   
   int _myDamageDealt;
   int _myDamageForThisTurn;
-  int _enemyDamageDealt;
   
   BOOL _hasStarted;
   BOOL _isExiting;
@@ -99,6 +98,7 @@
   BOOL _shouldDisplayNewSchedule;
   BOOL _displayedWaveNumber;
   BOOL _reachedNextScene;
+  BOOL _firstTurn;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -134,6 +134,8 @@
 @property (nonatomic, retain) BattleWonView *wonView;
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
+
+@property (nonatomic, assign) int enemyDamageDealt; // used by skillManager to set damage dealt by skills like Cake Drop
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
@@ -174,6 +176,7 @@
 - (void) exitFinal;
 - (void) shakeScreenWithIntensity:(float)intensity;
 
+- (void) checkMyHealth;
 - (BOOL) checkEnemyHealth;
 - (void) checkEnemyHealthAndStartNewTurn;
 
@@ -200,5 +203,12 @@
 - (void) loadHudView;
 
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position;
+
+- (void) prepareScheduleView;
+
+- (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block;
+
+- (NSInteger) stagesLeft;
+- (NSInteger) playerMobstersLeft;
 
 @end

@@ -40,9 +40,12 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  if ([super skillCalledWithTrigger:trigger])
+    return YES;
+  
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self showSkillPopupOverlayWithCompletion:^{
+    [self showSkillPopupOverlay:YES withCompletion:^{
       [self spawnInitialJelly];
     }];
     return YES;
@@ -50,7 +53,15 @@
   
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
-    [self spawnNewJelly];
+    // Check for the turn
+    if (_turnCounter < _spawnTurns - 1)
+    {
+      _turnCounter++;
+      return NO;
+    }
+    else // Jumping owner and jelly spawning
+      [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnNewJelly)];
+    
     return YES;
   }
   
@@ -80,18 +91,15 @@
   
     // Update visuals
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    [bgdLayer updateTile:tile withTarget:self andCallback:callback];
+    BOOL keepLit = [self.battleLayer.battleSchedule nextTurnIsPlayers];
+    [bgdLayer updateTile:tile keepLit:keepLit withTarget:self andCallback:callback];
   }
 }
 
 - (void) spawnNextBatch
 {
   // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
-  NSInteger seed = 0;
-  for (NSInteger n = 0; n < self.battleLayer.orbLayer.layout.numColumns; n++)
-    for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
-      seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
-  srand(seed);
+  [self preseedRandomization];
   
   NSInteger counter = 500;  // Change it to enable batching, now it's disabled. Counter reflects the batch size (say, 3)
   if ( _spawnCounter < counter )
@@ -115,18 +123,11 @@
 {
   // Spawn initial jelly skills
   _spawnCounter = _initialCount;
-  [self spawnNextBatch];
+  [self performSelector:@selector(spawnNextBatch) withObject:nil afterDelay:0.5];
 }
 
 - (void) spawnNewJelly
 {
-  // Check for the turn
-  if (_turnCounter < _spawnTurns - 1)
-  {
-    _turnCounter++;
-    return;
-  }
-  
   // Spawn and reset turn counter
   _spawnCounter = _spawnCount;
   _turnCounter = 0;
@@ -153,6 +154,5 @@
   
   return YES;
 }
-
 
 @end

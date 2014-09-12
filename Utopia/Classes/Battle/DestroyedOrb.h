@@ -14,5 +14,6 @@
 @property (nonatomic, assign) int scoreValue;
 
 - (id) initWithColor:(CCColor *)color;
+- (id) initWithCake;
 
 @end

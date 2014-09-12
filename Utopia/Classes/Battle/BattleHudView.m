@@ -165,23 +165,29 @@
 }
 
 - (void) displayBattleScheduleView {
+  
+  if (self.schedulePosition.y == 0)
+    self.schedulePosition = self.battleScheduleView.center;
+  
   if (self.battleScheduleView.hidden) {
     self.battleScheduleView.hidden = NO;
     
-    CGPoint pt = self.battleScheduleView.center;
-    self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
+    self.battleScheduleView.center = ccpAdd(self.schedulePosition, ccp(0, -100));
     [UIView animateWithDuration:0.3f animations:^{
-      self.battleScheduleView.center = pt;
+      self.battleScheduleView.center = self.schedulePosition;
     }];
   }
 }
 
 - (void) removeBattleScheduleView {
-  CGPoint pt = self.battleScheduleView.center;
+  
+  if (self.schedulePosition.y == 0)
+    self.schedulePosition = self.battleScheduleView.center;
+  
   [UIView animateWithDuration:0.3f animations:^{
-    self.battleScheduleView.center = ccpAdd(pt, ccp(0, -100));
+    self.battleScheduleView.center = ccpAdd(self.schedulePosition, ccp(0, -100));
   } completion:^(BOOL finished) {
-    self.battleScheduleView.center = pt;
+    self.battleScheduleView.center = self.schedulePosition;
     
     if (finished) {
       self.battleScheduleView.hidden = YES;

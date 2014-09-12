@@ -30,11 +30,15 @@
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
 {
+  if ([super skillCalledWithTrigger:trigger])
+    return YES;
+  
   if (trigger == SkillTriggerPointEndOfPlayerMove)
   {
     if ([self skillIsReady])
     {
-      [self showSkillPopupOverlayWithCompletion:^{
+      [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+      [self showSkillPopupOverlay:YES withCompletion:^{
         [self dealQuickAttack];
       }];
       return YES;
@@ -49,13 +53,13 @@
 - (void) dealQuickAttack
 {
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(callbackForAnimation)];
+  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
   
   // Show attack label
-  _attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
+  /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
   _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
   _attackSprite.scale = 0.0;
-  [self.playerSprite.parent addChild:_attackSprite z:50];
+  [self.playerSprite.parent addChild:_attackSprite z:50];*/
   
   // Run animation
   [_attackSprite runAction:[CCActionSequence actions:
@@ -67,10 +71,17 @@
                             nil]];
 }
 
-- (void) callbackForAnimation
+- (void) dealQuickAttack1
 {
   // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(skillTriggerFinished)];
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
+}
+
+- (void) dealQuickAttack2
+{
+  // Turn on the lights for the board and finish skill execution
+  [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self skillTriggerFinished];
 }
 
 @end

@@ -51,6 +51,8 @@
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
 @property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
 
+@property (nonatomic, assign) CGPoint schedulePosition;
+
 - (void) displaySwapButton;
 - (void) removeSwapButton;
 - (void) displayDeployViewToCenterX:(float)centerX cancelTarget:(id)target selector:(SEL)selector;
