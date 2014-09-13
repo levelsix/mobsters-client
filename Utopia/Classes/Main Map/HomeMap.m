@@ -50,7 +50,6 @@
 }
 
 - (id) initWithFile:(NSString *)tmxFile {
-  _loading = YES;
   if ((self = [super initWithFile:tmxFile])) {
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     
@@ -99,8 +98,6 @@
     [self setUpHomeBuildingMenu];
     
     _timers = [[NSMutableArray alloc] init];
-    
-    _loading = NO;
     
     [self moveToCenterAnimated:NO];
     
@@ -253,28 +250,6 @@
     [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove1, 0)],
     [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove2, 4)],
     nil]];
-}
-
-#pragma mark - Home building timers
-
-- (void) invalidateAllTimers {
-  // Invalidate all timers
-  [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    NSTimer *t = (NSTimer *)obj;
-    [t invalidate];
-  }];
-  [_timers removeAllObjects];
-}
-
-- (void) beginTimers {
-  for (CCNode *node in _children) {
-    if (node != _purchBuilding && [node isKindOfClass:[HomeBuilding class]]) {
-      [self updateTimersForBuilding:(HomeBuilding *)node];
-    }
-    if ([node isKindOfClass:[ObstacleSprite class]]) {
-      [self updateTimersForBuilding:(ObstacleSprite *)node];
-    }
-  }
 }
 
 - (NSArray *) myStructsList {
@@ -1026,65 +1001,6 @@
   // As you get closer to edge, it scrolls faster
 }
 
-- (void) updateTimersForBuilding:(MapSprite *)ms {
-  NSTimer *oldTimer = nil;
-  for (NSTimer *t in _timers) {
-    if (t.userInfo == ms) {
-      oldTimer = t;
-      break;
-    }
-  }
-  
-  if (oldTimer) {
-    [oldTimer invalidate];
-    [_timers removeObject:oldTimer];
-  }
-  
-  if ([ms isKindOfClass:[HomeBuilding class]]) {
-    HomeBuilding *mb = (HomeBuilding *)ms;
-    if (!mb.userStruct.isComplete) {
-      NSTimer *newTimer = [NSTimer timerWithTimeInterval:mb.userStruct.timeLeftForBuildComplete target:self selector:@selector(constructionComplete:) userInfo:mb repeats:NO];
-      [_timers addObject:newTimer];
-      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
-    } else {
-      if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
-        ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
-        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT) {
-          rb.retrievable = YES;
-        } else {
-          [self setupIncomeTimerForBuilding:rb];
-        }
-      }
-    }
-  } else if ([ms isKindOfClass:[ObstacleSprite class]]) {
-    ObstacleSprite *os = (ObstacleSprite *)ms;
-    if (os.obstacle.endTime) {
-      NSTimer *newTimer = [NSTimer timerWithTimeInterval:os.obstacle.endTime.timeIntervalSinceNow target:self selector:@selector(obstacleComplete:) userInfo:os repeats:NO];
-      [_timers addObject:newTimer];
-      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
-    }
-  }
-}
-
-- (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
-  int numRes = RESOURCE_GEN_MIN_AMT;
-  
-  NSTimer *timer = nil;
-  // Set timer for when building has x resources
-  if ([mb.userStruct numResourcesAvailable] >= numRes) {
-    timer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
-  } else {
-    ResourceGeneratorProto *rg = (ResourceGeneratorProto *)mb.userStruct.staticStruct;
-    int secs = numRes/rg.productionRate*3600;
-    
-    MSDate *date = [mb.userStruct.lastRetrieved dateByAddingTimeInterval:secs];
-    
-    timer = [NSTimer timerWithTimeInterval:date.timeIntervalSinceNow target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
-  }
-  [_timers addObject:timer];
-  [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-}
-
 - (void) reloadRetrievableIcons {
   for (ResourceGeneratorBuilding *res in self.children) {
     if ([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
@@ -1126,11 +1042,135 @@
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:us];
 }
 
+#pragma mark - Timers
+
+- (void) invalidateAllTimers {
+  // Invalidate all timers
+  [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    NSTimer *t = (NSTimer *)obj;
+    [t invalidate];
+  }];
+  [_timers removeAllObjects];
+}
+
+- (void) beginTimers {
+  for (CCNode *node in _children) {
+    if (node != _purchBuilding && [node isKindOfClass:[HomeBuilding class]]) {
+      [self updateTimersForBuilding:(HomeBuilding *)node justBuilt:NO];
+    }
+    if ([node isKindOfClass:[ObstacleSprite class]]) {
+      [self updateTimersForBuilding:(ObstacleSprite *)node justBuilt:NO];
+    }
+  }
+  
+  [self updateTimerForHealingJustQueuedUp:NO];
+}
+
+- (void) updateTimerForHealingDidJustQueueUp {
+  [self updateTimerForHealingJustQueuedUp:YES];
+}
+
+- (void) updateTimerForHealingJustQueuedUp:(BOOL)justQueuedUp {
+  NSMutableArray *oldTimers = [NSMutableArray array];
+  for (NSTimer *t in _timers) {
+    if ([t.userInfo isEqual:@"Healing"]) {
+      [oldTimers addObject:t];
+      break;
+    }
+  }
+  
+  for (NSTimer *oldTimer in oldTimers) {
+    [oldTimer invalidate];
+    [_timers removeObject:oldTimer];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  MSDate *date = gs.monsterHealingQueueEndTime;
+  NSTimeInterval timeLeft = date.timeIntervalSinceNow;
+  
+  if (timeLeft > 0 && ((justQueuedUp && timeLeft/60.f > gl.maxMinutesForFreeSpeedUp) || !justQueuedUp)) {
+    NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(healingSpeedupBecameFree:) userInfo:@"Healing" repeats:NO];
+    [_timers addObject:newTimer];
+    [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+  }
+}
+
+- (void) updateTimersForBuilding:(MapSprite *)ms justBuilt:(BOOL)justBuilt {
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSMutableArray *oldTimers = [NSMutableArray array];
+  for (NSTimer *t in _timers) {
+    if (t.userInfo == ms) {
+      [oldTimers addObject:t];
+      break;
+    }
+  }
+  
+  for (NSTimer *oldTimer in oldTimers) {
+    [oldTimer invalidate];
+    [_timers removeObject:oldTimer];
+  }
+  
+  if ([ms isKindOfClass:[HomeBuilding class]]) {
+    HomeBuilding *mb = (HomeBuilding *)ms;
+    if (!mb.userStruct.isComplete) {
+      // Add a timer for completion time
+      NSTimeInterval timeLeft = mb.userStruct.timeLeftForBuildComplete;
+      NSTimer *newTimer = [NSTimer timerWithTimeInterval:mb.userStruct.timeLeftForBuildComplete target:self selector:@selector(constructionComplete:) userInfo:mb repeats:NO];
+      [_timers addObject:newTimer];
+      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+      
+      // Add a timer for free speedup
+      if (timeLeft > 0 && ((justBuilt && timeLeft/60.f > gl.maxMinutesForFreeSpeedUp) || !justBuilt)) {
+        NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(buildingSpeedupBecameFree:) userInfo:mb repeats:NO];
+        [_timers addObject:newTimer];
+        [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+      }
+    } else {
+      if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
+        ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
+        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT) {
+          rb.retrievable = YES;
+        } else {
+          [self setupIncomeTimerForBuilding:rb];
+        }
+      }
+    }
+  } else if ([ms isKindOfClass:[ObstacleSprite class]]) {
+    ObstacleSprite *os = (ObstacleSprite *)ms;
+    if (os.obstacle.endTime) {
+      NSTimer *newTimer = [NSTimer timerWithTimeInterval:os.obstacle.endTime.timeIntervalSinceNow target:self selector:@selector(obstacleComplete:) userInfo:os repeats:NO];
+      [_timers addObject:newTimer];
+      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
+  int numRes = RESOURCE_GEN_MIN_AMT;
+  
+  NSTimer *timer = nil;
+  // Set timer for when building has x resources
+  if ([mb.userStruct numResourcesAvailable] >= numRes) {
+    timer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
+  } else {
+    ResourceGeneratorProto *rg = (ResourceGeneratorProto *)mb.userStruct.staticStruct;
+    int secs = numRes/rg.productionRate*3600;
+    
+    MSDate *date = [mb.userStruct.lastRetrieved dateByAddingTimeInterval:secs];
+    
+    timer = [NSTimer timerWithTimeInterval:date.timeIntervalSinceNow target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
+  }
+  [_timers addObject:timer];
+  [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
   if (mb.userStruct.userStructId) {
     [self sendNormStructComplete:mb.userStruct];
-    [self updateTimersForBuilding:mb];
+    [self updateTimersForBuilding:mb justBuilt:NO];
     mb.isConstructing = NO;
     [mb removeProgressBar];
     [mb displayUpgradeComplete];
@@ -1149,12 +1189,42 @@
   }
 }
 
+- (void) buildingSpeedupBecameFree:(NSTimer *)timer {
+  HomeBuilding *mb = [timer userInfo];
+  UserStruct *us = mb.userStruct;
+  
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *sip = [us.staticStruct structInfo];
+  NSTimeInterval timeLeft = us.timeLeftForBuildComplete;
+  
+  if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
+    BOOL isInitialConstruction = sip.level == 1;
+    NSString *desc = [NSString stringWithFormat:@"%@ %@ is below %d minutes. Free speedup available!", sip.name, isInitialConstruction ? @"construction" : @"upgrade", gl.maxMinutesForFreeSpeedUp];
+    [Globals addGreenAlertNotification:desc isImmediate:NO];
+  }
+  
+  [_timers removeObject:timer];
+}
+
+- (void) healingSpeedupBecameFree:(NSTimer *)timer {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  NSTimeInterval timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  
+  if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
+    NSString *desc = [NSString stringWithFormat:@"Healing time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
+    [Globals addGreenAlertNotification:desc isImmediate:NO];
+  }
+  
+  [_timers removeObject:timer];
+}
+
 - (void) obstacleComplete:(NSTimer *)timer {
   ObstacleSprite *os = [timer userInfo];
   [[OutgoingEventController sharedOutgoingEventController] obstacleRemovalComplete:os.obstacle speedup:NO];
   [os removeProgressBar];
   [os disappear];
-  [self updateTimersForBuilding:os];
+  [self updateTimersForBuilding:os justBuilt:NO];
   if (os == self.selected) {
     self.selected = nil;
   }
@@ -1237,7 +1307,7 @@
   if (us) {
     homeBuilding.userStruct = us;
     _constrBuilding = homeBuilding;
-    [self updateTimersForBuilding:homeBuilding];
+    [self updateTimersForBuilding:homeBuilding justBuilt:YES];
     homeBuilding.isConstructing = YES;
     homeBuilding.isPurchasing = NO;
     homeBuilding.name = STRUCT_TAG(us.userStructId);
@@ -1465,7 +1535,7 @@
     
     if (!us.isComplete) {
       _constrBuilding = hb;
-      [self updateTimersForBuilding:hb];
+      [self updateTimersForBuilding:hb justBuilt:YES];
       hb.isConstructing = YES;
       [hb displayProgressBar];
       
@@ -1479,7 +1549,7 @@
     
     if (uo.endTime) {
       _constrBuilding = os;
-      [self updateTimersForBuilding:os];
+      [self updateTimersForBuilding:os justBuilt:NO];
       [os displayProgressBar];
       
       [self reselectCurrentSelection];
@@ -1543,7 +1613,7 @@
           if (_constrBuilding == mb) {
             _constrBuilding = nil;
           }
-          [self updateTimersForBuilding:mb];
+          [self updateTimersForBuilding:mb justBuilt:NO];
           
           [SoundEngine structCompleted];
           
@@ -1586,7 +1656,7 @@
           if (_constrBuilding == os) {
             _constrBuilding = nil;
           }
-          [self updateTimersForBuilding:os];
+          [self updateTimersForBuilding:os justBuilt:NO];
           
           [AchievementUtil checkObstacleRemoved];
           
@@ -1684,6 +1754,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPier) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
