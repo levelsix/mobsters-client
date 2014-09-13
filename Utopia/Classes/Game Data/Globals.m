@@ -1614,13 +1614,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) addAlertNotification:(NSString *)msg {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg isGreen:NO isImmediate:YES];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorRed isImmediate:YES];
   [gvc.notificationController addNotification:oln];
 }
 
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg isGreen:YES isImmediate:isImmediate];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorGreen isImmediate:isImmediate];
+  [gvc.notificationController addNotification:oln];
+}
+
++ (void) addPurpleAlertNotification:(NSString *)msg {
+  GameViewController *gvc = [GameViewController baseController];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorPurple isImmediate:NO];
   [gvc.notificationController addNotification:oln];
 }
 
@@ -1999,8 +2005,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that inventory is not full
   NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME];
-    [Globals addAlertNotification:description];
+    // Let the selector control the notification
+    // NSString *description = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME];
+    // [Globals addAlertNotification:description];
     [target performSelector:inventoryFullSelector];
     return NO;
   }

@@ -235,6 +235,7 @@
 + (void) popupMessage: (NSString *)msg;
 + (void) addAlertNotification:(NSString *)msg;
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
++ (void) addPurpleAlertNotification:(NSString *)msg;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

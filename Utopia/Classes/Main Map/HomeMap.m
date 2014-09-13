@@ -677,6 +677,22 @@
   }
 }
 
+- (void) pointArrowOnUpgradeResidence {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[ResidenceBuilding class]];
+  for (HomeBuilding *x in arr) {
+    // Try to prioritize complete residences but if you don't have one then use the upgrading one
+    if (!b || (x.userStruct.isComplete > b.userStruct.isComplete) ||
+        (x.userStruct.isComplete == b.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level < b.userStruct.staticStruct.structInfo.level)) {
+      b = x;
+    }
+  }
+  
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonUpgrade];
+  }
+}
+
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
   [_arrowBuilding removeArrowAnimated:YES];
   
@@ -879,6 +895,14 @@
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
       [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES]]];
+      
+      // For a single residence, put the sell button in
+      if (fsp.structType == StructureInfoProto_StructTypeResidence) {
+        NSArray *arr = [self childrenOfClassType:[ResidenceBuilding class]];
+        if (arr.count == 1) {
+          [buttonViews addObject:[MapBotViewButton sellButton]];
+        }
+      }
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     ObstacleSprite *ob = (ObstacleSprite *)self.selected;
@@ -901,10 +925,19 @@
   [botView addAnimateViewsToContainerView:buttonViews];
   
   if (self.selected == _arrowBuilding) {
+    MapBotViewButton *button = nil;
     for (MapBotViewButton *b in buttonViews) {
       if (b.config == _arrowButtonConfig) {
-        [Globals createUIArrowForView:b atAngle:0];
+        button = b;
       }
+    }
+    
+    if (button) {
+      NSInteger idx = [buttonViews indexOfObject:button];
+      
+      // Check if its on the right, then left, then in middle
+      float angle = idx == buttonViews.count-1 ? 0 : idx == 0 ?  M_PI : M_PI_2;
+      [Globals createUIArrowForView:button atAngle:angle];
     }
   }
 }
@@ -1200,7 +1233,7 @@
   if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     BOOL isInitialConstruction = sip.level == 1;
     NSString *desc = [NSString stringWithFormat:@"%@ %@ is below %d minutes. Free speedup available!", sip.name, isInitialConstruction ? @"construction" : @"upgrade", gl.maxMinutesForFreeSpeedUp];
-    [Globals addGreenAlertNotification:desc isImmediate:NO];
+    [Globals addPurpleAlertNotification:desc];
   }
   
   [_timers removeObject:timer];
@@ -1213,7 +1246,7 @@
   
   if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     NSString *desc = [NSString stringWithFormat:@"Healing time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
-    [Globals addGreenAlertNotification:desc isImmediate:NO];
+    [Globals addPurpleAlertNotification:desc];
   }
   
   [_timers removeObject:timer];

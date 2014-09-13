@@ -31,6 +31,8 @@
   
   int _clanChatBadgeNum;
   BOOL _shouldShowClanDotOnBotView;
+  
+  BOOL _shouldShowArrowOnResidence;
 }
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
@@ -99,5 +101,6 @@
 - (void) openShopWithFunds;
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
+- (void) showArrowToResidence;
 
 @end

@@ -76,11 +76,11 @@
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {
-  if (self.arrow) {
+  [super removeArrowAnimated:animated];
+  
+  if (_bubble) {
     [self displayBubble];
   }
-  
-  [super removeArrowAnimated:animated];
 }
 
 - (void) setOrientation:(StructOrientation)o {
