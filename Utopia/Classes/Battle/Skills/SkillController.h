@@ -13,6 +13,8 @@
 #import "BattleSprite.h"
 #import "SkillPopupOverlay.h"
 
+typedef void(^SkillControllerBlock)(BOOL triggered);
+
 @class NewBattleLayer;
 
 // Skill triggers
@@ -38,7 +40,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
-  SkillControllerBlock  _callbackBlockForPopup;
+  SkillPopupBlock       _callbackBlockForPopup;
   UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;
   
@@ -75,7 +77,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (void) setValue:(float)value forProperty:(NSString*)property;
 
 // To be called by inherited skills to show the overlay
-- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion;
+- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
 
 // Serialization

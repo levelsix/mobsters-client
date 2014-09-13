@@ -23,7 +23,7 @@
   return self;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillControllerBlock)completion
+- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion
 {
   UIView* mainView = player ? _avatarPlayer : _avatarEnemy;
   UIImageView* skillImage = player ? _skillImagePlayer : _skillImageEnemy;
@@ -71,7 +71,7 @@
   }];
 }
 
-- (void) hideWithCompletion:(SkillControllerBlock)completion
+- (void) hideWithCompletion:(SkillPopupBlock)completion
 {
   // Hide view
   [UIView animateWithDuration:0.3 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{

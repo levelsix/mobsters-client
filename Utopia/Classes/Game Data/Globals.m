@@ -2165,19 +2165,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSUInteger count = [self count];
   for (NSUInteger i = 0; i < count; ++i) {
     
-    // This hack probably should not be here, sorry. And another line below. Mikhail.
-    BattleOrb* orb = [self objectAtIndex:i];
-    if ([orb isKindOfClass:[BattleOrb class]])
-      if (orb.specialOrbType != SpecialOrbTypeNone)
-        continue;
-    
     // Select a random element between i and end of array to swap with.
     NSInteger nElements = count - i;
-    NSInteger n;
-    do {
-      n = (arc4random() % nElements) + i;
-      orb = [self objectAtIndex:n];
-    } while ([orb isKindOfClass:[BattleOrb class]] && (orb.specialOrbType != SpecialOrbTypeNone));  // This one, yeah
+    NSInteger n = (arc4random() % nElements) + i;
     
     [self exchangeObjectAtIndex:i withObjectAtIndex:n];
   }

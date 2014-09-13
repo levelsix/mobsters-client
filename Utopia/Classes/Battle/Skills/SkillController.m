@@ -72,7 +72,7 @@
   _callbackBlock = completion;
   BOOL triggered = [self skillCalledWithTrigger:trigger];
   if (! triggered)
-    _callbackBlock();
+    _callbackBlock(NO);
 }
 
 #pragma mark - Placeholders to be overriden
@@ -88,7 +88,7 @@
   // Skip initial attack (if deserialized)
   if (trigger == SkillTriggerPointEnemyAppeared && _executedInitialAction)
   {
-    _callbackBlock();
+    _callbackBlock(NO);
     return YES;
   }
   
@@ -106,7 +106,7 @@
     _popupOverlay = nil;
   }
   else
-    _callbackBlock();
+    _callbackBlock(YES);
 }
 
 - (void) setDefaultValues
@@ -154,7 +154,7 @@
 - (void) hideSkillPopupOverlayInternal
 {
   // Restore pieces of the battle hud in a block
-  SkillControllerBlock newCompletion = ^(){
+  SkillPopupBlock newCompletion = ^(){
     
     if (self.belongsToPlayer)
     {
@@ -165,14 +165,14 @@
       }];
     }
     
-    _callbackBlock();
+    _callbackBlock(YES);
   };
   
   // Hide overlay
   [_popupOverlay hideWithCompletion:newCompletion];
 }
 
-- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillControllerBlock)completion
+- (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion
 {
   _callbackBlockForPopup = completion;
   
