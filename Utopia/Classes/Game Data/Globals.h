@@ -121,7 +121,7 @@
 @property (nonatomic, assign) float battleRunAwayBasePercent;
 @property (nonatomic, assign) float battleRunAwayIncrement;
 
-@property (nonatomic, assign) float maxMinutesForFreeSpeedUp;
+@property (nonatomic, assign) int maxMinutesForFreeSpeedUp;
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 

@@ -27,7 +27,6 @@
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
-  BOOL _loading;
   BOOL _purchasing;
   BOOL _isSpeedingUp;
   int _purchStructId;
@@ -66,7 +65,6 @@
 - (BOOL) speedUpBuilding;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
-- (void) updateTimersForBuilding:(MapSprite *)ms;
 - (void) invalidateAllTimers;
 
 - (NSArray *) reloadObstacles;

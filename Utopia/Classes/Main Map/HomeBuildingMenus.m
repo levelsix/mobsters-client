@@ -108,7 +108,7 @@
 
 - (void) animateFreeLabel {
   if (!_isAnimatingFreeLabel) {
-    CCLabelTTF *freeLabel = [CCLabelTTF labelWithString:@"Free!" fontName:_timeLabel.fontName fontSize:_timeLabel.fontSize];
+    CCLabelTTF *freeLabel = [CCLabelTTF labelWithString:@"FREE!" fontName:_timeLabel.fontName fontSize:_timeLabel.fontSize];
     [self addChild:freeLabel];
     freeLabel.position = _timeLabel.position;
     freeLabel.horizontalAlignment = _timeLabel.horizontalAlignment;
@@ -119,10 +119,10 @@
     
     freeLabel.opacity = 0.f;
     
-    float fadeTime = 1.2f;
+    float fadeTime = 0.4f;
     // Delay time 1 is how long free is up, 2 is how long timer is up
-    float delayTime1 = 3.f;
-    float delayTime2 = 5.f;
+    float delayTime1 = 1.8f;
+    float delayTime2 = 1.8f;
     
     [freeLabel runAction:[CCActionRepeatForever actionWithAction:
                           [CCActionSequence actions:

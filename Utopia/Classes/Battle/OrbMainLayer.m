@@ -180,15 +180,37 @@
     while ((newBottomFeeders = [self.layout detectBottomFeeders]).count) {
       // Redo calls to fallingColumns and newColumns and add to our current arrays
       
-      NSLog(@"Detected bottom feeders: %@", newBottomFeeders);
+      OrbLog(@"Detected bottom feeders: %@", newBottomFeeders);
       OrbLog(@"Layout: %@", self.layout);
       
       // Don't need to do any consolidation of arrays with this because all orbs will be updated
       // in the arrays.
-      [self.layout fillHoles];
+      NSArray *newFallingColumns = [self.layout fillHoles];
       
-      OrbLog(@"Filling holes...");
+      OrbLog(@"Filling holes %@", newFallingColumns);
       OrbLog(@"Layout: %@", self.layout);
+      
+      // Must consolidate in case initial fallingColumns did not have movers
+      for (int i = 0; i < newColumns.count; i++) {
+        NSMutableArray *origArr = fallingColumns[i];
+        NSMutableArray *newArr = newFallingColumns[i];
+        
+        for (BattleOrb *orb in newArr) {
+          
+          // Make sure orb is not in the topped up orbs
+          BOOL isToppedUp = NO;
+          for (NSArray *arr in newColumns) {
+            if ([arr containsObject:orb]) {
+              isToppedUp = YES;
+            }
+          }
+          
+          // Only add if it is not already in the list
+          if (!isToppedUp && ![origArr containsObject:orb]) {
+            [origArr addObject:orb];
+          }
+        }
+      }
       
       // Must consolidate this with the initial newColumns so that newOrbs get added
       NSArray *moreNewColumns = [self.layout topUpOrbs];
@@ -207,6 +229,9 @@
     }
     
     OrbLog(@"Calling animate falling orbs.");
+    OrbLog(@"Falling columns: %@", fallingColumns);
+    OrbLog(@"New columns: %@", newColumns);
+    OrbLog(@"Bottom feeders: %@", bottomFeeders);
     OrbLog(@"Layout: %@", self.layout);
     
     [self.swipeLayer animateFallingOrbs:fallingColumns newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
