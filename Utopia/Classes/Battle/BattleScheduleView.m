@@ -118,7 +118,7 @@
     first.superview.center = ccp(first.superview.center.x, -first.superview.frame.size.height/2);
     first.superview.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self bounceLastView];
+    //[self bounceLastView];  // Now we're calling bounce from the NewBattleLayer
     
     [first.superview removeFromSuperview];
   }];

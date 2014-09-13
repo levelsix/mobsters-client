@@ -68,6 +68,19 @@
   return NO;
 }
 
+- (void) skillTriggerFinished
+{
+  if (_currentTrigger == SkillTriggerPointStartOfEnemyTurn) // This is to let jellies update before we'll proceed
+  {
+    [self performAfterDelay:0.7 block:^{
+      [super skillTriggerFinished];
+    }];
+  }
+  else
+    [super skillTriggerFinished];
+}
+
+
 #pragma mark - Skill logic
 
 - (void) spawnRandomJellyWithCallback:(SEL)callback
@@ -91,7 +104,11 @@
   
     // Update visuals
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BOOL keepLit = [self.battleLayer.battleSchedule nextTurnIsPlayers];
+    BOOL keepLit;
+    if (_currentTrigger == SkillTriggerPointStartOfEnemyTurn)
+      keepLit = NO;
+    else
+      keepLit = [self.battleLayer.battleSchedule nextTurnIsPlayers];
     [bgdLayer updateTile:tile keepLit:keepLit withTarget:self andCallback:callback];
   }
 }

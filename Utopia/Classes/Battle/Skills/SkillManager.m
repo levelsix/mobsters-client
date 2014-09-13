@@ -225,7 +225,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     shouldTriggerEnemySkill = NO;
   
   // Wrapping indicators update into the block
-  SkillControllerBlock newBlock = ^() {
+  SkillControllerBlock newBlock = ^(BOOL triggered) {
     
     // Update indicators
     if (_skillIndicatorPlayer)
@@ -234,7 +234,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       [_skillIndicatorEnemy update];
     
     // Execute the completion block
-    completion();
+    completion(triggered);
     
     // Count turns
     if (trigger == SkillTriggerPointStartOfEnemyTurn || trigger == SkillTriggerPointStartOfPlayerTurn)
@@ -242,7 +242,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Sequencing player and enemy skills in case both will be triggered by this call
-  SkillControllerBlock sequenceBlock = ^() {
+  SkillControllerBlock sequenceBlock = ^(BOOL triggered) {
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
@@ -252,7 +252,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
     
     if (!enemySkillTriggered)
-      newBlock();
+      newBlock(triggered);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
@@ -261,7 +261,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
   else
-    newBlock();
+    newBlock(NO);
 }
 
 - (BOOL) cakeKidSchedule

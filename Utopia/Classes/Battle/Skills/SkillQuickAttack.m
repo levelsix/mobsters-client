@@ -38,7 +38,7 @@
     if ([self skillIsReady])
     {
       [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-      [self showSkillPopupOverlay:YES withCompletion:^{
+      [self showSkillPopupOverlay:YES withCompletion:^(){
         [self dealQuickAttack];
       }];
       return YES;

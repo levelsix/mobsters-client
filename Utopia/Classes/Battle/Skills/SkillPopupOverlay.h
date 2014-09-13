@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Skill.pb.h"
 
-typedef void(^SkillControllerBlock)();
+typedef void(^SkillPopupBlock)();
 
 @interface SkillPopupOverlay : UIView
 {
@@ -25,7 +25,7 @@ typedef void(^SkillControllerBlock)();
   __weak IBOutlet UIImageView *_enemyGradient;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillControllerBlock)completion;
-- (void) hideWithCompletion:(SkillControllerBlock)completion;
+- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion;
+- (void) hideWithCompletion:(SkillPopupBlock)completion;
 
 @end

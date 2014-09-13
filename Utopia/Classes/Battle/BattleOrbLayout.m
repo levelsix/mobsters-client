@@ -86,7 +86,13 @@
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < _numColumns; i++) {
       for (int j = 0; j < _numRows; j++) {
-        [array addObject:[self orbAtColumn:i row:j]];
+        
+        // Check if this is a special orb
+        BattleOrb* orb = [self orbAtColumn:i row:j];
+        if (orb.specialOrbType != SpecialOrbTypeNone)
+          continue;
+        
+        [array addObject:orb];
         [self setOrb:nil column:i row:j];
       }
     }
@@ -95,12 +101,21 @@
     
     foundMatch = NO;
     
+    NSInteger counter = 0;
     for (int i = 0; i < _numColumns; i++) {
       for (int j = 0; j < _numRows; j++) {
-        BattleOrb *orb = array[j*_numColumns+i];
+        
+        // Check if this a special orb
+        BattleOrb* orb = [self orbAtColumn:i row:j];
+        if (orb && orb.specialOrbType != SpecialOrbTypeNone)
+          continue;
+        
+        orb = array[counter];
         [self setOrb:orb column:i row:j];
         orb.column = i;
         orb.row = j;
+        
+        counter++;
         
         [set addObject:orb];
         

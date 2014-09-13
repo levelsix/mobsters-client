@@ -38,6 +38,8 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
+#define SkillLog(...) //LNLog(__VA_ARGS__)
+
 @implementation BattleBgdLayer
 
 - (id) initWithPrefix:(NSString *)prefix {
@@ -447,7 +449,9 @@
   if (self.enemyTeam.count > _curStage) {
     self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
     
-    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^() {
+    SkillLog(@"TRIGGER STARTED: enemy initialized");
+    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered) {
+      SkillLog(@"Enemy initialized trigger ENDED");
       [self createScheduleWithSwap:NO];
     }];
   } else {
@@ -526,12 +530,12 @@
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
-    BOOL shouldDelay = NO;
+    float delay = 1.0;
     if (_shouldDisplayNewSchedule) {
       
       [self prepareScheduleView];
       _shouldDisplayNewSchedule = NO;
-      shouldDelay = YES;
+      delay = 1.3;
       [self.hudView displayBattleScheduleView];
       
     } else {
@@ -551,17 +555,18 @@
     // Trigger skills for when new enemy joins the battle
     if (_firstTurn)
     {
-      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^() {
-        [self.hudView.battleScheduleView bounceLastView];
-        [self proceessNextTurn:shouldDelay];
+      SkillLog(@"TRIGGER STARTED: enemy appeared");
+      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
+        SkillLog(@"Enemy appeared trigger ENDED");
+        [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
       }];
     }
     else
-      [self proceessNextTurn:shouldDelay];
+      [self proceessNextTurn:delay];
   }
 }
 
-- (void) proceessNextTurn:(BOOL)shouldDelay
+- (void) proceessNextTurn:(float)delay
 {
   _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
@@ -569,7 +574,7 @@
     [self beginMyTurn];
   } else {
     [self runAction:[CCActionSequence actions:
-                     [CCActionDelay actionWithDuration:shouldDelay ? 1.3f : 1.f],
+                     [CCActionDelay actionWithDuration:delay],
                      [CCActionCallBlock actionWithBlock:
                       ^{
                         [self beginEnemyTurn];
@@ -595,8 +600,11 @@
   [self updateHealthBars];
   
   // Skills trigger for enemy turn started
-  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^() {
+  SkillLog(@"TRIGGER STARTED: beginning of player turn");
+  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered) {
     
+    SkillLog(@"Beginning of player turn ENDED");
+    [self.hudView.battleScheduleView bounceLastView];
     [self.orbLayer.bgdLayer turnTheLightsOn];
     [self.orbLayer allowInput];
     [self.hudView prepareForMyTurn];
@@ -608,16 +616,21 @@
   [self.hudView removeButtons];
   
   // Skills trigger for enemy turn started
-  [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^() {
+  SkillLog(@"TRIGGER STARTED: beginning of enemy turn");
+  [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered) {
     
+    SkillLog(@"Beginning of enemy turn ENDED");
     if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
     {
       BOOL enemyIsKilled = [self checkEnemyHealth];
       if (! enemyIsKilled)
       {
-        _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-        _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-        [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+        [self.hudView.battleScheduleView bounceLastView];
+        [self performAfterDelay:0.5 block:^{
+          _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+          _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+        }];
       }
     }
   }];
@@ -831,8 +844,10 @@
     }
     
     // Trigger skills for move made by the player
-    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^() {
+    SkillLog(@"TRIGGER STARTED: enemy defeated");
+    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered) {
       
+      SkillLog(@"Enemy defeated trigger ENDED");
       [self blowupBattleSprite:self.currentEnemy withBlock:
        ^{
          self.enemyPlayerObject = nil;
@@ -899,7 +914,9 @@
 - (void) currentMyPlayerDied {
   
   if ([self playerMobstersLeft] > 0) {
-    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^() {
+    SkillLog(@"TRIGGER STARTED: mob defeated");
+    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered) {
+      SkillLog(@"Mob defeated trigger ENDED");
       [self displayDeployViewAndIsCancellable:NO];
     }];
   } else {
@@ -1550,7 +1567,9 @@
   [self updateHealthBars];
   
   // Trigger skills for move made by the player
-  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^() {
+  SkillLog(@"TRIGGER STARTED: end of player move");
+  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
+    SkillLog(@"End of player move ENDED");
     BOOL enemyIsKilled = [self checkEnemyHealth];
     if (! enemyIsKilled)
       [self checkIfAnyMovesLeft];
@@ -1714,7 +1733,10 @@
     [self createNextMyPlayerSprite];
     
     // Skills trigger for player appeared
-    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^() {
+    SkillLog(@"TRIGGER STARTED: player initialized");
+    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered) {
+      
+      SkillLog(@"Player initialized trigger ENDED");
       
       // If it is swap, enemy should attack
       // If it is game start, wait till battle response has arrived
