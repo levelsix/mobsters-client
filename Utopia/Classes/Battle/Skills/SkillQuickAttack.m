@@ -53,13 +53,16 @@
 - (void) dealQuickAttack
 {
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:NO target:self selector:@selector(dealQuickAttack1)];
   
   // Show attack label
   /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
-  _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
-  _attackSprite.scale = 0.0;
-  [self.playerSprite.parent addChild:_attackSprite z:50];*/
+   _attackSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x)/2 + self.playerSprite.contentSize.width/2 - 20, (self.playerSprite.position.y + self.enemySprite.position.y)/2 + self.playerSprite.contentSize.height/2);
+   _attackSprite.scale = 0.0;
+   [self.playerSprite.parent addChild:_attackSprite z:50];
   
   // Run animation
   [_attackSprite runAction:[CCActionSequence actions:
@@ -68,13 +71,13 @@
                             [CCActionDelay actionWithDuration:1.0],
                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:0.0]],
                             [CCActionRemove action],
-                            nil]];
+                            nil]];*/
 }
 
 - (void) dealQuickAttack1
 {
   // Deal damage
-  [self.battleLayer dealDamage:_damage enemyIsAttacker:NO usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
+  [self.battleLayer dealDamage:_damage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
 }
 
 - (void) dealQuickAttack2

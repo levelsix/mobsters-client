@@ -883,6 +883,7 @@
 - (void) checkMyHealth {
   [self sendServerUpdatedValues];
   if (self.myPlayerObject.curHealth <= 0) {
+    _movesLeft = 0;
     [self stopPulsing];
     
     [self blowupBattleSprite:self.myPlayer withBlock:^{
@@ -1255,17 +1256,14 @@
   }
 }
 
-- (void) spawnRibbonForOrb:(BattleOrb *)orb {
+- (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition skill:(BOOL)skill {
   
   BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
   
   // Create random bezier
   if (orb.orbColor != OrbColorNone || cake) {
     ccBezierConfig bez;
-    if (cake)
-      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
-    else
-      bez.endPosition = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+    bez.endPosition = endPosition;
     CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
     
     // basePt1 is chosen with any y and x is between some neg num and approx .5
@@ -1293,16 +1291,28 @@
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
     CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.25f+xScale/600.f)) bezier:bez];
-    DestroyedOrb *dg;
-    if (cake)
-      dg = [[DestroyedOrb alloc] initWithCake];
+    CCNode *dg;
+    float stayDelay = 0.7f;
+    if (skill)
+    {
+      // Tail for an orb flying to skill indicator
+      dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
+      stayDelay = 0.0;
+    }
     else
-      dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
+    {
+      // Cake or sparkle
+      if (cake)
+        dg = [[DestroyedOrb alloc] initWithCake];
+      else
+        dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
+    }
+    
     [self.orbLayer addChild:dg z:10];
     dg.position = initPoint;
     [dg runAction:[CCActionSequence actions:move,
                    [CCActionFadeOut actionWithDuration:0.5f],
-                   [CCActionDelay actionWithDuration:0.7f],
+                   [CCActionDelay actionWithDuration:stayDelay],
                    [CCActionCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
   }
 }
@@ -1513,11 +1523,26 @@
                              [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
       }
       
-      [self spawnRibbonForOrb:orb];
+      CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
+      
+      // Skill ribbons
+      if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
+      {
+        endPoint = [skillManager playerSkillPosition];
+        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+      }
+      if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
+      {
+        endPoint = [skillManager enemySkillPosition];
+        [self spawnRibbonForOrb:orb target:endPoint skill:YES];
+      }
+
     }
     else if (orb.specialOrbType == SpecialOrbTypeCake)
     {
-      [self spawnRibbonForOrb:orb];
+      CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
+      [self spawnRibbonForOrb:orb target:endPoint skill:NO];
     }
   }
   
@@ -1567,7 +1592,13 @@
     SkillLog(@"End of player move ENDED");
     BOOL enemyIsKilled = [self checkEnemyHealth];
     if (! enemyIsKilled)
-      [self checkIfAnyMovesLeft];
+    {
+      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+      if (playerIsKilled)
+        [self checkMyHealth];
+      else
+        [self checkIfAnyMovesLeft];
+    }
   }];
   
   _comboCount = 0;

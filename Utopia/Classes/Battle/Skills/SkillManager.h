@@ -60,4 +60,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dict;
 
+// Misc
+- (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color;
+- (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color;
+- (CGPoint) playerSkillPosition;
+- (CGPoint) enemySkillPosition;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <cocos2d.h>
+#import "BattleOrb.h"
 
 @interface DestroyedOrb : CCSprite
 
@@ -15,5 +16,11 @@
 
 - (id) initWithColor:(CCColor *)color;
 - (id) initWithCake;
+
+@end
+
+@interface SparklingTail : CCParticleSystem
+
+- (id) initWithColor:(OrbColor)color;
 
 @end

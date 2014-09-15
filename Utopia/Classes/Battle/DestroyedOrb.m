@@ -8,6 +8,8 @@
 //
 
 #import "DestroyedOrb.h"
+#import "UIColor+HexColor.h"
+#import "NSObject+PerformBlockAfterDelay.h"
 
 @implementation DestroyedOrb
 
@@ -42,6 +44,38 @@
 - (void) dealloc {
   if (self.streak)
     [self.streak removeFromParent];
+}
+
+@end
+
+@implementation SparklingTail
+
+- (id) initWithColor:(OrbColor)color
+{
+  if ((self = [super initWithFile:@"skilltail.plist"])) {
+    
+    self.scale = 0.5;
+    UIColor* sparkleColor;
+    switch (color)
+    {
+      case OrbColorWater: sparkleColor = [UIColor colorWithHexString:@"3bfafd"]; break;
+      case OrbColorFire: sparkleColor = [UIColor colorWithHexString:@"fe3430"]; break;
+      case OrbColorEarth: sparkleColor = [UIColor colorWithHexString:@"56f63e"]; break;
+      case OrbColorLight: sparkleColor = [UIColor colorWithHexString:@"fef743"]; break;
+      case OrbColorDark: sparkleColor = [UIColor colorWithHexString:@"7c3dea"]; break;
+      default: sparkleColor = [UIColor whiteColor];
+    }
+    self.startColor = [CCColor colorWithUIColor:sparkleColor];
+  }
+  return self;
+}
+
+- (void) removeFromParent
+{
+  [self stopSystem];
+  [self performAfterDelay:2.0 block:^{
+    [super removeFromParent];
+  }];
 }
 
 @end

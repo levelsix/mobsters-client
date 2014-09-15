@@ -337,4 +337,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     _turnsCounter = [turnsCounter integerValue];
 }
 
+#pragma mark - Misc
+
+- (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color
+{
+  if (_playerSkillController)
+    if (_skillIndicatorPlayer)
+      if (_playerSkillController.activationType != SkillActivationTypePassive)
+        if (_playerSkillController.orbColor == color)
+          return YES;
+  return NO;
+}
+
+- (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color
+{
+  if (_enemySkillController)
+    if (_skillIndicatorEnemy)
+      if (_enemySkillController.activationType != SkillActivationTypePassive)
+        if (_enemySkillController.orbColor == color)
+          return YES;
+  return NO;
+}
+
+- (CGPoint) playerSkillPosition
+{
+  return ccpAdd(_skillIndicatorPlayer.position, ccp(0, _skillIndicatorPlayer.contentSize.height/2));
+}
+
+- (CGPoint) enemySkillPosition
+{
+  return ccpAdd(_skillIndicatorEnemy.position, ccp(0, _skillIndicatorEnemy.contentSize.height/2));
+}
+
 @end
