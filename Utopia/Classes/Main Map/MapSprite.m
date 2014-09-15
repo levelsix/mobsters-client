@@ -91,13 +91,10 @@
   if (_arrow) {
     if (!animated) {
       [_arrow removeFromParentAndCleanup:YES];
-      _arrow = nil;
     } else {
-      [_arrow runAction:[CCActionSequence actions:[CCActionFadeOut actionWithDuration:0.2f], [CCActionCallBlock actionWithBlock:^{
-        [_arrow removeFromParentAndCleanup:YES];
-        _arrow = nil;
-      }], nil]];
+      [_arrow runAction:[CCActionSequence actions:[CCActionFadeOut actionWithDuration:0.2f], [CCActionRemove action], nil]];
     }
+    _arrow = nil;
   }
 }
 

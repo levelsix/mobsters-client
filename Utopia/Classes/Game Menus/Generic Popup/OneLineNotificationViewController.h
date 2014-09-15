@@ -9,10 +9,18 @@
 #import "OmnipresentViewController.h"
 #import "HudNotificationController.h"
 
+typedef enum {
+  NotificationColorRed,
+  NotificationColorGreen,
+  NotificationColorPurple
+} NotificationColor;
+
 @interface OneLineNotificationView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *label;
-@property (nonatomic, retain) IBOutletCollection(UIImageView) NSArray *imgViews;
+@property (nonatomic, retain) IBOutlet UIImageView *leftBgdIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *middleBgdIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *rightBgdIcon;
 
 @end
 
@@ -23,6 +31,6 @@
 
 @property (nonatomic, retain) IBOutlet OneLineNotificationView *notificationView;
 
-- (id) initWithNotificationString:(NSString *)str isGreen:(BOOL)isGreen isImmediate:(BOOL)isImmediate;
+- (id) initWithNotificationString:(NSString *)str color:(NotificationColor)color isImmediate:(BOOL)isImmediate;
 
 @end

@@ -13,20 +13,26 @@
 
 @implementation OneLineNotificationView
 
-- (void) updateForString:(NSString *)str isGreen:(BOOL)isGreen {
+- (void) updateForString:(NSString *)str color:(NotificationColor)color {
+  NSString *prefix = color == NotificationColorRed ? @"red" : color == NotificationColorGreen ? @"green" : @"purple";
+  
   self.label.text = str;
   
-  for (UIImageView *img in self.imgViews) {
-    img.highlighted = isGreen;
-  }
+  self.leftBgdIcon.image = [Globals imageNamed:[@"notendcap" stringByAppendingString:[prefix stringByAppendingString:@".png"]]];
+  self.middleBgdIcon.image = [Globals imageNamed:[@"notmiddle" stringByAppendingString:[prefix stringByAppendingString:@".png"]]];
+  self.rightBgdIcon.image = self.leftBgdIcon.image;
   
   CGSize size = [self.label.text sizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
   CGRect r = self.frame;
   r.size.width = (int)(size.width+self.label.frame.origin.x*2);
   self.frame = r;
   
-  if (isGreen) {
+  if (color == NotificationColorRed) {
+    self.label.shadowColor = [UIColor colorWithRed:92/255.f green:6/255.f blue:8/255.f alpha:0.8];
+  } else if (color == NotificationColorGreen) {
     self.label.shadowColor = [UIColor colorWithRed:81/255.f green:111/255.f blue:5/255.f alpha:0.8];
+  } else if (color == NotificationColorPurple) {
+    self.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
   }
 }
 
@@ -57,10 +63,10 @@
 
 @implementation OneLineNotificationViewController
 
-- (id) initWithNotificationString:(NSString *)str isGreen:(BOOL)isGreen isImmediate:(BOOL)isImmediate {
+- (id) initWithNotificationString:(NSString *)str color:(NotificationColor)color isImmediate:(BOOL)isImmediate {
   if ((self = [super init])) {
     [[NSBundle mainBundle] loadNibNamed:@"OneLineNotificationView" owner:self options:nil];
-    [self.notificationView updateForString:str isGreen:isGreen];
+    [self.notificationView updateForString:str color:color];
     _priority = isImmediate ? NotificationPriorityImmediate : NotificationPriorityRegular;
   }
   return self;

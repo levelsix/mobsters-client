@@ -505,7 +505,65 @@
     [self visitCityClicked:0];
   }
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
-    [(HomeMap *)self.currentMap pointArrowOnSellMobsters];
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    NSString *alertDescription = nil;
+    
+    // Check if a residence is available to build
+    BOOL foundAction = NO;
+    BOOL builderBusy = NO;
+    TownHallProto *thp = nil;
+    ResidenceProto *lowestRes = nil;
+    
+    for (UserStruct *us in gs.myStructs) {
+      if (!us.isComplete) {
+        builderBusy = YES;
+      }
+      
+      StructureInfoProto *sip = [us.staticStruct structInfo];
+      if (sip.structType == StructureInfoProto_StructTypeTownHall) {
+        thp = (TownHallProto *)us.staticStruct;
+      }
+      
+      if (sip.structType == StructureInfoProto_StructTypeResidence &&
+          (!lowestRes || sip.level < lowestRes.structInfo.level)) {
+        lowestRes = (ResidenceProto *)us.staticStruct;
+      }
+    }
+    
+    if (!builderBusy && thp && lowestRes) {
+      int cur = [gl calculateCurrentQuantityOfStructId:lowestRes.structInfo.structId structs:gs.myStructs];
+      int max = [gl calculateMaxQuantityOfStructId:lowestRes.structInfo.structId withTownHall:thp];
+      
+      // Point to shop if we can build new residences
+      if (cur < max) {
+        ResidenceProto *nextRes = (ResidenceProto *)[gs structWithId:lowestRes.structInfo.successorStructId];
+        int curAmt = nextRes.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
+        if (curAmt >= nextRes.structInfo.buildCost) {
+          alertDescription = @"Your residences are full. Build another one now.";
+          [self.topBarViewController showArrowToResidence];
+          foundAction = YES;
+        }
+      }
+      
+      // Point to lowest res if its level <= 3
+      else if (lowestRes.structInfo.level <= 3) {
+        ResidenceProto *nextRes = (ResidenceProto *)[gs structWithId:lowestRes.structInfo.successorStructId];
+        int curAmt = nextRes.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
+        if (nextRes.structInfo.prerequisiteTownHallLvl <= thp.structInfo.level && curAmt >= nextRes.structInfo.buildCost) {
+          alertDescription = @"Your residences are full. Upgrade one now.";
+          [(HomeMap *)self.currentMap pointArrowOnUpgradeResidence];
+          foundAction = YES;
+        }
+      }
+    }
+    
+    if (!foundAction) {
+      alertDescription = [NSString stringWithFormat:@"Your residences are full. Sell %@s to free up space.", MONSTER_NAME];
+      [(HomeMap *)self.currentMap pointArrowOnSellMobsters];
+    }
+    
+    [Globals addAlertNotification:alertDescription];
     
     // Look at comment above
     [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];

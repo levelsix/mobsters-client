@@ -135,6 +135,9 @@
     r.size.width = self.view.frame.size.width-r.origin.x;
     self.coinBarsView.frame = r;
   }
+  
+  // Arrow to residence
+  [Globals removeUIArrowFromViewRecursively:self.view];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -460,7 +463,22 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-  [self openShop];
+  if (_shouldShowArrowOnResidence) {
+    // Find the base residence struct
+    GameState *gs = [GameState sharedGameState];
+    int structId = 0;
+    for (UserStruct *us in gs.myStructs) {
+      if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeResidence) {
+        structId = [us baseStructId];
+      }
+    }
+    
+    [Globals removeUIArrowFromViewRecursively:self.view];
+    [self openShopWithBuildings:structId];
+    _shouldShowArrowOnResidence = NO;
+  } else {
+    [self openShop];
+  }
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -601,6 +619,11 @@
 - (void) openShopWithGacha {
   [self openShop];
   [self.shopViewController openGachaShop];
+}
+
+- (void) showArrowToResidence {
+  _shouldShowArrowOnResidence = YES;
+  [Globals createUIArrowForView:self.shopView atAngle:M_PI];
 }
 
 @end
