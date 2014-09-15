@@ -20,6 +20,7 @@
   
   // Counters
   float     _currentSpeed;
+  BOOL      _startedEating;
 }
 
 @end

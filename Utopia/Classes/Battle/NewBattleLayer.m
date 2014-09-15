@@ -38,7 +38,7 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
-#define SkillLog(...) //LNLog(__VA_ARGS__)
+#define SkillLog(...) LNLog(__VA_ARGS__)
 
 @implementation BattleBgdLayer
 
@@ -629,7 +629,7 @@
         [self performAfterDelay:0.5 block:^{
           _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
           _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealEnemyDamage)];
         }];
       }
     }

@@ -26,6 +26,7 @@
   _damage = 1;
   
   _currentSpeed = _initialSpeed;
+  _startedEating = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -49,12 +50,25 @@
 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
-  if (type == SpecialOrbTypeCake)
+  if (type == SpecialOrbTypeCake && ! _startedEating)
   {
+    _startedEating = YES;
+    
+    // Accelerate enemy
+    _currentSpeed *= _speedMultiplier;
+    self.enemy.speed = _currentSpeed;
+    
+    // Reset schedule data
+    [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed playerB:self.enemy.speed andOrder:ScheduleFirstTurnPlayer];
+    
     // Eat the cake animation
     [self performAfterDelay:1.5 block:^{
+      
+      _startedEating = NO;
+      
+      // Eat the cake and reload schedule UI then
       self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
-      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES target:self selector:@selector(eatTheCake)];
+      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:NO target:self.battleLayer selector:@selector(prepareScheduleView)];
     }];
   }
 }
@@ -100,6 +114,9 @@
   if (trigger == SkillTriggerPointEnemyDefeated)
   {
     [self destroyAllCakes];
+    [self performAfterDelay:0.3 block:^{
+      [self skillTriggerFinished];
+    }];
     return YES;
   }
   
@@ -157,7 +174,7 @@
 - (void) startAttackingPlayerPhase2
 {
   self.enemySprite.animationType = MonsterProto_AnimationTypeMelee; // To ensure that enemy will run
-  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:NO target:self selector:@selector(startAttackingPlayerPhase3)];
+  [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:NO shouldFlinch:NO target:self selector:@selector(startAttackingPlayerPhase3)];
 }
 
 - (void) startAttackingPlayerPhase3
@@ -205,19 +222,6 @@
     [self.battleLayer checkMyHealth]; // Switch mobster and proceed to new enemy or fail if no mobsters left
 }
 
-- (void) eatTheCake
-{
-  // Accelerate enemy
-  _currentSpeed *= _speedMultiplier;
-  self.enemy.speed = _currentSpeed;
-  
-  // Reset schedule
-  [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed playerB:self.enemy.speed andOrder:ScheduleFirstTurnPlayer];
-  
-  // Reload schedule UI
-  [self.battleLayer prepareScheduleView];
-}
-
 - (void) destroyAllCakes
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
@@ -234,10 +238,6 @@
         
         OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
         [orbSprite reloadSprite:YES];
-        
-        [self performAfterDelay:0.3 block:^{
-          [self skillTriggerFinished];
-        }];
       }
     }
 }

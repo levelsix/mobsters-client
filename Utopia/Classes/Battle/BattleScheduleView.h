@@ -22,6 +22,8 @@
 @property (nonatomic, assign) int numSlots;
 @property (nonatomic, retain) NSMutableArray *monsterViews;
 
+@property (nonatomic, readonly) BOOL reorderingInProgress;
+
 @property (nonatomic, weak) id<BattleScheduleViewDelegate> delegate;
 
 - (void) displayOverlayView;

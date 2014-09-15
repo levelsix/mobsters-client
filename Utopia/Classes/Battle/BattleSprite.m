@@ -362,7 +362,7 @@
   //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn target:(id)target selector:(SEL)selector {
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationN.copy;
   
   CCActionSequence *seq;
@@ -375,7 +375,7 @@
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.5];}],
+            [CCActionCallBlock actionWithBlock:^{ if (flinch) [enemy performFarFlinchAnimationWithDelay:0.5];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -398,7 +398,7 @@
       seq = [CCActionSequence actions:seqAttack,
              [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
              [CCActionSpawn actions:
-              [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.3]; }],
+              [CCActionCallBlock actionWithBlock:^{ if (flinch) [enemy performFarFlinchAnimationWithDelay:0.3]; }],
               [CCSoundAnimate actionWithAnimation:anim],
               nil],
              [CCActionCallFunc actionWithTarget:target selector:selector],

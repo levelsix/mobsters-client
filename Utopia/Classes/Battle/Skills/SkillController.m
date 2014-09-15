@@ -221,7 +221,7 @@
 - (void) preseedRandomization
 {
   // Calculating seed for pseudo-random generation (so upon deserialization pattern will be the same)
-  NSInteger seed = 0;
+  int seed = 0;
   for (NSInteger n = 0; n < self.battleLayer.orbLayer.layout.numColumns; n++)
     for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
       seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
