@@ -321,6 +321,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       [result setObject:[_playerSkillController serialize] forKey:@"playerSkill"];
   if (_enemySkillController)
     [result setObject:[_enemySkillController serialize] forKey:@"enemySkill"];
+  [result setObject:@(_turnsCounter) forKey:@"turnsCounter"];
   return result;
 }
 
@@ -331,6 +332,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   _playerSkillSerializedState = [dict objectForKey:@"playerSkill"];
   _enemySkillSerializedState = [dict objectForKey:@"enemySkill"];
+  NSNumber* turnsCounter = [dict objectForKey:@"turnsCounter"];
+  if (turnsCounter)
+    _turnsCounter = [turnsCounter integerValue];
 }
 
 @end

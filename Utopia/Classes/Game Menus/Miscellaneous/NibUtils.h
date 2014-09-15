@@ -14,6 +14,7 @@
 #import "UIColor+HexColor.h"
 #import "UIView+Coordinates.h"
 #import "NSObject+PerformBlockAfterDelay.h"
+#import "ColoredLogs.h"
 
 typedef enum {
   kButton1 = 1,
