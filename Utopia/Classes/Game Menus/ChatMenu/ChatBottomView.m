@@ -192,10 +192,16 @@
   
   _numChats = [self.delegate numChatsAvailableForScope:_chatScope];
   _numToDisplay = MIN(_numChats, NUM_ROWS_DISPLAYED);
-  for (int i = 0; i < _numToDisplay; i++) {
-    ChatBottomLineView *lv = [self getLineViewForLineNum:i];
-    lv.center = [self centerForLineView:lv lineNum:i];
-    [self.currentLineViews addObject:lv];
+  
+  if (_numToDisplay) {
+    for (int i = 0; i < _numToDisplay; i++) {
+      ChatBottomLineView *lv = [self getLineViewForLineNum:i];
+      lv.center = [self centerForLineView:lv lineNum:i];
+      [self.currentLineViews addObject:lv];
+    }
+    
+    [self.emptyLabel removeFromSuperview];
+    self.emptyLabel = nil;
   }
   
   [self reloadPageControl];

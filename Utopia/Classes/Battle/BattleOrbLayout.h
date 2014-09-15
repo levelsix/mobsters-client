@@ -33,7 +33,7 @@
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 
 // Can be overwritten to provide harder combos and what not
-- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row;
+- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(NSInteger)column row:(NSInteger)row;
 
 // Used to restore state
 - (void) restoreLayoutWithOrbs:(NSSet *)orbs;

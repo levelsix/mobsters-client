@@ -273,11 +273,14 @@ static inline uint64_t func##ll(uint64_t val)     \
 # error Endianness not known
 #endif
 
+// LVL6 Addition: commenting this out
+/*
 #ifndef HAVE_HTONLL
 DECLARE_XTOXLL(hton)
 DECLARE_XTOXLL(ntoh)
 #endif
-
+*/
+ 
 DECLARE_CODEC_BASE_TYPE(8, (uint8_t), (uint8_t))
 DECLARE_CODEC_BASE_TYPE(16, htons, ntohs)
 DECLARE_CODEC_BASE_TYPE(32, htonl, ntohl)

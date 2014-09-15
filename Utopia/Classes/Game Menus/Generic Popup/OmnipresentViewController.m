@@ -35,6 +35,19 @@
   [self removeFromParentViewController];
 }
 
+- (CGRect) relativeFrame {
+  if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1)) {
+    CGRect r = CGRectZero;
+    r.origin.x = self.view.frame.origin.y;
+    r.origin.y = self.view.frame.origin.x;
+    r.size.width = self.view.frame.size.height;
+    r.size.height = self.view.frame.size.width;
+    return r;
+  } else {
+    return self.view.frame;
+  }
+}
+
 #pragma mark -
 #pragma mark - Emulate UIAlertView behavior
 
@@ -109,25 +122,29 @@
 
 CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation)
 {
-  CGFloat angle;
-  
-  switch (orientation)
-  {
-    case UIInterfaceOrientationPortraitUpsideDown:
-      angle = M_PI;
-      break;
-    case UIInterfaceOrientationLandscapeLeft:
-      angle = -M_PI_2;
-      break;
-    case UIInterfaceOrientationLandscapeRight:
-      angle = M_PI_2;
-      break;
-    default:
-      angle = 0.0;
-      break;
+  if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1)) {
+    CGFloat angle;
+    
+    switch (orientation)
+    {
+      case UIInterfaceOrientationPortraitUpsideDown:
+        angle = M_PI;
+        break;
+      case UIInterfaceOrientationLandscapeLeft:
+        angle = -M_PI_2;
+        break;
+      case UIInterfaceOrientationLandscapeRight:
+        angle = M_PI_2;
+        break;
+      default:
+        angle = 0.0;
+        break;
+    }
+    
+    return angle;
+  } else {
+    return 0.f;
   }
-  
-  return angle;
 }
 
 UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterfaceOrientation orientation)

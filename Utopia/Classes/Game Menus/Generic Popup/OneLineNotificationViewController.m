@@ -92,7 +92,7 @@
   [self displayView];
   
   // Have to use height because omnipresent views don't have proper orientation
-  self.notificationView.center = ccp(self.view.frame.size.height/2, LOWEST_LABEL_BOT_POINT);
+  self.notificationView.center = ccp(self.relativeFrame.size.width/2, LOWEST_LABEL_BOT_POINT);
   
   _completion = completion;
   

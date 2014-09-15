@@ -32,7 +32,7 @@
   
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory || gs.myEvoChamber) {
-    NSString *nibFile = [Globals isLongiPhone] ? @"AttackEventView" : @"AttackEventViewSmall";
+    NSString *nibFile = [Globals isSmallestiPhone] ? @"AttackEventViewSmall" : @"AttackEventView";
     [[NSBundle mainBundle] loadNibNamed:nibFile owner:self options:nil];
     
     [self.pveView addSubview:self.enhanceEventView];

@@ -1429,8 +1429,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (BOOL) hasShownCurrentLeague {
   return YES;
-  int league = [self lastLeagueShown];
-  return !league || league == self.pvpLeague.leagueId;
+  //int league = [self lastLeagueShown];
+  //return !league || league == self.pvpLeague.leagueId;
 }
 
 @end

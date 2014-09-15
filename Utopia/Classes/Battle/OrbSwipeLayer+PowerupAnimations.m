@@ -20,8 +20,8 @@
 
 - (void) spawnHorizontalLineWithChain:(BattleChain *)chain otherChains:(NSSet *)otherChains {
   BattleOrb *baseOrb = chain.powerupInitiatorOrb;
-  int leftIdx = -1;
-  int rightIdx = chain.orbs.count;
+  NSInteger leftIdx = -1;
+  NSInteger rightIdx = chain.orbs.count;
   
   // Find the orbs that are basically in the center
   for (BattleOrb *orb in chain.orbs) {
@@ -50,7 +50,7 @@
   
   // This one is travelling right
   CGPoint pt = r.position;
-  for (int i = rightIdx; i < chain.orbs.count; i++) {
+  for (NSInteger i = rightIdx; i < chain.orbs.count; i++) {
     BattleOrb *orb = chain.orbs[i];
     
     CGPoint oldPt = pt;
@@ -89,7 +89,7 @@
   
   // This one is travelling left
   pt = r.position;
-  for (int i = leftIdx; i >= 0; i--) {
+  for (NSInteger i = leftIdx; i >= 0; i--) {
     BattleOrb *orb = chain.orbs[i];
     
     CGPoint oldPt = pt;
@@ -122,8 +122,8 @@
 
 - (void) spawnVerticalLineWithChain:(BattleChain *)chain otherChains:(NSSet *)otherChains {
   BattleOrb *baseOrb = chain.powerupInitiatorOrb;
-  int downIdx = -1;
-  int upIdx = chain.orbs.count;
+  NSInteger downIdx = -1;
+  NSInteger upIdx = chain.orbs.count;
   
   // Find the orbs that are basically in the center
   for (BattleOrb *orb in chain.orbs) {
@@ -161,7 +161,7 @@
   
   // This one is travelling up
   CGPoint pt = r.position;
-  for (int i = upIdx; i < chain.orbs.count; i++) {
+  for (NSInteger i = upIdx; i < chain.orbs.count; i++) {
     BattleOrb *orb = chain.orbs[i];
     
     CGPoint oldPt = pt;
@@ -207,7 +207,7 @@
   
   // This one is travelling left
   pt = r.position;
-  for (int i = downIdx; i >= 0; i--) {
+  for (NSInteger i = downIdx; i >= 0; i--) {
     BattleOrb *orb = chain.orbs[i];
     
     CGPoint oldPt = pt;

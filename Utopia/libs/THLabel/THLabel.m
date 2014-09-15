@@ -324,7 +324,7 @@
 - (CTFrameRef)setupFrameForDrawingOutTextRect:(CGRect *)textRect {
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
-	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment ? NSTextAlignmentToCTTextAlignment(self.textAlignment) : [self CTTextAlignmentFromNSTextAlignment:self.textAlignment];
+	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment);
 	CTLineBreakMode lineBreakMode = (CTLineBreakMode)self.lineBreakMode;
 	CTParagraphStyleSetting paragraphStyleSettings[] = {
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},

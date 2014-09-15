@@ -495,9 +495,10 @@
     OrbSprite *orbLayer = [self spriteForOrb:orb];
     OrbColor color = orb.orbColor;
     PowerupType powerup = orb.powerupType;
+    SpecialOrbType special = orb.specialOrbType;
     
     // Try to see if the texture has been created yet
-    NSString *key = [NSString stringWithFormat:@"%d%dOverlay", color, powerup];
+    NSString *key = [NSString stringWithFormat:@"%d%d%dOverlay", color, powerup, special];
     CCTexture *texture = [[CCTextureCache sharedTextureCache] textureForKey:key];
     
     if (!texture) {

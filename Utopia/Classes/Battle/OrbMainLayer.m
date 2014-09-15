@@ -344,8 +344,8 @@
     
     // Tile info
     BattleTile* tile = [self.layout tileAtColumn:x row:y];
-    tile.typeTop = [[gemInfo objectForKey:TILE_TOP_KEY] integerValue];
-    tile.typeBottom = [[gemInfo objectForKey:TILE_BOTTOM_KEY] integerValue];
+    tile.typeTop = (int)[[gemInfo objectForKey:TILE_TOP_KEY] integerValue];
+    tile.typeBottom = (int)[[gemInfo objectForKey:TILE_BOTTOM_KEY] integerValue];
     [self.bgdLayer updateTile:tile];
     
     [set addObject:orb];

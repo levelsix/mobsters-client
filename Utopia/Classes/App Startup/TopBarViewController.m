@@ -129,7 +129,7 @@
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
-  if (![Globals isLongiPhone]) {
+  if (self.coinBarsView.frame.size.width+self.expBar.frame.size.width > self.view.frame.size.width) {
     CGRect r = self.coinBarsView.frame;
     r.origin.x = CGRectGetMaxX(self.expBar.superview.frame);
     r.size.width = self.view.frame.size.width-r.origin.x;

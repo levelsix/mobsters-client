@@ -175,6 +175,8 @@
 + (NSString *) font;
 + (int) fontSize;
 
++ (CGSize)screenSize;
+
 + (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays;
 + (NSString *) convertTimeToShortString:(int)secs;
 + (NSString *) convertTimeToShorterString:(int)secs;
@@ -253,7 +255,7 @@
 + (BOOL) checkEnteringDungeon;
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
 
-+ (BOOL)isLongiPhone;
++ (BOOL) isSmallestiPhone;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;

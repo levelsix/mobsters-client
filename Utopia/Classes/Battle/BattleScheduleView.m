@@ -17,7 +17,7 @@
 @implementation BattleScheduleView
 
 - (void) awakeFromNib {
-  if ([Globals isLongiPhone]) {
+  if (![Globals isSmallestiPhone]) {
     self.numSlots = 5;
   } else {
     self.numSlots = 3;

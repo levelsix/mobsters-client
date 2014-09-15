@@ -1353,7 +1353,7 @@
     
     _canMove = NO;
     _purchasing = NO;
-    _purchBuilding = NO;
+    _purchBuilding = nil;
     
     [self reselectCurrentSelection];
   } else {

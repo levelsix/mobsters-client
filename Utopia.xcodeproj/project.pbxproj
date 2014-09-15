@@ -2995,6 +2995,9 @@
 		CF20F22F180FCDCB005551B5 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF20F22E180FCDCB005551B5 /* EasyTableView.m */; };
 		CF20F2721810FDDB005551B5 /* finishheal.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20F2701810FDDB005551B5 /* finishheal.png */; };
 		CF20F2741810FDDB005551B5 /* finishheal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20F2711810FDDB005551B5 /* finishheal@2x.png */; };
+		CF2217DD19C7862C00BFD2FF /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2217DC19C7862C00BFD2FF /* GLKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CF2217F119C787E700BFD2FF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2217F019C787E700BFD2FF /* Crashlytics.framework */; };
+		CF2217F219C787E700BFD2FF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2217F019C787E700BFD2FF /* Crashlytics.framework */; };
 		CF22F97717F14C0600DFD79D /* gem_pop.aif in Resources */ = {isa = PBXBuildFile; fileRef = CF22F97517F14C0600DFD79D /* gem_pop.aif */; };
 		CF22F97917F14C0600DFD79D /* power_up.aif in Resources */ = {isa = PBXBuildFile; fileRef = CF22F97617F14C0600DFD79D /* power_up.aif */; };
 		CF22F97E17F150E200DFD79D /* gem_blows_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CF22F97D17F150E200DFD79D /* gem_blows_up.mp3 */; };
@@ -3837,6 +3840,10 @@
 		CF7461AA196C0CBE002D6AE6 /* minijobsredbubble5.png in Resources */ = {isa = PBXBuildFile; fileRef = CF74619E196C0CBE002D6AE6 /* minijobsredbubble5.png */; };
 		CF7461AB196C0CBE002D6AE6 /* minijobsredbubble5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF74619F196C0CBE002D6AE6 /* minijobsredbubble5@2x.png */; };
 		CF7461AD196C1475002D6AE6 /* RunawayMiddleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */; };
+		CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2217DC19C7862C00BFD2FF /* GLKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CF79F57319C79E5B0092B1F3 /* WithBuddiesAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503D198055F700D82D7C /* WithBuddiesAnalytics.framework */; };
+		CF79F57419C79E5B0092B1F3 /* WithBuddiesBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503E198055F700D82D7C /* WithBuddiesBase.framework */; };
+		CF79F57719C79E740092B1F3 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
 		CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
 		CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1919A55A68009338A2 /* BattleOrb.m */; };
@@ -3934,8 +3941,6 @@
 		CF864E2E193E8F3000DE0D7A /* selectclanbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF864E01193E8F3000DE0D7A /* selectclanbox@2x.png */; };
 		CF864E2F193E8F3000DE0D7A /* selectclanboxgreyforpopup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF864E02193E8F3000DE0D7A /* selectclanboxgreyforpopup.png */; };
 		CF864E30193E8F3000DE0D7A /* selectclanboxgreyforpopup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF864E03193E8F3000DE0D7A /* selectclanboxgreyforpopup@2x.png */; };
-		CF86503F198055F700D82D7C /* WithBuddiesAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503D198055F700D82D7C /* WithBuddiesAnalytics.framework */; };
-		CF865040198055F700D82D7C /* WithBuddiesBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503E198055F700D82D7C /* WithBuddiesBase.framework */; };
 		CF86506119807FDB00D82D7C /* 2scene1left.png in Resources */ = {isa = PBXBuildFile; fileRef = CF86505919807FDB00D82D7C /* 2scene1left.png */; };
 		CF86506219807FDB00D82D7C /* 2scene1left.png in Resources */ = {isa = PBXBuildFile; fileRef = CF86505919807FDB00D82D7C /* 2scene1left.png */; };
 		CF86506319807FDB00D82D7C /* 2scene1left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF86505A19807FDB00D82D7C /* 2scene1left@2x.png */; };
@@ -5112,7 +5117,6 @@
 		CFF2A66B1975D56C00269084 /* findmatchbigpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6681975D56C00269084 /* findmatchbigpressed@2x.png */; };
 		CFF2A66C1975D56C00269084 /* findmatchbigpressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6681975D56C00269084 /* findmatchbigpressed@2x.png */; };
 		CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
-		CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CFF2C8EF193E9C8500F28D9E /* bluechatmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8ED193E9C8500F28D9E /* bluechatmiddle.png */; };
 		CFF2C8F0193E9C8500F28D9E /* bluechatmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8EE193E9C8500F28D9E /* bluechatmiddle@2x.png */; };
 		CFF2C8F3193E9CC700F28D9E /* greychatmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8F1193E9CC700F28D9E /* greychatmiddle.png */; };
@@ -6018,8 +6022,6 @@
 		DA6EBF5019C273EE0020B628 /* goosplashlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4519C273EE0020B628 /* goosplashlogo.png */; };
 		DA6EBF5119C273EE0020B628 /* goosplashlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */; };
 		DA6EBF5219C273EE0020B628 /* goosplashlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */; };
-		DA6EBF6319C3908A0020B628 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA6EBF6219C3908A0020B628 /* Crashlytics.framework */; };
-		DA6EBF6419C3908A0020B628 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA6EBF6219C3908A0020B628 /* Crashlytics.framework */; };
 		DA88EAFA19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFB19B7CF3E005EE827 /* earthenemyskill.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */; };
 		DA88EAFC19B7CF3E005EE827 /* earthenemyskill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */; };
@@ -6150,6 +6152,13 @@
 			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
 			remoteInfo = ProtocolBuffers;
 		};
+		CF79F57519C79E6D0092B1F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A966D1A81940B5B40071E519;
+			remoteInfo = ScopelyAttributionWrapper;
+		};
 		CFC04ED41890FFC800F2DB59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */;
@@ -6177,13 +6186,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = A966D1B91940B5B50071E519;
 			remoteInfo = ScopelyAttributionWrapperTests;
-		};
-		CFF2A6771975DA4A00269084 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A966D1A81940B5B40071E519;
-			remoteInfo = ScopelyAttributionWrapper;
 		};
 		CFF2A6791975FE9E00269084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -6574,6 +6576,8 @@
 		CF20F22E180FCDCB005551B5 /* EasyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTableView.m; sourceTree = "<group>"; };
 		CF20F2701810FDDB005551B5 /* finishheal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finishheal.png; sourceTree = "<group>"; };
 		CF20F2711810FDDB005551B5 /* finishheal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finishheal@2x.png"; sourceTree = "<group>"; };
+		CF2217DC19C7862C00BFD2FF /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		CF2217F019C787E700BFD2FF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		CF22F97517F14C0600DFD79D /* gem_pop.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = gem_pop.aif; sourceTree = "<group>"; };
 		CF22F97617F14C0600DFD79D /* power_up.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = power_up.aif; sourceTree = "<group>"; };
 		CF22F97D17F150E200DFD79D /* gem_blows_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gem_blows_up.mp3; sourceTree = "<group>"; };
@@ -9560,7 +9564,6 @@
 		DA6EBF4419C273EE0020B628 /* cheapshotlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cheapshotlogo@2x.png"; sourceTree = "<group>"; };
 		DA6EBF4519C273EE0020B628 /* goosplashlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goosplashlogo.png; sourceTree = "<group>"; };
 		DA6EBF4619C273EE0020B628 /* goosplashlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goosplashlogo@2x.png"; sourceTree = "<group>"; };
-		DA6EBF6219C3908A0020B628 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		DA86921C19C75D5A00320A74 /* ColoredLogs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColoredLogs.h; sourceTree = "<group>"; };
 		DA88EAE219B7CF3E005EE827 /* earthenemyskill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthenemyskill.png; sourceTree = "<group>"; };
 		DA88EAE319B7CF3E005EE827 /* earthenemyskill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthenemyskill@2x.png"; sourceTree = "<group>"; };
@@ -9616,6 +9619,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF2217DD19C7862C00BFD2FF /* GLKit.framework in Frameworks */,
 				CF0CEE09196F452900ECD301 /* CoreMedia.framework in Frameworks */,
 				CF42537F19AD764000964547 /* CoreData.framework in Frameworks */,
 				CF0CEDF5196F452900ECD301 /* iAd.framework in Frameworks */,
@@ -9625,6 +9629,7 @@
 				CF0CEDF9196F452900ECD301 /* FacebookSDK.framework in Frameworks */,
 				CF0CEDFA196F452900ECD301 /* libsqlite3.dylib in Frameworks */,
 				CF0CEDFB196F452900ECD301 /* CoreImage.framework in Frameworks */,
+				CF2217F219C787E700BFD2FF /* Crashlytics.framework in Frameworks */,
 				CF42537A19AD72F300964547 /* libChartboost.a in Frameworks */,
 				CF0CEDFC196F452900ECD301 /* Kamcord.framework in Frameworks */,
 				CF0CEDFD196F452900ECD301 /* CoreTelephony.framework in Frameworks */,
@@ -9658,7 +9663,6 @@
 				CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */,
 				CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CEE1B196F452900ECD301 /* libPods.a in Frameworks */,
-				DA6EBF6419C3908A0020B628 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9666,18 +9670,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF79F57719C79E740092B1F3 /* libScopelyAttributionWrapper.a in Frameworks */,
+				CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */,
 				CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */,
-				DA6EBF6319C3908A0020B628 /* Crashlytics.framework in Frameworks */,
+				CF2217F119C787E700BFD2FF /* Crashlytics.framework in Frameworks */,
 				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
-				CFF2A67E1976052A00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
+				CF79F57419C79E5B0092B1F3 /* WithBuddiesBase.framework in Frameworks */,
 				CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */,
 				CFEF25DD18CAB8B200FB867A /* GameKit.framework in Frameworks */,
 				CFC04ED81891028D00F2DB59 /* libcocos2d.a in Frameworks */,
 				CFEF25C018C9ADC300FB867A /* FacebookSDK.framework in Frameworks */,
 				CFE02D9718261F6F0016C1E2 /* libsqlite3.dylib in Frameworks */,
 				CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */,
-				CF865040198055F700D82D7C /* WithBuddiesBase.framework in Frameworks */,
 				CF19088718D822C000D6F0E4 /* Kamcord.framework in Frameworks */,
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
 				CFEAB54616BBD34C00AEB7BD /* Social.framework in Frameworks */,
@@ -9705,8 +9710,8 @@
 				CF1273C81538B7F700E0C1AD /* OpenAL.framework in Frameworks */,
 				CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */,
 				CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */,
+				CF79F57319C79E5B0092B1F3 /* WithBuddiesAnalytics.framework in Frameworks */,
 				CF1273AC1538ACFD00E0C1AD /* libProtocolBuffers.a in Frameworks */,
-				CF86503F198055F700D82D7C /* WithBuddiesAnalytics.framework in Frameworks */,
 				CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */,
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
@@ -9989,7 +9994,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA6EBF6219C3908A0020B628 /* Crashlytics.framework */,
+				CF2217DC19C7862C00BFD2FF /* GLKit.framework */,
 				CF42537D19AD746B00964547 /* CoreData.framework */,
 				CF0CE153196E2B1100ECD301 /* iAd.framework */,
 				CFEF25DC18CAB8B200FB867A /* GameKit.framework */,
@@ -10227,6 +10232,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF2217F019C787E700BFD2FF /* Crashlytics.framework */,
 				CF42536D19AD72F100964547 /* Chartboost */,
 				CF86503C198055E500D82D7C /* Scopely */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
@@ -15416,7 +15422,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CFF2A6781975DA4A00269084 /* PBXTargetDependency */,
+				CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */,
 				CF1273C01538B6C700E0C1AD /* PBXTargetDependency */,
 				CFC04ED71891027200F2DB59 /* PBXTargetDependency */,
 			);
@@ -21097,7 +21103,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
+			shellScript = "./Utopia/libs/Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
 		};
 		DA6EBF6519C390EE0020B628 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -21110,7 +21116,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
+			shellScript = "./Utopia/libs/Crashlytics.framework/run 5001803420c4d8732cf317109988902188f28beb 82149fa0293582654a4df9067eacfe8c46d41bb02cad8fbc617d387d2a0c2285";
 		};
 		E6C4A62AA7D642E69BB2508F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -21673,15 +21679,15 @@
 			name = ProtocolBuffers;
 			targetProxy = CF1273BF1538B6C700E0C1AD /* PBXContainerItemProxy */;
 		};
+		CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScopelyAttributionWrapper;
+			targetProxy = CF79F57519C79E6D0092B1F3 /* PBXContainerItemProxy */;
+		};
 		CFC04ED71891027200F2DB59 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = cocos2d;
 			targetProxy = CFC04ED61891027200F2DB59 /* PBXContainerItemProxy */;
-		};
-		CFF2A6781975DA4A00269084 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ScopelyAttributionWrapper;
-			targetProxy = CFF2A6771975DA4A00269084 /* PBXContainerItemProxy */;
 		};
 		CFF2A67A1975FE9E00269084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

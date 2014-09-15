@@ -76,10 +76,9 @@
 }
 
 - (void) loadView {
-  CGRect rect = [[UIScreen mainScreen] bounds];
-  CGSize size = rect.size;
-  rect.size = CGSizeMake(rect.size.height, rect.size.width);
-  rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
+  CGRect rect = CGRectZero;
+  rect.size = [Globals screenSize];
+  rect.origin = CGPointMake(0, 0);
   UIView *v = [[UIView alloc] initWithFrame:rect];
   v.backgroundColor = [UIColor blackColor];
   
@@ -108,18 +107,18 @@
   
   [self.view insertSubview:glView atIndex:0];
   
-	[director setAnimationInterval:1.0/60];
+  [director setAnimationInterval:1.0/60];
   
 #ifdef DEBUG
-	[director setDisplayStats:YES];
+  [director setDisplayStats:YES];
 #else
-	[director setDisplayStats:NO];
+  [director setDisplayStats:NO];
 #endif
   
-	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
-	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
-	// You can change anytime.
-	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
+  // Default texture format for PNG/BMP/TIFF/JPEG/GIF images
+  // It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
+  // You can change anytime.
+  [CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
   
   [CCTexture PVRImagesHavePremultipliedAlpha:NO];
   
@@ -139,8 +138,7 @@
 
 - (void) viewDidLoad {
   [self setupTopBar];
-  [self fadeToLoadingScreenPercentage:0.f animated:NO];
-  [self progressTo:PART_1_PERCENT animated:YES];
+  [self fadeToLoadingScreenPercentage:PART_0_PERCENT animated:NO];
   
   [QuestUtil setDelegate:self];
   [AchievementUtil setDelegate:self];
@@ -194,20 +192,30 @@
 }
 
 - (void) fadeToLoadingScreenAnimated:(BOOL)animated {
-  LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
-  if (![lvc isKindOfClass:[LoadingViewController class]]) {
-    if (self.presentedViewController) {
-      [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-    }
+  LoadingViewController *lvc = self.loadingViewController;
+  if (!lvc && !self.tutController) {
+    [self removeAllViewControllers];
     
-    if (!self.tutController) {
-      [self removeAllViewControllers];
-      
-      LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:0];
-      UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
-      nav.navigationBarHidden = YES;
-      [self presentViewController:nav animated:animated completion:nil];
+    LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:0];
+    [self addChildViewController:lvc];
+    lvc.view.frame = self.view.bounds;
+    [self.view addSubview:lvc.view];
+    self.loadingViewController = lvc;
+    
+    if (animated) {
+      lvc.view.alpha = 0.f;
+      [UIView animateWithDuration:0.3f animations:^{
+        lvc.view.alpha = 1.f;
+      }];
     }
+  }
+}
+
+- (void) progressTo:(float)t animated:(BOOL)animated {
+  if (animated) {
+    [self.loadingViewController progressToPercentage:t];
+  } else {
+    [self.loadingViewController setPercentage:t];
   }
 }
 
@@ -216,11 +224,35 @@
   [self progressTo:percentage animated:NO];
 }
 
+- (void) dismissLoadingScreenAnimated:(BOOL)animated completion:(dispatch_block_t)completion {
+  if (animated) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.loadingViewController.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self.loadingViewController.view removeFromSuperview];
+      [self.loadingViewController removeFromParentViewController];
+      self.loadingViewController = nil;
+      
+      if (completion) {
+        completion();
+      }
+    }];
+  } else {
+    [self.loadingViewController.view removeFromSuperview];
+    [self.loadingViewController removeFromParentViewController];
+    self.loadingViewController = nil;
+    
+    if (completion) {
+      completion();
+    }
+  }
+}
+
 - (void) handleSignificantTimeChange {
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected && !gs.isTutorial && !_isFromFacebook) {
     // App delegate will have already initialized network connection
-    [self fadeToLoadingScreenPercentage:0 animated:NO];
+    [self fadeToLoadingScreenPercentage:0 animated:YES];
     _isFreshRestart = YES;
   }
 }
@@ -272,17 +304,6 @@
   
   // For tutorial
   self.tutController = nil;
-}
-
-- (void) progressTo:(float)t animated:(BOOL)animated {
-  LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
-  if ([lvc isKindOfClass:[LoadingViewController class]]) {
-    if (animated) {
-      [lvc progressToPercentage:t];
-    } else {
-      [lvc setPercentage:t];
-    }
-  }
 }
 
 - (void) handleConnectedToHost {
@@ -346,7 +367,7 @@
     [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
-      [self dismissViewControllerAnimated:YES completion:nil];
+      [self dismissLoadingScreenAnimated:YES completion:nil];
       [self beginTutorial:proto.tutorialConstants];
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusServerInMaintenance) {
@@ -360,7 +381,7 @@
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
-  if ([self.navigationController.visibleViewController isKindOfClass:[LoadingViewController class]]) {
+  if (self.loadingViewController) {
     [self progressTo:1.f animated:NO];
     
     // Load the home map
@@ -382,7 +403,7 @@
     //[[CCDirector sharedDirector] startAnimation];
     //[[CCDirector sharedDirector] drawScene];
     
-    [self dismissViewControllerAnimated:YES completion:^{
+    [self dismissLoadingScreenAnimated:YES completion:^{
       [self checkLevelUp];
     }];
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
@@ -841,48 +862,27 @@
   
   _isInBattle = NO;
   
-  GameState *gs = [GameState sharedGameState];
-  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-  if (false && ![def boolForKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY] &&
-      gs.level < 5 && [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY]) {
-    [def setBool:YES forKey:EQUIP_MINI_TUTORIAL_DEFAULT_KEY];
-    
-    [[CCDirector sharedDirector] popScene];
-    
-    NSArray *arr = [params objectForKey:BATTLE_USER_MONSTERS_GAINED_KEY];
-    FullUserMonsterProto *fump = arr[0];
-    TutorialTeamController *tvc = [[TutorialTeamController alloc] initWithMyTeam:[gs allBattleAvailableMonstersOnTeam] gameViewController:self];
-    tvc.lootMonsterId = fump.monsterId;
-    tvc.lootUserMonsterId = fump.userMonsterId;
-    self.miniTutController = tvc;
-    [self.miniTutController begin];
-    
-    [self showTopBarDuration:0.f completion:nil];
-  }
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
-  else {
-    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  // Don't show top bar if theres a completed quest because it will just be faded out immediately
+  NSDictionary *stageComplete = params[BATTLE_SECTION_COMPLETE_KEY];
+  if (stageComplete) {
+    NSString *name = stageComplete[BATTLE_SECTION_NAME_KEY];
+    int itemId = (int)[stageComplete[BATTLE_SECTION_ITEM_KEY] integerValue];
     
-    // Don't show top bar if theres a completed quest because it will just be faded out immediately
-    NSDictionary *stageComplete = params[BATTLE_SECTION_COMPLETE_KEY];
-    if (stageComplete) {
-      NSString *name = stageComplete[BATTLE_SECTION_NAME_KEY];
-      int itemId = (int)[stageComplete[BATTLE_SECTION_ITEM_KEY] integerValue];
-      
-      CCBReader *reader = [CCBReader reader];
-      StageCompleteNode *node = (StageCompleteNode *)[reader load:@"StageCompleteNode"];
-      [node setSectionName:name itemId:itemId];
-      reader.animationManager.delegate = node;
-      node.delegate = self;
-      [self.notificationController addNotification:node];
-      
-      [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
-    } else {
-      [self showTopBarDuration:duration completion:^{
-        [self checkQuests];
-        [self.notificationController resumeNotifications];
-      }];
-    }
+    CCBReader *reader = [CCBReader reader];
+    StageCompleteNode *node = (StageCompleteNode *)[reader load:@"StageCompleteNode"];
+    [node setSectionName:name itemId:itemId];
+    reader.animationManager.delegate = node;
+    node.delegate = self;
+    [self.notificationController addNotification:node];
+    
+    [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
+  } else {
+    [self showTopBarDuration:duration completion:^{
+      [self checkQuests];
+      [self.notificationController resumeNotifications];
+    }];
   }
   
   [self playMapMusic];
@@ -972,6 +972,7 @@
   [self removeAllViewControllersWithExceptions:@[self.topBarViewController.shopViewController]];
   
   if (self.presentedViewController) {
+    // Gacha
     [self dismissViewControllerAnimated:YES completion:^{
       [self.topBarViewController openShopWithFunds];
     }];
@@ -997,7 +998,7 @@
 
 - (void) achievementsComplete:(NSArray *)aps {
   if (aps.count > 1) {
-    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", aps.count] isImmediate:NO];
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", (int)aps.count] isImmediate:NO];
   } else {
     AchievementProto *ap = [aps firstObject];
     [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl] isImmediate:NO];

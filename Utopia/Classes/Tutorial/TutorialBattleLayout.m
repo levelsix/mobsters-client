@@ -40,7 +40,7 @@
   return self;
 }
 
-- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row {
+- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(NSInteger)column row:(NSInteger)row {
   if (column < self.presetOrbs.count) {
     NSMutableArray *arr = self.presetOrbs[column];
     if (arr.count) {

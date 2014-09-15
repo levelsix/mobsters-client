@@ -13,4 +13,6 @@
 - (void) displayView;
 - (void) removeView;
 
+- (CGRect) relativeFrame;
+
 @end
