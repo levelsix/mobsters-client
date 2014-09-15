@@ -1996,7 +1996,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   } else if (!hasFullTeam && hasAvailMobsters) {
     NSString *description = [NSString stringWithFormat:@"You have healthy %@s available. Manage your team now.", MONSTER_NAME];
     
-    [Globals addGreenAlertNotification:description isImmediate:NO];
+    [Globals addGreenAlertNotification:description isImmediate:YES];
     [target performSelector:noTeamSelector];
     
     return NO;

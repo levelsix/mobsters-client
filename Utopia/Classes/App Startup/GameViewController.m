@@ -513,7 +513,7 @@
     BOOL foundAction = NO;
     BOOL builderBusy = NO;
     TownHallProto *thp = nil;
-    ResidenceProto *lowestRes = nil;
+    UserStruct *lowestRes = nil;
     
     for (UserStruct *us in gs.myStructs) {
       if (!us.isComplete) {
@@ -526,20 +526,20 @@
       }
       
       if (sip.structType == StructureInfoProto_StructTypeResidence &&
-          (!lowestRes || sip.level < lowestRes.structInfo.level)) {
-        lowestRes = (ResidenceProto *)us.staticStruct;
+          (!lowestRes || sip.level < lowestRes.staticStruct.structInfo.level)) {
+        lowestRes = us;
       }
     }
     
     if (!builderBusy && thp && lowestRes) {
-      int cur = [gl calculateCurrentQuantityOfStructId:lowestRes.structInfo.structId structs:gs.myStructs];
-      int max = [gl calculateMaxQuantityOfStructId:lowestRes.structInfo.structId withTownHall:thp];
+      int cur = [gl calculateCurrentQuantityOfStructId:lowestRes.baseStructId structs:gs.myStructs];
+      int max = [gl calculateMaxQuantityOfStructId:lowestRes.baseStructId withTownHall:thp];
       
       // Point to shop if we can build new residences
       if (cur < max) {
-        ResidenceProto *nextRes = (ResidenceProto *)[gs structWithId:lowestRes.structInfo.successorStructId];
-        int curAmt = nextRes.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
-        if (curAmt >= nextRes.structInfo.buildCost) {
+        ResidenceProto *res = (ResidenceProto *)lowestRes.staticStruct;
+        int curAmt = res.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
+        if (curAmt >= res.structInfo.buildCost) {
           alertDescription = @"Your residences are full. Build another one now.";
           [self.topBarViewController showArrowToResidence];
           foundAction = YES;
@@ -547,8 +547,8 @@
       }
       
       // Point to lowest res if its level <= 3
-      else if (lowestRes.structInfo.level <= 3) {
-        ResidenceProto *nextRes = (ResidenceProto *)[gs structWithId:lowestRes.structInfo.successorStructId];
+      else if (lowestRes.staticStruct.structInfo.level <= 3) {
+        ResidenceProto *nextRes = (ResidenceProto *)lowestRes.staticStructForNextLevel;
         int curAmt = nextRes.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
         if (nextRes.structInfo.prerequisiteTownHallLvl <= thp.structInfo.level && curAmt >= nextRes.structInfo.buildCost) {
           alertDescription = @"Your residences are full. Upgrade one now.";
