@@ -29,6 +29,7 @@
   img.frame = self.bgdView.frame;
   self.overlayView = img;
   img.alpha = 0.f;
+  _reorderingInProgress = NO;
 }
 
 - (void) displayOverlayView {
@@ -54,6 +55,7 @@
     oldArr = nil;
   }
   
+  _reorderingInProgress = YES;
   self.monsterViews = [NSMutableArray array];
   for (int i = 0; i < ordering.count; i++) {
     NSNumber *num = ordering[i];
@@ -77,6 +79,7 @@
           //if (isLast) {
           //  [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.2f];
           //}
+          _reorderingInProgress = NO;
         }];
       });
     } else {
@@ -93,6 +96,8 @@
 
 - (void) bounceLastView
 {
+  if (_reorderingInProgress)
+    return;
   if (self.monsterViews && self.monsterViews.count > 0)
     [self bounceView:self.monsterViews[0]];
 }

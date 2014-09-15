@@ -98,21 +98,21 @@
   
   if (order == ScheduleFirstTurnRandom)
   {
-    _currentIndex = arc4random() % self.schedule.count;
+    self.currentIndex = arc4random() % self.schedule.count;
   }
   else if (order == ScheduleFirstTurnEnemy)
   {
     do {
-      _currentIndex = arc4random() % self.schedule.count;
-    } while ([self.schedule[_currentIndex] boolValue]);
+      self.currentIndex = arc4random() % self.schedule.count;
+    } while ([self.schedule[self.currentIndex] boolValue]);
   }
   else if (order == ScheduleFirstTurnPlayer)
   {
-    _currentIndex = 0;  // For the Cake Drop special case.
+    self.currentIndex = 0;  // For the Cake Drop special case.
   }
   
   // Subtract 1 so it will be autoincremented in the next dequeue
-  _currentIndex--;
+  self.currentIndex--;
 }
 
 - (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order {
@@ -126,7 +126,7 @@
 - (id) initWithSequence:(NSArray *)sequence currentIndex:(int)currentIndex {
   if ((self = [super init])) {
     self.schedule = sequence;
-    _currentIndex = currentIndex;
+    self.currentIndex = currentIndex;
   }
   return self;
 }
@@ -137,14 +137,14 @@
 }
 
 - (BOOL) dequeueNextMove {
-  _currentIndex = (_currentIndex+1) % (self.schedule.count);
+  self.currentIndex = (self.currentIndex+1) % (self.schedule.count);
   
-  NSNumber *num = self.schedule[_currentIndex];
+  NSNumber *num = self.schedule[self.currentIndex];
   return [num boolValue];
 }
 
 - (BOOL) getNthMove:(int)n {
-  int idx = (_currentIndex+n+1) % (self.schedule.count);
+  int idx = (self.currentIndex+n+1) % (self.schedule.count);
   
   NSNumber *num = self.schedule[idx];
   return [num boolValue];

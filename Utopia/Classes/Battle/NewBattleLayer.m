@@ -38,7 +38,7 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
-#define SkillLog(...) //LNLog(__VA_ARGS__)
+#define SkillLog(...) //NSLogYellow(__VA_ARGS__)
 
 @implementation BattleBgdLayer
 
@@ -552,17 +552,12 @@
       self.hudView.waveNumLabel.alpha = 1.f;
     }];
     
-    // Trigger skills for when new enemy joins the battle
-    if (_firstTurn)
-    {
-      SkillLog(@"TRIGGER STARTED: enemy appeared");
-      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
-        SkillLog(@"Enemy appeared trigger ENDED");
-        [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
-      }];
-    }
-    else
-      [self proceessNextTurn:delay];
+    // Trigger skills when new enemy joins the battle
+    SkillLog(@"TRIGGER STARTED: enemy appeared");
+    [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
+      SkillLog(@"Enemy appeared trigger ENDED");
+      [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+    }];
   }
 }
 
@@ -629,7 +624,7 @@
         [self performAfterDelay:0.5 block:^{
           _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
           _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES target:self selector:@selector(dealEnemyDamage)];
+          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealEnemyDamage)];
         }];
       }
     }
@@ -1603,11 +1598,12 @@
   
   if (self.enemyPlayerObject) {
     
-    // Here was SkillTriggerPointPlayerInitialized before we decided to show schedule before
-    
     _hasStarted = YES;
     _reachedNextScene = YES;
+    
+    // Mark first turn as true only if not loaded from a save
     _firstTurn = YES;
+    
     [self beginNextTurn]; // One of the two racing calls for beginNextTurn, _reachedNextScene used as a flag
     [self updateHealthBars];
     [self.currentEnemy doRarityTagShine];
