@@ -349,22 +349,27 @@
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT animated:YES];
   
+  BOOL checkTango = NO;
+#ifdef TOONSQUAD
+  checkTango = [TangoDelegate attemptInitialLogin];
+#endif
+  
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
-    GameState *gs = [GameState sharedGameState];
-    [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
-    
-    [self.loadingView stop];
-    
-    if (proto.hasCurTask) {
-      self.resumeUserTask = proto.curTask;
-      self.resumeTaskStages = proto.curTaskStagesList;
+    if (!checkTango) {
+      GameState *gs = [GameState sharedGameState];
+      [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+      
+      if (proto.hasCurTask) {
+        self.resumeUserTask = proto.curTask;
+        self.resumeTaskStages = proto.curTaskStagesList;
+      }
+      
+      // Track analytics
+      NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
+      [Analytics setUserId:gs.userId name:gs.name email:email];
+      [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
     }
-    
-    // Track analytics
-    NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
-    [Analytics setUserId:gs.userId name:gs.name email:email];
-    [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
       [self dismissLoadingScreenAnimated:YES completion:nil];
@@ -374,10 +379,6 @@
     [self fadeToLoadingScreenPercentage:PART_2_PERCENT animated:YES];
     [GenericPopupController displayNotificationViewWithText:@"Sorry, the server is undergoing maintenance right now. Try again?" title:@"Server Maintenance" okayButton:@"Retry" target:self selector:@selector(handleConnectedToHost)];
   }
-  
-#ifdef TOONSQUAD
-  [TangoDelegate attemptInitialLogin];
-#endif
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
@@ -406,6 +407,8 @@
     [self dismissLoadingScreenAnimated:YES completion:^{
       [self checkLevelUp];
     }];
+    
+    [self showTopBarDuration:0.f completion:nil];
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
@@ -445,13 +448,13 @@
 }
 
 - (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion {
+  [self.topBarViewController beginAppearanceTransition:YES animated:(duration > 0.f)];
   self.topBarViewController.view.hidden = NO;
-  [self.topBarViewController viewWillAppear:(duration > 0.f)];
   if (duration > 0.f) {
     [UIView animateWithDuration:duration animations:^{
       self.topBarViewController.view.alpha = 1.f;
     } completion:^(BOOL finished) {
-      [self.topBarViewController viewDidAppear:YES];
+      [self.topBarViewController endAppearanceTransition];
       
       [self checkLevelUp];
       
@@ -461,7 +464,7 @@
     }];
   } else {
     self.topBarViewController.view.alpha = 1.f;
-    [self.topBarViewController viewDidAppear:NO];
+    [self.topBarViewController endAppearanceTransition];
     
     [self checkLevelUp];
     
@@ -472,14 +475,14 @@
 }
 
 - (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion {
-  [self.topBarViewController viewWillDisappear:(duration > 0.f)];
+  [self.topBarViewController beginAppearanceTransition:NO animated:(duration > 0.f)];
   if (duration > 0.f) {
     [UIView animateWithDuration:duration animations:^{
       self.topBarViewController.view.alpha = 0.f;
     } completion:^(BOOL finished) {
       if (finished) {
         self.topBarViewController.view.hidden = YES;
-        [self.topBarViewController viewDidDisappear:YES];
+        [self.topBarViewController endAppearanceTransition];
       }
       
       if (completion) {
@@ -489,7 +492,7 @@
   } else {
     self.topBarViewController.view.alpha = 0.f;
     self.topBarViewController.view.hidden = YES;
-    [self.topBarViewController viewDidDisappear:NO];
+    [self.topBarViewController endAppearanceTransition];
     
     if (completion) {
       completion();
@@ -707,8 +710,6 @@
       [self.topBarViewController removeClanView];
     }];
   }
-  
-  [self.loadingView stop];
   
   [self playMapMusic];
 }

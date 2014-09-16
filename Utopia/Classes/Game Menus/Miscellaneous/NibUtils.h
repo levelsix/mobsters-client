@@ -284,6 +284,9 @@ typedef enum {
 @interface CancellableScrollView : UIScrollView
 @end
 
+@interface CancellableCollectionView : UICollectionView
+@end
+
 @interface MonsterButton : UIImageView
 
 @property (nonatomic, assign) int monsterId;

@@ -165,7 +165,7 @@
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
-- (void) addToMiniJobs:(NSArray *)miniJobs;
+- (void) addToMiniJobs:(NSArray *)miniJobs isNew:(BOOL)isNew;
 - (void) addToMyItems:(NSArray *)items;
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;

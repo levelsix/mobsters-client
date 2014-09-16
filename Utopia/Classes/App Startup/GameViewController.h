@@ -52,8 +52,6 @@
 @property (nonatomic, strong) ChatViewController *chatViewController;
 @property (nonatomic, strong) ClanViewController *clanViewController;
 
-@property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
-
 @property (nonatomic, strong) TutorialController *tutController;
 @property (nonatomic, strong) MiniTutorialController *miniTutController;
 

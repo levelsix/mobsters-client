@@ -666,6 +666,10 @@
 
 @implementation CancellableTableView
 
+- (void) awakeFromNib {
+  self.delaysContentTouches = NO;
+}
+
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {
   return YES;
 }
@@ -673,6 +677,22 @@
 @end
 
 @implementation CancellableScrollView
+
+- (void) awakeFromNib {
+  self.delaysContentTouches = NO;
+}
+
+- (BOOL) touchesShouldCancelInContentView:(UIView *)view {
+  return YES;
+}
+
+@end
+
+@implementation CancellableCollectionView
+
+- (void) awakeFromNib {
+  self.delaysContentTouches = NO;
+}
 
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {
   return YES;

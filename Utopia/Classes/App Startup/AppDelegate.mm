@@ -52,6 +52,7 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  LNLog(@"open url");
   BOOL success = [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
   
 #ifdef TOONSQUAD
@@ -180,9 +181,7 @@
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
-  if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
-  }
   
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected) {

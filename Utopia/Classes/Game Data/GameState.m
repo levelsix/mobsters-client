@@ -387,10 +387,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addToMiniJobs:(NSArray *)miniJobs {
+- (void) addToMiniJobs:(NSArray *)miniJobs isNew:(BOOL)isNew {
   for (UserMiniJobProto *p in miniJobs) {
     [self.myMiniJobs addObject:[UserMiniJob userMiniJobWithProto:p]];
   }
+  
+  if (isNew) {
+    NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the Pier.", miniJobs.count];
+    [Globals addGreenAlertNotification:msg isImmediate:NO];
+  }
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
@@ -1362,6 +1368,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
       if (finishTime.timeIntervalSinceNow <= 0) {
         [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:umj isSpeedup:NO gemCost:0 delegate:nil];
+        
+        NSString *msg = [NSString stringWithFormat:@"Your %@s have returned from their mini job. Collect your loot at the Pier now.", MONSTER_NAME];
+        [Globals addGreenAlertNotification:msg isImmediate:NO];
       }
     }
   }

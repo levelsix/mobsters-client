@@ -201,6 +201,8 @@ static NSString *udid = nil;
   
   [self tryConnect];
   
+  LNLog(@"Initializing network connection..");
+  
   // In case we just came from inactive state
   _currentTagNum = arc4random();
   _shouldReconnect = YES;
@@ -245,8 +247,8 @@ static NSString *udid = nil;
   NSMutableArray *toRemove = [NSMutableArray array];
   for (FullEvent *fe in self.queuedMessages) {
     if ([self isPreDbEventType:fe.requestType]) {
-      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
       NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
       [toRemove addObject:fe];
     }
   }
@@ -265,11 +267,13 @@ static NSString *udid = nil;
 - (void) connectedToUserIdQueue {
   _canSendRegularEvents = YES;
   
-  for (FullEvent *fe in self.queuedMessages) {
-    [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
-    NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+  if (_canSendPreDbEvents) {
+    for (FullEvent *fe in self.queuedMessages) {
+      NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
+    }
+    [self.queuedMessages removeAllObjects];
   }
-  [self.queuedMessages removeAllObjects];
 }
 
 - (void) tryReconnect {
@@ -300,9 +304,10 @@ static NSString *udid = nil;
 
 - (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
   if (!_canSendPreDbEvents) {
+    LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+    
     FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
     [self.queuedMessages addObject:fe];
-    LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
     return;
   } else {
     if (!_canSendRegularEvents) {
