@@ -30,18 +30,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Setup
 
-// Returns first skill found with that skill type
-- (NSInteger) skillIdForSkillType:(SkillType)type
-{
-  GameState* gs = [GameState sharedGameState];
-  for (SkillProto* skill in gs.staticSkills.allValues)
-    if (skill.type == type)
-      return skill.skillId;
-  return 0;
-}
-
 - (void) updatePlayerSkill
 {
+  // Major properties
   _player = _battleLayer.myPlayerObject;
   _playerColor = OrbColorNone;
   _playerSkillType = SkillTypeNoSkill;
@@ -85,6 +76,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) updateEnemySkill
 {
+  // Reset turn counter when new enemy appears
+  if (! _enemySkillSerializedState)
+    _turnsCounter = 0;
+  
+  // Major properties
   _enemy = _battleLayer.enemyPlayerObject;
   _enemyColor = OrbColorNone;
   _enemySkillType = SkillTypeNoSkill;
@@ -154,7 +150,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _battleLayer = battleLayer;
   _playerSkillController = nil;
   _enemySkillController = nil;
-  _turnsCounter = 0;
   _skillIndicatorEnemy = _skillIndicatorPlayer = nil;
 }
 
@@ -186,10 +181,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
-/*#ifndef MOBSTERS  // Uncomment this to totally disable skills.
-  block();
-  return;
-#endif*/
+  //block(); // Uncomment these lines to totally disable skills.
+  //return;
   
   // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
   BOOL shouldTriggerEnemySkill = YES;
@@ -222,6 +215,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skip first skill attack for an enemy
   if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
+    shouldTriggerEnemySkill = NO;
+  if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter != 0)
     shouldTriggerEnemySkill = NO;
   
   // Wrapping indicators update into the block
@@ -256,6 +251,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
+  
   if (_playerSkillController)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
@@ -281,7 +277,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     _skillIndicatorEnemy = [[SkillBattleIndicatorView alloc] initWithSkillController:_enemySkillController enemy:YES];
     if (_skillIndicatorEnemy)
     {
-      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150 + (UI_DEVICE_IS_IPHONE_4 ? 45 : 0));
+      _skillIndicatorEnemy.position = CGPointMake(_skillIndicatorEnemy.contentSize.width/2, 150 + (UI_DEVICE_IS_IPHONE_4 ? -74 : 0));
       [_skillIndicatorEnemy update];
       [_battleLayer.orbLayer addChild:_skillIndicatorEnemy z:-10];
       [_skillIndicatorEnemy appear:existedBefore];
@@ -339,6 +335,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 #pragma mark - Misc
 
+// Returns first skill found with that skill type
+- (NSInteger) skillIdForSkillType:(SkillType)type
+{
+  GameState* gs = [GameState sharedGameState];
+  for (SkillProto* skill in gs.staticSkills.allValues)
+    if (skill.type == type)
+      return skill.skillId;
+  return 0;
+}
+
 - (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color
 {
   if (_playerSkillController)
@@ -367,6 +373,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (CGPoint) enemySkillPosition
 {
   return ccpAdd(_skillIndicatorEnemy.position, ccp(0, _skillIndicatorEnemy.contentSize.height/2));
+}
+
+- (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger
+{
+  if (_enemySkillController)
+    return [_enemySkillController skillCalledWithTrigger:trigger execute:NO];
+  return NO;
+}
+
+- (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger
+{
+  if (_playerSkillController)
+    return [_playerSkillController skillCalledWithTrigger:trigger execute:NO];
+  return NO;
 }
 
 @end

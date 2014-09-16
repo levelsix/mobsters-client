@@ -340,9 +340,15 @@
   }
 }
 
-- (void) moveComplete {
+// checkEnemyHealth is a better place for saving because it's called after both move and skill trigger for that move finish
+/*- (void) moveComplete {
   [super moveComplete];
   [self saveCurrentState];
+}*/
+
+- (BOOL) checkEnemyHealth {
+  [self saveCurrentState];
+  return [super checkEnemyHealth];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector
@@ -411,6 +417,8 @@
     
     _movesLeft = moves;
     _myDamageDealt = damage;
+    
+    self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
     
     _isResumingState = NO;
   } else {
@@ -522,6 +530,8 @@
 
 - (void) deserializeAndResumeState:(NSDictionary *)stateDict {
   _movesLeft = (int)[[stateDict objectForKey:MOVES_LEFT_KEY] integerValue];
+  self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];  // M: quick fix for bug with wrong moves count when restored
+  
   _myDamageDealt = (int)[[stateDict objectForKey:DAMAGE_STORED_KEY] integerValue];
   _damageWasDealt = [[stateDict objectForKey:DAMAGE_DEALT_KEY] boolValue];
   _numAttemptedRunaways = (int)[[stateDict objectForKey:RUNAWAY_COUNT_KEY] integerValue];

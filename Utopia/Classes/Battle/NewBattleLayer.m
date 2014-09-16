@@ -568,12 +568,7 @@
   if (nextMove) {
     [self beginMyTurn];
   } else {
-    [self runAction:[CCActionSequence actions:
-                     [CCActionDelay actionWithDuration:delay],
-                     [CCActionCallBlock actionWithBlock:
-                      ^{
-                        [self beginEnemyTurn];
-                      }], nil]];
+    [self beginEnemyTurn:delay];
   }
 }
 
@@ -599,35 +594,50 @@
   [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered) {
     
     SkillLog(@"Beginning of player turn ENDED");
-    [self.hudView.battleScheduleView bounceLastView];
     [self.orbLayer.bgdLayer turnTheLightsOn];
     [self.orbLayer allowInput];
     [self.hudView prepareForMyTurn];
-    
+    [self performAfterDelay:0.5 block:^{
+      [self.hudView.battleScheduleView bounceLastView];
+    }];
   }];
 }
 
-- (void) beginEnemyTurn {
+- (void) beginEnemyTurn:(float)delay {
   [self.hudView removeButtons];
   
+  // Bounce if needed
+  BOOL needToBounce = YES;
+  if (! [skillManager willEnemySkillTrigger:SkillTriggerPointStartOfEnemyTurn])
+  {
+    [self performAfterDelay:0.5 block:^{
+      [self.hudView.battleScheduleView bounceLastView];
+    }];
+    needToBounce = NO;
+  }
+  
   // Skills trigger for enemy turn started
-  SkillLog(@"TRIGGER STARTED: beginning of enemy turn");
-  [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered) {
+  [self performAfterDelay:delay block:^{
     
-    SkillLog(@"Beginning of enemy turn ENDED");
-    if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
-    {
-      BOOL enemyIsKilled = [self checkEnemyHealth];
-      if (! enemyIsKilled)
+    SkillLog(@"TRIGGER STARTED: beginning of enemy turn");
+    [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered) {
+      
+      SkillLog(@"Beginning of enemy turn ENDED");
+      if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
       {
-        [self.hudView.battleScheduleView bounceLastView];
-        [self performAfterDelay:0.5 block:^{
-          _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
-          _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-          [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealEnemyDamage)];
-        }];
+        BOOL enemyIsKilled = [self checkEnemyHealth];
+        if (! enemyIsKilled)
+        {
+          if (needToBounce)
+            [self.hudView.battleScheduleView bounceLastView];
+          [self performAfterDelay:0.5 block:^{
+            _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+            _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
+            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealEnemyDamage)];
+          }];
+        }
       }
-    }
+    }];
   }];
 }
 

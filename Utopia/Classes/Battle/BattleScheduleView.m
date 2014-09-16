@@ -55,7 +55,6 @@
     oldArr = nil;
   }
   
-  _reorderingInProgress = YES;
   self.monsterViews = [NSMutableArray array];
   for (int i = 0; i < ordering.count; i++) {
     NSNumber *num = ordering[i];
@@ -71,15 +70,13 @@
     if (i < oldArr.count) {
       MiniMonsterView *ommv = oldArr[i];
       
-      // Mikhail: now we jumping the current element right before the actual turn from the NewBattleLayer
-      // using bounceLastView. So no need for doing it here anymore. Left the code just in case
-      //BOOL isLast = i == oldArr.count-1;
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (self.numSlots-i-1)*0.05f*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (i == 0)
+          _reorderingInProgress = YES;
         [UIView transitionFromView:ommv toView:mmv duration:0.3 options:UIViewAnimationOptionTransitionFlipFromTop completion:^(BOOL finished) {
-          //if (isLast) {
-          //  [self performSelector:@selector(bounceView:) withObject:self.monsterViews[0] afterDelay:0.2f];
-          //}
-          _reorderingInProgress = NO;
+          
+          if (i == ordering.count-1 || i == oldArr.count-1) // last element
+            _reorderingInProgress = NO;
         }];
       });
     } else {
@@ -98,6 +95,7 @@
 {
   if (_reorderingInProgress)
     return;
+  
   if (self.monsterViews && self.monsterViews.count > 0)
     [self bounceView:self.monsterViews[0]];
 }

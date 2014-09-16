@@ -28,19 +28,22 @@
 
 #pragma mark - Overrides
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
-  if ([super skillCalledWithTrigger:trigger])
+  if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
   if (trigger == SkillTriggerPointEndOfPlayerMove)
   {
     if ([self skillIsReady])
     {
-      [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
-      [self showSkillPopupOverlay:YES withCompletion:^(){
-        [self dealQuickAttack];
-      }];
+      if (execute)
+      {
+        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+        [self showSkillPopupOverlay:YES withCompletion:^(){
+          [self dealQuickAttack];
+        }];
+      }
       return YES;
     }
   }

@@ -38,16 +38,19 @@
 
 #pragma mark - Overrides
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
-  if ([super skillCalledWithTrigger:trigger])
+  if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self showSkillPopupOverlay:YES withCompletion:^{
-      [self spawnInitialJelly];
-    }];
+    if (execute)
+    {
+      [self showSkillPopupOverlay:YES withCompletion:^{
+        [self spawnInitialJelly];
+      }];
+    }
     return YES;
   }
   
@@ -56,11 +59,15 @@
     // Check for the turn
     if (_turnCounter < _spawnTurns - 1)
     {
-      _turnCounter++;
+      if (execute)
+        _turnCounter++;
       return NO;
     }
     else // Jumping owner and jelly spawning
-      [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnNewJelly)];
+    {
+      if (execute)
+        [self makeSkillOwnerJumpWithTarget:self selector:@selector(spawnNewJelly)];
+    }
     
     return YES;
   }
@@ -111,6 +118,10 @@
       keepLit = [self.battleLayer.battleSchedule nextTurnIsPlayers];
     [bgdLayer updateTile:tile keepLit:keepLit withTarget:self andCallback:callback];
   }
+  else
+    if (callback)
+      SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING(
+      [self performSelector:callback]; );
 }
 
 - (void) spawnNextBatch

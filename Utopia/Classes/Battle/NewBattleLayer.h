@@ -146,7 +146,7 @@
 - (void) beginNextTurn;
 - (void) beginMyTurn;
 - (void) myTurnEnded;
-- (void) beginEnemyTurn;
+- (void) beginEnemyTurn:(float)delay;
 - (void) checkIfAnyMovesLeft;
 - (void) currentMyPlayerDied;
 - (void) createNextMyPlayerSprite;

@@ -66,31 +66,29 @@
   return SpecialOrbTypeNone;
 }
 
-- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+- (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 {
   // Try to trigger the skill and use callback right away if it's not responding
   _callbackBlock = completion;
-  BOOL triggered = [self skillCalledWithTrigger:trigger];
+  BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
   if (! triggered)
     _callbackBlock(NO);
+  return triggered;
 }
 
 #pragma mark - Placeholders to be overriden
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   _currentTrigger = trigger;
   
   // Cache image if needed
   if (! _characterImage)
     [self prepareCharacterImage];
-
+  
   // Skip initial attack (if deserialized)
   if (trigger == SkillTriggerPointEnemyAppeared && _executedInitialAction)
-  {
-    _callbackBlock(NO);
-    return YES;
-  }
+    return NO;
   
   return NO;
 }
@@ -100,6 +98,7 @@
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
+  // Hide popup and call block
   if (_popupOverlay)
   {
     [self hideSkillPopupOverlayInternal];

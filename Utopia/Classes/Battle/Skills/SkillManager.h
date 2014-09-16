@@ -65,5 +65,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color;
 - (CGPoint) playerSkillPosition;
 - (CGPoint) enemySkillPosition;
+- (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger;
+- (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger;
 
 @end

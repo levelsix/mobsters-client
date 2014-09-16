@@ -64,8 +64,8 @@
   }
 }
 
-- (void) beginEnemyTurn {
-  [super beginEnemyTurn];
+- (void) beginEnemyTurn:(float)delay {
+  [super beginEnemyTurn:delay];
   self.enemyDamageDealt = MIN(self.enemyDamageDealt, self.myPlayerObject.curHealth-1);
 }
 

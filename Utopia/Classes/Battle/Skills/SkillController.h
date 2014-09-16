@@ -68,10 +68,10 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
-- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+- (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // To be overriden by specific skills
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger;
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute;
 - (void) skillTriggerFinished;
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;

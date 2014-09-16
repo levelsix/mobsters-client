@@ -83,40 +83,48 @@
   return SpecialOrbTypeNone;
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
-  if ([super skillCalledWithTrigger:trigger])
+  if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
   // Change enemy speed
   if (trigger == SkillTriggerPointEnemyInitialized)
   {
-    self.enemy.speed = _currentSpeed;
-    [self skillTriggerFinished];
+    if (execute)
+    {
+      self.enemy.speed = _currentSpeed;
+      [self skillTriggerFinished];
+    }
     return YES;
   }
   
   // Initial cake spawn
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self initialSequence];
+    if (execute)
+      [self initialSequence];
     return YES;
   }
   
   // Player destruction
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
-    [self startAttackingPlayer];
+    if (execute)
+      [self startAttackingPlayer];
     return YES;
   }
   
   // Cakes cleanup
   if (trigger == SkillTriggerPointEnemyDefeated)
   {
-    [self destroyAllCakes];
-    [self performAfterDelay:0.3 block:^{
-      [self skillTriggerFinished];
-    }];
+    if (execute)
+    {
+      [self destroyAllCakes];
+      [self performAfterDelay:0.3 block:^{
+        [self skillTriggerFinished];
+      }];
+    }
     return YES;
   }
   
