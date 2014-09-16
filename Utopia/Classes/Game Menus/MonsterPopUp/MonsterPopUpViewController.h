@@ -67,7 +67,9 @@
 @property (weak, nonatomic) IBOutlet FlipImageView *defensiveSkillArrow;
 @property (weak, nonatomic) IBOutlet NiceFontLabel8 *offensiveSkillName;
 @property (weak, nonatomic) IBOutlet NiceFontLabel8 *defensiveSkillName;
-@property (weak, nonatomic) IBOutlet NiceFontLabel2 *skillTypeLabel;
+@property (weak, nonatomic) IBOutlet NiceFontLabel2 *offensiveSkillType;
+@property (weak, nonatomic) IBOutlet NiceFontLabel2 *defensiveSkillType;
+@property (weak, nonatomic) IBOutlet UIView *bottomBgView;
 
 @property (nonatomic, strong) UserMonster *monster;
 

@@ -11,12 +11,14 @@
                 <outlet property="avatarButton" destination="kkH-Yh-Jb1" id="cql-z9-UQm"/>
                 <outlet property="backButtonView" destination="cuZ-cY-UIH" id="fe7-yt-r6R"/>
                 <outlet property="bgdView" destination="lMC-OL-ZPt" id="r7s-WG-LKM"/>
+                <outlet property="bottomBgView" destination="32V-W7-b9Y" id="7yo-TP-382"/>
                 <outlet property="buttonsContainer" destination="27D-X9-wi5" id="lu9-AN-Hry"/>
                 <outlet property="container" destination="Jaw-hG-ITL" id="VWy-Vc-kJy"/>
                 <outlet property="defensiveSkillArrow" destination="IM6-2f-dgy" id="U7O-5H-kwa"/>
                 <outlet property="defensiveSkillBg" destination="2iK-ax-inM" id="yWB-1u-61v"/>
                 <outlet property="defensiveSkillIcon" destination="Zxq-4T-Pne" id="lYt-YW-1SG"/>
                 <outlet property="defensiveSkillName" destination="Qdp-5v-2mv" id="Ko9-64-cpx"/>
+                <outlet property="defensiveSkillType" destination="hNX-cT-oQT" id="0w7-N1-sxQ"/>
                 <outlet property="descriptionView" destination="yeT-bI-41d" id="Z32-mw-zTP"/>
                 <outlet property="earthView" destination="Zyf-r6-sln" id="ybO-55-LpY"/>
                 <outlet property="elementLabel" destination="wdo-zP-dMv" id="VD4-rS-9yI"/>
@@ -36,11 +38,11 @@
                 <outlet property="offensiveSkillBg" destination="EmG-he-L7E" id="9mS-Wt-bn6"/>
                 <outlet property="offensiveSkillIcon" destination="EKH-AC-7oA" id="T4T-ol-p3H"/>
                 <outlet property="offensiveSkillName" destination="5n9-mT-Trb" id="20J-F8-Wrb"/>
+                <outlet property="offensiveSkillType" destination="xFe-J0-1vC" id="g62-be-ESL"/>
                 <outlet property="progressBar" destination="y5u-CF-vVy" id="wky-Jk-xz4"/>
                 <outlet property="protectedButton" destination="j2O-jp-6fS" id="EUb-FR-EXO"/>
                 <outlet property="rarityTag" destination="Ubv-eZ-E9j" id="RfK-T2-c9x"/>
                 <outlet property="rockView" destination="eRb-l0-Hoh" id="wCi-CZ-shD"/>
-                <outlet property="skillTypeLabel" destination="xFe-J0-1vC" id="t3A-lm-bip"/>
                 <outlet property="skillView" destination="9sy-MS-TpO" id="4Yh-Gq-8yl"/>
                 <outlet property="speedLabel" destination="PF7-bJ-lcr" id="kC2-ci-d2P"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -134,10 +136,18 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="skillbottom.png" id="KPf-Fu-15P">
-                            <rect key="frame" x="0.0" y="234" width="370" height="60"/>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="32V-W7-b9Y" userLabel="Bottom bg">
+                            <rect key="frame" x="0.0" y="224" width="370" height="70"/>
                             <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="skillbottom.png" id="KPf-Fu-15P">
+                                    <rect key="frame" x="0.0" y="10" width="370" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                        </view>
                         <view contentMode="scaleToFill" id="cuZ-cY-UIH" userLabel="Back View">
                             <rect key="frame" x="10" y="8" width="70" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -364,7 +374,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" id="9sy-MS-TpO">
+                        <view contentMode="scaleToFill" id="9sy-MS-TpO" userLabel="Bottom view">
                             <rect key="frame" x="0.0" y="220" width="370" height="70"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
@@ -373,7 +383,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cheapshoticon.png" id="EKH-AC-7oA">
-                                    <rect key="frame" x="40" y="3" width="20" height="20"/>
+                                    <rect key="frame" x="40" y="5" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noskillcircle.png" id="2iK-ax-inM">
@@ -381,7 +391,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cakedropicon.png" id="Zxq-4T-Pne">
-                                    <rect key="frame" x="310" y="3" width="20" height="20"/>
+                                    <rect key="frame" x="310" y="5" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popuplinevertical.png" id="Eqz-5C-F5v">
@@ -450,7 +460,7 @@
                                 </button>
                             </subviews>
                         </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" id="9" customClass="NiceFontLabel2">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" id="9" userLabel="Bottom text" customClass="NiceFontLabel2">
                             <rect key="frame" x="102" y="233" width="162" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">Mr. Brute likes long walks on the beach. And by long walks on the beach, I mean he likes beating people up with his baseball bat</string>

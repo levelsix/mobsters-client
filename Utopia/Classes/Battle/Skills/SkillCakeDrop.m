@@ -20,6 +20,7 @@
   
   _minCakes = 1;
   _maxCakes = 1;
+  _initialCakes = 1;
   _initialSpeed = 2;
   _speedMultiplier = 1.1;
   _cakeChance = 0.1;
@@ -36,6 +37,8 @@
     _minCakes = value;
   else if ( [property isEqualToString:@"MAX_CAKES"] )
     _maxCakes = value;
+  else if ( [property isEqualToString:@"INITIAL_CAKES"] )
+    _initialCakes = value;
   else if ( [property isEqualToString:@"INITIAL_SPEED"] )
     _initialSpeed = value;
   else if ( [property isEqualToString:@"SPEED_MULTIPLIER"] )
@@ -146,32 +149,37 @@
 {
   // Replace one of the top orbs with a cake
   [self preseedRandomization];
+  
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb;
-  NSInteger column, row;
-  NSInteger counter = 0;
-  do {
-    column = rand() % layout.numColumns;
-    row = layout.numRows - 1;
-    orb = [layout orbAtColumn:column row:row];
-    counter++;
+  BattleOrb* orb = nil;
+  
+  for (NSInteger n = 0; n < _initialCakes; n++)
+  {
+    NSInteger column, row;
+    NSInteger counter = 0;
+    do {
+      column = rand() % layout.numColumns;
+      row = layout.numRows - 1;
+      orb = [layout orbAtColumn:column row:row];
+      counter++;
+    }
+    while (orb.specialOrbType != SpecialOrbTypeNone && counter < 100);
+    orb.specialOrbType = SpecialOrbTypeCake;
+    orb.orbColor = OrbColorNone;
+    
+    // Update visuals
+    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
+    BattleTile* tile = [layout tileAtColumn:column row:row];
+    [bgdLayer updateTile:tile keepLit:YES withTarget:((n==_initialCakes-1)?self:nil) andCallback:@selector(skillTriggerFinished)]; // returning from the skill
+    
+    [self performAfterDelay:0.5 block:^{
+      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
+      [orbSprite reloadSprite:YES];
+    }];
   }
-  while (orb.specialOrbType != SpecialOrbTypeNone && counter < 8);
-  orb.specialOrbType = SpecialOrbTypeCake;
-  orb.orbColor = OrbColorNone;
   
   // Update available swaps list
   [layout detectPossibleSwaps];
-  
-  // Update visuals
-  OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-  BattleTile* tile = [layout tileAtColumn:column row:row];
-  [bgdLayer updateTile:tile keepLit:YES withTarget:self andCallback:@selector(skillTriggerFinished)]; // returning from the skill
-  
-  [self performAfterDelay:0.5 block:^{
-    OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-    [orbSprite reloadSprite:YES];
-  }];
 }
 
 - (void) startAttackingPlayer

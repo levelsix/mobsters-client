@@ -1185,10 +1185,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 @property int32_t leagueId;
 @property (retain) NSString* leagueName;
 @property (retain) NSString* imgPrefix;
-@property int32_t numRanks;
 @property (retain) NSString* description;
-@property int32_t minElo;
-@property int32_t maxElo;
 @end
 
 @implementation PvpLeagueProto
@@ -1214,13 +1211,6 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   hasImgPrefix_ = !!value;
 }
 @synthesize imgPrefix;
-- (BOOL) hasNumRanks {
-  return !!hasNumRanks_;
-}
-- (void) setHasNumRanks:(BOOL) value {
-  hasNumRanks_ = !!value;
-}
-@synthesize numRanks;
 - (BOOL) hasDescription {
   return !!hasDescription_;
 }
@@ -1228,20 +1218,6 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   hasDescription_ = !!value;
 }
 @synthesize description;
-- (BOOL) hasMinElo {
-  return !!hasMinElo_;
-}
-- (void) setHasMinElo:(BOOL) value {
-  hasMinElo_ = !!value;
-}
-@synthesize minElo;
-- (BOOL) hasMaxElo {
-  return !!hasMaxElo_;
-}
-- (void) setHasMaxElo:(BOOL) value {
-  hasMaxElo_ = !!value;
-}
-@synthesize maxElo;
 - (void) dealloc {
   self.leagueName = nil;
   self.imgPrefix = nil;
@@ -1253,10 +1229,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
     self.leagueId = 0;
     self.leagueName = @"";
     self.imgPrefix = @"";
-    self.numRanks = 0;
     self.description = @"";
-    self.minElo = 0;
-    self.maxElo = 0;
   }
   return self;
 }
@@ -1285,17 +1258,8 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
   if (self.hasImgPrefix) {
     [output writeString:3 value:self.imgPrefix];
   }
-  if (self.hasNumRanks) {
-    [output writeInt32:4 value:self.numRanks];
-  }
   if (self.hasDescription) {
     [output writeString:5 value:self.description];
-  }
-  if (self.hasMinElo) {
-    [output writeInt32:6 value:self.minElo];
-  }
-  if (self.hasMaxElo) {
-    [output writeInt32:7 value:self.maxElo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1315,17 +1279,8 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
   if (self.hasImgPrefix) {
     size += computeStringSize(3, self.imgPrefix);
   }
-  if (self.hasNumRanks) {
-    size += computeInt32Size(4, self.numRanks);
-  }
   if (self.hasDescription) {
     size += computeStringSize(5, self.description);
-  }
-  if (self.hasMinElo) {
-    size += computeInt32Size(6, self.minElo);
-  }
-  if (self.hasMaxElo) {
-    size += computeInt32Size(7, self.maxElo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1411,17 +1366,8 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
   if (other.hasImgPrefix) {
     [self setImgPrefix:other.imgPrefix];
   }
-  if (other.hasNumRanks) {
-    [self setNumRanks:other.numRanks];
-  }
   if (other.hasDescription) {
     [self setDescription:other.description];
-  }
-  if (other.hasMinElo) {
-    [self setMinElo:other.minElo];
-  }
-  if (other.hasMaxElo) {
-    [self setMaxElo:other.maxElo];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1456,20 +1402,8 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
         [self setImgPrefix:[input readString]];
         break;
       }
-      case 32: {
-        [self setNumRanks:[input readInt32]];
-        break;
-      }
       case 42: {
         [self setDescription:[input readString]];
-        break;
-      }
-      case 48: {
-        [self setMinElo:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setMaxElo:[input readInt32]];
         break;
       }
     }
@@ -1523,22 +1457,6 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
   result.imgPrefix = @"";
   return self;
 }
-- (BOOL) hasNumRanks {
-  return result.hasNumRanks;
-}
-- (int32_t) numRanks {
-  return result.numRanks;
-}
-- (PvpLeagueProto_Builder*) setNumRanks:(int32_t) value {
-  result.hasNumRanks = YES;
-  result.numRanks = value;
-  return self;
-}
-- (PvpLeagueProto_Builder*) clearNumRanks {
-  result.hasNumRanks = NO;
-  result.numRanks = 0;
-  return self;
-}
 - (BOOL) hasDescription {
   return result.hasDescription;
 }
@@ -1553,38 +1471,6 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
 - (PvpLeagueProto_Builder*) clearDescription {
   result.hasDescription = NO;
   result.description = @"";
-  return self;
-}
-- (BOOL) hasMinElo {
-  return result.hasMinElo;
-}
-- (int32_t) minElo {
-  return result.minElo;
-}
-- (PvpLeagueProto_Builder*) setMinElo:(int32_t) value {
-  result.hasMinElo = YES;
-  result.minElo = value;
-  return self;
-}
-- (PvpLeagueProto_Builder*) clearMinElo {
-  result.hasMinElo = NO;
-  result.minElo = 0;
-  return self;
-}
-- (BOOL) hasMaxElo {
-  return result.hasMaxElo;
-}
-- (int32_t) maxElo {
-  return result.maxElo;
-}
-- (PvpLeagueProto_Builder*) setMaxElo:(int32_t) value {
-  result.hasMaxElo = YES;
-  result.maxElo = value;
-  return self;
-}
-- (PvpLeagueProto_Builder*) clearMaxElo {
-  result.hasMaxElo = NO;
-  result.maxElo = 0;
   return self;
 }
 @end

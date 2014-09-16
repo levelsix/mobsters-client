@@ -25,6 +25,11 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeCakeDrop:
     case SkillTypeJelly:
     case SkillTypeQuickAttack:
+    case SkillTypeBombs:
+    case SkillTypeShield:
+    case SkillTypePoison:
+    case SkillTypeRoidRage:
+    case SkillTypeMomentum:
       return YES;
     default:
       return NO;

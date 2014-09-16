@@ -50,6 +50,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 
 @property (readonly) SkillType            skillType;
 @property (readonly) SkillActivationType  activationType;
+@property (readonly) NSInteger            skillId;
 
 @property (weak, nonatomic) NewBattleLayer  *battleLayer;
 @property (weak, nonatomic) BattlePlayer    *player;

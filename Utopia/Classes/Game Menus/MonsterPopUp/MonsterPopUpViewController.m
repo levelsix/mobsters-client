@@ -52,6 +52,7 @@
   
   self.mainView.layer.cornerRadius = 6.f;
   self.container.layer.cornerRadius = 6.f;
+  self.bottomBgView.layer.cornerRadius = 6.f;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
@@ -107,16 +108,22 @@
   // No skills
   if (self.monster.offensiveSkillId == 0 && self.monster.defensiveSkillId == 0)
   {
-    self.offensiveSkillArrow.hidden = YES;
-    self.defensiveSkillArrow.hidden = YES;
+    self.skillView.hidden = YES;
+    self.skillView.userInteractionEnabled = NO;
     [self setDescriptionLabelString:@"This mobster does not have an offensive or defensive skill."];
     return;
   }
   
   if (! self.monster.offensiveSkillId)
+  {
+    self.offensiveSkillArrow.hidden = YES;
     offensive = NO;
+  }
   if (! self.monster.defensiveSkillId)
+  {
+    self.defensiveSkillArrow.hidden = YES;
     offensive = YES;
+  }
   
   // Offensive
   if (self.monster.offensiveSkillId != 0)
@@ -124,7 +131,7 @@
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.offensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:skillProto.iconImgName withView:self.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      [Globals imageNamed:skillProto.iconImgName withView:self.offensiveSkillIcon greyscale:!offensive indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       self.offensiveSkillIcon.hidden = NO;
       self.offensiveSkillName.text = skillProto.name;
       if (offensive)
@@ -133,7 +140,7 @@
         self.offensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
-        self.offensiveSkillName.textColor = self.skillTypeLabel.textColor;
+        self.offensiveSkillName.textColor = self.offensiveSkillType.textColor;
     }
     
     if (offensive)
@@ -154,7 +161,7 @@
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.defensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:skillProto.iconImgName withView:self.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      [Globals imageNamed:skillProto.iconImgName withView:self.defensiveSkillIcon greyscale:offensive indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       self.defensiveSkillIcon.hidden = NO;
       self.defensiveSkillName.text = skillProto.name;
       if (! offensive)
@@ -163,7 +170,7 @@
         self.defensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
       }
       else
-        self.defensiveSkillName.textColor = self.skillTypeLabel.textColor;
+        self.defensiveSkillName.textColor = self.defensiveSkillType.textColor;
     }
     
     if (! offensive)

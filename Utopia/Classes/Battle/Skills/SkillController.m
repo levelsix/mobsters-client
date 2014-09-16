@@ -32,6 +32,7 @@
     return nil;
   
   _orbColor = color;
+  _skillId = proto.skillId;
   _skillType = proto.type;
   _activationType = proto.activationType;
   _executedInitialAction = NO;

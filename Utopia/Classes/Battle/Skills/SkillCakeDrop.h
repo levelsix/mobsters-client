@@ -13,6 +13,7 @@
   // Properties
   NSInteger _minCakes;
   NSInteger _maxCakes;
+  NSInteger _initialCakes;
   float     _initialSpeed;
   float     _speedMultiplier;
   float     _cakeChance;

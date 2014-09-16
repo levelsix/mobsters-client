@@ -6115,6 +6115,7 @@
 		DA88EB9D19BE8301005EE827 /* cheapshoticon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB9819BE8301005EE827 /* cheapshoticon.png */; };
 		DA88EB9E19BE8301005EE827 /* cheapshoticon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB9919BE8301005EE827 /* cheapshoticon@2x.png */; };
 		DA88EB9F19BE8301005EE827 /* cheapshoticon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA88EB9919BE8301005EE827 /* cheapshoticon@2x.png */; };
+		DAAD3DD319C8C31E00557698 /* SkillBombs.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAD3DD219C8C31E00557698 /* SkillBombs.m */; };
 		DAF7994919AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994A19AD65EF00586583 /* bignotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994519AD65EF00586583 /* bignotificationbubble.png */; };
 		DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */; };
@@ -9631,6 +9632,8 @@
 		DA88EB9319BE82C5005EE827 /* cakedropicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cakedropicon@2x.png"; sourceTree = "<group>"; };
 		DA88EB9819BE8301005EE827 /* cheapshoticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cheapshoticon.png; sourceTree = "<group>"; };
 		DA88EB9919BE8301005EE827 /* cheapshoticon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cheapshoticon@2x.png"; sourceTree = "<group>"; };
+		DAAD3DD119C8C31E00557698 /* SkillBombs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBombs.h; sourceTree = "<group>"; };
+		DAAD3DD219C8C31E00557698 /* SkillBombs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBombs.m; sourceTree = "<group>"; };
 		DAF7994519AD65EF00586583 /* bignotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bignotificationbubble.png; sourceTree = "<group>"; };
 		DAF7994619AD65EF00586583 /* bignotificationbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bignotificationbubble@2x.png"; sourceTree = "<group>"; };
 		DAF7994719AD65EF00586583 /* bluenotificationbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluenotificationbubble.png; sourceTree = "<group>"; };
@@ -15316,6 +15319,8 @@
 				DA0FC58519B65F2A00393BF4 /* SkillJelly.m */,
 				DA88EB8319BE5810005EE827 /* SkillCakeDrop.h */,
 				DA88EB8419BE5810005EE827 /* SkillCakeDrop.m */,
+				DAAD3DD119C8C31E00557698 /* SkillBombs.h */,
+				DAAD3DD219C8C31E00557698 /* SkillBombs.m */,
 			);
 			path = Skills;
 			sourceTree = "<group>";
@@ -21604,6 +21609,7 @@
 				CF15BA8016572A8400A51F85 /* AMQPConnection.m in Sources */,
 				CFCD0EFF195500A700EDC233 /* HomeViewController.m in Sources */,
 				CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */,
+				DAAD3DD319C8C31E00557698 /* SkillBombs.m in Sources */,
 				CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
 				CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */,
