@@ -58,6 +58,17 @@
 @property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;
 
+@property (weak, nonatomic) IBOutlet UIView *skillView;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillBg;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillBg;
+@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillArrow;
+@property (weak, nonatomic) IBOutlet FlipImageView *defensiveSkillArrow;
+@property (weak, nonatomic) IBOutlet NiceFontLabel8 *offensiveSkillName;
+@property (weak, nonatomic) IBOutlet NiceFontLabel8 *defensiveSkillName;
+@property (weak, nonatomic) IBOutlet NiceFontLabel2 *skillTypeLabel;
+
 @property (nonatomic, strong) UserMonster *monster;
 
 - (id)initWithMonsterProto:(UserMonster *)monster;
@@ -67,5 +78,8 @@
 - (IBAction)backClicked:(id)sender;
 - (IBAction)sellClicked:(id)sender;
 - (IBAction)heartClicked:(id)sender;
+
+- (IBAction)offensiveSkillTapped:(id)sender;
+- (IBAction)defensiveSkillTapped:(id)sender;
 
 @end

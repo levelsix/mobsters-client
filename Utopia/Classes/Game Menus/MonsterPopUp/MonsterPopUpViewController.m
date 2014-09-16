@@ -62,7 +62,7 @@
   MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
   self.monsterNameLabel.text = proto.displayName;
   self.enhanceLabel.text = [NSString stringWithFormat:@"%d (Max. %d)", self.monster.level, proto.maxLevel];
-  [self setDescriptionLabelString:proto.description];
+  [self updateSkillData:YES];
   
   self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
   
@@ -100,6 +100,85 @@
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
+- (void) updateSkillData:(BOOL)offensive
+{
+  GameState *gs = [GameState sharedGameState];
+  
+  // No skills
+  if (self.monster.offensiveSkillId == 0 && self.monster.defensiveSkillId == 0)
+  {
+    self.offensiveSkillArrow.hidden = YES;
+    self.defensiveSkillArrow.hidden = YES;
+    [self setDescriptionLabelString:@"This mobster does not have an offensive or defensive skill."];
+    return;
+  }
+  
+  if (! self.monster.offensiveSkillId)
+    offensive = NO;
+  if (! self.monster.defensiveSkillId)
+    offensive = YES;
+  
+  // Offensive
+  if (self.monster.offensiveSkillId != 0)
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.offensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:skillProto.iconImgName withView:self.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      self.offensiveSkillIcon.hidden = NO;
+      self.offensiveSkillName.text = skillProto.name;
+      if (offensive)
+      {
+        [self setDescriptionLabelString:skillProto.desc];
+        self.offensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
+      }
+      else
+        self.offensiveSkillName.textColor = self.skillTypeLabel.textColor;
+    }
+    
+    if (offensive)
+    {
+      self.offensiveSkillArrow.hidden = NO;
+      self.offensiveSkillBg.image = [Globals imageNamed:@"activeskill.png"];
+    }
+    else
+    {
+      self.offensiveSkillArrow.hidden = YES;
+      self.offensiveSkillBg.image = [Globals imageNamed:@"inactiveskill.png"];
+    }
+  }
+  
+  // Defensive
+  if (self.monster.defensiveSkillId != 0)
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.defensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:skillProto.iconImgName withView:self.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      self.defensiveSkillIcon.hidden = NO;
+      self.defensiveSkillName.text = skillProto.name;
+      if (! offensive)
+      {
+        [self setDescriptionLabelString:skillProto.desc];
+        self.defensiveSkillName.textColor = [UIColor colorWithHexString:@"1a85e3"];
+      }
+      else
+        self.defensiveSkillName.textColor = self.skillTypeLabel.textColor;
+    }
+    
+    if (! offensive)
+    {
+      self.defensiveSkillArrow.hidden = NO;
+      self.defensiveSkillBg.image = [Globals imageNamed:@"activeskill.png"];
+    }
+    else
+    {
+      self.defensiveSkillArrow.hidden = YES;
+      self.defensiveSkillBg.image = [Globals imageNamed:@"inactiveskill.png"];
+    }
+  }
+}
+
 - (void) updateProtectedButton {
   [self.protectedButton setImage:[Globals imageNamed:(self.monster.isProtected ? @"lockedactive.png" : @"lockedinactive.png")] forState:UIControlStateNormal];
 }
@@ -123,8 +202,12 @@
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
     self.avatarButton.alpha = 0.f;
+    self.skillView.alpha = 0.f;
+    self.monsterDescription.originX -= 50;
+    self.monsterDescription.width += 100;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
+    self.skillView.userInteractionEnabled = NO;
   }];
   
   CATransition *animation = [CATransition animation];
@@ -143,9 +226,13 @@
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
     self.backButtonView.alpha = 0.f;
     self.avatarButton.alpha = 1.f;
+    self.skillView.alpha = 1.f;
+    self.monsterDescription.originX += 50;
+    self.monsterDescription.width -= 100;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
+    self.skillView.userInteractionEnabled = YES;
   }];
   
   CATransition *animation = [CATransition animation];
@@ -176,6 +263,14 @@
 
 - (IBAction)heartClicked:(id)sender {
   [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to make %@ your avatar?", self.monster.staticMonster.displayName] title:@"Set Avatar?" okayButton:@"Yup!" cancelButton:@"Cancel" target:self selector:@selector(changeAvatar)];
+}
+
+- (IBAction)offensiveSkillTapped:(id)sender {
+  [self updateSkillData:YES];
+}
+
+- (IBAction)defensiveSkillTapped:(id)sender {
+  [self updateSkillData:NO];
 }
 
 - (void) changeAvatar {
