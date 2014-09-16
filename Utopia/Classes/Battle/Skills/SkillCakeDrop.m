@@ -78,7 +78,7 @@
 
 - (SpecialOrbType) generateSpecialOrb
 {
-  NSInteger cakesOnBoard = [self cakesOnBoardCount];
+  NSInteger cakesOnBoard = [self specialsOnBoardCount:SpecialOrbTypeCake];
   float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
   if ((rand < _cakeChance && cakesOnBoard < _maxCakes) || cakesOnBoard < _minCakes)
     return SpecialOrbTypeCake;
@@ -147,7 +147,6 @@
 // Adding cake
 - (void) initialSequence2
 {
-  // Replace one of the top orbs with a cake
   [self preseedRandomization];
   
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
@@ -164,14 +163,17 @@
       counter++;
     }
     while (orb.specialOrbType != SpecialOrbTypeNone && counter < 100);
+    
+    // Update data
     orb.specialOrbType = SpecialOrbTypeCake;
     orb.orbColor = OrbColorNone;
     
-    // Update visuals
+    // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
     BattleTile* tile = [layout tileAtColumn:column row:row];
     [bgdLayer updateTile:tile keepLit:YES withTarget:((n==_initialCakes-1)?self:nil) andCallback:@selector(skillTriggerFinished)]; // returning from the skill
     
+    // Update orb
     [self performAfterDelay:0.5 block:^{
       OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
       [orbSprite reloadSprite:YES];
@@ -256,22 +258,6 @@
         [orbSprite reloadSprite:YES];
       }
     }
-}
-
-#pragma mark - Helpers
-
-- (NSInteger) cakesOnBoardCount
-{
-  NSInteger result = 0;
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  for (NSInteger column = 0; column < layout.numColumns; column++)
-    for (NSInteger row = 0; row < layout.numRows; row++)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeCake)
-        result++;
-    }
-  return result;
 }
 
 #pragma mark - Serialization

@@ -83,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Major properties
   _enemy = _battleLayer.enemyPlayerObject;
   _enemyColor = OrbColorNone;
-  _enemySkillType = SkillTypeNoSkill;
+  //_enemySkillType = SkillTypeNoSkill;
   _enemySkillController = nil;
   
   if (!_enemy)
@@ -91,7 +91,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeJelly; // Change it to override current skill
+  _cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -175,6 +175,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (color == SpecialOrbTypeNone)
     if (_enemySkillController)
       color = [_enemySkillController generateSpecialOrb];
+  
+  return color;
+}
+
+- (OrbColor) specialOrbColor
+{
+  OrbColor color = OrbColorNone;
+  
+  if (_playerSkillController)
+    color = [_playerSkillController specialOrbColor];
+  
+  if (color == OrbColorNone)
+    if (_enemySkillController)
+      color = [_enemySkillController specialOrbColor];
   
   return color;
 }

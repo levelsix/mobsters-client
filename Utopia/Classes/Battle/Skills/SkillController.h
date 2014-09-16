@@ -31,7 +31,7 @@ typedef enum {
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs"};
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface
@@ -69,6 +69,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
+- (OrbColor) specialOrbColor;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // To be overriden by specific skills
@@ -87,5 +88,6 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 
 // Helpers
 - (void) preseedRandomization;
+- (NSInteger) specialsOnBoardCount:(SpecialOrbType)type;
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import "SkillPopupOverlay.h"
-#import "Globals.h"
 #import "CAKeyframeAnimation+AHEasing.h"
+#import "Globals.h"
 
 @implementation SkillPopupOverlay
 
@@ -36,7 +36,8 @@
     case SkillTypeQuickAttack: skillImage.image = [Globals imageNamed:@"cheapshotlogo.png"]; break;
     case SkillTypeJelly: skillImage.image = [Globals imageNamed:@"goosplashlogo.png"]; break;
     case SkillTypeCakeDrop: skillImage.image = [Globals imageNamed:@"cakedroplogo.png"]; break;
-    case SkillTypeNoSkill: return;
+    case SkillTypeBombs: skillImage.image = [Globals imageNamed:@"bombsawaylogo.png"]; break;
+    default: return;
   }
   skillImage.alpha = 0.0;
   skillImage.transform = CGAffineTransformMakeScale(10.0, 10.0);

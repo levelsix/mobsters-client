@@ -11,6 +11,12 @@
 @interface SkillBombs : SkillControllerPassive
 {
   // Properties
+  NSInteger _minBombs;
+  NSInteger _maxBombs;
+  NSInteger _initialBombs;
+  NSInteger _bombCounter;
+  NSInteger _bombDamage;
+  float     _bombChance;
 }
 
 @end

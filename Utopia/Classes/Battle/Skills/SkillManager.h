@@ -53,6 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
+- (OrbColor) specialOrbColor;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (BOOL) cakeKidSchedule;
 

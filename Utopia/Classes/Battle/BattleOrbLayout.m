@@ -144,20 +144,14 @@
 
 - (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row {
   
-  SpecialOrbType orbType = SpecialOrbTypeNone;
+  *specialOrbType = SpecialOrbTypeNone;
   if (row > _numRows/2)
-    orbType = [skillManager generateSpecialOrb];
+    *specialOrbType = [skillManager generateSpecialOrb];
   
-  if (orbType == SpecialOrbTypeNone)
-  {
-    *specialOrbType = SpecialOrbTypeNone;
+  if (*specialOrbType == SpecialOrbTypeNone)
     *orbColor = arc4random_uniform(_numColors) + OrbColorFire;
-  }
   else
-  {
-    *orbColor = OrbColorNone;
-    *specialOrbType = orbType;
-  }
+    *orbColor = [skillManager specialOrbColor];
 }
 
 - (NSSet *) createInitialOrbs {

@@ -8,6 +8,7 @@
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
+#import "SkillBombs.h"
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
@@ -21,6 +22,7 @@
     case SkillTypeQuickAttack: return [[SkillQuickAttack alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeJelly: return [[SkillJelly alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeCakeDrop: return [[SkillCakeDrop alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeBombs: return [[SkillBombs alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -65,6 +67,11 @@
 - (SpecialOrbType) generateSpecialOrb
 {
   return SpecialOrbTypeNone;
+}
+
+- (OrbColor) specialOrbColor
+{
+  return OrbColorNone;
 }
 
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
@@ -226,6 +233,20 @@
     for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
       seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
   srand(seed);
+}
+
+- (NSInteger) specialsOnBoardCount:(SpecialOrbType)type
+{
+  NSInteger result = 0;
+  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
+  for (NSInteger column = 0; column < layout.numColumns; column++)
+    for (NSInteger row = 0; row < layout.numRows; row++)
+    {
+      BattleOrb* orb = [layout orbAtColumn:column row:row];
+      if (orb.specialOrbType == type)
+        result++;
+    }
+  return result;
 }
 
 @end
