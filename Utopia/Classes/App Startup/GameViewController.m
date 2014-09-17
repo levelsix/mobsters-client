@@ -48,6 +48,7 @@
 #import "Analytics.h"
 #import "TangoDelegate.h"
 #import "StageCompleteNode.h"
+#import "PvpRankUpNode.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -1087,9 +1088,20 @@ BOOL setupCocos2D = NO;
   [self checkLevelUp];
 }
 
+#pragma mark - Pvp Rank Up
+
+- (void) checkPvpRankUp {
+  CCBReader *reader = [CCBReader reader];
+  PvpRankUpNode *pvpRankUp = (PvpRankUpNode *)[reader load:@"PvpRankUpNode"];
+  reader.animationManager.delegate = pvpRankUp;
+  [self.notificationController addNotification:pvpRankUp];
+}
+
 #pragma mark - Level Up
 
 - (void) checkLevelUp {
+  [self checkPvpRankUp];
+  
   if ([CCDirector sharedDirector].isAnimating) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];

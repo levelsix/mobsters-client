@@ -253,6 +253,9 @@
 
 @implementation LeagueListView
 
+static NSString* const leagueColors[] = {@"b37858", @"808586", @"e39633", @"675f6f", @"3a94bc", @"b7271a"};
+static int numLeagues = 6;
+
 - (void) awakeFromNib
 {
   [super awakeFromNib];
@@ -261,18 +264,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  GameState* gs = [GameState sharedGameState];
-  return gs.staticLeagues.count;
+  return numLeagues;
 }
-
-static NSString* const leagueColors[] = {@"b37858", @"808586", @"e39633", @"675f6f", @"3a94bc", @"b7271a"};
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   LeagueListViewCell* cell = [self.leagueTable dequeueReusableCellWithIdentifier:@"leagueCell"];
   
   GameState* gs = [GameState sharedGameState];
-  NSInteger leagueNumber = gs.staticLeagues.count - indexPath.row - 1;
+  NSInteger leagueNumber = numLeagues - indexPath.row - 1;
   PvpLeagueProto* league = gs.staticLeagues[leagueNumber];
   
   BOOL thisLeagueIsPlayers = FALSE;
@@ -299,7 +299,7 @@ static NSString* const leagueColors[] = {@"b37858", @"808586", @"e39633", @"675f
   
   // Label color
   UIColor* textColor = [UIColor blackColor];
-  if ( indexPath.row < sizeof(leagueColors)/sizeof(NSString*) )
+  if ( indexPath.row < numLeagues)
     textColor = [UIColor colorWithHexString:leagueColors[leagueNumber]];
   cell.leagueLabel.textColor = textColor;
   
