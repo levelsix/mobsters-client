@@ -42,6 +42,9 @@
 #import "Support/ZipUtils.h"
 #import "Support/CCFileUtils.h"
 
+// LVL6 Addition
+#import "CCDirector+Downloader.h"
+
 #pragma mark -
 #pragma mark TMXLayerInfo
 
@@ -212,9 +215,12 @@
 
 - (void) parseXMLFile:(NSString *)xmlFilename
 {
-	NSURL *url = [NSURL fileURLWithPath:[[CCFileUtils sharedFileUtils] fullPathForFilename:xmlFilename contentScale:&_contentScale]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	[self parseXMLData:data];
+  // LVL6 Addition
+  // NSURL *url = [NSURL fileURLWithPath:[[CCFileUtils sharedFileUtils] fullPathForFilename:xmlFilename contentScale:&_contentScale]];
+  NSString *path = [[[CCDirector sharedDirector] downloaderDelegate] filepathToFile:xmlFilename];
+  NSURL *url = [NSURL fileURLWithPath:path];
+  NSData *data = [NSData dataWithContentsOfURL:url];
+  [self parseXMLData:data];
 }
 
 // the XML parser calls here with all the elements

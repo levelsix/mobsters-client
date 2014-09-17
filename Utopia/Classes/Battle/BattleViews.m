@@ -17,6 +17,7 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  //self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
   
   self.continueButton.label.position = ccp(0.5, 0.52);
   
@@ -228,6 +229,7 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  //self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
   
   self.tipLabel.fontName = @"Whitney-Semibold";
   self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];

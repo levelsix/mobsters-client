@@ -2026,7 +2026,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic pop
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path {
-	if([CCDirector sharedDirector].contentScaleFactor == 2) {
+	if([UIScreen mainScreen].scale == 2) {
 		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
 		NSString *name = [pathWithoutExtension lastPathComponent];
 		

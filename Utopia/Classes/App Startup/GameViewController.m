@@ -83,14 +83,13 @@
   v.backgroundColor = [UIColor blackColor];
   
   self.view = v;
-  
-  [self setupCocos2D];
 }
 
 - (BOOL) prefersStatusBarHidden {
   return YES;
 }
 
+BOOL setupCocos2D = NO;
 - (void)setupCocos2D {
   CCDirector *director = [CCDirector sharedDirector];
   CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
@@ -101,13 +100,12 @@
                                multiSampling:NO
                              numberOfSamples:0];
   
+  [director setAnimationInterval:1.0/60];
+  [director setFixedUpdateInterval:1.0/60];
+  
   // Display link director is causing problems with uiscrollview and table view.
   [director setProjection:CCDirectorProjection2D];
   [director setView:glView];
-  
-  [self.view insertSubview:glView atIndex:0];
-  
-  [director setAnimationInterval:1.0/60];
   
 #ifdef DEBUG
   [director setDisplayStats:YES];
@@ -123,10 +121,12 @@
   [CCTexture PVRImagesHavePremultipliedAlpha:NO];
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
-  [[CCDirector sharedDirector] setDownloaderDelegate:self];
+  [director setDownloaderDelegate:self];
   
   [self addChildViewController:director];
-  [self.view addSubview:director.view];
+  [self.view insertSubview:director.view atIndex:0];
+  
+  setupCocos2D = YES;
 }
 
 - (void) setupTopBar {
@@ -160,6 +160,12 @@
   //NSMutableArray *arr = gs.inProgressIncompleteQuests.allValues.mutableCopy;
   //[arr shuffle];
   //[self questComplete:arr[0]];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  if (!setupCocos2D) {
+    [self setupCocos2D];
+  }
 }
 
 - (void) removeAllViewControllers {

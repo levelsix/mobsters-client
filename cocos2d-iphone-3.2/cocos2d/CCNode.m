@@ -220,7 +220,11 @@ static NSUInteger globalOrderOfArrival = 1;
 
 - (void) dealloc
 {
-	CCLOGINFO( @"cocos2d: deallocing %@", self);
+  CCLOGINFO( @"cocos2d: deallocing %@", self);
+  
+  
+  // LVL6 Addition - updates the ancestry tree
+  [self removeAllChildren];
 }
 
 #pragma mark Setters
@@ -1042,7 +1046,7 @@ CGAffineTransformMakeRigid(CGPoint translate, CGFloat radians)
 
 -(void) onEnter
 {
-	[_children makeObjectsPerformSelector:@selector(onEnter)];
+	//[_children makeObjectsPerformSelector:@selector(onEnter)];
 	
 	[self setupPhysicsBody:_physicsBody];
 	[_scheduler scheduleTarget:self];
@@ -1068,6 +1072,9 @@ CGAffineTransformMakeRigid(CGPoint translate, CGFloat radians)
     }
 	
 	[self wasRunning:wasRunning];
+  
+  // LVL6 Addition: Moved this after because it fails on transitions
+  [_children makeObjectsPerformSelector:@selector(onEnter)];
 }
 
 -(void) onEnterTransitionDidFinish

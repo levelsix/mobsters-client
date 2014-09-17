@@ -512,7 +512,8 @@
     spr.position = ccp(orbLayer.contentSize.width/2, orbLayer.contentSize.height/2);
     [orbLayer addChild:spr z:0 name:@"Overlay"];
     spr.opacity = 0.f;
-    spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
+    spr.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+    //spr.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
     
     float pulseDur = 0.4f;
     float numTimes = 4;

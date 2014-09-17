@@ -1694,6 +1694,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     // Remove after to let the queue update to not be affected
     [gs.monsterHealingQueue removeAllObjects];
+    gs.monsterHealingQueueEndTime = nil;
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs stopHealingTimer];
     

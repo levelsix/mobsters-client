@@ -398,6 +398,9 @@ and when to execute the Scenes.
  */
 -(void) purgeCachedData;
 
+// LVL6 Addition
+- (void) drawScene;
+
 @end
 
 // optimization. Should only be used to read it. Never to write it.

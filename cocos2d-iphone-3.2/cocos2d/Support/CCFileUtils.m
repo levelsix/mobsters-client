@@ -31,6 +31,9 @@
 #import "../ccConfig.h"
 #import "../ccTypes.h"
 
+// LVL6 Addition
+#import "CCDirector+Downloader.h"
+
 NSString *CCFileUtilsSuffixDefault = @"default";
 
 NSString *CCFileUtilsSuffixiPad = @"ipad";
@@ -148,9 +151,13 @@ static CCFileUtils *fileUtils = nil;
 
 		_enableiPhoneResourcesOniPad = YES;
 		
-		_searchResolutionsOrder = [[NSMutableArray alloc] initWithCapacity:5];
-		
-		_searchPath = [[NSMutableArray alloc] initWithObjects:@"", nil];
+    _searchResolutionsOrder = [[NSMutableArray alloc] initWithCapacity:5];
+    
+    // LVL6 Addition
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    _searchPath = [[NSMutableArray alloc] initWithObjects:@"", documentsPath, nil];
+    //_searchPath = [[NSMutableArray alloc] initWithObjects:@"", nil];
 		
 		_filenameLookup = [[NSMutableDictionary alloc] initWithCapacity:10];
 								  
@@ -537,11 +544,19 @@ static CCFileUtils *fileUtils = nil;
 		[_fullPathCache setObject:value forKey:filename];
 	}
 	else
-	{
+  {
     // TODO: NSAssert here instead? Seems like whatever happens next will fail because of this.
     // Better to stop now rather than later.
-		CCLOGWARN(@"cocos2d: Warning: File not found: %@", filename);
-		ret = nil;
+    // CCLOGWARN(@"cocos2d: Warning: File not found: %@", filename);
+    // ret = nil;
+    // LVL6 Addition
+    static BOOL shouldDl = YES;
+    if (shouldDl) {
+      shouldDl = NO;
+      [[[CCDirector sharedDirector] downloaderDelegate] downloadFile:filename];
+      ret = [self fullPathForFilename:filename contentScale:contentScale];
+    }
+    shouldDl = YES;
 	}
 	
 	

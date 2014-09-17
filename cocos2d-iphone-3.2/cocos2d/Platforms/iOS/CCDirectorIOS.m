@@ -390,8 +390,9 @@
 	[_runningThread start];
 
 #else
-	// setup DisplayLink in main thread
-	[_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+  // LVL6 Addition - Change run loop mode
+  // setup DisplayLink in main thread
+  [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 #endif
 
     _animating = YES;

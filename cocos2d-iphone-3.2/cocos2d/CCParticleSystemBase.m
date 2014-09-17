@@ -243,8 +243,10 @@
 			// For backward compatibility, only append the dirname if both dirnames are the same
 			if( ! [textureDir isEqualToString:dirname] )
 				textureName = [dirname stringByAppendingPathComponent:textureName];
-
-			CCTexture *tex = [[CCTextureCache sharedTextureCache] addImage:textureName];
+      
+      // LVL6 Addition
+      CCTexture *tex = [[CCTextureCache sharedTextureCache] textureForKey:textureName];
+      //CCTexture *tex = [[CCTextureCache sharedTextureCache] addImage:textureName];
 
 			if( tex )
 				[self setTexture:tex];
