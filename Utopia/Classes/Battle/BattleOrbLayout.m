@@ -142,16 +142,13 @@
   return set;
 }
 
-- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(int)column row:(int)row {
+- (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row {
   
-  *specialOrbType = SpecialOrbTypeNone;
-  if (row > _numRows/2)
-    *specialOrbType = [skillManager generateSpecialOrb];
+  orb.orbColor = arc4random_uniform(_numColors) + OrbColorFire;
+  orb.specialOrbType = SpecialOrbTypeNone;
   
-  if (*specialOrbType == SpecialOrbTypeNone)
-    *orbColor = arc4random_uniform(_numColors) + OrbColorFire;
-  else
-    *orbColor = [skillManager specialOrbColor];
+  // Allow skill manager to override this info
+  [skillManager generateSpecialOrb:orb atColumn:column row:row];
 }
 
 - (NSSet *) createInitialOrbs {
@@ -170,14 +167,12 @@
           // Pick the orb type at random, and make sure that this never
           // creates a chain of 3 or more. We want there to be 0 matches in
           // the initial state.
-          OrbColor orbColor;
-          SpecialOrbType special;
           BattleOrb *orb;
           do {
-            [self generateRandomOrbColor:&orbColor specialOrbType:&special atColumn:column row:row];
-            
             // Create a new orb and add it to the 2D array.
-            orb = [self createOrbAtColumn:column row:row type:orbColor powerup:PowerupTypeNone special:special];
+            orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
+            
+            [self generateRandomOrbData:orb atColumn:column row:row];
           }
           // Can't afford to have a chain in initial set
           while ([self hasChainAtColumn:column row:row]);
@@ -1040,8 +1035,6 @@
 
 - (NSArray *)topUpOrbs {
   NSMutableArray *columns = [NSMutableArray array];
-  OrbColor orbColor = -1;
-  SpecialOrbType special = -1;
   
   // Detect where we have to add the new orbs. If a column has X holes,
   // then it also needs X new orbs. The holes are all on the top of the
@@ -1059,22 +1052,17 @@
       // Found a hole?
       if ([self tileAtColumn:column row:row] != nil && [self orbAtColumn:column row:row] == nil) {
         
+        // Create a new orb.
+        BattleOrb *orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
+        
         // Randomly create a new orb type. The only restriction is that
         // it cannot be equal to the previous type. This prevents too many
         // "freebie" matches.
-        OrbColor newOrbColor;
-        SpecialOrbType newSpecial;
         
         // Commented out while loop because it screws up tutorial..
         //do {
-        [self generateRandomOrbColor:&newOrbColor specialOrbType:&newSpecial atColumn:column row:row];
+        [self generateRandomOrbData:orb atColumn:column row:row];
         //} while (newOrbColor == orbColor && special == newSpecial);
-        
-        orbColor = newOrbColor;
-        special = newSpecial;
-        
-        // Create a new orb.
-        BattleOrb *orb = [self createOrbAtColumn:column row:row type:orbColor powerup:PowerupTypeNone special:special];
         
         // Add them in reverse order so they go bottom up
         [array addObject:orb];

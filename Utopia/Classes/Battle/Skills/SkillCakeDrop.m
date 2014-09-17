@@ -76,14 +76,22 @@
   }
 }
 
-- (SpecialOrbType) generateSpecialOrb
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
+  // Don't spawn cake in bottom half of the board
+  if (row < 4)
+    return NO;
+  
   NSInteger cakesOnBoard = [self specialsOnBoardCount:SpecialOrbTypeCake];
   float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
   if ((rand < _cakeChance && cakesOnBoard < _maxCakes) || cakesOnBoard < _minCakes)
-    return SpecialOrbTypeCake;
+  {
+    orb.specialOrbType = SpecialOrbTypeCake;
+    orb.orbColor = OrbColorNone;
+    return YES;
+  }
   
-  return SpecialOrbTypeNone;
+  return NO;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -162,7 +170,7 @@
       orb = [layout orbAtColumn:column row:row];
       counter++;
     }
-    while (orb.specialOrbType != SpecialOrbTypeNone && counter < 100);
+    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) && counter < 1000);
     
     // Update data
     orb.specialOrbType = SpecialOrbTypeCake;

@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "NewBattleLayer.h"
 #import "SkillCakeDrop.h"
+#import "SkillBombs.h"
 
 @implementation SkillManager
 
@@ -83,7 +84,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Major properties
   _enemy = _battleLayer.enemyPlayerObject;
   _enemyColor = OrbColorNone;
-  //_enemySkillType = SkillTypeNoSkill;
+  _enemySkillType = SkillTypeNoSkill;
   _enemySkillController = nil;
   
   if (!_enemy)
@@ -91,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  _cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -165,32 +166,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_skillIndicatorEnemy update];
 }
 
-- (SpecialOrbType) generateSpecialOrb
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
-  SpecialOrbType color = SpecialOrbTypeNone;
+  BOOL generated = NO;
   
   if (_playerSkillController)
-    color = [_playerSkillController generateSpecialOrb];
+    generated = [_playerSkillController generateSpecialOrb:orb atColumn:column row:row];
   
-  if (color == SpecialOrbTypeNone)
+  if (! generated)
     if (_enemySkillController)
-      color = [_enemySkillController generateSpecialOrb];
+      generated = [_enemySkillController generateSpecialOrb:orb atColumn:column row:row];
   
-  return color;
-}
-
-- (OrbColor) specialOrbColor
-{
-  OrbColor color = OrbColorNone;
-  
-  if (_playerSkillController)
-    color = [_playerSkillController specialOrbColor];
-  
-  if (color == OrbColorNone)
-    if (_enemySkillController)
-      color = [_enemySkillController specialOrbColor];
-  
-  return color;
+  return generated;
 }
 
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
@@ -274,9 +261,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     newBlock(NO);
 }
 
+#pragma mark - Specials
+
 - (BOOL) cakeKidSchedule
 {
   return (_enemySkillController && [_enemySkillController isKindOfClass:[SkillCakeDrop class]]);
+}
+
+- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion
+{
+  [SkillBombs updateBombs:_battleLayer withCompletion:completion];
 }
 
 #pragma mark - UI

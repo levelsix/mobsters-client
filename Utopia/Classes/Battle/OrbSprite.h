@@ -6,6 +6,7 @@
 //
 
 #import <CCSprite.h>
+#import <CCLabelTTF.h>
 #import "BattleOrb.h"
 
 static const float orbUpdateAnimDuration = 0.3f;
@@ -13,6 +14,9 @@ static const float orbUpdateAnimDuration = 0.3f;
 @interface OrbSprite : CCNode
 {
   BattleOrb*  _orb;
+  
+  // Specials
+  CCLabelTTF* _bombCounter;
 }
 
 @property (nonatomic, strong, readonly) CCSprite* orbSprite;
@@ -22,5 +26,8 @@ static const float orbUpdateAnimDuration = 0.3f;
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb;
 
 - (void) reloadSprite:(BOOL)animated;
+
+// Specials
+- (void) updateBombCounter:(BOOL)animated;
 
 @end

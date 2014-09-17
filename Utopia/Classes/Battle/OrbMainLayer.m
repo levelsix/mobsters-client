@@ -290,11 +290,9 @@
 
 #pragma mark - Serialization
 
+#define ORB_KEY @"OrbKey"
 #define POSITION_X_KEY @"PositionXKey"
 #define POSITION_Y_KEY @"PositionYKey"
-#define POWERUP_KEY @"PowerupKey"
-#define GEM_COLOR_KEY @"GemColorKey"
-#define SPECIAL_TYPE_KEY @"SpecialTypeKey"
 #define TILE_TOP_KEY @"TileTopKey"
 #define TILE_BOTTOM_KEY @"TileBottomKey"
 
@@ -307,9 +305,7 @@
       
       // Orb info
       BattleOrb *orb = [self.layout orbAtColumn:i row:j];
-      [gemInfo setObject:@(orb.powerupType) forKey:POWERUP_KEY];
-      [gemInfo setObject:@(orb.orbColor) forKey:GEM_COLOR_KEY];
-      [gemInfo setObject:@(orb.specialOrbType) forKey:SPECIAL_TYPE_KEY];
+      [gemInfo setObject:orb.serialize forKey:ORB_KEY];
       
       // Tile info
       BattleTile *tile = [self.layout tileAtColumn:i row:j];
@@ -328,19 +324,18 @@
 - (void) deserialize:(NSArray *)arr {
   NSMutableSet *set = [NSMutableSet set];
   for (NSDictionary *gemInfo in arr) {
-    PowerupType powerup = (int)[[gemInfo objectForKey:POWERUP_KEY] integerValue];
-    OrbColor color = (int)[[gemInfo objectForKey:GEM_COLOR_KEY] integerValue];
-    SpecialOrbType special = (int)[[gemInfo objectForKey:SPECIAL_TYPE_KEY] integerValue];
+    NSDictionary* orbData = [gemInfo objectForKey:ORB_KEY];
     
     int x = (int)[[gemInfo objectForKey:POSITION_X_KEY] integerValue];
     int y = (int)[[gemInfo objectForKey:POSITION_Y_KEY] integerValue];
     
     BattleOrb *orb = [[BattleOrb alloc] init];
-    orb.powerupType = powerup;
-    orb.orbColor = color;
-    orb.specialOrbType = special;
+    orb.powerupType = PowerupTypeNone;
+    orb.orbColor = OrbColorRock;
+    orb.specialOrbType = SpecialOrbTypeNone;
     orb.column = x;
     orb.row = y;
+    [orb deserialize:orbData];
     
     // Tile info
     BattleTile* tile = [self.layout tileAtColumn:x row:y];

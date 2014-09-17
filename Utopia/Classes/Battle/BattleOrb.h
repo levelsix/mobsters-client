@@ -41,4 +41,11 @@ typedef enum {
 @property (assign, nonatomic) SpecialOrbType specialOrbType;
 @property (assign, nonatomic) PowerupType powerupType;
 
+// Special orb variables
+@property (assign, nonatomic) NSInteger bombCounter;
+@property (assign, nonatomic) NSInteger bombDamage;
+
+- (NSDictionary*) serialize;
+- (void) deserialize:(NSDictionary*)dic;
+
 @end

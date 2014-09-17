@@ -1596,19 +1596,25 @@
   
   [self updateHealthBars];
   
-  // Trigger skills for move made by the player
-  SkillLog(@"TRIGGER STARTED: end of player move");
-  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
-    SkillLog(@"End of player move ENDED");
-    BOOL enemyIsKilled = [self checkEnemyHealth];
-    if (! enemyIsKilled)
-    {
-      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
-      if (playerIsKilled)
-        [self checkMyHealth];
-      else
-        [self checkIfAnyMovesLeft];
-    }
+  // Check for the bombs and other special cases first
+  SkillLog(@"SPECIALS: end of player move");
+  [skillManager updateSpecialsWithCompletion:^(BOOL triggered) {
+    
+    // Trigger skills for move made by the player
+    SkillLog(@"TRIGGER STARTED: end of player move");
+    [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
+      SkillLog(@"End of player move ENDED");
+      BOOL enemyIsKilled = [self checkEnemyHealth];
+      if (! enemyIsKilled)
+      {
+        BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+        if (playerIsKilled)
+          [self checkMyHealth];
+        else
+          [self checkIfAnyMovesLeft];
+      }
+    }];
+    
   }];
   
   _comboCount = 0;

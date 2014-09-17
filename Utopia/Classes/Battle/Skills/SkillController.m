@@ -64,14 +64,9 @@
   return;
 }
 
-- (SpecialOrbType) generateSpecialOrb
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
-  return SpecialOrbTypeNone;
-}
-
-- (OrbColor) specialOrbColor
-{
-  return OrbColorNone;
+  return NO;
 }
 
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
