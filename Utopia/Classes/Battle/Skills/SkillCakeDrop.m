@@ -20,6 +20,7 @@
   
   _minCakes = 1;
   _maxCakes = 1;
+  _initialCakes = 1;
   _initialSpeed = 2;
   _speedMultiplier = 1.1;
   _cakeChance = 0.1;
@@ -36,6 +37,8 @@
     _minCakes = value;
   else if ( [property isEqualToString:@"MAX_CAKES"] )
     _maxCakes = value;
+  else if ( [property isEqualToString:@"INITIAL_CAKES"] )
+    _initialCakes = value;
   else if ( [property isEqualToString:@"INITIAL_SPEED"] )
     _initialSpeed = value;
   else if ( [property isEqualToString:@"SPEED_MULTIPLIER"] )
@@ -75,7 +78,7 @@
 
 - (SpecialOrbType) generateSpecialOrb
 {
-  NSInteger cakesOnBoard = [self cakesOnBoardCount];
+  NSInteger cakesOnBoard = [self specialsOnBoardCount:SpecialOrbTypeCake];
   float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
   if ((rand < _cakeChance && cakesOnBoard < _maxCakes) || cakesOnBoard < _minCakes)
     return SpecialOrbTypeCake;
@@ -83,40 +86,48 @@
   return SpecialOrbTypeNone;
 }
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
-  if ([super skillCalledWithTrigger:trigger])
+  if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
   // Change enemy speed
   if (trigger == SkillTriggerPointEnemyInitialized)
   {
-    self.enemy.speed = _currentSpeed;
-    [self skillTriggerFinished];
+    if (execute)
+    {
+      self.enemy.speed = _currentSpeed;
+      [self skillTriggerFinished];
+    }
     return YES;
   }
   
   // Initial cake spawn
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
-    [self initialSequence];
+    if (execute)
+      [self initialSequence];
     return YES;
   }
   
   // Player destruction
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
-    [self startAttackingPlayer];
+    if (execute)
+      [self startAttackingPlayer];
     return YES;
   }
   
   // Cakes cleanup
   if (trigger == SkillTriggerPointEnemyDefeated)
   {
-    [self destroyAllCakes];
-    [self performAfterDelay:0.3 block:^{
-      [self skillTriggerFinished];
-    }];
+    if (execute)
+    {
+      [self destroyAllCakes];
+      [self performAfterDelay:0.3 block:^{
+        [self skillTriggerFinished];
+      }];
+    }
     return YES;
   }
   
@@ -136,34 +147,41 @@
 // Adding cake
 - (void) initialSequence2
 {
-  // Replace one of the top orbs with a cake
   [self preseedRandomization];
+  
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  BattleOrb* orb;
-  NSInteger column, row;
-  NSInteger counter = 0;
-  do {
-    column = rand() % layout.numColumns;
-    row = layout.numRows - 1;
-    orb = [layout orbAtColumn:column row:row];
-    counter++;
+  BattleOrb* orb = nil;
+  
+  for (NSInteger n = 0; n < _initialCakes; n++)
+  {
+    NSInteger column, row;
+    NSInteger counter = 0;
+    do {
+      column = rand() % layout.numColumns;
+      row = layout.numRows - 1;
+      orb = [layout orbAtColumn:column row:row];
+      counter++;
+    }
+    while (orb.specialOrbType != SpecialOrbTypeNone && counter < 100);
+    
+    // Update data
+    orb.specialOrbType = SpecialOrbTypeCake;
+    orb.orbColor = OrbColorNone;
+    
+    // Update tile
+    OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
+    BattleTile* tile = [layout tileAtColumn:column row:row];
+    [bgdLayer updateTile:tile keepLit:YES withTarget:((n==_initialCakes-1)?self:nil) andCallback:@selector(skillTriggerFinished)]; // returning from the skill
+    
+    // Update orb
+    [self performAfterDelay:0.5 block:^{
+      OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
+      [orbSprite reloadSprite:YES];
+    }];
   }
-  while (orb.specialOrbType != SpecialOrbTypeNone && counter < 8);
-  orb.specialOrbType = SpecialOrbTypeCake;
-  orb.orbColor = OrbColorNone;
   
   // Update available swaps list
   [layout detectPossibleSwaps];
-  
-  // Update visuals
-  OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-  BattleTile* tile = [layout tileAtColumn:column row:row];
-  [bgdLayer updateTile:tile keepLit:YES withTarget:self andCallback:@selector(skillTriggerFinished)]; // returning from the skill
-  
-  [self performAfterDelay:0.5 block:^{
-    OrbSprite* orbSprite = [self.battleLayer.orbLayer.swipeLayer spriteForOrb:orb];
-    [orbSprite reloadSprite:YES];
-  }];
 }
 
 - (void) startAttackingPlayer
@@ -240,22 +258,6 @@
         [orbSprite reloadSprite:YES];
       }
     }
-}
-
-#pragma mark - Helpers
-
-- (NSInteger) cakesOnBoardCount
-{
-  NSInteger result = 0;
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-  for (NSInteger column = 0; column < layout.numColumns; column++)
-    for (NSInteger row = 0; row < layout.numRows; row++)
-    {
-      BattleOrb* orb = [layout orbAtColumn:column row:row];
-      if (orb.specialOrbType == SpecialOrbTypeCake)
-        result++;
-    }
-  return result;
 }
 
 #pragma mark - Serialization

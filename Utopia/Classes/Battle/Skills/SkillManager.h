@@ -53,11 +53,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (SpecialOrbType) generateSpecialOrb;
+- (OrbColor) specialOrbColor;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (BOOL) cakeKidSchedule;
 
 // Serialization
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dict;
+
+// Misc
+- (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color;
+- (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color;
+- (CGPoint) playerSkillPosition;
+- (CGPoint) enemySkillPosition;
+- (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger;
+- (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger;
 
 @end

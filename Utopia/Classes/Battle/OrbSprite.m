@@ -45,15 +45,19 @@
   PowerupType powerupType = orb.powerupType;
   SpecialOrbType special = orb.specialOrbType;
   
-  if (special != SpecialOrbTypeNone) {
-    switch (special) {
-      case SpecialOrbTypeCake:
-        return @"cakeorb.png";
-        break;
-        
-      default:
-        break;
-    }
+  switch (special) {
+    case SpecialOrbTypeCake:
+      return @"cakeorb.png";
+      break;
+    
+    case SpecialOrbTypeBomb:
+      if (orbColor == OrbColorRock || orbColor == OrbColorNone)
+        return nil;
+      return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
+      break;
+    
+    default:
+      break;
   }
   
   NSString *colorPrefix = @"";

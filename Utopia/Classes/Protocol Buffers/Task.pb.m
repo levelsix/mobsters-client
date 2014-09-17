@@ -1081,6 +1081,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t itemId;
 @property Float32 dmgMultiplier;
 @property int32_t defensiveSkillId;
+@property int32_t offensiveSkillId;
 @property int32_t puzzlePieceMonsterDropLvl;
 @end
 
@@ -1175,6 +1176,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasDefensiveSkillId_ = !!value;
 }
 @synthesize defensiveSkillId;
+- (BOOL) hasOffensiveSkillId {
+  return !!hasOffensiveSkillId_;
+}
+- (void) setHasOffensiveSkillId:(BOOL) value {
+  hasOffensiveSkillId_ = !!value;
+}
+@synthesize offensiveSkillId;
 - (BOOL) hasPuzzlePieceMonsterDropLvl {
   return !!hasPuzzlePieceMonsterDropLvl_;
 }
@@ -1199,6 +1207,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.itemId = 0;
     self.dmgMultiplier = 0;
     self.defensiveSkillId = 0;
+    self.offensiveSkillId = 0;
     self.puzzlePieceMonsterDropLvl = 0;
   }
   return self;
@@ -1258,6 +1267,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasPuzzlePieceMonsterDropLvl) {
     [output writeInt32:13 value:self.puzzlePieceMonsterDropLvl];
   }
+  if (self.hasOffensiveSkillId) {
+    [output writeInt32:14 value:self.offensiveSkillId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1305,6 +1317,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasPuzzlePieceMonsterDropLvl) {
     size += computeInt32Size(13, self.puzzlePieceMonsterDropLvl);
+  }
+  if (self.hasOffensiveSkillId) {
+    size += computeInt32Size(14, self.offensiveSkillId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1427,6 +1442,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasDefensiveSkillId) {
     [self setDefensiveSkillId:other.defensiveSkillId];
   }
+  if (other.hasOffensiveSkillId) {
+    [self setOffensiveSkillId:other.offensiveSkillId];
+  }
   if (other.hasPuzzlePieceMonsterDropLvl) {
     [self setPuzzlePieceMonsterDropLvl:other.puzzlePieceMonsterDropLvl];
   }
@@ -1506,6 +1524,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 104: {
         [self setPuzzlePieceMonsterDropLvl:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setOffensiveSkillId:[input readInt32]];
         break;
       }
     }
@@ -1701,6 +1723,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearDefensiveSkillId {
   result.hasDefensiveSkillId = NO;
   result.defensiveSkillId = 0;
+  return self;
+}
+- (BOOL) hasOffensiveSkillId {
+  return result.hasOffensiveSkillId;
+}
+- (int32_t) offensiveSkillId {
+  return result.offensiveSkillId;
+}
+- (TaskStageMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value {
+  result.hasOffensiveSkillId = YES;
+  result.offensiveSkillId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearOffensiveSkillId {
+  result.hasOffensiveSkillId = NO;
+  result.offensiveSkillId = 0;
   return self;
 }
 - (BOOL) hasPuzzlePieceMonsterDropLvl {
@@ -2449,6 +2487,10 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property Element element;
 @property BOOL boss;
 @property (retain) NSString* bossImgName;
+@property int32_t itemDropId;
+@property (retain) NSString* sectionName;
+@property int32_t cashReward;
+@property int32_t oilReward;
 @end
 
 @implementation TaskMapElementProto
@@ -2507,8 +2549,37 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   hasBossImgName_ = !!value;
 }
 @synthesize bossImgName;
+- (BOOL) hasItemDropId {
+  return !!hasItemDropId_;
+}
+- (void) setHasItemDropId:(BOOL) value {
+  hasItemDropId_ = !!value;
+}
+@synthesize itemDropId;
+- (BOOL) hasSectionName {
+  return !!hasSectionName_;
+}
+- (void) setHasSectionName:(BOOL) value {
+  hasSectionName_ = !!value;
+}
+@synthesize sectionName;
+- (BOOL) hasCashReward {
+  return !!hasCashReward_;
+}
+- (void) setHasCashReward:(BOOL) value {
+  hasCashReward_ = !!value;
+}
+@synthesize cashReward;
+- (BOOL) hasOilReward {
+  return !!hasOilReward_;
+}
+- (void) setHasOilReward:(BOOL) value {
+  hasOilReward_ = !!value;
+}
+@synthesize oilReward;
 - (void) dealloc {
   self.bossImgName = nil;
+  self.sectionName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2520,6 +2591,10 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.element = ElementFire;
     self.boss = NO;
     self.bossImgName = @"";
+    self.itemDropId = 0;
+    self.sectionName = @"";
+    self.cashReward = 0;
+    self.oilReward = 0;
   }
   return self;
 }
@@ -2560,6 +2635,18 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasBossImgName) {
     [output writeString:7 value:self.bossImgName];
   }
+  if (self.hasItemDropId) {
+    [output writeInt32:8 value:self.itemDropId];
+  }
+  if (self.hasSectionName) {
+    [output writeString:9 value:self.sectionName];
+  }
+  if (self.hasCashReward) {
+    [output writeInt32:10 value:self.cashReward];
+  }
+  if (self.hasOilReward) {
+    [output writeInt32:11 value:self.oilReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2589,6 +2676,18 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasBossImgName) {
     size += computeStringSize(7, self.bossImgName);
+  }
+  if (self.hasItemDropId) {
+    size += computeInt32Size(8, self.itemDropId);
+  }
+  if (self.hasSectionName) {
+    size += computeStringSize(9, self.sectionName);
+  }
+  if (self.hasCashReward) {
+    size += computeInt32Size(10, self.cashReward);
+  }
+  if (self.hasOilReward) {
+    size += computeInt32Size(11, self.oilReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2686,6 +2785,18 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasBossImgName) {
     [self setBossImgName:other.bossImgName];
   }
+  if (other.hasItemDropId) {
+    [self setItemDropId:other.itemDropId];
+  }
+  if (other.hasSectionName) {
+    [self setSectionName:other.sectionName];
+  }
+  if (other.hasCashReward) {
+    [self setCashReward:other.cashReward];
+  }
+  if (other.hasOilReward) {
+    [self setOilReward:other.oilReward];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2738,6 +2849,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 58: {
         [self setBossImgName:[input readString]];
+        break;
+      }
+      case 64: {
+        [self setItemDropId:[input readInt32]];
+        break;
+      }
+      case 74: {
+        [self setSectionName:[input readString]];
+        break;
+      }
+      case 80: {
+        [self setCashReward:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setOilReward:[input readInt32]];
         break;
       }
     }
@@ -2853,6 +2980,70 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearBossImgName {
   result.hasBossImgName = NO;
   result.bossImgName = @"";
+  return self;
+}
+- (BOOL) hasItemDropId {
+  return result.hasItemDropId;
+}
+- (int32_t) itemDropId {
+  return result.itemDropId;
+}
+- (TaskMapElementProto_Builder*) setItemDropId:(int32_t) value {
+  result.hasItemDropId = YES;
+  result.itemDropId = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearItemDropId {
+  result.hasItemDropId = NO;
+  result.itemDropId = 0;
+  return self;
+}
+- (BOOL) hasSectionName {
+  return result.hasSectionName;
+}
+- (NSString*) sectionName {
+  return result.sectionName;
+}
+- (TaskMapElementProto_Builder*) setSectionName:(NSString*) value {
+  result.hasSectionName = YES;
+  result.sectionName = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearSectionName {
+  result.hasSectionName = NO;
+  result.sectionName = @"";
+  return self;
+}
+- (BOOL) hasCashReward {
+  return result.hasCashReward;
+}
+- (int32_t) cashReward {
+  return result.cashReward;
+}
+- (TaskMapElementProto_Builder*) setCashReward:(int32_t) value {
+  result.hasCashReward = YES;
+  result.cashReward = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearCashReward {
+  result.hasCashReward = NO;
+  result.cashReward = 0;
+  return self;
+}
+- (BOOL) hasOilReward {
+  return result.hasOilReward;
+}
+- (int32_t) oilReward {
+  return result.oilReward;
+}
+- (TaskMapElementProto_Builder*) setOilReward:(int32_t) value {
+  result.hasOilReward = YES;
+  result.oilReward = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearOilReward {
+  result.hasOilReward = NO;
+  result.oilReward = 0;
   return self;
 }
 @end

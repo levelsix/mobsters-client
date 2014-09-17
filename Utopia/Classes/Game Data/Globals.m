@@ -1176,6 +1176,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s {
+  
+  [Globals imageNamed:imageName toReplaceSprite:s completion:nil];
+}
+
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)())completion {
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", s];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
@@ -1199,12 +1204,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
           }
         }
+        if (completion)
+          completion();
       }];
       return;
     }
   }
   
   [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
+  if (completion)
+    completion();
 }
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {

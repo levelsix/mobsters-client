@@ -9,6 +9,7 @@
 #import "CCTextureCache.h"
 #import "UIDefinitions.h"
 #import "Globals.h"
+#import "GameState.h"
 #import "SkillBattleIndicatorView.h"
 #import "SkillControllerActive.h"
 #import "SkillControllerPassive.h"
@@ -51,7 +52,10 @@
       break;
   }*/
   
-  [self setSkillIcon];
+  GameState* gs = [GameState sharedGameState];
+  SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
+  
+  [self setSkillIcon:playerSkillProto.iconImgName];
   
   [self setSkillLabel];
   
@@ -157,43 +161,37 @@
   }
 }*/
 
-- (void) setSkillIcon
+- (void) setSkillIcon:(NSString*)iconName
 {
-  NSString* iconName;
-  switch (_skillController.skillType)
-  {
-    case SkillTypeQuickAttack: iconName = @"cheapshoticon.png"; break;
-    case SkillTypeJelly: iconName = @"goosplashicon.png"; break;
-    case SkillTypeCakeDrop: iconName = @"cakedropicon.png"; break;
-    default: return;
-  }
-  
-  _skillIcon = [CCSprite spriteWithImageNamed:iconName];
-  _skillIcon.position = ccp(0, 25);
-  [self addChild:_skillIcon];
-  
-  if (_skillController.activationType != SkillActivationTypePassive)
-  {
-    // Greyscale image
-    UIImage *image = [Globals imageNamed:iconName];
-    image = [Globals greyScaleImageWithBaseImage:image];
-    CCTexture* texture = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[iconName stringByAppendingString:@"gs"]];
-    texture.contentScale = _skillIcon.texture.contentScale;
-    CCSprite* greyscaleIcon = [CCSprite spriteWithTexture:texture];
+  _skillIcon = [CCSprite node];
+  [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^{
     
-    // Stencil node
-    _stencilNode = [CCDrawNode node];
-    CGPoint rectangle[] = {{0, 0}, {_skillIcon.contentSize.width, 0}, {_skillIcon.contentSize.width, _skillIcon.contentSize.height}, {0, _skillIcon.contentSize.height}};
-    _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, -_skillIcon.contentSize.height/2);
-    _stencilNode.contentSize = CGSizeMake(_skillIcon.contentSize.width, _skillIcon.contentSize.height * 0.5);
-    [_stencilNode drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+    _skillIcon.position = ccp(0, 25);
+    [self addChild:_skillIcon];
     
-    // Clipping node
-    CCClippingNode* clippingNode = [CCClippingNode clippingNodeWithStencil:_stencilNode];
-    clippingNode.position = _skillIcon.position;
-    [clippingNode addChild:greyscaleIcon];
-    [self addChild:clippingNode];
-  }
+    if (_skillController.activationType != SkillActivationTypePassive)
+    {
+      // Greyscale image
+      UIImage *image = [Globals imageNamed:iconName];
+      image = [Globals greyScaleImageWithBaseImage:image];
+      CCTexture* texture = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[iconName stringByAppendingString:@"gs"]];
+      texture.contentScale = _skillIcon.texture.contentScale;
+      CCSprite* greyscaleIcon = [CCSprite spriteWithTexture:texture];
+      
+      // Stencil node
+      _stencilNode = [CCDrawNode node];
+      CGPoint rectangle[] = {{0, 0}, {_skillIcon.contentSize.width, 0}, {_skillIcon.contentSize.width, _skillIcon.contentSize.height}, {0, _skillIcon.contentSize.height}};
+      _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, -_skillIcon.contentSize.height/2);
+      _stencilNode.contentSize = CGSizeMake(_skillIcon.contentSize.width, _skillIcon.contentSize.height * 0.5);
+      [_stencilNode drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+      
+      // Clipping node
+      CCClippingNode* clippingNode = [CCClippingNode clippingNodeWithStencil:_stencilNode];
+      clippingNode.position = _skillIcon.position;
+      [clippingNode addChild:greyscaleIcon];
+      [self addChild:clippingNode];
+    }
+  }];
 }
 
 - (void) setSkillLabel

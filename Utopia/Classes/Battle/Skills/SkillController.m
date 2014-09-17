@@ -8,6 +8,7 @@
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
+#import "SkillBombs.h"
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
@@ -21,6 +22,7 @@
     case SkillTypeQuickAttack: return [[SkillQuickAttack alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeJelly: return [[SkillJelly alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeCakeDrop: return [[SkillCakeDrop alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeBombs: return [[SkillBombs alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -32,6 +34,7 @@
     return nil;
   
   _orbColor = color;
+  _skillId = proto.skillId;
   _skillType = proto.type;
   _activationType = proto.activationType;
   _executedInitialAction = NO;
@@ -66,31 +69,34 @@
   return SpecialOrbTypeNone;
 }
 
-- (void) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+- (OrbColor) specialOrbColor
+{
+  return OrbColorNone;
+}
+
+- (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 {
   // Try to trigger the skill and use callback right away if it's not responding
   _callbackBlock = completion;
-  BOOL triggered = [self skillCalledWithTrigger:trigger];
+  BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
   if (! triggered)
     _callbackBlock(NO);
+  return triggered;
 }
 
 #pragma mark - Placeholders to be overriden
 
-- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger
+- (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   _currentTrigger = trigger;
   
   // Cache image if needed
   if (! _characterImage)
     [self prepareCharacterImage];
-
+  
   // Skip initial attack (if deserialized)
   if (trigger == SkillTriggerPointEnemyAppeared && _executedInitialAction)
-  {
-    _callbackBlock(NO);
-    return YES;
-  }
+    return NO;
   
   return NO;
 }
@@ -100,6 +106,7 @@
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
+  // Hide popup and call block
   if (_popupOverlay)
   {
     [self hideSkillPopupOverlayInternal];
@@ -226,6 +233,20 @@
     for (NSInteger m = 0; m < self.battleLayer.orbLayer.layout.numRows; m++)
       seed += [self.battleLayer.orbLayer.layout orbAtColumn:n row:m].orbColor;
   srand(seed);
+}
+
+- (NSInteger) specialsOnBoardCount:(SpecialOrbType)type
+{
+  NSInteger result = 0;
+  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
+  for (NSInteger column = 0; column < layout.numColumns; column++)
+    for (NSInteger row = 0; row < layout.numRows; row++)
+    {
+      BattleOrb* orb = [layout orbAtColumn:column row:row];
+      if (orb.specialOrbType == type)
+        result++;
+    }
+  return result;
 }
 
 @end

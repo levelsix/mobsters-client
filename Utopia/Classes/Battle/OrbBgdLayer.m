@@ -195,7 +195,8 @@
 - (void) turnTheLightForTile:(BattleTile*)tile on:(BOOL)on instantly:(BOOL)instantly
 {
   CCNodeColor* darkTile = (CCNodeColor*)[_tilesLayerDarkness getChildByName:tile.description recursively:NO];
-  [darkTile stopAllActions];
+  if (!on)
+    [darkTile stopAllActions];
   if (instantly)
   {
     if (on)

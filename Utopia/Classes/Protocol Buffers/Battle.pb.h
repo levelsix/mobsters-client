@@ -329,16 +329,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @interface PvpLeagueProto : PBGeneratedMessage {
 @private
   BOOL hasLeagueId_:1;
-  BOOL hasNumRanks_:1;
-  BOOL hasMinElo_:1;
-  BOOL hasMaxElo_:1;
   BOOL hasLeagueName_:1;
   BOOL hasImgPrefix_:1;
   BOOL hasDescription_:1;
   int32_t leagueId;
-  int32_t numRanks;
-  int32_t minElo;
-  int32_t maxElo;
   NSString* leagueName;
   NSString* imgPrefix;
   NSString* description;
@@ -346,17 +340,11 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasLeagueId;
 - (BOOL) hasLeagueName;
 - (BOOL) hasImgPrefix;
-- (BOOL) hasNumRanks;
 - (BOOL) hasDescription;
-- (BOOL) hasMinElo;
-- (BOOL) hasMaxElo;
 @property (readonly) int32_t leagueId;
 @property (readonly, retain) NSString* leagueName;
 @property (readonly, retain) NSString* imgPrefix;
-@property (readonly) int32_t numRanks;
 @property (readonly, retain) NSString* description;
-@property (readonly) int32_t minElo;
-@property (readonly) int32_t maxElo;
 
 + (PvpLeagueProto*) defaultInstance;
 - (PvpLeagueProto*) defaultInstance;
@@ -407,24 +395,9 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpLeagueProto_Builder*) setImgPrefix:(NSString*) value;
 - (PvpLeagueProto_Builder*) clearImgPrefix;
 
-- (BOOL) hasNumRanks;
-- (int32_t) numRanks;
-- (PvpLeagueProto_Builder*) setNumRanks:(int32_t) value;
-- (PvpLeagueProto_Builder*) clearNumRanks;
-
 - (BOOL) hasDescription;
 - (NSString*) description;
 - (PvpLeagueProto_Builder*) setDescription:(NSString*) value;
 - (PvpLeagueProto_Builder*) clearDescription;
-
-- (BOOL) hasMinElo;
-- (int32_t) minElo;
-- (PvpLeagueProto_Builder*) setMinElo:(int32_t) value;
-- (PvpLeagueProto_Builder*) clearMinElo;
-
-- (BOOL) hasMaxElo;
-- (int32_t) maxElo;
-- (PvpLeagueProto_Builder*) setMaxElo:(int32_t) value;
-- (PvpLeagueProto_Builder*) clearMaxElo;
 @end
 

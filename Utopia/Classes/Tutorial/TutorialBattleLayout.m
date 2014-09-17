@@ -46,6 +46,7 @@
     if (arr.count) {
       NSNumber *num = [arr firstObject];
       *orbColor = num.intValue;
+      *specialOrbType = SpecialOrbTypeNone;
       
       [arr removeObjectAtIndex:0];
       

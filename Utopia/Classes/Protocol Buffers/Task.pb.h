@@ -342,6 +342,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasPuzzlePieceMonsterId_:1;
   BOOL hasItemId_:1;
   BOOL hasDefensiveSkillId_:1;
+  BOOL hasOffensiveSkillId_:1;
   BOOL hasPuzzlePieceMonsterDropLvl_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
@@ -355,6 +356,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t puzzlePieceMonsterId;
   int32_t itemId;
   int32_t defensiveSkillId;
+  int32_t offensiveSkillId;
   int32_t puzzlePieceMonsterDropLvl;
   TaskStageMonsterProto_MonsterType monsterType;
 }
@@ -370,6 +372,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasItemId;
 - (BOOL) hasDmgMultiplier;
 - (BOOL) hasDefensiveSkillId;
+- (BOOL) hasOffensiveSkillId;
 - (BOOL) hasPuzzlePieceMonsterDropLvl;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
@@ -383,6 +386,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t itemId;
 @property (readonly) Float32 dmgMultiplier;
 @property (readonly) int32_t defensiveSkillId;
+@property (readonly) int32_t offensiveSkillId;
 @property (readonly) int32_t puzzlePieceMonsterDropLvl;
 
 + (TaskStageMonsterProto*) defaultInstance;
@@ -478,6 +482,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) defensiveSkillId;
 - (TaskStageMonsterProto_Builder*) setDefensiveSkillId:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearDefensiveSkillId;
+
+- (BOOL) hasOffensiveSkillId;
+- (int32_t) offensiveSkillId;
+- (TaskStageMonsterProto_Builder*) setOffensiveSkillId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearOffensiveSkillId;
 
 - (BOOL) hasPuzzlePieceMonsterDropLvl;
 - (int32_t) puzzlePieceMonsterDropLvl;
@@ -669,14 +678,22 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasTaskId_:1;
   BOOL hasXPos_:1;
   BOOL hasYPos_:1;
+  BOOL hasItemDropId_:1;
+  BOOL hasCashReward_:1;
+  BOOL hasOilReward_:1;
   BOOL hasBossImgName_:1;
+  BOOL hasSectionName_:1;
   BOOL hasElement_:1;
   BOOL boss_:1;
   int32_t mapElementId;
   int32_t taskId;
   int32_t xPos;
   int32_t yPos;
+  int32_t itemDropId;
+  int32_t cashReward;
+  int32_t oilReward;
   NSString* bossImgName;
+  NSString* sectionName;
   Element element;
 }
 - (BOOL) hasMapElementId;
@@ -686,6 +703,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasElement;
 - (BOOL) hasBoss;
 - (BOOL) hasBossImgName;
+- (BOOL) hasItemDropId;
+- (BOOL) hasSectionName;
+- (BOOL) hasCashReward;
+- (BOOL) hasOilReward;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -693,6 +714,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) Element element;
 - (BOOL) boss;
 @property (readonly, retain) NSString* bossImgName;
+@property (readonly) int32_t itemDropId;
+@property (readonly, retain) NSString* sectionName;
+@property (readonly) int32_t cashReward;
+@property (readonly) int32_t oilReward;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -762,5 +787,25 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (NSString*) bossImgName;
 - (TaskMapElementProto_Builder*) setBossImgName:(NSString*) value;
 - (TaskMapElementProto_Builder*) clearBossImgName;
+
+- (BOOL) hasItemDropId;
+- (int32_t) itemDropId;
+- (TaskMapElementProto_Builder*) setItemDropId:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearItemDropId;
+
+- (BOOL) hasSectionName;
+- (NSString*) sectionName;
+- (TaskMapElementProto_Builder*) setSectionName:(NSString*) value;
+- (TaskMapElementProto_Builder*) clearSectionName;
+
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (TaskMapElementProto_Builder*) setCashReward:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearCashReward;
+
+- (BOOL) hasOilReward;
+- (int32_t) oilReward;
+- (TaskMapElementProto_Builder*) setOilReward:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearOilReward;
 @end
 

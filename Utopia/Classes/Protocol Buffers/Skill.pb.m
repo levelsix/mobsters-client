@@ -25,6 +25,11 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeCakeDrop:
     case SkillTypeJelly:
     case SkillTypeQuickAttack:
+    case SkillTypeBombs:
+    case SkillTypeShield:
+    case SkillTypePoison:
+    case SkillTypeRoidRage:
+    case SkillTypeMomentum:
       return YES;
     default:
       return NO;
@@ -49,6 +54,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 @property int32_t predecId;
 @property int32_t sucId;
 @property (retain) NSMutableArray* mutablePropertiesList;
+@property (retain) NSString* desc;
+@property (retain) NSString* iconImgName;
 @end
 
 @implementation SkillProto
@@ -103,9 +110,25 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 }
 @synthesize sucId;
 @synthesize mutablePropertiesList;
+- (BOOL) hasDesc {
+  return !!hasDesc_;
+}
+- (void) setHasDesc:(BOOL) value {
+  hasDesc_ = !!value;
+}
+@synthesize desc;
+- (BOOL) hasIconImgName {
+  return !!hasIconImgName_;
+}
+- (void) setHasIconImgName:(BOOL) value {
+  hasIconImgName_ = !!value;
+}
+@synthesize iconImgName;
 - (void) dealloc {
   self.name = nil;
   self.mutablePropertiesList = nil;
+  self.desc = nil;
+  self.iconImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -117,6 +140,8 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
     self.activationType = SkillActivationTypeUserActivated;
     self.predecId = 0;
     self.sucId = 0;
+    self.desc = @"";
+    self.iconImgName = @"";
   }
   return self;
 }
@@ -167,6 +192,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   for (SkillPropertyProto* element in self.propertiesList) {
     [output writeMessage:8 value:element];
   }
+  if (self.hasDesc) {
+    [output writeString:9 value:self.desc];
+  }
+  if (self.hasIconImgName) {
+    [output writeString:10 value:self.iconImgName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -199,6 +230,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
   }
   for (SkillPropertyProto* element in self.propertiesList) {
     size += computeMessageSize(8, element);
+  }
+  if (self.hasDesc) {
+    size += computeStringSize(9, self.desc);
+  }
+  if (self.hasIconImgName) {
+    size += computeStringSize(10, self.iconImgName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -302,6 +339,12 @@ static SkillProto* defaultSkillProtoInstance = nil;
     }
     [result.mutablePropertiesList addObjectsFromArray:other.mutablePropertiesList];
   }
+  if (other.hasDesc) {
+    [self setDesc:other.desc];
+  }
+  if (other.hasIconImgName) {
+    [self setIconImgName:other.iconImgName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -365,6 +408,14 @@ static SkillProto* defaultSkillProtoInstance = nil;
         SkillPropertyProto_Builder* subBuilder = [SkillPropertyProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addProperties:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        [self setDesc:[input readString]];
+        break;
+      }
+      case 82: {
+        [self setIconImgName:[input readString]];
         break;
       }
     }
@@ -509,6 +560,38 @@ static SkillProto* defaultSkillProtoInstance = nil;
     result.mutablePropertiesList = [NSMutableArray array];
   }
   [result.mutablePropertiesList addObject:value];
+  return self;
+}
+- (BOOL) hasDesc {
+  return result.hasDesc;
+}
+- (NSString*) desc {
+  return result.desc;
+}
+- (SkillProto_Builder*) setDesc:(NSString*) value {
+  result.hasDesc = YES;
+  result.desc = value;
+  return self;
+}
+- (SkillProto_Builder*) clearDesc {
+  result.hasDesc = NO;
+  result.desc = @"";
+  return self;
+}
+- (BOOL) hasIconImgName {
+  return result.hasIconImgName;
+}
+- (NSString*) iconImgName {
+  return result.iconImgName;
+}
+- (SkillProto_Builder*) setIconImgName:(NSString*) value {
+  result.hasIconImgName = YES;
+  result.iconImgName = value;
+  return self;
+}
+- (SkillProto_Builder*) clearIconImgName {
+  result.hasIconImgName = NO;
+  result.iconImgName = @"";
   return self;
 }
 @end
