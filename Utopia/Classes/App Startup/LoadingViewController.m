@@ -41,7 +41,7 @@
   
   [Globals imageNamed:bgd withView:self.bgdImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  if ([Globals isLongiPhone]) {
+  if (![Globals isSmallestiPhone]) {
     self.fgdImageView.image = [Globals imageNamed:@"splashguyswide.png"];
   }
   

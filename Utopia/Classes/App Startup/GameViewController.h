@@ -24,6 +24,7 @@
 #import "AttackMapViewController.h"
 #import "HudNotificationController.h"
 #import "StageCompleteNode.h"
+#import "LoadingViewController.h"
 
 @class TutorialController;
 
@@ -46,10 +47,10 @@
 @property (nonatomic, strong) HudNotificationController *notificationController;
 @property (nonatomic, strong) GameMap *currentMap;
 
+@property (nonatomic, strong) LoadingViewController *loadingViewController;
+
 @property (nonatomic, strong) ChatViewController *chatViewController;
 @property (nonatomic, strong) ClanViewController *clanViewController;
-
-@property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
 
 @property (nonatomic, strong) TutorialController *tutController;
 @property (nonatomic, strong) MiniTutorialController *miniTutController;

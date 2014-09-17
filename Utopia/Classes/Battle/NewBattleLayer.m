@@ -1712,7 +1712,7 @@
   GameViewController *gvc = [GameViewController baseController];
   UIView *view = gvc.view;
   
-  NSString *bundleName = [Globals isLongiPhone] ? @"BattleHudView" : @"BattleHudViewSmall";
+  NSString *bundleName = ![Globals isSmallestiPhone] ? @"BattleHudView" : @"BattleHudViewSmall";
   [[NSBundle mainBundle] loadNibNamed:bundleName owner:self options:nil];
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
 }
@@ -1730,7 +1730,7 @@
   
   [self.hudView.deployView updateWithBattlePlayers:self.myTeam];
   
-  float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
+  float extra = ![Globals isSmallestiPhone] ? self.movesBgd.contentSize.width : 0;
   float centerX = (self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2;
   [self.hudView displayDeployViewToCenterX:centerX cancelTarget:cancel ? self : nil selector:@selector(cancelDeploy:)];
   

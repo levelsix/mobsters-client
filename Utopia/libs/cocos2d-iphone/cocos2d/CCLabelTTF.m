@@ -1037,26 +1037,26 @@ static __strong NSMutableDictionary* ccLabelTTF_registeredFonts;
 
 + (void) registerCustomTTF:(NSString *)fontFile
 {
-  // LVL6 Addition: don't register
+  // LVL6 Addition: don't register.. commented out everything
   return;
   
-    // Do not register a font if it has already been registered
-    if (!ccLabelTTF_registeredFonts)
-    {
-        ccLabelTTF_registeredFonts = [[NSMutableDictionary alloc] init];
-    }
-    
-    if ([ccLabelTTF_registeredFonts objectForKey:fontFile]) return;
-    [ccLabelTTF_registeredFonts setObject:[NSNumber numberWithBool:YES] forKey:fontFile];
-    
-    // Register with font manager
-    if ([[fontFile lowercaseString] hasSuffix:@".ttf"])
-    {
-        // This is a file, register font with font manager
-        NSString* fontPath = [[CCFileUtils sharedFileUtils] fullPathForFilename:fontFile];
-        NSURL* fontURL = [NSURL fileURLWithPath:fontPath];
-        CTFontManagerRegisterFontsForURL((__bridge CFURLRef)fontURL, kCTFontManagerScopeProcess, NULL);
-    }
+//    // Do not register a font if it has already been registered
+//    if (!ccLabelTTF_registeredFonts)
+//    {
+//        ccLabelTTF_registeredFonts = [[NSMutableDictionary alloc] init];
+//    }
+//    
+//    if ([ccLabelTTF_registeredFonts objectForKey:fontFile]) return;
+//    [ccLabelTTF_registeredFonts setObject:[NSNumber numberWithBool:YES] forKey:fontFile];
+//    
+//    // Register with font manager
+//    if ([[fontFile lowercaseString] hasSuffix:@".ttf"])
+//    {
+//        // This is a file, register font with font manager
+//        NSString* fontPath = [[CCFileUtils sharedFileUtils] fullPathForFilename:fontFile];
+//        NSURL* fontURL = [NSURL fileURLWithPath:fontPath];
+//        CTFontManagerRegisterFontsForURL((__bridge CFURLRef)fontURL, kCTFontManagerScopeProcess, NULL);
+//    }
 }
 
 @end

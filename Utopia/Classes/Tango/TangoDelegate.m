@@ -14,14 +14,15 @@
 
 static TangoProfileEntry *profileEntry = nil;
 
-+ (void) attemptInitialLogin {
++ (BOOL) attemptInitialLogin {
   BOOL success = [TangoSession sessionInitialize];
   if (success && [self isTangoAvailable]) {
-    [self authenticate];
+    return [self authenticate];
   }
+  return NO;
 }
 
-+ (void) authenticate {
++ (BOOL) authenticate {
   TangoSession *session = [TangoSession sharedSession];
   if (!session.isAuthenticated) {
     [session authenticateWithHandler:^(TangoSession *session, NSError *error) {
@@ -32,9 +33,11 @@ static TangoProfileEntry *profileEntry = nil;
         [session installTango];
       }
     }];
+    return YES;
   } else {
     [self fetchMyProfile];
   }
+  return NO;
 }
 
 + (BOOL) isTangoAvailable {

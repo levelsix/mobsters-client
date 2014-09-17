@@ -109,7 +109,7 @@
       }
     }
     
-    if ([Globals isLongiPhone]) {
+    if (![Globals isSmallestiPhone]) {
       [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
     } else {
       [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenuSmall" owner:self options:nil];

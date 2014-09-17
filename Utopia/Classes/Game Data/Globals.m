@@ -192,6 +192,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
++ (CGSize)screenSize {
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+  if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+    return CGSizeMake(screenSize.height, screenSize.width);
+  } else {
+    return screenSize;
+  }
+}
+
 + (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays {
   if (secs < 0) {
     return @"00:00:00";
@@ -1710,8 +1719,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200&pic=/%@.png", uid, uid];
 }
 
-+ (BOOL)isLongiPhone {
-  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0);
++ (BOOL) isSmallestiPhone {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
 }
 
 #pragma mark Colors
@@ -2026,7 +2035,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 #pragma clang diagnostic pop
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path {
-	if([CCDirector sharedDirector].contentScaleFactor == 2) {
+	if([UIScreen mainScreen].scale == 2) {
 		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
 		NSString *name = [pathWithoutExtension lastPathComponent];
 		

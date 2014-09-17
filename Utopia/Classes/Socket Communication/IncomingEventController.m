@@ -357,6 +357,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
+    [gs.monsterHealingQueue removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
@@ -370,7 +371,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
     
     [gs.myMiniJobs removeAllObjects];
-    [gs addToMiniJobs:proto.userMiniJobProtosList];
+    [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
     
     [gs.myItems removeAllObjects];
     [gs addToMyItems:proto.userItemsList];
@@ -1779,7 +1780,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess) {
-    [gs addToMiniJobs:proto.miniJobsList];
+    [gs addToMiniJobs:proto.miniJobsList isNew:YES];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

@@ -1108,7 +1108,6 @@
   for (NSTimer *t in _timers) {
     if ([t.userInfo isEqual:@"Healing"]) {
       [oldTimers addObject:t];
-      break;
     }
   }
   
@@ -1119,13 +1118,16 @@
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  MSDate *date = gs.monsterHealingQueueEndTime;
-  NSTimeInterval timeLeft = date.timeIntervalSinceNow;
   
-  if (timeLeft > 0 && ((justQueuedUp && timeLeft/60.f > gl.maxMinutesForFreeSpeedUp) || !justQueuedUp)) {
-    NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(healingSpeedupBecameFree:) userInfo:@"Healing" repeats:NO];
-    [_timers addObject:newTimer];
-    [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+  if (gs.monsterHealingQueue.count) {
+    MSDate *date = gs.monsterHealingQueueEndTime;
+    NSTimeInterval timeLeft = date.timeIntervalSinceNow;
+    
+    if (timeLeft > 0 && ((justQueuedUp && timeLeft/60.f > gl.maxMinutesForFreeSpeedUp) || !justQueuedUp)) {
+      NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(healingSpeedupBecameFree:) userInfo:@"Healing" repeats:NO];
+      [_timers addObject:newTimer];
+      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+    }
   }
 }
 
@@ -1136,7 +1138,6 @@
   for (NSTimer *t in _timers) {
     if (t.userInfo == ms) {
       [oldTimers addObject:t];
-      break;
     }
   }
   
@@ -1353,7 +1354,7 @@
     
     _canMove = NO;
     _purchasing = NO;
-    _purchBuilding = NO;
+    _purchBuilding = nil;
     
     [self reselectCurrentSelection];
   } else {

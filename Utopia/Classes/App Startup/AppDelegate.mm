@@ -52,6 +52,7 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  LNLog(@"open url");
   BOOL success = [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
   
 #ifdef TOONSQUAD
@@ -63,8 +64,10 @@
 
 - (void) setUpChartboost {
 #ifdef TOONSQUAD
-  //[Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
-  //[[Chartboost sharedChartboost] showInterstitial:CBLocationHomeScreen];
+#ifndef DEBUG
+  [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
+  [[Chartboost sharedChartboost] showInterstitial:CBLocationHomeScreen];
+#endif
 #endif
 }
 
@@ -146,7 +149,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   LNLog(@"did become active");
-	[[CCDirector sharedDirector] resume];
+  if ([[CCDirector sharedDirector] runningScene]) {
+    [[CCDirector sharedDirector] resume];
+  }
   
   // This will restart loading screen
   // Must put this here instead of willEnterForeground because the ordering is foreground, openURL, active
@@ -180,9 +185,7 @@
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
-  if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
-  }
   
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected) {

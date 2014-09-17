@@ -51,7 +51,7 @@
     self.lowerBound = 0.6*dmgMultiplier;
     self.upperBound = 1.*dmgMultiplier;
     
-    NSString *p1 = [Globals isLongiPhone] ? mp.displayName : mp.monsterName;
+    NSString *p1 = ![Globals isSmallestiPhone] ? mp.displayName : mp.monsterName;
     NSString *p2 = [NSString stringWithFormat:@" L%d", monster.level];
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
     [as addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, p1.length)];

@@ -578,7 +578,7 @@
   BOOL isHorizontal = lineOrb.powerupType == PowerupTypeHorizontalLine;
   
   if (isHorizontal) {
-    for (int i = swap.orbA.row-1; i <= swap.orbA.row+1; i++) {
+    for (NSInteger i = swap.orbA.row-1; i <= swap.orbA.row+1; i++) {
       if (i >= 0 && i < _numRows) {
         BattleOrb *orb = swap.orbA.copy;
         orb.row = i;
@@ -593,7 +593,7 @@
       }
     }
   } else {
-    for (int i = swap.orbA.column-1; i <= swap.orbA.column+1; i++) {
+    for (NSInteger i = swap.orbA.column-1; i <= swap.orbA.column+1; i++) {
       if (i >= 0 && i < _numColumns) {
         BattleOrb *orb = swap.orbA.copy;
         orb.column = i;
@@ -956,8 +956,8 @@
   chain.prerequisiteOrb = orb;
   chain.chainType = ChainTypePowerupNormal;
   
-  for (int i = orb.column-1; i <= orb.column+1; i++) {
-    for (int j = orb.row-1; j <= orb.row+1; j++) {
+  for (NSInteger i = orb.column-1; i <= orb.column+1; i++) {
+    for (NSInteger j = orb.row-1; j <= orb.row+1; j++) {
       if (i >= 0 && i < _numColumns && j >= 0 && j < _numRows) {
         BattleOrb *testOrb = [self orbAtColumn:i row:j];
         if ([self orbCanBeRemoved:testOrb]) {

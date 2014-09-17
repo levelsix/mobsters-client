@@ -10,8 +10,8 @@
 
 @interface TangoDelegate : NSObject
 
-+ (void) attemptInitialLogin;
-+ (void) authenticate;
++ (BOOL) attemptInitialLogin;
++ (BOOL) authenticate;
 
 + (BOOL) isTangoAvailable;
 + (BOOL) isTangoAuthenticated;
