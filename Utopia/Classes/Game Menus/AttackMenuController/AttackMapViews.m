@@ -299,7 +299,7 @@ static NSString* const leagueColors[] = {@"b37858", @"808586", @"e39633", @"675f
   
   // Label color
   UIColor* textColor = [UIColor blackColor];
-  if ( indexPath.row < sizeof(leagueColors)/sizeof(NSString*) )
+  if (leagueNumber < sizeof(leagueColors)/sizeof(NSString*))
     textColor = [UIColor colorWithHexString:leagueColors[leagueNumber]];
   cell.leagueLabel.textColor = textColor;
   

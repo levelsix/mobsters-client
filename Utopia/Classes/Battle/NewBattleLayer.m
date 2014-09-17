@@ -781,6 +781,9 @@
   }
   
   def.curHealth = newHealth;
+  
+  if (enemyIsAttacker)
+    _enemyDamageDealt = TRUE;
 }
 
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
