@@ -495,6 +495,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     // Load the home map
     [self visitCityClicked:0 assetId:0 animated:NO];
     
+    [self showTopBarDuration:0.f completion:nil];
+    
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
@@ -514,8 +516,6 @@ static const CGSize FIXED_SIZE = {568, 384};
     [self dismissLoadingScreenAnimated:YES completion:^{
       [self checkLevelUp];
     }];
-    
-    [self showTopBarDuration:0.f completion:nil];
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }

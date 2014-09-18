@@ -24,9 +24,9 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>5D7004AFA0F8477414D2D2070527EE503A955943</key>
-		<string>../Utopia/libs/cocos2d-iphone/</string>
+		<string>../Utopia/libs/cocos2d-iphone</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
-		<string>../Utopia/libs/cocos2d-iphone/external/Chipmunk/</string>
+		<string>../Utopia/libs/cocos2d-iphone/external/Chipmunk</string>
 		<key>D8D0758649B2B09DA86837D71827DEDB21D17D04</key>
 		<string>..</string>
 		<key>EEA221C9B6A837D428041D6F289901A649911E43</key>
