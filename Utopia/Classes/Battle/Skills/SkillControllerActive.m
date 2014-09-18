@@ -33,11 +33,14 @@
     _orbCounter--;
 }
 
-// To be called by every specific skill when execution is finished
-- (void) skillTriggerFinished
+- (void) resetOrbCounter
 {
   _orbCounter = _orbRequirement;
-  [super skillTriggerFinished];
+}
+
+- (BOOL) shouldSpawnRibbon
+{
+  return YES;
 }
 
 #pragma mark - Serialization

@@ -36,6 +36,52 @@
   NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:_orb];
   _orbSprite = [CCSprite spriteWithImageNamed:imageName];
   [self addChild:self.orbSprite];
+  
+  // Handle specials
+  _bombCounter = nil;
+  switch (_orb.specialOrbType)
+  {
+    case SpecialOrbTypeBomb: [self loadBombElements]; break;
+    default: break;
+  }
+}
+
+#pragma mark - Specials
+
+- (void) loadBombElements
+{
+  // Particle effect
+  CCParticleSystem* fire = [CCParticleSystem particleWithFile:@"bombparticle.plist"];
+  fire.position = ccp(30, 31);
+  fire.scale = 0.5;
+  [_orbSprite addChild:fire];
+  
+  // Counter
+  _bombCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10];
+  _bombCounter.color = [CCColor blackColor];
+  _bombCounter.position = CGPointMake(9, 9.5);
+  _bombCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
+  _bombCounter.horizontalAlignment = CCTextAlignmentCenter;
+  [_orbSprite addChild:_bombCounter];
+  
+  [self updateBombCounter:NO];
+}
+
+- (void) updateBombCounter:(BOOL)animated
+{
+  if (_bombCounter)
+  {
+    if (animated)
+      [_orbSprite runAction:[CCActionSequence actions:
+                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:0.8]],
+                           [CCActionCallBlock actionWithBlock:^{
+                             _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
+                           }],
+                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
+                           nil]];
+    else
+      _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
+  }
 }
 
 #pragma mark - Helpers

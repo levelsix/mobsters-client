@@ -633,7 +633,8 @@
           [self performAfterDelay:0.5 block:^{
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
-            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealEnemyDamage)];
+            _enemyDamageDealt = [skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
+            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:(_enemyDamageDealt>0) target:self selector:@selector(dealEnemyDamage)];
           }];
         }
       }
@@ -670,7 +671,16 @@
 }
 
 - (void) doMyAttackAnimation {
-  int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  
+  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
+  
+  // Changing damage with a skill
+  NSInteger scoreModifier = _myDamageDealt > 0 ? 1 : 0; // used to make current score not 0 if damage was modified to 0 by skillManager
+  _myDamageDealt = (int)[skillManager modifyDamage:_myDamageDealt forPlayer:YES];
+  if (_myDamageDealt > 0)
+    scoreModifier = 0;
+  
+  int currentScore = (float)(_myDamageDealt + scoreModifier)/(float)[self.myPlayerObject totalAttackPower]*100.f;
   
   if (currentScore > 0) {
     if (currentScore > MAKEITRAIN_SCORE) {
@@ -686,34 +696,49 @@
 }
 
 - (void) dealMyDamage {
-  _myDamageDealt = _myDamageDealt*[self damageMultiplierIsEnemyAttacker:NO];
-  _enemyShouldAttack = YES;
-  [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
   
-  float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
-  if (perc < PULSE_CONT_THRESH) {
-    [self pulseHealthLabel:YES];
-  } else {
-    [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-    self.currentEnemy.healthLabel.color = [CCColor whiteColor];
-  }
+  SkillLog(@"TRIGGER STARTED: deal damage by player");
+  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered) {
+    
+    SkillLog(@"Deal damage trigger ENDED");
+    
+    _enemyShouldAttack = YES;
+    
+    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    
+    float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
+    if (perc < PULSE_CONT_THRESH) {
+      [self pulseHealthLabel:YES];
+    } else {
+      [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+      self.currentEnemy.healthLabel.color = [CCColor whiteColor];
+    }
+  }];
 }
 
 - (void) dealEnemyDamage {
-  _totalDamageTaken += _enemyDamageDealt;
-  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(checkMyHealth)];
   
-  float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
-  if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
-    if (perc < PULSE_CONT_THRESH) {
-      [self pulseBloodContinuously];
-      [self pulseHealthLabel:NO];
-    } else if (perc < PULSE_ONCE_THRESH) {
-      [self pulseBloodOnce];
+  SkillLog(@"TRIGGER STARTED: deal damage by enemy");
+  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered) {
+    
+    SkillLog(@"Deal damage trigger ENDED");
+    
+    _totalDamageTaken += _enemyDamageDealt;
+    
+    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(checkMyHealth)];
+    
+    float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
+    if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
+      if (perc < PULSE_CONT_THRESH) {
+        [self pulseBloodContinuously];
+        [self pulseHealthLabel:NO];
+      } else if (perc < PULSE_ONCE_THRESH) {
+        [self pulseBloodOnce];
+      }
+    } else if (perc > PULSE_ONCE_THRESH) {
+      [self stopPulsing];
     }
-  } else if (perc > PULSE_ONCE_THRESH) {
-    [self stopPulsing];
-  }
+  }];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
@@ -1596,19 +1621,25 @@
   
   [self updateHealthBars];
   
-  // Trigger skills for move made by the player
-  SkillLog(@"TRIGGER STARTED: end of player move");
-  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
-    SkillLog(@"End of player move ENDED");
-    BOOL enemyIsKilled = [self checkEnemyHealth];
-    if (! enemyIsKilled)
-    {
-      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
-      if (playerIsKilled)
-        [self checkMyHealth];
-      else
-        [self checkIfAnyMovesLeft];
-    }
+  // Check for the bombs and other special cases first
+  SkillLog(@"SPECIALS: end of player move");
+  [skillManager updateSpecialsWithCompletion:^(BOOL triggered) {
+    
+    // Trigger skills for move made by the player
+    SkillLog(@"TRIGGER STARTED: end of player move");
+    [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
+      SkillLog(@"End of player move ENDED");
+      BOOL enemyIsKilled = [self checkEnemyHealth];
+      if (! enemyIsKilled)
+      {
+        BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+        if (playerIsKilled)
+          [self checkMyHealth];
+        else
+          [self checkIfAnyMovesLeft];
+      }
+    }];
+    
   }];
   
   _comboCount = 0;

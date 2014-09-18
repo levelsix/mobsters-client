@@ -20,18 +20,20 @@ typedef void(^SkillControllerBlock)(BOOL triggered);
 // Skill triggers
 typedef enum {
   SkillTriggerPointEnemyInitialized   = 1,
-  SkillTriggerPointPlayerInitialized  = 2,
+  SkillTriggerPointPlayerInitialized  = 2,  // There's no PlayerAppeared, because player appears when initialized
   SkillTriggerPointEnemyAppeared      = 3,
   SkillTriggerPointEnemyDefeated      = 4,
   SkillTriggerPointPlayerMobDefeated  = 5,
   SkillTriggerPointEndOfPlayerMove    = 6,
   SkillTriggerPointStartOfPlayerTurn  = 7,
-  SkillTriggerPointStartOfEnemyTurn   = 8
+  SkillTriggerPointStartOfEnemyTurn   = 8,
+  SkillTriggerPointEnemyDealsDamage   = 9,
+  SkillTriggerPointPlayerDealsDamage  = 10
   
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield"};
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface
@@ -68,15 +70,17 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 // External callers
 - (BOOL) skillIsReady;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
-- (SpecialOrbType) generateSpecialOrb;
-- (OrbColor) specialOrbColor;
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+- (void) restoreVisualsIfNeeded;
 
 // To be overriden by specific skills
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute;
 - (void) skillTriggerFinished;
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
+- (BOOL) shouldSpawnRibbon;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

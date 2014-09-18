@@ -19,4 +19,6 @@
   float     _bombChance;
 }
 
++ (void) updateBombs:(NewBattleLayer*)battleLayer withCompletion:(SkillControllerBlock)completion;
+
 @end

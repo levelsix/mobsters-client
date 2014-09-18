@@ -12,4 +12,6 @@
 @property (readonly) NSInteger orbCounter;
 @property (readonly) NSInteger orbRequirement;
 
+- (void) resetOrbCounter;
+
 @end

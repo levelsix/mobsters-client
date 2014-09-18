@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
@@ -143,7 +144,6 @@
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                         </view>
                         <view contentMode="scaleToFill" id="cuZ-cY-UIH" userLabel="Back View">
                             <rect key="frame" x="10" y="8" width="70" height="30"/>
@@ -461,7 +461,7 @@
                             <rect key="frame" x="102" y="233" width="162" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">Mr. Brute likes long walks on the beach. And by long walks on the beach, I mean he likes beating people up with his baseball bat</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.92156862750000001" green="0.91764705879999997" blue="0.86666666670000003" alpha="0.5" colorSpace="calibratedRGB"/>

@@ -52,10 +52,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
-- (SpecialOrbType) generateSpecialOrb;
-- (OrbColor) specialOrbColor;
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
+
+// Special cases
 - (BOOL) cakeKidSchedule;
+- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion;
 
 // Serialization
 - (NSDictionary*) serialize;

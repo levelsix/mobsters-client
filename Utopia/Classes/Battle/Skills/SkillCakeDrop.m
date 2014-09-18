@@ -15,7 +15,6 @@
 
 - (void) setDefaultValues
 {
-  // Properties
   [super setDefaultValues];
   
   _minCakes = 1;
@@ -25,9 +24,6 @@
   _speedMultiplier = 1.1;
   _cakeChance = 0.1;
   _damage = 1;
-  
-  _currentSpeed = _initialSpeed;
-  _startedEating = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -47,6 +43,18 @@
     _cakeChance = value;
   else if ( [property isEqualToString:@"DAMAGE"] )
     _damage = value;
+}
+
+- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
+{
+  self = [super initWithProto:proto andMobsterColor:color];
+  if ( ! self )
+    return nil;
+  
+  _currentSpeed = _initialSpeed;
+  _startedEating = NO;
+  
+  return self;
 }
 
 #pragma mark - Overrides
@@ -76,14 +84,22 @@
   }
 }
 
-- (SpecialOrbType) generateSpecialOrb
+- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
 {
+  // Don't spawn cake in bottom half of the board
+  if (row < 4)
+    return NO;
+  
   NSInteger cakesOnBoard = [self specialsOnBoardCount:SpecialOrbTypeCake];
   float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
   if ((rand < _cakeChance && cakesOnBoard < _maxCakes) || cakesOnBoard < _minCakes)
-    return SpecialOrbTypeCake;
+  {
+    orb.specialOrbType = SpecialOrbTypeCake;
+    orb.orbColor = OrbColorNone;
+    return YES;
+  }
   
-  return SpecialOrbTypeNone;
+  return NO;
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -162,7 +178,7 @@
       orb = [layout orbAtColumn:column row:row];
       counter++;
     }
-    while (orb.specialOrbType != SpecialOrbTypeNone && counter < 100);
+    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) && counter < 1000);
     
     // Update data
     orb.specialOrbType = SpecialOrbTypeCake;

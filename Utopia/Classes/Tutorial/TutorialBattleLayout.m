@@ -40,13 +40,13 @@
   return self;
 }
 
-- (void) generateRandomOrbColor:(OrbColor *)orbColor specialOrbType:(SpecialOrbType *)specialOrbType atColumn:(NSInteger)column row:(NSInteger)row {
+- (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row {
   if (column < self.presetOrbs.count) {
     NSMutableArray *arr = self.presetOrbs[column];
     if (arr.count) {
       NSNumber *num = [arr firstObject];
-      *orbColor = num.intValue;
-      *specialOrbType = SpecialOrbTypeNone;
+      orb.orbColor = num.intValue;
+      orb.specialOrbType = SpecialOrbTypeNone;
       
       [arr removeObjectAtIndex:0];
       
@@ -54,7 +54,7 @@
     }
   }
   
-  return [super generateRandomOrbColor:orbColor specialOrbType:specialOrbType atColumn:column row:row];
+  [super generateRandomOrbData:orb atColumn:column row:row];
 }
 
 @end
