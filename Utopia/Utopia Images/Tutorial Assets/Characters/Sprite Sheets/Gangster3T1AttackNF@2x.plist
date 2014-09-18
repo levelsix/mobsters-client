@@ -7,11 +7,11 @@
             <key>Gangster3T1AttackF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{946,170},{54,108}}</string>
+                <string>{{922,60},{54,108}}</string>
                 <key>offset</key>
                 <string>{3,-2}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{126,98},{54,108}}</string>
                 <key>sourceSize</key>
@@ -59,11 +59,11 @@
             <key>Gangster3T1AttackF04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{838,184},{68,106}}</string>
+                <string>{{784,76},{68,106}}</string>
                 <key>offset</key>
                 <string>{-15,-3}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{101,100},{68,106}}</string>
                 <key>sourceSize</key>
@@ -98,7 +98,7 @@
             <key>Gangster3T1AttackF07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{850,2},{56,106}}</string>
+                <string>{{616,190},{56,106}}</string>
                 <key>offset</key>
                 <string>{-8,-3}</string>
                 <key>rotated</key>
@@ -124,11 +124,11 @@
             <key>Gangster3T1AttackF09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{784,76},{68,106}}</string>
+                <string>{{838,184},{68,106}}</string>
                 <key>offset</key>
                 <string>{-15,-3}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{101,100},{68,106}}</string>
                 <key>sourceSize</key>
@@ -137,7 +137,7 @@
             <key>Gangster3T1AttackF10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{616,190},{56,106}}</string>
+                <string>{{850,2},{56,106}}</string>
                 <key>offset</key>
                 <string>{-9,-3}</string>
                 <key>rotated</key>
@@ -176,7 +176,7 @@
             <key>Gangster3T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{978,112},{52,112}}</string>
+                <string>{{978,58},{52,112}}</string>
                 <key>offset</key>
                 <string>{5,-4}</string>
                 <key>rotated</key>
@@ -293,7 +293,7 @@
             <key>Gangster3T1AttackN09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{410,112},{80,110}}</string>
+                <string>{{328,112},{80,110}}</string>
                 <key>offset</key>
                 <string>{-8,-6}</string>
                 <key>rotated</key>
@@ -306,7 +306,7 @@
             <key>Gangster3T1AttackN10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{328,112},{80,110}}</string>
+                <string>{{410,112},{80,110}}</string>
                 <key>offset</key>
                 <string>{-7,-6}</string>
                 <key>rotated</key>
@@ -345,11 +345,11 @@
             <key>Gangster3T1FlinchF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{922,60},{54,108}}</string>
+                <string>{{946,170},{54,108}}</string>
                 <key>offset</key>
                 <string>{3,-2}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{126,98},{54,108}}</string>
                 <key>sourceSize</key>
@@ -371,7 +371,7 @@
             <key>Gangster3T1FlinchN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{978,58},{52,112}}</string>
+                <string>{{978,112},{52,112}}</string>
                 <key>offset</key>
                 <string>{5,-4}</string>
                 <key>rotated</key>
@@ -443,7 +443,7 @@
             <key>size</key>
             <string>{1184,254}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7efaa42d6b5e230c400dca178451508c:df01f80ad8b04b78aca9a9bea3dc200f:682da3faffa590940cd96ce8e8bf2a35$</string>
+            <string>$TexturePacker:SmartUpdate:b2a46fdd131a12e28761601d2b477b0b:df01f80ad8b04b78aca9a9bea3dc200f:682da3faffa590940cd96ce8e8bf2a35$</string>
             <key>textureFileName</key>
             <string>Gangster3T1AttackNF@2x.pvr.ccz</string>
         </dict>

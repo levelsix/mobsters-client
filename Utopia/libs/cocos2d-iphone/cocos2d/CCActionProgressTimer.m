@@ -51,12 +51,12 @@
 {
 	[super startWithTarget:aTarget];
 	_from = [(CCProgressNode*)_target percentage];
-
-	// LVL6 Addition - Commented this
-	// XXX: Is this correct ?
-	// Adding it to support CCRepeat
-	//if( _from == 100)
-	//	_from = 0;
+  
+  // LVL6 Addition - Commented this
+  // XXX: Is this correct ?
+  // Adding it to support CCRepeat
+  //if( _from == 100)
+  //	_from = 0;
 }
 
 -(void) update: (CCTime) t

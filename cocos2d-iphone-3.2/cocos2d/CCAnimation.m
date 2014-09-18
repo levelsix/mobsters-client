@@ -131,8 +131,13 @@
 
 		self.frames = [NSMutableArray arrayWithArray:arrayOfAnimationFrames];
 
-		for( CCAnimationFrame *animFrame in _frames )
-			_totalDelayUnits += animFrame.delayUnits;
+    
+    for( CCAnimationFrame *animFrame in _frames ) {
+      // LVL6 Addition for soundanimate
+      if ([animFrame isKindOfClass:[CCAnimationFrame class]]) {
+        _totalDelayUnits += animFrame.delayUnits;
+      }
+    }
 	}
 	return self;
 }

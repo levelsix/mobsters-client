@@ -84,14 +84,16 @@
   v.backgroundColor = [UIColor blackColor];
   
   self.view = v;
+  
+  [self setupCocos2dWithOptions:nil];
 }
 
 - (BOOL) prefersStatusBarHidden {
   return YES;
 }
 
-BOOL setupCocos2D = NO;
 - (void)setupCocos2D {
+  // DEPRECATED
   CCDirector *director = [CCDirector sharedDirector];
   CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565
@@ -119,15 +121,119 @@ BOOL setupCocos2D = NO;
   // You can change anytime.
   [CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
   
-  [CCTexture PVRImagesHavePremultipliedAlpha:NO];
+  [CCTexture PVRImagesHavePremultipliedAlpha:YES];
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
   [director setDownloaderDelegate:self];
   
   [self addChildViewController:director];
   [self.view insertSubview:director.view atIndex:0];
+}
+
+static CGFloat
+FindPOTScale(CGFloat size, CGFloat fixedSize)
+{
+  int scale = 1;
+  while(fixedSize*scale < size) scale *= 2;
   
-  setupCocos2D = YES;
+  return scale;
+}
+
+// Fixed size. As wide as iPhone 5 at 2x and as high as the iPad at 2x.
+static const CGSize FIXED_SIZE = {568, 384};
+
+- (void) setupCocos2dWithOptions:(NSDictionary*)config
+{
+  // CCGLView creation
+  // viewWithFrame: size of the OpenGL view. For full screen use [_window bounds]
+  //  - Possible values: any CGRect
+  // pixelFormat: Format of the render buffer. Use RGBA8 for better color precision (eg: gradients). But it takes more memory and it is slower
+  //	- Possible values: kEAGLColorFormatRGBA8, kEAGLColorFormatRGB565
+  // depthFormat: Use stencil if you plan to use CCClippingNode. Use Depth if you plan to use 3D effects, like CCCamera or CCNode#vertexZ
+  //  - Possible values: 0, GL_DEPTH_COMPONENT24_OES, GL_DEPTH24_STENCIL8_OES
+  // sharegroup: OpenGL sharegroup. Useful if you want to share the same OpenGL context between different threads
+  //  - Possible values: nil, or any valid EAGLSharegroup group
+  // multiSampling: Whether or not to enable multisampling
+  //  - Possible values: YES, NO
+  // numberOfSamples: Only valid if multisampling is enabled
+  //  - Possible values: 0 to glGetIntegerv(GL_MAX_SAMPLES_APPLE)
+  CCGLView *glView = [CCGLView
+                      viewWithFrame:self.view.bounds
+                      pixelFormat:config[CCSetupPixelFormat] ?: kEAGLColorFormatRGB565
+                      depthFormat:[config[CCSetupDepthFormat] unsignedIntValue] ?: GL_DEPTH24_STENCIL8_OES
+                      preserveBackbuffer:[config[CCSetupPreserveBackbuffer] boolValue]
+                      sharegroup:nil
+                      multiSampling:[config[CCSetupMultiSampling] boolValue]
+                      numberOfSamples:[config[CCSetupNumberOfSamples] unsignedIntValue]
+                      ];
+  
+  CCDirectorIOS* director = (CCDirectorIOS*) [CCDirector sharedDirector];
+  
+  // Display FSP and SPF
+  [director setDisplayStats:[config[CCSetupShowDebugStats] boolValue]];
+  
+  // set FPS at 60
+  NSTimeInterval animationInterval = [(config[CCSetupAnimationInterval] ?: @(1.0/60.0)) doubleValue];
+  [director setAnimationInterval:animationInterval];
+  
+  director.fixedUpdateInterval = [(config[CCSetupFixedUpdateInterval] ?: @(1.0/60.0)) doubleValue];
+  
+  // attach the openglView to the director
+  [director setView:glView];
+  
+  if([config[CCSetupScreenMode] isEqual:CCScreenModeFixed]){
+    CGSize size = [CCDirector sharedDirector].viewSizeInPixels;
+    CGSize fixed = FIXED_SIZE;
+    
+    if([config[CCSetupScreenOrientation] isEqualToString:CCScreenOrientationPortrait]){
+      CC_SWAP(fixed.width, fixed.height);
+    }
+    
+    // Find the minimal power-of-two scale that covers both the width and height.
+    CGFloat scaleFactor = MIN(FindPOTScale(size.width, fixed.width), FindPOTScale(size.height, fixed.height));
+    
+    director.contentScaleFactor = scaleFactor;
+    director.UIScaleFactor = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 1.0 : 0.5);
+    
+    // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+    [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor: 2.0];
+    
+    director.designSize = fixed;
+    [director setProjection:CCDirectorProjectionCustom];
+  } else {
+    // Setup tablet scaling if it was requested.
+    if(
+       UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
+       [config[CCSetupTabletScale2X] boolValue]
+       ){
+      // Set the director to use 2 points per pixel.
+      director.contentScaleFactor *= 2.0;
+      
+      // Set the UI scale factor to show things at "native" size.
+      director.UIScaleFactor = 0.5;
+      
+      // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+      [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor:2.0];
+    }
+    
+    [director setProjection:CCDirectorProjection2D];
+  }
+  
+  [CCTexture PVRImagesHavePremultipliedAlpha:NO];
+  
+  // Default texture format for PNG/BMP/TIFF/JPEG/GIF images
+  // It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
+  // You can change this setting at any time.
+  [CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
+  
+  // Initialise OpenAL
+  [OALSimpleAudio sharedInstance];
+  
+  [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
+  [director setDownloaderDelegate:self];
+  
+  [self addChildViewController:director];
+  [self.view insertSubview:director.view atIndex:0];
 }
 
 - (void) setupTopBar {
@@ -161,12 +267,6 @@ BOOL setupCocos2D = NO;
   //NSMutableArray *arr = gs.inProgressIncompleteQuests.allValues.mutableCopy;
   //[arr shuffle];
   //[self questComplete:arr[0]];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  if (!setupCocos2D) {
-    [self setupCocos2D];
-  }
 }
 
 - (void) removeAllViewControllers {

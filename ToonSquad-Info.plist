@@ -35,15 +35,15 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.134</string>
+	<string>1.0.1.152</string>
 	<key>FacebookAppID</key>
 	<string>788673811165936</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>TangoAppID</key>
 	<string>ToonSquad</string>
 	<key>TangoUrlScheme</key>
 	<string>toonsquad4t</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AxeHandel.ttf</string>

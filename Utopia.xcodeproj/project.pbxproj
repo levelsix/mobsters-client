@@ -425,7 +425,6 @@
 		CF0CEE27196F452900ECD301 /* sellblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06B5CA193699FB008BF892 /* sellblue@2x.png */; };
 		CF0CEE28196F452900ECD301 /* rewardlabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6F19AC181518C800CFF2B9 /* rewardlabel@2x.png */; };
 		CF0CEE29196F452900ECD301 /* goldrankbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40CFFB18DFCC6B0034A721 /* goldrankbg.png */; };
-		CF0CEE2A196F452900ECD301 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF54944518C7F372001E7D32 /* icons.xcassets */; };
 		CF0CEE2B196F452900ECD301 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2501E1853136A00BE0C05 /* clock.png */; };
 		CF0CEE2C196F452900ECD301 /* Scientist5Blink06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDF0318ACA3D90090CA9A /* Scientist5Blink06@2x.png */; };
 		CF0CEE2D196F452900ECD301 /* upgrade@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF127996181F5F1600211623 /* upgrade@2x.png */; };
@@ -3501,7 +3500,6 @@
 		CF54943E18C71F3C001E7D32 /* TutorialHomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54943D18C71F3C001E7D32 /* TutorialHomeMap.m */; };
 		CF54944318C7E920001E7D32 /* marksboat.png in Resources */ = {isa = PBXBuildFile; fileRef = CF54944118C7E920001E7D32 /* marksboat.png */; };
 		CF54944418C7E920001E7D32 /* marksboat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF54944218C7E920001E7D32 /* marksboat@2x.png */; };
-		CF54944618C7F373001E7D32 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF54944518C7F372001E7D32 /* icons.xcassets */; };
 		CF5BD66E19C925EE006C4B4C /* congratulationsrankup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD66519C925EE006C4B4C /* congratulationsrankup.png */; };
 		CF5BD66F19C925EE006C4B4C /* congratulationsrankup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD66519C925EE006C4B4C /* congratulationsrankup.png */; };
 		CF5BD67019C925EE006C4B4C /* congratulationsrankup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD66619C925EE006C4B4C /* congratulationsrankup@2x.png */; };
@@ -3523,6 +3521,8 @@
 		CF5BD68919C92C6F006C4B4C /* PvpRankUpNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5BD68719C92C6F006C4B4C /* PvpRankUpNode.m */; };
 		CF5BD68B19C92DAC006C4B4C /* PvpRankUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD68A19C92DAC006C4B4C /* PvpRankUpNode.ccbi */; };
 		CF5BD68C19C92DAD006C4B4C /* PvpRankUpNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD68A19C92DAC006C4B4C /* PvpRankUpNode.ccbi */; };
+		CF5BD68F19CA5521006C4B4C /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD68E19CA5521006C4B4C /* icons.xcassets */; };
+		CF5BD69019CA5521006C4B4C /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF5BD68E19CA5521006C4B4C /* icons.xcassets */; };
 		CF60465A19BF9177003D91F8 /* SkillCakeDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = DA88EB8419BE5810005EE827 /* SkillCakeDrop.m */; };
 		CF60466219BF9E59003D91F8 /* StageCompleteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CF60466119BF9E59003D91F8 /* StageCompleteNode.m */; };
 		CF60466319BF9E59003D91F8 /* StageCompleteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CF60466119BF9E59003D91F8 /* StageCompleteNode.m */; };
@@ -7178,7 +7178,6 @@
 		CF54943D18C71F3C001E7D32 /* TutorialHomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialHomeMap.m; sourceTree = "<group>"; };
 		CF54944118C7E920001E7D32 /* marksboat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marksboat.png; sourceTree = "<group>"; };
 		CF54944218C7E920001E7D32 /* marksboat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marksboat@2x.png"; sourceTree = "<group>"; };
-		CF54944518C7F372001E7D32 /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		CF5876A6162964EB006DCD3B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CF5876A7162964EB006DCD3B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		CF5BD66519C925EE006C4B4C /* congratulationsrankup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congratulationsrankup.png; sourceTree = "<group>"; };
@@ -7192,6 +7191,7 @@
 		CF5BD68619C92C6F006C4B4C /* PvpRankUpNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PvpRankUpNode.h; sourceTree = "<group>"; };
 		CF5BD68719C92C6F006C4B4C /* PvpRankUpNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PvpRankUpNode.m; sourceTree = "<group>"; };
 		CF5BD68A19C92DAC006C4B4C /* PvpRankUpNode.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = PvpRankUpNode.ccbi; sourceTree = "<group>"; };
+		CF5BD68E19CA5521006C4B4C /* icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = icons.xcassets; sourceTree = "<group>"; };
 		CF60466019BF9E59003D91F8 /* StageCompleteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StageCompleteNode.h; sourceTree = "<group>"; };
 		CF60466119BF9E59003D91F8 /* StageCompleteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StageCompleteNode.m; sourceTree = "<group>"; };
 		CF6292E1180D22F500C6C196 /* bagcash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bagcash.png; sourceTree = "<group>"; };
@@ -10457,8 +10457,8 @@
 		CF1267661538ACC500E0C1AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF5BD68E19CA5521006C4B4C /* icons.xcassets */,
 				CF0CF849196F4AA000ECD301 /* tips.txt */,
-				CF54944518C7F372001E7D32 /* icons.xcassets */,
 				CF7063FE18403C2F005B30A1 /* AppIcon29x29.png */,
 				CF7063FF18403C2F005B30A1 /* AppIcon29x29@2x.png */,
 				CF70640018403C2F005B30A1 /* AppIcon40x40.png */,
@@ -15714,7 +15714,6 @@
 				CF0CEE27196F452900ECD301 /* sellblue@2x.png in Resources */,
 				CF0CEE28196F452900ECD301 /* rewardlabel@2x.png in Resources */,
 				CF0CEE29196F452900ECD301 /* goldrankbg.png in Resources */,
-				CF0CEE2A196F452900ECD301 /* icons.xcassets in Resources */,
 				CF0CEE2B196F452900ECD301 /* clock.png in Resources */,
 				CF0CEE2C196F452900ECD301 /* Scientist5Blink06@2x.png in Resources */,
 				CF0CEE2D196F452900ECD301 /* upgrade@2x.png in Resources */,
@@ -18394,6 +18393,7 @@
 				CF0CF7E1196F452900ECD301 /* settingsbutton@2x.png in Resources */,
 				CF0CF7E2196F452900ECD301 /* nightcard.png in Resources */,
 				CF0CF7E3196F452900ECD301 /* activecityglow.png in Resources */,
+				CF5BD69019CA5521006C4B4C /* icons.xcassets in Resources */,
 				CF0CF7E4196F452900ECD301 /* Scientist5Blink02@2x.png in Resources */,
 				CF0CF7E5196F452900ECD301 /* rarejob@2x.png in Resources */,
 				CF0CF7E6196F452900ECD301 /* combo8a.aif in Resources */,
@@ -18505,7 +18505,6 @@
 				CF06B61D193699FC008BF892 /* sellblue@2x.png in Resources */,
 				CF6F1A03181518C900CFF2B9 /* rewardlabel@2x.png in Resources */,
 				CF40D02F18DFCC6C0034A721 /* goldrankbg.png in Resources */,
-				CF54944618C7F373001E7D32 /* icons.xcassets in Resources */,
 				CFB250201853136B00BE0C05 /* clock.png in Resources */,
 				CFFBDFDC18ACA3D90090CA9A /* Scientist5Blink06@2x.png in Resources */,
 				CFFC50FD19C4C57700BDAA62 /* notendcappurple@2x.png in Resources */,
@@ -20450,6 +20449,7 @@
 				CFBB37A418F49D3200FD6C8C /* oilupgradebutton.png in Resources */,
 				CFFBDF6318ACA3D90090CA9A /* Scientist2Breath01@2x.png in Resources */,
 				CFFF9A5218BEB67D0036EEC3 /* timerbgmiddlemobster.png in Resources */,
+				CF5BD68F19CA5521006C4B4C /* icons.xcassets in Resources */,
 				CFF7872E18E28FE200413E78 /* commandcenterunlocksbg.png in Resources */,
 				CFE02D491825D9CC0016C1E2 /* memberrow.png in Resources */,
 				CFF2A55E19709C4800269084 /* Kim1T1P3TutBig.png in Resources */,
@@ -22040,7 +22040,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -22076,7 +22076,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
@@ -22116,7 +22116,7 @@
 			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -22152,7 +22152,7 @@
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
@@ -22193,7 +22193,7 @@
 			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -22229,7 +22229,7 @@
 				);
 				INFOPLIST_FILE = "ToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",

@@ -26,6 +26,7 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
 #import <Crashlytics/Crashlytics.h>
+#import <cocos2d-ui.h>
 
 #import "TangoDelegate.h"
 
@@ -100,6 +101,7 @@
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
   nav.navigationBarHidden = YES;
   window.rootViewController = nav;
+  [gvc view];
   
 	[window makeKeyAndVisible];
   

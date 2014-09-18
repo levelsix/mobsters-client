@@ -173,6 +173,8 @@
     self.totalQueueCostLabel.text = [Globals commafyNumber:totalOilCost];
     [Globals adjustViewForCentering:self.totalQueueCostLabel.superview withLabel:self.totalQueueCostLabel];
   }
+  
+  [self updateStats];
 }
 
 - (void) updateStats {

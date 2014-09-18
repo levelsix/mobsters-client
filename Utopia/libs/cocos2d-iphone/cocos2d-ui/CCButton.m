@@ -321,6 +321,8 @@
             }
             
             [_label stopAllActions];
+            [_background stopAllActions];
+			
             if (_zoomWhenHighlighted)
             {
                 _label.scaleX = _originalScaleX;
@@ -343,7 +345,7 @@
 - (void) setHitAreaExpansion:(float)hitAreaExpansion
 {
     _originalHitAreaExpansion = hitAreaExpansion;
-    [super hitAreaExpansion];
+    [super setHitAreaExpansion:hitAreaExpansion];
 }
 
 - (float) hitAreaExpansion
@@ -450,8 +452,7 @@
 
 - (NSArray*) keysForwardedToLabel
 {
-    return [NSArray arrayWithObjects:
-            @"fontName",
+    return @[@"fontName",
             @"fontSize",
             @"opacity",
             @"color",
@@ -462,7 +463,8 @@
             @"shadowBlurRadius",
             @"shadowOffset",
             @"shadowOffsetType",
-            nil];
+            @"horizontalAlignment",
+            @"verticalAlignment"];
 }
 
 - (void) setValue:(id)value forKey:(NSString *)key

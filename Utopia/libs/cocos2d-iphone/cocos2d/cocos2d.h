@@ -40,9 +40,9 @@
  */
 
 // 0x00 HI ME LO
-// 00   03 00 00
-#define COCOS2D_VERSION 0x00030000
-
+// 00   03 01 01
+#define COCOS2D_VERSION 0x00030201
+#define COCOS2D_BUILD @"release"
 //
 // all cocos2d include files
 //
@@ -62,6 +62,19 @@
 #import "CCConfiguration.h"
 #import "CCDirector.h"
 #import "CCDrawNode.h"
+#import "CCEffect.h"
+#import "CCEffectBloom.h"
+#import "CCEffectBrightness.h"
+#import "CCEffectContrast.h"
+#import "CCEffectBlur.h"
+#import "CCEffectGlass.h"
+#import "CCEffectHue.h"
+#import "CCEffectNode.h"
+#import "CCEffectPixellate.h"
+#import "CCEffectReflection.h"
+#import "CCEffectRefraction.h"
+#import "CCEffectSaturation.h"
+#import "CCEffectStack.h"
 #import "CCLabelBMFont.h"
 #import "CCLabelTTF.h"
 #import "CCMotionStreak.h"
@@ -92,10 +105,7 @@
 #import "CCLayoutBox.h"
 
 // Shaders
-#import "CCGLProgram.h"
-#import "ccGLStateCache.h"
-#import "ccShaders.h"
-#import "CCShaderCache.h"
+#import "CCShader.h"
 
 // Physics
 #import "CCPhysicsBody.h"
@@ -144,21 +154,13 @@
 //
 // cocos2d helper files
 //
-#import "Support/OpenGL_Internal.h"
 #import "Support/CCFileUtils.h"
 #import "Support/CGPointExtension.h"
 #import "Support/ccUtils.h"
-#import "Support/TransformUtils.h"
 #import "Support/CCProfiling.h"
 #import "Support/NSThread+performBlock.h"
 #import "Support/uthash.h"
 #import "Support/utlist.h"
-
-//
-// external
-//
-#import "kazmath/kazmath.h"
-#import "kazmath/GL/matrix.h"
 
 
 
@@ -168,7 +170,6 @@ extern "C" {
 
 // free functions
 NSString * cocos2dVersion(void);
-extern const char * cocos2d_version;
 
 #ifdef __cplusplus
 }
