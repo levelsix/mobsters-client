@@ -44,7 +44,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _player.offensiveSkillId;
-  _cheatPlayerSkillType = SkillTypeShield;
+  //_cheatPlayerSkillType = SkillTypeShield;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   
@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  _cheatEnemySkillType = SkillTypeShield; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypeShield; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -210,7 +210,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Update enemy, part 2
   if (trigger == SkillTriggerPointEnemyAppeared)
-    if (_enemySkillController && ! _skillIndicatorEnemy)
+    if (_enemySkillController && (! _skillIndicatorEnemy || !_skillIndicatorEnemy.parent))
     {
       [self createEnemySkillIndicator];
       [self updateReferences];  // To update enemy sprite which is not initialized when it's called for the first time few lines above
