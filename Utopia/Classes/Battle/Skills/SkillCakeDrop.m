@@ -15,7 +15,6 @@
 
 - (void) setDefaultValues
 {
-  // Properties
   [super setDefaultValues];
   
   _minCakes = 1;
@@ -25,9 +24,6 @@
   _speedMultiplier = 1.1;
   _cakeChance = 0.1;
   _damage = 1;
-  
-  _currentSpeed = _initialSpeed;
-  _startedEating = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -47,6 +43,18 @@
     _cakeChance = value;
   else if ( [property isEqualToString:@"DAMAGE"] )
     _damage = value;
+}
+
+- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
+{
+  self = [super initWithProto:proto andMobsterColor:color];
+  if ( ! self )
+    return nil;
+  
+  _currentSpeed = _initialSpeed;
+  _startedEating = NO;
+  
+  return self;
 }
 
 #pragma mark - Overrides

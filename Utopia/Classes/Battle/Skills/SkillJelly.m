@@ -15,14 +15,10 @@
 
 - (void) setDefaultValues
 {
-  // Properties
   [super setDefaultValues];
   _initialCount = 1;
   _spawnCount = 1;
   _spawnTurns = 1;
-  
-  // Counters
-  _turnCounter = 0;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -34,6 +30,17 @@
     _spawnCount = value;
   else if ( [property isEqualToString:@"INITIAL_COUNT"] )
     _initialCount = value;
+}
+
+- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
+{
+  self = [super initWithProto:proto andMobsterColor:color];
+  if ( ! self )
+    return nil;
+  
+  _turnCounter = 0;
+  
+  return self;
 }
 
 #pragma mark - Overrides

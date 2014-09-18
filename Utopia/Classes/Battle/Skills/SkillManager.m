@@ -44,7 +44,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _player.offensiveSkillId;
-  //_cheatPlayerSkillType = SkillTypeQuickAttack;
+  _cheatPlayerSkillType = SkillTypeShield;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   
@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
+  _cheatEnemySkillType = SkillTypeShield; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -180,9 +180,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return generated;
 }
 
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  NSInteger result = damage;
+  
+  if (_playerSkillController)
+    result = [_playerSkillController modifyDamage:result forPlayer:player];
+  
+  if (_enemySkillController)
+    result = [_enemySkillController modifyDamage:result forPlayer:player];
+  
+  return result;
+}
+
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
-  //block(); // Uncomment these lines to totally disable skills.
+  //completion(NO); // Uncomment these lines to totally disable skills.
   //return;
   
   // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
@@ -197,10 +210,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Update enemy, part 2
   if (trigger == SkillTriggerPointEnemyAppeared)
-  {
-    [self createEnemySkillIndicator];
-    [self updateReferences];
-  }
+    if (_enemySkillController && ! _skillIndicatorEnemy)
+    {
+      [self createEnemySkillIndicator];
+      [self updateReferences];  // To update enemy sprite which is not initialized when it's called for the first time few lines above
+      [_enemySkillController restoreVisualsIfNeeded];
+    }
   
   // Update player
   if (trigger == SkillTriggerPointPlayerInitialized)
@@ -208,6 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [self updatePlayerSkill];
     [self updateReferences];
     [self createPlayerSkillIndicator];
+    [_playerSkillController restoreVisualsIfNeeded];
   }
   
   // Remove enemy indicator if enemy was defeated
@@ -252,7 +268,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
-  
   if (_playerSkillController)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
@@ -359,7 +374,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorPlayer)
       if (_playerSkillController.activationType != SkillActivationTypePassive)
         if (_playerSkillController.orbColor == color)
-          return YES;
+          if ([_enemySkillController shouldSpawnRibbon])
+            return YES;
   return NO;
 }
 
@@ -369,7 +385,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorEnemy)
       if (_enemySkillController.activationType != SkillActivationTypePassive)
         if (_enemySkillController.orbColor == color)
-          return YES;
+          if ([_enemySkillController shouldSpawnRibbon])
+            return YES;
   return NO;
 }
 

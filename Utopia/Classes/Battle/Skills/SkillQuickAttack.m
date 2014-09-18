@@ -87,6 +87,7 @@
 {
   // Turn on the lights for the board and finish skill execution
   [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self resetOrbCounter];
   [self skillTriggerFinished];
 }
 

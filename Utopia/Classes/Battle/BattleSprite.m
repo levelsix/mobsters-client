@@ -433,7 +433,7 @@
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];}],
+            [CCActionCallBlock actionWithBlock:^{ if(strength>0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -455,7 +455,7 @@
            [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
+            [CCActionCallBlock actionWithBlock:^{ if (strength>0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:target selector:selector],

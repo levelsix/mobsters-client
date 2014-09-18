@@ -9,6 +9,7 @@
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
+#import "SkillShield.h"
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
@@ -23,6 +24,7 @@
     case SkillTypeJelly: return [[SkillJelly alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeCakeDrop: return [[SkillCakeDrop alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeBombs: return [[SkillBombs alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeShield: return [[SkillShield alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -96,6 +98,11 @@
   return NO;
 }
 
+- (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
+{
+  return damage;
+}
+
 - (void) skillTriggerFinished
 {
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
@@ -116,6 +123,15 @@
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
+{
+}
+
+- (BOOL) shouldSpawnRibbon
+{
+  return NO;
+}
+
+- (void) restoreVisualsIfNeeded
 {
 }
 
