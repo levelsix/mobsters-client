@@ -241,7 +241,7 @@
             <key>Kim1T1RunN06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{908,2},{86,104}}</string>
+                <string>{{820,2},{86,104}}</string>
                 <key>offset</key>
                 <string>{9,-16}</string>
                 <key>rotated</key>
@@ -254,7 +254,7 @@
             <key>Kim1T1RunN07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{820,2},{86,104}}</string>
+                <string>{{908,2},{86,104}}</string>
                 <key>offset</key>
                 <string>{10,-15}</string>
                 <key>rotated</key>
@@ -326,7 +326,7 @@
             <key>size</key>
             <string>{1828,126}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:5de62055c8376fa1296b7ad48d7a0a5b:8533a574416360839090ea8f8ff1e6f9:f2d43dcbbedd74240c9575172700be4d$</string>
+            <string>$TexturePacker:SmartUpdate:182bfb2d65c9407119eca1c0d579bbb0:8533a574416360839090ea8f8ff1e6f9:f2d43dcbbedd74240c9575172700be4d$</string>
             <key>textureFileName</key>
             <string>Kim1T1RunNF@2x.pvr.ccz</string>
         </dict>

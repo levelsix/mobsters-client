@@ -176,7 +176,7 @@
             <key>Zark1T1RunN01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{968,2},{82,108}}</string>
+                <string>{{920,116},{82,108}}</string>
                 <key>offset</key>
                 <string>{9,-5}</string>
                 <key>rotated</key>
@@ -293,7 +293,7 @@
             <key>Zark1T1RunN10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{920,116},{82,108}}</string>
+                <string>{{968,2},{82,108}}</string>
                 <key>offset</key>
                 <string>{8,-8}</string>
                 <key>rotated</key>
@@ -326,7 +326,7 @@
             <key>size</key>
             <string>{1099,240}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:8d1b9bf8e43daa8d9829c7bf8c11d8dc:e792fa46b00d172f8f48dfc13cc51dfb:43756defd72a7b7f7862672b0f2254b9$</string>
+            <string>$TexturePacker:SmartUpdate:58ff9f256b7fd9c376c69aaf25649415:e792fa46b00d172f8f48dfc13cc51dfb:43756defd72a7b7f7862672b0f2254b9$</string>
             <key>textureFileName</key>
             <string>Zark1T1RunNF@2x.pvr.ccz</string>
         </dict>

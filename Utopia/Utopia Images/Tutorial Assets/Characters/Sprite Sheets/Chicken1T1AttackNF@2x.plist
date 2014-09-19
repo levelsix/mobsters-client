@@ -7,7 +7,7 @@
             <key>Chicken1T1AttackF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1452},{80,134}}</string>
+                <string>{{2,1288},{80,134}}</string>
                 <key>offset</key>
                 <string>{6,9}</string>
                 <key>rotated</key>
@@ -163,7 +163,7 @@
             <key>Chicken1T1AttackF12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1288},{80,134}}</string>
+                <string>{{2,1452},{80,134}}</string>
                 <key>offset</key>
                 <string>{6,9}</string>
                 <key>rotated</key>
@@ -176,7 +176,7 @@
             <key>Chicken1T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,1776},{110,114}}</string>
+                <string>{{138,1462},{110,114}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
@@ -332,7 +332,7 @@
             <key>Chicken1T1AttackN12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{138,1462},{110,114}}</string>
+                <string>{{2,1776},{110,114}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
@@ -417,7 +417,7 @@
             <key>size</key>
             <string>{254,1888}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:26d5c945d4283dd2994eb90008ae3235:f57e4779a2afbb119a94c3606674aeb6:3f709cb5d92948f4ce815260b81da948$</string>
+            <string>$TexturePacker:SmartUpdate:f901312d5ce9e4e62c79af9e795453e8:f57e4779a2afbb119a94c3606674aeb6:3f709cb5d92948f4ce815260b81da948$</string>
             <key>textureFileName</key>
             <string>Chicken1T1AttackNF@2x.pvr.ccz</string>
         </dict>

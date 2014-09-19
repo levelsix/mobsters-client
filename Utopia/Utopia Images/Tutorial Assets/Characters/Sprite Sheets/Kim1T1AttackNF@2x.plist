@@ -7,7 +7,7 @@
             <key>Kim1T1AttackF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,120},{72,116}}</string>
+                <string>{{2,2},{72,116}}</string>
                 <key>offset</key>
                 <string>{-2,-19}</string>
                 <key>rotated</key>
@@ -20,7 +20,7 @@
             <key>Kim1T1AttackF01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1060,2},{66,106}}</string>
+                <string>{{998,110},{66,106}}</string>
                 <key>offset</key>
                 <string>{-10,-16}</string>
                 <key>rotated</key>
@@ -33,7 +33,7 @@
             <key>Kim1T1AttackF02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{912,110},{84,106}}</string>
+                <string>{{804,2},{84,106}}</string>
                 <key>offset</key>
                 <string>{-20,-16}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>Kim1T1AttackF03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{738,110},{86,106}}</string>
+                <string>{{716,2},{86,106}}</string>
                 <key>offset</key>
                 <string>{-21,-16}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>Kim1T1AttackF05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{890,2},{84,106}}</string>
+                <string>{{826,110},{84,106}}</string>
                 <key>offset</key>
                 <string>{-22,-16}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>Kim1T1AttackF07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1212,2},{82,104}}</string>
+                <string>{{1128,2},{82,104}}</string>
                 <key>offset</key>
                 <string>{-24,-16}</string>
                 <key>rotated</key>
@@ -124,7 +124,7 @@
             <key>Kim1T1AttackF09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{826,110},{84,106}}</string>
+                <string>{{890,2},{84,106}}</string>
                 <key>offset</key>
                 <string>{-22,-15}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>Kim1T1AttackF10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{716,2},{86,106}}</string>
+                <string>{{738,110},{86,106}}</string>
                 <key>offset</key>
                 <string>{-21,-15}</string>
                 <key>rotated</key>
@@ -163,7 +163,7 @@
             <key>Kim1T1AttackF12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{998,110},{66,106}}</string>
+                <string>{{1060,2},{66,106}}</string>
                 <key>offset</key>
                 <string>{-9,-16}</string>
                 <key>rotated</key>
@@ -176,7 +176,7 @@
             <key>Kim1T1AttackF13.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{72,116}}</string>
+                <string>{{2,120},{72,116}}</string>
                 <key>offset</key>
                 <string>{-2,-19}</string>
                 <key>rotated</key>
@@ -189,7 +189,7 @@
             <key>Kim1T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{596,112},{72,108}}</string>
+                <string>{{574,2},{72,108}}</string>
                 <key>offset</key>
                 <string>{3,-16}</string>
                 <key>rotated</key>
@@ -202,7 +202,7 @@
             <key>Kim1T1AttackN01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{670,112},{66,108}}</string>
+                <string>{{648,2},{66,108}}</string>
                 <key>offset</key>
                 <string>{-5,-16}</string>
                 <key>rotated</key>
@@ -215,7 +215,7 @@
             <key>Kim1T1AttackN02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{510,112},{84,108}}</string>
+                <string>{{488,2},{84,108}}</string>
                 <key>offset</key>
                 <string>{-15,-16}</string>
                 <key>rotated</key>
@@ -228,7 +228,7 @@
             <key>Kim1T1AttackN03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{164,114},{86,110}}</string>
+                <string>{{76,116},{86,110}}</string>
                 <key>offset</key>
                 <string>{-16,-15}</string>
                 <key>rotated</key>
@@ -254,7 +254,7 @@
             <key>Kim1T1AttackN05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{252,114},{84,110}}</string>
+                <string>{{234,2},{84,110}}</string>
                 <key>offset</key>
                 <string>{-17,-15}</string>
                 <key>rotated</key>
@@ -267,7 +267,7 @@
             <key>Kim1T1AttackN06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{404,2},{82,110}}</string>
+                <string>{{320,2},{82,110}}</string>
                 <key>offset</key>
                 <string>{-18,-15}</string>
                 <key>rotated</key>
@@ -293,7 +293,7 @@
             <key>Kim1T1AttackN08.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{320,2},{82,110}}</string>
+                <string>{{404,2},{82,110}}</string>
                 <key>offset</key>
                 <string>{-18,-15}</string>
                 <key>rotated</key>
@@ -306,7 +306,7 @@
             <key>Kim1T1AttackN09.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{234,2},{84,110}}</string>
+                <string>{{252,114},{84,110}}</string>
                 <key>offset</key>
                 <string>{-17,-15}</string>
                 <key>rotated</key>
@@ -319,7 +319,7 @@
             <key>Kim1T1AttackN10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{76,116},{86,110}}</string>
+                <string>{{164,114},{86,110}}</string>
                 <key>offset</key>
                 <string>{-16,-15}</string>
                 <key>rotated</key>
@@ -332,7 +332,7 @@
             <key>Kim1T1AttackN11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{488,2},{84,108}}</string>
+                <string>{{510,112},{84,108}}</string>
                 <key>offset</key>
                 <string>{-15,-16}</string>
                 <key>rotated</key>
@@ -345,7 +345,7 @@
             <key>Kim1T1AttackN12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{648,2},{66,108}}</string>
+                <string>{{670,112},{66,108}}</string>
                 <key>offset</key>
                 <string>{-4,-16}</string>
                 <key>rotated</key>
@@ -358,7 +358,7 @@
             <key>Kim1T1AttackN13.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{574,2},{72,108}}</string>
+                <string>{{596,112},{72,108}}</string>
                 <key>offset</key>
                 <string>{3,-16}</string>
                 <key>rotated</key>
@@ -371,7 +371,7 @@
             <key>Kim1T1FlinchF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{804,2},{84,106}}</string>
+                <string>{{912,110},{84,106}}</string>
                 <key>offset</key>
                 <string>{-10,-19}</string>
                 <key>rotated</key>
@@ -397,7 +397,7 @@
             <key>Kim1T1FlinchN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1128,2},{82,104}}</string>
+                <string>{{1212,2},{82,104}}</string>
                 <key>offset</key>
                 <string>{-5,-15}</string>
                 <key>rotated</key>
@@ -443,7 +443,7 @@
             <key>size</key>
             <string>{1390,238}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3f25e17492d7b1a5aad2b6aa97885366:083356bf43b5b7e131b941d316a0efc5:9b5725ab637130cf70048e7ae719bcc0$</string>
+            <string>$TexturePacker:SmartUpdate:ebfd7c0c9891ac476b0090d281ca02ac:083356bf43b5b7e131b941d316a0efc5:9b5725ab637130cf70048e7ae719bcc0$</string>
             <key>textureFileName</key>
             <string>Kim1T1AttackNF@2x.pvr.ccz</string>
         </dict>

@@ -20,7 +20,7 @@
             <key>Goonie1T1RunF01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{194,2},{62,116}}</string>
+                <string>{{130,2},{62,116}}</string>
                 <key>offset</key>
                 <string>{-9,2}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>Goonie1T1RunF05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{130,2},{62,116}}</string>
+                <string>{{194,2},{62,116}}</string>
                 <key>offset</key>
                 <string>{-4,3}</string>
                 <key>rotated</key>
@@ -222,7 +222,7 @@
             <key>size</key>
             <string>{1208,126}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:9c74909ff5c97dc05b91251a47fa1503:ff483367c580bd01bc2b003a868b47c7:698f35c94b1b5656b982621bbcd5f5fe$</string>
+            <string>$TexturePacker:SmartUpdate:0b193ebf5ef87dc5ef05ee9bdf7f64ab:ff483367c580bd01bc2b003a868b47c7:698f35c94b1b5656b982621bbcd5f5fe$</string>
             <key>textureFileName</key>
             <string>Goonie1T1RunNF@2x.pvr.ccz</string>
         </dict>

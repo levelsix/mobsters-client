@@ -163,11 +163,11 @@
             <key>Zark1T1AttackF12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1364,2},{92,122}}</string>
+                <string>{{498,154},{92,122}}</string>
                 <key>offset</key>
                 <string>{-6,-9}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{73,73},{92,122}}</string>
                 <key>sourceSize</key>
@@ -345,11 +345,11 @@
             <key>Zark1T1FlinchF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1458,2},{96,118}}</string>
+                <string>{{622,152},{96,118}}</string>
                 <key>offset</key>
                 <string>{3,-12}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{80,78},{96,118}}</string>
                 <key>sourceSize</key>
@@ -371,11 +371,11 @@
             <key>Zark1T1FlinchN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{622,152},{96,118}}</string>
+                <string>{{1458,2},{96,118}}</string>
                 <key>offset</key>
                 <string>{8,-9}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{85,75},{96,118}}</string>
                 <key>sourceSize</key>
@@ -397,11 +397,11 @@
             <key>Zark1T1StayN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{498,154},{92,122}}</string>
+                <string>{{1364,2},{92,122}}</string>
                 <key>offset</key>
                 <string>{-1,-10}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{78,74},{92,122}}</string>
                 <key>sourceSize</key>
@@ -417,7 +417,7 @@
             <key>size</key>
             <string>{1753,250}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:8073b3faaa7432e5c30ed2cb10d2d065:01d4fe17cb39c0461b1a8d34b2196f27:a6fe18eea6668f84879f0479a1f08fb0$</string>
+            <string>$TexturePacker:SmartUpdate:a037a3271f1f67401fdfffca719cf35f:01d4fe17cb39c0461b1a8d34b2196f27:a6fe18eea6668f84879f0479a1f08fb0$</string>
             <key>textureFileName</key>
             <string>Zark1T1AttackNF@2x.pvr.ccz</string>
         </dict>

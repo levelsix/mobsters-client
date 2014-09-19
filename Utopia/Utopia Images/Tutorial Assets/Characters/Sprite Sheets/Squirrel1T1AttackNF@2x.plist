@@ -7,7 +7,7 @@
             <key>Squirrel1T1AttackF00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1582,122},{86,106}}</string>
+                <string>{{1494,122},{86,106}}</string>
                 <key>offset</key>
                 <string>{18,-5}</string>
                 <key>rotated</key>
@@ -189,7 +189,7 @@
             <key>Squirrel1T1AttackF14.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1494,122},{86,106}}</string>
+                <string>{{1582,122},{86,106}}</string>
                 <key>offset</key>
                 <string>{18,-5}</string>
                 <key>rotated</key>
@@ -202,7 +202,7 @@
             <key>Squirrel1T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1604,2},{94,118}}</string>
+                <string>{{1508,2},{94,118}}</string>
                 <key>offset</key>
                 <string>{3,-5}</string>
                 <key>rotated</key>
@@ -228,7 +228,7 @@
             <key>Squirrel1T1AttackN02.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{934,2},{104,122}}</string>
+                <string>{{828,2},{104,122}}</string>
                 <key>offset</key>
                 <string>{20,-3}</string>
                 <key>rotated</key>
@@ -241,7 +241,7 @@
             <key>Squirrel1T1AttackN03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{828,2},{104,122}}</string>
+                <string>{{934,2},{104,122}}</string>
                 <key>offset</key>
                 <string>{25,-3}</string>
                 <key>rotated</key>
@@ -358,7 +358,7 @@
             <key>Squirrel1T1AttackN12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1508,2},{94,118}}</string>
+                <string>{{1604,2},{94,118}}</string>
                 <key>offset</key>
                 <string>{-8,-5}</string>
                 <key>rotated</key>
@@ -371,7 +371,7 @@
             <key>Squirrel1T1AttackN13.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1410,2},{96,118}}</string>
+                <string>{{1312,2},{96,118}}</string>
                 <key>offset</key>
                 <string>{-3,-5}</string>
                 <key>rotated</key>
@@ -384,7 +384,7 @@
             <key>Squirrel1T1AttackN14.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1312,2},{96,118}}</string>
+                <string>{{1410,2},{96,118}}</string>
                 <key>offset</key>
                 <string>{2,-5}</string>
                 <key>rotated</key>
@@ -482,7 +482,7 @@
             <key>size</key>
             <string>{2018,230}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:947445c0170e61acee7d7eb2fab66949:3b8d38e4053b0a743472e778b49aa2ec:cb186c953dd2ca49fc3fe1f6d4099264$</string>
+            <string>$TexturePacker:SmartUpdate:df477eaea7778dae0c1049b6960d368b:3b8d38e4053b0a743472e778b49aa2ec:cb186c953dd2ca49fc3fe1f6d4099264$</string>
             <key>textureFileName</key>
             <string>Squirrel1T1AttackNF@2x.pvr.ccz</string>
         </dict>
