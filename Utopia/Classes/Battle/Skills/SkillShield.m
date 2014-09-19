@@ -202,7 +202,9 @@ static const NSInteger permanentActionTag = 100;
   _glowSprite = [CCSprite spriteWithImageNamed:@"forcefieldglow.png"];
   _glowSprite.position = position;
   _glowSprite.scale = 0.0;
-  _glowSprite.blendFunc = (ccBlendFunc){GL_ONE, GL_ONE};
+  //_glowSprite.blendFunc = (ccBlendFunc){GL_ONE, GL_ONE};
+  _glowSprite.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_ONE), CCBlendFuncDstColor: @(GL_ONE)}];
+  
   [owner addChild:_glowSprite z:6];
   
   [self startPermanentAnimationsAfterDelay:0.0 withPop:YES];

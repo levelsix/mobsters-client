@@ -73,7 +73,7 @@
   
   self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
   self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
-  CGSize size = [self.attackLabel.text sizeWithFont:self.attackLabel.font];
+  CGSize size = [self.attackLabel.text getSizeWithFont:self.attackLabel.font];
   self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
   
   int maxHealth = [gl calculateMaxHealthForMonster:self.monster];

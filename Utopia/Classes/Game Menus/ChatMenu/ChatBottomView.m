@@ -24,7 +24,7 @@
   self.msgLabel.text = cm.message;
   self.dotIcon.hidden = !showDot;
   
-  CGSize s = [self.nameLabel.text sizeWithFont:self.nameLabel.font constrainedToSize:self.nameLabel.frame.size];
+  CGSize s = [self.nameLabel.text getSizeWithFont:self.nameLabel.font constrainedToSize:self.nameLabel.frame.size];
   CGRect r = self.msgLabel.frame;
   r.origin.x = self.nameLabel.frame.origin.x+s.width+1;
   r.size.width = self.frame.size.width-r.origin.x;

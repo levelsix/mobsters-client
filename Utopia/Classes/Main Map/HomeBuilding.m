@@ -387,8 +387,8 @@
 
 - (void) displayUpgradeComplete {
   CCSprite *spinner = [CCSprite spriteWithImageNamed:@"spinnertest.png"];
-  spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-  //spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+  //spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
   
   NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"buildingcomplete.png" : @"buildingupgraded.png";
   CCSprite *label = [CCSprite spriteWithImageNamed:str];

@@ -50,7 +50,7 @@
   self.nameLabel.text = history.attacker.name;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:history.battleEndTime/1000.] shortened:YES];
   
-  CGSize s = [self.resultLabel.text sizeWithFont:self.resultLabel.font];
+  CGSize s = [self.resultLabel.text getSizeWithFont:self.resultLabel.font];
   CGRect r = self.timeLabel.frame;
   r.origin.x = self.resultLabel.frame.origin.x+s.width+5;
   self.timeLabel.frame = r;

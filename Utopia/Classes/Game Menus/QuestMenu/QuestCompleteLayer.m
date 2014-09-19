@@ -159,8 +159,8 @@
   
   CCSprite *lines = [CCSprite spriteWithImageNamed:@"questlines.png"];
   [clip addChild:lines];
-  lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-  //lines.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+  //lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  lines.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
   lines.position = ccp(0, clip.contentSize.height/2);
   
   [lines runAction:

@@ -583,7 +583,7 @@
 
 - (void) setLabelText:(NSString *)labelText {
   self.label.text = labelText;
-  CGSize size = [self.label.text sizeWithFont:self.label.font];
+  CGSize size = [self.label.text getSizeWithFont:self.label.font];
   
   self.label.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
   
@@ -647,7 +647,7 @@
 - (void) setLabelText:(NSString *)labelText {
   [self.button setTitle:labelText forState:UIControlStateNormal];
   
-  CGSize size = [labelText sizeWithFont:self.button.titleLabel.font];
+  CGSize size = [labelText getSizeWithFont:self.button.titleLabel.font];
   
   CGRect r;
   

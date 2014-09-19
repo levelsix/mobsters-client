@@ -175,7 +175,7 @@
     [self hideAllViews];
   }
   
-  CGSize size = [self.descriptionView.text sizeWithFont:self.descriptionView.font constrainedToSize:self.descriptionView.frame.size];
+  CGSize size = [self.descriptionView.text getSizeWithFont:self.descriptionView.font constrainedToSize:self.descriptionView.frame.size];
   CGFloat newSize = MAX(_baseHeight, size.height+self.descriptionView.frame.origin.x);
   CGRect r = self.frame;
   r.size.height = ceilf(newSize);

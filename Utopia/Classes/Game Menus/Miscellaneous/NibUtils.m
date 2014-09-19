@@ -512,7 +512,7 @@
 }
 
 - (void) drawPlaceholderInRect:(CGRect)rect {
-  CGSize size = [self.placeholder sizeWithFont:self.font constrainedToSize:rect.size];
+  CGSize size = [self.placeholder getSizeWithFont:self.font constrainedToSize:rect.size];
   rect.origin.y = rect.size.height/2-size.height/2;
   rect.size = size;
   
@@ -1279,7 +1279,7 @@
 }
 
 - (void)setString:(NSString *)string isEnabled:(BOOL)isEnabled {
-  CGSize size = [string sizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
+  CGSize size = [string getSizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
   self.label.text = string;
   self.underlineView.frame = CGRectMake(0, 0, size.width, 1);
   // Have to use size.height/3 because half seems too much
@@ -1486,7 +1486,7 @@
   self.rankLabel.text = [Globals commafyNumber:rank];
   self.rankQualifierLabel.text = [Globals qualifierStringForNumber:rank];
   
-  CGSize size = [self.rankLabel.text sizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
+  CGSize size = [self.rankLabel.text getSizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
   CGRect r = self.rankQualifierLabel.frame;
   r.origin.x = self.rankLabel.frame.origin.x+size.width+5;
   self.rankQualifierLabel.frame = r;
@@ -1496,7 +1496,7 @@
   self.placeLabel.frame = r;
   
   //float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
-  //size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
+  //size = [self.placeLabel.text getSizeWithFont:self.placeLabel.font];
   //float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
   //float midX = leftSide+(rightSide-leftSide)/2;
   

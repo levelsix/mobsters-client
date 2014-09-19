@@ -48,13 +48,9 @@ static float imgHeight = 42.f;
   
   UIFont *font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:13.f];
   UIColor *color = [UIColor colorWithWhite:1.f alpha:1.f];
-  UIColor *shadow = [UIColor colorWithWhite:0.f alpha:0.75f];
-  NSValue *offset = [NSValue valueWithUIOffset:UIOffsetMake(0, 1)];
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                        font, UITextAttributeFont,
-                        color, UITextAttributeTextColor,
-                        shadow, UITextAttributeTextShadowColor,
-                        offset, UITextAttributeTextShadowOffset,
+                        font, NSFontAttributeName,
+                        color, NSForegroundColorAttributeName,
                         nil];
   [self setTitleTextAttributes:dict];
 }

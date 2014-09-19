@@ -21,8 +21,8 @@
 - (void) didLoadFromCCB {
   GameState *gs = [GameState sharedGameState];
   self.levelLabel.string = [Globals commafyNumber:gs.level];
-  self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-  //self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+  //self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
 }
 
 - (void) completedAnimationSequenceNamed:(NSString *)name {

@@ -1954,8 +1954,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor {
-  CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
-  //CGSize size = [label.text boundingRectWithSize:<#(CGSize)#> options:<#(NSStringDrawingOptions)#> attributes:<#(NSDictionary *)#> context:<#(NSStringDrawingContext *)#>]
+  CGSize size = [label.text getSizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
   float oldX = view.frame.origin.x+xAnchor*view.frame.size.width;
   
   CGRect r = view.frame;

@@ -74,7 +74,7 @@
   self.descriptionLabel.attributedText = attributedString;
   
   CGRect r = self.descriptionLabel.frame;
-  CGSize s = [labelText sizeWithFont:self.descriptionLabel.font constrainedToSize:CGSizeMake(r.size.width, 999)];
+  CGSize s = [labelText getSizeWithFont:self.descriptionLabel.font constrainedToSize:CGSizeMake(r.size.width, 999)];
   r.size.height = s.height+4;
   self.descriptionLabel.frame = r;
 }

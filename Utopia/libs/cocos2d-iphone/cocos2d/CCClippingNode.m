@@ -71,7 +71,9 @@ SetProgram(CCNode *n, CCShader *p, NSNumber *alpha) {
 {
     if (self = [super init]) {
         self.stencil = stencil;
-        self.alphaThreshold = 1;
+      // LVL6 Addition
+      self.alphaThreshold = 0;
+        //self.alphaThreshold = 1;
         self.inverted = NO;
         // get (only once) the number of bits of the stencil buffer
         static dispatch_once_t once;

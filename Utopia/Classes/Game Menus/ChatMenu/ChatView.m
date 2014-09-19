@@ -208,7 +208,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   [self checkIfDimensionsLoaded];
   NSString *msg = [self.chats[indexPath.row] message];
-  CGSize size = [msg sizeWithFont:msgLabelFont constrainedToSize:CGSizeMake(msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  CGSize size = [msg getSizeWithFont:msgLabelFont constrainedToSize:CGSizeMake(msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
   float height = size.height+msgLabelInitialFrame.origin.y+14.f;
   return height;
 }

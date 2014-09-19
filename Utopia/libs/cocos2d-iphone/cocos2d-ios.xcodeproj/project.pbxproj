@@ -265,8 +265,8 @@
 		B7EE69E31819E75700B983FE /* CCLayoutBox.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE69DF1819E75700B983FE /* CCLayoutBox.m */; };
 		B7EE6A1E181AE34600B983FE /* CCSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = B7EE6A1C181AE34600B983FE /* CCSlider.h */; };
 		B7EE6A1F181AE34600B983FE /* CCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE6A1D181AE34600B983FE /* CCSlider.m */; };
-		CF5BD69919CB849F006C4B4C /* CCDirector+Downloader.h in Headers */ = {isa = PBXBuildFile; fileRef = CF5BD69719CB849F006C4B4C /* CCDirector+Downloader.h */; };
-		CF5BD69A19CB84A0006C4B4C /* CCDirector+Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5BD69819CB849F006C4B4C /* CCDirector+Downloader.m */; };
+		CF00865819CBA836002F6149 /* CCDirector+Downloader.h in Headers */ = {isa = PBXBuildFile; fileRef = CF00865619CBA836002F6149 /* CCDirector+Downloader.h */; };
+		CF00865919CBA836002F6149 /* CCDirector+Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865719CBA836002F6149 /* CCDirector+Downloader.m */; };
 		D272032418FC89A000B100FF /* CCEffect_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D272031718FC89A000B100FF /* CCEffect_Private.h */; };
 		D272032518FC89A000B100FF /* CCEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D272031818FC89A000B100FF /* CCEffect.h */; };
 		D272032618FC89A000B100FF /* CCEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D272031918FC89A000B100FF /* CCEffect.m */; };
@@ -366,7 +366,7 @@
 		5018F25A0DFDEAFF00C013A5 /* CCActionInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CCActionInterval.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		5018F25B0DFDEAFF00C013A5 /* CCActionInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CCActionInterval.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5018F25C0DFDEAFF00C013A5 /* CCLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTTF.h; sourceTree = "<group>"; };
-		5018F25D0DFDEAFF00C013A5 /* CCLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLabelTTF.m; sourceTree = "<group>"; };
+		5018F25D0DFDEAFF00C013A5 /* CCLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CCLabelTTF.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5018F25E0DFDEAFF00C013A5 /* CCNodeColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CCNodeColor.h; sourceTree = "<group>"; };
 		5018F25F0DFDEAFF00C013A5 /* CCNodeColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CCNodeColor.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5018F2600DFDEAFF00C013A5 /* CCScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScene.h; sourceTree = "<group>"; };
@@ -610,8 +610,8 @@
 		B7EE69DF1819E75700B983FE /* CCLayoutBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLayoutBox.m; sourceTree = "<group>"; };
 		B7EE6A1C181AE34600B983FE /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSlider.h; path = "cocos2d-ui/CCSlider.h"; sourceTree = "<group>"; };
 		B7EE6A1D181AE34600B983FE /* CCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCSlider.m; path = "cocos2d-ui/CCSlider.m"; sourceTree = "<group>"; };
-		CF5BD69719CB849F006C4B4C /* CCDirector+Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCDirector+Downloader.h"; sourceTree = "<group>"; };
-		CF5BD69819CB849F006C4B4C /* CCDirector+Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCDirector+Downloader.m"; sourceTree = "<group>"; };
+		CF00865619CBA836002F6149 /* CCDirector+Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCDirector+Downloader.h"; sourceTree = "<group>"; };
+		CF00865719CBA836002F6149 /* CCDirector+Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCDirector+Downloader.m"; sourceTree = "<group>"; };
 		D272031718FC89A000B100FF /* CCEffect_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEffect_Private.h; sourceTree = "<group>"; };
 		D272031818FC89A000B100FF /* CCEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEffect.h; sourceTree = "<group>"; };
 		D272031918FC89A000B100FF /* CCEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEffect.m; sourceTree = "<group>"; };
@@ -706,7 +706,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CF5BD69619CB849F006C4B4C /* LVL6 Additions */,
+				CF00865519CBA836002F6149 /* LVL6 Additions */,
 				A07EC9B2141A8D32008C1F12 /* README.md */,
 				501A7CAC0EBC97BA005BC158 /* AUTHORS */,
 				508A4A2310B47A46004B9CC3 /* RELEASE_NOTES */,
@@ -1226,14 +1226,13 @@
 			name = Layouts;
 			sourceTree = "<group>";
 		};
-		CF5BD69619CB849F006C4B4C /* LVL6 Additions */ = {
+		CF00865519CBA836002F6149 /* LVL6 Additions */ = {
 			isa = PBXGroup;
 			children = (
-				CF5BD69719CB849F006C4B4C /* CCDirector+Downloader.h */,
-				CF5BD69819CB849F006C4B4C /* CCDirector+Downloader.m */,
+				CF00865619CBA836002F6149 /* CCDirector+Downloader.h */,
+				CF00865719CBA836002F6149 /* CCDirector+Downloader.m */,
 			);
-			name = "LVL6 Additions";
-			path = "../../../cocos2d-iphone-3.2/LVL6 Additions";
+			path = "LVL6 Additions";
 			sourceTree = "<group>";
 		};
 		D272031618FC897D00B100FF /* Effects */ = {
@@ -1413,7 +1412,7 @@
 				B7E776211857A159004221AA /* CCColor.h in Headers */,
 				50E2A25210A46CC600D894CE /* CCProtocols.h in Headers */,
 				502C8BE010A661E200D137BA /* CCSpriteFrameCache.h in Headers */,
-				CF5BD69919CB849F006C4B4C /* CCDirector+Downloader.h in Headers */,
+				CF00865819CBA836002F6149 /* CCDirector+Downloader.h in Headers */,
 				B79F905A17FE2A2E00908504 /* CCTableView.h in Headers */,
 				50E1357510ADEB1B00C9E7FA /* CCTexture.h in Headers */,
 				50D2AC9510E90DFA0068ECEB /* CCTiledMapLayer.h in Headers */,
@@ -1531,7 +1530,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "cocos2d-ios" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1624,7 +1623,7 @@
 				D37D197A18B6665700B23FDE /* CCTMXXMLParser.m in Sources */,
 				509A79980F6188420032F449 /* CCSprite.m in Sources */,
 				D37D197718B6665700B23FDE /* CCTiledMap.m in Sources */,
-				CF5BD69A19CB84A0006C4B4C /* CCDirector+Downloader.m in Sources */,
+				CF00865919CBA836002F6149 /* CCDirector+Downloader.m in Sources */,
 				50C508C70F7C194400799124 /* CCFileUtils.m in Sources */,
 				B7705FD31831A07B0043CC67 /* OALAudioActions.m in Sources */,
 				D272032C18FC89A000B100FF /* CCEffectNode.m in Sources */,
@@ -1833,9 +1832,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = ".git *.nib *.lproj *.framework *.gch *.xcode* (*) CVS .svn";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1884,9 +1885,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = ".git *.nib *.lproj *.framework *.gch *.xcode* (*) CVS .svn";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (

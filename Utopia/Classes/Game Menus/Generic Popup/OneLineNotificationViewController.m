@@ -22,7 +22,7 @@
   self.middleBgdIcon.image = [Globals imageNamed:[@"notmiddle" stringByAppendingString:[prefix stringByAppendingString:@".png"]]];
   self.rightBgdIcon.image = self.leftBgdIcon.image;
   
-  CGSize size = [self.label.text sizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
+  CGSize size = [self.label.text getSizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
   CGRect r = self.frame;
   r.size.width = (int)(size.width+self.label.frame.origin.x*2);
   self.frame = r;

@@ -60,7 +60,7 @@
     [self.subtitleLabel addSubview:plus];
     
     CGRect r = plus.frame;
-    r.origin.x = [@"Tap " sizeWithFont:self.subtitleLabel.font].width-1;
+    r.origin.x = [@"Tap " getSizeWithFont:self.subtitleLabel.font].width-1;
     r.origin.y = self.subtitleLabel.frame.size.height/2-plus.frame.size.height/2;
     r.size.width *= 0.6;
     plus.frame = r;
@@ -76,7 +76,7 @@
       
       UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:um.statusImageName]];
       [self.titleLabel addSubview:img];
-      CGSize s = [self.titleLabel.text sizeWithFont:self.titleLabel.font constrainedToSize:self.titleLabel.frame.size];
+      CGSize s = [self.titleLabel.text getSizeWithFont:self.titleLabel.font constrainedToSize:self.titleLabel.frame.size];
       img.center = ccp(s.width+img.frame.size.width/2+3, self.titleLabel.frame.size.height/2);
       
       [UIView animateWithDuration:0.75 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{

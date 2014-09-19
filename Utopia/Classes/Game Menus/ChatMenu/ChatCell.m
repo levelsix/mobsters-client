@@ -40,7 +40,7 @@ static float buttonInitialWidth = 159.f;
 //  }
   
   self.nameLabel.text = buttonText;
-  CGSize buttonSize = [buttonText sizeWithFont:self.nameLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameLabel.lineBreakMode];
+  CGSize buttonSize = [buttonText getSizeWithFont:self.nameLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameLabel.lineBreakMode];
   
   [self.monsterView updateForMonsterId:msg.sender.minUserProto.avatarMonsterId];
   
@@ -48,7 +48,7 @@ static float buttonInitialWidth = 159.f;
   r.size.width = buttonSize.width+7.f;
   self.nameLabel.frame = r;
   
-  CGSize size = [msg.message sizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
+  CGSize size = [msg.message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
   CGRect frame = self.msgLabel.frame;
   frame.size.height = size.height+1.f;
   self.msgLabel.frame = frame;
