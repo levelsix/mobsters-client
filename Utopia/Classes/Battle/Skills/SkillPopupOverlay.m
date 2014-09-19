@@ -38,6 +38,7 @@
     case SkillTypeCakeDrop: skillImage.image = [Globals imageNamed:@"cakedroplogo.png"]; break;
     case SkillTypeBombs: skillImage.image = [Globals imageNamed:@"bombsawaylogo.png"]; break;
     case SkillTypeShield: skillImage.image = [Globals imageNamed:@"forcefieldlogo.png"]; break;
+    case SkillTypePoison: skillImage.image = [Globals imageNamed:@"poisonlogo.png"]; break;
     default: CustomAssert(NO, @"Trying to create a skill popup and the skill logo definition is missing."); completion(NO); return;
   }
   skillImage.alpha = 0.0;

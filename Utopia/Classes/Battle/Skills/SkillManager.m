@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeShield; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypePoison; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -374,7 +374,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     if (_skillIndicatorPlayer)
       if (_playerSkillController.activationType != SkillActivationTypePassive)
         if (_playerSkillController.orbColor == color)
-          if ([_enemySkillController shouldSpawnRibbon])
+          if ([_playerSkillController shouldSpawnRibbon])
             return YES;
   return NO;
 }

@@ -33,7 +33,7 @@ typedef enum {
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison"};
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface

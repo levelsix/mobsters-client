@@ -5,14 +5,15 @@
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
+#import "NewBattleLayer.h"
+#import "GameViewController.h"
+#import "GameState.h"
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
 #import "SkillShield.h"
-#import "NewBattleLayer.h"
-#import "GameViewController.h"
-#import "GameState.h"
+#import "SkillPoison.h"
 
 @implementation SkillController
 
@@ -25,6 +26,7 @@
     case SkillTypeCakeDrop: return [[SkillCakeDrop alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeBombs: return [[SkillBombs alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeShield: return [[SkillShield alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypePoison: return [[SkillPoison alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

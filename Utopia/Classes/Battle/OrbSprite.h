@@ -29,5 +29,6 @@ static const float orbUpdateAnimDuration = 0.3f;
 
 // Specials
 - (void) updateBombCounter:(BOOL)animated;
+- (void) updatePoisonElements;
 
 @end
