@@ -76,6 +76,16 @@
   return NO;
 }
 
+- (void) forceClearCache {
+  NSString *key = @"ClearCache1";
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  if (![def boolForKey:key]) {
+    LNLog(@"Force purging cache!");
+    [[Downloader sharedDownloader] purgeAllDownloadedData];
+    [def setBool:YES forKey:key];
+  }
+}
+
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
   [Kamcord setFacebookAppID:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"FacebookAppID"] sharedAuth:YES];
@@ -96,6 +106,7 @@
 	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
   [self setUpChartboost];
+  [self forceClearCache];
   
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
