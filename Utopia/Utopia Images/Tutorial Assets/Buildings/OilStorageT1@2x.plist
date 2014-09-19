@@ -7,7 +7,7 @@
             <key>OilStorageT100.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,455},{118,149}}</string>
+                <string>{{2,2},{118,149}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,7 +20,7 @@
             <key>OilStorageT101.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,304},{118,149}}</string>
+                <string>{{2,153},{118,149}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +33,7 @@
             <key>OilStorageT102.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,153},{118,149}}</string>
+                <string>{{2,304},{118,149}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>OilStorageT103.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{118,149}}</string>
+                <string>{{2,455},{118,149}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -66,7 +66,7 @@
             <key>size</key>
             <string>{122,606}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d285f6f3c77cb486bdaae08a2ba7768f:dfd4422cf21fbcd7441510a1088ad794:b61a00fdecc773f5a917895ac641a21f$</string>
+            <string>$TexturePacker:SmartUpdate:19c1860267424c67486204d28345367a:dfd4422cf21fbcd7441510a1088ad794:b61a00fdecc773f5a917895ac641a21f$</string>
             <key>textureFileName</key>
             <string>OilStorageT1@2x.pvr.ccz</string>
         </dict>

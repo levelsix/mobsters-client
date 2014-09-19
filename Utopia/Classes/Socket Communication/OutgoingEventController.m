@@ -677,7 +677,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       gs.numBeginnerSalesPurchased++;
     }
     
-    [Analytics iapPurchased:product.productIdentifier gemChange:gold gemBalance:gs.gems];
+    [Analytics iapPurchased:product.productIdentifier ?: @"" gemChange:gold gemBalance:gs.gems];
   }
   
   NSString *key = IAP_DEFAULTS_KEY;

@@ -21,7 +21,8 @@
 - (CGSize) getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)mode {
   NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   paragraphStyle.lineBreakMode = mode;
-  CGRect r = [self boundingRectWithSize:size options:0 attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:NULL];
+  CGRect r = [self boundingRectWithSize:size options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                             attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:NULL];
   return r.size;
 }
 
