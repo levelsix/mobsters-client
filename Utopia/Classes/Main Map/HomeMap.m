@@ -144,7 +144,7 @@
   CCSprite *boat = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [boat runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   [self addChild:boat z:1];
-  boat.position = ccp(780, 35);
+  boat.position = ccp(900, 55);
 }
 
 - (void) createNewWave {

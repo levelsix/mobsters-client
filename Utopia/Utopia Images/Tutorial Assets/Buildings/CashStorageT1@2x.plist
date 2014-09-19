@@ -7,7 +7,7 @@
             <key>CashStorageT100.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{464,2},{152,172}}</string>
+                <string>{{2,2},{152,172}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,7 +20,7 @@
             <key>CashStorageT101.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{310,2},{152,172}}</string>
+                <string>{{156,2},{152,172}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +33,7 @@
             <key>CashStorageT102.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{156,2},{152,172}}</string>
+                <string>{{310,2},{152,172}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>CashStorageT103.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{152,172}}</string>
+                <string>{{464,2},{152,172}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -66,7 +66,7 @@
             <key>size</key>
             <string>{618,176}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:8c2ac12a8394f0c7c1886cfad20b807a:1cb88319ab83aaeabd56bbeb88864f71:d1f7fc3e77dfcd42c8f7f99e1da2ec01$</string>
+            <string>$TexturePacker:SmartUpdate:ac2e56623bb32a2dcb5d3edc2392a594:1cb88319ab83aaeabd56bbeb88864f71:d1f7fc3e77dfcd42c8f7f99e1da2ec01$</string>
             <key>textureFileName</key>
             <string>CashStorageT1@2x.pvr.ccz</string>
         </dict>

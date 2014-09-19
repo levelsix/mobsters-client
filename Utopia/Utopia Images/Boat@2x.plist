@@ -4,10 +4,10 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Boat01.png</key>
+            <key>Boat00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{820,2},{132,190}}</string>
+                <string>{{686,2},{132,190}}</string>
                 <key>offset</key>
                 <string>{-5,2}</string>
                 <key>rotated</key>
@@ -17,10 +17,10 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat02.png</key>
+            <key>Boat01.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{550,2},{134,190}}</string>
+                <string>{{278,2},{134,190}}</string>
                 <key>offset</key>
                 <string>{-4,2}</string>
                 <key>rotated</key>
@@ -30,7 +30,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat03.png</key>
+            <key>Boat02.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{414,2},{134,190}}</string>
@@ -43,7 +43,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat04.png</key>
+            <key>Boat03.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,2},{136,192}}</string>
@@ -56,7 +56,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat05.png</key>
+            <key>Boat04.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{140,2},{136,190}}</string>
@@ -69,10 +69,10 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat06.png</key>
+            <key>Boat05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{278,2},{134,190}}</string>
+                <string>{{550,2},{134,190}}</string>
                 <key>offset</key>
                 <string>{-2,2}</string>
                 <key>rotated</key>
@@ -82,7 +82,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat07.png</key>
+            <key>Boat06.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{954,2},{134,188}}</string>
@@ -95,7 +95,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat08.png</key>
+            <key>Boat07.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1224,2},{134,186}}</string>
@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat09.png</key>
+            <key>Boat08.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1624,2},{134,184}}</string>
@@ -121,7 +121,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat10.png</key>
+            <key>Boat09.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1760,2},{132,184}}</string>
@@ -134,10 +134,10 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat11.png</key>
+            <key>Boat10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1492,2},{130,186}}</string>
+                <string>{{1360,2},{130,186}}</string>
                 <key>offset</key>
                 <string>{-3,2}</string>
                 <key>rotated</key>
@@ -147,10 +147,10 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat12.png</key>
+            <key>Boat11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1360,2},{130,186}}</string>
+                <string>{{1492,2},{130,186}}</string>
                 <key>offset</key>
                 <string>{-4,2}</string>
                 <key>rotated</key>
@@ -160,7 +160,7 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat13.png</key>
+            <key>Boat12.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1090,2},{132,188}}</string>
@@ -173,10 +173,10 @@
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
-            <key>Boat14.png</key>
+            <key>Boat13.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{686,2},{132,190}}</string>
+                <string>{{820,2},{132,190}}</string>
                 <key>offset</key>
                 <string>{-6,2}</string>
                 <key>rotated</key>
@@ -196,7 +196,7 @@
             <key>size</key>
             <string>{1894,196}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7688509d8b12a992515d89a40bd66e9b:8f2ba29e524dbb79bac06232ca9cf1eb:270408b2dc5fadaf494905119c420273$</string>
+            <string>$TexturePacker:SmartUpdate:7aea3f476dc4491e93fb51d1cef6ef67:8f2ba29e524dbb79bac06232ca9cf1eb:270408b2dc5fadaf494905119c420273$</string>
             <key>textureFileName</key>
             <string>Boat@2x.pvr.ccz</string>
         </dict>

@@ -4919,98 +4919,50 @@
 		CFF2A56F19709C4800269084 /* Zark1T1TutBig.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C419709C4800269084 /* Zark1T1TutBig.png */; };
 		CFF2A57019709C4800269084 /* Zark1T1TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C519709C4800269084 /* Zark1T1TutBig@2x.png */; };
 		CFF2A57119709C4800269084 /* Zark1T1TutBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C519709C4800269084 /* Zark1T1TutBig@2x.png */; };
-		CFF2A57219709C4800269084 /* Chicken1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C719709C4800269084 /* Chicken1T1AttackNF.plist */; };
-		CFF2A57319709C4800269084 /* Chicken1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C719709C4800269084 /* Chicken1T1AttackNF.plist */; };
-		CFF2A57419709C4800269084 /* Chicken1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C819709C4800269084 /* Chicken1T1AttackNF.pvr.ccz */; };
-		CFF2A57519709C4800269084 /* Chicken1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C819709C4800269084 /* Chicken1T1AttackNF.pvr.ccz */; };
 		CFF2A57619709C4800269084 /* Chicken1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C919709C4800269084 /* Chicken1T1AttackNF@2x.plist */; };
 		CFF2A57719709C4800269084 /* Chicken1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4C919709C4800269084 /* Chicken1T1AttackNF@2x.plist */; };
 		CFF2A57819709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CA19709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz */; };
 		CFF2A57919709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CA19709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz */; };
-		CFF2A57A19709C4800269084 /* Chicken1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CB19709C4800269084 /* Chicken1T1RunNF.plist */; };
-		CFF2A57B19709C4800269084 /* Chicken1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CB19709C4800269084 /* Chicken1T1RunNF.plist */; };
-		CFF2A57C19709C4800269084 /* Chicken1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CC19709C4800269084 /* Chicken1T1RunNF.pvr.ccz */; };
-		CFF2A57D19709C4800269084 /* Chicken1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CC19709C4800269084 /* Chicken1T1RunNF.pvr.ccz */; };
 		CFF2A57E19709C4800269084 /* Chicken1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CD19709C4800269084 /* Chicken1T1RunNF@2x.plist */; };
 		CFF2A57F19709C4800269084 /* Chicken1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CD19709C4800269084 /* Chicken1T1RunNF@2x.plist */; };
 		CFF2A58019709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CE19709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz */; };
 		CFF2A58119709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CE19709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz */; };
-		CFF2A58219709C4800269084 /* Gangster3T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CF19709C4800269084 /* Gangster3T1AttackNF.plist */; };
-		CFF2A58319709C4800269084 /* Gangster3T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4CF19709C4800269084 /* Gangster3T1AttackNF.plist */; };
-		CFF2A58419709C4800269084 /* Gangster3T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D019709C4800269084 /* Gangster3T1AttackNF.pvr.ccz */; };
-		CFF2A58519709C4800269084 /* Gangster3T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D019709C4800269084 /* Gangster3T1AttackNF.pvr.ccz */; };
 		CFF2A58619709C4800269084 /* Gangster3T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D119709C4800269084 /* Gangster3T1AttackNF@2x.plist */; };
 		CFF2A58719709C4800269084 /* Gangster3T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D119709C4800269084 /* Gangster3T1AttackNF@2x.plist */; };
 		CFF2A58819709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D219709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz */; };
 		CFF2A58919709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D219709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz */; };
-		CFF2A58A19709C4800269084 /* Gangster3T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D319709C4800269084 /* Gangster3T1RunNF.plist */; };
-		CFF2A58B19709C4800269084 /* Gangster3T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D319709C4800269084 /* Gangster3T1RunNF.plist */; };
-		CFF2A58C19709C4800269084 /* Gangster3T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D419709C4800269084 /* Gangster3T1RunNF.pvr.ccz */; };
-		CFF2A58D19709C4800269084 /* Gangster3T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D419709C4800269084 /* Gangster3T1RunNF.pvr.ccz */; };
 		CFF2A58E19709C4800269084 /* Gangster3T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D519709C4800269084 /* Gangster3T1RunNF@2x.plist */; };
 		CFF2A58F19709C4800269084 /* Gangster3T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D519709C4800269084 /* Gangster3T1RunNF@2x.plist */; };
 		CFF2A59019709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D619709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz */; };
 		CFF2A59119709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D619709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz */; };
-		CFF2A59219709C4800269084 /* Goonie1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D719709C4800269084 /* Goonie1T1AttackNF.plist */; };
-		CFF2A59319709C4800269084 /* Goonie1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D719709C4800269084 /* Goonie1T1AttackNF.plist */; };
-		CFF2A59419709C4800269084 /* Goonie1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D819709C4800269084 /* Goonie1T1AttackNF.pvr.ccz */; };
-		CFF2A59519709C4800269084 /* Goonie1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D819709C4800269084 /* Goonie1T1AttackNF.pvr.ccz */; };
 		CFF2A59619709C4800269084 /* Goonie1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D919709C4800269084 /* Goonie1T1AttackNF@2x.plist */; };
 		CFF2A59719709C4800269084 /* Goonie1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4D919709C4800269084 /* Goonie1T1AttackNF@2x.plist */; };
 		CFF2A59819709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DA19709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz */; };
 		CFF2A59919709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DA19709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz */; };
-		CFF2A59A19709C4800269084 /* Goonie1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DB19709C4800269084 /* Goonie1T1RunNF.plist */; };
-		CFF2A59B19709C4800269084 /* Goonie1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DB19709C4800269084 /* Goonie1T1RunNF.plist */; };
-		CFF2A59C19709C4800269084 /* Goonie1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DC19709C4800269084 /* Goonie1T1RunNF.pvr.ccz */; };
-		CFF2A59D19709C4800269084 /* Goonie1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DC19709C4800269084 /* Goonie1T1RunNF.pvr.ccz */; };
 		CFF2A59E19709C4800269084 /* Goonie1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DD19709C4800269084 /* Goonie1T1RunNF@2x.plist */; };
 		CFF2A59F19709C4800269084 /* Goonie1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DD19709C4800269084 /* Goonie1T1RunNF@2x.plist */; };
 		CFF2A5A019709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DE19709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz */; };
 		CFF2A5A119709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DE19709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz */; };
-		CFF2A5A219709C4800269084 /* Kim1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DF19709C4800269084 /* Kim1T1AttackNF.plist */; };
-		CFF2A5A319709C4800269084 /* Kim1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4DF19709C4800269084 /* Kim1T1AttackNF.plist */; };
-		CFF2A5A419709C4800269084 /* Kim1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E019709C4800269084 /* Kim1T1AttackNF.pvr.ccz */; };
-		CFF2A5A519709C4800269084 /* Kim1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E019709C4800269084 /* Kim1T1AttackNF.pvr.ccz */; };
 		CFF2A5A619709C4800269084 /* Kim1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E119709C4800269084 /* Kim1T1AttackNF@2x.plist */; };
 		CFF2A5A719709C4800269084 /* Kim1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E119709C4800269084 /* Kim1T1AttackNF@2x.plist */; };
 		CFF2A5A819709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E219709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz */; };
 		CFF2A5A919709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E219709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz */; };
-		CFF2A5AA19709C4800269084 /* Kim1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E319709C4800269084 /* Kim1T1RunNF.plist */; };
-		CFF2A5AB19709C4800269084 /* Kim1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E319709C4800269084 /* Kim1T1RunNF.plist */; };
-		CFF2A5AC19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E419709C4800269084 /* Kim1T1RunNF.pvr.ccz */; };
-		CFF2A5AD19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E419709C4800269084 /* Kim1T1RunNF.pvr.ccz */; };
 		CFF2A5AE19709C4800269084 /* Kim1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E519709C4800269084 /* Kim1T1RunNF@2x.plist */; };
 		CFF2A5AF19709C4800269084 /* Kim1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E519709C4800269084 /* Kim1T1RunNF@2x.plist */; };
 		CFF2A5B019709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E619709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz */; };
 		CFF2A5B119709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E619709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz */; };
-		CFF2A5B219709C4800269084 /* Squirrel1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E719709C4800269084 /* Squirrel1T1AttackNF.plist */; };
-		CFF2A5B319709C4800269084 /* Squirrel1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E719709C4800269084 /* Squirrel1T1AttackNF.plist */; };
-		CFF2A5B419709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E819709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz */; };
-		CFF2A5B519709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E819709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz */; };
 		CFF2A5B619709C4800269084 /* Squirrel1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E919709C4800269084 /* Squirrel1T1AttackNF@2x.plist */; };
 		CFF2A5B719709C4800269084 /* Squirrel1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4E919709C4800269084 /* Squirrel1T1AttackNF@2x.plist */; };
 		CFF2A5B819709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EA19709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz */; };
 		CFF2A5B919709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EA19709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz */; };
-		CFF2A5BA19709C4800269084 /* Squirrel1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EB19709C4800269084 /* Squirrel1T1RunNF.plist */; };
-		CFF2A5BB19709C4800269084 /* Squirrel1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EB19709C4800269084 /* Squirrel1T1RunNF.plist */; };
-		CFF2A5BC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz */; };
-		CFF2A5BD19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz */; };
 		CFF2A5BE19709C4800269084 /* Squirrel1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4ED19709C4800269084 /* Squirrel1T1RunNF@2x.plist */; };
 		CFF2A5BF19709C4800269084 /* Squirrel1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4ED19709C4800269084 /* Squirrel1T1RunNF@2x.plist */; };
 		CFF2A5C019709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EE19709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz */; };
 		CFF2A5C119709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EE19709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz */; };
-		CFF2A5C219709C4800269084 /* Zark1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EF19709C4800269084 /* Zark1T1AttackNF.plist */; };
-		CFF2A5C319709C4800269084 /* Zark1T1AttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4EF19709C4800269084 /* Zark1T1AttackNF.plist */; };
-		CFF2A5C419709C4800269084 /* Zark1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F019709C4800269084 /* Zark1T1AttackNF.pvr.ccz */; };
-		CFF2A5C519709C4800269084 /* Zark1T1AttackNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F019709C4800269084 /* Zark1T1AttackNF.pvr.ccz */; };
 		CFF2A5C619709C4800269084 /* Zark1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F119709C4800269084 /* Zark1T1AttackNF@2x.plist */; };
 		CFF2A5C719709C4800269084 /* Zark1T1AttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F119709C4800269084 /* Zark1T1AttackNF@2x.plist */; };
 		CFF2A5C819709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F219709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz */; };
 		CFF2A5C919709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F219709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz */; };
-		CFF2A5CA19709C4800269084 /* Zark1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F319709C4800269084 /* Zark1T1RunNF.plist */; };
-		CFF2A5CB19709C4800269084 /* Zark1T1RunNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F319709C4800269084 /* Zark1T1RunNF.plist */; };
-		CFF2A5CC19709C4800269084 /* Zark1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F419709C4800269084 /* Zark1T1RunNF.pvr.ccz */; };
-		CFF2A5CD19709C4800269084 /* Zark1T1RunNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F419709C4800269084 /* Zark1T1RunNF.pvr.ccz */; };
 		CFF2A5CE19709C4800269084 /* Zark1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F519709C4800269084 /* Zark1T1RunNF@2x.plist */; };
 		CFF2A5CF19709C4800269084 /* Zark1T1RunNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F519709C4800269084 /* Zark1T1RunNF@2x.plist */; };
 		CFF2A5D019709C4800269084 /* Zark1T1RunNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A4F619709C4800269084 /* Zark1T1RunNF@2x.pvr.ccz */; };
@@ -8683,52 +8635,28 @@
 		CFF2A4C319709C4800269084 /* Zark1T1Card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zark1T1Card@2x.png"; sourceTree = "<group>"; };
 		CFF2A4C419709C4800269084 /* Zark1T1TutBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zark1T1TutBig.png; sourceTree = "<group>"; };
 		CFF2A4C519709C4800269084 /* Zark1T1TutBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Zark1T1TutBig@2x.png"; sourceTree = "<group>"; };
-		CFF2A4C719709C4800269084 /* Chicken1T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Chicken1T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4C819709C4800269084 /* Chicken1T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Chicken1T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4C919709C4800269084 /* Chicken1T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Chicken1T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4CA19709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Chicken1T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4CB19709C4800269084 /* Chicken1T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Chicken1T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4CC19709C4800269084 /* Chicken1T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Chicken1T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4CD19709C4800269084 /* Chicken1T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Chicken1T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4CE19709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Chicken1T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4CF19709C4800269084 /* Gangster3T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Gangster3T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4D019709C4800269084 /* Gangster3T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gangster3T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4D119709C4800269084 /* Gangster3T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Gangster3T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4D219709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gangster3T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4D319709C4800269084 /* Gangster3T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Gangster3T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4D419709C4800269084 /* Gangster3T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gangster3T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4D519709C4800269084 /* Gangster3T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Gangster3T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4D619709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gangster3T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4D719709C4800269084 /* Goonie1T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Goonie1T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4D819709C4800269084 /* Goonie1T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Goonie1T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4D919709C4800269084 /* Goonie1T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Goonie1T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4DA19709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Goonie1T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4DB19709C4800269084 /* Goonie1T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Goonie1T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4DC19709C4800269084 /* Goonie1T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Goonie1T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4DD19709C4800269084 /* Goonie1T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Goonie1T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4DE19709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Goonie1T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4DF19709C4800269084 /* Kim1T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Kim1T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4E019709C4800269084 /* Kim1T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Kim1T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4E119709C4800269084 /* Kim1T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Kim1T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4E219709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kim1T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4E319709C4800269084 /* Kim1T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Kim1T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4E419709C4800269084 /* Kim1T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Kim1T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4E519709C4800269084 /* Kim1T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Kim1T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4E619709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kim1T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4E719709C4800269084 /* Squirrel1T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Squirrel1T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4E819709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Squirrel1T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4E919709C4800269084 /* Squirrel1T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Squirrel1T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4EA19709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Squirrel1T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4EB19709C4800269084 /* Squirrel1T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Squirrel1T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4EC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Squirrel1T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4ED19709C4800269084 /* Squirrel1T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Squirrel1T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4EE19709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Squirrel1T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4EF19709C4800269084 /* Zark1T1AttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Zark1T1AttackNF.plist; sourceTree = "<group>"; };
-		CFF2A4F019709C4800269084 /* Zark1T1AttackNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zark1T1AttackNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4F119709C4800269084 /* Zark1T1AttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Zark1T1AttackNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4F219709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Zark1T1AttackNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFF2A4F319709C4800269084 /* Zark1T1RunNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Zark1T1RunNF.plist; sourceTree = "<group>"; };
-		CFF2A4F419709C4800269084 /* Zark1T1RunNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zark1T1RunNF.pvr.ccz; sourceTree = "<group>"; };
 		CFF2A4F519709C4800269084 /* Zark1T1RunNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Zark1T1RunNF@2x.plist"; sourceTree = "<group>"; };
 		CFF2A4F619709C4800269084 /* Zark1T1RunNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Zark1T1RunNF@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFF2A4F819709C4800269084 /* mapsection1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapsection1.png; sourceTree = "<group>"; };
@@ -14120,52 +14048,28 @@
 		CFF2A4C619709C4800269084 /* Sprite Sheets */ = {
 			isa = PBXGroup;
 			children = (
-				CFF2A4C719709C4800269084 /* Chicken1T1AttackNF.plist */,
-				CFF2A4C819709C4800269084 /* Chicken1T1AttackNF.pvr.ccz */,
 				CFF2A4C919709C4800269084 /* Chicken1T1AttackNF@2x.plist */,
 				CFF2A4CA19709C4800269084 /* Chicken1T1AttackNF@2x.pvr.ccz */,
-				CFF2A4CB19709C4800269084 /* Chicken1T1RunNF.plist */,
-				CFF2A4CC19709C4800269084 /* Chicken1T1RunNF.pvr.ccz */,
 				CFF2A4CD19709C4800269084 /* Chicken1T1RunNF@2x.plist */,
 				CFF2A4CE19709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz */,
-				CFF2A4CF19709C4800269084 /* Gangster3T1AttackNF.plist */,
-				CFF2A4D019709C4800269084 /* Gangster3T1AttackNF.pvr.ccz */,
 				CFF2A4D119709C4800269084 /* Gangster3T1AttackNF@2x.plist */,
 				CFF2A4D219709C4800269084 /* Gangster3T1AttackNF@2x.pvr.ccz */,
-				CFF2A4D319709C4800269084 /* Gangster3T1RunNF.plist */,
-				CFF2A4D419709C4800269084 /* Gangster3T1RunNF.pvr.ccz */,
 				CFF2A4D519709C4800269084 /* Gangster3T1RunNF@2x.plist */,
 				CFF2A4D619709C4800269084 /* Gangster3T1RunNF@2x.pvr.ccz */,
-				CFF2A4D719709C4800269084 /* Goonie1T1AttackNF.plist */,
-				CFF2A4D819709C4800269084 /* Goonie1T1AttackNF.pvr.ccz */,
 				CFF2A4D919709C4800269084 /* Goonie1T1AttackNF@2x.plist */,
 				CFF2A4DA19709C4800269084 /* Goonie1T1AttackNF@2x.pvr.ccz */,
-				CFF2A4DB19709C4800269084 /* Goonie1T1RunNF.plist */,
-				CFF2A4DC19709C4800269084 /* Goonie1T1RunNF.pvr.ccz */,
 				CFF2A4DD19709C4800269084 /* Goonie1T1RunNF@2x.plist */,
 				CFF2A4DE19709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz */,
-				CFF2A4DF19709C4800269084 /* Kim1T1AttackNF.plist */,
-				CFF2A4E019709C4800269084 /* Kim1T1AttackNF.pvr.ccz */,
 				CFF2A4E119709C4800269084 /* Kim1T1AttackNF@2x.plist */,
 				CFF2A4E219709C4800269084 /* Kim1T1AttackNF@2x.pvr.ccz */,
-				CFF2A4E319709C4800269084 /* Kim1T1RunNF.plist */,
-				CFF2A4E419709C4800269084 /* Kim1T1RunNF.pvr.ccz */,
 				CFF2A4E519709C4800269084 /* Kim1T1RunNF@2x.plist */,
 				CFF2A4E619709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz */,
-				CFF2A4E719709C4800269084 /* Squirrel1T1AttackNF.plist */,
-				CFF2A4E819709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz */,
 				CFF2A4E919709C4800269084 /* Squirrel1T1AttackNF@2x.plist */,
 				CFF2A4EA19709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz */,
-				CFF2A4EB19709C4800269084 /* Squirrel1T1RunNF.plist */,
-				CFF2A4EC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz */,
 				CFF2A4ED19709C4800269084 /* Squirrel1T1RunNF@2x.plist */,
 				CFF2A4EE19709C4800269084 /* Squirrel1T1RunNF@2x.pvr.ccz */,
-				CFF2A4EF19709C4800269084 /* Zark1T1AttackNF.plist */,
-				CFF2A4F019709C4800269084 /* Zark1T1AttackNF.pvr.ccz */,
 				CFF2A4F119709C4800269084 /* Zark1T1AttackNF@2x.plist */,
 				CFF2A4F219709C4800269084 /* Zark1T1AttackNF@2x.pvr.ccz */,
-				CFF2A4F319709C4800269084 /* Zark1T1RunNF.plist */,
-				CFF2A4F419709C4800269084 /* Zark1T1RunNF.pvr.ccz */,
 				CFF2A4F519709C4800269084 /* Zark1T1RunNF@2x.plist */,
 				CFF2A4F619709C4800269084 /* Zark1T1RunNF@2x.pvr.ccz */,
 			);
@@ -15853,7 +15757,6 @@
 				CF0CEE69196F452900ECD301 /* orangemenuoption@2x.png in Resources */,
 				CF0CEE6A196F452900ECD301 /* cashmiddle.png in Resources */,
 				CFDA78EF198C303C0014A8CD /* openearth@2x.png in Resources */,
-				CFF2A5C519709C4800269084 /* Zark1T1AttackNF.pvr.ccz in Resources */,
 				CF023C9B1992E2BB0082FE61 /* movesqueuebg@2x.png in Resources */,
 				CF0CEE6B196F452900ECD301 /* newsbg.png in Resources */,
 				CF0CEE6C196F452900ECD301 /* Scientist3Breath12@2x.png in Resources */,
@@ -16033,7 +15936,6 @@
 				CF0CEF14196F452900ECD301 /* battleepictag.png in Resources */,
 				CF0CEF15196F452900ECD301 /* ultratag@2x.png in Resources */,
 				CF0CEF16196F452900ECD301 /* FatBoy3Move05@2x.png in Resources */,
-				CFF2A5C319709C4800269084 /* Zark1T1AttackNF.plist in Resources */,
 				CF65ECD019A2B1CC00ABBC77 /* newchatline.png in Resources */,
 				CF0CEF17196F452900ECD301 /* rareband.png in Resources */,
 				CF0CEF18196F452900ECD301 /* watermediumsquare.png in Resources */,
@@ -16069,7 +15971,6 @@
 				CF0CEF31196F452900ECD301 /* commontag@2x.png in Resources */,
 				CF0CEF32196F452900ECD301 /* selectclanbox@2x.png in Resources */,
 				CF0CEF33196F452900ECD301 /* Akko-Bold.ttf in Resources */,
-				CFF2A58B19709C4800269084 /* Gangster3T1RunNF.plist in Resources */,
 				CF0CEF34196F452900ECD301 /* Scientist3Breath07@2x.png in Resources */,
 				CF0CEF35196F452900ECD301 /* Scientist1Breath06@2x.png in Resources */,
 				CFF2A55719709C4800269084 /* Goonie4T1TutBig.png in Resources */,
@@ -16424,7 +16325,6 @@
 				CF0CF083196F452900ECD301 /* itemcrate.png in Resources */,
 				CF0CF084196F452900ECD301 /* minitimebar.png in Resources */,
 				CF0CF085196F452900ECD301 /* waterorb.png in Resources */,
-				CFF2A57D19709C4800269084 /* Chicken1T1RunNF.pvr.ccz in Resources */,
 				CF0CF086196F452900ECD301 /* nightsideways.png in Resources */,
 				CF0CF087196F452900ECD301 /* mycity@2x.png in Resources */,
 				CF0CF088196F452900ECD301 /* runawaysuccess.png in Resources */,
@@ -16613,7 +16513,6 @@
 				CF0CF134196F452900ECD301 /* bosslock.png in Resources */,
 				DA173A4B19CA428F005236C0 /* forcefieldlogo.png in Resources */,
 				CF0CF135196F452900ECD301 /* createclanbox4.png in Resources */,
-				CFF2A5A319709C4800269084 /* Kim1T1AttackNF.plist in Resources */,
 				CFF2A51F19709C4800269084 /* MPMT1@2x.plist in Resources */,
 				CF0CF136196F452900ECD301 /* navmap.png in Resources */,
 				CF0CF137196F452900ECD301 /* lightpointsfont.fnt in Resources */,
@@ -16720,7 +16619,6 @@
 				CF0CF199196F452900ECD301 /* FatBoy5Move11@2x.png in Resources */,
 				CF0CF19A196F452900ECD301 /* clanmemberprofile@2x.png in Resources */,
 				CF0CF19B196F452900ECD301 /* 1timeoffer@2x.png in Resources */,
-				CFF2A5A519709C4800269084 /* Kim1T1AttackNF.pvr.ccz in Resources */,
 				CF0CF19C196F452900ECD301 /* Scientist4Turn05@2x.png in Resources */,
 				CF0CF19D196F452900ECD301 /* fireorb@2x.png in Resources */,
 				CF0CF19E196F452900ECD301 /* waterteam@2x.png in Resources */,
@@ -16743,7 +16641,6 @@
 				CF0CF1AF196F452900ECD301 /* friendletterbar.png in Resources */,
 				CF0CF1B0196F452900ECD301 /* hospitalmenuheader@2x.png in Resources */,
 				CF0CF1B1196F452900ECD301 /* chatslidebutton.png in Resources */,
-				CFF2A5B519709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz in Resources */,
 				CF0CF1B2196F452900ECD301 /* splashguys.png in Resources */,
 				CF0CF1B3196F452900ECD301 /* multiplayerworldbg.png in Resources */,
 				CF0CF1B4196F452900ECD301 /* Scientist2Blink03@2x.png in Resources */,
@@ -16942,7 +16839,6 @@
 				CF0CF26C196F452900ECD301 /* watersmallsquare.png in Resources */,
 				CF0CF26D196F452900ECD301 /* TopBarMonsterView.xib in Resources */,
 				CF86507019807FDB00D82D7C /* 2scene2right@2x.png in Resources */,
-				CFF2A5AB19709C4800269084 /* Kim1T1RunNF.plist in Resources */,
 				CF0CF26E196F452900ECD301 /* levelxpbglong@2x.png in Resources */,
 				CF0CF26F196F452900ECD301 /* bubblemiddle.png in Resources */,
 				CF0CF270196F452900ECD301 /* minijobsredbubble2@2x.png in Resources */,
@@ -16982,7 +16878,6 @@
 				CF0CF290196F452900ECD301 /* cashfound@2x.png in Resources */,
 				CF0CF291196F452900ECD301 /* nightsquare@2x.png in Resources */,
 				CF0CF292196F452900ECD301 /* Scientist1Turn12@2x.png in Resources */,
-				CFF2A59D19709C4800269084 /* Goonie1T1RunNF.pvr.ccz in Resources */,
 				CF0CF293196F452900ECD301 /* newquestarrow@2x.png in Resources */,
 				CFF2A6231970C81200269084 /* battledonegreen@2x.png in Resources */,
 				CF0CF294196F452900ECD301 /* letterheader.png in Resources */,
@@ -17062,7 +16957,6 @@
 				CF0CF2D6196F452900ECD301 /* minijobsredbubble1.png in Resources */,
 				CF0CF2D7196F452900ECD301 /* ClanMemberCell.xib in Resources */,
 				CFF2A5B919709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz in Resources */,
-				CFF2A5CB19709C4800269084 /* Zark1T1RunNF.plist in Resources */,
 				CF0CF2D9196F452900ECD301 /* thebasicgrab.png in Resources */,
 				CFDEA534199C34D800445F3C /* avataractive.png in Resources */,
 				CFFCF57919B1608B007E316D /* tangoorangebutton.png in Resources */,
@@ -17182,7 +17076,6 @@
 				DA88EB1319B7CF3E005EE827 /* lightenemyskill.png in Resources */,
 				DAF7994C19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */,
 				CFF2A55319709C4800269084 /* Goonie4T1P2TutBig.png in Resources */,
-				CFF2A5AD19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */,
 				CF65ECC819A2B1CC00ABBC77 /* chatmiddle.png in Resources */,
 				DA86924019C7C64500320A74 /* skillbottom.png in Resources */,
 				CF0CF345196F452900ECD301 /* confirm@2x.png in Resources */,
@@ -17194,7 +17087,6 @@
 				CF0CF349196F452900ECD301 /* hiremobsquadactive.png in Resources */,
 				CF65ECCA19A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
 				CF0CF34A196F452900ECD301 /* sfx_chat_slide_out.mp3 in Resources */,
-				CFF2A5BB19709C4800269084 /* Squirrel1T1RunNF.plist in Resources */,
 				CF0CF34B196F452900ECD301 /* buildingbonusslots@2x.png in Resources */,
 				CF0CF34C196F452900ECD301 /* healredbubble6@2x.png in Resources */,
 				CF0CF34E196F452900ECD301 /* sendmessageicon.png in Resources */,
@@ -17267,7 +17159,6 @@
 				CF0CF38C196F452900ECD301 /* loststickerhead.png in Resources */,
 				CF0CF38D196F452900ECD301 /* Scientist2Blink05@2x.png in Resources */,
 				CF0CF38E196F452900ECD301 /* sendchat.png in Resources */,
-				CFF2A59B19709C4800269084 /* Goonie1T1RunNF.plist in Resources */,
 				CF0CF38F196F452900ECD301 /* sortbuttonsmall.png in Resources */,
 				CF0CF390196F452900ECD301 /* safecash@2x.png in Resources */,
 				DA6EBF4E19C273EE0020B628 /* cheapshotlogo@2x.png in Resources */,
@@ -17278,7 +17169,6 @@
 				CF0CF394196F452900ECD301 /* evolutionlabmenuheader.png in Resources */,
 				CF0CF395196F452900ECD301 /* sfx_defeated_character_disappear.mp3 in Resources */,
 				CFF2A53919709C4800269084 /* Gangster3T1P2@2x.png in Resources */,
-				CFF2A5BD19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz in Resources */,
 				CF0CF396196F452900ECD301 /* greysmallsquare@2x.png in Resources */,
 				CF0CF397196F452900ECD301 /* leftrightexpand.png in Resources */,
 				CF0CF398196F452900ECD301 /* TeamViewController.xib in Resources */,
@@ -17389,7 +17279,6 @@
 				CF5BD66F19C925EE006C4B4C /* congratulationsrankup.png in Resources */,
 				CF0CF3F4196F452900ECD301 /* hireslotbg.png in Resources */,
 				CF0CF3F5196F452900ECD301 /* championleaguebg@2x.png in Resources */,
-				CFF2A58519709C4800269084 /* Gangster3T1AttackNF.pvr.ccz in Resources */,
 				CF0CF3F6196F452900ECD301 /* makeitrain.pvr.ccz in Resources */,
 				CF0CF3F7196F452900ECD301 /* gachacommonball.png in Resources */,
 				CF0CF3F8196F452900ECD301 /* multiplayerheader@2x.png in Resources */,
@@ -17432,7 +17321,6 @@
 				CF0CF41D196F452900ECD301 /* rockorb@2x.png in Resources */,
 				CF0CF41E196F452900ECD301 /* damagedealtbg@2x.png in Resources */,
 				CF0CF41F196F452900ECD301 /* menusquareactive@2x.png in Resources */,
-				CFF2A5CD19709C4800269084 /* Zark1T1RunNF.pvr.ccz in Resources */,
 				CF0CF420196F452900ECD301 /* silverbig@2x.png in Resources */,
 				CF0CF421196F452900ECD301 /* moneystack@2x.png in Resources */,
 				CF0CF422196F452900ECD301 /* popupactivetab.png in Resources */,
@@ -17528,7 +17416,6 @@
 				CF0CF474196F452900ECD301 /* sharecheckmark.png in Resources */,
 				CF0CF475196F452900ECD301 /* cardshadow@2x.png in Resources */,
 				CF0CF476196F452900ECD301 /* bigsquareempty@2x.png in Resources */,
-				CFF2A58319709C4800269084 /* Gangster3T1AttackNF.plist in Resources */,
 				CF0CF477196F452900ECD301 /* EvolveHeaderView.xib in Resources */,
 				CF0CF478196F452900ECD301 /* enhancebutton@2x.png in Resources */,
 				CF0CF479196F452900ECD301 /* fullfriendmask@2x.png in Resources */,
@@ -17542,7 +17429,6 @@
 				CF0CF484196F452900ECD301 /* buildingmanage.png in Resources */,
 				CF0CF485196F452900ECD301 /* 1scene2right.png in Resources */,
 				CF0CF486196F452900ECD301 /* earthorb@2x.png in Resources */,
-				CFF2A57319709C4800269084 /* Chicken1T1AttackNF.plist in Resources */,
 				CF0CF487196F452900ECD301 /* buildingremove@2x.png in Resources */,
 				CF0CF488196F452900ECD301 /* questnameribbon@2x.png in Resources */,
 				CFF412A419BFC261002672D4 /* BattleWonView.ccbi in Resources */,
@@ -18111,7 +17997,6 @@
 				CFF2A54119709C4800269084 /* Gangster3T1P3@2x.png in Resources */,
 				CF0CF69A196F452900ECD301 /* ring1@2x.plist in Resources */,
 				CF0CF69B196F452900ECD301 /* questinactivetab@2x.png in Resources */,
-				CFF2A59519709C4800269084 /* Goonie1T1AttackNF.pvr.ccz in Resources */,
 				CF4251A719AD2C9D00964547 /* recommendedtag.png in Resources */,
 				CF0CF69D196F452900ECD301 /* lightavatar.png in Resources */,
 				CF0CF69E196F452900ECD301 /* ring2@2x.plist in Resources */,
@@ -18219,7 +18104,6 @@
 				CF0CF701196F452900ECD301 /* canttouchthis@2x.png in Resources */,
 				CF0CF702196F452900ECD301 /* 1timeoffer.png in Resources */,
 				CF4251A919AD2C9D00964547 /* recommendedtag@2x.png in Resources */,
-				CFF2A57519709C4800269084 /* Chicken1T1AttackNF.pvr.ccz in Resources */,
 				CF0CF703196F452900ECD301 /* Scientist4Breath05@2x.png in Resources */,
 				CFF2A5A119709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz in Resources */,
 				CF0CF704196F452900ECD301 /* raidactivetimeleft.png in Resources */,
@@ -18241,7 +18125,6 @@
 				CF0CF711196F452900ECD301 /* makeitrain@2x.pvr.ccz in Resources */,
 				CF0CF712196F452900ECD301 /* chatprivateactive.png in Resources */,
 				CF0CF713196F452900ECD301 /* gacharevealclosex.png in Resources */,
-				CFF2A58D19709C4800269084 /* Gangster3T1RunNF.pvr.ccz in Resources */,
 				CF0CF714196F452900ECD301 /* youlostitembg.png in Resources */,
 				CF0CF715196F452900ECD301 /* opponentsbg.png in Resources */,
 				CF0CF716196F452900ECD301 /* faqactive@2x.png in Resources */,
@@ -18280,7 +18163,6 @@
 				CF0CF737196F452900ECD301 /* rarejob.png in Resources */,
 				CF0CF738196F452900ECD301 /* bigshadow@2x.png in Resources */,
 				CF0CF739196F452900ECD301 /* minimizechatx.png in Resources */,
-				CFF2A59319709C4800269084 /* Goonie1T1AttackNF.plist in Resources */,
 				CF0CF73A196F452900ECD301 /* ultraband@2x.png in Resources */,
 				CF0CF73B196F452900ECD301 /* watersmallsquare@2x.png in Resources */,
 				CF0CF73C196F452900ECD301 /* orangenot@2x.png in Resources */,
@@ -18303,7 +18185,6 @@
 				CF0CF74B196F452900ECD301 /* sellbarbg.png in Resources */,
 				CF0CF74C196F452900ECD301 /* clannewsactive@2x.png in Resources */,
 				CF0CF74D196F452900ECD301 /* Default-568h@2x.png in Resources */,
-				CFF2A57B19709C4800269084 /* Chicken1T1RunNF.plist in Resources */,
 				CF0CF74E196F452900ECD301 /* battleultratag@2x.png in Resources */,
 				CF0CF74F196F452900ECD301 /* fbcheck@2x.png in Resources */,
 				CF0CF750196F452900ECD301 /* filledstar.png in Resources */,
@@ -18413,7 +18294,6 @@
 				CF0CF7AE196F452900ECD301 /* charging.plist in Resources */,
 				CF0CF7AF196F452900ECD301 /* upgradebarnewmiddle.png in Resources */,
 				CF0CF7B0196F452900ECD301 /* arrowlight.png in Resources */,
-				CFF2A5B319709C4800269084 /* Squirrel1T1AttackNF.plist in Resources */,
 				CF0CF7B1196F452900ECD301 /* molotov.plist in Resources */,
 				CF0CF7B2196F452900ECD301 /* minijobsredbubble3@2x.png in Resources */,
 				CF0CF7B3196F452900ECD301 /* legendjob.png in Resources */,
@@ -18657,7 +18537,6 @@
 				CF2A4AC01901B8F500B2D7D7 /* orangemenuoption@2x.png in Resources */,
 				CF70651118470051005B30A1 /* cashmiddle.png in Resources */,
 				CFDA78EE198C303C0014A8CD /* openearth@2x.png in Resources */,
-				CFF2A5C419709C4800269084 /* Zark1T1AttackNF.pvr.ccz in Resources */,
 				CF023C9A1992E2BB0082FE61 /* movesqueuebg@2x.png in Resources */,
 				CF6A291618C2B2F200AD676F /* newsbg.png in Resources */,
 				CFFBDF9918ACA3D90090CA9A /* Scientist3Breath12@2x.png in Resources */,
@@ -18847,7 +18726,6 @@
 				CFF2160C18FDC7660057B5CE /* battleepictag.png in Resources */,
 				CFFEB1461834539C007C4BA3 /* ultratag@2x.png in Resources */,
 				CF134A6E18A5E4B500D7D700 /* FatBoy3Move05@2x.png in Resources */,
-				CFF2A5C219709C4800269084 /* Zark1T1AttackNF.plist in Resources */,
 				CF65ECCF19A2B1CC00ABBC77 /* newchatline.png in Resources */,
 				CFCD0ED21953F07400EDC233 /* rareband.png in Resources */,
 				CFCD0EEE1953F07400EDC233 /* watermediumsquare.png in Resources */,
@@ -18880,7 +18758,6 @@
 				CFFEB0E61834539C007C4BA3 /* commontag@2x.png in Resources */,
 				CF864E2E193E8F3000DE0D7A /* selectclanbox@2x.png in Resources */,
 				CFF3912A1829DFD50010A3BE /* Akko-Bold.ttf in Resources */,
-				CFF2A58A19709C4800269084 /* Gangster3T1RunNF.plist in Resources */,
 				CFFBDF9418ACA3D90090CA9A /* Scientist3Breath07@2x.png in Resources */,
 				CFFBDF3D18ACA3D90090CA9A /* Scientist1Breath06@2x.png in Resources */,
 				CFF2A55619709C4800269084 /* Goonie4T1TutBig.png in Resources */,
@@ -19230,7 +19107,6 @@
 				CF20F1A8180FCABC005551B5 /* minitimebar.png in Resources */,
 				CFF390F91829C74A0010A3BE /* waterorb.png in Resources */,
 				DA86923119C7C64500320A74 /* activeskill@2x.png in Resources */,
-				CFF2A57C19709C4800269084 /* Chicken1T1RunNF.pvr.ccz in Resources */,
 				CFF390F11829C74A0010A3BE /* nightsideways.png in Resources */,
 				CF3764F6182DB8FF00D0A77E /* mycity@2x.png in Resources */,
 				CFBB37CA18F8BDA200FD6C8C /* runawaysuccess.png in Resources */,
@@ -19420,7 +19296,6 @@
 				CFF646F5195D319C00C43641 /* blacksquareoverlay.png in Resources */,
 				CF3764EE182DADEE00D0A77E /* bosslock.png in Resources */,
 				CF864E1C193E8F3000DE0D7A /* createclanbox4.png in Resources */,
-				CFF2A5A219709C4800269084 /* Kim1T1AttackNF.plist in Resources */,
 				CFF2A51E19709C4800269084 /* MPMT1@2x.plist in Resources */,
 				CF3765F2183203FE00D0A77E /* navmap.png in Resources */,
 				CFC97180182C74E500FF1D83 /* lightpointsfont.fnt in Resources */,
@@ -19525,7 +19400,6 @@
 				CF134A8E18A5E4B500D7D700 /* FatBoy5Move11@2x.png in Resources */,
 				CFFA324A18B6FDC0008B81B9 /* clanmemberprofile@2x.png in Resources */,
 				CFF513CD18C8DE3C004B0E56 /* 1timeoffer@2x.png in Resources */,
-				CFF2A5A419709C4800269084 /* Kim1T1AttackNF.pvr.ccz in Resources */,
 				CFFBDFCA18ACA3D90090CA9A /* Scientist4Turn05@2x.png in Resources */,
 				CFF390D71829C74A0010A3BE /* fireorb@2x.png in Resources */,
 				DA173A4A19CA428F005236C0 /* forcefieldlogo.png in Resources */,
@@ -19550,7 +19424,6 @@
 				CFF7874018E28FE200413E78 /* friendletterbar.png in Resources */,
 				CF29E93D19620DB600B40DA4 /* hospitalmenuheader@2x.png in Resources */,
 				CF376527182DD6F900D0A77E /* chatslidebutton.png in Resources */,
-				CFF2A5B419709C4800269084 /* Squirrel1T1AttackNF.pvr.ccz in Resources */,
 				CF9520561939690800A98290 /* multiplayerworldbg.png in Resources */,
 				CFFBDF5818ACA3D90090CA9A /* Scientist2Blink03@2x.png in Resources */,
 				CFFBDF8118ACA3D90090CA9A /* Scientist3Blink01@2x.png in Resources */,
@@ -19747,7 +19620,6 @@
 				CF70652D18470051005B30A1 /* levelxpbglong@2x.png in Resources */,
 				DA6DBACC19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */,
 				CF86506F19807FDB00D82D7C /* 2scene2right@2x.png in Resources */,
-				CFF2A5AA19709C4800269084 /* Kim1T1RunNF.plist in Resources */,
 				CFFA322718B44473008B81B9 /* bubblemiddle.png in Resources */,
 				CF7461A5196C0CBE002D6AE6 /* minijobsredbubble2@2x.png in Resources */,
 				CFC97157182C419B00FF1D83 /* combobg@2x.png in Resources */,
@@ -19787,7 +19659,6 @@
 				CFCD0EDB1953F07400EDC233 /* nightsquare@2x.png in Resources */,
 				CFFBDF5018ACA3D90090CA9A /* Scientist1Turn12@2x.png in Resources */,
 				CFEC995019492D3200BD893E /* newquestarrow@2x.png in Resources */,
-				CFF2A59C19709C4800269084 /* Goonie1T1RunNF.pvr.ccz in Resources */,
 				CFF7874C18E28FE200413E78 /* letterheader.png in Resources */,
 				CFF2A6221970C81200269084 /* battledonegreen@2x.png in Resources */,
 				CF06B601193699FC008BF892 /* addteam.png in Resources */,
@@ -19867,7 +19738,6 @@
 				CF7461A2196C0CBE002D6AE6 /* minijobsredbubble1.png in Resources */,
 				CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */,
 				CFF2A5B819709C4800269084 /* Squirrel1T1AttackNF@2x.pvr.ccz in Resources */,
-				CFF2A5CA19709C4800269084 /* Zark1T1RunNF.plist in Resources */,
 				CF29E9991962B79E00B40DA4 /* thebasicgrab.png in Resources */,
 				CF20F0B1180FB6FF005551B5 /* wonbg@2x.png in Resources */,
 				CFDEA533199C34D800445F3C /* avataractive.png in Resources */,
@@ -19989,7 +19859,6 @@
 				CF0A8D8E183AD03400B32CDC /* confirm@2x.png in Resources */,
 				DAF7994B19AD65EF00586583 /* bignotificationbubble@2x.png in Resources */,
 				CFF2A55219709C4800269084 /* Goonie4T1P2TutBig.png in Resources */,
-				CFF2A5AC19709C4800269084 /* Kim1T1RunNF.pvr.ccz in Resources */,
 				CF65ECC719A2B1CC00ABBC77 /* chatmiddle.png in Resources */,
 				CFBB37B718F5FE2300FD6C8C /* queststars@2x.plist in Resources */,
 				CFF2A52419709C4800269084 /* OilDrillT1@2x.pvr.ccz in Resources */,
@@ -20000,7 +19869,6 @@
 				CF746174196B9A5F002D6AE6 /* buildingbonusslots@2x.png in Resources */,
 				CF65ECC919A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
 				CF29E9FB1964BD0500B40DA4 /* healredbubble6@2x.png in Resources */,
-				CFF2A5BA19709C4800269084 /* Squirrel1T1RunNF.plist in Resources */,
 				CFF5DBFF194F90720019EB2B /* sendmessageicon.png in Resources */,
 				CF3765FE183203FE00D0A77E /* thevalley.png in Resources */,
 				CFC4D28518D7BD04004681FD /* sfx_building_drop.mp3 in Resources */,
@@ -20074,7 +19942,6 @@
 				CF864DCA193E7C5C00DE0D7A /* sendchat.png in Resources */,
 				CFF6469A195A6A0B00C43641 /* sortbuttonsmall.png in Resources */,
 				CF62930B180D22F600C6C196 /* safecash@2x.png in Resources */,
-				CFF2A59A19709C4800269084 /* Goonie1T1RunNF.plist in Resources */,
 				CFF7873418E28FE200413E78 /* unlockbuildingbg.png in Resources */,
 				CFE02ADF18207CF40016C1E2 /* taskgradient.png in Resources */,
 				CF29E9641962236600B40DA4 /* shopbutton@2x.png in Resources */,
@@ -20083,7 +19950,6 @@
 				CF32EA90195F70A000A4AEE3 /* greysmallsquare@2x.png in Resources */,
 				CFE7CD6A1819FC3300930847 /* leftrightexpand.png in Resources */,
 				CFF2A53819709C4800269084 /* Gangster3T1P2@2x.png in Resources */,
-				CFF2A5BC19709C4800269084 /* Squirrel1T1RunNF.pvr.ccz in Resources */,
 				CFF646EC195D229400C43641 /* TeamViewController.xib in Resources */,
 				CF134A5F18A5E4B500D7D700 /* FatBoy2Move03@2x.png in Resources */,
 				CFF2C961193FED8700F28D9E /* ChatBottomLineView.xib in Resources */,
@@ -20191,7 +20057,6 @@
 				CF40D02018DFCC6C0034A721 /* championleaguebg@2x.png in Resources */,
 				CF74611019661B22002D6AE6 /* makeitrain.pvr.ccz in Resources */,
 				CFE9D342194A714F00BD930E /* gachacommonball.png in Resources */,
-				CFF2A58419709C4800269084 /* Gangster3T1AttackNF.pvr.ccz in Resources */,
 				CF9520551939690800A98290 /* multiplayerheader@2x.png in Resources */,
 				CFFEB12C1834539C007C4BA3 /* nightcardhealthbar.png in Resources */,
 				CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */,
@@ -20230,7 +20095,6 @@
 				CF32EADF195FF81900A4AEE3 /* menusquareactive@2x.png in Resources */,
 				CFEE89ED18EC388000047CA4 /* silverbig@2x.png in Resources */,
 				CFE7CD9C1819FC3300930847 /* moneystack@2x.png in Resources */,
-				CFF2A5CC19709C4800269084 /* Zark1T1RunNF.pvr.ccz in Resources */,
 				CF2A4AC91901B8F500B2D7D7 /* popupactivetab.png in Resources */,
 				CF9520611939690800A98290 /* championribbon@2x.png in Resources */,
 				CF864DA2193E7C5C00DE0D7A /* fireavatar@2x.png in Resources */,
@@ -20326,7 +20190,6 @@
 				CFF64722195E50FA00C43641 /* bigsquareempty@2x.png in Resources */,
 				CFF6472A195E9ABE00C43641 /* EvolveHeaderView.xib in Resources */,
 				CFFEB19718361540007C4BA3 /* enhancebutton@2x.png in Resources */,
-				CFF2A58219709C4800269084 /* Gangster3T1AttackNF.plist in Resources */,
 				CFF7874718E28FE200413E78 /* fullfriendmask@2x.png in Resources */,
 				CF689096191C514000FF1F71 /* pier_1.png in Resources */,
 				CF32EAD0195FF81900A4AEE3 /* activedividerline@2x.png in Resources */,
@@ -20340,7 +20203,6 @@
 				CFF390CB1829C74A0010A3BE /* earthorb@2x.png in Resources */,
 				CF746193196BEF66002D6AE6 /* buildingremove@2x.png in Resources */,
 				CFBB379318F4837C00FD6C8C /* questnameribbon@2x.png in Resources */,
-				CFF2A57219709C4800269084 /* Chicken1T1AttackNF.plist in Resources */,
 				CF134A7618A5E4B500D7D700 /* FatBoy4Move00@2x.png in Resources */,
 				CF0CE17C196E552500ECD301 /* 3splashbg@2x.png in Resources */,
 				CF4F780919B950FC001B7B7C /* instantcap.png in Resources */,
@@ -20907,7 +20769,6 @@
 				CFEE897718EA0ED200047CA4 /* questinactivetab@2x.png in Resources */,
 				CF864DA3193E7C5C00DE0D7A /* lightavatar.png in Resources */,
 				CFFC510119C4C57700BDAA62 /* notendcapred@2x.png in Resources */,
-				CFF2A59419709C4800269084 /* Goonie1T1AttackNF.pvr.ccz in Resources */,
 				CF4251A619AD2C9D00964547 /* recommendedtag.png in Resources */,
 				CFF1D72917DFC43700874339 /* ring2@2x.plist in Resources */,
 				CFF9DD7419B861F200CA9A8E /* fireenhancebg@2x.png in Resources */,
@@ -21017,7 +20878,6 @@
 				CFF9DD7819B861F200CA9A8E /* lightenhancebg@2x.png in Resources */,
 				CFFBDFBD18ACA3D90090CA9A /* Scientist4Breath05@2x.png in Resources */,
 				CF4251A819AD2C9D00964547 /* recommendedtag@2x.png in Resources */,
-				CFF2A57419709C4800269084 /* Chicken1T1AttackNF.pvr.ccz in Resources */,
 				CFFA31DD18B30955008B81B9 /* raidactivetimeleft.png in Resources */,
 				CFF2A5A019709C4800269084 /* Goonie1T1RunNF@2x.pvr.ccz in Resources */,
 				CF2A4B1C1901B8F500B2D7D7 /* upgradebarbg@2x.png in Resources */,
@@ -21037,7 +20897,6 @@
 				CF3766C71833022700D0A77E /* gacharevealclosex.png in Resources */,
 				DA88EB0419B7CF3E005EE827 /* fireenemyskill@2x.png in Resources */,
 				CFF5DBB4194D18F20019EB2B /* youlostitembg.png in Resources */,
-				CFF2A58C19709C4800269084 /* Gangster3T1RunNF.pvr.ccz in Resources */,
 				CFF1D7AD17E14A1400874339 /* opponentsbg.png in Resources */,
 				CF29EA3F1964F38E00B40DA4 /* faqactive@2x.png in Resources */,
 				CF3765F4183203FE00D0A77E /* navmap@2x.png in Resources */,
@@ -21078,7 +20937,6 @@
 				CFBB37BF18F754D300FD6C8C /* bigshadow@2x.png in Resources */,
 				CFF2C958193FE69600F28D9E /* minimizechatx.png in Resources */,
 				CFCD0EF51953F07400EDC233 /* ultraband@2x.png in Resources */,
-				CFF2A59219709C4800269084 /* Goonie1T1AttackNF.plist in Resources */,
 				CFCD0EF11953F07400EDC233 /* watersmallsquare@2x.png in Resources */,
 				CFF9DD7619B861F200CA9A8E /* lightenhancebg.png in Resources */,
 				CFCE571018137CD400494F8C /* orangenot@2x.png in Resources */,
@@ -21103,7 +20961,6 @@
 				DA88EAFE19B7CF3E005EE827 /* earthyourskill.png in Resources */,
 				CFC4D24118D7B70A004681FD /* Default-568h@2x.png in Resources */,
 				CFF2161318FDC7660057B5CE /* battleultratag@2x.png in Resources */,
-				CFF2A57A19709C4800269084 /* Chicken1T1RunNF.plist in Resources */,
 				CFF7873B18E28FE200413E78 /* fbcheck@2x.png in Resources */,
 				CFE0E6AE17E3C002002ECA84 /* filledstar.png in Resources */,
 				CFFA31EE18B3DC46008B81B9 /* ClanRaidListViewController.xib in Resources */,
@@ -21210,7 +21067,6 @@
 				CF746143196A2C0D002D6AE6 /* arrowlight.png in Resources */,
 				CFF9DD8619B861F200CA9A8E /* up.png in Resources */,
 				CF63F77C17EC07FD00FEBAA9 /* molotov.plist in Resources */,
-				CFF2A5B219709C4800269084 /* Squirrel1T1AttackNF.plist in Resources */,
 				CF7461A7196C0CBE002D6AE6 /* minijobsredbubble3@2x.png in Resources */,
 				CF145B2E19218E0200AD1D5A /* legendjob.png in Resources */,
 				CF7461A8196C0CBE002D6AE6 /* minijobsredbubble4.png in Resources */,

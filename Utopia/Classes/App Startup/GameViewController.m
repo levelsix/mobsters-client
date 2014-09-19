@@ -1200,7 +1200,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 #pragma mark - Level Up
 
 - (void) checkLevelUp {
-  [self checkPvpRankUp];
+  //[self checkPvpRankUp];
   
   if ([CCDirector sharedDirector].isAnimating) {
     GameState *gs = [GameState sharedGameState];
