@@ -44,6 +44,8 @@
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   // Accumulate damage here
+  if (color == self.orbColor)
+    _tempDamageDealt += _orbDamage;
   
   [super orbDestroyed:color special:type];
 }
@@ -76,11 +78,9 @@
     {
       if (execute)
       {
+        [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self showSkillPopupOverlay:YES withCompletion:^(){
-          
-          // Deal damage
-          // Reset temp damage
-          [self skillTriggerFinished];
+          [self dealPoisonDamage];
         }];
       }
       return YES;
@@ -99,9 +99,13 @@
     }
     return YES;
   }
-
   
   return NO;
+}
+
+- (BOOL) shouldSpawnRibbon
+{
+  return YES;
 }
 
 #pragma mark - Skill Logic
@@ -129,7 +133,7 @@ static NSString* const skullId = @"skull";
         orb.specialOrbType = SpecialOrbTypePoison;
         
         // Update orb
-        [sprite updatePoisonElements];
+        [sprite reloadSprite:YES];
         
         // Update tile
         if (fromTrigger)
@@ -157,9 +161,23 @@ static NSString* const skullId = @"skull";
       if (orb.specialOrbType == SpecialOrbTypePoison)
       {
         orb.specialOrbType = SpecialOrbTypeNone;
-        [sprite updatePoisonElements];
+        [sprite reloadSprite:YES];
       }
     }
+}
+
+- (void) dealPoisonDamage
+{
+  // Deal damage
+  [self.battleLayer dealDamage:_tempDamageDealt enemyIsAttacker:YES usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage2)];
+  _tempDamageDealt = 0;
+}
+
+- (void) dealPoisonDamage2
+{
+  // Turn on the lights for the board and finish skill execution
+  [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self skillTriggerFinished];
 }
 
 @end

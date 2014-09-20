@@ -372,10 +372,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   if (_playerSkillController)
     if (_skillIndicatorPlayer)
-      if (_playerSkillController.activationType != SkillActivationTypePassive)
-        if (_playerSkillController.orbColor == color)
-          if ([_playerSkillController shouldSpawnRibbon])
-            return YES;
+      if (_playerSkillController.orbColor == color)
+        if ([_playerSkillController shouldSpawnRibbon])
+          return YES;
   return NO;
 }
 
@@ -383,10 +382,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   if (_enemySkillController)
     if (_skillIndicatorEnemy)
-      if (_enemySkillController.activationType != SkillActivationTypePassive)
-        if (_enemySkillController.orbColor == color)
-          if ([_enemySkillController shouldSpawnRibbon])
-            return YES;
+      if (_enemySkillController.orbColor == color)
+        if ([_enemySkillController shouldSpawnRibbon])
+          return YES;
   return NO;
 }
 

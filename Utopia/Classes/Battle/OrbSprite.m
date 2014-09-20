@@ -42,7 +42,6 @@
   switch (_orb.specialOrbType)
   {
     case SpecialOrbTypeBomb: [self loadBombElements]; break;
-    case SpecialOrbTypePoison: [self updatePoisonElements]; break;
     default: break;
   }
 }
@@ -85,53 +84,6 @@
   }
 }
 
-static NSString* const skullId = @"skull";
-
-- (void) updatePoisonElements
-{
-  // Already added
-  BOOL existing = [self getChildByName:skullId recursively:NO] != nil;
-  if (existing == (_orb.specialOrbType == SpecialOrbTypePoison))
-    return;
-  
-  // Add skull
-  if (! existing)
-  {
-    CCSprite* skull = [CCSprite spriteWithImageNamed:@"poisonorb.png"];
-    skull.name = skullId;
-    skull.scale = 0.0;
-    NSInteger verticalOffset;
-    //CCColor* tintColor = [CCColor colorWithRed:1.0 green:0.0 blue:0.0];
-    switch (_orb.orbColor)
-    {
-      case OrbColorDark: verticalOffset = 0; break;
-      case OrbColorEarth: verticalOffset = -2; break;
-      case OrbColorFire: verticalOffset = -3; break;
-      case OrbColorLight: verticalOffset = 0; break;
-      case OrbColorWater: verticalOffset = -1; break;
-      default: verticalOffset = 0;
-    }
-    skull.position = ccp(0, verticalOffset);
-    [self addChild:skull z:5];
-    
-    [skull runAction:[CCActionSequence actions:
-                      [CCActionDelay actionWithDuration:0.2],
-                      [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:1.0]],
-                      nil]];
-  }
-  else // Remove skull
-  {
-    CCNode* skull = [self getChildByName:skullId recursively:NO];
-    if (skull)
-    {
-      [skull runAction:[CCActionSequence actions:
-                        [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:orbUpdateAnimDuration scale:0.0]],
-                        [CCActionRemove action],
-                        nil]];
-    }
-  }
-}
-
 #pragma mark - Helpers
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb {
@@ -149,6 +101,12 @@ static NSString* const skullId = @"skull";
         return nil;
       return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
       break;
+      
+      case SpecialOrbTypePoison:
+          if (orbColor == OrbColorRock || orbColor == OrbColorNone)
+              return nil;
+          return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+          break;
     
     default:
       break;
