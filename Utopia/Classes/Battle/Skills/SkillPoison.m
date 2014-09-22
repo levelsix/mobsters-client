@@ -8,6 +8,7 @@
 
 #import "SkillPoison.h"
 #import "NewBattleLayer.h"
+#import "Globals.h"
 
 @implementation SkillPoison
 
@@ -44,7 +45,7 @@
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type
 {
   // Accumulate damage here
-  if (color == self.orbColor)
+  if (type == SpecialOrbTypePoison)
     _tempDamageDealt += _orbDamage;
   
   [super orbDestroyed:color special:type];
@@ -172,10 +173,10 @@ static NSString* const skullId = @"skull";
   [self.playerSprite performFarFlinchAnimationWithDelay:0.4];
   
   // Flash red
-  [self.playerSprite runAction:[CCActionSequence actions:
+  [self.playerSprite.sprite runAction:[CCActionSequence actions:
                                 [CCActionDelay actionWithDuration:0.3],
-                                [CCActionTintTo actionWithDuration:0.2 color:[CCColor redColor]],
-                                [CCActionTintTo actionWithDuration:0.2 color:[CCColor whiteColor]],
+                                [RecursiveTintTo actionWithDuration:0.2 color:[CCColor redColor]],
+                                [RecursiveTintTo actionWithDuration:0.2 color:[CCColor whiteColor]],
                                 nil]];
   
   // Skull and bones
@@ -191,7 +192,7 @@ static NSString* const skullId = @"skull";
                            nil],
                           [CCActionCallFunc actionWithTarget:self selector:@selector(dealPoisonDamage2)],
                           [CCActionDelay actionWithDuration:0.5],
-                          [CCActionEaseElasticIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3f scale:0]],
+                          [CCActionEaseElasticIn actionWithAction:[CCActionScaleTo actionWithDuration:0.7f scale:0]],
                           [CCActionRemove action],
                           nil]];
 }
@@ -199,7 +200,7 @@ static NSString* const skullId = @"skull";
 - (void) dealPoisonDamage2
 {
   // Deal damage
-  [self.battleLayer dealDamage:_tempDamageDealt enemyIsAttacker:YES usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
+  [self.battleLayer dealDamage:(int)_tempDamageDealt enemyIsAttacker:YES usingAbility:YES withTarget:self withSelector:@selector(dealPoisonDamage3)];
   _tempDamageDealt = 0;
 }
 

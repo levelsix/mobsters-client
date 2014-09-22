@@ -187,9 +187,9 @@
 - (BOOL) isTileDarkened:(BattleTile*)tile
 {
   CCNodeColor* darkTile = (CCNodeColor*)[_tilesLayerDarkness getChildByName:tile.description recursively:NO];
-  if (darkTile.opacity == 0.0)
-    return NO;
-  return YES;
+  if (darkTile.opacity == darknessForTilesOpacity)
+    return YES;
+  return NO;
 }
 
 - (void) turnTheLightForTile:(BattleTile*)tile on:(BOOL)on instantly:(BOOL)instantly

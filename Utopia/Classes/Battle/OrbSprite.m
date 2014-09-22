@@ -103,7 +103,7 @@
       break;
       
       case SpecialOrbTypePoison:
-          if (orbColor == OrbColorRock || orbColor == OrbColorNone)
+          if (orbColor == OrbColorNone)
               return nil;
           return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
           break;
