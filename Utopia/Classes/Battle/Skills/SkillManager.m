@@ -44,7 +44,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _player.offensiveSkillId;
-  //_cheatPlayerSkillType = SkillTypeShield;
+  //_cheatPlayerSkillType = SkillTypeRoidRage;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   
@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypePoison; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypeMomentum; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -410,6 +410,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_playerSkillController)
     return [_playerSkillController skillCalledWithTrigger:trigger execute:NO];
   return NO;
+}
+
+- (void) enableSkillButton:(BOOL)enable
+{
+  [_skillIndicatorPlayer enableSkillButton:enable];
 }
 
 @end

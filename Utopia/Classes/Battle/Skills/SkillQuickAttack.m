@@ -40,6 +40,7 @@
       if (execute)
       {
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+        [self.battleLayer.orbLayer disallowInput];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self dealQuickAttack];
         }];
@@ -86,7 +87,10 @@
 - (void) dealQuickAttack2
 {
   // Turn on the lights for the board and finish skill execution
-  [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self performAfterDelay:1.3 block:^{
+    [self.battleLayer.orbLayer allowInput];
+    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+  }];
   [self resetOrbCounter];
   [self skillTriggerFinished];
 }

@@ -6055,6 +6055,30 @@
 		DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */; };
 		DA58F52D19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
 		DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */; };
+		DA5E3FFA19D0CB3F001F28CE /* SkillRoidRage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5E3FF919D0CB3F001F28CE /* SkillRoidRage.m */; };
+		DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5E3FF919D0CB3F001F28CE /* SkillRoidRage.m */; };
+		DA5E3FFE19D0CB54001F28CE /* SkillMomentum.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5E3FFD19D0CB54001F28CE /* SkillMomentum.m */; };
+		DA5E3FFF19D0CB54001F28CE /* SkillMomentum.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5E3FFD19D0CB54001F28CE /* SkillMomentum.m */; };
+		DA5E400619D104E7001F28CE /* plus10percent.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400119D104E7001F28CE /* plus10percent.png */; };
+		DA5E400719D104E7001F28CE /* plus10percent.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400119D104E7001F28CE /* plus10percent.png */; };
+		DA5E400819D104E7001F28CE /* plus10percent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400219D104E7001F28CE /* plus10percent@2x.png */; };
+		DA5E400919D104E7001F28CE /* plus10percent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400219D104E7001F28CE /* plus10percent@2x.png */; };
+		DA5E400A19D104E7001F28CE /* 150percentatk.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400419D104E7001F28CE /* 150percentatk.png */; };
+		DA5E400B19D104E7001F28CE /* 150percentatk.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400419D104E7001F28CE /* 150percentatk.png */; };
+		DA5E400C19D104E7001F28CE /* 150percentatk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400519D104E7001F28CE /* 150percentatk@2x.png */; };
+		DA5E400D19D104E7001F28CE /* 150percentatk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400519D104E7001F28CE /* 150percentatk@2x.png */; };
+		DA5E401219D104FC001F28CE /* momentumlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400E19D104FC001F28CE /* momentumlogo.png */; };
+		DA5E401319D104FC001F28CE /* momentumlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400E19D104FC001F28CE /* momentumlogo.png */; };
+		DA5E401419D104FC001F28CE /* momentumlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */; };
+		DA5E401519D104FC001F28CE /* momentumlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */; };
+		DA5E401619D104FC001F28CE /* roidragelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401019D104FC001F28CE /* roidragelogo.png */; };
+		DA5E401719D104FC001F28CE /* roidragelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401019D104FC001F28CE /* roidragelogo.png */; };
+		DA5E401819D104FC001F28CE /* roidragelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401119D104FC001F28CE /* roidragelogo@2x.png */; };
+		DA5E401919D104FC001F28CE /* roidragelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401119D104FC001F28CE /* roidragelogo@2x.png */; };
+		DA5E401C19D10504001F28CE /* roidrageicon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401A19D10504001F28CE /* roidrageicon.png */; };
+		DA5E401D19D10504001F28CE /* roidrageicon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401A19D10504001F28CE /* roidrageicon.png */; };
+		DA5E401E19D10504001F28CE /* roidrageicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401B19D10504001F28CE /* roidrageicon@2x.png */; };
+		DA5E401F19D10504001F28CE /* roidrageicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA5E401B19D10504001F28CE /* roidrageicon@2x.png */; };
 		DA6DBABA19BFE77800BD7B7F /* cakekidexplode.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */; };
 		DA6DBABB19BFE77800BD7B7F /* cakekidexplode.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */; };
 		DA6DBACA19C0F7E900BD7B7F /* skillgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */; };
@@ -9678,6 +9702,20 @@
 		DA58F51F19AE8B9D00D025BC /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
 		DA58F52019AE8B9D00D025BC /* UIView+Coordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Coordinates.m"; sourceTree = "<group>"; };
 		DA58F52A19AE9BE900D025BC /* LeagueListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeagueListViewCell.xib; sourceTree = "<group>"; };
+		DA5E3FF819D0CB3F001F28CE /* SkillRoidRage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillRoidRage.h; sourceTree = "<group>"; };
+		DA5E3FF919D0CB3F001F28CE /* SkillRoidRage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillRoidRage.m; sourceTree = "<group>"; };
+		DA5E3FFC19D0CB54001F28CE /* SkillMomentum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillMomentum.h; sourceTree = "<group>"; };
+		DA5E3FFD19D0CB54001F28CE /* SkillMomentum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillMomentum.m; sourceTree = "<group>"; };
+		DA5E400119D104E7001F28CE /* plus10percent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus10percent.png; sourceTree = "<group>"; };
+		DA5E400219D104E7001F28CE /* plus10percent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus10percent@2x.png"; sourceTree = "<group>"; };
+		DA5E400419D104E7001F28CE /* 150percentatk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 150percentatk.png; sourceTree = "<group>"; };
+		DA5E400519D104E7001F28CE /* 150percentatk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "150percentatk@2x.png"; sourceTree = "<group>"; };
+		DA5E400E19D104FC001F28CE /* momentumlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = momentumlogo.png; sourceTree = "<group>"; };
+		DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "momentumlogo@2x.png"; sourceTree = "<group>"; };
+		DA5E401019D104FC001F28CE /* roidragelogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roidragelogo.png; sourceTree = "<group>"; };
+		DA5E401119D104FC001F28CE /* roidragelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roidragelogo@2x.png"; sourceTree = "<group>"; };
+		DA5E401A19D10504001F28CE /* roidrageicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roidrageicon.png; sourceTree = "<group>"; };
+		DA5E401B19D10504001F28CE /* roidrageicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roidrageicon@2x.png"; sourceTree = "<group>"; };
 		DA6DBAB919BFE77800BD7B7F /* cakekidexplode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cakekidexplode.plist; sourceTree = "<group>"; };
 		DA6DBAC819C0F7E900BD7B7F /* skillgradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillgradient.png; sourceTree = "<group>"; };
 		DA6DBAC919C0F7E900BD7B7F /* skillgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillgradient@2x.png"; sourceTree = "<group>"; };
@@ -9913,6 +9951,8 @@
 				4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */,
 				4C16FF0519CE03AE00F9FC1E /* poisonicon.png */,
 				4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */,
+				DA5E401A19D10504001F28CE /* roidrageicon.png */,
+				DA5E401B19D10504001F28CE /* roidrageicon@2x.png */,
 			);
 			path = "Skill Icons";
 			sourceTree = "<group>";
@@ -15459,31 +15499,9 @@
 		DA07605019B129EC00E43E5A /* Skills */ = {
 			isa = PBXGroup;
 			children = (
-				DA07605119B129EC00E43E5A /* SkillBattleIndicatorView.h */,
-				DA07605219B129EC00E43E5A /* SkillBattleIndicatorView.m */,
-				DA88EB3C19B93542005EE827 /* SkillPopupOverlay.h */,
-				DA88EB3D19B93542005EE827 /* SkillPopupOverlay.m */,
-				DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */,
-				DA07605619B129EC00E43E5A /* SkillManager.h */,
-				DA07605719B129EC00E43E5A /* SkillManager.m */,
-				DA07605419B129EC00E43E5A /* SkillController.h */,
-				DA07605519B129EC00E43E5A /* SkillController.m */,
-				DA0FC55A19B1861500393BF4 /* SkillControllerActive.h */,
-				DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */,
-				DA0FC58019B65B0200393BF4 /* SkillControllerPassive.h */,
-				DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */,
-				DA07605819B129EC00E43E5A /* SkillQuickAttack.h */,
-				DA07605919B129EC00E43E5A /* SkillQuickAttack.m */,
-				DA0FC58419B65F2A00393BF4 /* SkillJelly.h */,
-				DA0FC58519B65F2A00393BF4 /* SkillJelly.m */,
-				DA88EB8319BE5810005EE827 /* SkillCakeDrop.h */,
-				DA88EB8419BE5810005EE827 /* SkillCakeDrop.m */,
-				DAAD3DD119C8C31E00557698 /* SkillBombs.h */,
-				DAAD3DD219C8C31E00557698 /* SkillBombs.m */,
-				DA173A4E19CA4A1F005236C0 /* SkillShield.h */,
-				DA173A4F19CA4A1F005236C0 /* SkillShield.m */,
-				DA173A5819CBACCD005236C0 /* SkillPoison.h */,
-				DA173A5919CBACCD005236C0 /* SkillPoison.m */,
+				DA5E3FF619D0CB09001F28CE /* Core */,
+				DA5E3FF519D0CAFF001F28CE /* UI */,
+				DA5E3FF719D0CB18001F28CE /* Specific */,
 			);
 			path = Skills;
 			sourceTree = "<group>";
@@ -15501,6 +15519,8 @@
 				DAAD3DD919C8D7E700557698 /* Bombs */,
 				DA173A2A19CA4230005236C0 /* Force Field */,
 				4C16FECF19CE03A200F9FC1E /* Poison */,
+				DA5E400319D104E7001F28CE /* Roid Rage */,
+				DA5E400019D104E7001F28CE /* Momentum */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -15527,6 +15547,74 @@
 				DA173A5D19CBAF00005236C0 /* shieldfont@2x.png */,
 			);
 			path = "Force Field";
+			sourceTree = "<group>";
+		};
+		DA5E3FF519D0CAFF001F28CE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DA07605119B129EC00E43E5A /* SkillBattleIndicatorView.h */,
+				DA07605219B129EC00E43E5A /* SkillBattleIndicatorView.m */,
+				DA88EB3C19B93542005EE827 /* SkillPopupOverlay.h */,
+				DA88EB3D19B93542005EE827 /* SkillPopupOverlay.m */,
+				DA88EB4019B93553005EE827 /* SkillPopupOverlay.xib */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		DA5E3FF619D0CB09001F28CE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DA07605619B129EC00E43E5A /* SkillManager.h */,
+				DA07605719B129EC00E43E5A /* SkillManager.m */,
+				DA07605419B129EC00E43E5A /* SkillController.h */,
+				DA07605519B129EC00E43E5A /* SkillController.m */,
+				DA0FC55A19B1861500393BF4 /* SkillControllerActive.h */,
+				DA0FC55B19B1861500393BF4 /* SkillControllerActive.m */,
+				DA0FC58019B65B0200393BF4 /* SkillControllerPassive.h */,
+				DA0FC58119B65B0200393BF4 /* SkillControllerPassive.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		DA5E3FF719D0CB18001F28CE /* Specific */ = {
+			isa = PBXGroup;
+			children = (
+				DA07605819B129EC00E43E5A /* SkillQuickAttack.h */,
+				DA07605919B129EC00E43E5A /* SkillQuickAttack.m */,
+				DA0FC58419B65F2A00393BF4 /* SkillJelly.h */,
+				DA0FC58519B65F2A00393BF4 /* SkillJelly.m */,
+				DA88EB8319BE5810005EE827 /* SkillCakeDrop.h */,
+				DA88EB8419BE5810005EE827 /* SkillCakeDrop.m */,
+				DAAD3DD119C8C31E00557698 /* SkillBombs.h */,
+				DAAD3DD219C8C31E00557698 /* SkillBombs.m */,
+				DA173A4E19CA4A1F005236C0 /* SkillShield.h */,
+				DA173A4F19CA4A1F005236C0 /* SkillShield.m */,
+				DA173A5819CBACCD005236C0 /* SkillPoison.h */,
+				DA173A5919CBACCD005236C0 /* SkillPoison.m */,
+				DA5E3FF819D0CB3F001F28CE /* SkillRoidRage.h */,
+				DA5E3FF919D0CB3F001F28CE /* SkillRoidRage.m */,
+				DA5E3FFC19D0CB54001F28CE /* SkillMomentum.h */,
+				DA5E3FFD19D0CB54001F28CE /* SkillMomentum.m */,
+			);
+			name = Specific;
+			sourceTree = "<group>";
+		};
+		DA5E400019D104E7001F28CE /* Momentum */ = {
+			isa = PBXGroup;
+			children = (
+				DA5E400119D104E7001F28CE /* plus10percent.png */,
+				DA5E400219D104E7001F28CE /* plus10percent@2x.png */,
+			);
+			path = Momentum;
+			sourceTree = "<group>";
+		};
+		DA5E400319D104E7001F28CE /* Roid Rage */ = {
+			isa = PBXGroup;
+			children = (
+				DA5E400419D104E7001F28CE /* 150percentatk.png */,
+				DA5E400519D104E7001F28CE /* 150percentatk@2x.png */,
+			);
+			path = "Roid Rage";
 			sourceTree = "<group>";
 		};
 		DA88EAE119B7CF3E005EE827 /* Skill Labels */ = {
@@ -15577,6 +15665,10 @@
 				DA173A4919CA428F005236C0 /* forcefieldlogo@2x.png */,
 				DA173A7B19CBAF2A005236C0 /* poisonlogo.png */,
 				DA173A7C19CBAF2A005236C0 /* poisonlogo@2x.png */,
+				DA5E400E19D104FC001F28CE /* momentumlogo.png */,
+				DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */,
+				DA5E401019D104FC001F28CE /* roidragelogo.png */,
+				DA5E401119D104FC001F28CE /* roidragelogo@2x.png */,
 			);
 			path = "Skill Intro";
 			sourceTree = "<group>";
@@ -16441,6 +16533,7 @@
 				CF0CF095196F452900ECD301 /* gachaarrow@2x.png in Resources */,
 				CF0CF096196F452900ECD301 /* sfx_cancel_x_button.mp3 in Resources */,
 				CFF2A64D1974997A00269084 /* pvpbronzeribbon@2x.png in Resources */,
+				DA5E400D19D104E7001F28CE /* 150percentatk@2x.png in Resources */,
 				CF0CF097196F452900ECD301 /* emptysmallsquare.png in Resources */,
 				CF0CF098196F452900ECD301 /* FatBoy4Move04@2x.png in Resources */,
 				CF0CF099196F452900ECD301 /* Scientist5Blink05@2x.png in Resources */,
@@ -16940,6 +17033,8 @@
 				CF0CF26C196F452900ECD301 /* watersmallsquare.png in Resources */,
 				CF0CF26D196F452900ECD301 /* TopBarMonsterView.xib in Resources */,
 				CF86507019807FDB00D82D7C /* 2scene2right@2x.png in Resources */,
+				DA5E400919D104E7001F28CE /* plus10percent@2x.png in Resources */,
+				DA5E400B19D104E7001F28CE /* 150percentatk.png in Resources */,
 				CF0CF26E196F452900ECD301 /* levelxpbglong@2x.png in Resources */,
 				CF0CF26F196F452900ECD301 /* bubblemiddle.png in Resources */,
 				CF0CF270196F452900ECD301 /* minijobsredbubble2@2x.png in Resources */,
@@ -17168,6 +17263,7 @@
 				CFFC50FE19C4C57700BDAA62 /* notendcappurple@2x.png in Resources */,
 				CF0CF339196F452900ECD301 /* chatactivemiddle.png in Resources */,
 				CF0CF33A196F452900ECD301 /* emptyslot@2x.png in Resources */,
+				DA5E401919D104FC001F28CE /* roidragelogo@2x.png in Resources */,
 				CF0CF33B196F452900ECD301 /* home@2x.tmx in Resources */,
 				CF0CF33C196F452900ECD301 /* rockgrenade.png in Resources */,
 				CF0CF33D196F452900ECD301 /* FatBoy1Move04@2x.png in Resources */,
@@ -17229,6 +17325,7 @@
 				CF0CF36D196F452900ECD301 /* slotsgemsbutton@2x.png in Resources */,
 				CF0CF36E196F452900ECD301 /* friendfacecircle@2x.png in Resources */,
 				CF0CF36F196F452900ECD301 /* connect@2x.png in Resources */,
+				DA5E400719D104E7001F28CE /* plus10percent.png in Resources */,
 				CF0CF370196F452900ECD301 /* Scientist4Breath08@2x.png in Resources */,
 				CF0CF371196F452900ECD301 /* shield.png in Resources */,
 				CF0CF372196F452900ECD301 /* platinumribbon@2x.png in Resources */,
@@ -17256,6 +17353,7 @@
 				CF0CF383196F452900ECD301 /* closebattle@2x.png in Resources */,
 				CF0CF384196F452900ECD301 /* featuredstars@2x.png in Resources */,
 				CF0CF385196F452900ECD301 /* myteambg@2x.png in Resources */,
+				DA5E401D19D10504001F28CE /* roidrageicon.png in Resources */,
 				CF0CF386196F452900ECD301 /* clanlistbg@2x.png in Resources */,
 				CF0CF387196F452900ECD301 /* Scientist1Turn14@2x.png in Resources */,
 				CF0CF388196F452900ECD301 /* Scientist4Blink02@2x.png in Resources */,
@@ -17962,6 +18060,7 @@
 				CF0CF611196F452900ECD301 /* healingmiddle.png in Resources */,
 				CF0CF612196F452900ECD301 /* RunawayMiddleView.xib in Resources */,
 				CF0CF613196F452900ECD301 /* rockorb.png in Resources */,
+				DA5E401319D104FC001F28CE /* momentumlogo.png in Resources */,
 				CF0CF614196F452900ECD301 /* earthbigavatar@2x.png in Resources */,
 				CF0CF615196F452900ECD301 /* enhanceheaderimage@2x.png in Resources */,
 				CF023C971992E2BB0082FE61 /* movesbg@2x.png in Resources */,
@@ -18129,6 +18228,7 @@
 				CF0CF6AD196F452900ECD301 /* 1scene1left.png in Resources */,
 				CF0CF6AE196F452900ECD301 /* Scientist5Blink12@2x.png in Resources */,
 				CF0CF6AF196F452900ECD301 /* rocket@2x.png in Resources */,
+				DA5E401719D104FC001F28CE /* roidragelogo.png in Resources */,
 				CF0CF6B0196F452900ECD301 /* createclanbox1.png in Resources */,
 				CF0CF6B2196F452900ECD301 /* collectioncapsule@2x.png in Resources */,
 				CF0CF6B3196F452900ECD301 /* sparkle1.plist in Resources */,
@@ -18353,6 +18453,7 @@
 				CF0CF781196F452900ECD301 /* chatbg.png in Resources */,
 				CF0CF783196F452900ECD301 /* singleplayerheader.png in Resources */,
 				CF0CF785196F452900ECD301 /* hospitalopenarrow.png in Resources */,
+				DA5E401519D104FC001F28CE /* momentumlogo@2x.png in Resources */,
 				CF0CF786196F452900ECD301 /* HealViewController.xib in Resources */,
 				CF0CF787196F452900ECD301 /* Scientist1Turn01@2x.png in Resources */,
 				CF0CF788196F452900ECD301 /* bombdrop.png in Resources */,
@@ -18512,6 +18613,7 @@
 				CF0CF814196F452900ECD301 /* xpcap.png in Resources */,
 				CF0CF815196F452900ECD301 /* cancelbuild.png in Resources */,
 				CFF2A55119709C4800269084 /* Goonie1T1TutBig@2x.png in Resources */,
+				DA5E401F19D10504001F28CE /* roidrageicon@2x.png in Resources */,
 				CF0CF816196F452900ECD301 /* bubble_bottom_middle@2x.png in Resources */,
 				CF0CF817196F452900ECD301 /* cancelbuild@2x.png in Resources */,
 				CF0CF818196F452900ECD301 /* confirmbuild.png in Resources */,
@@ -19002,6 +19104,7 @@
 				CF6A292118C2B2F200AD676F /* spotsmovedbg@2x.png in Resources */,
 				CFE02D3D1825D9CC0016C1E2 /* clanname.png in Resources */,
 				CFF7875B18E28FE200413E78 /* newamountbarmiddle@2x.png in Resources */,
+				DA5E401419D104FC001F28CE /* momentumlogo@2x.png in Resources */,
 				CF32EAE3195FF81900A4AEE3 /* menusquareinactive@2x.png in Resources */,
 				CFC8B62B18E64E2000CFD652 /* menutab.png in Resources */,
 				CFCD0E621953C93E00EDC233 /* gachalegendpiece.png in Resources */,
@@ -19182,6 +19285,7 @@
 				CFF390F71829C74A0010A3BE /* nightupdown@2x.png in Resources */,
 				CF29EA081964BD0500B40DA4 /* sellbubble3.png in Resources */,
 				CF6A292318C2B2F200AD676F /* teamlostbg@2x.png in Resources */,
+				DA5E400819D104E7001F28CE /* plus10percent@2x.png in Resources */,
 				CFF7875C18E28FE200413E78 /* upgradedivider.png in Resources */,
 				CFFEB14A1834539C007C4BA3 /* watercard@2x.png in Resources */,
 				CFFBDF4B18ACA3D90090CA9A /* Scientist1Turn07@2x.png in Resources */,
@@ -19406,6 +19510,7 @@
 				CFFBDFBC18ACA3D90090CA9A /* Scientist4Breath04@2x.png in Resources */,
 				CF2A4AE41901B8F500B2D7D7 /* attacksactiveicon@2x.png in Resources */,
 				CFE9D34C194A714F00BD930E /* gachaultraball.png in Resources */,
+				DA5E400619D104E7001F28CE /* plus10percent.png in Resources */,
 				CFC8B5F918E4547200CFD652 /* sendbutton@2x.png in Resources */,
 				CFFA31F018B3DFF7008B81B9 /* ClanRaidActiveCell.xib in Resources */,
 				CF864E0D193E8F3000DE0D7A /* redsmallbutton@2x.png in Resources */,
@@ -20254,6 +20359,7 @@
 				CF3765C31831BCB100D0A77E /* newcircle.png in Resources */,
 				CFF390FD1829C74A0010A3BE /* watersideways.png in Resources */,
 				CFEC99431947FBF300BD893E /* gachaultratag.png in Resources */,
+				DA5E400C19D104E7001F28CE /* 150percentatk@2x.png in Resources */,
 				CFFBDF3318ACA3D90090CA9A /* Scientist1Blink09@2x.png in Resources */,
 				CFC4D29718D7BD04004681FD /* sfx_piece_fall_03.mp3 in Resources */,
 				CF70652118470051005B30A1 /* hometeamslotopen.png in Resources */,
@@ -20472,6 +20578,7 @@
 				CFFBDFD918ACA3D90090CA9A /* Scientist5Blink03@2x.png in Resources */,
 				DA88EB1219B7CF3E005EE827 /* lightenemyskill.png in Resources */,
 				CF3765F8183203FE00D0A77E /* opencity@2x.png in Resources */,
+				DA5E401E19D10504001F28CE /* roidrageicon@2x.png in Resources */,
 				CFC4D27D18D7BD04004681FD /* lp_beach_forest_amb.mp3 in Resources */,
 				CF134A8618A5E4B500D7D700 /* FatBoy5Move03@2x.png in Resources */,
 				CFFEB1021834539C007C4BA3 /* firecard@2x.png in Resources */,
@@ -20507,6 +20614,7 @@
 				CF29E9F71964BD0500B40DA4 /* healredbubble4@2x.png in Resources */,
 				CFFBDFCC18ACA3D90090CA9A /* Scientist4Turn07@2x.png in Resources */,
 				CFFEB0EC1834539C007C4BA3 /* earthcardhealthbar.png in Resources */,
+				DA5E401819D104FC001F28CE /* roidragelogo@2x.png in Resources */,
 				CFDA78F6198C303C0014A8CD /* openlight@2x.png in Resources */,
 				CF3765B018319E0F00D0A77E /* shield@2x.png in Resources */,
 				CF951F681939493800A98290 /* jobbingicon.png in Resources */,
@@ -20553,6 +20661,7 @@
 				CFF2A58E19709C4800269084 /* Gangster3T1RunNF@2x.plist in Resources */,
 				CFFBDF6D18ACA3D90090CA9A /* Scientist2Breath11@2x.png in Resources */,
 				CFF390DD1829C74A0010A3BE /* fireupdown.png in Resources */,
+				DA5E401619D104FC001F28CE /* roidragelogo.png in Resources */,
 				CF32EAD9195FF81900A4AEE3 /* inactivedividerline.png in Resources */,
 				CF6890581912E7B500FF1F71 /* sortedbyarrow@2x.png in Resources */,
 				CFFBDFA318ACA3D90090CA9A /* Scientist3Turn09@2x.png in Resources */,
@@ -20619,6 +20728,7 @@
 				CFE5C58319380D9C001B0531 /* EasyTableHeaderView.xib in Resources */,
 				CF2A4B0F1901B8F500B2D7D7 /* requestsinactive.png in Resources */,
 				CFE7CD321819FC3300930847 /* cashbar.png in Resources */,
+				DA5E400A19D104E7001F28CE /* 150percentatk.png in Resources */,
 				DAAD3DF419C8D7E700557698 /* lightbomb@2x.png in Resources */,
 				CFC8B61418E53FC100CFD652 /* menuteamhealthbarbg.png in Resources */,
 				CF6292FF180D22F600C6C196 /* casecash@2x.png in Resources */,
@@ -21142,10 +21252,12 @@
 				CF6890571912E7B500FF1F71 /* sortedbyarrow.png in Resources */,
 				DAAD3DFC19C8D7E700557698 /* rockbomb@2x.png in Resources */,
 				CF29EA711965418E00B40DA4 /* inaclanbutton.png in Resources */,
+				DA5E401C19D10504001F28CE /* roidrageicon.png in Resources */,
 				CFF5DBB6194D18F20019EB2B /* youlostitemborder.png in Resources */,
 				CFFA325918BC042B008B81B9 /* zarksheadline@2x.png in Resources */,
 				CFFEB0F61834539C007C4BA3 /* earthteamhealthbar@2x.png in Resources */,
 				CF376517182DD6F900D0A77E /* chatbg.png in Resources */,
+				DA5E401219D104FC001F28CE /* momentumlogo.png in Resources */,
 				CF9520661939690800A98290 /* singleplayerheader.png in Resources */,
 				CF06B610193699FC008BF892 /* hospitalopenarrow.png in Resources */,
 				CFF646C5195CD1D300C43641 /* HealViewController.xib in Resources */,
@@ -21569,6 +21681,7 @@
 				CF0CED69196F452900ECD301 /* SBJsonBase.m in Sources */,
 				CF0CED6A196F452900ECD301 /* SBJsonParser.m in Sources */,
 				CF0CED6B196F452900ECD301 /* DialogueViewController.m in Sources */,
+				DA5E3FFF19D0CB54001F28CE /* SkillMomentum.m in Sources */,
 				CF0CED6C196F452900ECD301 /* SBJsonWriter.m in Sources */,
 				CF60465A19BF9177003D91F8 /* SkillCakeDrop.m in Sources */,
 				CF0CED6E196F452900ECD301 /* HomeBuilding.m in Sources */,
@@ -21600,6 +21713,7 @@
 				CF0CED87196F452900ECD301 /* FacebookSpammer.m in Sources */,
 				CF0CED88196F452900ECD301 /* MapBotView.m in Sources */,
 				CF42519819ABDB7400964547 /* TutorialBattleLayout.m in Sources */,
+				DA5E3FFB19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
 				CF0CED89196F452900ECD301 /* AMQPConnection.m in Sources */,
 				CF0CED8A196F452900ECD301 /* HomeViewController.m in Sources */,
 				CF0CED8B196F452900ECD301 /* AMQPConsumer.m in Sources */,
@@ -21748,6 +21862,7 @@
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
 				CFF646C4195CD1D300C43641 /* HealViewController.m in Sources */,
+				DA5E3FFE19D0CB54001F28CE /* SkillMomentum.m in Sources */,
 				CFFEB17E18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m in Sources */,
 				CFF9DD5819B7F78F00CA9A8E /* EnhanceQueueViewController+Animations.m in Sources */,
 				DA07DFD019AD63AE009860CE /* GachaViews.m in Sources */,
@@ -21923,6 +22038,7 @@
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
 				CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */,
+				DA5E3FFA19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
 				CF6F19801815156D00CFF2B9 /* QuestLogViewController.m in Sources */,
 				CFFF6B1118DB2044003A320C /* MSDate.m in Sources */,
 				CF74611B196757C7002D6AE6 /* TutorialHomeViewController.m in Sources */,

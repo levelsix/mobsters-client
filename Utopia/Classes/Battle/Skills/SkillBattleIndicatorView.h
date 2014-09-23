@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <cocos2d.h>
+#import <cocos2d-ui/CCButton.h>
 #import "SkillController.h"
 
 @interface SkillBattleIndicatorView : CCNode
@@ -19,6 +20,8 @@
   //CCSprite    *_checkIcon;
   
   CCSprite    *_skillLabel;
+  
+  CCButton    *_skillButton;
   
   CCLabelTTF  *_orbsCountLabel;
   CCLabelTTF  *_passiveOnLabel;
@@ -38,5 +41,7 @@
 
 - (void) appear:(BOOL)instantly;
 - (void) disappear;
+
+- (void) enableSkillButton:(BOOL)active;
 
 @end

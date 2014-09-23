@@ -79,6 +79,7 @@
     {
       if (execute)
       {
+        [self.battleLayer.orbLayer disallowInput];
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self showSkillPopupOverlay:YES withCompletion:^(){
           [self dealPoisonDamage];
@@ -207,7 +208,10 @@ static NSString* const skullId = @"skull";
 - (void) dealPoisonDamage3
 {
   // Turn on the lights for the board and finish skill execution
-  [self.battleLayer.orbLayer.bgdLayer performSelector:@selector(turnTheLightsOn) withObject:nil afterDelay:1.3];
+  [self performAfterDelay:1.3 block:^{
+    [self.battleLayer.orbLayer allowInput];
+    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+  }];
   [self skillTriggerFinished];
 }
 

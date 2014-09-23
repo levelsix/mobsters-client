@@ -590,4 +590,10 @@
                               times:numTimes]];
 }
 
+- (void) setScale:(float)scale
+{
+  [super setScale:scale];
+  [self.healthBgd setScale:1.0/scale];
+}
+
 @end

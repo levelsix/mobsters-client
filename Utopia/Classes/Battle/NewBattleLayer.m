@@ -597,6 +597,7 @@
     SkillLogEnd(triggered, @"  Beginning of player turn ENDED");
     [self.orbLayer.bgdLayer turnTheLightsOn];
     [self.orbLayer allowInput];
+    [skillManager enableSkillButton:YES];
     [self.hudView prepareForMyTurn];
     [self performAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
@@ -654,6 +655,7 @@
   if (_movesLeft <= 0) {
     [self myTurnEnded];
   } else {
+    [skillManager enableSkillButton:YES];
     [self.orbLayer allowInput];
     _myDamageForThisTurn = 0;
   }
@@ -1457,6 +1459,7 @@
   _movesLeft--;
   [self updateHealthBars];
   [self.hudView removeSwapButton];
+  [skillManager enableSkillButton:NO];
 }
 
 - (void) newComboFound {

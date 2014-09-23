@@ -191,6 +191,8 @@
       [clippingNode addChild:greyscaleIcon];
       [self addChild:clippingNode];
     }
+    
+    [self setSkillButton];
   }];
 }
 
@@ -215,6 +217,32 @@
   _skillLabel = [CCSprite spriteWithImageNamed:iconName];
   _skillLabel.position = ccp(0, 10);
   [self addChild:_skillLabel];
+}
+
+- (void) setSkillButton
+{
+  if (self.skillController.activationType != SkillActivationTypeUserActivated)
+    return;
+  
+  _skillButton = [CCButton buttonWithTitle:@"" spriteFrame:_skillIcon.spriteFrame];
+  [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateNormal];
+  [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateDisabled];
+  _skillButton.position = _skillIcon.position;
+  _skillButton.contentSize = _skillIcon.contentSize;
+  [_skillButton setTarget:self selector:@selector(skillButtonTapped)];
+  [self addChild:_skillButton];
+  
+  //_skillButton.enabled = NO;
+}
+
+- (void) skillButtonTapped
+{
+  if (self.skillController.activationType == SkillActivationTypeUserActivated)
+  {
+    [self.skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered) {
+      [self update];
+    }];
+  }
 }
 
 #pragma mark - Setters
@@ -280,17 +308,27 @@
 - (void) update
 {
   // Active skills
-  if ( [_skillController isKindOfClass:[SkillControllerActive class]] )
+  if (_skillController.activationType != SkillActivationTypePassive)
   {
     SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
     self.percentage = 1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement;
     //self.orbsCount = activeSkill.orbCounter;
   }
   
+  // Manually enabled skills
+  if (_skillController.activationType == SkillActivationTypeUserActivated)
+    [self updateButtonAnimations];
+  
   // Hide if owner died
   BattlePlayer* owner = _skillController.belongsToPlayer ? _skillController.player : _skillController.enemy;
   if (owner.curHealth <= 0.0)
     [self disappear];
+}
+
+- (void) enableSkillButton:(BOOL)active
+{
+  _skillButton.enabled = active;
+  [self updateButtonAnimations];
 }
 
 #pragma mark - UI Calls
@@ -317,6 +355,35 @@
                                      [CCActionFadeOut actionWithDuration:0.3]]],
                                    [CCActionRemove action],
                                    nil]];
+}
+
+- (void) updateButtonAnimations
+{
+  if ( !_skillButton)
+    return;
+  
+  if ([self.skillController skillIsReady] && _skillButton.enabled)
+  {
+    if (![_skillIcon getActionByTag:2015])
+    {
+      CCActionRepeatForever* bump = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                                                                             [CCActionEaseInOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.1]],
+                                                                             [CCActionEaseInOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]],
+                                                                             nil]];
+      bump.tag = 2015;
+      [_skillIcon runAction:bump];
+      if (_chargedEffect)
+        [_chargedEffect resetSystem];
+    }
+  }
+  else
+  {
+    [_skillIcon stopActionByTag:2015];
+    if (_skillIcon.scale != 1.0)
+      [_skillIcon runAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.0]];
+    if (_chargedEffect)
+      [_chargedEffect stopSystem];
+  }
 }
 
 @end

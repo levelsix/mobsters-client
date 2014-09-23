@@ -14,6 +14,8 @@
 #import "SkillBombs.h"
 #import "SkillShield.h"
 #import "SkillPoison.h"
+#import "SkillRoidRage.h"
+#import "SkillMomentum.h"
 
 @implementation SkillController
 
@@ -27,6 +29,8 @@
     case SkillTypeBombs: return [[SkillBombs alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeShield: return [[SkillShield alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypePoison: return [[SkillPoison alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeRoidRage: return [[SkillRoidRage alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -158,7 +162,7 @@
   _popupOverlay.frame = parentView.bounds;
   [parentView addSubview:_popupOverlay];
   _popupOverlay.origin = CGPointMake((parentView.width - _popupOverlay.width)/2, (parentView.height - _popupOverlay.height)/2);
-  [_popupOverlay animateForSkill:_skillType forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];
+  [_popupOverlay animateForSkill:_skillId forPlayer:_belongsToPlayer withImage:_characterImage withCompletion:_callbackBlockForPopup];
   
   // Hide pieces of battle hud
   if (self.belongsToPlayer)

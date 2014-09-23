@@ -25,7 +25,7 @@ typedef void(^SkillPopupBlock)();
   __weak IBOutlet UIImageView *_enemyGradient;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion;
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion;
 - (void) hideWithCompletion:(SkillPopupBlock)completion;
 
 @end

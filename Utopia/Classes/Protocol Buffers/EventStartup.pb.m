@@ -1810,8 +1810,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
 @property (retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 @property Float32 minutesPerGem;
-@property int32_t pvpRequiredMinLvl;
 @property Float32 gemsPerResource;
+@property int32_t pvpRequiredMinLvl;
+@property Float32 monsterDmgMultiplier;
 @property Float32 continueBattleGemCostMultiplier;
 @property Float32 battleRunAwayBasePercent;
 @property Float32 battleRunAwayIncrement;
@@ -1946,13 +1947,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinutesPerGem_ = !!value;
 }
 @synthesize minutesPerGem;
-- (BOOL) hasPvpRequiredMinLvl {
-  return !!hasPvpRequiredMinLvl_;
-}
-- (void) setHasPvpRequiredMinLvl:(BOOL) value {
-  hasPvpRequiredMinLvl_ = !!value;
-}
-@synthesize pvpRequiredMinLvl;
 - (BOOL) hasGemsPerResource {
   return !!hasGemsPerResource_;
 }
@@ -1960,6 +1954,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasGemsPerResource_ = !!value;
 }
 @synthesize gemsPerResource;
+- (BOOL) hasPvpRequiredMinLvl {
+  return !!hasPvpRequiredMinLvl_;
+}
+- (void) setHasPvpRequiredMinLvl:(BOOL) value {
+  hasPvpRequiredMinLvl_ = !!value;
+}
+@synthesize pvpRequiredMinLvl;
+- (BOOL) hasMonsterDmgMultiplier {
+  return !!hasMonsterDmgMultiplier_;
+}
+- (void) setHasMonsterDmgMultiplier:(BOOL) value {
+  hasMonsterDmgMultiplier_ = !!value;
+}
+@synthesize monsterDmgMultiplier;
 - (BOOL) hasContinueBattleGemCostMultiplier {
   return !!hasContinueBattleGemCostMultiplier_;
 }
@@ -2061,8 +2069,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.userMonsterConstants = [StartupResponseProto_StartupConstants_UserMonsterConstants defaultInstance];
     self.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
     self.minutesPerGem = 0;
-    self.pvpRequiredMinLvl = 0;
     self.gemsPerResource = 0;
+    self.pvpRequiredMinLvl = 0;
+    self.monsterDmgMultiplier = 0;
     self.continueBattleGemCostMultiplier = 0;
     self.battleRunAwayBasePercent = 0;
     self.battleRunAwayIncrement = 0;
@@ -2195,6 +2204,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxMinutesForFreeSpeedUp) {
     [output writeInt32:30 value:self.maxMinutesForFreeSpeedUp];
   }
+  if (self.hasMonsterDmgMultiplier) {
+    [output writeFloat:31 value:self.monsterDmgMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2293,6 +2305,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMaxMinutesForFreeSpeedUp) {
     size += computeInt32Size(30, self.maxMinutesForFreeSpeedUp);
+  }
+  if (self.hasMonsterDmgMultiplier) {
+    size += computeFloatSize(31, self.monsterDmgMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4633,11 +4648,14 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasMinutesPerGem) {
     [self setMinutesPerGem:other.minutesPerGem];
   }
+  if (other.hasGemsPerResource) {
+    [self setGemsPerResource:other.gemsPerResource];
+  }
   if (other.hasPvpRequiredMinLvl) {
     [self setPvpRequiredMinLvl:other.pvpRequiredMinLvl];
   }
-  if (other.hasGemsPerResource) {
-    [self setGemsPerResource:other.gemsPerResource];
+  if (other.hasMonsterDmgMultiplier) {
+    [self setMonsterDmgMultiplier:other.monsterDmgMultiplier];
   }
   if (other.hasContinueBattleGemCostMultiplier) {
     [self setContinueBattleGemCostMultiplier:other.continueBattleGemCostMultiplier];
@@ -4849,6 +4867,10 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 240: {
         [self setMaxMinutesForFreeSpeedUp:[input readInt32]];
+        break;
+      }
+      case 253: {
+        [self setMonsterDmgMultiplier:[input readFloat]];
         break;
       }
     }
@@ -5268,6 +5290,22 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   result.minutesPerGem = 0;
   return self;
 }
+- (BOOL) hasGemsPerResource {
+  return result.hasGemsPerResource;
+}
+- (Float32) gemsPerResource {
+  return result.gemsPerResource;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setGemsPerResource:(Float32) value {
+  result.hasGemsPerResource = YES;
+  result.gemsPerResource = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearGemsPerResource {
+  result.hasGemsPerResource = NO;
+  result.gemsPerResource = 0;
+  return self;
+}
 - (BOOL) hasPvpRequiredMinLvl {
   return result.hasPvpRequiredMinLvl;
 }
@@ -5284,20 +5322,20 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   result.pvpRequiredMinLvl = 0;
   return self;
 }
-- (BOOL) hasGemsPerResource {
-  return result.hasGemsPerResource;
+- (BOOL) hasMonsterDmgMultiplier {
+  return result.hasMonsterDmgMultiplier;
 }
-- (Float32) gemsPerResource {
-  return result.gemsPerResource;
+- (Float32) monsterDmgMultiplier {
+  return result.monsterDmgMultiplier;
 }
-- (StartupResponseProto_StartupConstants_Builder*) setGemsPerResource:(Float32) value {
-  result.hasGemsPerResource = YES;
-  result.gemsPerResource = value;
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterDmgMultiplier:(Float32) value {
+  result.hasMonsterDmgMultiplier = YES;
+  result.monsterDmgMultiplier = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_Builder*) clearGemsPerResource {
-  result.hasGemsPerResource = NO;
-  result.gemsPerResource = 0;
+- (StartupResponseProto_StartupConstants_Builder*) clearMonsterDmgMultiplier {
+  result.hasMonsterDmgMultiplier = NO;
+  result.monsterDmgMultiplier = 0;
   return self;
 }
 - (BOOL) hasContinueBattleGemCostMultiplier {
