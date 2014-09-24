@@ -257,6 +257,7 @@
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
 
 + (BOOL) isSmallestiPhone;
++ (BOOL) isiPhone6;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;

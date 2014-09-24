@@ -217,7 +217,7 @@
 {
   // LVL6 Addition
   // NSURL *url = [NSURL fileURLWithPath:[[CCFileUtils sharedFileUtils] fullPathForFilename:xmlFilename contentScale:&_contentScale]];
-  _contentScale = 1;
+  _contentScale = 2;
   NSString *path = [[[CCDirector sharedDirector] downloaderDelegate] filepathToFile:xmlFilename];
   NSURL *url = [NSURL fileURLWithPath:path];
   NSData *data = [NSData dataWithContentsOfURL:url];

@@ -141,7 +141,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 		_preserveBackbuffer = retained;
 		
 		// Default to "retina" being enabled.
-		self.contentScaleFactor = [UIScreen mainScreen].scale;
+    // LVL6 Addition
+    self.contentScaleFactor = [UIScreen mainScreen].scale > 1 ? 2 : 1;
 
 		if( ! [self setupSurfaceWithSharegroup:sharegroup] ) {
 			return nil;

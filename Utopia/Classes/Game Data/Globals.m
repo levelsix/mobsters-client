@@ -609,6 +609,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"y" : @" year", !shortened && time / interval != 1 ? @"s" : @""];
 }
 
+#pragma mark - Font Adjustment
+
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
   if ([somethingWithText respondsToSelector:@selector(setFont:)]) {
     UIFont *f = [UIFont fontWithName:[self font] size:size];
@@ -680,6 +682,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   va_end(params);
 }
 
+#pragma mark - Strings
+
 + (NSString *) cashStringForNumber:(int)n {
   return [NSString stringWithFormat:@"$%@", [self commafyNumber:n]];
 }
@@ -727,6 +731,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   return qualifier;
 }
+
+#pragma mark - Array Differences
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section {
   [self calculateDifferencesBetweenOldArray:oArr newArray:nArr removalIps:removals additionIps:additions movedIps:nil section:section];
@@ -778,6 +784,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
 }
+
+#pragma mark - View helpers
 
 + (UIImage *) snapShotView:(UIView *)view {
   UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
@@ -918,6 +926,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   [sv addSubview:view];
 }
+
+#pragma mark - Downloading
 
 + (BOOL) isFileDownloaded:(NSString *)fileName {
   if (!fileName) {
@@ -1214,6 +1224,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
   if (completion)
     completion();
+}
+
++ (NSString*) getDoubleResolutionImage:(NSString*)path {
+  int scale = [UIScreen mainScreen].scale;
+  if(scale > 1) {
+    NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
+    NSString *name = [pathWithoutExtension lastPathComponent];
+    
+    // check if path already has the suffix.
+    if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
+      return path;
+    }
+    
+    NSString *extension = [path pathExtension];
+    
+    if([extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"]) {
+      // All ccz / gz files should be in the format filename.xxx.ccz
+      // so we need to pull off the .xxx part of the extension as well
+      extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
+      pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
+    }
+    
+    NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
+    retinaName = [retinaName stringByAppendingPathExtension:extension];
+    
+    return retinaName;
+    
+    CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
+  }
+  
+  return path;
 }
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
@@ -1723,6 +1764,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
 }
 
++ (BOOL) isiPhone6 {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 667.0);
+}
+
 #pragma mark Colors
 + (UIColor *)creamColor {
   return [UIColor colorWithRed:240/255.f green:237/255.f blue:213/255.f alpha:1.f];
@@ -2033,36 +2078,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return YES;
 }
 #pragma clang diagnostic pop
-
-+ (NSString*) getDoubleResolutionImage:(NSString*)path {
-	if([UIScreen mainScreen].scale == 2) {
-		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
-		NSString *name = [pathWithoutExtension lastPathComponent];
-		
-		// check if path already has the suffix.
-		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
-			return path;
-		}
-    
-		NSString *extension = [path pathExtension];
-		
-		if([extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"]) {
-			// All ccz / gz files should be in the format filename.xxx.ccz
-			// so we need to pull off the .xxx part of the extension as well
-			extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
-			pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
-		}
-		
-		NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
-		retinaName = [retinaName stringByAppendingPathExtension:extension];
-    
-    return retinaName;
-    
-		CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
-	}
-	
-	return path;
-}
 
 + (void) animateStartView:(UIView *)startView toEndView:(UIView *)endView fakeStartView:(UIView *)fakeStart fakeEndView:(UIView *)fakeEnd {
   fakeStart.center = [fakeStart.superview convertPoint:startView.center fromView:startView.superview];

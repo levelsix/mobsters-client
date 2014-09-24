@@ -142,7 +142,9 @@ static char * glExtensions;
 		// From http://stackoverflow.com/a/12535566
 		BOOL isiPhone5 = CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size,CGSizeMake(640, 1136));
 		
-		if( [UIScreen mainScreen].scale == 2 ) {
+    // LVL6 Addition
+    //if( [UIScreen mainScreen].scale == 2 ) {
+    if( [UIScreen mainScreen].scale >= 2 ) {
 			ret = isiPhone5 ? CCDeviceiPhone5RetinaDisplay : CCDeviceiPhoneRetinaDisplay;
 		} else
 			ret = isiPhone5 ? CCDeviceiPhone5 : CCDeviceiPhone;

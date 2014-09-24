@@ -7,6 +7,7 @@
 
 #import "TileSprite.h"
 #import <cocos2d/cocos2d.h>
+#import "Globals.h"
 
 @implementation TileSprite
 
@@ -46,6 +47,8 @@
                               nil]];
   }
   
+  NSString *resPrefix = [Globals isiPhone6] ? @"6" : @"";
+  
   // Check if this tile is not empty
   NSString* imageName;
   switch (_tileType)
@@ -60,7 +63,7 @@
   // Load image
   if (imageName)
   {
-    _sprite = [CCSprite spriteWithImageNamed:imageName];
+    _sprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:imageName]];
     _sprite.scale = 0.0;
     [self addChild:_sprite];
     [_sprite runAction:[CCActionSequence actions:

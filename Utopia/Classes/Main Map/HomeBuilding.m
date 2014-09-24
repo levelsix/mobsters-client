@@ -255,7 +255,7 @@
 - (void) locationAfterTouch: (CGPoint) touchLocation {
   // Subtract the touch location from the start location to find the distance moved
   CGPoint vector = ccpSub(touchLocation, _startTouchLocation);
-  CGSize ts = _homeMap.tileSizeInPoints;
+  CGSize ts = _homeMap.tileSize;
   if (abs(vector.x)+abs(2*vector.y) >= ts.width) {
     float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(touchLocation, _startTouchLocation)));
     

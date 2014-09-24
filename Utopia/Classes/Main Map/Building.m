@@ -103,7 +103,7 @@
   self.buildingSprite.anchorPoint = ccp(0.5,0);
   self.buildingSprite.scale = self.baseScale;
   
-  float width = (self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.width;
+  float width = (self.location.size.width+self.location.size.height)/2*_map.tileSize.width;
   //  float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
   float height = self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale;
   self.contentSize = CGSizeMake(width, height);

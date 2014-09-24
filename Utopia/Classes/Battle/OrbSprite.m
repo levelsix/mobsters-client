@@ -91,21 +91,23 @@
   PowerupType powerupType = orb.powerupType;
   SpecialOrbType special = orb.specialOrbType;
   
+  NSString *resPrefix = [Globals isiPhone6] ? @"6" : @"";
+  
   switch (special) {
     case SpecialOrbTypeCake:
-      return @"cakeorb.png";
+      return [resPrefix stringByAppendingString:@"cakeorb.png"];
       break;
     
     case SpecialOrbTypeBomb:
       if (orbColor == OrbColorRock || orbColor == OrbColorNone)
         return nil;
-      return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
+      return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
       break;
       
       case SpecialOrbTypePoison:
           if (orbColor == OrbColorNone)
               return nil;
-          return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+          return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
           break;
     
     default:
@@ -141,7 +143,7 @@
     default: return nil; break;
   }
   
-  return [NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix];
+  return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, colorPrefix, powerupSuffix];
 }
 
 - (void) reloadSprite:(BOOL)animated

@@ -27,6 +27,8 @@
   
   int _muteUserId;
   NSString *_muteName;
+  
+  BOOL _isEditing;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;

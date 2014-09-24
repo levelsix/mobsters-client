@@ -140,8 +140,10 @@
     [self initOrbLayer];
     
     OrbMainLayer *puzzleBg = self.orbLayer;
-    float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
-    puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
+    // Need to make it equidistant on all sides
+    float distFromSide = ORB_LAYER_DIST_FROM_SIDE;
+    float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+distFromSide : self.contentSize.width-puzzleBg.contentSize.width/2-distFromSide;
+    puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+distFromSide);
     
     self.bgdContainer = [CCNode node];
     self.bgdContainer.contentSize = self.contentSize;
@@ -1414,6 +1416,8 @@
     [self addChild:s z:1];
     s.opacity = 0.f;
     s.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    s.scaleX = self.contentSize.width/s.contentSize.width;
+    s.scaleY = self.contentSize.height/s.contentSize.height;
     _bloodSplatter = s;
   }
   return _bloodSplatter;
@@ -1712,7 +1716,7 @@
 #pragma mark - No Input Layer Methods
 
 - (void) displayOrbLayer {
-  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-14, self.orbLayer.position.y)] rate:3]];
+  [self.orbLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbLayer.contentSize.width/2-ORB_LAYER_DIST_FROM_SIDE, self.orbLayer.position.y)] rate:3]];
   [self.lootBgd runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.2f position:ccp(_lootBgd.contentSize.width/2 + 10, _lootBgd.position.y)] rate:3]];
   
   [SoundEngine puzzleOrbsSlideIn];
@@ -1744,7 +1748,7 @@
 
 #pragma mark - Hud views
 
-#define DEPLOY_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-14)/2
+#define DEPLOY_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE)/2
 
 - (void) loadHudView {
   GameViewController *gvc = [GameViewController baseController];

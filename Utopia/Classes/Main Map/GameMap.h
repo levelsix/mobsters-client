@@ -43,8 +43,6 @@
 
 @property (nonatomic, retain) NSMutableArray *walkableData;
 
-@property (nonatomic, assign) CGSize tileSizeInPoints;
-
 @property (nonatomic, assign) int cityId;
 
 @property (nonatomic, retain) NSMutableArray *myTeamSprites;

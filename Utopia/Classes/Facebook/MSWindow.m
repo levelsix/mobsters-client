@@ -86,6 +86,7 @@
 - (void) displayOmnipresentView:(UIView *)v {
   if (!self.omnipresentViews) self.omnipresentViews = [NSMutableArray array];
   [self.omnipresentViews addObject:v];
+  v.frame = self.bounds;
   [self addSubview:v];
 }
 

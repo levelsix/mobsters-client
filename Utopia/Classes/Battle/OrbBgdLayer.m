@@ -10,6 +10,10 @@
 #import "cocos2d.h"
 #import "TileSprite.h"
 #import "NibUtils.h"
+#import "Globals.h"
+
+#define IPHONE_5_TILE_SIZE 36
+#define IPHONE_6_TILE_SIZE 42
 
 @implementation OrbBgdLayer
 
@@ -21,16 +25,17 @@
   _layout = layout;
   
   // Setup board background
-  CCSprite *square;
+  int tileSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : IPHONE_5_TILE_SIZE;
   for (int i = 0; i < gridSize.width; i++) {
     for (int j = 0; j < gridSize.height; j++) {
       NSString *fileName = (i+j)%2==0 ? @"lightboardsquare.png" : @"darkboardsquare.png";
-      square = [CCSprite spriteWithImageNamed:fileName];
+      CCSprite *square = [CCSprite spriteWithImageNamed:fileName];
       
       [self addChild:square];
-      square.position = ccp((i+0.5)*square.contentSize.width, (j+0.5)*square.contentSize.height);
+      square.position = ccp((i+0.5)*tileSize, (j+0.5)*tileSize);
+      square.scale = tileSize;
       
-      self.contentSize = CGSizeMake(square.position.x+square.contentSize.width/2, square.position.y+square.contentSize.height/2);
+      self.contentSize = CGSizeMake(square.position.x+tileSize/2, square.position.y+tileSize/2);
     }
   }
   
@@ -55,19 +60,19 @@
       TileSprite* spriteBottom = [TileSprite tileSpriteWithTile:tile depth:TileDepthBottom];
       if (spriteTop)
       {
-        spriteTop.position = ccp((col+0.5)*square.contentSize.width, (row+0.5)*square.contentSize.height);
+        spriteTop.position = ccp((col+0.5)*tileSize, (row+0.5)*tileSize);
         [_tilesLayerTop addChild:spriteTop z:1 name:tile.description];
       }
       if (spriteBottom)
       {
-        spriteBottom.position = ccp((col+0.5)*square.contentSize.width, (row+0.5)*square.contentSize.height);
+        spriteBottom.position = ccp((col+0.5)*tileSize, (row+0.5)*tileSize);
         [_tilesLayerBottom addChild:spriteBottom z:1 name:tile.description];
       }
       
       // Dark tile
       CCNodeColor *spriteDark = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, darknessForTilesOpacity)]
-                                                     width:square.contentSize.width height:square.contentSize.height];
-      spriteDark.position = ccp(col*square.contentSize.width, row*square.contentSize.height);
+                                                     width:tileSize height:tileSize];
+      spriteDark.position = ccp(col*tileSize, row*tileSize);
       [_tilesLayerDarkness addChild:spriteDark z:1 name:tile.description];
     }
   

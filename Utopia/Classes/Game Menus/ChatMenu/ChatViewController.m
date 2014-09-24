@@ -147,7 +147,10 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  if (!self.mainView.layer.animationKeys.count) {
+  // Check if we are editing
+  if (_isEditing) {
+    [self.view endEditing:YES];
+  } else if (!self.mainView.layer.animationKeys.count) {
     [self beginAppearanceTransition:NO animated:YES];
     [UIView animateWithDuration:0.18f animations:^{
       self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
@@ -289,6 +292,8 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
+  
+  _isEditing = YES;
 }
 
 - (void) keyboardWillHide:(NSNotification *)n {
@@ -312,6 +317,8 @@
   [UIView commitAnimations];
   
   [self.popoverView close];
+  
+  _isEditing = NO;
 }
 
 @end

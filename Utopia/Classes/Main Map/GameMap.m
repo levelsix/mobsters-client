@@ -21,8 +21,6 @@
 
 @implementation GameMap
 
-@synthesize tileSizeInPoints;
-
 -(void) addChild:(CCNode *)node z:(NSInteger)z name:(NSString *)name {
   if ([[node class] isSubclassOfClass:[MapSprite class]]) {
     [_mapSprites addObject:node];
@@ -40,12 +38,6 @@
 -(id) initWithFile:(NSString *)tmxFile {
   if ((self = [super initWithFile:tmxFile])) {
     _mapSprites = [NSMutableArray array];
-    
-    if ([CCDirector sharedDirector].contentScaleFactor == 2) {
-      tileSizeInPoints = CGSizeMake(self.tileSize.width/2, self.tileSize.height/2);
-    } else {
-      tileSizeInPoints = _tileSize;
-    }
     
     // Add the decoration layer for clouds
     //    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
@@ -505,7 +497,7 @@
 - (void) moveToCenterAnimated:(BOOL)animated {
   // move map to the center of the screen
   CGSize ms = [self mapSize];
-  CGSize ts = [self tileSizeInPoints];
+  CGSize ts = [self tileSize];
   CGSize size = [[CCDirector sharedDirector] viewSize];
   
   float x = -ms.width*ts.width/2*_scaleX+size.width/2;
@@ -560,14 +552,14 @@
 
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {
   CGSize ms = _mapSize;
-  CGSize ts = tileSizeInPoints;
+  CGSize ts = _tileSize;
   return ccp( ms.width * ts.width/2.f + ts.width * (pt.x-pt.y)/2.f,
              ts.height * (pt.y+pt.x)/2.f);
 }
 
 - (CGPoint) convertCCPointToTilePoint:(CGPoint)pt {
   CGSize ms = _mapSize;
-  CGSize ts = tileSizeInPoints;
+  CGSize ts = _tileSize;
   float a = (pt.x - ms.width*ts.width/2.f)/ts.width;
   float b = pt.y/ts.height;
   float x = a+b;
