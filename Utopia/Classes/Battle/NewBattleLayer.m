@@ -1706,6 +1706,9 @@
   else
     monster = [self.enemyPlayerObject getIncompleteUserMonster];
   
+  if (! monster)
+    return;
+  
   MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:monster allowSell:YES];
   UIViewController *parent = [GameViewController baseController];
   mpvc.view.frame = parent.view.bounds;

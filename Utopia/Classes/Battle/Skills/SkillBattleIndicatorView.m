@@ -39,18 +39,7 @@
   
   _skillController = skillController;
   _enemy = enemy;
-  
-  /*switch (skillController.activationType)
-  {
-    case SkillActivationTypeAutoActivated:
-      [self setForAutoactivatedSkill];
-      break;
-    case SkillActivationTypePassive:
-      [self setForPassiveSkill];
-      break;
-    default:
-      break;
-  }*/
+  _skillButtonEnabled = NO;
   
   GameState* gs = [GameState sharedGameState];
   SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
@@ -61,105 +50,6 @@
   
   return self;
 }
-
-/*- (void) setForAutoactivatedSkill
-{
-  if (! [_skillController isKindOfClass:[SkillControllerActive class]])
-  {
-    CustomAssert(FALSE, @"Wrong skill controller passed - non-active instead of active skill");
-    return;
-  }
-  
-  SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
-  
-  NSString* bgImageName;
-  NSString* orbImageName;
-  switch (activeSkill.orbColor)
-  {
-    case OrbColorEarth: bgImageName = @"earthcounterbg.png"; orbImageName = @"earthorbcounter.png"; break;
-    case OrbColorFire:  bgImageName = @"firecounterbg.png"; orbImageName = @"fireorbcounter.png"; break;
-    case OrbColorLight: bgImageName = @"lightcounterbg.png"; orbImageName = @"lightorbcounter.png"; break;
-    case OrbColorDark:  bgImageName = @"nightcounterbg.png"; orbImageName = @"nightorbcounter.png"; break;
-    case OrbColorWater: bgImageName = @"watercounterbg.png"; orbImageName = @"waterorbcounter.png"; break;
-    default: return;
-  }
-  
-  if (_bgImage)
-    [_bgImage removeFromParentAndCleanup:YES];
-  _bgImage = [CCSprite spriteWithImageNamed:bgImageName];
-  [self addChild:_bgImage];
-  
-  if (_orbIcon)
-    [_orbIcon removeFromParentAndCleanup:YES];
-  _orbIcon = [CCSprite spriteWithImageNamed:orbImageName];
-  _orbIcon.position = CGPointMake(-5, 0);
-  [self addChild:_orbIcon];
-  
-  if (! _orbsCountLabel)
-  {
-    _orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-UltraItalic" fontSize:12];
-    _orbsCountLabel.color = [CCColor whiteColor];
-    _orbsCountLabel.shadowOffset = ccp(0,-1);
-    _orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
-    _orbsCountLabel.shadowBlurRadius = 1.f;
-    _orbsCountLabel.position = CGPointMake(11, 0);
-    _orbsCountLabel.horizontalAlignment = CCTextAlignmentLeft;
-    [self addChild:_orbsCountLabel];
-  }
-  
-  if (! _checkIcon)
-  {
-    _checkIcon = [CCSprite spriteWithImageNamed:@"orbschecked.png"];
-    _checkIcon.position = CGPointMake(11, 0);
-    [self addChild:_checkIcon];
-  }
-}
-
-- (void) setForPassiveSkill
-{
-  if (! [_skillController isKindOfClass:[SkillControllerPassive class]])
-  {
-    CustomAssert(FALSE, @"Wrong skill controller passed - non-passive instead of passive skill");
-    return;
-  }
-  
-  SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
-  
-  NSString* bgImageName;
-  switch (activeSkill.orbColor)
-  {
-    case OrbColorEarth: bgImageName = @"earthcounterbg.png"; break;
-    case OrbColorFire:  bgImageName = @"firecounterbg.png"; break;
-    case OrbColorLight: bgImageName = @"lightcounterbg.png"; break;
-    case OrbColorDark:  bgImageName = @"nightcounterbg.png"; break;
-    case OrbColorWater: bgImageName = @"watercounterbg.png"; break;
-    default: return;
-  }
-  
-  if (_bgImage)
-    [_bgImage removeFromParentAndCleanup:YES];
-  _bgImage = [CCSprite spriteWithImageNamed:bgImageName];
-  [self addChild:_bgImage];
-  
-  if (! _passiveOnLabel)
-  {
-    _passiveOnLabel = [CCLabelTTF labelWithString:@"On" fontName:@"GothamNarrow-UltraItalic" fontSize:12];
-    _passiveOnLabel.color = [CCColor whiteColor];
-    _passiveOnLabel.shadowOffset = ccp(0,-1);
-    _passiveOnLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
-    _passiveOnLabel.shadowBlurRadius = 1.f;
-    _passiveOnLabel.position = CGPointMake(-6, 0);
-    _passiveOnLabel.horizontalAlignment = CCTextAlignmentLeft;
-    [self addChild:_passiveOnLabel];
-  }
-  
-  if (! _checkIcon)
-  {
-    _checkIcon = [CCSprite spriteWithImageNamed:@"orbschecked.png"];
-    _checkIcon.position = CGPointMake(11, 0);
-    [self addChild:_checkIcon];
-  }
-}*/
 
 - (void) setSkillIcon:(NSString*)iconName
 {
@@ -221,9 +111,6 @@
 
 - (void) setSkillButton
 {
-  if (self.skillController.activationType != SkillActivationTypeUserActivated)
-    return;
-  
   _skillButton = [CCButton buttonWithTitle:@"" spriteFrame:_skillIcon.spriteFrame];
   [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateNormal];
   [_skillButton setBackgroundSpriteFrame:nil forState:CCControlStateDisabled];
@@ -231,39 +118,21 @@
   _skillButton.contentSize = _skillIcon.contentSize;
   [_skillButton setTarget:self selector:@selector(skillButtonTapped)];
   [self addChild:_skillButton];
-  
-  //_skillButton.enabled = NO;
 }
 
 - (void) skillButtonTapped
 {
-  if (self.skillController.activationType == SkillActivationTypeUserActivated)
+  if (_skillButtonEnabled && [_skillController skillIsReady])
   {
-    [self.skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered) {
+    [_skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered) {
       [self update];
     }];
   }
+  else
+    [self popupOrbCounter];
 }
 
 #pragma mark - Setters
-
-/*- (void) setOrbsCount:(NSInteger)orbsCount
-{
-  if (!_orbsCountLabel || !_checkIcon)
-    return;
-  
-  if (orbsCount == 0)
-  {
-    _orbsCountLabel.visible = NO;
-    _checkIcon.visible = YES;
-  }
-  else
-  {
-    [_orbsCountLabel setString:[NSString stringWithFormat:@"%d", orbsCount]];
-    _orbsCountLabel.visible = YES;
-    _checkIcon.visible = NO;
-  }
-}*/
 
 - (void) setPercentage:(float)percentage
 {
@@ -327,7 +196,10 @@
 
 - (void) enableSkillButton:(BOOL)active
 {
-  _skillButton.enabled = active;
+  if (_skillController.activationType != SkillActivationTypeUserActivated)
+    return;
+  
+  _skillButtonEnabled = active;
   [self updateButtonAnimations];
 }
 
@@ -362,7 +234,7 @@
   if ( !_skillButton)
     return;
   
-  if ([self.skillController skillIsReady] && _skillButton.enabled)
+  if ([self.skillController skillIsReady] && _skillButtonEnabled)
   {
     if (![_skillIcon getActionByTag:2015])
     {
@@ -384,6 +256,56 @@
     if (_chargedEffect)
       [_chargedEffect stopSystem];
   }
+}
+
+- (void) popupOrbCounter
+{
+  if (_orbCounter && _orbCounter.parent)
+    return;
+  
+  // BG
+  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"counter"] ];
+  _orbCounter = [CCSprite spriteWithImageNamed:bgName];
+  _orbCounter.position = ccpAdd(self.position, ccp(0, self.contentSize.height));
+  _orbCounter.opacity = 0.0;
+  
+  // Counter label
+  CCLabelTTF* orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-Ultra" fontSize:12];
+  orbsCountLabel.color = [CCColor whiteColor];
+  orbsCountLabel.shadowOffset = ccp(0,-1);
+  orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+  orbsCountLabel.shadowBlurRadius = 1.f;
+  orbsCountLabel.horizontalAlignment = CCTextAlignmentCenter;
+  orbsCountLabel.position = CGPointMake(_orbCounter.contentSize.width/2, _orbCounter.contentSize.height/2 + 10);
+  [_orbCounter addChild:orbsCountLabel];
+  
+  if ([_skillController isKindOfClass:[SkillControllerActive class]])
+  {
+    SkillControllerActive* activeController = (SkillControllerActive*)_skillController;
+    
+    // Orb icon
+    NSString* orbName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"orb"] ];
+    CCSprite* orb = [CCSprite spriteWithImageNamed:orbName];
+    orb.position = CGPointMake(orbsCountLabel.position.x - 12, orbsCountLabel.position.y);
+    orb.scale = 0.5;
+    [_orbCounter addChild:orb];
+    
+    // Text
+    [orbsCountLabel setString:[NSString stringWithFormat:@"%d/%d", activeController.orbRequirement-activeController.orbCounter, activeController.orbRequirement]];
+    orbsCountLabel.position = CGPointMake(orbsCountLabel.position.x + 10, orbsCountLabel.position.y);
+  }
+  else
+  {
+    // Text
+    [orbsCountLabel setString:[NSString stringWithFormat:@"Passive"]];
+  }
+  
+  [self.parent addChild:_orbCounter];
+  [_orbCounter runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.0],
+                 [CCActionDelay actionWithDuration:2.0],
+                 [RecursiveFadeTo actionWithDuration:0.3 opacity:0.0],
+                 [CCActionRemove action],
+                 nil]];
 }
 
 @end

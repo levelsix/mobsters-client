@@ -99,7 +99,7 @@
   }];
 }
 
-static const NSInteger bombsMaxSearchIterations = 1000;
+static const NSInteger bombsMaxSearchIterations = 5000;
 
 // Adding bombs
 - (void) spawnBombs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
@@ -207,6 +207,9 @@ static const NSInteger bombsMaxSearchIterations = 1000;
   // Dropping bombs if needed
   if (bombCount > 0)
   {
+    [battleLayer.orbLayer.bgdLayer turnTheLightsOff];
+    [battleLayer.orbLayer disallowInput];
+    
     float delay = 1.5 + 0.05*bombCount; // 0.05 = 0.1/2 where 0.1 is the delay between dropping bombs. So player will flinch on the middle bomb.
     
     // Player flinches
@@ -220,8 +223,12 @@ static const NSInteger bombsMaxSearchIterations = 1000;
     
     // Bombs are dropping
     [SkillBombs dropBombsOnPlayer:bombCount withBattleLayer:battleLayer andPosition:battleLayer.myPlayer.position andCompletion:^{
-      [battleLayer performAfterDelay:0.5 block:^{
       
+      [battleLayer performAfterDelay:0.5 block:^{
+        
+        [battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+        [battleLayer.orbLayer allowInput];
+        
         completion(YES);
       }];
     }];
