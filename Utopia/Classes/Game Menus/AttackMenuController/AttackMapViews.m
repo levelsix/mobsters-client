@@ -95,6 +95,15 @@
 
 @implementation AttackMapStatusView
 
+- (void) awakeFromNib {
+  if ([Globals isSmallestiPhone]) {
+    // Remove available label for small iphone
+    self.cashLabel.superview.originX = self.availableLabel.originX;
+    
+    [self.availableLabel removeFromSuperview];
+  }
+}
+
 - (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash {
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];

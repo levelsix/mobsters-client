@@ -149,6 +149,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="availableLabel" destination="rvh-ir-DGf" id="9Mt-Ag-yli"/>
                 <outlet property="bgdImage" destination="A8A-DY-nwH" id="9cL-Et-XzQ"/>
                 <outlet property="bottomLabel" destination="Pyv-R4-AW9" id="wqs-o0-Vy0"/>
                 <outlet property="cashLabel" destination="Pyv-R4-AW9" id="3ru-mB-dXB"/>
@@ -157,6 +158,7 @@
                 <outlet property="sideLabel" destination="l8K-mQ-mdl" id="s2D-HH-bt5"/>
                 <outlet property="topLabel" destination="sBg-k7-B4U" id="zVW-Ru-sQZ"/>
             </connections>
+            <point key="canvasLocation" x="98" y="204"/>
         </view>
     </objects>
     <resources>
