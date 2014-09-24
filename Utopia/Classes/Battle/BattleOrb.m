@@ -51,11 +51,11 @@
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
   
   if (powerupType)
-    _powerupType = [powerupType integerValue];
+    _powerupType = (PowerupType)[powerupType integerValue];
   if (orbColor)
-    _orbColor = [orbColor integerValue];
+    _orbColor = (OrbColor)[orbColor integerValue];
   if (specialOrbType)
-    _specialOrbType = [specialOrbType integerValue];
+    _specialOrbType = (SpecialOrbType)[specialOrbType integerValue];
   if (bombCounter)
     _bombCounter = [bombCounter integerValue];
   if (bombDamage)

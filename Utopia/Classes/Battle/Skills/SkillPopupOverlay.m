@@ -9,6 +9,7 @@
 #import "SkillPopupOverlay.h"
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Globals.h"
+#import "GameState.h"
 
 @implementation SkillPopupOverlay
 
@@ -23,7 +24,7 @@
   return self;
 }
 
-- (void) animateForSkill:(SkillType)skill forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion
+- (void) animateForSkill:(NSInteger)skillId forPlayer:(BOOL)player withImage:(UIImageView*)imageView withCompletion:(SkillPopupBlock)completion
 {
   UIView* mainView = player ? _avatarPlayer : _avatarEnemy;
   UIImageView* skillImage = player ? _skillImagePlayer : _skillImageEnemy;
@@ -31,15 +32,10 @@
   mainView.hidden = NO;
   
   // Skill image
-  switch (skill)
-  {
-    case SkillTypeQuickAttack: skillImage.image = [Globals imageNamed:@"cheapshotlogo.png"]; break;
-    case SkillTypeJelly: skillImage.image = [Globals imageNamed:@"goosplashlogo.png"]; break;
-    case SkillTypeCakeDrop: skillImage.image = [Globals imageNamed:@"cakedroplogo.png"]; break;
-    case SkillTypeBombs: skillImage.image = [Globals imageNamed:@"bombsawaylogo.png"]; break;
-    case SkillTypeShield: skillImage.image = [Globals imageNamed:@"forcefieldlogo.png"]; break;
-    default: CustomAssert(NO, @"Trying to create a skill popup and the skill logo definition is missing."); completion(NO); return;
-  }
+  GameState* gs = [GameState sharedGameState];
+  SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+  NSString* logoName = playerSkillProto.logoImgName;
+  [Globals imageNamed:logoName withView:skillImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   skillImage.alpha = 0.0;
   skillImage.transform = CGAffineTransformMakeScale(10.0, 10.0);
   
@@ -52,7 +48,7 @@
   // Flip enemy avatar and his gradient
   if (! player)
   {
-    //imageView.transform = CGAffineTransformMakeScale(-1, 1); // Don't flip the cake kid
+    //imageView.transform = CGAffineTransformMakeScale(-1, 1); // We decided not to flip the enemy
     _enemyGradient.transform = CGAffineTransformMakeScale(-1, 1);
   }
   

@@ -71,5 +71,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (CGPoint) enemySkillPosition;
 - (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger;
 - (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger;
+- (void) enableSkillButton:(BOOL)enable;
 
 @end

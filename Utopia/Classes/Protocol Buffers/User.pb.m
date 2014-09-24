@@ -3788,6 +3788,7 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 @property int32_t battlesWon;
 @property int32_t battlesLost;
 @property int64_t shieldEndTime;
+@property Float32 monsterDmgMultiplier;
 @end
 
 @implementation UserPvpLeagueProto
@@ -3841,6 +3842,13 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
   hasShieldEndTime_ = !!value;
 }
 @synthesize shieldEndTime;
+- (BOOL) hasMonsterDmgMultiplier {
+  return !!hasMonsterDmgMultiplier_;
+}
+- (void) setHasMonsterDmgMultiplier:(BOOL) value {
+  hasMonsterDmgMultiplier_ = !!value;
+}
+@synthesize monsterDmgMultiplier;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3853,6 +3861,7 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
     self.battlesWon = 0;
     self.battlesLost = 0;
     self.shieldEndTime = 0L;
+    self.monsterDmgMultiplier = 0;
   }
   return self;
 }
@@ -3893,6 +3902,9 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   if (self.hasShieldEndTime) {
     [output writeInt64:7 value:self.shieldEndTime];
   }
+  if (self.hasMonsterDmgMultiplier) {
+    [output writeFloat:8 value:self.monsterDmgMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3922,6 +3934,9 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   }
   if (self.hasShieldEndTime) {
     size += computeInt64Size(7, self.shieldEndTime);
+  }
+  if (self.hasMonsterDmgMultiplier) {
+    size += computeFloatSize(8, self.monsterDmgMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4019,6 +4034,9 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   if (other.hasShieldEndTime) {
     [self setShieldEndTime:other.shieldEndTime];
   }
+  if (other.hasMonsterDmgMultiplier) {
+    [self setMonsterDmgMultiplier:other.monsterDmgMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4066,6 +4084,10 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
       }
       case 56: {
         [self setShieldEndTime:[input readInt64]];
+        break;
+      }
+      case 69: {
+        [self setMonsterDmgMultiplier:[input readFloat]];
         break;
       }
     }
@@ -4181,6 +4203,22 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
 - (UserPvpLeagueProto_Builder*) clearShieldEndTime {
   result.hasShieldEndTime = NO;
   result.shieldEndTime = 0L;
+  return self;
+}
+- (BOOL) hasMonsterDmgMultiplier {
+  return result.hasMonsterDmgMultiplier;
+}
+- (Float32) monsterDmgMultiplier {
+  return result.monsterDmgMultiplier;
+}
+- (UserPvpLeagueProto_Builder*) setMonsterDmgMultiplier:(Float32) value {
+  result.hasMonsterDmgMultiplier = YES;
+  result.monsterDmgMultiplier = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearMonsterDmgMultiplier {
+  result.hasMonsterDmgMultiplier = NO;
+  result.monsterDmgMultiplier = 0;
   return self;
 }
 @end

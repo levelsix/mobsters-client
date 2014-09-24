@@ -940,6 +940,7 @@
 
 @interface UserPvpLeagueProto : PBGeneratedMessage {
 @private
+  BOOL hasMonsterDmgMultiplier_:1;
   BOOL hasShieldEndTime_:1;
   BOOL hasUserId_:1;
   BOOL hasLeagueId_:1;
@@ -947,6 +948,7 @@
   BOOL hasElo_:1;
   BOOL hasBattlesWon_:1;
   BOOL hasBattlesLost_:1;
+  Float32 monsterDmgMultiplier;
   int64_t shieldEndTime;
   int32_t userId;
   int32_t leagueId;
@@ -962,6 +964,7 @@
 - (BOOL) hasBattlesWon;
 - (BOOL) hasBattlesLost;
 - (BOOL) hasShieldEndTime;
+- (BOOL) hasMonsterDmgMultiplier;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t leagueId;
 @property (readonly) int32_t rank;
@@ -969,6 +972,7 @@
 @property (readonly) int32_t battlesWon;
 @property (readonly) int32_t battlesLost;
 @property (readonly) int64_t shieldEndTime;
+@property (readonly) Float32 monsterDmgMultiplier;
 
 + (UserPvpLeagueProto*) defaultInstance;
 - (UserPvpLeagueProto*) defaultInstance;
@@ -1038,5 +1042,10 @@
 - (int64_t) shieldEndTime;
 - (UserPvpLeagueProto_Builder*) setShieldEndTime:(int64_t) value;
 - (UserPvpLeagueProto_Builder*) clearShieldEndTime;
+
+- (BOOL) hasMonsterDmgMultiplier;
+- (Float32) monsterDmgMultiplier;
+- (UserPvpLeagueProto_Builder*) setMonsterDmgMultiplier:(Float32) value;
+- (UserPvpLeagueProto_Builder*) clearMonsterDmgMultiplier;
 @end
 

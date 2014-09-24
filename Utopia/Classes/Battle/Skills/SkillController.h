@@ -20,20 +20,21 @@ typedef void(^SkillControllerBlock)(BOOL triggered);
 // Skill triggers
 typedef enum {
   SkillTriggerPointEnemyInitialized   = 1,
-  SkillTriggerPointPlayerInitialized  = 2,  // There's no PlayerAppeared, because player appears when initialized
-  SkillTriggerPointEnemyAppeared      = 3,
+  SkillTriggerPointPlayerInitialized  = 2,
+  SkillTriggerPointEnemyAppeared      = 3,  // There's no PlayerAppeared, because player appears when initialized
   SkillTriggerPointEnemyDefeated      = 4,
   SkillTriggerPointPlayerMobDefeated  = 5,
   SkillTriggerPointEndOfPlayerMove    = 6,
   SkillTriggerPointStartOfPlayerTurn  = 7,
   SkillTriggerPointStartOfEnemyTurn   = 8,
   SkillTriggerPointEnemyDealsDamage   = 9,
-  SkillTriggerPointPlayerDealsDamage  = 10
+  SkillTriggerPointPlayerDealsDamage  = 10,
+  SkillTriggerPointManualActivation   = 11
   
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum"};
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface

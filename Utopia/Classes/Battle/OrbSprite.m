@@ -101,6 +101,12 @@
         return nil;
       return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
       break;
+      
+      case SpecialOrbTypePoison:
+          if (orbColor == OrbColorNone)
+              return nil;
+          return [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+          break;
     
     default:
       break;

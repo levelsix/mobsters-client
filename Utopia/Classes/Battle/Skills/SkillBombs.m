@@ -214,7 +214,7 @@ static const NSInteger bombsMaxSearchIterations = 1000;
     
     // Deal damage
     [battleLayer performAfterDelay:delay block:^{
-      battleLayer.enemyDamageDealt = totalDamage;
+      battleLayer.enemyDamageDealt = (int)totalDamage;
       [battleLayer dealDamage:(int)totalDamage enemyIsAttacker:YES usingAbility:YES withTarget:nil withSelector:nil];
     }];
     

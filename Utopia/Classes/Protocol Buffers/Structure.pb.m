@@ -1881,6 +1881,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 @property (retain) StructureInfoProto* structInfo;
 @property int32_t queueSize;
 @property Float32 pointsPerSecond;
+@property Float32 pointsMultiplier;
 @end
 
 @implementation LabProto
@@ -1906,6 +1907,13 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   hasPointsPerSecond_ = !!value;
 }
 @synthesize pointsPerSecond;
+- (BOOL) hasPointsMultiplier {
+  return !!hasPointsMultiplier_;
+}
+- (void) setHasPointsMultiplier:(BOOL) value {
+  hasPointsMultiplier_ = !!value;
+}
+@synthesize pointsMultiplier;
 - (void) dealloc {
   self.structInfo = nil;
   [super dealloc];
@@ -1915,6 +1923,7 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
     self.pointsPerSecond = 0;
+    self.pointsMultiplier = 0;
   }
   return self;
 }
@@ -1943,6 +1952,9 @@ static LabProto* defaultLabProtoInstance = nil;
   if (self.hasPointsPerSecond) {
     [output writeFloat:3 value:self.pointsPerSecond];
   }
+  if (self.hasPointsMultiplier) {
+    [output writeFloat:4 value:self.pointsMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1960,6 +1972,9 @@ static LabProto* defaultLabProtoInstance = nil;
   }
   if (self.hasPointsPerSecond) {
     size += computeFloatSize(3, self.pointsPerSecond);
+  }
+  if (self.hasPointsMultiplier) {
+    size += computeFloatSize(4, self.pointsMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2045,6 +2060,9 @@ static LabProto* defaultLabProtoInstance = nil;
   if (other.hasPointsPerSecond) {
     [self setPointsPerSecond:other.pointsPerSecond];
   }
+  if (other.hasPointsMultiplier) {
+    [self setPointsMultiplier:other.pointsMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2081,6 +2099,10 @@ static LabProto* defaultLabProtoInstance = nil;
       }
       case 29: {
         [self setPointsPerSecond:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setPointsMultiplier:[input readFloat]];
         break;
       }
     }
@@ -2146,6 +2168,22 @@ static LabProto* defaultLabProtoInstance = nil;
 - (LabProto_Builder*) clearPointsPerSecond {
   result.hasPointsPerSecond = NO;
   result.pointsPerSecond = 0;
+  return self;
+}
+- (BOOL) hasPointsMultiplier {
+  return result.hasPointsMultiplier;
+}
+- (Float32) pointsMultiplier {
+  return result.pointsMultiplier;
+}
+- (LabProto_Builder*) setPointsMultiplier:(Float32) value {
+  result.hasPointsMultiplier = YES;
+  result.pointsMultiplier = value;
+  return self;
+}
+- (LabProto_Builder*) clearPointsMultiplier {
+  result.hasPointsMultiplier = NO;
+  result.pointsMultiplier = 0;
   return self;
 }
 @end

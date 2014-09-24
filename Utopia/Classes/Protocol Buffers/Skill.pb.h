@@ -44,6 +44,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   BOOL hasName_:1;
   BOOL hasDesc_:1;
   BOOL hasIconImgName_:1;
+  BOOL hasLogoImgName_:1;
   BOOL hasType_:1;
   BOOL hasActivationType_:1;
   int32_t skillId;
@@ -53,6 +54,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   NSString* name;
   NSString* desc;
   NSString* iconImgName;
+  NSString* logoImgName;
   SkillType type;
   SkillActivationType activationType;
   NSMutableArray* mutablePropertiesList;
@@ -66,6 +68,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasSucId;
 - (BOOL) hasDesc;
 - (BOOL) hasIconImgName;
+- (BOOL) hasLogoImgName;
 @property (readonly) int32_t skillId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t orbCost;
@@ -75,6 +78,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 @property (readonly) int32_t sucId;
 @property (readonly, retain) NSString* desc;
 @property (readonly, retain) NSString* iconImgName;
+@property (readonly, retain) NSString* logoImgName;
 - (NSArray*) propertiesList;
 - (SkillPropertyProto*) propertiesAtIndex:(int32_t) index;
 
@@ -163,6 +167,11 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (NSString*) iconImgName;
 - (SkillProto_Builder*) setIconImgName:(NSString*) value;
 - (SkillProto_Builder*) clearIconImgName;
+
+- (BOOL) hasLogoImgName;
+- (NSString*) logoImgName;
+- (SkillProto_Builder*) setLogoImgName:(NSString*) value;
+- (SkillProto_Builder*) clearLogoImgName;
 @end
 
 @interface SkillPropertyProto : PBGeneratedMessage {

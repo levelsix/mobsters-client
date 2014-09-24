@@ -19,6 +19,17 @@
 
 @implementation DungeonBattleLayer
 
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix
+{
+  self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix];
+  if (! self)
+    return nil;
+  
+  self.shouldShowContinueButton = YES;
+  
+  return self;
+}
+
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
@@ -446,10 +457,6 @@
   } else {
     [super reachedNextScene];
   }
-}
-
-- (BOOL) shouldShowContinueButton {
-  return YES;
 }
 
 #pragma mark - Saving State
