@@ -25,6 +25,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _playerColor = _enemyColor = OrbColorNone;
   _playerSkillType = _enemySkillType = SkillTypeNoSkill;
   _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
+  _cheatEnemySkillId = _cheatPlayerSkillId = -1;
   
   return self;
 }
@@ -47,6 +48,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   //_cheatPlayerSkillType = SkillTypeRoidRage;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
+  if (_cheatPlayerSkillId >= 0)
+    skillId = _cheatPlayerSkillId;
   
   // Player skill
   if (skillId > 0)
@@ -92,9 +95,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypePoison; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
+  if (_cheatEnemySkillId >= 0)
+    skillId = _cheatEnemySkillId;
   
   // Enemy skill
   if (skillId > 0)

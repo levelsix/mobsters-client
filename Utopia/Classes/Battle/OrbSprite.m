@@ -77,10 +77,21 @@
                            [CCActionCallBlock actionWithBlock:^{
                              _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
                            }],
-                           [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
+                           [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.0]],
                            nil]];
     else
       _bombCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.bombCounter];
+    
+    if (_orb.bombCounter <= 2 && _orb.bombCounter > 0)
+    {
+      [_bombCounter stopActionByTag:1812];
+      CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                             [RecursiveTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor redColor]],
+                             [RecursiveTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor clearColor]],
+                             nil]];
+      action.tag = 1812;
+      [_bombCounter runAction:action];
+    }
   }
 }
 

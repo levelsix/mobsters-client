@@ -895,18 +895,56 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
               }
             }
             
+            // Check numerical
+            NSInteger skillId = -1;
             if (! found)
-              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo", skillName];
+            {
+              NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+              [f setNumberStyle:NSNumberFormatterDecimalStyle];
+              NSNumber* number = [f numberFromString:skillName];
+              if (number)
+              {
+                NSInteger integer = [number integerValue];
+                if (integer < gs.staticSkills.count)
+                {
+                  skillId = integer;
+                  SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
+                  skillName = skillProto.name;
+                  found = YES;
+                }
+              }
+            }
+            
+            if (! found)
+              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo. Or number, such as skille_1.", skillName];
             else
             {
               if (enemy)
               {
-                skillManager.cheatEnemySkillType = skillType;
+                if (skillId >= 0)
+                {
+                  skillManager.cheatEnemySkillId = skillId;
+                  skillManager.cheatEnemySkillType = SkillTypeNoSkill;
+                }
+                else
+                {
+                  skillManager.cheatEnemySkillType = skillType;
+                  skillManager.cheatEnemySkillId = -1;
+                }
                 msg = [NSString stringWithFormat:@"Enemy skill set for %@.", skillName];
               }
               else
               {
-                skillManager.cheatPlayerSkillType = skillType;
+                if (skillId >= 0)
+                {
+                  skillManager.cheatPlayerSkillId = skillId;
+                  skillManager.cheatPlayerSkillType = SkillTypeNoSkill;
+                }
+                else
+                {
+                  skillManager.cheatPlayerSkillType = skillType;
+                  skillManager.cheatPlayerSkillId = -1;
+                }
                 msg = [NSString stringWithFormat:@"Player skill set for %@.", skillName];
               }
             }

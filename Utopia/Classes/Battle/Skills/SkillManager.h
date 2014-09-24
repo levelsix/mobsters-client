@@ -48,6 +48,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 
 @property (assign, nonatomic) SkillType cheatEnemySkillType;  // If not SkillTypeNothing, overrides skills from protos
 @property (assign, nonatomic) SkillType cheatPlayerSkillType;
+@property (assign, nonatomic) NSInteger cheatEnemySkillId;    // If more or equal to zero, overrides skills from protos
+@property (assign, nonatomic) NSInteger cheatPlayerSkillId;
 
 // External calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
