@@ -129,6 +129,8 @@ static NSString* const skullId = @"skull";
       // Wrong color
       if (orb.orbColor != self.orbColor)
         continue;
+      if (orb.powerupType != PowerupTypeNone)
+        continue;
       
       if (orb.specialOrbType != SpecialOrbTypePoison)
       {

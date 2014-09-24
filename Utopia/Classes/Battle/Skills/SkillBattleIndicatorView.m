@@ -266,7 +266,7 @@
   // BG
   NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"counter"] ];
   _orbCounter = [CCSprite spriteWithImageNamed:bgName];
-  _orbCounter.position = ccpAdd(self.position, ccp(0, self.contentSize.height));
+  _orbCounter.position = ccpAdd(self.position, ccp(0, self.contentSize.height + 5));
   _orbCounter.opacity = 0.0;
   
   // Counter label
@@ -276,7 +276,7 @@
   orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
   orbsCountLabel.shadowBlurRadius = 1.f;
   orbsCountLabel.horizontalAlignment = CCTextAlignmentCenter;
-  orbsCountLabel.position = CGPointMake(_orbCounter.contentSize.width/2, _orbCounter.contentSize.height/2 + 10);
+  orbsCountLabel.position = CGPointMake(_orbCounter.contentSize.width/2, _orbCounter.contentSize.height/2 + 4);
   [_orbCounter addChild:orbsCountLabel];
   
   if ([_skillController isKindOfClass:[SkillControllerActive class]])
