@@ -926,6 +926,7 @@
 }
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum {
+  GameState *gs = [GameState sharedGameState];
   NSMutableArray *rewards = [NSMutableArray array];
   
   int silverAmount = 0, oilAmount = 0, expAmount = 0;
@@ -943,6 +944,21 @@
         Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
         [rewards addObject:r];
       }
+    }
+  }
+  
+  // Check if this is the first time they are completing this task, and if there is a map element associated with it
+  if (![gs.completedTasks containsObject:@(proto.taskId)]) {
+    TaskMapElementProto *elem = nil;
+    for (TaskMapElementProto *e in gs.staticMapElements) {
+      if (e.taskId == proto.taskId) {
+        elem = e;
+      }
+    }
+    
+    if (elem) {
+      silverAmount += elem.cashReward;
+      oilAmount += elem.oilReward;
     }
   }
   

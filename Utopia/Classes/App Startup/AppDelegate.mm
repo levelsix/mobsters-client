@@ -23,7 +23,6 @@
 #import "FacebookDelegate.h"
 #import "MSWindow.h"
 #import "GameCenterDelegate.h"
-#import <NewRelicAgent/NewRelic.h>
 #import <BugSense-iOS/BugSenseController.h>
 #import <Crashlytics/Crashlytics.h>
 #import <cocos2d-ui.h>
@@ -119,10 +118,6 @@
   [Analytics initAnalytics];
   [Analytics checkInstall];
   
-  // New relic
-  [NewRelicAgent startWithApplicationToken:NEW_RELIC_TOKEN];
-  [NRLogger setLogLevels:NRLogLevelNone];
-  
 #ifdef MOBSTERS
   // Bug sense
   [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
@@ -143,7 +138,7 @@
   
   [self removeLocalNotifications];
   
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+  //[[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   
   return YES;
 }
@@ -162,8 +157,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   LNLog(@"did become active");
-  if ([[CCDirector sharedDirector] runningScene]) {
+  //if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] resume];
+  //}
+  
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    GameViewController *gvc = [GameViewController baseController];
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   }
   
   // This will restart loading screen
@@ -187,7 +188,8 @@
   [self registerLocalNotifications];
   
   GameState *gs = [GameState sharedGameState];
-  if (gs.connected) {
+  FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+  if (gs.connected && !fd.timeOfLastLoginAttempt) {
     [[OutgoingEventController sharedOutgoingEventController] logout];
     [[SocketCommunication sharedSocketCommunication] closeDownConnection];
     [[GameState sharedGameState] setConnected:NO];
@@ -198,12 +200,21 @@
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
-    [[CCDirector sharedDirector] startAnimation];
+  [[CCDirector sharedDirector] startAnimation];
   
-  GameState *gs = [GameState sharedGameState];
-  if (!gs.connected) {
-    GameViewController *gvc = [GameViewController baseController];
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+  // Fix to prevent chat from being unable to touch keyboard on going to bgd and coming back
+  // http://stackoverflow.com/questions/8072984/hittest-fires-when-uikeyboard-is-tapped
+  for (UIWindow *testWindow in [UIApplication sharedApplication].windows) {
+    if (!testWindow.opaque && [NSStringFromClass(testWindow.class) hasPrefix:@"UIText"]) {
+      BOOL wasHidden = testWindow.hidden;
+      testWindow.hidden = YES;
+      
+      if (!wasHidden) {
+        testWindow.hidden = NO;
+      }
+      
+      break;
+    }
   }
   
   [self registerAppOpen];

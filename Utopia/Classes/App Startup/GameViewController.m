@@ -276,7 +276,9 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
     NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
+    if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
+    
     for (UIViewController *vc in self.childViewControllers) {
       if (![acceptable containsObject:vc]) {
         if ([vc respondsToSelector:@selector(close)]) {
@@ -333,7 +335,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) dismissLoadingScreenAnimated:(BOOL)animated completion:(dispatch_block_t)completion {
   if (animated) {
-    [UIView animateWithDuration:0.3f animations:^{
+    // Delay it so cocos2d layer can update before it fades out in case it's lagging
+    [UIView animateWithDuration:0.3f delay:0.01f options:UIViewAnimationOptionCurveLinear animations:^{
       self.loadingViewController.view.alpha = 0.f;
     } completion:^(BOOL finished) {
       [self.loadingViewController.view removeFromSuperview];
@@ -453,12 +456,17 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isFromFacebook = NO;
 }
 
+
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT animated:YES];
   
   BOOL checkTango = NO;
 #ifdef TOONSQUAD
-  checkTango = [TangoDelegate attemptInitialLogin];
+  static BOOL attemptedTango = NO;
+  if (!attemptedTango) {
+    checkTango = [TangoDelegate attemptInitialLogin];
+    attemptedTango = YES;
+  }
 #endif
   
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
@@ -511,7 +519,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     }
     
     //[[CCDirector sharedDirector] startAnimation];
-    //[[CCDirector sharedDirector] drawScene];
+    [[CCDirector sharedDirector] drawScene];
     
     [self dismissLoadingScreenAnimated:YES completion:^{
       [self checkLevelUp];
@@ -1278,6 +1286,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) swapAccounts {
   _isFreshRestart = YES;
+  _isFromFacebook = NO;
   self.currentMap = nil;
   [self fadeToLoadingScreenPercentage:0.f animated:YES];
   [self progressTo:PART_1_PERCENT animated:YES];

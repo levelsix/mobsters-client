@@ -13,7 +13,7 @@
 #import "GameViewController.h"
 
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
-#define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email", @"user_birthday"]
+#define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email"]
 
 @implementation FacebookDelegate
 
@@ -61,6 +61,7 @@
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
   if ([url.scheme rangeOfString:@"fb"].length > 0) {
     [[GameViewController baseController] openedFromFacebook];
+    [[FacebookDelegate sharedFacebookDelegate] setTimeOfLastLoginAttempt:nil];
     [FBSession.activeSession setStateChangeHandler:
      ^(FBSession *session, FBSessionState state, NSError *error) {
        [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];

@@ -62,10 +62,11 @@
 }
 
 - (void) displayInParentViewController:(UIViewController *)gvc {
+  self.view.frame = gvc.view.bounds;
+  
   [self beginAppearanceTransition:YES animated:YES];
   
   [gvc addChildViewController:self];
-  self.view.frame = gvc.view.bounds;
   [gvc.view addSubview:self.view];
   
   self.bgdView.alpha = 0.f;

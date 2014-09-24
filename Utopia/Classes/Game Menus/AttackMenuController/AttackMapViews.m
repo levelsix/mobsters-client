@@ -95,7 +95,7 @@
 
 @implementation AttackMapStatusView
 
-- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted {
+- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash {
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
   
@@ -113,6 +113,14 @@
     self.greyscaleView.userInteractionEnabled = YES;
     [self.enterButtonView addSubview:self.greyscaleView];
   }
+  
+  self.cashLabel.text = [Globals commafyNumber:cash];
+  self.oilLabel.text = [Globals commafyNumber:oil];
+  
+  CGSize s = [self.cashLabel.text getSizeWithFont:self.cashLabel.font];
+  CGRect r = self.oilLabel.superview.frame;
+  r.origin.x = self.cashLabel.superview.frame.origin.x + self.cashLabel.frame.origin.x + s.width + 5;
+  self.oilLabel.superview.frame = r;
   
   self.taskId = taskId;
 }

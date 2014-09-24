@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController">
@@ -31,11 +31,11 @@
             <subviews>
                 <view contentMode="scaleToFill" id="6aY-5U-QMu" userLabel="Bgd View">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nsk-eM-O23" customClass="CloseButton">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,8 +47,8 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" id="o0C-dU-Hv2" userLabel="Main View">
-                    <rect key="frame" x="119" y="15" width="329" height="265"/>
+                <view contentMode="scaleToFill" id="o0C-dU-Hv2" userLabel="Main View" customClass="TouchableSubviewsView">
+                    <rect key="frame" x="119" y="15" width="329" height="290"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="EUJ-PT-SY9" customClass="PopupShadowView">
@@ -279,7 +279,6 @@
                                                                 </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                                                             <connections>
                                                                 <outlet property="emptyLabel" destination="B9I-Qr-bll" id="HSQ-fI-9eX"/>
                                                                 <outlet property="levelLabel" destination="MyV-ER-XwM" id="nRd-cV-Mga"/>
@@ -338,7 +337,6 @@
                                                                 </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                                                             <connections>
                                                                 <outlet property="emptyLabel" destination="eJJ-NZ-A3p" id="mpU-BR-9SR"/>
                                                                 <outlet property="levelLabel" destination="pm8-Wt-0nH" id="mjs-6j-geD"/>
@@ -397,7 +395,6 @@
                                                                 </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                                                             <connections>
                                                                 <outlet property="emptyLabel" destination="gZt-zj-cof" id="vR3-rI-bOo"/>
                                                                 <outlet property="levelLabel" destination="OJV-rZ-AWZ" id="3wk-Rx-VBv"/>
@@ -528,7 +525,6 @@
                                                                 </imageView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -552,7 +548,6 @@
                                 </view>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="Lxm-Xv-H9J" userLabel="Avatar View">
                             <rect key="frame" x="141" y="0.0" width="48" height="48"/>
@@ -578,8 +573,9 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="765" y="334"/>
         </view>
         <view contentMode="scaleToFill" id="loT-J6-7Vc" customClass="ProfileStatsView">
             <rect key="frame" x="0.0" y="0.0" width="329" height="198"/>
@@ -779,6 +775,8 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="clanButton" destination="RNq-ms-sER" id="Y6J-1E-ie8"/>
                 <outlet property="leagueView" destination="nfb-w9-xVK" id="bYO-4h-aKg"/>
@@ -817,4 +815,9 @@
         <image name="sendmessageicon.png" width="12" height="11"/>
         <image name="shield.png" width="31" height="34"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

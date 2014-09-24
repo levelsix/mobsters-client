@@ -158,8 +158,8 @@
   // Loop through the rows and columns of the 2D array. Note that column 0,
   // row 0 is in the bottom-left corner of the array.
   do {
-    for (NSInteger row = 0; row < _numRows; row++) {
-      for (NSInteger column = 0; column < _numColumns; column++) {
+    for (int row = 0; row < _numRows; row++) {
+      for (int column = 0; column < _numColumns; column++) {
         
         // Only make a new orb if there is a tile at this spot.
         if ([self tileAtColumn:column row:row] != nil) {

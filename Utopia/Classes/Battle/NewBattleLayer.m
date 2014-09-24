@@ -1733,13 +1733,18 @@
 
 #pragma mark - Hud views
 
+#define DEPLOY_CENTER_X (self.contentSize.width-self.orbLayer.contentSize.width-14)/2
+
 - (void) loadHudView {
   GameViewController *gvc = [GameViewController baseController];
   UIView *view = gvc.view;
   
   NSString *bundleName = ![Globals isSmallestiPhone] ? @"BattleHudView" : @"BattleHudViewSmall";
   [[NSBundle mainBundle] loadNibNamed:bundleName owner:self options:nil];
+  self.hudView.frame = view.bounds;
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
+  
+  self.hudView.bottomView.centerX = DEPLOY_CENTER_X;
 }
 
 - (IBAction)swapClicked:(id)sender {
@@ -1755,9 +1760,7 @@
   
   [self.hudView.deployView updateWithBattlePlayers:self.myTeam];
   
-  float extra = ![Globals isSmallestiPhone] ? self.movesBgd.contentSize.width : 0;
-  float centerX = (self.contentSize.width-self.orbLayer.contentSize.width-extra-14)/2;
-  [self.hudView displayDeployViewToCenterX:centerX cancelTarget:cancel ? self : nil selector:@selector(cancelDeploy:)];
+  [self.hudView displayDeployViewToCenterX:DEPLOY_CENTER_X cancelTarget:cancel ? self : nil selector:@selector(cancelDeploy:)];
   
   [SoundEngine puzzleSwapWindow];
 }

@@ -393,7 +393,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (isNew) {
-    NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the Pier.", miniJobs.count];
+    NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the Pier.", (int)miniJobs.count];
     [Globals addGreenAlertNotification:msg isImmediate:NO];
   }
   

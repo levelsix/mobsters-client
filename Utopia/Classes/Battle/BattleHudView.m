@@ -87,7 +87,6 @@
   self.battleScheduleView.hidden = YES;
   
   self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame), self.elementView.center.y);
-  self.deployView.originY = self.bottomView.originY+self.bottomView.height-self.deployView.height;
   
   self.waveNumLabel.shadowBlur = 1.f;
   self.waveNumLabel.gradientStartColor = [UIColor whiteColor];
@@ -131,7 +130,8 @@
 
 - (void) displayDeployViewToCenterX:(float)centerX cancelTarget:(id)target selector:(SEL)selector {
   self.deployView.hidden = NO;
-  self.deployView.center = ccp(-self.deployView.frame.size.width/2, self.deployView.center.y);
+  self.deployView.originY = self.bottomView.originY+self.bottomView.height-self.deployView.height;
+  self.deployView.centerX = -self.deployView.frame.size.width/2;
   [UIView animateWithDuration:ANIMATION_TIME animations:^{
     self.deployView.center = ccp(centerX, self.deployView.center.y);
     

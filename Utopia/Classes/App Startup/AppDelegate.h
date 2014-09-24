@@ -14,6 +14,8 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, ChartboostDelegate> {
 	UIWindow *window;
+  
+  BOOL _attemptedTango;
 }
 
 @property (nonatomic, assign) BOOL hasTrackedVisit;

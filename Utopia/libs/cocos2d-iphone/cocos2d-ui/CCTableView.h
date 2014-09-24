@@ -47,7 +47,8 @@
 
 @optional
 
-- (float) tableView:(CCTableView*)tableView heightForRowAtIndex:(NSUInteger) index;
+// LVL6 Addition
+- (float) cctableView:(CCTableView*)tableView heightForRowAtIndex:(NSUInteger) index;
 
 @end
 

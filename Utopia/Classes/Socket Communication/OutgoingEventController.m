@@ -1310,6 +1310,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
     }
     
+    // If first time, look for map element as well
+    if (isFirstTime) {
+      TaskMapElementProto *elem = nil;
+      for (TaskMapElementProto *e in gs.staticMapElements) {
+        if (e.taskId == dungeonInfo.taskId) {
+          elem = e;
+        }
+      }
+      
+      if (elem) {
+        silverAmount += elem.cashReward;
+        oilAmount += elem.oilReward;
+      }
+    }
+    
     CashUpdate *su = [CashUpdate updateWithTag:tag change:silverAmount];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilAmount];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:expAmount];

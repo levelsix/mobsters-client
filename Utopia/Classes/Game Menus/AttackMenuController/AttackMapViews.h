@@ -45,9 +45,12 @@
 @property (nonatomic, retain) IBOutlet UIView *enterButtonView;
 @property (nonatomic, retain) IBOutlet UIView *greyscaleView;
 
+@property (nonatomic, strong) IBOutlet UILabel *cashLabel;
+@property (nonatomic, strong) IBOutlet UILabel *oilLabel;
+
 @property (nonatomic, assign) int taskId;
 
-- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted;
+- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash;
 
 @end
 

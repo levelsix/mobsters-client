@@ -46,6 +46,9 @@
   float seventhDur = 0.3f;
   
   self.bgdNode.opacity = 0.f;
+  self.bgdNode.scale = MAX(self.parent.contentSize.height/self.bgdNode.contentSize.height,
+                           self.parent.contentSize.width/self.bgdNode.contentSize.width);
+  self.rewardsBgd.scale = 1/self.bgdNode.scale;
   [self.bgdNode runAction:[RecursiveFadeTo actionWithDuration:firstDur opacity:1.f]];
   
   CGPoint orig = self.headerView.position;

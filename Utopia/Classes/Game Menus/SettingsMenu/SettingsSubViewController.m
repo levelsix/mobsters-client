@@ -24,6 +24,9 @@
   self.fbConnectSpinner.hidden = YES;
   
   self.tangoProfilePicIcon.layer.cornerRadius = self.tangoProfilePicIcon.frame.size.width/2;
+  
+  // Taking out tango connect button because they don't want it apparently
+  [self.tangoConnectButton removeFromSuperview];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
