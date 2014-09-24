@@ -160,8 +160,4 @@
   return CGSizeMake(6, 6);
 }
 
-- (BOOL) shouldShowContinueButton {
-  return NO;
-}
-
 @end

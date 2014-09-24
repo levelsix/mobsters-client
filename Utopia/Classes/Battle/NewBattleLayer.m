@@ -168,6 +168,8 @@
     _canPlayNextComboSound = YES;
     _canPlayNextGemPop = YES;
     
+    self.shouldShowContinueButton = NO;
+    
     [self loadHudView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
@@ -532,11 +534,13 @@
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
     float delay = 1.0;
+    float delay2 = 0.0;
     if (_shouldDisplayNewSchedule) {
       
       [self prepareScheduleView];
       _shouldDisplayNewSchedule = NO;
       delay = 1.3;
+      delay2 = 0.2;
       [self.hudView displayBattleScheduleView];
       
     } else {
@@ -553,11 +557,16 @@
       self.hudView.waveNumLabel.alpha = 1.f;
     }];
     
-    // Trigger skills when new enemy joins the battle
-    SkillLogStart(@"TRIGGER STARTED: enemy appeared");
-    [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
-      SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
-      [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+    // To allow the schedule cards to refresh before the bump of the last
+    [self performAfterDelay:delay2 block:^{
+      
+      // Trigger skills when new enemy joins the battle
+      SkillLogStart(@"TRIGGER STARTED: enemy appeared");
+      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
+        SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
+        [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+      }];
+
     }];
   }
 }
@@ -1395,10 +1404,6 @@
       [SoundEngine puzzleYouLose];
     }
   }];
-}
-
-- (BOOL) shouldShowContinueButton {
-  return NO;
 }
 
 #pragma mark - Blood Splatter

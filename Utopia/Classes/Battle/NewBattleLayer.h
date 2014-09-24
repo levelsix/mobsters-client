@@ -137,6 +137,8 @@
 
 @property (nonatomic, assign) int enemyDamageDealt; // used by skillManager to set damage dealt by skills like Cake Drop
 
+@property (nonatomic, assign) BOOL shouldShowContinueButton;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (void) initOrbLayer;
@@ -170,7 +172,6 @@
 - (void) youWon;
 - (void) youLost;
 - (void) youForfeited;
-- (BOOL) shouldShowContinueButton;
 - (IBAction)forfeitClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;

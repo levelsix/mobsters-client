@@ -92,7 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeMomentum; // Change it to override current skill
+  //_cheatEnemySkillType = SkillTypePoison; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   
@@ -200,6 +200,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
   BOOL shouldTriggerEnemySkill = YES;
+  BOOL shouldTriggerPlayerSkill = YES;
   
   // Update enemy, part 1
   if (trigger == SkillTriggerPointEnemyInitialized)
@@ -230,11 +231,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   //if (trigger == SkillTriggerPointEnemyDefeated)
   //  [self removeEnemySkillIndicator];
   
-  // Skip first skill attack for an enemy
+  // Skip first skill attack if it's right after appearance
   if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
     shouldTriggerEnemySkill = NO;
+  if (trigger == SkillTriggerPointStartOfPlayerTurn && _turnsCounter == 0)
+    shouldTriggerPlayerSkill = NO;
+  
+  // Trigger enemy appeared only for the first time
   if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter != 0)
+  {
     shouldTriggerEnemySkill = NO;
+    shouldTriggerPlayerSkill = NO;
+  }
   
   // Wrapping indicators update into the block
   SkillControllerBlock newBlock = ^(BOOL triggered) {
@@ -268,7 +276,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   };
   
   // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
-  if (_playerSkillController)
+  if (_playerSkillController && shouldTriggerPlayerSkill)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:newBlock];

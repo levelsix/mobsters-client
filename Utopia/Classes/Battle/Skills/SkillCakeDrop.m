@@ -250,7 +250,10 @@
     if ([self.battleLayer playerMobstersLeft] > 0)
       [self.battleLayer youWon];
     else
+    {
+      self.battleLayer.shouldShowContinueButton = NO;
       [self.battleLayer youLost];
+    }
   }
   else
     [self.battleLayer checkMyHealth]; // Switch mobster and proceed to new enemy or fail if no mobsters left

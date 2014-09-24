@@ -17,6 +17,9 @@
   // Counters
   float _currentMultiplier;
   float _currentSizeMultiplier;
+  
+  // Temp
+  BOOL  _logoShown;
 }
 
 @end

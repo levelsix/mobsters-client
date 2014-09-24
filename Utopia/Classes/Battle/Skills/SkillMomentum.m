@@ -20,6 +20,7 @@
   _sizeMultiplier = 1.1;
   _currentMultiplier = 1.0;
   _currentSizeMultiplier = 1.0;
+  _logoShown = NO;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -52,12 +53,13 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Do nothing, only show the splash at the beginning
-  if (trigger == SkillTriggerPointEnemyAppeared)
+  // Do nothing, only show the splash at the beginning. Flag is for the case when you defeated the previous one, don't show the logo then.
+  if (trigger == SkillTriggerPointEnemyAppeared && ! _logoShown)
   {
     if (execute)
     {
       [self showSkillPopupOverlay:YES withCompletion:^(){
+        _logoShown = YES;
         [self skillTriggerFinished];
       }];
     }
@@ -96,10 +98,10 @@
   _currentSizeMultiplier *= _sizeMultiplier;
   
   // Size player and make him blue
-  [self updateOwnerSprite];
+  [self performSelector:@selector(updateOwnerSprite) withObject:nil afterDelay:0.3];
   
   // Finish trigger execution
-  [self performAfterDelay:0.3 block:^{
+  [self performAfterDelay:0.6 block:^{
     [self skillTriggerFinished];
   }];
 }
