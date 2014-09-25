@@ -75,7 +75,8 @@
   return NO;
 }
 
-- (void) forceClearCache {
+- (void) forcePurgeCache {
+  // Change key everytime we want to force purge
   NSString *key = @"ClearCache1";
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   if (![def boolForKey:key]) {
@@ -97,15 +98,21 @@
   [def setInteger:numOpens forKey:APP_OPEN_KEY];
   LNLog(@"Registering num opens: %d", numOpens);
   [Analytics appOpen:numOpens];
+  
+  // If it is past the first app open and we are not stuck in tutorial, register for notifications
+  GameState *gs = [GameState sharedGameState];
+  if (numOpens > 1 && !gs.isTutorial) {
+    [self registerForPushNotifications];
+  }
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   //Init the window
-	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
   [self setUpChartboost];
-  [self forceClearCache];
+  [self forcePurgeCache];
   
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
@@ -113,7 +120,7 @@
   window.rootViewController = nav;
   [gvc view];
   
-	[window makeKeyAndVisible];
+  [window makeKeyAndVisible];
   
   [Analytics initAnalytics];
   [Analytics checkInstall];
@@ -144,21 +151,25 @@
 }
 
 - (void) registerForPushNotifications {
-	// Let the device know we want to receive push notifications
-//	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-//   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+  // Let the device know we want to receive push notifications
+  //	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+  //   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+  if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+    [[UIApplication sharedApplication] registerUserNotificationSettings:
+     [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
-	[[CCDirector sharedDirector] pause];
+  [[CCDirector sharedDirector] pause];
   [[SocketCommunication sharedSocketCommunication] flush];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   LNLog(@"did become active");
   //if ([[CCDirector sharedDirector] runningScene]) {
-    [[CCDirector sharedDirector] resume];
+  [[CCDirector sharedDirector] resume];
   //}
   
   GameState *gs = [GameState sharedGameState];
@@ -178,13 +189,13 @@
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application {
   NSLog(@"did receive mem warning");
-	[[CCDirector sharedDirector] purgeCachedData];
+  [[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
 }
 
 -(void) applicationDidEnterBackground:(UIApplication *)application {
   LNLog(@"did enter background");
-	[[CCDirector sharedDirector] stopAnimation];
+  [[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
   GameState *gs = [GameState sharedGameState];
@@ -222,12 +233,12 @@
 
 - (void) applicationWillTerminate:(UIApplication *)application {
   LNLog(@"will terminate");
-	CCDirector *director = [CCDirector sharedDirector];
+  CCDirector *director = [CCDirector sharedDirector];
   [self registerLocalNotifications];
-	
-	[[director view] removeFromSuperview];
-	
-	[director end];
+  
+  [[director view] removeFromSuperview];
+  
+  [director end];
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
@@ -235,7 +246,7 @@
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
   LNLog(@"sig time change");
-	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+  [[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
   
   GameViewController *gvc = [GameViewController baseController];
   [gvc handleSignificantTimeChange];
@@ -243,7 +254,7 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-	LNLog(@"My token is: %@", deviceToken);
+  LNLog(@"My token is: %@", deviceToken);
   
   NSString *str = @"";
   if (deviceToken) {
@@ -256,15 +267,33 @@
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-	LNLog(@"Failed to get token, error: %@", error);
+  LNLog(@"Failed to get token, error: %@", error);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
 
 - (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(MSDate *)date {
   UILocalNotification *ln = [[UILocalNotification alloc] init];
-  ln.alertBody = text;
-  ln.applicationIconBadgeNumber = badge;
-  ln.soundName = UILocalNotificationDefaultSoundName;
+  
+  if ([UIApplication instancesRespondToSelector:@selector(currentUserNotificationSettings)]) {
+    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    
+    if (settings.types & UIUserNotificationTypeAlert) {
+      ln.alertBody = text;
+    }
+    
+    if (settings.types & UIUserNotificationTypeBadge) {
+      ln.applicationIconBadgeNumber = badge;
+    }
+    
+    if (settings.types & UIUserNotificationTypeSound) {
+      ln.soundName = UILocalNotificationDefaultSoundName;
+    }
+  } else {
+    ln.alertBody = text;
+    ln.applicationIconBadgeNumber = badge;
+    ln.soundName = UILocalNotificationDefaultSoundName;
+  }
+  
   ln.fireDate = date.actualNSDate;
   [[UIApplication sharedApplication] scheduleLocalNotification:ln];
 }
@@ -275,6 +304,13 @@
   
   if (!gs.connected || gs.isTutorial) {
     return;
+  }
+  
+  if ([UIApplication instancesRespondToSelector:@selector(currentUserNotificationSettings)]) {
+    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    if (!settings.types) {
+      return;
+    }
   }
   
   for (UserStruct *us in gs.myStructs) {
@@ -324,7 +360,7 @@
 }
 
 - (void)dealloc {
-	[[CCDirector sharedDirector] end];
+  [[CCDirector sharedDirector] end];
 }
 
 @end
