@@ -506,7 +506,7 @@
       UIImage *img = [Globals imageNamed:[OrbSprite orbSpriteImageNameWithOrb:orb]];
       img = [Globals maskImage:img withColor:[UIColor whiteColor]];
       texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
-      texture.contentScale = orbLayer.orbSprite.texture.contentScale;
+      texture.contentScale = img.scale;
     }
     CCSprite *spr = [CCSprite spriteWithTexture:texture];
     spr.position = ccp(orbLayer.contentSize.width/2, orbLayer.contentSize.height/2);

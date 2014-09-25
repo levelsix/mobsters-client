@@ -69,6 +69,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *enhanceBubbleImage;
 @property (nonatomic, retain) IBOutlet UILabel *cooldownLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupGemsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *freeLabel;
 @property (nonatomic, retain) IBOutlet UIButton *infoButton;
 
 @property (nonatomic, retain) IBOutlet UIView *enterView;

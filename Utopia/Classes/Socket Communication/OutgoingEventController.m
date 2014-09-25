@@ -317,7 +317,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
-      [gs beginMiniJobTimer];
+      [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
     }
     
     [Analytics instantFinish:@"buildingWait" gemChange:-gemCost gemBalance:gs.gems];
@@ -351,7 +351,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
-      [gs beginMiniJobTimer];
+      [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
     }
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
@@ -1277,7 +1277,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (useGems) {
-      gems = [gl calculateGemSpeedupCostForTimeLeft:time allowFreeSpeedup:NO];
+      gems = [gl calculateGemSpeedupCostForTimeLeft:time allowFreeSpeedup:YES];
       if (gs.gems < gems) {
         [Globals popupMessage:@"Trying to enter dungeon without enough gems"];
         return;
@@ -2172,22 +2172,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
     int numGems = 0;
     if (gems) {
-      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];
-    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
-    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
-    
-    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
-    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
-    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
-    gs.userEvolution = nil;
-    
-    [gs beginEvolutionTimer];
-    
-    if (gems) {
-      [Analytics instantFinish:@"evolveWait" gemChange:-numGems gemBalance:gs.gems];
+    if (numGems > gs.gems) {
+      [Globals popupMessage: @"Attempting to speedup evolution without enough gems."];
+    } else {
+      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];
+      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+      [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
+      
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
+      gs.userEvolution = nil;
+      
+      [gs beginEvolutionTimer];
+      
+      if (gems) {
+        [Analytics instantFinish:@"evolveWait" gemChange:-numGems gemBalance:gs.gems];
+      }
     }
   }
 }
@@ -2210,6 +2214,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   GameState *gs = [GameState sharedGameState];
   gs.lastMiniJobSpawnTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+  
+  // Timer will be reset by gamestate
 }
 
 - (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterIds:(NSArray *)userMonsterIds delegate:(id)delegate {
@@ -2221,11 +2227,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   userMiniJob.timeStarted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
   userMiniJob.userMonsterIds = userMonsterIds;
   
-  [gs beginMiniJobTimer];
+  [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
 }
 
 - (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
+  
+  // If it's free speedup we want to set it to NO
+  if (!gemCost) {
+    isSpeedup = NO;
+  }
   
   if (!(userMiniJob.timeStarted && !userMiniJob.timeCompleted)) {
     [Globals popupMessage:@"Trying to complete invalid mini job."];
@@ -2241,7 +2252,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
-    [gs beginMiniJobTimer];
+    [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
     
     if (isSpeedup) {
       [Analytics instantFinish:@"miniJobWait" gemChange:-gemCost gemBalance:gs.gems];
@@ -2280,8 +2291,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
     [gs addUnrespondedUpdates:gu, su, ou, nil];
-    
-    [gs beginMiniJobTimer];
     
     [Analytics redeemMiniJob:userMiniJob.miniJob.miniJobId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil];
   }

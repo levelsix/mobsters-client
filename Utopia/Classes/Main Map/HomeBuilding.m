@@ -788,11 +788,26 @@
   _evolution = nil;
 }
 
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    Globals *gl = [Globals sharedGlobals];
+    NSTimeInterval timeLeft = _evolution.endTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
 - (NSString *) progressBarPrefix {
   if (self.isConstructing) {
     return [super progressBarPrefix];
   } else {
-    return @"healing";
+    if (![self isFreeSpeedup]) {
+      return @"healing";
+    } else {
+      return @"instant";
+    }
   }
 }
 
@@ -800,9 +815,21 @@
   if (self.isConstructing) {
     [super updateProgressBar];
   } else {
-    NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
-    NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
-    [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      NSTimeInterval time = _evolution.endTime.timeIntervalSinceNow;
+      NSTimeInterval totalSecs = [_evolution.endTime timeIntervalSinceDate:_evolution.startTime];
+      [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
   }
 }
 
@@ -882,11 +909,50 @@
   }
 }
 
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    Globals *gl = [Globals sharedGlobals];
+    float dur = self.activeMiniJob.durationMinutes*60;
+    MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+    NSTimeInterval timeLeft = endDate.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
 - (NSString *) progressBarPrefix {
   if (self.isConstructing) {
     return [super progressBarPrefix];
   } else {
-    return @"healing";
+    if (![self isFreeSpeedup]) {
+      return @"healing";
+    } else {
+      return @"instant";
+    }
+  }
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    UpgradeProgressBar *bar = self.progressBar;
+    
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      float dur = self.activeMiniJob.durationMinutes*60;
+      MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+      [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
   }
 }
 
@@ -907,18 +973,6 @@
 - (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num {
   [super setBubbleType:bubbleType withNum:num];
   _bubble.position = ccp(self.contentSize.width/2-3, self.contentSize.height/2+3);
-}
-
-- (void) updateProgressBar {
-  if (self.isConstructing) {
-    [super updateProgressBar];
-  } else {
-    UpgradeProgressBar *bar = self.progressBar;
-    
-    float dur = self.activeMiniJob.durationMinutes*60;
-    MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
-    [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
-  }
 }
 
 - (BOOL) isExemptFromReorder {

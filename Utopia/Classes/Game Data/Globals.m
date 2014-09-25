@@ -1550,10 +1550,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  GameState *gs = [GameState sharedGameState];
+  LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
   UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
-  float multiplier = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
-  return um.levelInfo.feederExp*um.level*multiplier;
+  float multiplier1 = lab.pointsMultiplier;
+  float multiplier2 = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
+  return um.levelInfo.feederExp*um.level*multiplier1*multiplier2;
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {

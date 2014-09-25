@@ -59,12 +59,20 @@
   Globals *gl = [Globals sharedGlobals];
   if (gs.userEvolution && _allowEvolution) {
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
-    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    self.gemCostLabel.text = [Globals commafyNumber:speedupCost];
-    [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
+    if (speedupCost > 0) {
+      self.gemCostLabel.text = [Globals commafyNumber:speedupCost];
+      [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
+      
+      self.gemCostLabel.superview.hidden = NO;
+      self.freeLabel.hidden = YES;
+    } else {
+      self.gemCostLabel.superview.hidden = YES;
+      self.freeLabel.hidden = NO;
+    }
   }
 }
 
@@ -220,7 +228,7 @@
   
   if (gs.userEvolution) {
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
     if (gs.gems < goldCost) {
       [GenericPopupController displayNotEnoughGemsView];

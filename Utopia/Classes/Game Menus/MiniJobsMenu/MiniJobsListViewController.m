@@ -68,9 +68,17 @@
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
-    self.gemCostLabel.text = [Globals commafyNumber:gemCost];
-    [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    if (gemCost > 0) {
+      self.gemCostLabel.text = [Globals commafyNumber:gemCost];
+      [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
+      
+      self.gemCostLabel.superview.hidden = NO;
+      self.freeLabel.hidden = YES;
+    } else {
+      self.gemCostLabel.superview.hidden = YES;
+      self.freeLabel.hidden = NO;
+    }
   }
 }
 

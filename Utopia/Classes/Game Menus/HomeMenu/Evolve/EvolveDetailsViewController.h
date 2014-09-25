@@ -22,6 +22,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *oilCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *freeLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *oilButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemButtonView;

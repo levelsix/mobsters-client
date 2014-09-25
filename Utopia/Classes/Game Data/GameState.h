@@ -235,7 +235,7 @@
 - (void) beginCombineTimer;
 - (void) stopCombineTimer;
 
-- (void) beginMiniJobTimer;
+- (void) beginMiniJobTimerShowFreeSpeedupImmediately:(BOOL)freeSpeedup;
 - (void) stopMiniJobTimer;
 
 - (void) addToRequestedClans:(NSArray *)arr;

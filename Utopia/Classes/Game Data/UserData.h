@@ -352,6 +352,7 @@ typedef enum {
 @property (nonatomic, retain) NSArray *userMonsterIds;
 @property (nonatomic, retain) MSDate *timeCompleted;
 @property (nonatomic, retain) MiniJobProto *miniJob;
+@property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 
 + (id) userMiniJobWithProto:(UserMiniJobProto *)proto;
 

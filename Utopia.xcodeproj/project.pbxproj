@@ -2999,6 +2999,12 @@
 		CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7A16572A8400A51F85 /* AMQPObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7C16572A8400A51F85 /* AMQPQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF1816E219D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */; };
+		CF1816E319D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */; };
+		CF1816E619D386F400EF5729 /* mobsterdescriptionbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E419D386F400EF5729 /* mobsterdescriptionbg.png */; };
+		CF1816E719D386F400EF5729 /* mobsterdescriptionbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E419D386F400EF5729 /* mobsterdescriptionbg.png */; };
+		CF1816E819D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */; };
+		CF1816E919D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */; };
 		CF19087B18D8219000D6F0E4 /* 5x5dark.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19087918D8219000D6F0E4 /* 5x5dark.png */; };
 		CF19087C18D8219000D6F0E4 /* 5x5dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19087A18D8219000D6F0E4 /* 5x5dark@2x.png */; };
 		CF19088718D822C000D6F0E4 /* Kamcord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF19088118D822C000D6F0E4 /* Kamcord.framework */; };
@@ -6753,6 +6759,9 @@
 		CF15BA7C16572A8400A51F85 /* AMQPQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPQueue.m; sourceTree = "<group>"; };
 		CF15BA7D16572A8400A51F85 /* AMQPWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPWrapper.h; sourceTree = "<group>"; };
 		CF15BA7E16572A8400A51F85 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6allcocktail@2x.png"; sourceTree = "<group>"; };
+		CF1816E419D386F400EF5729 /* mobsterdescriptionbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mobsterdescriptionbg.png; sourceTree = "<group>"; };
+		CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mobsterdescriptionbg@2x.png"; sourceTree = "<group>"; };
 		CF19087918D8219000D6F0E4 /* 5x5dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5x5dark.png; sourceTree = "<group>"; };
 		CF19087A18D8219000D6F0E4 /* 5x5dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5x5dark@2x.png"; sourceTree = "<group>"; };
 		CF19088118D822C000D6F0E4 /* Kamcord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kamcord.framework; sourceTree = "<group>"; };
@@ -12171,6 +12180,8 @@
 		CF688FFF1912E7B400FF1F71 /* Mini Jobs:Dock */ = {
 			isa = PBXGroup;
 			children = (
+				CF1816E419D386F400EF5729 /* mobsterdescriptionbg.png */,
+				CF1816E519D386F400EF5729 /* mobsterdescriptionbg@2x.png */,
 				CFF5DB95194BD8320019EB2B /* greysquirrel.png */,
 				CFF5DB96194BD8320019EB2B /* greysquirrel@2x.png */,
 				CFF5DBA2194BDACA0019EB2B /* damagedealtbg.png */,
@@ -12351,6 +12362,7 @@
 		CF6A64B019D24F010002E05D /* 6 Orbs */ = {
 			isa = PBXGroup;
 			children = (
+				CF1816E119D34F5900EF5729 /* 6allcocktail@2x.png */,
 				CF6A651719D25DA50002E05D /* 6boardgoo@2x.png */,
 				CF6A651419D2537B0002E05D /* 6cakeorb@2x.png */,
 				CF6A64FD19D252CF0002E05D /* 6earthgrenade@2x.png */,
@@ -16332,6 +16344,7 @@
 				CF0CEF4E196F452900ECD301 /* TopBarQuestProgressView.xib in Resources */,
 				CF0CEF4F196F452900ECD301 /* healblue.png in Resources */,
 				CF0CEF50196F452900ECD301 /* platinumbig.png in Resources */,
+				CF1816E319D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */,
 				CF0CEF51196F452900ECD301 /* hiremobsquadactive@2x.png in Resources */,
 				CF0CEF52196F452900ECD301 /* chatpost.png in Resources */,
 				CF0CEF53196F452900ECD301 /* checkbox@2x.png in Resources */,
@@ -17919,6 +17932,7 @@
 				DA88EB7019BE2EE9005EE827 /* boardgoo.png in Resources */,
 				CFF2A5C719709C4800269084 /* Zark1T1AttackNF@2x.plist in Resources */,
 				CF0CF4FC196F452900ECD301 /* claimed.png in Resources */,
+				CF1816E719D386F400EF5729 /* mobsterdescriptionbg.png in Resources */,
 				CF0CF4FD196F452900ECD301 /* profsenmessagebutton.png in Resources */,
 				CF0CF4FE196F452900ECD301 /* diamondbarbg.png in Resources */,
 				CF0CF4FF196F452900ECD301 /* 1scene2right@2x.png in Resources */,
@@ -18514,6 +18528,7 @@
 				CF0CF719196F452900ECD301 /* opponentsbg@2x.png in Resources */,
 				CF0CF71A196F452900ECD301 /* damagebg.png in Resources */,
 				CF0CF71B196F452900ECD301 /* MiniJobsDetailsViewController.xib in Resources */,
+				CF1816E919D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */,
 				CF0CF71C196F452900ECD301 /* FatBoy4Move12@2x.png in Resources */,
 				CF0CF71D196F452900ECD301 /* Scientist1Blink01@2x.png in Resources */,
 				CFF2A51D19709C4800269084 /* HealingCenterT1@2x.pvr.ccz in Resources */,
@@ -19826,6 +19841,7 @@
 				CFF3908E1828C00B0010A3BE /* mail@2x.png in Resources */,
 				CFFEB0DA1834539C007C4BA3 /* cardbottomoverlay@2x.png in Resources */,
 				CFF390E71829C74A0010A3BE /* lightsideways@2x.png in Resources */,
+				CF1816E219D34F5A00EF5729 /* 6allcocktail@2x.png in Resources */,
 				CF29E9F91964BD0500B40DA4 /* healredbubble5@2x.png in Resources */,
 				CFFBDFEB18ACA3D90090CA9A /* Scientist5Breath08@2x.png in Resources */,
 				CF376519182DD6F900D0A77E /* chatbg@2x.png in Resources */,
@@ -20309,6 +20325,7 @@
 				CF6F19EF181518C900CFF2B9 /* questarrow@2x.png in Resources */,
 				DA6EBF4719C273EE0020B628 /* cakedroplogo.png in Resources */,
 				CFF5DBB9194D18F20019EB2B /* youwon@2x.png in Resources */,
+				CF1816E819D386F400EF5729 /* mobsterdescriptionbg@2x.png in Resources */,
 				CFFEB1CB18384123007C4BA3 /* nightbattlering.png in Resources */,
 				CFE7CD1E1819FC3300930847 /* backgroundright.png in Resources */,
 				CFC4D28018D7BD04004681FD /* sfx_arial_bomb_drop.mp3 in Resources */,
@@ -20674,6 +20691,7 @@
 				CFC8B5D518E4547200CFD652 /* chatinputbgbg.png in Resources */,
 				CFF2A6241970C81200269084 /* battledonegrey.png in Resources */,
 				CF74612B196A02E8002D6AE6 /* 1scene2left.png in Resources */,
+				CF1816E619D386F400EF5729 /* mobsterdescriptionbg.png in Resources */,
 				CF3766C91833022700D0A77E /* gacharevealclosex@2x.png in Resources */,
 				CF06B5E4193699FC008BF892 /* ticker.png in Resources */,
 				CF32EA8D195F70A000A4AEE3 /* greymediumsquare.png in Resources */,

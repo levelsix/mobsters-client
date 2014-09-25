@@ -392,7 +392,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self.myMiniJobs addObject:[UserMiniJob userMiniJobWithProto:p]];
   }
   
-  if (isNew) {
+  if (isNew && miniJobs.count) {
     NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the Pier.", (int)miniJobs.count];
     [Globals addGreenAlertNotification:msg isImmediate:NO];
   }
@@ -1336,9 +1336,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark Mini Job Timer
 
-- (void) beginMiniJobTimer {
+- (void) beginMiniJobTimerShowFreeSpeedupImmediately:(BOOL)freeSpeedup {
   [self stopMiniJobTimer];
   
+  Globals *gl = [Globals sharedGlobals];
   UserStruct *mjc = [self myMiniJobCenter];
   MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
   
@@ -1346,7 +1347,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserMiniJob *umj in self.myMiniJobs) {
     if (umj.timeStarted && !umj.timeCompleted) {
       MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
-      if (finishTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
+      MSDate *freeSpeedupTime = [finishTime dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
+      if (!umj.hasShownFreeSpeedup &&
+          // If it's less than 5 mins only show the popup if free speedup parameter is yes
+          (freeSpeedup || (!freeSpeedup && freeSpeedupTime.timeIntervalSinceNow > 0))
+          && freeSpeedupTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
+        time = freeSpeedupTime;
+      } else if (finishTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
         time = finishTime;
       }
     }
@@ -1363,6 +1370,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) miniJobWaitTimeComplete {
+  Globals *gl = [Globals sharedGlobals];
   for (UserMiniJob *umj in self.myMiniJobs) {
     if (umj.timeStarted && !umj.timeCompleted) {
       MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
@@ -1371,6 +1379,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         
         NSString *msg = [NSString stringWithFormat:@"Your %@s have returned from their mini job. Collect your loot at the Pier now.", MONSTER_NAME];
         [Globals addGreenAlertNotification:msg isImmediate:NO];
+      } else if (!umj.hasShownFreeSpeedup && finishTime.timeIntervalSinceNow <= gl.maxMinutesForFreeSpeedUp*60) {
+        [self miniJobFreeSpeedUp:umj];
       }
     }
   }
@@ -1385,9 +1395,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [self beginMiniJobTimer];
+  [self beginMiniJobTimerShowFreeSpeedupImmediately:NO];
   
   [QuestUtil checkAllDonateQuests];
+}
+
+- (void) miniJobFreeSpeedUp:(UserMiniJob *)umj {
+  Globals *gl = [Globals sharedGlobals];
+  LNLog(@"Firing free speedup for mini job...");
+  NSString *desc = [NSString stringWithFormat:@"Your current Mini Job is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
+  [Globals addPurpleAlertNotification:desc];
+  
+  umj.hasShownFreeSpeedup = YES;
 }
 
 - (void) stopMiniJobTimer {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniJobsDetailsViewController">
@@ -347,6 +347,8 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="oDg-ZZ-W4M">
             <rect key="frame" x="0.0" y="0.0" width="364" height="28"/>
@@ -400,7 +402,9 @@
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="pTh-Iw-u9v" customClass="MiniMonsterView">
             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -416,6 +420,8 @@
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bgdIcon" destination="709-3E-pXy" id="ZBP-oc-Uje"/>
                 <outlet property="monsterIcon" destination="Ulb-Oa-I1q" id="qC5-wv-N2W"/>
@@ -477,6 +483,15 @@ before starting another.</string>
                                     <rect key="frame" x="13" y="-2" width="40" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Onx-ZW-B1I" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="12" y="8" width="40" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
@@ -560,6 +575,8 @@ before starting another.</string>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="completeLabelsView" destination="Bfl-oN-UwQ" id="eZw-XH-BVv"/>
                 <outlet property="completeSpinner" destination="Q8B-op-8rH" id="e77-nZ-QqP"/>
@@ -567,11 +584,13 @@ before starting another.</string>
                 <outlet property="finishLabelsView" destination="1QF-Ez-QH2" id="1d8-wB-1Cb"/>
                 <outlet property="finishSpinner" destination="6vz-oy-dke" id="c5e-3b-bB7"/>
                 <outlet property="finishView" destination="u9R-vH-RTp" id="A5z-ck-22w"/>
+                <outlet property="freeLabel" destination="Onx-ZW-B1I" id="nfP-C7-MXp"/>
                 <outlet property="gemCostLabel" destination="XbL-5j-2AA" id="YKg-Hj-lQb"/>
                 <outlet property="inProgressLabel" destination="I0V-Q5-hyj" id="21f-Kf-GAd"/>
                 <outlet property="nameLabel" destination="wvk-ep-MTW" id="zZD-w7-RoW"/>
                 <outlet property="timeLabel" destination="E1W-HT-KjH" id="URN-PD-Q22"/>
             </connections>
+            <point key="canvasLocation" x="309" y="389.5"/>
         </view>
     </objects>
     <resources>
@@ -592,4 +611,9 @@ before starting another.</string>
         <image name="sortedbyarrow.png" width="10" height="6"/>
         <image name="tapchartofill.png" width="117" height="28"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

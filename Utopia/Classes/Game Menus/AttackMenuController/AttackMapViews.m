@@ -252,9 +252,18 @@
       self.cooldownView.hidden = YES;
     } else {
       self.cooldownLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
-      self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
-      [Globals adjustViewForCentering:self.speedupGemsLabel.superview withLabel:self.speedupGemsLabel];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+      
+      if (speedupCost > 0) {
+        self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
+        [Globals adjustViewForCentering:self.speedupGemsLabel.superview withLabel:self.speedupGemsLabel];
+        
+        self.speedupGemsLabel.superview.hidden = NO;
+        self.freeLabel.hidden = YES;
+      } else {
+        self.speedupGemsLabel.superview.hidden = YES;
+        self.freeLabel.hidden = NO;
+      }
       
       self.enterView.hidden = YES;
       self.cooldownView.hidden = NO;

@@ -156,7 +156,7 @@
     if (_puzzleIsOnLeft) self.bgdLayer.position = ccpAdd(BGD_LAYER_INIT_POSITION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     self.bgdLayer.delegate = self;
     
-    // Scale the bgdContainer
+    // Scale the bgdContainer and readjust to the center of battle
     CGPoint basePt = CENTER_OF_BATTLE;
     if (_puzzleIsOnLeft) basePt = ccpAdd(CENTER_OF_BATTLE, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     CGPoint beforeScale = [self.bgdContainer convertToNodeSpace:basePt];
@@ -989,7 +989,7 @@
   
   CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
   [self addChild:spr z:z];
-  spr.scaleX = self.contentSize.width-label.position.x*2-self.orbLayer.contentSize.width-30;
+  spr.scaleX = MIN(label.position.x*2+20, self.contentSize.width-label.position.x*2-self.orbLayer.contentSize.width-30);
   spr.anchorPoint = ccp(0, 0.5);
   spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-8));
   
