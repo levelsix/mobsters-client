@@ -70,7 +70,9 @@
     self.enemy.speed = _currentSpeed;
     
     // Reset schedule data
+    self.battleLayer.movesLeft = 0;
     [self.battleLayer.battleSchedule createScheduleForPlayerA:self.player.speed playerB:self.enemy.speed andOrder:ScheduleFirstTurnPlayer];
+    self.battleLayer.shouldDisplayNewSchedule = YES;
     
     // Eat the cake animation
     [self performAfterDelay:1.5 block:^{
@@ -79,7 +81,7 @@
       
       // Eat the cake and reload schedule UI then
       self.enemySprite.animationType = MonsterProto_AnimationTypeRanged;
-      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:NO target:self.battleLayer selector:@selector(prepareScheduleView)];
+      [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:NO target:nil selector:nil];
     }];
   }
 }

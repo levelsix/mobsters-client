@@ -146,6 +146,9 @@
 - (void) prepareCharacterImage
 {
   BattlePlayer* owner = self.belongsToPlayer ? self.player : self.enemy;
+  if (! owner)
+    return;
+  
   GameState *gs = [GameState sharedGameState];
   MonsterProto *proto = [gs monsterWithId:owner.monsterId];
   
