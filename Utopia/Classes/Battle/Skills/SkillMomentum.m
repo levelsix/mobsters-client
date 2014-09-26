@@ -71,7 +71,7 @@
       (trigger == SkillTriggerPointStartOfEnemyTurn && ! self.belongsToPlayer) )
   {
     if (execute)
-      [self increaseMultiplier];
+      [self makeSkillOwnerJumpWithTarget:self selector:@selector(increaseMultiplier)];
     return YES;
   }
   

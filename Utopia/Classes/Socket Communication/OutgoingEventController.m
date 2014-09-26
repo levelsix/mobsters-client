@@ -916,7 +916,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
             }
             
             if (! found)
-              msg = [NSString stringWithFormat:@"Skill %@ not found. Use atk, goo, etc - such as skille_goo. Or number, such as skille_1.", skillName];
+            {
+              NSString* hint = @"";
+              for (NSInteger n = 1; n < sizeof(cheatCodesForSkills)/sizeof(NSString*); n++)
+                hint = [hint stringByAppendingFormat:@"%@ ", cheatCodesForSkills[n]];
+              msg = [NSString stringWithFormat:@"Skill %@ not found. You can use both skill name and id such as skille_goo or skille_1. Here's the full list: %@", skillName, hint];
+            }
             else
             {
               if (enemy)
