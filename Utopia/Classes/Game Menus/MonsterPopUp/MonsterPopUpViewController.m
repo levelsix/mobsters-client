@@ -247,10 +247,7 @@
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [self.monsterDescription.layer addAnimation:animation forKey:@"changeTextTransition"];
-  
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
-  [self setDescriptionLabelString:proto.description];
+  [self updateSkillData:YES];
 }
 
 - (IBAction)sellClicked:(id)sender {
