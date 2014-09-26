@@ -1069,6 +1069,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @end
 
 @interface TaskStageMonsterProto ()
+@property int64_t tsfuId;
 @property int32_t tsmId;
 @property int32_t monsterId;
 @property TaskStageMonsterProto_MonsterType monsterType;
@@ -1087,6 +1088,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 
 @implementation TaskStageMonsterProto
 
+- (BOOL) hasTsfuId {
+  return !!hasTsfuId_;
+}
+- (void) setHasTsfuId:(BOOL) value {
+  hasTsfuId_ = !!value;
+}
+@synthesize tsfuId;
 - (BOOL) hasTsmId {
   return !!hasTsmId_;
 }
@@ -1195,6 +1203,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
+    self.tsfuId = 0L;
     self.tsmId = 0;
     self.monsterId = 0;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
@@ -1270,6 +1279,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOffensiveSkillId) {
     [output writeInt32:14 value:self.offensiveSkillId];
   }
+  if (self.hasTsfuId) {
+    [output writeInt64:15 value:self.tsfuId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1320,6 +1332,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasOffensiveSkillId) {
     size += computeInt32Size(14, self.offensiveSkillId);
+  }
+  if (self.hasTsfuId) {
+    size += computeInt64Size(15, self.tsfuId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1405,6 +1420,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) mergeFrom:(TaskStageMonsterProto*) other {
   if (other == [TaskStageMonsterProto defaultInstance]) {
     return self;
+  }
+  if (other.hasTsfuId) {
+    [self setTsfuId:other.tsfuId];
   }
   if (other.hasTsmId) {
     [self setTsmId:other.tsmId];
@@ -1530,8 +1548,28 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
         [self setOffensiveSkillId:[input readInt32]];
         break;
       }
+      case 120: {
+        [self setTsfuId:[input readInt64]];
+        break;
+      }
     }
   }
+}
+- (BOOL) hasTsfuId {
+  return result.hasTsfuId;
+}
+- (int64_t) tsfuId {
+  return result.tsfuId;
+}
+- (TaskStageMonsterProto_Builder*) setTsfuId:(int64_t) value {
+  result.hasTsfuId = YES;
+  result.tsfuId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearTsfuId {
+  result.hasTsfuId = NO;
+  result.tsfuId = 0L;
+  return self;
 }
 - (BOOL) hasTsmId {
   return result.hasTsmId;

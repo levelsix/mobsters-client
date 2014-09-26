@@ -353,6 +353,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int64_t userTaskId;
   int64_t clientTime;
   MinimumUserProtoWithMaxResources* sender;
+  NSMutableArray* mutableDroplessTsfuIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
@@ -366,6 +367,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @property (readonly) int64_t clientTime;
 - (BOOL) firstTimeUserWonTask;
 - (BOOL) userBeatAllCityTasks;
+- (NSArray*) droplessTsfuIdsList;
+- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index;
 
 + (EndDungeonRequestProto*) defaultInstance;
 - (EndDungeonRequestProto*) defaultInstance;
@@ -432,6 +435,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) userBeatAllCityTasks;
 - (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
 - (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
+
+- (NSArray*) droplessTsfuIdsList;
+- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index;
+- (EndDungeonRequestProto_Builder*) replaceDroplessTsfuIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (EndDungeonRequestProto_Builder*) addDroplessTsfuIds:(int64_t) value;
+- (EndDungeonRequestProto_Builder*) addAllDroplessTsfuIds:(NSArray*) values;
+- (EndDungeonRequestProto_Builder*) clearDroplessTsfuIdsList;
 @end
 
 @interface EndDungeonResponseProto : PBGeneratedMessage {

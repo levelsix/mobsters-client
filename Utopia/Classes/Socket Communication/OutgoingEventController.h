@@ -84,8 +84,8 @@
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth;
-- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum;
-- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
+- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless;
+- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
 - (void) reviveInDungeon:(uint64_t)userTaskId taskId:(int)taskId myTeam:(NSArray *)team;
 
 - (void) queueUpEvent:(NSArray *)seenUserIds withDelegate:(id)delegate;

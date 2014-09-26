@@ -992,11 +992,13 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasIsUpdateTaskStageForUser_:1;
   BOOL hasClientTime_:1;
   BOOL hasUserTaskId_:1;
+  BOOL hasDroplessTsfuId_:1;
   BOOL hasNuTaskStageId_:1;
   BOOL hasSender_:1;
   BOOL isUpdateTaskStageForUser_:1;
   int64_t clientTime;
   int64_t userTaskId;
+  int64_t droplessTsfuId;
   int32_t nuTaskStageId;
   MinimumUserProto* sender;
   NSMutableArray* mutableUmchpList;
@@ -1006,11 +1008,13 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasUserTaskId;
 - (BOOL) hasIsUpdateTaskStageForUser;
 - (BOOL) hasNuTaskStageId;
+- (BOOL) hasDroplessTsfuId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userTaskId;
 - (BOOL) isUpdateTaskStageForUser;
 @property (readonly) int32_t nuTaskStageId;
+@property (readonly) int64_t droplessTsfuId;
 - (NSArray*) umchpList;
 - (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
@@ -1081,6 +1085,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (int32_t) nuTaskStageId;
 - (UpdateMonsterHealthRequestProto_Builder*) setNuTaskStageId:(int32_t) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearNuTaskStageId;
+
+- (BOOL) hasDroplessTsfuId;
+- (int64_t) droplessTsfuId;
+- (UpdateMonsterHealthRequestProto_Builder*) setDroplessTsfuId:(int64_t) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuId;
 @end
 
 @interface UpdateMonsterHealthResponseProto : PBGeneratedMessage {

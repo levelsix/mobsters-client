@@ -36,8 +36,10 @@
   TaskStageMonsterProto *monster = [stage stageMonstersAtIndex:0];
   CCSprite *ed = nil;
   if (monster.puzzlePieceDropped) {
-    MonsterProto *mp = [gs monsterWithId:monster.monsterId];
-    NSString *fileName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"piece.png"]];
+    BOOL isComplete = monster.puzzlePieceMonsterDropLvl > 0;
+    
+    MonsterProto *mp = [gs monsterWithId:monster.puzzlePieceMonsterId];
+    NSString *fileName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:(isComplete ? @"ball.png" : @"piece.png")]];
     ed = [CCSprite spriteWithImageNamed:fileName];
   } else if (monster.hasItemId) {
     ItemProto *item = [gs itemForId:monster.itemId];
@@ -48,14 +50,14 @@
 
 - (void) youWon {
   [super youWon];
-  [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo]];
-  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES delegate:self];
+  [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums]];
+  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
 }
 
 - (void) youLost {
   [super youLost];
-  [self.lostView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1]];
+  [self.lostView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums]];
 }
 
 - (void) makeGoCarrotCalls {
@@ -229,7 +231,7 @@
 - (IBAction)winExitClicked:(id)sender {
   if (!_waitingForEndDungeonResponse) {
     if (!_wonBattle) {
-      [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle droplessStageNums:self.droplessStageNums delegate:self];
     }
     
     if (!_receivedEndDungeonResponse) {
@@ -346,7 +348,7 @@
 
 - (void) sendServerDungeonProgress {
   if (_hasStarted && _curStage < self.enemyTeam.count) {
-    [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage];
+    [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage dropless:([self.droplessStageNums containsObject:@(_curStage-1)])];
     [self saveCurrentState];
   }
 }

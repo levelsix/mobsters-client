@@ -171,6 +171,7 @@
     _canPlayNextGemPop = YES;
     
     self.shouldShowContinueButton = NO;
+    self.droplessStageNums = [NSMutableArray array];
     
     [self loadHudView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
@@ -392,6 +393,10 @@
        [self performSelector:selector withObject:player];
      }],
     nil]];
+}
+
+- (NSInteger) currentStageNum {
+  return _curStage;
 }
 
 - (NSInteger) stagesLeft

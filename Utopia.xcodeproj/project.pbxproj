@@ -22612,8 +22612,8 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
-				PROVISIONING_PROFILE = "3267f4eb-a43d-4195-8480-7b97c11c9435";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3267f4eb-a43d-4195-8480-7b97c11c9435";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;

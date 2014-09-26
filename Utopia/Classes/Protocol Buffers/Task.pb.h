@@ -333,6 +333,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @private
   BOOL hasPuzzlePieceDropped_:1;
   BOOL hasDmgMultiplier_:1;
+  BOOL hasTsfuId_:1;
   BOOL hasTsmId_:1;
   BOOL hasMonsterId_:1;
   BOOL hasLevel_:1;
@@ -347,6 +348,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
+  int64_t tsfuId;
   int32_t tsmId;
   int32_t monsterId;
   int32_t level;
@@ -360,6 +362,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t puzzlePieceMonsterDropLvl;
   TaskStageMonsterProto_MonsterType monsterType;
 }
+- (BOOL) hasTsfuId;
 - (BOOL) hasTsmId;
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterType;
@@ -374,6 +377,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasDefensiveSkillId;
 - (BOOL) hasOffensiveSkillId;
 - (BOOL) hasPuzzlePieceMonsterDropLvl;
+@property (readonly) int64_t tsfuId;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
@@ -422,6 +426,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) mergeFrom:(TaskStageMonsterProto*) other;
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTsfuId;
+- (int64_t) tsfuId;
+- (TaskStageMonsterProto_Builder*) setTsfuId:(int64_t) value;
+- (TaskStageMonsterProto_Builder*) clearTsfuId;
 
 - (BOOL) hasTsmId;
 - (int32_t) tsmId;

@@ -925,26 +925,28 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
-- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId {
-  UpdateMonsterHealthRequestProto *req = [[[[[[[[UpdateMonsterHealthRequestProto builder]
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId droplessTsfuid:(uint64_t)droplessTsfuid {
+  UpdateMonsterHealthRequestProto *req = [[[[[[[[[UpdateMonsterHealthRequestProto builder]
                                                 setSender:_sender]
                                                setClientTime:clientTime]
                                               addAllUmchp:monsterHealths]
                                              setIsUpdateTaskStageForUser:isForTask]
                                             setUserTaskId:userTaskId]
                                            setNuTaskStageId:taskStageId]
+                                           setDroplessTsfuId:droplessTsfuid]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
 }
 
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time {
-  EndDungeonRequestProto *req = [[[[[[[EndDungeonRequestProto builder]
+- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuIds:(NSArray *)droplessTsfuIds time:(uint64_t)time {
+  EndDungeonRequestProto *req = [[[[[[[[EndDungeonRequestProto builder]
                                       setSender:[self senderWithMaxResources]]
                                      setUserTaskId:userTaskId]
                                     setUserWon:userWon]
                                    setFirstTimeUserWonTask:isFirstTimeCompleted]
                                   setClientTime:time]
+                                 addAllDroplessTsfuIds:droplessTsfuIds]
                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];

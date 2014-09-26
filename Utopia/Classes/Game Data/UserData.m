@@ -921,11 +921,11 @@
 
 @implementation Reward
 
-+ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
-  return [self createRewardsForDungeon:proto tillStage:(int)proto.tspList.count-1];
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto droplessStageNums:(NSArray *)droplessStageNums {
+  return [self createRewardsForDungeon:proto tillStage:(int)proto.tspList.count-1 droplessStageNums:droplessStageNums];
 }
 
-+ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum {
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *rewards = [NSMutableArray array];
   
@@ -937,12 +937,14 @@
       oilAmount += tsm.oilReward;
       expAmount += tsm.expReward;
       
-      if (tsm.puzzlePieceDropped) {
-        Reward *r = [[Reward alloc] initWithMonsterId:tsm.puzzlePieceMonsterId isPuzzlePiece:YES];
-        [rewards addObject:r];
-      } else if (tsm.hasItemId) {
-        Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
-        [rewards addObject:r];
+      if (![droplessStageNums containsObject:@(i)]) {
+        if (tsm.puzzlePieceDropped) {
+          Reward *r = [[Reward alloc] initWithMonsterId:tsm.puzzlePieceMonsterId isPuzzlePiece:tsm.puzzlePieceMonsterDropLvl == 0];
+          [rewards addObject:r];
+        } else if (tsm.hasItemId) {
+          Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
+          [rewards addObject:r];
+        }
       }
     }
   }

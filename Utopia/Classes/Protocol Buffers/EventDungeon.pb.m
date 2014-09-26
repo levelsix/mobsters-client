@@ -1039,6 +1039,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 @property int64_t clientTime;
 @property BOOL firstTimeUserWonTask;
 @property BOOL userBeatAllCityTasks;
+@property (retain) NSMutableArray* mutableDroplessTsfuIdsList;
 @end
 
 @implementation EndDungeonRequestProto
@@ -1100,8 +1101,10 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 - (void) setUserBeatAllCityTasks:(BOOL) value {
   userBeatAllCityTasks_ = !!value;
 }
+@synthesize mutableDroplessTsfuIdsList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableDroplessTsfuIdsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1127,6 +1130,13 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (EndDungeonRequestProto*) defaultInstance {
   return defaultEndDungeonRequestProtoInstance;
 }
+- (NSArray*) droplessTsfuIdsList {
+  return mutableDroplessTsfuIdsList;
+}
+- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index {
+  id value = [mutableDroplessTsfuIdsList objectAtIndex:index];
+  return [value longLongValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1148,6 +1158,9 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   }
   if (self.hasUserBeatAllCityTasks) {
     [output writeBool:6 value:self.userBeatAllCityTasks];
+  }
+  for (NSNumber* value in self.mutableDroplessTsfuIdsList) {
+    [output writeInt64:7 value:[value longLongValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1175,6 +1188,14 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   }
   if (self.hasUserBeatAllCityTasks) {
     size += computeBoolSize(6, self.userBeatAllCityTasks);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableDroplessTsfuIdsList) {
+      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableDroplessTsfuIdsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1269,6 +1290,12 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasUserBeatAllCityTasks) {
     [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
   }
+  if (other.mutableDroplessTsfuIdsList.count > 0) {
+    if (result.mutableDroplessTsfuIdsList == nil) {
+      result.mutableDroplessTsfuIdsList = [NSMutableArray array];
+    }
+    [result.mutableDroplessTsfuIdsList addObjectsFromArray:other.mutableDroplessTsfuIdsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1317,6 +1344,10 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
       }
       case 48: {
         [self setUserBeatAllCityTasks:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self addDroplessTsfuIds:[input readInt64]];
         break;
       }
     }
@@ -1430,6 +1461,37 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
   result.hasUserBeatAllCityTasks = NO;
   result.userBeatAllCityTasks = NO;
+  return self;
+}
+- (NSArray*) droplessTsfuIdsList {
+  if (result.mutableDroplessTsfuIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableDroplessTsfuIdsList;
+}
+- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index {
+  return [result droplessTsfuIdsAtIndex:index];
+}
+- (EndDungeonRequestProto_Builder*) replaceDroplessTsfuIdsAtIndex:(int32_t) index with:(int64_t) value {
+  [result.mutableDroplessTsfuIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (EndDungeonRequestProto_Builder*) addDroplessTsfuIds:(int64_t) value {
+  if (result.mutableDroplessTsfuIdsList == nil) {
+    result.mutableDroplessTsfuIdsList = [NSMutableArray array];
+  }
+  [result.mutableDroplessTsfuIdsList addObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (EndDungeonRequestProto_Builder*) addAllDroplessTsfuIds:(NSArray*) values {
+  if (result.mutableDroplessTsfuIdsList == nil) {
+    result.mutableDroplessTsfuIdsList = [NSMutableArray array];
+  }
+  [result.mutableDroplessTsfuIdsList addObjectsFromArray:values];
+  return self;
+}
+- (EndDungeonRequestProto_Builder*) clearDroplessTsfuIdsList {
+  result.mutableDroplessTsfuIdsList = nil;
   return self;
 }
 @end

@@ -272,8 +272,8 @@ typedef enum {
 @property (nonatomic, assign) int expAmount;
 @property (nonatomic, assign) RewardType type;
 
-+ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto;
-+ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum;
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto droplessStageNums:(NSArray *)droplessStageNums;
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp;

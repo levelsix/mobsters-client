@@ -1310,11 +1310,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                           setCurrentHealth:userMonster.curHealth]
                                          setUserMonsterId:userMonster.userMonsterId]
                                         build];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskId:0 taskStageId:0];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskId:0 taskStageId:0 droplessTsfuid:0];
   }
 }
 
-- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum {
+- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless {
   NSMutableArray *arr = [NSMutableArray array];
   for (BattlePlayer *bp in curHealths) {
     UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
@@ -1326,16 +1326,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (newStageNum < dungeonInfo.tspList.count) {
     TaskStageProto *tsp = dungeonInfo.tspList[newStageNum];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId];
+    TaskStageMonsterProto *tsm = tsp.stageMonstersList[0];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId  droplessTsfuid:dropless ? tsm.tsfuId : 0];
   } else {
     [Globals popupMessage:@"Attempting to progress dungeon with invalid stage num."];
   }
 }
 
-- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate {
+- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate {
+  NSMutableArray *droplessTsfuids = [NSMutableArray array];
+  for (int i = 0; i < dungeonInfo.tspList.count; i++) {
+    if ([droplessStageNums containsObject:@(i)]) {
+      TaskStageMonsterProto *mon = [dungeonInfo.tspList[i] stageMonstersList][0];
+      [droplessTsfuids addObject:@(mon.tsfuId)];
+    }
+  }
+  
   GameState *gs = [GameState sharedGameState];
   BOOL isFirstTime = ![gs.completedTasks containsObject:@(dungeonInfo.taskId)];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskId userWon:userWon isFirstTimeCompleted:isFirstTime time:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskId userWon:userWon isFirstTimeCompleted:isFirstTime droplessTsfuIds:droplessTsfuids time:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   if (userWon) {

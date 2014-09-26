@@ -142,6 +142,9 @@
 @property (nonatomic, assign) int movesLeft;
 @property (nonatomic, assign) BOOL shouldDisplayNewSchedule;
 
+// Used for skills that render the drop invalid (e.g. cake kid)
+@property (nonatomic, retain) NSMutableArray *droplessStageNums;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (void) initOrbLayer;
@@ -212,6 +215,7 @@
 
 - (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block;
 
+- (NSInteger) currentStageNum;
 - (NSInteger) stagesLeft;
 - (NSInteger) playerMobstersLeft;
 

@@ -3140,6 +3140,7 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
 @property int64_t userTaskId;
 @property BOOL isUpdateTaskStageForUser;
 @property int32_t nuTaskStageId;
+@property int64_t droplessTsfuId;
 @end
 
 @implementation UpdateMonsterHealthRequestProto
@@ -3185,6 +3186,13 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
   hasNuTaskStageId_ = !!value;
 }
 @synthesize nuTaskStageId;
+- (BOOL) hasDroplessTsfuId {
+  return !!hasDroplessTsfuId_;
+}
+- (void) setHasDroplessTsfuId:(BOOL) value {
+  hasDroplessTsfuId_ = !!value;
+}
+@synthesize droplessTsfuId;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUmchpList = nil;
@@ -3197,6 +3205,7 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
     self.userTaskId = 0L;
     self.isUpdateTaskStageForUser = NO;
     self.nuTaskStageId = 0;
+    self.droplessTsfuId = 0L;
   }
   return self;
 }
@@ -3241,6 +3250,9 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (self.hasNuTaskStageId) {
     [output writeInt32:6 value:self.nuTaskStageId];
   }
+  if (self.hasDroplessTsfuId) {
+    [output writeInt64:7 value:self.droplessTsfuId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3267,6 +3279,9 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   }
   if (self.hasNuTaskStageId) {
     size += computeInt32Size(6, self.nuTaskStageId);
+  }
+  if (self.hasDroplessTsfuId) {
+    size += computeInt64Size(7, self.droplessTsfuId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3364,6 +3379,9 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (other.hasNuTaskStageId) {
     [self setNuTaskStageId:other.nuTaskStageId];
   }
+  if (other.hasDroplessTsfuId) {
+    [self setDroplessTsfuId:other.droplessTsfuId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3414,6 +3432,10 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
       }
       case 48: {
         [self setNuTaskStageId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setDroplessTsfuId:[input readInt64]];
         break;
       }
     }
@@ -3540,6 +3562,22 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
 - (UpdateMonsterHealthRequestProto_Builder*) clearNuTaskStageId {
   result.hasNuTaskStageId = NO;
   result.nuTaskStageId = 0;
+  return self;
+}
+- (BOOL) hasDroplessTsfuId {
+  return result.hasDroplessTsfuId;
+}
+- (int64_t) droplessTsfuId {
+  return result.droplessTsfuId;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setDroplessTsfuId:(int64_t) value {
+  result.hasDroplessTsfuId = YES;
+  result.droplessTsfuId = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuId {
+  result.hasDroplessTsfuId = NO;
+  result.droplessTsfuId = 0L;
   return self;
 }
 @end
