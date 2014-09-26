@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
@@ -30,7 +31,6 @@
                 <outlet property="oilMaxLabel" destination="fr0-h4-lfj" id="NTP-UZ-JMW"/>
                 <outlet property="questBadge" destination="FXC-S5-i6S" id="a7P-HJ-eWz"/>
                 <outlet property="questView" destination="cL0-yI-Pkw" id="aZS-VR-shA"/>
-                <outlet property="shieldLabel" destination="Jc2-kY-U1u" id="yHO-iR-zCZ"/>
                 <outlet property="shopBadge" destination="nl4-HM-Qok" id="oLQ-QZ-Lat"/>
                 <outlet property="shopBadgeImage" destination="Ttb-Rz-x1x" id="YKg-Hh-fMt"/>
                 <outlet property="shopView" destination="Oj8-iv-fNA" id="LlZ-Qp-CWe"/>
@@ -191,7 +191,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="wwM-37-tra" userLabel="Mail">
-                            <rect key="frame" x="4" y="123" width="52" height="51"/>
+                            <rect key="frame" x="1" y="91" width="52" height="51"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SL2-6E-5kP" customClass="GeneralButton">
@@ -316,7 +316,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="cL0-yI-Pkw" userLabel="Jobs">
-                            <rect key="frame" x="4" y="78" width="53" height="50"/>
+                            <rect key="frame" x="1" y="46" width="53" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Kk-oa-rxb" customClass="GeneralButton">
@@ -352,39 +352,6 @@
                                         <outlet property="badgeLabel" destination="KPE-V0-2C9" id="aLx-4H-6vO"/>
                                     </connections>
                                 </view>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="Wmv-7e-0O6" userLabel="Shield">
-                            <rect key="frame" x="6" y="38" width="88" height="39"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="diamondbar.png" id="MZ2-co-1QI">
-                                    <rect key="frame" x="11" y="15" width="72" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Shield" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="UrT-nb-XJI" customClass="NiceFontLabel8B">
-                                    <rect key="frame" x="33" y="-3" width="38" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="shieldon.png" id="dYT-Ar-6xy">
-                                    <rect key="frame" x="2" y="8" width="29" height="32"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3m 12s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Jc2-kY-U1u" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="33" y="12" width="46" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -584,7 +551,6 @@
         <image name="oilicon.png" width="25" height="30"/>
         <image name="oilmiddle.png" width="1" height="18"/>
         <image name="shield.png" width="31" height="34"/>
-        <image name="shieldon.png" width="29" height="32"/>
         <image name="shopbutton.png" width="72" height="68"/>
         <image name="xpcap.png" width="4" height="18"/>
         <image name="xpmiddle.png" width="1" height="18"/>

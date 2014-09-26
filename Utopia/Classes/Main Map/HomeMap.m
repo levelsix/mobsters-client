@@ -605,7 +605,7 @@
   BOOL evoInProgress = gs.userEvolution != nil;
   for (EvoBuilding *b in [self childrenOfClassType:[EvoBuilding class]]) {
     if (!evoInProgress) {
-      [b setBubbleType:BuildingBubbleTypeEvolve];
+        [b setBubbleType:BuildingBubbleTypeEvolve];
       [b stopAnimating];
     } else {
       [b setBubbleType:BuildingBubbleTypeNone];
@@ -614,7 +614,11 @@
   }
   
   for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
-    [b setBubbleType:BuildingBubbleTypeEnhance];
+    if (b.userStruct.staticStruct.structInfo.level > 0) {
+      [b setBubbleType:BuildingBubbleTypeFix];
+    } else {
+      [b setBubbleType:BuildingBubbleTypeEnhance];
+    }
   }
 }
 

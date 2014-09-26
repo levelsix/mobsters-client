@@ -153,35 +153,10 @@
     _curClickedCell = cell;
     
     if ([Globals checkEnteringDungeon]) {
-      GameState *gs = [GameState sharedGameState];
-      if (gs.hasActiveShield) {
-        NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
-        [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(checkEnemyShield) cancelTarget:self cancelSelector:@selector(deniedRevenge)];
-      } else {
-        [self checkEnemyShield];
-      }
+      GameViewController *gvc = [GameViewController baseController];
+      [gvc beginPvpMatch:_curClickedCell.battleHistory];
     }
   }
-}
-
-- (void) checkEnemyShield {
-  FullUserProto *fup = _curClickedCell.battleHistory.attacker;
-  MSDate *shieldTime = [MSDate dateWithTimeIntervalSince1970:fup.pvpLeagueInfo.shieldEndTime/1000.];
-  if (shieldTime.timeIntervalSinceNow > 0) {
-    [self performRevenge];
-  } else {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has an active shield right now and can't be attacked. Try again later.", fup.name]];
-    _curClickedCell = nil;
-  }
-}
-
-- (void) performRevenge {
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc beginPvpMatch:_curClickedCell.battleHistory];
-}
-
-- (void) deniedRevenge {
-  _curClickedCell = nil;
 }
 
 #pragma mark - UITableViewDelegate/DataSource methods

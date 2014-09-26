@@ -81,11 +81,11 @@
   [self.evoEventView updateLabels];
   [self.enhanceEventView updateLabels];
   
-//  if (self.evoEventView.hidden && self.enhanceEventView.hidden) {
-//    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
-//  } else {
-//    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height+self.evoEventView.bgdImage.frame.size.height);
-//  }
+  //  if (self.evoEventView.hidden && self.enhanceEventView.hidden) {
+  //    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
+  //  } else {
+  //    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height+self.evoEventView.bgdImage.frame.size.height);
+  //  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -270,31 +270,31 @@
     [pos addSubview:img];
     
     [TangoDelegate getProfilePicture:^(UIImage *i) {
-        img.image = i;
+      img.image = i;
     }];
   }
   
   else
 #endif
-  
-  if (gs.facebookId) {
-    DBFBProfilePictureView *pf = [[DBFBProfilePictureView alloc] initWithFrame:frame];
-    pf.layer.cornerRadius = pf.frame.size.width/2;
-    pf.clipsToBounds = YES;
-    pf.profileID = gs.facebookId;
-    [pos addSubview:pf];
-  } else {
-    CircleMonsterView *cmv = [[CircleMonsterView alloc] initWithFrame:frame];
-    cmv.bgdIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
-    cmv.monsterIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
-    [cmv addSubview:cmv.bgdIcon];
-    [cmv addSubview:cmv.monsterIcon];
-    cmv.monsterIcon.clipsToBounds = YES;
-    [cmv awakeFromNib];
     
-    [cmv updateForMonsterId:gs.avatarMonsterId];
-    [pos addSubview:cmv];
-  }
+    if (gs.facebookId) {
+      DBFBProfilePictureView *pf = [[DBFBProfilePictureView alloc] initWithFrame:frame];
+      pf.layer.cornerRadius = pf.frame.size.width/2;
+      pf.clipsToBounds = YES;
+      pf.profileID = gs.facebookId;
+      [pos addSubview:pf];
+    } else {
+      CircleMonsterView *cmv = [[CircleMonsterView alloc] initWithFrame:frame];
+      cmv.bgdIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
+      cmv.monsterIcon = [[UIImageView alloc] initWithFrame:cmv.bounds];
+      [cmv addSubview:cmv.bgdIcon];
+      [cmv addSubview:cmv.monsterIcon];
+      cmv.monsterIcon.clipsToBounds = YES;
+      [cmv awakeFromNib];
+      
+      [cmv updateForMonsterId:gs.avatarMonsterId];
+      [pos addSubview:cmv];
+    }
   
   [self.mapScrollView addSubview:pos];
   
@@ -393,13 +393,7 @@
 
 - (IBAction)findMatchClicked:(id)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeon]) {
-    GameState *gs = [GameState sharedGameState];
-    if (gs.hasActiveShield) {
-      NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
-      [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(findMatch) cancelTarget:nil cancelSelector:nil];
-    } else {
-      [self findMatch];
-    }
+    [self findMatch];
   }
 }
 

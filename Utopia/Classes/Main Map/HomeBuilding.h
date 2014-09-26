@@ -20,7 +20,7 @@
   CGPoint _startMoveCoordinate;
   StructOrientation _startOrientation;
   
-  BOOL _progressBarIsDisplayingFree; 
+  BOOL _progressBarIsDisplayingFree;
 }
 
 @property (nonatomic, assign) CGPoint startTouchLocation;
@@ -40,6 +40,8 @@
 - (void) updateMeta;
 - (void) clearMeta;
 - (void) cancelMove;
+
+- (BOOL) canMove;
 
 - (void) displayMoveArrows;
 - (void) removeMoveArrows;

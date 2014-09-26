@@ -170,32 +170,42 @@
   }
 }
 
+#pragma mark - Moving building
+
+- (BOOL) canMove {
+  return self.userStruct.staticStruct.structInfo.level > 0;
+}
+
 - (void) cancelMove {
-  [self clearMeta];
-  [self liftBlock];
-  self.orientation = _startOrientation;
-  CGRect x = self.location;
-  x.origin = _startMoveCoordinate;
-  self.location = x;
-  [self placeBlock:YES];
+  if ([self canMove]) {
+    [self clearMeta];
+    [self liftBlock];
+    self.orientation = _startOrientation;
+    CGRect x = self.location;
+    x.origin = _startMoveCoordinate;
+    self.location = x;
+    [self placeBlock:YES];
+  }
 }
 
 - (void) updateMeta {
-  CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
-  int red = _homeMap.redGid;
-  int green = _homeMap.greenGid;
-  for (int i = 0; i < self.location.size.width; i++) {
-    for (int j = 0; j < self.location.size.height; j++) {
-      // Transform to the map's coordinates
-      CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j), _homeMap.mapSize.width-1-(self.location.origin.x+i));
-      int tileGid = [meta tileGIDAt:tileCoord];
-      if ([[[_homeMap.buildableData objectAtIndex:i+self.location.origin.x] objectAtIndex:j+self.location.origin.y] boolValue]) {
-        if (tileGid != red) {
-          [meta setTileGID:green at:tileCoord];
-        }
-      } else {
-        if (tileGid != green) {
-          [meta setTileGID:red at:tileCoord];
+  if ([self canMove]) {
+    CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
+    int red = _homeMap.redGid;
+    int green = _homeMap.greenGid;
+    for (int i = 0; i < self.location.size.width; i++) {
+      for (int j = 0; j < self.location.size.height; j++) {
+        // Transform to the map's coordinates
+        CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j), _homeMap.mapSize.width-1-(self.location.origin.x+i));
+        int tileGid = [meta tileGIDAt:tileCoord];
+        if ([[[_homeMap.buildableData objectAtIndex:i+self.location.origin.x] objectAtIndex:j+self.location.origin.y] boolValue]) {
+          if (tileGid != red) {
+            [meta setTileGID:green at:tileCoord];
+          }
+        } else {
+          if (tileGid != green) {
+            [meta setTileGID:red at:tileCoord];
+          }
         }
       }
     }
@@ -216,78 +226,86 @@
 }
 
 - (void) placeBlock:(BOOL)shouldPlaySound {
-  if (_isSetDown) {
-    return;
-  }
-  
-  CCSprite *sprite = self.buildingSprite;
-  
-  if ([_homeMap isBlockBuildable:self.location]) {
-    [self clearMeta];
-    sprite.opacity = 1.f;
-    [_homeMap changeTiles:self.location toBuildable:NO];
-    _isSetDown = YES;
-    _startMoveCoordinate = _location.origin;
-    _startOrientation = self.orientation;
+  if ([self canMove]) {
+    if (_isSetDown) {
+      return;
+    }
     
-    if (shouldPlaySound) {
-      [SoundEngine structDropped];
+    CCSprite *sprite = self.buildingSprite;
+    
+    if ([_homeMap isBlockBuildable:self.location]) {
+      [self clearMeta];
+      sprite.opacity = 1.f;
+      [_homeMap changeTiles:self.location toBuildable:NO];
+      _isSetDown = YES;
+      _startMoveCoordinate = _location.origin;
+      _startOrientation = self.orientation;
+      
+      if (shouldPlaySound) {
+        [SoundEngine structDropped];
+      }
+    } else {
+      sprite.opacity = 0.6f;
+      
+      if (shouldPlaySound) {
+        [SoundEngine structCantPlace];
+      }
     }
   } else {
-    sprite.opacity = 0.6f;
-    
-    if (shouldPlaySound) {
-      [SoundEngine structCantPlace];
-    }
+    self.opacity = 1.f;
   }
 }
 
 - (void) liftBlock {
-  CCSprite *sprite = self.buildingSprite;
-  
-  if (self.isSetDown) {
-    sprite.opacity = 0.6f;
-    [_homeMap changeTiles:self.location toBuildable:YES];
+  if ([self canMove]) {
+    CCSprite *sprite = self.buildingSprite;
+    
+    if (self.isSetDown) {
+      sprite.opacity = 0.6f;
+      [_homeMap changeTiles:self.location toBuildable:YES];
+    }
+    self.isSetDown = NO;
   }
-  self.isSetDown = NO;
 }
 
 - (void) locationAfterTouch: (CGPoint) touchLocation {
-  // Subtract the touch location from the start location to find the distance moved
-  CGPoint vector = ccpSub(touchLocation, _startTouchLocation);
-  CGSize ts = _homeMap.tileSize;
-  if (abs(vector.x)+abs(2*vector.y) >= ts.width) {
-    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(touchLocation, _startTouchLocation)));
-    
-    CGRect loc = self.location;
-    CGRect oldLoc = self.location;
-    // Adjust the location in the map to the correct angle
-    if (angle >= 165 || angle <= -165) {
-      loc.origin.x -= 1;
-      loc.origin.y += 1;
-    } else if (angle >= 120) {
-      loc.origin.y += 1;
-    } else if (angle >= 60) {
-      loc.origin.x += 1;
-      loc.origin.y += 1;
-    } else if (angle >= 15) {
-      loc.origin.x += 1;
-    } else if (angle >= -15) {
-      loc.origin.x += 1;
-      loc.origin.y -= 1;
-    } else if (angle >= -60) {
-      loc.origin.y -= 1;
-    } else if (angle >= -120) {
-      loc.origin.y -= 1;
-      loc.origin.x -= 1;
-    } else if (angle >= -165) {
-      loc.origin.x -= 1;
+  if ([self canMove]) {
+    // Subtract the touch location from the start location to find the distance moved
+    CGPoint vector = ccpSub(touchLocation, _startTouchLocation);
+    CGSize ts = _homeMap.tileSize;
+    if (abs(vector.x)+abs(2*vector.y) >= ts.width) {
+      float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(touchLocation, _startTouchLocation)));
+      
+      CGRect loc = self.location;
+      CGRect oldLoc = self.location;
+      // Adjust the location in the map to the correct angle
+      if (angle >= 165 || angle <= -165) {
+        loc.origin.x -= 1;
+        loc.origin.y += 1;
+      } else if (angle >= 120) {
+        loc.origin.y += 1;
+      } else if (angle >= 60) {
+        loc.origin.x += 1;
+        loc.origin.y += 1;
+      } else if (angle >= 15) {
+        loc.origin.x += 1;
+      } else if (angle >= -15) {
+        loc.origin.x += 1;
+        loc.origin.y -= 1;
+      } else if (angle >= -60) {
+        loc.origin.y -= 1;
+      } else if (angle >= -120) {
+        loc.origin.y -= 1;
+        loc.origin.x -= 1;
+      } else if (angle >= -165) {
+        loc.origin.x -= 1;
+      }
+      self.location = loc;
+      int diffX = self.location.origin.x - oldLoc.origin.x;
+      int diffY = self.location.origin.y - oldLoc.origin.y;
+      _startTouchLocation.x += ts.width * (diffX-diffY)/2,
+      _startTouchLocation.y += ts.height * (diffX+diffY)/2;
     }
-    self.location = loc;
-    int diffX = self.location.origin.x - oldLoc.origin.x;
-    int diffY = self.location.origin.y - oldLoc.origin.y;
-    _startTouchLocation.x += ts.width * (diffX-diffY)/2,
-    _startTouchLocation.y += ts.height * (diffX+diffY)/2;
   }
 }
 
@@ -295,47 +313,49 @@
 #define ARROW_FADE_DURATION 0.2f
 
 - (void) displayMoveArrows {
-  CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
-  if (o) {
-    // This means it was reclicked
-    [o stopAllActions];
-    [o recursivelyApplyOpacity:1.f];
-    return;
+  if ([self canMove]) {
+    CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
+    if (o) {
+      // This means it was reclicked
+      [o stopAllActions];
+      [o recursivelyApplyOpacity:1.f];
+      return;
+    }
+    
+    CCSprite *node = [CCSprite node];
+    
+    CCSprite *nr = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
+    CCSprite *nl = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
+    CCSprite *fr = [CCSprite spriteWithImageNamed:@"arrowup.png"];
+    CCSprite *fl = [CCSprite spriteWithImageNamed:@"arrowup.png"];
+    nr.flipX = YES;
+    fr.flipX = YES;
+    
+    // Set anchor points so adjusting to tiles will be easy
+    nr.anchorPoint = ccp(0,1);
+    nl.anchorPoint = ccp(1,1);
+    fr.anchorPoint = ccp(0,0);
+    fl.anchorPoint = ccp(1,0);
+    
+    CGRect r = self.location;
+    CGPoint relativeTo = [_map convertTilePointToCCPoint:r.origin];
+    float inset = 0.18;
+    nr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMinY(r)+inset)], relativeTo);
+    nl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMinX(r)+inset, CGRectGetMidY(r))], relativeTo);
+    fr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMaxX(r)-inset, CGRectGetMidY(r))], relativeTo);
+    fl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMaxY(r)-inset)], relativeTo);
+    
+    [node addChild:nr];
+    [node addChild:nl];
+    [node addChild:fr];
+    [node addChild:fl];
+    node.position = ccp(self.contentSize.width/2, 0);
+    
+    [node recursivelyApplyOpacity:0];
+    [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:1.f]];
+    
+    [self addChild:node z:-1 name:ARROW_LAYER_TAG];
   }
-  
-  CCSprite *node = [CCSprite node];
-  
-  CCSprite *nr = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
-  CCSprite *nl = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
-  CCSprite *fr = [CCSprite spriteWithImageNamed:@"arrowup.png"];
-  CCSprite *fl = [CCSprite spriteWithImageNamed:@"arrowup.png"];
-  nr.flipX = YES;
-  fr.flipX = YES;
-  
-  // Set anchor points so adjusting to tiles will be easy
-  nr.anchorPoint = ccp(0,1);
-  nl.anchorPoint = ccp(1,1);
-  fr.anchorPoint = ccp(0,0);
-  fl.anchorPoint = ccp(1,0);
-  
-  CGRect r = self.location;
-  CGPoint relativeTo = [_map convertTilePointToCCPoint:r.origin];
-  float inset = 0.18;
-  nr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMinY(r)+inset)], relativeTo);
-  nl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMinX(r)+inset, CGRectGetMidY(r))], relativeTo);
-  fr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMaxX(r)-inset, CGRectGetMidY(r))], relativeTo);
-  fl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMaxY(r)-inset)], relativeTo);
-  
-  [node addChild:nr];
-  [node addChild:nl];
-  [node addChild:fr];
-  [node addChild:fl];
-  node.position = ccp(self.contentSize.width/2, 0);
-  
-  [node recursivelyApplyOpacity:0];
-  [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:1.f]];
-  
-  [self addChild:node z:-1 name:ARROW_LAYER_TAG];
 }
 
 - (void) removeMoveArrows {
@@ -837,28 +857,8 @@
 
 @implementation MiniJobCenterBuilding
 
-- (void) updateMeta {
-  // Do nothing
-}
-
-- (void) liftBlock {
-  // Do nothing
-}
-
-- (void) cancelMove {
-  // Do nothing
-}
-
-- (void) placeBlock:(BOOL)shouldPlaySound {
-  self.opacity = 1.f;
-}
-
-- (void) displayMoveArrows {
-  // Do nothing
-}
-
-- (void) locationAfterTouch:(CGPoint)touchLocation {
-  // Do nothing
+- (BOOL) canMove {
+  return NO;
 }
 
 - (void) updateForActiveMiniJob:(UserMiniJob *)activeMiniJob {
