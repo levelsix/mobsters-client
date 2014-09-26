@@ -368,7 +368,7 @@
 {
   [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility withTarget:target withSelector:selector];
   
-  if (enemyIsAttacker) {
+  if (enemyIsAttacker && ! usingAbility) {
     _damageWasDealt = YES;
     [self saveCurrentState];
   }
