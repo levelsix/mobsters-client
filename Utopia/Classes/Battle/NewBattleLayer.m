@@ -571,14 +571,14 @@
       SkillLogStart(@"TRIGGER STARTED: enemy appeared");
       [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
         SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
-        [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+        [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
       }];
 
     }];
   }
 }
 
-- (void) proceessNextTurn:(float)delay
+- (void) processNextTurn:(float)delay
 {
   _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];
@@ -1582,12 +1582,12 @@
       // Skill ribbons
       if ([skillManager shouldSpawnRibbonForPlayerSkill:orb.orbColor])
       {
-        endPoint = [skillManager playerSkillPosition];
+        endPoint = [skillManager playerSkillIndicatorPosition];
         [self spawnRibbonForOrb:orb target:endPoint skill:YES];
       }
       if ([skillManager shouldSpawnRibbonForEnemySkill:orb.orbColor])
       {
-        endPoint = [skillManager enemySkillPosition];
+        endPoint = [skillManager enemySkillIndicatorPosition];
         [self spawnRibbonForOrb:orb target:endPoint skill:YES];
       }
 
@@ -1639,27 +1639,20 @@
   
   [self updateHealthBars];
   
-  // Check for the bombs and other special cases first
-  SkillLogStart(@"SPECIALS: end of player move");
-  [skillManager updateSpecialsWithCompletion:^(BOOL triggered) {
-    SkillLogEnd(triggered, @"  Specials ENDED");
+  // Trigger skills for move made by the player
+  SkillLogStart(@"TRIGGER STARTED: end of player move");
+  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
     
-    // Trigger skills for move made by the player
-    SkillLogStart(@"TRIGGER STARTED: end of player move");
-    [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
-      
-      SkillLogEnd(triggered, @"  End of player move ENDED");
-      BOOL enemyIsKilled = [self checkEnemyHealth];
-      if (! enemyIsKilled)
-      {
-        BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
-        if (playerIsKilled)
-          [self checkMyHealth];
-        else
-          [self checkIfAnyMovesLeft];
-      }
-    }];
-    
+    SkillLogEnd(triggered, @"  End of player move ENDED");
+    BOOL enemyIsKilled = [self checkEnemyHealth];
+    if (! enemyIsKilled)
+    {
+      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+      if (playerIsKilled)
+        [self checkMyHealth];
+      else
+        [self checkIfAnyMovesLeft];
+    }
   }];
   
   _comboCount = 0;

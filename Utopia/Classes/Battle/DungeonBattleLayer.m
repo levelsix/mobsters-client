@@ -368,7 +368,7 @@
 {
   [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility withTarget:target withSelector:selector];
   
-  if (enemyIsAttacker) {
+  if (enemyIsAttacker && ! usingAbility) {
     _damageWasDealt = YES;
     [self saveCurrentState];
   }
@@ -412,8 +412,8 @@
   }
 }
 
-- (void) beginNextTurn {
-  [super beginNextTurn];
+- (void) processNextTurn:(float)delay{
+  [super processNextTurn:delay];
   [self saveCurrentState];
 }
 

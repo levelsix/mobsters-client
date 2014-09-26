@@ -26,15 +26,11 @@
   CCSprite*   _orbCounter;
 }
 
-@property (nonatomic) float percentage;  // Change it to update the indicator
+@property (nonatomic, readonly) float percentage;
 
 - (instancetype) initWithSkillController:(SkillController*)skillController enemy:(BOOL)enemy;
-
-- (void) update;
-
 - (void) appear:(BOOL)instantly;
-- (void) disappear;
-
+- (void) update;
 - (void) enableSkillButton:(BOOL)active;
 
 @end
