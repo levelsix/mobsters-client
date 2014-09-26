@@ -51,28 +51,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 @property (assign, nonatomic) NSInteger cheatEnemySkillId;    // If more or equal to zero, overrides skills from protos
 @property (assign, nonatomic) NSInteger cheatPlayerSkillId;
 
-// External calls
+// Core external calls
 - (void) updateBattleLayer:(NewBattleLayer*)battleLayer;
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
-// Special cases
-- (BOOL) cakeKidSchedule;
-- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion;
-
 // Serialization
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dict;
 
-// Misc
+// Misc external calls
 - (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color;
 - (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color;
-- (CGPoint) playerSkillPosition;
-- (CGPoint) enemySkillPosition;
+- (CGPoint) playerSkillIndicatorPosition;
+- (CGPoint) enemySkillIndicatorPosition;
 - (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger;
 - (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger;
 - (void) enableSkillButton:(BOOL)enable;
+- (BOOL) cakeKidSchedule;
 
 @end

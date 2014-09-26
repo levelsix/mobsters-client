@@ -27,6 +27,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
   _cheatEnemySkillId = _cheatPlayerSkillId = -1;
   
+  // Change it to override current skills for debug purposes
+  //_cheatEnemySkillType = SkillTypeMomentum;
+  //_cheatPlayerSkillType = SkillTypeMomentum;
+  
   return self;
 }
 
@@ -45,7 +49,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _player.offensiveSkillId;
-  //_cheatPlayerSkillType = SkillTypeRoidRage;
   if (_cheatPlayerSkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatPlayerSkillType];
   if (_cheatPlayerSkillId >= 0)
@@ -95,7 +98,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Skill data
   NSInteger skillId = _enemy.defensiveSkillId;
-  //_cheatEnemySkillType = SkillTypeBombs; // Change it to override current skill
   if (_cheatEnemySkillType != SkillTypeNoSkill)
     skillId = [self skillIdForSkillType:_cheatEnemySkillType];
   if (_cheatEnemySkillId >= 0)
@@ -203,52 +205,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   //completion(NO); // Uncomment these lines to totally disable skills.
   //return;
   
-  // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
-  BOOL shouldTriggerEnemySkill = YES;
-  BOOL shouldTriggerPlayerSkill = YES;
-  
-  // Update enemy, part 1
-  if (trigger == SkillTriggerPointEnemyInitialized)
-  {
-    [self updateEnemySkill];
-    [self updateReferences];
-  }
-  
-  // Update enemy, part 2
-  if (trigger == SkillTriggerPointEnemyAppeared)
-    if (_enemySkillController && (! _skillIndicatorEnemy || !_skillIndicatorEnemy.parent))
-    {
-      [self createEnemySkillIndicator];
-      [self updateReferences];  // To update enemy sprite which is not initialized when it's called for the first time few lines above
-      [_enemySkillController restoreVisualsIfNeeded];
-    }
-  
-  // Update player
-  if (trigger == SkillTriggerPointPlayerInitialized)
-  {
-    [self updatePlayerSkill];
-    [self updateReferences];
-    [self createPlayerSkillIndicator];
-    [_playerSkillController restoreVisualsIfNeeded];
-  }
-  
-  // Remove enemy indicator if enemy was defeated
-  //if (trigger == SkillTriggerPointEnemyDefeated)
-  //  [self removeEnemySkillIndicator];
-  
-  // Skip first skill attack if it's right after appearance
-  if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
-    shouldTriggerEnemySkill = NO;
-  if (trigger == SkillTriggerPointStartOfPlayerTurn && _turnsCounter == 0)
-    shouldTriggerPlayerSkill = NO;
-  
-  // Trigger enemy appeared only for the first time
-  if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter != 0)
-  {
-    shouldTriggerEnemySkill = NO;
-    shouldTriggerPlayerSkill = NO;
-  }
-  
   // Wrapping indicators update into the block
   SkillControllerBlock newBlock = ^(BOOL triggered) {
     
@@ -266,39 +222,81 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       _turnsCounter++;
   };
   
-  // Sequencing player and enemy skills in case both will be triggered by this call
+  // Update specials if needed and only then trigger skill
+  if (trigger == SkillTriggerPointEndOfPlayerMove)
+  {
+    [self updateSpecialsWithCompletion:^(BOOL triggered) {
+      [self triggerSkillsInternal:trigger withCompletion:newBlock];
+    }];
+  }
+  else
+    [self triggerSkillsInternal:trigger withCompletion:newBlock];
+}
+
+- (void) triggerSkillsInternal:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
+{
+  // Used to skip first attack (initial actions for deserizalized copies are skipped within SkillController itself)
+  BOOL shouldTriggerEnemySkill = YES;
+  BOOL shouldTriggerPlayerSkill = YES;
+  
+  // Initialize player skill, update indicator and restore skill visuals
+  if (trigger == SkillTriggerPointPlayerInitialized)
+  {
+    [self updatePlayerSkill];
+    [self updateReferences];
+    [self createPlayerSkillIndicator];
+    [_playerSkillController restoreVisualsIfNeeded];
+  }
+  
+  // Initialize enemy skill
+  if (trigger == SkillTriggerPointEnemyInitialized)
+  {
+    [self updateEnemySkill];
+    [self updateReferences];
+  }
+  
+  // Update enemy skill indicator and restore skill visuals
+  if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter == 0)
+  {
+    [self createEnemySkillIndicator];
+    [self updateReferences];  // To update reference to enemy sprite which is not initialized when it's called for the first time few lines above
+    [_enemySkillController restoreVisualsIfNeeded];
+  }
+  
+  // Skip first skill attack for both player and enemy if it's right after enemy appearance
+  if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
+    shouldTriggerEnemySkill = NO;
+  if (trigger == SkillTriggerPointStartOfPlayerTurn && _turnsCounter == 0)
+    shouldTriggerPlayerSkill = NO;
+  
+  // Skipp EnemyAppeared trigger except for the first time
+  if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter != 0)
+  {
+    shouldTriggerEnemySkill = NO;
+    shouldTriggerPlayerSkill = NO;
+  }
+  
+  // Sequencing player and enemy skills in case both should be triggered
   SkillControllerBlock sequenceBlock = ^(BOOL triggered) {
     BOOL enemySkillTriggered = FALSE;
-    if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Alive or cleanup trigger
+    if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Call if still alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
-        [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
+        [_enemySkillController triggerSkill:trigger withCompletion:completion];
         enemySkillTriggered = TRUE;
       }
     
     if (!enemySkillTriggered)
-      newBlock(triggered);
+      completion(triggered);
   };
   
-  // Triggering the player's skill with a complex block or (if no player skill) the enemy's with a simple
+  // Triggering the player's skill with a sequence block or (if no player skill) the enemy's skill with a simple completion
   if (_playerSkillController && shouldTriggerPlayerSkill)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
-    [_enemySkillController triggerSkill:trigger withCompletion:newBlock];
+    [_enemySkillController triggerSkill:trigger withCompletion:completion];
   else
-    newBlock(NO);
-}
-
-#pragma mark - Specials
-
-- (BOOL) cakeKidSchedule
-{
-  return (_enemySkillController && [_enemySkillController isKindOfClass:[SkillCakeDrop class]]);
-}
-
-- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion
-{
-  [SkillBombs updateBombs:_battleLayer withCompletion:completion];
+    completion(NO);
 }
 
 #pragma mark - UI
@@ -320,12 +318,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
 }
-
-/*- (void) removeEnemySkillIndicator
-{
-  if (_skillIndicatorEnemy)
-    [_skillIndicatorEnemy disappear];
-}*/
 
 - (void) createPlayerSkillIndicator
 {
@@ -401,12 +393,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return NO;
 }
 
-- (CGPoint) playerSkillPosition
+- (CGPoint) playerSkillIndicatorPosition
 {
   return ccpAdd(_skillIndicatorPlayer.position, ccp(0, _skillIndicatorPlayer.contentSize.height/2));
 }
 
-- (CGPoint) enemySkillPosition
+- (CGPoint) enemySkillIndicatorPosition
 {
   return ccpAdd(_skillIndicatorEnemy.position, ccp(0, _skillIndicatorEnemy.contentSize.height/2));
 }
@@ -429,5 +421,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 {
   [_skillIndicatorPlayer enableSkillButton:enable];
 }
+
+#pragma mark - Specials
+
+- (BOOL) cakeKidSchedule
+{
+  return (_enemySkillController && [_enemySkillController isKindOfClass:[SkillCakeDrop class]]);
+}
+
+- (void) updateSpecialsWithCompletion:(SkillControllerBlock)completion
+{
+  [SkillBombs updateBombs:_battleLayer withCompletion:completion];
+}
+
 
 @end

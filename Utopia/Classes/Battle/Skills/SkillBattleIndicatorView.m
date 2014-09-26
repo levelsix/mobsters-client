@@ -132,7 +132,26 @@
     [self popupOrbCounter];
 }
 
-#pragma mark - Setters
+#pragma mark - Update logic
+
+- (void) update
+{
+  // Active skills
+  if (_skillController.activationType != SkillActivationTypePassive)
+  {
+    SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
+    [self setPercentage:1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement];
+  }
+  
+  // Manually enabled skills
+  if (_skillController.activationType == SkillActivationTypeUserActivated)
+    [self updateButtonAnimations];
+  
+  // Hide if owner died
+  BattlePlayer* owner = _skillController.belongsToPlayer ? _skillController.player : _skillController.enemy;
+  if (owner.curHealth <= 0.0)
+    [self disappear];
+}
 
 - (void) setPercentage:(float)percentage
 {
@@ -146,8 +165,8 @@
   {
     [_stencilNode stopAllActions];
     [_stencilNode runAction:[CCActionSequence actions:
-                              [CCActionMoveTo actionWithDuration:0.3 position:CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5))],
-                              nil]];
+                             [CCActionMoveTo actionWithDuration:0.3 position:CGPointMake(-_skillIcon.contentSize.width/2, _skillIcon.contentSize.height*(percentage-0.5))],
+                             nil]];
   }
   
   // Enable/disable charged effect
@@ -174,37 +193,6 @@
   }
 }
 
-- (void) update
-{
-  // Active skills
-  if (_skillController.activationType != SkillActivationTypePassive)
-  {
-    SkillControllerActive* activeSkill = (SkillControllerActive*)_skillController;
-    self.percentage = 1.0 - (float)activeSkill.orbCounter/(float)activeSkill.orbRequirement;
-    //self.orbsCount = activeSkill.orbCounter;
-  }
-  
-  // Manually enabled skills
-  if (_skillController.activationType == SkillActivationTypeUserActivated)
-    [self updateButtonAnimations];
-  
-  // Hide if owner died
-  BattlePlayer* owner = _skillController.belongsToPlayer ? _skillController.player : _skillController.enemy;
-  if (owner.curHealth <= 0.0)
-    [self disappear];
-}
-
-- (void) enableSkillButton:(BOOL)active
-{
-  if (_skillController.activationType != SkillActivationTypeUserActivated)
-    return;
-  
-  _skillButtonEnabled = active;
-  [self updateButtonAnimations];
-}
-
-#pragma mark - UI Calls
-
 - (void) appear:(BOOL)instantly
 {
   if (instantly)
@@ -228,6 +216,17 @@
                                    [CCActionRemove action],
                                    nil]];
 }
+
+- (void) enableSkillButton:(BOOL)active
+{
+  if (_skillController.activationType != SkillActivationTypeUserActivated)
+    return;
+  
+  _skillButtonEnabled = active;
+  [self updateButtonAnimations];
+}
+
+#pragma mark - UI Calls
 
 - (void) updateButtonAnimations
 {
