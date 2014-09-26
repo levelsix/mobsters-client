@@ -219,4 +219,6 @@
 - (NSInteger) stagesLeft;
 - (NSInteger) playerMobstersLeft;
 
+- (void) processNextTurn:(float)delay;
+
 @end

@@ -571,14 +571,14 @@
       SkillLogStart(@"TRIGGER STARTED: enemy appeared");
       [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
         SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
-        [self proceessNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+        [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
       }];
 
     }];
   }
 }
 
-- (void) proceessNextTurn:(float)delay
+- (void) processNextTurn:(float)delay
 {
   _firstTurn = NO;
   BOOL nextMove = [self.battleSchedule dequeueNextMove];

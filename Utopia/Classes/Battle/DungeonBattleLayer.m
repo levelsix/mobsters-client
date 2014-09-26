@@ -412,8 +412,8 @@
   }
 }
 
-- (void) beginNextTurn {
-  [super beginNextTurn];
+- (void) processNextTurn:(float)delay{
+  [super processNextTurn:delay];
   [self saveCurrentState];
 }
 
