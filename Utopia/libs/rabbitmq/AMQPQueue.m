@@ -43,7 +43,7 @@
     
     amqp_field_value_t field;
     field.kind = 'I';
-    field.value.i32 = 3600;
+    field.value.i32 = 300000; // in millisec
     
     amqp_table_entry_t entry;
     entry.key = bytes;

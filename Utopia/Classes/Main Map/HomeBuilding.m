@@ -148,7 +148,7 @@
       pole.position = ccp(self.contentSize.width/2, 1);
       [self addChild:pole z:1 name:CONSTRUCTION_TAG];
       
-      if (self.userStruct.staticStruct.structInfo.level < 2) {
+      if (!self.userStruct.staticStruct.structInfo.predecessorStructId) {
         self.buildingSprite.visible = NO;
         [self getChildByName:DARK_SHADOW_TAG recursively:YES].visible = NO;
         NSString *frame = smallSquare ? @"3x3buildingframe.png" : @"4x4buildingframe.png";

@@ -615,9 +615,9 @@
   
   for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
     if (b.userStruct.staticStruct.structInfo.level > 0) {
-      [b setBubbleType:BuildingBubbleTypeFix];
-    } else {
       [b setBubbleType:BuildingBubbleTypeEnhance];
+    } else {
+      [b setBubbleType:BuildingBubbleTypeFix];
     }
   }
 }
@@ -823,6 +823,7 @@
     
     self.bottomOptionView = self.buildBotView;
   } else {
+    // Remove any arrows
     self.bottomOptionView = nil;
     _canMove = NO;
     [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
@@ -880,7 +881,9 @@
           break;
           
         case StructureInfoProto_StructTypeLab:
-          [buttonViews addObject:[MapBotViewButton enhanceButton]];
+          if (fsp.level > 0) {
+            [buttonViews addObject:[MapBotViewButton enhanceButton]];
+          }
           break;
           
         case StructureInfoProto_StructTypeMiniJob:

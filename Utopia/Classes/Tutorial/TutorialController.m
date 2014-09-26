@@ -179,11 +179,11 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  [self beginGuideGreetingPhase];
+  //[self beginGuideGreetingPhase];
   //[self beginEnterBattlePhase];
   //[self beginPostBattleConfrontation];
-  //[self initTopBar];
-  //[self beginFacebookLoginPhase];
+  [self initTopBar];
+  [self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
 #else
   [self initHomeMap];

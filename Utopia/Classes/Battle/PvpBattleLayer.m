@@ -285,11 +285,12 @@
   [self createScheduleWithSwap:NO];
   [self beginNextTurn];
   [self removeCloseButton];
-  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   _hasChosenEnemy = YES;
   _curStage = 0;
   _hasStarted = YES;
+  
+  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   [Analytics foundMatch:@"attack"];
 }

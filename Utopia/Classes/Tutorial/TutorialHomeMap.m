@@ -11,9 +11,9 @@
 #import "GameState.h"
 #import "SoundEngine.h"
 
-#define BOAT_UNLOAD_POSITION ccp(self.contentSize.width/2+325, 80)
+#define BOAT_UNLOAD_POSITION ccp(13.2, -6.5)
 
-#define PIER_JUMP_LOCATION ccp(13.2, -1.5)
+#define PIER_JUMP_LOCATION ccpAdd(BOAT_UNLOAD_POSITION, ccp(0, 5))
 #define PIER_JUMP_TALK_Y 0.5
 #define PIER_JUMP_TALK_X_FROM_MID 1.5
 #define PIER_JUMP_TALK_Y_FROM_MID 2
@@ -170,7 +170,7 @@
 }
 
 - (void) landBoatOnShore {
-  CGPoint midPos = BOAT_UNLOAD_POSITION;
+  CGPoint midPos = [self convertTilePointToCCPoint:BOAT_UNLOAD_POSITION];
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = ccpAdd(midPos, ccpMult(ptOffset, 0.4f));
   
@@ -310,7 +310,7 @@
   self.markZSprite.location = CGRectMake(friendBaseLoc.x-POST_BATTLE_FRIENDS_X_FROM_MID, friendBaseLoc.y, 1, 1);
   self.guideSprite.location = CGRectMake(HIDE_GUIDE_LOCATION_POINT4.x, HIDE_GUIDE_LOCATION_POINT4.y, 1, 1);
   
-  self.boatSprite.position = BOAT_UNLOAD_POSITION;
+  self.boatSprite.position = [self convertTilePointToCCPoint:BOAT_UNLOAD_POSITION];
   
   [self moveToSprite:self.enemyBossSprite animated:NO withOffset:ccp(20, -24)];
 }
@@ -514,7 +514,7 @@
     }
     return sprites;
   } else {
-    return [super reloadObstacles];
+    return nil;
   }
 }
 
@@ -594,6 +594,7 @@
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:gemCost];
   self.clickableUserStructId = 0;
+  [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
   self.bottomOptionView = nil;
 }
 
@@ -607,9 +608,9 @@
 }
 
 - (void) drag:(UIGestureRecognizer *)recognizer {
-//  if (_canMove) {
+  if (_canMove) {
     [super drag:recognizer];
-//  }
+  }
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer {
