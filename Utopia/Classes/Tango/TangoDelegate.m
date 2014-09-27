@@ -10,19 +10,24 @@
 
 #import <TangoSDK/TangoSDK.h>
 
+//#define TANGO_ENABLED 
+
 @implementation TangoDelegate
 
 static TangoProfileEntry *profileEntry = nil;
 
 + (BOOL) attemptInitialLogin {
+#ifdef TANGO_ENABLED
   BOOL success = [TangoSession sessionInitialize];
   if (success && [self isTangoAvailable]) {
     return [self authenticate];
   }
+#endif
   return NO;
 }
 
 + (BOOL) authenticate {
+#ifdef TANGO_ENABLED
   TangoSession *session = [TangoSession sharedSession];
   if (!session.isAuthenticated) {
     [session authenticateWithHandler:^(TangoSession *session, NSError *error) {
@@ -37,20 +42,28 @@ static TangoProfileEntry *profileEntry = nil;
   } else {
     [self fetchMyProfile];
   }
+#endif
   return NO;
 }
 
 + (BOOL) isTangoAvailable {
+#ifdef TANGO_ENABLED
   TangoSession *session = [TangoSession sharedSession];
   return session.tangoIsInstalled && session.tangoHasSdkSupport;
+#endif
+  return NO;
 }
 
 + (BOOL) isTangoAuthenticated {
+#ifdef TANGO_ENABLED
   TangoSession *session = [TangoSession sharedSession];
   return session.isAuthenticated;
+#endif
+  return NO;
 }
 
 + (void) fetchMyProfile {
+#ifdef TANGO_ENABLED
   if (!profileEntry) {
     [TangoProfile fetchMyProfileWithHandler:^(TangoProfileResult *profileResult, NSError *error) {
       for (id obj in profileResult.profileEnumerator) {
@@ -58,9 +71,11 @@ static TangoProfileEntry *profileEntry = nil;
       }
     }];
   }
+#endif
 }
 
 + (void) getProfilePicture:(void (^)(UIImage *img))comp {
+#ifdef TANGO_ENABLED
   if (!profileEntry.profilePictureIsPlaceholder && profileEntry.cachedProfilePicture) {
     comp(profileEntry.cachedProfilePicture);
   } else {
@@ -70,10 +85,12 @@ static TangoProfileEntry *profileEntry = nil;
       });
     }];
   }
+#endif
 }
 
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester {
+#ifdef TANGO_ENABLED
   NSLog(@"application:openURL: %@ sourceApplication: %@, url: %@", url.absoluteString, requester, url);
   
   void (^showAlert)(NSString *title, NSString *message) = ^(NSString *title, NSString *message) {
@@ -126,6 +143,7 @@ static TangoProfileEntry *profileEntry = nil;
       url = [NSURL URLWithString:resultData.sdkParameters[kTangoHandleUrlResultUserUrlKey]];
       break;
   }
+#endif
   
   return NO;
 }

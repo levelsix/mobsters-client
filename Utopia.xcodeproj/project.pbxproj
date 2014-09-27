@@ -3505,12 +3505,6 @@
 		CF4251A719AD2C9D00964547 /* recommendedtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A419AD2C9D00964547 /* recommendedtag.png */; };
 		CF4251A819AD2C9D00964547 /* recommendedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */; };
 		CF4251A919AD2C9D00964547 /* recommendedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */; };
-		CF42537719AD72F200964547 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537319AD72F200964547 /* CHANGELOG.md */; };
-		CF42537819AD72F200964547 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537319AD72F200964547 /* CHANGELOG.md */; };
-		CF42537919AD72F200964547 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537519AD72F200964547 /* libChartboost.a */; };
-		CF42537A19AD72F300964547 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537519AD72F200964547 /* libChartboost.a */; };
-		CF42537B19AD72F300964547 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537619AD72F200964547 /* README.md */; };
-		CF42537C19AD72F300964547 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF42537619AD72F200964547 /* README.md */; };
 		CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537D19AD746B00964547 /* CoreData.framework */; };
 		CF42537F19AD764000964547 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF42537D19AD746B00964547 /* CoreData.framework */; };
 		CF42538019AD76EF00964547 /* OrbMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF81C97019A67224002682A2 /* OrbMainLayer.m */; };
@@ -3906,6 +3900,8 @@
 		CF70654518470051005B30A1 /* xpcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650618470051005B30A1 /* xpcap@2x.png */; };
 		CF70654718470051005B30A1 /* xpmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650718470051005B30A1 /* xpmiddle.png */; };
 		CF70654918470051005B30A1 /* xpmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650818470051005B30A1 /* xpmiddle@2x.png */; };
+		CF72455B19D62B6800FCD271 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF72455A19D62B6800FCD271 /* Chartboost.framework */; };
+		CF72455C19D62B6900FCD271 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF72455A19D62B6800FCD271 /* Chartboost.framework */; };
 		CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */; };
 		CF74610F19661B22002D6AE6 /* makeitrain.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF74610D19661B22002D6AE6 /* makeitrain.plist */; };
 		CF74611019661B22002D6AE6 /* makeitrain.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */; };
@@ -7278,15 +7274,6 @@
 		CF42519F19AC131000964547 /* enemystripes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemystripes@2x.png"; sourceTree = "<group>"; };
 		CF4251A419AD2C9D00964547 /* recommendedtag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recommendedtag.png; sourceTree = "<group>"; };
 		CF4251A519AD2C9D00964547 /* recommendedtag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recommendedtag@2x.png"; sourceTree = "<group>"; };
-		CF42536E19AD72F200964547 /* CBMoreAppsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBMoreAppsButton.h; sourceTree = "<group>"; };
-		CF42536F19AD72F200964547 /* CBNewsfeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBNewsfeed.h; sourceTree = "<group>"; };
-		CF42537019AD72F200964547 /* CBNewsfeedUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBNewsfeedUI.h; sourceTree = "<group>"; };
-		CF42537119AD72F200964547 /* CBPostInstallAnalyticsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBPostInstallAnalyticsTracker.h; sourceTree = "<group>"; };
-		CF42537219AD72F200964547 /* CBStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBStory.h; sourceTree = "<group>"; };
-		CF42537319AD72F200964547 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
-		CF42537419AD72F200964547 /* Chartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chartboost.h; sourceTree = "<group>"; };
-		CF42537519AD72F200964547 /* libChartboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChartboost.a; sourceTree = "<group>"; };
-		CF42537619AD72F200964547 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		CF42537D19AD746B00964547 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedSprite.m; sourceTree = "<group>"; };
@@ -7723,6 +7710,7 @@
 		CF70650618470051005B30A1 /* xpcap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpcap@2x.png"; sourceTree = "<group>"; };
 		CF70650718470051005B30A1 /* xpmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xpmiddle.png; sourceTree = "<group>"; };
 		CF70650818470051005B30A1 /* xpmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpmiddle@2x.png"; sourceTree = "<group>"; };
+		CF72455A19D62B6800FCD271 /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
 		CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialAttackMapViewController.h; sourceTree = "<group>"; };
 		CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialAttackMapViewController.m; sourceTree = "<group>"; };
 		CF74610D19661B22002D6AE6 /* makeitrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = makeitrain.plist; sourceTree = "<group>"; };
@@ -9923,7 +9911,6 @@
 				CF0CEDFA196F452900ECD301 /* libsqlite3.dylib in Frameworks */,
 				CF0CEDFB196F452900ECD301 /* CoreImage.framework in Frameworks */,
 				CF2217F219C787E700BFD2FF /* Crashlytics.framework in Frameworks */,
-				CF42537A19AD72F300964547 /* libChartboost.a in Frameworks */,
 				CF0CEDFC196F452900ECD301 /* Kamcord.framework in Frameworks */,
 				CF0CEDFD196F452900ECD301 /* CoreTelephony.framework in Frameworks */,
 				CF0CEDFE196F452900ECD301 /* Social.framework in Frameworks */,
@@ -9935,6 +9922,7 @@
 				CF0CEE04196F452900ECD301 /* MobileCoreServices.framework in Frameworks */,
 				CF0CEE05196F452900ECD301 /* Twitter.framework in Frameworks */,
 				CF0CEE07196F452900ECD301 /* QuartzCore.framework in Frameworks */,
+				CF72455C19D62B6900FCD271 /* Chartboost.framework in Frameworks */,
 				CF0CEE08196F452900ECD301 /* MediaPlayer.framework in Frameworks */,
 				CF0CEE0A196F452900ECD301 /* CoreVideo.framework in Frameworks */,
 				CF0CEE0B196F452900ECD301 /* Security.framework in Frameworks */,
@@ -9982,7 +9970,6 @@
 				CF093021193849DA0008D97F /* libTestFlight.a in Frameworks */,
 				CFEAB54416BBD32900AEB7BD /* Accounts.framework in Frameworks */,
 				CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */,
-				CF42537919AD72F200964547 /* libChartboost.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -9993,6 +9980,7 @@
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
 				CFF646BF195BAC7D00C43641 /* BugSense-iOS.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,
+				CF72455B19D62B6800FCD271 /* Chartboost.framework in Frameworks */,
 				CF1273C21538B7AF00E0C1AD /* CoreLocation.framework in Frameworks */,
 				CF1273B81538AD8B00E0C1AD /* CFNetwork.framework in Frameworks */,
 				CF1273B61538AD7E00E0C1AD /* StoreKit.framework in Frameworks */,
@@ -11836,15 +11824,7 @@
 		CF42536D19AD72F100964547 /* Chartboost */ = {
 			isa = PBXGroup;
 			children = (
-				CF42536E19AD72F200964547 /* CBMoreAppsButton.h */,
-				CF42536F19AD72F200964547 /* CBNewsfeed.h */,
-				CF42537019AD72F200964547 /* CBNewsfeedUI.h */,
-				CF42537119AD72F200964547 /* CBPostInstallAnalyticsTracker.h */,
-				CF42537219AD72F200964547 /* CBStory.h */,
-				CF42537319AD72F200964547 /* CHANGELOG.md */,
-				CF42537419AD72F200964547 /* Chartboost.h */,
-				CF42537519AD72F200964547 /* libChartboost.a */,
-				CF42537619AD72F200964547 /* README.md */,
+				CF72455A19D62B6800FCD271 /* Chartboost.framework */,
 			);
 			path = Chartboost;
 			sourceTree = "<group>";
@@ -16420,7 +16400,6 @@
 				CF0CEF97196F452900ECD301 /* menumobstersinactive.png in Resources */,
 				CFFC50FA19C4C57700BDAA62 /* notendcapgreen@2x.png in Resources */,
 				CF0CEF98196F452900ECD301 /* teambubble0@2x.png in Resources */,
-				CF42537819AD72F200964547 /* CHANGELOG.md in Resources */,
 				CF0CEF99196F452900ECD301 /* enhancetime@2x.png in Resources */,
 				CF0CEF9B196F452900ECD301 /* epictag@2x.png in Resources */,
 				CF0CEF9C196F452900ECD301 /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
@@ -16582,7 +16561,6 @@
 				CFF2A5D319709C4800269084 /* mapsection1.png in Resources */,
 				CF0CF02D196F452900ECD301 /* Scientist1Breath03@2x.png in Resources */,
 				CF0CF02E196F452900ECD301 /* nightteamhealthbar.png in Resources */,
-				CF42537C19AD72F300964547 /* README.md in Resources */,
 				CF0CF02F196F452900ECD301 /* GachaChooserViewController.xib in Resources */,
 				CF0CF030196F452900ECD301 /* attackbutton.png in Resources */,
 				CF0CF031196F452900ECD301 /* chatinputtop.png in Resources */,
@@ -19278,7 +19256,6 @@
 				CF29EA191964BD0500B40DA4 /* teambubble0@2x.png in Resources */,
 				CFCD0EC11953F07400EDC233 /* enhancetime@2x.png in Resources */,
 				CFF9DD7A19B861F200CA9A8E /* nightenhancebg.png in Resources */,
-				CF42537719AD72F200964547 /* CHANGELOG.md in Resources */,
 				CF0CECEC196F450C00ECD301 /* splashguys.png in Resources */,
 				CFFEB0FE1834539C007C4BA3 /* epictag@2x.png in Resources */,
 				CFC4D2AB18D7BD04004681FD /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
@@ -19444,7 +19421,6 @@
 				CFF2A5D219709C4800269084 /* mapsection1.png in Resources */,
 				CFFBDF3A18ACA3D90090CA9A /* Scientist1Breath03@2x.png in Resources */,
 				CFFEB1341834539C007C4BA3 /* nightteamhealthbar.png in Resources */,
-				CF42537B19AD72F300964547 /* README.md in Resources */,
 				CF29E92A196151CD00B40DA4 /* GachaChooserViewController.xib in Resources */,
 				CF29E9551962236600B40DA4 /* attackbutton.png in Resources */,
 				CFF2C904193ECF5600F28D9E /* chatinputtop.png in Resources */,
@@ -22425,6 +22401,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22483,6 +22460,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -22491,6 +22470,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22535,14 +22515,14 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
-				PROVISIONING_PROFILE = "a8075765-816e-4d6f-870f-8566f4089a0f";
-				"PROVISIONING_PROFILE[sdk=*]" = "a8075765-816e-4d6f-870f-8566f4089a0f";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -22560,6 +22540,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -22568,6 +22550,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22620,7 +22603,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -22638,6 +22621,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -22646,6 +22631,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22690,13 +22676,14 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = ToonSquad;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -22795,6 +22782,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -22862,6 +22850,7 @@
 					"$(PROJECT_DIR)/Utopia/libs/Kamcord",
 					"$(PROJECT_DIR)/Utopia/libs",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Utopia/libs/Chartboost",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";

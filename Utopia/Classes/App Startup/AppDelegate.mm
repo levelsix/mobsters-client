@@ -29,8 +29,6 @@
 
 #import "TangoDelegate.h"
 
-#import "Chartboost.h"
-
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
 #define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"

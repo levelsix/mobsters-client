@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <cocos2d.h>
 
-#import "Chartboost.h"
+#import <Chartboost/Chartboost.h>
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, ChartboostDelegate> {
 	UIWindow *window;
