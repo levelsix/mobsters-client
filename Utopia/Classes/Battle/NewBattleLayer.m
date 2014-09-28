@@ -884,9 +884,10 @@
 - (BOOL) checkEnemyHealth {
   
   if (self.enemyPlayerObject.curHealth <= 0) {
+    
+    // Drop loot
     CCSprite *loot = [self getCurrentEnemyLoot];
     if (loot) {
-      [self dropLoot:loot];
       _lootDropped = YES;
     } else {
       _lootDropped = NO;
@@ -897,6 +898,10 @@
     [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered) {
       
       SkillLogEnd(triggered, @"  Enemy defeated trigger ENDED");
+      
+      if (_lootDropped)
+        [self dropLoot:loot];
+      
       [self blowupBattleSprite:self.currentEnemy withBlock:
        ^{
          self.enemyPlayerObject = nil;
