@@ -180,7 +180,7 @@
 - (void) createNewWave:(BOOL)right {
   CGPoint startPos = ccp(100, 90);
   CGPoint farEndPos = ccp(192, 164);
-  CGPoint finalEndPos = ccp(155, 133);
+  CGPoint finalEndPos = ccp(165, 143);
   float dur1 = 5.0f, dur2 = 0.9f;
   float waveMove1 = 100, waveMove2 = 10;
   

@@ -156,7 +156,7 @@
 
 - (void) updateForEnhance {
   GameState *gs = [GameState sharedGameState];
-  if (gs.myLaboratory) {
+  if (gs.myLaboratory.staticStruct.structInfo.level > 0) {
     _eventType = PersistentEventProto_EventTypeEnhance;
     PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
     [self updateForPersistentEvent:pe];
