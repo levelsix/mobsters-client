@@ -369,6 +369,11 @@
   [super beginNextTurn];
 }
 
+- (void) processNextTurn:(float)delay
+{
+  [super processNextTurn:0.3];
+}
+
 #pragma mark - Actual battle
 
 - (void) beginFirstMove {
