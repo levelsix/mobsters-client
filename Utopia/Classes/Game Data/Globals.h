@@ -294,6 +294,8 @@
 
 + (NSString *) getRandomTipFromFile:(NSString *)file;
 
++ (BOOL) shouldShowFatKidDungeon;
+
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;

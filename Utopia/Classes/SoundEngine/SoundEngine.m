@@ -19,7 +19,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
-  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
+  if (play && [[MPMusicPlayerController systemMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
     [[OALSimpleAudio sharedInstance] playBg:music volume:0.5f pan:0.f loop:loop];
   } else {
     [self stopBackgroundMusic];

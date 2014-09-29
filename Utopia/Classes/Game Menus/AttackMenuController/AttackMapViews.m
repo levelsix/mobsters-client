@@ -100,7 +100,7 @@
     // Remove available label for small iphone
     self.cashLabel.superview.originX = self.availableLabel.originX;
     
-    [self.availableLabel removeFromSuperview];
+    self.availableLabel.hidden = YES;
   }
 }
 
@@ -112,7 +112,6 @@
   self.bgdImage.image = [Globals imageNamed:file];
   
   self.topLabel.text = task.name;
-  self.bottomLabel.text = isLocked ? @"LOCKED" : isCompleted ? @"COMPLETED" : @"UNDEFEATED";
   self.sideLabel.text = [NSString stringWithFormat:@"LEVEL %d", level];
   
   [self.greyscaleView removeFromSuperview];
@@ -123,13 +122,23 @@
     [self.enterButtonView addSubview:self.greyscaleView];
   }
   
-  self.cashLabel.text = [Globals commafyNumber:cash];
-  self.oilLabel.text = [Globals commafyNumber:oil];
-  
-  CGSize s = [self.cashLabel.text getSizeWithFont:self.cashLabel.font];
-  CGRect r = self.oilLabel.superview.frame;
-  r.origin.x = self.cashLabel.superview.frame.origin.x + self.cashLabel.frame.origin.x + s.width + 5;
-  self.oilLabel.superview.frame = r;
+  if (!isCompleted) {
+    self.cashLabel.text = [Globals commafyNumber:cash];
+    self.oilLabel.text = [Globals commafyNumber:oil];
+    
+    CGSize s = [self.cashLabel.text getSizeWithFont:self.cashLabel.font];
+    CGRect r = self.oilLabel.superview.frame;
+    r.origin.x = self.cashLabel.superview.frame.origin.x + self.cashLabel.frame.origin.x + s.width + 5;
+    self.oilLabel.superview.frame = r;
+  } else {
+    self.cashLabel.superview.hidden = YES;
+    self.oilLabel.superview.hidden = YES;
+    self.availableLabel.hidden = NO;
+    
+    self.availableLabel.text = @"COMPLETED";
+    self.availableLabel.font = self.cashLabel.font;
+    self.availableLabel.textColor = [UIColor whiteColor];
+  }
   
   self.taskId = taskId;
 }
@@ -156,7 +165,7 @@
 
 - (void) updateForEnhance {
   GameState *gs = [GameState sharedGameState];
-  if (gs.myLaboratory.staticStruct.structInfo.level > 0) {
+  if ([Globals shouldShowFatKidDungeon]) {
     _eventType = PersistentEventProto_EventTypeEnhance;
     PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
     [self updateForPersistentEvent:pe];

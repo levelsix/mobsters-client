@@ -1330,9 +1330,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (newStageNum < dungeonInfo.tspList.count) {
+    uint64_t tsfuId = 0;
+    if (dropless && newStageNum-1 < dungeonInfo.tspList.count) {
+      // Get the prev stage if dropless
+      TaskStageProto *tsp = dungeonInfo.tspList[newStageNum-1];
+      TaskStageMonsterProto *tsm = tsp.stageMonstersList[0];
+      tsfuId = tsm.tsfuId;
+    }
     TaskStageProto *tsp = dungeonInfo.tspList[newStageNum];
-    TaskStageMonsterProto *tsm = tsp.stageMonstersList[0];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId  droplessTsfuid:dropless ? tsm.tsfuId : 0];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId  droplessTsfuid:tsfuId];
   } else {
     [Globals popupMessage:@"Attempting to progress dungeon with invalid stage num."];
   }

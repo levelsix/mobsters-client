@@ -31,7 +31,7 @@
   [super viewDidLoad];
   
   GameState *gs = [GameState sharedGameState];
-  if (gs.myLaboratory.staticStruct.structInfo.level > 0 || gs.myEvoChamber) {
+  if ([Globals shouldShowFatKidDungeon] || gs.myEvoChamber) {
     NSString *nibFile = [Globals isSmallestiPhone] ? @"AttackEventViewSmall" : @"AttackEventView";
     [[NSBundle mainBundle] loadNibNamed:nibFile owner:self options:nil];
     

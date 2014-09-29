@@ -144,7 +144,7 @@
   CCSprite *boat = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [boat runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   [self addChild:boat z:1];
-  boat.position = ccp(900, 55);
+  boat.position = ccp(970, 80);
 }
 
 - (void) createNewWave {
@@ -180,7 +180,7 @@
 - (void) createNewWave:(BOOL)right {
   CGPoint startPos = ccp(100, 90);
   CGPoint farEndPos = ccp(192, 164);
-  CGPoint finalEndPos = ccp(165, 143);
+  CGPoint finalEndPos = ccp(175, 153);
   float dur1 = 5.0f, dur2 = 0.9f;
   float waveMove1 = 100, waveMove2 = 10;
   

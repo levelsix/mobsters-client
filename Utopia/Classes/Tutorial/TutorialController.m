@@ -496,7 +496,7 @@
 }
 
 - (void) beginEnemyBossAngryPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Enough you two! Take care of this degenerate, Pépé."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Enough you two! Take care of this degenerate, Pete."];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   

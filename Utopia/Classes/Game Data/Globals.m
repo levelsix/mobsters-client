@@ -1281,6 +1281,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return dict;
 }
 
++ (BOOL) shouldShowFatKidDungeon {
+  GameState *gs = [GameState sharedGameState];
+  UserStruct *us = gs.myLaboratory;
+  return us.staticStruct.structInfo.level > 1 || (us.staticStruct.structInfo.level == 1 && us.isComplete);
+}
+
 #pragma mark - Formulas
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free {
