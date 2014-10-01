@@ -3141,6 +3141,8 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
 @property BOOL isUpdateTaskStageForUser;
 @property int32_t nuTaskStageId;
 @property int64_t droplessTsfuId;
+@property BOOL changeNuPvpDmgMultiplier;
+@property Float32 nuPvpDmgMultiplier;
 @end
 
 @implementation UpdateMonsterHealthRequestProto
@@ -3193,6 +3195,25 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
   hasDroplessTsfuId_ = !!value;
 }
 @synthesize droplessTsfuId;
+- (BOOL) hasChangeNuPvpDmgMultiplier {
+  return !!hasChangeNuPvpDmgMultiplier_;
+}
+- (void) setHasChangeNuPvpDmgMultiplier:(BOOL) value {
+  hasChangeNuPvpDmgMultiplier_ = !!value;
+}
+- (BOOL) changeNuPvpDmgMultiplier {
+  return !!changeNuPvpDmgMultiplier_;
+}
+- (void) setChangeNuPvpDmgMultiplier:(BOOL) value {
+  changeNuPvpDmgMultiplier_ = !!value;
+}
+- (BOOL) hasNuPvpDmgMultiplier {
+  return !!hasNuPvpDmgMultiplier_;
+}
+- (void) setHasNuPvpDmgMultiplier:(BOOL) value {
+  hasNuPvpDmgMultiplier_ = !!value;
+}
+@synthesize nuPvpDmgMultiplier;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUmchpList = nil;
@@ -3206,6 +3227,8 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
     self.isUpdateTaskStageForUser = NO;
     self.nuTaskStageId = 0;
     self.droplessTsfuId = 0L;
+    self.changeNuPvpDmgMultiplier = NO;
+    self.nuPvpDmgMultiplier = 0;
   }
   return self;
 }
@@ -3253,6 +3276,12 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (self.hasDroplessTsfuId) {
     [output writeInt64:7 value:self.droplessTsfuId];
   }
+  if (self.hasChangeNuPvpDmgMultiplier) {
+    [output writeBool:8 value:self.changeNuPvpDmgMultiplier];
+  }
+  if (self.hasNuPvpDmgMultiplier) {
+    [output writeFloat:9 value:self.nuPvpDmgMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3282,6 +3311,12 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   }
   if (self.hasDroplessTsfuId) {
     size += computeInt64Size(7, self.droplessTsfuId);
+  }
+  if (self.hasChangeNuPvpDmgMultiplier) {
+    size += computeBoolSize(8, self.changeNuPvpDmgMultiplier);
+  }
+  if (self.hasNuPvpDmgMultiplier) {
+    size += computeFloatSize(9, self.nuPvpDmgMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3382,6 +3417,12 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (other.hasDroplessTsfuId) {
     [self setDroplessTsfuId:other.droplessTsfuId];
   }
+  if (other.hasChangeNuPvpDmgMultiplier) {
+    [self setChangeNuPvpDmgMultiplier:other.changeNuPvpDmgMultiplier];
+  }
+  if (other.hasNuPvpDmgMultiplier) {
+    [self setNuPvpDmgMultiplier:other.nuPvpDmgMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3436,6 +3477,14 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
       }
       case 56: {
         [self setDroplessTsfuId:[input readInt64]];
+        break;
+      }
+      case 64: {
+        [self setChangeNuPvpDmgMultiplier:[input readBool]];
+        break;
+      }
+      case 77: {
+        [self setNuPvpDmgMultiplier:[input readFloat]];
         break;
       }
     }
@@ -3578,6 +3627,38 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
 - (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuId {
   result.hasDroplessTsfuId = NO;
   result.droplessTsfuId = 0L;
+  return self;
+}
+- (BOOL) hasChangeNuPvpDmgMultiplier {
+  return result.hasChangeNuPvpDmgMultiplier;
+}
+- (BOOL) changeNuPvpDmgMultiplier {
+  return result.changeNuPvpDmgMultiplier;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setChangeNuPvpDmgMultiplier:(BOOL) value {
+  result.hasChangeNuPvpDmgMultiplier = YES;
+  result.changeNuPvpDmgMultiplier = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearChangeNuPvpDmgMultiplier {
+  result.hasChangeNuPvpDmgMultiplier = NO;
+  result.changeNuPvpDmgMultiplier = NO;
+  return self;
+}
+- (BOOL) hasNuPvpDmgMultiplier {
+  return result.hasNuPvpDmgMultiplier;
+}
+- (Float32) nuPvpDmgMultiplier {
+  return result.nuPvpDmgMultiplier;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setNuPvpDmgMultiplier:(Float32) value {
+  result.hasNuPvpDmgMultiplier = YES;
+  result.nuPvpDmgMultiplier = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearNuPvpDmgMultiplier {
+  result.hasNuPvpDmgMultiplier = NO;
+  result.nuPvpDmgMultiplier = 0;
   return self;
 }
 @end

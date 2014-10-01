@@ -692,6 +692,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasOilReward_:1;
   BOOL hasBossImgName_:1;
   BOOL hasSectionName_:1;
+  BOOL hasCharacterImgName_:1;
   BOOL hasElement_:1;
   BOOL boss_:1;
   int32_t mapElementId;
@@ -703,6 +704,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t oilReward;
   NSString* bossImgName;
   NSString* sectionName;
+  NSString* characterImgName;
   Element element;
 }
 - (BOOL) hasMapElementId;
@@ -716,6 +718,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasSectionName;
 - (BOOL) hasCashReward;
 - (BOOL) hasOilReward;
+- (BOOL) hasCharacterImgName;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -727,6 +730,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly, retain) NSString* sectionName;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
+@property (readonly, retain) NSString* characterImgName;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -816,5 +820,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) oilReward;
 - (TaskMapElementProto_Builder*) setOilReward:(int32_t) value;
 - (TaskMapElementProto_Builder*) clearOilReward;
+
+- (BOOL) hasCharacterImgName;
+- (NSString*) characterImgName;
+- (TaskMapElementProto_Builder*) setCharacterImgName:(NSString*) value;
+- (TaskMapElementProto_Builder*) clearCharacterImgName;
 @end
 

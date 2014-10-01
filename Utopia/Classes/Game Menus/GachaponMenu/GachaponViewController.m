@@ -261,7 +261,7 @@
     if (self.prize.monsterId) {
       MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
       NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-      [Globals imageNamed:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+      [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
       
       if (!self.prize.isComplete) {
         if (monsters.count > 0) {
@@ -286,6 +286,7 @@
   
   self.spinner.hidden = YES;
   self.spinView.hidden = NO;
+  _isSpinning = NO;
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {

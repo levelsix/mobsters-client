@@ -80,7 +80,7 @@
   
   MonsterProto *mp = self.currentEnhancement.baseMonster.userMonster.staticMonster;
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.title = [NSString stringWithFormat:@"Enhance %@", mp.displayName];
   

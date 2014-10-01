@@ -48,10 +48,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *availableLabel;
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
 @property (nonatomic, strong) IBOutlet UILabel *oilLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 
 @property (nonatomic, assign) int taskId;
 
-- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash;
+- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash charImgName:(NSString *)charImgName;
 
 @end
 

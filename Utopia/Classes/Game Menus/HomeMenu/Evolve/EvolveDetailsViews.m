@@ -67,14 +67,14 @@
   NSString *fileName = [imgPrefix stringByAppendingString:@"Character.png"];
   
   if (showNonMaskedImage) {
-    [Globals imageNamed:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     self.monsterImage.hidden = NO;
   } else {
     self.monsterImage.hidden = YES;
   }
   
   if (maskedColor) {
-    [Globals imageNamed:fileName withView:self.monsterImageOverlay maskedColor:maskedColor indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageOverlay maskedColor:maskedColor indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     self.monsterImageOverlay.hidden = NO;
   } else {
     self.monsterImageOverlay.hidden = YES;

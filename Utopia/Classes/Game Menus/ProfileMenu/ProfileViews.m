@@ -53,7 +53,7 @@
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
@@ -70,7 +70,7 @@
   
   MonsterProto *mp = [gs monsterWithId:user.avatarMonsterId];
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.winsLabel.text = [Globals commafyNumber:user.pvpLeagueInfo.battlesWon];
   self.levelLabel.text = [NSString stringWithFormat:@"%d", user.level];

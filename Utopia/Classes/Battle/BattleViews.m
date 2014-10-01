@@ -249,6 +249,10 @@
 }
 
 - (void) updateForRewards:(NSArray *)rewards {
+  if (!rewards.count) {
+    return;
+  }
+  
   CCNode *node = [CCNode node];
   
   for (int i = 0; i < rewards.count; i++) {
@@ -285,6 +289,8 @@
   
   // Leave a distance on each side
   self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
+  
+  self.stickerHead.visible = NO;
   
   [self scrollViewDidScroll:self.rewardsScrollView];
 }
@@ -345,6 +351,15 @@
          self.rewardsScrollView.userInteractionEnabled = YES;
        }], nil]];
     self.rewardsScrollView.userInteractionEnabled = NO;
+  }
+  
+  if (self.stickerHead.visible) {
+    self.stickerHead.scale = 0.f;
+    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur-0.1],
+                                 [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
+    self.stickerHead.rotation = -12.5;
+    CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
+    [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
   }
   
   float time = firstDur+secondDur+self.rewardsView.children.count*thirdDur+fourthDur-0.2;

@@ -185,17 +185,17 @@
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 + (void) downloadFile:(NSString *)file completion:(void (^)(void))completed;
 
-+ (UIImage *) imageNamed:(NSString *)path;
-+ (NSString *) imageNameForConstructionWithSize:(CGSize)size;
-+ (UIImage *) imageForStruct:(int)structId;
-+ (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) pathToFile:(NSString *)fileName;
 + (BOOL) isFileDownloaded:(NSString *)fileName;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) asyncDownloadBundles;
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
++ (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
++ (UIImage *) imageNamed:(NSString *)path;
++ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)prefix;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)())completion;
 
@@ -289,8 +289,6 @@
 + (void) checkRateUsPopup;
 
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
-
-+ (NSString*) getDoubleResolutionImage:(NSString*)path;
 
 + (NSString *) getRandomTipFromFile:(NSString *)file;
 

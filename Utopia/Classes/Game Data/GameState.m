@@ -1175,6 +1175,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     // Midnight date
     MSDate *date = [MSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [gregorian setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDateComponents *comps = [gregorian components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date.relativeNSDate];
     NSDate *lastMidnight = [gregorian dateFromComponents:comps];
     

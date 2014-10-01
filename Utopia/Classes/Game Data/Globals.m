@@ -148,7 +148,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
       if (![self isFileDownloaded:fileName]) {
         i++;
-        NSString *doubleRes = [self getDoubleResolutionImage:fileName];
+        NSString *doubleRes = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
         [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
           if ([fileName.pathExtension isEqualToString:@"plist"]) {
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
@@ -288,28 +288,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return [NSString stringWithFormat:@"%d Second%@", secs, secs != 1 ? @"s" : @""];
-}
-
-+ (NSString *) imageNameForConstructionWithSize:(CGSize)size {
-  return [NSString stringWithFormat:@"ConstructionSite%dx%d.png", (int)size.width, (int)size.height];
-}
-
-+ (NSString *) imageNameForStruct:(int)structId {
-  StructureInfoProto *fsp = [[[GameState sharedGameState] structWithId:structId] structInfo];
-  NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
-  str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
-  str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
-  NSString *file = [str stringByAppendingString:@".png"];
-  return file;
-}
-
-+ (UIImage *) imageForStruct:(int)structId {
-  return structId == 0 ? nil : [self imageNamed:[self imageNameForStruct:structId]];
-}
-
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
-  if (!structId || !view) return;
-  [self imageNamed:[self imageNameForStruct:structId] withView:view greyscale:mask indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (UIColor *) colorForRarity:(Quality)rarity {
@@ -935,7 +913,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:fileName];
+  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -960,7 +938,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:fileName];
+  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -1003,6 +981,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) imageNamed:(NSString *)path {
+  return [self imageNamed:path useiPhone6Prefix:NO];
+}
+
++ (UIImage *) imageNamed:(NSString *)path useiPhone6Prefix:(BOOL)useiPhone6Prefix {
   if (!path) {
     return nil;
   }
@@ -1014,7 +996,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:path];
+  NSString *resName = [self getDoubleResolutionImage:path useiPhone6Prefix:useiPhone6Prefix];
   UIImage *image = nil;
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
@@ -1046,14 +1028,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear];
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO];
 }
 
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
-  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear];
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:NO];
 }
 
-+ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
++ (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES];
+}
+
++ (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear useiPhone6Prefix:YES];
+}
+
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear useiPhone6Prefix:(BOOL)useiPhone6Prefix {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
@@ -1098,7 +1088,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [self getDoubleResolutionImage:imageName];
+  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [self getDoubleResolutionImage:imageName useiPhone6Prefix:useiPhone6Prefix];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   if (!fullpath) {
@@ -1195,7 +1185,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", s];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  NSString *resName = [self getDoubleResolutionImage:imageName];
+  NSString *resName = [self getDoubleResolutionImage:imageName useiPhone6Prefix:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   if (!fullpath) {
@@ -1226,7 +1216,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     completion();
 }
 
-+ (NSString*) getDoubleResolutionImage:(NSString*)path {
++ (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
+  if (iPhone6Prefix && [self isiPhone6]) {
+    path = [@"6" stringByAppendingString:path];
+  }
+  
   int scale = [UIScreen mainScreen].scale;
   if(scale > 1) {
     NSString *pathWithoutExtension = [path stringByDeletingPathExtension];

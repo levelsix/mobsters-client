@@ -51,6 +51,9 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  self.enhanceEventView.width = self.pveView.width;
+  self.evoEventView.width = self.pveView.width;
+  
   [self.evoEventView updateForEvo];
   [self.enhanceEventView updateForEnhance];
   if (self.evoEventView && !self.evoEventView.hidden) {
@@ -133,7 +136,7 @@
     int lastNum = (int)[def integerForKey:MAP_SECTION_NUM_KEY];
     if (lastNum != gl.mapNumberOfSections) {
       NSString *imgName = [NSString stringWithFormat:@"%@%d.png", gl.mapSectionImagePrefix, lastNum];
-      imgName = [Globals getDoubleResolutionImage:imgName];
+      imgName = [Globals getDoubleResolutionImage:imgName useiPhone6Prefix:YES];
       [[Downloader sharedDownloader] deleteFile:imgName];
       
       [def setInteger:gl.mapNumberOfSections forKey:MAP_SECTION_NUM_KEY];
@@ -448,7 +451,7 @@
     BOOL isCompleted = [gs isTaskCompleted:elem.taskId];
     int cash = isCompleted ? 0 : elem.cashReward;
     int oil = isCompleted ? 0 : elem.oilReward;
-    [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:isCompleted oilAmount:oil cashAmount:cash];
+    [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:isCompleted oilAmount:oil cashAmount:cash charImgName:elem.characterImgName];
     self.taskStatusView.frame = CGRectMake(0, 0, self.pveView.frame.size.width, self.taskStatusView.frame.size.height);
     
     self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height+self.taskStatusView.frame.size.height/2);

@@ -1015,7 +1015,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (NSString *) downloadFile:(NSString *)filename {
-  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename]];
+  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename useiPhone6Prefix:NO]];
 }
 
 #pragma mark - Chat access

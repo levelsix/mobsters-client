@@ -990,12 +990,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsUpdateTaskStageForUser_:1;
+  BOOL hasChangeNuPvpDmgMultiplier_:1;
+  BOOL hasNuPvpDmgMultiplier_:1;
   BOOL hasClientTime_:1;
   BOOL hasUserTaskId_:1;
   BOOL hasDroplessTsfuId_:1;
   BOOL hasNuTaskStageId_:1;
   BOOL hasSender_:1;
   BOOL isUpdateTaskStageForUser_:1;
+  BOOL changeNuPvpDmgMultiplier_:1;
+  Float32 nuPvpDmgMultiplier;
   int64_t clientTime;
   int64_t userTaskId;
   int64_t droplessTsfuId;
@@ -1009,12 +1013,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasIsUpdateTaskStageForUser;
 - (BOOL) hasNuTaskStageId;
 - (BOOL) hasDroplessTsfuId;
+- (BOOL) hasChangeNuPvpDmgMultiplier;
+- (BOOL) hasNuPvpDmgMultiplier;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userTaskId;
 - (BOOL) isUpdateTaskStageForUser;
 @property (readonly) int32_t nuTaskStageId;
 @property (readonly) int64_t droplessTsfuId;
+- (BOOL) changeNuPvpDmgMultiplier;
+@property (readonly) Float32 nuPvpDmgMultiplier;
 - (NSArray*) umchpList;
 - (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
@@ -1090,6 +1098,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (int64_t) droplessTsfuId;
 - (UpdateMonsterHealthRequestProto_Builder*) setDroplessTsfuId:(int64_t) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuId;
+
+- (BOOL) hasChangeNuPvpDmgMultiplier;
+- (BOOL) changeNuPvpDmgMultiplier;
+- (UpdateMonsterHealthRequestProto_Builder*) setChangeNuPvpDmgMultiplier:(BOOL) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearChangeNuPvpDmgMultiplier;
+
+- (BOOL) hasNuPvpDmgMultiplier;
+- (Float32) nuPvpDmgMultiplier;
+- (UpdateMonsterHealthRequestProto_Builder*) setNuPvpDmgMultiplier:(Float32) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearNuPvpDmgMultiplier;
 @end
 
 @interface UpdateMonsterHealthResponseProto : PBGeneratedMessage {

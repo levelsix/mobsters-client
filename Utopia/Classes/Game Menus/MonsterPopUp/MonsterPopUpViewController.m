@@ -97,7 +97,7 @@
   self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
@@ -199,6 +199,8 @@
   self.monsterDescription.attributedText = attributedString;
 }
 
+static int descriptionWidthChange = 50;
+
 - (IBAction)infoClicked:(id)sender {
   [self.container addSubview:self.elementView];
   self.elementView.center = CGPointMake(self.descriptionView.center.x+self.elementView.frame.size.height, self.descriptionView.center.y);
@@ -209,8 +211,8 @@
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
     self.skillView.alpha = 0.f;
-    self.monsterDescription.originX -= 50;
-    self.monsterDescription.width += 100;
+    self.monsterDescription.originX -= descriptionWidthChange/2;
+    self.monsterDescription.width += descriptionWidthChange;
     self.buttonsContainer.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
@@ -234,8 +236,8 @@
     self.backButtonView.alpha = 0.f;
     self.buttonsContainer.alpha = 1.f;
     self.skillView.alpha = 1.f;
-    self.monsterDescription.originX += 50;
-    self.monsterDescription.width -= 100;
+    self.monsterDescription.originX += descriptionWidthChange/2;
+    self.monsterDescription.width -= descriptionWidthChange;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;

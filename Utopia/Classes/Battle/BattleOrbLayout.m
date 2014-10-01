@@ -1061,7 +1061,7 @@
         
         // Commented out while loop because it screws up tutorial..
         //do {
-        [self generateRandomOrbData:orb atColumn:column row:row];
+        [self generateRandomOrbData:orb atColumn:(int)column row:(int)row];
         //} while (newOrbColor == orbColor && special == newSpecial);
         
         // Add them in reverse order so they go bottom up

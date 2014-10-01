@@ -102,9 +102,15 @@
     
     self.availableLabel.hidden = YES;
   }
+  
+  // Disable for non-iphone 6
+  if (self.width < 329) {
+    [self.characterIcon removeFromSuperview];
+    self.characterIcon = nil;
+  }
 }
 
-- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash {
+- (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash charImgName:(NSString *)charImgName {
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
   
@@ -138,6 +144,10 @@
     self.availableLabel.text = @"COMPLETED";
     self.availableLabel.font = self.cashLabel.font;
     self.availableLabel.textColor = [UIColor whiteColor];
+  }
+  
+  if (self.characterIcon) {
+    [Globals imageNamedWithiPhone6Prefix:charImgName withView:self.characterIcon greyscale:isLocked indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
   
   self.taskId = taskId;

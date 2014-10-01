@@ -154,7 +154,7 @@
   
   _characterImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];  
+  [Globals imageNamedWithiPhone6Prefix:fileName withView:_characterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 - (void) showSkillPopupOverlayInternal

@@ -64,7 +64,7 @@
 #ifdef TOONSQUAD
 #ifndef DEBUG
   [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
-  [[Chartboost sharedChartboost] showInterstitial:CBLocationHomeScreen];
+  [Chartboost showInterstitial:CBLocationHomeScreen];
 #endif
 #endif
 }

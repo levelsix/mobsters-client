@@ -10,7 +10,7 @@
 
 #import <TangoSDK/TangoSDK.h>
 
-//#define TANGO_ENABLED 
+#define TANGO_ENABLED 
 
 @implementation TangoDelegate
 

@@ -2529,6 +2529,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property (retain) NSString* sectionName;
 @property int32_t cashReward;
 @property int32_t oilReward;
+@property (retain) NSString* characterImgName;
 @end
 
 @implementation TaskMapElementProto
@@ -2615,9 +2616,17 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   hasOilReward_ = !!value;
 }
 @synthesize oilReward;
+- (BOOL) hasCharacterImgName {
+  return !!hasCharacterImgName_;
+}
+- (void) setHasCharacterImgName:(BOOL) value {
+  hasCharacterImgName_ = !!value;
+}
+@synthesize characterImgName;
 - (void) dealloc {
   self.bossImgName = nil;
   self.sectionName = nil;
+  self.characterImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2633,6 +2642,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.sectionName = @"";
     self.cashReward = 0;
     self.oilReward = 0;
+    self.characterImgName = @"";
   }
   return self;
 }
@@ -2685,6 +2695,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasOilReward) {
     [output writeInt32:11 value:self.oilReward];
   }
+  if (self.hasCharacterImgName) {
+    [output writeString:12 value:self.characterImgName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2726,6 +2739,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasOilReward) {
     size += computeInt32Size(11, self.oilReward);
+  }
+  if (self.hasCharacterImgName) {
+    size += computeStringSize(12, self.characterImgName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2835,6 +2851,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasOilReward) {
     [self setOilReward:other.oilReward];
   }
+  if (other.hasCharacterImgName) {
+    [self setCharacterImgName:other.characterImgName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2903,6 +2922,10 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 88: {
         [self setOilReward:[input readInt32]];
+        break;
+      }
+      case 98: {
+        [self setCharacterImgName:[input readString]];
         break;
       }
     }
@@ -3082,6 +3105,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearOilReward {
   result.hasOilReward = NO;
   result.oilReward = 0;
+  return self;
+}
+- (BOOL) hasCharacterImgName {
+  return result.hasCharacterImgName;
+}
+- (NSString*) characterImgName {
+  return result.characterImgName;
+}
+- (TaskMapElementProto_Builder*) setCharacterImgName:(NSString*) value {
+  result.hasCharacterImgName = YES;
+  result.characterImgName = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearCharacterImgName {
+  result.hasCharacterImgName = NO;
+  result.characterImgName = @"";
   return self;
 }
 @end

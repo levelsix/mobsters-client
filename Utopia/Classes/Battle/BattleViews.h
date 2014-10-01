@@ -53,6 +53,7 @@
 @property (nonatomic, retain) CCNode *headerView;
 @property (nonatomic, retain) CCSprite *youWonHeader;
 @property (nonatomic, retain) CCSprite *spinner;
+@property (nonatomic, retain) CCSprite *stickerHead;
 @property (nonatomic, retain) CCNode *rewardsBgd;
 @property (nonatomic, retain) CCNode *rewardsView;
 @property (nonatomic, retain) CCLabelTTF *tipLabel;

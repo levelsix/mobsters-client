@@ -349,7 +349,7 @@ static NSString *udid = nil;
   //  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
   //  [messageWithHeader writeToFile:filePath atomically:YES];
   
-  float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:2.f] timeIntervalSinceNow]);
+  float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
   [self.connectionThread sendData:messageWithHeader withDelay:delay];
 }
 
