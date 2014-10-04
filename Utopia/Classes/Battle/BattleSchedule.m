@@ -87,13 +87,6 @@
     }
   }
   
-  NSMutableString *str = [NSMutableString stringWithFormat:@""];
-  for (NSNumber *n in sch) {
-    [str appendFormat:@"%@ ", n];
-  }
-  //LNLog(@"Creating schedule with speedA: %d, speedB: %d, isSwap: %d", bpA.speed, bpB.speed, justSwapped);
-  //LNLog(@"%@", str);
-  
   self.schedule = sch;
   
   if (order == ScheduleFirstTurnRandom)
@@ -113,6 +106,19 @@
   
   // Subtract 1 so it will be autoincremented in the next dequeue
   self.currentIndex--;
+}
+
+- (NSString *) description {
+  NSMutableString *str = [NSMutableString stringWithFormat:@"Battle Schedule: "];
+  for (int i = 0; i < self.schedule.count; i++) {
+    NSNumber *n = self.schedule[i];
+    if (((self.currentIndex+1) % self.schedule.count) == i) {
+      [str appendFormat:@"(%@) ", n];
+    } else {
+      [str appendFormat:@"%@ ", n];
+    }
+  }
+  return str;
 }
 
 - (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order {

@@ -290,7 +290,7 @@
     [_orbCounter addChild:orb];
     
     // Text
-    [orbsCountLabel setString:[NSString stringWithFormat:@"%d/%d", (int)activeController.orbRequirement-activeController.orbCounter, (int)activeController.orbRequirement]];
+    [orbsCountLabel setString:[NSString stringWithFormat:@"%d/%d", (int)(activeController.orbRequirement-activeController.orbCounter), (int)activeController.orbRequirement]];
     orbsCountLabel.position = CGPointMake(orbsCountLabel.position.x + 10, orbsCountLabel.position.y);
   }
   else

@@ -144,8 +144,8 @@
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Brute1T1Character.png" id="rDy-TE-ddp">
-                    <rect key="frame" x="202" y="-34" width="250" height="222"/>
+                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="bottom" id="rDy-TE-ddp">
+                    <rect key="frame" x="202" y="-7" width="250" height="222"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
             </subviews>
@@ -166,7 +166,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Brute1T1Character.png" width="250" height="222"/>
         <image name="earthdailylab.png" width="1" height="50"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>

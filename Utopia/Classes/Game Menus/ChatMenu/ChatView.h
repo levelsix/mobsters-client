@@ -38,8 +38,9 @@
 @end
 
 @interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate> {
-  CGRect msgLabelInitialFrame;
-  UIFont *msgLabelFont;
+  CGRect _msgLabelInitialFrame;
+  float _cellWidthIncrease;
+  UIFont *_msgLabelFont;
   
   ChatMessage *_clickedMsg;
 }

@@ -75,8 +75,6 @@
 @implementation ChatView
 
 - (void) awakeFromNib {
-  self.originalBottomViewRect = self.bottomView.frame;
-  
   self.chatTable.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
 }
 
@@ -189,6 +187,8 @@
   
   if (!cell) {
     [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
+    self.chatCell.mainView.width += _cellWidthIncrease;
+    self.chatCell.msgLabel.width += _cellWidthIncrease;
     cell = self.chatCell;
   }
   
@@ -198,18 +198,23 @@
 }
 
 - (void) checkIfDimensionsLoaded {
-  if (!msgLabelFont) {
+  if (!_msgLabelFont) {
     [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
-    msgLabelFont = self.chatCell.msgLabel.font;
-    msgLabelInitialFrame = self.chatCell.msgLabel.frame;
+    _msgLabelFont = self.chatCell.msgLabel.font;
+    _msgLabelInitialFrame = self.chatCell.msgLabel.frame;
+    
+    // This was added to adjust for bigger screens
+    float initWidth = _msgLabelInitialFrame.size.width;
+    _msgLabelInitialFrame.size.width = roundf(self.width*0.516);
+    _cellWidthIncrease = _msgLabelInitialFrame.size.width-initWidth;
   }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   [self checkIfDimensionsLoaded];
   NSString *msg = [self.chats[indexPath.row] message];
-  CGSize size = [msg getSizeWithFont:msgLabelFont constrainedToSize:CGSizeMake(msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+msgLabelInitialFrame.origin.y+14.f;
+  CGSize size = [msg getSizeWithFont:_msgLabelFont constrainedToSize:CGSizeMake(_msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+_msgLabelInitialFrame.origin.y+14.f;
   return height;
 }
 

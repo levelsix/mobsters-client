@@ -37,25 +37,7 @@
 
 @implementation ChatViewController
 
-- (void) viewDidLoad {
-  self.clanChatView.frame = self.globalChatView.frame;
-  [self.globalChatView.superview addSubview:self.clanChatView];
-  
-  // Align top left corner
-  CGRect r = self.privateChatView.frame;
-  r.origin = self.globalChatView.frame.origin;
-  self.privateChatView.frame = r;
-  [self.globalChatView.superview addSubview:self.privateChatView];
-  
-  [self button1Clicked:nil];
-  
-  [self.view addSubview:self.popoverView];
-  self.popoverView.hidden = YES;
-}
-
 - (void) viewWillAppear:(BOOL)animated {
-  [self reloadTablesAnimated:NO];
-  
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
   [center addObserver:self selector:@selector(reloadTables:) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -70,6 +52,27 @@
   [[CCDirector sharedDirector] pause];
   
   [Analytics openChat];
+  
+  // Increase 
+  float newHeight = self.view.height-28.f;
+  self.mainView.height = newHeight;
+  self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  
+  // Add other chat views
+  self.clanChatView.frame = self.globalChatView.frame;
+  [self.globalChatView.superview addSubview:self.clanChatView];
+  
+  // Make private chat's width 2x size
+  self.privateChatView.frame = self.globalChatView.frame;
+  self.privateChatView.width *= 2;
+  [self.globalChatView.superview addSubview:self.privateChatView];
+  
+  [self button1Clicked:nil];
+  
+  [self.view addSubview:self.popoverView];
+  self.popoverView.hidden = YES;
+  
+  [self reloadTablesAnimated:NO];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -150,6 +153,7 @@
   // Check if we are editing
   if (_isEditing) {
     [self.view endEditing:YES];
+    [self.popoverView close];
   } else if (!self.mainView.layer.animationKeys.count) {
     [self beginAppearanceTransition:NO animated:YES];
     [UIView animateWithDuration:0.18f animations:^{
@@ -275,6 +279,8 @@
   
   NSArray *chatViews = @[self.globalChatView, self.clanChatView, self.privateChatView];
   for (ChatView *cv in chatViews) {
+    cv.originalBottomViewRect = cv.bottomView.frame;
+    
     CGRect relFrame = [cv convertRect:keyboardFrame fromView:nil];
     CGFloat keyboardTop = relFrame.origin.y;
     cv.bottomView.center = ccp(cv.bottomView.center.x, keyboardTop-cv.bottomView.frame.size.height/2);
@@ -309,15 +315,18 @@
   for (ChatView *cv in chatViews) {
     cv.bottomView.frame = cv.originalBottomViewRect;
     
-    CGRect r = cv.chatTable.frame;
-    r.origin.y = cv.bottomView.frame.origin.y-r.size.height;
-    cv.chatTable.frame = r;
+    cv.chatTable.originY = cv.bottomView.frame.origin.y-cv.chatTable.height;
   }
+  
+  [UIView setAnimationDelegate:self];
+  [UIView setAnimationDidStopSelector:@selector(editingStopped)];
   
   [UIView commitAnimations];
   
   [self.popoverView close];
-  
+}
+
+- (void) editingStopped {
   _isEditing = NO;
 }
 

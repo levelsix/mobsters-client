@@ -170,7 +170,7 @@
 - (void) updateHealthBars;
 - (void) displayWaveNumber;
 
-- (void) createNextEnemyObject;
+- (BOOL) createNextEnemyObject;
 - (CCSprite *) getCurrentEnemyLoot;
 - (void) dropLoot:(CCSprite *)ed;
 - (void) pickUpLoot:(CCSprite *)ed;

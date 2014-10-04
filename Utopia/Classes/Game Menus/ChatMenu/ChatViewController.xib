@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
@@ -50,7 +49,7 @@
                     <rect key="frame" x="54" y="14" width="459" height="293"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="OYW-4i-mb0">
+                        <view contentMode="scaleToFill" id="OYW-4i-mb0" userLabel="Top View">
                             <rect key="frame" x="3" y="3" width="453" height="39"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -64,7 +63,7 @@
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="003-5V-mHH" customClass="NiceFontLabel12B">
                                             <rect key="frame" x="116" y="3" width="211" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -319,28 +318,28 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="C2G-Rw-0Fq">
-                                                            <rect key="frame" x="0.0" y="0.0" width="453" height="6"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="ZH0-EH-Lgh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="6" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         </imageView>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="Hhf-5H-rub" customClass="VerticalFlipImageView">
-                                                            <rect key="frame" x="0.0" y="37" width="453" height="6"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbgmiddle.png" id="rCf-zt-9VG">
+                                                            <rect key="frame" x="6" y="0.0" width="441" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         </imageView>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbarmiddle.png" id="7ZL-vw-vB6">
-                                                            <rect key="frame" x="0.0" y="6" width="453" height="31"/>
-                                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="Osw-Nt-3a8" customClass="FlipImageView">
+                                                            <rect key="frame" x="447" y="0.0" width="6" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="9YE-0F-DTJ">
                                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" id="BJg-MG-dmm" customClass="CircleMonsterView">
                                                             <rect key="frame" x="5" y="7" width="30" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <subviews>
                                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="hqQ-d6-qM2">
                                                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -359,7 +358,7 @@
                                                         </view>
                                                         <view contentMode="scaleToFill" id="eKP-nA-QNR" userLabel="Send View">
                                                             <rect key="frame" x="388" y="7" width="57" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZmF-gc-9yY" customClass="GeneralButton">
                                                                     <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
@@ -382,26 +381,26 @@
                                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="zNZ-zW-g71" userLabel="Input View">
-                                                            <rect key="frame" x="39" y="7" width="343" height="30"/>
+                                                            <rect key="frame" x="39" y="7" width="342.99998946615136" height="29"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="VaG-JN-r0g">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="6"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="a5m-b6-lxe">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="29"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 </imageView>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="aN1-uk-vJG" customClass="VerticalFlipImageView">
-                                                                    <rect key="frame" x="0.0" y="24" width="343" height="6"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="gHa-gl-bd4" customClass="FlipImageView">
+                                                                    <rect key="frame" x="338" y="0.0" width="5" height="29"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 </imageView>
-                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="fVI-KX-Te9">
-                                                                    <rect key="frame" x="0.0" y="6" width="343" height="19"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="5fI-vZ-1eG">
+                                                                    <rect key="frame" x="5" y="0.0" width="333" height="29"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 </imageView>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Message..." minimumFontSize="17" id="Wp2-ML-0ur" customClass="NiceFontTextField17">
-                                                                    <rect key="frame" x="7" y="2" width="328" height="27"/>
+                                                                    <rect key="frame" x="7" y="1" width="328" height="27"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
@@ -447,7 +446,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="188" y="197"/>
+            <point key="canvasLocation" x="-222" y="306"/>
         </view>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="eIq-PW-faH" customClass="ClanChatView">
@@ -477,24 +476,24 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="E0b-3J-3B4">
-                                            <rect key="frame" x="0.0" y="0.0" width="453" height="6"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="9HX-j1-T2D">
+                                            <rect key="frame" x="0.0" y="0.0" width="6" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="O7Z-eb-TCr" customClass="VerticalFlipImageView">
-                                            <rect key="frame" x="0.0" y="37" width="453" height="6"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbgmiddle.png" id="LJG-Sp-j2s">
+                                            <rect key="frame" x="6" y="0.0" width="441" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbarmiddle.png" id="5Ey-HE-ucE">
-                                            <rect key="frame" x="0.0" y="6" width="453" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="wlO-Im-AkF" customClass="FlipImageView">
+                                            <rect key="frame" x="447" y="0.0" width="6" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="dUw-VC-40Y">
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
-                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="tRu-EI-e4C" customClass="CircleMonsterView">
                                             <rect key="frame" x="5" y="7" width="30" height="30"/>
@@ -517,7 +516,7 @@
                                         </view>
                                         <view contentMode="scaleToFill" id="m4l-ZO-elN" userLabel="Send View">
                                             <rect key="frame" x="388" y="7" width="57" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="60j-dl-Kku" customClass="GeneralButton">
                                                     <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
@@ -540,23 +539,23 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="wW9-IE-EN7" userLabel="Input View">
                                             <rect key="frame" x="39" y="7" width="343" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="7FY-I3-lIT">
-                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="6"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="EhQ-Zq-Yoa">
+                                                    <rect key="frame" x="5" y="0.0" width="333" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="Lpg-w1-3g8" customClass="VerticalFlipImageView">
-                                                    <rect key="frame" x="0.0" y="24" width="343" height="6"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="zFs-1E-IsD" customClass="FlipImageView">
+                                                    <rect key="frame" x="338" y="0.0" width="5" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="rDq-3z-Qh6">
-                                                    <rect key="frame" x="0.0" y="6" width="343" height="19"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="41m-9s-lxe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Message..." minimumFontSize="17" id="pPK-fe-0ti" customClass="NiceFontTextField17">
                                                     <rect key="frame" x="7" y="2" width="328" height="27"/>
@@ -700,24 +699,24 @@
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="Qgp-4M-8eV">
-                                            <rect key="frame" x="0.0" y="0.0" width="453" height="6"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="N0o-hE-4aZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="6" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbartop.png" id="EuR-SY-0Mr" customClass="VerticalFlipImageView">
-                                            <rect key="frame" x="0.0" y="37" width="453" height="6"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbgmiddle.png" id="bGS-ed-ZJK">
+                                            <rect key="frame" x="6" y="0.0" width="441" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputbarmiddle.png" id="iNk-2E-PY6">
-                                            <rect key="frame" x="0.0" y="6" width="453" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputbgcap.png" id="5NR-Df-Zsb" customClass="FlipImageView">
+                                            <rect key="frame" x="447" y="0.0" width="6" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="OgA-8r-pCR">
                                     <rect key="frame" x="0.0" y="0.0" width="453" height="43"/>
-                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="71V-gC-Y3m" customClass="CircleMonsterView">
                                             <rect key="frame" x="5" y="7" width="30" height="30"/>
@@ -740,7 +739,7 @@
                                         </view>
                                         <view contentMode="scaleToFill" id="Nsg-me-bbO" userLabel="Send View">
                                             <rect key="frame" x="388" y="7" width="57" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EvI-QS-tDJ" customClass="GeneralButton">
                                                     <rect key="frame" x="0.0" y="0.0" width="57" height="29"/>
@@ -763,23 +762,23 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="Bhc-sF-bof" userLabel="Input View">
                                             <rect key="frame" x="39" y="7" width="343" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="K6c-MD-D2U">
-                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="6"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="QeL-tI-VtI">
+                                                    <rect key="frame" x="5" y="0.0" width="333" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputtop.png" id="cC5-OC-Exn" customClass="VerticalFlipImageView">
-                                                    <rect key="frame" x="0.0" y="24" width="343" height="6"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="BmM-Dl-ZsM" customClass="FlipImageView">
+                                                    <rect key="frame" x="338" y="0.0" width="5" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatinputmiddle.png" id="c18-kk-BaH">
-                                                    <rect key="frame" x="0.0" y="6" width="343" height="19"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="1RP-FB-6b4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Message..." minimumFontSize="17" id="W04-by-RXu" customClass="NiceFontTextField17">
                                                     <rect key="frame" x="7" y="2" width="328" height="27"/>
@@ -929,10 +928,10 @@
         <image name="chatglobalinactive.png" width="10" height="10"/>
         <image name="chatinactivemiddle.png" width="83" height="28"/>
         <image name="chatinactiveside.png" width="83" height="28"/>
-        <image name="chatinputbarmiddle.png" width="453" height="1"/>
-        <image name="chatinputbartop.png" width="453" height="6"/>
-        <image name="chatinputmiddle.png" width="343" height="1"/>
-        <image name="chatinputtop.png" width="343" height="6"/>
+        <image name="chatinputbgcap.png" width="6" height="43"/>
+        <image name="chatinputbgmiddle.png" width="1" height="43"/>
+        <image name="chatinputcap.png" width="5" height="29"/>
+        <image name="chatinputmiddle.png" width="1" height="29"/>
         <image name="chatpopupbg.png" width="226" height="51"/>
         <image name="chatpressedmiddle.png" width="83" height="28"/>
         <image name="chatpressedside.png" width="83" height="28"/>

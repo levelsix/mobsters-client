@@ -53,6 +53,16 @@
 
 @end
 
+@implementation NiceFontLabel2R
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  int rSize = [Globals isiPhone6] ? 1 : 0;
+  self.font = [UIFont fontWithName:@"Gotham-Medium" size:self.font.pointSize+rSize];
+}
+
+@end
+
 @implementation NiceFontLabel2B
 
 - (void) awakeFromNib {
@@ -169,6 +179,16 @@
 
 @end
 
+@implementation NiceFontLabel9R
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  int rSize = [Globals isiPhone6] ? 1 : 0;
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize+rSize];
+}
+
+@end
+
 @implementation NiceFontLabel9B
 
 - (void) awakeFromNib {
@@ -195,6 +215,16 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel10R
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  int rSize = [Globals isiPhone6] ? 1 : 0;
+  self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize+rSize];
 }
 
 @end
@@ -234,6 +264,16 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel12R
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  int rSize = [Globals isiPhone6] ? 1 : 0;
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize+rSize];
 }
 
 @end
@@ -442,6 +482,17 @@
   [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontButton9R
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  int rSize = [Globals isiPhone6] ? 1 : 0;
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.titleLabel.font.pointSize+rSize];
 }
 
 @end

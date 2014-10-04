@@ -58,19 +58,23 @@
   
   [self setUpCloseButton];
   
-  [self setupGachaTable];
-  
   [[NSNotificationCenter defaultCenter] removeObserver:self.topBar];
   
   [self.navBar button:3 shouldBeHidden:YES];
-  
-  [self loadBoosterPacks];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
   [self setUpImageBackButton];
+  
+  [self loadBoosterPacks];
+  
+  [self setupGachaTable];
+  
+  // Put a fake image we know we have so size can be calculated
+  self.machineImage.image = [Globals imageNamed:@"thegooniegrab2.png" useiPhone6Prefix:YES];
+  [self layoutViews];
   
   if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
     [self button1Clicked:nil];
@@ -83,6 +87,30 @@
   [super viewWillDisappear:animated];
   
   self.focusScrollView.delegate = nil;
+}
+
+- (void) layoutViews {
+  // Account for nav bar
+  float navHeight = self.navigationController.navigationBar.height;
+  
+  // Adjust the right view first by finding size of image and keeping distance from right the same
+  UIView *spinContainer = self.machineImage.superview;
+  CGSize s = self.machineImage.image.size;
+  CGRect oldRect = spinContainer.frame;
+  self.machineImage.size = s;
+  spinContainer.size = s;
+  spinContainer.originX = CGRectGetMaxX(oldRect)-spinContainer.width;
+  spinContainer.centerY = (self.tableContainerView.originY+navHeight)/2;
+  
+  // Find the approx perc of where spinView used to be and adjust for that
+  self.spinView.superview.center = ccp(spinContainer.width/2, self.spinView.superview.centerY/oldRect.size.height*spinContainer.height);
+  
+  
+  // Now use the remaining space for the featured views
+  UIView *featuredContainer = self.focusScrollView.superview;
+  featuredContainer.width = spinContainer.originX+10;
+  featuredContainer.height = self.tableContainerView.originY-navHeight;
+  featuredContainer.originY = navHeight;
 }
 
 - (void) loadBoosterPacks {
@@ -108,7 +136,7 @@
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   
-  [Globals imageNamed:bpp.machineImgName withView:self.machineImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamedWithiPhone6Prefix:bpp.machineImgName withView:self.machineImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 - (void) updateFreeGachasCounter
@@ -282,11 +310,12 @@
       _cachedDailySpin = NO;
     
     [self updateFreeGachasCounter];
+  } else {
+    _isSpinning = NO;
   }
   
   self.spinner.hidden = YES;
   self.spinView.hidden = NO;
-  _isSpinning = NO;
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
@@ -409,13 +438,19 @@
 }
 
 - (CGFloat) widthPerItem {
-  return 180;
+  return roundf(self.focusScrollView.width*0.36);
 }
+
+static float heightPerc = 0.871;
 
 - (UIView *) viewForItemNum:(int)itemNum reusableView:(GachaponFeaturedView *)view {
   if (!view) {
     [[NSBundle mainBundle] loadNibNamed:@"GachaponFeaturedView" owner:self options:nil];
     view = self.featuredView;
+    
+    float aspRatio = view.width/view.height;
+    view.height = roundf(self.focusScrollView.height*heightPerc);
+    view.width = view.height*aspRatio;
   }
   BoosterItemProto *item = self.boosterPack.specialItemsList[itemNum];
   [view updateForMonsterId:item.monsterId];

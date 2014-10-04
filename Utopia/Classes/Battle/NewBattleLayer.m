@@ -51,7 +51,27 @@
   return self;
 }
 
+- (void) setParent:(CCNode *)parent {
+  [super setParent:parent];
+  
+  // Add any additional scenes
+  [self addAdditionalScenes];
+}
+
 - (void) scrollToNewScene {
+  [self addAdditionalScenes];
+  
+  CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
+  float nextBaseY = self.position.y-Y_MOVEMENT_FOR_NEW_SCENE;
+  float nextBaseX = self.position.x-Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y;
+  [self runAction:[CCActionSequence actions:
+                   [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:ccp(nextBaseX, nextBaseY)],
+                   [CCActionCallFunc actionWithTarget:self selector:@selector(removePastScenes)],
+                   [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(reachedNextScene)],
+                   nil]];
+}
+
+- (void) addAdditionalScenes {
   // Get max y pos
   float maxY = _curBasePoint.y;
   
@@ -62,13 +82,6 @@
   for (int i = 0; i < numScenesToAdd; i++) {
     [self addNewScene];
   }
-  
-  float nextBaseX = self.position.x-Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y;
-  [self runAction:[CCActionSequence actions:
-                   [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:ccp(nextBaseX, nextBaseY)],
-                   [CCActionCallFunc actionWithTarget:self selector:@selector(removePastScenes)],
-                   [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(reachedNextScene)],
-                   nil]];
 }
 
 - (void) addNewScene {
@@ -407,12 +420,10 @@
 - (void) moveToNextEnemy {
   [self.hudView removeButtons];
   
-  _curStage++;
-  if (_curStage < self.enemyTeam.count) {
+  if ([self spawnNextEnemy]) {
     [self.myPlayer beginWalking];
     [self.bgdLayer scrollToNewScene];
     
-    [self spawnNextEnemy];
     [self displayWaveNumber];
     
     _reachedNextScene = NO;
@@ -429,20 +440,47 @@
   }
 }
 
-- (void) spawnNextEnemy {
-  [self createNextEnemyObject];
-  [self createNextEnemySprite];
+- (BOOL) spawnNextEnemy {
+  BOOL success = [self createNextEnemyObject];
   
-  CGPoint finalPos = ENEMY_PLAYER_LOCATION;
-  if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
-  CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-  CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
+  if (success) {
+    [self createNextEnemySprite];
+    
+    CGPoint finalPos = ENEMY_PLAYER_LOCATION;
+    if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
+    CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
+    CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
+    
+    self.currentEnemy.position = newPos;
+    [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
+    
+    [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+    self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
+    
+    SkillLogStart(@"TRIGGER STARTED: enemy initialized");
+    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered) {
+      SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
+      [self createScheduleWithSwap:NO];
+    }];
+  }
   
-  self.currentEnemy.position = newPos;
-  [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
+  return success;
+}
+
+- (BOOL) createNextEnemyObject {
+  self.enemyPlayerObject = nil;
   
-  [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-  self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
+  while (_curStage+1 < (int)self.enemyTeam.count && !self.enemyPlayerObject) {
+    _curStage++;
+    
+    self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
+    
+    if (self.enemyPlayerObject.curHealth <= 0) {
+      self.enemyPlayerObject = nil;
+    }
+  }
+  
+  return self.enemyPlayerObject != nil;
 }
 
 - (void) createNextEnemySprite {
@@ -453,20 +491,6 @@
   self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;
   [self updateHealthBars];
-}
-
-- (void) createNextEnemyObject {
-  if (self.enemyTeam.count > _curStage) {
-    self.enemyPlayerObject = [self.enemyTeam objectAtIndex:_curStage];
-    
-    SkillLogStart(@"TRIGGER STARTED: enemy initialized");
-    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered) {
-      SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
-      [self createScheduleWithSwap:NO];
-    }];
-  } else {
-    self.enemyPlayerObject = nil;
-  }
 }
 
 #pragma mark - UI Updates
@@ -536,6 +560,8 @@
     [self moveToNextEnemy];
     return;
   }
+  
+  NSLog(@"%@", self.battleSchedule);
   
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two

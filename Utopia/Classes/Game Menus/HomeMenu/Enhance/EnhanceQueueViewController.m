@@ -91,8 +91,12 @@
   
   self.monsterImageView.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
   
+  if ([Globals isiPhone6]) {
+    self.monsterImageView.transform = CGAffineTransformMakeScale(0.82, 0.82);
+  }
+  
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
-  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ below to sacrifice", MONSTER_NAME];
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to sacrifice", MONSTER_NAME];
   
   self.buttonSpinner.hidden = YES;
   

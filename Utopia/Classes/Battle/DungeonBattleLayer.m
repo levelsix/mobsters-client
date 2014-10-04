@@ -53,11 +53,15 @@
   [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums]];
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
+  
+  [self saveCurrentState];
 }
 
 - (void) youLost {
   [super youLost];
   [self.lostView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums]];
+  
+  [self saveCurrentState];
 }
 
 - (void) makeGoCarrotCalls {
@@ -346,8 +350,21 @@
   }
 }
 
+- (BOOL) createNextEnemyObject {
+  int stage = _curStage;
+  
+  BOOL success = [super createNextEnemyObject];
+  
+  // We must check if we're skipping over the current stage (i.e. cake kid blew up when we resumed
+  if (stage+1 < _curStage) {
+    _isResumingState = NO;
+  }
+  
+  return success;
+}
+
 - (void) sendServerDungeonProgress {
-  if (_hasStarted && _curStage < self.enemyTeam.count) {
+  if (_curStage < self.enemyTeam.count) {
     [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage dropless:([self.droplessStageNums containsObject:@(_curStage-1)])];
     [self saveCurrentState];
   }
@@ -362,6 +379,11 @@
 - (BOOL) checkEnemyHealth {
   [self saveCurrentState];
   return [super checkEnemyHealth];
+}
+
+- (void) checkMyHealth {
+  [super checkMyHealth];
+  [self saveCurrentState];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector
@@ -415,6 +437,7 @@
 - (void) processNextTurn:(float)delay{
   [super processNextTurn:delay];
   [self saveCurrentState];
+  _isResumingState = NO;
 }
 
 - (void) beginMyTurn {
@@ -432,8 +455,6 @@
     _myDamageDealt = damage;
     
     self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
-    
-    _isResumingState = NO;
   } else {
     [super beginMyTurn];
   }
@@ -476,6 +497,7 @@
 #define ORB_COUNTS_KEY @"OrbCountsKey"
 #define POWERUP_COUNTS_KEY @"PowerupCountsKey"
 #define RUNAWAY_COUNT_KEY @"RunawayCountKey"
+#define DROPLESS_STAGES_KEY @"DroplessStageNumsKey"
 
 #define SCHEDULE_KEY @"BattleScheduleKey"
 #define SCHEDULE_INDEX_KEY @"BattleScheduleIndexKey"
@@ -522,6 +544,8 @@
         // For the situation when user leaves before the first move has been dequeued
   }
   
+  [dict setObject:self.droplessStageNums forKey:DROPLESS_STAGES_KEY];
+  
   // Achievement info
   [dict setObject:@(_totalDamageTaken) forKey:TOTAL_DAMAGE_TAKEN_KEY];
   [dict setObject:@(_totalComboCount) forKey:TOTAL_COMBO_COUNT_KEY];
@@ -548,6 +572,7 @@
   
   int curStage = (int)[[stateDict objectForKey:CUR_STAGE_KEY] integerValue];
   int enemyHealth = (int)[[stateDict objectForKey:ENEMY_HEALTH_KEY] integerValue];
+  
   if (curStage < self.enemyTeam.count) {
     BattlePlayer *bp = self.enemyTeam[curStage];
     bp.curHealth = enemyHealth;
@@ -555,6 +580,8 @@
   
   _totalDamageTaken = (int)[[stateDict objectForKey:TOTAL_DAMAGE_TAKEN_KEY] integerValue];
   _totalComboCount = (int)[[stateDict objectForKey:TOTAL_COMBO_COUNT_KEY] integerValue];
+  
+  [self.droplessStageNums addObjectsFromArray:[stateDict objectForKey:DROPLESS_STAGES_KEY]];
   
   // Use the c array's length as opposed to the NSData's in case the c array is shorter
   NSData *orbCounts = [stateDict objectForKey:ORB_COUNTS_KEY];

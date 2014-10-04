@@ -25,6 +25,8 @@ typedef enum {
   kButton5 = 1 << 4
 } BarButton;
 
+// B means blur, S means stroke, WS means white stroke, R means resize for iPhones
+
 @interface NiceFontLabelS : UILabel
 
 @property (nonatomic, assign) float strokeSize;
@@ -39,6 +41,9 @@ typedef enum {
 @end
 
 @interface NiceFontLabel2 : UILabel
+@end
+
+@interface NiceFontLabel2R : UILabel
 @end
 
 @interface NiceFontLabel2B : THLabel
@@ -77,6 +82,9 @@ typedef enum {
 @interface NiceFontLabel9 : UILabel
 @end
 
+@interface NiceFontLabel9R : UILabel
+@end
+
 @interface NiceFontLabel9B : THLabel
 @end
 
@@ -84,6 +92,9 @@ typedef enum {
 @end
 
 @interface NiceFontLabel10 : UILabel
+@end
+
+@interface NiceFontLabel10R : UILabel
 @end
 
 @interface NiceFontLabel10B : THLabel
@@ -96,6 +107,9 @@ typedef enum {
 @end
 
 @interface NiceFontLabel12 : UILabel
+@end
+
+@interface NiceFontLabel12R : UILabel
 @end
 
 @interface NiceFontLabel12B : THLabel
@@ -182,6 +196,9 @@ typedef enum {
 @end
 
 @interface NiceFontButton9 : GeneralButton
+@end
+
+@interface NiceFontButton9R : GeneralButton
 @end
 
 @interface NiceFontButton10 : GeneralButton

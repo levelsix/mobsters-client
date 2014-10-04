@@ -104,7 +104,7 @@
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
-    self.shopBadge.alpha = 0.f;
+    self.shopBadge.alpha = 0.f; 
   }
   
   [self.updateTimer invalidate];
@@ -116,9 +116,10 @@
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     [self.chatBottomView openAnimated:NO];
     
-    CGRect r = self.chatBottomView.frame;
-    r.size.width = self.view.frame.size.width;
-    self.chatBottomView.frame = r;
+    // Bigger screens should stretch this
+    if (self.view.width > self.chatBottomView.width) {
+      self.chatBottomView.width = self.view.width;
+    }
   }
   
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -624,6 +625,21 @@
 - (void) showArrowToResidence {
   _shouldShowArrowOnResidence = YES;
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
+}
+
+#pragma mark - Add home view
+
+- (void) displayHomeViewController:(HomeViewController *)hvc {
+  [hvc displayInParentViewController:self];
+  
+  // Move hvc's main view down a bit if we have space
+  if (hvc.mainView.height < self.view.height-self.coinBarsView.height) {
+    hvc.mainView.originY = self.coinBarsView.height;
+    hvc.mainView.height = self.view.height-self.coinBarsView.height;
+    
+    // Move the coin bars above
+    [self.mainView insertSubview:hvc.view belowSubview:self.coinBarsView];
+  }
 }
 
 @end

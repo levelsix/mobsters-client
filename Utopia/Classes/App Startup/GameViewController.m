@@ -279,6 +279,9 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     
+    // Add all top bar vcs as well
+    acceptable = [acceptable arrayByAddingObjectsFromArray:[self.topBarViewController childViewControllers]];
+    
     for (UIViewController *vc in self.childViewControllers) {
       if (![acceptable containsObject:vc]) {
         if ([vc respondsToSelector:@selector(close)]) {
@@ -296,6 +299,10 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     if (![acceptable containsObject:self.topBarViewController.shopViewController]) {
       [self.topBarViewController.shopViewController close];
+    }
+    
+    if (self.presentedViewController) {
+      [self dismissViewControllerAnimated:NO completion:nil];
     }
   }
 }

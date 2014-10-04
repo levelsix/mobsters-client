@@ -21,32 +21,35 @@
 }
 
 - (void) reloadData {
-  for (UIView *v in self.innerViews) {
-    [v removeFromSuperview];
+  if (self.delegate) {
+    for (UIView *v in self.innerViews) {
+      [v removeFromSuperview];
+    }
+    
+    for (UIView *v in self.innerViews) {
+      [v removeFromSuperview];
+      [self.reusableViews addObject:v];
+    }
+    self.innerViews = [NSMutableArray array];
+    
+    _numItems = [self.delegate numberOfItems];
+    BOOL shouldLoop = [self.delegate shouldLoopItems];
+    
+    CGFloat width = [self.delegate widthPerItem];
+    // convert point in case scrollview is not in focus view
+    float xBase = [self.scrollView.superview convertPoint:ccp(self.frame.size.width/2-width/2, 0) fromView:self].x;
+    self.scrollView.frame = CGRectMake(xBase, self.scrollView.frame.origin.y, width, self.frame.size.height);
+    
+    if (!shouldLoop) {
+      self.scrollView.contentSize = CGSizeMake(width*_numItems, self.scrollView.frame.size.height);
+      self.scrollView.contentOffset = ccp(0, 0);
+    } else {
+      self.scrollView.contentSize = CGSizeMake(NUM_REPEATED_FOR_LOOPING*width*_numItems, self.scrollView.frame.size.height);
+      self.scrollView.contentOffset = ccp(NUM_REPEATED_FOR_LOOPING*_numItems/2*width, 0);
+    }
+    
+    [self scrollViewDidScroll:self.scrollView];
   }
-  
-  for (UIView *v in self.innerViews) {
-    [v removeFromSuperview];
-    [self.reusableViews addObject:v];
-  }
-  self.innerViews = [NSMutableArray array];
-  
-  _numItems = [self.delegate numberOfItems];
-  BOOL shouldLoop = [self.delegate shouldLoopItems];
-  
-  CGFloat width = [self.delegate widthPerItem];
-  float xBase = self.frame.size.width/2-width/2;
-  self.scrollView.frame = CGRectMake(xBase, self.scrollView.frame.origin.y, width, self.frame.size.height);
-  
-  if (!shouldLoop) {
-    self.scrollView.contentSize = CGSizeMake(width*_numItems, self.scrollView.frame.size.height);
-    self.scrollView.contentOffset = ccp(0, 0);
-  } else {
-    self.scrollView.contentSize = CGSizeMake(NUM_REPEATED_FOR_LOOPING*width*_numItems, self.scrollView.frame.size.height);
-    self.scrollView.contentOffset = ccp(NUM_REPEATED_FOR_LOOPING*_numItems/2*width, 0);
-  }
-  
-  [self scrollViewDidScroll:self.scrollView];
 }
 
 - (void) checkViewsForCurrentPosition {
@@ -69,36 +72,38 @@
     [self.reusableViews addObject:v];
   }
   
-  for (int i = leftIdx; i <= rightIdx; i++) {
-    int itemNum = i % _numItems;
-    if (itemNum < 0) itemNum += _numItems;
-    
-    // Check if the view is already being displayed
-    BOOL found = NO;
-    for (UIView *v in self.innerViews) {
-      float idx = (v.center.x-width/2)/width;
-      if (idx == i) {
-        [v.superview bringSubviewToFront:v];
-        found = YES;
+  if (_numItems) {
+    for (int i = leftIdx; i <= rightIdx; i++) {
+      int itemNum = i % _numItems;
+      if (itemNum < 0) itemNum += _numItems;
+      
+      // Check if the view is already being displayed
+      BOOL found = NO;
+      for (UIView *v in self.innerViews) {
+        float idx = (v.center.x-width/2)/width;
+        if (idx == i) {
+          [v.superview bringSubviewToFront:v];
+          found = YES;
+        }
       }
-    }
-    if (!found) {
-      UIView *reusable = [self.reusableViews firstObject];
-      UIView *blurView = [self.delegate viewForItemNum:itemNum reusableView:reusable];
-      
-      blurView.center = ccp(i*width+width/2, self.scrollView.frame.size.height/2);
-      [blurView.superview bringSubviewToFront:blurView];
-      [self.scrollView addSubview:blurView];
-      [self.innerViews addObject:blurView];
-      [self.reusableViews removeObject:blurView];
-      
-      if (![blurView viewWithTag:GRADIENT_TAG]) {
-        UIImageView *grad = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"covergradient.png"]];
-        [blurView addSubview:grad];
-        grad.contentMode = UIViewContentModeScaleToFill;
-        grad.frame = CGRectMake(blurView.frame.size.width-grad.frame.size.width, 0, grad.frame.size.width, blurView.frame.size.height);
-        grad.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin;
-        grad.tag = GRADIENT_TAG;
+      if (!found) {
+        UIView *reusable = [self.reusableViews firstObject];
+        UIView *blurView = [self.delegate viewForItemNum:itemNum reusableView:reusable];
+        
+        blurView.center = ccp(i*width+width/2, self.scrollView.frame.size.height/2);
+        [blurView.superview bringSubviewToFront:blurView];
+        [self.scrollView addSubview:blurView];
+        [self.innerViews addObject:blurView];
+        [self.reusableViews removeObject:blurView];
+        
+        if (![blurView viewWithTag:GRADIENT_TAG]) {
+          UIImageView *grad = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"covergradient.png"]];
+          [blurView addSubview:grad];
+          grad.contentMode = UIViewContentModeScaleToFill;
+          grad.frame = CGRectMake(blurView.frame.size.width-grad.frame.size.width, 0, grad.frame.size.width, blurView.frame.size.height);
+          grad.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin;
+          grad.tag = GRADIENT_TAG;
+        }
       }
     }
   }

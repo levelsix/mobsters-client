@@ -45,6 +45,10 @@
     self.fgdImageView.image = [Globals imageNamed:@"splashguyswide.png"];
   }
   
+  if (self.view.width >= self.mainView.width) {
+    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  }
+  
   self.tipLabel.text = [Globals getRandomTipFromFile:@"tips"];
 }
 

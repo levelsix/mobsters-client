@@ -1425,7 +1425,7 @@
   }
   
   if (hvc) {
-    [hvc displayInParentViewController:gvc];
+    [gvc.topBarViewController displayHomeViewController:hvc];
   }
 }
 

@@ -57,12 +57,19 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  float aspectRatio = self.mainView.width/self.mainView.height;
+  float newHeight = self.view.height-36.f;
+  self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
+  self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+}
+
 - (void) updateMonster {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
   self.monsterNameLabel.text = proto.displayName;
-  self.enhanceLabel.text = [NSString stringWithFormat:@"%d (Max. %d)", self.monster.level, proto.maxLevel];
+  self.enhanceLabel.text = [NSString stringWithFormat:@"%d  (Max. %d)", self.monster.level, proto.maxLevel];
   [self updateSkillData:YES];
   
   self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
@@ -203,8 +210,10 @@ static int descriptionWidthChange = 50;
 
 - (IBAction)infoClicked:(id)sender {
   [self.container addSubview:self.elementView];
+  self.elementView.frame = self.descriptionView.frame;
   self.elementView.center = CGPointMake(self.descriptionView.center.x+self.elementView.frame.size.height, self.descriptionView.center.y);
   self.backButtonView.hidden = NO;
+  
   CGPoint mainViewCenter = self.descriptionView.center;
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
@@ -230,6 +239,7 @@ static int descriptionWidthChange = 50;
 - (IBAction)backClicked:(id)sender {
   CGPoint mainViewCenter = self.elementView.center;
   self.descriptionView.hidden = NO;
+  
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);

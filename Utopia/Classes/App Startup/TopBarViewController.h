@@ -12,6 +12,7 @@
 #import "ChatBottomView.h"
 #import "TopBarQuestProgressView.h"
 #import "ShopViewController.h"
+#import "HomeViewController.h"
 
 @interface TopBarMonsterView : UIView
 
@@ -102,5 +103,7 @@
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
 - (void) showArrowToResidence;
+
+- (void) displayHomeViewController:(HomeViewController *)hvc;
 
 @end
