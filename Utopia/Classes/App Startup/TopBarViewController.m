@@ -120,6 +120,8 @@
     if (self.view.width > self.chatBottomView.width) {
       self.chatBottomView.width = self.view.width;
     }
+    
+    [self.chatBottomView switchToScope:ChatScopeGlobal];
   }
   
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];

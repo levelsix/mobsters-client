@@ -49,8 +49,6 @@
   
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
   [self addGestureRecognizer:tap];
-  
-  [self switchToScope:ChatScopeGlobal];
 }
 
 - (void) swipeLeft {

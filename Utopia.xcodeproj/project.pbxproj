@@ -3381,6 +3381,18 @@
 		CF32EAF91960A9DD00A4AEE3 /* BuildingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */; };
 		CF32EAFA1960A9DD00A4AEE3 /* BuildingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */; };
 		CF32EAFC1960ABF000A4AEE3 /* BuildingCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */; };
+		CF37373F19E35F3500CB16E3 /* orangeoverbuildingcap.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373919E35F3400CB16E3 /* orangeoverbuildingcap.png */; };
+		CF37374019E35F3500CB16E3 /* orangeoverbuildingcap.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373919E35F3400CB16E3 /* orangeoverbuildingcap.png */; };
+		CF37374119E35F3500CB16E3 /* orangeoverbuildingcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373A19E35F3400CB16E3 /* orangeoverbuildingcap@2x.png */; };
+		CF37374219E35F3500CB16E3 /* orangeoverbuildingcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373A19E35F3400CB16E3 /* orangeoverbuildingcap@2x.png */; };
+		CF37374319E35F3500CB16E3 /* orangeoverbuildingmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373B19E35F3400CB16E3 /* orangeoverbuildingmiddle.png */; };
+		CF37374419E35F3500CB16E3 /* orangeoverbuildingmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373B19E35F3400CB16E3 /* orangeoverbuildingmiddle.png */; };
+		CF37374519E35F3500CB16E3 /* orangeoverbuildingmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373C19E35F3400CB16E3 /* orangeoverbuildingmiddle@2x.png */; };
+		CF37374619E35F3500CB16E3 /* orangeoverbuildingmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373C19E35F3400CB16E3 /* orangeoverbuildingmiddle@2x.png */; };
+		CF37374719E35F3500CB16E3 /* overbuildingtimer.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373D19E35F3400CB16E3 /* overbuildingtimer.png */; };
+		CF37374819E35F3500CB16E3 /* overbuildingtimer.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373D19E35F3400CB16E3 /* overbuildingtimer.png */; };
+		CF37374919E35F3500CB16E3 /* overbuildingtimer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373E19E35F3400CB16E3 /* overbuildingtimer@2x.png */; };
+		CF37374A19E35F3500CB16E3 /* overbuildingtimer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF37373E19E35F3400CB16E3 /* overbuildingtimer@2x.png */; };
 		CF3764EA182DADEE00D0A77E /* 3darrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E6182DADEE00D0A77E /* 3darrow.png */; };
 		CF3764EC182DADEE00D0A77E /* 3darrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E7182DADEE00D0A77E /* 3darrow@2x.png */; };
 		CF3764EE182DADEE00D0A77E /* bosslock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3764E8182DADEE00D0A77E /* bosslock.png */; };
@@ -7170,6 +7182,12 @@
 		CF32EAF71960A9DD00A4AEE3 /* BuildingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingViewController.m; sourceTree = "<group>"; };
 		CF32EAF81960A9DD00A4AEE3 /* BuildingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuildingViewController.xib; sourceTree = "<group>"; };
 		CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuildingCardCell.xib; sourceTree = "<group>"; };
+		CF37373919E35F3400CB16E3 /* orangeoverbuildingcap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeoverbuildingcap.png; sourceTree = "<group>"; };
+		CF37373A19E35F3400CB16E3 /* orangeoverbuildingcap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orangeoverbuildingcap@2x.png"; sourceTree = "<group>"; };
+		CF37373B19E35F3400CB16E3 /* orangeoverbuildingmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeoverbuildingmiddle.png; sourceTree = "<group>"; };
+		CF37373C19E35F3400CB16E3 /* orangeoverbuildingmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orangeoverbuildingmiddle@2x.png"; sourceTree = "<group>"; };
+		CF37373D19E35F3400CB16E3 /* overbuildingtimer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overbuildingtimer.png; sourceTree = "<group>"; };
+		CF37373E19E35F3400CB16E3 /* overbuildingtimer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overbuildingtimer@2x.png"; sourceTree = "<group>"; };
 		CF3764E6182DADEE00D0A77E /* 3darrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3darrow.png; sourceTree = "<group>"; };
 		CF3764E7182DADEE00D0A77E /* 3darrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3darrow@2x.png"; sourceTree = "<group>"; };
 		CF3764E8182DADEE00D0A77E /* bosslock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bosslock.png; sourceTree = "<group>"; };
@@ -10716,6 +10734,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF37373819E35F3400CB16E3 /* Big timers */,
 				CF6A64B019D24F010002E05D /* 6 Orbs */,
 				CF5BD66419C925EE006C4B4C /* Rank Up */,
 				CFF4129919BFC260002672D4 /* Spritebuilder */,
@@ -11630,6 +11649,19 @@
 				CF32EAFB1960ABF000A4AEE3 /* BuildingCardCell.xib */,
 			);
 			path = Buildings;
+			sourceTree = "<group>";
+		};
+		CF37373819E35F3400CB16E3 /* Big timers */ = {
+			isa = PBXGroup;
+			children = (
+				CF37373919E35F3400CB16E3 /* orangeoverbuildingcap.png */,
+				CF37373A19E35F3400CB16E3 /* orangeoverbuildingcap@2x.png */,
+				CF37373B19E35F3400CB16E3 /* orangeoverbuildingmiddle.png */,
+				CF37373C19E35F3400CB16E3 /* orangeoverbuildingmiddle@2x.png */,
+				CF37373D19E35F3400CB16E3 /* overbuildingtimer.png */,
+				CF37373E19E35F3400CB16E3 /* overbuildingtimer@2x.png */,
+			);
+			path = "Big timers";
 			sourceTree = "<group>";
 		};
 		CF3764F8182DD6AC00D0A77E /* ChatMenu */ = {
@@ -16223,6 +16255,7 @@
 				CF6A64CE19D24F030002E05D /* 6earthsideways@2x.png in Resources */,
 				CF0CEED0196F452900ECD301 /* spinnertest.png in Resources */,
 				DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
+				CF37374619E35F3500CB16E3 /* orangeoverbuildingmiddle@2x.png in Resources */,
 				CFF2A54919709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CF0CEED1196F452900ECD301 /* questactivetab.png in Resources */,
 				CF0CEED2196F452900ECD301 /* lightbigavatar.png in Resources */,
@@ -16234,6 +16267,7 @@
 				CF0CEED8196F452900ECD301 /* noteffective@2x.png in Resources */,
 				CF0CEED9196F452900ECD301 /* buildingupgraded.png in Resources */,
 				CF0CEEDA196F452900ECD301 /* smallbubbleover.png in Resources */,
+				CF37374419E35F3500CB16E3 /* orangeoverbuildingmiddle.png in Resources */,
 				CF0CEEDB196F452900ECD301 /* greysquare.png in Resources */,
 				CF0CEEDC196F452900ECD301 /* bubbleright@2x.png in Resources */,
 				CF0CEEDD196F452900ECD301 /* privatechatback@2x.png in Resources */,
@@ -16924,6 +16958,7 @@
 				CF0CF152196F452900ECD301 /* superdot.png in Resources */,
 				CFF2A51B19709C4800269084 /* HealingCenterT1@2x.plist in Resources */,
 				CF0CF154196F452900ECD301 /* hospitalopenarrow@2x.png in Resources */,
+				CF37374819E35F3500CB16E3 /* overbuildingtimer.png in Resources */,
 				CF0CF155196F452900ECD301 /* Scientist4Blink00@2x.png in Resources */,
 				CF0CF157196F452900ECD301 /* mycity.png in Resources */,
 				CF0CF158196F452900ECD301 /* borderstraight.png in Resources */,
@@ -17635,6 +17670,7 @@
 				CF0CF3D3196F452900ECD301 /* healingmiddle@2x.png in Resources */,
 				CF0CF3D4196F452900ECD301 /* Buildings.png in Resources */,
 				CF0CF3D5196F452900ECD301 /* facebookmenuoption@2x.png in Resources */,
+				CF37374019E35F3500CB16E3 /* orangeoverbuildingcap.png in Resources */,
 				CF0CF3D6196F452900ECD301 /* nightbar.png in Resources */,
 				CF0CF3D7196F452900ECD301 /* featureddivider.png in Resources */,
 				CF0CF3D8196F452900ECD301 /* Scientist1Breath07@2x.png in Resources */,
@@ -18436,6 +18472,7 @@
 				CF0CF6B0196F452900ECD301 /* createclanbox1.png in Resources */,
 				CF0CF6B2196F452900ECD301 /* collectioncapsule@2x.png in Resources */,
 				CF0CF6B3196F452900ECD301 /* sparkle1.plist in Resources */,
+				CF37374219E35F3500CB16E3 /* orangeoverbuildingcap@2x.png in Resources */,
 				CF0CF6B4196F452900ECD301 /* menuinactivetabpressed.png in Resources */,
 				CF0CF6B5196F452900ECD301 /* sparkle1@2x.plist in Resources */,
 				CFF9DD8719B861F200CA9A8E /* up.png in Resources */,
@@ -18794,6 +18831,7 @@
 				CF0CF7F0196F452900ECD301 /* blacksquareoverlay@2x.png in Resources */,
 				CF0CF7F1196F452900ECD301 /* Scientist5Turn06@2x.png in Resources */,
 				CFB6F7E619DA162900A53935 /* wonstickerhead.png in Resources */,
+				CF37374A19E35F3500CB16E3 /* overbuildingtimer@2x.png in Resources */,
 				CF0CF7F2196F452900ECD301 /* Gotham-Bold.otf in Resources */,
 				CF0CF7F3196F452900ECD301 /* buildingoptionbuttonpressed@2x.png in Resources */,
 				CF0CF7F5196F452900ECD301 /* spinbutton.png in Resources */,
@@ -19239,6 +19277,7 @@
 				CFF5DC7F19514FA50019EB2B /* hiremobsquadactive@2x.png in Resources */,
 				CFF4129019BFC223002672D4 /* stagecompletestage.png in Resources */,
 				CF37651F182DD6F900D0A77E /* chatpost.png in Resources */,
+				CF37374519E35F3500CB16E3 /* orangeoverbuildingmiddle@2x.png in Resources */,
 				CFF7872B18E28FE200413E78 /* checkbox@2x.png in Resources */,
 				CFFBDF5B18ACA3D90090CA9A /* Scientist2Blink06@2x.png in Resources */,
 				CF134A5E18A5E4B500D7D700 /* FatBoy2Move02@2x.png in Resources */,
@@ -19695,6 +19734,7 @@
 				CF29EA471964F38E00B40DA4 /* settingsactive.png in Resources */,
 				CF62930D180D22F600C6C196 /* safegems.png in Resources */,
 				CF29EA581964F64E00B40DA4 /* SettingsViewController.xib in Resources */,
+				CF37373F19E35F3500CB16E3 /* orangeoverbuildingcap.png in Resources */,
 				CFFBDFC418ACA3D90090CA9A /* Scientist4Breath12@2x.png in Resources */,
 				4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */,
 				CF864E14193E8F3000DE0D7A /* closememberoptions.png in Resources */,
@@ -19971,6 +20011,7 @@
 				CF5BD67A19C925EE006C4B4C /* rankupspinner.png in Resources */,
 				DAF7994D19AD65EF00586583 /* bluenotificationbubble.png in Resources */,
 				CFFF6AFB18DA69A4003A320C /* rockgrenade@2x.png in Resources */,
+				CF37374119E35F3500CB16E3 /* orangeoverbuildingcap@2x.png in Resources */,
 				CFF2C941193FD71F00F28D9E /* chatglobalinactive@2x.png in Resources */,
 				CFC9716B182C5AA400FF1D83 /* streak@2x.png in Resources */,
 				CFF7876318E28FE200413E78 /* upgradecheckbg@2x.png in Resources */,
@@ -20846,6 +20887,7 @@
 				CF29EA761965418F00B40DA4 /* mailbutton@2x.png in Resources */,
 				CF19088A18D822C000D6F0E4 /* KamcordiPhone.storyboardc in Resources */,
 				CFF2C927193FD4C000F28D9E /* chatinactiveside.png in Resources */,
+				CF37374919E35F3500CB16E3 /* overbuildingtimer@2x.png in Resources */,
 				CFC8B62C18E64E2000CFD652 /* menutab@2x.png in Resources */,
 				CFFBDFC118ACA3D90090CA9A /* Scientist4Breath09@2x.png in Resources */,
 				CFFBDFCE18ACA3D90090CA9A /* Scientist4Turn09@2x.png in Resources */,
@@ -21230,6 +21272,7 @@
 				CF134A8D18A5E4B500D7D700 /* FatBoy5Move10@2x.png in Resources */,
 				CF68909B191C514000FF1F71 /* pier_3@2x.png in Resources */,
 				CFE02AF21820A79B0016C1E2 /* finishbuild@2x.png in Resources */,
+				CF37374719E35F3500CB16E3 /* overbuildingtimer.png in Resources */,
 				CF746187196B9A5F002D6AE6 /* buildingoptionbutton.png in Resources */,
 				CFF5DC7B19514FA50019EB2B /* hireallfriendsinactive@2x.png in Resources */,
 				CF29EA431964F38E00B40DA4 /* lightbluemenuoption@2x.png in Resources */,
@@ -21657,6 +21700,7 @@
 				CFFEB18718361531007C4BA3 /* enhanceaddpercent.png in Resources */,
 				CFC8B62718E631DE00CFD652 /* spinnerbg.png in Resources */,
 				CF74611319662F03002D6AE6 /* fightarrow.png in Resources */,
+				CF37374319E35F3500CB16E3 /* orangeoverbuildingmiddle.png in Resources */,
 				CF63F7D617ED3DB900FEBAA9 /* combo13a.aif in Resources */,
 				CF864E2F193E8F3000DE0D7A /* selectclanboxgreyforpopup.png in Resources */,
 				DA88EB4119B93553005EE827 /* SkillPopupOverlay.xib in Resources */,

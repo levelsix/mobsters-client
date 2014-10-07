@@ -65,6 +65,8 @@ typedef enum {
 - (void) openAnimated:(BOOL)animated;
 - (void) closeAnimated:(BOOL)animated;
 
+- (void) switchToScope:(ChatScope)scope;
+
 - (void) reloadData;
 - (void) reloadDataAnimated;
 

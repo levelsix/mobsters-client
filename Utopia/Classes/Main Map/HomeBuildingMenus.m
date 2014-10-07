@@ -41,7 +41,10 @@
 @implementation UpgradeProgressBar
 
 - (id) initBarWithPrefix:(NSString *)prefix {
-  if ((self = [super initWithImageNamed:@"overbuildingbar.png"])) {
+  if ((self = [super initWithImageNamed:@"overbuildingtimer.png"])) {
+    self.prefix = prefix;
+    
+    prefix = @"orangeoverbuilding";
     self.leftCap = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"cap.png"]];
     self.rightCap = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"cap.png"]];
     self.middleBar = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"middle.png"]];
@@ -63,16 +66,14 @@
     self.middleBar.position = ccp(self.leftCap.contentSize.width, 0);
     self.middleBar.scaleX = (self.contentSize.width-self.leftCap.contentSize.width-self.rightCap.contentSize.width)/self.middleBar.contentSize.width;
     
-    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:9.f];
+    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:12.f];
     _timeLabel.horizontalAlignment = CCTextAlignmentCenter;
     [_timeLabel setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
     [_timeLabel setShadowOffset:ccp(0, -1)];
     _timeLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
     _timeLabel.shadowBlurRadius = 0.8f;
     [self addChild:_timeLabel];
-    _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height);
-    
-    self.prefix = prefix;
+    _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height-2);
   }
   return self;
 }

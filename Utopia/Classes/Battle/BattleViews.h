@@ -15,6 +15,36 @@
 #import <cocos2d.h>
 #import <cocos2d-ui.h>
 
+@interface BattleEndView : CCNode <UIScrollViewDelegate>
+
+@property (nonatomic, retain) CCNode *bgdNode;
+
+@property (nonatomic, retain) CCNode *headerView;
+@property (nonatomic, retain) CCSprite *topLabelHeader;
+@property (nonatomic, retain) CCSprite *botLabelHeader;
+@property (nonatomic, retain) CCSprite *spinner;
+
+@property (nonatomic, retain) CCSprite *ribbon;
+@property (nonatomic, retain) CCLabelTTF *ribbonLabel;
+@property (nonatomic, retain) CCNode *rewardsBgd;
+@property (nonatomic, retain) CCNode *rewardsView; // Created in file
+@property (nonatomic, retain) CCSprite *stickerHead;
+
+@property (nonatomic, retain) CCButton *shareButton;
+@property (nonatomic, retain) CCButton *continueButton;
+@property (nonatomic, retain) CCButton *doneButton;
+
+@property (nonatomic, retain) CCLabelTTF *tipLabel;
+
+@property (nonatomic, retain) UIScrollView *rewardsScrollView;
+@property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
+
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin;
+
+- (void) spinnerOnDone;
+
+@end
+
 @interface BattleLostView : CCNode <UIScrollViewDelegate>
 
 @property (nonatomic, retain) CCNode *bgdNode;
@@ -31,8 +61,6 @@
 @property (nonatomic, retain) CCNode *rewardsView;
 @property (nonatomic, retain) CCLabelTTF *tipLabel;
 
-@property (nonatomic, retain) CCNode *shareLabel;
-@property (nonatomic, retain) CCNode *continueLabel;
 
 @property (nonatomic, retain) UIScrollView *rewardsScrollView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
