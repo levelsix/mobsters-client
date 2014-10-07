@@ -13,16 +13,74 @@
 
 #define REWARDSVIEW_OFFSET 50
 
-@implementation BattleLostView
+@implementation BattleEndView
 
 - (void) didLoadFromCCB {
-  //self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
   
   self.continueButton.label.position = ccp(0.5, 0.52);
   
   self.tipLabel.fontName = @"Whitney-Semibold";
   self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
+}
+
+- (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin {
+  if (!isWin) {
+    self.topLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostyou.png"];
+    self.botLabelHeader.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youlostlost.png"];
+    self.ribbon.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"youmissoutonribbon.png"];
+    self.stickerHead.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"loststickerhead.png"];
+  }
+  
+  if (!rewards.count) {
+    self.ribbonLabel.string = isWin ? @"GOOD JOB!" : @"BETTER LUCK NEXT TIME!";
+  } else {
+    self.ribbonLabel.string = isWin ? @"YOU FOUND" : @"YOU WILL MISS OUT ON";
+    
+    CCNode *node = [CCNode node];
+    
+    for (int i = 0; i < rewards.count; i++) {
+      BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:YES];
+      [node addChild:brn];
+      brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 44);
+      
+      node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
+    }
+    node.anchorPoint = ccp(0, 0.5);
+    node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
+    self.rewardsView = node;
+    
+    [self.rewardsScrollView removeFromSuperview];
+    self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
+    self.rewardsScrollView.delegate = self;
+    self.rewardsScrollView.backgroundColor = [UIColor colorWithRed:1.f green:0.f blue:0.f alpha:0.3f];
+    self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
+    
+    [Globals displayUIView:self.rewardsScrollView];
+    self.rewardsScrollView.center = ccp(self.contentSize.width/2, 175);
+    
+    CCClippingNode *clip = [CCClippingNode clippingNode];
+    clip.contentSize = self.rewardsBgd.contentSize;
+    clip.anchorPoint = ccp(0.5, 0.5);
+    [self.rewardsBgd addChild:clip];
+    clip.position = ccp(self.rewardsBgd.contentSize.width/2, self.rewardsBgd.contentSize.height/2);
+    CCDrawNode *stencil = [CCDrawNode node];
+    CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
+    [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+    clip.stencil = stencil;
+    
+    [clip addChild:node];
+    
+    self.rewardsScrollView.center = [clip.parent convertToWorldSpace:clip.position];
+    self.rewardsScrollView.size = clip.contentSize;
+    
+    // Leave a distance on each side
+    self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
+    
+    self.stickerHead.visible = NO;
+    
+    [self scrollViewDidScroll:self.rewardsScrollView];
+  }
 }
 
 - (void) onExitTransitionDidStart {
@@ -48,7 +106,6 @@
   self.bgdNode.opacity = 0.f;
   self.bgdNode.scale = MAX(self.parent.contentSize.height/self.bgdNode.contentSize.height,
                            self.parent.contentSize.width/self.bgdNode.contentSize.width);
-  self.rewardsBgd.scale = 1/self.bgdNode.scale;
   [self.bgdNode runAction:[RecursiveFadeTo actionWithDuration:firstDur opacity:1.f]];
   
   CGPoint orig = self.headerView.position;
@@ -66,12 +123,6 @@
     CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
     [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
   } else {
-    self.lostLabel.opacity = 0.f;
-    [self.lostLabel runAction:
-     [CCActionSequence actions:
-      [CCActionDelay actionWithDuration:firstDur+secondDur],
-      [CCActionFadeTo actionWithDuration:thirdDur opacity:1.f], nil]];
-    
     for (int i = 0; i < self.rewardsView.children.count; i++) {
       CCNode *n = self.rewardsView.children[i];
       CGPoint pt = n.position;
@@ -137,67 +188,14 @@
                            [CCActionFadeTo actionWithDuration:0.2f opacity:1.f], nil]];
   [self.spinner runAction:[CCActionRepeatForever actionWithAction:[CCActionRotateBy actionWithDuration:6.f angle:180]]];
   
-  [self.youLostHeader runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:time],
-    [CCActionCallBlock actionWithBlock:
-     ^{
-       CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.5 scale:1.1];
-       [self.youLostHeader runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:scale, scale.reverse, nil]]];
-     }], nil]];
-}
-
-- (void) updateForRewards:(NSArray *)rewards {
-  if (!rewards.count) {
-    return;
-  }
-  
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will miss out on:" fontName:@"Gotham-Ultra" fontSize:10.f];
-  label.color = [CCColor whiteColor];
-  [self addChild:label];
-  label.position = ccpAdd(self.rewardsBgd.position, ccp(0, self.rewardsBgd.contentSize.height/2-10));
-  self.lostLabel = label;
-  
-  CCNode *node = [CCNode node];
-  
-  for (int i = 0; i < rewards.count; i++) {
-    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:YES];
-    [node addChild:brn];
-    brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 44);
-    
-    node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
-  }
-  node.anchorPoint = ccp(0, 0.5);
-  node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
-  self.rewardsView = node;
-  
-  [self.rewardsScrollView removeFromSuperview];
-  self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
-  self.rewardsScrollView.delegate = self;
-  self.rewardsScrollView.backgroundColor = [UIColor clearColor];
-  self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
-  
-  [Globals displayUIView:self.rewardsScrollView];
-  self.rewardsScrollView.center = ccp(self.contentSize.width/2, 175);
-  
-  CCClippingNode *clip = [CCClippingNode clippingNode];
-  clip.contentSize = self.rewardsScrollView.frame.size;
-  clip.anchorPoint = ccp(0.5, 0.5);
-  [self.rewardsBgd addChild:clip];
-  clip.position = ccp(self.rewardsBgd.contentSize.width/2, self.rewardsBgd.contentSize.height/2-5);
-  CCDrawNode *stencil = [CCDrawNode node];
-  CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
-  [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
-  clip.stencil = stencil;
-  
-  [clip addChild:node];
-  
-  // Leave a distance on each side
-  self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
-  
-  self.stickerHead.visible = NO;
-  
-  [self scrollViewDidScroll:self.rewardsScrollView];
+//  [self.youLostHeader runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:time],
+//    [CCActionCallBlock actionWithBlock:
+//     ^{
+//       CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.5 scale:1.1];
+//       [self.youLostHeader runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:scale, scale.reverse, nil]]];
+//     }], nil]];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -221,208 +219,203 @@
   [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
 }
 
-- (void) spinnerOnManage {
-  self.manageButton.title = @"";
-  [self loadSpinnerAtCenter:[self.manageButton.parent convertToWorldSpace:self.manageButton.position]];
-}
-
 @end
 
-@implementation BattleWonView
-
-- (void) didLoadFromCCB {
-  //self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-  self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
-  
-  self.tipLabel.fontName = @"Whitney-Semibold";
-  self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
-}
-
-- (void) onExitTransitionDidStart {
-  [self.rewardsScrollView removeFromSuperview];
-  [self.loadingSpinner removeFromSuperview];
-  
-  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
-  clip.stencil = nil;
-  
-  [super onExitTransitionDidStart];
-}
-
-- (void) updateForRewards:(NSArray *)rewards {
-  if (!rewards.count) {
-    return;
-  }
-  
-  CCNode *node = [CCNode node];
-  
-  for (int i = 0; i < rewards.count; i++) {
-    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:NO];
-    [node addChild:brn];
-    brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 50);
-    
-    node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
-  }
-  node.anchorPoint = ccp(0, 0.5);
-  node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
-  self.rewardsView = node;
-  
-  [self.rewardsScrollView removeFromSuperview];
-  self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
-  self.rewardsScrollView.delegate = self;
-  self.rewardsScrollView.backgroundColor = [UIColor clearColor];
-  self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
-  
-  [Globals displayUIView:self.rewardsScrollView];
-  self.rewardsScrollView.center = ccp(self.contentSize.width/2, 175);
-  
-  CCClippingNode *clip = [CCClippingNode clippingNode];
-  clip.contentSize = self.rewardsScrollView.frame.size;
-  clip.anchorPoint = ccp(0.5, 0.5);
-  [self.rewardsBgd addChild:clip];
-  clip.position = ccp(self.rewardsBgd.contentSize.width/2, self.rewardsBgd.contentSize.height/2-5);
-  CCDrawNode *stencil = [CCDrawNode node];
-  CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
-  [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
-  clip.stencil = stencil;
-  
-  [clip addChild:node];
-  
-  // Leave a distance on each side
-  self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
-  
-  self.stickerHead.visible = NO;
-  
-  [self scrollViewDidScroll:self.rewardsScrollView];
-}
-
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 < self.rewardsScrollView.frame.size.width) {
-    // Smaller
-    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+self.rewardsView.parent.contentSize.width/2-self.rewardsView.contentSize.width/2, self.rewardsView.position.y);
-  } else {
-    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+REWARDSVIEW_OFFSET, self.rewardsView.position.y);
-  }
-}
-
-- (void) onEnterTransitionDidFinish {
-  [super onEnterTransitionDidFinish];
-  float firstDur = 0.4f;
-  float secondDur = 0.6f;
-  float thirdDur = 0.5f;
-  float fourthDur = 0.5f;
-  float fifthDur = 0.3f;
-  float sixthDur = 0.3f;
-  float seventhDur = 0.3f;
-  
-  self.bgdNode.opacity = 0.f;
-  [self.bgdNode runAction:[RecursiveFadeTo actionWithDuration:firstDur opacity:1.f]];
-  
-  CGPoint orig = self.headerView.position;
-  self.headerView.position = ccpAdd(orig, ccp(0, 150));
-  [self.headerView runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:firstDur],
-    [CCActionEaseBounceOut actionWithAction:[CCActionMoveTo actionWithDuration:secondDur position:orig]], nil]];
-  
-  for (int i = 0; i < self.rewardsView.children.count; i++) {
-    CCNode *n = self.rewardsView.children[i];
-    CGPoint pt = n.position;
-    n.position = ccpAdd(pt, ccp(400, 0));
-    [n recursivelyApplyOpacity:0.f];
-    [n runAction:
-     [CCActionSequence actions:
-      [CCActionDelay actionWithDuration:firstDur+secondDur+i*thirdDur],
-      [CCActionSpawn actions: [RecursiveFadeTo actionWithDuration:0.3f opacity:1.f],
-       [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:fourthDur position:pt] rate:10], nil],
-      nil]];
-  }
-  
-  if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 > self.rewardsView.parent.contentSize.width) {
-    // Scroll the rewards view with the children
-    float maxSpot = self.rewardsView.parent.contentSize.width-self.rewardsView.contentSize.width-REWARDSVIEW_OFFSET;
-    [self.rewardsView runAction:
-     [CCActionSequence actions:
-      [CCActionDelay actionWithDuration:firstDur+secondDur+thirdDur*1],
-      [CCActionEaseInOut actionWithAction:
-       [CCActionMoveTo actionWithDuration:(self.rewardsView.children.count-1)*thirdDur position:ccp(maxSpot, self.rewardsView.position.y)] rate:1.5f],
-      [CCActionCallBlock actionWithBlock:
-       ^{
-         self.rewardsScrollView.contentOffset = ccp(self.rewardsScrollView.contentSize.width-self.rewardsScrollView.frame.size.width, 0);
-         self.rewardsScrollView.userInteractionEnabled = YES;
-       }], nil]];
-    self.rewardsScrollView.userInteractionEnabled = NO;
-  }
-  
-  if (self.stickerHead.visible) {
-    self.stickerHead.scale = 0.f;
-    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur-0.1],
-                                 [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
-    self.stickerHead.rotation = -12.5;
-    CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
-    [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
-  }
-  
-  float time = firstDur+secondDur+self.rewardsView.children.count*thirdDur+fourthDur-0.2;
-  self.shareButton.scale = 0.f;
-  [self.shareButton runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:time],
-    [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:fifthDur scale:1.f]], nil]];
-  
-  time += fifthDur-0.1;
-  self.doneButton.scale = 0.f;
-  [self.doneButton runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:time],
-    [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:sixthDur scale:1.f]], nil]];
-  
-  time += sixthDur-0.1;
-  CGPoint pt = self.tipLabel.position;
-  self.tipLabel.position = ccpAdd(pt, ccp(0, -50));
-  [self.tipLabel runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:time],
-    [CCActionMoveTo actionWithDuration:seventhDur position:pt], nil]];
-  
-  time += seventhDur;
-  self.spinner.visible = NO;
-  [self.spinner runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:time],
-                           [CCActionCallBlock actionWithBlock:
-                            ^{
-                              self.spinner.visible = YES;
-                              self.spinner.opacity = 0.f;
-                            }],
-                           [CCActionFadeTo actionWithDuration:0.2f opacity:1.f], nil]];
-  [self.spinner runAction:[CCActionRepeatForever actionWithAction:[CCActionRotateBy actionWithDuration:6.f angle:180]]];
-  
-  [self.youWonHeader runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:time],
-    [CCActionCallBlock actionWithBlock:
-     ^{
-       CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.5 scale:1.1];
-       [self.youWonHeader runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:scale, scale.reverse, nil]]];
-     }], nil]];
-}
-
-- (void) loadSpinnerAtCenter:(CGPoint)center {
-  self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-  [self.loadingSpinner startAnimating];
-  [Globals displayUIView:self.loadingSpinner];
-  self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
-}
-
-- (void) spinnerOnDone {
-  self.doneButton.title = @"";
-  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
-}
-
-- (void) spinnerOnManage {
-  self.manageButton.title = @"";
-  [self loadSpinnerAtCenter:[self.manageButton.parent convertToWorldSpace:self.manageButton.position]];
-}
-
-@end
+//@implementation BattleWonView
+//
+//- (void) didLoadFromCCB {
+//  //self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+//  self.spinner.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
+//  
+//  self.tipLabel.fontName = @"Whitney-Semibold";
+//  self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
+//}
+//
+//- (void) onExitTransitionDidStart {
+//  [self.rewardsScrollView removeFromSuperview];
+//  [self.loadingSpinner removeFromSuperview];
+//  
+//  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
+//  clip.stencil = nil;
+//  
+//  [super onExitTransitionDidStart];
+//}
+//
+//- (void) updateForRewards:(NSArray *)rewards {
+//  if (!rewards.count) {
+//    return;
+//  }
+//  
+//  CCNode *node = [CCNode node];
+//  
+//  for (int i = 0; i < rewards.count; i++) {
+//    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:NO];
+//    [node addChild:brn];
+//    brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 50);
+//    
+//    node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
+//  }
+//  node.anchorPoint = ccp(0, 0.5);
+//  node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
+//  self.rewardsView = node;
+//  
+//  [self.rewardsScrollView removeFromSuperview];
+//  self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
+//  self.rewardsScrollView.delegate = self;
+//  self.rewardsScrollView.backgroundColor = [UIColor clearColor];
+//  self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
+//  
+//  [Globals displayUIView:self.rewardsScrollView];
+//  self.rewardsScrollView.center = ccp(self.contentSize.width/2, 175);
+//  
+//  CCClippingNode *clip = [CCClippingNode clippingNode];
+//  clip.contentSize = self.rewardsScrollView.frame.size;
+//  clip.anchorPoint = ccp(0.5, 0.5);
+//  [self.rewardsBgd addChild:clip];
+//  clip.position = ccp(self.rewardsBgd.contentSize.width/2, self.rewardsBgd.contentSize.height/2-5);
+//  CCDrawNode *stencil = [CCDrawNode node];
+//  CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
+//  [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+//  clip.stencil = stencil;
+//  
+//  [clip addChild:node];
+//  
+//  // Leave a distance on each side
+//  self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
+//  
+//  self.stickerHead.visible = NO;
+//  
+//  [self scrollViewDidScroll:self.rewardsScrollView];
+//}
+//
+//- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+//  if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 < self.rewardsScrollView.frame.size.width) {
+//    // Smaller
+//    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+self.rewardsView.parent.contentSize.width/2-self.rewardsView.contentSize.width/2, self.rewardsView.position.y);
+//  } else {
+//    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+REWARDSVIEW_OFFSET, self.rewardsView.position.y);
+//  }
+//}
+//
+//- (void) onEnterTransitionDidFinish {
+//  [super onEnterTransitionDidFinish];
+//  float firstDur = 0.4f;
+//  float secondDur = 0.6f;
+//  float thirdDur = 0.5f;
+//  float fourthDur = 0.5f;
+//  float fifthDur = 0.3f;
+//  float sixthDur = 0.3f;
+//  float seventhDur = 0.3f;
+//  
+//  self.bgdNode.opacity = 0.f;
+//  [self.bgdNode runAction:[RecursiveFadeTo actionWithDuration:firstDur opacity:1.f]];
+//  
+//  CGPoint orig = self.headerView.position;
+//  self.headerView.position = ccpAdd(orig, ccp(0, 150));
+//  [self.headerView runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:firstDur],
+//    [CCActionEaseBounceOut actionWithAction:[CCActionMoveTo actionWithDuration:secondDur position:orig]], nil]];
+//  
+//  for (int i = 0; i < self.rewardsView.children.count; i++) {
+//    CCNode *n = self.rewardsView.children[i];
+//    CGPoint pt = n.position;
+//    n.position = ccpAdd(pt, ccp(400, 0));
+//    [n recursivelyApplyOpacity:0.f];
+//    [n runAction:
+//     [CCActionSequence actions:
+//      [CCActionDelay actionWithDuration:firstDur+secondDur+i*thirdDur],
+//      [CCActionSpawn actions: [RecursiveFadeTo actionWithDuration:0.3f opacity:1.f],
+//       [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:fourthDur position:pt] rate:10], nil],
+//      nil]];
+//  }
+//  
+//  if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 > self.rewardsView.parent.contentSize.width) {
+//    // Scroll the rewards view with the children
+//    float maxSpot = self.rewardsView.parent.contentSize.width-self.rewardsView.contentSize.width-REWARDSVIEW_OFFSET;
+//    [self.rewardsView runAction:
+//     [CCActionSequence actions:
+//      [CCActionDelay actionWithDuration:firstDur+secondDur+thirdDur*1],
+//      [CCActionEaseInOut actionWithAction:
+//       [CCActionMoveTo actionWithDuration:(self.rewardsView.children.count-1)*thirdDur position:ccp(maxSpot, self.rewardsView.position.y)] rate:1.5f],
+//      [CCActionCallBlock actionWithBlock:
+//       ^{
+//         self.rewardsScrollView.contentOffset = ccp(self.rewardsScrollView.contentSize.width-self.rewardsScrollView.frame.size.width, 0);
+//         self.rewardsScrollView.userInteractionEnabled = YES;
+//       }], nil]];
+//    self.rewardsScrollView.userInteractionEnabled = NO;
+//  }
+//  
+//  if (self.stickerHead.visible) {
+//    self.stickerHead.scale = 0.f;
+//    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur-0.1],
+//                                 [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
+//    self.stickerHead.rotation = -12.5;
+//    CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
+//    [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
+//  }
+//  
+//  float time = firstDur+secondDur+self.rewardsView.children.count*thirdDur+fourthDur-0.2;
+//  self.shareButton.scale = 0.f;
+//  [self.shareButton runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:time],
+//    [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:fifthDur scale:1.f]], nil]];
+//  
+//  time += fifthDur-0.1;
+//  self.doneButton.scale = 0.f;
+//  [self.doneButton runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:time],
+//    [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:sixthDur scale:1.f]], nil]];
+//  
+//  time += sixthDur-0.1;
+//  CGPoint pt = self.tipLabel.position;
+//  self.tipLabel.position = ccpAdd(pt, ccp(0, -50));
+//  [self.tipLabel runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:time],
+//    [CCActionMoveTo actionWithDuration:seventhDur position:pt], nil]];
+//  
+//  time += seventhDur;
+//  self.spinner.visible = NO;
+//  [self.spinner runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:time],
+//                           [CCActionCallBlock actionWithBlock:
+//                            ^{
+//                              self.spinner.visible = YES;
+//                              self.spinner.opacity = 0.f;
+//                            }],
+//                           [CCActionFadeTo actionWithDuration:0.2f opacity:1.f], nil]];
+//  [self.spinner runAction:[CCActionRepeatForever actionWithAction:[CCActionRotateBy actionWithDuration:6.f angle:180]]];
+//  
+//  [self.youWonHeader runAction:
+//   [CCActionSequence actions:
+//    [CCActionDelay actionWithDuration:time],
+//    [CCActionCallBlock actionWithBlock:
+//     ^{
+//       CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.5 scale:1.1];
+//       [self.youWonHeader runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:scale, scale.reverse, nil]]];
+//     }], nil]];
+//}
+//
+//- (void) loadSpinnerAtCenter:(CGPoint)center {
+//  self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+//  [self.loadingSpinner startAnimating];
+//  [Globals displayUIView:self.loadingSpinner];
+//  self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
+//}
+//
+//- (void) spinnerOnDone {
+//  self.doneButton.title = @"";
+//  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
+//}
+//
+//- (void) spinnerOnManage {
+//  self.manageButton.title = @"";
+//  [self loadSpinnerAtCenter:[self.manageButton.parent convertToWorldSpace:self.manageButton.position]];
+//}
+//
+//@end
 
 @implementation BattleRewardNode
 

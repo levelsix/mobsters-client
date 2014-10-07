@@ -391,7 +391,8 @@
 
 #else
 	// setup DisplayLink in main thread
-	[_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+  // LVL6 Addition - Changed for using scroll view with clipping node.
+	[_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 #endif
 
     _animating = YES;

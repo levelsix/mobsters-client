@@ -39,8 +39,9 @@
 
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {
   [[[CCDirector sharedDirector] runningScene] addChild:self];
-  self.anchorPoint = ccp(0.5, 0.5);
-  self.position = ccp(self.parent.contentSize.width/2, self.parent.contentSize.height/2);
+  
+  self.bgdNode.scale = MAX(self.parent.contentSize.height/self.bgdNode.contentSize.height,
+                           self.parent.contentSize.width/self.bgdNode.contentSize.width);
   
   [self.shareNode recursivelyApplyOpacity:0];
   [self.continueButton recursivelyApplyOpacity:0];
@@ -48,10 +49,9 @@
   CCSprite *stencil = [CCSprite spriteWithImageNamed:@"prizesbg.png"];
   CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
   clip.contentSize = stencil.contentSize;
-  clip.alphaThreshold = 0.1;
   clip.anchorPoint = ccp(0.5, 0.5);
   clip.position = self.rewardsBgd.position;
-  [self addChild:clip];
+  [self.rewardsBgd.parent addChild:clip];
   stencil.position = ccp(clip.contentSize.width/2, clip.contentSize.height/2);
   
   [self.rewardsBgd removeFromParentAndCleanup:NO];
@@ -84,12 +84,13 @@
     [CCActionMoveBy actionWithDuration:duration position:ccp(amtToMove, 0)],
     [RecursiveFadeTo actionWithDuration:duration opacity:1.f], nil]];
   
-  self.continueButton.position = ccpAdd(self.continueButton.position, ccp(amtToMove, 0));
+  CGPoint prevPosition = self.continueButton.position;
+  self.continueButton.positionInPoints = ccpAdd(self.continueButton.positionInPoints, ccp(amtToMove, 0));
   [self.continueButton runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:duration],
     [CCActionSpawn actions:
-     [CCActionMoveBy actionWithDuration:duration position:ccp(-amtToMove, 0)],
+     [CCActionMoveTo actionWithDuration:duration position:prevPosition],
      [RecursiveFadeTo actionWithDuration:duration opacity:1.f], nil], nil]];
   
   [self runAction:

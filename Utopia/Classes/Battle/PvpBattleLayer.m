@@ -64,7 +64,7 @@
   [super youWon];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp] isWin:YES];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES delegate:self];
 }
 
@@ -72,15 +72,8 @@
   [super youLost];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
+  [self.endView updateForRewards:nil isWin:NO];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO delegate:self];
-}
-
-- (IBAction)manageClicked:(id)sender {
-  if (!_waitingForEndPvpResponse) {
-    _manageWasClicked = YES;
-    [self winExitClicked:nil];
-  }
 }
 
 - (IBAction)forfeitClicked:(id)sender {
@@ -116,13 +109,7 @@
     if (!_receivedEndPvpResponse) {
       _waitingForEndPvpResponse = YES;
       
-      if (_manageWasClicked) {
-        [self.wonView spinnerOnManage];
-        [self.lostView spinnerOnManage];
-      } else {
-        [self.wonView spinnerOnDone];
-        [self.lostView spinnerOnDone];
-      }
+        [self.endView spinnerOnDone];
     } else {
       [self exitFinal];
     }
@@ -164,7 +151,7 @@
 - (void) loadQueueNode {
   [CCBReader load:@"BattleQueueNode" owner:self];
   [self addChild:self.queueNode z:10000];
-  self.queueNode.position = ccp(self.contentSize.width, 0);
+  self.queueNode.visible = NO;
 }
 
 - (void) displayQueueNode {
@@ -175,7 +162,9 @@
     
     PvpProto *pvp = self.defendersList[_curQueueNum];
     [self.queueNode updateForPvpProto:pvp];
-    self.queueNode.position = ccp(self.contentSize.width-self.queueNode.contentSize.width,0);
+    self.queueNode.visible = YES;
+    self.queueNode.position = ccp(self.contentSize.width-self.queueNode.contentSize.width, self.contentSize.height/2-self.queueNode.contentSize.height/2);
+    self.queueNode.gradientNode.scaleY = self.contentSize.height/self.queueNode.gradientNode.contentSize.height;
     [self.queueNode fadeInAnimationForIsRevenge:_isRevenge];
     
     [SoundEngine puzzlePvpQueueUISlideIn];

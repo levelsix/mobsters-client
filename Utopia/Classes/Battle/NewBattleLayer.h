@@ -79,7 +79,6 @@
   BOOL _puzzleIsOnLeft;
   
   BOOL _wonBattle;
-  BOOL _manageWasClicked;
   int _numTimesNotResponded;
   
   int _myDamageDealt;
@@ -131,8 +130,7 @@
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
 
-@property (nonatomic, retain) BattleLostView *lostView;
-@property (nonatomic, retain) BattleWonView *wonView;
+@property (nonatomic, retain) BattleEndView *endView;
 
 @property (nonatomic, retain) IBOutlet BattleHudView *hudView;
 
@@ -200,7 +198,6 @@
 - (NSDictionary *) battleCompleteValues;
 
 - (IBAction)winExitClicked:(id)sender;
-- (IBAction)manageClicked:(id)sender;
 - (IBAction)shareClicked:(id)sender;
 
 

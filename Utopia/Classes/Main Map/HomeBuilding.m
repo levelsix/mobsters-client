@@ -375,9 +375,9 @@
 
 - (NSString *) progressBarPrefix {
   if (![self isFreeSpeedup]) {
-    return @"building";
+    return @"obtimeryellow";
   } else {
-    return @"instant";
+    return @"obtimerpurple";
   }
 }
 
@@ -673,9 +673,9 @@
     return [super progressBarPrefix];
   } else {
     if (![self isFreeSpeedup]) {
-      return @"healing";
+      return @"obtimergreen";
     } else {
-      return @"instant";
+      return @"obtimerpurple";
     }
   }
 }
@@ -763,7 +763,7 @@
   if (self.isConstructing) {
     return [super progressBarPrefix];
   } else {
-    return @"healing";
+    return @"obtimergreen";
   }
 }
 
@@ -824,9 +824,9 @@
     return [super progressBarPrefix];
   } else {
     if (![self isFreeSpeedup]) {
-      return @"healing";
+      return @"obtimergreen";
     } else {
-      return @"instant";
+      return @"obtimerpurple";
     }
   }
 }
@@ -927,9 +927,9 @@
     return [super progressBarPrefix];
   } else {
     if (![self isFreeSpeedup]) {
-      return @"healing";
+      return @"obtimergreen";
     } else {
-      return @"instant";
+      return @"obtimerpurple";
     }
   }
 }

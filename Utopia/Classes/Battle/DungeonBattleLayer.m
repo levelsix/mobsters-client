@@ -50,7 +50,7 @@
 
 - (void) youWon {
   [super youWon];
-  [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums]];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo droplessStageNums:self.droplessStageNums] isWin:YES];
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
   
@@ -59,7 +59,7 @@
 
 - (void) youLost {
   [super youLost];
-  [self.lostView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums]];
+  [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO];
   
   [self saveCurrentState];
 }
@@ -241,23 +241,10 @@
     if (!_receivedEndDungeonResponse) {
       _waitingForEndDungeonResponse = YES;
       
-      if (_manageWasClicked) {
-        [self.wonView spinnerOnManage];
-        [self.lostView spinnerOnManage];
-      } else {
-        [self.wonView spinnerOnDone];
-        [self.lostView spinnerOnDone];
-      }
+      [self.endView spinnerOnDone];
     } else {
       [self exitFinal];
     }
-  }
-}
-
-- (IBAction)manageClicked:(id)sender {
-  if (!_waitingForEndDungeonResponse) {
-    _manageWasClicked = YES;
-    [self winExitClicked:nil];
   }
 }
 

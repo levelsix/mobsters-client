@@ -126,7 +126,7 @@
 }
 
 - (NSString *) progressBarPrefix {
-  return @"building";
+  return @"obtimeryellow";
 }
 
 - (void) displayProgressBar {

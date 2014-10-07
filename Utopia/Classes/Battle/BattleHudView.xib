@@ -173,7 +173,7 @@
                                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="Z7a-66-Mow">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="Z7a-66-Mow">
                                                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -250,7 +250,7 @@
                                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="doF-Dd-DtI">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="doF-Dd-DtI">
                                                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -327,7 +327,7 @@
                                             <rect key="frame" x="6" y="6" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="vpr-4s-xKZ">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="vpr-4s-xKZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -419,7 +419,7 @@
         <image name="dottedsmallsquare.png" width="42" height="42"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
-        <image name="fireteam.png" width="42" height="42"/>
+        <image name="firesmallsquare.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>
         <image name="movesqueuebgwide.png" width="234" height="62"/>

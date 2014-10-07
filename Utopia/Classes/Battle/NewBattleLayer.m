@@ -1403,12 +1403,10 @@
 }
 
 - (void) youWon {
-  [CCBReader load:@"BattleWonView" owner:self];
   [self endBattle:YES];
 }
 
 - (void) youLost {
-  [CCBReader load:@"BattleLostView" owner:self];
   [self endBattle:NO];
 }
 
@@ -1417,6 +1415,8 @@
 }
 
 - (void) endBattle:(BOOL)won {
+  [CCBReader load:@"BattleEndView" owner:self];
+  
   _wonBattle = won;
   
   [self.hudView removeButtons];
@@ -1425,19 +1425,22 @@
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
+    
+    [self addChild:self.endView z:10000];
+    
+//    self.endView.anchorPoint = ccp(0.5, 0.5);
+//    self.endView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    
     if (won) {
-      [self addChild:self.wonView z:10000];
-      
-      self.wonView.anchorPoint = ccp(0.5, 0.5);
-      self.wonView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      [self.endView.continueButton removeFromParent];
       
       [SoundEngine puzzleYouWon];
     } else {
-      [self addChild:self.lostView z:10000];
-      self.lostView.anchorPoint = ccp(0.5, 0.5);
-      if ([self shouldShowContinueButton]) [self.lostView.shareButton removeFromParent];
-      else [self.lostView.continueButton removeFromParent];
-      self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      if ([self shouldShowContinueButton]) {
+         [self.endView.shareButton removeFromParent];
+      } else {
+        [self.endView.continueButton removeFromParent];
+      }
       
       [SoundEngine puzzleYouLose];
     }
@@ -1887,14 +1890,6 @@
 }
 
 - (IBAction)winExitClicked:(id)sender {
-  _manageWasClicked = NO;
-  [self exitFinal];
-  
-  [SoundEngine generalButtonClick];
-}
-
-- (IBAction)manageClicked:(id)sender {
-  _manageWasClicked = YES;
   [self exitFinal];
   
   [SoundEngine generalButtonClick];
@@ -1906,7 +1901,7 @@
     
     [self.hudView removeButtons];
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict addEntriesFromDictionary:[self battleCompleteValues]];
     [self.delegate battleComplete:dict];
     
@@ -1941,7 +1936,7 @@
 }
 
 - (void) continueConfirmed {
-  [self.lostView removeFromParent];
+  [self.endView removeFromParent];
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];

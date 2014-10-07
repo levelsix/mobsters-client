@@ -41,10 +41,9 @@
 @implementation UpgradeProgressBar
 
 - (id) initBarWithPrefix:(NSString *)prefix {
-  if ((self = [super initWithImageNamed:@"overbuildingtimer.png"])) {
+  if ((self = [super initWithImageNamed:@"obtimerbg.png"])) {
     self.prefix = prefix;
     
-    prefix = @"orangeoverbuilding";
     self.leftCap = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"cap.png"]];
     self.rightCap = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"cap.png"]];
     self.middleBar = [CCSprite spriteWithImageNamed:[prefix stringByAppendingString:@"middle.png"]];

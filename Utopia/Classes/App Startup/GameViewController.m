@@ -1217,7 +1217,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) checkLevelUp {
   //[self checkPvpRankUp];
   
-  if ([CCDirector sharedDirector].isAnimating) {
+  if ([CCDirector sharedDirector].runningScene) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {

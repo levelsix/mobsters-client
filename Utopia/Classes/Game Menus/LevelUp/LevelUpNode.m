@@ -13,7 +13,7 @@
 
 - (void) animateWithCompletionBlock:(dispatch_block_t)completion {
   [[[CCDirector sharedDirector] runningScene] addChild:self];
-  self.position = ccp(self.parent.contentSize.width/2-self.contentSize.width/2, 0);
+  self.position = ccp(self.parent.contentSize.width/2-self.contentSize.width/2, self.parent.contentSize.height/2-self.contentSize.height/2);
   
   _completion = completion;
 }
