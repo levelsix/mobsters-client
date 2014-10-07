@@ -929,9 +929,6 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *rewards = [NSMutableArray array];
   
-#warning change back
-  stageNum = 10;
-  
   int silverAmount = 0, oilAmount = 0, expAmount = 0;
   for (int i = 0; i <= stageNum && i < proto.tspList.count; i++) {
     TaskStageProto *tsp = proto.tspList[i];
@@ -943,10 +940,6 @@
       if (![droplessStageNums containsObject:@(i)]) {
         if (tsm.puzzlePieceDropped) {
           Reward *r = [[Reward alloc] initWithMonsterId:tsm.puzzlePieceMonsterId isPuzzlePiece:tsm.puzzlePieceMonsterDropLvl == 0];
-          [rewards addObject:r];
-          [rewards addObject:r];
-          [rewards addObject:r];
-          [rewards addObject:r];
           [rewards addObject:r];
         } else if (tsm.hasItemId) {
           Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
@@ -973,10 +966,6 @@
   
   if (silverAmount) {
     Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
-    [rewards addObject:r];
-    [rewards addObject:r];
-    [rewards addObject:r];
-    [rewards addObject:r];
     [rewards addObject:r];
   }
   if (oilAmount) {

@@ -10,6 +10,8 @@
 @class BeginMiniJobRequestProto_Builder;
 @class BeginMiniJobResponseProto;
 @class BeginMiniJobResponseProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class CompleteMiniJobRequestProto;
 @class CompleteMiniJobRequestProto_Builder;
 @class CompleteMiniJobResponseProto;

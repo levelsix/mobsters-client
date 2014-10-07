@@ -27,6 +27,12 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanHelpNoticeProto;
+@class ClanHelpNoticeProto_Builder;
+@class ClanHelpProto;
+@class ClanHelpProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
 @class ClanRaidProto;
@@ -200,35 +206,36 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableSkillsList;
-  NSMutableArray* mutableAchievementsList;
-  NSMutableArray* mutableLeaguesList;
-  NSMutableArray* mutableClanIconsList;
-  NSMutableArray* mutableObstaclesList;
-  NSMutableArray* mutableItemsList;
-  NSMutableArray* mutablePersistentClanEventsList;
-  NSMutableArray* mutableRaidsList;
-  NSMutableArray* mutableMbdsList;
-  NSMutableArray* mutablePersistentEventsList;
-  NSMutableArray* mutableAllTeamCentersList;
-  NSMutableArray* mutableAllEvoChambersList;
-  NSMutableArray* mutableAllMiniJobCentersList;
+  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableAllTasksList;
+  NSMutableArray* mutableAllTaskMapElementsList;
+  NSMutableArray* mutableAllMonstersList;
+  NSMutableArray* mutableSlipList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableUnredeemedQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableBoosterPacksList;
+  NSMutableArray* mutableAllGeneratorsList;
+  NSMutableArray* mutableAllStoragesList;
+  NSMutableArray* mutableAllHospitalsList;
+  NSMutableArray* mutableAllResidencesList;
   NSMutableArray* mutableAllTownHallsList;
   NSMutableArray* mutableAllLabsList;
-  NSMutableArray* mutableAllResidencesList;
-  NSMutableArray* mutableAllHospitalsList;
-  NSMutableArray* mutableAllStoragesList;
-  NSMutableArray* mutableAllGeneratorsList;
-  NSMutableArray* mutableBoosterPacksList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableSlipList;
-  NSMutableArray* mutableAllMonstersList;
-  NSMutableArray* mutableAllTaskMapElementsList;
-  NSMutableArray* mutableAllTasksList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableAllMiniJobCentersList;
+  NSMutableArray* mutableAllEvoChambersList;
+  NSMutableArray* mutableAllTeamCentersList;
+  NSMutableArray* mutableAllClanHousesList;
+  NSMutableArray* mutablePersistentEventsList;
+  NSMutableArray* mutableMbdsList;
+  NSMutableArray* mutableRaidsList;
+  NSMutableArray* mutablePersistentClanEventsList;
+  NSMutableArray* mutableItemsList;
+  NSMutableArray* mutableObstaclesList;
+  NSMutableArray* mutableClanIconsList;
+  NSMutableArray* mutableLeaguesList;
+  NSMutableArray* mutableAchievementsList;
+  NSMutableArray* mutableSkillsList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
@@ -260,16 +267,18 @@
 - (HospitalProto*) allHospitalsAtIndex:(int32_t) index;
 - (NSArray*) allResidencesList;
 - (ResidenceProto*) allResidencesAtIndex:(int32_t) index;
-- (NSArray*) allLabsList;
-- (LabProto*) allLabsAtIndex:(int32_t) index;
 - (NSArray*) allTownHallsList;
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
+- (NSArray*) allLabsList;
+- (LabProto*) allLabsAtIndex:(int32_t) index;
 - (NSArray*) allMiniJobCentersList;
 - (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
 - (NSArray*) allEvoChambersList;
 - (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index;
 - (NSArray*) allTeamCentersList;
 - (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index;
+- (NSArray*) allClanHousesList;
+- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index;
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
 - (NSArray*) mbdsList;
@@ -430,19 +439,19 @@
 - (StaticDataProto_Builder*) addAllAllResidences:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllResidencesList;
 
-- (NSArray*) allLabsList;
-- (LabProto*) allLabsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value;
-- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value;
-- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllLabsList;
-
 - (NSArray*) allTownHallsList;
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
 - (StaticDataProto_Builder*) replaceAllTownHallsAtIndex:(int32_t) index with:(TownHallProto*) value;
 - (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value;
 - (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTownHallsList;
+
+- (NSArray*) allLabsList;
+- (LabProto*) allLabsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value;
+- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value;
+- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllLabsList;
 
 - (NSArray*) allMiniJobCentersList;
 - (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
@@ -464,6 +473,13 @@
 - (StaticDataProto_Builder*) addAllTeamCenters:(TeamCenterProto*) value;
 - (StaticDataProto_Builder*) addAllAllTeamCenters:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTeamCentersList;
+
+- (NSArray*) allClanHousesList;
+- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllClanHousesAtIndex:(int32_t) index with:(ClanHouseProto*) value;
+- (StaticDataProto_Builder*) addAllClanHouses:(ClanHouseProto*) value;
+- (StaticDataProto_Builder*) addAllAllClanHouses:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllClanHousesList;
 
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;

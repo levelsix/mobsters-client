@@ -6,6 +6,8 @@
 #import "Structure.pb.h"
 #import "User.pb.h"
 
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EarnFreeDiamondsRequestProto;

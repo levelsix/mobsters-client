@@ -8,6 +8,8 @@
 
 #import "MiniJobsListViewController.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
+#import "GenericPopupController.h"
 
 #define SPACING_PER_NODE 46.f
 
@@ -105,12 +107,24 @@
 
 @implementation MiniJobsListViewController
 
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  self.title = @"MINI JOBS";
+  self.titleImageName = @"minijobsbuilding.png";
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   [self reloadTableAnimated:NO];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  UserMiniJob *activeJob = [self activeMiniJob];
+  if (activeJob.timeCompleted) {
+    [self displayCompleteView:activeJob animated:NO];
+  }
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(miniJobWaitTimeComplete:) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
@@ -152,8 +166,13 @@
 }
 
 - (void) miniJobWaitTimeComplete:(NSNotification *)notif {
-  if (!notif.object) {
-    [self reloadTableAnimated:NO];
+  if (notif.object != self) {
+    UserMiniJob *mjp = [self activeMiniJob];
+    self.detailsViewController.activeMiniJob = mjp;
+    [self reloadTableAnimated:YES];
+    if (mjp.timeCompleted) {
+      [self displayCompleteView:[self activeMiniJob] animated:YES];
+    }
   }
 }
 
@@ -214,7 +233,7 @@
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   
   MiniJobsListCell *cell = (MiniJobsListCell *)[tableView cellForRowAtIndexPath:indexPath];
-  [self.delegate miniJobsListCellClicked:cell];
+  [self miniJobsListCellClicked:cell];
 }
 
 - (IBAction) collectClicked:(UIView *)sender {
@@ -223,7 +242,7 @@
   }
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
-  [self.delegate miniJobsListCollectClicked:cell];
+  [self miniJobsListCollectClicked:cell];
 }
 
 - (IBAction) finishClicked:(UIView *)sender {
@@ -232,7 +251,222 @@
   }
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
-  [self.delegate miniJobsListFinishClicked:cell];
+  [self miniJobsListFinishClicked:cell];
+}
+
+#pragma mark - Transitioning
+
+- (void) transitionToDetailsView {
+  [self.parentViewController pushViewController:self.detailsViewController animated:YES];
+}
+
+- (void) transitionToListView {
+  if (self.detailsViewController) {
+    // Set to nil first or else pop will chain viewWillAppear which will try to displayCompleteView again.
+    self.detailsViewController = nil;
+    [self.parentViewController popViewControllerAnimated:YES];
+  }
+}
+
+- (void) displayCompleteView:(UserMiniJob *)miniJob animated:(BOOL)animated {
+  if (!self.completeViewController) {
+    MiniJobsCompleteViewController *comp = [[MiniJobsCompleteViewController alloc] init];
+    [comp loadForMiniJob:miniJob];
+    comp.delegate = self;
+    self.completeViewController = comp;
+    
+    // Add it right on top of list view so it will transition back from details view
+    [self addChildViewController:comp];
+    comp.view.frame = self.view.bounds;
+    [self.view addSubview:comp.view];
+    
+    if (self.detailsViewController) {
+      [self transitionToListView];
+    } else {
+      if (animated) {
+        comp.view.alpha = 0.f;
+        [UIView animateWithDuration:0.3f animations:^{
+          comp.view.alpha = 1.f;
+        }];
+      }
+    }
+    
+  }
+}
+
+- (void) removeCompleteView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.completeViewController.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.completeViewController.view removeFromSuperview];
+    [self.completeViewController removeFromParentViewController];
+    self.completeViewController = nil;
+  }];
+}
+
+#pragma mark - MiniJobsListDelegate
+
+- (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell {
+  if (!listCell.userMiniJob.timeStarted && !_selectedCell) {
+    [self loadDetailsViewForMiniJob:listCell.userMiniJob];
+  }
+}
+
+- (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell {
+  if (!_selectedCell) {
+    [[OutgoingEventController sharedOutgoingEventController] redeemMiniJob:listCell.userMiniJob delegate:self];
+    [listCell spinCollect];
+    _selectedCell = listCell;
+    
+    [self.detailsViewController beginCollectSpinning];
+    [self.completeViewController beginSpinning]; 
+  }
+}
+
+- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell {
+  if (!_selectedCell) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    
+    MSDate *date = [listCell.userMiniJob.timeStarted dateByAddingTimeInterval:listCell.userMiniJob.durationMinutes*60];
+    int timeLeft = [date timeIntervalSinceNow];
+    
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    if (gs.gems < gemCost) {
+      [GenericPopupController displayNotEnoughGemsView];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:listCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];
+      [listCell spinFinish];
+      _selectedCell = listCell;
+      
+      [self.detailsViewController beginFinishSpinning];
+    }
+  }
+}
+
+- (UserMiniJob *) activeMiniJob {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (UserMiniJob *miniJob in gs.myMiniJobs) {
+    if (miniJob.timeStarted || miniJob.timeCompleted) {
+      return miniJob;
+    }
+  }
+  return nil;
+}
+
+- (void) loadDetailsViewForMiniJob:(UserMiniJob *)miniJob {
+  self.detailsViewController = [[MiniJobsDetailsViewController alloc] initWithMiniJob:miniJob];
+  self.detailsViewController.delegate = self;
+  
+  [self transitionToDetailsView];
+  
+  self.detailsViewController.activeMiniJob = [self activeMiniJob];
+}
+
+- (IBAction)backClicked:(id)sender {
+  if (!_isBeginningJob) {
+    [self transitionToListView];
+    _selectedCell = nil;
+  }
+}
+
+#pragma mark - MiniJobsDetailsDelegate
+
+- (void) beginMiniJob:(UserMiniJob *)miniJob withUserMonsters:(NSArray *)userMonsters {
+  if (!_isBeginningJob) {
+    Globals *gl = [Globals sharedGlobals];
+    NSMutableArray *arr = [NSMutableArray array];
+    int totalHp = 0, totalAtk = 0;
+    int reqHp = miniJob.miniJob.hpRequired, reqAtk = miniJob.miniJob.atkRequired;
+    for (UserMonster *um in userMonsters) {
+      [arr addObject:@(um.userMonsterId)];
+      
+      totalHp += um.curHealth;
+      totalAtk += [gl calculateTotalDamageForMonster:um];
+    }
+    if (totalHp >= reqHp && totalAtk >= reqAtk) {
+      [[OutgoingEventController sharedOutgoingEventController] beginMiniJob:miniJob userMonsterIds:arr delegate:self];
+      _isBeginningJob = YES;
+      
+      [self.detailsViewController beginEngageSpinning];
+    } else {
+      if (userMonsters.count == 0) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You must select %@s before engaging.", MONSTER_NAME]];
+      } else {
+        if (totalHp < reqHp && totalAtk < reqAtk) {
+          [Globals addAlertNotification:@"You need more hp and attack to engage."];
+        } else if (totalHp < reqHp) {
+          [Globals addAlertNotification:@"You need more hp to engage."];
+        } else if (totalAtk < reqAtk) {
+          [Globals addAlertNotification:@"You need more attack to engage."];
+        }
+      }
+    }
+  }
+}
+
+- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob {
+  NSUInteger idx = [self.miniJobsList indexOfObject:miniJob];
+  if (idx != NSNotFound) {
+    MiniJobsListCell *listCell = (MiniJobsListCell *)[self.listTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+    if (!listCell) {
+      listCell = [[MiniJobsListCell alloc] init];
+      listCell.userMiniJob = miniJob;
+    }
+    [self miniJobsListFinishClicked:listCell];
+  }
+}
+
+- (void) activeMiniJobCompleted:(UserMiniJob *)miniJob {
+  NSUInteger idx = [self.miniJobsList indexOfObject:miniJob];
+  if (idx != NSNotFound) {
+    MiniJobsListCell *listCell = (MiniJobsListCell *)[self.listTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+    if (!listCell) {
+      listCell = [[MiniJobsListCell alloc] init];
+      listCell.userMiniJob = miniJob;
+    }
+    [self miniJobsListCollectClicked:listCell];
+  }
+}
+
+#pragma mark - Event response delegate methods
+
+- (void) handleBeginMiniJobResponseProto:(FullEvent *)fe {
+  _isBeginningJob = NO;
+  [self.detailsViewController stopSpinning];
+  [self transitionToListView];
+  _selectedCell = nil;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
+}
+
+- (void) handleCompleteMiniJobResponseProto:(FullEvent *)fe {
+  [_selectedCell stopSpinners];
+  [_selectedCell updateForMiniJob:_selectedCell.userMiniJob];
+  _selectedCell = nil;
+  
+  [self.detailsViewController stopSpinning];
+  self.detailsViewController.activeMiniJob = [self activeMiniJob];
+  [self displayCompleteView:[self activeMiniJob] animated:YES];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+}
+
+- (void) handleRedeemMiniJobResponseProto:(FullEvent *)fe {
+  [_selectedCell stopSpinners];
+  _selectedCell = nil;
+  
+  [self.detailsViewController stopSpinning];
+  self.detailsViewController.activeMiniJob = [self activeMiniJob];
+  [self.completeViewController stopSpinning];
+  [self removeCompleteView];
+  
+  [self reloadTableAnimated:YES];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 
 @end

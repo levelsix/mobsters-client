@@ -30,75 +30,87 @@
 
 /*
  *
- * Current version is 1.7.2 (2014-03-12)
+ * Current version is 1.8.3 (2014-09-24)
  *
  */
-FOUNDATION_EXPORT NSString * const KamcordVersion;
+extern NSString *const KamcordVersion;
 
 /*
  *
  * The Kamcord device blacklist options.
  *
  */
-typedef enum
-{
+typedef NS_ENUM(NSUInteger, KCDeviceType) {
+    KCDeviceTypeiPod4G          = 1 << 0,
+    KCDeviceTypeiPod5G          = 1 << 1,
+    
+    KCDeviceTypeiPhone3GS       = 1 << 2,
+    KCDeviceTypeiPhone4         = 1 << 3,
+    KCDeviceTypeiPhone4S        = 1 << 4,
+    KCDeviceTypeiPhone5         = 1 << 5,
+    KCDeviceTypeiPhone5C        = 1 << 6,
+    KCDeviceTypeiPhone5S        = 1 << 7,
+    KCDeviceTypeiPhone6         = 1 << 15,
+    KCDevicetypeiPhone6Plus     = 1 << 16,
+    
+    KCDeviceTypeiPad1           = 1 << 8,
+    KCDeviceTypeiPad2           = 1 << 9,
+    KCDeviceTypeiPadMini        = 1 << 10,
+    KCDeviceTypeiPad3           = 1 << 11,
+    KCDeviceTypeiPad4           = 1 << 12,
+    KCDeviceTypeiPadAir         = 1 << 13,
+    KCDeviceTypeiPadMiniRetina  = 1 << 14,
+    
+    KCDeviceTypeSingleCore      = (KCDeviceTypeiPod4G | KCDeviceTypeiPhone3GS | KCDeviceTypeiPhone4 | KCDeviceTypeiPad1)
+};
+
+/*
+ *
+ * Previous enum, present here and deprecated for compatibility
+ *
+ */
+__deprecated typedef enum {
     KC_DEVICE_TYPE_IPOD_4G          = 1 << 0,
     KC_DEVICE_TYPE_IPOD_5G          = 1 << 1,
     KC_DEVICE_TYPE_IPHONE_3GS       = 1 << 2,
     KC_DEVICE_TYPE_IPHONE_4         = 1 << 3,
     KC_DEVICE_TYPE_IPHONE_4S        = 1 << 4,
     KC_DEVICE_TYPE_IPHONE_5         = 1 << 5,
-    KC_DEVICE_TYPE_IPHONE_5S        = 1 << 6,
-    KC_DEVICE_TYPE_IPAD_1           = 1 << 7,
-    KC_DEVICE_TYPE_IPAD_2           = 1 << 8,
-    KC_DEVICE_TYPE_IPAD_MINI        = 1 << 9,
-    KC_DEVICE_TYPE_IPAD_3           = 1 << 10,
-    KC_DEVICE_TYPE_IPAD_4           = 1 << 11,
-    KC_DEVICE_TYPE_IPAD_AIR         = 1 << 12,
-    
+    KC_DEVICE_TYPE_IPHONE_5C        = 1 << 6,
+    KC_DEVICE_TYPE_IPHONE_5S        = 1 << 7,
+    KC_DEVICE_TYPE_IPAD_1           = 1 << 8,
+    KC_DEVICE_TYPE_IPAD_2           = 1 << 9,
+    KC_DEVICE_TYPE_IPAD_MINI        = 1 << 10,
+    KC_DEVICE_TYPE_IPAD_3           = 1 << 11,
+    KC_DEVICE_TYPE_IPAD_4           = 1 << 12,
+    KC_DEVICE_TYPE_IPAD_AIR         = 1 << 13,
     // Equivalent to (KC_DEVICE_TYPE_IPOD_4G | KC_DEVICE_TYPE_IPHONE_3GS | KC_DEVICE_TYPE_IPHONE_4 | KC_DEVICE_TYPE_IPAD_1)
-    KC_DEVICE_TYPE_SINGLE_CORE      = (1 << 0 | 1 << 2 | 1 << 3 | 1 << 7)
+    KC_DEVICE_TYPE_SINGLE_CORE      = (1 << 0 | 1 << 2 | 1 << 3 | 1 << 8)
 } KC_DEVICE_TYPE;
 
+
 /*
- *
- * This has been removed as of version 1.7.0. This enum is here for legacy reasons
- * and will be removed in a future release.
+ * 
+ * The various screens of the Kamcord UI.
  *
  */
-typedef enum
-{
-    KC_NAV_BAR = 0,
-    KC_NAV_BAR_TEXT_COLOR,
-    KC_TAB_BAR,
-    KC_BACKGROUND,
-    KC_BACKGROUND_TALL,
-    KC_TAB_BAR_SELECTED_COLOR,
-    KC_TOOLBAR_BACK_BUTTON,
-    KC_TOOLBAR_BACK_BUTTON_LANDSCAPE,
-    KC_TOOLBAR_DONE_BUTTON,
-    KC_TOOLBAR_DONE_BUTTON_LANDSCAPE,
-    KC_TOOLBAR_DONE_BUTTON_TEXT_COLOR,
-    KC_TABLE_CELL_BACKGROUND_COLOR,
-    KC_TABLE_CELL_TEXT_COLOR,
-    KC_TOOLBAR_SHARE_BUTTON,
-    KC_TOOLBAR_SHARE_BUTTON_LANDSCAPE,
-    KC_TOOLBAR_SHARE_BUTTON_TEXT_COLOR,
-    KC_MAIN_SHARE_BUTTON,
-    KC_MAIN_SHARE_BUTTON_TEXT_COLOR,
-    KC_SHARE_TITLE_PLACEHOLDER_TEXT_COLOR,
-    KC_SHARE_TITLE_TEXT_COLOR,
-    KC_SHARE_GRID_LABEL_COLOR,
-    KC_THUMBNAIL_CELL_COLOR,
-    KC_TABLE_CELL_SPLIT_COLOR,
-    KC_POWERED_BY_KAMCORD_COLOR,
-    KC_SETTINGS_SIGN_IN_BUTTON,
-    KC_SETTINGS_SIGN_IN_BUTTON_TEXT_COLOR,
-    KC_SETTINGS_SIGN_OUT_BUTTON,
-    KC_SETTINGS_SIGN_OUT_BUTTON_TEXT_COLOR,
-    KC_NOTIFICATION_CALL_TO_ACTION_BUTTON_TEXT,
-    KC_CROSS_PROMO_IMAGE,
-} KC_UI_COMPONENT;
+typedef NS_ENUM(NSUInteger, KCUITab) {
+    KCUITabWatch = 0,
+    KCUITabProfile,
+    KCUITabPromo,
+    KCUITabShare,
+};
+
+/*
+ *  Previous enum, present here and deprecated for compatibility
+ *
+ */
+__deprecated typedef enum {
+    KC_WATCH_TAB = 0,
+    KC_PROFILE_TAB,
+    KC_CROSS_PROMO_TAB,
+    KC_SHARE_TAB,
+} KC_UI_INITIAL_TAB;
 
 /*
  *
@@ -119,11 +131,6 @@ typedef enum
  *
  */
 + (NSString *)SDKVersion;
-
-/*
- * Deprecated version of [Kamcord SDKVersion].
- */
-+ (NSString *)kamcordSDKVersion;
 
 /*
  *
@@ -294,7 +301,7 @@ typedef enum
 /*
  *
  * Show the Kamcord watch view inside the previously set parentViewController.
- * This is identical to [Kamcord showWatchViewInViewController:[Kamcord parentViewController]].
+ * This is identical to [Kamcord showWatchViewInViewController:[Kamcord parentViewController] initialTab:KC_WATCH_TAB].
  *
  */
 + (void)showWatchView;
@@ -310,6 +317,20 @@ typedef enum
 
 /*
  *
+ * Show the Kamcord watch view inside the given UIViewController.
+ *
+ * @param       parentViewController    The UIViewController that will show the Kamcord watch view.
+ * @param       initialTab              The initial tab that will be open. Can either be the watch tab,
+ *                                      the profile tab, or the cross promotion tab if you have the cross
+ *                                      promotion feature enabled for your game. The default screen is
+ *                                      the watch screen.
+ *
+ */
++ (void)showWatchViewInViewController:(UIViewController *)parentViewController
+                           initialTab:(KCUITab)initialTab;
+
+/*
+ *
  * Is a Kamcord view showing?
  *
  * @returns     Whether or not a Kamcord view is showing.
@@ -322,7 +343,7 @@ typedef enum
  * Receive callbacks about the life of a recorded video. Please note that this
  * object is *NOT* retained by Kamcord.
  *
- * The KamcordDelegate protocol is defined in Common/Core/KamcordProtocols.h
+ * The KamcordDelegate protocol is defined in <Kamcord/KamcordProtocols.h>.
  *
  * @param       delegate        The delegate to receive Kamcord callbacks.
  *
@@ -341,12 +362,12 @@ typedef enum
 /*
  *
  * Set the quality of the recorded video. The default setting
- * is KC_STANDARD_VIDEO_QUALITY;
+ * is KCVideoQualityStandard;
  *
  * @param   quality     The desired recorded video quality.
  *
  */
-+ (void)setVideoQuality:(KC_VIDEO_QUALITY)quality;
++ (void)setVideoQuality:(KCVideoQuality)quality;
 
 /*
  *
@@ -355,7 +376,7 @@ typedef enum
  * @returns     The quality of the recorded videos.
  *
  */
-+ (KC_VIDEO_QUALITY)videoQuality;
++ (KCVideoQuality)videoQuality;
 
 /*
  *
@@ -378,21 +399,13 @@ typedef enum
 
 /*
  *
- * Returns a UIView of the thumbnail cropped to the given width and height.
- * When the thumbnail is tapped, the Kamcord UI will be shown.
+ * Is there a valid video such that [Kamcord showView] would show the Kamcord UI?
+ * Note that [Kamcord showView] is always safe to call, even if there is no video.
  *
- * @param       width                   The desired width of the thumbnail.
- * @param       height                  The desired height of the thumbnail.
- * @param       parentViewController    The UIViewController that will present the Kamcord UI
- *                                      when the thumbnail is tapped.
- *
- * @returns     A UIView which has a thumbnail of the last recorded video. When the user taps
- *              on this UIView, it will present the Kamcord UI in the given parentViewController.
+ * @returns     Whether or not there's a valid video that [Kamcord showView] could present.
  *
  */
-+ (UIView *)getThumbnailViewWithWidth:(NSUInteger)width
-                               height:(NSUInteger)height
-                 parentViewController:(UIViewController *)parentViewController;
++ (BOOL)hasValidVideo;
 
 /*
  * Returns true if there is at least one video matching the constraints
@@ -428,7 +441,6 @@ typedef enum
 + (void)showVideoWithVideoID:(NSString *)videoID
                    withTitle:(NSString *)title;
 
-
 // -------------------------------------------------------------------------
 // Audio Recording
 // -------------------------------------------------------------------------
@@ -437,10 +449,11 @@ typedef enum
  *
  * Note: This method is only to be used for non-OpenAL/Unity game engines.
  *       For cocos2d/cocos2d-x/Unity (and other OpenAL-based sound engines),
- *       Kamcord will figure out the correct asbd set it automatically.
- *       Using this method in those cases will most likely break audio recording.
+ *       Kamcord will figure out the correct AudioStreamBasicDescription and 
+ *       set it automatically. Using this method in those cases will most 
+ *       likely break audio recording.
  *
- * Declare the ASBD of the audio stream. This method MUST be called before
+ * Declare the description of the audio stream. This method MUST be called before
  * any audio data is written and before startRecording is called.
  *
  * @param       asbd        The AudioStreamBasicDescription of the byte stream to record.
@@ -450,7 +463,7 @@ typedef enum
 
 /*
  *
- * Write the live audio bytes to the recorded video. Again, this is only for custom audio engines.
+ * Write the live audio bytes to the recorded video. This is ONLY for custom audio engines.
  * If you use OpenAL or Unity's game engine, there is no need for this method.
  *
  * @param       data        A pointer to the raw PCM bytes to record into the currently recording video.
@@ -465,12 +478,15 @@ typedef enum
 // -------------------------------------------------------------------------
 // Voice Recording
 // -------------------------------------------------------------------------
+
 /*
  *
- * This enables voice recording so that either (1) your user can activate it
- * (i.e. turn on microphone voice recording) in the Kamcord Settings UI or
- * (2) you can activate it on behalf of the user by calling 
- * [Kamcord activateVoiceOverlay:YES] (defined below).
+ * This enables or disables voice recording so that either:
+ *
+ *      1. Your user can activate (i.e. turn on microphone voice recording) 
+ *          in the Kamcord Settings UI
+ *      2. You can activate it on behalf of the user by calling 
+ *          [Kamcord activateVoiceOverlay:YES] (defined below).
  *
  * The main reason this method exists is to disable voice overlay in your games
  * so that your users cannot enable voice overlay via the Kamcord Settings UI.
@@ -482,10 +498,10 @@ typedef enum
 /*
  *
  * Once voice overlay is enabled, the user must activate it by going to the
- * Kamcord Settings UI and enabling it there. You can also programatically active
- * it with the following API calls.
+ * Kamcord Settings UI and enabling it there. You can also programatically 
+ * activate it with the following API calls.
  *
- * Please note that voice overlay *must* first be enabled before trying to
+ * Please note that voice overlay *MUST* first be enabled before trying to
  * activate it.
  *
  */
@@ -498,75 +514,82 @@ typedef enum
 
 /*
  *
- * Attach arbitrary key/value metadata to the last recorded video
- * that you can retrieve later from the Kamcord servers.
+ * Sets the WeChat App ID so you can set it as a share target in the share grid.
  *
- * @param       metadata        The dictionary of key-value pairs to attach to the previously recorded video.
+ * In order to use WeChat, you *MUST* link you app against libWeChatSDK.a and
+ * add "-ObjC" to Build Settings => Other Linker Flags.
+ *
+ * @param       weChatAppId   The WeChat App ID.
  *
  */
-+ (void)setVideoMetadata:(NSDictionary *)metadata;
++ (void)setWeChatAppId:(NSString *)weChatAppId;
 
 /*
  *
- * Returns the previously set video metadata.
+ * Returns whether or not WeChat sharing is enabled. In order to enable WeChat
+ * sharing, you *MUST* do the following:
+ *
+ *      1. Link you app against libWeChatSDK.a.
+ *      2. Add "-ObjC" to Build Settings => Other Linker Flags.
+ *      3. [Kamcord setWeChatAppID:...] with a valid WeChat app ID.
+ *
+ * ATTENTION: As of 2014-04-14, the latest available WeChat static lib (libWeChatSDK.a)
+ * only contains slices for armv7, armv7s, and i386. This means that if you
+ * want WeChat to work on arm64 devices like the iPhone 5S, iPad Air, and
+ * iPad Mini Retina, you *MUST* build your app to target the armv7 and armv7s
+ * architectures but *NOT* include arm64. If you include arm64 as a valid architecture,
+ * WeChat will only be available on non arm64 devices (and this method wil return NO on arm64 devices)!
+ * This restriction will be removed as soon as WeChat releases a new SDK that has an arm64 slice.
+ *
+ * @returns     Whether or not WeChat sharing is enabled on the current device.
  *
  */
-+ (NSDictionary *)videoMetadata;
++ (BOOL)isWeChatEnabled;
 
 /*
  *
- * This method will query the Kamcord servers for metadata you've previously
- * associated with an uploaded video via the setVideoMetadata API call.
- * When the server request returns, the original metadata you had set
- * will be returned to you as the first argument of the block.
- * There is also NSError argument in the block that will indicate if the
- * request was successful (for example, if the connection failed due to
- * a poor internet connection). The returned NSDictionary is valid if and only if
- * the NSError object is nil.
+ * Set the ways users can share their videos. You can use this method to choose which 
+ * forms of social media users will have access to when they go to share a replay. By default
+ * the sharing options are Facebook, Twitter, Youtube, Email. You must pass in
+ * exactly four valid distinct KCShareDestination enums, else nothing will be changed. The order
+ * of these parameters will affect how the share options are laid out in the UI.
  *
- * You can get the Kamcord Video ID to pass to this method by implementing the
- * KamcordDelegate protocol defined in Common/Core/KamcordProtocols.h.
- * Implement the videoFinishedUploadingWithSuccess:kamcordVideoID: callback
- * to get the Kamcord Video ID.
+ * The possible values are defined in <Kamcord/Kamcord-C-Interface.h>.
  *
- * @param       kamcordVideoID      The unique Kamcord ID for a previously shared video.
- * @param       completionHandler   A block that handles the returned metadata from the server.
+ * Note: If you select KCShareDestinationWeChat as an option, you *MUST* call
+ *       [Kamcord setWeChatAppID:...] with a valid WeChat App ID, else your
+ *       user will not be able to share to WeChat.
  *
- */
-+ (void)retrieveMetadataForVideoWithID:(NSString *)kamcordVideoID
-                 withCompletionHandler:(void (^)(NSMutableDictionary *, NSError *))completionHandler;
-
-/*
+ *       You *MUST* also link your app against libWeChatSDK.a and
+ *       add "-ObjC" to Build Settings => Other Linker Flags.
  *
- * Set the level and score of the last recorded video. This information may be used
- * in the Kamcord Watch View, so we recommend that, if appropriate for your game, you 
- * set it after every [Kamcord stopRecording] and before [Kamcord showView].
- * Set the level and score of the last recorded video.
- * Note: Older API, bias towards setDeveloperMetadata
- *
- * @param       level       The level of the last recorded video.
- * @param       score       The score of the last recorded video.
+ * @param       target1             The top-left element of the share grid
+ * @param       target2             The top-right element of the share grid
+ * @param       target3             The bottom-left element of the share grid
+ * @param       target4             The bottom-right element of the share grid
  *
  */
-+ (void)setLevel:(NSString *)level
-           score:(NSNumber *)score;
++ (void)setShareTargetsWithTarget1:(KCShareDestination)target1
+                           target2:(KCShareDestination)target2
+                           target3:(KCShareDestination)target3
+                           target4:(KCShareDestination)target4;
 
 /*
  *
  * Set a piece of metadata for the recorded video
  * All metadata is cleared with the start of a recorded video
  *
- * @param       metadataType       The type of metaData (see KC_METADATA_TYPE for more info)
+ * @param       metadataType       The type of metaData (see the enum KCMetadataType for more info)
  * @param       displayKey         Describe what the metadata is
  * @param       displayValue       A string representation of the value for this metadata
  * @param       numericValue       A numeric representation of the value for this metadata
  *
  */
-+ (void)setDeveloperMetadata:(KC_METADATA_TYPE)metadataType
++ (void)setDeveloperMetadata:(KCMetadataType)metadataType
                   displayKey:(NSString *)displayKey
                 displayValue:(NSString *)displayValue;
 
-+ (void)setDeveloperMetadata:(KC_METADATA_TYPE)metadataType
++ (void)setDeveloperMetadata:(KCMetadataType)metadataType
                   displayKey:(NSString *)displayKey
                 displayValue:(NSString *)displayValue
                 numericValue:(NSNumber *)numericValue;
@@ -634,7 +657,7 @@ typedef enum
  * permission and be using Facebook SDK 3.1 or later. The advantage of sharedAuth is
  * that the user is not prompted for auth again. If you aren't using the Facebook SDK
  * in your game, you can set sharedAuth to NO and we'll take care of things using the
- * Kamcord Facebook app.
+ * Kamcord Facebook appID.
  *
  * @param       facebookAppId   The Facebook App ID.
  * @param       sharedAuth      Whether Facebook auth should be shared between the app and Kamcord.
@@ -645,9 +668,42 @@ typedef enum
 
 /*
  *
- * By default, all shares to Facebook will be done via the Kamcord Facebook app.
- * However, for iOS 6, if you have a Facebook app you'd like to share from, you can set its
- * Facebook App ID here for native iOS 6 sharing. 
+ * If you use Facebook shared auth and want to use SSO, you must call this method when
+ * Facebook calls back into your app. This is typically done in your application delegate like so:
+ *
+ * - (BOOL)application:(UIApplication *)application
+ *             openURL:(NSURL *)url
+ *   sourceApplication:(NSString *)sourceApplication
+ *          annotation:(id)annotation
+ * {
+ *     // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
+ *     BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication] &&
+ *                       [Kamcord handleOpenURL:url];
+ *
+ *     return wasHandled;
+ * }
+ *
+ * @param       url         The URL that was passed to your app from the Facebook app callback.
+ *
+ */
++ (BOOL)handleOpenURL:(NSURL *)url;
+
+/*
+ *
+ * Optional method that will log Kamcord out of the shared Facebook auth. If Facebook auth
+ * sharing is not enabled, this method does nothing. This method should typically be called
+ * when the user logs out of Facebook (outside of Kamcord) and if you want to also nullify
+ * Kamcord's shared Facebook auth. If not, then the user will still be able to share to Facebook
+ * via the shared Facebook auth.
+ *
+ */
++ (void)logoutOfSharedFacebookAuth;
+
+/*
+ *
+ * By default, all shares to Facebook will be done via the Kamcord Facebook appID.
+ * However, for iOS 6+, if you have a Facebook app you'd like to share from, you can set its
+ * Facebook App ID here for native iOS 6+ sharing.
  *
  * @param       facebookAppId   The Facebook App ID.
  *
@@ -730,6 +786,15 @@ typedef enum
 
 /*
  *
+ * Returns the previously set WeChat App ID.
+ *
+ * @returns     The previously set WeChat App ID.
+ *
+ */
++ (NSString *)weChatAppId;
+
+/*
+ *
  * Set the default email subject if the user shares a video via email.
  *
  * @param       subject         The default email subject.
@@ -764,13 +829,6 @@ typedef enum
  */
 + (NSString *)defaultEmailBody;
 
-/*
- * This method will allow you to upload a video to Facebook with the given parameters
- */
-+ (void)uploadVideoToFacebookWithAccessToken:(NSString *)accessToken
-                                       title:(NSString *)title
-                                 description:(NSString *)description;
-
 // -------------------------------------------------------------------------
 // Advanced Settings
 // -------------------------------------------------------------------------
@@ -802,13 +860,42 @@ typedef enum
  * the extra cross promo watch tab.
  *
  * @param       imageName           The name of the image in the main bundle.
- *                                  If you have both the 1x and 2x image
+ *                                  If you have both retina and non-retina images
  *                                  named "crossPromoIcon.png" and "crossPromoIcon2@x.png",
  *                                  pass in @"crossPromoIcon.png" and we will automatically
- *                                  use the 2x version on retina devices.
+ *                                  use the @2x version on retina devices.
  *
  */
-+ (void)setCrossPromoIcon:(NSString *)imageName;
++ (void)enableCrossPromotionWithImageName:(NSString *)imageName;
+
+/*
+ *
+ * Should we pause/unpause the game engine when the Kamcord UI appears/disappears?
+ * By default, set to true. Works for cocos2d(-x), GLKit, SpriteKit, and Unity.
+ *
+ * @param   shouldPause     Should we pause the game engine when the Kamcord UI appears?
+ *
+ */
++ (void)setShouldPauseGameEngine:(BOOL)shouldPause;
++ (BOOL)shouldPauseGameEngine;
+
+/*
+ *
+ * Requires users to verify they are at least thirteen years old prior to allowing 
+ * them to turn on voice overlay.
+ *
+ * @param       restricted  Require age check before allowing the user to enable voice overlay?
+ *
+ */
++ (void)setAgeRestrictionEnabled:(BOOL)restricted;
+
+/*
+ *
+ * Returns a boolean indicating whether or not the user is required to be of age in order
+ * to use turn on voice overlay. Reflects the above setting.
+ *
+ */
++ (BOOL)isAgeRestrictionEnabled;
 
 // -------------------------------------------------------------------------
 // OpenGL Commands
@@ -849,23 +936,86 @@ typedef enum
 + (BOOL)snapshotNextFrameWithCompletionHandler:(void(^)(UIImage * image, NSURL * imageURL))handler
                                      saveToURL:(NSURL *)destinationURL;
 
-
 // -------------------------------------------------------------------------
-// Audio Overlay
+// Deprecated methods
 // -------------------------------------------------------------------------
 
 /*
+ * *DEPRECATED*
+ * Attach arbitrary key/value metadata to the last recorded video
+ * that you can retrieve later from the Kamcord servers.
  *
+ * @param       metadata        The dictionary of key-value pairs to attach to the previously recorded video.
+ *
+ */
++ (void)setVideoMetadata:(NSDictionary *)metadata __deprecated;
+
+/*
+ * *DEPRECATED*
+ * Returns the previously set video metadata.
+ *
+ */
++ (NSDictionary *)videoMetadata __deprecated;
+
+/*
+ * *DEPRECATED*
+ * This method will query the Kamcord servers for metadata you've previously
+ * associated with an uploaded video via the setVideoMetadata API call.
+ * When the server request returns, the original metadata you had set
+ * will be returned to you as the first argument of the block.
+ * There is also NSError argument in the block that will indicate if the
+ * request was successful (for example, if the connection failed due to
+ * a poor internet connection). The returned NSDictionary is valid if and only if
+ * the NSError object is nil.
+ *
+ * You can get the Kamcord Video ID to pass to this method by implementing the
+ * KamcordDelegate protocol defined in Common/Core/KamcordProtocols.h.
+ * Implement the videoFinishedUploadingWithSuccess:kamcordVideoID: callback
+ * to get the Kamcord Video ID.
+ *
+ * @param       kamcordVideoID      The unique Kamcord ID for a previously shared video.
+ * @param       completionHandler   A block that handles the returned metadata from the server.
+ *
+ */
++ (void)retrieveMetadataForVideoWithID:(NSString *)kamcordVideoID
+                 withCompletionHandler:(void (^)(NSMutableDictionary *, NSError *))completionHandler __deprecated;
+
+/*
+ * *DEPRECATED*
+ * As of 1.7.3, this has been deprecated in favor of setDeveloperMetadata:...
+ *
+ * The metadata documentation can be found here: 
+ *      https://github.com/kamcord/kamcord-ios-sdk/wiki/Kamcord-Settings-and-Features#general-video-metadata
+ *
+ * Set the level and score of the last recorded video. This information may be used
+ * in the Kamcord Watch View, so we recommend that, if appropriate for your game, you
+ * set it after every [Kamcord stopRecording] and before [Kamcord showView].
+ * Set the level and score of the last recorded video.
+ * Note: Older API, bias towards setDeveloperMetadata
+ *
+ * @param       level       The level of the last recorded video.
+ * @param       score       The score of the last recorded video.
+ *
+ */
++ (void)setLevel:(NSString *)level
+           score:(NSNumber *)score __deprecated;
+
+/*
+ * *DEPRECATED*
  * These methods allow you to add one background audio track to the recorded video.
  *
  */
-+ (void)overlayBackgroundTrack:(NSString *)filename;
-+ (void)overlayBackgroundTrackAtURL:(NSURL *)fileURL;
++ (void)overlayBackgroundTrack:(NSString *)filename __deprecated;
++ (void)overlayBackgroundTrackAtURL:(NSURL *)fileURL __deprecated;
 
 // -------------------------------------------------------------------------
 // Private APIs: Do not use.
 // -------------------------------------------------------------------------
 + (void)setMode:(unsigned long long)mode;
-+ (unsigned long long)mode;
+
++ (void)uploadVideoToFacebookWithAccessToken:(NSString *)accessToken
+                                       title:(NSString *)title
+                                 description:(NSString *)description;
+
 
 @end

@@ -6208,3 +6208,200 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
 }
 @end
 
+@interface ClanHouseProto ()
+@property (retain) StructureInfoProto* structInfo;
+@end
+
+@implementation ClanHouseProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+  }
+  return self;
+}
+static ClanHouseProto* defaultClanHouseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanHouseProto class]) {
+    defaultClanHouseProtoInstance = [[ClanHouseProto alloc] init];
+  }
+}
++ (ClanHouseProto*) defaultInstance {
+  return defaultClanHouseProtoInstance;
+}
+- (ClanHouseProto*) defaultInstance {
+  return defaultClanHouseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanHouseProto*) parseFromData:(NSData*) data {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromData:data] build];
+}
++ (ClanHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanHouseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromInputStream:input] build];
+}
++ (ClanHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHouseProto*)[[[ClanHouseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHouseProto_Builder*) builder {
+  return [[[ClanHouseProto_Builder alloc] init] autorelease];
+}
++ (ClanHouseProto_Builder*) builderWithPrototype:(ClanHouseProto*) prototype {
+  return [[ClanHouseProto builder] mergeFrom:prototype];
+}
+- (ClanHouseProto_Builder*) builder {
+  return [ClanHouseProto builder];
+}
+@end
+
+@interface ClanHouseProto_Builder()
+@property (retain) ClanHouseProto* result;
+@end
+
+@implementation ClanHouseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanHouseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanHouseProto_Builder*) clear {
+  self.result = [[[ClanHouseProto alloc] init] autorelease];
+  return self;
+}
+- (ClanHouseProto_Builder*) clone {
+  return [ClanHouseProto builderWithPrototype:result];
+}
+- (ClanHouseProto*) defaultInstance {
+  return [ClanHouseProto defaultInstance];
+}
+- (ClanHouseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanHouseProto*) buildPartial {
+  ClanHouseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanHouseProto_Builder*) mergeFrom:(ClanHouseProto*) other {
+  if (other == [ClanHouseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (ClanHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (ClanHouseProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (ClanHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (ClanHouseProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+@end
+

@@ -47,11 +47,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllStoragesList;
 @property (retain) NSMutableArray* mutableAllHospitalsList;
 @property (retain) NSMutableArray* mutableAllResidencesList;
-@property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
+@property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllMiniJobCentersList;
 @property (retain) NSMutableArray* mutableAllEvoChambersList;
 @property (retain) NSMutableArray* mutableAllTeamCentersList;
+@property (retain) NSMutableArray* mutableAllClanHousesList;
 @property (retain) NSMutableArray* mutablePersistentEventsList;
 @property (retain) NSMutableArray* mutableMbdsList;
 @property (retain) NSMutableArray* mutableRaidsList;
@@ -87,11 +88,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllStoragesList;
 @synthesize mutableAllHospitalsList;
 @synthesize mutableAllResidencesList;
-@synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
+@synthesize mutableAllLabsList;
 @synthesize mutableAllMiniJobCentersList;
 @synthesize mutableAllEvoChambersList;
 @synthesize mutableAllTeamCentersList;
+@synthesize mutableAllClanHousesList;
 @synthesize mutablePersistentEventsList;
 @synthesize mutableMbdsList;
 @synthesize mutableRaidsList;
@@ -118,11 +120,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllStoragesList = nil;
   self.mutableAllHospitalsList = nil;
   self.mutableAllResidencesList = nil;
-  self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
+  self.mutableAllLabsList = nil;
   self.mutableAllMiniJobCentersList = nil;
   self.mutableAllEvoChambersList = nil;
   self.mutableAllTeamCentersList = nil;
+  self.mutableAllClanHousesList = nil;
   self.mutablePersistentEventsList = nil;
   self.mutableMbdsList = nil;
   self.mutableRaidsList = nil;
@@ -251,18 +254,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableAllResidencesList objectAtIndex:index];
   return value;
 }
-- (NSArray*) allLabsList {
-  return mutableAllLabsList;
-}
-- (LabProto*) allLabsAtIndex:(int32_t) index {
-  id value = [mutableAllLabsList objectAtIndex:index];
-  return value;
-}
 - (NSArray*) allTownHallsList {
   return mutableAllTownHallsList;
 }
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index {
   id value = [mutableAllTownHallsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allLabsList {
+  return mutableAllLabsList;
+}
+- (LabProto*) allLabsAtIndex:(int32_t) index {
+  id value = [mutableAllLabsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) allMiniJobCentersList {
@@ -284,6 +287,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index {
   id value = [mutableAllTeamCentersList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allClanHousesList {
+  return mutableAllClanHousesList;
+}
+- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index {
+  id value = [mutableAllClanHousesList objectAtIndex:index];
   return value;
 }
 - (NSArray*) persistentEventsList {
@@ -450,6 +460,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (SkillProto* element in self.skillsList) {
     [output writeMessage:31 value:element];
   }
+  for (ClanHouseProto* element in self.allClanHousesList) {
+    [output writeMessage:32 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -548,6 +561,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (SkillProto* element in self.skillsList) {
     size += computeMessageSize(31, element);
+  }
+  for (ClanHouseProto* element in self.allClanHousesList) {
+    size += computeMessageSize(32, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -711,17 +727,17 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableAllResidencesList addObjectsFromArray:other.mutableAllResidencesList];
   }
-  if (other.mutableAllLabsList.count > 0) {
-    if (result.mutableAllLabsList == nil) {
-      result.mutableAllLabsList = [NSMutableArray array];
-    }
-    [result.mutableAllLabsList addObjectsFromArray:other.mutableAllLabsList];
-  }
   if (other.mutableAllTownHallsList.count > 0) {
     if (result.mutableAllTownHallsList == nil) {
       result.mutableAllTownHallsList = [NSMutableArray array];
     }
     [result.mutableAllTownHallsList addObjectsFromArray:other.mutableAllTownHallsList];
+  }
+  if (other.mutableAllLabsList.count > 0) {
+    if (result.mutableAllLabsList == nil) {
+      result.mutableAllLabsList = [NSMutableArray array];
+    }
+    [result.mutableAllLabsList addObjectsFromArray:other.mutableAllLabsList];
   }
   if (other.mutableAllMiniJobCentersList.count > 0) {
     if (result.mutableAllMiniJobCentersList == nil) {
@@ -740,6 +756,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllTeamCentersList = [NSMutableArray array];
     }
     [result.mutableAllTeamCentersList addObjectsFromArray:other.mutableAllTeamCentersList];
+  }
+  if (other.mutableAllClanHousesList.count > 0) {
+    if (result.mutableAllClanHousesList == nil) {
+      result.mutableAllClanHousesList = [NSMutableArray array];
+    }
+    [result.mutableAllClanHousesList addObjectsFromArray:other.mutableAllClanHousesList];
   }
   if (other.mutablePersistentEventsList.count > 0) {
     if (result.mutablePersistentEventsList == nil) {
@@ -1003,6 +1025,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         SkillProto_Builder* subBuilder = [SkillProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSkills:[subBuilder buildPartial]];
+        break;
+      }
+      case 258: {
+        ClanHouseProto_Builder* subBuilder = [ClanHouseProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllClanHouses:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1444,35 +1472,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [result.mutableAllResidencesList addObject:value];
   return self;
 }
-- (NSArray*) allLabsList {
-  if (result.mutableAllLabsList == nil) { return [NSArray array]; }
-  return result.mutableAllLabsList;
-}
-- (LabProto*) allLabsAtIndex:(int32_t) index {
-  return [result allLabsAtIndex:index];
-}
-- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value {
-  [result.mutableAllLabsList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values {
-  if (result.mutableAllLabsList == nil) {
-    result.mutableAllLabsList = [NSMutableArray array];
-  }
-  [result.mutableAllLabsList addObjectsFromArray:values];
-  return self;
-}
-- (StaticDataProto_Builder*) clearAllLabsList {
-  result.mutableAllLabsList = nil;
-  return self;
-}
-- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value {
-  if (result.mutableAllLabsList == nil) {
-    result.mutableAllLabsList = [NSMutableArray array];
-  }
-  [result.mutableAllLabsList addObject:value];
-  return self;
-}
 - (NSArray*) allTownHallsList {
   if (result.mutableAllTownHallsList == nil) { return [NSArray array]; }
   return result.mutableAllTownHallsList;
@@ -1500,6 +1499,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllTownHallsList = [NSMutableArray array];
   }
   [result.mutableAllTownHallsList addObject:value];
+  return self;
+}
+- (NSArray*) allLabsList {
+  if (result.mutableAllLabsList == nil) { return [NSArray array]; }
+  return result.mutableAllLabsList;
+}
+- (LabProto*) allLabsAtIndex:(int32_t) index {
+  return [result allLabsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value {
+  [result.mutableAllLabsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values {
+  if (result.mutableAllLabsList == nil) {
+    result.mutableAllLabsList = [NSMutableArray array];
+  }
+  [result.mutableAllLabsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllLabsList {
+  result.mutableAllLabsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value {
+  if (result.mutableAllLabsList == nil) {
+    result.mutableAllLabsList = [NSMutableArray array];
+  }
+  [result.mutableAllLabsList addObject:value];
   return self;
 }
 - (NSArray*) allMiniJobCentersList {
@@ -1587,6 +1615,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllTeamCentersList = [NSMutableArray array];
   }
   [result.mutableAllTeamCentersList addObject:value];
+  return self;
+}
+- (NSArray*) allClanHousesList {
+  if (result.mutableAllClanHousesList == nil) { return [NSArray array]; }
+  return result.mutableAllClanHousesList;
+}
+- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index {
+  return [result allClanHousesAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllClanHousesAtIndex:(int32_t) index with:(ClanHouseProto*) value {
+  [result.mutableAllClanHousesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllClanHouses:(NSArray*) values {
+  if (result.mutableAllClanHousesList == nil) {
+    result.mutableAllClanHousesList = [NSMutableArray array];
+  }
+  [result.mutableAllClanHousesList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllClanHousesList {
+  result.mutableAllClanHousesList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllClanHouses:(ClanHouseProto*) value {
+  if (result.mutableAllClanHousesList == nil) {
+    result.mutableAllClanHousesList = [NSMutableArray array];
+  }
+  [result.mutableAllClanHousesList addObject:value];
   return self;
 }
 - (NSArray*) persistentEventsList {

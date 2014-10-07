@@ -4,6 +4,7 @@
 
 #import "Clan.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 
 @class ApproveOrRejectRequestToJoinClanRequestProto;
@@ -28,6 +29,12 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
+@class ClanHelpNoticeProto;
+@class ClanHelpNoticeProto_Builder;
+@class ClanHelpProto;
+@class ClanHelpProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
 @class ClanRaidProto;
@@ -44,6 +51,10 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class EndClanHelpRequestProto;
+@class EndClanHelpRequestProto_Builder;
+@class EndClanHelpResponseProto;
+@class EndClanHelpResponseProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class FullClanProto;
@@ -60,6 +71,10 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GiveClanHelpRequestProto;
+@class GiveClanHelpRequestProto_Builder;
+@class GiveClanHelpResponseProto;
+@class GiveClanHelpResponseProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class LabProto;
@@ -144,6 +159,10 @@
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
+@class SolicitClanHelpRequestProto;
+@class SolicitClanHelpRequestProto_Builder;
+@class SolicitClanHelpResponseProto;
+@class SolicitClanHelpResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -318,6 +337,28 @@ typedef enum {
 } PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus;
 
 BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidValue(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus value);
+
+typedef enum {
+  SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess = 1,
+  SolicitClanHelpResponseProto_SolicitClanHelpStatusFailOther = 2,
+  SolicitClanHelpResponseProto_SolicitClanHelpStatusFailNotInClan = 3,
+} SolicitClanHelpResponseProto_SolicitClanHelpStatus;
+
+BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanHelpResponseProto_SolicitClanHelpStatus value);
+
+typedef enum {
+  GiveClanHelpResponseProto_GiveClanHelpStatusSuccess = 1,
+  GiveClanHelpResponseProto_GiveClanHelpStatusFailOther = 2,
+} GiveClanHelpResponseProto_GiveClanHelpStatus;
+
+BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpResponseProto_GiveClanHelpStatus value);
+
+typedef enum {
+  EndClanHelpResponseProto_EndClanHelpStatusSuccess = 1,
+  EndClanHelpResponseProto_EndClanHelpStatusFailOther = 2,
+} EndClanHelpResponseProto_EndClanHelpStatus;
+
+BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseProto_EndClanHelpStatus value);
 
 
 @interface EventClanRoot : NSObject {
@@ -2536,5 +2577,383 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 - (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value;
 - (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus;
+@end
+
+@interface SolicitClanHelpRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasMaxHelpers_:1;
+  BOOL hasSender_:1;
+  BOOL hasNotice_:1;
+  int64_t clientTime;
+  int32_t maxHelpers;
+  MinimumUserProto* sender;
+  ClanHelpNoticeProto* notice;
+}
+- (BOOL) hasSender;
+- (BOOL) hasNotice;
+- (BOOL) hasClientTime;
+- (BOOL) hasMaxHelpers;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) ClanHelpNoticeProto* notice;
+@property (readonly) int64_t clientTime;
+@property (readonly) int32_t maxHelpers;
+
++ (SolicitClanHelpRequestProto*) defaultInstance;
+- (SolicitClanHelpRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SolicitClanHelpRequestProto_Builder*) builder;
++ (SolicitClanHelpRequestProto_Builder*) builder;
++ (SolicitClanHelpRequestProto_Builder*) builderWithPrototype:(SolicitClanHelpRequestProto*) prototype;
+
++ (SolicitClanHelpRequestProto*) parseFromData:(NSData*) data;
++ (SolicitClanHelpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SolicitClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SolicitClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SolicitClanHelpRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SolicitClanHelpRequestProto* result;
+}
+
+- (SolicitClanHelpRequestProto*) defaultInstance;
+
+- (SolicitClanHelpRequestProto_Builder*) clear;
+- (SolicitClanHelpRequestProto_Builder*) clone;
+
+- (SolicitClanHelpRequestProto*) build;
+- (SolicitClanHelpRequestProto*) buildPartial;
+
+- (SolicitClanHelpRequestProto_Builder*) mergeFrom:(SolicitClanHelpRequestProto*) other;
+- (SolicitClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SolicitClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SolicitClanHelpRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SolicitClanHelpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SolicitClanHelpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SolicitClanHelpRequestProto_Builder*) clearSender;
+
+- (BOOL) hasNotice;
+- (ClanHelpNoticeProto*) notice;
+- (SolicitClanHelpRequestProto_Builder*) setNotice:(ClanHelpNoticeProto*) value;
+- (SolicitClanHelpRequestProto_Builder*) setNoticeBuilder:(ClanHelpNoticeProto_Builder*) builderForValue;
+- (SolicitClanHelpRequestProto_Builder*) mergeNotice:(ClanHelpNoticeProto*) value;
+- (SolicitClanHelpRequestProto_Builder*) clearNotice;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (SolicitClanHelpRequestProto_Builder*) setClientTime:(int64_t) value;
+- (SolicitClanHelpRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasMaxHelpers;
+- (int32_t) maxHelpers;
+- (SolicitClanHelpRequestProto_Builder*) setMaxHelpers:(int32_t) value;
+- (SolicitClanHelpRequestProto_Builder*) clearMaxHelpers;
+@end
+
+@interface SolicitClanHelpResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasHelpProto_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ClanHelpProto* helpProto;
+  SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasHelpProto;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) ClanHelpProto* helpProto;
+@property (readonly) SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+
++ (SolicitClanHelpResponseProto*) defaultInstance;
+- (SolicitClanHelpResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SolicitClanHelpResponseProto_Builder*) builder;
++ (SolicitClanHelpResponseProto_Builder*) builder;
++ (SolicitClanHelpResponseProto_Builder*) builderWithPrototype:(SolicitClanHelpResponseProto*) prototype;
+
++ (SolicitClanHelpResponseProto*) parseFromData:(NSData*) data;
++ (SolicitClanHelpResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SolicitClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SolicitClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SolicitClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SolicitClanHelpResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SolicitClanHelpResponseProto* result;
+}
+
+- (SolicitClanHelpResponseProto*) defaultInstance;
+
+- (SolicitClanHelpResponseProto_Builder*) clear;
+- (SolicitClanHelpResponseProto_Builder*) clone;
+
+- (SolicitClanHelpResponseProto*) build;
+- (SolicitClanHelpResponseProto*) buildPartial;
+
+- (SolicitClanHelpResponseProto_Builder*) mergeFrom:(SolicitClanHelpResponseProto*) other;
+- (SolicitClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SolicitClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SolicitClanHelpResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SolicitClanHelpResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SolicitClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SolicitClanHelpResponseProto_Builder*) clearSender;
+
+- (BOOL) hasHelpProto;
+- (ClanHelpProto*) helpProto;
+- (SolicitClanHelpResponseProto_Builder*) setHelpProto:(ClanHelpProto*) value;
+- (SolicitClanHelpResponseProto_Builder*) setHelpProtoBuilder:(ClanHelpProto_Builder*) builderForValue;
+- (SolicitClanHelpResponseProto_Builder*) mergeHelpProto:(ClanHelpProto*) value;
+- (SolicitClanHelpResponseProto_Builder*) clearHelpProto;
+
+- (BOOL) hasStatus;
+- (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
+- (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value;
+- (SolicitClanHelpResponseProto_Builder*) clearStatus;
+@end
+
+@interface GiveClanHelpRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableClanHelpIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) clanHelpIdsList;
+- (int64_t) clanHelpIdsAtIndex:(int32_t) index;
+
++ (GiveClanHelpRequestProto*) defaultInstance;
+- (GiveClanHelpRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GiveClanHelpRequestProto_Builder*) builder;
++ (GiveClanHelpRequestProto_Builder*) builder;
++ (GiveClanHelpRequestProto_Builder*) builderWithPrototype:(GiveClanHelpRequestProto*) prototype;
+
++ (GiveClanHelpRequestProto*) parseFromData:(NSData*) data;
++ (GiveClanHelpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GiveClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (GiveClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GiveClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GiveClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GiveClanHelpRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GiveClanHelpRequestProto* result;
+}
+
+- (GiveClanHelpRequestProto*) defaultInstance;
+
+- (GiveClanHelpRequestProto_Builder*) clear;
+- (GiveClanHelpRequestProto_Builder*) clone;
+
+- (GiveClanHelpRequestProto*) build;
+- (GiveClanHelpRequestProto*) buildPartial;
+
+- (GiveClanHelpRequestProto_Builder*) mergeFrom:(GiveClanHelpRequestProto*) other;
+- (GiveClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GiveClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (GiveClanHelpRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (GiveClanHelpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (GiveClanHelpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (GiveClanHelpRequestProto_Builder*) clearSender;
+
+- (NSArray*) clanHelpIdsList;
+- (int64_t) clanHelpIdsAtIndex:(int32_t) index;
+- (GiveClanHelpRequestProto_Builder*) replaceClanHelpIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (GiveClanHelpRequestProto_Builder*) addClanHelpIds:(int64_t) value;
+- (GiveClanHelpRequestProto_Builder*) addAllClanHelpIds:(NSArray*) values;
+- (GiveClanHelpRequestProto_Builder*) clearClanHelpIdsList;
+@end
+
+@interface GiveClanHelpResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  GiveClanHelpResponseProto_GiveClanHelpStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) GiveClanHelpResponseProto_GiveClanHelpStatus status;
+
++ (GiveClanHelpResponseProto*) defaultInstance;
+- (GiveClanHelpResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GiveClanHelpResponseProto_Builder*) builder;
++ (GiveClanHelpResponseProto_Builder*) builder;
++ (GiveClanHelpResponseProto_Builder*) builderWithPrototype:(GiveClanHelpResponseProto*) prototype;
+
++ (GiveClanHelpResponseProto*) parseFromData:(NSData*) data;
++ (GiveClanHelpResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GiveClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (GiveClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GiveClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GiveClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GiveClanHelpResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GiveClanHelpResponseProto* result;
+}
+
+- (GiveClanHelpResponseProto*) defaultInstance;
+
+- (GiveClanHelpResponseProto_Builder*) clear;
+- (GiveClanHelpResponseProto_Builder*) clone;
+
+- (GiveClanHelpResponseProto*) build;
+- (GiveClanHelpResponseProto*) buildPartial;
+
+- (GiveClanHelpResponseProto_Builder*) mergeFrom:(GiveClanHelpResponseProto*) other;
+- (GiveClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GiveClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (GiveClanHelpResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (GiveClanHelpResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (GiveClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (GiveClanHelpResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
+- (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value;
+- (GiveClanHelpResponseProto_Builder*) clearStatus;
+@end
+
+@interface EndClanHelpRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableClanHelpIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) clanHelpIdsList;
+- (int64_t) clanHelpIdsAtIndex:(int32_t) index;
+
++ (EndClanHelpRequestProto*) defaultInstance;
+- (EndClanHelpRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndClanHelpRequestProto_Builder*) builder;
++ (EndClanHelpRequestProto_Builder*) builder;
++ (EndClanHelpRequestProto_Builder*) builderWithPrototype:(EndClanHelpRequestProto*) prototype;
+
++ (EndClanHelpRequestProto*) parseFromData:(NSData*) data;
++ (EndClanHelpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndClanHelpRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndClanHelpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndClanHelpRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EndClanHelpRequestProto* result;
+}
+
+- (EndClanHelpRequestProto*) defaultInstance;
+
+- (EndClanHelpRequestProto_Builder*) clear;
+- (EndClanHelpRequestProto_Builder*) clone;
+
+- (EndClanHelpRequestProto*) build;
+- (EndClanHelpRequestProto*) buildPartial;
+
+- (EndClanHelpRequestProto_Builder*) mergeFrom:(EndClanHelpRequestProto*) other;
+- (EndClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndClanHelpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EndClanHelpRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EndClanHelpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EndClanHelpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EndClanHelpRequestProto_Builder*) clearSender;
+
+- (NSArray*) clanHelpIdsList;
+- (int64_t) clanHelpIdsAtIndex:(int32_t) index;
+- (EndClanHelpRequestProto_Builder*) replaceClanHelpIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (EndClanHelpRequestProto_Builder*) addClanHelpIds:(int64_t) value;
+- (EndClanHelpRequestProto_Builder*) addAllClanHelpIds:(NSArray*) values;
+- (EndClanHelpRequestProto_Builder*) clearClanHelpIdsList;
+@end
+
+@interface EndClanHelpResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (EndClanHelpResponseProto*) defaultInstance;
+- (EndClanHelpResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndClanHelpResponseProto_Builder*) builder;
++ (EndClanHelpResponseProto_Builder*) builder;
++ (EndClanHelpResponseProto_Builder*) builderWithPrototype:(EndClanHelpResponseProto*) prototype;
+
++ (EndClanHelpResponseProto*) parseFromData:(NSData*) data;
++ (EndClanHelpResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndClanHelpResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndClanHelpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndClanHelpResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EndClanHelpResponseProto* result;
+}
+
+- (EndClanHelpResponseProto*) defaultInstance;
+
+- (EndClanHelpResponseProto_Builder*) clear;
+- (EndClanHelpResponseProto_Builder*) clone;
+
+- (EndClanHelpResponseProto*) build;
+- (EndClanHelpResponseProto*) buildPartial;
+
+- (EndClanHelpResponseProto_Builder*) mergeFrom:(EndClanHelpResponseProto*) other;
+- (EndClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndClanHelpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EndClanHelpResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EndClanHelpResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EndClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EndClanHelpResponseProto_Builder*) clearSender;
 @end
 

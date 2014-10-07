@@ -2,9 +2,6 @@
 //  KamcordRecorder.h
 //
 
-#ifndef __KAMCORDRECORDER_H__
-#define __KAMCORDRECORDER_H__
-
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
@@ -86,8 +83,11 @@
  * Pass the OpenGL framebuffer to which the renderbuffer you are presenting
  * is attached.  Returns NO on failure or if Kamcord is disabled.
  *
+ * If you don't pass in a framebuffer, the default framebuffer is used.
+ *
  */
 + (BOOL)beforePresentRenderbuffer:(GLuint)framebuffer;
++ (BOOL)beforePresentRenderbuffer;
 
 /*
  *
@@ -162,5 +162,3 @@
 + (void)setParentViewController:(UIViewController *)parentViewController;
 
 @end
-
-#endif

@@ -102,12 +102,6 @@
     
     self.availableLabel.hidden = YES;
   }
-  
-  // Disable for non-iphone 6
-  if (self.width < 329) {
-    [self.characterIcon removeFromSuperview];
-    self.characterIcon = nil;
-  }
 }
 
 - (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash charImgName:(NSString *)charImgName {
@@ -146,7 +140,12 @@
     self.availableLabel.textColor = [UIColor whiteColor];
   }
   
-  if (self.characterIcon) {
+  
+  // Disable for non-iphone 6
+  if (self.width < 329) {
+    [self.characterIcon removeFromSuperview];
+    self.characterIcon = nil;
+  } else {
     [Globals imageNamedWithiPhone6Prefix:charImgName withView:self.characterIcon greyscale:isLocked indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
   

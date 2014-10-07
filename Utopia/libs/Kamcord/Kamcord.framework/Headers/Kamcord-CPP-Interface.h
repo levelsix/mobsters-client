@@ -66,6 +66,9 @@ public:
     // When the video upload finishes.
     // If you want to save the video ID, you *must* strdup(...) it.
     virtual void videoFinishedUploading(const char * videoID, bool success) = 0;
+    
+    // This app install was attributed to Kamcord
+    virtual void attributedKamcordInstall() = 0;
 };
 
 #endif

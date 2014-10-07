@@ -393,7 +393,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (isNew && miniJobs.count) {
-    NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the Pier.", (int)miniJobs.count];
+    NSString *msg = [NSString stringWithFormat:@"You have %d new Mini Jobs available at the %@.", (int)miniJobs.count, self.myMiniJobCenter.staticStruct.structInfo.name];
     [Globals addGreenAlertNotification:msg isImmediate:NO];
   }
   
@@ -1378,7 +1378,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       if (finishTime.timeIntervalSinceNow <= 0) {
         [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:umj isSpeedup:NO gemCost:0 delegate:nil];
         
-        NSString *msg = [NSString stringWithFormat:@"Your %@s have returned from their mini job. Collect your loot at the Pier now.", MONSTER_NAME];
+        NSString *msg = [NSString stringWithFormat:@"Your %@s have returned from their mini job. Collect your loot at the %@ now.", MONSTER_NAME, self.myMiniJobCenter.staticStruct.structInfo.name];
         [Globals addGreenAlertNotification:msg isImmediate:NO];
       } else if (!umj.hasShownFreeSpeedup && finishTime.timeIntervalSinceNow <= gl.maxMinutesForFreeSpeedUp*60) {
         [self miniJobFreeSpeedUp:umj];

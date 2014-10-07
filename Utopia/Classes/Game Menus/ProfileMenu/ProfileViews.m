@@ -38,6 +38,10 @@
 
 - (void) awakeFromNib {
   self.monsterIcon.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
+  
+  if ([Globals isiPhone6]) {
+    self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
+  }
 }
 
 - (void) updateForUserMonster:(UserMonster *)um {
@@ -64,6 +68,12 @@
 @end
 
 @implementation ProfileStatsView
+
+- (void) awakeFromNib {
+  if ([Globals isiPhone6]) {
+    self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
+  }
+}
 
 - (void) updateForUser:(FullUserProto *)user {
   GameState *gs = [GameState sharedGameState];

@@ -857,9 +857,9 @@
 
 @implementation MiniJobCenterBuilding
 
-- (BOOL) canMove {
-  return NO;
-}
+//- (BOOL) canMove {
+//  return NO;
+//}
 
 - (void) updateForActiveMiniJob:(UserMiniJob *)activeMiniJob {
   if (self.isConstructing) {
@@ -872,6 +872,9 @@
   self.statusSprite = nil;
   
   [self removeProgressBar];
+  
+  // This should pretty much never be called for the arrow anymore, since we are using bubbles now
+  // So, only the displayProgressBar call is practical.
   CCSprite *arrow = nil;
   if (activeMiniJob.timeCompleted) {
     arrow = [CCSprite spriteWithImageNamed:@"mjdone.png"];
@@ -960,7 +963,9 @@
   [super displayProgressBar];
   
   CCNode *n = self.progressBar;
-  n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
+  
+  // Since we're not using pier anymore, this isn't necessary
+//  n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
   
   if (!self.isConstructing && self.activeMiniJob) {
     NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.activeMiniJob.miniJob.quality suffix:@"tag.png"]];
@@ -970,14 +975,14 @@
   }
 }
 
-- (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num {
-  [super setBubbleType:bubbleType withNum:num];
-  _bubble.position = ccp(self.contentSize.width/2-3, self.contentSize.height/2+3);
-}
+//- (void) setBubbleType:(BuildingBubbleType)bubbleType withNum:(int)num {
+//  [super setBubbleType:bubbleType withNum:num];
+//  _bubble.position = ccp(self.contentSize.width/2-3, self.contentSize.height/2+3);
+//}
 
-- (BOOL) isExemptFromReorder {
-  return YES;
-}
+//- (BOOL) isExemptFromReorder {
+//  return YES;
+//}
 
 @end
 

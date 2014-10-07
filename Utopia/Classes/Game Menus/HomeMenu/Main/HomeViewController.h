@@ -32,6 +32,7 @@
 - (id) initWithTeam;
 - (id) initWithEnhance;
 - (id) initWithEvolve;
+- (id) initWithMiniJobs;
 
 - (void) loadMainViewControllers;
 

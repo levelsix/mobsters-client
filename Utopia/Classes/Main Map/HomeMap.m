@@ -493,7 +493,7 @@
   }
 }
 
-- (void) reloadPier {
+- (void) reloadMiniJobCenter {
   GameState *gs = [GameState sharedGameState];
   UserStruct *mjc = [gs myMiniJobCenter];
   MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
@@ -510,11 +510,17 @@
       }
     }
     
+    // Only set the activeMiniJob if the mini job timer is currently active. Otherwise use a bubble.
     if (!active && gs.myMiniJobs.count > 0) {
       [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:(int)gs.myMiniJobs.count];
       [mjcb updateForActiveMiniJob:nil];
     } else {
-      [mjcb updateForActiveMiniJob:active];
+      if (active.timeCompleted) {
+        [mjcb setBubbleType:BuildingBubbleTypeComplete];
+        [mjcb updateForActiveMiniJob:nil];
+      } else {
+        [mjcb updateForActiveMiniJob:active];
+      }
     }
   }
 }
@@ -625,7 +631,7 @@
 - (void) reloadAllBubbles {
   [self reloadHospitals];
   [self reloadStorages];
-  [self reloadPier];
+  [self reloadMiniJobCenter];
   [self reloadBubblesOnMiscBuildings];
   [self reloadTeamCenter];
 }
@@ -1417,7 +1423,7 @@
       break;
       
     case StructureInfoProto_StructTypeMiniJob:
-      [self loadMiniJobsView];
+      hvc = [[HomeViewController alloc] initWithMiniJobs];
       break;
       
     default:
@@ -1465,6 +1471,7 @@
 }
 
 - (void) loadMiniJobsView {
+  // LEGACY
   GameViewController *gvc = [GameViewController baseController];
   MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
   [gvc addChildViewController:rvc];
@@ -1796,7 +1803,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPier) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];

@@ -561,8 +561,6 @@
     return;
   }
   
-  NSLog(@"%@", self.battleSchedule);
-  
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
   if (_displayedWaveNumber && _reachedNextScene) {
@@ -1025,7 +1023,7 @@
   
   CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
   [self addChild:spr z:z];
-  spr.scaleX = MIN(label.position.x*2+20, self.contentSize.width-label.position.x*2-self.orbLayer.contentSize.width-30);
+  spr.scaleX = MIN(label.position.x+label.contentSize.width+20, self.contentSize.width-label.position.x*2-self.orbLayer.contentSize.width-ORB_LAYER_DIST_FROM_SIDE*2);
   spr.anchorPoint = ccp(0, 0.5);
   spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-8));
   
@@ -1417,6 +1415,9 @@
 - (void) endBattle:(BOOL)won {
   [CCBReader load:@"BattleEndView" owner:self];
   
+  // Set endView's parent so that the position normalization doesn't get screwed up
+  self.endView.parent = self;
+  
   _wonBattle = won;
   
   [self.hudView removeButtons];
@@ -1426,10 +1427,8 @@
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
     
+    self.endView.parent = nil;
     [self addChild:self.endView z:10000];
-    
-//    self.endView.anchorPoint = ccp(0.5, 0.5);
-//    self.endView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     if (won) {
       [self.endView.continueButton removeFromParent];

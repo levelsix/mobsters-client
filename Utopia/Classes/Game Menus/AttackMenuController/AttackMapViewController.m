@@ -451,8 +451,8 @@
     BOOL isCompleted = [gs isTaskCompleted:elem.taskId];
     int cash = isCompleted ? 0 : elem.cashReward;
     int oil = isCompleted ? 0 : elem.oilReward;
-    [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:isCompleted oilAmount:oil cashAmount:cash charImgName:elem.characterImgName];
     self.taskStatusView.frame = CGRectMake(0, 0, self.pveView.frame.size.width, self.taskStatusView.frame.size.height);
+    [self.taskStatusView updateForTaskId:elem.taskId element:elem.element level:elem.mapElementId isLocked:![gs isTaskUnlocked:elem.taskId] isCompleted:isCompleted oilAmount:oil cashAmount:cash charImgName:elem.characterImgName];
     
     self.taskStatusView.center = ccp(self.taskStatusView.frame.size.width/2, self.pveView.frame.size.height+self.taskStatusView.frame.size.height/2);
     [UIView animateWithDuration:0.3f animations:^{

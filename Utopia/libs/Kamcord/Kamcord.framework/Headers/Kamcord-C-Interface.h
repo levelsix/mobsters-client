@@ -11,6 +11,35 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    
+    /*
+     *
+     * The different places a user can share a replay to.
+     *
+     */
+    typedef enum {
+        KCShareDestinationFacebook = 0,
+        KCShareDestinationTwitter,
+        KCShareDestinationYouTube,
+        KCShareDestinationEmail,
+        KCShareDestinationWeChat,
+        KCShareDestinationLine,
+    } KCShareDestination;
+    
+    /*
+     *
+     *  Deprecated enum, here for compatibility
+     *
+     */
+    __deprecated typedef enum {
+        KC_SHARE_TARGET_FACEBOOK = 0,
+        KC_SHARE_TARGET_TWITTER,
+        KC_SHARE_TARGET_YOUTUBE,
+        KC_SHARE_TARGET_EMAIL,
+        KC_SHARE_TARGET_WECHAT,
+        KC_SHARE_TARGET_LINE,
+    } KC_SHARE_TARGET;
+    
     /*******************************************************************
      *
      * Kamcord config
@@ -37,6 +66,7 @@ extern "C" {
      * @param   disableiPhone4          Disable Kamcord on iPhone 4.
      * @param   disableiPhone4S         Disable Kamcord on iPhone 4S.
      * @param   disableiPhone5          Disable Kamcord on iPhone 5.
+     * @param   disableiPhone5C         Disable Kamcord on iPhone 5C.
      * @param   disableiPhone5S         Disable Kamcord on iPhone 5S.
      * @param   disableiPad1            Disable Kamcord on iPad 1.
      * @param   disableiPad2            Disable Kamcord on iPad 2.
@@ -52,6 +82,7 @@ extern "C" {
                                     bool disableiPhone4,
                                     bool disableiPhone4S,
                                     bool disableiPhone5,
+                                    bool disableiPhone5C,
                                     bool disableiPhone5S,
                                     bool disableiPad1,
                                     bool disableiPad2,
@@ -59,6 +90,25 @@ extern "C" {
                                     bool disableiPad3,
                                     bool disableiPad4,
                                     bool disableiPadAir);
+    
+    /*
+    void Kamcord_SetDeviceBlacklist(bool disableiPod4G,
+                                    bool disableiPod5G,
+                                    bool disableiPhone3GS,
+                                    bool disableiPhone4,
+                                    bool disableiPhone4S,
+                                    bool disableiPhone5,
+                                    bool disableiPhone5C,
+                                    bool disableiPhone5S,
+                                    bool disableiPhone6,
+                                    bool disableiPhone6Plus,
+                                    bool disableiPad1,
+                                    bool disableiPad2,
+                                    bool disableiPadMini,
+                                    bool disableiPad3,
+                                    bool disableiPad4,
+                                    bool disableiPadAir);
+     */
     
     /*
      *
@@ -137,7 +187,7 @@ extern "C" {
      * Start video recording.
      *
      */
-	void Kamcord_StartRecording();
+    void Kamcord_StartRecording();
     
     /*
      *
@@ -189,25 +239,46 @@ extern "C" {
      */
     void Kamcord_SetVideoTitle(const char * title);
     
+    typedef enum {
+        KCMetadataTypeLevel = 0,       // For a level played in the video.
+        KCMetadataTypeScore,           // For a score for the video.
+        KCMetadataTypeList,            // For a ',' delimited list of values, numerical value if given will apply to all.
+        KCMetadataTypeOther = 1000,    // For arbitrary key to value metadata.
+    } KCMetadataType;
+    
     /*
      *
-     * Set the level and score for the recorded video.
-     * This metadata is used to rank videos in the watch view.
-     *
-     * @param   level   The level for the last recorded video.
-     * @param   score   The score the user just achieved on the given level.
+     * Previous enum, present here and deprecated for compatibility
      *
      */
-    void Kamcord_SetLevelAndScore(const char * level,
-                                  double score);
-    
-    typedef enum
-    {
+    __deprecated typedef enum {
         KC_LEVEL = 0,       // For a level played in the video.
         KC_SCORE,           // For a score for the video.
         KC_LIST,            // For a ',' delimited list of values to apply to a key, numerical value if given will apply to all.
         KC_OTHER = 1000,    // For arbitrary key to value metadata.
     } KC_METADATA_TYPE;
+    /*
+     *
+     * Set the ways users can share their videos. You can use this method to choose which
+     * forms of social media users will have access to when they go to share a replay. By default
+     * the sharing options are Facebook, Twitter, Youtube, Email. You must pass in
+     * exactly four valid distinct KC_SHARE_TARGET enums, else nothing will be changed. The order
+     * of these parameters will affect how the share options are laid out in the UI.
+     *
+     * Note: If you select KC_SHARE_TARGET_WECHAT as an option, you *MUST* call 
+     *       Kamcord_SetWeChatAppID(...) with a valid WeChat App ID, else your
+     *       user will not be able to share to WeChat.
+     *
+     * @param       target1             The top-left element of the share grid
+     * @param       target2             The top-right element of the share grid
+     * @param       target3             The bottom-left element of the share grid
+     * @param       target4             The bottom-right element of the share grid
+     *
+     */
+    void Kamcord_SetShareTargets(KCShareDestination target1,
+                                 KCShareDestination target2,
+                                 KCShareDestination target3,
+                                 KCShareDestination target4);
     
     /*
      *
@@ -220,11 +291,11 @@ extern "C" {
      * @param       numericValue       A numeric representation of the value for this metadata
      *
      */
-    void Kamcord_SetDeveloperMetadata(KC_METADATA_TYPE metadataType,
+    void Kamcord_SetDeveloperMetadata(KCMetadataType metadataType,
                                       const char * displayKey,
                                       const char * displayValue);
     
-    void Kamcord_SetDeveloperMetadataWithNumericValue(KC_METADATA_TYPE metadataType,
+    void Kamcord_SetDeveloperMetadataWithNumericValue(KCMetadataType metadataType,
                                                       const char * displayKey,
                                                       const char * displayValue,
                                                       double numericValue);
@@ -282,13 +353,64 @@ extern "C" {
      * @param   quality     The desired video quality.
      *
      */
-    typedef enum
-    {
+    typedef enum {
+        KCVideoQualityStandard   = 0,
+        KCVideoQualityTrailer    = 1,    // Should only be used to make trailers. Do *NOT* release your game with this setting.
+    } KCVideoQuality;
+    
+    /*
+     *
+     * Previous enum, present here and deprecated for compatibility
+     *
+     */
+    __deprecated typedef enum {
         KC_STANDARD_VIDEO_QUALITY   = 0,
         KC_TRAILER_VIDEO_QUALITY    = 1,    // Should only be used to make trailers. Do *NOT* release your game with this setting.
     } KC_VIDEO_QUALITY;
     
-    void Kamcord_SetVideoQuality(KC_VIDEO_QUALITY videoQuality);
+    void Kamcord_SetVideoQuality(KCVideoQuality videoQuality);
+    
+    /*
+     *
+     * For iOS, if you have a custom audio engine that's not OpenAL or FMOD and want to
+     * record audio along with the video, please set the audio stream parameters
+     * on startup. The audio bytes *MUST* be linear PCM with 1 frame per packet.
+     *
+     * @param   sampleRate      The number of sample frames per second in the data stream.
+     * @param   iOSFormatFlags  The format flags as defined in <CoreAudio/CoreAudioTypes.h>.
+     * @param   bytesPerSample  The number of bytes per audio sample. This is typically 2 (16-bit)
+     *                          or 4 (32-bit). Do *NOT* account for whether or not the audio
+     *                          stream is mono or stereo (i.e. numChannels below is 1 or 2).
+     *                          This is the number of bytes per mono channel. If you set
+     *                          numChannels below to 2, we will take that into account in
+     *                          our internal calculations.
+     * @param   numChannels     How many channels are encoded in the input stream.
+     *                          Valid values are 1 or 2.
+     *
+     * As an example, here is the setting that Kamcord's OpenAL implementation uses:
+     *
+     *      sampleRate      : 44100.0
+     *      iosFormatFlags  : kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked
+     *      bytesPerSample  : sizeof(AudioSampleType) (this is equal to 2 bytes per sample)
+     *      numChannels     : 2
+     *
+     *
+     */
+    void Kamcord_SetAudioStreamDescription(float sampleRate,
+                                           unsigned int iOSFormatFlags,
+                                           unsigned int bytesPerSample,
+                                           unsigned int numChannels);
+    
+    /*
+     *
+     * Write the following audio bytes (with the format set by Kamcord_SetAudioStreamDescription)
+     * to the video. If no video is being recorded, this method does nothing.
+     *
+     * @param   data        The pointer to the audio data byte stream.
+     * @param   numSamples  The number of audio samples in this data buffer.
+     *
+     */
+    void Kamcord_WriteAudioBytes(void * data, unsigned int numSamples);
     
     /*
      *
@@ -353,6 +475,43 @@ extern "C" {
      *
      */
     void Kamcord_SetFacebookAppID(const char * facebookAppID);
+    
+    /*
+     *
+     * For iOS 6+, if you have a Facebook app you'd like to share from, you can set its
+     * Facebook App ID here for native iOS 6 sharing. Setting sharedAuth to YES
+     * will give Kamcord access to the app's Facebook auth instead of Kamcord requesting
+     * its own permissions. To use sharedAuth, you *MUST* request the publish_actions
+     * permission and be using Facebook SDK 3.1 or later. The advantage of sharedAuth is
+     * that the user is not prompted for auth again. If you aren't using the Facebook SDK
+     * in your game, you can set sharedAuth to NO and we'll take care of things using the
+     * Kamcord Facebook app.
+     *
+     * @param       facebookAppId   The Facebook App ID.
+     * @param       sharedAuth      Whether Facebook auth should be shared between the app and Kamcord.
+     *
+     */
+    void Kamcord_SetFacebookAppIDAndShareAuth(const char * facebookAppID, bool useSharedAuth);
+    
+    /*
+     *
+     * Optional method that will log Kamcord out of the shared Facebook auth. If Facebook auth
+     * sharing is not enabled, this method does nothing. This method should typically be called
+     * when the user logs out of Facebook (outside of Kamcord) and if you want to also nullify
+     * Kamcord's shared Facebook auth. If not, then the user will still be able to share to Facebook
+     * via the shared Facebook auth.
+     *
+     */
+    void Kamcord_LogoutOfSharedFacebookAuth();
+    
+    /*
+     *
+     * Sets the WeChat App ID so that you can set it as a share target in the share grid.
+     *
+     * @param       weChatAppId   The WeChat App ID.
+     *
+     */
+    void Kamcord_SetWeChatAppID(const char * weChatAppID);
     
     /*
      *
@@ -455,6 +614,34 @@ extern "C" {
      */
     unsigned int Kamcord_MaximumVideoLength();
     
+    /*
+     *
+     * Should we pause/unpause the game engine when the Kamcord UI appears/disappears?
+     * By default, set to true. Works for cocos2d(-x), GLKit, SpriteKit, and Unity.
+     *
+     * @param   shouldPause     Should we pause the game engine when the Kamcord UI appears?
+     *
+     */
+    void Kamcord_SetShouldPauseGameEngine(bool shouldPause);
+    bool Kamcord_ShouldPauseGameEngine();
+    
+    /*
+     *
+     * Requires users to verify they are old enough before allowing them to turn on voice overlay.
+     *
+     * @param       restricted  Require age check before allowing the user to enable voice overlay?
+     *
+     */
+    void Kamcord_SetAgeRestrictionEnabled(bool restricted);
+    
+    /*
+     *
+     * Returns a boolean indicating whether or not the user is required to be of age in order
+     * to use turn on voice overlay.
+     *
+     */
+    bool Kamcord_IsAgeRestrictionEnabled();
+    
     /*******************************************************************
      *
      * Gameplay of the week
@@ -492,6 +679,26 @@ extern "C" {
      *
      */
     int KamcordRecorder_ActiveFramebuffer();
+    
+    /*******************************************************************
+     *
+     * Deprecated methods
+     *
+     */
+    
+    /*
+     * As of 1.7.3, this has been deprecated in favor of setDeveloperMetadata:...
+     *
+     * The metadata documentation can be found here: https://github.com/kamcord/kamcord-ios-sdk/wiki/Kamcord-Settings-and-Features#general-video-metadata
+     *
+     * Set the level and score for the recorded video.
+     * This metadata is used to rank videos in the watch view.
+     *
+     * @param   level   The level for the last recorded video.
+     * @param   score   The score the user just achieved on the given level.
+     *
+     */
+    void Kamcord_SetLevelAndScore(const char * level, double score) __deprecated;
     
     /*******************************************************************
      *

@@ -173,6 +173,12 @@
       case BuildingBubbleTypeFull:
         imgName = @"fullbubble.png";
         break;
+      case BuildingBubbleTypeComplete:
+        imgName = @"completebubble1.png";
+        break;
+      case BuildingBubbleTypeJoinClan:
+        imgName = @"joinbubble1.png";
+        break;
       case BuildingBubbleTypeHeal:
         imgName = [NSString stringWithFormat:@"healredbubble%@.png", suffix];
         break;
@@ -184,6 +190,10 @@
         break;
       case BuildingBubbleTypeMiniJob:
         imgName = [NSString stringWithFormat:@"minijobsredbubble%@.png", suffix];
+        break;
+      case BuildingBubbleTypeClanHelp:
+        imgName = [NSString stringWithFormat:@"helpredbubble%@.png", suffix];
+        break;
         
       default:
         break;

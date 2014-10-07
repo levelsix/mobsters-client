@@ -57,6 +57,9 @@ typedef enum {
   BuildingBubbleTypeManage,
   BuildingBubbleTypeSell,
   BuildingBubbleTypeMiniJob,
+  BuildingBubbleTypeComplete,
+  BuildingBubbleTypeClanHelp,
+  BuildingBubbleTypeJoinClan,
 } BuildingBubbleType;
 
 @interface BuildingBubble : CCNode {

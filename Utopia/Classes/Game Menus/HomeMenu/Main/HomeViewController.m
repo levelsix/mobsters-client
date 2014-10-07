@@ -14,6 +14,7 @@
 #import "EvolveChooserViewController.h"
 #import "HealViewController.h"
 #import "TeamViewController.h"
+#import "MiniJobsListViewController.h"
 
 @implementation HomeTitleView
 
@@ -56,6 +57,13 @@
   return self;
 }
 
+- (id) initWithMiniJobs {
+  if ((self = [super init])) {
+    _initViewControllerClass = [MiniJobsListViewController class];
+  }
+  return self;
+}
+
 #pragma mark - View loading
 
 - (void) viewDidLoad {
@@ -84,11 +92,13 @@
   TeamViewController *team = [[TeamViewController alloc] init];
   EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
   EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
+  MiniJobsListViewController *miniJobs = [[MiniJobsListViewController alloc] init];
   
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
-  if (gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) [arr addObject:enhance];
+  if ([Globals shouldShowFatKidDungeon]) [arr addObject:enhance];
   if (gs.myEvoChamber.isComplete) [arr addObject:evo];
+  if (gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) [arr addObject:miniJobs];
   self.mainViewControllers = arr;
 }
 

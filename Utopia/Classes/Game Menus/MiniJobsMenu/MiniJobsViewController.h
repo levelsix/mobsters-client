@@ -13,7 +13,7 @@
 #import "MiniJobsCompleteViewController.h"
 #import "NibUtils.h"
 
-@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate>  {
+@interface MiniJobsViewController : UIViewController <MiniJobsDetailsDelegate, MiniJobsCompleteDelegate>  {
   MiniJobsListCell *_selectedCell;
   BOOL _isBeginningJob;
 }

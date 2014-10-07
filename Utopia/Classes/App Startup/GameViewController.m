@@ -279,10 +279,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     
-    // Add all top bar vcs as well
-    acceptable = [acceptable arrayByAddingObjectsFromArray:[self.topBarViewController childViewControllers]];
-    
-    for (UIViewController *vc in self.childViewControllers) {
+    // Add all top bar vcs as well since home menus go in there too
+    for (UIViewController *vc in [self.childViewControllers arrayByAddingObjectsFromArray:self.topBarViewController.childViewControllers]) {
       if (![acceptable containsObject:vc]) {
         if ([vc respondsToSelector:@selector(close)]) {
           [vc performSelector:@selector(close)];

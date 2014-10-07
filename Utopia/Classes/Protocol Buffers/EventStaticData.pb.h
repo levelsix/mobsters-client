@@ -16,6 +16,12 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanHelpNoticeProto;
+@class ClanHelpNoticeProto_Builder;
+@class ClanHelpProto;
+@class ClanHelpProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
 @class ClanRaidProto;

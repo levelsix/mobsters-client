@@ -63,3 +63,11 @@ BOOL QualityIsValidValue(Quality value) {
       return NO;
   }
 }
+BOOL ClanHelpTypeIsValidValue(ClanHelpType value) {
+  switch (value) {
+    case ClanHelpTypeNoHelp:
+      return YES;
+    default:
+      return NO;
+  }
+}

@@ -19,7 +19,6 @@
   [super viewDidLoad];
   
   self.listViewController = [[MiniJobsListViewController alloc] init];
-  self.listViewController.delegate = self;
   [self addChildViewController:self.listViewController];
   [self.containerView addSubview:self.listViewController.view];
   

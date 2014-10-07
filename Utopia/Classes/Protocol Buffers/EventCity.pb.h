@@ -11,6 +11,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class CoordinateProto;

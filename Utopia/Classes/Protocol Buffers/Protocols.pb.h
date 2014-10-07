@@ -108,6 +108,12 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanHelpNoticeProto;
+@class ClanHelpNoticeProto_Builder;
+@class ClanHelpProto;
+@class ClanHelpProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
 @class ClanRaidProto;
@@ -150,6 +156,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EndClanHelpRequestProto;
+@class EndClanHelpRequestProto_Builder;
+@class EndClanHelpResponseProto;
+@class EndClanHelpResponseProto_Builder;
 @class EndDungeonRequestProto;
 @class EndDungeonRequestProto_Builder;
 @class EndDungeonResponseProto;
@@ -212,6 +222,10 @@
 @class FullUserStructureProto_Builder;
 @class GeneralNotificationResponseProto;
 @class GeneralNotificationResponseProto_Builder;
+@class GiveClanHelpRequestProto;
+@class GiveClanHelpRequestProto_Builder;
+@class GiveClanHelpResponseProto;
+@class GiveClanHelpResponseProto_Builder;
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
@@ -458,6 +472,10 @@
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+@class SolicitClanHelpRequestProto;
+@class SolicitClanHelpRequestProto_Builder;
+@class SolicitClanHelpResponseProto;
+@class SolicitClanHelpResponseProto_Builder;
 @class SpawnMiniJobRequestProto;
 @class SpawnMiniJobRequestProto_Builder;
 @class SpawnMiniJobResponseProto;
@@ -660,6 +678,9 @@ typedef enum {
   EventProtocolRequestCUnrestrictUserMonsterEvent = 76,
   EventProtocolRequestCEnhanceMonsterEvent = 77,
   EventProtocolRequestCTradeItemForBoosterEvent = 78,
+  EventProtocolRequestCSolicitCanHelpEvent = 79,
+  EventProtocolRequestCGiveClanHelpEvent = 80,
+  EventProtocolRequestCEndClanHelpEvent = 81,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -744,6 +765,9 @@ typedef enum {
   EventProtocolResponseSUnrestrictUserMonsterEvent = 76,
   EventProtocolResponseSEnhanceMonsterEvent = 77,
   EventProtocolResponseSTradeItemForBoosterEvent = 78,
+  EventProtocolResponseSSolicitClanHelpEvent = 79,
+  EventProtocolResponseSGiveClanHelpEvent = 80,
+  EventProtocolResponseSEndClanHelpEvent = 81,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

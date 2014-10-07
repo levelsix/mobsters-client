@@ -5493,3 +5493,738 @@ static ClanIconProto* defaultClanIconProtoInstance = nil;
 }
 @end
 
+@interface ClanHelpProto ()
+@property int64_t clanHelpId;
+@property int32_t clanId;
+@property int32_t userId;
+@property int64_t userDataId;
+@property ClanHelpType helpType;
+@property int64_t timeRequested;
+@property int32_t maxHelpers;
+@property (retain) NSMutableArray* mutableHelperIdsList;
+@property BOOL open;
+@end
+
+@implementation ClanHelpProto
+
+- (BOOL) hasClanHelpId {
+  return !!hasClanHelpId_;
+}
+- (void) setHasClanHelpId:(BOOL) value {
+  hasClanHelpId_ = !!value;
+}
+@synthesize clanHelpId;
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value {
+  hasClanId_ = !!value;
+}
+@synthesize clanId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasUserDataId {
+  return !!hasUserDataId_;
+}
+- (void) setHasUserDataId:(BOOL) value {
+  hasUserDataId_ = !!value;
+}
+@synthesize userDataId;
+- (BOOL) hasHelpType {
+  return !!hasHelpType_;
+}
+- (void) setHasHelpType:(BOOL) value {
+  hasHelpType_ = !!value;
+}
+@synthesize helpType;
+- (BOOL) hasTimeRequested {
+  return !!hasTimeRequested_;
+}
+- (void) setHasTimeRequested:(BOOL) value {
+  hasTimeRequested_ = !!value;
+}
+@synthesize timeRequested;
+- (BOOL) hasMaxHelpers {
+  return !!hasMaxHelpers_;
+}
+- (void) setHasMaxHelpers:(BOOL) value {
+  hasMaxHelpers_ = !!value;
+}
+@synthesize maxHelpers;
+@synthesize mutableHelperIdsList;
+- (BOOL) hasOpen {
+  return !!hasOpen_;
+}
+- (void) setHasOpen:(BOOL) value {
+  hasOpen_ = !!value;
+}
+- (BOOL) open {
+  return !!open_;
+}
+- (void) setOpen:(BOOL) value {
+  open_ = !!value;
+}
+- (void) dealloc {
+  self.mutableHelperIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanHelpId = 0L;
+    self.clanId = 0;
+    self.userId = 0;
+    self.userDataId = 0L;
+    self.helpType = ClanHelpTypeNoHelp;
+    self.timeRequested = 0L;
+    self.maxHelpers = 0;
+    self.open = NO;
+  }
+  return self;
+}
+static ClanHelpProto* defaultClanHelpProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanHelpProto class]) {
+    defaultClanHelpProtoInstance = [[ClanHelpProto alloc] init];
+  }
+}
++ (ClanHelpProto*) defaultInstance {
+  return defaultClanHelpProtoInstance;
+}
+- (ClanHelpProto*) defaultInstance {
+  return defaultClanHelpProtoInstance;
+}
+- (NSArray*) helperIdsList {
+  return mutableHelperIdsList;
+}
+- (int32_t) helperIdsAtIndex:(int32_t) index {
+  id value = [mutableHelperIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanHelpId) {
+    [output writeInt64:1 value:self.clanHelpId];
+  }
+  if (self.hasClanId) {
+    [output writeInt32:2 value:self.clanId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:3 value:self.userId];
+  }
+  if (self.hasUserDataId) {
+    [output writeInt64:4 value:self.userDataId];
+  }
+  if (self.hasHelpType) {
+    [output writeEnum:5 value:self.helpType];
+  }
+  if (self.hasTimeRequested) {
+    [output writeInt64:6 value:self.timeRequested];
+  }
+  if (self.hasMaxHelpers) {
+    [output writeInt32:7 value:self.maxHelpers];
+  }
+  for (NSNumber* value in self.mutableHelperIdsList) {
+    [output writeInt32:8 value:[value intValue]];
+  }
+  if (self.hasOpen) {
+    [output writeBool:9 value:self.open];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanHelpId) {
+    size += computeInt64Size(1, self.clanHelpId);
+  }
+  if (self.hasClanId) {
+    size += computeInt32Size(2, self.clanId);
+  }
+  if (self.hasUserId) {
+    size += computeInt32Size(3, self.userId);
+  }
+  if (self.hasUserDataId) {
+    size += computeInt64Size(4, self.userDataId);
+  }
+  if (self.hasHelpType) {
+    size += computeEnumSize(5, self.helpType);
+  }
+  if (self.hasTimeRequested) {
+    size += computeInt64Size(6, self.timeRequested);
+  }
+  if (self.hasMaxHelpers) {
+    size += computeInt32Size(7, self.maxHelpers);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableHelperIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableHelperIdsList.count;
+  }
+  if (self.hasOpen) {
+    size += computeBoolSize(9, self.open);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanHelpProto*) parseFromData:(NSData*) data {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromData:data] build];
+}
++ (ClanHelpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromInputStream:input] build];
+}
++ (ClanHelpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanHelpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpProto*)[[[ClanHelpProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpProto_Builder*) builder {
+  return [[[ClanHelpProto_Builder alloc] init] autorelease];
+}
++ (ClanHelpProto_Builder*) builderWithPrototype:(ClanHelpProto*) prototype {
+  return [[ClanHelpProto builder] mergeFrom:prototype];
+}
+- (ClanHelpProto_Builder*) builder {
+  return [ClanHelpProto builder];
+}
+@end
+
+@interface ClanHelpProto_Builder()
+@property (retain) ClanHelpProto* result;
+@end
+
+@implementation ClanHelpProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanHelpProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanHelpProto_Builder*) clear {
+  self.result = [[[ClanHelpProto alloc] init] autorelease];
+  return self;
+}
+- (ClanHelpProto_Builder*) clone {
+  return [ClanHelpProto builderWithPrototype:result];
+}
+- (ClanHelpProto*) defaultInstance {
+  return [ClanHelpProto defaultInstance];
+}
+- (ClanHelpProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanHelpProto*) buildPartial {
+  ClanHelpProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanHelpProto_Builder*) mergeFrom:(ClanHelpProto*) other {
+  if (other == [ClanHelpProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanHelpId) {
+    [self setClanHelpId:other.clanHelpId];
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasUserDataId) {
+    [self setUserDataId:other.userDataId];
+  }
+  if (other.hasHelpType) {
+    [self setHelpType:other.helpType];
+  }
+  if (other.hasTimeRequested) {
+    [self setTimeRequested:other.timeRequested];
+  }
+  if (other.hasMaxHelpers) {
+    [self setMaxHelpers:other.maxHelpers];
+  }
+  if (other.mutableHelperIdsList.count > 0) {
+    if (result.mutableHelperIdsList == nil) {
+      result.mutableHelperIdsList = [NSMutableArray array];
+    }
+    [result.mutableHelperIdsList addObjectsFromArray:other.mutableHelperIdsList];
+  }
+  if (other.hasOpen) {
+    [self setOpen:other.open];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanHelpId:[input readInt64]];
+        break;
+      }
+      case 16: {
+        [self setClanId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setUserDataId:[input readInt64]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (ClanHelpTypeIsValidValue(value)) {
+          [self setHelpType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 48: {
+        [self setTimeRequested:[input readInt64]];
+        break;
+      }
+      case 56: {
+        [self setMaxHelpers:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self addHelperIds:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setOpen:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanHelpId {
+  return result.hasClanHelpId;
+}
+- (int64_t) clanHelpId {
+  return result.clanHelpId;
+}
+- (ClanHelpProto_Builder*) setClanHelpId:(int64_t) value {
+  result.hasClanHelpId = YES;
+  result.clanHelpId = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearClanHelpId {
+  result.hasClanHelpId = NO;
+  result.clanHelpId = 0L;
+  return self;
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (ClanHelpProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (ClanHelpProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasUserDataId {
+  return result.hasUserDataId;
+}
+- (int64_t) userDataId {
+  return result.userDataId;
+}
+- (ClanHelpProto_Builder*) setUserDataId:(int64_t) value {
+  result.hasUserDataId = YES;
+  result.userDataId = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearUserDataId {
+  result.hasUserDataId = NO;
+  result.userDataId = 0L;
+  return self;
+}
+- (BOOL) hasHelpType {
+  return result.hasHelpType;
+}
+- (ClanHelpType) helpType {
+  return result.helpType;
+}
+- (ClanHelpProto_Builder*) setHelpType:(ClanHelpType) value {
+  result.hasHelpType = YES;
+  result.helpType = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearHelpType {
+  result.hasHelpType = NO;
+  result.helpType = ClanHelpTypeNoHelp;
+  return self;
+}
+- (BOOL) hasTimeRequested {
+  return result.hasTimeRequested;
+}
+- (int64_t) timeRequested {
+  return result.timeRequested;
+}
+- (ClanHelpProto_Builder*) setTimeRequested:(int64_t) value {
+  result.hasTimeRequested = YES;
+  result.timeRequested = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearTimeRequested {
+  result.hasTimeRequested = NO;
+  result.timeRequested = 0L;
+  return self;
+}
+- (BOOL) hasMaxHelpers {
+  return result.hasMaxHelpers;
+}
+- (int32_t) maxHelpers {
+  return result.maxHelpers;
+}
+- (ClanHelpProto_Builder*) setMaxHelpers:(int32_t) value {
+  result.hasMaxHelpers = YES;
+  result.maxHelpers = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearMaxHelpers {
+  result.hasMaxHelpers = NO;
+  result.maxHelpers = 0;
+  return self;
+}
+- (NSArray*) helperIdsList {
+  if (result.mutableHelperIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableHelperIdsList;
+}
+- (int32_t) helperIdsAtIndex:(int32_t) index {
+  return [result helperIdsAtIndex:index];
+}
+- (ClanHelpProto_Builder*) replaceHelperIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableHelperIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (ClanHelpProto_Builder*) addHelperIds:(int32_t) value {
+  if (result.mutableHelperIdsList == nil) {
+    result.mutableHelperIdsList = [NSMutableArray array];
+  }
+  [result.mutableHelperIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (ClanHelpProto_Builder*) addAllHelperIds:(NSArray*) values {
+  if (result.mutableHelperIdsList == nil) {
+    result.mutableHelperIdsList = [NSMutableArray array];
+  }
+  [result.mutableHelperIdsList addObjectsFromArray:values];
+  return self;
+}
+- (ClanHelpProto_Builder*) clearHelperIdsList {
+  result.mutableHelperIdsList = nil;
+  return self;
+}
+- (BOOL) hasOpen {
+  return result.hasOpen;
+}
+- (BOOL) open {
+  return result.open;
+}
+- (ClanHelpProto_Builder*) setOpen:(BOOL) value {
+  result.hasOpen = YES;
+  result.open = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearOpen {
+  result.hasOpen = NO;
+  result.open = NO;
+  return self;
+}
+@end
+
+@interface ClanHelpNoticeProto ()
+@property ClanHelpType helpType;
+@property int64_t userDataId;
+@end
+
+@implementation ClanHelpNoticeProto
+
+- (BOOL) hasHelpType {
+  return !!hasHelpType_;
+}
+- (void) setHasHelpType:(BOOL) value {
+  hasHelpType_ = !!value;
+}
+@synthesize helpType;
+- (BOOL) hasUserDataId {
+  return !!hasUserDataId_;
+}
+- (void) setHasUserDataId:(BOOL) value {
+  hasUserDataId_ = !!value;
+}
+@synthesize userDataId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.helpType = ClanHelpTypeNoHelp;
+    self.userDataId = 0L;
+  }
+  return self;
+}
+static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanHelpNoticeProto class]) {
+    defaultClanHelpNoticeProtoInstance = [[ClanHelpNoticeProto alloc] init];
+  }
+}
++ (ClanHelpNoticeProto*) defaultInstance {
+  return defaultClanHelpNoticeProtoInstance;
+}
+- (ClanHelpNoticeProto*) defaultInstance {
+  return defaultClanHelpNoticeProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasHelpType) {
+    [output writeEnum:1 value:self.helpType];
+  }
+  if (self.hasUserDataId) {
+    [output writeInt64:2 value:self.userDataId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasHelpType) {
+    size += computeEnumSize(1, self.helpType);
+  }
+  if (self.hasUserDataId) {
+    size += computeInt64Size(2, self.userDataId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanHelpNoticeProto*) parseFromData:(NSData*) data {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromData:data] build];
+}
++ (ClanHelpNoticeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpNoticeProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromInputStream:input] build];
+}
++ (ClanHelpNoticeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpNoticeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanHelpNoticeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanHelpNoticeProto*)[[[ClanHelpNoticeProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanHelpNoticeProto_Builder*) builder {
+  return [[[ClanHelpNoticeProto_Builder alloc] init] autorelease];
+}
++ (ClanHelpNoticeProto_Builder*) builderWithPrototype:(ClanHelpNoticeProto*) prototype {
+  return [[ClanHelpNoticeProto builder] mergeFrom:prototype];
+}
+- (ClanHelpNoticeProto_Builder*) builder {
+  return [ClanHelpNoticeProto builder];
+}
+@end
+
+@interface ClanHelpNoticeProto_Builder()
+@property (retain) ClanHelpNoticeProto* result;
+@end
+
+@implementation ClanHelpNoticeProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanHelpNoticeProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanHelpNoticeProto_Builder*) clear {
+  self.result = [[[ClanHelpNoticeProto alloc] init] autorelease];
+  return self;
+}
+- (ClanHelpNoticeProto_Builder*) clone {
+  return [ClanHelpNoticeProto builderWithPrototype:result];
+}
+- (ClanHelpNoticeProto*) defaultInstance {
+  return [ClanHelpNoticeProto defaultInstance];
+}
+- (ClanHelpNoticeProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanHelpNoticeProto*) buildPartial {
+  ClanHelpNoticeProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanHelpNoticeProto_Builder*) mergeFrom:(ClanHelpNoticeProto*) other {
+  if (other == [ClanHelpNoticeProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasHelpType) {
+    [self setHelpType:other.helpType];
+  }
+  if (other.hasUserDataId) {
+    [self setUserDataId:other.userDataId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanHelpNoticeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanHelpNoticeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        int32_t value = [input readEnum];
+        if (ClanHelpTypeIsValidValue(value)) {
+          [self setHelpType:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 16: {
+        [self setUserDataId:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasHelpType {
+  return result.hasHelpType;
+}
+- (ClanHelpType) helpType {
+  return result.helpType;
+}
+- (ClanHelpNoticeProto_Builder*) setHelpType:(ClanHelpType) value {
+  result.hasHelpType = YES;
+  result.helpType = value;
+  return self;
+}
+- (ClanHelpNoticeProto_Builder*) clearHelpType {
+  result.hasHelpType = NO;
+  result.helpType = ClanHelpTypeNoHelp;
+  return self;
+}
+- (BOOL) hasUserDataId {
+  return result.hasUserDataId;
+}
+- (int64_t) userDataId {
+  return result.userDataId;
+}
+- (ClanHelpNoticeProto_Builder*) setUserDataId:(int64_t) value {
+  result.hasUserDataId = YES;
+  result.userDataId = value;
+  return self;
+}
+- (ClanHelpNoticeProto_Builder*) clearUserDataId {
+  result.hasUserDataId = NO;
+  result.userDataId = 0L;
+  return self;
+}
+@end
+

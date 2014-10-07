@@ -9,6 +9,12 @@
 #import "Task.pb.h"
 #import "User.pb.h"
 
+@class ClanHelpNoticeProto;
+@class ClanHelpNoticeProto_Builder;
+@class ClanHelpProto;
+@class ClanHelpProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
 @class ClanRaidProto;
@@ -1501,5 +1507,183 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) isAvailable;
 - (ClanIconProto_Builder*) setIsAvailable:(BOOL) value;
 - (ClanIconProto_Builder*) clearIsAvailable;
+@end
+
+@interface ClanHelpProto : PBGeneratedMessage {
+@private
+  BOOL hasOpen_:1;
+  BOOL hasClanHelpId_:1;
+  BOOL hasUserDataId_:1;
+  BOOL hasTimeRequested_:1;
+  BOOL hasClanId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasMaxHelpers_:1;
+  BOOL hasHelpType_:1;
+  BOOL open_:1;
+  int64_t clanHelpId;
+  int64_t userDataId;
+  int64_t timeRequested;
+  int32_t clanId;
+  int32_t userId;
+  int32_t maxHelpers;
+  ClanHelpType helpType;
+  NSMutableArray* mutableHelperIdsList;
+}
+- (BOOL) hasClanHelpId;
+- (BOOL) hasClanId;
+- (BOOL) hasUserId;
+- (BOOL) hasUserDataId;
+- (BOOL) hasHelpType;
+- (BOOL) hasTimeRequested;
+- (BOOL) hasMaxHelpers;
+- (BOOL) hasOpen;
+@property (readonly) int64_t clanHelpId;
+@property (readonly) int32_t clanId;
+@property (readonly) int32_t userId;
+@property (readonly) int64_t userDataId;
+@property (readonly) ClanHelpType helpType;
+@property (readonly) int64_t timeRequested;
+@property (readonly) int32_t maxHelpers;
+- (BOOL) open;
+- (NSArray*) helperIdsList;
+- (int32_t) helperIdsAtIndex:(int32_t) index;
+
++ (ClanHelpProto*) defaultInstance;
+- (ClanHelpProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanHelpProto_Builder*) builder;
++ (ClanHelpProto_Builder*) builder;
++ (ClanHelpProto_Builder*) builderWithPrototype:(ClanHelpProto*) prototype;
+
++ (ClanHelpProto*) parseFromData:(NSData*) data;
++ (ClanHelpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHelpProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanHelpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHelpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanHelpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanHelpProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanHelpProto* result;
+}
+
+- (ClanHelpProto*) defaultInstance;
+
+- (ClanHelpProto_Builder*) clear;
+- (ClanHelpProto_Builder*) clone;
+
+- (ClanHelpProto*) build;
+- (ClanHelpProto*) buildPartial;
+
+- (ClanHelpProto_Builder*) mergeFrom:(ClanHelpProto*) other;
+- (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanHelpId;
+- (int64_t) clanHelpId;
+- (ClanHelpProto_Builder*) setClanHelpId:(int64_t) value;
+- (ClanHelpProto_Builder*) clearClanHelpId;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (ClanHelpProto_Builder*) setClanId:(int32_t) value;
+- (ClanHelpProto_Builder*) clearClanId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (ClanHelpProto_Builder*) setUserId:(int32_t) value;
+- (ClanHelpProto_Builder*) clearUserId;
+
+- (BOOL) hasUserDataId;
+- (int64_t) userDataId;
+- (ClanHelpProto_Builder*) setUserDataId:(int64_t) value;
+- (ClanHelpProto_Builder*) clearUserDataId;
+
+- (BOOL) hasHelpType;
+- (ClanHelpType) helpType;
+- (ClanHelpProto_Builder*) setHelpType:(ClanHelpType) value;
+- (ClanHelpProto_Builder*) clearHelpType;
+
+- (BOOL) hasTimeRequested;
+- (int64_t) timeRequested;
+- (ClanHelpProto_Builder*) setTimeRequested:(int64_t) value;
+- (ClanHelpProto_Builder*) clearTimeRequested;
+
+- (BOOL) hasMaxHelpers;
+- (int32_t) maxHelpers;
+- (ClanHelpProto_Builder*) setMaxHelpers:(int32_t) value;
+- (ClanHelpProto_Builder*) clearMaxHelpers;
+
+- (NSArray*) helperIdsList;
+- (int32_t) helperIdsAtIndex:(int32_t) index;
+- (ClanHelpProto_Builder*) replaceHelperIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (ClanHelpProto_Builder*) addHelperIds:(int32_t) value;
+- (ClanHelpProto_Builder*) addAllHelperIds:(NSArray*) values;
+- (ClanHelpProto_Builder*) clearHelperIdsList;
+
+- (BOOL) hasOpen;
+- (BOOL) open;
+- (ClanHelpProto_Builder*) setOpen:(BOOL) value;
+- (ClanHelpProto_Builder*) clearOpen;
+@end
+
+@interface ClanHelpNoticeProto : PBGeneratedMessage {
+@private
+  BOOL hasUserDataId_:1;
+  BOOL hasHelpType_:1;
+  int64_t userDataId;
+  ClanHelpType helpType;
+}
+- (BOOL) hasHelpType;
+- (BOOL) hasUserDataId;
+@property (readonly) ClanHelpType helpType;
+@property (readonly) int64_t userDataId;
+
++ (ClanHelpNoticeProto*) defaultInstance;
+- (ClanHelpNoticeProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanHelpNoticeProto_Builder*) builder;
++ (ClanHelpNoticeProto_Builder*) builder;
++ (ClanHelpNoticeProto_Builder*) builderWithPrototype:(ClanHelpNoticeProto*) prototype;
+
++ (ClanHelpNoticeProto*) parseFromData:(NSData*) data;
++ (ClanHelpNoticeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHelpNoticeProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanHelpNoticeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHelpNoticeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanHelpNoticeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanHelpNoticeProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanHelpNoticeProto* result;
+}
+
+- (ClanHelpNoticeProto*) defaultInstance;
+
+- (ClanHelpNoticeProto_Builder*) clear;
+- (ClanHelpNoticeProto_Builder*) clone;
+
+- (ClanHelpNoticeProto*) build;
+- (ClanHelpNoticeProto*) buildPartial;
+
+- (ClanHelpNoticeProto_Builder*) mergeFrom:(ClanHelpNoticeProto*) other;
+- (ClanHelpNoticeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanHelpNoticeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasHelpType;
+- (ClanHelpType) helpType;
+- (ClanHelpNoticeProto_Builder*) setHelpType:(ClanHelpType) value;
+- (ClanHelpNoticeProto_Builder*) clearHelpType;
+
+- (BOOL) hasUserDataId;
+- (int64_t) userDataId;
+- (ClanHelpNoticeProto_Builder*) setUserDataId:(int64_t) value;
+- (ClanHelpNoticeProto_Builder*) clearUserDataId;
 @end
 

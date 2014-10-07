@@ -2,6 +2,8 @@
 
 #import "ProtocolBuffers.h"
 
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EvoChamberProto;
@@ -76,48 +78,48 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface StructureInfoProto : PBGeneratedMessage {
 @private
-  BOOL hasShadowScale_:1;
-  BOOL hasShadowHorizontalOfffset_:1;
-  BOOL hasShadowVerticalOffset_:1;
-  BOOL hasImgHorizontalPixelOffset_:1;
   BOOL hasImgVerticalPixelOffset_:1;
-  BOOL hasSuccessorStructId_:1;
-  BOOL hasPredecessorStructId_:1;
-  BOOL hasHeight_:1;
-  BOOL hasWidth_:1;
-  BOOL hasPrerequisiteTownHallLvl_:1;
-  BOOL hasMinutesToBuild_:1;
-  BOOL hasBuildCost_:1;
-  BOOL hasLevel_:1;
+  BOOL hasImgHorizontalPixelOffset_:1;
+  BOOL hasShadowVerticalOffset_:1;
+  BOOL hasShadowHorizontalOfffset_:1;
+  BOOL hasShadowScale_:1;
   BOOL hasStructId_:1;
+  BOOL hasLevel_:1;
+  BOOL hasBuildCost_:1;
+  BOOL hasMinutesToBuild_:1;
+  BOOL hasPrerequisiteTownHallLvl_:1;
+  BOOL hasWidth_:1;
+  BOOL hasHeight_:1;
+  BOOL hasPredecessorStructId_:1;
+  BOOL hasSuccessorStructId_:1;
+  BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasDescription_:1;
   BOOL hasShortDescription_:1;
   BOOL hasShadowImgName_:1;
-  BOOL hasName_:1;
-  BOOL hasBuildResourceType_:1;
   BOOL hasStructType_:1;
-  Float32 shadowScale;
-  Float32 shadowHorizontalOfffset;
-  Float32 shadowVerticalOffset;
-  Float32 imgHorizontalPixelOffset;
+  BOOL hasBuildResourceType_:1;
   Float32 imgVerticalPixelOffset;
-  int32_t successorStructId;
-  int32_t predecessorStructId;
-  int32_t height;
-  int32_t width;
-  int32_t prerequisiteTownHallLvl;
-  int32_t minutesToBuild;
-  int32_t buildCost;
-  int32_t level;
+  Float32 imgHorizontalPixelOffset;
+  Float32 shadowVerticalOffset;
+  Float32 shadowHorizontalOfffset;
+  Float32 shadowScale;
   int32_t structId;
+  int32_t level;
+  int32_t buildCost;
+  int32_t minutesToBuild;
+  int32_t prerequisiteTownHallLvl;
+  int32_t width;
+  int32_t height;
+  int32_t predecessorStructId;
+  int32_t successorStructId;
+  NSString* name;
   NSString* imgName;
   NSString* description;
   NSString* shortDescription;
   NSString* shadowImgName;
-  NSString* name;
-  ResourceType buildResourceType;
   StructureInfoProto_StructType structType;
+  ResourceType buildResourceType;
 }
 - (BOOL) hasStructId;
 - (BOOL) hasName;
@@ -1577,5 +1579,55 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TeamCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
 - (TeamCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (TeamCenterProto_Builder*) clearStructInfo;
+@end
+
+@interface ClanHouseProto : PBGeneratedMessage {
+@private
+  BOOL hasStructInfo_:1;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+@property (readonly, retain) StructureInfoProto* structInfo;
+
++ (ClanHouseProto*) defaultInstance;
+- (ClanHouseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanHouseProto_Builder*) builder;
++ (ClanHouseProto_Builder*) builder;
++ (ClanHouseProto_Builder*) builderWithPrototype:(ClanHouseProto*) prototype;
+
++ (ClanHouseProto*) parseFromData:(NSData*) data;
++ (ClanHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHouseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanHouseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanHouseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanHouseProto* result;
+}
+
+- (ClanHouseProto*) defaultInstance;
+
+- (ClanHouseProto_Builder*) clear;
+- (ClanHouseProto_Builder*) clone;
+
+- (ClanHouseProto*) build;
+- (ClanHouseProto*) buildPartial;
+
+- (ClanHouseProto_Builder*) mergeFrom:(ClanHouseProto*) other;
+- (ClanHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanHouseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (ClanHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (ClanHouseProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ClanHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (ClanHouseProto_Builder*) clearStructInfo;
 @end
 

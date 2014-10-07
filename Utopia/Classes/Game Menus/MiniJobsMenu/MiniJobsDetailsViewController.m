@@ -108,6 +108,8 @@
   
   self.availableMonstersLabel.text = [NSString stringWithFormat:@"AVAILABLE %@S", MONSTER_NAME.uppercaseString];
   self.tapMobsterLabel.text = [NSString stringWithFormat:@"Tap a %@ to fill slot", MONSTER_NAME];
+  
+  self.title = self.userMiniJob.miniJob.name;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -127,7 +129,7 @@
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
   
-  self.inProgressView.frame = self.monstersTable.frame;
+  self.inProgressView.center = self.monstersTable.center;
   [self.monstersTable.superview addSubview:self.inProgressView];
 }
 

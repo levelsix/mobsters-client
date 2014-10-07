@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 #import "RewardsView.h"
+#import "PopupSubViewController.h"
+#import "MiniJobsDetailsViewController.h"
+#import "MiniJobsCompleteViewController.h"
 
 @interface MiniJobsListCell : UITableViewCell
 
@@ -41,15 +44,10 @@
 
 @end
 
-@protocol MiniJobsListDelegate <NSObject>
-
-- (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell;
-- (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell;
-- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell;
-
-@end
-
-@interface MiniJobsListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface MiniJobsListViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate> {
+  MiniJobsListCell *_selectedCell;
+  BOOL _isBeginningJob;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 @property (nonatomic, retain) IBOutlet UILabel *returnsInLabel;
@@ -62,9 +60,10 @@
 
 @property (nonatomic, retain) NSMutableArray *miniJobsList;
 
-@property (nonatomic, assign) id<MiniJobsListDelegate> delegate;
-
 @property (nonatomic, retain) NSTimer *updateTimer;
+
+@property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
+@property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;
 
 - (void) reloadTableAnimated:(BOOL)animated;
 

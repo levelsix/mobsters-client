@@ -6,6 +6,8 @@
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EvoChamberProto;

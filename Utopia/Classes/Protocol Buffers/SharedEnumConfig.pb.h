@@ -40,6 +40,12 @@ typedef enum {
 
 BOOL QualityIsValidValue(Quality value);
 
+typedef enum {
+  ClanHelpTypeNoHelp = 1,
+} ClanHelpType;
+
+BOOL ClanHelpTypeIsValidValue(ClanHelpType value);
+
 
 @interface SharedEnumConfigRoot : NSObject {
 }

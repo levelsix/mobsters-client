@@ -9,6 +9,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EvoChamberProto;

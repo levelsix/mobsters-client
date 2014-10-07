@@ -533,6 +533,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUserAchievementsList;
 @property (retain) NSMutableArray* mutableUserMiniJobProtosList;
 @property (retain) NSMutableArray* mutableUserItemsList;
+@property (retain) NSMutableArray* mutableClanHelpingsList;
 @end
 
 @implementation StartupResponseProto
@@ -678,6 +679,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableUserAchievementsList;
 @synthesize mutableUserMiniJobProtosList;
 @synthesize mutableUserItemsList;
+@synthesize mutableClanHelpingsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -715,6 +717,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableUserAchievementsList = nil;
   self.mutableUserMiniJobProtosList = nil;
   self.mutableUserItemsList = nil;
+  self.mutableClanHelpingsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -918,6 +921,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserItemsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) clanHelpingsList {
+  return mutableClanHelpingsList;
+}
+- (ClanHelpProto*) clanHelpingsAtIndex:(int32_t) index {
+  id value = [mutableClanHelpingsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1041,6 +1051,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserItemProto* element in self.userItemsList) {
     [output writeMessage:40 value:element];
+  }
+  for (ClanHelpProto* element in self.clanHelpingsList) {
+    [output writeMessage:41 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1190,6 +1203,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserItemProto* element in self.userItemsList) {
     size += computeMessageSize(40, element);
+  }
+  for (ClanHelpProto* element in self.clanHelpingsList) {
+    size += computeMessageSize(41, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6574,6 +6590,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableUserItemsList addObjectsFromArray:other.mutableUserItemsList];
   }
+  if (other.mutableClanHelpingsList.count > 0) {
+    if (result.mutableClanHelpingsList == nil) {
+      result.mutableClanHelpingsList = [NSMutableArray array];
+    }
+    [result.mutableClanHelpingsList addObjectsFromArray:other.mutableClanHelpingsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6843,6 +6865,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserItemProto_Builder* subBuilder = [UserItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 330: {
+        ClanHelpProto_Builder* subBuilder = [ClanHelpProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanHelpings:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7918,6 +7946,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableUserItemsList = [NSMutableArray array];
   }
   [result.mutableUserItemsList addObject:value];
+  return self;
+}
+- (NSArray*) clanHelpingsList {
+  if (result.mutableClanHelpingsList == nil) { return [NSArray array]; }
+  return result.mutableClanHelpingsList;
+}
+- (ClanHelpProto*) clanHelpingsAtIndex:(int32_t) index {
+  return [result clanHelpingsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceClanHelpingsAtIndex:(int32_t) index with:(ClanHelpProto*) value {
+  [result.mutableClanHelpingsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllClanHelpings:(NSArray*) values {
+  if (result.mutableClanHelpingsList == nil) {
+    result.mutableClanHelpingsList = [NSMutableArray array];
+  }
+  [result.mutableClanHelpingsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearClanHelpingsList {
+  result.mutableClanHelpingsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addClanHelpings:(ClanHelpProto*) value {
+  if (result.mutableClanHelpingsList == nil) {
+    result.mutableClanHelpingsList = [NSMutableArray array];
+  }
+  [result.mutableClanHelpingsList addObject:value];
   return self;
 }
 @end

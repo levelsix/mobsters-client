@@ -26,7 +26,7 @@
 
 @property (nonatomic, retain) CCSprite *ribbon;
 @property (nonatomic, retain) CCLabelTTF *ribbonLabel;
-@property (nonatomic, retain) CCNode *rewardsBgd;
+@property (nonatomic, retain) CCSprite *rewardsBgd;
 @property (nonatomic, retain) CCNode *rewardsView; // Created in file
 @property (nonatomic, retain) CCSprite *stickerHead;
 

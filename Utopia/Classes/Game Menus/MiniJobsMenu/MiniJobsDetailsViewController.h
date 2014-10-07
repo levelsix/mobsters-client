@@ -67,7 +67,7 @@ typedef enum {
   MiniJobsSortOrderAtkDesc,
 } MiniJobsSortOrder;
 
-@interface MiniJobsDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface MiniJobsDetailsViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate> {
   UIButton *_clickedButton;
 }
 
