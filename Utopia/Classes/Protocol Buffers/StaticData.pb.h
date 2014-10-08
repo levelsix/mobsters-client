@@ -14,6 +14,7 @@
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AchievementProto;
 @class AchievementProto_Builder;
@@ -195,6 +196,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface StaticDataRoot : NSObject {
 }
@@ -206,99 +219,99 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableExpansionCostsList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableAllTasksList;
-  NSMutableArray* mutableAllTaskMapElementsList;
-  NSMutableArray* mutableAllMonstersList;
-  NSMutableArray* mutableSlipList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableBoosterPacksList;
-  NSMutableArray* mutableAllGeneratorsList;
-  NSMutableArray* mutableAllStoragesList;
-  NSMutableArray* mutableAllHospitalsList;
-  NSMutableArray* mutableAllResidencesList;
-  NSMutableArray* mutableAllTownHallsList;
-  NSMutableArray* mutableAllLabsList;
-  NSMutableArray* mutableAllMiniJobCentersList;
-  NSMutableArray* mutableAllEvoChambersList;
-  NSMutableArray* mutableAllTeamCentersList;
-  NSMutableArray* mutableAllClanHousesList;
-  NSMutableArray* mutablePersistentEventsList;
-  NSMutableArray* mutableMbdsList;
-  NSMutableArray* mutableRaidsList;
-  NSMutableArray* mutablePersistentClanEventsList;
-  NSMutableArray* mutableItemsList;
-  NSMutableArray* mutableObstaclesList;
-  NSMutableArray* mutableClanIconsList;
-  NSMutableArray* mutableLeaguesList;
-  NSMutableArray* mutableAchievementsList;
-  NSMutableArray* mutableSkillsList;
+  NSMutableArray * mutableExpansionCostsList;
+  NSMutableArray * mutableAllCitiesList;
+  NSMutableArray * mutableAllTasksList;
+  NSMutableArray * mutableAllTaskMapElementsList;
+  NSMutableArray * mutableAllMonstersList;
+  NSMutableArray * mutableSlipList;
+  NSMutableArray * mutableInProgressQuestsList;
+  NSMutableArray * mutableUnredeemedQuestsList;
+  NSMutableArray * mutableAvailableQuestsList;
+  NSMutableArray * mutableBoosterPacksList;
+  NSMutableArray * mutableAllGeneratorsList;
+  NSMutableArray * mutableAllStoragesList;
+  NSMutableArray * mutableAllHospitalsList;
+  NSMutableArray * mutableAllResidencesList;
+  NSMutableArray * mutableAllTownHallsList;
+  NSMutableArray * mutableAllLabsList;
+  NSMutableArray * mutableAllMiniJobCentersList;
+  NSMutableArray * mutableAllEvoChambersList;
+  NSMutableArray * mutableAllTeamCentersList;
+  NSMutableArray * mutableAllClanHousesList;
+  NSMutableArray * mutablePersistentEventsList;
+  NSMutableArray * mutableMbdsList;
+  NSMutableArray * mutableRaidsList;
+  NSMutableArray * mutablePersistentClanEventsList;
+  NSMutableArray * mutableItemsList;
+  NSMutableArray * mutableObstaclesList;
+  NSMutableArray * mutableClanIconsList;
+  NSMutableArray * mutableLeaguesList;
+  NSMutableArray * mutableAchievementsList;
+  NSMutableArray * mutableSkillsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) expansionCostsList;
-- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
-- (NSArray*) allCitiesList;
-- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
-- (NSArray*) allTasksList;
-- (FullTaskProto*) allTasksAtIndex:(int32_t) index;
-- (NSArray*) allTaskMapElementsList;
-- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index;
-- (NSArray*) allMonstersList;
-- (MonsterProto*) allMonstersAtIndex:(int32_t) index;
-- (NSArray*) slipList;
-- (StaticUserLevelInfoProto*) slipAtIndex:(int32_t) index;
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
-- (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
-- (NSArray*) boosterPacksList;
-- (BoosterPackProto*) boosterPacksAtIndex:(int32_t) index;
-- (NSArray*) allGeneratorsList;
-- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index;
-- (NSArray*) allStoragesList;
-- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index;
-- (NSArray*) allHospitalsList;
-- (HospitalProto*) allHospitalsAtIndex:(int32_t) index;
-- (NSArray*) allResidencesList;
-- (ResidenceProto*) allResidencesAtIndex:(int32_t) index;
-- (NSArray*) allTownHallsList;
-- (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
-- (NSArray*) allLabsList;
-- (LabProto*) allLabsAtIndex:(int32_t) index;
-- (NSArray*) allMiniJobCentersList;
-- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
-- (NSArray*) allEvoChambersList;
-- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index;
-- (NSArray*) allTeamCentersList;
-- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index;
-- (NSArray*) allClanHousesList;
-- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index;
-- (NSArray*) persistentEventsList;
-- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
-- (NSArray*) mbdsList;
-- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
-- (NSArray*) raidsList;
-- (ClanRaidProto*) raidsAtIndex:(int32_t) index;
-- (NSArray*) persistentClanEventsList;
-- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index;
-- (NSArray*) itemsList;
-- (ItemProto*) itemsAtIndex:(int32_t) index;
-- (NSArray*) obstaclesList;
-- (ObstacleProto*) obstaclesAtIndex:(int32_t) index;
-- (NSArray*) clanIconsList;
-- (ClanIconProto*) clanIconsAtIndex:(int32_t) index;
-- (NSArray*) leaguesList;
-- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
-- (NSArray*) achievementsList;
-- (AchievementProto*) achievementsAtIndex:(int32_t) index;
-- (NSArray*) skillsList;
-- (SkillProto*) skillsAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * expansionCostsList;
+@property (readonly, strong) NSArray * allCitiesList;
+@property (readonly, strong) NSArray * allTasksList;
+@property (readonly, strong) NSArray * allTaskMapElementsList;
+@property (readonly, strong) NSArray * allMonstersList;
+@property (readonly, strong) NSArray * slipList;
+@property (readonly, strong) NSArray * inProgressQuestsList;
+@property (readonly, strong) NSArray * unredeemedQuestsList;
+@property (readonly, strong) NSArray * availableQuestsList;
+@property (readonly, strong) NSArray * boosterPacksList;
+@property (readonly, strong) NSArray * allGeneratorsList;
+@property (readonly, strong) NSArray * allStoragesList;
+@property (readonly, strong) NSArray * allHospitalsList;
+@property (readonly, strong) NSArray * allResidencesList;
+@property (readonly, strong) NSArray * allTownHallsList;
+@property (readonly, strong) NSArray * allLabsList;
+@property (readonly, strong) NSArray * allMiniJobCentersList;
+@property (readonly, strong) NSArray * allEvoChambersList;
+@property (readonly, strong) NSArray * allTeamCentersList;
+@property (readonly, strong) NSArray * allClanHousesList;
+@property (readonly, strong) NSArray * persistentEventsList;
+@property (readonly, strong) NSArray * mbdsList;
+@property (readonly, strong) NSArray * raidsList;
+@property (readonly, strong) NSArray * persistentClanEventsList;
+@property (readonly, strong) NSArray * itemsList;
+@property (readonly, strong) NSArray * obstaclesList;
+@property (readonly, strong) NSArray * clanIconsList;
+@property (readonly, strong) NSArray * leaguesList;
+@property (readonly, strong) NSArray * achievementsList;
+@property (readonly, strong) NSArray * skillsList;
+- (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
+- (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
+- (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
+- (TaskMapElementProto*)allTaskMapElementsAtIndex:(NSUInteger)index;
+- (MonsterProto*)allMonstersAtIndex:(NSUInteger)index;
+- (StaticUserLevelInfoProto*)slipAtIndex:(NSUInteger)index;
+- (FullQuestProto*)inProgressQuestsAtIndex:(NSUInteger)index;
+- (FullQuestProto*)unredeemedQuestsAtIndex:(NSUInteger)index;
+- (FullQuestProto*)availableQuestsAtIndex:(NSUInteger)index;
+- (BoosterPackProto*)boosterPacksAtIndex:(NSUInteger)index;
+- (ResourceGeneratorProto*)allGeneratorsAtIndex:(NSUInteger)index;
+- (ResourceStorageProto*)allStoragesAtIndex:(NSUInteger)index;
+- (HospitalProto*)allHospitalsAtIndex:(NSUInteger)index;
+- (ResidenceProto*)allResidencesAtIndex:(NSUInteger)index;
+- (TownHallProto*)allTownHallsAtIndex:(NSUInteger)index;
+- (LabProto*)allLabsAtIndex:(NSUInteger)index;
+- (MiniJobCenterProto*)allMiniJobCentersAtIndex:(NSUInteger)index;
+- (EvoChamberProto*)allEvoChambersAtIndex:(NSUInteger)index;
+- (TeamCenterProto*)allTeamCentersAtIndex:(NSUInteger)index;
+- (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
+- (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
+- (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
+- (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
+- (PersistentClanEventProto*)persistentClanEventsAtIndex:(NSUInteger)index;
+- (ItemProto*)itemsAtIndex:(NSUInteger)index;
+- (ObstacleProto*)obstaclesAtIndex:(NSUInteger)index;
+- (ClanIconProto*)clanIconsAtIndex:(NSUInteger)index;
+- (PvpLeagueProto*)leaguesAtIndex:(NSUInteger)index;
+- (AchievementProto*)achievementsAtIndex:(NSUInteger)index;
+- (SkillProto*)skillsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -308,6 +321,7 @@
 - (StaticDataProto_Builder*) builder;
 + (StaticDataProto_Builder*) builder;
 + (StaticDataProto_Builder*) builderWithPrototype:(StaticDataProto*) prototype;
+- (StaticDataProto_Builder*) toBuilder;
 
 + (StaticDataProto*) parseFromData:(NSData*) data;
 + (StaticDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -317,7 +331,7 @@
 + (StaticDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StaticDataProto_Builder : PBGeneratedMessage_Builder {
+@interface StaticDataProto_Builder : PBGeneratedMessageBuilder {
 @private
   StaticDataProto* result;
 }
@@ -337,218 +351,190 @@
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (StaticDataProto_Builder*) setSender:(MinimumUserProto*) value;
-- (StaticDataProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StaticDataProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (StaticDataProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (StaticDataProto_Builder*) clearSender;
 
-- (NSArray*) expansionCostsList;
-- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceExpansionCostsAtIndex:(int32_t) index with:(CityExpansionCostProto*) value;
-- (StaticDataProto_Builder*) addExpansionCosts:(CityExpansionCostProto*) value;
-- (StaticDataProto_Builder*) addAllExpansionCosts:(NSArray*) values;
-- (StaticDataProto_Builder*) clearExpansionCostsList;
+- (NSMutableArray *)expansionCostsList;
+- (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addExpansionCosts:(CityExpansionCostProto*)value;
+- (StaticDataProto_Builder *)addAllExpansionCosts:(NSArray *)array;
+- (StaticDataProto_Builder *)clearExpansionCosts;
 
-- (NSArray*) allCitiesList;
-- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllCitiesAtIndex:(int32_t) index with:(FullCityProto*) value;
-- (StaticDataProto_Builder*) addAllCities:(FullCityProto*) value;
-- (StaticDataProto_Builder*) addAllAllCities:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllCitiesList;
+- (NSMutableArray *)allCitiesList;
+- (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllCities:(FullCityProto*)value;
+- (StaticDataProto_Builder *)addAllAllCities:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllCities;
 
-- (NSArray*) allTasksList;
-- (FullTaskProto*) allTasksAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllTasksAtIndex:(int32_t) index with:(FullTaskProto*) value;
-- (StaticDataProto_Builder*) addAllTasks:(FullTaskProto*) value;
-- (StaticDataProto_Builder*) addAllAllTasks:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllTasksList;
+- (NSMutableArray *)allTasksList;
+- (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllTasks:(FullTaskProto*)value;
+- (StaticDataProto_Builder *)addAllAllTasks:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllTasks;
 
-- (NSArray*) allTaskMapElementsList;
-- (TaskMapElementProto*) allTaskMapElementsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllTaskMapElementsAtIndex:(int32_t) index with:(TaskMapElementProto*) value;
-- (StaticDataProto_Builder*) addAllTaskMapElements:(TaskMapElementProto*) value;
-- (StaticDataProto_Builder*) addAllAllTaskMapElements:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllTaskMapElementsList;
+- (NSMutableArray *)allTaskMapElementsList;
+- (TaskMapElementProto*)allTaskMapElementsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllTaskMapElements:(TaskMapElementProto*)value;
+- (StaticDataProto_Builder *)addAllAllTaskMapElements:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllTaskMapElements;
 
-- (NSArray*) allMonstersList;
-- (MonsterProto*) allMonstersAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllMonstersAtIndex:(int32_t) index with:(MonsterProto*) value;
-- (StaticDataProto_Builder*) addAllMonsters:(MonsterProto*) value;
-- (StaticDataProto_Builder*) addAllAllMonsters:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllMonstersList;
+- (NSMutableArray *)allMonstersList;
+- (MonsterProto*)allMonstersAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllMonsters:(MonsterProto*)value;
+- (StaticDataProto_Builder *)addAllAllMonsters:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllMonsters;
 
-- (NSArray*) slipList;
-- (StaticUserLevelInfoProto*) slipAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceSlipAtIndex:(int32_t) index with:(StaticUserLevelInfoProto*) value;
-- (StaticDataProto_Builder*) addSlip:(StaticUserLevelInfoProto*) value;
-- (StaticDataProto_Builder*) addAllSlip:(NSArray*) values;
-- (StaticDataProto_Builder*) clearSlipList;
+- (NSMutableArray *)slipList;
+- (StaticUserLevelInfoProto*)slipAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addSlip:(StaticUserLevelInfoProto*)value;
+- (StaticDataProto_Builder *)addAllSlip:(NSArray *)array;
+- (StaticDataProto_Builder *)clearSlip;
 
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addAllInProgressQuests:(NSArray*) values;
-- (StaticDataProto_Builder*) clearInProgressQuestsList;
+- (NSMutableArray *)inProgressQuestsList;
+- (FullQuestProto*)inProgressQuestsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addInProgressQuests:(FullQuestProto*)value;
+- (StaticDataProto_Builder *)addAllInProgressQuests:(NSArray *)array;
+- (StaticDataProto_Builder *)clearInProgressQuests;
 
-- (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addUnredeemedQuests:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addAllUnredeemedQuests:(NSArray*) values;
-- (StaticDataProto_Builder*) clearUnredeemedQuestsList;
+- (NSMutableArray *)unredeemedQuestsList;
+- (FullQuestProto*)unredeemedQuestsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addUnredeemedQuests:(FullQuestProto*)value;
+- (StaticDataProto_Builder *)addAllUnredeemedQuests:(NSArray *)array;
+- (StaticDataProto_Builder *)clearUnredeemedQuests;
 
-- (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addAvailableQuests:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addAllAvailableQuests:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAvailableQuestsList;
+- (NSMutableArray *)availableQuestsList;
+- (FullQuestProto*)availableQuestsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAvailableQuests:(FullQuestProto*)value;
+- (StaticDataProto_Builder *)addAllAvailableQuests:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAvailableQuests;
 
-- (NSArray*) boosterPacksList;
-- (BoosterPackProto*) boosterPacksAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceBoosterPacksAtIndex:(int32_t) index with:(BoosterPackProto*) value;
-- (StaticDataProto_Builder*) addBoosterPacks:(BoosterPackProto*) value;
-- (StaticDataProto_Builder*) addAllBoosterPacks:(NSArray*) values;
-- (StaticDataProto_Builder*) clearBoosterPacksList;
+- (NSMutableArray *)boosterPacksList;
+- (BoosterPackProto*)boosterPacksAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addBoosterPacks:(BoosterPackProto*)value;
+- (StaticDataProto_Builder *)addAllBoosterPacks:(NSArray *)array;
+- (StaticDataProto_Builder *)clearBoosterPacks;
 
-- (NSArray*) allGeneratorsList;
-- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllGeneratorsAtIndex:(int32_t) index with:(ResourceGeneratorProto*) value;
-- (StaticDataProto_Builder*) addAllGenerators:(ResourceGeneratorProto*) value;
-- (StaticDataProto_Builder*) addAllAllGenerators:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllGeneratorsList;
+- (NSMutableArray *)allGeneratorsList;
+- (ResourceGeneratorProto*)allGeneratorsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllGenerators:(ResourceGeneratorProto*)value;
+- (StaticDataProto_Builder *)addAllAllGenerators:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllGenerators;
 
-- (NSArray*) allStoragesList;
-- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllStoragesAtIndex:(int32_t) index with:(ResourceStorageProto*) value;
-- (StaticDataProto_Builder*) addAllStorages:(ResourceStorageProto*) value;
-- (StaticDataProto_Builder*) addAllAllStorages:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllStoragesList;
+- (NSMutableArray *)allStoragesList;
+- (ResourceStorageProto*)allStoragesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllStorages:(ResourceStorageProto*)value;
+- (StaticDataProto_Builder *)addAllAllStorages:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllStorages;
 
-- (NSArray*) allHospitalsList;
-- (HospitalProto*) allHospitalsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllHospitalsAtIndex:(int32_t) index with:(HospitalProto*) value;
-- (StaticDataProto_Builder*) addAllHospitals:(HospitalProto*) value;
-- (StaticDataProto_Builder*) addAllAllHospitals:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllHospitalsList;
+- (NSMutableArray *)allHospitalsList;
+- (HospitalProto*)allHospitalsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllHospitals:(HospitalProto*)value;
+- (StaticDataProto_Builder *)addAllAllHospitals:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllHospitals;
 
-- (NSArray*) allResidencesList;
-- (ResidenceProto*) allResidencesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllResidencesAtIndex:(int32_t) index with:(ResidenceProto*) value;
-- (StaticDataProto_Builder*) addAllResidences:(ResidenceProto*) value;
-- (StaticDataProto_Builder*) addAllAllResidences:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllResidencesList;
+- (NSMutableArray *)allResidencesList;
+- (ResidenceProto*)allResidencesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllResidences:(ResidenceProto*)value;
+- (StaticDataProto_Builder *)addAllAllResidences:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllResidences;
 
-- (NSArray*) allTownHallsList;
-- (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllTownHallsAtIndex:(int32_t) index with:(TownHallProto*) value;
-- (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value;
-- (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllTownHallsList;
+- (NSMutableArray *)allTownHallsList;
+- (TownHallProto*)allTownHallsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllTownHalls:(TownHallProto*)value;
+- (StaticDataProto_Builder *)addAllAllTownHalls:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllTownHalls;
 
-- (NSArray*) allLabsList;
-- (LabProto*) allLabsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value;
-- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value;
-- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllLabsList;
+- (NSMutableArray *)allLabsList;
+- (LabProto*)allLabsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllLabs:(LabProto*)value;
+- (StaticDataProto_Builder *)addAllAllLabs:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllLabs;
 
-- (NSArray*) allMiniJobCentersList;
-- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllMiniJobCentersAtIndex:(int32_t) index with:(MiniJobCenterProto*) value;
-- (StaticDataProto_Builder*) addAllMiniJobCenters:(MiniJobCenterProto*) value;
-- (StaticDataProto_Builder*) addAllAllMiniJobCenters:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllMiniJobCentersList;
+- (NSMutableArray *)allMiniJobCentersList;
+- (MiniJobCenterProto*)allMiniJobCentersAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllMiniJobCenters:(MiniJobCenterProto*)value;
+- (StaticDataProto_Builder *)addAllAllMiniJobCenters:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllMiniJobCenters;
 
-- (NSArray*) allEvoChambersList;
-- (EvoChamberProto*) allEvoChambersAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllEvoChambersAtIndex:(int32_t) index with:(EvoChamberProto*) value;
-- (StaticDataProto_Builder*) addAllEvoChambers:(EvoChamberProto*) value;
-- (StaticDataProto_Builder*) addAllAllEvoChambers:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllEvoChambersList;
+- (NSMutableArray *)allEvoChambersList;
+- (EvoChamberProto*)allEvoChambersAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllEvoChambers:(EvoChamberProto*)value;
+- (StaticDataProto_Builder *)addAllAllEvoChambers:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllEvoChambers;
 
-- (NSArray*) allTeamCentersList;
-- (TeamCenterProto*) allTeamCentersAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllTeamCentersAtIndex:(int32_t) index with:(TeamCenterProto*) value;
-- (StaticDataProto_Builder*) addAllTeamCenters:(TeamCenterProto*) value;
-- (StaticDataProto_Builder*) addAllAllTeamCenters:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllTeamCentersList;
+- (NSMutableArray *)allTeamCentersList;
+- (TeamCenterProto*)allTeamCentersAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllTeamCenters:(TeamCenterProto*)value;
+- (StaticDataProto_Builder *)addAllAllTeamCenters:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllTeamCenters;
 
-- (NSArray*) allClanHousesList;
-- (ClanHouseProto*) allClanHousesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllClanHousesAtIndex:(int32_t) index with:(ClanHouseProto*) value;
-- (StaticDataProto_Builder*) addAllClanHouses:(ClanHouseProto*) value;
-- (StaticDataProto_Builder*) addAllAllClanHouses:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllClanHousesList;
+- (NSMutableArray *)allClanHousesList;
+- (ClanHouseProto*)allClanHousesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAllClanHouses:(ClanHouseProto*)value;
+- (StaticDataProto_Builder *)addAllAllClanHouses:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAllClanHouses;
 
-- (NSArray*) persistentEventsList;
-- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replacePersistentEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value;
-- (StaticDataProto_Builder*) addPersistentEvents:(PersistentEventProto*) value;
-- (StaticDataProto_Builder*) addAllPersistentEvents:(NSArray*) values;
-- (StaticDataProto_Builder*) clearPersistentEventsList;
+- (NSMutableArray *)persistentEventsList;
+- (PersistentEventProto*)persistentEventsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPersistentEvents:(PersistentEventProto*)value;
+- (StaticDataProto_Builder *)addAllPersistentEvents:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPersistentEvents;
 
-- (NSArray*) mbdsList;
-- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceMbdsAtIndex:(int32_t) index with:(MonsterBattleDialogueProto*) value;
-- (StaticDataProto_Builder*) addMbds:(MonsterBattleDialogueProto*) value;
-- (StaticDataProto_Builder*) addAllMbds:(NSArray*) values;
-- (StaticDataProto_Builder*) clearMbdsList;
+- (NSMutableArray *)mbdsList;
+- (MonsterBattleDialogueProto*)mbdsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addMbds:(MonsterBattleDialogueProto*)value;
+- (StaticDataProto_Builder *)addAllMbds:(NSArray *)array;
+- (StaticDataProto_Builder *)clearMbds;
 
-- (NSArray*) raidsList;
-- (ClanRaidProto*) raidsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceRaidsAtIndex:(int32_t) index with:(ClanRaidProto*) value;
-- (StaticDataProto_Builder*) addRaids:(ClanRaidProto*) value;
-- (StaticDataProto_Builder*) addAllRaids:(NSArray*) values;
-- (StaticDataProto_Builder*) clearRaidsList;
+- (NSMutableArray *)raidsList;
+- (ClanRaidProto*)raidsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addRaids:(ClanRaidProto*)value;
+- (StaticDataProto_Builder *)addAllRaids:(NSArray *)array;
+- (StaticDataProto_Builder *)clearRaids;
 
-- (NSArray*) persistentClanEventsList;
-- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replacePersistentClanEventsAtIndex:(int32_t) index with:(PersistentClanEventProto*) value;
-- (StaticDataProto_Builder*) addPersistentClanEvents:(PersistentClanEventProto*) value;
-- (StaticDataProto_Builder*) addAllPersistentClanEvents:(NSArray*) values;
-- (StaticDataProto_Builder*) clearPersistentClanEventsList;
+- (NSMutableArray *)persistentClanEventsList;
+- (PersistentClanEventProto*)persistentClanEventsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPersistentClanEvents:(PersistentClanEventProto*)value;
+- (StaticDataProto_Builder *)addAllPersistentClanEvents:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPersistentClanEvents;
 
-- (NSArray*) itemsList;
-- (ItemProto*) itemsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceItemsAtIndex:(int32_t) index with:(ItemProto*) value;
-- (StaticDataProto_Builder*) addItems:(ItemProto*) value;
-- (StaticDataProto_Builder*) addAllItems:(NSArray*) values;
-- (StaticDataProto_Builder*) clearItemsList;
+- (NSMutableArray *)itemsList;
+- (ItemProto*)itemsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addItems:(ItemProto*)value;
+- (StaticDataProto_Builder *)addAllItems:(NSArray *)array;
+- (StaticDataProto_Builder *)clearItems;
 
-- (NSArray*) obstaclesList;
-- (ObstacleProto*) obstaclesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(ObstacleProto*) value;
-- (StaticDataProto_Builder*) addObstacles:(ObstacleProto*) value;
-- (StaticDataProto_Builder*) addAllObstacles:(NSArray*) values;
-- (StaticDataProto_Builder*) clearObstaclesList;
+- (NSMutableArray *)obstaclesList;
+- (ObstacleProto*)obstaclesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addObstacles:(ObstacleProto*)value;
+- (StaticDataProto_Builder *)addAllObstacles:(NSArray *)array;
+- (StaticDataProto_Builder *)clearObstacles;
 
-- (NSArray*) clanIconsList;
-- (ClanIconProto*) clanIconsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceClanIconsAtIndex:(int32_t) index with:(ClanIconProto*) value;
-- (StaticDataProto_Builder*) addClanIcons:(ClanIconProto*) value;
-- (StaticDataProto_Builder*) addAllClanIcons:(NSArray*) values;
-- (StaticDataProto_Builder*) clearClanIconsList;
+- (NSMutableArray *)clanIconsList;
+- (ClanIconProto*)clanIconsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addClanIcons:(ClanIconProto*)value;
+- (StaticDataProto_Builder *)addAllClanIcons:(NSArray *)array;
+- (StaticDataProto_Builder *)clearClanIcons;
 
-- (NSArray*) leaguesList;
-- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceLeaguesAtIndex:(int32_t) index with:(PvpLeagueProto*) value;
-- (StaticDataProto_Builder*) addLeagues:(PvpLeagueProto*) value;
-- (StaticDataProto_Builder*) addAllLeagues:(NSArray*) values;
-- (StaticDataProto_Builder*) clearLeaguesList;
+- (NSMutableArray *)leaguesList;
+- (PvpLeagueProto*)leaguesAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addLeagues:(PvpLeagueProto*)value;
+- (StaticDataProto_Builder *)addAllLeagues:(NSArray *)array;
+- (StaticDataProto_Builder *)clearLeagues;
 
-- (NSArray*) achievementsList;
-- (AchievementProto*) achievementsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAchievementsAtIndex:(int32_t) index with:(AchievementProto*) value;
-- (StaticDataProto_Builder*) addAchievements:(AchievementProto*) value;
-- (StaticDataProto_Builder*) addAllAchievements:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAchievementsList;
+- (NSMutableArray *)achievementsList;
+- (AchievementProto*)achievementsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addAchievements:(AchievementProto*)value;
+- (StaticDataProto_Builder *)addAllAchievements:(NSArray *)array;
+- (StaticDataProto_Builder *)clearAchievements;
 
-- (NSArray*) skillsList;
-- (SkillProto*) skillsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceSkillsAtIndex:(int32_t) index with:(SkillProto*) value;
-- (StaticDataProto_Builder*) addSkills:(SkillProto*) value;
-- (StaticDataProto_Builder*) addAllSkills:(NSArray*) values;
-- (StaticDataProto_Builder*) clearSkillsList;
+- (NSMutableArray *)skillsList;
+- (SkillProto*)skillsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addSkills:(SkillProto*)value;
+- (StaticDataProto_Builder *)addAllSkills:(NSArray *)array;
+- (StaticDataProto_Builder *)clearSkills;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

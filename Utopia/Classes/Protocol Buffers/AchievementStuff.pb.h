@@ -5,6 +5,7 @@
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AchievementProto;
 @class AchievementProto_Builder;
@@ -70,6 +71,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   AchievementProto_AchievementTypeNoAchievement = 17,
   AchievementProto_AchievementTypeCollectResource = 1,
@@ -145,8 +158,8 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (BOOL) hasPrerequisiteId;
 - (BOOL) hasSuccessorId;
 @property (readonly) int32_t achievementId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* description;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* description;
 @property (readonly) int32_t gemReward;
 @property (readonly) int32_t lvl;
 @property (readonly) AchievementProto_AchievementType achievementType;
@@ -167,6 +180,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (AchievementProto_Builder*) builder;
 + (AchievementProto_Builder*) builder;
 + (AchievementProto_Builder*) builderWithPrototype:(AchievementProto*) prototype;
+- (AchievementProto_Builder*) toBuilder;
 
 + (AchievementProto*) parseFromData:(NSData*) data;
 + (AchievementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -176,7 +190,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 + (AchievementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AchievementProto_Builder : PBGeneratedMessage_Builder {
+@interface AchievementProto_Builder : PBGeneratedMessageBuilder {
 @private
   AchievementProto* result;
 }
@@ -292,6 +306,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (UserAchievementProto_Builder*) builder;
 + (UserAchievementProto_Builder*) builder;
 + (UserAchievementProto_Builder*) builderWithPrototype:(UserAchievementProto*) prototype;
+- (UserAchievementProto_Builder*) toBuilder;
 
 + (UserAchievementProto*) parseFromData:(NSData*) data;
 + (UserAchievementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -301,7 +316,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 + (UserAchievementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserAchievementProto_Builder : PBGeneratedMessage_Builder {
+@interface UserAchievementProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserAchievementProto* result;
 }
@@ -339,3 +354,5 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (UserAchievementProto_Builder*) clearIsRedeemed;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

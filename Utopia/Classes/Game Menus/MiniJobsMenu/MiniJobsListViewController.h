@@ -67,4 +67,8 @@
 
 - (void) reloadTableAnimated:(BOOL)animated;
 
+- (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell;
+- (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell;
+- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell;
+
 @end

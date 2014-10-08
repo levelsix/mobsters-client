@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "SharedEnumConfig.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
@@ -30,6 +31,18 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   MonsterProto_AnimationTypeNoAnimation = 3,
   MonsterProto_AnimationTypeMelee = 1,
@@ -114,7 +127,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   Quality quality;
   Element monsterElement;
   MonsterProto_AnimationType attackAnimationType;
-  NSMutableArray* mutableLvlInfoList;
+  NSMutableArray * mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasEvolutionGroup;
@@ -147,14 +160,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasBaseOffensiveSkillId;
 - (BOOL) hasBaseDefensiveSkillId;
 @property (readonly) int32_t monsterId;
-@property (readonly, retain) NSString* evolutionGroup;
-@property (readonly, retain) NSString* shorterName;
-@property (readonly, retain) NSString* monsterGroup;
+@property (readonly, strong) NSString* evolutionGroup;
+@property (readonly, strong) NSString* shorterName;
+@property (readonly, strong) NSString* monsterGroup;
 @property (readonly) Quality quality;
 @property (readonly) int32_t evolutionLevel;
-@property (readonly, retain) NSString* displayName;
+@property (readonly, strong) NSString* displayName;
 @property (readonly) Element monsterElement;
-@property (readonly, retain) NSString* imagePrefix;
+@property (readonly, strong) NSString* imagePrefix;
 @property (readonly) int32_t numPuzzlePieces;
 @property (readonly) int32_t minutesToCombinePieces;
 @property (readonly) int32_t maxLevel;
@@ -162,22 +175,22 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t evolutionCatalystMonsterId;
 @property (readonly) int32_t minutesToEvolve;
 @property (readonly) int32_t numCatalystMonstersRequired;
-@property (readonly, retain) NSString* carrotRecruited;
-@property (readonly, retain) NSString* carrotDefeated;
-@property (readonly, retain) NSString* carrotEvolved;
-@property (readonly, retain) NSString* description;
+@property (readonly, strong) NSString* carrotRecruited;
+@property (readonly, strong) NSString* carrotDefeated;
+@property (readonly, strong) NSString* carrotEvolved;
+@property (readonly, strong) NSString* description;
+@property (readonly, strong) NSArray * lvlInfoList;
 @property (readonly) int32_t evolutionCost;
 @property (readonly) MonsterProto_AnimationType attackAnimationType;
 @property (readonly) int32_t verticalPixelOffset;
-@property (readonly, retain) NSString* atkSoundFile;
+@property (readonly, strong) NSString* atkSoundFile;
 @property (readonly) int32_t atkSoundAnimationFrame;
 @property (readonly) int32_t atkAnimationRepeatedFramesStart;
 @property (readonly) int32_t atkAnimationRepeatedFramesEnd;
 @property (readonly) Float32 shadowScaleFactor;
 @property (readonly) int32_t baseOffensiveSkillId;
 @property (readonly) int32_t baseDefensiveSkillId;
-- (NSArray*) lvlInfoList;
-- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
+- (MonsterLevelInfoProto*)lvlInfoAtIndex:(NSUInteger)index;
 
 + (MonsterProto*) defaultInstance;
 - (MonsterProto*) defaultInstance;
@@ -187,6 +200,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_Builder*) builder;
 + (MonsterProto_Builder*) builder;
 + (MonsterProto_Builder*) builderWithPrototype:(MonsterProto*) prototype;
+- (MonsterProto_Builder*) toBuilder;
 
 + (MonsterProto*) parseFromData:(NSData*) data;
 + (MonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -196,7 +210,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (MonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MonsterProto_Builder : PBGeneratedMessage_Builder {
+@interface MonsterProto_Builder : PBGeneratedMessageBuilder {
 @private
   MonsterProto* result;
 }
@@ -313,12 +327,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_Builder*) setDescription:(NSString*) value;
 - (MonsterProto_Builder*) clearDescription;
 
-- (NSArray*) lvlInfoList;
-- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
-- (MonsterProto_Builder*) replaceLvlInfoAtIndex:(int32_t) index with:(MonsterLevelInfoProto*) value;
-- (MonsterProto_Builder*) addLvlInfo:(MonsterLevelInfoProto*) value;
-- (MonsterProto_Builder*) addAllLvlInfo:(NSArray*) values;
-- (MonsterProto_Builder*) clearLvlInfoList;
+- (NSMutableArray *)lvlInfoList;
+- (MonsterLevelInfoProto*)lvlInfoAtIndex:(NSUInteger)index;
+- (MonsterProto_Builder *)addLvlInfo:(MonsterLevelInfoProto*)value;
+- (MonsterProto_Builder *)addAllLvlInfo:(NSArray *)array;
+- (MonsterProto_Builder *)clearLvlInfo;
 
 - (BOOL) hasEvolutionCost;
 - (int32_t) evolutionCost;
@@ -447,6 +460,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterLevelInfoProto_Builder*) builder;
 + (MonsterLevelInfoProto_Builder*) builder;
 + (MonsterLevelInfoProto_Builder*) builderWithPrototype:(MonsterLevelInfoProto*) prototype;
+- (MonsterLevelInfoProto_Builder*) toBuilder;
 
 + (MonsterLevelInfoProto*) parseFromData:(NSData*) data;
 + (MonsterLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -456,7 +470,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (MonsterLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MonsterLevelInfoProto_Builder : PBGeneratedMessage_Builder {
+@interface MonsterLevelInfoProto_Builder : PBGeneratedMessageBuilder {
 @private
   MonsterLevelInfoProto* result;
 }
@@ -618,6 +632,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (FullUserMonsterProto_Builder*) builder;
 + (FullUserMonsterProto_Builder*) builder;
 + (FullUserMonsterProto_Builder*) builderWithPrototype:(FullUserMonsterProto*) prototype;
+- (FullUserMonsterProto_Builder*) toBuilder;
 
 + (FullUserMonsterProto*) parseFromData:(NSData*) data;
 + (FullUserMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -627,7 +642,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (FullUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserMonsterProto_Builder : PBGeneratedMessage_Builder {
+@interface FullUserMonsterProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullUserMonsterProto* result;
 }
@@ -730,6 +745,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MinimumUserMonsterProto_Builder*) builder;
 + (MinimumUserMonsterProto_Builder*) builder;
 + (MinimumUserMonsterProto_Builder*) builderWithPrototype:(MinimumUserMonsterProto*) prototype;
+- (MinimumUserMonsterProto_Builder*) toBuilder;
 
 + (MinimumUserMonsterProto*) parseFromData:(NSData*) data;
 + (MinimumUserMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -739,7 +755,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (MinimumUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserMonsterProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserMonsterProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserMonsterProto* result;
 }
@@ -799,6 +815,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterHealingProto_Builder*) builder;
 + (UserMonsterHealingProto_Builder*) builder;
 + (UserMonsterHealingProto_Builder*) builderWithPrototype:(UserMonsterHealingProto*) prototype;
+- (UserMonsterHealingProto_Builder*) toBuilder;
 
 + (UserMonsterHealingProto*) parseFromData:(NSData*) data;
 + (UserMonsterHealingProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -808,7 +825,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserMonsterHealingProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserMonsterHealingProto_Builder : PBGeneratedMessage_Builder {
+@interface UserMonsterHealingProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserMonsterHealingProto* result;
 }
@@ -871,6 +888,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterCurrentHealthProto_Builder*) builder;
 + (UserMonsterCurrentHealthProto_Builder*) builder;
 + (UserMonsterCurrentHealthProto_Builder*) builderWithPrototype:(UserMonsterCurrentHealthProto*) prototype;
+- (UserMonsterCurrentHealthProto_Builder*) toBuilder;
 
 + (UserMonsterCurrentHealthProto*) parseFromData:(NSData*) data;
 + (UserMonsterCurrentHealthProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -880,7 +898,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserMonsterCurrentHealthProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserMonsterCurrentHealthProto_Builder : PBGeneratedMessage_Builder {
+@interface UserMonsterCurrentHealthProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserMonsterCurrentHealthProto* result;
 }
@@ -914,14 +932,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasBaseMonster_:1;
   int32_t userId;
   UserEnhancementItemProto* baseMonster;
-  NSMutableArray* mutableFeedersList;
+  NSMutableArray * mutableFeedersList;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasBaseMonster;
 @property (readonly) int32_t userId;
-@property (readonly, retain) UserEnhancementItemProto* baseMonster;
-- (NSArray*) feedersList;
-- (UserEnhancementItemProto*) feedersAtIndex:(int32_t) index;
+@property (readonly, strong) UserEnhancementItemProto* baseMonster;
+@property (readonly, strong) NSArray * feedersList;
+- (UserEnhancementItemProto*)feedersAtIndex:(NSUInteger)index;
 
 + (UserEnhancementProto*) defaultInstance;
 - (UserEnhancementProto*) defaultInstance;
@@ -931,6 +949,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserEnhancementProto_Builder*) builder;
 + (UserEnhancementProto_Builder*) builder;
 + (UserEnhancementProto_Builder*) builderWithPrototype:(UserEnhancementProto*) prototype;
+- (UserEnhancementProto_Builder*) toBuilder;
 
 + (UserEnhancementProto*) parseFromData:(NSData*) data;
 + (UserEnhancementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -940,7 +959,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserEnhancementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserEnhancementProto_Builder : PBGeneratedMessage_Builder {
+@interface UserEnhancementProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserEnhancementProto* result;
 }
@@ -965,16 +984,15 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasBaseMonster;
 - (UserEnhancementItemProto*) baseMonster;
 - (UserEnhancementProto_Builder*) setBaseMonster:(UserEnhancementItemProto*) value;
-- (UserEnhancementProto_Builder*) setBaseMonsterBuilder:(UserEnhancementItemProto_Builder*) builderForValue;
+- (UserEnhancementProto_Builder*) setBaseMonster_Builder:(UserEnhancementItemProto_Builder*) builderForValue;
 - (UserEnhancementProto_Builder*) mergeBaseMonster:(UserEnhancementItemProto*) value;
 - (UserEnhancementProto_Builder*) clearBaseMonster;
 
-- (NSArray*) feedersList;
-- (UserEnhancementItemProto*) feedersAtIndex:(int32_t) index;
-- (UserEnhancementProto_Builder*) replaceFeedersAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
-- (UserEnhancementProto_Builder*) addFeeders:(UserEnhancementItemProto*) value;
-- (UserEnhancementProto_Builder*) addAllFeeders:(NSArray*) values;
-- (UserEnhancementProto_Builder*) clearFeedersList;
+- (NSMutableArray *)feedersList;
+- (UserEnhancementItemProto*)feedersAtIndex:(NSUInteger)index;
+- (UserEnhancementProto_Builder *)addFeeders:(UserEnhancementItemProto*)value;
+- (UserEnhancementProto_Builder *)addAllFeeders:(NSArray *)array;
+- (UserEnhancementProto_Builder *)clearFeeders;
 @end
 
 @interface UserEnhancementItemProto : PBGeneratedMessage {
@@ -1001,6 +1019,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserEnhancementItemProto_Builder*) builder;
 + (UserEnhancementItemProto_Builder*) builder;
 + (UserEnhancementItemProto_Builder*) builderWithPrototype:(UserEnhancementItemProto*) prototype;
+- (UserEnhancementItemProto_Builder*) toBuilder;
 
 + (UserEnhancementItemProto*) parseFromData:(NSData*) data;
 + (UserEnhancementItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1010,7 +1029,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserEnhancementItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserEnhancementItemProto_Builder : PBGeneratedMessage_Builder {
+@interface UserEnhancementItemProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserEnhancementItemProto* result;
 }
@@ -1071,6 +1090,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterCurrentExpProto_Builder*) builder;
 + (UserMonsterCurrentExpProto_Builder*) builder;
 + (UserMonsterCurrentExpProto_Builder*) builderWithPrototype:(UserMonsterCurrentExpProto*) prototype;
+- (UserMonsterCurrentExpProto_Builder*) toBuilder;
 
 + (UserMonsterCurrentExpProto*) parseFromData:(NSData*) data;
 + (UserMonsterCurrentExpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1080,7 +1100,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserMonsterCurrentExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserMonsterCurrentExpProto_Builder : PBGeneratedMessage_Builder {
+@interface UserMonsterCurrentExpProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserMonsterCurrentExpProto* result;
 }
@@ -1138,6 +1158,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MinimumUserMonsterSellProto_Builder*) builder;
 + (MinimumUserMonsterSellProto_Builder*) builder;
 + (MinimumUserMonsterSellProto_Builder*) builderWithPrototype:(MinimumUserMonsterSellProto*) prototype;
+- (MinimumUserMonsterSellProto_Builder*) toBuilder;
 
 + (MinimumUserMonsterSellProto*) parseFromData:(NSData*) data;
 + (MinimumUserMonsterSellProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1147,7 +1168,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (MinimumUserMonsterSellProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserMonsterSellProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserMonsterSellProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserMonsterSellProto* result;
 }
@@ -1179,12 +1200,12 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @private
   BOOL hasUserId_:1;
   int32_t userId;
-  NSMutableArray* mutableCurrentTeamList;
+  NSMutableArray * mutableCurrentTeamList;
 }
 - (BOOL) hasUserId;
 @property (readonly) int32_t userId;
-- (NSArray*) currentTeamList;
-- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * currentTeamList;
+- (FullUserMonsterProto*)currentTeamAtIndex:(NSUInteger)index;
 
 + (UserCurrentMonsterTeamProto*) defaultInstance;
 - (UserCurrentMonsterTeamProto*) defaultInstance;
@@ -1194,6 +1215,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserCurrentMonsterTeamProto_Builder*) builder;
 + (UserCurrentMonsterTeamProto_Builder*) builder;
 + (UserCurrentMonsterTeamProto_Builder*) builderWithPrototype:(UserCurrentMonsterTeamProto*) prototype;
+- (UserCurrentMonsterTeamProto_Builder*) toBuilder;
 
 + (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data;
 + (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1203,7 +1225,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserCurrentMonsterTeamProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserCurrentMonsterTeamProto_Builder : PBGeneratedMessage_Builder {
+@interface UserCurrentMonsterTeamProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserCurrentMonsterTeamProto* result;
 }
@@ -1225,12 +1247,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserCurrentMonsterTeamProto_Builder*) setUserId:(int32_t) value;
 - (UserCurrentMonsterTeamProto_Builder*) clearUserId;
 
-- (NSArray*) currentTeamList;
-- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index;
-- (UserCurrentMonsterTeamProto_Builder*) replaceCurrentTeamAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (UserCurrentMonsterTeamProto_Builder*) addCurrentTeam:(FullUserMonsterProto*) value;
-- (UserCurrentMonsterTeamProto_Builder*) addAllCurrentTeam:(NSArray*) values;
-- (UserCurrentMonsterTeamProto_Builder*) clearCurrentTeamList;
+- (NSMutableArray *)currentTeamList;
+- (FullUserMonsterProto*)currentTeamAtIndex:(NSUInteger)index;
+- (UserCurrentMonsterTeamProto_Builder *)addCurrentTeam:(FullUserMonsterProto*)value;
+- (UserCurrentMonsterTeamProto_Builder *)addAllCurrentTeam:(NSArray *)array;
+- (UserCurrentMonsterTeamProto_Builder *)clearCurrentTeam;
 @end
 
 @interface UserMonsterEvolutionProto : PBGeneratedMessage {
@@ -1239,14 +1260,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasStartTime_:1;
   int64_t catalystUserMonsterId;
   int64_t startTime;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasCatalystUserMonsterId;
 - (BOOL) hasStartTime;
 @property (readonly) int64_t catalystUserMonsterId;
+@property (readonly, strong) PBArray * userMonsterIdsList;
 @property (readonly) int64_t startTime;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (UserMonsterEvolutionProto*) defaultInstance;
 - (UserMonsterEvolutionProto*) defaultInstance;
@@ -1256,6 +1277,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterEvolutionProto_Builder*) builder;
 + (UserMonsterEvolutionProto_Builder*) builder;
 + (UserMonsterEvolutionProto_Builder*) builderWithPrototype:(UserMonsterEvolutionProto*) prototype;
+- (UserMonsterEvolutionProto_Builder*) toBuilder;
 
 + (UserMonsterEvolutionProto*) parseFromData:(NSData*) data;
 + (UserMonsterEvolutionProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1265,7 +1287,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (UserMonsterEvolutionProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserMonsterEvolutionProto_Builder : PBGeneratedMessage_Builder {
+@interface UserMonsterEvolutionProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserMonsterEvolutionProto* result;
 }
@@ -1287,12 +1309,12 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterId:(int64_t) value;
 - (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterId;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (UserMonsterEvolutionProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (UserMonsterEvolutionProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (UserMonsterEvolutionProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (UserMonsterEvolutionProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (UserMonsterEvolutionProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (UserMonsterEvolutionProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (UserMonsterEvolutionProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (UserMonsterEvolutionProto_Builder *)clearUserMonsterIds;
 
 - (BOOL) hasStartTime;
 - (int64_t) startTime;
@@ -1317,7 +1339,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasProbabilityUttered;
 @property (readonly) int32_t monsterId;
 @property (readonly) MonsterBattleDialogueProto_DialogueType dialogueType;
-@property (readonly, retain) NSString* dialogue;
+@property (readonly, strong) NSString* dialogue;
 @property (readonly) Float32 probabilityUttered;
 
 + (MonsterBattleDialogueProto*) defaultInstance;
@@ -1328,6 +1350,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterBattleDialogueProto_Builder*) builder;
 + (MonsterBattleDialogueProto_Builder*) builder;
 + (MonsterBattleDialogueProto_Builder*) builderWithPrototype:(MonsterBattleDialogueProto*) prototype;
+- (MonsterBattleDialogueProto_Builder*) toBuilder;
 
 + (MonsterBattleDialogueProto*) parseFromData:(NSData*) data;
 + (MonsterBattleDialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1337,7 +1360,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 + (MonsterBattleDialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MonsterBattleDialogueProto_Builder : PBGeneratedMessage_Builder {
+@interface MonsterBattleDialogueProto_Builder : PBGeneratedMessageBuilder {
 @private
   MonsterBattleDialogueProto* result;
 }
@@ -1375,3 +1398,5 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterBattleDialogueProto_Builder*) clearProbabilityUttered;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

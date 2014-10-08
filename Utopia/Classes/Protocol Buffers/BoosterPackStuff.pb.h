@@ -5,6 +5,7 @@
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
@@ -58,6 +59,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface BoosterPackStuffRoot : NSObject {
 }
@@ -71,7 +84,7 @@
   BOOL hasMonsterId_:1;
   BOOL hasUser_:1;
   BOOL hasBooster_:1;
-  int64_t timeOfPurchase;
+  uint64_t timeOfPurchase;
   int32_t monsterId;
   MinimumUserProto* user;
   BoosterPackProto* booster;
@@ -80,9 +93,9 @@
 - (BOOL) hasBooster;
 - (BOOL) hasTimeOfPurchase;
 - (BOOL) hasMonsterId;
-@property (readonly, retain) MinimumUserProto* user;
-@property (readonly, retain) BoosterPackProto* booster;
-@property (readonly) int64_t timeOfPurchase;
+@property (readonly, strong) MinimumUserProto* user;
+@property (readonly, strong) BoosterPackProto* booster;
+@property (readonly) uint64_t timeOfPurchase;
 @property (readonly) int32_t monsterId;
 
 + (RareBoosterPurchaseProto*) defaultInstance;
@@ -93,6 +106,7 @@
 - (RareBoosterPurchaseProto_Builder*) builder;
 + (RareBoosterPurchaseProto_Builder*) builder;
 + (RareBoosterPurchaseProto_Builder*) builderWithPrototype:(RareBoosterPurchaseProto*) prototype;
+- (RareBoosterPurchaseProto_Builder*) toBuilder;
 
 + (RareBoosterPurchaseProto*) parseFromData:(NSData*) data;
 + (RareBoosterPurchaseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -102,7 +116,7 @@
 + (RareBoosterPurchaseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RareBoosterPurchaseProto_Builder : PBGeneratedMessage_Builder {
+@interface RareBoosterPurchaseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RareBoosterPurchaseProto* result;
 }
@@ -122,20 +136,20 @@
 - (BOOL) hasUser;
 - (MinimumUserProto*) user;
 - (RareBoosterPurchaseProto_Builder*) setUser:(MinimumUserProto*) value;
-- (RareBoosterPurchaseProto_Builder*) setUserBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RareBoosterPurchaseProto_Builder*) setUser_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RareBoosterPurchaseProto_Builder*) mergeUser:(MinimumUserProto*) value;
 - (RareBoosterPurchaseProto_Builder*) clearUser;
 
 - (BOOL) hasBooster;
 - (BoosterPackProto*) booster;
 - (RareBoosterPurchaseProto_Builder*) setBooster:(BoosterPackProto*) value;
-- (RareBoosterPurchaseProto_Builder*) setBoosterBuilder:(BoosterPackProto_Builder*) builderForValue;
+- (RareBoosterPurchaseProto_Builder*) setBooster_Builder:(BoosterPackProto_Builder*) builderForValue;
 - (RareBoosterPurchaseProto_Builder*) mergeBooster:(BoosterPackProto*) value;
 - (RareBoosterPurchaseProto_Builder*) clearBooster;
 
 - (BOOL) hasTimeOfPurchase;
-- (int64_t) timeOfPurchase;
-- (RareBoosterPurchaseProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (uint64_t) timeOfPurchase;
+- (RareBoosterPurchaseProto_Builder*) setTimeOfPurchase:(uint64_t) value;
 - (RareBoosterPurchaseProto_Builder*) clearTimeOfPurchase;
 
 - (BOOL) hasMonsterId;
@@ -162,8 +176,8 @@
   NSString* navBarImgName;
   NSString* navTitleImgName;
   NSString* machineImgName;
-  NSMutableArray* mutableSpecialItemsList;
-  NSMutableArray* mutableDisplayItemsList;
+  NSMutableArray * mutableSpecialItemsList;
+  NSMutableArray * mutableDisplayItemsList;
 }
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasBoosterPackName;
@@ -174,17 +188,17 @@
 - (BOOL) hasNavTitleImgName;
 - (BOOL) hasMachineImgName;
 @property (readonly) int32_t boosterPackId;
-@property (readonly, retain) NSString* boosterPackName;
+@property (readonly, strong) NSString* boosterPackName;
 @property (readonly) int32_t gemPrice;
-@property (readonly, retain) NSString* listBackgroundImgName;
-@property (readonly, retain) NSString* listDescription;
-@property (readonly, retain) NSString* navBarImgName;
-@property (readonly, retain) NSString* navTitleImgName;
-@property (readonly, retain) NSString* machineImgName;
-- (NSArray*) specialItemsList;
-- (BoosterItemProto*) specialItemsAtIndex:(int32_t) index;
-- (NSArray*) displayItemsList;
-- (BoosterDisplayItemProto*) displayItemsAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * specialItemsList;
+@property (readonly, strong) NSString* listBackgroundImgName;
+@property (readonly, strong) NSString* listDescription;
+@property (readonly, strong) NSString* navBarImgName;
+@property (readonly, strong) NSString* navTitleImgName;
+@property (readonly, strong) NSString* machineImgName;
+@property (readonly, strong) NSArray * displayItemsList;
+- (BoosterItemProto*)specialItemsAtIndex:(NSUInteger)index;
+- (BoosterDisplayItemProto*)displayItemsAtIndex:(NSUInteger)index;
 
 + (BoosterPackProto*) defaultInstance;
 - (BoosterPackProto*) defaultInstance;
@@ -194,6 +208,7 @@
 - (BoosterPackProto_Builder*) builder;
 + (BoosterPackProto_Builder*) builder;
 + (BoosterPackProto_Builder*) builderWithPrototype:(BoosterPackProto*) prototype;
+- (BoosterPackProto_Builder*) toBuilder;
 
 + (BoosterPackProto*) parseFromData:(NSData*) data;
 + (BoosterPackProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -203,7 +218,7 @@
 + (BoosterPackProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BoosterPackProto_Builder : PBGeneratedMessage_Builder {
+@interface BoosterPackProto_Builder : PBGeneratedMessageBuilder {
 @private
   BoosterPackProto* result;
 }
@@ -235,12 +250,11 @@
 - (BoosterPackProto_Builder*) setGemPrice:(int32_t) value;
 - (BoosterPackProto_Builder*) clearGemPrice;
 
-- (NSArray*) specialItemsList;
-- (BoosterItemProto*) specialItemsAtIndex:(int32_t) index;
-- (BoosterPackProto_Builder*) replaceSpecialItemsAtIndex:(int32_t) index with:(BoosterItemProto*) value;
-- (BoosterPackProto_Builder*) addSpecialItems:(BoosterItemProto*) value;
-- (BoosterPackProto_Builder*) addAllSpecialItems:(NSArray*) values;
-- (BoosterPackProto_Builder*) clearSpecialItemsList;
+- (NSMutableArray *)specialItemsList;
+- (BoosterItemProto*)specialItemsAtIndex:(NSUInteger)index;
+- (BoosterPackProto_Builder *)addSpecialItems:(BoosterItemProto*)value;
+- (BoosterPackProto_Builder *)addAllSpecialItems:(NSArray *)array;
+- (BoosterPackProto_Builder *)clearSpecialItems;
 
 - (BOOL) hasListBackgroundImgName;
 - (NSString*) listBackgroundImgName;
@@ -267,12 +281,11 @@
 - (BoosterPackProto_Builder*) setMachineImgName:(NSString*) value;
 - (BoosterPackProto_Builder*) clearMachineImgName;
 
-- (NSArray*) displayItemsList;
-- (BoosterDisplayItemProto*) displayItemsAtIndex:(int32_t) index;
-- (BoosterPackProto_Builder*) replaceDisplayItemsAtIndex:(int32_t) index with:(BoosterDisplayItemProto*) value;
-- (BoosterPackProto_Builder*) addDisplayItems:(BoosterDisplayItemProto*) value;
-- (BoosterPackProto_Builder*) addAllDisplayItems:(NSArray*) values;
-- (BoosterPackProto_Builder*) clearDisplayItemsList;
+- (NSMutableArray *)displayItemsList;
+- (BoosterDisplayItemProto*)displayItemsAtIndex:(NSUInteger)index;
+- (BoosterPackProto_Builder *)addDisplayItems:(BoosterDisplayItemProto*)value;
+- (BoosterPackProto_Builder *)addAllDisplayItems:(NSArray *)array;
+- (BoosterPackProto_Builder *)clearDisplayItems;
 @end
 
 @interface BoosterItemProto : PBGeneratedMessage {
@@ -323,6 +336,7 @@
 - (BoosterItemProto_Builder*) builder;
 + (BoosterItemProto_Builder*) builder;
 + (BoosterItemProto_Builder*) builderWithPrototype:(BoosterItemProto*) prototype;
+- (BoosterItemProto_Builder*) toBuilder;
 
 + (BoosterItemProto*) parseFromData:(NSData*) data;
 + (BoosterItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -332,7 +346,7 @@
 + (BoosterItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BoosterItemProto_Builder : PBGeneratedMessage_Builder {
+@interface BoosterItemProto_Builder : PBGeneratedMessageBuilder {
 @private
   BoosterItemProto* result;
 }
@@ -431,6 +445,7 @@
 - (BoosterDisplayItemProto_Builder*) builder;
 + (BoosterDisplayItemProto_Builder*) builder;
 + (BoosterDisplayItemProto_Builder*) builderWithPrototype:(BoosterDisplayItemProto*) prototype;
+- (BoosterDisplayItemProto_Builder*) toBuilder;
 
 + (BoosterDisplayItemProto*) parseFromData:(NSData*) data;
 + (BoosterDisplayItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -440,7 +455,7 @@
 + (BoosterDisplayItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BoosterDisplayItemProto_Builder : PBGeneratedMessage_Builder {
+@interface BoosterDisplayItemProto_Builder : PBGeneratedMessageBuilder {
 @private
   BoosterDisplayItemProto* result;
 }
@@ -488,3 +503,5 @@
 - (BoosterDisplayItemProto_Builder*) clearQuantity;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

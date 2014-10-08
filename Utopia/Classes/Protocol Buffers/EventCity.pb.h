@@ -6,6 +6,7 @@
 #import "Quest.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class CityElementProto;
 @class CityElementProto_Builder;
@@ -123,6 +124,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,
@@ -165,7 +178,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 }
 - (BOOL) hasSender;
 - (BOOL) hasCityOwnerId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t cityOwnerId;
 
 + (LoadPlayerCityRequestProto*) defaultInstance;
@@ -176,6 +189,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityRequestProto_Builder*) builder;
 + (LoadPlayerCityRequestProto_Builder*) builder;
 + (LoadPlayerCityRequestProto_Builder*) builderWithPrototype:(LoadPlayerCityRequestProto*) prototype;
+- (LoadPlayerCityRequestProto_Builder*) toBuilder;
 
 + (LoadPlayerCityRequestProto*) parseFromData:(NSData*) data;
 + (LoadPlayerCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -185,7 +199,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (LoadPlayerCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LoadPlayerCityRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface LoadPlayerCityRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   LoadPlayerCityRequestProto* result;
 }
@@ -205,7 +219,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LoadPlayerCityRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LoadPlayerCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadPlayerCityRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadPlayerCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityRequestProto_Builder*) clearSender;
 
@@ -223,22 +237,22 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   MinimumUserProto* sender;
   MinimumUserProto* cityOwner;
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
-  NSMutableArray* mutableOwnerNormStructsList;
-  NSMutableArray* mutableUserCityExpansionDataProtoListList;
-  NSMutableArray* mutableObstaclesList;
+  NSMutableArray * mutableOwnerNormStructsList;
+  NSMutableArray * mutableUserCityExpansionDataProtoListList;
+  NSMutableArray * mutableObstaclesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCityOwner;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) MinimumUserProto* cityOwner;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* cityOwner;
 @property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
-- (NSArray*) ownerNormStructsList;
-- (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
-- (NSArray*) userCityExpansionDataProtoListList;
-- (UserCityExpansionDataProto*) userCityExpansionDataProtoListAtIndex:(int32_t) index;
-- (NSArray*) obstaclesList;
-- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * ownerNormStructsList;
+@property (readonly, strong) NSArray * userCityExpansionDataProtoListList;
+@property (readonly, strong) NSArray * obstaclesList;
+- (FullUserStructureProto*)ownerNormStructsAtIndex:(NSUInteger)index;
+- (UserCityExpansionDataProto*)userCityExpansionDataProtoListAtIndex:(NSUInteger)index;
+- (UserObstacleProto*)obstaclesAtIndex:(NSUInteger)index;
 
 + (LoadPlayerCityResponseProto*) defaultInstance;
 - (LoadPlayerCityResponseProto*) defaultInstance;
@@ -248,6 +262,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityResponseProto_Builder*) builder;
 + (LoadPlayerCityResponseProto_Builder*) builder;
 + (LoadPlayerCityResponseProto_Builder*) builderWithPrototype:(LoadPlayerCityResponseProto*) prototype;
+- (LoadPlayerCityResponseProto_Builder*) toBuilder;
 
 + (LoadPlayerCityResponseProto*) parseFromData:(NSData*) data;
 + (LoadPlayerCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -257,7 +272,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (LoadPlayerCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LoadPlayerCityResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface LoadPlayerCityResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   LoadPlayerCityResponseProto* result;
 }
@@ -277,14 +292,14 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LoadPlayerCityResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadPlayerCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) clearSender;
 
 - (BOOL) hasCityOwner;
 - (MinimumUserProto*) cityOwner;
 - (LoadPlayerCityResponseProto_Builder*) setCityOwner:(MinimumUserProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) setCityOwner_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadPlayerCityResponseProto_Builder*) mergeCityOwner:(MinimumUserProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) clearCityOwner;
 
@@ -293,26 +308,23 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityResponseProto_Builder*) setStatus:(LoadPlayerCityResponseProto_LoadPlayerCityStatus) value;
 - (LoadPlayerCityResponseProto_Builder*) clearStatus;
 
-- (NSArray*) ownerNormStructsList;
-- (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
-- (LoadPlayerCityResponseProto_Builder*) replaceOwnerNormStructsAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addOwnerNormStructs:(FullUserStructureProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addAllOwnerNormStructs:(NSArray*) values;
-- (LoadPlayerCityResponseProto_Builder*) clearOwnerNormStructsList;
+- (NSMutableArray *)ownerNormStructsList;
+- (FullUserStructureProto*)ownerNormStructsAtIndex:(NSUInteger)index;
+- (LoadPlayerCityResponseProto_Builder *)addOwnerNormStructs:(FullUserStructureProto*)value;
+- (LoadPlayerCityResponseProto_Builder *)addAllOwnerNormStructs:(NSArray *)array;
+- (LoadPlayerCityResponseProto_Builder *)clearOwnerNormStructs;
 
-- (NSArray*) userCityExpansionDataProtoListList;
-- (UserCityExpansionDataProto*) userCityExpansionDataProtoListAtIndex:(int32_t) index;
-- (LoadPlayerCityResponseProto_Builder*) replaceUserCityExpansionDataProtoListAtIndex:(int32_t) index with:(UserCityExpansionDataProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addUserCityExpansionDataProtoList:(UserCityExpansionDataProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addAllUserCityExpansionDataProtoList:(NSArray*) values;
-- (LoadPlayerCityResponseProto_Builder*) clearUserCityExpansionDataProtoListList;
+- (NSMutableArray *)userCityExpansionDataProtoListList;
+- (UserCityExpansionDataProto*)userCityExpansionDataProtoListAtIndex:(NSUInteger)index;
+- (LoadPlayerCityResponseProto_Builder *)addUserCityExpansionDataProtoList:(UserCityExpansionDataProto*)value;
+- (LoadPlayerCityResponseProto_Builder *)addAllUserCityExpansionDataProtoList:(NSArray *)array;
+- (LoadPlayerCityResponseProto_Builder *)clearUserCityExpansionDataProtoList;
 
-- (NSArray*) obstaclesList;
-- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index;
-- (LoadPlayerCityResponseProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addObstacles:(UserObstacleProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) addAllObstacles:(NSArray*) values;
-- (LoadPlayerCityResponseProto_Builder*) clearObstaclesList;
+- (NSMutableArray *)obstaclesList;
+- (UserObstacleProto*)obstaclesAtIndex:(NSUInteger)index;
+- (LoadPlayerCityResponseProto_Builder *)addObstacles:(UserObstacleProto*)value;
+- (LoadPlayerCityResponseProto_Builder *)addAllObstacles:(NSArray *)array;
+- (LoadPlayerCityResponseProto_Builder *)clearObstacles;
 @end
 
 @interface PurchaseCityExpansionRequestProto : PBGeneratedMessage {
@@ -330,7 +342,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasXPosition;
 - (BOOL) hasYPosition;
 - (BOOL) hasTimeOfPurchase;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t xPosition;
 @property (readonly) int32_t yPosition;
 @property (readonly) int64_t timeOfPurchase;
@@ -343,6 +355,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (PurchaseCityExpansionRequestProto_Builder*) builder;
 + (PurchaseCityExpansionRequestProto_Builder*) builder;
 + (PurchaseCityExpansionRequestProto_Builder*) builderWithPrototype:(PurchaseCityExpansionRequestProto*) prototype;
+- (PurchaseCityExpansionRequestProto_Builder*) toBuilder;
 
 + (PurchaseCityExpansionRequestProto*) parseFromData:(NSData*) data;
 + (PurchaseCityExpansionRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -352,7 +365,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (PurchaseCityExpansionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PurchaseCityExpansionRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface PurchaseCityExpansionRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   PurchaseCityExpansionRequestProto* result;
 }
@@ -372,7 +385,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PurchaseCityExpansionRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseCityExpansionRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseCityExpansionRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PurchaseCityExpansionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PurchaseCityExpansionRequestProto_Builder*) clearSender;
 
@@ -404,9 +417,9 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUcedp;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus status;
-@property (readonly, retain) UserCityExpansionDataProto* ucedp;
+@property (readonly, strong) UserCityExpansionDataProto* ucedp;
 
 + (PurchaseCityExpansionResponseProto*) defaultInstance;
 - (PurchaseCityExpansionResponseProto*) defaultInstance;
@@ -416,6 +429,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (PurchaseCityExpansionResponseProto_Builder*) builder;
 + (PurchaseCityExpansionResponseProto_Builder*) builder;
 + (PurchaseCityExpansionResponseProto_Builder*) builderWithPrototype:(PurchaseCityExpansionResponseProto*) prototype;
+- (PurchaseCityExpansionResponseProto_Builder*) toBuilder;
 
 + (PurchaseCityExpansionResponseProto*) parseFromData:(NSData*) data;
 + (PurchaseCityExpansionResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -425,7 +439,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (PurchaseCityExpansionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PurchaseCityExpansionResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface PurchaseCityExpansionResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   PurchaseCityExpansionResponseProto* result;
 }
@@ -445,7 +459,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PurchaseCityExpansionResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseCityExpansionResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseCityExpansionResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PurchaseCityExpansionResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PurchaseCityExpansionResponseProto_Builder*) clearSender;
 
@@ -457,7 +471,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasUcedp;
 - (UserCityExpansionDataProto*) ucedp;
 - (PurchaseCityExpansionResponseProto_Builder*) setUcedp:(UserCityExpansionDataProto*) value;
-- (PurchaseCityExpansionResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
+- (PurchaseCityExpansionResponseProto_Builder*) setUcedp_Builder:(UserCityExpansionDataProto_Builder*) builderForValue;
 - (PurchaseCityExpansionResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
 - (PurchaseCityExpansionResponseProto_Builder*) clearUcedp;
 @end
@@ -471,7 +485,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 }
 - (BOOL) hasSender;
 - (BOOL) hasCityId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t cityId;
 
 + (LoadCityRequestProto*) defaultInstance;
@@ -482,6 +496,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadCityRequestProto_Builder*) builder;
 + (LoadCityRequestProto_Builder*) builder;
 + (LoadCityRequestProto_Builder*) builderWithPrototype:(LoadCityRequestProto*) prototype;
+- (LoadCityRequestProto_Builder*) toBuilder;
 
 + (LoadCityRequestProto*) parseFromData:(NSData*) data;
 + (LoadCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -491,7 +506,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (LoadCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LoadCityRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface LoadCityRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   LoadCityRequestProto* result;
 }
@@ -511,7 +526,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LoadCityRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LoadCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadCityRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadCityRequestProto_Builder*) clearSender;
 
@@ -529,16 +544,16 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   int32_t cityId;
   MinimumUserProto* sender;
   LoadCityResponseProto_LoadCityStatus status;
-  NSMutableArray* mutableCityElementsList;
+  NSMutableArray * mutableCityElementsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasCityId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) LoadCityResponseProto_LoadCityStatus status;
+@property (readonly, strong) NSArray * cityElementsList;
 @property (readonly) int32_t cityId;
-- (NSArray*) cityElementsList;
-- (CityElementProto*) cityElementsAtIndex:(int32_t) index;
+- (CityElementProto*)cityElementsAtIndex:(NSUInteger)index;
 
 + (LoadCityResponseProto*) defaultInstance;
 - (LoadCityResponseProto*) defaultInstance;
@@ -548,6 +563,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadCityResponseProto_Builder*) builder;
 + (LoadCityResponseProto_Builder*) builder;
 + (LoadCityResponseProto_Builder*) builderWithPrototype:(LoadCityResponseProto*) prototype;
+- (LoadCityResponseProto_Builder*) toBuilder;
 
 + (LoadCityResponseProto*) parseFromData:(NSData*) data;
 + (LoadCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -557,7 +573,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 + (LoadCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LoadCityResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface LoadCityResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   LoadCityResponseProto* result;
 }
@@ -577,7 +593,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LoadCityResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LoadCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadCityResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadCityResponseProto_Builder*) clearSender;
 
@@ -586,12 +602,11 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadCityResponseProto_Builder*) setStatus:(LoadCityResponseProto_LoadCityStatus) value;
 - (LoadCityResponseProto_Builder*) clearStatus;
 
-- (NSArray*) cityElementsList;
-- (CityElementProto*) cityElementsAtIndex:(int32_t) index;
-- (LoadCityResponseProto_Builder*) replaceCityElementsAtIndex:(int32_t) index with:(CityElementProto*) value;
-- (LoadCityResponseProto_Builder*) addCityElements:(CityElementProto*) value;
-- (LoadCityResponseProto_Builder*) addAllCityElements:(NSArray*) values;
-- (LoadCityResponseProto_Builder*) clearCityElementsList;
+- (NSMutableArray *)cityElementsList;
+- (CityElementProto*)cityElementsAtIndex:(NSUInteger)index;
+- (LoadCityResponseProto_Builder *)addCityElements:(CityElementProto*)value;
+- (LoadCityResponseProto_Builder *)addAllCityElements:(NSArray *)array;
+- (LoadCityResponseProto_Builder *)clearCityElements;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
@@ -599,3 +614,5 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadCityResponseProto_Builder*) clearCityId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

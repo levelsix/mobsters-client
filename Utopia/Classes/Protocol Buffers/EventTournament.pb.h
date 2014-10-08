@@ -4,6 +4,7 @@
 
 #import "TournamentStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ColorProto;
 @class ColorProto_Builder;
@@ -39,6 +40,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess = 1,
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusOtherFail = 2,
@@ -65,7 +78,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (BOOL) hasSender;
 - (BOOL) hasEventId;
 - (BOOL) hasAfterThisRank;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t eventId;
 @property (readonly) int32_t afterThisRank;
 
@@ -77,6 +90,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (RetrieveTournamentRankingsRequestProto_Builder*) builder;
 + (RetrieveTournamentRankingsRequestProto_Builder*) builder;
 + (RetrieveTournamentRankingsRequestProto_Builder*) builderWithPrototype:(RetrieveTournamentRankingsRequestProto*) prototype;
+- (RetrieveTournamentRankingsRequestProto_Builder*) toBuilder;
 
 + (RetrieveTournamentRankingsRequestProto*) parseFromData:(NSData*) data;
 + (RetrieveTournamentRankingsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -86,7 +100,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 + (RetrieveTournamentRankingsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveTournamentRankingsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveTournamentRankingsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveTournamentRankingsRequestProto* result;
 }
@@ -106,7 +120,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrieveTournamentRankingsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveTournamentRankingsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveTournamentRankingsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveTournamentRankingsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveTournamentRankingsRequestProto_Builder*) clearSender;
 
@@ -133,23 +147,23 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
   MinimumUserProto* sender;
   MinimumUserProtoWithLevelForTournament* retriever;
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus status;
-  NSMutableArray* mutableResultPlayersList;
-  NSMutableArray* mutableFullUsersList;
+  NSMutableArray * mutableResultPlayersList;
+  NSMutableArray * mutableFullUsersList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasEventId;
 - (BOOL) hasAfterThisRank;
 - (BOOL) hasRetriever;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus status;
 @property (readonly) int32_t eventId;
 @property (readonly) int32_t afterThisRank;
-@property (readonly, retain) MinimumUserProtoWithLevelForTournament* retriever;
-- (NSArray*) resultPlayersList;
-- (MinimumUserProtoWithLevelForTournament*) resultPlayersAtIndex:(int32_t) index;
-- (NSArray*) fullUsersList;
-- (FullUserProto*) fullUsersAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProtoWithLevelForTournament* retriever;
+@property (readonly, strong) NSArray * resultPlayersList;
+@property (readonly, strong) NSArray * fullUsersList;
+- (MinimumUserProtoWithLevelForTournament*)resultPlayersAtIndex:(NSUInteger)index;
+- (FullUserProto*)fullUsersAtIndex:(NSUInteger)index;
 
 + (RetrieveTournamentRankingsResponseProto*) defaultInstance;
 - (RetrieveTournamentRankingsResponseProto*) defaultInstance;
@@ -159,6 +173,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (RetrieveTournamentRankingsResponseProto_Builder*) builder;
 + (RetrieveTournamentRankingsResponseProto_Builder*) builder;
 + (RetrieveTournamentRankingsResponseProto_Builder*) builderWithPrototype:(RetrieveTournamentRankingsResponseProto*) prototype;
+- (RetrieveTournamentRankingsResponseProto_Builder*) toBuilder;
 
 + (RetrieveTournamentRankingsResponseProto*) parseFromData:(NSData*) data;
 + (RetrieveTournamentRankingsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -168,7 +183,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 + (RetrieveTournamentRankingsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveTournamentRankingsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveTournamentRankingsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveTournamentRankingsResponseProto* result;
 }
@@ -188,7 +203,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrieveTournamentRankingsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveTournamentRankingsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveTournamentRankingsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveTournamentRankingsResponseProto_Builder*) clearSender;
 
@@ -210,22 +225,22 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (BOOL) hasRetriever;
 - (MinimumUserProtoWithLevelForTournament*) retriever;
 - (RetrieveTournamentRankingsResponseProto_Builder*) setRetriever:(MinimumUserProtoWithLevelForTournament*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) setRetrieverBuilder:(MinimumUserProtoWithLevelForTournament_Builder*) builderForValue;
+- (RetrieveTournamentRankingsResponseProto_Builder*) setRetriever_Builder:(MinimumUserProtoWithLevelForTournament_Builder*) builderForValue;
 - (RetrieveTournamentRankingsResponseProto_Builder*) mergeRetriever:(MinimumUserProtoWithLevelForTournament*) value;
 - (RetrieveTournamentRankingsResponseProto_Builder*) clearRetriever;
 
-- (NSArray*) resultPlayersList;
-- (MinimumUserProtoWithLevelForTournament*) resultPlayersAtIndex:(int32_t) index;
-- (RetrieveTournamentRankingsResponseProto_Builder*) replaceResultPlayersAtIndex:(int32_t) index with:(MinimumUserProtoWithLevelForTournament*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForTournament*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
-- (RetrieveTournamentRankingsResponseProto_Builder*) clearResultPlayersList;
+- (NSMutableArray *)resultPlayersList;
+- (MinimumUserProtoWithLevelForTournament*)resultPlayersAtIndex:(NSUInteger)index;
+- (RetrieveTournamentRankingsResponseProto_Builder *)addResultPlayers:(MinimumUserProtoWithLevelForTournament*)value;
+- (RetrieveTournamentRankingsResponseProto_Builder *)addAllResultPlayers:(NSArray *)array;
+- (RetrieveTournamentRankingsResponseProto_Builder *)clearResultPlayers;
 
-- (NSArray*) fullUsersList;
-- (FullUserProto*) fullUsersAtIndex:(int32_t) index;
-- (RetrieveTournamentRankingsResponseProto_Builder*) replaceFullUsersAtIndex:(int32_t) index with:(FullUserProto*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) addFullUsers:(FullUserProto*) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) addAllFullUsers:(NSArray*) values;
-- (RetrieveTournamentRankingsResponseProto_Builder*) clearFullUsersList;
+- (NSMutableArray *)fullUsersList;
+- (FullUserProto*)fullUsersAtIndex:(NSUInteger)index;
+- (RetrieveTournamentRankingsResponseProto_Builder *)addFullUsers:(FullUserProto*)value;
+- (RetrieveTournamentRankingsResponseProto_Builder *)addAllFullUsers:(NSArray *)array;
+- (RetrieveTournamentRankingsResponseProto_Builder *)clearFullUsers;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

@@ -13,6 +13,7 @@
 #import "TopBarQuestProgressView.h"
 #import "ShopViewController.h"
 #import "HomeViewController.h"
+#import "TimerViewController.h"
 
 @interface TopBarMonsterView : UIView
 
@@ -83,6 +84,7 @@
 @property (nonatomic, readonly) int clanChatBadgeNum;
 
 @property (nonatomic, retain) ShopViewController *shopViewController;
+@property (nonatomic, retain) IBOutlet TimerViewController *timerViewController;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 

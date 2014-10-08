@@ -7,6 +7,7 @@
 #import "SharedEnumConfig.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BeginDungeonRequestProto;
 @class BeginDungeonRequestProto_Builder;
@@ -82,6 +83,18 @@
 @class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
   BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
@@ -133,7 +146,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t gemsSpent;
   MinimumUserProto* sender;
   Element elem;
-  NSMutableArray* mutableQuestIdsList;
+  PBAppendableArray * mutableQuestIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
@@ -145,18 +158,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasElem;
 - (BOOL) hasForceEnemyElem;
 - (BOOL) hasAlreadyCompletedMiniTutorialTask;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
 - (BOOL) userBeatAllCityTasks;
 - (BOOL) isEvent;
 @property (readonly) int32_t persistentEventId;
 @property (readonly) int32_t gemsSpent;
+@property (readonly, strong) PBArray * questIdsList;
 @property (readonly) Element elem;
 - (BOOL) forceEnemyElem;
 - (BOOL) alreadyCompletedMiniTutorialTask;
-- (NSArray*) questIdsList;
-- (int32_t) questIdsAtIndex:(int32_t) index;
+- (int32_t)questIdsAtIndex:(NSUInteger)index;
 
 + (BeginDungeonRequestProto*) defaultInstance;
 - (BeginDungeonRequestProto*) defaultInstance;
@@ -166,6 +179,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonRequestProto_Builder*) builder;
 + (BeginDungeonRequestProto_Builder*) builder;
 + (BeginDungeonRequestProto_Builder*) builderWithPrototype:(BeginDungeonRequestProto*) prototype;
+- (BeginDungeonRequestProto_Builder*) toBuilder;
 
 + (BeginDungeonRequestProto*) parseFromData:(NSData*) data;
 + (BeginDungeonRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -175,7 +189,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (BeginDungeonRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginDungeonRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginDungeonRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginDungeonRequestProto* result;
 }
@@ -195,7 +209,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginDungeonRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginDungeonRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginDungeonRequestProto_Builder*) clearSender;
 
@@ -229,12 +243,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value;
 - (BeginDungeonRequestProto_Builder*) clearGemsSpent;
 
-- (NSArray*) questIdsList;
-- (int32_t) questIdsAtIndex:(int32_t) index;
-- (BeginDungeonRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (BeginDungeonRequestProto_Builder*) addQuestIds:(int32_t) value;
-- (BeginDungeonRequestProto_Builder*) addAllQuestIds:(NSArray*) values;
-- (BeginDungeonRequestProto_Builder*) clearQuestIdsList;
+- (PBAppendableArray *)questIdsList;
+- (int32_t)questIdsAtIndex:(NSUInteger)index;
+- (BeginDungeonRequestProto_Builder *)addQuestIds:(int32_t)value;
+- (BeginDungeonRequestProto_Builder *)addAllQuestIds:(NSArray *)array;
+- (BeginDungeonRequestProto_Builder *)setQuestIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (BeginDungeonRequestProto_Builder *)clearQuestIds;
 
 - (BOOL) hasElem;
 - (Element) elem;
@@ -262,18 +276,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t taskId;
   MinimumUserProto* sender;
   BeginDungeonResponseProto_BeginDungeonStatus status;
-  NSMutableArray* mutableTspList;
+  NSMutableArray * mutableTspList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
 - (BOOL) hasTaskId;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * tspList;
 @property (readonly) int64_t userTaskId;
 @property (readonly) int32_t taskId;
 @property (readonly) BeginDungeonResponseProto_BeginDungeonStatus status;
-- (NSArray*) tspList;
-- (TaskStageProto*) tspAtIndex:(int32_t) index;
+- (TaskStageProto*)tspAtIndex:(NSUInteger)index;
 
 + (BeginDungeonResponseProto*) defaultInstance;
 - (BeginDungeonResponseProto*) defaultInstance;
@@ -283,6 +297,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonResponseProto_Builder*) builder;
 + (BeginDungeonResponseProto_Builder*) builder;
 + (BeginDungeonResponseProto_Builder*) builderWithPrototype:(BeginDungeonResponseProto*) prototype;
+- (BeginDungeonResponseProto_Builder*) toBuilder;
 
 + (BeginDungeonResponseProto*) parseFromData:(NSData*) data;
 + (BeginDungeonResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -292,7 +307,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (BeginDungeonResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginDungeonResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginDungeonResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginDungeonResponseProto* result;
 }
@@ -312,16 +327,15 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginDungeonResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginDungeonResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginDungeonResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginDungeonResponseProto_Builder*) clearSender;
 
-- (NSArray*) tspList;
-- (TaskStageProto*) tspAtIndex:(int32_t) index;
-- (BeginDungeonResponseProto_Builder*) replaceTspAtIndex:(int32_t) index with:(TaskStageProto*) value;
-- (BeginDungeonResponseProto_Builder*) addTsp:(TaskStageProto*) value;
-- (BeginDungeonResponseProto_Builder*) addAllTsp:(NSArray*) values;
-- (BeginDungeonResponseProto_Builder*) clearTspList;
+- (NSMutableArray *)tspList;
+- (TaskStageProto*)tspAtIndex:(NSUInteger)index;
+- (BeginDungeonResponseProto_Builder *)addTsp:(TaskStageProto*)value;
+- (BeginDungeonResponseProto_Builder *)addAllTsp:(NSArray *)array;
+- (BeginDungeonResponseProto_Builder *)clearTsp;
 
 - (BOOL) hasUserTaskId;
 - (int64_t) userTaskId;
@@ -353,7 +367,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int64_t userTaskId;
   int64_t clientTime;
   MinimumUserProtoWithMaxResources* sender;
-  NSMutableArray* mutableDroplessTsfuIdsList;
+  PBAppendableArray * mutableDroplessTsfuIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
@@ -361,14 +375,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasClientTime;
 - (BOOL) hasFirstTimeUserWonTask;
 - (BOOL) hasUserBeatAllCityTasks;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int64_t userTaskId;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
 - (BOOL) firstTimeUserWonTask;
 - (BOOL) userBeatAllCityTasks;
-- (NSArray*) droplessTsfuIdsList;
-- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index;
+@property (readonly, strong) PBArray * droplessTsfuIdsList;
+- (int64_t)droplessTsfuIdsAtIndex:(NSUInteger)index;
 
 + (EndDungeonRequestProto*) defaultInstance;
 - (EndDungeonRequestProto*) defaultInstance;
@@ -378,6 +392,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonRequestProto_Builder*) builder;
 + (EndDungeonRequestProto_Builder*) builder;
 + (EndDungeonRequestProto_Builder*) builderWithPrototype:(EndDungeonRequestProto*) prototype;
+- (EndDungeonRequestProto_Builder*) toBuilder;
 
 + (EndDungeonRequestProto*) parseFromData:(NSData*) data;
 + (EndDungeonRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -387,7 +402,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (EndDungeonRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EndDungeonRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EndDungeonRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EndDungeonRequestProto* result;
 }
@@ -407,7 +422,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (EndDungeonRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (EndDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndDungeonRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndDungeonRequestProto_Builder*) clearSender;
 
@@ -436,12 +451,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
 - (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
 
-- (NSArray*) droplessTsfuIdsList;
-- (int64_t) droplessTsfuIdsAtIndex:(int32_t) index;
-- (EndDungeonRequestProto_Builder*) replaceDroplessTsfuIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (EndDungeonRequestProto_Builder*) addDroplessTsfuIds:(int64_t) value;
-- (EndDungeonRequestProto_Builder*) addAllDroplessTsfuIds:(NSArray*) values;
-- (EndDungeonRequestProto_Builder*) clearDroplessTsfuIdsList;
+- (PBAppendableArray *)droplessTsfuIdsList;
+- (int64_t)droplessTsfuIdsAtIndex:(NSUInteger)index;
+- (EndDungeonRequestProto_Builder *)addDroplessTsfuIds:(int64_t)value;
+- (EndDungeonRequestProto_Builder *)addAllDroplessTsfuIds:(NSArray *)array;
+- (EndDungeonRequestProto_Builder *)setDroplessTsfuIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (EndDungeonRequestProto_Builder *)clearDroplessTsfuIds;
 @end
 
 @interface EndDungeonResponseProto : PBGeneratedMessage {
@@ -458,7 +473,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   MinimumUserProtoWithMaxResources* sender;
   UserItemProto* userItem;
   EndDungeonResponseProto_EndDungeonStatus status;
-  NSMutableArray* mutableUpdatedOrNewList;
+  NSMutableArray * mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -466,14 +481,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasUserWon;
 - (BOOL) hasUserItem;
 - (BOOL) hasTaskMapSectionName;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
+@property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly) int32_t taskId;
 - (BOOL) userWon;
-@property (readonly, retain) UserItemProto* userItem;
-@property (readonly, retain) NSString* taskMapSectionName;
-- (NSArray*) updatedOrNewList;
-- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
+@property (readonly, strong) UserItemProto* userItem;
+@property (readonly, strong) NSString* taskMapSectionName;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (EndDungeonResponseProto*) defaultInstance;
 - (EndDungeonResponseProto*) defaultInstance;
@@ -483,6 +498,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) builder;
 + (EndDungeonResponseProto_Builder*) builder;
 + (EndDungeonResponseProto_Builder*) builderWithPrototype:(EndDungeonResponseProto*) prototype;
+- (EndDungeonResponseProto_Builder*) toBuilder;
 
 + (EndDungeonResponseProto*) parseFromData:(NSData*) data;
 + (EndDungeonResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -492,7 +508,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (EndDungeonResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EndDungeonResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EndDungeonResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EndDungeonResponseProto* result;
 }
@@ -512,7 +528,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (EndDungeonResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (EndDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndDungeonResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (EndDungeonResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndDungeonResponseProto_Builder*) clearSender;
 
@@ -521,12 +537,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value;
 - (EndDungeonResponseProto_Builder*) clearStatus;
 
-- (NSArray*) updatedOrNewList;
-- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
-- (EndDungeonResponseProto_Builder*) replaceUpdatedOrNewAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (EndDungeonResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value;
-- (EndDungeonResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values;
-- (EndDungeonResponseProto_Builder*) clearUpdatedOrNewList;
+- (NSMutableArray *)updatedOrNewList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (EndDungeonResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
+- (EndDungeonResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
+- (EndDungeonResponseProto_Builder *)clearUpdatedOrNew;
 
 - (BOOL) hasTaskId;
 - (int32_t) taskId;
@@ -541,7 +556,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasUserItem;
 - (UserItemProto*) userItem;
 - (EndDungeonResponseProto_Builder*) setUserItem:(UserItemProto*) value;
-- (EndDungeonResponseProto_Builder*) setUserItemBuilder:(UserItemProto_Builder*) builderForValue;
+- (EndDungeonResponseProto_Builder*) setUserItem_Builder:(UserItemProto_Builder*) builderForValue;
 - (EndDungeonResponseProto_Builder*) mergeUserItem:(UserItemProto*) value;
 - (EndDungeonResponseProto_Builder*) clearUserItem;
 
@@ -561,18 +576,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int64_t clientTime;
   int32_t gemsSpent;
   MinimumUserProto* sender;
-  NSMutableArray* mutableReviveMeList;
+  NSMutableArray * mutableReviveMeList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
 - (BOOL) hasClientTime;
 - (BOOL) hasGemsSpent;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t userTaskId;
 @property (readonly) int64_t clientTime;
+@property (readonly, strong) NSArray * reviveMeList;
 @property (readonly) int32_t gemsSpent;
-- (NSArray*) reviveMeList;
-- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index;
+- (UserMonsterCurrentHealthProto*)reviveMeAtIndex:(NSUInteger)index;
 
 + (ReviveInDungeonRequestProto*) defaultInstance;
 - (ReviveInDungeonRequestProto*) defaultInstance;
@@ -582,6 +597,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonRequestProto_Builder*) builder;
 + (ReviveInDungeonRequestProto_Builder*) builder;
 + (ReviveInDungeonRequestProto_Builder*) builderWithPrototype:(ReviveInDungeonRequestProto*) prototype;
+- (ReviveInDungeonRequestProto_Builder*) toBuilder;
 
 + (ReviveInDungeonRequestProto*) parseFromData:(NSData*) data;
 + (ReviveInDungeonRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -591,7 +607,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (ReviveInDungeonRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ReviveInDungeonRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface ReviveInDungeonRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   ReviveInDungeonRequestProto* result;
 }
@@ -611,7 +627,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ReviveInDungeonRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReviveInDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReviveInDungeonRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ReviveInDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ReviveInDungeonRequestProto_Builder*) clearSender;
 
@@ -625,12 +641,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonRequestProto_Builder*) setClientTime:(int64_t) value;
 - (ReviveInDungeonRequestProto_Builder*) clearClientTime;
 
-- (NSArray*) reviveMeList;
-- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index;
-- (ReviveInDungeonRequestProto_Builder*) replaceReviveMeAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (ReviveInDungeonRequestProto_Builder*) addReviveMe:(UserMonsterCurrentHealthProto*) value;
-- (ReviveInDungeonRequestProto_Builder*) addAllReviveMe:(NSArray*) values;
-- (ReviveInDungeonRequestProto_Builder*) clearReviveMeList;
+- (NSMutableArray *)reviveMeList;
+- (UserMonsterCurrentHealthProto*)reviveMeAtIndex:(NSUInteger)index;
+- (ReviveInDungeonRequestProto_Builder *)addReviveMe:(UserMonsterCurrentHealthProto*)value;
+- (ReviveInDungeonRequestProto_Builder *)addAllReviveMe:(NSArray *)array;
+- (ReviveInDungeonRequestProto_Builder *)clearReviveMe;
 
 - (BOOL) hasGemsSpent;
 - (int32_t) gemsSpent;
@@ -647,7 +662,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) ReviveInDungeonResponseProto_ReviveInDungeonStatus status;
 
 + (ReviveInDungeonResponseProto*) defaultInstance;
@@ -658,6 +673,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonResponseProto_Builder*) builder;
 + (ReviveInDungeonResponseProto_Builder*) builder;
 + (ReviveInDungeonResponseProto_Builder*) builderWithPrototype:(ReviveInDungeonResponseProto*) prototype;
+- (ReviveInDungeonResponseProto_Builder*) toBuilder;
 
 + (ReviveInDungeonResponseProto*) parseFromData:(NSData*) data;
 + (ReviveInDungeonResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -667,7 +683,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 + (ReviveInDungeonResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ReviveInDungeonResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ReviveInDungeonResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ReviveInDungeonResponseProto* result;
 }
@@ -687,7 +703,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ReviveInDungeonResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReviveInDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReviveInDungeonResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ReviveInDungeonResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ReviveInDungeonResponseProto_Builder*) clearSender;
 
@@ -697,3 +713,5 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

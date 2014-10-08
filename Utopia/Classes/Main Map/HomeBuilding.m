@@ -73,6 +73,10 @@
       buildingClass = [TeamCenterBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeClan:
+      buildingClass = [ClanHouseBuilding class];
+      break;
+      
     default:
       buildingClass = [HomeBuilding class];
       break;
@@ -709,6 +713,10 @@
 @end
 
 @implementation ResidenceBuilding
+
+@end
+
+@implementation ClanHouseBuilding
 
 @end
 

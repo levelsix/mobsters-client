@@ -26,6 +26,7 @@ typedef enum {
   MapBotViewButtonInfo,
   MapBotViewButtonRemove,
   MapBotViewButtonFix,
+  MapBotViewButtonClan,
 } MapBotViewButtonConfig;
 
 @protocol MapBotViewButtonDelegate <NSObject>
@@ -58,6 +59,7 @@ typedef enum {
 + (id) teamButton;
 + (id) miniJobsButton;
 + (id) infoButton;
++ (id) clanButton;
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost;

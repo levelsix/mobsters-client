@@ -5,6 +5,7 @@
 #import "Dev.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class DevRequestProto;
 @class DevRequestProto_Builder;
@@ -54,6 +55,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   DevResponseProto_DevStatusSuccess = 1,
   DevResponseProto_DevStatusFailOther = 2,
@@ -80,7 +93,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasSender;
 - (BOOL) hasDevRequest;
 - (BOOL) hasNum;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) DevRequest devRequest;
 @property (readonly) int32_t num;
 
@@ -92,6 +105,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (DevRequestProto_Builder*) builder;
 + (DevRequestProto_Builder*) builder;
 + (DevRequestProto_Builder*) builderWithPrototype:(DevRequestProto*) prototype;
+- (DevRequestProto_Builder*) toBuilder;
 
 + (DevRequestProto*) parseFromData:(NSData*) data;
 + (DevRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -101,7 +115,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 + (DevRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface DevRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface DevRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   DevRequestProto* result;
 }
@@ -121,7 +135,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (DevRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (DevRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (DevRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (DevRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (DevRequestProto_Builder*) clearSender;
 
@@ -148,9 +162,9 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasFump;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) DevResponseProto_DevStatus status;
-@property (readonly, retain) FullUserMonsterProto* fump;
+@property (readonly, strong) FullUserMonsterProto* fump;
 
 + (DevResponseProto*) defaultInstance;
 - (DevResponseProto*) defaultInstance;
@@ -160,6 +174,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (DevResponseProto_Builder*) builder;
 + (DevResponseProto_Builder*) builder;
 + (DevResponseProto_Builder*) builderWithPrototype:(DevResponseProto*) prototype;
+- (DevResponseProto_Builder*) toBuilder;
 
 + (DevResponseProto*) parseFromData:(NSData*) data;
 + (DevResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -169,7 +184,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 + (DevResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface DevResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface DevResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   DevResponseProto* result;
 }
@@ -189,7 +204,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (DevResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (DevResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (DevResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (DevResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (DevResponseProto_Builder*) clearSender;
 
@@ -201,8 +216,10 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasFump;
 - (FullUserMonsterProto*) fump;
 - (DevResponseProto_Builder*) setFump:(FullUserMonsterProto*) value;
-- (DevResponseProto_Builder*) setFumpBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (DevResponseProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue;
 - (DevResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
 - (DevResponseProto_Builder*) clearFump;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

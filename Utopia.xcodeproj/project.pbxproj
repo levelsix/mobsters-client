@@ -201,6 +201,42 @@
 		CF0A8D96183AD03400B32CDC /* popupheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D87183AD03400B32CDC /* popupheader@2x.png */; };
 		CF0AC60018A1F6E600140628 /* PvpBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */; };
 		CF0C8752180520EE007D6E1A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0C8751180520EE007D6E1A /* CoreText.framework */; };
+		CF0CDE7019E4FC20006A5ECB /* buildingsquad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE6E19E4FC20006A5ECB /* buildingsquad.png */; };
+		CF0CDE7119E4FC20006A5ECB /* buildingsquad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE6E19E4FC20006A5ECB /* buildingsquad.png */; };
+		CF0CDE7219E4FC20006A5ECB /* buildingsquad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE6F19E4FC20006A5ECB /* buildingsquad@2x.png */; };
+		CF0CDE7319E4FC20006A5ECB /* buildingsquad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE6F19E4FC20006A5ECB /* buildingsquad@2x.png */; };
+		CF0CDE8519E5050E006A5ECB /* moretimerarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7519E5050E006A5ECB /* moretimerarrow.png */; };
+		CF0CDE8619E5050E006A5ECB /* moretimerarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7519E5050E006A5ECB /* moretimerarrow.png */; };
+		CF0CDE8719E5050E006A5ECB /* moretimerarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7619E5050E006A5ECB /* moretimerarrow@2x.png */; };
+		CF0CDE8819E5050E006A5ECB /* moretimerarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7619E5050E006A5ECB /* moretimerarrow@2x.png */; };
+		CF0CDE8F19E5050E006A5ECB /* timerfinish.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7A19E5050E006A5ECB /* timerfinish.png */; };
+		CF0CDE9019E5050E006A5ECB /* timerfinish.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7A19E5050E006A5ECB /* timerfinish.png */; };
+		CF0CDE9119E5050E006A5ECB /* timerfinish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7B19E5050E006A5ECB /* timerfinish@2x.png */; };
+		CF0CDE9219E5050E006A5ECB /* timerfinish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7B19E5050E006A5ECB /* timerfinish@2x.png */; };
+		CF0CDE9319E5050E006A5ECB /* timersbottombg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7C19E5050E006A5ECB /* timersbottombg.png */; };
+		CF0CDE9419E5050E006A5ECB /* timersbottombg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7C19E5050E006A5ECB /* timersbottombg.png */; };
+		CF0CDE9519E5050E006A5ECB /* timersbottombg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7D19E5050E006A5ECB /* timersbottombg@2x.png */; };
+		CF0CDE9619E5050E006A5ECB /* timersbottombg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7D19E5050E006A5ECB /* timersbottombg@2x.png */; };
+		CF0CDE9719E5050E006A5ECB /* timersbottommorebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7E19E5050E006A5ECB /* timersbottommorebg.png */; };
+		CF0CDE9819E5050E006A5ECB /* timersbottommorebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7E19E5050E006A5ECB /* timersbottommorebg.png */; };
+		CF0CDE9919E5050E006A5ECB /* timersbottommorebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7F19E5050E006A5ECB /* timersbottommorebg@2x.png */; };
+		CF0CDE9A19E5050E006A5ECB /* timersbottommorebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE7F19E5050E006A5ECB /* timersbottommorebg@2x.png */; };
+		CF0CDE9B19E5050E006A5ECB /* timersmiddlebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8019E5050E006A5ECB /* timersmiddlebg.png */; };
+		CF0CDE9C19E5050E006A5ECB /* timersmiddlebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8019E5050E006A5ECB /* timersmiddlebg.png */; };
+		CF0CDE9D19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8119E5050E006A5ECB /* timersmiddlebg@2x.png */; };
+		CF0CDE9E19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8119E5050E006A5ECB /* timersmiddlebg@2x.png */; };
+		CF0CDE9F19E5050E006A5ECB /* timerstopbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8219E5050E006A5ECB /* timerstopbg.png */; };
+		CF0CDEA019E5050E006A5ECB /* timerstopbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8219E5050E006A5ECB /* timerstopbg.png */; };
+		CF0CDEA119E5050E006A5ECB /* timerstopbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8319E5050E006A5ECB /* timerstopbg@2x.png */; };
+		CF0CDEA219E5050E006A5ECB /* timerstopbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8319E5050E006A5ECB /* timerstopbg@2x.png */; };
+		CF0CDEA319E5050E006A5ECB /* toplongbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8419E5050E006A5ECB /* toplongbar@2x.png */; };
+		CF0CDEA419E5050E006A5ECB /* toplongbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDE8419E5050E006A5ECB /* toplongbar@2x.png */; };
+		CF0CDEA919E50675006A5ECB /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0CDEA719E50675006A5ECB /* TimerViewController.m */; };
+		CF0CDEAA19E50675006A5ECB /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0CDEA719E50675006A5ECB /* TimerViewController.m */; };
+		CF0CDEAE19E50B94006A5ECB /* TimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDEAD19E50B94006A5ECB /* TimerCell.xib */; };
+		CF0CDEAF19E50B94006A5ECB /* TimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0CDEAD19E50B94006A5ECB /* TimerCell.xib */; };
+		CF0CDEB219E5103C006A5ECB /* TimerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0CDEB119E5103C006A5ECB /* TimerAction.m */; };
+		CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0CDEB119E5103C006A5ECB /* TimerAction.m */; };
 		CF0CE075196CFF2500ECD301 /* deploybg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE071196CFF2500ECD301 /* deploybg.png */; };
 		CF0CE076196CFF2500ECD301 /* deploybg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE072196CFF2500ECD301 /* deploybg@2x.png */; };
 		CF0CE077196CFF2500ECD301 /* dottedsmallsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CE073196CFF2500ECD301 /* dottedsmallsquare.png */; };
@@ -234,27 +270,27 @@
 		CF0CECEE196F450C00ECD301 /* splashguyswide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0CECE7196F450C00ECD301 /* splashguyswide@2x.png */; };
 		CF0CECF9196F452900ECD301 /* OrbBgdLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB1B8183704DA007C4BA3 /* OrbBgdLayer.m */; };
 		CF0CECFB196F452900ECD301 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265101538ACC400E0C1AD /* Analytics.m */; };
-		CF0CECFC196F452900ECD301 /* EventClan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CECFC196F452900ECD301 /* EventClan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */; };
 		CF0CECFE196F452900ECD301 /* easing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB1761834C2FD007C4BA3 /* easing.c */; };
 		CF0CED00196F452900ECD301 /* TutorialAttackMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */; };
 		CF0CED01196F452900ECD301 /* HospitalQueueSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC371301884C2BC000348D8 /* HospitalQueueSimulator.m */; };
-		CF0CED02196F452900ECD301 /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574991909CAF200ABF1F4 /* Protocols.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED02196F452900ECD301 /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574991909CAF200ABF1F4 /* Protocols.pb.m */; };
 		CF0CED03196F452900ECD301 /* UnreadNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = CF40CFDD18DF9DCB0034A721 /* UnreadNotifications.m */; };
 		CF0CED04196F452900ECD301 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFD311D18503E880091E315 /* UpgradeViewController.m */; };
 		CF0CED05196F452900ECD301 /* MessageComposerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF864DCE193E802300DE0D7A /* MessageComposerView.m */; };
 		CF0CED06196F452900ECD301 /* StaticStructure.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7063F9183EF991005B30A1 /* StaticStructure.m */; };
 		CF0CED07196F452900ECD301 /* ProfileViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5DC04194FCA160019EB2B /* ProfileViews.m */; };
-		CF0CED08196F452900ECD301 /* MonsterStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED08196F452900ECD301 /* MonsterStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */; };
 		CF0CED09196F452900ECD301 /* OneLineNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7064C21845E4C7005B30A1 /* OneLineNotificationViewController.m */; };
 		CF0CED0A196F452900ECD301 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12653F1538ACC400E0C1AD /* Downloader.m */; };
 		CF0CED0B196F452900ECD301 /* HomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8C41807DA1E00062258 /* HomeMap.m */; };
 		CF0CED0C196F452900ECD301 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9AE70C180CA78C0013DD44 /* LoadingViewController.m */; };
 		CF0CED0D196F452900ECD301 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265441538ACC400E0C1AD /* Globals.m */; };
-		CF0CED0E196F452900ECD301 /* Clan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574501909CAF100ABF1F4 /* Clan.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED0E196F452900ECD301 /* Clan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574501909CAF100ABF1F4 /* Clan.pb.m */; };
 		CF0CED0F196F452900ECD301 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8BD1807DA1E00062258 /* GameMap.m */; };
 		CF0CED10196F452900ECD301 /* HealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF646C2195CD1D300C43641 /* HealViewController.m */; };
 		CF0CED11196F452900ECD301 /* CAKeyFrameAnimation+Jumping.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB17D18358FC0007C4BA3 /* CAKeyFrameAnimation+Jumping.m */; };
-		CF0CED12196F452900ECD301 /* InAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED12196F452900ECD301 /* InAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */; };
 		CF0CED13196F452900ECD301 /* ListCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64649195A578700C43641 /* ListCollectionView.m */; };
 		CF0CED14196F452900ECD301 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265481538ACC400E0C1AD /* UserData.m */; };
 		CF0CED15196F452900ECD301 /* MiniJobsDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FFB1912E5D000FF1F71 /* MiniJobsDetailsViewController.m */; };
@@ -264,7 +300,7 @@
 		CF0CED19196F452900ECD301 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF20F22E180FCDCB005551B5 /* EasyTableView.m */; };
 		CF0CED1A196F452900ECD301 /* GenericPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12656E1538ACC400E0C1AD /* GenericPopupController.m */; };
 		CF0CED1B196F452900ECD301 /* QuestCompleteLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB379C18F4853900FD6C8C /* QuestCompleteLayer.m */; };
-		CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED1C196F452900ECD301 /* EventStaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */; };
 		CF0CED1D196F452900ECD301 /* CoinBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265891538ACC400E0C1AD /* CoinBar.m */; };
 		CF0CED1E196F452900ECD301 /* NibUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12658B1538ACC400E0C1AD /* NibUtils.m */; };
 		CF0CED1F196F452900ECD301 /* TimingFunctionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF376712183305DD00D0A77E /* TimingFunctionTableView.m */; };
@@ -272,7 +308,7 @@
 		CF0CED22196F452900ECD301 /* HomeBuildingMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8C21807DA1E00062258 /* HomeBuildingMenus.m */; };
 		CF0CED24196F452900ECD301 /* PopupNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCD0E6C1953EFE500EDC233 /* PopupNavViewController.m */; };
 		CF0CED25196F452900ECD301 /* IncomingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D01538ACC400E0C1AD /* IncomingEventController.m */; };
-		CF0CED27196F452900ECD301 /* Structure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749F1909CAF200ABF1F4 /* Structure.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED27196F452900ECD301 /* Structure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749F1909CAF200ABF1F4 /* Structure.pb.m */; };
 		CF0CED28196F452900ECD301 /* OutgoingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */; };
 		CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265D41538ACC400E0C1AD /* SocketCommunication.m */; };
 		CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */; };
@@ -284,48 +320,48 @@
 		CF0CED30196F452900ECD301 /* SBDoubleSidedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674A1538ACC500E0C1AD /* SBDoubleSidedLayer.m */; };
 		CF0CED31196F452900ECD301 /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674C1538ACC500E0C1AD /* SBGradientOverlayLayer.m */; };
 		CF0CED32196F452900ECD301 /* SBTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674E1538ACC500E0C1AD /* SBTickerView.m */; };
-		CF0CED33196F452900ECD301 /* MiniJobConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED33196F452900ECD301 /* MiniJobConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */; };
 		CF0CED34196F452900ECD301 /* ClanRaidDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA31F718B3F055008B81B9 /* ClanRaidDetailsViewController.m */; };
 		CF0CED35196F452900ECD301 /* UIView+SBExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1267501538ACC500E0C1AD /* UIView+SBExtras.m */; };
 		CF0CED36196F452900ECD301 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1273BB1538AE1E00E0C1AD /* main.m */; };
-		CF0CED37196F452900ECD301 /* EventAchievement.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED37196F452900ECD301 /* EventAchievement.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */; };
 		CF0CED3B196F452900ECD301 /* ClanInfoViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9D359194A833600BD930E /* ClanInfoViews.m */; };
 		CF0CED3C196F452900ECD301 /* FullUserUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C7AE0157C1F0E003A6AFE /* FullUserUpdates.m */; };
-		CF0CED3D196F452900ECD301 /* EventCity.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED3D196F452900ECD301 /* EventCity.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */; };
 		CF0CED3E196F452900ECD301 /* OtherUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF192977157D9FF100D51C70 /* OtherUpdates.m */; };
 		CF0CED3F196F452900ECD301 /* RequestsBattleTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF6AED18DA5F3A003A320C /* RequestsBattleTableController.m */; };
-		CF0CED40196F452900ECD301 /* EventTournament.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED40196F452900ECD301 /* EventTournament.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */; };
 		CF0CED41196F452900ECD301 /* MiniTutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */; };
-		CF0CED42196F452900ECD301 /* EventMonster.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED42196F452900ECD301 /* EventMonster.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */; };
 		CF0CED43196F452900ECD301 /* OmnipresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7064BD1845E2F2005B30A1 /* OmnipresentViewController.m */; };
 		CF0CED44196F452900ECD301 /* SoundEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41D0F3158BDBBE00A4DBC3 /* SoundEngine.m */; };
 		CF0CED45196F452900ECD301 /* HireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5DC28195143140019EB2B /* HireViewController.m */; };
-		CF0CED46196F452900ECD301 /* StaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED46196F452900ECD301 /* StaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */; };
 		CF0CED47196F452900ECD301 /* ClanRaidHealthBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF30277A18BF0583009D2D25 /* ClanRaidHealthBar.m */; };
 		CF0CED48196F452900ECD301 /* FBChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0A8D7B183ABDE600B32CDC /* FBChooserView.m */; };
 		CF0CED4B196F452900ECD301 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41D194158BFAE900A4DBC3 /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED4C196F452900ECD301 /* BattleSpeechBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3905818284BF80010A3BE /* BattleSpeechBubble.m */; };
 		CF0CED4D196F452900ECD301 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3765A5182F06BA00D0A77E /* ChatCell.m */; };
 		CF0CED4E196F452900ECD301 /* EnhanceChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6463E195A3EE400C43641 /* EnhanceChooserViewController.m */; };
-		CF0CED4F196F452900ECD301 /* Chat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744C1909CAF100ABF1F4 /* Chat.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED4F196F452900ECD301 /* Chat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744C1909CAF100ABF1F4 /* Chat.pb.m */; };
 		CF0CED50196F452900ECD301 /* MonsterTeamSlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB1671834A80A007C4BA3 /* MonsterTeamSlotView.m */; };
 		CF0CED52196F452900ECD301 /* MSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEF25D518C9DFC400FB867A /* MSWindow.m */; };
 		CF0CED53196F452900ECD301 /* AttackMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF20F047180E142B005551B5 /* AttackMapViewController.m */; };
 		CF0CED54196F452900ECD301 /* TutorialOrbLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54942D18C58ECF001E7D32 /* TutorialOrbLayer.m */; };
-		CF0CED56196F452900ECD301 /* EventQuest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED56196F452900ECD301 /* EventQuest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */; };
 		CF0CED57196F452900ECD301 /* EvolveChooserViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */; };
 		CF0CED58196F452900ECD301 /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
-		CF0CED59196F452900ECD301 /* SharedEnumConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED59196F452900ECD301 /* SharedEnumConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */; };
 		CF0CED5A196F452900ECD301 /* EvolveChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64702195E14D500C43641 /* EvolveChooserViewController.m */; };
 		CF0CED5B196F452900ECD301 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */; };
 		CF0CED5C196F452900ECD301 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8B01807DA1E00062258 /* Building.m */; };
 		CF0CED5D196F452900ECD301 /* MiniJobsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */; };
 		CF0CED5E196F452900ECD301 /* AttackMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */; };
-		CF0CED5F196F452900ECD301 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED5F196F452900ECD301 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; };
 		CF0CED60196F452900ECD301 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1015C3B89400F2E50E /* NSString+SBJSON.m */; };
 		CF0CED61196F452900ECD301 /* FAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29EA5D1965100E00B40DA4 /* FAQViewController.m */; };
 		CF0CED62196F452900ECD301 /* ClanRaidLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF30278D18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m */; };
-		CF0CED63196F452900ECD301 /* EventUser.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574721909CAF100ABF1F4 /* EventUser.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED63196F452900ECD301 /* EventUser.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574721909CAF100ABF1F4 /* EventUser.pb.m */; };
 		CF0CED64196F452900ECD301 /* FundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9151961006500B40DA4 /* FundsViewController.m */; };
 		CF0CED65196F452900ECD301 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1215C3B89400F2E50E /* SBJSON.m */; };
 		CF0CED66196F452900ECD301 /* TutorialTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */; };
@@ -340,10 +376,10 @@
 		CF0CED70196F452900ECD301 /* ClanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF62E70515FEC6D500DF850F /* ClanViewController.m */; };
 		CF0CED71196F452900ECD301 /* ClanRaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF30279018C0176B009D2D25 /* ClanRaidViewController.m */; };
 		CF0CED74196F452900ECD301 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB2508F18587BF300BE0C05 /* THLabel.m */; };
-		CF0CED76196F452900ECD301 /* City.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744E1909CAF100ABF1F4 /* City.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED76196F452900ECD301 /* City.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744E1909CAF100ABF1F4 /* City.pb.m */; };
 		CF0CED77196F452900ECD301 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8FF1808975500062258 /* GameViewController.m */; };
 		CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE56E118137C9000494F8C /* MonsterPopUpViewController.m */; };
-		CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574581909CAF100ABF1F4 /* EventChat.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574581909CAF100ABF1F4 /* EventChat.pb.m */; };
 		CF0CED7B196F452900ECD301 /* TutorialTopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF513B118C89D98004B0E56 /* TutorialTopBarViewController.m */; };
 		CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574F2190F2AE500ABF1F4 /* AchievementUtil.m */; };
 		CF0CED7F196F452900ECD301 /* ChatBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF2C95B193FE75B00F28D9E /* ChatBottomView.m */; };
@@ -364,7 +400,7 @@
 		CF0CED8F196F452900ECD301 /* AMQPExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7616572A8400A51F85 /* AMQPExchange.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED91196F452900ECD301 /* AMQPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15BA7816572A8400A51F85 /* AMQPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574E71909CEBC00ABF1F4 /* AchievementsViewController.m */; };
-		CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; };
 		CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF646E9195D229400C43641 /* TeamViewController.m */; };
 		CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */; };
 		CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */; };
@@ -383,22 +419,22 @@
 		CF0CEDA7196F452900ECD301 /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F71658B70B0060188D /* amqp_connection.c */; };
 		CF0CEDA8196F452900ECD301 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6F1A21181521FF00CFF2B9 /* QuestDetailsViewController.m */; };
 		CF0CEDA9196F452900ECD301 /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F81658B70B0060188D /* amqp_framing.c */; };
-		CF0CEDAA196F452900ECD301 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDAA196F452900ECD301 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; };
 		CF0CEDAB196F452900ECD301 /* MiniJobsCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5DB9E194BD8CE0019EB2B /* MiniJobsCompleteViewController.m */; };
-		CF0CEDAC196F452900ECD301 /* Quest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749B1909CAF200ABF1F4 /* Quest.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDAC196F452900ECD301 /* Quest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749B1909CAF200ABF1F4 /* Quest.pb.m */; };
 		CF0CEDAD196F452900ECD301 /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F91658B70B0060188D /* amqp_mem.c */; };
-		CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; };
 		CF0CEDAF196F452900ECD301 /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FA1658B70B0060188D /* amqp_socket.c */; };
 		CF0CEDB0196F452900ECD301 /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FB1658B70C0060188D /* amqp_table.c */; };
 		CF0CEDB1196F452900ECD301 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141FC1658B70C0060188D /* amqp_url.c */; };
 		CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF740691817D3D2009DE4A4 /* RewardsView.m */; };
 		CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */; };
 		CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F27D2165B36CF00D967DC /* AMQPConnectionThread.m */; };
-		CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF0CEDB7196F452900ECD301 /* AchievementStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; };
+		CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; };
+		CF0CEDB7196F452900ECD301 /* AchievementStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */; };
 		CF0CEDB8196F452900ECD301 /* DBFBProfilePictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3913B182A10CD0010A3BE /* DBFBProfilePictureView.m */; };
-		CF0CEDBA196F452900ECD301 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A51909CAF200ABF1F4 /* User.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDBA196F452900ECD301 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A51909CAF200ABF1F4 /* User.pb.m */; };
 		CF0CEDBB196F452900ECD301 /* QuestLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6F197E1815156C00CFF2B9 /* QuestLogViewController.m */; };
 		CF0CEDBC196F452900ECD301 /* MSDate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF6B1018DB2044003A320C /* MSDate.m */; };
 		CF0CEDBD196F452900ECD301 /* TutorialHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF74611A196757C7002D6AE6 /* TutorialHomeViewController.m */; };
@@ -410,9 +446,9 @@
 		CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC04D54188FAF8200F2DB59 /* PersistentEventProto+Time.m */; };
 		CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA31EB18B3DC46008B81B9 /* ClanRaidListViewController.m */; };
 		CF0CEDC9196F452900ECD301 /* ClanBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF031817C595F40082A9BF /* ClanBrowseViewController.m */; };
-		CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */; };
 		CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCD0EF71954D01600EDC233 /* PopupSubViewController.m */; };
-		CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574481909CAF100ABF1F4 /* Battle.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574481909CAF100ABF1F4 /* Battle.pb.m */; };
 		CF0CEDCD196F452900ECD301 /* MyTeamSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF7408418199478009DE4A4 /* MyTeamSprite.m */; };
 		CF0CEDCE196F452900ECD301 /* PvpBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */; };
 		CF0CEDCF196F452900ECD301 /* ClanCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF031F17C596880082A9BF /* ClanCreateViewController.m */; };
@@ -420,22 +456,22 @@
 		CF0CEDD1196F452900ECD301 /* EvolveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */; };
 		CF0CEDD2196F452900ECD301 /* TutorialTeamController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0CE07B196D1DF000ECD301 /* TutorialTeamController.m */; };
 		CF0CEDD3196F452900ECD301 /* ClanInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF032617C5969F0082A9BF /* ClanInfoViewController.m */; };
-		CF0CEDD4196F452900ECD301 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDD4196F452900ECD301 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; };
 		CF0CEDD5196F452900ECD301 /* MonsterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */; };
 		CF0CEDD6196F452900ECD301 /* EvolveDetailsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64712195E368800C43641 /* EvolveDetailsViews.m */; };
 		CF0CEDD7196F452900ECD301 /* NewBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D77017DFC47700874339 /* NewBattleLayer.m */; };
 		CF0CEDD8196F452900ECD301 /* TutorialFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF513B718C8C432004B0E56 /* TutorialFacebookViewController.m */; };
-		CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDD9196F452900ECD301 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; };
 		CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */; };
 		CF0CEDDC196F452900ECD301 /* BattleSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D7C417E2636400874339 /* BattleSprite.m */; };
 		CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF1D7C817E2645F00874339 /* CCAnimation+SpriteLoading.m */; };
 		CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE0E6B717E3C05F002ECA84 /* BattlePlayer.m */; };
-		CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */; };
 		CF0CEDE0196F452900ECD301 /* RequestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3907A1828BB810010A3BE /* RequestsViewController.m */; };
 		CF0CEDE2196F452900ECD301 /* BattleViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF52D0AC17EA3E7D00A067A6 /* BattleViews.m */; };
 		CF0CEDE3196F452900ECD301 /* BuildingViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CF29E9111960E85100B40DA4 /* BuildingViews.m */; };
 		CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF63F78117EC168C00FEBAA9 /* CCSoundAnimation.m */; };
-		CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */; };
 		CF0CEDE7196F452900ECD301 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3765A9183175DE00D0A77E /* ChatView.m */; };
 		CF0CEDE8196F452900ECD301 /* DungeonBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF2080517FE269300AA6F84 /* DungeonBattleLayer.m */; };
 		CF0CEDE9196F452900ECD301 /* TutorialHealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF74611D19675926002D6AE6 /* TutorialHealViewController.m */; };
@@ -443,7 +479,7 @@
 		CF0CEDEC196F452900ECD301 /* ClanRaidViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA31F418B3E836008B81B9 /* ClanRaidViews.m */; };
 		CF0CEDED196F452900ECD301 /* GenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9AE716180CE5100013DD44 /* GenViewController.m */; };
 		CF0CEDEE196F452900ECD301 /* LevelUpNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF786CD18E16BD700413E78 /* LevelUpNode.m */; };
-		CF0CEDEF196F452900ECD301 /* TournamentStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF0CEDEF196F452900ECD301 /* TournamentStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */; };
 		CF0CEDF0196F452900ECD301 /* TopBarQuestProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEE898618EA39BB00047CA4 /* TopBarQuestProgressView.m */; };
 		CF0CEDF1196F452900ECD301 /* MiniJobsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF61912E5B200FF1F71 /* MiniJobsListViewController.m */; };
 		CF0CEDF2196F452900ECD301 /* QuestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF7407F1818EE25009DE4A4 /* QuestUtil.m */; };
@@ -480,7 +516,6 @@
 		CF0CEE14196F452900ECD301 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C71538B7F700E0C1AD /* OpenAL.framework */; };
 		CF0CEE15196F452900ECD301 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C91538B80000E0C1AD /* AudioToolbox.framework */; };
 		CF0CEE16196F452900ECD301 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CB1538B80500E0C1AD /* AVFoundation.framework */; };
-		CF0CEE17196F452900ECD301 /* libProtocolBuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273A51538ACCF00E0C1AD /* libProtocolBuffers.a */; };
 		CF0CEE18196F452900ECD301 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF0CEE19196F452900ECD301 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -2903,7 +2938,6 @@
 		CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674C1538ACC500E0C1AD /* SBGradientOverlayLayer.m */; };
 		CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12674E1538ACC500E0C1AD /* SBTickerView.m */; };
 		CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1267501538ACC500E0C1AD /* UIView+SBExtras.m */; };
-		CF1273AC1538ACFD00E0C1AD /* libProtocolBuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273A51538ACCF00E0C1AD /* libProtocolBuffers.a */; };
 		CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273AD1538AD4C00E0C1AD /* Security.framework */; };
 		CF1273B21538AD6A00E0C1AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273B11538AD6A00E0C1AD /* SystemConfiguration.framework */; };
 		CF1273B61538AD7E00E0C1AD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273B51538AD7E00E0C1AD /* StoreKit.framework */; };
@@ -3695,38 +3729,38 @@
 		CF65743E19086B6600ABF1F4 /* FullQuestProto+JobAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */; };
 		CF6574401908A49200ABF1F4 /* Ziggurat-HTF-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF65743F1908A49200ABF1F4 /* Ziggurat-HTF-Black.otf */; };
 		CF6574421908BDFE00ABF1F4 /* QuestDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6574411908BDFE00ABF1F4 /* QuestDetailsCell.xib */; };
-		CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574A71909CAF200ABF1F4 /* Battle.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574481909CAF100ABF1F4 /* Battle.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574A81909CAF200ABF1F4 /* BoosterPackStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574A91909CAF200ABF1F4 /* Chat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744C1909CAF100ABF1F4 /* Chat.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AA1909CAF200ABF1F4 /* City.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744E1909CAF100ABF1F4 /* City.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574501909CAF100ABF1F4 /* Clan.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AC1909CAF200ABF1F4 /* EventAchievement.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AE1909CAF200ABF1F4 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574AF1909CAF200ABF1F4 /* EventChat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574581909CAF100ABF1F4 /* EventChat.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B01909CAF200ABF1F4 /* EventCity.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B11909CAF200ABF1F4 /* EventClan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B41909CAF200ABF1F4 /* EventMonster.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B51909CAF200ABF1F4 /* EventPvp.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B71909CAF200ABF1F4 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B81909CAF200ABF1F4 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574B91909CAF200ABF1F4 /* EventStaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574BB1909CAF200ABF1F4 /* EventTournament.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574BC1909CAF200ABF1F4 /* EventUser.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574721909CAF100ABF1F4 /* EventUser.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574991909CAF200ABF1F4 /* Protocols.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749B1909CAF200ABF1F4 /* Quest.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E11909CAF200ABF1F4 /* StaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E21909CAF200ABF1F4 /* Structure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749F1909CAF200ABF1F4 /* Structure.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E31909CAF200ABF1F4 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E41909CAF200ABF1F4 /* TournamentStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A51909CAF200ABF1F4 /* User.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */; };
+		CF6574A71909CAF200ABF1F4 /* Battle.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574481909CAF100ABF1F4 /* Battle.pb.m */; };
+		CF6574A81909CAF200ABF1F4 /* BoosterPackStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744A1909CAF100ABF1F4 /* BoosterPackStuff.pb.m */; };
+		CF6574A91909CAF200ABF1F4 /* Chat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744C1909CAF100ABF1F4 /* Chat.pb.m */; };
+		CF6574AA1909CAF200ABF1F4 /* City.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65744E1909CAF100ABF1F4 /* City.pb.m */; };
+		CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574501909CAF100ABF1F4 /* Clan.pb.m */; };
+		CF6574AC1909CAF200ABF1F4 /* EventAchievement.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574521909CAF100ABF1F4 /* EventAchievement.pb.m */; };
+		CF6574AD1909CAF200ABF1F4 /* EventApns.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574541909CAF100ABF1F4 /* EventApns.pb.m */; };
+		CF6574AE1909CAF200ABF1F4 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; };
+		CF6574AF1909CAF200ABF1F4 /* EventChat.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574581909CAF100ABF1F4 /* EventChat.pb.m */; };
+		CF6574B01909CAF200ABF1F4 /* EventCity.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745A1909CAF100ABF1F4 /* EventCity.pb.m */; };
+		CF6574B11909CAF200ABF1F4 /* EventClan.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745C1909CAF100ABF1F4 /* EventClan.pb.m */; };
+		CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65745E1909CAF100ABF1F4 /* EventDungeon.pb.m */; };
+		CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574601909CAF100ABF1F4 /* EventInAppPurchase.pb.m */; };
+		CF6574B41909CAF200ABF1F4 /* EventMonster.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574621909CAF100ABF1F4 /* EventMonster.pb.m */; };
+		CF6574B51909CAF200ABF1F4 /* EventPvp.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574641909CAF100ABF1F4 /* EventPvp.pb.m */; };
+		CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574661909CAF100ABF1F4 /* EventQuest.pb.m */; };
+		CF6574B71909CAF200ABF1F4 /* EventReferral.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574681909CAF100ABF1F4 /* EventReferral.pb.m */; };
+		CF6574B81909CAF200ABF1F4 /* EventStartup.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746A1909CAF100ABF1F4 /* EventStartup.pb.m */; };
+		CF6574B91909CAF200ABF1F4 /* EventStaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746C1909CAF100ABF1F4 /* EventStaticData.pb.m */; };
+		CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65746E1909CAF100ABF1F4 /* EventStructure.pb.m */; };
+		CF6574BB1909CAF200ABF1F4 /* EventTournament.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574701909CAF100ABF1F4 /* EventTournament.pb.m */; };
+		CF6574BC1909CAF200ABF1F4 /* EventUser.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574721909CAF100ABF1F4 /* EventUser.pb.m */; };
+		CF6574BD1909CAF200ABF1F4 /* InAppPurchase.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574741909CAF100ABF1F4 /* InAppPurchase.pb.m */; };
+		CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574761909CAF100ABF1F4 /* MonsterStuff.pb.m */; };
+		CF6574DF1909CAF200ABF1F4 /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574991909CAF200ABF1F4 /* Protocols.pb.m */; };
+		CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749B1909CAF200ABF1F4 /* Quest.pb.m */; };
+		CF6574E11909CAF200ABF1F4 /* StaticData.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749D1909CAF200ABF1F4 /* StaticData.pb.m */; };
+		CF6574E21909CAF200ABF1F4 /* Structure.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF65749F1909CAF200ABF1F4 /* Structure.pb.m */; };
+		CF6574E31909CAF200ABF1F4 /* Task.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A11909CAF200ABF1F4 /* Task.pb.m */; };
+		CF6574E41909CAF200ABF1F4 /* TournamentStuff.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A31909CAF200ABF1F4 /* TournamentStuff.pb.m */; };
+		CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574A51909CAF200ABF1F4 /* User.pb.m */; };
 		CF6574E91909CEBC00ABF1F4 /* AchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574E71909CEBC00ABF1F4 /* AchievementsViewController.m */; };
 		CF6574EA1909CEBC00ABF1F4 /* AchievementsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6574E81909CEBC00ABF1F4 /* AchievementsViewController.xib */; };
 		CF6574EC1909CEC900ABF1F4 /* AchievementsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6574EB1909CEC900ABF1F4 /* AchievementsCell.xib */; };
@@ -3803,9 +3837,9 @@
 		CF6890631912FD7E00FF1F71 /* minijobsrewardbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6890611912FD7E00FF1F71 /* minijobsrewardbg.png */; };
 		CF6890641912FD7E00FF1F71 /* minijobsrewardbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6890621912FD7E00FF1F71 /* minijobsrewardbg@2x.png */; };
 		CF689068191300F100FF1F71 /* MiniJobsDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF689067191300F100FF1F71 /* MiniJobsDetailsCell.xib */; };
-		CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; };
+		CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */; };
+		CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */; };
 		CF689079191B0B1700FF1F71 /* MiniJobsRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF689078191B0B1700FF1F71 /* MiniJobsRewardView.xib */; };
 		CF68907B191B0B2A00FF1F71 /* QuestRewardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF68907A191B0B2A00FF1F71 /* QuestRewardView.xib */; };
 		CF689094191C514000FF1F71 /* pier_0.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689083191C514000FF1F71 /* pier_0.png */; };
@@ -4344,8 +4378,8 @@
 		CFB6F7E619DA162900A53935 /* wonstickerhead.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6F7E319DA162900A53935 /* wonstickerhead.png */; };
 		CFB6F7E719DA162900A53935 /* wonstickerhead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6F7E419DA162900A53935 /* wonstickerhead@2x.png */; };
 		CFB6F7E819DA162900A53935 /* wonstickerhead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6F7E419DA162900A53935 /* wonstickerhead@2x.png */; };
-		CFB97D7E19C14173003ABA66 /* EventItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB97D7D19C14173003ABA66 /* EventItem.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CFB97D7F19C14173003ABA66 /* EventItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB97D7D19C14173003ABA66 /* EventItem.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFB97D7E19C14173003ABA66 /* EventItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB97D7D19C14173003ABA66 /* EventItem.pb.m */; };
+		CFB97D7F19C14173003ABA66 /* EventItem.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB97D7D19C14173003ABA66 /* EventItem.pb.m */; };
 		CFB97D8619C14183003ABA66 /* EventItem.proto in Resources */ = {isa = PBXBuildFile; fileRef = CFB97D8519C14183003ABA66 /* EventItem.proto */; };
 		CFB97D8719C14183003ABA66 /* EventItem.proto in Resources */ = {isa = PBXBuildFile; fileRef = CFB97D8519C14183003ABA66 /* EventItem.proto */; };
 		CFBB36C218EE2B9400FD6C8C /* AttackMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */; };
@@ -5459,8 +5493,8 @@
 		CFF412A819BFC261002672D4 /* QuestCompleteLayer.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF4129E19BFC261002672D4 /* QuestCompleteLayer.ccbi */; };
 		CFF412AA19BFC5E0002672D4 /* StageCompleteNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF412A919BFC5E0002672D4 /* StageCompleteNode.ccbi */; };
 		CFF412AB19BFC5E0002672D4 /* StageCompleteNode.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFF412A919BFC5E0002672D4 /* StageCompleteNode.ccbi */; };
-		CFF412AE19BFE761002672D4 /* Item.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF412AD19BFE761002672D4 /* Item.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CFF412AF19BFE761002672D4 /* Item.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF412AD19BFE761002672D4 /* Item.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF412AE19BFE761002672D4 /* Item.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF412AD19BFE761002672D4 /* Item.pb.m */; };
+		CFF412AF19BFE761002672D4 /* Item.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF412AD19BFE761002672D4 /* Item.pb.m */; };
 		CFF412B119BFE76E002672D4 /* Item.proto in Resources */ = {isa = PBXBuildFile; fileRef = CFF412B019BFE76E002672D4 /* Item.proto */; };
 		CFF412B219BFE76E002672D4 /* Item.proto in Resources */ = {isa = PBXBuildFile; fileRef = CFF412B019BFE76E002672D4 /* Item.proto */; };
 		CFF513B218C89D98004B0E56 /* TutorialTopBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF513B118C89D98004B0E56 /* TutorialTopBarViewController.m */; };
@@ -5795,10 +5829,10 @@
 		CFFA327518BD6A9F008B81B9 /* wave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA327418BD6A9F008B81B9 /* wave@2x.png */; };
 		CFFA9D6E18877C5E0097AD72 /* rockorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D6C18877C5E0097AD72 /* rockorb.png */; };
 		CFFA9D7018877C5F0097AD72 /* rockorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D6D18877C5E0097AD72 /* rockorb@2x.png */; };
-		CFFB3B7219820E8F005D7AF5 /* Dev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CFFB3B7519820E90005D7AF5 /* EventDev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFFB3B7219820E8F005D7AF5 /* Dev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */; };
+		CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B6F19820E8F005D7AF5 /* Dev.pb.m */; };
+		CFFB3B7419820E90005D7AF5 /* EventDev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */; };
+		CFFB3B7519820E90005D7AF5 /* EventDev.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFB3B7119820E8F005D7AF5 /* EventDev.pb.m */; };
 		CFFBDF2A18ACA3D90090CA9A /* Scientist1Blink00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDE4118ACA3D80090CA9A /* Scientist1Blink00@2x.png */; };
 		CFFBDF2B18ACA3D90090CA9A /* Scientist1Blink01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDE4218ACA3D80090CA9A /* Scientist1Blink01@2x.png */; };
 		CFFBDF2C18ACA3D90090CA9A /* Scientist1Blink02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDE4318ACA3D80090CA9A /* Scientist1Blink02@2x.png */; };
@@ -6191,8 +6225,8 @@
 		CFFF9A5A18BEB67D0036EEC3 /* watertimermobster.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3C18BEB67D0036EEC3 /* watertimermobster.png */; };
 		CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */; };
 		CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */; };
-		DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA075FB719AFEA3500E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; };
+		DA075FBD19AFEA4200E43E5A /* Skill.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = DA075FB619AFEA3500E43E5A /* Skill.pb.m */; };
 		DA075FBF19AFEA4C00E43E5A /* Skill.proto in Resources */ = {isa = PBXBuildFile; fileRef = DA075FBE19AFEA4C00E43E5A /* Skill.proto */; };
 		DA07605A19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07605219B129EC00E43E5A /* SkillBattleIndicatorView.m */; };
 		DA07605B19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07605219B129EC00E43E5A /* SkillBattleIndicatorView.m */; };
@@ -6440,41 +6474,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CF0CECF6196F452900ECD301 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
-			remoteInfo = ProtocolBuffers;
-		};
-		CF1273A41538ACCF00E0C1AD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7461B52E0F94FAF800A0C422;
-			remoteInfo = ProtocolBuffers;
-		};
-		CF1273A61538ACCF00E0C1AD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7401C1A80F950347006D8281;
-			remoteInfo = UnitTests;
-		};
-		CF1273A81538ACCF00E0C1AD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 748F14580FD75E3B000858A9;
-			remoteInfo = CommandLineTests;
-		};
-		CF1273BF1538B6C700E0C1AD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
-			remoteInfo = ProtocolBuffers;
-		};
 		CF79F57519C79E6D0092B1F3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
@@ -6527,6 +6526,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods.app store.xcconfig"; path = "Pods/Target Support Files/Pods/Pods.app store.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		454E624A15670A15004EB7E9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -6563,6 +6563,8 @@
 		4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goosplashicon@2x.png"; sourceTree = "<group>"; };
 		4C16FF0519CE03AE00F9FC1E /* poisonicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poisonicon.png; sourceTree = "<group>"; };
 		4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonicon@2x.png"; sourceTree = "<group>"; };
+		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF010F2319DDE5C400DAD527 /* chatinputbgcap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatinputbgcap.png; sourceTree = "<group>"; };
@@ -6672,6 +6674,26 @@
 		CF0AC5FE18A1F6E500140628 /* PvpBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PvpBattleLayer.h; sourceTree = "<group>"; };
 		CF0AC5FF18A1F6E500140628 /* PvpBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PvpBattleLayer.m; sourceTree = "<group>"; };
 		CF0C8751180520EE007D6E1A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		CF0CDE6E19E4FC20006A5ECB /* buildingsquad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingsquad.png; sourceTree = "<group>"; };
+		CF0CDE6F19E4FC20006A5ECB /* buildingsquad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingsquad@2x.png"; sourceTree = "<group>"; };
+		CF0CDE7519E5050E006A5ECB /* moretimerarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moretimerarrow.png; sourceTree = "<group>"; };
+		CF0CDE7619E5050E006A5ECB /* moretimerarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moretimerarrow@2x.png"; sourceTree = "<group>"; };
+		CF0CDE7A19E5050E006A5ECB /* timerfinish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timerfinish.png; sourceTree = "<group>"; };
+		CF0CDE7B19E5050E006A5ECB /* timerfinish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timerfinish@2x.png"; sourceTree = "<group>"; };
+		CF0CDE7C19E5050E006A5ECB /* timersbottombg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timersbottombg.png; sourceTree = "<group>"; };
+		CF0CDE7D19E5050E006A5ECB /* timersbottombg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timersbottombg@2x.png"; sourceTree = "<group>"; };
+		CF0CDE7E19E5050E006A5ECB /* timersbottommorebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timersbottommorebg.png; sourceTree = "<group>"; };
+		CF0CDE7F19E5050E006A5ECB /* timersbottommorebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timersbottommorebg@2x.png"; sourceTree = "<group>"; };
+		CF0CDE8019E5050E006A5ECB /* timersmiddlebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timersmiddlebg.png; sourceTree = "<group>"; };
+		CF0CDE8119E5050E006A5ECB /* timersmiddlebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timersmiddlebg@2x.png"; sourceTree = "<group>"; };
+		CF0CDE8219E5050E006A5ECB /* timerstopbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timerstopbg.png; sourceTree = "<group>"; };
+		CF0CDE8319E5050E006A5ECB /* timerstopbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timerstopbg@2x.png"; sourceTree = "<group>"; };
+		CF0CDE8419E5050E006A5ECB /* toplongbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toplongbar@2x.png"; sourceTree = "<group>"; };
+		CF0CDEA619E50675006A5ECB /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
+		CF0CDEA719E50675006A5ECB /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		CF0CDEAD19E50B94006A5ECB /* TimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerCell.xib; sourceTree = "<group>"; };
+		CF0CDEB019E5103C006A5ECB /* TimerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerAction.h; sourceTree = "<group>"; };
+		CF0CDEB119E5103C006A5ECB /* TimerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerAction.m; sourceTree = "<group>"; };
 		CF0CE071196CFF2500ECD301 /* deploybg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deploybg.png; sourceTree = "<group>"; };
 		CF0CE072196CFF2500ECD301 /* deploybg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "deploybg@2x.png"; sourceTree = "<group>"; };
 		CF0CE073196CFF2500ECD301 /* dottedsmallsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dottedsmallsquare.png; sourceTree = "<group>"; };
@@ -6742,33 +6764,6 @@
 		CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingEventController.m; sourceTree = "<group>"; };
 		CF1265D31538ACC400E0C1AD /* SocketCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketCommunication.h; sourceTree = "<group>"; };
 		CF1265D41538ACC400E0C1AD /* SocketCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketCommunication.m; sourceTree = "<group>"; };
-		CF1266D21538ACC500E0C1AD /* AbstractMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMessage.h; sourceTree = "<group>"; };
-		CF1266D31538ACC500E0C1AD /* AbstractMessage_Builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMessage_Builder.h; sourceTree = "<group>"; };
-		CF1266D41538ACC500E0C1AD /* Bootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bootstrap.h; sourceTree = "<group>"; };
-		CF1266D51538ACC500E0C1AD /* CodedInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodedInputStream.h; sourceTree = "<group>"; };
-		CF1266D61538ACC500E0C1AD /* CodedOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodedOutputStream.h; sourceTree = "<group>"; };
-		CF1266D71538ACC500E0C1AD /* ConcreteExtensionField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcreteExtensionField.h; sourceTree = "<group>"; };
-		CF1266D81538ACC500E0C1AD /* ExtendableMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendableMessage.h; sourceTree = "<group>"; };
-		CF1266D91538ACC500E0C1AD /* ExtendableMessage_Builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendableMessage_Builder.h; sourceTree = "<group>"; };
-		CF1266DA1538ACC500E0C1AD /* ExtensionField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtensionField.h; sourceTree = "<group>"; };
-		CF1266DB1538ACC500E0C1AD /* ExtensionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtensionRegistry.h; sourceTree = "<group>"; };
-		CF1266DC1538ACC500E0C1AD /* Field.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
-		CF1266DD1538ACC500E0C1AD /* ForwardDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardDeclarations.h; sourceTree = "<group>"; };
-		CF1266DE1538ACC500E0C1AD /* GeneratedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneratedMessage.h; sourceTree = "<group>"; };
-		CF1266DF1538ACC500E0C1AD /* GeneratedMessage_Builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneratedMessage_Builder.h; sourceTree = "<group>"; };
-		CF1266E01538ACC500E0C1AD /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		CF1266E11538ACC500E0C1AD /* Message_Builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message_Builder.h; sourceTree = "<group>"; };
-		CF1266E21538ACC500E0C1AD /* MutableExtensionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableExtensionRegistry.h; sourceTree = "<group>"; };
-		CF1266E31538ACC500E0C1AD /* MutableField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableField.h; sourceTree = "<group>"; };
-		CF1266E41538ACC500E0C1AD /* PBArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBArray.h; sourceTree = "<group>"; };
-		CF1266E51538ACC500E0C1AD /* ProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolBuffers.h; sourceTree = "<group>"; };
-		CF1266E61538ACC500E0C1AD /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
-		CF1266E71538ACC500E0C1AD /* TextFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFormat.h; sourceTree = "<group>"; };
-		CF1266E81538ACC500E0C1AD /* UnknownFieldSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnknownFieldSet.h; sourceTree = "<group>"; };
-		CF1266E91538ACC500E0C1AD /* UnknownFieldSet_Builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnknownFieldSet_Builder.h; sourceTree = "<group>"; };
-		CF1266EA1538ACC500E0C1AD /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
-		CF1266EB1538ACC500E0C1AD /* WireFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WireFormat.h; sourceTree = "<group>"; };
-		CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ProtocolBuffers.xcodeproj; sourceTree = "<group>"; };
 		CF1267451538ACC500E0C1AD /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		CF1267461538ACC500E0C1AD /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		CF1267471538ACC500E0C1AD /* LNSynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNSynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -9943,7 +9938,6 @@
 		CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "watertimermobster@2x.png"; sourceTree = "<group>"; };
 		CFFF9A5C18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ClanRaidProto+EasyAccess.h"; sourceTree = "<group>"; };
 		CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ClanRaidProto+EasyAccess.m"; sourceTree = "<group>"; };
-		D735B04C45CD4C97941C415D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DA075FB519AFEA3500E43E5A /* Skill.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.pb.h; sourceTree = "<group>"; };
 		DA075FB619AFEA3500E43E5A /* Skill.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.pb.m; sourceTree = "<group>"; };
 		DA075FBE19AFEA4C00E43E5A /* Skill.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Skill.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Skill.proto"; sourceTree = SOURCE_ROOT; };
@@ -10138,7 +10132,6 @@
 				CF0CEE14196F452900ECD301 /* OpenAL.framework in Frameworks */,
 				CF0CEE15196F452900ECD301 /* AudioToolbox.framework in Frameworks */,
 				CF0CEE16196F452900ECD301 /* AVFoundation.framework in Frameworks */,
-				CF0CEE17196F452900ECD301 /* libProtocolBuffers.a in Frameworks */,
 				CF0CEE18196F452900ECD301 /* UIKit.framework in Frameworks */,
 				CF0CEE19196F452900ECD301 /* Foundation.framework in Frameworks */,
 				CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */,
@@ -10191,7 +10184,6 @@
 				CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */,
 				CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */,
 				CF79F57319C79E5B0092B1F3 /* WithBuddiesAnalytics.framework in Frameworks */,
-				CF1273AC1538ACFD00E0C1AD /* libProtocolBuffers.a in Frameworks */,
 				CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */,
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
@@ -10251,6 +10243,16 @@
 				DA5E401B19D10504001F28CE /* roidrageicon@2x.png */,
 			);
 			path = "Skill Icons";
+			sourceTree = "<group>";
+		};
+		7A2AF416E1B4BB3498E05A47 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7531CD67E149A97B795B119A /* Pods.debug.xcconfig */,
+				5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */,
+				3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		CF012B3C18D400DD004C6825 /* Effectiveness */ = {
@@ -10467,6 +10469,36 @@
 			path = PVP;
 			sourceTree = "<group>";
 		};
+		CF0CDE7419E5050E006A5ECB /* Timers */ = {
+			isa = PBXGroup;
+			children = (
+				CF0CDE7519E5050E006A5ECB /* moretimerarrow.png */,
+				CF0CDE7619E5050E006A5ECB /* moretimerarrow@2x.png */,
+				CF0CDE7A19E5050E006A5ECB /* timerfinish.png */,
+				CF0CDE7B19E5050E006A5ECB /* timerfinish@2x.png */,
+				CF0CDE7C19E5050E006A5ECB /* timersbottombg.png */,
+				CF0CDE7D19E5050E006A5ECB /* timersbottombg@2x.png */,
+				CF0CDE7E19E5050E006A5ECB /* timersbottommorebg.png */,
+				CF0CDE7F19E5050E006A5ECB /* timersbottommorebg@2x.png */,
+				CF0CDE8019E5050E006A5ECB /* timersmiddlebg.png */,
+				CF0CDE8119E5050E006A5ECB /* timersmiddlebg@2x.png */,
+				CF0CDE8219E5050E006A5ECB /* timerstopbg.png */,
+				CF0CDE8319E5050E006A5ECB /* timerstopbg@2x.png */,
+				CF0CDE8419E5050E006A5ECB /* toplongbar@2x.png */,
+			);
+			path = Timers;
+			sourceTree = "<group>";
+		};
+		CF0CDEA519E505FE006A5ECB /* Timers */ = {
+			isa = PBXGroup;
+			children = (
+				CF0CDEA619E50675006A5ECB /* TimerViewController.h */,
+				CF0CDEA719E50675006A5ECB /* TimerViewController.m */,
+				CF0CDEAD19E50B94006A5ECB /* TimerCell.xib */,
+			);
+			name = Timers;
+			sourceTree = "<group>";
+		};
 		CF0CE079196D1D8400ECD301 /* Team */ = {
 			isa = PBXGroup;
 			children = (
@@ -10502,7 +10534,7 @@
 				CF12650C1538ACC400E0C1AD /* Utopia */,
 				CF1256451538A94D00E0C1AD /* Frameworks */,
 				CF1256431538A94D00E0C1AD /* Products */,
-				D735B04C45CD4C97941C415D /* Pods.xcconfig */,
+				7A2AF416E1B4BB3498E05A47 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -10655,6 +10687,8 @@
 				CF65743D19086B6600ABF1F4 /* FullQuestProto+JobAccess.m */,
 				CF29E91E196131C200B40DA4 /* InAppPurchaseData.h */,
 				CF29E91F196131C200B40DA4 /* InAppPurchaseData.m */,
+				CF0CDEB019E5103C006A5ECB /* TimerAction.h */,
+				CF0CDEB119E5103C006A5ECB /* TimerAction.m */,
 			);
 			path = "Game Data";
 			sourceTree = "<group>";
@@ -10777,72 +10811,11 @@
 				CF15BA6B16572A8300A51F85 /* rabbitmq */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
-				CF1266D01538ACC500E0C1AD /* Products */,
-				CF1266EC1538ACC500E0C1AD /* ProtocolBuffers */,
 				CF1267441538ACC500E0C1AD /* PullToRefresh */,
 				CF1267471538ACC500E0C1AD /* LNSynthesizeSingleton.h */,
 				CF1267481538ACC500E0C1AD /* TickerView */,
 			);
 			path = libs;
-			sourceTree = "<group>";
-		};
-		CF1266D01538ACC500E0C1AD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CF1266D11538ACC500E0C1AD /* ProtocolBuffers */,
-			);
-			path = Products;
-			sourceTree = "<group>";
-		};
-		CF1266D11538ACC500E0C1AD /* ProtocolBuffers */ = {
-			isa = PBXGroup;
-			children = (
-				CF1266D21538ACC500E0C1AD /* AbstractMessage.h */,
-				CF1266D31538ACC500E0C1AD /* AbstractMessage_Builder.h */,
-				CF1266D41538ACC500E0C1AD /* Bootstrap.h */,
-				CF1266D51538ACC500E0C1AD /* CodedInputStream.h */,
-				CF1266D61538ACC500E0C1AD /* CodedOutputStream.h */,
-				CF1266D71538ACC500E0C1AD /* ConcreteExtensionField.h */,
-				CF1266D81538ACC500E0C1AD /* ExtendableMessage.h */,
-				CF1266D91538ACC500E0C1AD /* ExtendableMessage_Builder.h */,
-				CF1266DA1538ACC500E0C1AD /* ExtensionField.h */,
-				CF1266DB1538ACC500E0C1AD /* ExtensionRegistry.h */,
-				CF1266DC1538ACC500E0C1AD /* Field.h */,
-				CF1266DD1538ACC500E0C1AD /* ForwardDeclarations.h */,
-				CF1266DE1538ACC500E0C1AD /* GeneratedMessage.h */,
-				CF1266DF1538ACC500E0C1AD /* GeneratedMessage_Builder.h */,
-				CF1266E01538ACC500E0C1AD /* Message.h */,
-				CF1266E11538ACC500E0C1AD /* Message_Builder.h */,
-				CF1266E21538ACC500E0C1AD /* MutableExtensionRegistry.h */,
-				CF1266E31538ACC500E0C1AD /* MutableField.h */,
-				CF1266E41538ACC500E0C1AD /* PBArray.h */,
-				CF1266E51538ACC500E0C1AD /* ProtocolBuffers.h */,
-				CF1266E61538ACC500E0C1AD /* RingBuffer.h */,
-				CF1266E71538ACC500E0C1AD /* TextFormat.h */,
-				CF1266E81538ACC500E0C1AD /* UnknownFieldSet.h */,
-				CF1266E91538ACC500E0C1AD /* UnknownFieldSet_Builder.h */,
-				CF1266EA1538ACC500E0C1AD /* Utilities.h */,
-				CF1266EB1538ACC500E0C1AD /* WireFormat.h */,
-			);
-			path = ProtocolBuffers;
-			sourceTree = "<group>";
-		};
-		CF1266EC1538ACC500E0C1AD /* ProtocolBuffers */ = {
-			isa = PBXGroup;
-			children = (
-				CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */,
-			);
-			path = ProtocolBuffers;
-			sourceTree = "<group>";
-		};
-		CF12671D1538ACC500E0C1AD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CF1273A51538ACCF00E0C1AD /* libProtocolBuffers.a */,
-				CF1273A71538ACCF00E0C1AD /* UnitTests.octest */,
-				CF1273A91538ACCF00E0C1AD /* CommandLineTests.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		CF1267441538ACC500E0C1AD /* PullToRefresh */ = {
@@ -10887,6 +10860,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CDE7419E5050E006A5ECB /* Timers */,
 				CF29E92D19620DB600B40DA4 /* Menu Header buildings */,
 				CF37375019E36B1D00CB16E3 /* Won Lost */,
 				CF37373819E35F3400CB16E3 /* Big timers */,
@@ -12208,6 +12182,7 @@
 		CF4F782E19BE4780001B7B7C /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CDEA519E505FE006A5ECB /* Timers */,
 				CF4F783319BE4A3C001B7B7C /* Notifications */,
 				CF32E9EA180D015900CBD50D /* TopBarViewController.h */,
 				CF32E9EB180D015900CBD50D /* TopBarViewController.m */,
@@ -12827,6 +12802,8 @@
 		CF746155196B9A5E002D6AE6 /* New Building Options */ = {
 			isa = PBXGroup;
 			children = (
+				CF0CDE6E19E4FC20006A5ECB /* buildingsquad.png */,
+				CF0CDE6F19E4FC20006A5ECB /* buildingsquad@2x.png */,
 				CF746190196BEF65002D6AE6 /* buildingremove.png */,
 				CF746191196BEF65002D6AE6 /* buildingremove@2x.png */,
 				CF746156196B9A5E002D6AE6 /* buildingbonusslots.png */,
@@ -16130,7 +16107,7 @@
 				CF0CECF8196F452900ECD301 /* Sources */,
 				CF0CEDF4196F452900ECD301 /* Frameworks */,
 				CF0CEE1C196F452900ECD301 /* Resources */,
-				CF0CF842196F452900ECD301 /* Copy Pods Resources */,
+				CF0CDE6D19E4EAD8006A5ECB /* ShellScript */,
 				DA6EBF5C19C38F850020B628 /* ShellScript */,
 			);
 			buildRules = (
@@ -16138,7 +16115,6 @@
 			dependencies = (
 				CFAF0D8619C7DFE200C0AB5B /* PBXTargetDependency */,
 				CFF2A67A1975FE9E00269084 /* PBXTargetDependency */,
-				CF0CECF5196F452900ECD301 /* PBXTargetDependency */,
 			);
 			name = "Toon Squad";
 			productName = Utopia;
@@ -16161,7 +16137,6 @@
 			dependencies = (
 				CFAF0D8819C7DFEE00C0AB5B /* PBXTargetDependency */,
 				CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */,
-				CF1273C01538B6C700E0C1AD /* PBXTargetDependency */,
 			);
 			name = Mobsters;
 			productName = Utopia;
@@ -16206,10 +16181,6 @@
 					ProjectRef = CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */;
 				},
 				{
-					ProductGroup = CF12671D1538ACC500E0C1AD /* Products */;
-					ProjectRef = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
-				},
-				{
 					ProductGroup = CFF2A66E1975DA2800269084 /* Products */;
 					ProjectRef = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
 				},
@@ -16223,27 +16194,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		CF1273A51538ACCF00E0C1AD /* libProtocolBuffers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libProtocolBuffers.a;
-			remoteRef = CF1273A41538ACCF00E0C1AD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CF1273A71538ACCF00E0C1AD /* UnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UnitTests.octest;
-			remoteRef = CF1273A61538ACCF00E0C1AD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CF1273A91538ACCF00E0C1AD /* CommandLineTests.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = CommandLineTests.app;
-			remoteRef = CF1273A81538ACCF00E0C1AD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		CFBE9F3D19C7DA6A00E5520C /* libcocos2d.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -16379,6 +16329,7 @@
 				CF0CEE7A196F452900ECD301 /* 1option.png in Resources */,
 				CF0CEE7B196F452900ECD301 /* faqactive.png in Resources */,
 				CF0CEE7C196F452900ECD301 /* waterpointsfont@2x.png in Resources */,
+				CF0CDE9A19E5050E006A5ECB /* timersbottommorebg@2x.png in Resources */,
 				CFF2A52919709C4800269084 /* OilStorageT1@2x.pvr.ccz in Resources */,
 				CF0CEE7D196F452900ECD301 /* chatactiveside.png in Resources */,
 				CF0CEE7E196F452900ECD301 /* Scientist4Turn04@2x.png in Resources */,
@@ -16470,6 +16421,7 @@
 				CF0CEECF196F452900ECD301 /* EvolveScientistView.xib in Resources */,
 				CF6A64CE19D24F030002E05D /* 6earthsideways@2x.png in Resources */,
 				CF0CEED0196F452900ECD301 /* spinnertest.png in Resources */,
+				CF0CDE7119E4FC20006A5ECB /* buildingsquad.png in Resources */,
 				DA58F52E19AE9BE900D025BC /* LeagueListViewCell.xib in Resources */,
 				CFF2A54919709C4800269084 /* Gangster3T1TutBig@2x.png in Resources */,
 				CF0CEED1196F452900ECD301 /* questactivetab.png in Resources */,
@@ -16645,6 +16597,7 @@
 				CF0CEF69196F452900ECD301 /* Scientist3Turn00@2x.png in Resources */,
 				CFF2A54719709C4800269084 /* Gangster3T1TutBig.png in Resources */,
 				CF0CEF6A196F452900ECD301 /* buildingbar@2x.png in Resources */,
+				CF0CDE7319E4FC20006A5ECB /* buildingsquad@2x.png in Resources */,
 				CF0CEF6B196F452900ECD301 /* markfree.png in Resources */,
 				CF0CEF6C196F452900ECD301 /* emptyachievementstar@2x.png in Resources */,
 				CF0CEF6D196F452900ECD301 /* bottomcardoverlay.png in Resources */,
@@ -16767,6 +16720,7 @@
 				CF0CEFDA196F452900ECD301 /* enhancesquirrel.png in Resources */,
 				CFF2A53519709C4800269084 /* Gangster3T1Card@2x.png in Resources */,
 				CF0CEFDB196F452900ECD301 /* fireorb.png in Resources */,
+				CF0CDEA019E5050E006A5ECB /* timerstopbg.png in Resources */,
 				4C16FEF319CE03A200F9FC1E /* rockpoison.png in Resources */,
 				CF0CEFDC196F452900ECD301 /* sellbubble4.png in Resources */,
 				CF0CEFDD196F452900ECD301 /* buildingfix@2x.png in Resources */,
@@ -17016,6 +16970,7 @@
 				CF0CF0BC196F452900ECD301 /* raidlairbubble.png in Resources */,
 				CF0CF0BE196F452900ECD301 /* buildingheal.png in Resources */,
 				CF0CF0BF196F452900ECD301 /* chattopbar@2x.png in Resources */,
+				CF0CDE9C19E5050E006A5ECB /* timersmiddlebg.png in Resources */,
 				CF0CF0C0196F452900ECD301 /* Scientist3Breath00@2x.png in Resources */,
 				CF0CF0C1196F452900ECD301 /* HomeBuildingMenu.xib in Resources */,
 				CF0CF0C2196F452900ECD301 /* Scientist2Breath08@2x.png in Resources */,
@@ -17295,6 +17250,7 @@
 				CF0CF1BD196F452900ECD301 /* upgradestarbg.png in Resources */,
 				CF0CF1BE196F452900ECD301 /* earthbar@2x.png in Resources */,
 				CF0CF1BF196F452900ECD301 /* rareband@2x.png in Resources */,
+				CF0CDE9019E5050E006A5ECB /* timerfinish.png in Resources */,
 				CF0CF1C0196F452900ECD301 /* lightmediumsquare@2x.png in Resources */,
 				CF0CF1C1196F452900ECD301 /* activeprivatetab@2x.png in Resources */,
 				CFF2A57719709C4800269084 /* Chicken1T1AttackNF@2x.plist in Resources */,
@@ -17509,6 +17465,7 @@
 				CF0CF279196F452900ECD301 /* tagshine.png in Resources */,
 				CF0CF27B196F452900ECD301 /* complete.png in Resources */,
 				CF0CF27C196F452900ECD301 /* activeprivatetab.png in Resources */,
+				CF0CDEA419E5050E006A5ECB /* toplongbar@2x.png in Resources */,
 				CF0CF27D196F452900ECD301 /* bubble_middle_left.png in Resources */,
 				CF0CF27E196F452900ECD301 /* watergrenade.png in Resources */,
 				CF0CF27F196F452900ECD301 /* casegems@2x.png in Resources */,
@@ -17673,6 +17630,7 @@
 				CF0CF308196F452900ECD301 /* legenddot.png in Resources */,
 				CF0CF30A196F452900ECD301 /* gachalegendtag.png in Resources */,
 				CF0CF30B196F452900ECD301 /* imgtestnews.png in Resources */,
+				CF0CDE9619E5050E006A5ECB /* timersbottombg@2x.png in Resources */,
 				CFF2A58119709C4800269084 /* Chicken1T1RunNF@2x.pvr.ccz in Resources */,
 				CF0CF30C196F452900ECD301 /* firesideways@2x.png in Resources */,
 				CF0CF30E196F452900ECD301 /* GachaChooserCardCell.xib in Resources */,
@@ -17842,6 +17800,7 @@
 				CF0CF397196F452900ECD301 /* leftrightexpand.png in Resources */,
 				CF0CF398196F452900ECD301 /* TeamViewController.xib in Resources */,
 				CF0CF399196F452900ECD301 /* FatBoy2Move03@2x.png in Resources */,
+				CF0CDE9419E5050E006A5ECB /* timersbottombg.png in Resources */,
 				CF0CF39A196F452900ECD301 /* ChatBottomLineView.xib in Resources */,
 				CF0CF39B196F452900ECD301 /* earthteam@2x.png in Resources */,
 				CF0CF39C196F452900ECD301 /* redmenuoption.png in Resources */,
@@ -17869,6 +17828,7 @@
 				CF0CF3AE196F452900ECD301 /* diamondleaguebg@2x.png in Resources */,
 				DA5E403019D25B60001F28CE /* earthcounter.png in Resources */,
 				DAAD3E0919C8D7F400557698 /* bombsawaylogo@2x.png in Resources */,
+				CF0CDEAF19E50B94006A5ECB /* TimerCell.xib in Resources */,
 				CF0CF3B0196F452900ECD301 /* 6splashbg@2x.png in Resources */,
 				CF0CF3B1196F452900ECD301 /* sellbubble5@2x.png in Resources */,
 				CF0CF3B2196F452900ECD301 /* greybutton.png in Resources */,
@@ -18106,6 +18066,7 @@
 				CF0CF484196F452900ECD301 /* buildingmanage.png in Resources */,
 				CF0CF485196F452900ECD301 /* 1scene2right.png in Resources */,
 				CF0CF486196F452900ECD301 /* earthorb@2x.png in Resources */,
+				CF0CDE9819E5050E006A5ECB /* timersbottommorebg.png in Resources */,
 				CF0CF487196F452900ECD301 /* buildingremove@2x.png in Resources */,
 				CF0CF488196F452900ECD301 /* questnameribbon@2x.png in Resources */,
 				CFF2A5B119709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz in Resources */,
@@ -18205,6 +18166,7 @@
 				CFF9DD7519B861F200CA9A8E /* fireenhancebg@2x.png in Resources */,
 				CF0CF4DF196F452900ECD301 /* firemediumsquare.png in Resources */,
 				CF3737B419E3767600CB16E3 /* obtimeryellowmiddle.png in Resources */,
+				CF0CDE9E19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */,
 				CF6A650619D252D00002E05D /* 6firegrenade@2x.png in Resources */,
 				CFF2A51919709C4800269084 /* CityHallT1@2x.png in Resources */,
 				CF0CF4E0196F452900ECD301 /* cashready.png in Resources */,
@@ -18418,8 +18380,10 @@
 				CF0CF59E196F452900ECD301 /* menusquareinactivepressed.png in Resources */,
 				DA88EB4219B93553005EE827 /* SkillPopupOverlay.xib in Resources */,
 				CF0CF59F196F452900ECD301 /* vaultcash.png in Resources */,
+				CF0CDE8619E5050E006A5ECB /* moretimerarrow.png in Resources */,
 				CF0CF5A1196F452900ECD301 /* Scientist4Blink06@2x.png in Resources */,
 				CF0CF5A2196F452900ECD301 /* connectheader.png in Resources */,
+				CF0CDE8819E5050E006A5ECB /* moretimerarrow@2x.png in Resources */,
 				CF0CF5A3196F452900ECD301 /* questiconactive@2x.png in Resources */,
 				CF0CF5A4196F452900ECD301 /* epicfound.png in Resources */,
 				CFF2A65D1974997A00269084 /* pvpplatinumribbon@2x.png in Resources */,
@@ -18497,6 +18461,7 @@
 				CF0CF5E7196F452900ECD301 /* infoi@2x.png in Resources */,
 				CF010F4019DDFBDD00DAD527 /* 6thegooniegrab2@2x.png in Resources */,
 				CF0CF5E8196F452900ECD301 /* bronzeleaguebg@2x.png in Resources */,
+				CF0CDE9219E5050E006A5ECB /* timerfinish@2x.png in Resources */,
 				DA6EBF4819C273EE0020B628 /* cakedroplogo.png in Resources */,
 				CF0CF5E9196F452900ECD301 /* beigemenuoption@2x.png in Resources */,
 				CFF2A63B1970DCBA00269084 /* lockedbosspin@2x.png in Resources */,
@@ -18774,6 +18739,7 @@
 				CF0CF6DC196F452900ECD301 /* platinumprofribbon@2x.png in Resources */,
 				CF0CF6DD196F452900ECD301 /* FatBoy3Move08@2x.png in Resources */,
 				CF0CF6DE196F452900ECD301 /* teamhealthbarcap@2x.png in Resources */,
+				CF0CDEA219E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
 				CF0CF6DF196F452900ECD301 /* 1scene1right.png in Resources */,
 				CF0CF6E0196F452900ECD301 /* supershadow.png in Resources */,
 				CF0CF6E1196F452900ECD301 /* FatBoy3Move11@2x.png in Resources */,
@@ -19451,6 +19417,7 @@
 				CF8BA22618CE7C41003277D1 /* speechbubblename@2x.png in Resources */,
 				CFFF9A5018BEB67D0036EEC3 /* timerbgmiddle.png in Resources */,
 				CFF9DD8219B861F200CA9A8E /* level.png in Resources */,
+				CF0CDE9319E5050E006A5ECB /* timersbottombg.png in Resources */,
 				CFF2A5EA19709C4800269084 /* MenuMPMT1.png in Resources */,
 				CFF7873D18E28FE200413E78 /* friendborder@2x.png in Resources */,
 				CF29EA521964F38E00B40DA4 /* settingsoundfx@2x.png in Resources */,
@@ -19849,6 +19816,7 @@
 				CF689097191C514000FF1F71 /* pier_1@2x.png in Resources */,
 				CF2A4A2418FF168C00B2D7D7 /* enemydivider.png in Resources */,
 				CFFBDF9518ACA3D90090CA9A /* Scientist3Breath08@2x.png in Resources */,
+				CF0CDEA319E5050E006A5ECB /* toplongbar@2x.png in Resources */,
 				CFC8B5E018E4547200CFD652 /* bubble_top_middle@2x.png in Resources */,
 				DAAD3E0819C8D7F400557698 /* bombsawaylogo@2x.png in Resources */,
 				CF95205D1939690800A98290 /* pvpguys@2x.png in Resources */,
@@ -20069,6 +20037,7 @@
 				DA5E400619D104E7001F28CE /* plus10percent.png in Resources */,
 				CFC8B5F918E4547200CFD652 /* sendbutton@2x.png in Resources */,
 				CFFA31F018B3DFF7008B81B9 /* ClanRaidActiveCell.xib in Resources */,
+				CF0CDE9F19E5050E006A5ECB /* timerstopbg.png in Resources */,
 				CF864E0D193E8F3000DE0D7A /* redsmallbutton@2x.png in Resources */,
 				CF5BD67C19C925EE006C4B4C /* rankupspinner@2x.png in Resources */,
 				CFC8B59B18E431CF00CFD652 /* settingshelp.png in Resources */,
@@ -20133,6 +20102,7 @@
 				CFF6471A195E3EFF00C43641 /* evolveequals@2x.png in Resources */,
 				CFFBDF8A18ACA3D90090CA9A /* Scientist3Blink10@2x.png in Resources */,
 				CFFA31E318B30955008B81B9 /* stageprogress.png in Resources */,
+				CF0CDE8719E5050E006A5ECB /* moretimerarrow@2x.png in Resources */,
 				CFE7CD6E1819FC3300930847 /* levelnumber.png in Resources */,
 				CF2A4B151901B8F500B2D7D7 /* taskdonebg.png in Resources */,
 				CFC4D28418D7BD04004681FD /* sfx_building_complete.mp3 in Resources */,
@@ -20347,6 +20317,7 @@
 				CFFF9A4218BEB67D0036EEC3 /* stageprogresstext@2x.png in Resources */,
 				CFCD0ED71953F07400EDC233 /* nightmediumsquare@2x.png in Resources */,
 				CFFBDFE418ACA3D90090CA9A /* Scientist5Breath01@2x.png in Resources */,
+				CF0CDE7219E4FC20006A5ECB /* buildingsquad@2x.png in Resources */,
 				CF0CE076196CFF2500ECD301 /* deploybg@2x.png in Resources */,
 				CFFEB1321834539C007C4BA3 /* nightteam@2x.png in Resources */,
 				CF689079191B0B1700FF1F71 /* MiniJobsRewardView.xib in Resources */,
@@ -20528,6 +20499,7 @@
 				CF2A4B0C1901B8F500B2D7D7 /* rejectrequest@2x.png in Resources */,
 				CFC04DBE188FE8D400F2DB59 /* wonlostbg@2x.png in Resources */,
 				CFF6471B195E3EFF00C43641 /* evolveplus.png in Resources */,
+				CF0CDE8F19E5050E006A5ECB /* timerfinish.png in Resources */,
 				CF864DA7193E7C5C00DE0D7A /* wateravatar.png in Resources */,
 				CF6F1A0F181518C900CFF2B9 /* taskbg@2x.png in Resources */,
 				CF023CB919935D2C0082FE61 /* MiniMonsterView.xib in Resources */,
@@ -20732,6 +20704,7 @@
 				CFCD0EB41953F07400EDC233 /* bigsquarebottom.png in Resources */,
 				CFF2162F18FDEA200057B5CE /* imgtestupgrade@2x.png in Resources */,
 				CF6890301912E7B500FF1F71 /* attackbarcapmj@2x.png in Resources */,
+				CF0CDE8519E5050E006A5ECB /* moretimerarrow.png in Resources */,
 				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
 				CF3766C11833022700D0A77E /* featuredstars@2x.png in Resources */,
 				CFDEA541199C34D800445F3C /* lockedinactive@2x.png in Resources */,
@@ -20856,6 +20829,7 @@
 				CFF2A5D819709C4800269084 /* MenuCashStorageT1@2x.png in Resources */,
 				CFF5DCB919514FA50019EB2B /* teamslotmask.png in Resources */,
 				CFDA78E0198C303C0014A8CD /* glowring.png in Resources */,
+				CF0CDE9919E5050E006A5ECB /* timersbottommorebg@2x.png in Resources */,
 				CF6890461912E7B500FF1F71 /* epicjob@2x.png in Resources */,
 				CF0CE075196CFF2500ECD301 /* deploybg.png in Resources */,
 				CFE9D347194A714F00BD930E /* gachalegendball@2x.png in Resources */,
@@ -21083,6 +21057,7 @@
 				CFEE898D18EA545500047CA4 /* questinfobg@2x.png in Resources */,
 				CF40D04618DFCC6C0034A721 /* silverrankbg.png in Resources */,
 				CF29EA1B1964BD0500B40DA4 /* teambubble1@2x.png in Resources */,
+				CF0CDE9719E5050E006A5ECB /* timersbottommorebg.png in Resources */,
 				CFE7CD0A1819FC3300930847 /* arrowdown.png in Resources */,
 				DA88EB1E19B7CF3E005EE827 /* nightyourskill.png in Resources */,
 				CFC8B5E218E4547200CFD652 /* bubble_bottom_left.png in Resources */,
@@ -21412,6 +21387,7 @@
 				CFFC510D19C4C57700BDAA62 /* notmiddlered@2x.png in Resources */,
 				CFFD3120185061720091E315 /* UpgradeBonusCell.xib in Resources */,
 				CFEE024C17BDC76000F3BB19 /* funds.png in Resources */,
+				CF0CDEA119E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
 				CFF2162918FDEA200057B5CE /* imgtestnews@2x.png in Resources */,
 				CFC45C081942955600BBA4A6 /* 3starmachineactive.png in Resources */,
 				CF54943618C5B955001E7D32 /* hand.png in Resources */,
@@ -21624,6 +21600,7 @@
 				CFF1D72917DFC43700874339 /* ring2@2x.plist in Resources */,
 				CFF9DD7419B861F200CA9A8E /* fireenhancebg@2x.png in Resources */,
 				CF9F994E19E48734006B0119 /* helpredbubble7@2x.png in Resources */,
+				CF0CDE9D19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */,
 				CFF2161718FDC7660057B5CE /* tagshine@2x.png in Resources */,
 				CF29E9F41964BD0500B40DA4 /* healredbubble3.png in Resources */,
 				CFE02D431825D9CC0016C1E2 /* clansearch@2x.png in Resources */,
@@ -21838,6 +21815,7 @@
 				CFF513DA18C8DE3C004B0E56 /* zarkunderline.png in Resources */,
 				CFFBDFFA18ACA3D90090CA9A /* Scientist5Turn10@2x.png in Resources */,
 				CF32EAEB195FF81900A4AEE3 /* menuinactivetab@2x.png in Resources */,
+				CF0CDE9119E5050E006A5ECB /* timerfinish@2x.png in Resources */,
 				CF40D01718DFCC6C0034A721 /* bronzeicon.png in Resources */,
 				CF29EA1A1964BD0500B40DA4 /* teambubble1.png in Resources */,
 				CFE0E6BF17E3F6BD002ECA84 /* wavefont@2x.png in Resources */,
@@ -21851,6 +21829,7 @@
 				CFE7CD081819FC3300930847 /* addfunds@2x.png in Resources */,
 				CFC4D2A618D7BD04004681FD /* sfx_dialogue_box.mp3 in Resources */,
 				CFC4D29018D7BD04004681FD /* sfx_machine_gun_attack.mp3 in Resources */,
+				CF0CDEAE19E50B94006A5ECB /* TimerCell.xib in Resources */,
 				CFBB37B218F4DD8E00FD6C8C /* questcompletecomplete.png in Resources */,
 				CF9F994219E48734006B0119 /* helpredbubble4@2x.png in Resources */,
 				CFFBDFA818ACA3D90090CA9A /* Scientist3Turn14@2x.png in Resources */,
@@ -21892,6 +21871,7 @@
 				CFFEB1041834539C007C4BA3 /* firecardhealthbar.png in Resources */,
 				CFF646DC195CDE4800C43641 /* hpbarbg@2x.png in Resources */,
 				CF6A291A18C2B2F200AD676F /* raidlost.png in Resources */,
+				CF0CDE9B19E5050E006A5ECB /* timersmiddlebg.png in Resources */,
 				CF2A4B071901B8F500B2D7D7 /* questnumberdone.png in Resources */,
 				CFF2C93E193FD71F00F28D9E /* chatglobalactive.png in Resources */,
 				CF37378519E36BE100CB16E3 /* BattleEndView.ccbi in Resources */,
@@ -21928,12 +21908,14 @@
 				CF29EA061964BD0500B40DA4 /* sellbubble2.png in Resources */,
 				CF864DAF193E7C5C00DE0D7A /* greychatcorner.png in Resources */,
 				CFC04DAE188FE8D400F2DB59 /* rarefound@2x.png in Resources */,
+				CF0CDE9519E5050E006A5ECB /* timersbottombg@2x.png in Resources */,
 				CF52D08217E9400500A067A6 /* bloodsplatter@2x.png in Resources */,
 				CF52D0C217EA6CA500A067A6 /* flinchstars.plist in Resources */,
 				CF52D0C517EAA65400A067A6 /* charging.plist in Resources */,
 				DA6EBF4F19C273EE0020B628 /* goosplashlogo.png in Resources */,
 				CF2A4B231901B8F500B2D7D7 /* upgradebarnewmiddle.png in Resources */,
 				CF746143196A2C0D002D6AE6 /* arrowlight.png in Resources */,
+				CF0CDE7019E4FC20006A5ECB /* buildingsquad.png in Resources */,
 				CFF9DD8619B861F200CA9A8E /* up.png in Resources */,
 				CF63F77C17EC07FD00FEBAA9 /* molotov.plist in Resources */,
 				CF7461A7196C0CBE002D6AE6 /* minijobsredbubble3@2x.png in Resources */,
@@ -22117,6 +22099,20 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		CF0CDE6D19E4EAD8006A5ECB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CF0CECF7196F452900ECD301 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -22130,21 +22126,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CF0CF842196F452900ECD301 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DA6EBF5C19C38F850020B628 /* ShellScript */ = {
@@ -22185,7 +22166,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -22195,6 +22176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0CDEAA19E50675006A5ECB /* TimerViewController.m in Sources */,
 				CF0CECF9196F452900ECD301 /* OrbBgdLayer.m in Sources */,
 				CF0CECFB196F452900ECD301 /* Analytics.m in Sources */,
 				CF0CECFC196F452900ECD301 /* EventClan.pb.m in Sources */,
@@ -22431,6 +22413,7 @@
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
 				CF0CEDDC196F452900ECD301 /* BattleSprite.m in Sources */,
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
+				CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */,
 				CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */,
 				CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */,
 				CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */,
@@ -22512,6 +22495,7 @@
 				DA07606219B129EC00E43E5A /* SkillQuickAttack.m in Sources */,
 				CF6574B91909CAF200ABF1F4 /* EventStaticData.pb.m in Sources */,
 				CF126D5D1538ACCA00E0C1AD /* CoinBar.m in Sources */,
+				CF0CDEB219E5103C006A5ECB /* TimerAction.m in Sources */,
 				CF126D5E1538ACCA00E0C1AD /* NibUtils.m in Sources */,
 				CF376713183305DD00D0A77E /* TimingFunctionTableView.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
@@ -22575,6 +22559,7 @@
 				CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */,
 				CFF64704195E14D500C43641 /* EvolveChooserViewController.m in Sources */,
 				CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */,
+				CF0CDEA919E50675006A5ECB /* TimerViewController.m in Sources */,
 				DA173A5019CA4A1F005236C0 /* SkillShield.m in Sources */,
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
 				CF688FF31912E4D800FF1F71 /* MiniJobsViewController.m in Sources */,
@@ -22733,16 +22718,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CF0CECF5196F452900ECD301 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ProtocolBuffers;
-			targetProxy = CF0CECF6196F452900ECD301 /* PBXContainerItemProxy */;
-		};
-		CF1273C01538B6C700E0C1AD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ProtocolBuffers;
-			targetProxy = CF1273BF1538B6C700E0C1AD /* PBXContainerItemProxy */;
-		};
 		CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ScopelyAttributionWrapper;
@@ -22804,7 +22779,7 @@
 		};
 		CF0CECDD196F41F300ECD301 /* App Store */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -22873,7 +22848,7 @@
 		};
 		CF0CF844196F452900ECD301 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -22952,7 +22927,7 @@
 		};
 		CF0CF845196F452900ECD301 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
@@ -23033,7 +23008,7 @@
 		};
 		CF0CF846196F452900ECD301 /* App Store */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = Tango;
@@ -23186,7 +23161,7 @@
 		};
 		CF12565B1538A94D00E0C1AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -23253,7 +23228,7 @@
 		};
 		CF12565C1538A94D00E0C1AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
+			baseConfigurationReference = 5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

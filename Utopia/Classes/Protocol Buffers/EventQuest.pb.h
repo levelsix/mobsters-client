@@ -6,6 +6,7 @@
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class CityElementProto;
 @class CityElementProto_Builder;
@@ -123,6 +124,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   QuestAcceptResponseProto_QuestAcceptStatusSuccess = 1,
   QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser = 2,
@@ -168,7 +181,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t questId;
 
 + (QuestAcceptRequestProto*) defaultInstance;
@@ -179,6 +192,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestAcceptRequestProto_Builder*) builder;
 + (QuestAcceptRequestProto_Builder*) builder;
 + (QuestAcceptRequestProto_Builder*) builderWithPrototype:(QuestAcceptRequestProto*) prototype;
+- (QuestAcceptRequestProto_Builder*) toBuilder;
 
 + (QuestAcceptRequestProto*) parseFromData:(NSData*) data;
 + (QuestAcceptRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -188,7 +202,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestAcceptRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestAcceptRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestAcceptRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestAcceptRequestProto* result;
 }
@@ -208,7 +222,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (QuestAcceptRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestAcceptRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestAcceptRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QuestAcceptRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestAcceptRequestProto_Builder*) clearSender;
 
@@ -227,7 +241,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) QuestAcceptResponseProto_QuestAcceptStatus status;
 
 + (QuestAcceptResponseProto*) defaultInstance;
@@ -238,6 +252,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestAcceptResponseProto_Builder*) builder;
 + (QuestAcceptResponseProto_Builder*) builder;
 + (QuestAcceptResponseProto_Builder*) builderWithPrototype:(QuestAcceptResponseProto*) prototype;
+- (QuestAcceptResponseProto_Builder*) toBuilder;
 
 + (QuestAcceptResponseProto*) parseFromData:(NSData*) data;
 + (QuestAcceptResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -247,7 +262,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestAcceptResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestAcceptResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestAcceptResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestAcceptResponseProto* result;
 }
@@ -267,7 +282,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (QuestAcceptResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestAcceptResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestAcceptResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QuestAcceptResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestAcceptResponseProto_Builder*) clearSender;
 
@@ -285,19 +300,19 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   BOOL isComplete_:1;
   int32_t questId;
   MinimumUserProto* sender;
-  NSMutableArray* mutableDeleteUserMonsterIdsList;
-  NSMutableArray* mutableUserQuestJobsList;
+  PBAppendableArray * mutableDeleteUserMonsterIdsList;
+  NSMutableArray * mutableUserQuestJobsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
 - (BOOL) hasIsComplete;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t questId;
 - (BOOL) isComplete;
-- (NSArray*) userQuestJobsList;
-- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
-- (NSArray*) deleteUserMonsterIdsList;
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * userQuestJobsList;
+@property (readonly, strong) PBArray * deleteUserMonsterIdsList;
+- (UserQuestJobProto*)userQuestJobsAtIndex:(NSUInteger)index;
+- (int64_t)deleteUserMonsterIdsAtIndex:(NSUInteger)index;
 
 + (QuestProgressRequestProto*) defaultInstance;
 - (QuestProgressRequestProto*) defaultInstance;
@@ -307,6 +322,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder*) builder;
 + (QuestProgressRequestProto_Builder*) builder;
 + (QuestProgressRequestProto_Builder*) builderWithPrototype:(QuestProgressRequestProto*) prototype;
+- (QuestProgressRequestProto_Builder*) toBuilder;
 
 + (QuestProgressRequestProto*) parseFromData:(NSData*) data;
 + (QuestProgressRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -316,7 +332,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestProgressRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestProgressRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestProgressRequestProto* result;
 }
@@ -336,7 +352,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (QuestProgressRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestProgressRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestProgressRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QuestProgressRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestProgressRequestProto_Builder*) clearSender;
 
@@ -350,19 +366,18 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
 - (QuestProgressRequestProto_Builder*) clearIsComplete;
 
-- (NSArray*) userQuestJobsList;
-- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
-- (QuestProgressRequestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value;
-- (QuestProgressRequestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value;
-- (QuestProgressRequestProto_Builder*) addAllUserQuestJobs:(NSArray*) values;
-- (QuestProgressRequestProto_Builder*) clearUserQuestJobsList;
+- (NSMutableArray *)userQuestJobsList;
+- (UserQuestJobProto*)userQuestJobsAtIndex:(NSUInteger)index;
+- (QuestProgressRequestProto_Builder *)addUserQuestJobs:(UserQuestJobProto*)value;
+- (QuestProgressRequestProto_Builder *)addAllUserQuestJobs:(NSArray *)array;
+- (QuestProgressRequestProto_Builder *)clearUserQuestJobs;
 
-- (NSArray*) deleteUserMonsterIdsList;
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
-- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterIds:(int64_t) value;
-- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterIds:(NSArray*) values;
-- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterIdsList;
+- (PBAppendableArray *)deleteUserMonsterIdsList;
+- (int64_t)deleteUserMonsterIdsAtIndex:(NSUInteger)index;
+- (QuestProgressRequestProto_Builder *)addDeleteUserMonsterIds:(int64_t)value;
+- (QuestProgressRequestProto_Builder *)addAllDeleteUserMonsterIds:(NSArray *)array;
+- (QuestProgressRequestProto_Builder *)setDeleteUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (QuestProgressRequestProto_Builder *)clearDeleteUserMonsterIds;
 @end
 
 @interface QuestProgressResponseProto : PBGeneratedMessage {
@@ -374,7 +389,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) QuestProgressResponseProto_QuestProgressStatus status;
 
 + (QuestProgressResponseProto*) defaultInstance;
@@ -385,6 +400,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressResponseProto_Builder*) builder;
 + (QuestProgressResponseProto_Builder*) builder;
 + (QuestProgressResponseProto_Builder*) builderWithPrototype:(QuestProgressResponseProto*) prototype;
+- (QuestProgressResponseProto_Builder*) toBuilder;
 
 + (QuestProgressResponseProto*) parseFromData:(NSData*) data;
 + (QuestProgressResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -394,7 +410,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestProgressResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestProgressResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestProgressResponseProto* result;
 }
@@ -414,7 +430,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (QuestProgressResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestProgressResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestProgressResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QuestProgressResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestProgressResponseProto_Builder*) clearSender;
 
@@ -433,7 +449,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t questId;
 
 + (QuestRedeemRequestProto*) defaultInstance;
@@ -444,6 +460,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemRequestProto_Builder*) builder;
 + (QuestRedeemRequestProto_Builder*) builder;
 + (QuestRedeemRequestProto_Builder*) builderWithPrototype:(QuestRedeemRequestProto*) prototype;
+- (QuestRedeemRequestProto_Builder*) toBuilder;
 
 + (QuestRedeemRequestProto*) parseFromData:(NSData*) data;
 + (QuestRedeemRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -453,7 +470,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestRedeemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestRedeemRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestRedeemRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestRedeemRequestProto* result;
 }
@@ -473,7 +490,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (QuestRedeemRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (QuestRedeemRequestProto_Builder*) clearSender;
 
@@ -493,18 +510,18 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   MinimumUserProtoWithMaxResources* sender;
   FullUserMonsterProto* fump;
   QuestRedeemResponseProto_QuestRedeemStatus status;
-  NSMutableArray* mutableNewlyAvailableQuestsList;
+  NSMutableArray * mutableNewlyAvailableQuestsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasFump;
 - (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * newlyAvailableQuestsList;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
-@property (readonly, retain) FullUserMonsterProto* fump;
+@property (readonly, strong) FullUserMonsterProto* fump;
 @property (readonly) int32_t questId;
-- (NSArray*) newlyAvailableQuestsList;
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
+- (FullQuestProto*)newlyAvailableQuestsAtIndex:(NSUInteger)index;
 
 + (QuestRedeemResponseProto*) defaultInstance;
 - (QuestRedeemResponseProto*) defaultInstance;
@@ -514,6 +531,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) builder;
 + (QuestRedeemResponseProto_Builder*) builder;
 + (QuestRedeemResponseProto_Builder*) builderWithPrototype:(QuestRedeemResponseProto*) prototype;
+- (QuestRedeemResponseProto_Builder*) toBuilder;
 
 + (QuestRedeemResponseProto*) parseFromData:(NSData*) data;
 + (QuestRedeemResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -523,7 +541,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 + (QuestRedeemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestRedeemResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestRedeemResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestRedeemResponseProto* result;
 }
@@ -543,16 +561,15 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (QuestRedeemResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (QuestRedeemResponseProto_Builder*) clearSender;
 
-- (NSArray*) newlyAvailableQuestsList;
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
-- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(FullQuestProto*) value;
-- (QuestRedeemResponseProto_Builder*) addAllNewlyAvailableQuests:(NSArray*) values;
-- (QuestRedeemResponseProto_Builder*) clearNewlyAvailableQuestsList;
+- (NSMutableArray *)newlyAvailableQuestsList;
+- (FullQuestProto*)newlyAvailableQuestsAtIndex:(NSUInteger)index;
+- (QuestRedeemResponseProto_Builder *)addNewlyAvailableQuests:(FullQuestProto*)value;
+- (QuestRedeemResponseProto_Builder *)addAllNewlyAvailableQuests:(NSArray *)array;
+- (QuestRedeemResponseProto_Builder *)clearNewlyAvailableQuests;
 
 - (BOOL) hasStatus;
 - (QuestRedeemResponseProto_QuestRedeemStatus) status;
@@ -562,7 +579,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasFump;
 - (FullUserMonsterProto*) fump;
 - (QuestRedeemResponseProto_Builder*) setFump:(FullUserMonsterProto*) value;
-- (QuestRedeemResponseProto_Builder*) setFumpBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (QuestRedeemResponseProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue;
 - (QuestRedeemResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
 - (QuestRedeemResponseProto_Builder*) clearFump;
 
@@ -572,3 +589,5 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) clearQuestId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

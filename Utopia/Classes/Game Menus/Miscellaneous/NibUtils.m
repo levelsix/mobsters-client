@@ -1573,6 +1573,22 @@
 
 @implementation SplitImageProgressBar
 
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  
+  self.leftCap.contentMode = UIViewContentModeLeft;
+  self.rightCap.contentMode = UIViewContentModeLeft;
+  self.middleBar.contentMode = UIViewContentModeScaleToFill;
+  
+  self.rightCap.transform = CGAffineTransformMakeScale(-1, 1);
+  
+  self.leftCap.centerY = self.height/2;
+  self.rightCap.centerY = self.height/2;
+  self.middleBar.centerY = self.height/2;
+  
+  [self setPercentage:1.f];
+}
+
 - (void) setPercentage:(float)percentage {
   _percentage = clampf(percentage, 0.f, 1.f);
   

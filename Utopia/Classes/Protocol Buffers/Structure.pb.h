@@ -2,6 +2,8 @@
 
 #import "ProtocolBuffers.h"
 
+// @@protoc_insertion_point(imports)
+
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class CoordinateProto;
@@ -36,6 +38,18 @@
 @class TutorialStructProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   ResourceTypeNoResource = 4,
   ResourceTypeCash = 1,
@@ -65,6 +79,7 @@ typedef enum {
   StructureInfoProto_StructTypeEvo = 7,
   StructureInfoProto_StructTypeMiniJob = 9,
   StructureInfoProto_StructTypeTeamCenter = 10,
+  StructureInfoProto_StructTypeClan = 11,
 } StructureInfoProto_StructType;
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -143,7 +158,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasShadowHorizontalOfffset;
 - (BOOL) hasShadowScale;
 @property (readonly) int32_t structId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) StructureInfoProto_StructType structType;
 @property (readonly) ResourceType buildResourceType;
@@ -154,12 +169,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int32_t height;
 @property (readonly) int32_t predecessorStructId;
 @property (readonly) int32_t successorStructId;
-@property (readonly, retain) NSString* imgName;
+@property (readonly, strong) NSString* imgName;
 @property (readonly) Float32 imgVerticalPixelOffset;
 @property (readonly) Float32 imgHorizontalPixelOffset;
-@property (readonly, retain) NSString* description;
-@property (readonly, retain) NSString* shortDescription;
-@property (readonly, retain) NSString* shadowImgName;
+@property (readonly, strong) NSString* description;
+@property (readonly, strong) NSString* shortDescription;
+@property (readonly, strong) NSString* shadowImgName;
 @property (readonly) Float32 shadowVerticalOffset;
 @property (readonly) Float32 shadowHorizontalOfffset;
 @property (readonly) Float32 shadowScale;
@@ -172,6 +187,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) builder;
 + (StructureInfoProto_Builder*) builder;
 + (StructureInfoProto_Builder*) builderWithPrototype:(StructureInfoProto*) prototype;
+- (StructureInfoProto_Builder*) toBuilder;
 
 + (StructureInfoProto*) parseFromData:(NSData*) data;
 + (StructureInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -181,7 +197,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (StructureInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StructureInfoProto_Builder : PBGeneratedMessage_Builder {
+@interface StructureInfoProto_Builder : PBGeneratedMessageBuilder {
 @private
   StructureInfoProto* result;
 }
@@ -319,7 +335,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasResourceType;
 - (BOOL) hasProductionRate;
 - (BOOL) hasCapacity;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) ResourceType resourceType;
 @property (readonly) Float32 productionRate;
 @property (readonly) int32_t capacity;
@@ -332,6 +348,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ResourceGeneratorProto_Builder*) builder;
 + (ResourceGeneratorProto_Builder*) builder;
 + (ResourceGeneratorProto_Builder*) builderWithPrototype:(ResourceGeneratorProto*) prototype;
+- (ResourceGeneratorProto_Builder*) toBuilder;
 
 + (ResourceGeneratorProto*) parseFromData:(NSData*) data;
 + (ResourceGeneratorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -341,7 +358,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (ResourceGeneratorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ResourceGeneratorProto_Builder : PBGeneratedMessage_Builder {
+@interface ResourceGeneratorProto_Builder : PBGeneratedMessageBuilder {
 @private
   ResourceGeneratorProto* result;
 }
@@ -361,7 +378,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (ResourceGeneratorProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (ResourceGeneratorProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResourceGeneratorProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ResourceGeneratorProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ResourceGeneratorProto_Builder*) clearStructInfo;
 
@@ -393,7 +410,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (BOOL) hasResourceType;
 - (BOOL) hasCapacity;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) ResourceType resourceType;
 @property (readonly) int32_t capacity;
 
@@ -405,6 +422,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ResourceStorageProto_Builder*) builder;
 + (ResourceStorageProto_Builder*) builder;
 + (ResourceStorageProto_Builder*) builderWithPrototype:(ResourceStorageProto*) prototype;
+- (ResourceStorageProto_Builder*) toBuilder;
 
 + (ResourceStorageProto*) parseFromData:(NSData*) data;
 + (ResourceStorageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -414,7 +432,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (ResourceStorageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ResourceStorageProto_Builder : PBGeneratedMessage_Builder {
+@interface ResourceStorageProto_Builder : PBGeneratedMessageBuilder {
 @private
   ResourceStorageProto* result;
 }
@@ -434,7 +452,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (ResourceStorageProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (ResourceStorageProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResourceStorageProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ResourceStorageProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ResourceStorageProto_Builder*) clearStructInfo;
 
@@ -461,7 +479,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
 - (BOOL) hasHealthPerSecond;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
 @property (readonly) Float32 healthPerSecond;
 
@@ -473,6 +491,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (HospitalProto_Builder*) builder;
 + (HospitalProto_Builder*) builder;
 + (HospitalProto_Builder*) builderWithPrototype:(HospitalProto*) prototype;
+- (HospitalProto_Builder*) toBuilder;
 
 + (HospitalProto*) parseFromData:(NSData*) data;
 + (HospitalProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -482,7 +501,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (HospitalProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface HospitalProto_Builder : PBGeneratedMessage_Builder {
+@interface HospitalProto_Builder : PBGeneratedMessageBuilder {
 @private
   HospitalProto* result;
 }
@@ -502,7 +521,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (HospitalProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (HospitalProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (HospitalProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (HospitalProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (HospitalProto_Builder*) clearStructInfo;
 
@@ -532,7 +551,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasQueueSize;
 - (BOOL) hasPointsPerSecond;
 - (BOOL) hasPointsMultiplier;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
 @property (readonly) Float32 pointsPerSecond;
 @property (readonly) Float32 pointsMultiplier;
@@ -545,6 +564,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (LabProto_Builder*) builder;
 + (LabProto_Builder*) builder;
 + (LabProto_Builder*) builderWithPrototype:(LabProto*) prototype;
+- (LabProto_Builder*) toBuilder;
 
 + (LabProto*) parseFromData:(NSData*) data;
 + (LabProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -554,7 +574,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (LabProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LabProto_Builder : PBGeneratedMessage_Builder {
+@interface LabProto_Builder : PBGeneratedMessageBuilder {
 @private
   LabProto* result;
 }
@@ -574,7 +594,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (LabProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (LabProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (LabProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (LabProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (LabProto_Builder*) clearStructInfo;
 
@@ -618,13 +638,13 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasNumAcceptedFbInvites;
 - (BOOL) hasOccupationName;
 - (BOOL) hasImgSuffix;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t numMonsterSlots;
 @property (readonly) int32_t numBonusMonsterSlots;
 @property (readonly) int32_t numGemsRequired;
 @property (readonly) int32_t numAcceptedFbInvites;
-@property (readonly, retain) NSString* occupationName;
-@property (readonly, retain) NSString* imgSuffix;
+@property (readonly, strong) NSString* occupationName;
+@property (readonly, strong) NSString* imgSuffix;
 
 + (ResidenceProto*) defaultInstance;
 - (ResidenceProto*) defaultInstance;
@@ -634,6 +654,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ResidenceProto_Builder*) builder;
 + (ResidenceProto_Builder*) builder;
 + (ResidenceProto_Builder*) builderWithPrototype:(ResidenceProto*) prototype;
+- (ResidenceProto_Builder*) toBuilder;
 
 + (ResidenceProto*) parseFromData:(NSData*) data;
 + (ResidenceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -643,7 +664,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (ResidenceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ResidenceProto_Builder : PBGeneratedMessage_Builder {
+@interface ResidenceProto_Builder : PBGeneratedMessageBuilder {
 @private
   ResidenceProto* result;
 }
@@ -663,7 +684,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (ResidenceProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (ResidenceProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResidenceProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ResidenceProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ResidenceProto_Builder*) clearStructInfo;
 
@@ -737,7 +758,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasPvpQueueCashCost;
 - (BOOL) hasResourceCapacity;
 - (BOOL) hasNumEvoChambers;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t numResourceOneGenerators;
 @property (readonly) int32_t numResourceOneStorages;
 @property (readonly) int32_t numResourceTwoGenerators;
@@ -758,6 +779,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TownHallProto_Builder*) builder;
 + (TownHallProto_Builder*) builder;
 + (TownHallProto_Builder*) builderWithPrototype:(TownHallProto*) prototype;
+- (TownHallProto_Builder*) toBuilder;
 
 + (TownHallProto*) parseFromData:(NSData*) data;
 + (TownHallProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -767,7 +789,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (TownHallProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TownHallProto_Builder : PBGeneratedMessage_Builder {
+@interface TownHallProto_Builder : PBGeneratedMessageBuilder {
 @private
   TownHallProto* result;
 }
@@ -787,7 +809,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (TownHallProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (TownHallProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (TownHallProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (TownHallProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (TownHallProto_Builder*) clearStructInfo;
 
@@ -859,7 +881,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (BOOL) hasGeneratedJobLimit;
 - (BOOL) hasHoursBetweenJobGeneration;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t generatedJobLimit;
 @property (readonly) int32_t hoursBetweenJobGeneration;
 
@@ -871,6 +893,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (MiniJobCenterProto_Builder*) builder;
 + (MiniJobCenterProto_Builder*) builder;
 + (MiniJobCenterProto_Builder*) builderWithPrototype:(MiniJobCenterProto*) prototype;
+- (MiniJobCenterProto_Builder*) toBuilder;
 
 + (MiniJobCenterProto*) parseFromData:(NSData*) data;
 + (MiniJobCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -880,7 +903,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (MiniJobCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MiniJobCenterProto_Builder : PBGeneratedMessage_Builder {
+@interface MiniJobCenterProto_Builder : PBGeneratedMessageBuilder {
 @private
   MiniJobCenterProto* result;
 }
@@ -900,7 +923,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (MiniJobCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (MiniJobCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (MiniJobCenterProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (MiniJobCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (MiniJobCenterProto_Builder*) clearStructInfo;
 
@@ -951,7 +974,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int64_t lastRetrieved;
 @property (readonly) int64_t purchaseTime;
 - (BOOL) isComplete;
-@property (readonly, retain) CoordinateProto* coordinates;
+@property (readonly, strong) CoordinateProto* coordinates;
 @property (readonly) StructOrientation orientation;
 @property (readonly) int32_t fbInviteStructLvl;
 
@@ -963,6 +986,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (FullUserStructureProto_Builder*) builder;
 + (FullUserStructureProto_Builder*) builder;
 + (FullUserStructureProto_Builder*) builderWithPrototype:(FullUserStructureProto*) prototype;
+- (FullUserStructureProto_Builder*) toBuilder;
 
 + (FullUserStructureProto*) parseFromData:(NSData*) data;
 + (FullUserStructureProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -972,7 +996,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (FullUserStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserStructureProto_Builder : PBGeneratedMessage_Builder {
+@interface FullUserStructureProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullUserStructureProto* result;
 }
@@ -1022,7 +1046,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinates;
 - (CoordinateProto*) coordinates;
 - (FullUserStructureProto_Builder*) setCoordinates:(CoordinateProto*) value;
-- (FullUserStructureProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullUserStructureProto_Builder*) setCoordinates_Builder:(CoordinateProto_Builder*) builderForValue;
 - (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
 - (FullUserStructureProto_Builder*) clearCoordinates;
 
@@ -1057,6 +1081,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (CoordinateProto_Builder*) builder;
 + (CoordinateProto_Builder*) builder;
 + (CoordinateProto_Builder*) builderWithPrototype:(CoordinateProto*) prototype;
+- (CoordinateProto_Builder*) toBuilder;
 
 + (CoordinateProto*) parseFromData:(NSData*) data;
 + (CoordinateProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1066,7 +1091,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (CoordinateProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CoordinateProto_Builder : PBGeneratedMessage_Builder {
+@interface CoordinateProto_Builder : PBGeneratedMessageBuilder {
 @private
   CoordinateProto* result;
 }
@@ -1104,7 +1129,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructId;
 - (BOOL) hasCoordinate;
 @property (readonly) int32_t structId;
-@property (readonly, retain) CoordinateProto* coordinate;
+@property (readonly, strong) CoordinateProto* coordinate;
 
 + (TutorialStructProto*) defaultInstance;
 - (TutorialStructProto*) defaultInstance;
@@ -1114,6 +1139,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TutorialStructProto_Builder*) builder;
 + (TutorialStructProto_Builder*) builder;
 + (TutorialStructProto_Builder*) builderWithPrototype:(TutorialStructProto*) prototype;
+- (TutorialStructProto_Builder*) toBuilder;
 
 + (TutorialStructProto*) parseFromData:(NSData*) data;
 + (TutorialStructProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1123,7 +1149,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (TutorialStructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TutorialStructProto_Builder : PBGeneratedMessage_Builder {
+@interface TutorialStructProto_Builder : PBGeneratedMessageBuilder {
 @private
   TutorialStructProto* result;
 }
@@ -1148,7 +1174,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinate;
 - (CoordinateProto*) coordinate;
 - (TutorialStructProto_Builder*) setCoordinate:(CoordinateProto*) value;
-- (TutorialStructProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue;
+- (TutorialStructProto_Builder*) setCoordinate_Builder:(CoordinateProto_Builder*) builderForValue;
 - (TutorialStructProto_Builder*) mergeCoordinate:(CoordinateProto*) value;
 - (TutorialStructProto_Builder*) clearCoordinate;
 @end
@@ -1199,17 +1225,17 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasShadowVerticalOffset;
 - (BOOL) hasShadowHorizontalOfffset;
 @property (readonly) int32_t obstacleId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) ResourceType removalCostType;
 @property (readonly) int32_t cost;
 @property (readonly) int32_t secondsToRemove;
 @property (readonly) int32_t width;
 @property (readonly) int32_t height;
-@property (readonly, retain) NSString* imgName;
+@property (readonly, strong) NSString* imgName;
 @property (readonly) Float32 imgVerticalPixelOffset;
-@property (readonly, retain) NSString* description;
+@property (readonly, strong) NSString* description;
 @property (readonly) Float32 chanceToAppear;
-@property (readonly, retain) NSString* shadowImgName;
+@property (readonly, strong) NSString* shadowImgName;
 @property (readonly) Float32 shadowVerticalOffset;
 @property (readonly) Float32 shadowHorizontalOfffset;
 
@@ -1221,6 +1247,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ObstacleProto_Builder*) builder;
 + (ObstacleProto_Builder*) builder;
 + (ObstacleProto_Builder*) builderWithPrototype:(ObstacleProto*) prototype;
+- (ObstacleProto_Builder*) toBuilder;
 
 + (ObstacleProto*) parseFromData:(NSData*) data;
 + (ObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1230,7 +1257,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (ObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ObstacleProto_Builder : PBGeneratedMessage_Builder {
+@interface ObstacleProto_Builder : PBGeneratedMessageBuilder {
 @private
   ObstacleProto* result;
 }
@@ -1331,7 +1358,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinate;
 - (BOOL) hasOrientation;
 @property (readonly) int32_t obstacleId;
-@property (readonly, retain) CoordinateProto* coordinate;
+@property (readonly, strong) CoordinateProto* coordinate;
 @property (readonly) StructOrientation orientation;
 
 + (MinimumObstacleProto*) defaultInstance;
@@ -1342,6 +1369,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (MinimumObstacleProto_Builder*) builder;
 + (MinimumObstacleProto_Builder*) builder;
 + (MinimumObstacleProto_Builder*) builderWithPrototype:(MinimumObstacleProto*) prototype;
+- (MinimumObstacleProto_Builder*) toBuilder;
 
 + (MinimumObstacleProto*) parseFromData:(NSData*) data;
 + (MinimumObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1351,7 +1379,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (MinimumObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumObstacleProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumObstacleProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumObstacleProto* result;
 }
@@ -1376,7 +1404,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinate;
 - (CoordinateProto*) coordinate;
 - (MinimumObstacleProto_Builder*) setCoordinate:(CoordinateProto*) value;
-- (MinimumObstacleProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue;
+- (MinimumObstacleProto_Builder*) setCoordinate_Builder:(CoordinateProto_Builder*) builderForValue;
 - (MinimumObstacleProto_Builder*) mergeCoordinate:(CoordinateProto*) value;
 - (MinimumObstacleProto_Builder*) clearCoordinate;
 
@@ -1410,7 +1438,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int32_t userObstacleId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t obstacleId;
-@property (readonly, retain) CoordinateProto* coordinates;
+@property (readonly, strong) CoordinateProto* coordinates;
 @property (readonly) StructOrientation orientation;
 @property (readonly) int64_t removalStartTime;
 
@@ -1422,6 +1450,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (UserObstacleProto_Builder*) builder;
 + (UserObstacleProto_Builder*) builder;
 + (UserObstacleProto_Builder*) builderWithPrototype:(UserObstacleProto*) prototype;
+- (UserObstacleProto_Builder*) toBuilder;
 
 + (UserObstacleProto*) parseFromData:(NSData*) data;
 + (UserObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1431,7 +1460,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (UserObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserObstacleProto_Builder : PBGeneratedMessage_Builder {
+@interface UserObstacleProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserObstacleProto* result;
 }
@@ -1466,7 +1495,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinates;
 - (CoordinateProto*) coordinates;
 - (UserObstacleProto_Builder*) setCoordinates:(CoordinateProto*) value;
-- (UserObstacleProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (UserObstacleProto_Builder*) setCoordinates_Builder:(CoordinateProto_Builder*) builderForValue;
 - (UserObstacleProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
 - (UserObstacleProto_Builder*) clearCoordinates;
 
@@ -1487,7 +1516,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 
 + (EvoChamberProto*) defaultInstance;
 - (EvoChamberProto*) defaultInstance;
@@ -1497,6 +1526,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (EvoChamberProto_Builder*) builder;
 + (EvoChamberProto_Builder*) builder;
 + (EvoChamberProto_Builder*) builderWithPrototype:(EvoChamberProto*) prototype;
+- (EvoChamberProto_Builder*) toBuilder;
 
 + (EvoChamberProto*) parseFromData:(NSData*) data;
 + (EvoChamberProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1506,7 +1536,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (EvoChamberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EvoChamberProto_Builder : PBGeneratedMessage_Builder {
+@interface EvoChamberProto_Builder : PBGeneratedMessageBuilder {
 @private
   EvoChamberProto* result;
 }
@@ -1526,7 +1556,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (EvoChamberProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (EvoChamberProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (EvoChamberProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (EvoChamberProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (EvoChamberProto_Builder*) clearStructInfo;
 @end
@@ -1537,7 +1567,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 
 + (TeamCenterProto*) defaultInstance;
 - (TeamCenterProto*) defaultInstance;
@@ -1547,6 +1577,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TeamCenterProto_Builder*) builder;
 + (TeamCenterProto_Builder*) builder;
 + (TeamCenterProto_Builder*) builderWithPrototype:(TeamCenterProto*) prototype;
+- (TeamCenterProto_Builder*) toBuilder;
 
 + (TeamCenterProto*) parseFromData:(NSData*) data;
 + (TeamCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1556,7 +1587,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (TeamCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TeamCenterProto_Builder : PBGeneratedMessage_Builder {
+@interface TeamCenterProto_Builder : PBGeneratedMessageBuilder {
 @private
   TeamCenterProto* result;
 }
@@ -1576,7 +1607,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (TeamCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (TeamCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (TeamCenterProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (TeamCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (TeamCenterProto_Builder*) clearStructInfo;
 @end
@@ -1587,7 +1618,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
-@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly, strong) StructureInfoProto* structInfo;
 
 + (ClanHouseProto*) defaultInstance;
 - (ClanHouseProto*) defaultInstance;
@@ -1597,6 +1628,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ClanHouseProto_Builder*) builder;
 + (ClanHouseProto_Builder*) builder;
 + (ClanHouseProto_Builder*) builderWithPrototype:(ClanHouseProto*) prototype;
+- (ClanHouseProto_Builder*) toBuilder;
 
 + (ClanHouseProto*) parseFromData:(NSData*) data;
 + (ClanHouseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1606,7 +1638,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 + (ClanHouseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanHouseProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanHouseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanHouseProto* result;
 }
@@ -1626,8 +1658,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasStructInfo;
 - (StructureInfoProto*) structInfo;
 - (ClanHouseProto_Builder*) setStructInfo:(StructureInfoProto*) value;
-- (ClanHouseProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ClanHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ClanHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ClanHouseProto_Builder*) clearStructInfo;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

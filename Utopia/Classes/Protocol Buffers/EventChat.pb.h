@@ -4,6 +4,7 @@
 
 #import "Chat.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ColorProto;
 @class ColorProto_Builder;
@@ -47,6 +48,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 1,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 2,
@@ -90,7 +103,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSenderId;
 - (BOOL) hasMessage;
 @property (readonly) int32_t senderId;
-@property (readonly, retain) NSString* message;
+@property (readonly, strong) NSString* message;
 
 + (SendAdminMessageResponseProto*) defaultInstance;
 - (SendAdminMessageResponseProto*) defaultInstance;
@@ -100,6 +113,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (SendAdminMessageResponseProto_Builder*) builder;
 + (SendAdminMessageResponseProto_Builder*) builder;
 + (SendAdminMessageResponseProto_Builder*) builderWithPrototype:(SendAdminMessageResponseProto*) prototype;
+- (SendAdminMessageResponseProto_Builder*) toBuilder;
 
 + (SendAdminMessageResponseProto*) parseFromData:(NSData*) data;
 + (SendAdminMessageResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -109,7 +123,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (SendAdminMessageResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SendAdminMessageResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SendAdminMessageResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SendAdminMessageResponseProto* result;
 }
@@ -149,9 +163,9 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasTitle;
 - (BOOL) hasSubtitle;
 - (BOOL) hasRgb;
-@property (readonly, retain) NSString* title;
-@property (readonly, retain) NSString* subtitle;
-@property (readonly, retain) ColorProto* rgb;
+@property (readonly, strong) NSString* title;
+@property (readonly, strong) NSString* subtitle;
+@property (readonly, strong) ColorProto* rgb;
 
 + (GeneralNotificationResponseProto*) defaultInstance;
 - (GeneralNotificationResponseProto*) defaultInstance;
@@ -161,6 +175,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (GeneralNotificationResponseProto_Builder*) builder;
 + (GeneralNotificationResponseProto_Builder*) builder;
 + (GeneralNotificationResponseProto_Builder*) builderWithPrototype:(GeneralNotificationResponseProto*) prototype;
+- (GeneralNotificationResponseProto_Builder*) toBuilder;
 
 + (GeneralNotificationResponseProto*) parseFromData:(NSData*) data;
 + (GeneralNotificationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -170,7 +185,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (GeneralNotificationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface GeneralNotificationResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface GeneralNotificationResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   GeneralNotificationResponseProto* result;
 }
@@ -200,7 +215,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasRgb;
 - (ColorProto*) rgb;
 - (GeneralNotificationResponseProto_Builder*) setRgb:(ColorProto*) value;
-- (GeneralNotificationResponseProto_Builder*) setRgbBuilder:(ColorProto_Builder*) builderForValue;
+- (GeneralNotificationResponseProto_Builder*) setRgb_Builder:(ColorProto_Builder*) builderForValue;
 - (GeneralNotificationResponseProto_Builder*) mergeRgb:(ColorProto*) value;
 - (GeneralNotificationResponseProto_Builder*) clearRgb;
 @end
@@ -220,9 +235,9 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasScope;
 - (BOOL) hasChatMessage;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) GroupChatScope scope;
-@property (readonly, retain) NSString* chatMessage;
+@property (readonly, strong) NSString* chatMessage;
 @property (readonly) int64_t clientTime;
 
 + (SendGroupChatRequestProto*) defaultInstance;
@@ -233,6 +248,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (SendGroupChatRequestProto_Builder*) builder;
 + (SendGroupChatRequestProto_Builder*) builder;
 + (SendGroupChatRequestProto_Builder*) builderWithPrototype:(SendGroupChatRequestProto*) prototype;
+- (SendGroupChatRequestProto_Builder*) toBuilder;
 
 + (SendGroupChatRequestProto*) parseFromData:(NSData*) data;
 + (SendGroupChatRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -242,7 +258,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (SendGroupChatRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SendGroupChatRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SendGroupChatRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SendGroupChatRequestProto* result;
 }
@@ -262,7 +278,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SendGroupChatRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SendGroupChatRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SendGroupChatRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SendGroupChatRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SendGroupChatRequestProto_Builder*) clearSender;
 
@@ -291,7 +307,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) SendGroupChatResponseProto_SendGroupChatStatus status;
 
 + (SendGroupChatResponseProto*) defaultInstance;
@@ -302,6 +318,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (SendGroupChatResponseProto_Builder*) builder;
 + (SendGroupChatResponseProto_Builder*) builder;
 + (SendGroupChatResponseProto_Builder*) builderWithPrototype:(SendGroupChatResponseProto*) prototype;
+- (SendGroupChatResponseProto_Builder*) toBuilder;
 
 + (SendGroupChatResponseProto*) parseFromData:(NSData*) data;
 + (SendGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -311,7 +328,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (SendGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SendGroupChatResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SendGroupChatResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SendGroupChatResponseProto* result;
 }
@@ -331,7 +348,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SendGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SendGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SendGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SendGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SendGroupChatResponseProto_Builder*) clearSender;
 
@@ -356,8 +373,8 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasChatMessage;
 - (BOOL) hasScope;
 - (BOOL) hasIsAdmin;
-@property (readonly, retain) MinimumUserProtoWithLevel* sender;
-@property (readonly, retain) NSString* chatMessage;
+@property (readonly, strong) MinimumUserProtoWithLevel* sender;
+@property (readonly, strong) NSString* chatMessage;
 @property (readonly) GroupChatScope scope;
 - (BOOL) isAdmin;
 
@@ -369,6 +386,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (ReceivedGroupChatResponseProto_Builder*) builder;
 + (ReceivedGroupChatResponseProto_Builder*) builder;
 + (ReceivedGroupChatResponseProto_Builder*) builderWithPrototype:(ReceivedGroupChatResponseProto*) prototype;
+- (ReceivedGroupChatResponseProto_Builder*) toBuilder;
 
 + (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data;
 + (ReceivedGroupChatResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -378,7 +396,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (ReceivedGroupChatResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ReceivedGroupChatResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ReceivedGroupChatResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ReceivedGroupChatResponseProto* result;
 }
@@ -398,7 +416,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProtoWithLevel*) sender;
 - (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value;
-- (ReceivedGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (ReceivedGroupChatResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
 - (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearSender;
 
@@ -430,9 +448,9 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasRecipientId;
 - (BOOL) hasContent;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t recipientId;
-@property (readonly, retain) NSString* content;
+@property (readonly, strong) NSString* content;
 
 + (PrivateChatPostRequestProto*) defaultInstance;
 - (PrivateChatPostRequestProto*) defaultInstance;
@@ -442,6 +460,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (PrivateChatPostRequestProto_Builder*) builder;
 + (PrivateChatPostRequestProto_Builder*) builder;
 + (PrivateChatPostRequestProto_Builder*) builderWithPrototype:(PrivateChatPostRequestProto*) prototype;
+- (PrivateChatPostRequestProto_Builder*) toBuilder;
 
 + (PrivateChatPostRequestProto*) parseFromData:(NSData*) data;
 + (PrivateChatPostRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -451,7 +470,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (PrivateChatPostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PrivateChatPostRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface PrivateChatPostRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   PrivateChatPostRequestProto* result;
 }
@@ -471,7 +490,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PrivateChatPostRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PrivateChatPostRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PrivateChatPostRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PrivateChatPostRequestProto_Builder*) clearSender;
 
@@ -498,9 +517,9 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPost;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PrivateChatPostResponseProto_PrivateChatPostStatus status;
-@property (readonly, retain) PrivateChatPostProto* post;
+@property (readonly, strong) PrivateChatPostProto* post;
 
 + (PrivateChatPostResponseProto*) defaultInstance;
 - (PrivateChatPostResponseProto*) defaultInstance;
@@ -510,6 +529,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (PrivateChatPostResponseProto_Builder*) builder;
 + (PrivateChatPostResponseProto_Builder*) builder;
 + (PrivateChatPostResponseProto_Builder*) builderWithPrototype:(PrivateChatPostResponseProto*) prototype;
+- (PrivateChatPostResponseProto_Builder*) toBuilder;
 
 + (PrivateChatPostResponseProto*) parseFromData:(NSData*) data;
 + (PrivateChatPostResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -519,7 +539,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (PrivateChatPostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PrivateChatPostResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface PrivateChatPostResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   PrivateChatPostResponseProto* result;
 }
@@ -539,7 +559,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PrivateChatPostResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PrivateChatPostResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PrivateChatPostResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PrivateChatPostResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PrivateChatPostResponseProto_Builder*) clearSender;
 
@@ -551,7 +571,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasPost;
 - (PrivateChatPostProto*) post;
 - (PrivateChatPostResponseProto_Builder*) setPost:(PrivateChatPostProto*) value;
-- (PrivateChatPostResponseProto_Builder*) setPostBuilder:(PrivateChatPostProto_Builder*) builderForValue;
+- (PrivateChatPostResponseProto_Builder*) setPost_Builder:(PrivateChatPostProto_Builder*) builderForValue;
 - (PrivateChatPostResponseProto_Builder*) mergePost:(PrivateChatPostProto*) value;
 - (PrivateChatPostResponseProto_Builder*) clearPost;
 @end
@@ -568,7 +588,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasOtherUserId;
 - (BOOL) hasBeforePrivateChatId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t otherUserId;
 @property (readonly) int32_t beforePrivateChatId;
 
@@ -580,6 +600,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (RetrievePrivateChatPostsRequestProto_Builder*) builder;
 + (RetrievePrivateChatPostsRequestProto_Builder*) builder;
 + (RetrievePrivateChatPostsRequestProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsRequestProto*) prototype;
+- (RetrievePrivateChatPostsRequestProto_Builder*) toBuilder;
 
 + (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data;
 + (RetrievePrivateChatPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -589,7 +610,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (RetrievePrivateChatPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrievePrivateChatPostsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrievePrivateChatPostsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrievePrivateChatPostsRequestProto* result;
 }
@@ -609,7 +630,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrievePrivateChatPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrievePrivateChatPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrievePrivateChatPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearSender;
 
@@ -634,18 +655,18 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   int32_t otherUserId;
   MinimumUserProto* sender;
   RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
-  NSMutableArray* mutablePostsList;
+  NSMutableArray * mutablePostsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasBeforePrivateChatId;
 - (BOOL) hasStatus;
 - (BOOL) hasOtherUserId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * postsList;
 @property (readonly) int32_t beforePrivateChatId;
 @property (readonly) RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
 @property (readonly) int32_t otherUserId;
-- (NSArray*) postsList;
-- (GroupChatMessageProto*) postsAtIndex:(int32_t) index;
+- (GroupChatMessageProto*)postsAtIndex:(NSUInteger)index;
 
 + (RetrievePrivateChatPostsResponseProto*) defaultInstance;
 - (RetrievePrivateChatPostsResponseProto*) defaultInstance;
@@ -655,6 +676,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (RetrievePrivateChatPostsResponseProto_Builder*) builder;
 + (RetrievePrivateChatPostsResponseProto_Builder*) builder;
 + (RetrievePrivateChatPostsResponseProto_Builder*) builderWithPrototype:(RetrievePrivateChatPostsResponseProto*) prototype;
+- (RetrievePrivateChatPostsResponseProto_Builder*) toBuilder;
 
 + (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data;
 + (RetrievePrivateChatPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -664,7 +686,7 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 + (RetrievePrivateChatPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrievePrivateChatPostsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrievePrivateChatPostsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrievePrivateChatPostsResponseProto* result;
 }
@@ -684,16 +706,15 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrievePrivateChatPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrievePrivateChatPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrievePrivateChatPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearSender;
 
-- (NSArray*) postsList;
-- (GroupChatMessageProto*) postsAtIndex:(int32_t) index;
-- (RetrievePrivateChatPostsResponseProto_Builder*) replacePostsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
-- (RetrievePrivateChatPostsResponseProto_Builder*) addPosts:(GroupChatMessageProto*) value;
-- (RetrievePrivateChatPostsResponseProto_Builder*) addAllPosts:(NSArray*) values;
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearPostsList;
+- (NSMutableArray *)postsList;
+- (GroupChatMessageProto*)postsAtIndex:(NSUInteger)index;
+- (RetrievePrivateChatPostsResponseProto_Builder *)addPosts:(GroupChatMessageProto*)value;
+- (RetrievePrivateChatPostsResponseProto_Builder *)addAllPosts:(NSArray *)array;
+- (RetrievePrivateChatPostsResponseProto_Builder *)clearPosts;
 
 - (BOOL) hasBeforePrivateChatId;
 - (int32_t) beforePrivateChatId;
@@ -711,3 +732,5 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

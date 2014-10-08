@@ -41,7 +41,7 @@
     [gs.myStructs removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
-    for (NSNumber *structId in constants.structureIdsToBeBuilltList) {
+    for (NSNumber *structId in constants.structureIdsToBeBuilltList.toNSArray) {
       [_structs setObject:[NSValue valueWithCGPoint:ccp(0, 0)] forKey:structId];
     }
     

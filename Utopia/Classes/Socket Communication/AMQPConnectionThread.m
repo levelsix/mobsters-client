@@ -93,7 +93,8 @@ static int sessionId;
 }
 
 - (void) reloadClanMessageQueue {
-  [self performSelector:@selector(initClanMessageQueue) onThread:self withObject:nil waitUntilDone:NO];
+  // Changed waitUntilDone to YES because we want 
+  [self performSelector:@selector(initClanMessageQueue) onThread:self withObject:nil waitUntilDone:YES];
 }
 
 - (void) initClanMessageQueue {

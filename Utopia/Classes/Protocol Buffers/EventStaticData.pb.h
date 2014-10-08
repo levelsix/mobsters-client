@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "StaticData.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AchievementProto;
 @class AchievementProto_Builder;
@@ -186,6 +187,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface EventStaticDataRoot : NSObject {
 }
@@ -203,7 +216,7 @@
 - (BOOL) hasSenderId;
 - (BOOL) hasStaticDataStuff;
 @property (readonly) int32_t senderId;
-@property (readonly, retain) StaticDataProto* staticDataStuff;
+@property (readonly, strong) StaticDataProto* staticDataStuff;
 
 + (PurgeClientStaticDataResponseProto*) defaultInstance;
 - (PurgeClientStaticDataResponseProto*) defaultInstance;
@@ -213,6 +226,7 @@
 - (PurgeClientStaticDataResponseProto_Builder*) builder;
 + (PurgeClientStaticDataResponseProto_Builder*) builder;
 + (PurgeClientStaticDataResponseProto_Builder*) builderWithPrototype:(PurgeClientStaticDataResponseProto*) prototype;
+- (PurgeClientStaticDataResponseProto_Builder*) toBuilder;
 
 + (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data;
 + (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -222,7 +236,7 @@
 + (PurgeClientStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PurgeClientStaticDataResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface PurgeClientStaticDataResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   PurgeClientStaticDataResponseProto* result;
 }
@@ -247,8 +261,10 @@
 - (BOOL) hasStaticDataStuff;
 - (StaticDataProto*) staticDataStuff;
 - (PurgeClientStaticDataResponseProto_Builder*) setStaticDataStuff:(StaticDataProto*) value;
-- (PurgeClientStaticDataResponseProto_Builder*) setStaticDataStuffBuilder:(StaticDataProto_Builder*) builderForValue;
+- (PurgeClientStaticDataResponseProto_Builder*) setStaticDataStuff_Builder:(StaticDataProto_Builder*) builderForValue;
 - (PurgeClientStaticDataResponseProto_Builder*) mergeStaticDataStuff:(StaticDataProto*) value;
 - (PurgeClientStaticDataResponseProto_Builder*) clearStaticDataStuff;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

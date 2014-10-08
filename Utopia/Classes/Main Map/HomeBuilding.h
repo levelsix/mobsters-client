@@ -89,6 +89,10 @@
 
 @end
 
+@interface ClanHouseBuilding : HomeBuilding
+
+@end
+
 @interface LabBuilding : HomeBuilding {
   UserEnhancement *_enhancement;
 }

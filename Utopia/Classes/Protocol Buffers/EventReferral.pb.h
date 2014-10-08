@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class FullUserProto;
 @class FullUserProto_Builder;
@@ -24,6 +25,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface EventReferralRoot : NSObject {
 }
@@ -43,8 +56,8 @@
 - (BOOL) hasSender;
 - (BOOL) hasReferredPlayer;
 - (BOOL) hasCoinsGivenToReferrer;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) MinimumUserProto* referredPlayer;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* referredPlayer;
 @property (readonly) int32_t coinsGivenToReferrer;
 
 + (ReferralCodeUsedResponseProto*) defaultInstance;
@@ -55,6 +68,7 @@
 - (ReferralCodeUsedResponseProto_Builder*) builder;
 + (ReferralCodeUsedResponseProto_Builder*) builder;
 + (ReferralCodeUsedResponseProto_Builder*) builderWithPrototype:(ReferralCodeUsedResponseProto*) prototype;
+- (ReferralCodeUsedResponseProto_Builder*) toBuilder;
 
 + (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data;
 + (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -64,7 +78,7 @@
 + (ReferralCodeUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ReferralCodeUsedResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ReferralCodeUsedResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ReferralCodeUsedResponseProto* result;
 }
@@ -84,14 +98,14 @@
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ReferralCodeUsedResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReferralCodeUsedResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReferralCodeUsedResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ReferralCodeUsedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ReferralCodeUsedResponseProto_Builder*) clearSender;
 
 - (BOOL) hasReferredPlayer;
 - (MinimumUserProto*) referredPlayer;
 - (ReferralCodeUsedResponseProto_Builder*) setReferredPlayer:(MinimumUserProto*) value;
-- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayer_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value;
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer;
 
@@ -101,3 +115,5 @@
 - (ReferralCodeUsedResponseProto_Builder*) clearCoinsGivenToReferrer;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

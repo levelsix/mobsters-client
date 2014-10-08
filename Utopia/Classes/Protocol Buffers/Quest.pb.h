@@ -6,6 +6,7 @@
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
@@ -103,6 +104,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   QuestJobProto_QuestJobTypeKillSpecificMonster = 1,
   QuestJobProto_QuestJobTypeKillMonsterInCity = 2,
@@ -157,8 +170,8 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
   DialogueProto* acceptDialogue;
   CoordinateProto* questGiverImgOffset;
   Element monsterElement;
-  NSMutableArray* mutableQuestsRequiredForThisList;
-  NSMutableArray* mutableJobsList;
+  PBAppendableArray * mutableQuestsRequiredForThisList;
+  NSMutableArray * mutableJobsList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasName;
@@ -178,26 +191,26 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasQuestGiverImgOffset;
 - (BOOL) hasMonsterElement;
 @property (readonly) int32_t questId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* description;
-@property (readonly, retain) NSString* doneResponse;
-@property (readonly, retain) DialogueProto* acceptDialogue;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* description;
+@property (readonly, strong) NSString* doneResponse;
+@property (readonly, strong) DialogueProto* acceptDialogue;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 @property (readonly) int32_t gemReward;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t monsterIdReward;
 - (BOOL) isCompleteMonster;
-@property (readonly, retain) NSString* questGiverName;
-@property (readonly, retain) NSString* questGiverImagePrefix;
+@property (readonly, strong) PBArray * questsRequiredForThisList;
+@property (readonly, strong) NSString* questGiverName;
+@property (readonly, strong) NSString* questGiverImagePrefix;
 @property (readonly) int32_t priority;
-@property (readonly, retain) NSString* carrotId;
-@property (readonly, retain) CoordinateProto* questGiverImgOffset;
+@property (readonly, strong) NSString* carrotId;
+@property (readonly, strong) CoordinateProto* questGiverImgOffset;
 @property (readonly) Element monsterElement;
-- (NSArray*) questsRequiredForThisList;
-- (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
-- (NSArray*) jobsList;
-- (QuestJobProto*) jobsAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * jobsList;
+- (int32_t)questsRequiredForThisAtIndex:(NSUInteger)index;
+- (QuestJobProto*)jobsAtIndex:(NSUInteger)index;
 
 + (FullQuestProto*) defaultInstance;
 - (FullQuestProto*) defaultInstance;
@@ -207,6 +220,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullQuestProto_Builder*) builder;
 + (FullQuestProto_Builder*) builder;
 + (FullQuestProto_Builder*) builderWithPrototype:(FullQuestProto*) prototype;
+- (FullQuestProto_Builder*) toBuilder;
 
 + (FullQuestProto*) parseFromData:(NSData*) data;
 + (FullQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -216,7 +230,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 + (FullQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullQuestProto_Builder : PBGeneratedMessage_Builder {
+@interface FullQuestProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullQuestProto* result;
 }
@@ -256,7 +270,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasAcceptDialogue;
 - (DialogueProto*) acceptDialogue;
 - (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
-- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (FullQuestProto_Builder*) setAcceptDialogue_Builder:(DialogueProto_Builder*) builderForValue;
 - (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
 - (FullQuestProto_Builder*) clearAcceptDialogue;
 
@@ -290,12 +304,12 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullQuestProto_Builder*) setIsCompleteMonster:(BOOL) value;
 - (FullQuestProto_Builder*) clearIsCompleteMonster;
 
-- (NSArray*) questsRequiredForThisList;
-- (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
-- (FullQuestProto_Builder*) replaceQuestsRequiredForThisAtIndex:(int32_t) index with:(int32_t) value;
-- (FullQuestProto_Builder*) addQuestsRequiredForThis:(int32_t) value;
-- (FullQuestProto_Builder*) addAllQuestsRequiredForThis:(NSArray*) values;
-- (FullQuestProto_Builder*) clearQuestsRequiredForThisList;
+- (PBAppendableArray *)questsRequiredForThisList;
+- (int32_t)questsRequiredForThisAtIndex:(NSUInteger)index;
+- (FullQuestProto_Builder *)addQuestsRequiredForThis:(int32_t)value;
+- (FullQuestProto_Builder *)addAllQuestsRequiredForThis:(NSArray *)array;
+- (FullQuestProto_Builder *)setQuestsRequiredForThisValues:(const int32_t *)values count:(NSUInteger)count;
+- (FullQuestProto_Builder *)clearQuestsRequiredForThis;
 
 - (BOOL) hasQuestGiverName;
 - (NSString*) questGiverName;
@@ -320,7 +334,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasQuestGiverImgOffset;
 - (CoordinateProto*) questGiverImgOffset;
 - (FullQuestProto_Builder*) setQuestGiverImgOffset:(CoordinateProto*) value;
-- (FullQuestProto_Builder*) setQuestGiverImgOffsetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullQuestProto_Builder*) setQuestGiverImgOffset_Builder:(CoordinateProto_Builder*) builderForValue;
 - (FullQuestProto_Builder*) mergeQuestGiverImgOffset:(CoordinateProto*) value;
 - (FullQuestProto_Builder*) clearQuestGiverImgOffset;
 
@@ -329,12 +343,11 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullQuestProto_Builder*) setMonsterElement:(Element) value;
 - (FullQuestProto_Builder*) clearMonsterElement;
 
-- (NSArray*) jobsList;
-- (QuestJobProto*) jobsAtIndex:(int32_t) index;
-- (FullQuestProto_Builder*) replaceJobsAtIndex:(int32_t) index with:(QuestJobProto*) value;
-- (FullQuestProto_Builder*) addJobs:(QuestJobProto*) value;
-- (FullQuestProto_Builder*) addAllJobs:(NSArray*) values;
-- (FullQuestProto_Builder*) clearJobsList;
+- (NSMutableArray *)jobsList;
+- (QuestJobProto*)jobsAtIndex:(NSUInteger)index;
+- (FullQuestProto_Builder *)addJobs:(QuestJobProto*)value;
+- (FullQuestProto_Builder *)addAllJobs:(NSArray *)array;
+- (FullQuestProto_Builder *)clearJobs;
 @end
 
 @interface QuestJobProto : PBGeneratedMessage {
@@ -370,7 +383,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 @property (readonly) int32_t questJobId;
 @property (readonly) int32_t questId;
 @property (readonly) QuestJobProto_QuestJobType questJobType;
-@property (readonly, retain) NSString* description;
+@property (readonly, strong) NSString* description;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t quantity;
 @property (readonly) int32_t priority;
@@ -385,6 +398,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (QuestJobProto_Builder*) builder;
 + (QuestJobProto_Builder*) builder;
 + (QuestJobProto_Builder*) builderWithPrototype:(QuestJobProto*) prototype;
+- (QuestJobProto_Builder*) toBuilder;
 
 + (QuestJobProto*) parseFromData:(NSData*) data;
 + (QuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -394,7 +408,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 + (QuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestJobProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestJobProto_Builder : PBGeneratedMessageBuilder {
 @private
   QuestJobProto* result;
 }
@@ -459,10 +473,10 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 
 @interface DialogueProto : PBGeneratedMessage {
 @private
-  NSMutableArray* mutableSpeechSegmentList;
+  NSMutableArray * mutableSpeechSegmentList;
 }
-- (NSArray*) speechSegmentList;
-- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * speechSegmentList;
+- (DialogueProto_SpeechSegmentProto*)speechSegmentAtIndex:(NSUInteger)index;
 
 + (DialogueProto*) defaultInstance;
 - (DialogueProto*) defaultInstance;
@@ -472,6 +486,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (DialogueProto_Builder*) builder;
 + (DialogueProto_Builder*) builder;
 + (DialogueProto_Builder*) builderWithPrototype:(DialogueProto*) prototype;
+- (DialogueProto_Builder*) toBuilder;
 
 + (DialogueProto*) parseFromData:(NSData*) data;
 + (DialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -496,9 +511,9 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (BOOL) hasSpeakerImage;
 - (BOOL) hasSpeakerText;
 - (BOOL) hasIsLeftSide;
-@property (readonly, retain) NSString* speaker;
-@property (readonly, retain) NSString* speakerImage;
-@property (readonly, retain) NSString* speakerText;
+@property (readonly, strong) NSString* speaker;
+@property (readonly, strong) NSString* speakerImage;
+@property (readonly, strong) NSString* speakerText;
 - (BOOL) isLeftSide;
 
 + (DialogueProto_SpeechSegmentProto*) defaultInstance;
@@ -509,6 +524,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (DialogueProto_SpeechSegmentProto_Builder*) builder;
 + (DialogueProto_SpeechSegmentProto_Builder*) builder;
 + (DialogueProto_SpeechSegmentProto_Builder*) builderWithPrototype:(DialogueProto_SpeechSegmentProto*) prototype;
+- (DialogueProto_SpeechSegmentProto_Builder*) toBuilder;
 
 + (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data;
 + (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -518,7 +534,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 + (DialogueProto_SpeechSegmentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface DialogueProto_SpeechSegmentProto_Builder : PBGeneratedMessage_Builder {
+@interface DialogueProto_SpeechSegmentProto_Builder : PBGeneratedMessageBuilder {
 @private
   DialogueProto_SpeechSegmentProto* result;
 }
@@ -556,7 +572,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (DialogueProto_SpeechSegmentProto_Builder*) clearIsLeftSide;
 @end
 
-@interface DialogueProto_Builder : PBGeneratedMessage_Builder {
+@interface DialogueProto_Builder : PBGeneratedMessageBuilder {
 @private
   DialogueProto* result;
 }
@@ -573,12 +589,11 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (NSArray*) speechSegmentList;
-- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index;
-- (DialogueProto_Builder*) replaceSpeechSegmentAtIndex:(int32_t) index with:(DialogueProto_SpeechSegmentProto*) value;
-- (DialogueProto_Builder*) addSpeechSegment:(DialogueProto_SpeechSegmentProto*) value;
-- (DialogueProto_Builder*) addAllSpeechSegment:(NSArray*) values;
-- (DialogueProto_Builder*) clearSpeechSegmentList;
+- (NSMutableArray *)speechSegmentList;
+- (DialogueProto_SpeechSegmentProto*)speechSegmentAtIndex:(NSUInteger)index;
+- (DialogueProto_Builder *)addSpeechSegment:(DialogueProto_SpeechSegmentProto*)value;
+- (DialogueProto_Builder *)addAllSpeechSegment:(NSArray *)array;
+- (DialogueProto_Builder *)clearSpeechSegment;
 @end
 
 @interface FullUserQuestProto : PBGeneratedMessage {
@@ -591,7 +606,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
   BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
-  NSMutableArray* mutableUserQuestJobsList;
+  NSMutableArray * mutableUserQuestJobsList;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
@@ -601,8 +616,8 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
-- (NSArray*) userQuestJobsList;
-- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * userQuestJobsList;
+- (UserQuestJobProto*)userQuestJobsAtIndex:(NSUInteger)index;
 
 + (FullUserQuestProto*) defaultInstance;
 - (FullUserQuestProto*) defaultInstance;
@@ -612,6 +627,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullUserQuestProto_Builder*) builder;
 + (FullUserQuestProto_Builder*) builder;
 + (FullUserQuestProto_Builder*) builderWithPrototype:(FullUserQuestProto*) prototype;
+- (FullUserQuestProto_Builder*) toBuilder;
 
 + (FullUserQuestProto*) parseFromData:(NSData*) data;
 + (FullUserQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -621,7 +637,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 + (FullUserQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserQuestProto_Builder : PBGeneratedMessage_Builder {
+@interface FullUserQuestProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullUserQuestProto* result;
 }
@@ -658,12 +674,11 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullUserQuestProto_Builder*) setIsComplete:(BOOL) value;
 - (FullUserQuestProto_Builder*) clearIsComplete;
 
-- (NSArray*) userQuestJobsList;
-- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
-- (FullUserQuestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value;
-- (FullUserQuestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value;
-- (FullUserQuestProto_Builder*) addAllUserQuestJobs:(NSArray*) values;
-- (FullUserQuestProto_Builder*) clearUserQuestJobsList;
+- (NSMutableArray *)userQuestJobsList;
+- (UserQuestJobProto*)userQuestJobsAtIndex:(NSUInteger)index;
+- (FullUserQuestProto_Builder *)addUserQuestJobs:(UserQuestJobProto*)value;
+- (FullUserQuestProto_Builder *)addAllUserQuestJobs:(NSArray *)array;
+- (FullUserQuestProto_Builder *)clearUserQuestJobs;
 @end
 
 @interface UserQuestJobProto : PBGeneratedMessage {
@@ -694,6 +709,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (UserQuestJobProto_Builder*) builder;
 + (UserQuestJobProto_Builder*) builder;
 + (UserQuestJobProto_Builder*) builderWithPrototype:(UserQuestJobProto*) prototype;
+- (UserQuestJobProto_Builder*) toBuilder;
 
 + (UserQuestJobProto*) parseFromData:(NSData*) data;
 + (UserQuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -703,7 +719,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 + (UserQuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserQuestJobProto_Builder : PBGeneratedMessage_Builder {
+@interface UserQuestJobProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserQuestJobProto* result;
 }
@@ -741,3 +757,5 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (UserQuestJobProto_Builder*) clearProgress;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

@@ -5,6 +5,7 @@
 #import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
@@ -116,6 +117,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
   UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,
@@ -194,7 +207,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   NSString* facebookId;
   NSString* email;
   NSString* fbData;
-  NSMutableArray* mutableStructsJustBuiltList;
+  NSMutableArray * mutableStructsJustBuiltList;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
@@ -205,17 +218,17 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasGems;
 - (BOOL) hasEmail;
 - (BOOL) hasFbData;
-@property (readonly, retain) NSString* udid;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* deviceToken;
-@property (readonly, retain) NSString* facebookId;
+@property (readonly, strong) NSString* udid;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* deviceToken;
+@property (readonly, strong) NSString* facebookId;
+@property (readonly, strong) NSArray * structsJustBuiltList;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
 @property (readonly) int32_t gems;
-@property (readonly, retain) NSString* email;
-@property (readonly, retain) NSString* fbData;
-- (NSArray*) structsJustBuiltList;
-- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index;
+@property (readonly, strong) NSString* email;
+@property (readonly, strong) NSString* fbData;
+- (TutorialStructProto*)structsJustBuiltAtIndex:(NSUInteger)index;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -225,6 +238,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UserCreateRequestProto_Builder*) builder;
 + (UserCreateRequestProto_Builder*) builder;
 + (UserCreateRequestProto_Builder*) builderWithPrototype:(UserCreateRequestProto*) prototype;
+- (UserCreateRequestProto_Builder*) toBuilder;
 
 + (UserCreateRequestProto*) parseFromData:(NSData*) data;
 + (UserCreateRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -234,7 +248,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (UserCreateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserCreateRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UserCreateRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserCreateRequestProto* result;
 }
@@ -271,12 +285,11 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UserCreateRequestProto_Builder*) setFacebookId:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearFacebookId;
 
-- (NSArray*) structsJustBuiltList;
-- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index;
-- (UserCreateRequestProto_Builder*) replaceStructsJustBuiltAtIndex:(int32_t) index with:(TutorialStructProto*) value;
-- (UserCreateRequestProto_Builder*) addStructsJustBuilt:(TutorialStructProto*) value;
-- (UserCreateRequestProto_Builder*) addAllStructsJustBuilt:(NSArray*) values;
-- (UserCreateRequestProto_Builder*) clearStructsJustBuiltList;
+- (NSMutableArray *)structsJustBuiltList;
+- (TutorialStructProto*)structsJustBuiltAtIndex:(NSUInteger)index;
+- (UserCreateRequestProto_Builder *)addStructsJustBuilt:(TutorialStructProto*)value;
+- (UserCreateRequestProto_Builder *)addAllStructsJustBuilt:(NSArray *)array;
+- (UserCreateRequestProto_Builder *)clearStructsJustBuilt;
 
 - (BOOL) hasCash;
 - (int32_t) cash;
@@ -320,6 +333,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UserCreateResponseProto_Builder*) builder;
 + (UserCreateResponseProto_Builder*) builder;
 + (UserCreateResponseProto_Builder*) builderWithPrototype:(UserCreateResponseProto*) prototype;
+- (UserCreateResponseProto_Builder*) toBuilder;
 
 + (UserCreateResponseProto*) parseFromData:(NSData*) data;
 + (UserCreateResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -329,7 +343,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (UserCreateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserCreateResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UserCreateResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserCreateResponseProto* result;
 }
@@ -361,7 +375,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasNextLevel;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t nextLevel;
 
 + (LevelUpRequestProto*) defaultInstance;
@@ -372,6 +386,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (LevelUpRequestProto_Builder*) builder;
 + (LevelUpRequestProto_Builder*) builder;
 + (LevelUpRequestProto_Builder*) builderWithPrototype:(LevelUpRequestProto*) prototype;
+- (LevelUpRequestProto_Builder*) toBuilder;
 
 + (LevelUpRequestProto*) parseFromData:(NSData*) data;
 + (LevelUpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -381,7 +396,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (LevelUpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LevelUpRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface LevelUpRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   LevelUpRequestProto* result;
 }
@@ -401,7 +416,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LevelUpRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LevelUpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LevelUpRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LevelUpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LevelUpRequestProto_Builder*) clearSender;
 
@@ -420,7 +435,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) LevelUpResponseProto_LevelUpStatus status;
 
 + (LevelUpResponseProto*) defaultInstance;
@@ -431,6 +446,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (LevelUpResponseProto_Builder*) builder;
 + (LevelUpResponseProto_Builder*) builder;
 + (LevelUpResponseProto_Builder*) builderWithPrototype:(LevelUpResponseProto*) prototype;
+- (LevelUpResponseProto_Builder*) toBuilder;
 
 + (LevelUpResponseProto*) parseFromData:(NSData*) data;
 + (LevelUpResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -440,7 +456,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (LevelUpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LevelUpResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface LevelUpResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   LevelUpResponseProto* result;
 }
@@ -460,7 +476,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LevelUpResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LevelUpResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LevelUpResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LevelUpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LevelUpResponseProto_Builder*) clearSender;
 
@@ -476,14 +492,14 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   BOOL hasSender_:1;
   BOOL includeCurMonsterTeam_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableRequestedUserIdsList;
+  PBAppendableArray * mutableRequestedUserIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIncludeCurMonsterTeam;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * requestedUserIdsList;
 - (BOOL) includeCurMonsterTeam;
-- (NSArray*) requestedUserIdsList;
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+- (int32_t)requestedUserIdsAtIndex:(NSUInteger)index;
 
 + (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
 - (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
@@ -493,6 +509,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
 + (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
 + (RetrieveUsersForUserIdsRequestProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsRequestProto*) prototype;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) toBuilder;
 
 + (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data;
 + (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -502,7 +519,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveUsersForUserIdsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveUsersForUserIdsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveUsersForUserIdsRequestProto* result;
 }
@@ -522,16 +539,16 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender;
 
-- (NSArray*) requestedUserIdsList;
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+- (PBAppendableArray *)requestedUserIdsList;
+- (int32_t)requestedUserIdsAtIndex:(NSUInteger)index;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)addRequestedUserIds:(int32_t)value;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)addAllRequestedUserIds:(NSArray *)array;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)setRequestedUserIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)clearRequestedUserIds;
 
 - (BOOL) hasIncludeCurMonsterTeam;
 - (BOOL) includeCurMonsterTeam;
@@ -543,15 +560,15 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableRequestedUsersList;
-  NSMutableArray* mutableCurTeamList;
+  NSMutableArray * mutableRequestedUsersList;
+  NSMutableArray * mutableCurTeamList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) requestedUsersList;
-- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
-- (NSArray*) curTeamList;
-- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * requestedUsersList;
+@property (readonly, strong) NSArray * curTeamList;
+- (FullUserProto*)requestedUsersAtIndex:(NSUInteger)index;
+- (UserCurrentMonsterTeamProto*)curTeamAtIndex:(NSUInteger)index;
 
 + (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
 - (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
@@ -561,6 +578,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
 + (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
 + (RetrieveUsersForUserIdsResponseProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsResponseProto*) prototype;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) toBuilder;
 
 + (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data;
 + (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -570,7 +588,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveUsersForUserIdsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveUsersForUserIdsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveUsersForUserIdsResponseProto* result;
 }
@@ -590,23 +608,21 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) clearSender;
 
-- (NSArray*) requestedUsersList;
-- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceRequestedUsersAtIndex:(int32_t) index with:(FullUserProto*) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
+- (NSMutableArray *)requestedUsersList;
+- (FullUserProto*)requestedUsersAtIndex:(NSUInteger)index;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addRequestedUsers:(FullUserProto*)value;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addAllRequestedUsers:(NSArray *)array;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)clearRequestedUsers;
 
-- (NSArray*) curTeamList;
-- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceCurTeamAtIndex:(int32_t) index with:(UserCurrentMonsterTeamProto*) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addCurTeam:(UserCurrentMonsterTeamProto*) value;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllCurTeam:(NSArray*) values;
-- (RetrieveUsersForUserIdsResponseProto_Builder*) clearCurTeamList;
+- (NSMutableArray *)curTeamList;
+- (UserCurrentMonsterTeamProto*)curTeamAtIndex:(NSUInteger)index;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addCurTeam:(UserCurrentMonsterTeamProto*)value;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)addAllCurTeam:(NSArray *)array;
+- (RetrieveUsersForUserIdsResponseProto_Builder *)clearCurTeam;
 @end
 
 @interface LogoutRequestProto : PBGeneratedMessage {
@@ -615,7 +631,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 
 + (LogoutRequestProto*) defaultInstance;
 - (LogoutRequestProto*) defaultInstance;
@@ -625,6 +641,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (LogoutRequestProto_Builder*) builder;
 + (LogoutRequestProto_Builder*) builder;
 + (LogoutRequestProto_Builder*) builderWithPrototype:(LogoutRequestProto*) prototype;
+- (LogoutRequestProto_Builder*) toBuilder;
 
 + (LogoutRequestProto*) parseFromData:(NSData*) data;
 + (LogoutRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -634,7 +651,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LogoutRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface LogoutRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   LogoutRequestProto* result;
 }
@@ -654,7 +671,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (LogoutRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LogoutRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LogoutRequestProto_Builder*) clearSender;
 @end
@@ -668,7 +685,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasTimeOfUserUpdate;
-@property (readonly, retain) FullUserProto* sender;
+@property (readonly, strong) FullUserProto* sender;
 @property (readonly) int64_t timeOfUserUpdate;
 
 + (UpdateClientUserResponseProto*) defaultInstance;
@@ -679,6 +696,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UpdateClientUserResponseProto_Builder*) builder;
 + (UpdateClientUserResponseProto_Builder*) builder;
 + (UpdateClientUserResponseProto_Builder*) builderWithPrototype:(UpdateClientUserResponseProto*) prototype;
+- (UpdateClientUserResponseProto_Builder*) toBuilder;
 
 + (UpdateClientUserResponseProto*) parseFromData:(NSData*) data;
 + (UpdateClientUserResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -688,7 +706,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (UpdateClientUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpdateClientUserResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UpdateClientUserResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpdateClientUserResponseProto* result;
 }
@@ -708,7 +726,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (FullUserProto*) sender;
 - (UpdateClientUserResponseProto_Builder*) setSender:(FullUserProto*) value;
-- (UpdateClientUserResponseProto_Builder*) setSenderBuilder:(FullUserProto_Builder*) builderForValue;
+- (UpdateClientUserResponseProto_Builder*) setSender_Builder:(FullUserProto_Builder*) builderForValue;
 - (UpdateClientUserResponseProto_Builder*) mergeSender:(FullUserProto*) value;
 - (UpdateClientUserResponseProto_Builder*) clearSender;
 
@@ -736,11 +754,11 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasIsUserCreate;
 - (BOOL) hasEmail;
 - (BOOL) hasFbData;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) NSString* fbId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* fbId;
 - (BOOL) isUserCreate;
-@property (readonly, retain) NSString* email;
-@property (readonly, retain) NSString* fbData;
+@property (readonly, strong) NSString* email;
+@property (readonly, strong) NSString* fbData;
 
 + (SetFacebookIdRequestProto*) defaultInstance;
 - (SetFacebookIdRequestProto*) defaultInstance;
@@ -750,6 +768,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetFacebookIdRequestProto_Builder*) builder;
 + (SetFacebookIdRequestProto_Builder*) builder;
 + (SetFacebookIdRequestProto_Builder*) builderWithPrototype:(SetFacebookIdRequestProto*) prototype;
+- (SetFacebookIdRequestProto_Builder*) toBuilder;
 
 + (SetFacebookIdRequestProto*) parseFromData:(NSData*) data;
 + (SetFacebookIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -759,7 +778,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetFacebookIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetFacebookIdRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SetFacebookIdRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetFacebookIdRequestProto* result;
 }
@@ -779,7 +798,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetFacebookIdRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetFacebookIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetFacebookIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetFacebookIdRequestProto_Builder*) clearSender;
 
@@ -816,9 +835,9 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasExisting;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) SetFacebookIdResponseProto_SetFacebookIdStatus status;
-@property (readonly, retain) MinimumUserProto* existing;
+@property (readonly, strong) MinimumUserProto* existing;
 
 + (SetFacebookIdResponseProto*) defaultInstance;
 - (SetFacebookIdResponseProto*) defaultInstance;
@@ -828,6 +847,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetFacebookIdResponseProto_Builder*) builder;
 + (SetFacebookIdResponseProto_Builder*) builder;
 + (SetFacebookIdResponseProto_Builder*) builderWithPrototype:(SetFacebookIdResponseProto*) prototype;
+- (SetFacebookIdResponseProto_Builder*) toBuilder;
 
 + (SetFacebookIdResponseProto*) parseFromData:(NSData*) data;
 + (SetFacebookIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -837,7 +857,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetFacebookIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetFacebookIdResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SetFacebookIdResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetFacebookIdResponseProto* result;
 }
@@ -857,7 +877,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetFacebookIdResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetFacebookIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetFacebookIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetFacebookIdResponseProto_Builder*) clearSender;
 
@@ -869,7 +889,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasExisting;
 - (MinimumUserProto*) existing;
 - (SetFacebookIdResponseProto_Builder*) setExisting:(MinimumUserProto*) value;
-- (SetFacebookIdResponseProto_Builder*) setExistingBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdResponseProto_Builder*) setExisting_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetFacebookIdResponseProto_Builder*) mergeExisting:(MinimumUserProto*) value;
 - (SetFacebookIdResponseProto_Builder*) clearExisting;
 @end
@@ -898,13 +918,13 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasClientTime;
 - (BOOL) hasReason;
 - (BOOL) hasDetails;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t cashSpent;
 @property (readonly) int32_t oilSpent;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int64_t clientTime;
-@property (readonly, retain) NSString* reason;
-@property (readonly, retain) NSString* details;
+@property (readonly, strong) NSString* reason;
+@property (readonly, strong) NSString* details;
 
 + (UpdateUserCurrencyRequestProto*) defaultInstance;
 - (UpdateUserCurrencyRequestProto*) defaultInstance;
@@ -914,6 +934,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UpdateUserCurrencyRequestProto_Builder*) builder;
 + (UpdateUserCurrencyRequestProto_Builder*) builder;
 + (UpdateUserCurrencyRequestProto_Builder*) builderWithPrototype:(UpdateUserCurrencyRequestProto*) prototype;
+- (UpdateUserCurrencyRequestProto_Builder*) toBuilder;
 
 + (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data;
 + (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -923,7 +944,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (UpdateUserCurrencyRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpdateUserCurrencyRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UpdateUserCurrencyRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpdateUserCurrencyRequestProto* result;
 }
@@ -943,7 +964,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpdateUserCurrencyRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpdateUserCurrencyRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserCurrencyRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpdateUserCurrencyRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateUserCurrencyRequestProto_Builder*) clearSender;
 
@@ -987,7 +1008,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
 
 + (UpdateUserCurrencyResponseProto*) defaultInstance;
@@ -998,6 +1019,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (UpdateUserCurrencyResponseProto_Builder*) builder;
 + (UpdateUserCurrencyResponseProto_Builder*) builder;
 + (UpdateUserCurrencyResponseProto_Builder*) builderWithPrototype:(UpdateUserCurrencyResponseProto*) prototype;
+- (UpdateUserCurrencyResponseProto_Builder*) toBuilder;
 
 + (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data;
 + (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1007,7 +1029,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (UpdateUserCurrencyResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpdateUserCurrencyResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UpdateUserCurrencyResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpdateUserCurrencyResponseProto* result;
 }
@@ -1027,7 +1049,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpdateUserCurrencyResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpdateUserCurrencyResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserCurrencyResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpdateUserCurrencyResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateUserCurrencyResponseProto_Builder*) clearSender;
 
@@ -1046,8 +1068,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasGameCenterId;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) NSString* gameCenterId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* gameCenterId;
 
 + (SetGameCenterIdRequestProto*) defaultInstance;
 - (SetGameCenterIdRequestProto*) defaultInstance;
@@ -1057,6 +1079,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetGameCenterIdRequestProto_Builder*) builder;
 + (SetGameCenterIdRequestProto_Builder*) builder;
 + (SetGameCenterIdRequestProto_Builder*) builderWithPrototype:(SetGameCenterIdRequestProto*) prototype;
+- (SetGameCenterIdRequestProto_Builder*) toBuilder;
 
 + (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data;
 + (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1066,7 +1089,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetGameCenterIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetGameCenterIdRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SetGameCenterIdRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetGameCenterIdRequestProto* result;
 }
@@ -1086,7 +1109,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetGameCenterIdRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetGameCenterIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetGameCenterIdRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetGameCenterIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetGameCenterIdRequestProto_Builder*) clearSender;
 
@@ -1108,8 +1131,8 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (BOOL) hasGameCenterId;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) NSString* gameCenterId;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* gameCenterId;
 @property (readonly) SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
 
 + (SetGameCenterIdResponseProto*) defaultInstance;
@@ -1120,6 +1143,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetGameCenterIdResponseProto_Builder*) builder;
 + (SetGameCenterIdResponseProto_Builder*) builder;
 + (SetGameCenterIdResponseProto_Builder*) builderWithPrototype:(SetGameCenterIdResponseProto*) prototype;
+- (SetGameCenterIdResponseProto_Builder*) toBuilder;
 
 + (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data;
 + (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1129,7 +1153,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetGameCenterIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetGameCenterIdResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SetGameCenterIdResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetGameCenterIdResponseProto* result;
 }
@@ -1149,7 +1173,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetGameCenterIdResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetGameCenterIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetGameCenterIdResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetGameCenterIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetGameCenterIdResponseProto_Builder*) clearSender;
 
@@ -1173,7 +1197,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasMonsterId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t monsterId;
 
 + (SetAvatarMonsterRequestProto*) defaultInstance;
@@ -1184,6 +1208,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetAvatarMonsterRequestProto_Builder*) builder;
 + (SetAvatarMonsterRequestProto_Builder*) builder;
 + (SetAvatarMonsterRequestProto_Builder*) builderWithPrototype:(SetAvatarMonsterRequestProto*) prototype;
+- (SetAvatarMonsterRequestProto_Builder*) toBuilder;
 
 + (SetAvatarMonsterRequestProto*) parseFromData:(NSData*) data;
 + (SetAvatarMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1193,7 +1218,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetAvatarMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetAvatarMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SetAvatarMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetAvatarMonsterRequestProto* result;
 }
@@ -1213,7 +1238,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetAvatarMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetAvatarMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetAvatarMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetAvatarMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetAvatarMonsterRequestProto_Builder*) clearSender;
 
@@ -1232,7 +1257,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
 
 + (SetAvatarMonsterResponseProto*) defaultInstance;
@@ -1243,6 +1268,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetAvatarMonsterResponseProto_Builder*) builder;
 + (SetAvatarMonsterResponseProto_Builder*) builder;
 + (SetAvatarMonsterResponseProto_Builder*) builderWithPrototype:(SetAvatarMonsterResponseProto*) prototype;
+- (SetAvatarMonsterResponseProto_Builder*) toBuilder;
 
 + (SetAvatarMonsterResponseProto*) parseFromData:(NSData*) data;
 + (SetAvatarMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1252,7 +1278,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 + (SetAvatarMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SetAvatarMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SetAvatarMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SetAvatarMonsterResponseProto* result;
 }
@@ -1272,7 +1298,7 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SetAvatarMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SetAvatarMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetAvatarMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SetAvatarMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SetAvatarMonsterResponseProto_Builder*) clearSender;
 
@@ -1282,3 +1308,5 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetAvatarMonsterResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

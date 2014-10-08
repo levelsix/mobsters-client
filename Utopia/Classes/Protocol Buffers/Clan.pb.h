@@ -8,6 +8,7 @@
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
@@ -141,6 +142,18 @@
 @class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   UserClanStatusLeader = 1,
   UserClanStatusJuniorLeader = 2,
@@ -183,10 +196,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasRequestToJoinRequired;
 - (BOOL) hasClanIconId;
 @property (readonly) int32_t clanId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int64_t createTime;
-@property (readonly, retain) NSString* description;
-@property (readonly, retain) NSString* tag;
+@property (readonly, strong) NSString* description;
+@property (readonly, strong) NSString* tag;
 - (BOOL) requestToJoinRequired;
 @property (readonly) int32_t clanIconId;
 
@@ -198,6 +211,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (FullClanProto_Builder*) builder;
 + (FullClanProto_Builder*) builder;
 + (FullClanProto_Builder*) builderWithPrototype:(FullClanProto*) prototype;
+- (FullClanProto_Builder*) toBuilder;
 
 + (FullClanProto*) parseFromData:(NSData*) data;
 + (FullClanProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -207,7 +221,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (FullClanProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullClanProto_Builder : PBGeneratedMessage_Builder {
+@interface FullClanProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullClanProto* result;
 }
@@ -288,6 +302,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (FullUserClanProto_Builder*) builder;
 + (FullUserClanProto_Builder*) builder;
 + (FullUserClanProto_Builder*) builderWithPrototype:(FullUserClanProto*) prototype;
+- (FullUserClanProto_Builder*) toBuilder;
 
 + (FullUserClanProto*) parseFromData:(NSData*) data;
 + (FullUserClanProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -297,7 +312,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (FullUserClanProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserClanProto_Builder : PBGeneratedMessage_Builder {
+@interface FullUserClanProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullUserClanProto* result;
 }
@@ -344,7 +359,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 }
 - (BOOL) hasClan;
 - (BOOL) hasClanSize;
-@property (readonly, retain) FullClanProto* clan;
+@property (readonly, strong) FullClanProto* clan;
 @property (readonly) int32_t clanSize;
 
 + (FullClanProtoWithClanSize*) defaultInstance;
@@ -355,6 +370,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (FullClanProtoWithClanSize_Builder*) builder;
 + (FullClanProtoWithClanSize_Builder*) builder;
 + (FullClanProtoWithClanSize_Builder*) builderWithPrototype:(FullClanProtoWithClanSize*) prototype;
+- (FullClanProtoWithClanSize_Builder*) toBuilder;
 
 + (FullClanProtoWithClanSize*) parseFromData:(NSData*) data;
 + (FullClanProtoWithClanSize*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -364,7 +380,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (FullClanProtoWithClanSize*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullClanProtoWithClanSize_Builder : PBGeneratedMessage_Builder {
+@interface FullClanProtoWithClanSize_Builder : PBGeneratedMessageBuilder {
 @private
   FullClanProtoWithClanSize* result;
 }
@@ -384,7 +400,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClan;
 - (FullClanProto*) clan;
 - (FullClanProtoWithClanSize_Builder*) setClan:(FullClanProto*) value;
-- (FullClanProtoWithClanSize_Builder*) setClanBuilder:(FullClanProto_Builder*) builderForValue;
+- (FullClanProtoWithClanSize_Builder*) setClan_Builder:(FullClanProto_Builder*) builderForValue;
 - (FullClanProtoWithClanSize_Builder*) mergeClan:(FullClanProto*) value;
 - (FullClanProtoWithClanSize_Builder*) clearClan;
 
@@ -409,7 +425,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasClanStatus;
 - (BOOL) hasRaidContribution;
 - (BOOL) hasBattlesWon;
-@property (readonly, retain) MinimumUserProtoWithLevel* minUserProtoWithLevel;
+@property (readonly, strong) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property (readonly) UserClanStatus clanStatus;
 @property (readonly) Float32 raidContribution;
 @property (readonly) int32_t battlesWon;
@@ -422,6 +438,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (MinimumUserProtoForClans_Builder*) builder;
 + (MinimumUserProtoForClans_Builder*) builder;
 + (MinimumUserProtoForClans_Builder*) builderWithPrototype:(MinimumUserProtoForClans*) prototype;
+- (MinimumUserProtoForClans_Builder*) toBuilder;
 
 + (MinimumUserProtoForClans*) parseFromData:(NSData*) data;
 + (MinimumUserProtoForClans*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -431,7 +448,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (MinimumUserProtoForClans*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProtoForClans_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProtoForClans_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProtoForClans* result;
 }
@@ -451,7 +468,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasMinUserProtoWithLevel;
 - (MinimumUserProtoWithLevel*) minUserProtoWithLevel;
 - (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
-- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevelBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
 - (MinimumUserProtoForClans_Builder*) mergeMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
 - (MinimumUserProtoForClans_Builder*) clearMinUserProtoWithLevel;
 
@@ -491,7 +508,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   NSString* inactiveDescription;
   NSString* dialogueText;
   NSString* spotlightMonsterImgName;
-  NSMutableArray* mutableRaidStagesList;
+  NSMutableArray * mutableRaidStagesList;
 }
 - (BOOL) hasClanRaidId;
 - (BOOL) hasClanRaidName;
@@ -503,16 +520,16 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasDialogueText;
 - (BOOL) hasSpotlightMonsterImgName;
 @property (readonly) int32_t clanRaidId;
-@property (readonly, retain) NSString* clanRaidName;
-@property (readonly, retain) NSString* activeTitleImgName;
-@property (readonly, retain) NSString* activeBackgroundImgName;
-@property (readonly, retain) NSString* activeDescription;
-@property (readonly, retain) NSString* inactiveMonsterImgName;
-@property (readonly, retain) NSString* inactiveDescription;
-@property (readonly, retain) NSString* dialogueText;
-@property (readonly, retain) NSString* spotlightMonsterImgName;
-- (NSArray*) raidStagesList;
-- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index;
+@property (readonly, strong) NSString* clanRaidName;
+@property (readonly, strong) NSString* activeTitleImgName;
+@property (readonly, strong) NSString* activeBackgroundImgName;
+@property (readonly, strong) NSString* activeDescription;
+@property (readonly, strong) NSString* inactiveMonsterImgName;
+@property (readonly, strong) NSString* inactiveDescription;
+@property (readonly, strong) NSString* dialogueText;
+@property (readonly, strong) NSString* spotlightMonsterImgName;
+@property (readonly, strong) NSArray * raidStagesList;
+- (ClanRaidStageProto*)raidStagesAtIndex:(NSUInteger)index;
 
 + (ClanRaidProto*) defaultInstance;
 - (ClanRaidProto*) defaultInstance;
@@ -522,6 +539,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidProto_Builder*) builder;
 + (ClanRaidProto_Builder*) builder;
 + (ClanRaidProto_Builder*) builderWithPrototype:(ClanRaidProto*) prototype;
+- (ClanRaidProto_Builder*) toBuilder;
 
 + (ClanRaidProto*) parseFromData:(NSData*) data;
 + (ClanRaidProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -531,7 +549,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanRaidProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanRaidProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanRaidProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanRaidProto* result;
 }
@@ -593,12 +611,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidProto_Builder*) setSpotlightMonsterImgName:(NSString*) value;
 - (ClanRaidProto_Builder*) clearSpotlightMonsterImgName;
 
-- (NSArray*) raidStagesList;
-- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index;
-- (ClanRaidProto_Builder*) replaceRaidStagesAtIndex:(int32_t) index with:(ClanRaidStageProto*) value;
-- (ClanRaidProto_Builder*) addRaidStages:(ClanRaidStageProto*) value;
-- (ClanRaidProto_Builder*) addAllRaidStages:(NSArray*) values;
-- (ClanRaidProto_Builder*) clearRaidStagesList;
+- (NSMutableArray *)raidStagesList;
+- (ClanRaidStageProto*)raidStagesAtIndex:(NSUInteger)index;
+- (ClanRaidProto_Builder *)addRaidStages:(ClanRaidStageProto*)value;
+- (ClanRaidProto_Builder *)addAllRaidStages:(NSArray *)array;
+- (ClanRaidProto_Builder *)clearRaidStages;
 @end
 
 @interface ClanRaidStageProto : PBGeneratedMessage {
@@ -613,8 +630,8 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   int32_t durationMinutes;
   int32_t stageNum;
   NSString* name;
-  NSMutableArray* mutableMonstersList;
-  NSMutableArray* mutablePossibleRewardsList;
+  NSMutableArray * mutableMonstersList;
+  NSMutableArray * mutablePossibleRewardsList;
 }
 - (BOOL) hasClanRaidStageId;
 - (BOOL) hasClanRaidId;
@@ -625,11 +642,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly) int32_t clanRaidId;
 @property (readonly) int32_t durationMinutes;
 @property (readonly) int32_t stageNum;
-@property (readonly, retain) NSString* name;
-- (NSArray*) monstersList;
-- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index;
-- (NSArray*) possibleRewardsList;
-- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSArray * monstersList;
+@property (readonly, strong) NSArray * possibleRewardsList;
+- (ClanRaidStageMonsterProto*)monstersAtIndex:(NSUInteger)index;
+- (ClanRaidStageRewardProto*)possibleRewardsAtIndex:(NSUInteger)index;
 
 + (ClanRaidStageProto*) defaultInstance;
 - (ClanRaidStageProto*) defaultInstance;
@@ -639,6 +656,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidStageProto_Builder*) builder;
 + (ClanRaidStageProto_Builder*) builder;
 + (ClanRaidStageProto_Builder*) builderWithPrototype:(ClanRaidStageProto*) prototype;
+- (ClanRaidStageProto_Builder*) toBuilder;
 
 + (ClanRaidStageProto*) parseFromData:(NSData*) data;
 + (ClanRaidStageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -648,7 +666,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanRaidStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanRaidStageProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanRaidStageProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanRaidStageProto* result;
 }
@@ -690,19 +708,17 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidStageProto_Builder*) setName:(NSString*) value;
 - (ClanRaidStageProto_Builder*) clearName;
 
-- (NSArray*) monstersList;
-- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index;
-- (ClanRaidStageProto_Builder*) replaceMonstersAtIndex:(int32_t) index with:(ClanRaidStageMonsterProto*) value;
-- (ClanRaidStageProto_Builder*) addMonsters:(ClanRaidStageMonsterProto*) value;
-- (ClanRaidStageProto_Builder*) addAllMonsters:(NSArray*) values;
-- (ClanRaidStageProto_Builder*) clearMonstersList;
+- (NSMutableArray *)monstersList;
+- (ClanRaidStageMonsterProto*)monstersAtIndex:(NSUInteger)index;
+- (ClanRaidStageProto_Builder *)addMonsters:(ClanRaidStageMonsterProto*)value;
+- (ClanRaidStageProto_Builder *)addAllMonsters:(NSArray *)array;
+- (ClanRaidStageProto_Builder *)clearMonsters;
 
-- (NSArray*) possibleRewardsList;
-- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index;
-- (ClanRaidStageProto_Builder*) replacePossibleRewardsAtIndex:(int32_t) index with:(ClanRaidStageRewardProto*) value;
-- (ClanRaidStageProto_Builder*) addPossibleRewards:(ClanRaidStageRewardProto*) value;
-- (ClanRaidStageProto_Builder*) addAllPossibleRewards:(NSArray*) values;
-- (ClanRaidStageProto_Builder*) clearPossibleRewardsList;
+- (NSMutableArray *)possibleRewardsList;
+- (ClanRaidStageRewardProto*)possibleRewardsAtIndex:(NSUInteger)index;
+- (ClanRaidStageProto_Builder *)addPossibleRewards:(ClanRaidStageRewardProto*)value;
+- (ClanRaidStageProto_Builder *)addAllPossibleRewards:(NSArray *)array;
+- (ClanRaidStageProto_Builder *)clearPossibleRewards;
 @end
 
 @interface ClanRaidStageMonsterProto : PBGeneratedMessage {
@@ -737,6 +753,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidStageMonsterProto_Builder*) builder;
 + (ClanRaidStageMonsterProto_Builder*) builder;
 + (ClanRaidStageMonsterProto_Builder*) builderWithPrototype:(ClanRaidStageMonsterProto*) prototype;
+- (ClanRaidStageMonsterProto_Builder*) toBuilder;
 
 + (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data;
 + (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -746,7 +763,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanRaidStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanRaidStageMonsterProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanRaidStageMonsterProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanRaidStageMonsterProto* result;
 }
@@ -825,6 +842,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanRaidStageRewardProto_Builder*) builder;
 + (ClanRaidStageRewardProto_Builder*) builder;
 + (ClanRaidStageRewardProto_Builder*) builderWithPrototype:(ClanRaidStageRewardProto*) prototype;
+- (ClanRaidStageRewardProto_Builder*) toBuilder;
 
 + (ClanRaidStageRewardProto*) parseFromData:(NSData*) data;
 + (ClanRaidStageRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -834,7 +852,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanRaidStageRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanRaidStageRewardProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanRaidStageRewardProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanRaidStageRewardProto* result;
 }
@@ -914,6 +932,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventProto_Builder*) builder;
 + (PersistentClanEventProto_Builder*) builder;
 + (PersistentClanEventProto_Builder*) builderWithPrototype:(PersistentClanEventProto*) prototype;
+- (PersistentClanEventProto_Builder*) toBuilder;
 
 + (PersistentClanEventProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -923,7 +942,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventProto* result;
 }
@@ -1006,6 +1025,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventClanInfoProto_Builder*) builder;
 + (PersistentClanEventClanInfoProto_Builder*) builder;
 + (PersistentClanEventClanInfoProto_Builder*) builderWithPrototype:(PersistentClanEventClanInfoProto*) prototype;
+- (PersistentClanEventClanInfoProto_Builder*) toBuilder;
 
 + (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1015,7 +1035,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventClanInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventClanInfoProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventClanInfoProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventClanInfoProto* result;
 }
@@ -1098,7 +1118,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly) int32_t crDmgDone;
 @property (readonly) int32_t crsDmgDone;
 @property (readonly) int32_t crsmDmgDone;
-@property (readonly, retain) UserCurrentMonsterTeamProto* userMonsters;
+@property (readonly, strong) UserCurrentMonsterTeamProto* userMonsters;
 
 + (PersistentClanEventUserInfoProto*) defaultInstance;
 - (PersistentClanEventUserInfoProto*) defaultInstance;
@@ -1108,6 +1128,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserInfoProto_Builder*) builder;
 + (PersistentClanEventUserInfoProto_Builder*) builder;
 + (PersistentClanEventUserInfoProto_Builder*) builderWithPrototype:(PersistentClanEventUserInfoProto*) prototype;
+- (PersistentClanEventUserInfoProto_Builder*) toBuilder;
 
 + (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1117,7 +1138,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventUserInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventUserInfoProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventUserInfoProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventUserInfoProto* result;
 }
@@ -1167,7 +1188,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasUserMonsters;
 - (UserCurrentMonsterTeamProto*) userMonsters;
 - (PersistentClanEventUserInfoProto_Builder*) setUserMonsters:(UserCurrentMonsterTeamProto*) value;
-- (PersistentClanEventUserInfoProto_Builder*) setUserMonstersBuilder:(UserCurrentMonsterTeamProto_Builder*) builderForValue;
+- (PersistentClanEventUserInfoProto_Builder*) setUserMonsters_Builder:(UserCurrentMonsterTeamProto_Builder*) builderForValue;
 - (PersistentClanEventUserInfoProto_Builder*) mergeUserMonsters:(UserCurrentMonsterTeamProto*) value;
 - (PersistentClanEventUserInfoProto_Builder*) clearUserMonsters;
 @end
@@ -1212,6 +1233,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserRewardProto_Builder*) builder;
 + (PersistentClanEventUserRewardProto_Builder*) builder;
 + (PersistentClanEventUserRewardProto_Builder*) builderWithPrototype:(PersistentClanEventUserRewardProto*) prototype;
+- (PersistentClanEventUserRewardProto_Builder*) toBuilder;
 
 + (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1221,7 +1243,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventUserRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventUserRewardProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventUserRewardProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventUserRewardProto* result;
 }
@@ -1288,7 +1310,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   int32_t clanRaidStageId;
   int32_t crsDmgDone;
   int32_t stageHp;
-  NSMutableArray* mutableRewardsList;
+  NSMutableArray * mutableRewardsList;
 }
 - (BOOL) hasEventId;
 - (BOOL) hasClanRaidId;
@@ -1296,14 +1318,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasCrsEndTime;
 - (BOOL) hasCrsDmgDone;
 - (BOOL) hasStageHp;
+@property (readonly, strong) NSArray * rewardsList;
 @property (readonly) int32_t eventId;
 @property (readonly) int32_t clanRaidId;
 @property (readonly) int32_t clanRaidStageId;
 @property (readonly) int64_t crsEndTime;
 @property (readonly) int32_t crsDmgDone;
 @property (readonly) int32_t stageHp;
-- (NSArray*) rewardsList;
-- (PersistentClanEventUserRewardProto*) rewardsAtIndex:(int32_t) index;
+- (PersistentClanEventUserRewardProto*)rewardsAtIndex:(NSUInteger)index;
 
 + (PersistentClanEventRaidStageHistoryProto*) defaultInstance;
 - (PersistentClanEventRaidStageHistoryProto*) defaultInstance;
@@ -1313,6 +1335,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventRaidStageHistoryProto_Builder*) builder;
 + (PersistentClanEventRaidStageHistoryProto_Builder*) builder;
 + (PersistentClanEventRaidStageHistoryProto_Builder*) builderWithPrototype:(PersistentClanEventRaidStageHistoryProto*) prototype;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) toBuilder;
 
 + (PersistentClanEventRaidStageHistoryProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventRaidStageHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1322,7 +1345,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventRaidStageHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventRaidStageHistoryProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventRaidStageHistoryProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventRaidStageHistoryProto* result;
 }
@@ -1339,12 +1362,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventRaidStageHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PersistentClanEventRaidStageHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (NSArray*) rewardsList;
-- (PersistentClanEventUserRewardProto*) rewardsAtIndex:(int32_t) index;
-- (PersistentClanEventRaidStageHistoryProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(PersistentClanEventUserRewardProto*) value;
-- (PersistentClanEventRaidStageHistoryProto_Builder*) addRewards:(PersistentClanEventUserRewardProto*) value;
-- (PersistentClanEventRaidStageHistoryProto_Builder*) addAllRewards:(NSArray*) values;
-- (PersistentClanEventRaidStageHistoryProto_Builder*) clearRewardsList;
+- (NSMutableArray *)rewardsList;
+- (PersistentClanEventUserRewardProto*)rewardsAtIndex:(NSUInteger)index;
+- (PersistentClanEventRaidStageHistoryProto_Builder *)addRewards:(PersistentClanEventUserRewardProto*)value;
+- (PersistentClanEventRaidStageHistoryProto_Builder *)addAllRewards:(NSArray *)array;
+- (PersistentClanEventRaidStageHistoryProto_Builder *)clearRewards;
 
 - (BOOL) hasEventId;
 - (int32_t) eventId;
@@ -1401,6 +1423,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventRaidHistoryProto_Builder*) builder;
 + (PersistentClanEventRaidHistoryProto_Builder*) builder;
 + (PersistentClanEventRaidHistoryProto_Builder*) builderWithPrototype:(PersistentClanEventRaidHistoryProto*) prototype;
+- (PersistentClanEventRaidHistoryProto_Builder*) toBuilder;
 
 + (PersistentClanEventRaidHistoryProto*) parseFromData:(NSData*) data;
 + (PersistentClanEventRaidHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1410,7 +1433,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (PersistentClanEventRaidHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentClanEventRaidHistoryProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentClanEventRaidHistoryProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentClanEventRaidHistoryProto* result;
 }
@@ -1456,7 +1479,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasImgName;
 - (BOOL) hasIsAvailable;
 @property (readonly) int32_t clanIconId;
-@property (readonly, retain) NSString* imgName;
+@property (readonly, strong) NSString* imgName;
 - (BOOL) isAvailable;
 
 + (ClanIconProto*) defaultInstance;
@@ -1467,6 +1490,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanIconProto_Builder*) builder;
 + (ClanIconProto_Builder*) builder;
 + (ClanIconProto_Builder*) builderWithPrototype:(ClanIconProto*) prototype;
+- (ClanIconProto_Builder*) toBuilder;
 
 + (ClanIconProto*) parseFromData:(NSData*) data;
 + (ClanIconProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1476,7 +1500,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanIconProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanIconProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanIconProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanIconProto* result;
 }
@@ -1527,7 +1551,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   int32_t userId;
   int32_t maxHelpers;
   ClanHelpType helpType;
-  NSMutableArray* mutableHelperIdsList;
+  PBAppendableArray * mutableHelperIdsList;
 }
 - (BOOL) hasClanHelpId;
 - (BOOL) hasClanId;
@@ -1544,9 +1568,9 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly) ClanHelpType helpType;
 @property (readonly) int64_t timeRequested;
 @property (readonly) int32_t maxHelpers;
+@property (readonly, strong) PBArray * helperIdsList;
 - (BOOL) open;
-- (NSArray*) helperIdsList;
-- (int32_t) helperIdsAtIndex:(int32_t) index;
+- (int32_t)helperIdsAtIndex:(NSUInteger)index;
 
 + (ClanHelpProto*) defaultInstance;
 - (ClanHelpProto*) defaultInstance;
@@ -1556,6 +1580,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) builder;
 + (ClanHelpProto_Builder*) builder;
 + (ClanHelpProto_Builder*) builderWithPrototype:(ClanHelpProto*) prototype;
+- (ClanHelpProto_Builder*) toBuilder;
 
 + (ClanHelpProto*) parseFromData:(NSData*) data;
 + (ClanHelpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1565,7 +1590,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanHelpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanHelpProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanHelpProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanHelpProto* result;
 }
@@ -1617,12 +1642,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) setMaxHelpers:(int32_t) value;
 - (ClanHelpProto_Builder*) clearMaxHelpers;
 
-- (NSArray*) helperIdsList;
-- (int32_t) helperIdsAtIndex:(int32_t) index;
-- (ClanHelpProto_Builder*) replaceHelperIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (ClanHelpProto_Builder*) addHelperIds:(int32_t) value;
-- (ClanHelpProto_Builder*) addAllHelperIds:(NSArray*) values;
-- (ClanHelpProto_Builder*) clearHelperIdsList;
+- (PBAppendableArray *)helperIdsList;
+- (int32_t)helperIdsAtIndex:(NSUInteger)index;
+- (ClanHelpProto_Builder *)addHelperIds:(int32_t)value;
+- (ClanHelpProto_Builder *)addAllHelperIds:(NSArray *)array;
+- (ClanHelpProto_Builder *)setHelperIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (ClanHelpProto_Builder *)clearHelperIds;
 
 - (BOOL) hasOpen;
 - (BOOL) open;
@@ -1650,6 +1675,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpNoticeProto_Builder*) builder;
 + (ClanHelpNoticeProto_Builder*) builder;
 + (ClanHelpNoticeProto_Builder*) builderWithPrototype:(ClanHelpNoticeProto*) prototype;
+- (ClanHelpNoticeProto_Builder*) toBuilder;
 
 + (ClanHelpNoticeProto*) parseFromData:(NSData*) data;
 + (ClanHelpNoticeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1659,7 +1685,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 + (ClanHelpNoticeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ClanHelpNoticeProto_Builder : PBGeneratedMessage_Builder {
+@interface ClanHelpNoticeProto_Builder : PBGeneratedMessageBuilder {
 @private
   ClanHelpNoticeProto* result;
 }
@@ -1687,3 +1713,5 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpNoticeProto_Builder*) clearUserDataId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

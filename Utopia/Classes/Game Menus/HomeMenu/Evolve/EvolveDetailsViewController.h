@@ -41,4 +41,6 @@
 - (id) initWithEvoItem:(EvoItem *)evoItem allowEvolution:(BOOL)allowEvolution;
 - (id) initWithCurrentEvolution;
 
+- (IBAction)speedupClicked:(id)sender;
+
 @end

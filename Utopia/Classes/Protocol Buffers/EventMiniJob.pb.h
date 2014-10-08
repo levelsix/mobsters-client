@@ -5,6 +5,7 @@
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BeginMiniJobRequestProto;
 @class BeginMiniJobRequestProto_Builder;
@@ -104,6 +105,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess = 1,
   SpawnMiniJobResponseProto_SpawnMiniJobStatusFailOther = 2,
@@ -159,7 +172,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasClientTime;
 - (BOOL) hasNumToSpawn;
 - (BOOL) hasStructId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t numToSpawn;
 @property (readonly) int32_t structId;
@@ -172,6 +185,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (SpawnMiniJobRequestProto_Builder*) builder;
 + (SpawnMiniJobRequestProto_Builder*) builder;
 + (SpawnMiniJobRequestProto_Builder*) builderWithPrototype:(SpawnMiniJobRequestProto*) prototype;
+- (SpawnMiniJobRequestProto_Builder*) toBuilder;
 
 + (SpawnMiniJobRequestProto*) parseFromData:(NSData*) data;
 + (SpawnMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -181,7 +195,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (SpawnMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SpawnMiniJobRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SpawnMiniJobRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SpawnMiniJobRequestProto* result;
 }
@@ -201,7 +215,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SpawnMiniJobRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SpawnMiniJobRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SpawnMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SpawnMiniJobRequestProto_Builder*) clearSender;
 
@@ -227,14 +241,14 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   SpawnMiniJobResponseProto_SpawnMiniJobStatus status;
-  NSMutableArray* mutableMiniJobsList;
+  NSMutableArray * mutableMiniJobsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * miniJobsList;
 @property (readonly) SpawnMiniJobResponseProto_SpawnMiniJobStatus status;
-- (NSArray*) miniJobsList;
-- (UserMiniJobProto*) miniJobsAtIndex:(int32_t) index;
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
 
 + (SpawnMiniJobResponseProto*) defaultInstance;
 - (SpawnMiniJobResponseProto*) defaultInstance;
@@ -244,6 +258,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (SpawnMiniJobResponseProto_Builder*) builder;
 + (SpawnMiniJobResponseProto_Builder*) builder;
 + (SpawnMiniJobResponseProto_Builder*) builderWithPrototype:(SpawnMiniJobResponseProto*) prototype;
+- (SpawnMiniJobResponseProto_Builder*) toBuilder;
 
 + (SpawnMiniJobResponseProto*) parseFromData:(NSData*) data;
 + (SpawnMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -253,7 +268,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (SpawnMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SpawnMiniJobResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SpawnMiniJobResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SpawnMiniJobResponseProto* result;
 }
@@ -273,16 +288,15 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SpawnMiniJobResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SpawnMiniJobResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SpawnMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SpawnMiniJobResponseProto_Builder*) clearSender;
 
-- (NSArray*) miniJobsList;
-- (UserMiniJobProto*) miniJobsAtIndex:(int32_t) index;
-- (SpawnMiniJobResponseProto_Builder*) replaceMiniJobsAtIndex:(int32_t) index with:(UserMiniJobProto*) value;
-- (SpawnMiniJobResponseProto_Builder*) addMiniJobs:(UserMiniJobProto*) value;
-- (SpawnMiniJobResponseProto_Builder*) addAllMiniJobs:(NSArray*) values;
-- (SpawnMiniJobResponseProto_Builder*) clearMiniJobsList;
+- (NSMutableArray *)miniJobsList;
+- (UserMiniJobProto*)miniJobsAtIndex:(NSUInteger)index;
+- (SpawnMiniJobResponseProto_Builder *)addMiniJobs:(UserMiniJobProto*)value;
+- (SpawnMiniJobResponseProto_Builder *)addAllMiniJobs:(NSArray *)array;
+- (SpawnMiniJobResponseProto_Builder *)clearMiniJobs;
 
 - (BOOL) hasStatus;
 - (SpawnMiniJobResponseProto_SpawnMiniJobStatus) status;
@@ -298,16 +312,16 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   int64_t clientTime;
   int64_t userMiniJobId;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasUserMiniJobId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
+@property (readonly, strong) PBArray * userMonsterIdsList;
 @property (readonly) int64_t userMiniJobId;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (BeginMiniJobRequestProto*) defaultInstance;
 - (BeginMiniJobRequestProto*) defaultInstance;
@@ -317,6 +331,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BeginMiniJobRequestProto_Builder*) builder;
 + (BeginMiniJobRequestProto_Builder*) builder;
 + (BeginMiniJobRequestProto_Builder*) builderWithPrototype:(BeginMiniJobRequestProto*) prototype;
+- (BeginMiniJobRequestProto_Builder*) toBuilder;
 
 + (BeginMiniJobRequestProto*) parseFromData:(NSData*) data;
 + (BeginMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -326,7 +341,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (BeginMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginMiniJobRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginMiniJobRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginMiniJobRequestProto* result;
 }
@@ -346,7 +361,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginMiniJobRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginMiniJobRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginMiniJobRequestProto_Builder*) clearSender;
 
@@ -355,12 +370,12 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BeginMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
 - (BeginMiniJobRequestProto_Builder*) clearClientTime;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (BeginMiniJobRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (BeginMiniJobRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (BeginMiniJobRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (BeginMiniJobRequestProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (BeginMiniJobRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (BeginMiniJobRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (BeginMiniJobRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (BeginMiniJobRequestProto_Builder *)clearUserMonsterIds;
 
 - (BOOL) hasUserMiniJobId;
 - (int64_t) userMiniJobId;
@@ -377,7 +392,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) BeginMiniJobResponseProto_BeginMiniJobStatus status;
 
 + (BeginMiniJobResponseProto*) defaultInstance;
@@ -388,6 +403,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BeginMiniJobResponseProto_Builder*) builder;
 + (BeginMiniJobResponseProto_Builder*) builder;
 + (BeginMiniJobResponseProto_Builder*) builderWithPrototype:(BeginMiniJobResponseProto*) prototype;
+- (BeginMiniJobResponseProto_Builder*) toBuilder;
 
 + (BeginMiniJobResponseProto*) parseFromData:(NSData*) data;
 + (BeginMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -397,7 +413,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (BeginMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginMiniJobResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginMiniJobResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginMiniJobResponseProto* result;
 }
@@ -417,7 +433,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginMiniJobResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginMiniJobResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginMiniJobResponseProto_Builder*) clearSender;
 
@@ -445,7 +461,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasUserMiniJobId;
 - (BOOL) hasIsSpeedUp;
 - (BOOL) hasGemCost;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userMiniJobId;
 - (BOOL) isSpeedUp;
@@ -459,6 +475,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (CompleteMiniJobRequestProto_Builder*) builder;
 + (CompleteMiniJobRequestProto_Builder*) builder;
 + (CompleteMiniJobRequestProto_Builder*) builderWithPrototype:(CompleteMiniJobRequestProto*) prototype;
+- (CompleteMiniJobRequestProto_Builder*) toBuilder;
 
 + (CompleteMiniJobRequestProto*) parseFromData:(NSData*) data;
 + (CompleteMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -468,7 +485,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (CompleteMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CompleteMiniJobRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface CompleteMiniJobRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   CompleteMiniJobRequestProto* result;
 }
@@ -488,7 +505,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (CompleteMiniJobRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CompleteMiniJobRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CompleteMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (CompleteMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CompleteMiniJobRequestProto_Builder*) clearSender;
 
@@ -522,7 +539,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) CompleteMiniJobResponseProto_CompleteMiniJobStatus status;
 
 + (CompleteMiniJobResponseProto*) defaultInstance;
@@ -533,6 +550,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (CompleteMiniJobResponseProto_Builder*) builder;
 + (CompleteMiniJobResponseProto_Builder*) builder;
 + (CompleteMiniJobResponseProto_Builder*) builderWithPrototype:(CompleteMiniJobResponseProto*) prototype;
+- (CompleteMiniJobResponseProto_Builder*) toBuilder;
 
 + (CompleteMiniJobResponseProto*) parseFromData:(NSData*) data;
 + (CompleteMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -542,7 +560,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (CompleteMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CompleteMiniJobResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface CompleteMiniJobResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   CompleteMiniJobResponseProto* result;
 }
@@ -562,7 +580,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (CompleteMiniJobResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CompleteMiniJobResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CompleteMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (CompleteMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CompleteMiniJobResponseProto_Builder*) clearSender;
 
@@ -580,16 +598,16 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   int64_t clientTime;
   int64_t userMiniJobId;
   MinimumUserProtoWithMaxResources* sender;
-  NSMutableArray* mutableUmchpList;
+  NSMutableArray * mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasUserMiniJobId;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userMiniJobId;
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * umchpList;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
 
 + (RedeemMiniJobRequestProto*) defaultInstance;
 - (RedeemMiniJobRequestProto*) defaultInstance;
@@ -599,6 +617,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobRequestProto_Builder*) builder;
 + (RedeemMiniJobRequestProto_Builder*) builder;
 + (RedeemMiniJobRequestProto_Builder*) builderWithPrototype:(RedeemMiniJobRequestProto*) prototype;
+- (RedeemMiniJobRequestProto_Builder*) toBuilder;
 
 + (RedeemMiniJobRequestProto*) parseFromData:(NSData*) data;
 + (RedeemMiniJobRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -608,7 +627,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (RedeemMiniJobRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RedeemMiniJobRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RedeemMiniJobRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RedeemMiniJobRequestProto* result;
 }
@@ -628,7 +647,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (RedeemMiniJobRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (RedeemMiniJobRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RedeemMiniJobRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (RedeemMiniJobRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RedeemMiniJobRequestProto_Builder*) clearSender;
 
@@ -642,12 +661,11 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobRequestProto_Builder*) setUserMiniJobId:(int64_t) value;
 - (RedeemMiniJobRequestProto_Builder*) clearUserMiniJobId;
 
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
-- (RedeemMiniJobRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (RedeemMiniJobRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
-- (RedeemMiniJobRequestProto_Builder*) addAllUmchp:(NSArray*) values;
-- (RedeemMiniJobRequestProto_Builder*) clearUmchpList;
+- (NSMutableArray *)umchpList;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
+- (RedeemMiniJobRequestProto_Builder *)addUmchp:(UserMonsterCurrentHealthProto*)value;
+- (RedeemMiniJobRequestProto_Builder *)addAllUmchp:(NSArray *)array;
+- (RedeemMiniJobRequestProto_Builder *)clearUmchp;
 @end
 
 @interface RedeemMiniJobResponseProto : PBGeneratedMessage {
@@ -662,8 +680,8 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (BOOL) hasFump;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
-@property (readonly, retain) FullUserMonsterProto* fump;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) FullUserMonsterProto* fump;
 @property (readonly) RedeemMiniJobResponseProto_RedeemMiniJobStatus status;
 
 + (RedeemMiniJobResponseProto*) defaultInstance;
@@ -674,6 +692,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobResponseProto_Builder*) builder;
 + (RedeemMiniJobResponseProto_Builder*) builder;
 + (RedeemMiniJobResponseProto_Builder*) builderWithPrototype:(RedeemMiniJobResponseProto*) prototype;
+- (RedeemMiniJobResponseProto_Builder*) toBuilder;
 
 + (RedeemMiniJobResponseProto*) parseFromData:(NSData*) data;
 + (RedeemMiniJobResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -683,7 +702,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 + (RedeemMiniJobResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RedeemMiniJobResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RedeemMiniJobResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RedeemMiniJobResponseProto* result;
 }
@@ -703,14 +722,14 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (RedeemMiniJobResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (RedeemMiniJobResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RedeemMiniJobResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (RedeemMiniJobResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RedeemMiniJobResponseProto_Builder*) clearSender;
 
 - (BOOL) hasFump;
 - (FullUserMonsterProto*) fump;
 - (RedeemMiniJobResponseProto_Builder*) setFump:(FullUserMonsterProto*) value;
-- (RedeemMiniJobResponseProto_Builder*) setFumpBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (RedeemMiniJobResponseProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue;
 - (RedeemMiniJobResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
 - (RedeemMiniJobResponseProto_Builder*) clearFump;
 
@@ -720,3 +739,5 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

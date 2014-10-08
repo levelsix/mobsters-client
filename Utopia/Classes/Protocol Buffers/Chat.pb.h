@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ColorProto;
 @class ColorProto_Builder;
@@ -28,6 +29,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   GroupChatScopeClan = 1,
   GroupChatScopeGlobal = 2,
@@ -61,10 +74,10 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
 @property (readonly) int32_t privateChatPostId;
-@property (readonly, retain) MinimumUserProtoWithLevel* poster;
-@property (readonly, retain) MinimumUserProtoWithLevel* recipient;
+@property (readonly, strong) MinimumUserProtoWithLevel* poster;
+@property (readonly, strong) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
-@property (readonly, retain) NSString* content;
+@property (readonly, strong) NSString* content;
 
 + (PrivateChatPostProto*) defaultInstance;
 - (PrivateChatPostProto*) defaultInstance;
@@ -74,6 +87,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (PrivateChatPostProto_Builder*) builder;
 + (PrivateChatPostProto_Builder*) builder;
 + (PrivateChatPostProto_Builder*) builderWithPrototype:(PrivateChatPostProto*) prototype;
+- (PrivateChatPostProto_Builder*) toBuilder;
 
 + (PrivateChatPostProto*) parseFromData:(NSData*) data;
 + (PrivateChatPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -83,7 +97,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 + (PrivateChatPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PrivateChatPostProto_Builder : PBGeneratedMessage_Builder {
+@interface PrivateChatPostProto_Builder : PBGeneratedMessageBuilder {
 @private
   PrivateChatPostProto* result;
 }
@@ -108,14 +122,14 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (BOOL) hasPoster;
 - (MinimumUserProtoWithLevel*) poster;
 - (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProtoWithLevel*) value;
-- (PrivateChatPostProto_Builder*) setPosterBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) setPoster_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
 - (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProtoWithLevel*) value;
 - (PrivateChatPostProto_Builder*) clearPoster;
 
 - (BOOL) hasRecipient;
 - (MinimumUserProtoWithLevel*) recipient;
 - (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProtoWithLevel*) value;
-- (PrivateChatPostProto_Builder*) setRecipientBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) setRecipient_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
 - (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProtoWithLevel*) value;
 - (PrivateChatPostProto_Builder*) clearRecipient;
 
@@ -154,6 +168,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (ColorProto_Builder*) builder;
 + (ColorProto_Builder*) builder;
 + (ColorProto_Builder*) builderWithPrototype:(ColorProto*) prototype;
+- (ColorProto_Builder*) toBuilder;
 
 + (ColorProto*) parseFromData:(NSData*) data;
 + (ColorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -163,7 +178,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 + (ColorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ColorProto_Builder : PBGeneratedMessage_Builder {
+@interface ColorProto_Builder : PBGeneratedMessageBuilder {
 @private
   ColorProto* result;
 }
@@ -214,9 +229,9 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (BOOL) hasContent;
 - (BOOL) hasIsAdmin;
 - (BOOL) hasChatId;
-@property (readonly, retain) MinimumUserProtoWithLevel* sender;
+@property (readonly, strong) MinimumUserProtoWithLevel* sender;
 @property (readonly) int64_t timeOfChat;
-@property (readonly, retain) NSString* content;
+@property (readonly, strong) NSString* content;
 - (BOOL) isAdmin;
 @property (readonly) int32_t chatId;
 
@@ -228,6 +243,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (GroupChatMessageProto_Builder*) builder;
 + (GroupChatMessageProto_Builder*) builder;
 + (GroupChatMessageProto_Builder*) builderWithPrototype:(GroupChatMessageProto*) prototype;
+- (GroupChatMessageProto_Builder*) toBuilder;
 
 + (GroupChatMessageProto*) parseFromData:(NSData*) data;
 + (GroupChatMessageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -237,7 +253,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 + (GroupChatMessageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface GroupChatMessageProto_Builder : PBGeneratedMessage_Builder {
+@interface GroupChatMessageProto_Builder : PBGeneratedMessageBuilder {
 @private
   GroupChatMessageProto* result;
 }
@@ -257,7 +273,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (BOOL) hasSender;
 - (MinimumUserProtoWithLevel*) sender;
 - (GroupChatMessageProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value;
-- (GroupChatMessageProto_Builder*) setSenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (GroupChatMessageProto_Builder*) setSender_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
 - (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (GroupChatMessageProto_Builder*) clearSender;
 
@@ -282,3 +298,5 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (GroupChatMessageProto_Builder*) clearChatId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

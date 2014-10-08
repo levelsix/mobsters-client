@@ -17,6 +17,7 @@
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AchievementProto;
 @class AchievementProto_Builder;
@@ -236,6 +237,18 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   StartupResponseProto_UpdateStatusNoUpdate = 1,
   StartupResponseProto_UpdateStatusMinorUpdate = 2,
@@ -286,13 +299,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasIsForceTutorial;
 - (BOOL) hasFbId;
 - (BOOL) hasIsFreshRestart;
-@property (readonly, retain) NSString* udid;
+@property (readonly, strong) NSString* udid;
 @property (readonly) Float32 versionNum;
-@property (readonly, retain) NSString* apsalarId;
-@property (readonly, retain) NSString* macAddress;
-@property (readonly, retain) NSString* advertiserId;
+@property (readonly, strong) NSString* apsalarId;
+@property (readonly, strong) NSString* macAddress;
+@property (readonly, strong) NSString* advertiserId;
 - (BOOL) isForceTutorial;
-@property (readonly, retain) NSString* fbId;
+@property (readonly, strong) NSString* fbId;
 - (BOOL) isFreshRestart;
 
 + (StartupRequestProto*) defaultInstance;
@@ -303,6 +316,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupRequestProto_Builder*) builder;
 + (StartupRequestProto_Builder*) builder;
 + (StartupRequestProto_Builder*) builderWithPrototype:(StartupRequestProto*) prototype;
+- (StartupRequestProto_Builder*) toBuilder;
 
 + (StartupRequestProto*) parseFromData:(NSData*) data;
 + (StartupRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -312,7 +326,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface StartupRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   StartupRequestProto* result;
 }
@@ -404,31 +418,31 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   UserEnhancementProto* enhancements;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableRedeemedQuestIdsList;
-  NSMutableArray* mutableCompletedTaskIdsList;
-  NSMutableArray* mutableTaskIdForCurrentCityBossList;
-  NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableUsersMonstersList;
-  NSMutableArray* mutableMonstersHealingList;
-  NSMutableArray* mutablePcppList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableInvitesToMeForSlotsList;
-  NSMutableArray* mutableInvitesFromMeForSlotsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableUserEventsList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableCurRaidClanUserInfoList;
-  NSMutableArray* mutableRaidStageHistoryList;
-  NSMutableArray* mutableRecentNbattlesList;
-  NSMutableArray* mutableUserQuestsList;
-  NSMutableArray* mutableCurTaskStagesList;
-  NSMutableArray* mutableUserAchievementsList;
-  NSMutableArray* mutableUserMiniJobProtosList;
-  NSMutableArray* mutableUserItemsList;
-  NSMutableArray* mutableClanHelpingsList;
+  PBAppendableArray * mutableRedeemedQuestIdsList;
+  PBAppendableArray * mutableCompletedTaskIdsList;
+  PBAppendableArray * mutableTaskIdForCurrentCityBossList;
+  NSMutableArray * mutableNoticesToPlayersList;
+  NSMutableArray * mutableUsersMonstersList;
+  NSMutableArray * mutableMonstersHealingList;
+  NSMutableArray * mutablePcppList;
+  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutableRareBoosterPurchasesList;
+  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutableInvitesToMeForSlotsList;
+  NSMutableArray * mutableInvitesFromMeForSlotsList;
+  NSMutableArray * mutableReferralNotificationsList;
+  NSMutableArray * mutableAttackNotificationsList;
+  NSMutableArray * mutableUserEventsList;
+  NSMutableArray * mutableUserClanInfoList;
+  NSMutableArray * mutableCurRaidClanUserInfoList;
+  NSMutableArray * mutableRaidStageHistoryList;
+  NSMutableArray * mutableRecentNbattlesList;
+  NSMutableArray * mutableUserQuestsList;
+  NSMutableArray * mutableCurTaskStagesList;
+  NSMutableArray * mutableUserAchievementsList;
+  NSMutableArray * mutableUserMiniJobProtosList;
+  NSMutableArray * mutableUserItemsList;
+  NSMutableArray * mutableClanHelpingsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -447,71 +461,71 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCurRaidClanInfo;
 - (BOOL) hasCurTask;
 @property (readonly) int64_t serverTimeMillis;
-@property (readonly, retain) FullUserProto* sender;
+@property (readonly, strong) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
-@property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
-@property (readonly, retain) StartupResponseProto_TutorialConstants* tutorialConstants;
-@property (readonly, retain) NSString* appStoreUrl;
-@property (readonly, retain) NSString* reviewPageUrl;
-@property (readonly, retain) NSString* reviewPageConfirmationMessage;
+@property (readonly, strong) StartupResponseProto_StartupConstants* startupConstants;
+@property (readonly, strong) StartupResponseProto_TutorialConstants* tutorialConstants;
+@property (readonly, strong) NSArray * userQuestsList;
+@property (readonly, strong) PBArray * redeemedQuestIdsList;
+@property (readonly, strong) NSArray * userClanInfoList;
+@property (readonly, strong) PBArray * completedTaskIdsList;
+@property (readonly, strong) NSString* appStoreUrl;
+@property (readonly, strong) NSString* reviewPageUrl;
+@property (readonly, strong) NSString* reviewPageConfirmationMessage;
 - (BOOL) playerHasBoughtInAppPurchase;
-@property (readonly, retain) UserEnhancementProto* enhancements;
-@property (readonly, retain) UserMonsterEvolutionProto* evolution;
-@property (readonly, retain) NSString* kabamNaid;
-@property (readonly, retain) StaticDataProto* staticDataStuffProto;
-@property (readonly, retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
-@property (readonly, retain) MinimumUserTaskProto* curTask;
-- (NSArray*) userQuestsList;
-- (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
-- (NSArray*) redeemedQuestIdsList;
-- (int32_t) redeemedQuestIdsAtIndex:(int32_t) index;
-- (NSArray*) userClanInfoList;
-- (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
-- (NSArray*) completedTaskIdsList;
-- (int32_t) completedTaskIdsAtIndex:(int32_t) index;
-- (NSArray*) attackNotificationsList;
-- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
-- (NSArray*) referralNotificationsList;
-- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
-- (NSArray*) noticesToPlayersList;
-- (NSString*) noticesToPlayersAtIndex:(int32_t) index;
-- (NSArray*) globalChatsList;
-- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
-- (NSArray*) clanChatsList;
-- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
-- (NSArray*) pcppList;
-- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
-- (NSArray*) usersMonstersList;
-- (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
-- (NSArray*) monstersHealingList;
-- (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
-- (NSArray*) rareBoosterPurchasesList;
-- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
-- (NSArray*) invitesToMeForSlotsList;
-- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
-- (NSArray*) invitesFromMeForSlotsList;
-- (UserFacebookInviteForSlotProto*) invitesFromMeForSlotsAtIndex:(int32_t) index;
-- (NSArray*) taskIdForCurrentCityBossList;
-- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
-- (NSArray*) userEventsList;
-- (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index;
-- (NSArray*) curRaidClanUserInfoList;
-- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index;
-- (NSArray*) raidStageHistoryList;
-- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index;
-- (NSArray*) recentNbattlesList;
-- (PvpHistoryProto*) recentNbattlesAtIndex:(int32_t) index;
-- (NSArray*) curTaskStagesList;
-- (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index;
-- (NSArray*) userAchievementsList;
-- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index;
-- (NSArray*) userMiniJobProtosList;
-- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index;
-- (NSArray*) userItemsList;
-- (UserItemProto*) userItemsAtIndex:(int32_t) index;
-- (NSArray*) clanHelpingsList;
-- (ClanHelpProto*) clanHelpingsAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * attackNotificationsList;
+@property (readonly, strong) NSArray * referralNotificationsList;
+@property (readonly, strong) NSArray * noticesToPlayersList;
+@property (readonly, strong) NSArray * globalChatsList;
+@property (readonly, strong) NSArray * clanChatsList;
+@property (readonly, strong) NSArray * pcppList;
+@property (readonly, strong) NSArray * usersMonstersList;
+@property (readonly, strong) NSArray * monstersHealingList;
+@property (readonly, strong) UserEnhancementProto* enhancements;
+@property (readonly, strong) UserMonsterEvolutionProto* evolution;
+@property (readonly, strong) NSArray * rareBoosterPurchasesList;
+@property (readonly, strong) NSString* kabamNaid;
+@property (readonly, strong) NSArray * invitesToMeForSlotsList;
+@property (readonly, strong) NSArray * invitesFromMeForSlotsList;
+@property (readonly, strong) StaticDataProto* staticDataStuffProto;
+@property (readonly, strong) PBArray * taskIdForCurrentCityBossList;
+@property (readonly, strong) NSArray * userEventsList;
+@property (readonly, strong) PersistentClanEventClanInfoProto* curRaidClanInfo;
+@property (readonly, strong) NSArray * curRaidClanUserInfoList;
+@property (readonly, strong) NSArray * raidStageHistoryList;
+@property (readonly, strong) NSArray * recentNbattlesList;
+@property (readonly, strong) MinimumUserTaskProto* curTask;
+@property (readonly, strong) NSArray * curTaskStagesList;
+@property (readonly, strong) NSArray * userAchievementsList;
+@property (readonly, strong) NSArray * userMiniJobProtosList;
+@property (readonly, strong) NSArray * userItemsList;
+@property (readonly, strong) NSArray * clanHelpingsList;
+- (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
+- (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
+- (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
+- (int32_t)completedTaskIdsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_AttackedNotificationProto*)attackNotificationsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_ReferralNotificationProto*)referralNotificationsAtIndex:(NSUInteger)index;
+- (NSString*)noticesToPlayersAtIndex:(NSUInteger)index;
+- (GroupChatMessageProto*)globalChatsAtIndex:(NSUInteger)index;
+- (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
+- (PrivateChatPostProto*)pcppAtIndex:(NSUInteger)index;
+- (FullUserMonsterProto*)usersMonstersAtIndex:(NSUInteger)index;
+- (UserMonsterHealingProto*)monstersHealingAtIndex:(NSUInteger)index;
+- (RareBoosterPurchaseProto*)rareBoosterPurchasesAtIndex:(NSUInteger)index;
+- (UserFacebookInviteForSlotProto*)invitesToMeForSlotsAtIndex:(NSUInteger)index;
+- (UserFacebookInviteForSlotProto*)invitesFromMeForSlotsAtIndex:(NSUInteger)index;
+- (int32_t)taskIdForCurrentCityBossAtIndex:(NSUInteger)index;
+- (UserPersistentEventProto*)userEventsAtIndex:(NSUInteger)index;
+- (PersistentClanEventUserInfoProto*)curRaidClanUserInfoAtIndex:(NSUInteger)index;
+- (PersistentClanEventRaidStageHistoryProto*)raidStageHistoryAtIndex:(NSUInteger)index;
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index;
+- (TaskStageProto*)curTaskStagesAtIndex:(NSUInteger)index;
+- (UserAchievementProto*)userAchievementsAtIndex:(NSUInteger)index;
+- (UserMiniJobProto*)userMiniJobProtosAtIndex:(NSUInteger)index;
+- (UserItemProto*)userItemsAtIndex:(NSUInteger)index;
+- (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -521,6 +535,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) builder;
 + (StartupResponseProto_Builder*) builder;
 + (StartupResponseProto_Builder*) builderWithPrototype:(StartupResponseProto*) prototype;
+- (StartupResponseProto_Builder*) toBuilder;
 
 + (StartupResponseProto*) parseFromData:(NSData*) data;
 + (StartupResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -542,7 +557,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasAttacker;
 - (BOOL) hasBattleCompleteTime;
 - (BOOL) hasCoinsStolen;
-@property (readonly, retain) MinimumUserProto* attacker;
+@property (readonly, strong) MinimumUserProto* attacker;
 @property (readonly) int64_t battleCompleteTime;
 @property (readonly) int32_t coinsStolen;
 
@@ -554,6 +569,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_AttackedNotificationProto_Builder*) builder;
 + (StartupResponseProto_AttackedNotificationProto_Builder*) builder;
 + (StartupResponseProto_AttackedNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_AttackedNotificationProto*) prototype;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) toBuilder;
 
 + (StartupResponseProto_AttackedNotificationProto*) parseFromData:(NSData*) data;
 + (StartupResponseProto_AttackedNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -563,7 +579,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_AttackedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_AttackedNotificationProto_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_AttackedNotificationProto_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_AttackedNotificationProto* result;
 }
@@ -583,7 +599,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasAttacker;
 - (MinimumUserProto*) attacker;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) setAttacker:(MinimumUserProto*) value;
-- (StartupResponseProto_AttackedNotificationProto_Builder*) setAttackerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) clearAttacker;
 
@@ -610,7 +626,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasReferred;
 - (BOOL) hasRecruitTime;
 - (BOOL) hasCoinsGivenToReferrer;
-@property (readonly, retain) MinimumUserProto* referred;
+@property (readonly, strong) MinimumUserProto* referred;
 @property (readonly) int64_t recruitTime;
 @property (readonly) int32_t coinsGivenToReferrer;
 
@@ -622,6 +638,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_ReferralNotificationProto_Builder*) builder;
 + (StartupResponseProto_ReferralNotificationProto_Builder*) builder;
 + (StartupResponseProto_ReferralNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_ReferralNotificationProto*) prototype;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) toBuilder;
 
 + (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data;
 + (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -631,7 +648,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_ReferralNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_ReferralNotificationProto_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_ReferralNotificationProto_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_ReferralNotificationProto* result;
 }
@@ -651,7 +668,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasReferred;
 - (MinimumUserProto*) referred;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) setReferred:(MinimumUserProto*) value;
-- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferredBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferred_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) mergeReferred:(MinimumUserProto*) value;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) clearReferred;
 
@@ -726,8 +743,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
-  NSMutableArray* mutableAnimatedSpriteOffsetsList;
-  NSMutableArray* mutableInAppPurchasePackagesList;
+  NSMutableArray * mutableAnimatedSpriteOffsetsList;
+  NSMutableArray * mutableInAppPurchasePackagesList;
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
@@ -758,22 +775,24 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMinutesPerObstacle;
 - (BOOL) hasTaskMapConstants;
 - (BOOL) hasMaxMinutesForFreeSpeedUp;
+@property (readonly, strong) NSArray * inAppPurchasePackagesList;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
+@property (readonly, strong) NSArray * animatedSpriteOffsetsList;
 @property (readonly) int32_t minNameLength;
 @property (readonly) int32_t maxNameLength;
 @property (readonly) int32_t maxLengthOfChatString;
-@property (readonly, retain) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-@property (readonly, retain) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
 @property (readonly) int32_t numHoursBeforeReshowingGoldSale;
 @property (readonly) int32_t levelToShowRateUsPopup;
-@property (readonly, retain) StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
 @property (readonly) int32_t fbConnectRewardDiamonds;
-@property (readonly, retain) NSString* faqFileName;
-@property (readonly, retain) MinimumUserProto* adminChatUserProto;
+@property (readonly, strong) NSString* faqFileName;
+@property (readonly, strong) MinimumUserProto* adminChatUserProto;
 @property (readonly) int32_t numBeginnerSalesAllowed;
-@property (readonly, retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
-@property (readonly, retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 @property (readonly) Float32 minutesPerGem;
 @property (readonly) Float32 gemsPerResource;
 @property (readonly) int32_t pvpRequiredMinLvl;
@@ -782,15 +801,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) Float32 battleRunAwayBasePercent;
 @property (readonly) Float32 battleRunAwayIncrement;
 - (BOOL) addAllFbFriends;
-@property (readonly, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+@property (readonly, strong) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @property (readonly) int32_t maxObstacles;
 @property (readonly) int32_t minutesPerObstacle;
-@property (readonly, retain) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
+@property (readonly, strong) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 @property (readonly) int32_t maxMinutesForFreeSpeedUp;
-- (NSArray*) inAppPurchasePackagesList;
-- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
-- (NSArray*) animatedSpriteOffsetsList;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
+- (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -800,6 +817,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants*) prototype;
+- (StartupResponseProto_StartupConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -818,8 +836,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 }
 - (BOOL) hasImageName;
 - (BOOL) hasOffSet;
-@property (readonly, retain) NSString* imageName;
-@property (readonly, retain) CoordinateProto* offSet;
+@property (readonly, strong) NSString* imageName;
+@property (readonly, strong) CoordinateProto* offSet;
 
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
@@ -829,6 +847,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -838,7 +857,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
 }
@@ -863,7 +882,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasOffSet;
 - (CoordinateProto*) offSet;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet_Builder:(CoordinateProto_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet;
 @end
@@ -900,6 +919,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ClanConstants*) prototype;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -909,7 +929,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_ClanConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_ClanConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_ClanConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_ClanConstants* result;
 }
@@ -964,9 +984,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMapNibName;
 - (BOOL) hasExpansionNibName;
 - (BOOL) hasGoldShoppeNibName;
-@property (readonly, retain) NSString* mapNibName;
-@property (readonly, retain) NSString* expansionNibName;
-@property (readonly, retain) NSString* goldShoppeNibName;
+@property (readonly, strong) NSString* mapNibName;
+@property (readonly, strong) NSString* expansionNibName;
+@property (readonly, strong) NSString* goldShoppeNibName;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
@@ -976,6 +996,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) prototype;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -985,7 +1006,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_DownloadableNibConstants* result;
 }
@@ -1046,6 +1067,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_TournamentConstants*) prototype;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1055,7 +1077,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_TournamentConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_TournamentConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_TournamentConstants* result;
 }
@@ -1113,6 +1135,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_UserMonsterConstants*) prototype;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1122,7 +1145,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_UserMonsterConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_UserMonsterConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_UserMonsterConstants* result;
 }
@@ -1182,6 +1205,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MonsterConstants*) prototype;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1191,7 +1215,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_MonsterConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_MonsterConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_MonsterConstants* result;
 }
@@ -1252,7 +1276,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMapSectionHeight;
 - (BOOL) hasMapTotalWidth;
 - (BOOL) hasMapTotalHeight;
-@property (readonly, retain) NSString* mapSectionImagePrefix;
+@property (readonly, strong) NSString* mapSectionImagePrefix;
 @property (readonly) int32_t mapNumberOfSections;
 @property (readonly) Float32 mapSectionHeight;
 @property (readonly) Float32 mapTotalWidth;
@@ -1266,6 +1290,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_TaskMapConstants*) prototype;
+- (StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1275,7 +1300,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_TaskMapConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_TaskMapConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_TaskMapConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_TaskMapConstants* result;
 }
@@ -1338,6 +1363,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder;
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) prototype;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1347,7 +1373,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants_MiniTutorialConstants* result;
 }
@@ -1375,7 +1401,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId;
 @end
 
-@interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants* result;
 }
@@ -1392,12 +1418,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (NSArray*) inAppPurchasePackagesList;
-- (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
-- (StartupResponseProto_StartupConstants_Builder*) replaceInAppPurchasePackagesAtIndex:(int32_t) index with:(InAppPurchasePackageProto*) value;
-- (StartupResponseProto_StartupConstants_Builder*) addInAppPurchasePackages:(InAppPurchasePackageProto*) value;
-- (StartupResponseProto_StartupConstants_Builder*) addAllInAppPurchasePackages:(NSArray*) values;
-- (StartupResponseProto_StartupConstants_Builder*) clearInAppPurchasePackagesList;
+- (NSMutableArray *)inAppPurchasePackagesList;
+- (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_Builder *)addInAppPurchasePackages:(InAppPurchasePackageProto*)value;
+- (StartupResponseProto_StartupConstants_Builder *)addAllInAppPurchasePackages:(NSArray *)array;
+- (StartupResponseProto_StartupConstants_Builder *)clearInAppPurchasePackages;
 
 - (BOOL) hasMaxLevelForUser;
 - (int32_t) maxLevelForUser;
@@ -1409,12 +1434,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setMaxNumOfSingleStruct:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxNumOfSingleStruct;
 
-- (NSArray*) animatedSpriteOffsetsList;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
-- (StartupResponseProto_StartupConstants_Builder*) replaceAnimatedSpriteOffsetsAtIndex:(int32_t) index with:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
-- (StartupResponseProto_StartupConstants_Builder*) addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
-- (StartupResponseProto_StartupConstants_Builder*) addAllAnimatedSpriteOffsets:(NSArray*) values;
-- (StartupResponseProto_StartupConstants_Builder*) clearAnimatedSpriteOffsetsList;
+- (NSMutableArray *)animatedSpriteOffsetsList;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_Builder *)addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)value;
+- (StartupResponseProto_StartupConstants_Builder *)addAllAnimatedSpriteOffsets:(NSArray *)array;
+- (StartupResponseProto_StartupConstants_Builder *)clearAnimatedSpriteOffsets;
 
 - (BOOL) hasMinNameLength;
 - (int32_t) minNameLength;
@@ -1434,14 +1458,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasClanConstants;
 - (StartupResponseProto_StartupConstants_ClanConstants*) clanConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setClanConstants:(StartupResponseProto_StartupConstants_ClanConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setClanConstantsBuilder:(StartupResponseProto_StartupConstants_ClanConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setClanConstants_Builder:(StartupResponseProto_StartupConstants_ClanConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeClanConstants:(StartupResponseProto_StartupConstants_ClanConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearClanConstants;
 
 - (BOOL) hasDownloadableNibConstants;
 - (StartupResponseProto_StartupConstants_DownloadableNibConstants*) downloadableNibConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstantsBuilder:(StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setDownloadableNibConstants_Builder:(StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeDownloadableNibConstants:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearDownloadableNibConstants;
 
@@ -1458,7 +1482,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasTouramentConstants;
 - (StartupResponseProto_StartupConstants_TournamentConstants*) touramentConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setTouramentConstants:(StartupResponseProto_StartupConstants_TournamentConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setTouramentConstantsBuilder:(StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setTouramentConstants_Builder:(StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeTouramentConstants:(StartupResponseProto_StartupConstants_TournamentConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearTouramentConstants;
 
@@ -1475,7 +1499,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasAdminChatUserProto;
 - (MinimumUserProto*) adminChatUserProto;
 - (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserProto:(MinimumUserProto*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setAdminChatUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeAdminChatUserProto:(MinimumUserProto*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearAdminChatUserProto;
 
@@ -1487,14 +1511,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasUserMonsterConstants;
 - (StartupResponseProto_StartupConstants_UserMonsterConstants*) userMonsterConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstants:(StartupResponseProto_StartupConstants_UserMonsterConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstants_Builder:(StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeUserMonsterConstants:(StartupResponseProto_StartupConstants_UserMonsterConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearUserMonsterConstants;
 
 - (BOOL) hasMonsterConstants;
 - (StartupResponseProto_StartupConstants_MonsterConstants*) monsterConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstants_Builder:(StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMonsterConstants;
 
@@ -1541,7 +1565,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMiniTuts;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants*) miniTuts;
 - (StartupResponseProto_StartupConstants_Builder*) setMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setMiniTutsBuilder:(StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setMiniTuts_Builder:(StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMiniTuts;
 
@@ -1558,7 +1582,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasTaskMapConstants;
 - (StartupResponseProto_StartupConstants_TaskMapConstants*) taskMapConstants;
 - (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstants:(StartupResponseProto_StartupConstants_TaskMapConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstantsBuilder:(StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) setTaskMapConstants_Builder:(StartupResponseProto_StartupConstants_TaskMapConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeTaskMapConstants:(StartupResponseProto_StartupConstants_TaskMapConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearTaskMapConstants;
 
@@ -1594,10 +1618,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t cashInit;
   int32_t oilInit;
   int32_t gemsInit;
-  NSMutableArray* mutableStructureIdsToBeBuilltList;
-  NSMutableArray* mutableTutorialStructuresList;
-  NSMutableArray* mutableCityOneElementsList;
-  NSMutableArray* mutableTutorialObstaclesList;
+  PBAppendableArray * mutableStructureIdsToBeBuilltList;
+  NSMutableArray * mutableTutorialStructuresList;
+  NSMutableArray * mutableCityOneElementsList;
+  NSMutableArray * mutableTutorialObstaclesList;
 }
 - (BOOL) hasStartingMonsterId;
 - (BOOL) hasGuideMonsterId;
@@ -1617,20 +1641,20 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t enemyMonsterIdTwo;
 @property (readonly) int32_t enemyBossMonsterId;
 @property (readonly) int32_t markZmonsterId;
+@property (readonly, strong) NSArray * tutorialStructuresList;
+@property (readonly, strong) PBArray * structureIdsToBeBuilltList;
 @property (readonly) int32_t cityId;
+@property (readonly, strong) NSArray * cityOneElementsList;
 @property (readonly) int32_t cityElementIdForFirstDungeon;
 @property (readonly) int32_t cityElementIdForSecondDungeon;
 @property (readonly) int32_t cashInit;
 @property (readonly) int32_t oilInit;
 @property (readonly) int32_t gemsInit;
-- (NSArray*) tutorialStructuresList;
-- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index;
-- (NSArray*) structureIdsToBeBuilltList;
-- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index;
-- (NSArray*) cityOneElementsList;
-- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index;
-- (NSArray*) tutorialObstaclesList;
-- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * tutorialObstaclesList;
+- (TutorialStructProto*)tutorialStructuresAtIndex:(NSUInteger)index;
+- (int32_t)structureIdsToBeBuilltAtIndex:(NSUInteger)index;
+- (CityElementProto*)cityOneElementsAtIndex:(NSUInteger)index;
+- (MinimumObstacleProto*)tutorialObstaclesAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto_TutorialConstants*) defaultInstance;
 - (StartupResponseProto_TutorialConstants*) defaultInstance;
@@ -1640,6 +1664,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_TutorialConstants_Builder*) builder;
 + (StartupResponseProto_TutorialConstants_Builder*) builder;
 + (StartupResponseProto_TutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants*) prototype;
+- (StartupResponseProto_TutorialConstants_Builder*) toBuilder;
 
 + (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data;
 + (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1649,7 +1674,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StartupResponseProto_TutorialConstants_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_TutorialConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_TutorialConstants* result;
 }
@@ -1696,31 +1721,29 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_TutorialConstants_Builder*) setMarkZmonsterId:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearMarkZmonsterId;
 
-- (NSArray*) tutorialStructuresList;
-- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index;
-- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialStructuresAtIndex:(int32_t) index with:(TutorialStructProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addTutorialStructures:(TutorialStructProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialStructures:(NSArray*) values;
-- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialStructuresList;
+- (NSMutableArray *)tutorialStructuresList;
+- (TutorialStructProto*)tutorialStructuresAtIndex:(NSUInteger)index;
+- (StartupResponseProto_TutorialConstants_Builder *)addTutorialStructures:(TutorialStructProto*)value;
+- (StartupResponseProto_TutorialConstants_Builder *)addAllTutorialStructures:(NSArray *)array;
+- (StartupResponseProto_TutorialConstants_Builder *)clearTutorialStructures;
 
-- (NSArray*) structureIdsToBeBuilltList;
-- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index;
-- (StartupResponseProto_TutorialConstants_Builder*) replaceStructureIdsToBeBuilltAtIndex:(int32_t) index with:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addStructureIdsToBeBuillt:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addAllStructureIdsToBeBuillt:(NSArray*) values;
-- (StartupResponseProto_TutorialConstants_Builder*) clearStructureIdsToBeBuilltList;
+- (PBAppendableArray *)structureIdsToBeBuilltList;
+- (int32_t)structureIdsToBeBuilltAtIndex:(NSUInteger)index;
+- (StartupResponseProto_TutorialConstants_Builder *)addStructureIdsToBeBuillt:(int32_t)value;
+- (StartupResponseProto_TutorialConstants_Builder *)addAllStructureIdsToBeBuillt:(NSArray *)array;
+- (StartupResponseProto_TutorialConstants_Builder *)setStructureIdsToBeBuilltValues:(const int32_t *)values count:(NSUInteger)count;
+- (StartupResponseProto_TutorialConstants_Builder *)clearStructureIdsToBeBuillt;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
 - (StartupResponseProto_TutorialConstants_Builder*) setCityId:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearCityId;
 
-- (NSArray*) cityOneElementsList;
-- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index;
-- (StartupResponseProto_TutorialConstants_Builder*) replaceCityOneElementsAtIndex:(int32_t) index with:(CityElementProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addCityOneElements:(CityElementProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addAllCityOneElements:(NSArray*) values;
-- (StartupResponseProto_TutorialConstants_Builder*) clearCityOneElementsList;
+- (NSMutableArray *)cityOneElementsList;
+- (CityElementProto*)cityOneElementsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_TutorialConstants_Builder *)addCityOneElements:(CityElementProto*)value;
+- (StartupResponseProto_TutorialConstants_Builder *)addAllCityOneElements:(NSArray *)array;
+- (StartupResponseProto_TutorialConstants_Builder *)clearCityOneElements;
 
 - (BOOL) hasCityElementIdForFirstDungeon;
 - (int32_t) cityElementIdForFirstDungeon;
@@ -1747,15 +1770,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit;
 
-- (NSArray*) tutorialObstaclesList;
-- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index;
-- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addTutorialObstacles:(MinimumObstacleProto*) value;
-- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialObstacles:(NSArray*) values;
-- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialObstaclesList;
+- (NSMutableArray *)tutorialObstaclesList;
+- (MinimumObstacleProto*)tutorialObstaclesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_TutorialConstants_Builder *)addTutorialObstacles:(MinimumObstacleProto*)value;
+- (StartupResponseProto_TutorialConstants_Builder *)addAllTutorialObstacles:(NSArray *)array;
+- (StartupResponseProto_TutorialConstants_Builder *)clearTutorialObstacles;
 @end
 
-@interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface StartupResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto* result;
 }
@@ -1780,7 +1802,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasSender;
 - (FullUserProto*) sender;
 - (StartupResponseProto_Builder*) setSender:(FullUserProto*) value;
-- (StartupResponseProto_Builder*) setSenderBuilder:(FullUserProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setSender_Builder:(FullUserProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeSender:(FullUserProto*) value;
 - (StartupResponseProto_Builder*) clearSender;
 
@@ -1797,44 +1819,42 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasStartupConstants;
 - (StartupResponseProto_StartupConstants*) startupConstants;
 - (StartupResponseProto_Builder*) setStartupConstants:(StartupResponseProto_StartupConstants*) value;
-- (StartupResponseProto_Builder*) setStartupConstantsBuilder:(StartupResponseProto_StartupConstants_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setStartupConstants_Builder:(StartupResponseProto_StartupConstants_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value;
 - (StartupResponseProto_Builder*) clearStartupConstants;
 
 - (BOOL) hasTutorialConstants;
 - (StartupResponseProto_TutorialConstants*) tutorialConstants;
 - (StartupResponseProto_Builder*) setTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
-- (StartupResponseProto_Builder*) setTutorialConstantsBuilder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setTutorialConstants_Builder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
 - (StartupResponseProto_Builder*) clearTutorialConstants;
 
-- (NSArray*) userQuestsList;
-- (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserQuestsAtIndex:(int32_t) index with:(FullUserQuestProto*) value;
-- (StartupResponseProto_Builder*) addUserQuests:(FullUserQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllUserQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserQuestsList;
+- (NSMutableArray *)userQuestsList;
+- (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserQuests:(FullUserQuestProto*)value;
+- (StartupResponseProto_Builder *)addAllUserQuests:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserQuests;
 
-- (NSArray*) redeemedQuestIdsList;
-- (int32_t) redeemedQuestIdsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceRedeemedQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (StartupResponseProto_Builder*) addRedeemedQuestIds:(int32_t) value;
-- (StartupResponseProto_Builder*) addAllRedeemedQuestIds:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearRedeemedQuestIdsList;
+- (PBAppendableArray *)redeemedQuestIdsList;
+- (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addRedeemedQuestIds:(int32_t)value;
+- (StartupResponseProto_Builder *)addAllRedeemedQuestIds:(NSArray *)array;
+- (StartupResponseProto_Builder *)setRedeemedQuestIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (StartupResponseProto_Builder *)clearRedeemedQuestIds;
 
-- (NSArray*) userClanInfoList;
-- (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserClanInfoAtIndex:(int32_t) index with:(FullUserClanProto*) value;
-- (StartupResponseProto_Builder*) addUserClanInfo:(FullUserClanProto*) value;
-- (StartupResponseProto_Builder*) addAllUserClanInfo:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserClanInfoList;
+- (NSMutableArray *)userClanInfoList;
+- (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserClanInfo:(FullUserClanProto*)value;
+- (StartupResponseProto_Builder *)addAllUserClanInfo:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserClanInfo;
 
-- (NSArray*) completedTaskIdsList;
-- (int32_t) completedTaskIdsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceCompletedTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (StartupResponseProto_Builder*) addCompletedTaskIds:(int32_t) value;
-- (StartupResponseProto_Builder*) addAllCompletedTaskIds:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearCompletedTaskIdsList;
+- (PBAppendableArray *)completedTaskIdsList;
+- (int32_t)completedTaskIdsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addCompletedTaskIds:(int32_t)value;
+- (StartupResponseProto_Builder *)addAllCompletedTaskIds:(NSArray *)array;
+- (StartupResponseProto_Builder *)setCompletedTaskIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (StartupResponseProto_Builder *)clearCompletedTaskIds;
 
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;
@@ -1856,192 +1876,172 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value;
 - (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase;
 
-- (NSArray*) attackNotificationsList;
-- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceAttackNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_AttackedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAllAttackNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearAttackNotificationsList;
+- (NSMutableArray *)attackNotificationsList;
+- (StartupResponseProto_AttackedNotificationProto*)attackNotificationsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*)value;
+- (StartupResponseProto_Builder *)addAllAttackNotifications:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearAttackNotifications;
 
-- (NSArray*) referralNotificationsList;
-- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceReferralNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_ReferralNotificationProto*) value;
-- (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearReferralNotificationsList;
+- (NSMutableArray *)referralNotificationsList;
+- (StartupResponseProto_ReferralNotificationProto*)referralNotificationsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*)value;
+- (StartupResponseProto_Builder *)addAllReferralNotifications:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearReferralNotifications;
 
-- (NSArray*) noticesToPlayersList;
-- (NSString*) noticesToPlayersAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceNoticesToPlayersAtIndex:(int32_t) index with:(NSString*) value;
-- (StartupResponseProto_Builder*) addNoticesToPlayers:(NSString*) value;
-- (StartupResponseProto_Builder*) addAllNoticesToPlayers:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearNoticesToPlayersList;
+- (NSMutableArray *)noticesToPlayersList;
+- (NSString*)noticesToPlayersAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addNoticesToPlayers:(NSString*)value;
+- (StartupResponseProto_Builder *)addAllNoticesToPlayers:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearNoticesToPlayers;
 
-- (NSArray*) globalChatsList;
-- (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceGlobalChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
-- (StartupResponseProto_Builder*) addGlobalChats:(GroupChatMessageProto*) value;
-- (StartupResponseProto_Builder*) addAllGlobalChats:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearGlobalChatsList;
+- (NSMutableArray *)globalChatsList;
+- (GroupChatMessageProto*)globalChatsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addGlobalChats:(GroupChatMessageProto*)value;
+- (StartupResponseProto_Builder *)addAllGlobalChats:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearGlobalChats;
 
-- (NSArray*) clanChatsList;
-- (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceClanChatsAtIndex:(int32_t) index with:(GroupChatMessageProto*) value;
-- (StartupResponseProto_Builder*) addClanChats:(GroupChatMessageProto*) value;
-- (StartupResponseProto_Builder*) addAllClanChats:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearClanChatsList;
+- (NSMutableArray *)clanChatsList;
+- (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addClanChats:(GroupChatMessageProto*)value;
+- (StartupResponseProto_Builder *)addAllClanChats:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearClanChats;
 
-- (NSArray*) pcppList;
-- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replacePcppAtIndex:(int32_t) index with:(PrivateChatPostProto*) value;
-- (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
-- (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearPcppList;
+- (NSMutableArray *)pcppList;
+- (PrivateChatPostProto*)pcppAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addPcpp:(PrivateChatPostProto*)value;
+- (StartupResponseProto_Builder *)addAllPcpp:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearPcpp;
 
-- (NSArray*) usersMonstersList;
-- (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUsersMonstersAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (StartupResponseProto_Builder*) addUsersMonsters:(FullUserMonsterProto*) value;
-- (StartupResponseProto_Builder*) addAllUsersMonsters:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUsersMonstersList;
+- (NSMutableArray *)usersMonstersList;
+- (FullUserMonsterProto*)usersMonstersAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUsersMonsters:(FullUserMonsterProto*)value;
+- (StartupResponseProto_Builder *)addAllUsersMonsters:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUsersMonsters;
 
-- (NSArray*) monstersHealingList;
-- (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceMonstersHealingAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
-- (StartupResponseProto_Builder*) addMonstersHealing:(UserMonsterHealingProto*) value;
-- (StartupResponseProto_Builder*) addAllMonstersHealing:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearMonstersHealingList;
+- (NSMutableArray *)monstersHealingList;
+- (UserMonsterHealingProto*)monstersHealingAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addMonstersHealing:(UserMonsterHealingProto*)value;
+- (StartupResponseProto_Builder *)addAllMonstersHealing:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearMonstersHealing;
 
 - (BOOL) hasEnhancements;
 - (UserEnhancementProto*) enhancements;
 - (StartupResponseProto_Builder*) setEnhancements:(UserEnhancementProto*) value;
-- (StartupResponseProto_Builder*) setEnhancementsBuilder:(UserEnhancementProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setEnhancements_Builder:(UserEnhancementProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeEnhancements:(UserEnhancementProto*) value;
 - (StartupResponseProto_Builder*) clearEnhancements;
 
 - (BOOL) hasEvolution;
 - (UserMonsterEvolutionProto*) evolution;
 - (StartupResponseProto_Builder*) setEvolution:(UserMonsterEvolutionProto*) value;
-- (StartupResponseProto_Builder*) setEvolutionBuilder:(UserMonsterEvolutionProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setEvolution_Builder:(UserMonsterEvolutionProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeEvolution:(UserMonsterEvolutionProto*) value;
 - (StartupResponseProto_Builder*) clearEvolution;
 
-- (NSArray*) rareBoosterPurchasesList;
-- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceRareBoosterPurchasesAtIndex:(int32_t) index with:(RareBoosterPurchaseProto*) value;
-- (StartupResponseProto_Builder*) addRareBoosterPurchases:(RareBoosterPurchaseProto*) value;
-- (StartupResponseProto_Builder*) addAllRareBoosterPurchases:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearRareBoosterPurchasesList;
+- (NSMutableArray *)rareBoosterPurchasesList;
+- (RareBoosterPurchaseProto*)rareBoosterPurchasesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addRareBoosterPurchases:(RareBoosterPurchaseProto*)value;
+- (StartupResponseProto_Builder *)addAllRareBoosterPurchases:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearRareBoosterPurchases;
 
 - (BOOL) hasKabamNaid;
 - (NSString*) kabamNaid;
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
 
-- (NSArray*) invitesToMeForSlotsList;
-- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceInvitesToMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
-- (StartupResponseProto_Builder*) addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*) value;
-- (StartupResponseProto_Builder*) addAllInvitesToMeForSlots:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearInvitesToMeForSlotsList;
+- (NSMutableArray *)invitesToMeForSlotsList;
+- (UserFacebookInviteForSlotProto*)invitesToMeForSlotsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*)value;
+- (StartupResponseProto_Builder *)addAllInvitesToMeForSlots:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearInvitesToMeForSlots;
 
-- (NSArray*) invitesFromMeForSlotsList;
-- (UserFacebookInviteForSlotProto*) invitesFromMeForSlotsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceInvitesFromMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
-- (StartupResponseProto_Builder*) addInvitesFromMeForSlots:(UserFacebookInviteForSlotProto*) value;
-- (StartupResponseProto_Builder*) addAllInvitesFromMeForSlots:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearInvitesFromMeForSlotsList;
+- (NSMutableArray *)invitesFromMeForSlotsList;
+- (UserFacebookInviteForSlotProto*)invitesFromMeForSlotsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addInvitesFromMeForSlots:(UserFacebookInviteForSlotProto*)value;
+- (StartupResponseProto_Builder *)addAllInvitesFromMeForSlots:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearInvitesFromMeForSlots;
 
 - (BOOL) hasStaticDataStuffProto;
 - (StaticDataProto*) staticDataStuffProto;
 - (StartupResponseProto_Builder*) setStaticDataStuffProto:(StaticDataProto*) value;
-- (StartupResponseProto_Builder*) setStaticDataStuffProtoBuilder:(StaticDataProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setStaticDataStuffProto_Builder:(StaticDataProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeStaticDataStuffProto:(StaticDataProto*) value;
 - (StartupResponseProto_Builder*) clearStaticDataStuffProto;
 
-- (NSArray*) taskIdForCurrentCityBossList;
-- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceTaskIdForCurrentCityBossAtIndex:(int32_t) index with:(int32_t) value;
-- (StartupResponseProto_Builder*) addTaskIdForCurrentCityBoss:(int32_t) value;
-- (StartupResponseProto_Builder*) addAllTaskIdForCurrentCityBoss:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearTaskIdForCurrentCityBossList;
+- (PBAppendableArray *)taskIdForCurrentCityBossList;
+- (int32_t)taskIdForCurrentCityBossAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addTaskIdForCurrentCityBoss:(int32_t)value;
+- (StartupResponseProto_Builder *)addAllTaskIdForCurrentCityBoss:(NSArray *)array;
+- (StartupResponseProto_Builder *)setTaskIdForCurrentCityBossValues:(const int32_t *)values count:(NSUInteger)count;
+- (StartupResponseProto_Builder *)clearTaskIdForCurrentCityBoss;
 
-- (NSArray*) userEventsList;
-- (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserEventsAtIndex:(int32_t) index with:(UserPersistentEventProto*) value;
-- (StartupResponseProto_Builder*) addUserEvents:(UserPersistentEventProto*) value;
-- (StartupResponseProto_Builder*) addAllUserEvents:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserEventsList;
+- (NSMutableArray *)userEventsList;
+- (UserPersistentEventProto*)userEventsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserEvents:(UserPersistentEventProto*)value;
+- (StartupResponseProto_Builder *)addAllUserEvents:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserEvents;
 
 - (BOOL) hasCurRaidClanInfo;
 - (PersistentClanEventClanInfoProto*) curRaidClanInfo;
 - (StartupResponseProto_Builder*) setCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value;
-- (StartupResponseProto_Builder*) setCurRaidClanInfoBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setCurRaidClanInfo_Builder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value;
 - (StartupResponseProto_Builder*) clearCurRaidClanInfo;
 
-- (NSArray*) curRaidClanUserInfoList;
-- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceCurRaidClanUserInfoAtIndex:(int32_t) index with:(PersistentClanEventUserInfoProto*) value;
-- (StartupResponseProto_Builder*) addCurRaidClanUserInfo:(PersistentClanEventUserInfoProto*) value;
-- (StartupResponseProto_Builder*) addAllCurRaidClanUserInfo:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearCurRaidClanUserInfoList;
+- (NSMutableArray *)curRaidClanUserInfoList;
+- (PersistentClanEventUserInfoProto*)curRaidClanUserInfoAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addCurRaidClanUserInfo:(PersistentClanEventUserInfoProto*)value;
+- (StartupResponseProto_Builder *)addAllCurRaidClanUserInfo:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearCurRaidClanUserInfo;
 
-- (NSArray*) raidStageHistoryList;
-- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceRaidStageHistoryAtIndex:(int32_t) index with:(PersistentClanEventRaidStageHistoryProto*) value;
-- (StartupResponseProto_Builder*) addRaidStageHistory:(PersistentClanEventRaidStageHistoryProto*) value;
-- (StartupResponseProto_Builder*) addAllRaidStageHistory:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearRaidStageHistoryList;
+- (NSMutableArray *)raidStageHistoryList;
+- (PersistentClanEventRaidStageHistoryProto*)raidStageHistoryAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addRaidStageHistory:(PersistentClanEventRaidStageHistoryProto*)value;
+- (StartupResponseProto_Builder *)addAllRaidStageHistory:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearRaidStageHistory;
 
-- (NSArray*) recentNbattlesList;
-- (PvpHistoryProto*) recentNbattlesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceRecentNbattlesAtIndex:(int32_t) index with:(PvpHistoryProto*) value;
-- (StartupResponseProto_Builder*) addRecentNbattles:(PvpHistoryProto*) value;
-- (StartupResponseProto_Builder*) addAllRecentNbattles:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearRecentNbattlesList;
+- (NSMutableArray *)recentNbattlesList;
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addRecentNbattles:(PvpHistoryProto*)value;
+- (StartupResponseProto_Builder *)addAllRecentNbattles:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearRecentNbattles;
 
 - (BOOL) hasCurTask;
 - (MinimumUserTaskProto*) curTask;
 - (StartupResponseProto_Builder*) setCurTask:(MinimumUserTaskProto*) value;
-- (StartupResponseProto_Builder*) setCurTaskBuilder:(MinimumUserTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) setCurTask_Builder:(MinimumUserTaskProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeCurTask:(MinimumUserTaskProto*) value;
 - (StartupResponseProto_Builder*) clearCurTask;
 
-- (NSArray*) curTaskStagesList;
-- (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceCurTaskStagesAtIndex:(int32_t) index with:(TaskStageProto*) value;
-- (StartupResponseProto_Builder*) addCurTaskStages:(TaskStageProto*) value;
-- (StartupResponseProto_Builder*) addAllCurTaskStages:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearCurTaskStagesList;
+- (NSMutableArray *)curTaskStagesList;
+- (TaskStageProto*)curTaskStagesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addCurTaskStages:(TaskStageProto*)value;
+- (StartupResponseProto_Builder *)addAllCurTaskStages:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearCurTaskStages;
 
-- (NSArray*) userAchievementsList;
-- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserAchievementsAtIndex:(int32_t) index with:(UserAchievementProto*) value;
-- (StartupResponseProto_Builder*) addUserAchievements:(UserAchievementProto*) value;
-- (StartupResponseProto_Builder*) addAllUserAchievements:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserAchievementsList;
+- (NSMutableArray *)userAchievementsList;
+- (UserAchievementProto*)userAchievementsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserAchievements:(UserAchievementProto*)value;
+- (StartupResponseProto_Builder *)addAllUserAchievements:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserAchievements;
 
-- (NSArray*) userMiniJobProtosList;
-- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserMiniJobProtosAtIndex:(int32_t) index with:(UserMiniJobProto*) value;
-- (StartupResponseProto_Builder*) addUserMiniJobProtos:(UserMiniJobProto*) value;
-- (StartupResponseProto_Builder*) addAllUserMiniJobProtos:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserMiniJobProtosList;
+- (NSMutableArray *)userMiniJobProtosList;
+- (UserMiniJobProto*)userMiniJobProtosAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserMiniJobProtos:(UserMiniJobProto*)value;
+- (StartupResponseProto_Builder *)addAllUserMiniJobProtos:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserMiniJobProtos;
 
-- (NSArray*) userItemsList;
-- (UserItemProto*) userItemsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserItemsAtIndex:(int32_t) index with:(UserItemProto*) value;
-- (StartupResponseProto_Builder*) addUserItems:(UserItemProto*) value;
-- (StartupResponseProto_Builder*) addAllUserItems:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserItemsList;
+- (NSMutableArray *)userItemsList;
+- (UserItemProto*)userItemsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addUserItems:(UserItemProto*)value;
+- (StartupResponseProto_Builder *)addAllUserItems:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearUserItems;
 
-- (NSArray*) clanHelpingsList;
-- (ClanHelpProto*) clanHelpingsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceClanHelpingsAtIndex:(int32_t) index with:(ClanHelpProto*) value;
-- (StartupResponseProto_Builder*) addClanHelpings:(ClanHelpProto*) value;
-- (StartupResponseProto_Builder*) addAllClanHelpings:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearClanHelpingsList;
+- (NSMutableArray *)clanHelpingsList;
+- (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addClanHelpings:(ClanHelpProto*)value;
+- (StartupResponseProto_Builder *)addAllClanHelpings:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearClanHelpings;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {
@@ -2054,7 +2054,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPreviousLoginTime;
 - (BOOL) hasUdid;
 @property (readonly) int64_t previousLoginTime;
-@property (readonly, retain) NSString* udid;
+@property (readonly, strong) NSString* udid;
 
 + (ForceLogoutResponseProto*) defaultInstance;
 - (ForceLogoutResponseProto*) defaultInstance;
@@ -2064,6 +2064,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ForceLogoutResponseProto_Builder*) builder;
 + (ForceLogoutResponseProto_Builder*) builder;
 + (ForceLogoutResponseProto_Builder*) builderWithPrototype:(ForceLogoutResponseProto*) prototype;
+- (ForceLogoutResponseProto_Builder*) toBuilder;
 
 + (ForceLogoutResponseProto*) parseFromData:(NSData*) data;
 + (ForceLogoutResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2073,7 +2074,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (ForceLogoutResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ForceLogoutResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ForceLogoutResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ForceLogoutResponseProto* result;
 }
@@ -2101,3 +2102,5 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ForceLogoutResponseProto_Builder*) clearUdid;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

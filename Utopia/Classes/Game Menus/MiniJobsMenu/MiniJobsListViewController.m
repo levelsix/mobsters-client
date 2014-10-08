@@ -126,7 +126,7 @@
     [self displayCompleteView:activeJob animated:NO];
   }
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(miniJobWaitTimeComplete:) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(miniJobWaitTimeComplete:) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -438,7 +438,7 @@
   [self transitionToListView];
   _selectedCell = nil;
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 
@@ -451,7 +451,7 @@
   self.detailsViewController.activeMiniJob = [self activeMiniJob];
   [self displayCompleteView:[self activeMiniJob] animated:YES];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
 }
 
 - (void) handleRedeemMiniJobResponseProto:(FullEvent *)fe {
@@ -465,7 +465,7 @@
   
   [self reloadTableAnimated:YES];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 

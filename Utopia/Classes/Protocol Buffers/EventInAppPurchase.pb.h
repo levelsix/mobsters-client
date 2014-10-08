@@ -5,6 +5,7 @@
 #import "InAppPurchase.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
@@ -74,6 +75,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 1,
   InAppPurchaseResponseProto_InAppPurchaseStatusFail = 2,
@@ -127,12 +140,12 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasLocalcurrency;
 - (BOOL) hasLocale;
 - (BOOL) hasIpaddr;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) NSString* receipt;
-@property (readonly, retain) NSString* localcents;
-@property (readonly, retain) NSString* localcurrency;
-@property (readonly, retain) NSString* locale;
-@property (readonly, retain) NSString* ipaddr;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* receipt;
+@property (readonly, strong) NSString* localcents;
+@property (readonly, strong) NSString* localcurrency;
+@property (readonly, strong) NSString* locale;
+@property (readonly, strong) NSString* ipaddr;
 
 + (InAppPurchaseRequestProto*) defaultInstance;
 - (InAppPurchaseRequestProto*) defaultInstance;
@@ -142,6 +155,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseRequestProto_Builder*) builder;
 + (InAppPurchaseRequestProto_Builder*) builder;
 + (InAppPurchaseRequestProto_Builder*) builderWithPrototype:(InAppPurchaseRequestProto*) prototype;
+- (InAppPurchaseRequestProto_Builder*) toBuilder;
 
 + (InAppPurchaseRequestProto*) parseFromData:(NSData*) data;
 + (InAppPurchaseRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -151,7 +165,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (InAppPurchaseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface InAppPurchaseRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface InAppPurchaseRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   InAppPurchaseRequestProto* result;
 }
@@ -171,7 +185,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (InAppPurchaseRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (InAppPurchaseRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (InAppPurchaseRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (InAppPurchaseRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (InAppPurchaseRequestProto_Builder*) clearSender;
 
@@ -225,13 +239,13 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
 @property (readonly) int32_t coinsGained;
-@property (readonly, retain) NSString* packageName;
+@property (readonly, strong) NSString* packageName;
 @property (readonly) Float64 packagePrice;
-@property (readonly, retain) NSString* receipt;
+@property (readonly, strong) NSString* receipt;
 
 + (InAppPurchaseResponseProto*) defaultInstance;
 - (InAppPurchaseResponseProto*) defaultInstance;
@@ -241,6 +255,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (InAppPurchaseResponseProto_Builder*) builder;
 + (InAppPurchaseResponseProto_Builder*) builder;
 + (InAppPurchaseResponseProto_Builder*) builderWithPrototype:(InAppPurchaseResponseProto*) prototype;
+- (InAppPurchaseResponseProto_Builder*) toBuilder;
 
 + (InAppPurchaseResponseProto*) parseFromData:(NSData*) data;
 + (InAppPurchaseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -250,7 +265,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (InAppPurchaseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface InAppPurchaseResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface InAppPurchaseResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   InAppPurchaseResponseProto* result;
 }
@@ -270,7 +285,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (InAppPurchaseResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (InAppPurchaseResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (InAppPurchaseResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (InAppPurchaseResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (InAppPurchaseResponseProto_Builder*) clearSender;
 
@@ -317,7 +332,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasFreeDiamondsType;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EarnFreeDiamondsType freeDiamondsType;
 @property (readonly) int64_t clientTime;
 
@@ -329,6 +344,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (EarnFreeDiamondsRequestProto_Builder*) builder;
 + (EarnFreeDiamondsRequestProto_Builder*) builder;
 + (EarnFreeDiamondsRequestProto_Builder*) builderWithPrototype:(EarnFreeDiamondsRequestProto*) prototype;
+- (EarnFreeDiamondsRequestProto_Builder*) toBuilder;
 
 + (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data;
 + (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -338,7 +354,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeDiamondsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EarnFreeDiamondsRequestProto* result;
 }
@@ -358,7 +374,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EarnFreeDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeDiamondsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EarnFreeDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EarnFreeDiamondsRequestProto_Builder*) clearSender;
 
@@ -385,7 +401,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasFreeDiamondsType;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
 @property (readonly) EarnFreeDiamondsType freeDiamondsType;
 
@@ -397,6 +413,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (EarnFreeDiamondsResponseProto_Builder*) builder;
 + (EarnFreeDiamondsResponseProto_Builder*) builder;
 + (EarnFreeDiamondsResponseProto_Builder*) builderWithPrototype:(EarnFreeDiamondsResponseProto*) prototype;
+- (EarnFreeDiamondsResponseProto_Builder*) toBuilder;
 
 + (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data;
 + (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -406,7 +423,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeDiamondsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EarnFreeDiamondsResponseProto* result;
 }
@@ -426,7 +443,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EarnFreeDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeDiamondsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EarnFreeDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EarnFreeDiamondsResponseProto_Builder*) clearSender;
 
@@ -459,7 +476,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasNumResources;
 - (BOOL) hasResourceType;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t numGems;
 @property (readonly) int32_t numResources;
 @property (readonly) ResourceType resourceType;
@@ -473,6 +490,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesRequestProto_Builder*) builder;
 + (ExchangeGemsForResourcesRequestProto_Builder*) builder;
 + (ExchangeGemsForResourcesRequestProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesRequestProto*) prototype;
+- (ExchangeGemsForResourcesRequestProto_Builder*) toBuilder;
 
 + (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data;
 + (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -482,7 +500,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (ExchangeGemsForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ExchangeGemsForResourcesRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface ExchangeGemsForResourcesRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   ExchangeGemsForResourcesRequestProto* result;
 }
@@ -502,7 +520,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (ExchangeGemsForResourcesRequestProto_Builder*) clearSender;
 
@@ -536,7 +554,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
 
 + (ExchangeGemsForResourcesResponseProto*) defaultInstance;
@@ -547,6 +565,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesResponseProto_Builder*) builder;
 + (ExchangeGemsForResourcesResponseProto_Builder*) builder;
 + (ExchangeGemsForResourcesResponseProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesResponseProto*) prototype;
+- (ExchangeGemsForResourcesResponseProto_Builder*) toBuilder;
 
 + (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data;
 + (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -556,7 +575,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 + (ExchangeGemsForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ExchangeGemsForResourcesResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ExchangeGemsForResourcesResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ExchangeGemsForResourcesResponseProto* result;
 }
@@ -576,7 +595,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearSender;
 
@@ -586,3 +605,5 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

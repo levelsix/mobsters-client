@@ -57,7 +57,7 @@
     CCNode *node = [CCNode node];
     
     for (int i = 0; i < rewards.count; i++) {
-      BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:YES];
+      BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:!isWin];
       [node addChild:brn];
       brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 45);
       

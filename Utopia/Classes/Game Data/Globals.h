@@ -43,7 +43,7 @@
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define EVOLUTION_CHANGED_NOTIFICATION @"EvolutionChangedNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
-#define MINI_JOB_WAIT_COMPLETE_NOTIFICATION @"MiniJobWaitCompleteNotification"
+#define MINI_JOB_CHANGED_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
 #define MONSTER_LOCK_CHANGED_NOTIFICATION @"MonsterLockChangedNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
@@ -53,8 +53,11 @@
 #define PRIVATE_CHAT_RECEIVED_NOTIFICATION @"PrivateChatReceivedNotification"
 #define PRIVATE_CHAT_VIEWED_NOTIFICATION @"PrivateChatViewedNotification"
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
+
 #define STRUCT_PURCHASED_NOTIFICATION @"StructPurchasedNotification"
 #define STRUCT_COMPLETE_NOTIFICATION @"StructCompleteNotification"
+#define OBSTACLE_REMOVAL_BEGAN_NOTIFICATION @"ObstaclePurchasedNotification"
+#define OBSTACLE_COMPLETE_NOTIFICATION @"ObstacleCompleteNotification"
 
 #define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
 #define FB_INVITE_RESPONDED_NOTIFICATION @"FbInviteRespondedNotification"
@@ -369,5 +372,11 @@
 @interface CCNode (UIImage)
 
 - (UIImage *) UIImage;
+
+@end
+
+@interface PBArray (NSArrayCreation)
+
+- (NSArray *) toNSArray;
 
 @end

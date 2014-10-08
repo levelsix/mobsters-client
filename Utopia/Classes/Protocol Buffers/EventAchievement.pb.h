@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AchievementProgressRequestProto;
 @class AchievementProgressRequestProto_Builder;
@@ -95,6 +96,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   AchievementProgressResponseProto_AchievementProgressStatusSuccess = 1,
   AchievementProgressResponseProto_AchievementProgressStatusFailOther = 2,
@@ -124,14 +137,14 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
   BOOL hasSender_:1;
   int64_t clientTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUapListList;
+  NSMutableArray * mutableUapListList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * uapListList;
 @property (readonly) int64_t clientTime;
-- (NSArray*) uapListList;
-- (UserAchievementProto*) uapListAtIndex:(int32_t) index;
+- (UserAchievementProto*)uapListAtIndex:(NSUInteger)index;
 
 + (AchievementProgressRequestProto*) defaultInstance;
 - (AchievementProgressRequestProto*) defaultInstance;
@@ -141,6 +154,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementProgressRequestProto_Builder*) builder;
 + (AchievementProgressRequestProto_Builder*) builder;
 + (AchievementProgressRequestProto_Builder*) builderWithPrototype:(AchievementProgressRequestProto*) prototype;
+- (AchievementProgressRequestProto_Builder*) toBuilder;
 
 + (AchievementProgressRequestProto*) parseFromData:(NSData*) data;
 + (AchievementProgressRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -150,7 +164,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 + (AchievementProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AchievementProgressRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface AchievementProgressRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   AchievementProgressRequestProto* result;
 }
@@ -170,16 +184,15 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AchievementProgressRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AchievementProgressRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AchievementProgressRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AchievementProgressRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AchievementProgressRequestProto_Builder*) clearSender;
 
-- (NSArray*) uapListList;
-- (UserAchievementProto*) uapListAtIndex:(int32_t) index;
-- (AchievementProgressRequestProto_Builder*) replaceUapListAtIndex:(int32_t) index with:(UserAchievementProto*) value;
-- (AchievementProgressRequestProto_Builder*) addUapList:(UserAchievementProto*) value;
-- (AchievementProgressRequestProto_Builder*) addAllUapList:(NSArray*) values;
-- (AchievementProgressRequestProto_Builder*) clearUapListList;
+- (NSMutableArray *)uapListList;
+- (UserAchievementProto*)uapListAtIndex:(NSUInteger)index;
+- (AchievementProgressRequestProto_Builder *)addUapList:(UserAchievementProto*)value;
+- (AchievementProgressRequestProto_Builder *)addAllUapList:(NSArray *)array;
+- (AchievementProgressRequestProto_Builder *)clearUapList;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -196,7 +209,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) AchievementProgressResponseProto_AchievementProgressStatus status;
 
 + (AchievementProgressResponseProto*) defaultInstance;
@@ -207,6 +220,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementProgressResponseProto_Builder*) builder;
 + (AchievementProgressResponseProto_Builder*) builder;
 + (AchievementProgressResponseProto_Builder*) builderWithPrototype:(AchievementProgressResponseProto*) prototype;
+- (AchievementProgressResponseProto_Builder*) toBuilder;
 
 + (AchievementProgressResponseProto*) parseFromData:(NSData*) data;
 + (AchievementProgressResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -216,7 +230,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 + (AchievementProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AchievementProgressResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface AchievementProgressResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   AchievementProgressResponseProto* result;
 }
@@ -236,7 +250,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AchievementProgressResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AchievementProgressResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AchievementProgressResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AchievementProgressResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AchievementProgressResponseProto_Builder*) clearSender;
 
@@ -258,7 +272,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasSender;
 - (BOOL) hasAchievementId;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t achievementId;
 @property (readonly) int64_t clientTime;
 
@@ -270,6 +284,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementRedeemRequestProto_Builder*) builder;
 + (AchievementRedeemRequestProto_Builder*) builder;
 + (AchievementRedeemRequestProto_Builder*) builderWithPrototype:(AchievementRedeemRequestProto*) prototype;
+- (AchievementRedeemRequestProto_Builder*) toBuilder;
 
 + (AchievementRedeemRequestProto*) parseFromData:(NSData*) data;
 + (AchievementRedeemRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -279,7 +294,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 + (AchievementRedeemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AchievementRedeemRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface AchievementRedeemRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   AchievementRedeemRequestProto* result;
 }
@@ -299,7 +314,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AchievementRedeemRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AchievementRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AchievementRedeemRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AchievementRedeemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AchievementRedeemRequestProto_Builder*) clearSender;
 
@@ -323,7 +338,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) AchievementRedeemResponseProto_AchievementRedeemStatus status;
 
 + (AchievementRedeemResponseProto*) defaultInstance;
@@ -334,6 +349,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementRedeemResponseProto_Builder*) builder;
 + (AchievementRedeemResponseProto_Builder*) builder;
 + (AchievementRedeemResponseProto_Builder*) builderWithPrototype:(AchievementRedeemResponseProto*) prototype;
+- (AchievementRedeemResponseProto_Builder*) toBuilder;
 
 + (AchievementRedeemResponseProto*) parseFromData:(NSData*) data;
 + (AchievementRedeemResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -343,7 +359,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 + (AchievementRedeemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AchievementRedeemResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface AchievementRedeemResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   AchievementRedeemResponseProto* result;
 }
@@ -363,7 +379,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AchievementRedeemResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AchievementRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AchievementRedeemResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AchievementRedeemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AchievementRedeemResponseProto_Builder*) clearSender;
 
@@ -373,3 +389,5 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (AchievementRedeemResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

@@ -368,7 +368,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userEvolution = nil;
     }
     
-    gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
+    gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList.toNSArray];
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
@@ -960,6 +960,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       [gs.requestedClans removeAllObjects];
       gs.myClanStatus = UserClanStatusLeader;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -999,6 +1001,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [[SocketCommunication sharedSocketCommunication] rebuildSender];
         gs.myClanStatus = UserClanStatusMember;
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+        
         [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been accepted to %@!", proto.minClan.name]];
       }
     } else {
@@ -1034,6 +1038,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       gs.myClanStatus = 0;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
       
       [gs.clanChatMessages removeAllObjects];
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -1071,6 +1077,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       gs.myClanStatus = UserClanStatusMember;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name]];
     }
@@ -1122,6 +1130,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.myClanStatus = UserClanStatusJuniorLeader;
     }
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+    
     if (proto.clanOwnerNew.userId == gs.userId) {
       [Globals addAlertNotification:[NSString stringWithFormat:@"You have just become the new squad leader!"]];
     } else {
@@ -1146,6 +1156,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.hasMinClan) {
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1197,6 +1209,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       gs.myClanStatus = 0;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
       
       [gs.clanChatMessages removeAllObjects];
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];

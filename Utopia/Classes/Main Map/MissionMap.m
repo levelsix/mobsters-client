@@ -99,7 +99,7 @@
     [self doReorder];
     
     // Load up the full task protos
-    for (NSNumber *taskId in fcp.taskIdsList) {
+    for (NSNumber *taskId in fcp.taskIdsList.toNSArray) {
       FullTaskProto *ftp = [gs taskWithId:taskId.intValue];
       id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
       if ([asset conformsToProtocol:@protocol(TaskElement)]) {

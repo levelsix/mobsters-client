@@ -10,6 +10,8 @@
 	<string>Utopia</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</key>
+		<string>github.com:alexeyxo/protobuf-objc.git</string>
 		<key>5D7004AFA0F8477414D2D2070527EE503A955943</key>
 		<string>https://github.com/cocos2d/cocos2d-iphone.git</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
@@ -23,6 +25,8 @@
 	<string>Utopia.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</key>
+		<string>../../protobuf-objc</string>
 		<key>5D7004AFA0F8477414D2D2070527EE503A955943</key>
 		<string>../Utopia/libs/cocos2d-iphone</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
@@ -63,6 +67,14 @@
 			<string>D8D0758649B2B09DA86837D71827DEDB21D17D04</string>
 			<key>IDESourceControlWCCName</key>
 			<string>mobsters-client</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>protobuf-objc</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

@@ -4,6 +4,7 @@
 
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class FullTaskProto;
 @class FullTaskProto_Builder;
@@ -45,6 +46,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   TaskStageMonsterProto_MonsterTypeRegular = 1,
   TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
@@ -71,12 +84,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @private
   BOOL hasStageId_:1;
   int32_t stageId;
-  NSMutableArray* mutableStageMonstersList;
+  NSMutableArray * mutableStageMonstersList;
 }
 - (BOOL) hasStageId;
 @property (readonly) int32_t stageId;
-- (NSArray*) stageMonstersList;
-- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * stageMonstersList;
+- (TaskStageMonsterProto*)stageMonstersAtIndex:(NSUInteger)index;
 
 + (TaskStageProto*) defaultInstance;
 - (TaskStageProto*) defaultInstance;
@@ -86,6 +99,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageProto_Builder*) builder;
 + (TaskStageProto_Builder*) builder;
 + (TaskStageProto_Builder*) builderWithPrototype:(TaskStageProto*) prototype;
+- (TaskStageProto_Builder*) toBuilder;
 
 + (TaskStageProto*) parseFromData:(NSData*) data;
 + (TaskStageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -95,7 +109,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (TaskStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TaskStageProto_Builder : PBGeneratedMessage_Builder {
+@interface TaskStageProto_Builder : PBGeneratedMessageBuilder {
 @private
   TaskStageProto* result;
 }
@@ -117,12 +131,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageProto_Builder*) setStageId:(int32_t) value;
 - (TaskStageProto_Builder*) clearStageId;
 
-- (NSArray*) stageMonstersList;
-- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index;
-- (TaskStageProto_Builder*) replaceStageMonstersAtIndex:(int32_t) index with:(TaskStageMonsterProto*) value;
-- (TaskStageProto_Builder*) addStageMonsters:(TaskStageMonsterProto*) value;
-- (TaskStageProto_Builder*) addAllStageMonsters:(NSArray*) values;
-- (TaskStageProto_Builder*) clearStageMonstersList;
+- (NSMutableArray *)stageMonstersList;
+- (TaskStageMonsterProto*)stageMonstersAtIndex:(NSUInteger)index;
+- (TaskStageProto_Builder *)addStageMonsters:(TaskStageMonsterProto*)value;
+- (TaskStageProto_Builder *)addAllStageMonsters:(NSArray *)array;
+- (TaskStageProto_Builder *)clearStageMonsters;
 @end
 
 @interface FullTaskProto : PBGeneratedMessage {
@@ -159,15 +172,15 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasBoardHeight;
 - (BOOL) hasGroundImgPrefix;
 @property (readonly) int32_t taskId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* description;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* description;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t prerequisiteTaskId;
 @property (readonly) int32_t prerequisiteQuestId;
 @property (readonly) int32_t boardWidth;
 @property (readonly) int32_t boardHeight;
-@property (readonly, retain) NSString* groundImgPrefix;
+@property (readonly, strong) NSString* groundImgPrefix;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -177,6 +190,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (FullTaskProto_Builder*) builder;
 + (FullTaskProto_Builder*) builder;
 + (FullTaskProto_Builder*) builderWithPrototype:(FullTaskProto*) prototype;
+- (FullTaskProto_Builder*) toBuilder;
 
 + (FullTaskProto*) parseFromData:(NSData*) data;
 + (FullTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -186,7 +200,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (FullTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullTaskProto_Builder : PBGeneratedMessage_Builder {
+@interface FullTaskProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullTaskProto* result;
 }
@@ -282,6 +296,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (MinimumUserTaskProto_Builder*) builder;
 + (MinimumUserTaskProto_Builder*) builder;
 + (MinimumUserTaskProto_Builder*) builderWithPrototype:(MinimumUserTaskProto*) prototype;
+- (MinimumUserTaskProto_Builder*) toBuilder;
 
 + (MinimumUserTaskProto*) parseFromData:(NSData*) data;
 + (MinimumUserTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -291,7 +306,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (MinimumUserTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserTaskProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserTaskProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserTaskProto* result;
 }
@@ -401,6 +416,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) builder;
 + (TaskStageMonsterProto_Builder*) builder;
 + (TaskStageMonsterProto_Builder*) builderWithPrototype:(TaskStageMonsterProto*) prototype;
+- (TaskStageMonsterProto_Builder*) toBuilder;
 
 + (TaskStageMonsterProto*) parseFromData:(NSData*) data;
 + (TaskStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -410,7 +426,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (TaskStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TaskStageMonsterProto_Builder : PBGeneratedMessage_Builder {
+@interface TaskStageMonsterProto_Builder : PBGeneratedMessageBuilder {
 @private
   TaskStageMonsterProto* result;
 }
@@ -547,6 +563,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (PersistentEventProto_Builder*) builder;
 + (PersistentEventProto_Builder*) builder;
 + (PersistentEventProto_Builder*) builderWithPrototype:(PersistentEventProto*) prototype;
+- (PersistentEventProto_Builder*) toBuilder;
 
 + (PersistentEventProto*) parseFromData:(NSData*) data;
 + (PersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -556,7 +573,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (PersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PersistentEventProto_Builder : PBGeneratedMessage_Builder {
+@interface PersistentEventProto_Builder : PBGeneratedMessageBuilder {
 @private
   PersistentEventProto* result;
 }
@@ -638,6 +655,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (UserPersistentEventProto_Builder*) builder;
 + (UserPersistentEventProto_Builder*) builder;
 + (UserPersistentEventProto_Builder*) builderWithPrototype:(UserPersistentEventProto*) prototype;
+- (UserPersistentEventProto_Builder*) toBuilder;
 
 + (UserPersistentEventProto*) parseFromData:(NSData*) data;
 + (UserPersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -647,7 +665,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (UserPersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserPersistentEventProto_Builder : PBGeneratedMessage_Builder {
+@interface UserPersistentEventProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserPersistentEventProto* result;
 }
@@ -725,12 +743,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t yPos;
 @property (readonly) Element element;
 - (BOOL) boss;
-@property (readonly, retain) NSString* bossImgName;
+@property (readonly, strong) NSString* bossImgName;
 @property (readonly) int32_t itemDropId;
-@property (readonly, retain) NSString* sectionName;
+@property (readonly, strong) NSString* sectionName;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
-@property (readonly, retain) NSString* characterImgName;
+@property (readonly, strong) NSString* characterImgName;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -740,6 +758,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskMapElementProto_Builder*) builder;
 + (TaskMapElementProto_Builder*) builder;
 + (TaskMapElementProto_Builder*) builderWithPrototype:(TaskMapElementProto*) prototype;
+- (TaskMapElementProto_Builder*) toBuilder;
 
 + (TaskMapElementProto*) parseFromData:(NSData*) data;
 + (TaskMapElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -749,7 +768,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 + (TaskMapElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TaskMapElementProto_Builder : PBGeneratedMessage_Builder {
+@interface TaskMapElementProto_Builder : PBGeneratedMessageBuilder {
 @private
   TaskMapElementProto* result;
 }
@@ -827,3 +846,5 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskMapElementProto_Builder*) clearCharacterImgName;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

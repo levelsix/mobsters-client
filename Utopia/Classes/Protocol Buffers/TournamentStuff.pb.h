@@ -4,6 +4,7 @@
 
 #import "Chat.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ColorProto;
 @class ColorProto_Builder;
@@ -35,6 +36,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface TournamentStuffRoot : NSObject {
 }
@@ -54,7 +67,7 @@
   int64_t lastShowDate;
   int32_t eventId;
   NSString* eventName;
-  NSMutableArray* mutableRewardsList;
+  NSMutableArray * mutableRewardsList;
 }
 - (BOOL) hasEventId;
 - (BOOL) hasStartDate;
@@ -64,10 +77,10 @@
 @property (readonly) int32_t eventId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
-@property (readonly, retain) NSString* eventName;
+@property (readonly, strong) NSString* eventName;
+@property (readonly, strong) NSArray * rewardsList;
 @property (readonly) int64_t lastShowDate;
-- (NSArray*) rewardsList;
-- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index;
+- (TournamentEventRewardProto*)rewardsAtIndex:(NSUInteger)index;
 
 + (TournamentEventProto*) defaultInstance;
 - (TournamentEventProto*) defaultInstance;
@@ -77,6 +90,7 @@
 - (TournamentEventProto_Builder*) builder;
 + (TournamentEventProto_Builder*) builder;
 + (TournamentEventProto_Builder*) builderWithPrototype:(TournamentEventProto*) prototype;
+- (TournamentEventProto_Builder*) toBuilder;
 
 + (TournamentEventProto*) parseFromData:(NSData*) data;
 + (TournamentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -86,7 +100,7 @@
 + (TournamentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TournamentEventProto_Builder : PBGeneratedMessage_Builder {
+@interface TournamentEventProto_Builder : PBGeneratedMessageBuilder {
 @private
   TournamentEventProto* result;
 }
@@ -123,12 +137,11 @@
 - (TournamentEventProto_Builder*) setEventName:(NSString*) value;
 - (TournamentEventProto_Builder*) clearEventName;
 
-- (NSArray*) rewardsList;
-- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index;
-- (TournamentEventProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(TournamentEventRewardProto*) value;
-- (TournamentEventProto_Builder*) addRewards:(TournamentEventRewardProto*) value;
-- (TournamentEventProto_Builder*) addAllRewards:(NSArray*) values;
-- (TournamentEventProto_Builder*) clearRewardsList;
+- (NSMutableArray *)rewardsList;
+- (TournamentEventRewardProto*)rewardsAtIndex:(NSUInteger)index;
+- (TournamentEventProto_Builder *)addRewards:(TournamentEventRewardProto*)value;
+- (TournamentEventProto_Builder *)addAllRewards:(NSArray *)array;
+- (TournamentEventProto_Builder *)clearRewards;
 
 - (BOOL) hasLastShowDate;
 - (int64_t) lastShowDate;
@@ -164,9 +177,9 @@
 @property (readonly) int32_t minRank;
 @property (readonly) int32_t maxRank;
 @property (readonly) int32_t goldRewarded;
-@property (readonly, retain) NSString* backgroundImageName;
-@property (readonly, retain) NSString* prizeImageName;
-@property (readonly, retain) ColorProto* titleColor;
+@property (readonly, strong) NSString* backgroundImageName;
+@property (readonly, strong) NSString* prizeImageName;
+@property (readonly, strong) ColorProto* titleColor;
 
 + (TournamentEventRewardProto*) defaultInstance;
 - (TournamentEventRewardProto*) defaultInstance;
@@ -176,6 +189,7 @@
 - (TournamentEventRewardProto_Builder*) builder;
 + (TournamentEventRewardProto_Builder*) builder;
 + (TournamentEventRewardProto_Builder*) builderWithPrototype:(TournamentEventRewardProto*) prototype;
+- (TournamentEventRewardProto_Builder*) toBuilder;
 
 + (TournamentEventRewardProto*) parseFromData:(NSData*) data;
 + (TournamentEventRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -185,7 +199,7 @@
 + (TournamentEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TournamentEventRewardProto_Builder : PBGeneratedMessage_Builder {
+@interface TournamentEventRewardProto_Builder : PBGeneratedMessageBuilder {
 @private
   TournamentEventRewardProto* result;
 }
@@ -235,7 +249,7 @@
 - (BOOL) hasTitleColor;
 - (ColorProto*) titleColor;
 - (TournamentEventRewardProto_Builder*) setTitleColor:(ColorProto*) value;
-- (TournamentEventRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
+- (TournamentEventRewardProto_Builder*) setTitleColor_Builder:(ColorProto_Builder*) builderForValue;
 - (TournamentEventRewardProto_Builder*) mergeTitleColor:(ColorProto*) value;
 - (TournamentEventRewardProto_Builder*) clearTitleColor;
 @end
@@ -255,7 +269,7 @@
 - (BOOL) hasLevel;
 - (BOOL) hasTournamentRank;
 - (BOOL) hasTournamentScore;
-@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly, strong) MinimumUserProto* minUserProto;
 @property (readonly) int32_t level;
 @property (readonly) int32_t tournamentRank;
 @property (readonly) Float64 tournamentScore;
@@ -268,6 +282,7 @@
 - (MinimumUserProtoWithLevelForTournament_Builder*) builder;
 + (MinimumUserProtoWithLevelForTournament_Builder*) builder;
 + (MinimumUserProtoWithLevelForTournament_Builder*) builderWithPrototype:(MinimumUserProtoWithLevelForTournament*) prototype;
+- (MinimumUserProtoWithLevelForTournament_Builder*) toBuilder;
 
 + (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data;
 + (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -277,7 +292,7 @@
 + (MinimumUserProtoWithLevelForTournament*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProtoWithLevelForTournament_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProtoWithLevelForTournament_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProtoWithLevelForTournament* result;
 }
@@ -297,7 +312,7 @@
 - (BOOL) hasMinUserProto;
 - (MinimumUserProto*) minUserProto;
 - (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MinimumUserProtoWithLevelForTournament_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
 - (MinimumUserProtoWithLevelForTournament_Builder*) clearMinUserProto;
 
@@ -317,3 +332,5 @@
 - (MinimumUserProtoWithLevelForTournament_Builder*) clearTournamentScore;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

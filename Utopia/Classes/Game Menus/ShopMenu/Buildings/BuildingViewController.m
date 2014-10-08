@@ -55,6 +55,19 @@
   [self.listView reloadTableAnimated:NO listObjects:self.staticStructs];
 }
 
+- (BOOL) isTypeRecommended:(StructureInfoProto_StructType)structType {
+  switch (structType) {
+    case StructureInfoProto_StructTypeClan:
+    case StructureInfoProto_StructTypeEvo:
+    case StructureInfoProto_StructTypeLab:
+    case StructureInfoProto_StructTypeMiniJob:
+      return YES;
+      
+    default:
+      return NO;
+  }
+}
+
 - (void) reloadCarpenterStructs {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -65,7 +78,6 @@
     StructureInfoProto *fsp = s.structInfo;
     if (fsp.predecessorStructId ||
         fsp.structType == StructureInfoProto_StructTypeTownHall ||
-        fsp.structType == StructureInfoProto_StructTypeMiniJob ||
         fsp.structType == StructureInfoProto_StructTypeTeamCenter ||
         fsp.structType == StructureInfoProto_StructTypeLab) {
       continue;
@@ -86,8 +98,8 @@
     max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
     BOOL avail2 = cur < max;
     
-    BOOL isSpecial1 = avail1 && (obj1.structType == StructureInfoProto_StructTypeEvo || obj1.structType == StructureInfoProto_StructTypeLab);
-    BOOL isSpecial2 = avail2 && (obj2.structType == StructureInfoProto_StructTypeEvo || obj2.structType == StructureInfoProto_StructTypeLab);
+    BOOL isSpecial1 = avail1 && [self isTypeRecommended:obj1.structType];
+    BOOL isSpecial2 = avail2 && [self isTypeRecommended:obj2.structType];
     
     if (avail1 != avail2) {
       return [@(avail2) compare:@(avail1)];
@@ -106,7 +118,7 @@
   self.staticStructs = validStructs;
   
   StructureInfoProto *potRec = [self.staticStructs firstObject];
-  if (potRec.structType == StructureInfoProto_StructTypeEvo || potRec.structType == StructureInfoProto_StructTypeLab) {
+  if ([self isTypeRecommended:potRec.structType]) {
     _recommendedStructId = potRec.structId;
   }
 }

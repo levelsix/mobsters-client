@@ -10,18 +10,6 @@
 #import "GameState.h"
 #import "Globals.h"
 
-@implementation MinimumUserProtoForClans (EqualityCheck)
-
-- (BOOL) isEqual:(MinimumUserProtoForClans *)object {
-  if (![object isKindOfClass:[self class]]) {
-    return NO;
-  }
-  
-  return object.minUserProtoWithLevel.minUserProto.userId == self.minUserProtoWithLevel.minUserProto.userId;
-}
-
-@end
-
 @implementation ClanMemberCell
 
 - (void) awakeFromNib {

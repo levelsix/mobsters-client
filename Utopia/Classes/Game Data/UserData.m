@@ -1265,7 +1265,7 @@
     self.durationMinutes = proto.durationMinutes;
     self.timeStarted = proto.hasTimeStarted ? [MSDate dateWithTimeIntervalSince1970:proto.timeStarted/1000.] : nil;
     self.timeCompleted = proto.hasTimeCompleted ? [MSDate dateWithTimeIntervalSince1970:proto.timeCompleted/1000.] : nil;
-    self.userMonsterIds = proto.userMonsterIdsList;
+    self.userMonsterIds = proto.userMonsterIdsList.toNSArray;
   }
   return self;
 }

@@ -2,10 +2,24 @@
 
 #import "ProtocolBuffers.h"
 
+// @@protoc_insertion_point(imports)
+
 @class SkillPropertyProto;
 @class SkillPropertyProto_Builder;
 @class SkillProto;
 @class SkillProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   SkillTypeNoSkill = 1,
   SkillTypeCakeDrop = 2,
@@ -57,7 +71,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   NSString* logoImgName;
   SkillType type;
   SkillActivationType activationType;
-  NSMutableArray* mutablePropertiesList;
+  NSMutableArray * mutablePropertiesList;
 }
 - (BOOL) hasSkillId;
 - (BOOL) hasName;
@@ -70,17 +84,17 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasIconImgName;
 - (BOOL) hasLogoImgName;
 @property (readonly) int32_t skillId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int32_t orbCost;
 @property (readonly) SkillType type;
 @property (readonly) SkillActivationType activationType;
 @property (readonly) int32_t predecId;
 @property (readonly) int32_t sucId;
-@property (readonly, retain) NSString* desc;
-@property (readonly, retain) NSString* iconImgName;
-@property (readonly, retain) NSString* logoImgName;
-- (NSArray*) propertiesList;
-- (SkillPropertyProto*) propertiesAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * propertiesList;
+@property (readonly, strong) NSString* desc;
+@property (readonly, strong) NSString* iconImgName;
+@property (readonly, strong) NSString* logoImgName;
+- (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (SkillProto*) defaultInstance;
 - (SkillProto*) defaultInstance;
@@ -90,6 +104,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillProto_Builder*) builder;
 + (SkillProto_Builder*) builder;
 + (SkillProto_Builder*) builderWithPrototype:(SkillProto*) prototype;
+- (SkillProto_Builder*) toBuilder;
 
 + (SkillProto*) parseFromData:(NSData*) data;
 + (SkillProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -99,7 +114,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 + (SkillProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SkillProto_Builder : PBGeneratedMessage_Builder {
+@interface SkillProto_Builder : PBGeneratedMessageBuilder {
 @private
   SkillProto* result;
 }
@@ -151,12 +166,11 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillProto_Builder*) setSucId:(int32_t) value;
 - (SkillProto_Builder*) clearSucId;
 
-- (NSArray*) propertiesList;
-- (SkillPropertyProto*) propertiesAtIndex:(int32_t) index;
-- (SkillProto_Builder*) replacePropertiesAtIndex:(int32_t) index with:(SkillPropertyProto*) value;
-- (SkillProto_Builder*) addProperties:(SkillPropertyProto*) value;
-- (SkillProto_Builder*) addAllProperties:(NSArray*) values;
-- (SkillProto_Builder*) clearPropertiesList;
+- (NSMutableArray *)propertiesList;
+- (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
+- (SkillProto_Builder *)addProperties:(SkillPropertyProto*)value;
+- (SkillProto_Builder *)addAllProperties:(NSArray *)array;
+- (SkillProto_Builder *)clearProperties;
 
 - (BOOL) hasDesc;
 - (NSString*) desc;
@@ -190,9 +204,9 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasSkillValue;
 - (BOOL) hasShorterName;
 @property (readonly) int32_t skillPropertyId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) Float32 skillValue;
-@property (readonly, retain) NSString* shorterName;
+@property (readonly, strong) NSString* shorterName;
 
 + (SkillPropertyProto*) defaultInstance;
 - (SkillPropertyProto*) defaultInstance;
@@ -202,6 +216,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillPropertyProto_Builder*) builder;
 + (SkillPropertyProto_Builder*) builder;
 + (SkillPropertyProto_Builder*) builderWithPrototype:(SkillPropertyProto*) prototype;
+- (SkillPropertyProto_Builder*) toBuilder;
 
 + (SkillPropertyProto*) parseFromData:(NSData*) data;
 + (SkillPropertyProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -211,7 +226,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 + (SkillPropertyProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SkillPropertyProto_Builder : PBGeneratedMessage_Builder {
+@interface SkillPropertyProto_Builder : PBGeneratedMessageBuilder {
 @private
   SkillPropertyProto* result;
 }
@@ -249,3 +264,5 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillPropertyProto_Builder*) clearShorterName;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

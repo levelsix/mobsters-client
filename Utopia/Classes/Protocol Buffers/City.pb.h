@@ -4,6 +4,7 @@
 
 #import "Structure.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class CityElementProto;
 @class CityElementProto_Builder;
@@ -65,6 +66,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   CityElementProto_CityElemTypeBuilding = 1,
   CityElementProto_CityElemTypeDecoration = 2,
@@ -113,6 +126,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (UserCityExpansionDataProto_Builder*) builder;
 + (UserCityExpansionDataProto_Builder*) builder;
 + (UserCityExpansionDataProto_Builder*) builderWithPrototype:(UserCityExpansionDataProto*) prototype;
+- (UserCityExpansionDataProto_Builder*) toBuilder;
 
 + (UserCityExpansionDataProto*) parseFromData:(NSData*) data;
 + (UserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -122,7 +136,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 + (UserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserCityExpansionDataProto_Builder : PBGeneratedMessage_Builder {
+@interface UserCityExpansionDataProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserCityExpansionDataProto* result;
 }
@@ -189,6 +203,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityExpansionCostProto_Builder*) builder;
 + (CityExpansionCostProto_Builder*) builder;
 + (CityExpansionCostProto_Builder*) builderWithPrototype:(CityExpansionCostProto*) prototype;
+- (CityExpansionCostProto_Builder*) toBuilder;
 
 + (CityExpansionCostProto*) parseFromData:(NSData*) data;
 + (CityExpansionCostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -198,7 +213,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 + (CityExpansionCostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CityExpansionCostProto_Builder : PBGeneratedMessage_Builder {
+@interface CityExpansionCostProto_Builder : PBGeneratedMessageBuilder {
 @private
   CityExpansionCostProto* result;
 }
@@ -264,12 +279,12 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetId;
 @property (readonly) CityElementProto_CityElemType type;
-@property (readonly, retain) CoordinateProto* coords;
+@property (readonly, strong) CoordinateProto* coords;
 @property (readonly) Float32 xLength;
 @property (readonly) Float32 yLength;
-@property (readonly, retain) NSString* imgId;
+@property (readonly, strong) NSString* imgId;
 @property (readonly) StructOrientation orientation;
-@property (readonly, retain) CoordinateProto* spriteCoords;
+@property (readonly, strong) CoordinateProto* spriteCoords;
 
 + (CityElementProto*) defaultInstance;
 - (CityElementProto*) defaultInstance;
@@ -279,6 +294,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) builder;
 + (CityElementProto_Builder*) builder;
 + (CityElementProto_Builder*) builderWithPrototype:(CityElementProto*) prototype;
+- (CityElementProto_Builder*) toBuilder;
 
 + (CityElementProto*) parseFromData:(NSData*) data;
 + (CityElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -288,7 +304,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 + (CityElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CityElementProto_Builder : PBGeneratedMessage_Builder {
+@interface CityElementProto_Builder : PBGeneratedMessageBuilder {
 @private
   CityElementProto* result;
 }
@@ -323,7 +339,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasCoords;
 - (CoordinateProto*) coords;
 - (CityElementProto_Builder*) setCoords:(CoordinateProto*) value;
-- (CityElementProto_Builder*) setCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (CityElementProto_Builder*) setCoords_Builder:(CoordinateProto_Builder*) builderForValue;
 - (CityElementProto_Builder*) mergeCoords:(CoordinateProto*) value;
 - (CityElementProto_Builder*) clearCoords;
 
@@ -350,7 +366,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasSpriteCoords;
 - (CoordinateProto*) spriteCoords;
 - (CityElementProto_Builder*) setSpriteCoords:(CoordinateProto*) value;
-- (CityElementProto_Builder*) setSpriteCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (CityElementProto_Builder*) setSpriteCoords_Builder:(CoordinateProto_Builder*) builderForValue;
 - (CityElementProto_Builder*) mergeSpriteCoords:(CoordinateProto*) value;
 - (CityElementProto_Builder*) clearSpriteCoords;
 @end
@@ -373,7 +389,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   NSString* attackMapLabelImgName;
   CoordinateProto* center;
   CoordinateProto* roadImgCoords;
-  NSMutableArray* mutableTaskIdsList;
+  PBAppendableArray * mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
 - (BOOL) hasName;
@@ -384,15 +400,15 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasRoadImgCoords;
 - (BOOL) hasAttackMapLabelImgName;
 @property (readonly) int32_t cityId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* mapImgName;
-@property (readonly, retain) CoordinateProto* center;
-@property (readonly, retain) NSString* roadImgName;
-@property (readonly, retain) NSString* mapTmxName;
-@property (readonly, retain) CoordinateProto* roadImgCoords;
-@property (readonly, retain) NSString* attackMapLabelImgName;
-- (NSArray*) taskIdsList;
-- (int32_t) taskIdsAtIndex:(int32_t) index;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* mapImgName;
+@property (readonly, strong) CoordinateProto* center;
+@property (readonly, strong) NSString* roadImgName;
+@property (readonly, strong) NSString* mapTmxName;
+@property (readonly, strong) CoordinateProto* roadImgCoords;
+@property (readonly, strong) PBArray * taskIdsList;
+@property (readonly, strong) NSString* attackMapLabelImgName;
+- (int32_t)taskIdsAtIndex:(NSUInteger)index;
 
 + (FullCityProto*) defaultInstance;
 - (FullCityProto*) defaultInstance;
@@ -402,6 +418,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (FullCityProto_Builder*) builder;
 + (FullCityProto_Builder*) builder;
 + (FullCityProto_Builder*) builderWithPrototype:(FullCityProto*) prototype;
+- (FullCityProto_Builder*) toBuilder;
 
 + (FullCityProto*) parseFromData:(NSData*) data;
 + (FullCityProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -411,7 +428,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 + (FullCityProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullCityProto_Builder : PBGeneratedMessage_Builder {
+@interface FullCityProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullCityProto* result;
 }
@@ -446,7 +463,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasCenter;
 - (CoordinateProto*) center;
 - (FullCityProto_Builder*) setCenter:(CoordinateProto*) value;
-- (FullCityProto_Builder*) setCenterBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) setCenter_Builder:(CoordinateProto_Builder*) builderForValue;
 - (FullCityProto_Builder*) mergeCenter:(CoordinateProto*) value;
 - (FullCityProto_Builder*) clearCenter;
 
@@ -463,16 +480,16 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasRoadImgCoords;
 - (CoordinateProto*) roadImgCoords;
 - (FullCityProto_Builder*) setRoadImgCoords:(CoordinateProto*) value;
-- (FullCityProto_Builder*) setRoadImgCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) setRoadImgCoords_Builder:(CoordinateProto_Builder*) builderForValue;
 - (FullCityProto_Builder*) mergeRoadImgCoords:(CoordinateProto*) value;
 - (FullCityProto_Builder*) clearRoadImgCoords;
 
-- (NSArray*) taskIdsList;
-- (int32_t) taskIdsAtIndex:(int32_t) index;
-- (FullCityProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (FullCityProto_Builder*) addTaskIds:(int32_t) value;
-- (FullCityProto_Builder*) addAllTaskIds:(NSArray*) values;
-- (FullCityProto_Builder*) clearTaskIdsList;
+- (PBAppendableArray *)taskIdsList;
+- (int32_t)taskIdsAtIndex:(NSUInteger)index;
+- (FullCityProto_Builder *)addTaskIds:(int32_t)value;
+- (FullCityProto_Builder *)addAllTaskIds:(NSArray *)array;
+- (FullCityProto_Builder *)setTaskIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (FullCityProto_Builder *)clearTaskIds;
 
 - (BOOL) hasAttackMapLabelImgName;
 - (NSString*) attackMapLabelImgName;
@@ -480,3 +497,5 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (FullCityProto_Builder*) clearAttackMapLabelImgName;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

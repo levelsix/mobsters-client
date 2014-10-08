@@ -64,6 +64,12 @@
   return button;
 }
 
++ (id) clanButton {
+  MapBotViewButton *button = [self button];
+  [button updateWithImageName:@"buildingsquad.png" actionText:@"Squads" config:MapBotViewButtonClan];
+  return button;
+}
+
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost {
   MapBotViewButton *button = [self button];
   [button updateWithImageName:@"buildingremove.png" actionText:@"Remove" config:MapBotViewButtonRemove];

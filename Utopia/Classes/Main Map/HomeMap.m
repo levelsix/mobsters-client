@@ -600,6 +600,18 @@
   }
 }
 
+- (void) reloadClanHouse {
+  GameState *gs = [GameState sharedGameState];
+  for (TeamCenterBuilding *b in [self childrenOfClassType:[ClanHouseBuilding class]]) {
+    if (!gs.clan) {
+      [b setBubbleType:BuildingBubbleTypeJoinClan];
+    } else {
+      // Check if anyone needs help
+      [b setBubbleType:BuildingBubbleTypeNone];
+    }
+  }
+}
+
 - (void) reloadBubblesOnMiscBuildings {
   GameState *gs = [GameState sharedGameState];
   
@@ -634,6 +646,7 @@
   [self reloadMiniJobCenter];
   [self reloadBubblesOnMiscBuildings];
   [self reloadTeamCenter];
+  [self reloadClanHouse];
 }
 
 #pragma mark - Moving
@@ -902,6 +915,10 @@
           [buttonViews addObject:[MapBotViewButton teamButton]];
           break;
           
+        case StructureInfoProto_StructTypeClan:
+          [buttonViews addObject:[MapBotViewButton clanButton]];
+          break;
+          
         default:
           break;
       }
@@ -971,6 +988,7 @@
     case MapBotViewButtonEvolve:
     case MapBotViewButtonTeam:
     case MapBotViewButtonSell:
+    case MapBotViewButtonClan:
       [self enterClicked:button];
       break;
       
@@ -1231,6 +1249,8 @@
     
     [QuestUtil checkAllStructQuests];
     [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
+    
+    // Max cash/oil may have changed
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
   }
@@ -1280,7 +1300,7 @@
   [SoundEngine structCompleted];
   
   [AchievementUtil checkObstacleRemoved];
-  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
@@ -1426,6 +1446,10 @@
       hvc = [[HomeViewController alloc] initWithMiniJobs];
       break;
       
+    case StructureInfoProto_StructTypeClan:
+      [gvc openClanView];
+      break;
+      
     default:
       break;
   }
@@ -1442,6 +1466,17 @@
     [self loadUpgradeViewControllerForIsHire:YES];
   }
 }
+
+- (void) loadMiniJobsView {
+  // LEGACY
+  GameViewController *gvc = [GameViewController baseController];
+  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
+  [gvc addChildViewController:rvc];
+  rvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:rvc.view];
+}
+
+#pragma mark - Upgrade
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
@@ -1468,15 +1503,6 @@
   uvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:uvc.view];
   self.currentViewController = uvc;
-}
-
-- (void) loadMiniJobsView {
-  // LEGACY
-  GameViewController *gvc = [GameViewController baseController];
-  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
-  [gvc addChildViewController:rvc];
-  rvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:rvc.view];
 }
 
 - (int) timeLeftForConstructionBuilding {
@@ -1588,6 +1614,8 @@
       [hb displayProgressBar];
       
       [self reselectCurrentSelection];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     ObstacleSprite *os = (ObstacleSprite *)self.selected;
@@ -1601,9 +1629,13 @@
       [os displayProgressBar];
       
       [self reselectCurrentSelection];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:OBSTACLE_REMOVAL_BEGAN_NOTIFICATION object:nil];
     }
   }
 }
+
+#pragma mark - Speedup
 
 - (IBAction)finishNowClicked:(id)sender {
   if (_isSpeedingUp) return;
@@ -1667,7 +1699,6 @@
           
           [QuestUtil checkAllStructQuests];
           [AchievementUtil checkBuildingUpgrade:us.structId];
-          [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
           
           _isSpeedingUp = NO;
         };
@@ -1678,6 +1709,8 @@
           comp();
           [mb removeProgressBar];
         }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
         
         return YES;
       }
@@ -1710,6 +1743,8 @@
           
           _isSpeedingUp = NO;
         };
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:OBSTACLE_COMPLETE_NOTIFICATION object:nil];
         
         
         if (os == self.selected) {
@@ -1803,8 +1838,9 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadClanHouse) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_MONSTER_NOTIFICATION object:nil];

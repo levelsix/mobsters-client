@@ -4,6 +4,7 @@
 
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class AcceptAndRejectFbInviteForSlotsRequestProto;
 @class AcceptAndRejectFbInviteForSlotsRequestProto_Builder;
@@ -115,6 +116,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   EvolveMonsterResponseProto_EvolveMonsterStatusSuccess = 1,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientGems = 2,
@@ -281,8 +294,8 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasEvolution;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasOilChange;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) UserMonsterEvolutionProto* evolution;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) UserMonsterEvolutionProto* evolution;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t oilChange;
 
@@ -294,6 +307,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EvolveMonsterRequestProto_Builder*) builder;
 + (EvolveMonsterRequestProto_Builder*) builder;
 + (EvolveMonsterRequestProto_Builder*) builderWithPrototype:(EvolveMonsterRequestProto*) prototype;
+- (EvolveMonsterRequestProto_Builder*) toBuilder;
 
 + (EvolveMonsterRequestProto*) parseFromData:(NSData*) data;
 + (EvolveMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -303,7 +317,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EvolveMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EvolveMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EvolveMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EvolveMonsterRequestProto* result;
 }
@@ -323,14 +337,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EvolveMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EvolveMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EvolveMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EvolveMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EvolveMonsterRequestProto_Builder*) clearSender;
 
 - (BOOL) hasEvolution;
 - (UserMonsterEvolutionProto*) evolution;
 - (EvolveMonsterRequestProto_Builder*) setEvolution:(UserMonsterEvolutionProto*) value;
-- (EvolveMonsterRequestProto_Builder*) setEvolutionBuilder:(UserMonsterEvolutionProto_Builder*) builderForValue;
+- (EvolveMonsterRequestProto_Builder*) setEvolution_Builder:(UserMonsterEvolutionProto_Builder*) builderForValue;
 - (EvolveMonsterRequestProto_Builder*) mergeEvolution:(UserMonsterEvolutionProto*) value;
 - (EvolveMonsterRequestProto_Builder*) clearEvolution;
 
@@ -354,7 +368,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EvolveMonsterResponseProto_EvolveMonsterStatus status;
 
 + (EvolveMonsterResponseProto*) defaultInstance;
@@ -365,6 +379,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EvolveMonsterResponseProto_Builder*) builder;
 + (EvolveMonsterResponseProto_Builder*) builder;
 + (EvolveMonsterResponseProto_Builder*) builderWithPrototype:(EvolveMonsterResponseProto*) prototype;
+- (EvolveMonsterResponseProto_Builder*) toBuilder;
 
 + (EvolveMonsterResponseProto*) parseFromData:(NSData*) data;
 + (EvolveMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -374,7 +389,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EvolveMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EvolveMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EvolveMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EvolveMonsterResponseProto* result;
 }
@@ -394,7 +409,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EvolveMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EvolveMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EvolveMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EvolveMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EvolveMonsterResponseProto_Builder*) clearSender;
 
@@ -413,7 +428,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemsSpent;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t gemsSpent;
 
 + (EvolutionFinishedRequestProto*) defaultInstance;
@@ -424,6 +439,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EvolutionFinishedRequestProto_Builder*) builder;
 + (EvolutionFinishedRequestProto_Builder*) builder;
 + (EvolutionFinishedRequestProto_Builder*) builderWithPrototype:(EvolutionFinishedRequestProto*) prototype;
+- (EvolutionFinishedRequestProto_Builder*) toBuilder;
 
 + (EvolutionFinishedRequestProto*) parseFromData:(NSData*) data;
 + (EvolutionFinishedRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -433,7 +449,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EvolutionFinishedRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EvolutionFinishedRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EvolutionFinishedRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EvolutionFinishedRequestProto* result;
 }
@@ -453,7 +469,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EvolutionFinishedRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EvolutionFinishedRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EvolutionFinishedRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EvolutionFinishedRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EvolutionFinishedRequestProto_Builder*) clearSender;
 
@@ -475,8 +491,8 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (BOOL) hasEvolvedMonster;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) FullUserMonsterProto* evolvedMonster;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) FullUserMonsterProto* evolvedMonster;
 @property (readonly) EvolutionFinishedResponseProto_EvolutionFinishedStatus status;
 
 + (EvolutionFinishedResponseProto*) defaultInstance;
@@ -487,6 +503,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EvolutionFinishedResponseProto_Builder*) builder;
 + (EvolutionFinishedResponseProto_Builder*) builder;
 + (EvolutionFinishedResponseProto_Builder*) builderWithPrototype:(EvolutionFinishedResponseProto*) prototype;
+- (EvolutionFinishedResponseProto_Builder*) toBuilder;
 
 + (EvolutionFinishedResponseProto*) parseFromData:(NSData*) data;
 + (EvolutionFinishedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -496,7 +513,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EvolutionFinishedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EvolutionFinishedResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EvolutionFinishedResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EvolutionFinishedResponseProto* result;
 }
@@ -516,14 +533,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EvolutionFinishedResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EvolutionFinishedResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EvolutionFinishedResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EvolutionFinishedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EvolutionFinishedResponseProto_Builder*) clearSender;
 
 - (BOOL) hasEvolvedMonster;
 - (FullUserMonsterProto*) evolvedMonster;
 - (EvolutionFinishedResponseProto_Builder*) setEvolvedMonster:(FullUserMonsterProto*) value;
-- (EvolutionFinishedResponseProto_Builder*) setEvolvedMonsterBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (EvolutionFinishedResponseProto_Builder*) setEvolvedMonster_Builder:(FullUserMonsterProto_Builder*) builderForValue;
 - (EvolutionFinishedResponseProto_Builder*) mergeEvolvedMonster:(FullUserMonsterProto*) value;
 - (EvolutionFinishedResponseProto_Builder*) clearEvolvedMonster;
 
@@ -541,22 +558,22 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   int32_t gemsSpent;
   MinimumUserProtoWithMaxResources* sender;
   int32_t oilChange;
-  NSMutableArray* mutableUeipDeleteList;
-  NSMutableArray* mutableUeipUpdateList;
-  NSMutableArray* mutableUeipNewList;
+  NSMutableArray * mutableUeipDeleteList;
+  NSMutableArray * mutableUeipUpdateList;
+  NSMutableArray * mutableUeipNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasOilChange;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * ueipDeleteList;
+@property (readonly, strong) NSArray * ueipUpdateList;
+@property (readonly, strong) NSArray * ueipNewList;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t oilChange;
-- (NSArray*) ueipDeleteList;
-- (UserEnhancementItemProto*) ueipDeleteAtIndex:(int32_t) index;
-- (NSArray*) ueipUpdateList;
-- (UserEnhancementItemProto*) ueipUpdateAtIndex:(int32_t) index;
-- (NSArray*) ueipNewList;
-- (UserEnhancementItemProto*) ueipNewAtIndex:(int32_t) index;
+- (UserEnhancementItemProto*)ueipDeleteAtIndex:(NSUInteger)index;
+- (UserEnhancementItemProto*)ueipUpdateAtIndex:(NSUInteger)index;
+- (UserEnhancementItemProto*)ueipNewAtIndex:(NSUInteger)index;
 
 + (SubmitMonsterEnhancementRequestProto*) defaultInstance;
 - (SubmitMonsterEnhancementRequestProto*) defaultInstance;
@@ -566,6 +583,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (SubmitMonsterEnhancementRequestProto_Builder*) builder;
 + (SubmitMonsterEnhancementRequestProto_Builder*) builder;
 + (SubmitMonsterEnhancementRequestProto_Builder*) builderWithPrototype:(SubmitMonsterEnhancementRequestProto*) prototype;
+- (SubmitMonsterEnhancementRequestProto_Builder*) toBuilder;
 
 + (SubmitMonsterEnhancementRequestProto*) parseFromData:(NSData*) data;
 + (SubmitMonsterEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -575,7 +593,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (SubmitMonsterEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SubmitMonsterEnhancementRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SubmitMonsterEnhancementRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SubmitMonsterEnhancementRequestProto* result;
 }
@@ -595,30 +613,27 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (SubmitMonsterEnhancementRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (SubmitMonsterEnhancementRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (SubmitMonsterEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (SubmitMonsterEnhancementRequestProto_Builder*) clearSender;
 
-- (NSArray*) ueipDeleteList;
-- (UserEnhancementItemProto*) ueipDeleteAtIndex:(int32_t) index;
-- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipDeleteAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipDelete:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipDelete:(NSArray*) values;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipDeleteList;
+- (NSMutableArray *)ueipDeleteList;
+- (UserEnhancementItemProto*)ueipDeleteAtIndex:(NSUInteger)index;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addUeipDelete:(UserEnhancementItemProto*)value;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addAllUeipDelete:(NSArray *)array;
+- (SubmitMonsterEnhancementRequestProto_Builder *)clearUeipDelete;
 
-- (NSArray*) ueipUpdateList;
-- (UserEnhancementItemProto*) ueipUpdateAtIndex:(int32_t) index;
-- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipUpdateAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipUpdate:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipUpdate:(NSArray*) values;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipUpdateList;
+- (NSMutableArray *)ueipUpdateList;
+- (UserEnhancementItemProto*)ueipUpdateAtIndex:(NSUInteger)index;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addUeipUpdate:(UserEnhancementItemProto*)value;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addAllUeipUpdate:(NSArray *)array;
+- (SubmitMonsterEnhancementRequestProto_Builder *)clearUeipUpdate;
 
-- (NSArray*) ueipNewList;
-- (UserEnhancementItemProto*) ueipNewAtIndex:(int32_t) index;
-- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipNewAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipNew:(UserEnhancementItemProto*) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipNew:(NSArray*) values;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipNewList;
+- (NSMutableArray *)ueipNewList;
+- (UserEnhancementItemProto*)ueipNewAtIndex:(NSUInteger)index;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addUeipNew:(UserEnhancementItemProto*)value;
+- (SubmitMonsterEnhancementRequestProto_Builder *)addAllUeipNew:(NSArray *)array;
+- (SubmitMonsterEnhancementRequestProto_Builder *)clearUeipNew;
 
 - (BOOL) hasGemsSpent;
 - (int32_t) gemsSpent;
@@ -640,7 +655,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
 
 + (SubmitMonsterEnhancementResponseProto*) defaultInstance;
@@ -651,6 +666,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (SubmitMonsterEnhancementResponseProto_Builder*) builder;
 + (SubmitMonsterEnhancementResponseProto_Builder*) builder;
 + (SubmitMonsterEnhancementResponseProto_Builder*) builderWithPrototype:(SubmitMonsterEnhancementResponseProto*) prototype;
+- (SubmitMonsterEnhancementResponseProto_Builder*) toBuilder;
 
 + (SubmitMonsterEnhancementResponseProto*) parseFromData:(NSData*) data;
 + (SubmitMonsterEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -660,7 +676,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (SubmitMonsterEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SubmitMonsterEnhancementResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SubmitMonsterEnhancementResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SubmitMonsterEnhancementResponseProto* result;
 }
@@ -680,7 +696,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (SubmitMonsterEnhancementResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (SubmitMonsterEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (SubmitMonsterEnhancementResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (SubmitMonsterEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearSender;
 
@@ -700,18 +716,18 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   int32_t gemsForSpeedup;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
 - (BOOL) hasUmcep;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
-@property (readonly, retain) UserMonsterCurrentExpProto* umcep;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+@property (readonly, strong) UserMonsterCurrentExpProto* umcep;
+@property (readonly, strong) PBArray * userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
 - (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
@@ -721,6 +737,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) builder;
 + (EnhancementWaitTimeCompleteRequestProto_Builder*) builder;
 + (EnhancementWaitTimeCompleteRequestProto_Builder*) builderWithPrototype:(EnhancementWaitTimeCompleteRequestProto*) prototype;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) toBuilder;
 
 + (EnhancementWaitTimeCompleteRequestProto*) parseFromData:(NSData*) data;
 + (EnhancementWaitTimeCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -730,7 +747,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EnhancementWaitTimeCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnhancementWaitTimeCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EnhancementWaitTimeCompleteRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnhancementWaitTimeCompleteRequestProto* result;
 }
@@ -750,7 +767,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) clearSender;
 
@@ -767,16 +784,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasUmcep;
 - (UserMonsterCurrentExpProto*) umcep;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) setUmcep:(UserMonsterCurrentExpProto*) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUmcepBuilder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUmcep_Builder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUmcep;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)clearUserMonsterIds;
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
@@ -788,7 +805,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
 
 + (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
@@ -799,6 +816,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) builder;
 + (EnhancementWaitTimeCompleteResponseProto_Builder*) builder;
 + (EnhancementWaitTimeCompleteResponseProto_Builder*) builderWithPrototype:(EnhancementWaitTimeCompleteResponseProto*) prototype;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) toBuilder;
 
 + (EnhancementWaitTimeCompleteResponseProto*) parseFromData:(NSData*) data;
 + (EnhancementWaitTimeCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -808,7 +826,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EnhancementWaitTimeCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnhancementWaitTimeCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EnhancementWaitTimeCompleteResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnhancementWaitTimeCompleteResponseProto* result;
 }
@@ -828,7 +846,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearSender;
 
@@ -856,9 +874,9 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasEnhancingResult;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasOilChange;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) UserEnhancementProto* uep;
-@property (readonly, retain) UserMonsterCurrentExpProto* enhancingResult;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) UserEnhancementProto* uep;
+@property (readonly, strong) UserMonsterCurrentExpProto* enhancingResult;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t oilChange;
 
@@ -870,6 +888,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhanceMonsterRequestProto_Builder*) builder;
 + (EnhanceMonsterRequestProto_Builder*) builder;
 + (EnhanceMonsterRequestProto_Builder*) builderWithPrototype:(EnhanceMonsterRequestProto*) prototype;
+- (EnhanceMonsterRequestProto_Builder*) toBuilder;
 
 + (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data;
 + (EnhanceMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -879,7 +898,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EnhanceMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnhanceMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EnhanceMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnhanceMonsterRequestProto* result;
 }
@@ -899,21 +918,21 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnhanceMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnhanceMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnhanceMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnhanceMonsterRequestProto_Builder*) clearSender;
 
 - (BOOL) hasUep;
 - (UserEnhancementProto*) uep;
 - (EnhanceMonsterRequestProto_Builder*) setUep:(UserEnhancementProto*) value;
-- (EnhanceMonsterRequestProto_Builder*) setUepBuilder:(UserEnhancementProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) setUep_Builder:(UserEnhancementProto_Builder*) builderForValue;
 - (EnhanceMonsterRequestProto_Builder*) mergeUep:(UserEnhancementProto*) value;
 - (EnhanceMonsterRequestProto_Builder*) clearUep;
 
 - (BOOL) hasEnhancingResult;
 - (UserMonsterCurrentExpProto*) enhancingResult;
 - (EnhanceMonsterRequestProto_Builder*) setEnhancingResult:(UserMonsterCurrentExpProto*) value;
-- (EnhanceMonsterRequestProto_Builder*) setEnhancingResultBuilder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
+- (EnhanceMonsterRequestProto_Builder*) setEnhancingResult_Builder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
 - (EnhanceMonsterRequestProto_Builder*) mergeEnhancingResult:(UserMonsterCurrentExpProto*) value;
 - (EnhanceMonsterRequestProto_Builder*) clearEnhancingResult;
 
@@ -937,7 +956,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EnhanceMonsterResponseProto_EnhanceMonsterStatus status;
 
 + (EnhanceMonsterResponseProto*) defaultInstance;
@@ -948,6 +967,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhanceMonsterResponseProto_Builder*) builder;
 + (EnhanceMonsterResponseProto_Builder*) builder;
 + (EnhanceMonsterResponseProto_Builder*) builderWithPrototype:(EnhanceMonsterResponseProto*) prototype;
+- (EnhanceMonsterResponseProto_Builder*) toBuilder;
 
 + (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data;
 + (EnhanceMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -957,7 +977,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (EnhanceMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnhanceMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EnhanceMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnhanceMonsterResponseProto* result;
 }
@@ -977,7 +997,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnhanceMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnhanceMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhanceMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnhanceMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnhanceMonsterResponseProto_Builder*) clearSender;
 
@@ -1005,7 +1025,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   int64_t droplessTsfuId;
   int32_t nuTaskStageId;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUmchpList;
+  NSMutableArray * mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
@@ -1015,7 +1035,8 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasDroplessTsfuId;
 - (BOOL) hasChangeNuPvpDmgMultiplier;
 - (BOOL) hasNuPvpDmgMultiplier;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * umchpList;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userTaskId;
 - (BOOL) isUpdateTaskStageForUser;
@@ -1023,8 +1044,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @property (readonly) int64_t droplessTsfuId;
 - (BOOL) changeNuPvpDmgMultiplier;
 @property (readonly) Float32 nuPvpDmgMultiplier;
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
 
 + (UpdateMonsterHealthRequestProto*) defaultInstance;
 - (UpdateMonsterHealthRequestProto*) defaultInstance;
@@ -1034,6 +1054,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UpdateMonsterHealthRequestProto_Builder*) builder;
 + (UpdateMonsterHealthRequestProto_Builder*) builder;
 + (UpdateMonsterHealthRequestProto_Builder*) builderWithPrototype:(UpdateMonsterHealthRequestProto*) prototype;
+- (UpdateMonsterHealthRequestProto_Builder*) toBuilder;
 
 + (UpdateMonsterHealthRequestProto*) parseFromData:(NSData*) data;
 + (UpdateMonsterHealthRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1043,7 +1064,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (UpdateMonsterHealthRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpdateMonsterHealthRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UpdateMonsterHealthRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpdateMonsterHealthRequestProto* result;
 }
@@ -1063,16 +1084,15 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpdateMonsterHealthRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpdateMonsterHealthRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateMonsterHealthRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpdateMonsterHealthRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearSender;
 
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
-- (UpdateMonsterHealthRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (UpdateMonsterHealthRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
-- (UpdateMonsterHealthRequestProto_Builder*) addAllUmchp:(NSArray*) values;
-- (UpdateMonsterHealthRequestProto_Builder*) clearUmchpList;
+- (NSMutableArray *)umchpList;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
+- (UpdateMonsterHealthRequestProto_Builder *)addUmchp:(UserMonsterCurrentHealthProto*)value;
+- (UpdateMonsterHealthRequestProto_Builder *)addAllUmchp:(NSArray *)array;
+- (UpdateMonsterHealthRequestProto_Builder *)clearUmchp;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -1119,7 +1139,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
 
 + (UpdateMonsterHealthResponseProto*) defaultInstance;
@@ -1130,6 +1150,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UpdateMonsterHealthResponseProto_Builder*) builder;
 + (UpdateMonsterHealthResponseProto_Builder*) builder;
 + (UpdateMonsterHealthResponseProto_Builder*) builderWithPrototype:(UpdateMonsterHealthResponseProto*) prototype;
+- (UpdateMonsterHealthResponseProto_Builder*) toBuilder;
 
 + (UpdateMonsterHealthResponseProto*) parseFromData:(NSData*) data;
 + (UpdateMonsterHealthResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1139,7 +1160,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (UpdateMonsterHealthResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpdateMonsterHealthResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UpdateMonsterHealthResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpdateMonsterHealthResponseProto* result;
 }
@@ -1159,7 +1180,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpdateMonsterHealthResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpdateMonsterHealthResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateMonsterHealthResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpdateMonsterHealthResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateMonsterHealthResponseProto_Builder*) clearSender;
 
@@ -1181,29 +1202,29 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   int32_t gemsForSpeedup;
   MinimumUserProtoWithMaxResources* sender;
   int32_t cashChange;
-  NSMutableArray* mutableUmhDeleteList;
-  NSMutableArray* mutableUmhUpdateList;
-  NSMutableArray* mutableUmhNewList;
-  NSMutableArray* mutableUmchpList;
+  NSMutableArray * mutableUmhDeleteList;
+  NSMutableArray * mutableUmhUpdateList;
+  NSMutableArray * mutableUmhNewList;
+  NSMutableArray * mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCashChange;
 - (BOOL) hasGemCostForHealing;
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * umhDeleteList;
+@property (readonly, strong) NSArray * umhUpdateList;
+@property (readonly, strong) NSArray * umhNewList;
 @property (readonly) int32_t cashChange;
 @property (readonly) int32_t gemCostForHealing;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
-- (NSArray*) umhDeleteList;
-- (UserMonsterHealingProto*) umhDeleteAtIndex:(int32_t) index;
-- (NSArray*) umhUpdateList;
-- (UserMonsterHealingProto*) umhUpdateAtIndex:(int32_t) index;
-- (NSArray*) umhNewList;
-- (UserMonsterHealingProto*) umhNewAtIndex:(int32_t) index;
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * umchpList;
+- (UserMonsterHealingProto*)umhDeleteAtIndex:(NSUInteger)index;
+- (UserMonsterHealingProto*)umhUpdateAtIndex:(NSUInteger)index;
+- (UserMonsterHealingProto*)umhNewAtIndex:(NSUInteger)index;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
 
 + (HealMonsterRequestProto*) defaultInstance;
 - (HealMonsterRequestProto*) defaultInstance;
@@ -1213,6 +1234,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (HealMonsterRequestProto_Builder*) builder;
 + (HealMonsterRequestProto_Builder*) builder;
 + (HealMonsterRequestProto_Builder*) builderWithPrototype:(HealMonsterRequestProto*) prototype;
+- (HealMonsterRequestProto_Builder*) toBuilder;
 
 + (HealMonsterRequestProto*) parseFromData:(NSData*) data;
 + (HealMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1222,7 +1244,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (HealMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface HealMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface HealMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   HealMonsterRequestProto* result;
 }
@@ -1242,30 +1264,27 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (HealMonsterRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (HealMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (HealMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (HealMonsterRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (HealMonsterRequestProto_Builder*) clearSender;
 
-- (NSArray*) umhDeleteList;
-- (UserMonsterHealingProto*) umhDeleteAtIndex:(int32_t) index;
-- (HealMonsterRequestProto_Builder*) replaceUmhDeleteAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addUmhDelete:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addAllUmhDelete:(NSArray*) values;
-- (HealMonsterRequestProto_Builder*) clearUmhDeleteList;
+- (NSMutableArray *)umhDeleteList;
+- (UserMonsterHealingProto*)umhDeleteAtIndex:(NSUInteger)index;
+- (HealMonsterRequestProto_Builder *)addUmhDelete:(UserMonsterHealingProto*)value;
+- (HealMonsterRequestProto_Builder *)addAllUmhDelete:(NSArray *)array;
+- (HealMonsterRequestProto_Builder *)clearUmhDelete;
 
-- (NSArray*) umhUpdateList;
-- (UserMonsterHealingProto*) umhUpdateAtIndex:(int32_t) index;
-- (HealMonsterRequestProto_Builder*) replaceUmhUpdateAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addUmhUpdate:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addAllUmhUpdate:(NSArray*) values;
-- (HealMonsterRequestProto_Builder*) clearUmhUpdateList;
+- (NSMutableArray *)umhUpdateList;
+- (UserMonsterHealingProto*)umhUpdateAtIndex:(NSUInteger)index;
+- (HealMonsterRequestProto_Builder *)addUmhUpdate:(UserMonsterHealingProto*)value;
+- (HealMonsterRequestProto_Builder *)addAllUmhUpdate:(NSArray *)array;
+- (HealMonsterRequestProto_Builder *)clearUmhUpdate;
 
-- (NSArray*) umhNewList;
-- (UserMonsterHealingProto*) umhNewAtIndex:(int32_t) index;
-- (HealMonsterRequestProto_Builder*) replaceUmhNewAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addUmhNew:(UserMonsterHealingProto*) value;
-- (HealMonsterRequestProto_Builder*) addAllUmhNew:(NSArray*) values;
-- (HealMonsterRequestProto_Builder*) clearUmhNewList;
+- (NSMutableArray *)umhNewList;
+- (UserMonsterHealingProto*)umhNewAtIndex:(NSUInteger)index;
+- (HealMonsterRequestProto_Builder *)addUmhNew:(UserMonsterHealingProto*)value;
+- (HealMonsterRequestProto_Builder *)addAllUmhNew:(NSArray *)array;
+- (HealMonsterRequestProto_Builder *)clearUmhNew;
 
 - (BOOL) hasCashChange;
 - (int32_t) cashChange;
@@ -1287,12 +1306,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (HealMonsterRequestProto_Builder*) setGemsForSpeedup:(int32_t) value;
 - (HealMonsterRequestProto_Builder*) clearGemsForSpeedup;
 
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
-- (HealMonsterRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (HealMonsterRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
-- (HealMonsterRequestProto_Builder*) addAllUmchp:(NSArray*) values;
-- (HealMonsterRequestProto_Builder*) clearUmchpList;
+- (NSMutableArray *)umchpList;
+- (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
+- (HealMonsterRequestProto_Builder *)addUmchp:(UserMonsterCurrentHealthProto*)value;
+- (HealMonsterRequestProto_Builder *)addAllUmchp:(NSArray *)array;
+- (HealMonsterRequestProto_Builder *)clearUmchp;
 @end
 
 @interface HealMonsterResponseProto : PBGeneratedMessage {
@@ -1304,7 +1322,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) HealMonsterResponseProto_HealMonsterStatus status;
 
 + (HealMonsterResponseProto*) defaultInstance;
@@ -1315,6 +1333,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (HealMonsterResponseProto_Builder*) builder;
 + (HealMonsterResponseProto_Builder*) builder;
 + (HealMonsterResponseProto_Builder*) builderWithPrototype:(HealMonsterResponseProto*) prototype;
+- (HealMonsterResponseProto_Builder*) toBuilder;
 
 + (HealMonsterResponseProto*) parseFromData:(NSData*) data;
 + (HealMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1324,7 +1343,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (HealMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface HealMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface HealMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   HealMonsterResponseProto* result;
 }
@@ -1344,7 +1363,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (HealMonsterResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (HealMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (HealMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (HealMonsterResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (HealMonsterResponseProto_Builder*) clearSender;
 
@@ -1366,7 +1385,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (BOOL) hasTeamSlotNum;
 - (BOOL) hasUserMonsterId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t teamSlotNum;
 @property (readonly) int64_t userMonsterId;
 
@@ -1378,6 +1397,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AddMonsterToBattleTeamRequestProto_Builder*) builder;
 + (AddMonsterToBattleTeamRequestProto_Builder*) builder;
 + (AddMonsterToBattleTeamRequestProto_Builder*) builderWithPrototype:(AddMonsterToBattleTeamRequestProto*) prototype;
+- (AddMonsterToBattleTeamRequestProto_Builder*) toBuilder;
 
 + (AddMonsterToBattleTeamRequestProto*) parseFromData:(NSData*) data;
 + (AddMonsterToBattleTeamRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1387,7 +1407,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (AddMonsterToBattleTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AddMonsterToBattleTeamRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface AddMonsterToBattleTeamRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   AddMonsterToBattleTeamRequestProto* result;
 }
@@ -1407,7 +1427,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AddMonsterToBattleTeamRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AddMonsterToBattleTeamRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AddMonsterToBattleTeamRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AddMonsterToBattleTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AddMonsterToBattleTeamRequestProto_Builder*) clearSender;
 
@@ -1431,7 +1451,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
 
 + (AddMonsterToBattleTeamResponseProto*) defaultInstance;
@@ -1442,6 +1462,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AddMonsterToBattleTeamResponseProto_Builder*) builder;
 + (AddMonsterToBattleTeamResponseProto_Builder*) builder;
 + (AddMonsterToBattleTeamResponseProto_Builder*) builderWithPrototype:(AddMonsterToBattleTeamResponseProto*) prototype;
+- (AddMonsterToBattleTeamResponseProto_Builder*) toBuilder;
 
 + (AddMonsterToBattleTeamResponseProto*) parseFromData:(NSData*) data;
 + (AddMonsterToBattleTeamResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1451,7 +1472,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (AddMonsterToBattleTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AddMonsterToBattleTeamResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface AddMonsterToBattleTeamResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   AddMonsterToBattleTeamResponseProto* result;
 }
@@ -1471,7 +1492,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (AddMonsterToBattleTeamResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AddMonsterToBattleTeamResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AddMonsterToBattleTeamResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (AddMonsterToBattleTeamResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (AddMonsterToBattleTeamResponseProto_Builder*) clearSender;
 
@@ -1490,7 +1511,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserMonsterId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t userMonsterId;
 
 + (RemoveMonsterFromBattleTeamRequestProto*) defaultInstance;
@@ -1501,6 +1522,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) builder;
 + (RemoveMonsterFromBattleTeamRequestProto_Builder*) builder;
 + (RemoveMonsterFromBattleTeamRequestProto_Builder*) builderWithPrototype:(RemoveMonsterFromBattleTeamRequestProto*) prototype;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) toBuilder;
 
 + (RemoveMonsterFromBattleTeamRequestProto*) parseFromData:(NSData*) data;
 + (RemoveMonsterFromBattleTeamRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1510,7 +1532,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (RemoveMonsterFromBattleTeamRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RemoveMonsterFromBattleTeamRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RemoveMonsterFromBattleTeamRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RemoveMonsterFromBattleTeamRequestProto* result;
 }
@@ -1530,7 +1552,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearSender;
 
@@ -1549,7 +1571,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
 
 + (RemoveMonsterFromBattleTeamResponseProto*) defaultInstance;
@@ -1560,6 +1582,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) builder;
 + (RemoveMonsterFromBattleTeamResponseProto_Builder*) builder;
 + (RemoveMonsterFromBattleTeamResponseProto_Builder*) builderWithPrototype:(RemoveMonsterFromBattleTeamResponseProto*) prototype;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) toBuilder;
 
 + (RemoveMonsterFromBattleTeamResponseProto*) parseFromData:(NSData*) data;
 + (RemoveMonsterFromBattleTeamResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1569,7 +1592,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (RemoveMonsterFromBattleTeamResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RemoveMonsterFromBattleTeamResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RemoveMonsterFromBattleTeamResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RemoveMonsterFromBattleTeamResponseProto* result;
 }
@@ -1589,7 +1612,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearSender;
 
@@ -1607,16 +1630,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   int32_t userStructId;
   MinimumUserProto* sender;
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
-  NSMutableArray* mutableUserFbInviteForSlotIdsList;
+  PBAppendableArray * mutableUserFbInviteForSlotIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIncreaseSlotType;
 - (BOOL) hasUserStructId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
 @property (readonly) int32_t userStructId;
-- (NSArray*) userFbInviteForSlotIdsList;
-- (int32_t) userFbInviteForSlotIdsAtIndex:(int32_t) index;
+@property (readonly, strong) PBArray * userFbInviteForSlotIdsList;
+- (int32_t)userFbInviteForSlotIdsAtIndex:(NSUInteger)index;
 
 + (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
 - (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
@@ -1626,6 +1649,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) builder;
 + (IncreaseMonsterInventorySlotRequestProto_Builder*) builder;
 + (IncreaseMonsterInventorySlotRequestProto_Builder*) builderWithPrototype:(IncreaseMonsterInventorySlotRequestProto*) prototype;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) toBuilder;
 
 + (IncreaseMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data;
 + (IncreaseMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1635,7 +1659,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (IncreaseMonsterInventorySlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface IncreaseMonsterInventorySlotRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface IncreaseMonsterInventorySlotRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   IncreaseMonsterInventorySlotRequestProto* result;
 }
@@ -1655,7 +1679,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) clearSender;
 
@@ -1669,12 +1693,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setUserStructId:(int32_t) value;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) clearUserStructId;
 
-- (NSArray*) userFbInviteForSlotIdsList;
-- (int32_t) userFbInviteForSlotIdsAtIndex:(int32_t) index;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) replaceUserFbInviteForSlotIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) addUserFbInviteForSlotIds:(int32_t) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) addAllUserFbInviteForSlotIds:(NSArray*) values;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearUserFbInviteForSlotIdsList;
+- (PBAppendableArray *)userFbInviteForSlotIdsList;
+- (int32_t)userFbInviteForSlotIdsAtIndex:(NSUInteger)index;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)addUserFbInviteForSlotIds:(int32_t)value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)addAllUserFbInviteForSlotIds:(NSArray *)array;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)setUserFbInviteForSlotIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)clearUserFbInviteForSlotIds;
 @end
 
 @interface IncreaseMonsterInventorySlotResponseProto : PBGeneratedMessage {
@@ -1686,7 +1710,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
 
 + (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
@@ -1697,6 +1721,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) builder;
 + (IncreaseMonsterInventorySlotResponseProto_Builder*) builder;
 + (IncreaseMonsterInventorySlotResponseProto_Builder*) builderWithPrototype:(IncreaseMonsterInventorySlotResponseProto*) prototype;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) toBuilder;
 
 + (IncreaseMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data;
 + (IncreaseMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1706,7 +1731,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (IncreaseMonsterInventorySlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface IncreaseMonsterInventorySlotResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface IncreaseMonsterInventorySlotResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   IncreaseMonsterInventorySlotResponseProto* result;
 }
@@ -1726,7 +1751,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) clearSender;
 
@@ -1740,12 +1765,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithFacebookId* sender;
-  NSMutableArray* mutableInvitesList;
+  NSMutableArray * mutableInvitesList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
-- (NSArray*) invitesList;
-- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) invitesAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
+@property (readonly, strong) NSArray * invitesList;
+- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*)invitesAtIndex:(NSUInteger)index;
 
 + (InviteFbFriendsForSlotsRequestProto*) defaultInstance;
 - (InviteFbFriendsForSlotsRequestProto*) defaultInstance;
@@ -1755,6 +1780,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsRequestProto_Builder*) builder;
 + (InviteFbFriendsForSlotsRequestProto_Builder*) builder;
 + (InviteFbFriendsForSlotsRequestProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsRequestProto*) prototype;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) toBuilder;
 
 + (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data;
 + (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1776,7 +1802,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasFbFriendId;
 - (BOOL) hasUserStructId;
 - (BOOL) hasUserStructFbLvl;
-@property (readonly, retain) NSString* fbFriendId;
+@property (readonly, strong) NSString* fbFriendId;
 @property (readonly) int32_t userStructId;
 @property (readonly) int32_t userStructFbLvl;
 
@@ -1788,6 +1814,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) builder;
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) builder;
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) prototype;
+- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) toBuilder;
 
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) parseFromData:(NSData*) data;
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1797,7 +1824,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder : PBGeneratedMessage_Builder {
+@interface InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder : PBGeneratedMessageBuilder {
 @private
   InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure* result;
 }
@@ -1830,7 +1857,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) clearUserStructFbLvl;
 @end
 
-@interface InviteFbFriendsForSlotsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface InviteFbFriendsForSlotsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   InviteFbFriendsForSlotsRequestProto* result;
 }
@@ -1850,16 +1877,15 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithFacebookId*) sender;
 - (InviteFbFriendsForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
-- (InviteFbFriendsForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
 - (InviteFbFriendsForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (InviteFbFriendsForSlotsRequestProto_Builder*) clearSender;
 
-- (NSArray*) invitesList;
-- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) invitesAtIndex:(int32_t) index;
-- (InviteFbFriendsForSlotsRequestProto_Builder*) replaceInvitesAtIndex:(int32_t) index with:(InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) value;
-- (InviteFbFriendsForSlotsRequestProto_Builder*) addInvites:(InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) value;
-- (InviteFbFriendsForSlotsRequestProto_Builder*) addAllInvites:(NSArray*) values;
-- (InviteFbFriendsForSlotsRequestProto_Builder*) clearInvitesList;
+- (NSMutableArray *)invitesList;
+- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*)invitesAtIndex:(NSUInteger)index;
+- (InviteFbFriendsForSlotsRequestProto_Builder *)addInvites:(InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*)value;
+- (InviteFbFriendsForSlotsRequestProto_Builder *)addAllInvites:(NSArray *)array;
+- (InviteFbFriendsForSlotsRequestProto_Builder *)clearInvites;
 @end
 
 @interface InviteFbFriendsForSlotsResponseProto : PBGeneratedMessage {
@@ -1868,14 +1894,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasStatus_:1;
   MinimumUserProtoWithFacebookId* sender;
   InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
-  NSMutableArray* mutableInvitesNewList;
+  NSMutableArray * mutableInvitesNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
+@property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
 @property (readonly) InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
-- (NSArray*) invitesNewList;
-- (UserFacebookInviteForSlotProto*) invitesNewAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * invitesNewList;
+- (UserFacebookInviteForSlotProto*)invitesNewAtIndex:(NSUInteger)index;
 
 + (InviteFbFriendsForSlotsResponseProto*) defaultInstance;
 - (InviteFbFriendsForSlotsResponseProto*) defaultInstance;
@@ -1885,6 +1911,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsResponseProto_Builder*) builder;
 + (InviteFbFriendsForSlotsResponseProto_Builder*) builder;
 + (InviteFbFriendsForSlotsResponseProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsResponseProto*) prototype;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) toBuilder;
 
 + (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data;
 + (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1894,7 +1921,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (InviteFbFriendsForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface InviteFbFriendsForSlotsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface InviteFbFriendsForSlotsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   InviteFbFriendsForSlotsResponseProto* result;
 }
@@ -1914,7 +1941,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithFacebookId*) sender;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) clearSender;
 
@@ -1923,27 +1950,26 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value;
 - (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus;
 
-- (NSArray*) invitesNewList;
-- (UserFacebookInviteForSlotProto*) invitesNewAtIndex:(int32_t) index;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) replaceInvitesNewAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) addInvitesNew:(UserFacebookInviteForSlotProto*) value;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) addAllInvitesNew:(NSArray*) values;
-- (InviteFbFriendsForSlotsResponseProto_Builder*) clearInvitesNewList;
+- (NSMutableArray *)invitesNewList;
+- (UserFacebookInviteForSlotProto*)invitesNewAtIndex:(NSUInteger)index;
+- (InviteFbFriendsForSlotsResponseProto_Builder *)addInvitesNew:(UserFacebookInviteForSlotProto*)value;
+- (InviteFbFriendsForSlotsResponseProto_Builder *)addAllInvitesNew:(NSArray *)array;
+- (InviteFbFriendsForSlotsResponseProto_Builder *)clearInvitesNew;
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithFacebookId* sender;
-  NSMutableArray* mutableAcceptedInviteIdsList;
-  NSMutableArray* mutableRejectedInviteIdsList;
+  PBAppendableArray * mutableAcceptedInviteIdsList;
+  PBAppendableArray * mutableRejectedInviteIdsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
-- (NSArray*) acceptedInviteIdsList;
-- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
-- (NSArray*) rejectedInviteIdsList;
-- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
+@property (readonly, strong) PBArray * acceptedInviteIdsList;
+@property (readonly, strong) PBArray * rejectedInviteIdsList;
+- (int32_t)acceptedInviteIdsAtIndex:(NSUInteger)index;
+- (int32_t)rejectedInviteIdsAtIndex:(NSUInteger)index;
 
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
 - (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
@@ -1953,6 +1979,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder;
 + (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder;
 + (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsRequestProto*) prototype;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) toBuilder;
 
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data;
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1962,7 +1989,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AcceptAndRejectFbInviteForSlotsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface AcceptAndRejectFbInviteForSlotsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   AcceptAndRejectFbInviteForSlotsRequestProto* result;
 }
@@ -1982,23 +2009,23 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithFacebookId*) sender;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender;
 
-- (NSArray*) acceptedInviteIdsList;
-- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceAcceptedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAcceptedInviteIds:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllAcceptedInviteIds:(NSArray*) values;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearAcceptedInviteIdsList;
+- (PBAppendableArray *)acceptedInviteIdsList;
+- (int32_t)acceptedInviteIdsAtIndex:(NSUInteger)index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAcceptedInviteIds:(int32_t)value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllAcceptedInviteIds:(NSArray *)array;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)setAcceptedInviteIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearAcceptedInviteIds;
 
-- (NSArray*) rejectedInviteIdsList;
-- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceRejectedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addRejectedInviteIds:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllRejectedInviteIds:(NSArray*) values;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearRejectedInviteIdsList;
+- (PBAppendableArray *)rejectedInviteIdsList;
+- (int32_t)rejectedInviteIdsAtIndex:(NSUInteger)index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addRejectedInviteIds:(int32_t)value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllRejectedInviteIds:(NSArray *)array;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)setRejectedInviteIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearRejectedInviteIds;
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsResponseProto : PBGeneratedMessage {
@@ -2007,14 +2034,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasStatus_:1;
   MinimumUserProtoWithFacebookId* sender;
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
-  NSMutableArray* mutableAcceptedInvitesList;
+  NSMutableArray * mutableAcceptedInvitesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
+@property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
 @property (readonly) AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
-- (NSArray*) acceptedInvitesList;
-- (UserFacebookInviteForSlotProto*) acceptedInvitesAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * acceptedInvitesList;
+- (UserFacebookInviteForSlotProto*)acceptedInvitesAtIndex:(NSUInteger)index;
 
 + (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
 - (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
@@ -2024,6 +2051,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder;
 + (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder;
 + (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsResponseProto*) prototype;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) toBuilder;
 
 + (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data;
 + (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2033,7 +2061,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface AcceptAndRejectFbInviteForSlotsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface AcceptAndRejectFbInviteForSlotsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   AcceptAndRejectFbInviteForSlotsResponseProto* result;
 }
@@ -2053,7 +2081,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithFacebookId*) sender;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender;
 
@@ -2062,12 +2090,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus;
 
-- (NSArray*) acceptedInvitesList;
-- (UserFacebookInviteForSlotProto*) acceptedInvitesAtIndex:(int32_t) index;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) replaceAcceptedInvitesAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) addAcceptedInvites:(UserFacebookInviteForSlotProto*) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) addAllAcceptedInvites:(NSArray*) values;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearAcceptedInvitesList;
+- (NSMutableArray *)acceptedInvitesList;
+- (UserFacebookInviteForSlotProto*)acceptedInvitesAtIndex:(NSUInteger)index;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder *)addAcceptedInvites:(UserFacebookInviteForSlotProto*)value;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder *)addAllAcceptedInvites:(NSArray *)array;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder *)clearAcceptedInvites;
 @end
 
 @interface CombineUserMonsterPiecesRequestProto : PBGeneratedMessage {
@@ -2076,14 +2103,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasSender_:1;
   int32_t gemCost;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemCost;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * userMonsterIdsList;
 @property (readonly) int32_t gemCost;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (CombineUserMonsterPiecesRequestProto*) defaultInstance;
 - (CombineUserMonsterPiecesRequestProto*) defaultInstance;
@@ -2093,6 +2120,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (CombineUserMonsterPiecesRequestProto_Builder*) builder;
 + (CombineUserMonsterPiecesRequestProto_Builder*) builder;
 + (CombineUserMonsterPiecesRequestProto_Builder*) builderWithPrototype:(CombineUserMonsterPiecesRequestProto*) prototype;
+- (CombineUserMonsterPiecesRequestProto_Builder*) toBuilder;
 
 + (CombineUserMonsterPiecesRequestProto*) parseFromData:(NSData*) data;
 + (CombineUserMonsterPiecesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2102,7 +2130,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (CombineUserMonsterPiecesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CombineUserMonsterPiecesRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface CombineUserMonsterPiecesRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   CombineUserMonsterPiecesRequestProto* result;
 }
@@ -2122,16 +2150,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (CombineUserMonsterPiecesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CombineUserMonsterPiecesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CombineUserMonsterPiecesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (CombineUserMonsterPiecesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearSender;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (CombineUserMonsterPiecesRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (CombineUserMonsterPiecesRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (CombineUserMonsterPiecesRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (CombineUserMonsterPiecesRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (CombineUserMonsterPiecesRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (CombineUserMonsterPiecesRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (CombineUserMonsterPiecesRequestProto_Builder *)clearUserMonsterIds;
 
 - (BOOL) hasGemCost;
 - (int32_t) gemCost;
@@ -2148,7 +2176,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
 
 + (CombineUserMonsterPiecesResponseProto*) defaultInstance;
@@ -2159,6 +2187,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (CombineUserMonsterPiecesResponseProto_Builder*) builder;
 + (CombineUserMonsterPiecesResponseProto_Builder*) builder;
 + (CombineUserMonsterPiecesResponseProto_Builder*) builderWithPrototype:(CombineUserMonsterPiecesResponseProto*) prototype;
+- (CombineUserMonsterPiecesResponseProto_Builder*) toBuilder;
 
 + (CombineUserMonsterPiecesResponseProto*) parseFromData:(NSData*) data;
 + (CombineUserMonsterPiecesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2168,7 +2197,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (CombineUserMonsterPiecesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CombineUserMonsterPiecesResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface CombineUserMonsterPiecesResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   CombineUserMonsterPiecesResponseProto* result;
 }
@@ -2188,7 +2217,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (CombineUserMonsterPiecesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CombineUserMonsterPiecesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CombineUserMonsterPiecesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (CombineUserMonsterPiecesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CombineUserMonsterPiecesResponseProto_Builder*) clearSender;
 
@@ -2202,12 +2231,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithMaxResources* sender;
-  NSMutableArray* mutableSalesList;
+  NSMutableArray * mutableSalesList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
-- (NSArray*) salesList;
-- (MinimumUserMonsterSellProto*) salesAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * salesList;
+- (MinimumUserMonsterSellProto*)salesAtIndex:(NSUInteger)index;
 
 + (SellUserMonsterRequestProto*) defaultInstance;
 - (SellUserMonsterRequestProto*) defaultInstance;
@@ -2217,6 +2246,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (SellUserMonsterRequestProto_Builder*) builder;
 + (SellUserMonsterRequestProto_Builder*) builder;
 + (SellUserMonsterRequestProto_Builder*) builderWithPrototype:(SellUserMonsterRequestProto*) prototype;
+- (SellUserMonsterRequestProto_Builder*) toBuilder;
 
 + (SellUserMonsterRequestProto*) parseFromData:(NSData*) data;
 + (SellUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2226,7 +2256,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (SellUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SellUserMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SellUserMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SellUserMonsterRequestProto* result;
 }
@@ -2246,16 +2276,15 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (SellUserMonsterRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (SellUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (SellUserMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (SellUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (SellUserMonsterRequestProto_Builder*) clearSender;
 
-- (NSArray*) salesList;
-- (MinimumUserMonsterSellProto*) salesAtIndex:(int32_t) index;
-- (SellUserMonsterRequestProto_Builder*) replaceSalesAtIndex:(int32_t) index with:(MinimumUserMonsterSellProto*) value;
-- (SellUserMonsterRequestProto_Builder*) addSales:(MinimumUserMonsterSellProto*) value;
-- (SellUserMonsterRequestProto_Builder*) addAllSales:(NSArray*) values;
-- (SellUserMonsterRequestProto_Builder*) clearSalesList;
+- (NSMutableArray *)salesList;
+- (MinimumUserMonsterSellProto*)salesAtIndex:(NSUInteger)index;
+- (SellUserMonsterRequestProto_Builder *)addSales:(MinimumUserMonsterSellProto*)value;
+- (SellUserMonsterRequestProto_Builder *)addAllSales:(NSArray *)array;
+- (SellUserMonsterRequestProto_Builder *)clearSales;
 @end
 
 @interface SellUserMonsterResponseProto : PBGeneratedMessage {
@@ -2267,7 +2296,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) SellUserMonsterResponseProto_SellUserMonsterStatus status;
 
 + (SellUserMonsterResponseProto*) defaultInstance;
@@ -2278,6 +2307,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (SellUserMonsterResponseProto_Builder*) builder;
 + (SellUserMonsterResponseProto_Builder*) builder;
 + (SellUserMonsterResponseProto_Builder*) builderWithPrototype:(SellUserMonsterResponseProto*) prototype;
+- (SellUserMonsterResponseProto_Builder*) toBuilder;
 
 + (SellUserMonsterResponseProto*) parseFromData:(NSData*) data;
 + (SellUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2287,7 +2317,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (SellUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SellUserMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SellUserMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SellUserMonsterResponseProto* result;
 }
@@ -2307,7 +2337,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (SellUserMonsterResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (SellUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (SellUserMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (SellUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (SellUserMonsterResponseProto_Builder*) clearSender;
 
@@ -2321,12 +2351,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (RestrictUserMonsterRequestProto*) defaultInstance;
 - (RestrictUserMonsterRequestProto*) defaultInstance;
@@ -2336,6 +2366,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RestrictUserMonsterRequestProto_Builder*) builder;
 + (RestrictUserMonsterRequestProto_Builder*) builder;
 + (RestrictUserMonsterRequestProto_Builder*) builderWithPrototype:(RestrictUserMonsterRequestProto*) prototype;
+- (RestrictUserMonsterRequestProto_Builder*) toBuilder;
 
 + (RestrictUserMonsterRequestProto*) parseFromData:(NSData*) data;
 + (RestrictUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2345,7 +2376,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (RestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RestrictUserMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RestrictUserMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RestrictUserMonsterRequestProto* result;
 }
@@ -2365,16 +2396,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RestrictUserMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RestrictUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RestrictUserMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RestrictUserMonsterRequestProto_Builder*) clearSender;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (RestrictUserMonsterRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (RestrictUserMonsterRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (RestrictUserMonsterRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (RestrictUserMonsterRequestProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (RestrictUserMonsterRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (RestrictUserMonsterRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (RestrictUserMonsterRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (RestrictUserMonsterRequestProto_Builder *)clearUserMonsterIds;
 @end
 
 @interface RestrictUserMonsterResponseProto : PBGeneratedMessage {
@@ -2386,7 +2417,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) RestrictUserMonsterResponseProto_RestrictUserMonsterStatus status;
 
 + (RestrictUserMonsterResponseProto*) defaultInstance;
@@ -2397,6 +2428,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RestrictUserMonsterResponseProto_Builder*) builder;
 + (RestrictUserMonsterResponseProto_Builder*) builder;
 + (RestrictUserMonsterResponseProto_Builder*) builderWithPrototype:(RestrictUserMonsterResponseProto*) prototype;
+- (RestrictUserMonsterResponseProto_Builder*) toBuilder;
 
 + (RestrictUserMonsterResponseProto*) parseFromData:(NSData*) data;
 + (RestrictUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2406,7 +2438,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (RestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RestrictUserMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RestrictUserMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RestrictUserMonsterResponseProto* result;
 }
@@ -2426,7 +2458,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (RestrictUserMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RestrictUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RestrictUserMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (RestrictUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RestrictUserMonsterResponseProto_Builder*) clearSender;
 
@@ -2440,12 +2472,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (UnrestrictUserMonsterRequestProto*) defaultInstance;
 - (UnrestrictUserMonsterRequestProto*) defaultInstance;
@@ -2455,6 +2487,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UnrestrictUserMonsterRequestProto_Builder*) builder;
 + (UnrestrictUserMonsterRequestProto_Builder*) builder;
 + (UnrestrictUserMonsterRequestProto_Builder*) builderWithPrototype:(UnrestrictUserMonsterRequestProto*) prototype;
+- (UnrestrictUserMonsterRequestProto_Builder*) toBuilder;
 
 + (UnrestrictUserMonsterRequestProto*) parseFromData:(NSData*) data;
 + (UnrestrictUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2464,7 +2497,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (UnrestrictUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UnrestrictUserMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UnrestrictUserMonsterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   UnrestrictUserMonsterRequestProto* result;
 }
@@ -2484,16 +2517,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UnrestrictUserMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UnrestrictUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UnrestrictUserMonsterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UnrestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UnrestrictUserMonsterRequestProto_Builder*) clearSender;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (UnrestrictUserMonsterRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (UnrestrictUserMonsterRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (UnrestrictUserMonsterRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (UnrestrictUserMonsterRequestProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (UnrestrictUserMonsterRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (UnrestrictUserMonsterRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (UnrestrictUserMonsterRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (UnrestrictUserMonsterRequestProto_Builder *)clearUserMonsterIds;
 @end
 
 @interface UnrestrictUserMonsterResponseProto : PBGeneratedMessage {
@@ -2505,7 +2538,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus status;
 
 + (UnrestrictUserMonsterResponseProto*) defaultInstance;
@@ -2516,6 +2549,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UnrestrictUserMonsterResponseProto_Builder*) builder;
 + (UnrestrictUserMonsterResponseProto_Builder*) builder;
 + (UnrestrictUserMonsterResponseProto_Builder*) builderWithPrototype:(UnrestrictUserMonsterResponseProto*) prototype;
+- (UnrestrictUserMonsterResponseProto_Builder*) toBuilder;
 
 + (UnrestrictUserMonsterResponseProto*) parseFromData:(NSData*) data;
 + (UnrestrictUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -2525,7 +2559,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 + (UnrestrictUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UnrestrictUserMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UnrestrictUserMonsterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UnrestrictUserMonsterResponseProto* result;
 }
@@ -2545,7 +2579,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UnrestrictUserMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UnrestrictUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UnrestrictUserMonsterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UnrestrictUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UnrestrictUserMonsterResponseProto_Builder*) clearSender;
 
@@ -2555,3 +2589,5 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UnrestrictUserMonsterResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

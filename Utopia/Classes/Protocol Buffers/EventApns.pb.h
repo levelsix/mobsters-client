@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
@@ -26,6 +27,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   EnableAPNSResponseProto_EnableAPNSStatusSuccess = 1,
   EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 2,
@@ -49,8 +62,8 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 }
 - (BOOL) hasSender;
 - (BOOL) hasDeviceToken;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) NSString* deviceToken;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* deviceToken;
 
 + (EnableAPNSRequestProto*) defaultInstance;
 - (EnableAPNSRequestProto*) defaultInstance;
@@ -60,6 +73,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (EnableAPNSRequestProto_Builder*) builder;
 + (EnableAPNSRequestProto_Builder*) builder;
 + (EnableAPNSRequestProto_Builder*) builderWithPrototype:(EnableAPNSRequestProto*) prototype;
+- (EnableAPNSRequestProto_Builder*) toBuilder;
 
 + (EnableAPNSRequestProto*) parseFromData:(NSData*) data;
 + (EnableAPNSRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -69,7 +83,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 + (EnableAPNSRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnableAPNSRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EnableAPNSRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnableAPNSRequestProto* result;
 }
@@ -89,7 +103,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnableAPNSRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnableAPNSRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnableAPNSRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnableAPNSRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnableAPNSRequestProto_Builder*) clearSender;
 
@@ -108,7 +122,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) EnableAPNSResponseProto_EnableAPNSStatus status;
 
 + (EnableAPNSResponseProto*) defaultInstance;
@@ -119,6 +133,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (EnableAPNSResponseProto_Builder*) builder;
 + (EnableAPNSResponseProto_Builder*) builder;
 + (EnableAPNSResponseProto_Builder*) builderWithPrototype:(EnableAPNSResponseProto*) prototype;
+- (EnableAPNSResponseProto_Builder*) toBuilder;
 
 + (EnableAPNSResponseProto*) parseFromData:(NSData*) data;
 + (EnableAPNSResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -128,7 +143,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 + (EnableAPNSResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EnableAPNSResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EnableAPNSResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EnableAPNSResponseProto* result;
 }
@@ -148,7 +163,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (EnableAPNSResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EnableAPNSResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnableAPNSResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EnableAPNSResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EnableAPNSResponseProto_Builder*) clearSender;
 
@@ -158,3 +173,5 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (EnableAPNSResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

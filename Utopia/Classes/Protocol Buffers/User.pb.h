@@ -2,6 +2,8 @@
 
 #import "ProtocolBuffers.h"
 
+// @@protoc_insertion_point(imports)
+
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
@@ -20,6 +22,18 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface UserRoot : NSObject {
 }
@@ -52,10 +66,10 @@
 - (BOOL) hasRequestToJoinRequired;
 - (BOOL) hasClanIconId;
 @property (readonly) int32_t clanId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int64_t createTime;
-@property (readonly, retain) NSString* description;
-@property (readonly, retain) NSString* tag;
+@property (readonly, strong) NSString* description;
+@property (readonly, strong) NSString* tag;
 - (BOOL) requestToJoinRequired;
 @property (readonly) int32_t clanIconId;
 
@@ -67,6 +81,7 @@
 - (MinimumClanProto_Builder*) builder;
 + (MinimumClanProto_Builder*) builder;
 + (MinimumClanProto_Builder*) builderWithPrototype:(MinimumClanProto*) prototype;
+- (MinimumClanProto_Builder*) toBuilder;
 
 + (MinimumClanProto*) parseFromData:(NSData*) data;
 + (MinimumClanProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -76,7 +91,7 @@
 + (MinimumClanProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumClanProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumClanProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumClanProto* result;
 }
@@ -145,8 +160,8 @@
 - (BOOL) hasClan;
 - (BOOL) hasAvatarMonsterId;
 @property (readonly) int32_t userId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) MinimumClanProto* clan;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) MinimumClanProto* clan;
 @property (readonly) int32_t avatarMonsterId;
 
 + (MinimumUserProto*) defaultInstance;
@@ -157,6 +172,7 @@
 - (MinimumUserProto_Builder*) builder;
 + (MinimumUserProto_Builder*) builder;
 + (MinimumUserProto_Builder*) builderWithPrototype:(MinimumUserProto*) prototype;
+- (MinimumUserProto_Builder*) toBuilder;
 
 + (MinimumUserProto*) parseFromData:(NSData*) data;
 + (MinimumUserProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -166,7 +182,7 @@
 + (MinimumUserProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProto_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProto_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProto* result;
 }
@@ -196,7 +212,7 @@
 - (BOOL) hasClan;
 - (MinimumClanProto*) clan;
 - (MinimumUserProto_Builder*) setClan:(MinimumClanProto*) value;
-- (MinimumUserProto_Builder*) setClanBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (MinimumUserProto_Builder*) setClan_Builder:(MinimumClanProto_Builder*) builderForValue;
 - (MinimumUserProto_Builder*) mergeClan:(MinimumClanProto*) value;
 - (MinimumUserProto_Builder*) clearClan;
 
@@ -215,7 +231,7 @@
 }
 - (BOOL) hasMinUserProto;
 - (BOOL) hasLevel;
-@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly, strong) MinimumUserProto* minUserProto;
 @property (readonly) int32_t level;
 
 + (MinimumUserProtoWithLevel*) defaultInstance;
@@ -226,6 +242,7 @@
 - (MinimumUserProtoWithLevel_Builder*) builder;
 + (MinimumUserProtoWithLevel_Builder*) builder;
 + (MinimumUserProtoWithLevel_Builder*) builderWithPrototype:(MinimumUserProtoWithLevel*) prototype;
+- (MinimumUserProtoWithLevel_Builder*) toBuilder;
 
 + (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data;
 + (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -235,7 +252,7 @@
 + (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProtoWithLevel_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProtoWithLevel_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProtoWithLevel* result;
 }
@@ -255,7 +272,7 @@
 - (BOOL) hasMinUserProto;
 - (MinimumUserProto*) minUserProto;
 - (MinimumUserProtoWithLevel_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevel_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithLevel_Builder*) setMinUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MinimumUserProtoWithLevel_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
 - (MinimumUserProtoWithLevel_Builder*) clearMinUserProto;
 
@@ -274,8 +291,8 @@
 }
 - (BOOL) hasMinUserProto;
 - (BOOL) hasFacebookId;
-@property (readonly, retain) MinimumUserProto* minUserProto;
-@property (readonly, retain) NSString* facebookId;
+@property (readonly, strong) MinimumUserProto* minUserProto;
+@property (readonly, strong) NSString* facebookId;
 
 + (MinimumUserProtoWithFacebookId*) defaultInstance;
 - (MinimumUserProtoWithFacebookId*) defaultInstance;
@@ -285,6 +302,7 @@
 - (MinimumUserProtoWithFacebookId_Builder*) builder;
 + (MinimumUserProtoWithFacebookId_Builder*) builder;
 + (MinimumUserProtoWithFacebookId_Builder*) builderWithPrototype:(MinimumUserProtoWithFacebookId*) prototype;
+- (MinimumUserProtoWithFacebookId_Builder*) toBuilder;
 
 + (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data;
 + (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -294,7 +312,7 @@
 + (MinimumUserProtoWithFacebookId*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProtoWithFacebookId_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProtoWithFacebookId_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProtoWithFacebookId* result;
 }
@@ -314,7 +332,7 @@
 - (BOOL) hasMinUserProto;
 - (MinimumUserProto*) minUserProto;
 - (MinimumUserProtoWithFacebookId_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MinimumUserProtoWithFacebookId_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
 - (MinimumUserProtoWithFacebookId_Builder*) clearMinUserProto;
 
@@ -336,7 +354,7 @@
 - (BOOL) hasMinUserProto;
 - (BOOL) hasMaxCash;
 - (BOOL) hasMaxOil;
-@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly, strong) MinimumUserProto* minUserProto;
 @property (readonly) int32_t maxCash;
 @property (readonly) int32_t maxOil;
 
@@ -348,6 +366,7 @@
 - (MinimumUserProtoWithMaxResources_Builder*) builder;
 + (MinimumUserProtoWithMaxResources_Builder*) builder;
 + (MinimumUserProtoWithMaxResources_Builder*) builderWithPrototype:(MinimumUserProtoWithMaxResources*) prototype;
+- (MinimumUserProtoWithMaxResources_Builder*) toBuilder;
 
 + (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data;
 + (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -357,7 +376,7 @@
 + (MinimumUserProtoWithMaxResources*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MinimumUserProtoWithMaxResources_Builder : PBGeneratedMessage_Builder {
+@interface MinimumUserProtoWithMaxResources_Builder : PBGeneratedMessageBuilder {
 @private
   MinimumUserProtoWithMaxResources* result;
 }
@@ -377,7 +396,7 @@
 - (BOOL) hasMinUserProto;
 - (MinimumUserProto*) minUserProto;
 - (MinimumUserProtoWithMaxResources_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProto_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MinimumUserProtoWithMaxResources_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
 - (MinimumUserProtoWithMaxResources_Builder*) clearMinUserProto;
 
@@ -420,8 +439,8 @@
 - (BOOL) hasStructFbLvl;
 - (BOOL) hasRedeemedTime;
 @property (readonly) int32_t inviteId;
-@property (readonly, retain) MinimumUserProtoWithFacebookId* inviter;
-@property (readonly, retain) NSString* recipientFacebookId;
+@property (readonly, strong) MinimumUserProtoWithFacebookId* inviter;
+@property (readonly, strong) NSString* recipientFacebookId;
 @property (readonly) int64_t timeOfInvite;
 @property (readonly) int64_t timeAccepted;
 @property (readonly) int32_t userStructId;
@@ -436,6 +455,7 @@
 - (UserFacebookInviteForSlotProto_Builder*) builder;
 + (UserFacebookInviteForSlotProto_Builder*) builder;
 + (UserFacebookInviteForSlotProto_Builder*) builderWithPrototype:(UserFacebookInviteForSlotProto*) prototype;
+- (UserFacebookInviteForSlotProto_Builder*) toBuilder;
 
 + (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data;
 + (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -445,7 +465,7 @@
 + (UserFacebookInviteForSlotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserFacebookInviteForSlotProto_Builder : PBGeneratedMessage_Builder {
+@interface UserFacebookInviteForSlotProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserFacebookInviteForSlotProto* result;
 }
@@ -470,7 +490,7 @@
 - (BOOL) hasInviter;
 - (MinimumUserProtoWithFacebookId*) inviter;
 - (UserFacebookInviteForSlotProto_Builder*) setInviter:(MinimumUserProtoWithFacebookId*) value;
-- (UserFacebookInviteForSlotProto_Builder*) setInviterBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (UserFacebookInviteForSlotProto_Builder*) setInviter_Builder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
 - (UserFacebookInviteForSlotProto_Builder*) mergeInviter:(MinimumUserProtoWithFacebookId*) value;
 - (UserFacebookInviteForSlotProto_Builder*) clearInviter;
 
@@ -620,14 +640,14 @@
 - (BOOL) hasFbIdSetOnUserCreate;
 - (BOOL) hasUdid;
 @property (readonly) int32_t userId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) int32_t gems;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
-@property (readonly, retain) NSString* referralCode;
+@property (readonly, strong) NSString* referralCode;
 @property (readonly) int32_t numReferrals;
 @property (readonly) int64_t lastLoginTime;
 @property (readonly) int64_t lastLogoutTime;
@@ -635,27 +655,27 @@
 - (BOOL) isAdmin;
 @property (readonly) int32_t numCoinsRetrievedFromStructs;
 @property (readonly) int32_t numOilRetrievedFromStructs;
-@property (readonly, retain) MinimumClanProto* clan;
+@property (readonly, strong) MinimumClanProto* clan;
 - (BOOL) hasReceivedfbReward;
 @property (readonly) int32_t numBeginnerSalesPurchased;
-@property (readonly, retain) NSString* facebookId;
-@property (readonly, retain) NSString* gameCenterId;
+@property (readonly, strong) NSString* facebookId;
+@property (readonly, strong) NSString* gameCenterId;
 @property (readonly) int64_t lastObstacleSpawnedTime;
 @property (readonly) int32_t numObstaclesRemoved;
 @property (readonly) int32_t avatarMonsterId;
-@property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
+@property (readonly, strong) UserPvpLeagueProto* pvpLeagueInfo;
 @property (readonly) int64_t lastMiniJobSpawnedTime;
 @property (readonly) int64_t lastFreeBoosterPackTime;
-@property (readonly, retain) NSString* udidForHistory;
-@property (readonly, retain) NSString* deviceToken;
+@property (readonly, strong) NSString* udidForHistory;
+@property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t createTime;
 @property (readonly) int32_t apsalarId;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 @property (readonly) int64_t lastWallPostNotificationTime;
-@property (readonly, retain) NSString* kabamNaid;
+@property (readonly, strong) NSString* kabamNaid;
 - (BOOL) fbIdSetOnUserCreate;
-@property (readonly, retain) NSString* udid;
+@property (readonly, strong) NSString* udid;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -665,6 +685,7 @@
 - (FullUserProto_Builder*) builder;
 + (FullUserProto_Builder*) builder;
 + (FullUserProto_Builder*) builderWithPrototype:(FullUserProto*) prototype;
+- (FullUserProto_Builder*) toBuilder;
 
 + (FullUserProto*) parseFromData:(NSData*) data;
 + (FullUserProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -674,7 +695,7 @@
 + (FullUserProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserProto_Builder : PBGeneratedMessage_Builder {
+@interface FullUserProto_Builder : PBGeneratedMessageBuilder {
 @private
   FullUserProto* result;
 }
@@ -774,7 +795,7 @@
 - (BOOL) hasClan;
 - (MinimumClanProto*) clan;
 - (FullUserProto_Builder*) setClan:(MinimumClanProto*) value;
-- (FullUserProto_Builder*) setClanBuilder:(MinimumClanProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) setClan_Builder:(MinimumClanProto_Builder*) builderForValue;
 - (FullUserProto_Builder*) mergeClan:(MinimumClanProto*) value;
 - (FullUserProto_Builder*) clearClan;
 
@@ -816,7 +837,7 @@
 - (BOOL) hasPvpLeagueInfo;
 - (UserPvpLeagueProto*) pvpLeagueInfo;
 - (FullUserProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value;
-- (FullUserProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) setPvpLeagueInfo_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
 - (FullUserProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value;
 - (FullUserProto_Builder*) clearPvpLeagueInfo;
 
@@ -901,6 +922,7 @@
 - (StaticUserLevelInfoProto_Builder*) builder;
 + (StaticUserLevelInfoProto_Builder*) builder;
 + (StaticUserLevelInfoProto_Builder*) builderWithPrototype:(StaticUserLevelInfoProto*) prototype;
+- (StaticUserLevelInfoProto_Builder*) toBuilder;
 
 + (StaticUserLevelInfoProto*) parseFromData:(NSData*) data;
 + (StaticUserLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -910,7 +932,7 @@
 + (StaticUserLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface StaticUserLevelInfoProto_Builder : PBGeneratedMessage_Builder {
+@interface StaticUserLevelInfoProto_Builder : PBGeneratedMessageBuilder {
 @private
   StaticUserLevelInfoProto* result;
 }
@@ -982,6 +1004,7 @@
 - (UserPvpLeagueProto_Builder*) builder;
 + (UserPvpLeagueProto_Builder*) builder;
 + (UserPvpLeagueProto_Builder*) builderWithPrototype:(UserPvpLeagueProto*) prototype;
+- (UserPvpLeagueProto_Builder*) toBuilder;
 
 + (UserPvpLeagueProto*) parseFromData:(NSData*) data;
 + (UserPvpLeagueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -991,7 +1014,7 @@
 + (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserPvpLeagueProto_Builder : PBGeneratedMessage_Builder {
+@interface UserPvpLeagueProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserPvpLeagueProto* result;
 }
@@ -1049,3 +1072,5 @@
 - (UserPvpLeagueProto_Builder*) clearMonsterDmgMultiplier;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

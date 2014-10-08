@@ -397,7 +397,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals addGreenAlertNotification:msg isImmediate:NO];
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) addToMyItems:(NSArray *)items {
@@ -881,6 +881,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allMiniJobCentersList];
   [self addToStaticStructs:proto.allTeamCentersList];
   [self addToStaticStructs:proto.allEvoChambersList];
+  [self addToStaticStructs:proto.allClanHousesList];
   
   [self addToStaticItems:proto.itemsList];
   [self addToStaticObstacles:proto.obstaclesList];
@@ -986,7 +987,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (BOOL) isCityUnlocked:(int)cityId {
   FullCityProto *city = [self cityWithId:cityId];
-  for (NSNumber *taskId in city.taskIdsList) {
+  for (NSNumber *taskId in city.taskIdsList.toNSArray) {
     if ([self isTaskUnlocked:taskId.intValue]) {
       return YES;
     }
@@ -1395,7 +1396,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] spawnMiniJob:numToSpawn structId:fsp.structInfo.structId];
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [self beginMiniJobTimerShowFreeSpeedupImmediately:NO];
   
   [QuestUtil checkAllDonateQuests];

@@ -5,6 +5,7 @@
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
@@ -70,6 +71,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 
 @interface MiniJobConfigRoot : NSObject {
 }
@@ -130,7 +143,7 @@
 - (BOOL) hasDurationMaxMinutes;
 @property (readonly) int32_t miniJobId;
 @property (readonly) int32_t requiredStructId;
-@property (readonly, retain) NSString* name;
+@property (readonly, strong) NSString* name;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 @property (readonly) int32_t gemReward;
@@ -153,6 +166,7 @@
 - (MiniJobProto_Builder*) builder;
 + (MiniJobProto_Builder*) builder;
 + (MiniJobProto_Builder*) builderWithPrototype:(MiniJobProto*) prototype;
+- (MiniJobProto_Builder*) toBuilder;
 
 + (MiniJobProto*) parseFromData:(NSData*) data;
 + (MiniJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -162,7 +176,7 @@
 + (MiniJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MiniJobProto_Builder : PBGeneratedMessage_Builder {
+@interface MiniJobProto_Builder : PBGeneratedMessageBuilder {
 @private
   MiniJobProto* result;
 }
@@ -274,7 +288,7 @@
   int32_t baseDmgReceived;
   int32_t durationMinutes;
   MiniJobProto* miniJob;
-  NSMutableArray* mutableUserMonsterIdsList;
+  PBAppendableArray * mutableUserMonsterIdsList;
 }
 - (BOOL) hasUserMiniJobId;
 - (BOOL) hasBaseDmgReceived;
@@ -285,11 +299,11 @@
 @property (readonly) int64_t userMiniJobId;
 @property (readonly) int32_t baseDmgReceived;
 @property (readonly) int64_t timeStarted;
+@property (readonly, strong) PBArray * userMonsterIdsList;
 @property (readonly) int64_t timeCompleted;
 @property (readonly) int32_t durationMinutes;
-@property (readonly, retain) MiniJobProto* miniJob;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+@property (readonly, strong) MiniJobProto* miniJob;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (UserMiniJobProto*) defaultInstance;
 - (UserMiniJobProto*) defaultInstance;
@@ -299,6 +313,7 @@
 - (UserMiniJobProto_Builder*) builder;
 + (UserMiniJobProto_Builder*) builder;
 + (UserMiniJobProto_Builder*) builderWithPrototype:(UserMiniJobProto*) prototype;
+- (UserMiniJobProto_Builder*) toBuilder;
 
 + (UserMiniJobProto*) parseFromData:(NSData*) data;
 + (UserMiniJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -308,7 +323,7 @@
 + (UserMiniJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserMiniJobProto_Builder : PBGeneratedMessage_Builder {
+@interface UserMiniJobProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserMiniJobProto* result;
 }
@@ -340,12 +355,12 @@
 - (UserMiniJobProto_Builder*) setTimeStarted:(int64_t) value;
 - (UserMiniJobProto_Builder*) clearTimeStarted;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (UserMiniJobProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (UserMiniJobProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (UserMiniJobProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (UserMiniJobProto_Builder*) clearUserMonsterIdsList;
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (UserMiniJobProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (UserMiniJobProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (UserMiniJobProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (UserMiniJobProto_Builder *)clearUserMonsterIds;
 
 - (BOOL) hasTimeCompleted;
 - (int64_t) timeCompleted;
@@ -360,8 +375,10 @@
 - (BOOL) hasMiniJob;
 - (MiniJobProto*) miniJob;
 - (UserMiniJobProto_Builder*) setMiniJob:(MiniJobProto*) value;
-- (UserMiniJobProto_Builder*) setMiniJobBuilder:(MiniJobProto_Builder*) builderForValue;
+- (UserMiniJobProto_Builder*) setMiniJob_Builder:(MiniJobProto_Builder*) builderForValue;
 - (UserMiniJobProto_Builder*) mergeMiniJob:(MiniJobProto*) value;
 - (UserMiniJobProto_Builder*) clearMiniJob;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

@@ -78,6 +78,9 @@
   }
   
   self.shopViewController = [[ShopViewController alloc] init];
+  
+  // We have to do this because it seems that the view connection wasnt made when the view was added
+  [self.timerViewController viewWillAppear:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

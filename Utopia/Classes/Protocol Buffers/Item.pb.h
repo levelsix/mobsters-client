@@ -2,10 +2,24 @@
 
 #import "ProtocolBuffers.h"
 
+// @@protoc_insertion_point(imports)
+
 @class ItemProto;
 @class ItemProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   ItemTypeBoosterPack = 1,
 } ItemType;
@@ -43,6 +57,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (UserItemProto_Builder*) builder;
 + (UserItemProto_Builder*) builder;
 + (UserItemProto_Builder*) builderWithPrototype:(UserItemProto*) prototype;
+- (UserItemProto_Builder*) toBuilder;
 
 + (UserItemProto*) parseFromData:(NSData*) data;
 + (UserItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -52,7 +67,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 + (UserItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UserItemProto_Builder : PBGeneratedMessage_Builder {
+@interface UserItemProto_Builder : PBGeneratedMessageBuilder {
 @private
   UserItemProto* result;
 }
@@ -104,8 +119,8 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasItemType;
 - (BOOL) hasStaticDataId;
 @property (readonly) int32_t itemId;
-@property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* imgName;
+@property (readonly, strong) NSString* name;
+@property (readonly, strong) NSString* imgName;
 @property (readonly) ItemType itemType;
 @property (readonly) int32_t staticDataId;
 
@@ -117,6 +132,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (ItemProto_Builder*) builder;
 + (ItemProto_Builder*) builder;
 + (ItemProto_Builder*) builderWithPrototype:(ItemProto*) prototype;
+- (ItemProto_Builder*) toBuilder;
 
 + (ItemProto*) parseFromData:(NSData*) data;
 + (ItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -126,7 +142,7 @@ BOOL ItemTypeIsValidValue(ItemType value);
 + (ItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ItemProto_Builder : PBGeneratedMessage_Builder {
+@interface ItemProto_Builder : PBGeneratedMessageBuilder {
 @private
   ItemProto* result;
 }
@@ -169,3 +185,5 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (ItemProto_Builder*) clearStaticDataId;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

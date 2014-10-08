@@ -4,6 +4,7 @@
 
 #import "Battle.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BeginPvpBattleRequestProto;
 @class BeginPvpBattleRequestProto_Builder;
@@ -67,6 +68,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   QueueUpResponseProto_QueueUpStatusSuccess = 1,
   QueueUpResponseProto_QueueUpStatusFailNotEnoughCash = 2,
@@ -107,16 +120,16 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   int64_t clientTime;
   int32_t attackerElo;
   MinimumUserProto* attacker;
-  NSMutableArray* mutableSeenUserIdsList;
+  PBAppendableArray * mutableSeenUserIdsList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasAttackerElo;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* attacker;
+@property (readonly, strong) MinimumUserProto* attacker;
 @property (readonly) int32_t attackerElo;
+@property (readonly, strong) PBArray * seenUserIdsList;
 @property (readonly) int64_t clientTime;
-- (NSArray*) seenUserIdsList;
-- (int32_t) seenUserIdsAtIndex:(int32_t) index;
+- (int32_t)seenUserIdsAtIndex:(NSUInteger)index;
 
 + (QueueUpRequestProto*) defaultInstance;
 - (QueueUpRequestProto*) defaultInstance;
@@ -126,6 +139,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (QueueUpRequestProto_Builder*) builder;
 + (QueueUpRequestProto_Builder*) builder;
 + (QueueUpRequestProto_Builder*) builderWithPrototype:(QueueUpRequestProto*) prototype;
+- (QueueUpRequestProto_Builder*) toBuilder;
 
 + (QueueUpRequestProto*) parseFromData:(NSData*) data;
 + (QueueUpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -135,7 +149,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (QueueUpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QueueUpRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface QueueUpRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   QueueUpRequestProto* result;
 }
@@ -155,7 +169,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasAttacker;
 - (MinimumUserProto*) attacker;
 - (QueueUpRequestProto_Builder*) setAttacker:(MinimumUserProto*) value;
-- (QueueUpRequestProto_Builder*) setAttackerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QueueUpRequestProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
 
@@ -164,12 +178,12 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value;
 - (QueueUpRequestProto_Builder*) clearAttackerElo;
 
-- (NSArray*) seenUserIdsList;
-- (int32_t) seenUserIdsAtIndex:(int32_t) index;
-- (QueueUpRequestProto_Builder*) replaceSeenUserIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (QueueUpRequestProto_Builder*) addSeenUserIds:(int32_t) value;
-- (QueueUpRequestProto_Builder*) addAllSeenUserIds:(NSArray*) values;
-- (QueueUpRequestProto_Builder*) clearSeenUserIdsList;
+- (PBAppendableArray *)seenUserIdsList;
+- (int32_t)seenUserIdsAtIndex:(NSUInteger)index;
+- (QueueUpRequestProto_Builder *)addSeenUserIds:(int32_t)value;
+- (QueueUpRequestProto_Builder *)addAllSeenUserIds:(NSArray *)array;
+- (QueueUpRequestProto_Builder *)setSeenUserIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (QueueUpRequestProto_Builder *)clearSeenUserIds;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -183,14 +197,14 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   BOOL hasStatus_:1;
   MinimumUserProto* attacker;
   QueueUpResponseProto_QueueUpStatus status;
-  NSMutableArray* mutableDefenderInfoListList;
+  NSMutableArray * mutableDefenderInfoListList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* attacker;
+@property (readonly, strong) MinimumUserProto* attacker;
+@property (readonly, strong) NSArray * defenderInfoListList;
 @property (readonly) QueueUpResponseProto_QueueUpStatus status;
-- (NSArray*) defenderInfoListList;
-- (PvpProto*) defenderInfoListAtIndex:(int32_t) index;
+- (PvpProto*)defenderInfoListAtIndex:(NSUInteger)index;
 
 + (QueueUpResponseProto*) defaultInstance;
 - (QueueUpResponseProto*) defaultInstance;
@@ -200,6 +214,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (QueueUpResponseProto_Builder*) builder;
 + (QueueUpResponseProto_Builder*) builder;
 + (QueueUpResponseProto_Builder*) builderWithPrototype:(QueueUpResponseProto*) prototype;
+- (QueueUpResponseProto_Builder*) toBuilder;
 
 + (QueueUpResponseProto*) parseFromData:(NSData*) data;
 + (QueueUpResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -209,7 +224,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (QueueUpResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QueueUpResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface QueueUpResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   QueueUpResponseProto* result;
 }
@@ -229,16 +244,15 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasAttacker;
 - (MinimumUserProto*) attacker;
 - (QueueUpResponseProto_Builder*) setAttacker:(MinimumUserProto*) value;
-- (QueueUpResponseProto_Builder*) setAttackerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QueueUpResponseProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (QueueUpResponseProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpResponseProto_Builder*) clearAttacker;
 
-- (NSArray*) defenderInfoListList;
-- (PvpProto*) defenderInfoListAtIndex:(int32_t) index;
-- (QueueUpResponseProto_Builder*) replaceDefenderInfoListAtIndex:(int32_t) index with:(PvpProto*) value;
-- (QueueUpResponseProto_Builder*) addDefenderInfoList:(PvpProto*) value;
-- (QueueUpResponseProto_Builder*) addAllDefenderInfoList:(NSArray*) values;
-- (QueueUpResponseProto_Builder*) clearDefenderInfoListList;
+- (NSMutableArray *)defenderInfoListList;
+- (PvpProto*)defenderInfoListAtIndex:(NSUInteger)index;
+- (QueueUpResponseProto_Builder *)addDefenderInfoList:(PvpProto*)value;
+- (QueueUpResponseProto_Builder *)addAllDefenderInfoList:(NSArray *)array;
+- (QueueUpResponseProto_Builder *)clearDefenderInfoList;
 
 - (BOOL) hasStatus;
 - (QueueUpResponseProto_QueueUpStatus) status;
@@ -267,10 +281,10 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasEnemy;
 - (BOOL) hasExactingRevenge;
 - (BOOL) hasPreviousBattleEndTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t senderElo;
 @property (readonly) int64_t attackStartTime;
-@property (readonly, retain) PvpProto* enemy;
+@property (readonly, strong) PvpProto* enemy;
 - (BOOL) exactingRevenge;
 @property (readonly) int64_t previousBattleEndTime;
 
@@ -282,6 +296,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BeginPvpBattleRequestProto_Builder*) builder;
 + (BeginPvpBattleRequestProto_Builder*) builder;
 + (BeginPvpBattleRequestProto_Builder*) builderWithPrototype:(BeginPvpBattleRequestProto*) prototype;
+- (BeginPvpBattleRequestProto_Builder*) toBuilder;
 
 + (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data;
 + (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -291,7 +306,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (BeginPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginPvpBattleRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginPvpBattleRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginPvpBattleRequestProto* result;
 }
@@ -311,7 +326,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginPvpBattleRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginPvpBattleRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginPvpBattleRequestProto_Builder*) clearSender;
 
@@ -328,7 +343,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasEnemy;
 - (PvpProto*) enemy;
 - (BeginPvpBattleRequestProto_Builder*) setEnemy:(PvpProto*) value;
-- (BeginPvpBattleRequestProto_Builder*) setEnemyBuilder:(PvpProto_Builder*) builderForValue;
+- (BeginPvpBattleRequestProto_Builder*) setEnemy_Builder:(PvpProto_Builder*) builderForValue;
 - (BeginPvpBattleRequestProto_Builder*) mergeEnemy:(PvpProto*) value;
 - (BeginPvpBattleRequestProto_Builder*) clearEnemy;
 
@@ -352,7 +367,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
 
 + (BeginPvpBattleResponseProto*) defaultInstance;
@@ -363,6 +378,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BeginPvpBattleResponseProto_Builder*) builder;
 + (BeginPvpBattleResponseProto_Builder*) builder;
 + (BeginPvpBattleResponseProto_Builder*) builderWithPrototype:(BeginPvpBattleResponseProto*) prototype;
+- (BeginPvpBattleResponseProto_Builder*) toBuilder;
 
 + (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data;
 + (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -372,7 +388,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (BeginPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginPvpBattleResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginPvpBattleResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginPvpBattleResponseProto* result;
 }
@@ -392,7 +408,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginPvpBattleResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginPvpBattleResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginPvpBattleResponseProto_Builder*) clearSender;
 
@@ -426,7 +442,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasClientTime;
 - (BOOL) hasOilChange;
 - (BOOL) hasCashChange;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t defenderId;
 - (BOOL) userAttacked;
 - (BOOL) userWon;
@@ -442,6 +458,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleRequestProto_Builder*) builder;
 + (EndPvpBattleRequestProto_Builder*) builder;
 + (EndPvpBattleRequestProto_Builder*) builderWithPrototype:(EndPvpBattleRequestProto*) prototype;
+- (EndPvpBattleRequestProto_Builder*) toBuilder;
 
 + (EndPvpBattleRequestProto*) parseFromData:(NSData*) data;
 + (EndPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -451,7 +468,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EndPvpBattleRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EndPvpBattleRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   EndPvpBattleRequestProto* result;
 }
@@ -471,7 +488,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (EndPvpBattleRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (EndPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndPvpBattleRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (EndPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndPvpBattleRequestProto_Builder*) clearSender;
 
@@ -524,7 +541,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasAttackerAttacked;
 - (BOOL) hasAttackerWon;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t defenderId;
 - (BOOL) attackerAttacked;
 - (BOOL) attackerWon;
@@ -538,6 +555,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder*) builder;
 + (EndPvpBattleResponseProto_Builder*) builder;
 + (EndPvpBattleResponseProto_Builder*) builderWithPrototype:(EndPvpBattleResponseProto*) prototype;
+- (EndPvpBattleResponseProto_Builder*) toBuilder;
 
 + (EndPvpBattleResponseProto*) parseFromData:(NSData*) data;
 + (EndPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -547,7 +565,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 + (EndPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EndPvpBattleResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EndPvpBattleResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   EndPvpBattleResponseProto* result;
 }
@@ -567,7 +585,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (EndPvpBattleResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (EndPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndPvpBattleResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (EndPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndPvpBattleResponseProto_Builder*) clearSender;
 
@@ -592,3 +610,5 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

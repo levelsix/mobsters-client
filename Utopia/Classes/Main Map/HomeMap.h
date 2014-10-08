@@ -86,6 +86,7 @@
 
 - (IBAction)littleUpgradeClicked:(id)sender;
 - (IBAction)enterClicked:(id)sender;
+- (IBAction)finishNowClicked:(id)sender;
 
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;

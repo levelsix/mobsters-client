@@ -5,6 +5,7 @@
 #import "BoosterPackStuff.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
@@ -62,6 +63,18 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess = 1,
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailOther = 2,
@@ -89,7 +102,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (BOOL) hasSender;
 - (BOOL) hasItemId;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t itemId;
 @property (readonly) int64_t clientTime;
 
@@ -101,6 +114,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (TradeItemForBoosterRequestProto_Builder*) builder;
 + (TradeItemForBoosterRequestProto_Builder*) builder;
 + (TradeItemForBoosterRequestProto_Builder*) builderWithPrototype:(TradeItemForBoosterRequestProto*) prototype;
+- (TradeItemForBoosterRequestProto_Builder*) toBuilder;
 
 + (TradeItemForBoosterRequestProto*) parseFromData:(NSData*) data;
 + (TradeItemForBoosterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -110,7 +124,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 + (TradeItemForBoosterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TradeItemForBoosterRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface TradeItemForBoosterRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   TradeItemForBoosterRequestProto* result;
 }
@@ -130,7 +144,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (TradeItemForBoosterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (TradeItemForBoosterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForBoosterRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (TradeItemForBoosterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (TradeItemForBoosterRequestProto_Builder*) clearSender;
 
@@ -153,16 +167,16 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
   MinimumUserProto* sender;
   BoosterItemProto* prize;
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
-  NSMutableArray* mutableUpdatedOrNewList;
+  NSMutableArray * mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasPrize;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) TradeItemForBoosterResponseProto_TradeItemForBoosterStatus status;
-@property (readonly, retain) BoosterItemProto* prize;
-- (NSArray*) updatedOrNewList;
-- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * updatedOrNewList;
+@property (readonly, strong) BoosterItemProto* prize;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (TradeItemForBoosterResponseProto*) defaultInstance;
 - (TradeItemForBoosterResponseProto*) defaultInstance;
@@ -172,6 +186,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (TradeItemForBoosterResponseProto_Builder*) builder;
 + (TradeItemForBoosterResponseProto_Builder*) builder;
 + (TradeItemForBoosterResponseProto_Builder*) builderWithPrototype:(TradeItemForBoosterResponseProto*) prototype;
+- (TradeItemForBoosterResponseProto_Builder*) toBuilder;
 
 + (TradeItemForBoosterResponseProto*) parseFromData:(NSData*) data;
 + (TradeItemForBoosterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -181,7 +196,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 + (TradeItemForBoosterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TradeItemForBoosterResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface TradeItemForBoosterResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   TradeItemForBoosterResponseProto* result;
 }
@@ -201,7 +216,7 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (TradeItemForBoosterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (TradeItemForBoosterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForBoosterResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (TradeItemForBoosterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearSender;
 
@@ -210,18 +225,19 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (TradeItemForBoosterResponseProto_Builder*) setStatus:(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearStatus;
 
-- (NSArray*) updatedOrNewList;
-- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
-- (TradeItemForBoosterResponseProto_Builder*) replaceUpdatedOrNewAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (TradeItemForBoosterResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value;
-- (TradeItemForBoosterResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values;
-- (TradeItemForBoosterResponseProto_Builder*) clearUpdatedOrNewList;
+- (NSMutableArray *)updatedOrNewList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (TradeItemForBoosterResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
+- (TradeItemForBoosterResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
+- (TradeItemForBoosterResponseProto_Builder *)clearUpdatedOrNew;
 
 - (BOOL) hasPrize;
 - (BoosterItemProto*) prize;
 - (TradeItemForBoosterResponseProto_Builder*) setPrize:(BoosterItemProto*) value;
-- (TradeItemForBoosterResponseProto_Builder*) setPrizeBuilder:(BoosterItemProto_Builder*) builderForValue;
+- (TradeItemForBoosterResponseProto_Builder*) setPrize_Builder:(BoosterItemProto_Builder*) builderForValue;
 - (TradeItemForBoosterResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearPrize;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

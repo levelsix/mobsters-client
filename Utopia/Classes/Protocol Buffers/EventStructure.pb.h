@@ -5,6 +5,7 @@
 #import "City.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
+// @@protoc_insertion_point(imports)
 
 @class BeginObstacleRemovalRequestProto;
 @class BeginObstacleRemovalRequestProto_Builder;
@@ -108,6 +109,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
@@ -232,8 +245,8 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasGemsSpent;
 - (BOOL) hasResourceChange;
 - (BOOL) hasResourceType;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) CoordinateProto* structCoordinates;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) CoordinateProto* structCoordinates;
 @property (readonly) int32_t structId;
 @property (readonly) int64_t timeOfPurchase;
 @property (readonly) int32_t gemsSpent;
@@ -248,6 +261,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (PurchaseNormStructureRequestProto_Builder*) builder;
 + (PurchaseNormStructureRequestProto_Builder*) builder;
 + (PurchaseNormStructureRequestProto_Builder*) builderWithPrototype:(PurchaseNormStructureRequestProto*) prototype;
+- (PurchaseNormStructureRequestProto_Builder*) toBuilder;
 
 + (PurchaseNormStructureRequestProto*) parseFromData:(NSData*) data;
 + (PurchaseNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -257,7 +271,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (PurchaseNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PurchaseNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface PurchaseNormStructureRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   PurchaseNormStructureRequestProto* result;
 }
@@ -277,14 +291,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PurchaseNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseNormStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PurchaseNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PurchaseNormStructureRequestProto_Builder*) clearSender;
 
 - (BOOL) hasStructCoordinates;
 - (CoordinateProto*) structCoordinates;
 - (PurchaseNormStructureRequestProto_Builder*) setStructCoordinates:(CoordinateProto*) value;
-- (PurchaseNormStructureRequestProto_Builder*) setStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (PurchaseNormStructureRequestProto_Builder*) setStructCoordinates_Builder:(CoordinateProto_Builder*) builderForValue;
 - (PurchaseNormStructureRequestProto_Builder*) mergeStructCoordinates:(CoordinateProto*) value;
 - (PurchaseNormStructureRequestProto_Builder*) clearStructCoordinates;
 
@@ -326,7 +340,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUserStructId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
 @property (readonly) int32_t userStructId;
 
@@ -338,6 +352,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (PurchaseNormStructureResponseProto_Builder*) builder;
 + (PurchaseNormStructureResponseProto_Builder*) builder;
 + (PurchaseNormStructureResponseProto_Builder*) builderWithPrototype:(PurchaseNormStructureResponseProto*) prototype;
+- (PurchaseNormStructureResponseProto_Builder*) toBuilder;
 
 + (PurchaseNormStructureResponseProto*) parseFromData:(NSData*) data;
 + (PurchaseNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -347,7 +362,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (PurchaseNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface PurchaseNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface PurchaseNormStructureResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   PurchaseNormStructureResponseProto* result;
 }
@@ -367,7 +382,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (PurchaseNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseNormStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (PurchaseNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PurchaseNormStructureResponseProto_Builder*) clearSender;
 
@@ -400,10 +415,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasType;
 - (BOOL) hasCurStructCoordinates;
 - (BOOL) hasOrientationNew;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
-@property (readonly, retain) CoordinateProto* curStructCoordinates;
+@property (readonly, strong) CoordinateProto* curStructCoordinates;
 @property (readonly) StructOrientation orientationNew;
 
 + (MoveOrRotateNormStructureRequestProto*) defaultInstance;
@@ -414,6 +429,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (MoveOrRotateNormStructureRequestProto_Builder*) builder;
 + (MoveOrRotateNormStructureRequestProto_Builder*) builder;
 + (MoveOrRotateNormStructureRequestProto_Builder*) builderWithPrototype:(MoveOrRotateNormStructureRequestProto*) prototype;
+- (MoveOrRotateNormStructureRequestProto_Builder*) toBuilder;
 
 + (MoveOrRotateNormStructureRequestProto*) parseFromData:(NSData*) data;
 + (MoveOrRotateNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -423,7 +439,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (MoveOrRotateNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MoveOrRotateNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface MoveOrRotateNormStructureRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   MoveOrRotateNormStructureRequestProto* result;
 }
@@ -443,7 +459,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (MoveOrRotateNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MoveOrRotateNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (MoveOrRotateNormStructureRequestProto_Builder*) clearSender;
 
@@ -460,7 +476,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasCurStructCoordinates;
 - (CoordinateProto*) curStructCoordinates;
 - (MoveOrRotateNormStructureRequestProto_Builder*) setCurStructCoordinates:(CoordinateProto*) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) setCurStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setCurStructCoordinates_Builder:(CoordinateProto_Builder*) builderForValue;
 - (MoveOrRotateNormStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value;
 - (MoveOrRotateNormStructureRequestProto_Builder*) clearCurStructCoordinates;
 
@@ -479,7 +495,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
 
 + (MoveOrRotateNormStructureResponseProto*) defaultInstance;
@@ -490,6 +506,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (MoveOrRotateNormStructureResponseProto_Builder*) builder;
 + (MoveOrRotateNormStructureResponseProto_Builder*) builder;
 + (MoveOrRotateNormStructureResponseProto_Builder*) builderWithPrototype:(MoveOrRotateNormStructureResponseProto*) prototype;
+- (MoveOrRotateNormStructureResponseProto_Builder*) toBuilder;
 
 + (MoveOrRotateNormStructureResponseProto*) parseFromData:(NSData*) data;
 + (MoveOrRotateNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -499,7 +516,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (MoveOrRotateNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MoveOrRotateNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface MoveOrRotateNormStructureResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   MoveOrRotateNormStructureResponseProto* result;
 }
@@ -519,7 +536,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (MoveOrRotateNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (MoveOrRotateNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (MoveOrRotateNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (MoveOrRotateNormStructureResponseProto_Builder*) clearSender;
 
@@ -550,7 +567,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasGemsSpent;
 - (BOOL) hasResourceChange;
 - (BOOL) hasResourceType;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) int64_t timeOfUpgrade;
 @property (readonly) int32_t gemsSpent;
@@ -565,6 +582,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (UpgradeNormStructureRequestProto_Builder*) builder;
 + (UpgradeNormStructureRequestProto_Builder*) builder;
 + (UpgradeNormStructureRequestProto_Builder*) builderWithPrototype:(UpgradeNormStructureRequestProto*) prototype;
+- (UpgradeNormStructureRequestProto_Builder*) toBuilder;
 
 + (UpgradeNormStructureRequestProto*) parseFromData:(NSData*) data;
 + (UpgradeNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -574,7 +592,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (UpgradeNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpgradeNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UpgradeNormStructureRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpgradeNormStructureRequestProto* result;
 }
@@ -594,7 +612,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpgradeNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpgradeNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpgradeNormStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpgradeNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpgradeNormStructureRequestProto_Builder*) clearSender;
 
@@ -633,7 +651,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) UpgradeNormStructureResponseProto_UpgradeNormStructureStatus status;
 
 + (UpgradeNormStructureResponseProto*) defaultInstance;
@@ -644,6 +662,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (UpgradeNormStructureResponseProto_Builder*) builder;
 + (UpgradeNormStructureResponseProto_Builder*) builder;
 + (UpgradeNormStructureResponseProto_Builder*) builderWithPrototype:(UpgradeNormStructureResponseProto*) prototype;
+- (UpgradeNormStructureResponseProto_Builder*) toBuilder;
 
 + (UpgradeNormStructureResponseProto*) parseFromData:(NSData*) data;
 + (UpgradeNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -653,7 +672,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (UpgradeNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface UpgradeNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UpgradeNormStructureResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   UpgradeNormStructureResponseProto* result;
 }
@@ -673,7 +692,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (UpgradeNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UpgradeNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpgradeNormStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (UpgradeNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpgradeNormStructureResponseProto_Builder*) clearSender;
 
@@ -698,7 +717,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasUserStructId;
 - (BOOL) hasTimeOfSpeedup;
 - (BOOL) hasGemCostToSpeedup;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) int64_t timeOfSpeedup;
 @property (readonly) int32_t gemCostToSpeedup;
@@ -711,6 +730,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
 + (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
 + (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsRequestProto*) prototype;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) toBuilder;
 
 + (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data;
 + (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -720,7 +740,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FinishNormStructWaittimeWithDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface FinishNormStructWaittimeWithDiamondsRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   FinishNormStructWaittimeWithDiamondsRequestProto* result;
 }
@@ -740,7 +760,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender;
 
@@ -769,7 +789,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
 
 + (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
@@ -780,6 +800,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
 + (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
 + (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsResponseProto*) prototype;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) toBuilder;
 
 + (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data;
 + (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -789,7 +810,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   FinishNormStructWaittimeWithDiamondsResponseProto* result;
 }
@@ -809,7 +830,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearSender;
 
@@ -825,14 +846,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   int64_t curTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserStructIdList;
+  PBAppendableArray * mutableUserStructIdList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * userStructIdList;
 @property (readonly) int64_t curTime;
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
+- (int32_t)userStructIdAtIndex:(NSUInteger)index;
 
 + (NormStructWaitCompleteRequestProto*) defaultInstance;
 - (NormStructWaitCompleteRequestProto*) defaultInstance;
@@ -842,6 +863,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteRequestProto_Builder*) builder;
 + (NormStructWaitCompleteRequestProto_Builder*) builder;
 + (NormStructWaitCompleteRequestProto_Builder*) builderWithPrototype:(NormStructWaitCompleteRequestProto*) prototype;
+- (NormStructWaitCompleteRequestProto_Builder*) toBuilder;
 
 + (NormStructWaitCompleteRequestProto*) parseFromData:(NSData*) data;
 + (NormStructWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -851,7 +873,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (NormStructWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface NormStructWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface NormStructWaitCompleteRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   NormStructWaitCompleteRequestProto* result;
 }
@@ -871,16 +893,16 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (NormStructWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (NormStructWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (NormStructWaitCompleteRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (NormStructWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (NormStructWaitCompleteRequestProto_Builder*) clearSender;
 
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
-- (NormStructWaitCompleteRequestProto_Builder*) replaceUserStructIdAtIndex:(int32_t) index with:(int32_t) value;
-- (NormStructWaitCompleteRequestProto_Builder*) addUserStructId:(int32_t) value;
-- (NormStructWaitCompleteRequestProto_Builder*) addAllUserStructId:(NSArray*) values;
-- (NormStructWaitCompleteRequestProto_Builder*) clearUserStructIdList;
+- (PBAppendableArray *)userStructIdList;
+- (int32_t)userStructIdAtIndex:(NSUInteger)index;
+- (NormStructWaitCompleteRequestProto_Builder *)addUserStructId:(int32_t)value;
+- (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructId:(NSArray *)array;
+- (NormStructWaitCompleteRequestProto_Builder *)setUserStructIdValues:(const int32_t *)values count:(NSUInteger)count;
+- (NormStructWaitCompleteRequestProto_Builder *)clearUserStructId;
 
 - (BOOL) hasCurTime;
 - (int64_t) curTime;
@@ -894,14 +916,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
-  NSMutableArray* mutableUserStructList;
+  NSMutableArray * mutableUserStructList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
-- (NSArray*) userStructList;
-- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
+@property (readonly, strong) NSArray * userStructList;
+- (FullUserStructureProto*)userStructAtIndex:(NSUInteger)index;
 
 + (NormStructWaitCompleteResponseProto*) defaultInstance;
 - (NormStructWaitCompleteResponseProto*) defaultInstance;
@@ -911,6 +933,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteResponseProto_Builder*) builder;
 + (NormStructWaitCompleteResponseProto_Builder*) builder;
 + (NormStructWaitCompleteResponseProto_Builder*) builderWithPrototype:(NormStructWaitCompleteResponseProto*) prototype;
+- (NormStructWaitCompleteResponseProto_Builder*) toBuilder;
 
 + (NormStructWaitCompleteResponseProto*) parseFromData:(NSData*) data;
 + (NormStructWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -920,7 +943,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (NormStructWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface NormStructWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface NormStructWaitCompleteResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   NormStructWaitCompleteResponseProto* result;
 }
@@ -940,7 +963,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (NormStructWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (NormStructWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (NormStructWaitCompleteResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (NormStructWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (NormStructWaitCompleteResponseProto_Builder*) clearSender;
 
@@ -949,24 +972,23 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteResponseProto_Builder*) setStatus:(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) value;
 - (NormStructWaitCompleteResponseProto_Builder*) clearStatus;
 
-- (NSArray*) userStructList;
-- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
-- (NormStructWaitCompleteResponseProto_Builder*) replaceUserStructAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
-- (NormStructWaitCompleteResponseProto_Builder*) addUserStruct:(FullUserStructureProto*) value;
-- (NormStructWaitCompleteResponseProto_Builder*) addAllUserStruct:(NSArray*) values;
-- (NormStructWaitCompleteResponseProto_Builder*) clearUserStructList;
+- (NSMutableArray *)userStructList;
+- (FullUserStructureProto*)userStructAtIndex:(NSUInteger)index;
+- (NormStructWaitCompleteResponseProto_Builder *)addUserStruct:(FullUserStructureProto*)value;
+- (NormStructWaitCompleteResponseProto_Builder *)addAllUserStruct:(NSArray *)array;
+- (NormStructWaitCompleteResponseProto_Builder *)clearUserStruct;
 @end
 
 @interface RetrieveCurrencyFromNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithMaxResources* sender;
-  NSMutableArray* mutableStructRetrievalsList;
+  NSMutableArray * mutableStructRetrievalsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
-- (NSArray*) structRetrievalsList;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) NSArray * structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)structRetrievalsAtIndex:(NSUInteger)index;
 
 + (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
 - (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
@@ -976,6 +998,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) toBuilder;
 
 + (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data;
 + (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1009,6 +1032,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) toBuilder;
 
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data;
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1018,7 +1042,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
 }
@@ -1051,7 +1075,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearAmountCollected;
 @end
 
-@interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveCurrencyFromNormStructureRequestProto* result;
 }
@@ -1071,16 +1095,15 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender;
 
-- (NSArray*) structRetrievalsList;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList;
+- (NSMutableArray *)structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)structRetrievalsAtIndex:(NSUInteger)index;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder *)addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder *)addAllStructRetrievals:(NSArray *)array;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder *)clearStructRetrievals;
 @end
 
 @interface RetrieveCurrencyFromNormStructureResponseProto : PBGeneratedMessage {
@@ -1092,7 +1115,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
 
 + (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
@@ -1103,6 +1126,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
 + (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) toBuilder;
 
 + (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data;
 + (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1112,7 +1136,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveCurrencyFromNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveCurrencyFromNormStructureResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   RetrieveCurrencyFromNormStructureResponseProto* result;
 }
@@ -1132,7 +1156,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProtoWithMaxResources*) sender;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender;
 
@@ -1163,7 +1187,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasYPosition;
 - (BOOL) hasSpeedUp;
 - (BOOL) hasGemCostToSpeedup;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 @property (readonly) int32_t xPosition;
 @property (readonly) int32_t yPosition;
@@ -1178,6 +1202,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ExpansionWaitCompleteRequestProto_Builder*) builder;
 + (ExpansionWaitCompleteRequestProto_Builder*) builder;
 + (ExpansionWaitCompleteRequestProto_Builder*) builderWithPrototype:(ExpansionWaitCompleteRequestProto*) prototype;
+- (ExpansionWaitCompleteRequestProto_Builder*) toBuilder;
 
 + (ExpansionWaitCompleteRequestProto*) parseFromData:(NSData*) data;
 + (ExpansionWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1187,7 +1212,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (ExpansionWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ExpansionWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface ExpansionWaitCompleteRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   ExpansionWaitCompleteRequestProto* result;
 }
@@ -1207,7 +1232,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ExpansionWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ExpansionWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ExpansionWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ExpansionWaitCompleteRequestProto_Builder*) clearSender;
 
@@ -1249,9 +1274,9 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasUcedp;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus status;
-@property (readonly, retain) UserCityExpansionDataProto* ucedp;
+@property (readonly, strong) UserCityExpansionDataProto* ucedp;
 
 + (ExpansionWaitCompleteResponseProto*) defaultInstance;
 - (ExpansionWaitCompleteResponseProto*) defaultInstance;
@@ -1261,6 +1286,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ExpansionWaitCompleteResponseProto_Builder*) builder;
 + (ExpansionWaitCompleteResponseProto_Builder*) builder;
 + (ExpansionWaitCompleteResponseProto_Builder*) builderWithPrototype:(ExpansionWaitCompleteResponseProto*) prototype;
+- (ExpansionWaitCompleteResponseProto_Builder*) toBuilder;
 
 + (ExpansionWaitCompleteResponseProto*) parseFromData:(NSData*) data;
 + (ExpansionWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1270,7 +1296,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (ExpansionWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ExpansionWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ExpansionWaitCompleteResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ExpansionWaitCompleteResponseProto* result;
 }
@@ -1290,7 +1316,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ExpansionWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ExpansionWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ExpansionWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ExpansionWaitCompleteResponseProto_Builder*) clearSender;
 
@@ -1302,7 +1328,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasUcedp;
 - (UserCityExpansionDataProto*) ucedp;
 - (ExpansionWaitCompleteResponseProto_Builder*) setUcedp:(UserCityExpansionDataProto*) value;
-- (ExpansionWaitCompleteResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteResponseProto_Builder*) setUcedp_Builder:(UserCityExpansionDataProto_Builder*) builderForValue;
 - (ExpansionWaitCompleteResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
 - (ExpansionWaitCompleteResponseProto_Builder*) clearUcedp;
 @end
@@ -1313,14 +1339,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   int64_t curTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableProspectiveObstaclesList;
+  NSMutableArray * mutableProspectiveObstaclesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * prospectiveObstaclesList;
 @property (readonly) int64_t curTime;
-- (NSArray*) prospectiveObstaclesList;
-- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index;
+- (MinimumObstacleProto*)prospectiveObstaclesAtIndex:(NSUInteger)index;
 
 + (SpawnObstacleRequestProto*) defaultInstance;
 - (SpawnObstacleRequestProto*) defaultInstance;
@@ -1330,6 +1356,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (SpawnObstacleRequestProto_Builder*) builder;
 + (SpawnObstacleRequestProto_Builder*) builder;
 + (SpawnObstacleRequestProto_Builder*) builderWithPrototype:(SpawnObstacleRequestProto*) prototype;
+- (SpawnObstacleRequestProto_Builder*) toBuilder;
 
 + (SpawnObstacleRequestProto*) parseFromData:(NSData*) data;
 + (SpawnObstacleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1339,7 +1366,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (SpawnObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SpawnObstacleRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface SpawnObstacleRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   SpawnObstacleRequestProto* result;
 }
@@ -1359,16 +1386,15 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SpawnObstacleRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SpawnObstacleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnObstacleRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SpawnObstacleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SpawnObstacleRequestProto_Builder*) clearSender;
 
-- (NSArray*) prospectiveObstaclesList;
-- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index;
-- (SpawnObstacleRequestProto_Builder*) replaceProspectiveObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value;
-- (SpawnObstacleRequestProto_Builder*) addProspectiveObstacles:(MinimumObstacleProto*) value;
-- (SpawnObstacleRequestProto_Builder*) addAllProspectiveObstacles:(NSArray*) values;
-- (SpawnObstacleRequestProto_Builder*) clearProspectiveObstaclesList;
+- (NSMutableArray *)prospectiveObstaclesList;
+- (MinimumObstacleProto*)prospectiveObstaclesAtIndex:(NSUInteger)index;
+- (SpawnObstacleRequestProto_Builder *)addProspectiveObstacles:(MinimumObstacleProto*)value;
+- (SpawnObstacleRequestProto_Builder *)addAllProspectiveObstacles:(NSArray *)array;
+- (SpawnObstacleRequestProto_Builder *)clearProspectiveObstacles;
 
 - (BOOL) hasCurTime;
 - (int64_t) curTime;
@@ -1382,14 +1408,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   SpawnObstacleResponseProto_SpawnObstacleStatus status;
-  NSMutableArray* mutableSpawnedObstaclesList;
+  NSMutableArray * mutableSpawnedObstaclesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * spawnedObstaclesList;
 @property (readonly) SpawnObstacleResponseProto_SpawnObstacleStatus status;
-- (NSArray*) spawnedObstaclesList;
-- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index;
+- (UserObstacleProto*)spawnedObstaclesAtIndex:(NSUInteger)index;
 
 + (SpawnObstacleResponseProto*) defaultInstance;
 - (SpawnObstacleResponseProto*) defaultInstance;
@@ -1399,6 +1425,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (SpawnObstacleResponseProto_Builder*) builder;
 + (SpawnObstacleResponseProto_Builder*) builder;
 + (SpawnObstacleResponseProto_Builder*) builderWithPrototype:(SpawnObstacleResponseProto*) prototype;
+- (SpawnObstacleResponseProto_Builder*) toBuilder;
 
 + (SpawnObstacleResponseProto*) parseFromData:(NSData*) data;
 + (SpawnObstacleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1408,7 +1435,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (SpawnObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface SpawnObstacleResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface SpawnObstacleResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   SpawnObstacleResponseProto* result;
 }
@@ -1428,16 +1455,15 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (SpawnObstacleResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SpawnObstacleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnObstacleResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (SpawnObstacleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SpawnObstacleResponseProto_Builder*) clearSender;
 
-- (NSArray*) spawnedObstaclesList;
-- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index;
-- (SpawnObstacleResponseProto_Builder*) replaceSpawnedObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value;
-- (SpawnObstacleResponseProto_Builder*) addSpawnedObstacles:(UserObstacleProto*) value;
-- (SpawnObstacleResponseProto_Builder*) addAllSpawnedObstacles:(NSArray*) values;
-- (SpawnObstacleResponseProto_Builder*) clearSpawnedObstaclesList;
+- (NSMutableArray *)spawnedObstaclesList;
+- (UserObstacleProto*)spawnedObstaclesAtIndex:(NSUInteger)index;
+- (SpawnObstacleResponseProto_Builder *)addSpawnedObstacles:(UserObstacleProto*)value;
+- (SpawnObstacleResponseProto_Builder *)addAllSpawnedObstacles:(NSArray *)array;
+- (SpawnObstacleResponseProto_Builder *)clearSpawnedObstacles;
 
 - (BOOL) hasStatus;
 - (SpawnObstacleResponseProto_SpawnObstacleStatus) status;
@@ -1466,7 +1492,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasResourceChange;
 - (BOOL) hasResourceType;
 - (BOOL) hasUserObstacleId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t resourceChange;
@@ -1481,6 +1507,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BeginObstacleRemovalRequestProto_Builder*) builder;
 + (BeginObstacleRemovalRequestProto_Builder*) builder;
 + (BeginObstacleRemovalRequestProto_Builder*) builderWithPrototype:(BeginObstacleRemovalRequestProto*) prototype;
+- (BeginObstacleRemovalRequestProto_Builder*) toBuilder;
 
 + (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data;
 + (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1490,7 +1517,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (BeginObstacleRemovalRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginObstacleRemovalRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginObstacleRemovalRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginObstacleRemovalRequestProto* result;
 }
@@ -1510,7 +1537,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginObstacleRemovalRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginObstacleRemovalRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginObstacleRemovalRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginObstacleRemovalRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginObstacleRemovalRequestProto_Builder*) clearSender;
 
@@ -1549,7 +1576,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
 
 + (BeginObstacleRemovalResponseProto*) defaultInstance;
@@ -1560,6 +1587,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BeginObstacleRemovalResponseProto_Builder*) builder;
 + (BeginObstacleRemovalResponseProto_Builder*) builder;
 + (BeginObstacleRemovalResponseProto_Builder*) builderWithPrototype:(BeginObstacleRemovalResponseProto*) prototype;
+- (BeginObstacleRemovalResponseProto_Builder*) toBuilder;
 
 + (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data;
 + (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1569,7 +1597,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (BeginObstacleRemovalResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BeginObstacleRemovalResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface BeginObstacleRemovalResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   BeginObstacleRemovalResponseProto* result;
 }
@@ -1589,7 +1617,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (BeginObstacleRemovalResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BeginObstacleRemovalResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginObstacleRemovalResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (BeginObstacleRemovalResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BeginObstacleRemovalResponseProto_Builder*) clearSender;
 
@@ -1620,7 +1648,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasGemsSpent;
 - (BOOL) hasUserObstacleId;
 - (BOOL) hasAtMaxObstacles;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 - (BOOL) speedUp;
 @property (readonly) int32_t gemsSpent;
@@ -1635,6 +1663,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ObstacleRemovalCompleteRequestProto_Builder*) builder;
 + (ObstacleRemovalCompleteRequestProto_Builder*) builder;
 + (ObstacleRemovalCompleteRequestProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteRequestProto*) prototype;
+- (ObstacleRemovalCompleteRequestProto_Builder*) toBuilder;
 
 + (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data;
 + (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1644,7 +1673,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (ObstacleRemovalCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ObstacleRemovalCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface ObstacleRemovalCompleteRequestProto_Builder : PBGeneratedMessageBuilder {
 @private
   ObstacleRemovalCompleteRequestProto* result;
 }
@@ -1664,7 +1693,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ObstacleRemovalCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ObstacleRemovalCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ObstacleRemovalCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ObstacleRemovalCompleteRequestProto_Builder*) clearSender;
 
@@ -1703,7 +1732,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
 
 + (ObstacleRemovalCompleteResponseProto*) defaultInstance;
@@ -1714,6 +1743,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ObstacleRemovalCompleteResponseProto_Builder*) builder;
 + (ObstacleRemovalCompleteResponseProto_Builder*) builder;
 + (ObstacleRemovalCompleteResponseProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteResponseProto*) prototype;
+- (ObstacleRemovalCompleteResponseProto_Builder*) toBuilder;
 
 + (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data;
 + (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -1723,7 +1753,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 + (ObstacleRemovalCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ObstacleRemovalCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface ObstacleRemovalCompleteResponseProto_Builder : PBGeneratedMessageBuilder {
 @private
   ObstacleRemovalCompleteResponseProto* result;
 }
@@ -1743,7 +1773,7 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
 - (ObstacleRemovalCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ObstacleRemovalCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ObstacleRemovalCompleteResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (ObstacleRemovalCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ObstacleRemovalCompleteResponseProto_Builder*) clearSender;
 
@@ -1753,3 +1783,5 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ObstacleRemovalCompleteResponseProto_Builder*) clearStatus;
 @end
 
+
+// @@protoc_insertion_point(global_scope)

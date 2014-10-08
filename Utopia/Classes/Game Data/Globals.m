@@ -1288,7 +1288,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60) {
     return 0;
   }
-  return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
+  return MAX(1.f, ceilf(timeLeft/60.f/self.minutesPerGem));
 }
 
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount {
@@ -1346,6 +1346,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return 1;
       
     case StructureInfoProto_StructTypeMiniJob:
+      return 1;
+      
+    case StructureInfoProto_StructTypeClan:
       return 1;
       
     default:
@@ -2257,6 +2260,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.anchorPoint = ANCHORBEFORE;
   
   return [renderer getUIImage];
+}
+
+@end
+
+@implementation PBArray (NSArrayCreation)
+
+- (NSArray *) toNSArray {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (int i = 0; i < self.count; i++) {
+    [arr addObject:[self objectAtIndexedSubscript:i]];
+  }
+  return arr;
 }
 
 @end

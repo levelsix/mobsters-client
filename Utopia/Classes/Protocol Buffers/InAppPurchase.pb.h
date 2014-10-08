@@ -2,10 +2,24 @@
 
 #import "ProtocolBuffers.h"
 
+// @@protoc_insertion_point(imports)
+
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
+#ifndef __has_feature
+  #define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif // __has_feature
+
+#ifndef NS_RETURNS_NOT_RETAINED
+  #if __has_feature(attribute_ns_returns_not_retained)
+    #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained))
+  #else
+    #define NS_RETURNS_NOT_RETAINED
+  #endif
+#endif
+
 typedef enum {
   EarnFreeDiamondsTypeFbConnect = 1,
   EarnFreeDiamondsTypeTapjoy = 2,
@@ -34,9 +48,9 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (BOOL) hasIapPackageId;
 - (BOOL) hasCurrencyAmount;
 - (BOOL) hasImageName;
-@property (readonly, retain) NSString* iapPackageId;
+@property (readonly, strong) NSString* iapPackageId;
 @property (readonly) int32_t currencyAmount;
-@property (readonly, retain) NSString* imageName;
+@property (readonly, strong) NSString* imageName;
 
 + (InAppPurchasePackageProto*) defaultInstance;
 - (InAppPurchasePackageProto*) defaultInstance;
@@ -46,6 +60,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (InAppPurchasePackageProto_Builder*) builder;
 + (InAppPurchasePackageProto_Builder*) builder;
 + (InAppPurchasePackageProto_Builder*) builderWithPrototype:(InAppPurchasePackageProto*) prototype;
+- (InAppPurchasePackageProto_Builder*) toBuilder;
 
 + (InAppPurchasePackageProto*) parseFromData:(NSData*) data;
 + (InAppPurchasePackageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -55,7 +70,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 + (InAppPurchasePackageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface InAppPurchasePackageProto_Builder : PBGeneratedMessage_Builder {
+@interface InAppPurchasePackageProto_Builder : PBGeneratedMessageBuilder {
 @private
   InAppPurchasePackageProto* result;
 }
@@ -142,18 +157,18 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 @property (readonly) int32_t saleId;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
-@property (readonly, retain) NSString* package1SaleIdentifier;
-@property (readonly, retain) NSString* package2SaleIdentifier;
-@property (readonly, retain) NSString* package3SaleIdentifier;
-@property (readonly, retain) NSString* package4SaleIdentifier;
-@property (readonly, retain) NSString* package5SaleIdentifier;
-@property (readonly, retain) NSString* goldShoppeImageName;
-@property (readonly, retain) NSString* goldBarImageName;
-@property (readonly, retain) NSString* packageS1SaleIdentifier;
-@property (readonly, retain) NSString* packageS2SaleIdentifier;
-@property (readonly, retain) NSString* packageS3SaleIdentifier;
-@property (readonly, retain) NSString* packageS4SaleIdentifier;
-@property (readonly, retain) NSString* packageS5SaleIdentifier;
+@property (readonly, strong) NSString* package1SaleIdentifier;
+@property (readonly, strong) NSString* package2SaleIdentifier;
+@property (readonly, strong) NSString* package3SaleIdentifier;
+@property (readonly, strong) NSString* package4SaleIdentifier;
+@property (readonly, strong) NSString* package5SaleIdentifier;
+@property (readonly, strong) NSString* goldShoppeImageName;
+@property (readonly, strong) NSString* goldBarImageName;
+@property (readonly, strong) NSString* packageS1SaleIdentifier;
+@property (readonly, strong) NSString* packageS2SaleIdentifier;
+@property (readonly, strong) NSString* packageS3SaleIdentifier;
+@property (readonly, strong) NSString* packageS4SaleIdentifier;
+@property (readonly, strong) NSString* packageS5SaleIdentifier;
 - (BOOL) isBeginnerSale;
 
 + (GoldSaleProto*) defaultInstance;
@@ -164,6 +179,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (GoldSaleProto_Builder*) builder;
 + (GoldSaleProto_Builder*) builder;
 + (GoldSaleProto_Builder*) builderWithPrototype:(GoldSaleProto*) prototype;
+- (GoldSaleProto_Builder*) toBuilder;
 
 + (GoldSaleProto*) parseFromData:(NSData*) data;
 + (GoldSaleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
@@ -173,7 +189,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 + (GoldSaleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface GoldSaleProto_Builder : PBGeneratedMessage_Builder {
+@interface GoldSaleProto_Builder : PBGeneratedMessageBuilder {
 @private
   GoldSaleProto* result;
 }
@@ -271,3 +287,5 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (GoldSaleProto_Builder*) clearIsBeginnerSale;
 @end
 
+
+// @@protoc_insertion_point(global_scope)
