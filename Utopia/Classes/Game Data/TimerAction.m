@@ -38,11 +38,19 @@
 
 - (void) speedupClicked {
   GameState *gs = [GameState sharedGameState];
+  int gemCost = [self gemCost];
+  NSString *confirm = [self confirmActionString];
   if ([self gemCost] > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
+  } else if (gemCost && confirm) {
+    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performAction)];
   } else {
     [self performAction];
   }
+}
+
+- (NSString *) confirmActionString {
+  return nil;
 }
 
 - (void) performAction {
@@ -135,6 +143,10 @@
   return self;
 }
 
+- (NSString *) confirmActionString {
+  return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gems?" , [self gemCost]];
+}
+
 - (void) performAction {
   HealViewController *hvc = [[HealViewController alloc] init];
   [hvc speedupButtonClicked:nil];
@@ -155,6 +167,10 @@
     self.totalSeconds = self.miniJob.durationMinutes*60;
   }
   return self;
+}
+
+- (NSString *) confirmActionString {
+  return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gems?" , self.title, [self gemCost]];
 }
 
 - (void) performAction {
@@ -180,6 +196,10 @@
     self.totalSeconds = mp.minutesToEvolve*60;
   }
   return self;
+}
+
+- (NSString *) confirmActionString {
+  return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gems?" , self.title, [self gemCost]];
 }
 
 - (void) performAction {

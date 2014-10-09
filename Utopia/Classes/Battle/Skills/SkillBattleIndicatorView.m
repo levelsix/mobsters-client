@@ -54,35 +54,36 @@
 - (void) setSkillIcon:(NSString*)iconName
 {
   _skillIcon = [CCSprite node];
-  [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^{
-    
-    _skillIcon.position = ccp(0, 25);
-    [self addChild:_skillIcon];
-    
-    if (_skillController.activationType != SkillActivationTypePassive)
-    {
-      // Greyscale image
-      UIImage *image = [Globals imageNamed:iconName];
-      image = [Globals greyScaleImageWithBaseImage:image];
-      CCTexture* texture = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[iconName stringByAppendingString:@"gs"]];
-      texture.contentScale = _skillIcon.texture.contentScale;
-      CCSprite* greyscaleIcon = [CCSprite spriteWithTexture:texture];
+  [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
+    if (success) {
+      _skillIcon.position = ccp(0, 25);
+      [self addChild:_skillIcon];
       
-      // Stencil node
-      _stencilNode = [CCDrawNode node];
-      CGPoint rectangle[] = {{0, 0}, {_skillIcon.contentSize.width, 0}, {_skillIcon.contentSize.width, _skillIcon.contentSize.height}, {0, _skillIcon.contentSize.height}};
-      _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, -_skillIcon.contentSize.height/2);
-      _stencilNode.contentSize = CGSizeMake(_skillIcon.contentSize.width, _skillIcon.contentSize.height * 0.5);
-      [_stencilNode drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+      if (_skillController.activationType != SkillActivationTypePassive)
+      {
+        // Greyscale image
+        UIImage *image = [Globals imageNamed:iconName];
+        image = [Globals greyScaleImageWithBaseImage:image];
+        CCTexture* texture = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[iconName stringByAppendingString:@"gs"]];
+        texture.contentScale = _skillIcon.texture.contentScale;
+        CCSprite* greyscaleIcon = [CCSprite spriteWithTexture:texture];
+        
+        // Stencil node
+        _stencilNode = [CCDrawNode node];
+        CGPoint rectangle[] = {{0, 0}, {_skillIcon.contentSize.width, 0}, {_skillIcon.contentSize.width, _skillIcon.contentSize.height}, {0, _skillIcon.contentSize.height}};
+        _stencilNode.position = CGPointMake(-_skillIcon.contentSize.width/2, -_skillIcon.contentSize.height/2);
+        _stencilNode.contentSize = CGSizeMake(_skillIcon.contentSize.width, _skillIcon.contentSize.height * 0.5);
+        [_stencilNode drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+        
+        // Clipping node
+        CCClippingNode* clippingNode = [CCClippingNode clippingNodeWithStencil:_stencilNode];
+        clippingNode.position = _skillIcon.position;
+        [clippingNode addChild:greyscaleIcon];
+        [self addChild:clippingNode];
+      }
       
-      // Clipping node
-      CCClippingNode* clippingNode = [CCClippingNode clippingNodeWithStencil:_stencilNode];
-      clippingNode.position = _skillIcon.position;
-      [clippingNode addChild:greyscaleIcon];
-      [self addChild:clippingNode];
+      [self setSkillButton];
     }
-    
-    [self setSkillButton];
   }];
 }
 

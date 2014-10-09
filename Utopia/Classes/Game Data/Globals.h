@@ -186,10 +186,13 @@
 + (NSString *) convertTimeToLongString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
-+ (void) downloadFile:(NSString *)file completion:(void (^)(void))completed;
 
-+ (NSString *) pathToFile:(NSString *)fileName;
-+ (BOOL) isFileDownloaded:(NSString *)fileName;
++ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
++ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
++ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix;
++ (void) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)prefix completion:(void (^)(BOOL success))completion;
++ (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion;
++ (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) asyncDownloadBundles;
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)prefix;
@@ -200,7 +203,7 @@
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamedWithiPhone6Prefix:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
-+ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)())completion;
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion;
 
 + (UIColor *) colorForRarity:(Quality)rarity;
 + (NSString *) stringForRarity:(Quality)rarity;

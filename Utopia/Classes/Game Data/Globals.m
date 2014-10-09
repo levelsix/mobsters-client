@@ -141,49 +141,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed {
-  __block int i = 0;
-  for (NSString *spritePrefix in spritePrefixes) {
-    for (NSString *str in @[@"%@RunNF.plist", @"%@AttackNF.plist", @"%@Card.png"]) {
-      NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
-      if (![self isFileDownloaded:fileName]) {
-        i++;
-        NSString *doubleRes = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
-        [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
-          if ([fileName.pathExtension isEqualToString:@"plist"]) {
-            NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
-            NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-            NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
-            [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
-              i--;
-              if (i == 0) {
-                completed();
-              }
-            }];
-          } else {
-            i--;
-            if (i == 0) {
-              completed();
-            }
-          }
-        }];
-      }
-    }
-  }
-  
-  if (i == 0) {
-    completed();
-  }
-}
-
-+ (void) downloadFile:(NSString *)file completion:(void (^)(void))completed {
-  if ([self isFileDownloaded:file]) {
-    [[Downloader sharedDownloader] asyncDownloadFile:file completion:completed];
-  } else if (completed) {
-    completed();
-  }
-}
-
 + (NSString *) font {
   return fontName;
 }
@@ -907,38 +864,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Downloading
 
-+ (BOOL) isFileDownloaded:(NSString *)fileName {
-  if (!fileName) {
-    return NO;
-  }
-  
-  // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
-  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
-  // Added for Utopia project
-  if (!fullpath) {
-    // Image not in NSBundle: look in documents
-    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      // Map not in docs: download it
-      return NO;
-    }
-  }
-  
-  return YES;
-}
-
-+ (NSString *) pathToFile:(NSString *)fileName {
++ (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
   if (!fileName) {
     return nil;
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
+  NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -949,12 +881,101 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      // Map not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
+      return nil;
     }
   }
   
   return fullpath;
+}
+
++ (BOOL) isFileDownloaded:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
+  return !![self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix];
+}
+
++ (NSString *) downloadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
+  if (!fileName) {
+    return nil;
+  }
+  
+  if (![self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix]) {
+    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
+    [[Downloader sharedDownloader] syncDownloadFile:resName];
+  }
+  
+  return [self pathToFile:fileName useiPhone6Prefix:useiPhone6Prefix];
+}
+
++ (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (NSString *spritePrefix in spritePrefixes) {
+    for (NSString *str in @[@"%@RunNF.plist", @"%@AttackNF.plist", @"%@Card.png"]) {
+      NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
+      [arr addObject:fileName];
+    }
+  }
+  [self checkAndLoadFiles:arr completion:^(BOOL success) {
+    completed();
+  }];
+}
+
++ (void) checkAndLoadFiles:(NSArray *)fileNames completion:(void (^)(BOOL success))completion {
+  __block int i = 0;
+  __block BOOL finalSuccess = YES;
+  for (NSString *fileName in fileNames) {
+    if (![self isFileDownloaded:fileName useiPhone6Prefix:NO]) {
+      i++;
+      
+      id comp = ^(BOOL success) {
+        i--;
+        finalSuccess = finalSuccess & success;
+        if (i == 0) {
+          completion(finalSuccess);
+        }
+      };
+      
+      if ([fileName.pathExtension isEqualToString:@"plist"]) {
+        [self checkAndLoadSpriteSheet:fileName completion:comp];
+      } else {
+        [self checkAndLoadFile:fileName completion:comp];
+      }
+    }
+  }
+  
+  if (i == 0) {
+    completion(finalSuccess);
+  }
+}
+
++ (void) checkAndLoadFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix completion:(void (^)(BOOL success))completion {
+  if ([self isFileDownloaded:fileName useiPhone6Prefix:useiPhone6Prefix]) {
+    if (completion) {
+      completion(YES);
+    }
+  } else {
+    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
+    [[Downloader sharedDownloader] asyncDownloadFile:resName completion:completion];
+  }
+}
+
++ (void) checkAndLoadFile:(NSString *)fileName completion:(void (^)(BOOL success))completion {
+  [self checkAndLoadFile:fileName useiPhone6Prefix:NO completion:completion];
+}
+
++ (void) checkAndLoadSpriteSheet:(NSString *)fileName completion:(void (^)(BOOL success))completion {
+  [self checkAndLoadFile:fileName completion:^(BOOL success) {
+    if (success) {
+      NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:fileName useiPhone6Prefix:NO]];
+      NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+      NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
+      [self checkAndLoadFile:texturePath completion:^(BOOL success) {
+        completion(success);
+      }];
+    } else {
+      if (completion) {
+        completion(NO);
+      }
+    }
+  }];
 }
 
 + (NSString *) pathToBundle:(NSString *)bundleName {
@@ -995,30 +1016,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return cachedImage;
   }
   
-  // prevents overloading the autorelease pool
-  NSString *resName = [self getDoubleResolutionImage:path useiPhone6Prefix:useiPhone6Prefix];
-  UIImage *image = nil;
-  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
-  // Added for Utopia project
-  if (!fullpath) {
-    // Image not in NSBundle: look in documents
-    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    
-    BOOL fileExists = NO;
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      fileExists = YES;
-    }
-    
-    if (!fileExists) {
-      // Image not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
-    }
-  }
-  
-  image = [UIImage imageWithContentsOfFile:fullpath];
+  NSString *fullPath = [self downloadFile:path useiPhone6Prefix:useiPhone6Prefix];
+  UIImage *image = [UIImage imageWithContentsOfFile:fullPath];
   
   if (image) {
     [gl.imageCache setObject:image forKey:path];
@@ -1048,10 +1047,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
-  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  NSString *greyImageName = [imageName stringByAppendingString:@"greyscale"];
+  NSString *greyImageKey = [imageName stringByAppendingString:@"greyscale"];
   
+  // Remove possible previous spinner
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
@@ -1071,12 +1070,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       cachedImage = [self maskImage:cachedImage withColor:color];
     } else if (greyscale) {
       // Search for the cached greyscale image
-      UIImage *greyImage = [gl.imageCache objectForKey:greyImageName];
+      UIImage *greyImage = [gl.imageCache objectForKey:greyImageKey];
       if (greyImage) {
         cachedImage = greyImage;
       } else {
         cachedImage = [self greyScaleImageWithBaseImage:cachedImage];
-        [gl.imageCache setObject:cachedImage forKey:greyImageName];
+        [gl.imageCache setObject:cachedImage forKey:greyImageKey];
       }
     }
     if ([view isKindOfClass:[UIImageView class]]) {
@@ -1088,135 +1087,90 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [self getDoubleResolutionImage:imageName useiPhone6Prefix:useiPhone6Prefix];
-  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
-  if (!fullpath) {
-    // Image not in NSBundle: look in documents
-    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
+  // Set up new spinner
+  if (indicatorStyle >= 0 && ![view viewWithTag:150]) {
+    UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
+    loadingView.tag = 150;
+    [loadingView startAnimating];
+    [view addSubview:loadingView];
+    loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
     
-    fullpath = [documentsPath stringByAppendingPathComponent:resName.lastPathComponent];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      if (indicatorStyle >= 0 && ![view viewWithTag:150]) {
-        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
-        loadingView.tag = 150;
-        [loadingView startAnimating];
-        [view addSubview:loadingView];
-        loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
-        
-        // Set up scale
-        float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
-        loadingView.transform = CGAffineTransformMakeScale(scale, scale);
-      }
-      
-      if (clear) {
-        if ([view isKindOfClass:[UIImageView class]]) {
-          [(UIImageView *)view setImage:nil];
-        } else if ([view isKindOfClass:[UIButton class]]) {
-          [(UIButton *)view setImage:nil forState:UIControlStateNormal];
-        }
-      }
-      
-      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
-      
-      [[Downloader sharedDownloader] asyncDownloadFile:resName completion:^{
-        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
-        if ([str isEqualToString:imageName]) {
-          UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
-          
-          if (img) {
-            [gl.imageCache setObject:img forKey:imageName];
-            if (color) {
-              img = [self maskImage:img withColor:color];
-            } else if (greyscale) {
-              img = [self greyScaleImageWithBaseImage:img];
-              [gl.imageCache setObject:img forKey:greyImageName];
-            }
-          }
-          
-          if ([view isKindOfClass:[UIImageView class]]) {
-            [(UIImageView *)view setImage:img];
-          } else if ([view isKindOfClass:[UIButton class]]) {
-            [(UIButton *)view setImage:img forState:UIControlStateNormal];
-          }
-          
-          UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
-          [loadingView stopAnimating];
-          [loadingView removeFromSuperview];
-          [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
-        }
-      }];
-      return;
-    }
+    // Set up scale
+    float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
+    loadingView.transform = CGAffineTransformMakeScale(scale, scale);
   }
   
-  UIImage* image = [UIImage imageWithContentsOfFile:fullpath];
-  UIView *loader = [view viewWithTag:150];
-  if (loader) {
-    [loader removeFromSuperview];
-  }
-  
-  if (image) {
-    [gl.imageCache setObject:image forKey:imageName];
-    
-    if (color) {
-      image = [self maskImage:image withColor:color];
-    } else if (greyscale) {
-      image = [self greyScaleImageWithBaseImage:image];
-      [gl.imageCache setObject:image forKey:greyImageName];
-    }
-    
+  // Clear the previous image if required
+  if (clear) {
     if ([view isKindOfClass:[UIImageView class]]) {
-      [(UIImageView *)view setImage:image];
+      [(UIImageView *)view setImage:nil];
     } else if ([view isKindOfClass:[UIButton class]]) {
-      [(UIButton *)view setImage:image forState:UIControlStateNormal];
+      [(UIButton *)view setImage:nil forState:UIControlStateNormal];
     }
   }
+  
+  // Add key so we can grab it later
+  // This also means, the image might be used for something else, in which case we wouldn't overwrite it.
+  [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
+  
+  [self checkAndLoadFile:imageName useiPhone6Prefix:useiPhone6Prefix completion:^(BOOL success) {
+    NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
+    if (success && [str isEqualToString:imageName]) {
+      NSString *path = [self pathToFile:imageName useiPhone6Prefix:useiPhone6Prefix];
+      
+      if (path) {
+        UIImage *img = [UIImage imageWithContentsOfFile:path];
+        
+        if (img) {
+          [gl.imageCache setObject:img forKey:imageName];
+          if (color) {
+            img = [self maskImage:img withColor:color];
+          } else if (greyscale) {
+            img = [self greyScaleImageWithBaseImage:img];
+            [gl.imageCache setObject:img forKey:greyImageKey];
+          }
+        }
+        
+        if ([view isKindOfClass:[UIImageView class]]) {
+          [(UIImageView *)view setImage:img];
+        } else if ([view isKindOfClass:[UIButton class]]) {
+          [(UIButton *)view setImage:img forState:UIControlStateNormal];
+        }
+      }
+      
+      // Do some cleanup
+      [[view viewWithTag:150] removeFromSuperview];
+      [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
+    }
+  }];
 }
 
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s {
-  
   [Globals imageNamed:imageName toReplaceSprite:s completion:nil];
 }
 
-+ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)())completion {
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s completion:(void(^)(BOOL success))completion {
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", s];
-  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  NSString *resName = [self getDoubleResolutionImage:imageName useiPhone6Prefix:NO];
-  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
-  if (!fullpath) {
-    // Image not in NSBundle: look in documents
-    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
-      
-      [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
-        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
-        if ([str isEqualToString:imageName]) {
-          if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-            [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
-          }
-        }
-        if (completion)
-          completion();
-      }];
-      return;
+  [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
+  [self checkAndLoadFile:imageName useiPhone6Prefix:NO completion:^(BOOL success) {
+    NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
+    if (success && [str isEqual:imageName]) {
+      [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
     }
-  }
-  
-  [s setSpriteFrame:[CCSpriteFrame frameWithImageNamed:imageName]];
-  if (completion)
-    completion();
+    
+    if (completion) {
+      completion(success);
+    }
+  }];
 }
 
 + (NSString*) getDoubleResolutionImage:(NSString*)path useiPhone6Prefix:(BOOL)iPhone6Prefix {
+  if ([path rangeOfString:@"http"].location != NSNotFound) {
+    return path;
+  }
+  
   if (iPhone6Prefix && [self isiPhone6]) {
     path = [@"6" stringByAppendingString:path];
   }
@@ -1377,7 +1331,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:gs.myStructs];
       int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
       
-      if (cur < max) {
+      if (cur < max && structInfo.prerequisiteTownHallLvl <= thp.structInfo.level) {
         num += max-cur;
       }
     }

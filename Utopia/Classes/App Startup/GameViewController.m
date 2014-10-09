@@ -848,7 +848,6 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
-    
     DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
     bl.dungeonType = task.description;
     bl.delegate = self;
@@ -862,13 +861,31 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
-  bl.dungeonType = task.description;
-  bl.delegate = self;
+  TaskMapElementProto *elem = [gs mapElementWithTaskId:taskId];
   
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
+  // If it's immediate, it will just delete the loading view
+  TravelingLoadingView *tlv = [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil][0];
+  tlv.label.text = [NSString stringWithFormat:@"Loading %@", elem.sectionName];
+  [tlv display:self.view];
   
-  [self blackFadeIntoBattleLayer:bl];
+  // Check if scenes have been dl'ed
+  NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene1left.png"],
+                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
+                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
+                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
+  [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
+    if (success) {
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+      bl.dungeonType = task.description;
+      bl.delegate = self;
+      
+      [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
+      
+      [self blackFadeIntoBattleLayer:bl];
+    }
+    
+    [tlv stop];
+  }];
 }
 
 - (void) beginClanRaidBattle:(PersistentClanEventProto *)clanEvent withTeam:(NSArray *)team {
@@ -928,8 +945,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (dir.runningScene) {
     //    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
   }// else {
-  //    [dir replaceScene:scene];
-  //  }
+   //    [dir replaceScene:scene];
+   //  }
   [dir pushScene:scene];
   [dir drawScene];
   
@@ -1016,7 +1033,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 #pragma mark - CCDirectorDownloaderDelegate methods
 
 - (NSString *) filepathToFile:(NSString *)filename {
-  return [Globals pathToFile:filename];
+  return [Globals downloadFile:filename useiPhone6Prefix:NO];
 }
 
 - (NSString *) downloadFile:(NSString *)filename {

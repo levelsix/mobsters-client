@@ -105,7 +105,10 @@
   
   float width = (self.location.size.width+self.location.size.height)/2*_map.tileSize.width;
   //  float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
-  float height = self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale;
+  
+  // Use default of 50 height if buildingSprite hasn't been loaded yet.
+  float buildingHeight = _buildingSprite.contentSize.height ?: 50.f;
+  float height = self.verticalOffset+buildingHeight*self.baseScale;
   self.contentSize = CGSizeMake(width, height);
   self.buildingSprite.position = ccp(self.contentSize.width/2+self.horizontalOffset, self.verticalOffset);
   self.orientation = self.orientation;
@@ -119,9 +122,20 @@
     self.buildingSprite = nil;
   }
   if (fileName) {
-    self.buildingSprite = [CCSprite spriteWithImageNamed:fileName];
+    self.buildingSprite = [CCSprite node];
     if (self.buildingSprite) [self addChild:self.buildingSprite];
-    [self adjustBuildingSprite];
+    
+    __block BOOL didAdjust = NO;
+    [Globals imageNamed:fileName toReplaceSprite:self.buildingSprite completion:^(BOOL success) {
+      if (success) {
+        [self adjustBuildingSprite];
+      }
+      didAdjust = YES;
+    }];
+    
+    if (!didAdjust) {
+      [self adjustBuildingSprite];
+    }
   }
 }
 

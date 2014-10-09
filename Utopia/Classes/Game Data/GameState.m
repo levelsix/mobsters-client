@@ -221,6 +221,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (TaskMapElementProto *) mapElementWithTaskId:(int)taskId {
+  for (TaskMapElementProto *e in self.staticMapElements) {
+    if (e.taskId == taskId) {
+      return e;
+    }
+  }
+  return nil;
+}
+
 - (AchievementProto *) achievementWithId:(int)achievementId {
   if (achievementId == 0) {
     [Globals popupMessage:@"Attempted to access achievement 0"];

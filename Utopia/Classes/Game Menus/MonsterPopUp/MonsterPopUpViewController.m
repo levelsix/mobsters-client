@@ -58,10 +58,12 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  float aspectRatio = self.mainView.width/self.mainView.height;
-  float newHeight = self.view.height-36.f;
-  self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
-  self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  if ([Globals isiPhone6]) {
+    float aspectRatio = self.mainView.width/self.mainView.height;
+    float newHeight = self.view.height-36.f;
+    self.mainView.size = CGSizeMake(roundf(newHeight*aspectRatio), newHeight);
+    self.mainView.center = ccp(self.view.width/2, self.view.height/2);
+  }
 }
 
 - (void) updateMonster {

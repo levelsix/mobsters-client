@@ -137,6 +137,7 @@
 - (ClanRaidProto *) raidWithId:(int)raidId;
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (TaskMapElementProto *) mapElementWithId:(int)mapElementId;
+- (TaskMapElementProto *) mapElementWithTaskId:(int)mapElementId;
 - (AchievementProto *) achievementWithId:(int)achievementId;
 - (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId;
 - (FullQuestProto *) questForId:(int)questId;

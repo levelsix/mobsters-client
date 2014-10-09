@@ -104,44 +104,40 @@
   [self parseFile:faqFile shouldAttemptDownload:YES];
 }
 
-- (void)parseFile:(NSString *)faqFile shouldAttemptDownload:(BOOL)shouldAttemptDownload {
-  NSError *e;
-  if ([Globals isFileDownloaded:faqFile]) {
-    faqFile = [Globals pathToFile:faqFile];
-  } else {
-    if (shouldAttemptDownload) {
-      [Globals downloadFile:faqFile completion:^{
-        [self parseFile:faqFile shouldAttemptDownload:NO];
-      }];
-    }
-    return;
-  }
-  
-  NSString *fileContents = [NSString stringWithContentsOfFile:faqFile encoding:NSUTF8StringEncoding error:&e];
-  
-  if (!fileContents) {
-    LNLog(@"fileContents is nil! error = %@", e);
-    return;
-  }
-  
-  NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
-  
-  NSMutableArray *text = [NSMutableArray array];
-  NSMutableArray *curArr = nil;
-  for (NSString *line in lines) {
-    // Replace delimited strings with their proper constants..
-    NSString *line2 = [self replaceDelimitersInString:line];
-    
-    if ([line2 hasSuffix:HEADER_SUFFIX]) {
-      curArr = [NSMutableArray array];
-      [text addObject:curArr];
-      line2 = [line2 stringByReplacingOccurrencesOfString:HEADER_SUFFIX withString:@""];
-      [curArr addObject:line2];
+- (void) parseFile:(NSString *)faqFile shouldAttemptDownload:(BOOL)shouldAttemptDownload {
+  [Globals checkAndLoadFile:faqFile useiPhone6Prefix:NO completion:^ (BOOL success) {
+    if (success) {
+      NSError *e;
+      NSString *fileContents = [NSString stringWithContentsOfFile:faqFile encoding:NSUTF8StringEncoding error:&e];
+      
+      if (!fileContents) {
+        LNLog(@"fileContents is nil! error = %@", e);
+        return;
+      }
+      
+      NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
+      
+      NSMutableArray *text = [NSMutableArray array];
+      NSMutableArray *curArr = nil;
+      for (NSString *line in lines) {
+        // Replace delimited strings with their proper constants..
+        NSString *line2 = [self replaceDelimitersInString:line];
+        
+        if ([line2 hasSuffix:HEADER_SUFFIX]) {
+          curArr = [NSMutableArray array];
+          [text addObject:curArr];
+          line2 = [line2 stringByReplacingOccurrencesOfString:HEADER_SUFFIX withString:@""];
+          [curArr addObject:line2];
+        } else {
+          [curArr addObject:line2];
+        }
+      }
+      self.textStrings = text;
     } else {
-      [curArr addObject:line2];
+      NSLog(@"Failed to download %@", faqFile);
     }
-  }
-  self.textStrings = text;
+  }];
+  
 }
 
 #pragma mark - FAQ Table Data Source

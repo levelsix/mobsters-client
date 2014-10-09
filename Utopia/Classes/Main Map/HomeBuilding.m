@@ -230,33 +230,29 @@
 }
 
 - (void) placeBlock:(BOOL)shouldPlaySound {
-  if ([self canMove]) {
-    if (_isSetDown) {
-      return;
-    }
+  if (_isSetDown) {
+    return;
+  }
+  
+  CCSprite *sprite = self.buildingSprite;
+  
+  if ([_homeMap isBlockBuildable:self.location]) {
+    [self clearMeta];
+    sprite.opacity = 1.f;
+    [_homeMap changeTiles:self.location toBuildable:NO];
+    _isSetDown = YES;
+    _startMoveCoordinate = _location.origin;
+    _startOrientation = self.orientation;
     
-    CCSprite *sprite = self.buildingSprite;
-    
-    if ([_homeMap isBlockBuildable:self.location]) {
-      [self clearMeta];
-      sprite.opacity = 1.f;
-      [_homeMap changeTiles:self.location toBuildable:NO];
-      _isSetDown = YES;
-      _startMoveCoordinate = _location.origin;
-      _startOrientation = self.orientation;
-      
-      if (shouldPlaySound) {
-        [SoundEngine structDropped];
-      }
-    } else {
-      sprite.opacity = 0.6f;
-      
-      if (shouldPlaySound) {
-        [SoundEngine structCantPlace];
-      }
+    if (shouldPlaySound) {
+      [SoundEngine structDropped];
     }
   } else {
-    self.opacity = 1.f;
+    sprite.opacity = 0.6f;
+    
+    if (shouldPlaySound) {
+      [SoundEngine structCantPlace];
+    }
   }
 }
 
@@ -455,23 +451,38 @@
   [self.buildingSprite removeFromParent];
   
   fileName = fileName.stringByDeletingPathExtension;
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
-  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
   
-  ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
-  if (res.resourceType == ResourceTypeOil) {
-    //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
-    anim.delayPerUnit = 0.1;
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.2];
+      
+      ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
+      if (res.resourceType == ResourceTypeOil) {
+        //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
+        anim.delayPerUnit = 0.1;
+      }
+      
+      if (anim.frames.count) {
+        CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+        [self addChild:spr];
+        self.buildingSprite = spr;
+      }
+      
+      [self adjustBuildingSprite];
+    }
+  }];
+}
+
+- (void) adjustBuildingSprite {
+  [super adjustBuildingSprite];
+  
+  // Reload the retrieve bubble
+  if (_retrieveBubble) {
+    [self initializeRetrieveBubble];
   }
-  
-  if (anim.frames.count) {
-    CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-    [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-    [self addChild:spr];
-    self.buildingSprite = spr;
-  }
-  
-  [self adjustBuildingSprite];
 }
 
 - (void) initializeRetrieveBubble {
@@ -549,15 +560,22 @@
 
 - (void) setupBuildingSprite:(NSString *)fileName {
   [self.buildingSprite removeFromParent];
+  self.buildingSprite = nil;
   
   fileName = fileName.stringByDeletingPathExtension;
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
-  self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:2.];
   
-  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
-  [self addChild:self.buildingSprite];
-  
-  [self adjustBuildingSprite];
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:2.];
+      
+      self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
+      [self addChild:self.buildingSprite];
+      
+      [self adjustBuildingSprite];
+    }
+  }];
 }
 
 - (void) setPercentage:(float)percentage {
@@ -577,32 +595,38 @@
   fileName = fileName.stringByDeletingPathExtension;
   
   [self.buildingSprite removeFromParent];
+  self.buildingSprite = nil;
   
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
-  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Base", fileName] delay:0.1];
-  [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
-  self.baseAnimation = anim;
-  
-  if (anim.frames.count) {
-    self.buildingSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-    [self addChild:self.buildingSprite];
-  }
-  
-  anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Tube", fileName] delay:0.1];
-  [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
-  self.tubeAnimation = anim;
-  
-  if (anim.frames.count) {
-    self.tubeSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-    self.tubeSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
-    [self.buildingSprite addChild:self.tubeSprite z:2];
-  }
-  
-  [self adjustBuildingSprite];
-  
-  if (_healingItem) {
-    [self beginAnimatingWithHealingItem:_healingItem];
-  }
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@.plist", fileName];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    if (success) {
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Base", fileName] delay:0.1];
+      [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
+      self.baseAnimation = anim;
+      
+      if (anim.frames.count) {
+        self.buildingSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        [self addChild:self.buildingSprite];
+      }
+      
+      anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Tube", fileName] delay:0.1];
+      [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
+      self.tubeAnimation = anim;
+      
+      if (anim.frames.count) {
+        self.tubeSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+        self.tubeSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+        [self.buildingSprite addChild:self.tubeSprite z:2];
+      }
+      
+      [self adjustBuildingSprite];
+      
+      if (_healingItem) {
+        [self beginAnimatingWithHealingItem:_healingItem];
+      }
+    }
+  }];
 }
 
 - (void) beginAnimatingWithHealingItem:(UserMonsterHealingItem *)hi {
@@ -619,9 +643,10 @@
     UserMonster *um = [gs myMonsterWithUserMonsterId:hi.userMonsterId];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    [Globals downloadAllFilesForSpritePrefixes:@[mp.imagePrefix] completion:^{
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
       if (_healingItem == hi) {
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
         NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
         if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
           self.monsterSprite = [CCSprite spriteWithImageNamed:file];
@@ -973,7 +998,7 @@
   CCNode *n = self.progressBar;
   
   // Since we're not using pier anymore, this isn't necessary
-//  n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
+  //  n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
   
   if (!self.isConstructing && self.activeMiniJob) {
     NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.activeMiniJob.miniJob.quality suffix:@"tag.png"]];

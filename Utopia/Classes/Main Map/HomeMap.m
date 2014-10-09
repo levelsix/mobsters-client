@@ -496,30 +496,33 @@
 - (void) reloadMiniJobCenter {
   GameState *gs = [GameState sharedGameState];
   UserStruct *mjc = [gs myMiniJobCenter];
-  MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
   
-  if (mjc.staticStruct.structInfo.level == 0) {
-    [mjcb setBubbleType:BuildingBubbleTypeFix];
-  } else {
-    [mjcb setBubbleType:BuildingBubbleTypeNone];
+  if (mjc) {
+    MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
     
-    UserMiniJob *active = nil;
-    for (UserMiniJob *mj in gs.myMiniJobs) {
-      if (mj.timeStarted || mj.timeCompleted) {
-        active = mj;
-      }
-    }
-    
-    // Only set the activeMiniJob if the mini job timer is currently active. Otherwise use a bubble.
-    if (!active && gs.myMiniJobs.count > 0) {
-      [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:(int)gs.myMiniJobs.count];
-      [mjcb updateForActiveMiniJob:nil];
+    if (mjc.staticStruct.structInfo.level == 0) {
+      [mjcb setBubbleType:BuildingBubbleTypeFix];
     } else {
-      if (active.timeCompleted) {
-        [mjcb setBubbleType:BuildingBubbleTypeComplete];
+      [mjcb setBubbleType:BuildingBubbleTypeNone];
+      
+      UserMiniJob *active = nil;
+      for (UserMiniJob *mj in gs.myMiniJobs) {
+        if (mj.timeStarted || mj.timeCompleted) {
+          active = mj;
+        }
+      }
+      
+      // Only set the activeMiniJob if the mini job timer is currently active. Otherwise use a bubble.
+      if (!active && gs.myMiniJobs.count > 0) {
+        [mjcb setBubbleType:BuildingBubbleTypeMiniJob withNum:(int)gs.myMiniJobs.count];
         [mjcb updateForActiveMiniJob:nil];
       } else {
-        [mjcb updateForActiveMiniJob:active];
+        if (active.timeCompleted) {
+          [mjcb setBubbleType:BuildingBubbleTypeComplete];
+          [mjcb updateForActiveMiniJob:nil];
+        } else {
+          [mjcb updateForActiveMiniJob:active];
+        }
       }
     }
   }
@@ -821,7 +824,9 @@
   PurchaseConfirmMenu *m = [[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)];
   m.name = PURCHASE_CONFIRM_MENU_TAG;
   [_purchBuilding addChild:m];
-  m.position = ccp(_purchBuilding.contentSize.width/2, _purchBuilding.contentSize.height+10);
+  m.positionType = CCPositionTypeNormalized;
+  // 10 pixels up from height
+  m.position = ccp(0.5f, 1.f+10.f/_purchBuilding.contentSize.height);
 }
 
 - (void) setSelected:(SelectableSprite *)selected {

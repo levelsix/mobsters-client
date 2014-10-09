@@ -167,9 +167,6 @@
   
   [Globals calculateDifferencesBetweenOldArray:oldArray newArray:self.timerActionsArray removalIps:removals additionIps:additions section:0];
   
-  NSLog(@"Old: %@, New: %@", oldArray, self.timerActionsArray);
-  NSLog(@"R: %@, A: %@", removals, additions);
-  
   NSMutableArray *oldCells = [self.timerCells mutableCopy];
   NSMutableArray *newCells = [NSMutableArray array];
   
@@ -189,7 +186,7 @@
   for (int i = 0; i < self.timerActionsArray.count; i++) {
     TimerAction *ta = self.timerActionsArray[i];
     if (![additions containsObject:[NSIndexPath indexPathForRow:i inSection:0]]) {
-      int oldIdx =  [oldArray indexOfObject:ta];
+      NSInteger oldIdx = [oldArray indexOfObject:ta];
       
       TimerCell *cell = oldCells[oldIdx];
       CGPoint newPos = [self positionForViewAtIndex:i cellSize:cell.size];
@@ -259,7 +256,7 @@
   
   self.scrollView.scrollEnabled = self.isOpen;
   
-  self.openLabel.text = self.isOpen ? @"Close" : [NSString stringWithFormat:@"%d More", self.timerCells.count-MINIMIZED_CELLS_SHOWN];
+  self.openLabel.text = self.isOpen ? @"Close" : [NSString stringWithFormat:@"%d More", (int)self.timerCells.count-MINIMIZED_CELLS_SHOWN];
   
   dispatch_block_t block = ^{
     BOOL moreRows = self.timerCells.count > MINIMIZED_CELLS_SHOWN;
@@ -313,7 +310,7 @@
   }
   
   if (sender) {
-    int idx = [self.timerCells indexOfObject:sender];
+    NSInteger idx = [self.timerCells indexOfObject:sender];
     TimerAction *ta = self.timerActionsArray[idx];
     [ta speedupClicked];
   }

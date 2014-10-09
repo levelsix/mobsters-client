@@ -50,6 +50,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     if (data) {
       success = [data writeToFile:filePath atomically:YES];
+    } else {
+      success = NO;
     }
     
     dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -64,13 +66,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   return success ? filePath : nil;
 }
 
-- (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
+- (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(BOOL success))completed {
   // Get an image from the URL below
   dispatch_async(_asyncQueue, ^{
-    [self downloadFile:imageName];
+    BOOL success = !![self downloadFile:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
-        completed();
+        completed(success);
       }
     });
   });
@@ -78,9 +80,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (NSString *) syncDownloadFile:(NSString *)fileName {
   LNLog(@"Beginning sync download of file %@", fileName);
-  [self beginLoading:fileName];
+  //[self beginLoading:fileName];
   NSString *path = [self downloadFile:fileName];
-  [self stopLoading];
+  //[self stopLoading];
   return path;
 }
 

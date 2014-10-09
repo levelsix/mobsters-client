@@ -37,6 +37,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL allowsFreeSpeedup;
 @property (nonatomic, assign) TimerProgressBarColor normalProgressBarColor;
 
+- (NSString *) confirmActionString;
 - (void) performAction;
 
 @end

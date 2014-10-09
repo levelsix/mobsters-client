@@ -167,7 +167,7 @@
   [[NSBundle mainBundle] loadNibNamed:@"UpgradeUnlockView" owner:self options:nil];
   
   self.nibUnlocksLabelBgd.highlighted = !bigTextBgd;
-  [Globals imageNamed:imgName withView:self.nibUnlocksStructIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgName withView:self.nibUnlocksStructIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   self.nibUnlocksLabel.text = text;
   
   UIImage *img = bigTextBgd ? self.nibUnlocksLabelBgd.image : self.nibUnlocksLabelBgd.highlightedImage;
