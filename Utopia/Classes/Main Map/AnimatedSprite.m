@@ -82,20 +82,34 @@
 
 - (CCAction *) walkActionN {
   if (!_walkActionN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
-    CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@RunNF.plist", self.prefix];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+      } else {
+        self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionDelay actionWithDuration:1.f]];
+      }
+    }];
   }
   return _walkActionN;
 }
 
 - (CCAction *) walkActionF {
   if (!_walkActionF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
-    CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@RunNF.plist", self.prefix];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+        NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+      } else {
+        self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionDelay actionWithDuration:1.f]];
+      }
+    }];
   }
   return _walkActionF;
 }
@@ -106,17 +120,23 @@
 
 - (void) restoreStandingFrame:(MapDirection)direction {
   [self stopWalking];
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-  NSString *name;
-  if (direction == MapDirectionFront) {
-    name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
-  } else if (direction == MapDirectionKneel) {
-    name = [NSString stringWithFormat:@"%@KneelN00.png", self.prefix];
-  } else {
-    name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
-  }
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
-  [self.sprite setSpriteFrame:frame];
+  
+  self.sprite.spriteFrame = nil;
+  
+  NSString *spritesheetName = [NSString stringWithFormat:@"%@AttackNF.plist", self.prefix];
+  [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+    NSString *name;
+    if (direction == MapDirectionFront) {
+      name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+    } else if (direction == MapDirectionKneel) {
+      name = [NSString stringWithFormat:@"%@KneelN00.png", self.prefix];
+    } else {
+      name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+    }
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
+    [self.sprite setSpriteFrame:frame];
+  }];
   
   self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight || direction == MapDirectionKneel);
 }
@@ -154,7 +174,7 @@
   [self stopWalking];
   if (self.prefix) {
     _shouldWalk = YES;
-    [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
+    [Globals downloadAllFilesForSpritePrefixes:@[self.prefix] completion:^{
       if (_shouldWalk) {
         [self walkAfterCheck];
       }
@@ -235,8 +255,8 @@
       [self.sprite stopAction:_curAction];
     }
     _curAction = nextAction;
-    if (_curAction) {
-      CCActionAnimate *anim = ((CCActionAnimate *)_curAction.innerAction);
+    if ([_curAction.innerAction isKindOfClass:[CCActionAnimate class]]) {
+      CCActionAnimate *anim = (CCActionAnimate *)_curAction.innerAction;
       if (anim.animation.frames.count > 0) {
         [_sprite setSpriteFrame:[anim.animation.frames[0] spriteFrame]];
         [_sprite runAction:_curAction];

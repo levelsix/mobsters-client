@@ -229,8 +229,10 @@
   bgd.scale = s.contentSize.height/bgd.contentSize.height;
   
   file = [mp.imagePrefix stringByAppendingString:@"Card.png"];
-  CCSprite *thumb = [CCSprite spriteWithImageNamed:file];
-  thumb.scale = s.contentSize.height/thumb.contentSize.height;
+  CCSprite *thumb = [CCSprite node];
+  [Globals imageNamed:file toReplaceSprite:thumb completion:^(BOOL success) {
+    thumb.scale = s.contentSize.height/thumb.contentSize.height;
+  }];
   
   [s addChild:bgd];
   [s addChild:thumb];

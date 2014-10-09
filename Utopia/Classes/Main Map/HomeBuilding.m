@@ -486,10 +486,6 @@
 }
 
 - (void) initializeRetrieveBubble {
-  if (_retrieveBubble) {
-    // Make sure to cleanup just in case
-    [_retrieveBubble removeFromParent];
-  }
   GameState *gs = [GameState sharedGameState];
   ResourceType type = ((ResourceGeneratorProto *)self.userStruct.staticStruct).resourceType;
   NSString *res = type == ResourceTypeCash ? @"cash" : @"oil";
@@ -498,11 +494,18 @@
   NSString *end = amount >= max ? @"overflow" : @"ready";
   float pxlOffset = type == ResourceTypeCash ? 10 : 16;
   
-  _retrieveBubble = [CCButton buttonWithTitle:nil spriteFrame:[CCSpriteFrame frameWithImageNamed:[NSString stringWithFormat:@"%@%@.png", res, end]] highlightedSpriteFrame:nil disabledSpriteFrame:nil];
-  [_retrieveBubble setTarget:self selector:@selector(select)];
-  [self addChild:_retrieveBubble];
-  _retrieveBubble.anchorPoint = ccp(0.5, 0);
-  _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-pxlOffset);
+  NSString *fileName = [NSString stringWithFormat:@"%@%@.png", res, end];
+  
+  if (!_retrieveBubble || ![_retrieveBubble.name isEqualToString:fileName]) {
+    // Make sure to cleanup just in case
+    [_retrieveBubble removeFromParent];
+    
+    _retrieveBubble = [CCButton buttonWithTitle:nil spriteFrame:[CCSpriteFrame frameWithImageNamed:fileName] highlightedSpriteFrame:nil disabledSpriteFrame:nil];
+    [_retrieveBubble setTarget:self selector:@selector(select)];
+    [self addChild:_retrieveBubble z:1 name:fileName];
+    _retrieveBubble.anchorPoint = ccp(0.5, 0);
+    _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-pxlOffset);
+  }
 }
 
 - (BOOL) select {
@@ -645,7 +648,7 @@
     
     NSString *spritesheetName = [NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix];
     [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
-      if (_healingItem == hi) {
+      if (success && _healingItem == hi) {
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
         NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
         if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {

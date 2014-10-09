@@ -523,6 +523,12 @@ static const CGSize FIXED_SIZE = {568, 384};
       self.resumeTaskStages = nil;
     }
     
+    // Check to see if user has a daily free speedup
+    GameState *gs = [GameState sharedGameState];
+    if ([gs hasDailyFreeSpin]) {
+      [Globals addGreenAlertNotification:@"Your daily free Basic Grab is available. Click on Shop to claim!" isImmediate:NO];
+    }
+    
     //[[CCDirector sharedDirector] startAnimation];
     [[CCDirector sharedDirector] drawScene];
     

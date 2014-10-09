@@ -341,6 +341,9 @@
       
       [self.detailsViewController beginFinishSpinning];
     }
+    
+    // Added this here so that timers can update
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
   }
 }
 

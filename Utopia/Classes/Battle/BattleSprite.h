@@ -14,7 +14,12 @@
 
 #define MELEE_RUN_SPEED (MY_WALKING_SPEED*2/3.f)
 
-@interface BattleSprite : CCSprite
+@interface BattleSprite : CCSprite {
+  BOOL _attemptedLoadingRunSpritesheet;
+  BOOL _loadedRunSpritesheet;
+  BOOL _attemptedLoadingAtkSpritesheet;
+  BOOL _loadedAtkSpritesheet;
+}
 
 @property (nonatomic, retain) NSString *prefix;
 @property (nonatomic, assign) MonsterProto_AnimationType animationType;

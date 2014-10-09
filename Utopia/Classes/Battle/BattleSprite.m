@@ -67,7 +67,7 @@
       [self.healthBgd addChild:self.rarityTag];
       self.rarityTag.opacity = 0.f;
     }
-  
+    
     self.nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"GothamNarrow-Ultra" fontSize:12];
     self.nameLabel.attributedString = name;
     [self.healthBgd addChild:self.nameLabel];
@@ -162,31 +162,31 @@
 
 - (void) doRarityTagShine {
   if (self.rarityTag) {
-//    CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rarityTag.spriteFrame];
+    //    CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rarityTag.spriteFrame];
     
-//    CGSize size = self.rarityTag.contentSize;
-//    CCDrawNode *stencil = [CCDrawNode node];
-//    CGPoint rectangle[] = {{0, 0}, {size.width, 0}, {size.width, size.height}, {0, size.height}};
-//    [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
-//    
-//    CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
-//    clip.contentSize = size;
-//    stencil.position = ccp(size.width/2, size.height/2);
-//    
-//    CCSprite *lines = [CCSprite spriteWithImageNamed:@"tagshine.png"];
-//    [clip addChild:lines];
-//    lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
-//    lines.position = ccp(-lines.contentSize.width/2, clip.contentSize.height/2);
-//    lines.opacity = 0.5f;
-//    
-//    [lines runAction:
-//     [CCActionSequence actions:
-//      [CCActionDelay actionWithDuration:0.3],
-//      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.45f position:ccp(clip.contentSize.width+lines.contentSize.width/2, clip.contentSize.height/2)]
-//                                  rate:5.f],
-//      [CCActionCallBlock actionWithBlock:^{ [clip removeFromParent]; }], nil]];
-//    
-//    [self.rarityTag addChild:clip];
+    //    CGSize size = self.rarityTag.contentSize;
+    //    CCDrawNode *stencil = [CCDrawNode node];
+    //    CGPoint rectangle[] = {{0, 0}, {size.width, 0}, {size.width, size.height}, {0, size.height}};
+    //    [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+    //
+    //    CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
+    //    clip.contentSize = size;
+    //    stencil.position = ccp(size.width/2, size.height/2);
+    //
+    //    CCSprite *lines = [CCSprite spriteWithImageNamed:@"tagshine.png"];
+    //    [clip addChild:lines];
+    //    lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+    //    lines.position = ccp(-lines.contentSize.width/2, clip.contentSize.height/2);
+    //    lines.opacity = 0.5f;
+    //
+    //    [lines runAction:
+    //     [CCActionSequence actions:
+    //      [CCActionDelay actionWithDuration:0.3],
+    //      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.45f position:ccp(clip.contentSize.width+lines.contentSize.width/2, clip.contentSize.height/2)]
+    //                                  rate:5.f],
+    //      [CCActionCallBlock actionWithBlock:^{ [clip removeFromParent]; }], nil]];
+    //
+    //    [self.rarityTag addChild:clip];
   }
 }
 
@@ -262,58 +262,116 @@
   self.sprite.spriteFrame = spriteFrame;
 }
 
+- (void) checkRunSpriteSheetWithCompletion:(void (^)(BOOL success))completion {
+  if (!_attemptedLoadingRunSpritesheet) {
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@RunNF.plist", self.prefix];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      _attemptedLoadingRunSpritesheet = YES;
+      _loadedRunSpritesheet = success;
+      
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      }
+      
+      if (completion) {
+        completion(success);
+      }
+    }];
+  } else if (completion) {
+    completion(_loadedRunSpritesheet);
+  }
+}
+
+- (void) checkAttackSpriteSheetWithCompletion:(void (^)(BOOL success))completion {
+  if (!_attemptedLoadingAtkSpritesheet) {
+    NSString *spritesheetName = [NSString stringWithFormat:@"%@AttackNF.plist", self.prefix];
+    [Globals checkAndLoadSpriteSheet:spritesheetName completion:^(BOOL success) {
+      _attemptedLoadingAtkSpritesheet = YES;
+      _loadedAtkSpritesheet = success;
+      
+      if (success) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheetName];
+      }
+      
+      if (completion) {
+        completion(success);
+      }
+    }];
+  } else if (completion) {
+    completion(_loadedAtkSpritesheet);
+  }
+}
+
 - (CCAction *) walkActionN {
   if (!_walkActionN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
-    CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+    [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+      }
+    }];
   }
   return _walkActionN;
 }
 
 - (CCAction *) walkActionF {
   if (!_walkActionF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
-    CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+    [self checkRunSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
+        CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+        self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
+      }
+    }];
   }
   return _walkActionF;
 }
 
 - (CCAnimation *) attackAnimationN {
   if (!_attackAnimationN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
-    self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+    [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
+        self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+      }
+    }];
   }
   return _attackAnimationN;
 }
 
 - (CCAnimation *) attackAnimationF {
   if (!_attackAnimationF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
-    self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+    [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
+        self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+      }
+    }];
   }
   return _attackAnimationF;
 }
 
 - (CCAnimation *) flinchAnimationN {
   if (!_flinchAnimationN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
-    self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+    [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
+        self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+      }
+    }];
   }
   return _flinchAnimationN;
 }
 
 - (CCAnimation *) flinchAnimationF {
   if (!_flinchAnimationF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-    NSString *p = [NSString stringWithFormat:@"%@FlinchF", self.prefix];
-    self.flinchAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+    [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
+      if (success) {
+        NSString *p = [NSString stringWithFormat:@"%@FlinchF", self.prefix];
+        self.flinchAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+      }
+    }];
   }
   return _flinchAnimationF;
 }
@@ -323,13 +381,18 @@
 }
 
 - (void) restoreStandingFrame:(MapDirection)direction {
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-  NSString *name;
-  if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
-  else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF00.png", self.prefix];
-  else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
-  [self.sprite setSpriteFrame:frame];
+  self.sprite.spriteFrame = nil;
+  
+  [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
+    if (success) {
+      NSString *name;
+      if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+      else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF00.png", self.prefix];
+      else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
+      [self.sprite setSpriteFrame:frame];
+    }
+  }];
   
   self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight || direction == MapDirectionKneel);
 }
@@ -337,7 +400,8 @@
 - (void) beginWalking {
   if (!self.isWalking) {
     self.sprite.flipX = !self.isFacingNear;
-    [self.sprite runAction:self.isFacingNear ? self.walkActionN : self.walkActionF];
+    CCAction *action = self.isFacingNear ? self.walkActionN : self.walkActionF;
+    if (action) [self.sprite runAction:action];
     self.isWalking = YES;
     
     CCActionSequence *seq = [CCActionSequence actions:
@@ -391,9 +455,9 @@
     float moveAmount = -distToTravel/ccpLength(pointOffset);
     
     CCActionSequence* seqAttack = [CCActionSequence actions:
-                                  [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
-                                  [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
-                                  nil];
+                                   [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
+                                   [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
+                                   nil];
     if (shouldReturn)
       seq = [CCActionSequence actions:seqAttack,
              [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
@@ -481,11 +545,13 @@
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay {
   CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = self.position;
-  [self.sprite runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:delay],
-    [CCActionAnimate actionWithAnimation:self.flinchAnimationN],
-    nil]];
+  if (self.flinchAnimationN) {
+    [self.sprite runAction:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:delay],
+      [CCActionAnimate actionWithAnimation:self.flinchAnimationN],
+      nil]];
+  }
   
   float moveTime = 0.15f;
   float moveAmount = 0.006;
@@ -522,11 +588,13 @@
 - (void) performFarFlinchAnimationWithDelay:(float)delay {
   CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = self.position;
-  [self.sprite runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:delay],
-    [CCActionAnimate actionWithAnimation:self.flinchAnimationF],
-    nil]];
+  if (self.flinchAnimationF) {
+    [self.sprite runAction:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:delay],
+      [CCActionAnimate actionWithAnimation:self.flinchAnimationF],
+      nil]];
+  }
   
   float moveTime = 0.15f;
   float moveAmount = -0.006;

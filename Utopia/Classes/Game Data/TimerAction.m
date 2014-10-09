@@ -144,7 +144,7 @@
 }
 
 - (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gems?" , [self gemCost]];
+  return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
 - (void) performAction {
@@ -170,7 +170,7 @@
 }
 
 - (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gems?" , self.title, [self gemCost]];
+  return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
 - (void) performAction {
@@ -199,7 +199,7 @@
 }
 
 - (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gems?" , self.title, [self gemCost]];
+  return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
 - (void) performAction {

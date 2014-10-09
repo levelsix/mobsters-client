@@ -1254,6 +1254,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [AchievementUtil checkMonstersHealed:(int)arr.count];
     [QuestUtil checkAllDonateQuests];
+    
+    if (arr.count > 1) {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d %@ have finished healing!", (int)arr.count, MONSTER_NAME] isImmediate:NO];
+    } else {
+      UserMonsterHealingItem *item = arr[0];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished healing!", item.userMonster.staticMonster.displayName] isImmediate:NO];
+    }
   }
 }
 
