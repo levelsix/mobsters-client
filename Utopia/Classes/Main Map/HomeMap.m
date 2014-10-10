@@ -610,7 +610,12 @@
       [b setBubbleType:BuildingBubbleTypeJoinClan];
     } else {
       // Check if anyone needs help
-      [b setBubbleType:BuildingBubbleTypeNone];
+      int numHelps = (int)[gs.clanHelpUtil getAllHelpableClanHelps].count;
+      if (numHelps > 0) {
+        [b setBubbleType:BuildingBubbleTypeClanHelp withNum:numHelps];
+      } else {
+        [b setBubbleType:BuildingBubbleTypeNone];
+      }
     }
   }
 }
@@ -864,6 +869,7 @@
 }
 
 - (void) updateMapBotView:(MapBotView *)botView {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSMutableArray *buttonViews = [NSMutableArray array];
   
@@ -921,7 +927,7 @@
           break;
           
         case StructureInfoProto_StructTypeClan:
-          [buttonViews addObject:[MapBotViewButton clanButton]];
+          [buttonViews addObject:[MapBotViewButton joinClanButton]];
           break;
           
         default:
@@ -929,7 +935,14 @@
       }
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
-      [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES]]];
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:us.userStructId] < 0;
+      
+      if (gemCost && canGetHelp) {
+        [buttonViews addObject:[MapBotViewButton clanHelpButton]];
+      } else {
+        [buttonViews addObject:[MapBotViewButton speedupButtonWithGemCost:gemCost]];
+      }
       
       // For a single residence, put the sell button in
       if (fsp.structType == StructureInfoProto_StructTypeResidence) {
@@ -993,7 +1006,7 @@
     case MapBotViewButtonEvolve:
     case MapBotViewButtonTeam:
     case MapBotViewButtonSell:
-    case MapBotViewButtonClan:
+    case MapBotViewButtonJoinClan:
       [self enterClicked:button];
       break;
       
@@ -1003,6 +1016,10 @@
       
     case MapBotViewButtonBonusSlots:
       [self bonusSlotsClicked:button];
+      break;
+      
+    case MapBotViewButtonClanHelp:
+      [self getHelpClicked:button];
       break;
       
     default:
@@ -1269,10 +1286,12 @@
   StructureInfoProto *sip = [us.staticStruct structInfo];
   NSTimeInterval timeLeft = us.timeLeftForBuildComplete;
   
-  if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
+  if (!us.hasShownFreeSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     BOOL isInitialConstruction = sip.level == 1;
     NSString *desc = [NSString stringWithFormat:@"%@ %@ is below %d minutes. Free speedup available!", sip.name, isInitialConstruction ? @"construction" : @"upgrade", gl.maxMinutesForFreeSpeedUp];
     [Globals addPurpleAlertNotification:desc];
+    
+    us.hasShownFreeSpeedup = YES;
   }
   
   [_timers removeObject:timer];
@@ -1472,6 +1491,24 @@
   }
 }
 
+- (IBAction)getHelpClicked:(id)sender {
+  // Just need to solicit for constr building
+  GameState *gs = [GameState sharedGameState];
+  UserStruct *us = ((HomeBuilding *)_constrBuilding).userStruct;
+  
+  if (us) {
+    if (us.userStructId == 0) {
+      [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
+    } else if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:us.userStructId] < 0) {
+      [[OutgoingEventController sharedOutgoingEventController] solicitBuildingHelp:us];
+      
+      if (_constrBuilding == self.selected) {
+        [self reselectCurrentSelection];
+      }
+    }
+  }
+}
+
 - (void) loadMiniJobsView {
   // LEGACY
   GameViewController *gvc = [GameViewController baseController];
@@ -1610,8 +1647,13 @@
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     HomeBuilding *hb = (HomeBuilding *)self.selected;
     UserStruct *us = hb.userStruct;
-    [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems];
     
+    if (us.userStructId == 0) {
+      [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems];
+    }
+  
     if (!us.isComplete) {
       _constrBuilding = hb;
       [self updateTimersForBuilding:hb justBuilt:YES];
@@ -1845,13 +1887,17 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTimerForHealingDidJustQueueUp) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMiniJobCenter) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTeamCenter) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadClanHouse) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadClanHouse) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   
   // Mini job just redeemed
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];

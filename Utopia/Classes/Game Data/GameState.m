@@ -67,6 +67,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
     _requestedClans = [[NSMutableArray alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginMiniJobTimer) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginEvolutionTimer) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   }
   return self;
 }
@@ -81,6 +84,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     } else {
       self.clan = nil;
     }
+    self.clanHelpUtil.clanId = self.clan.clanId;
     self.avatarMonsterId = user.avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
@@ -796,6 +800,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserStruct *) myClanHouse {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeClan) {
+      return us;
+    }
+  }
+  return nil;
+}
+
 - (NSArray *) allHospitals {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -1206,6 +1219,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return numSpins;
 }
 
+- (BOOL) canAskForClanHelp {
+  UserStruct *cs = [self myClanHouse];
+  int level = cs.staticStruct.structInfo.level;
+  return self.clan && (cs.isComplete || level > 1);
+}
+
 #pragma mark -
 #pragma mark Healing Timer
 
@@ -1354,6 +1373,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark Mini Job Timer
 
+- (void) beginMiniJobTimer {
+  [self beginMiniJobTimerShowFreeSpeedupImmediately:YES];
+}
+
 - (void) beginMiniJobTimerShowFreeSpeedupImmediately:(BOOL)freeSpeedup {
   [self stopMiniJobTimer];
   
@@ -1364,7 +1387,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   MSDate *time = [self.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
   for (UserMiniJob *umj in self.myMiniJobs) {
     if (umj.timeStarted && !umj.timeCompleted) {
-      MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
+      MSDate *finishTime = umj.tentativeCompletionDate;
       MSDate *freeSpeedupTime = [finishTime dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
       if (!umj.hasShownFreeSpeedup &&
           // If it's less than 5 mins only show the popup if free speedup parameter is yes
@@ -1391,7 +1414,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   Globals *gl = [Globals sharedGlobals];
   for (UserMiniJob *umj in self.myMiniJobs) {
     if (umj.timeStarted && !umj.timeCompleted) {
-      MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
+      MSDate *finishTime = umj.tentativeCompletionDate;
       if (finishTime.timeIntervalSinceNow <= 0) {
         [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:umj isSpeedup:NO gemCost:0 delegate:nil];
         

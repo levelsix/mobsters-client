@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -384,7 +384,7 @@
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
                                                         <view contentMode="scaleToFill" id="zNZ-zW-g71" userLabel="Input View">
-                                                            <rect key="frame" x="39" y="7" width="342.99998946615136" height="29"/>
+                                                            <rect key="frame" x="39" y="7" width="343" height="29"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chatinputcap.png" id="a5m-b6-lxe">
@@ -639,6 +639,8 @@
                 <outlet property="bottomView" destination="MCB-eO-nQa" id="Nkh-MG-zsh"/>
                 <outlet property="chatTable" destination="Add-pv-JKk" id="Mkh-fx-fw3"/>
                 <outlet property="delegate" destination="-1" id="RV0-yo-ry1"/>
+                <outlet property="joinClanButtonView" destination="tMw-xz-lnQ" id="5V5-fU-4IQ"/>
+                <outlet property="joinClanLabel" destination="iB9-pf-ak1" id="bbM-ci-U9h"/>
                 <outlet property="mainView" destination="taO-wK-A5I" id="d0n-iL-OT5"/>
                 <outlet property="monsterView" destination="tRu-EI-e4C" id="Hw2-wb-Rwb"/>
                 <outlet property="noClanView" destination="1oq-I3-2XG" id="ZBU-a5-5sZ"/>

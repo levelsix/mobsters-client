@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
@@ -166,6 +167,7 @@
                 <outlet property="finishView" destination="Enn-ce-VzJ" id="EJe-mw-B9d"/>
                 <outlet property="freeLabel" destination="VWY-R0-rwU" id="gzQ-aR-YVp"/>
                 <outlet property="gemCostLabel" destination="bhk-RY-3U2" id="oPr-We-9Sy"/>
+                <outlet property="getHelpView" destination="SOr-Pi-IOL" id="w46-GD-B6V"/>
                 <outlet property="jobQualityTag" destination="hnh-NZ-kk3" id="Nkd-Fo-mvD"/>
                 <outlet property="nameLabel" destination="dNr-1f-m4j" id="4a3-Uh-mjl"/>
                 <outlet property="rewardsView" destination="ufj-A5-hf8" id="HMh-5G-hfU"/>
@@ -189,7 +191,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Collect" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8Z7-Dc-Uad" customClass="NiceFontLabel12">
-                    <rect key="frame" x="7" y="17" width="51" height="21"/>
+                    <rect key="frame" x="7" y="16" width="51" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -214,12 +216,41 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <view contentMode="scaleToFill" id="SOr-Pi-IOL">
+            <rect key="frame" x="0.0" y="0.0" width="65" height="43"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xH0-Zk-Ua0">
+                    <rect key="frame" x="0.0" y="14" width="65" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="minijobsgethelp.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="getHelpClicked:" destination="-1" eventType="touchUpInside" id="YYm-eN-szz"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TnV-Bn-CUU" customClass="NiceFontLabel12">
+                    <rect key="frame" x="7" y="16" width="51" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="0.75686274509803919" green="0.14901960784313725" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.98039215686274506" green="0.7803921568627451" blue="0.28235294117647058" alpha="0.75" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
     </objects>
     <resources>
         <image name="diamond.png" width="29" height="27"/>
         <image name="engagebutton.png" width="65" height="29"/>
         <image name="epicjob.png" width="48" height="14"/>
         <image name="finishminitask.png" width="65" height="29"/>
+        <image name="minijobsgethelp.png" width="65" height="29"/>
         <image name="minijobsrewardbg.png" width="113" height="43"/>
         <image name="openquestarrow.png" width="13" height="21"/>
         <image name="popupline.png" width="1" height="1"/>

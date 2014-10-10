@@ -64,7 +64,7 @@
 #ifdef TOONSQUAD
 #ifndef DEBUG
   [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
-  [Chartboost showInterstitial:CBLocationHomeScreen];
+  [Chartboost showInterstitial:@"bootup_ad"];
 #endif
 #endif
 }
@@ -314,9 +314,8 @@
   for (UserStruct *us in gs.myStructs) {
     if (!us.isComplete) {
       StructureInfoProto *fsp = [[gs structWithId:us.structId] structInfo];
-      NSString *text = [NSString stringWithFormat:@"Your %@ has finished building.", fsp.name];
-      int minutes = fsp.minutesToBuild;
-      [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
+      NSString *text = [NSString stringWithFormat:@"Your Level %d %@ has finished building.", fsp.level, fsp.name];
+      [self scheduleNotificationWithText:text badge:1 date:us.buildCompleteDate];
     }
   }
   
@@ -330,8 +329,7 @@
   
   for (UserMiniJob *miniJob in gs.myMiniJobs) {
     if (miniJob.timeStarted && !miniJob.timeCompleted) {
-      MSDate *date = [miniJob.timeStarted dateByAddingTimeInterval:miniJob.durationMinutes*60];
-      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:date];
+      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have come back from their %@.", MONSTER_NAME, miniJob.miniJob.name] badge:1 date:miniJob.tentativeCompletionDate];
     }
   }
   

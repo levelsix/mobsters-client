@@ -11079,7 +11079,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 
 @interface SolicitClanHelpRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) ClanHelpNoticeProto* notice;
+@property (strong) NSMutableArray * mutableNoticeList;
 @property int64_t clientTime;
 @property int32_t maxHelpers;
 @end
@@ -11093,13 +11093,8 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasNotice {
-  return !!hasNotice_;
-}
-- (void) setHasNotice:(BOOL) value_ {
-  hasNotice_ = !!value_;
-}
-@synthesize notice;
+@synthesize mutableNoticeList;
+@dynamic noticeList;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -11117,7 +11112,6 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.notice = [ClanHelpNoticeProto defaultInstance];
     self.clientTime = 0L;
     self.maxHelpers = 0;
   }
@@ -11135,6 +11129,12 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
 - (SolicitClanHelpRequestProto*) defaultInstance {
   return defaultSolicitClanHelpRequestProtoInstance;
 }
+- (NSArray *)noticeList {
+  return mutableNoticeList;
+}
+- (ClanHelpNoticeProto*)noticeAtIndex:(NSUInteger)index {
+  return [mutableNoticeList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -11142,9 +11142,9 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasNotice) {
-    [output writeMessage:2 value:self.notice];
-  }
+  [self.noticeList enumerateObjectsUsingBlock:^(ClanHelpNoticeProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
   if (self.hasClientTime) {
     [output writeInt64:4 value:self.clientTime];
   }
@@ -11163,9 +11163,9 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasNotice) {
-    size_ += computeMessageSize(2, self.notice);
-  }
+  [self.noticeList enumerateObjectsUsingBlock:^(ClanHelpNoticeProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
   if (self.hasClientTime) {
     size_ += computeInt64Size(4, self.clientTime);
   }
@@ -11213,12 +11213,12 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasNotice) {
+  [self.noticeList enumerateObjectsUsingBlock:^(ClanHelpNoticeProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"notice"];
-    [self.notice writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
-  }
+  }];
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
   }
@@ -11238,8 +11238,7 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasNotice == otherMessage.hasNotice &&
-      (!self.hasNotice || [self.notice isEqual:otherMessage.notice]) &&
+      [self.noticeList isEqualToArray:otherMessage.noticeList] &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       self.hasMaxHelpers == otherMessage.hasMaxHelpers &&
@@ -11251,9 +11250,9 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasNotice) {
-    hashCode = hashCode * 31 + [self.notice hash];
-  }
+  [self.noticeList enumerateObjectsUsingBlock:^(ClanHelpNoticeProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
@@ -11306,8 +11305,12 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasNotice) {
-    [self mergeNotice:other.notice];
+  if (other.mutableNoticeList.count > 0) {
+    if (result.mutableNoticeList == nil) {
+      result.mutableNoticeList = [[NSMutableArray alloc] initWithArray:other.mutableNoticeList];
+    } else {
+      [result.mutableNoticeList addObjectsFromArray:other.mutableNoticeList];
+    }
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -11347,11 +11350,8 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
       }
       case 18: {
         ClanHelpNoticeProto_Builder* subBuilder = [ClanHelpNoticeProto builder];
-        if (self.hasNotice) {
-          [subBuilder mergeFrom:self.notice];
-        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setNotice:[subBuilder buildPartial]];
+        [self addNotice:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -11395,34 +11395,28 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasNotice {
-  return result.hasNotice;
+- (NSMutableArray *)noticeList {
+  return result.mutableNoticeList;
 }
-- (ClanHelpNoticeProto*) notice {
-  return result.notice;
+- (ClanHelpNoticeProto*)noticeAtIndex:(NSUInteger)index {
+  return [result noticeAtIndex:index];
 }
-- (SolicitClanHelpRequestProto_Builder*) setNotice:(ClanHelpNoticeProto*) value {
-  result.hasNotice = YES;
-  result.notice = value;
-  return self;
-}
-- (SolicitClanHelpRequestProto_Builder*) setNotice_Builder:(ClanHelpNoticeProto_Builder*) builderForValue {
-  return [self setNotice:[builderForValue build]];
-}
-- (SolicitClanHelpRequestProto_Builder*) mergeNotice:(ClanHelpNoticeProto*) value {
-  if (result.hasNotice &&
-      result.notice != [ClanHelpNoticeProto defaultInstance]) {
-    result.notice =
-      [[[ClanHelpNoticeProto builderWithPrototype:result.notice] mergeFrom:value] buildPartial];
-  } else {
-    result.notice = value;
+- (SolicitClanHelpRequestProto_Builder *)addNotice:(ClanHelpNoticeProto*)value {
+  if (result.mutableNoticeList == nil) {
+    result.mutableNoticeList = [[NSMutableArray alloc]init];
   }
-  result.hasNotice = YES;
+  [result.mutableNoticeList addObject:value];
   return self;
 }
-- (SolicitClanHelpRequestProto_Builder*) clearNotice {
-  result.hasNotice = NO;
-  result.notice = [ClanHelpNoticeProto defaultInstance];
+- (SolicitClanHelpRequestProto_Builder *)addAllNotice:(NSArray *)array {
+  if (result.mutableNoticeList == nil) {
+    result.mutableNoticeList = [NSMutableArray array];
+  }
+  [result.mutableNoticeList addObjectsFromArray:array];
+  return self;
+}
+- (SolicitClanHelpRequestProto_Builder *)clearNotice {
+  result.mutableNoticeList = nil;
   return self;
 }
 - (BOOL) hasClientTime {
@@ -11461,7 +11455,7 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
 
 @interface SolicitClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) ClanHelpProto* helpProto;
+@property (strong) NSMutableArray * mutableHelpProtoList;
 @property SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
 @end
 
@@ -11474,13 +11468,8 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasHelpProto {
-  return !!hasHelpProto_;
-}
-- (void) setHasHelpProto:(BOOL) value_ {
-  hasHelpProto_ = !!value_;
-}
-@synthesize helpProto;
+@synthesize mutableHelpProtoList;
+@dynamic helpProtoList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -11491,7 +11480,6 @@ static SolicitClanHelpRequestProto* defaultSolicitClanHelpRequestProtoInstance =
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.helpProto = [ClanHelpProto defaultInstance];
     self.status = SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess;
   }
   return self;
@@ -11508,6 +11496,12 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
 - (SolicitClanHelpResponseProto*) defaultInstance {
   return defaultSolicitClanHelpResponseProtoInstance;
 }
+- (NSArray *)helpProtoList {
+  return mutableHelpProtoList;
+}
+- (ClanHelpProto*)helpProtoAtIndex:(NSUInteger)index {
+  return [mutableHelpProtoList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -11515,9 +11509,9 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasHelpProto) {
-    [output writeMessage:2 value:self.helpProto];
-  }
+  [self.helpProtoList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
@@ -11533,9 +11527,9 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasHelpProto) {
-    size_ += computeMessageSize(2, self.helpProto);
-  }
+  [self.helpProtoList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
   if (self.hasStatus) {
     size_ += computeEnumSize(3, self.status);
   }
@@ -11580,12 +11574,12 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasHelpProto) {
+  [self.helpProtoList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"helpProto"];
-    [self.helpProto writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
-  }
+  }];
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
@@ -11602,8 +11596,7 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasHelpProto == otherMessage.hasHelpProto &&
-      (!self.hasHelpProto || [self.helpProto isEqual:otherMessage.helpProto]) &&
+      [self.helpProtoList isEqualToArray:otherMessage.helpProtoList] &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -11613,9 +11606,9 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasHelpProto) {
-    hashCode = hashCode * 31 + [self.helpProto hash];
-  }
+  [self.helpProtoList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
@@ -11675,8 +11668,12 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasHelpProto) {
-    [self mergeHelpProto:other.helpProto];
+  if (other.mutableHelpProtoList.count > 0) {
+    if (result.mutableHelpProtoList == nil) {
+      result.mutableHelpProtoList = [[NSMutableArray alloc] initWithArray:other.mutableHelpProtoList];
+    } else {
+      [result.mutableHelpProtoList addObjectsFromArray:other.mutableHelpProtoList];
+    }
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
@@ -11713,11 +11710,8 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
       }
       case 18: {
         ClanHelpProto_Builder* subBuilder = [ClanHelpProto builder];
-        if (self.hasHelpProto) {
-          [subBuilder mergeFrom:self.helpProto];
-        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setHelpProto:[subBuilder buildPartial]];
+        [self addHelpProto:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -11762,34 +11756,28 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasHelpProto {
-  return result.hasHelpProto;
+- (NSMutableArray *)helpProtoList {
+  return result.mutableHelpProtoList;
 }
-- (ClanHelpProto*) helpProto {
-  return result.helpProto;
+- (ClanHelpProto*)helpProtoAtIndex:(NSUInteger)index {
+  return [result helpProtoAtIndex:index];
 }
-- (SolicitClanHelpResponseProto_Builder*) setHelpProto:(ClanHelpProto*) value {
-  result.hasHelpProto = YES;
-  result.helpProto = value;
-  return self;
-}
-- (SolicitClanHelpResponseProto_Builder*) setHelpProto_Builder:(ClanHelpProto_Builder*) builderForValue {
-  return [self setHelpProto:[builderForValue build]];
-}
-- (SolicitClanHelpResponseProto_Builder*) mergeHelpProto:(ClanHelpProto*) value {
-  if (result.hasHelpProto &&
-      result.helpProto != [ClanHelpProto defaultInstance]) {
-    result.helpProto =
-      [[[ClanHelpProto builderWithPrototype:result.helpProto] mergeFrom:value] buildPartial];
-  } else {
-    result.helpProto = value;
+- (SolicitClanHelpResponseProto_Builder *)addHelpProto:(ClanHelpProto*)value {
+  if (result.mutableHelpProtoList == nil) {
+    result.mutableHelpProtoList = [[NSMutableArray alloc]init];
   }
-  result.hasHelpProto = YES;
+  [result.mutableHelpProtoList addObject:value];
   return self;
 }
-- (SolicitClanHelpResponseProto_Builder*) clearHelpProto {
-  result.hasHelpProto = NO;
-  result.helpProto = [ClanHelpProto defaultInstance];
+- (SolicitClanHelpResponseProto_Builder *)addAllHelpProto:(NSArray *)array {
+  if (result.mutableHelpProtoList == nil) {
+    result.mutableHelpProtoList = [NSMutableArray array];
+  }
+  [result.mutableHelpProtoList addObjectsFromArray:array];
+  return self;
+}
+- (SolicitClanHelpResponseProto_Builder *)clearHelpProto {
+  result.mutableHelpProtoList = nil;
   return self;
 }
 - (BOOL) hasStatus {
@@ -12106,6 +12094,7 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
 
 @interface GiveClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableClanHelpsList;
 @property GiveClanHelpResponseProto_GiveClanHelpStatus status;
 @end
 
@@ -12118,6 +12107,8 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
+@synthesize mutableClanHelpsList;
+@dynamic clanHelpsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -12144,6 +12135,12 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
 - (GiveClanHelpResponseProto*) defaultInstance {
   return defaultGiveClanHelpResponseProtoInstance;
 }
+- (NSArray *)clanHelpsList {
+  return mutableClanHelpsList;
+}
+- (ClanHelpProto*)clanHelpsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -12151,6 +12148,9 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  [self.clanHelpsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
@@ -12166,6 +12166,9 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
+  [self.clanHelpsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
   if (self.hasStatus) {
     size_ += computeEnumSize(3, self.status);
   }
@@ -12210,6 +12213,12 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.clanHelpsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanHelps"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
@@ -12226,6 +12235,7 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.clanHelpsList isEqualToArray:otherMessage.clanHelpsList] &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -12235,6 +12245,9 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
+  [self.clanHelpsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
@@ -12293,6 +12306,13 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.mutableClanHelpsList.count > 0) {
+    if (result.mutableClanHelpsList == nil) {
+      result.mutableClanHelpsList = [[NSMutableArray alloc] initWithArray:other.mutableClanHelpsList];
+    } else {
+      [result.mutableClanHelpsList addObjectsFromArray:other.mutableClanHelpsList];
+    }
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -12324,6 +12344,12 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        ClanHelpProto_Builder* subBuilder = [ClanHelpProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanHelps:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -12366,6 +12392,30 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
 - (GiveClanHelpResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)clanHelpsList {
+  return result.mutableClanHelpsList;
+}
+- (ClanHelpProto*)clanHelpsAtIndex:(NSUInteger)index {
+  return [result clanHelpsAtIndex:index];
+}
+- (GiveClanHelpResponseProto_Builder *)addClanHelps:(ClanHelpProto*)value {
+  if (result.mutableClanHelpsList == nil) {
+    result.mutableClanHelpsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanHelpsList addObject:value];
+  return self;
+}
+- (GiveClanHelpResponseProto_Builder *)addAllClanHelps:(NSArray *)array {
+  if (result.mutableClanHelpsList == nil) {
+    result.mutableClanHelpsList = [NSMutableArray array];
+  }
+  [result.mutableClanHelpsList addObjectsFromArray:array];
+  return self;
+}
+- (GiveClanHelpResponseProto_Builder *)clearClanHelps {
+  result.mutableClanHelpsList = nil;
   return self;
 }
 - (BOOL) hasStatus {
@@ -12682,6 +12732,8 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
 
 @interface EndClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
+@property (strong) PBAppendableArray * mutableClanHelpIdsList;
+@property EndClanHelpResponseProto_EndClanHelpStatus status;
 @end
 
 @implementation EndClanHelpResponseProto
@@ -12693,9 +12745,19 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
+@synthesize mutableClanHelpIdsList;
+@dynamic clanHelpIdsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
   }
   return self;
 }
@@ -12711,12 +12773,28 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
 - (EndClanHelpResponseProto*) defaultInstance {
   return defaultEndClanHelpResponseProtoInstance;
 }
+- (PBArray *)clanHelpIdsList {
+  return mutableClanHelpIdsList;
+}
+- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpIdsList int64AtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
+  }
+  const NSUInteger clanHelpIdsListCount = self.clanHelpIdsList.count;
+  if (clanHelpIdsListCount > 0) {
+    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
+    for (NSUInteger i = 0; i < clanHelpIdsListCount; ++i) {
+      [output writeInt64:2 value:values[i]];
+    }
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -12729,6 +12807,19 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   size_ = 0;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.clanHelpIdsList.count;
+    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt64SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -12771,6 +12862,12 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpIds", obj];
+  }];
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -12784,12 +12881,21 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.clanHelpIdsList isEqualToArray:otherMessage.clanHelpIdsList] &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -12846,6 +12952,16 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.mutableClanHelpIdsList.count > 0) {
+    if (result.mutableClanHelpIdsList == nil) {
+      result.mutableClanHelpIdsList = [other.mutableClanHelpIdsList copy];
+    } else {
+      [result.mutableClanHelpIdsList appendArray:other.mutableClanHelpIdsList];
+    }
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12874,6 +12990,19 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addClanHelpIds:[input readInt64]];
+        break;
+      }
+      case 24: {
+        EndClanHelpResponseProto_EndClanHelpStatus value = (EndClanHelpResponseProto_EndClanHelpStatus)[input readEnum];
+        if (EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
         break;
       }
     }
@@ -12907,6 +13036,50 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (EndClanHelpResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (PBAppendableArray *)clanHelpIdsList {
+  return result.mutableClanHelpIdsList;
+}
+- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
+  return [result clanHelpIdsAtIndex:index];
+}
+- (EndClanHelpResponseProto_Builder *)addClanHelpIds:(int64_t)value {
+  if (result.mutableClanHelpIdsList == nil) {
+    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+  }
+  [result.mutableClanHelpIdsList addInt64:value];
+  return self;
+}
+- (EndClanHelpResponseProto_Builder *)addAllClanHelpIds:(NSArray *)array {
+  if (result.mutableClanHelpIdsList == nil) {
+    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+  }
+  [result.mutableClanHelpIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  return self;
+}
+- (EndClanHelpResponseProto_Builder *)setClanHelpIdsValues:(const int64_t *)values count:(NSUInteger)count {
+  result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
+  return self;
+}
+- (EndClanHelpResponseProto_Builder *)clearClanHelpIds {
+  result.mutableClanHelpIdsList = nil;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EndClanHelpResponseProto_EndClanHelpStatus) status {
+  return result.status;
+}
+- (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EndClanHelpResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
   return self;
 }
 @end

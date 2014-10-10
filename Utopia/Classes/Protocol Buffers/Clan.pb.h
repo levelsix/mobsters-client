@@ -1540,36 +1540,40 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasUserDataId_:1;
   BOOL hasTimeRequested_:1;
   BOOL hasClanId_:1;
-  BOOL hasUserId_:1;
   BOOL hasMaxHelpers_:1;
+  BOOL hasStaticDataId_:1;
+  BOOL hasMup_:1;
   BOOL hasHelpType_:1;
   BOOL open_:1;
   int64_t clanHelpId;
   int64_t userDataId;
   int64_t timeRequested;
   int32_t clanId;
-  int32_t userId;
   int32_t maxHelpers;
+  int32_t staticDataId;
+  MinimumUserProto* mup;
   ClanHelpType helpType;
   PBAppendableArray * mutableHelperIdsList;
 }
 - (BOOL) hasClanHelpId;
 - (BOOL) hasClanId;
-- (BOOL) hasUserId;
+- (BOOL) hasMup;
 - (BOOL) hasUserDataId;
 - (BOOL) hasHelpType;
 - (BOOL) hasTimeRequested;
 - (BOOL) hasMaxHelpers;
 - (BOOL) hasOpen;
+- (BOOL) hasStaticDataId;
 @property (readonly) int64_t clanHelpId;
 @property (readonly) int32_t clanId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) MinimumUserProto* mup;
 @property (readonly) int64_t userDataId;
 @property (readonly) ClanHelpType helpType;
 @property (readonly) int64_t timeRequested;
 @property (readonly) int32_t maxHelpers;
 @property (readonly, strong) PBArray * helperIdsList;
 - (BOOL) open;
+@property (readonly) int32_t staticDataId;
 - (int32_t)helperIdsAtIndex:(NSUInteger)index;
 
 + (ClanHelpProto*) defaultInstance;
@@ -1617,10 +1621,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) setClanId:(int32_t) value;
 - (ClanHelpProto_Builder*) clearClanId;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (ClanHelpProto_Builder*) setUserId:(int32_t) value;
-- (ClanHelpProto_Builder*) clearUserId;
+- (BOOL) hasMup;
+- (MinimumUserProto*) mup;
+- (ClanHelpProto_Builder*) setMup:(MinimumUserProto*) value;
+- (ClanHelpProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (ClanHelpProto_Builder*) mergeMup:(MinimumUserProto*) value;
+- (ClanHelpProto_Builder*) clearMup;
 
 - (BOOL) hasUserDataId;
 - (int64_t) userDataId;
@@ -1653,19 +1659,28 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) open;
 - (ClanHelpProto_Builder*) setOpen:(BOOL) value;
 - (ClanHelpProto_Builder*) clearOpen;
+
+- (BOOL) hasStaticDataId;
+- (int32_t) staticDataId;
+- (ClanHelpProto_Builder*) setStaticDataId:(int32_t) value;
+- (ClanHelpProto_Builder*) clearStaticDataId;
 @end
 
 @interface ClanHelpNoticeProto : PBGeneratedMessage {
 @private
   BOOL hasUserDataId_:1;
+  BOOL hasStaticDataId_:1;
   BOOL hasHelpType_:1;
   int64_t userDataId;
+  int32_t staticDataId;
   ClanHelpType helpType;
 }
 - (BOOL) hasHelpType;
 - (BOOL) hasUserDataId;
+- (BOOL) hasStaticDataId;
 @property (readonly) ClanHelpType helpType;
 @property (readonly) int64_t userDataId;
+@property (readonly) int32_t staticDataId;
 
 + (ClanHelpNoticeProto*) defaultInstance;
 - (ClanHelpNoticeProto*) defaultInstance;
@@ -1711,6 +1726,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int64_t) userDataId;
 - (ClanHelpNoticeProto_Builder*) setUserDataId:(int64_t) value;
 - (ClanHelpNoticeProto_Builder*) clearUserDataId;
+
+- (BOOL) hasStaticDataId;
+- (int32_t) staticDataId;
+- (ClanHelpNoticeProto_Builder*) setStaticDataId:(int32_t) value;
+- (ClanHelpNoticeProto_Builder*) clearStaticDataId;
 @end
 
 

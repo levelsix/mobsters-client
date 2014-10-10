@@ -122,6 +122,10 @@
 - (int) sendPromoteDemoteClanMemberMessage:(int)victimId newStatus:(UserClanStatus)status;
 - (int) sendBootPlayerFromClan:(int)playerId;
 
+- (int) sendSolicitClanHelpMessage:(NSArray *)clanHelpNotices maxHelpers:(int)maxHelpers clientTime:(uint64_t)clientTime;
+- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpIds;
+- (int) sendEndClanHelpMessage:(NSArray *)clanHelpIds;
+
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y;
 

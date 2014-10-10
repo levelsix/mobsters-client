@@ -43,9 +43,9 @@
   if ([self gemCost] > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else if (gemCost && confirm) {
-    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performAction)];
+    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup)];
   } else {
-    [self performAction];
+    [self performSpeedup];
   }
 }
 
@@ -53,8 +53,36 @@
   return nil;
 }
 
-- (void) performAction {
+- (BOOL) canGetHelp {
+  return NO;
+}
+
+- (void) performSpeedup {
   // We can assume we have enough gems at this point
+}
+
+- (void) helpClicked {
+  GameState *gs = [GameState sharedGameState];
+  if ([gs canAskForClanHelp]) {
+    [self performHelp];
+  } else {
+    UserStruct *us = gs.myClanHouse;
+    
+    NSString *structName = nil;
+    if (!us) {
+      for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+        if (ss.structInfo.structType == StructureInfoProto_StructTypeClan && !ss.structInfo.predecessorStructId) {
+          structName = ss.structInfo.name;
+        }
+      }
+    }
+    
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You must be in a squad to ask for help. %@", us ? @"Join one now!" : [NSString stringWithFormat:@"Build a %@ now!", structName]] ];
+  }
+}
+
+- (void) performHelp {
+  // Ask for help
 }
 
 - (NSComparisonResult) compare:(TimerAction *)object {
@@ -66,15 +94,6 @@
   }
   
   return [self.completionDate compare:object.completionDate];
-}
-
-- (BOOL) isEqual:(id)object {
-  // For now, since only 1 timer can exist for each, just check the class.
-  return [self class] == [object class] && [self secondsLeft] == [object secondsLeft];
-}
-
-- (NSUInteger) hash {
-  return [self secondsLeft]*31+[self gemCost]*19+self.normalProgressBarColor*97;
 }
 
 @end
@@ -94,13 +113,34 @@
   return self;
 }
 
-- (void) performAction {
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:self.userStruct.userStructId] < 0;
+}
+
+- (void) performSpeedup {
   // Somewhat hacky, but super easy. Just let the home map deal with it
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
     [hm finishNowClicked:nil];
   }
+}
+
+- (void) performHelp {
+  GameViewController *gvc = [GameViewController baseController];
+  HomeMap *hm = (HomeMap *)gvc.currentMap;
+  if ([hm isKindOfClass:[HomeMap class]]) {
+    [hm getHelpClicked:nil];
+  }
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && self.userStruct.userStructId == [object userStruct].userStructId;
+}
+
+- (NSUInteger) hash {
+  return self.userStruct.userStructId*31;
 }
 
 @end
@@ -120,12 +160,20 @@
   return self;
 }
 
-- (void) performAction {
+- (void) performSpeedup {
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
     [hm finishNowClicked:nil];
   }
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && self.userObstacle.userObstacleId == [object userObstacle].userObstacleId;
+}
+
+- (NSUInteger) hash {
+  return self.userObstacle.userObstacleId*97;
 }
 
 @end
@@ -147,9 +195,18 @@
   return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performAction {
+- (void) performSpeedup {
   HealViewController *hvc = [[HealViewController alloc] init];
   [hvc speedupButtonClicked:nil];
+}
+
+- (BOOL) isEqual:(id)object {
+  // There should only ever be one healing timer action
+  return [self class] == [object class];
+}
+
+- (NSUInteger) hash {
+  return 3747823;
 }
 
 @end
@@ -163,21 +220,41 @@
     self.title = self.miniJob.miniJob.name;
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
-    self.completionDate = [self.miniJob.timeStarted dateByAddingTimeInterval:self.miniJob.durationMinutes*60];
+    self.completionDate = self.miniJob.tentativeCompletionDate;
     self.totalSeconds = self.miniJob.durationMinutes*60;
   }
   return self;
+}
+
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.miniJob.userMiniJobId] < 0;
 }
 
 - (NSString *) confirmActionString {
   return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performAction {
+- (void) performSpeedup {
   MiniJobsListViewController *lvc = [[MiniJobsListViewController alloc] init];
   MiniJobsListCell *cell = [[MiniJobsListCell alloc] init];
   cell.userMiniJob = self.miniJob;
   [lvc miniJobsListFinishClicked:cell];
+}
+
+- (void) performHelp {
+  MiniJobsListViewController *lvc = [[MiniJobsListViewController alloc] init];
+  MiniJobsListCell *cell = [[MiniJobsListCell alloc] init];
+  cell.userMiniJob = self.miniJob;
+  [lvc miniJobsListHelpClicked:cell];
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && self.miniJob.userMiniJobId == [(MiniJobTimerAction *)object miniJob].userMiniJobId;
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.miniJob.userMiniJobId*51;
 }
 
 @end
@@ -202,9 +279,17 @@
   return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performAction {
+- (void) performSpeedup {
   EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
   [evc speedupClicked:nil];
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && self.userEvo.userMonsterId1 == [object userEvo].userMonsterId1;
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.userEvo.userMonsterId1*19;
 }
 
 @end

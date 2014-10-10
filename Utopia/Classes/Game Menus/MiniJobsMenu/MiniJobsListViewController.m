@@ -19,6 +19,9 @@
   self.completeView.frame = self.finishView.frame;
   [self.finishView.superview addSubview:self.completeView];
   
+  self.getHelpView.frame = self.finishView.frame;
+  [self.finishView.superview addSubview:self.getHelpView];
+  
   [self stopSpinners];
 }
 
@@ -47,6 +50,7 @@
   
   self.arrowIcon.hidden = YES;
   self.completeView.hidden = YES;
+  self.getHelpView.hidden = YES;
   self.finishView.hidden = YES;
   self.selectionStyle = UITableViewCellSelectionStyleNone;
   if (umj.timeCompleted) {
@@ -63,21 +67,27 @@
 
 - (void) updateTimes {
   if (self.userMiniJob.timeStarted) {
+    GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     
-    MSDate *date = [self.userMiniJob.timeStarted dateByAddingTimeInterval:self.userMiniJob.durationMinutes*60];
+    MSDate *date = self.userMiniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    
+    BOOL canGetHelp = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJob.userMiniJobId] < 0;
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     if (gemCost > 0) {
       self.gemCostLabel.text = [Globals commafyNumber:gemCost];
       [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
       
+      self.getHelpView.hidden = !canGetHelp;
+      
       self.gemCostLabel.superview.hidden = NO;
       self.freeLabel.hidden = YES;
     } else {
+      self.getHelpView.hidden = YES;
       self.gemCostLabel.superview.hidden = YES;
       self.freeLabel.hidden = NO;
     }
@@ -254,6 +264,15 @@
   [self miniJobsListFinishClicked:cell];
 }
 
+- (IBAction) getHelpClicked:(UIView *)sender {
+  while (sender && ![sender isKindOfClass:[MiniJobsListCell class]]) {
+    sender = [sender superview];
+  }
+  
+  MiniJobsListCell *cell = (MiniJobsListCell *)sender;
+  [self miniJobsListHelpClicked:cell];
+}
+
 #pragma mark - Transitioning
 
 - (void) transitionToDetailsView {
@@ -328,7 +347,7 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     
-    MSDate *date = [listCell.userMiniJob.timeStarted dateByAddingTimeInterval:listCell.userMiniJob.durationMinutes*60];
+    MSDate *date = listCell.userMiniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
@@ -344,6 +363,13 @@
     
     // Added this here so that timers can update
     [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
+  }
+}
+
+- (void) miniJobsListHelpClicked:(MiniJobsListCell *)listCell {
+  if (listCell.userMiniJob.timeStarted && !listCell.userMiniJob.timeCompleted && !_selectedCell) {
+    [[OutgoingEventController sharedOutgoingEventController] solicitMiniJobHelp:listCell.userMiniJob];
+    [listCell updateForMiniJob:listCell.userMiniJob];
   }
 }
 

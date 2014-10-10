@@ -208,6 +208,9 @@ static NSString *udid = nil;
   _shouldReconnect = YES;
   _numDisconnects = 0;
   
+  // Need to do this so clan queue gets recreated on clicking home button
+  _sender = nil;
+  
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
   
@@ -1314,6 +1317,36 @@ static NSString *udid = nil;
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEnhanceMonsterEvent];
+}
+
+- (int) sendSolicitClanHelpMessage:(NSArray *)clanHelpNotices maxHelpers:(int)maxHelpers clientTime:(uint64_t)clientTime {
+  SolicitClanHelpRequestProto *req = [[[[[[SolicitClanHelpRequestProto builder]
+                                         setSender:_sender]
+                                        setClientTime:clientTime]
+                                       setMaxHelpers:maxHelpers]
+                                       addAllNotice:clanHelpNotices]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent];
+}
+
+- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpIds {
+  GiveClanHelpRequestProto *req = [[[[GiveClanHelpRequestProto builder]
+                                     setSender:_sender]
+                                    addAllClanHelpIds:clanHelpIds]
+                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCGiveClanHelpEvent];
+}
+
+
+- (int) sendEndClanHelpMessage:(NSArray *)clanHelpIds {
+  EndClanHelpRequestProto *req = [[[[EndClanHelpRequestProto builder]
+                                     setSender:_sender]
+                                    addAllClanHelpIds:clanHelpIds]
+                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent];
 }
 
 #pragma mark - Batch/Flush events

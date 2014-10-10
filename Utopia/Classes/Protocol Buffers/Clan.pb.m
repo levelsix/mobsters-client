@@ -6375,13 +6375,14 @@ static ClanIconProto* defaultClanIconProtoInstance = nil;
 @interface ClanHelpProto ()
 @property int64_t clanHelpId;
 @property int32_t clanId;
-@property int32_t userId;
+@property (strong) MinimumUserProto* mup;
 @property int64_t userDataId;
 @property ClanHelpType helpType;
 @property int64_t timeRequested;
 @property int32_t maxHelpers;
 @property (strong) PBAppendableArray * mutableHelperIdsList;
 @property BOOL open;
+@property int32_t staticDataId;
 @end
 
 @implementation ClanHelpProto
@@ -6400,13 +6401,13 @@ static ClanIconProto* defaultClanIconProtoInstance = nil;
   hasClanId_ = !!value_;
 }
 @synthesize clanId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasMup {
+  return !!hasMup_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasMup:(BOOL) value_ {
+  hasMup_ = !!value_;
 }
-@synthesize userId;
+@synthesize mup;
 - (BOOL) hasUserDataId {
   return !!hasUserDataId_;
 }
@@ -6449,16 +6450,24 @@ static ClanIconProto* defaultClanIconProtoInstance = nil;
 - (void) setOpen:(BOOL) value_ {
   open_ = !!value_;
 }
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
+}
+- (void) setHasStaticDataId:(BOOL) value_ {
+  hasStaticDataId_ = !!value_;
+}
+@synthesize staticDataId;
 - (id) init {
   if ((self = [super init])) {
     self.clanHelpId = 0L;
     self.clanId = 0;
-    self.userId = 0;
+    self.mup = [MinimumUserProto defaultInstance];
     self.userDataId = 0L;
     self.helpType = ClanHelpTypeNoHelp;
     self.timeRequested = 0L;
     self.maxHelpers = 0;
     self.open = NO;
+    self.staticDataId = 0;
   }
   return self;
 }
@@ -6490,8 +6499,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasClanId) {
     [output writeInt32:2 value:self.clanId];
   }
-  if (self.hasUserId) {
-    [output writeInt32:3 value:self.userId];
+  if (self.hasMup) {
+    [output writeMessage:3 value:self.mup];
   }
   if (self.hasUserDataId) {
     [output writeInt64:4 value:self.userDataId];
@@ -6515,6 +6524,9 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasOpen) {
     [output writeBool:9 value:self.open];
   }
+  if (self.hasStaticDataId) {
+    [output writeInt32:10 value:self.staticDataId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -6530,8 +6542,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasClanId) {
     size_ += computeInt32Size(2, self.clanId);
   }
-  if (self.hasUserId) {
-    size_ += computeInt32Size(3, self.userId);
+  if (self.hasMup) {
+    size_ += computeMessageSize(3, self.mup);
   }
   if (self.hasUserDataId) {
     size_ += computeInt64Size(4, self.userDataId);
@@ -6557,6 +6569,9 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   }
   if (self.hasOpen) {
     size_ += computeBoolSize(9, self.open);
+  }
+  if (self.hasStaticDataId) {
+    size_ += computeInt32Size(10, self.staticDataId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6599,8 +6614,11 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasClanId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
   }
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasMup) {
+    [output appendFormat:@"%@%@ {\n", indent, @"mup"];
+    [self.mup writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasUserDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userDataId", [NSNumber numberWithLongLong:self.userDataId]];
@@ -6620,6 +6638,9 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasOpen) {
     [output appendFormat:@"%@%@: %@\n", indent, @"open", [NSNumber numberWithBool:self.open]];
   }
+  if (self.hasStaticDataId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -6635,8 +6656,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
       (!self.hasClanHelpId || self.clanHelpId == otherMessage.clanHelpId) &&
       self.hasClanId == otherMessage.hasClanId &&
       (!self.hasClanId || self.clanId == otherMessage.clanId) &&
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasMup == otherMessage.hasMup &&
+      (!self.hasMup || [self.mup isEqual:otherMessage.mup]) &&
       self.hasUserDataId == otherMessage.hasUserDataId &&
       (!self.hasUserDataId || self.userDataId == otherMessage.userDataId) &&
       self.hasHelpType == otherMessage.hasHelpType &&
@@ -6648,6 +6669,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
       [self.helperIdsList isEqualToArray:otherMessage.helperIdsList] &&
       self.hasOpen == otherMessage.hasOpen &&
       (!self.hasOpen || self.open == otherMessage.open) &&
+      self.hasStaticDataId == otherMessage.hasStaticDataId &&
+      (!self.hasStaticDataId || self.staticDataId == otherMessage.staticDataId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6658,8 +6681,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (self.hasClanId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
   }
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasMup) {
+    hashCode = hashCode * 31 + [self.mup hash];
   }
   if (self.hasUserDataId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userDataId] hash];
@@ -6678,6 +6701,9 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   }];
   if (self.hasOpen) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.open] hash];
+  }
+  if (self.hasStaticDataId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.staticDataId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6728,8 +6754,8 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   if (other.hasClanId) {
     [self setClanId:other.clanId];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasMup) {
+    [self mergeMup:other.mup];
   }
   if (other.hasUserDataId) {
     [self setUserDataId:other.userDataId];
@@ -6752,6 +6778,9 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   }
   if (other.hasOpen) {
     [self setOpen:other.open];
+  }
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6782,8 +6811,13 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
         [self setClanId:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setUserId:[input readInt32]];
+      case 26: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMup) {
+          [subBuilder mergeFrom:self.mup];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMup:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -6813,6 +6847,10 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
       }
       case 72: {
         [self setOpen:[input readBool]];
+        break;
+      }
+      case 80: {
+        [self setStaticDataId:[input readInt32]];
         break;
       }
     }
@@ -6850,20 +6888,34 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   result.clanId = 0;
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasMup {
+  return result.hasMup;
 }
-- (int32_t) userId {
-  return result.userId;
+- (MinimumUserProto*) mup {
+  return result.mup;
 }
-- (ClanHelpProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (ClanHelpProto_Builder*) setMup:(MinimumUserProto*) value {
+  result.hasMup = YES;
+  result.mup = value;
   return self;
 }
-- (ClanHelpProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (ClanHelpProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMup:[builderForValue build]];
+}
+- (ClanHelpProto_Builder*) mergeMup:(MinimumUserProto*) value {
+  if (result.hasMup &&
+      result.mup != [MinimumUserProto defaultInstance]) {
+    result.mup =
+      [[[MinimumUserProto builderWithPrototype:result.mup] mergeFrom:value] buildPartial];
+  } else {
+    result.mup = value;
+  }
+  result.hasMup = YES;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearMup {
+  result.hasMup = NO;
+  result.mup = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasUserDataId {
@@ -6974,11 +7026,28 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   result.open = NO;
   return self;
 }
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
+}
+- (int32_t) staticDataId {
+  return result.staticDataId;
+}
+- (ClanHelpProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
+  return self;
+}
+- (ClanHelpProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
+  return self;
+}
 @end
 
 @interface ClanHelpNoticeProto ()
 @property ClanHelpType helpType;
 @property int64_t userDataId;
+@property int32_t staticDataId;
 @end
 
 @implementation ClanHelpNoticeProto
@@ -6997,10 +7066,18 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
   hasUserDataId_ = !!value_;
 }
 @synthesize userDataId;
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
+}
+- (void) setHasStaticDataId:(BOOL) value_ {
+  hasStaticDataId_ = !!value_;
+}
+@synthesize staticDataId;
 - (id) init {
   if ((self = [super init])) {
     self.helpType = ClanHelpTypeNoHelp;
     self.userDataId = 0L;
+    self.staticDataId = 0;
   }
   return self;
 }
@@ -7026,6 +7103,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   if (self.hasUserDataId) {
     [output writeInt64:2 value:self.userDataId];
   }
+  if (self.hasStaticDataId) {
+    [output writeInt32:3 value:self.staticDataId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -7040,6 +7120,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   }
   if (self.hasUserDataId) {
     size_ += computeInt64Size(2, self.userDataId);
+  }
+  if (self.hasStaticDataId) {
+    size_ += computeInt32Size(3, self.staticDataId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -7082,6 +7165,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   if (self.hasUserDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userDataId", [NSNumber numberWithLongLong:self.userDataId]];
   }
+  if (self.hasStaticDataId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -7097,6 +7183,8 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
       (!self.hasHelpType || self.helpType == otherMessage.helpType) &&
       self.hasUserDataId == otherMessage.hasUserDataId &&
       (!self.hasUserDataId || self.userDataId == otherMessage.userDataId) &&
+      self.hasStaticDataId == otherMessage.hasStaticDataId &&
+      (!self.hasStaticDataId || self.staticDataId == otherMessage.staticDataId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -7106,6 +7194,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   }
   if (self.hasUserDataId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userDataId] hash];
+  }
+  if (self.hasStaticDataId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.staticDataId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7156,6 +7247,9 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
   if (other.hasUserDataId) {
     [self setUserDataId:other.userDataId];
   }
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7188,6 +7282,10 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
       }
       case 16: {
         [self setUserDataId:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setStaticDataId:[input readInt32]];
         break;
       }
     }
@@ -7223,6 +7321,22 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
 - (ClanHelpNoticeProto_Builder*) clearUserDataId {
   result.hasUserDataId = NO;
   result.userDataId = 0L;
+  return self;
+}
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
+}
+- (int32_t) staticDataId {
+  return result.staticDataId;
+}
+- (ClanHelpNoticeProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
+  return self;
+}
+- (ClanHelpNoticeProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
   return self;
 }
 @end

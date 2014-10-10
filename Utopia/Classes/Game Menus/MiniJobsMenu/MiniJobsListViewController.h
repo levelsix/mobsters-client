@@ -28,6 +28,8 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *finishSpinner;
 @property (nonatomic, retain) IBOutlet UIView *finishLabelsView;
 
+@property (nonatomic, retain) IBOutlet UIView *getHelpView;
+
 @property (nonatomic, retain) IBOutlet UIView *completeView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *completeSpinner;
 @property (nonatomic, retain) IBOutlet UIView *completeLabelsView;
@@ -70,5 +72,6 @@
 - (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell;
 - (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell;
 - (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell;
+- (void) miniJobsListHelpClicked:(MiniJobsListCell *)listCell;
 
 @end

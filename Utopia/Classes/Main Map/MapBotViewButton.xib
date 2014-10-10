@@ -65,6 +65,7 @@
             <connections>
                 <outlet property="actionIcon" destination="XOy-Sg-evM" id="E4f-AH-Dq9"/>
                 <outlet property="actionLabel" destination="hb2-Sp-7Ui" id="W3k-0d-f8H"/>
+                <outlet property="bgdButton" destination="QOL-sP-8QV" id="hW9-Je-BeP"/>
                 <outlet property="cashIcon" destination="6MK-Xb-o91" id="KaJ-A6-czT"/>
                 <outlet property="oilIcon" destination="QEI-xu-LzA" id="RKG-QJ-Zfl"/>
                 <outlet property="topLabel" destination="hN6-tU-hpu" id="yIr-2J-2Dt"/>

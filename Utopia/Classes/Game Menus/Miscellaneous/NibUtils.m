@@ -848,11 +848,12 @@
   
   [view addSubview:self];
   self.frame = view.bounds;
-  _isDisplayingLoadingView = YES;
   
   self.alpha = 0.f;
   [UIView animateWithDuration:0.15f animations:^{
     self.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    _isDisplayingLoadingView = YES;
   }];
 }
 
@@ -865,6 +866,8 @@
       [self removeFromSuperview];
       _isDisplayingLoadingView = NO;
     }];
+  } else {
+    [self removeFromSuperview];
   }
 }
 
@@ -1176,6 +1179,10 @@
     self.activeTextColor = [UIColor colorWithRed:19/255.f green:170/255.f blue:238/255.f alpha:1.f];
   }
   
+  self.icon1.userInteractionEnabled = NO;
+  self.icon2.userInteractionEnabled = NO;
+  self.icon3.userInteractionEnabled = NO;
+  
   [self clickButton:1];
 }
 
@@ -1225,7 +1232,8 @@
     b.enabled = i != button;
   }
   
-  if (!self.label1.highlightedTextColor) {
+  // Check if it has a highlightedTextColor before highlighting.
+  if (!label.highlightedTextColor) {
     label.textColor = self.activeTextColor;
     label.shadowColor = self.activeShadowColor;
   } else {

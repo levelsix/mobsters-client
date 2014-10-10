@@ -54,6 +54,9 @@
 #define PRIVATE_CHAT_VIEWED_NOTIFICATION @"PrivateChatViewedNotification"
 #define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
 
+#define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
+#define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
+
 #define STRUCT_PURCHASED_NOTIFICATION @"StructPurchasedNotification"
 #define STRUCT_COMPLETE_NOTIFICATION @"StructCompleteNotification"
 #define OBSTACLE_REMOVAL_BEGAN_NOTIFICATION @"ObstaclePurchasedNotification"

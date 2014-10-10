@@ -19,6 +19,11 @@
 
 @implementation TimerCell
 
+- (void) awakeFromNib {
+  self.helpView.frame = self.finishView.frame;
+  [self.finishView.superview addSubview:self.helpView];
+}
+
 - (void) updateForTimerAction:(id<TimerAction>)ta {
   self.titleLabel.text = [ta title];
   self.timeLabel.text = [[Globals convertTimeToShortString:[ta secondsLeft]] uppercaseString];
@@ -52,9 +57,16 @@
     
     self.gemsLabel.text = [Globals commafyNumber:gemCost];
     [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
+    
+    BOOL canGetHelp = [ta canGetHelp];
+    self.helpView.hidden = !canGetHelp;
+    self.finishView.hidden = canGetHelp;
   } else {
     self.freeLabel.hidden = NO;
     self.gemsLabel.superview.hidden = YES;
+    
+    self.helpView.hidden = YES;
+    self.finishView.hidden = NO;
   }
 }
 
@@ -72,6 +84,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:MINI_JOB_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
@@ -313,6 +326,21 @@
     NSInteger idx = [self.timerCells indexOfObject:sender];
     TimerAction *ta = self.timerActionsArray[idx];
     [ta speedupClicked];
+  }
+}
+
+- (IBAction)helpClicked:(UIView *)sender {
+  while (sender && ![sender isKindOfClass:[TimerCell class]]) {
+    sender = [sender superview];
+  }
+  
+  if (sender) {
+    NSInteger idx = [self.timerCells indexOfObject:sender];
+    TimerAction *ta = self.timerActionsArray[idx];
+    [ta helpClicked];
+    
+    TimerCell *tc = (TimerCell *)sender;
+    [tc updateForTimerAction:ta];
   }
 }
 

@@ -953,8 +953,7 @@
     return [super isFreeSpeedup];
   } else {
     Globals *gl = [Globals sharedGlobals];
-    float dur = self.activeMiniJob.durationMinutes*60;
-    MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+    MSDate *endDate = self.activeMiniJob.tentativeCompletionDate;
     NSTimeInterval timeLeft = endDate.timeIntervalSinceNow;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     return gemCost == 0;
@@ -983,7 +982,7 @@
     NSString *prefix = [self progressBarPrefix];
     if ([bar.prefix isEqualToString:prefix]) {
       float dur = self.activeMiniJob.durationMinutes*60;
-      MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+      MSDate *endDate = self.activeMiniJob.tentativeCompletionDate;
       [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
       
       if ([self isFreeSpeedup]) {

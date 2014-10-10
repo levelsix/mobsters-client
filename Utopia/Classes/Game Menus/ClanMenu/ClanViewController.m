@@ -16,6 +16,7 @@
 #import "ClanInfoViewController.h"
 #import "ClanCreateViewController.h"
 #import "ClanRaidListViewController.h"
+#import "ClanHelpViewController.h"
 
 @implementation ClanViewController
 
@@ -26,10 +27,14 @@
   self.clanInfoViewController = [[ClanInfoViewController alloc] init];
   self.clanCreateViewController = [[ClanCreateViewController alloc] init];
   self.clanRaidViewController = [[ClanRaidListViewController alloc] init];
+  self.clanHelpViewController = [[ClanHelpViewController alloc] init];
   
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanBrowseViewController];
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanInfoViewController];
+  
+  self.inClanTopBar.center = self.noClanTopBar.center;
+  [self.noClanTopBar.superview addSubview:self.inClanTopBar];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -37,17 +42,19 @@
   
   [self updateConfiguration];
   
-  GameState *gs = [GameState sharedGameState];
-  if (gs.clan) {
-    [self button2Clicked:nil];
-  } else {
-    [self button1Clicked:nil];
-  }
-  
   [self.clanBrowseViewController reload];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateHelpBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  [self updateHelpBadge];
+  
+  if (self.helpBadge.badgeNum) {
+    [self button2Clicked:_activeTopBar];
+  } else {
+    [self button1Clicked:_activeTopBar];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -58,6 +65,12 @@
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanInfoViewController];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) updateHelpBadge {
+  GameState *gs = [GameState sharedGameState];
+  NSInteger numHelps = [gs.clanHelpUtil getAllHelpableClanHelps].count;
+  self.helpBadge.badgeNum = numHelps;
 }
 
 - (void) updateConfiguration {
@@ -74,35 +87,50 @@
   ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanId:clanId andName:nil];
   [self replaceRootWithViewController:civc];
   
-  [self.topBar clickButton:0];
+  // Don't click any of the buttons
+  [self.noClanTopBar clickButton:0];
+  [self.inClanTopBar clickButton:0];
 }
 
 - (void) loadInClanConfiguration {
-  [self.topBar button:2 shouldBeHidden:NO];
-  [self.topBar button:3 shouldBeHidden:YES];
+  self.noClanTopBar.hidden = YES;
+  self.inClanTopBar.hidden = NO;
+  _activeTopBar = self.inClanTopBar;
 }
 
 - (void) loadNotInClanConfiguration {
-  [self.topBar button:2 shouldBeHidden:YES];
-  [self.topBar button:3 shouldBeHidden:NO];
+  self.noClanTopBar.hidden = NO;
+  self.inClanTopBar.hidden = YES;
+  _activeTopBar = self.noClanTopBar;
 }
 
 - (void) button1Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanBrowseViewController];
+  if (sender == self.noClanTopBar) {
+    [self replaceRootWithViewController:self.clanBrowseViewController];
+  } else {
+    [self replaceRootWithViewController:self.clanInfoViewController];
+  }
   
-  [self.topBar clickButton:1];
+  [sender clickButton:1];
 }
 
 - (void) button2Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanInfoViewController];
+  if (sender == self.noClanTopBar) {
+    [self replaceRootWithViewController:self.clanCreateViewController];
+  } else {
+    [self replaceRootWithViewController:self.clanHelpViewController];
+  }
   
-  [self.topBar clickButton:2];
+  [sender clickButton:2];
 }
 
 - (void) button3Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanCreateViewController];
+  if (sender == self.noClanTopBar) {
+  } else {
+    [self replaceRootWithViewController:self.clanBrowseViewController];
+  }
   
-  [self.topBar clickButton:3];
+  [sender clickButton:3];
 }
 - (void) keyboardWillShow:(id)n {
   _isEditing = YES;
@@ -138,7 +166,7 @@
 - (void) handleClanEventCreateClanResponseProto:(CreateClanResponseProto *)proto {
   if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
     [self updateConfiguration];
-    [self button2Clicked:nil];
+    [self button1Clicked:_activeTopBar];
   } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailNameTaken) {
     [Globals popupMessage:@"Sorry, this name is already in use."];
   } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailTagTaken) {
@@ -152,7 +180,7 @@
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId == gs.userId && proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
     [self updateConfiguration];
-    [self button1Clicked:nil];
+    [self button1Clicked:_activeTopBar];
   }
 }
 
@@ -160,7 +188,7 @@
   GameState *gs = [GameState sharedGameState];
   if (proto.requester.userId == gs.userId && proto.accept && proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
     [self updateConfiguration];
-    [self button2Clicked:nil];
+    [self button1Clicked:_activeTopBar];
   }
 }
 
@@ -168,7 +196,7 @@
   GameState *gs = [GameState sharedGameState];
   if (proto.playerToBoot.userId == gs.userId && proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
     [self updateConfiguration];
-    [self button1Clicked:nil];
+    [self button1Clicked:_activeTopBar];
   }
 }
 
@@ -176,7 +204,7 @@
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.userId == gs.userId && proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
     [self updateConfiguration];
-    [self button2Clicked:nil];
+    [self button1Clicked:_activeTopBar];
   }
 }
 

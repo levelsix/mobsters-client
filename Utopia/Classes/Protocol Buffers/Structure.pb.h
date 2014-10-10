@@ -1614,11 +1614,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface ClanHouseProto : PBGeneratedMessage {
 @private
+  BOOL hasMaxHelpersPerSolicitation_:1;
   BOOL hasStructInfo_:1;
+  int32_t maxHelpersPerSolicitation;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
+- (BOOL) hasMaxHelpersPerSolicitation;
 @property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) int32_t maxHelpersPerSolicitation;
 
 + (ClanHouseProto*) defaultInstance;
 - (ClanHouseProto*) defaultInstance;
@@ -1661,6 +1665,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (ClanHouseProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (ClanHouseProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (ClanHouseProto_Builder*) clearStructInfo;
+
+- (BOOL) hasMaxHelpersPerSolicitation;
+- (int32_t) maxHelpersPerSolicitation;
+- (ClanHouseProto_Builder*) setMaxHelpersPerSolicitation:(int32_t) value;
+- (ClanHouseProto_Builder*) clearMaxHelpersPerSolicitation;
 @end
 
 

@@ -272,6 +272,25 @@
   
   self.noClanView.hidden = clan != nil;
   self.mainView.hidden = clan == nil;
+  
+  if (!clan) {
+    UserStruct *us = [gs myClanHouse];
+    
+    NSString *structName = nil;
+    for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+      if (ss.structInfo.structType == StructureInfoProto_StructTypeClan && !ss.structInfo.predecessorStructId) {
+        structName = ss.structInfo.name;
+      }
+    }
+    
+    if (!us.isComplete) {
+      self.joinClanLabel.text = [NSString stringWithFormat:@"Build a %@ to join a Squad!", structName];
+      self.joinClanButtonView.hidden = YES;
+      self.joinClanLabel.centerY = self.joinClanLabel.superview.height/2;
+    } else {
+      self.joinClanLabel.text = @"Join a squad to chat with them!";
+    }
+  }
 }
 
 - (IBAction)sendChatClicked:(id)sender {

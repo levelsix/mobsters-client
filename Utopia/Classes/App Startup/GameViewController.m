@@ -871,7 +871,12 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   // If it's immediate, it will just delete the loading view
   TravelingLoadingView *tlv = [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil][0];
-  tlv.label.text = [NSString stringWithFormat:@"Loading %@", elem.sectionName];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:3];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Loading\n%@", elem.sectionName] attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  tlv.label.attributedText = attr;
   [tlv display:self.view];
   
   // Check if scenes have been dl'ed

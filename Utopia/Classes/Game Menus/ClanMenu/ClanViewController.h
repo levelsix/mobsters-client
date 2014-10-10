@@ -14,7 +14,7 @@
 @class ClanCreateViewController;
 @class ClanInfoViewController;
 @class ClanRaidListViewController;
-@class ClanSubViewController;
+@class ClanHelpViewController;
 
 @protocol ClanViewControllerDelegate <NSObject>
 
@@ -24,14 +24,19 @@
 
 @interface ClanViewController : PopupNavViewController {
   BOOL _isEditing;
+  
+  ButtonTabBar *_activeTopBar;
 }
 
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;
 @property (nonatomic, retain) ClanCreateViewController *clanCreateViewController;
 @property (nonatomic, retain) ClanInfoViewController *clanInfoViewController;
 @property (nonatomic, retain) ClanRaidListViewController *clanRaidViewController;
+@property (nonatomic, retain) ClanHelpViewController *clanHelpViewController;
 
-@property (nonatomic, retain) IBOutlet ButtonTabBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *noClanTopBar;
+@property (nonatomic, retain) IBOutlet ButtonTabBar *inClanTopBar;
+@property (nonatomic, retain) IBOutlet BadgeIcon *helpBadge;
 
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;

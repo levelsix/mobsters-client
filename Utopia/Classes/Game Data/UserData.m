@@ -787,8 +787,18 @@
 }
 
 - (MSDate *) buildCompleteDate {
-  int minutes = self.staticStruct.structInfo.minutesToBuild;
-  return [self.purchaseTime dateByAddingTimeInterval:minutes*60.f];
+  GameState *gs = [GameState sharedGameState];
+  int seconds = self.staticStruct.structInfo.minutesToBuild*60;
+  
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:self.userStructId];
+  if (numHelps > 0) {
+#warning don't hardcode
+    int secsToDockPerHelp = MAX(60, roundf(seconds*0.01));
+    seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  return [self.purchaseTime dateByAddingTimeInterval:seconds];
 }
 
 - (NSTimeInterval) timeLeftForBuildComplete {
@@ -1268,6 +1278,22 @@
     self.userMonsterIds = proto.userMonsterIdsList.toNSArray;
   }
   return self;
+}
+
+- (MSDate *)tentativeCompletionDate {
+  GameState *gs = [GameState sharedGameState];
+  
+  int seconds = self.durationMinutes*60;
+  
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJobId];
+  if (numHelps > 0) {
+#warning don't hardcode
+    int secsToDockPerHelp = MAX(60, roundf(seconds*0.01));
+    seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  return [self.timeStarted dateByAddingTimeInterval:seconds];
 }
 
 - (NSDictionary *) damageDealtPerUserMonsterId {

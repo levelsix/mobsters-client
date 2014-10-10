@@ -25,7 +25,10 @@ typedef enum {
 - (int) gemCost;
 - (TimerProgressBarColor) progressBarColor;
 
+- (BOOL) canGetHelp;
+
 - (void) speedupClicked;
+- (void) helpClicked;
 
 @end
 
@@ -38,7 +41,8 @@ typedef enum {
 @property (nonatomic, assign) TimerProgressBarColor normalProgressBarColor;
 
 - (NSString *) confirmActionString;
-- (void) performAction;
+- (void) performSpeedup;
+- (void) performHelp;
 
 @end
 

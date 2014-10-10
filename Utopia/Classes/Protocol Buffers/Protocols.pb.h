@@ -691,7 +691,7 @@ typedef enum {
   EventProtocolRequestCUnrestrictUserMonsterEvent = 76,
   EventProtocolRequestCEnhanceMonsterEvent = 77,
   EventProtocolRequestCTradeItemForBoosterEvent = 78,
-  EventProtocolRequestCSolicitCanHelpEvent = 79,
+  EventProtocolRequestCSolicitClanHelpEvent = 79,
   EventProtocolRequestCGiveClanHelpEvent = 80,
   EventProtocolRequestCEndClanHelpEvent = 81,
   EventProtocolRequestCLogoutEvent = 101,

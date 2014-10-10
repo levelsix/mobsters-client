@@ -38,7 +38,7 @@
   self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, gl.maxClanSize];
   
   ClanIconProto *icon = [gs clanIconWithId:c.clan.clanIconId];
-  [Globals imageNamed:icon.imgName withView:self.iconImage greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:icon.imgName withView:self.iconImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   if (c.clan.requestToJoinRequired) {
     self.typeLabel.text = @"By Request Only";

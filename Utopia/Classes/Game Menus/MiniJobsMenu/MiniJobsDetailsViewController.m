@@ -73,7 +73,7 @@
   if (miniJob.timeStarted) {
     Globals *gl = [Globals sharedGlobals];
     
-    MSDate *date = [miniJob.timeStarted dateByAddingTimeInterval:miniJob.durationMinutes*60];
+    MSDate *date = miniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];

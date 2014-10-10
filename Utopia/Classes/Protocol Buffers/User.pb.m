@@ -2283,6 +2283,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (strong) UserPvpLeagueProto* pvpLeagueInfo;
 @property int64_t lastMiniJobSpawnedTime;
 @property int64_t lastFreeBoosterPackTime;
+@property int32_t numClanHelps;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2501,6 +2502,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastFreeBoosterPackTime_ = !!value_;
 }
 @synthesize lastFreeBoosterPackTime;
+- (BOOL) hasNumClanHelps {
+  return !!hasNumClanHelps_;
+}
+- (void) setHasNumClanHelps:(BOOL) value_ {
+  hasNumClanHelps_ = !!value_;
+}
+@synthesize numClanHelps;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2605,6 +2613,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
     self.lastMiniJobSpawnedTime = 0L;
     self.lastFreeBoosterPackTime = 0L;
+    self.numClanHelps = 0;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2745,6 +2754,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastFreeBoosterPackTime) {
     [output writeInt64:52 value:self.lastFreeBoosterPackTime];
   }
+  if (self.hasNumClanHelps) {
+    [output writeInt32:53 value:self.numClanHelps];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2864,6 +2876,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastFreeBoosterPackTime) {
     size_ += computeInt64Size(52, self.lastFreeBoosterPackTime);
+  }
+  if (self.hasNumClanHelps) {
+    size_ += computeInt32Size(53, self.numClanHelps);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3017,6 +3032,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastFreeBoosterPackTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"lastFreeBoosterPackTime", [NSNumber numberWithLongLong:self.lastFreeBoosterPackTime]];
   }
+  if (self.hasNumClanHelps) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numClanHelps", [NSNumber numberWithInteger:self.numClanHelps]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3102,6 +3120,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasAvatarMonsterId || self.avatarMonsterId == otherMessage.avatarMonsterId) &&
       self.hasLastFreeBoosterPackTime == otherMessage.hasLastFreeBoosterPackTime &&
       (!self.hasLastFreeBoosterPackTime || self.lastFreeBoosterPackTime == otherMessage.lastFreeBoosterPackTime) &&
+      self.hasNumClanHelps == otherMessage.hasNumClanHelps &&
+      (!self.hasNumClanHelps || self.numClanHelps == otherMessage.numClanHelps) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3216,6 +3236,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastFreeBoosterPackTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.lastFreeBoosterPackTime] hash];
+  }
+  if (self.hasNumClanHelps) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numClanHelps] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3340,6 +3363,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastFreeBoosterPackTime) {
     [self setLastFreeBoosterPackTime:other.lastFreeBoosterPackTime];
+  }
+  if (other.hasNumClanHelps) {
+    [self setNumClanHelps:other.numClanHelps];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3548,6 +3574,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 416: {
         [self setLastFreeBoosterPackTime:[input readInt64]];
+        break;
+      }
+      case 424: {
+        [self setNumClanHelps:[input readInt32]];
         break;
       }
     }
@@ -4011,6 +4041,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastFreeBoosterPackTime {
   result.hasLastFreeBoosterPackTime = NO;
   result.lastFreeBoosterPackTime = 0L;
+  return self;
+}
+- (BOOL) hasNumClanHelps {
+  return result.hasNumClanHelps;
+}
+- (int32_t) numClanHelps {
+  return result.numClanHelps;
+}
+- (FullUserProto_Builder*) setNumClanHelps:(int32_t) value {
+  result.hasNumClanHelps = YES;
+  result.numClanHelps = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumClanHelps {
+  result.hasNumClanHelps = NO;
+  result.numClanHelps = 0;
   return self;
 }
 - (BOOL) hasUdidForHistory {

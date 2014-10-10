@@ -78,6 +78,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *noClanView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UILabel *joinClanLabel;
+@property (nonatomic, retain) IBOutlet UIView *joinClanButtonView;
 
 @property (nonatomic, retain) MinimumClanProto *clan;
 

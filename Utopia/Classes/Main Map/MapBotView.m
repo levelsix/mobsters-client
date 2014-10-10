@@ -64,9 +64,19 @@
   return button;
 }
 
-+ (id) clanButton {
++ (id) joinClanButton {
   MapBotViewButton *button = [self button];
-  [button updateWithImageName:@"buildingsquad.png" actionText:@"Squads" config:MapBotViewButtonClan];
+  [button updateWithImageName:@"buildingsquad.png" actionText:@"Squads" config:MapBotViewButtonJoinClan];
+  return button;
+}
+
++ (id) clanHelpButton {
+  MapBotViewButton *button = [self button];
+  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelp.png"] forState:UIControlStateNormal];
+  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelppressed.png"] forState:UIControlStateHighlighted];
+  button.actionLabel.textColor = [UIColor whiteColor];
+  button.actionLabel.shadowColor = [UIColor colorWithRed:195/255.f green:0.f blue:0.f alpha:0.8f];
+  [button updateWithImageName:@"buildinggethelpicon.png" actionText:@"Get Help!" config:MapBotViewButtonClanHelp];
   return button;
 }
 

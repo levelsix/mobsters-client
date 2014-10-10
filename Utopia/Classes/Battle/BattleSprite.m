@@ -428,6 +428,7 @@
 
 - (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationN.copy;
+  anim = anim ?: [CCAnimation animation];
   
   CCActionSequence *seq;
   [self stopActionByTag:924];
@@ -483,6 +484,7 @@
 
 - (void) performFarAttackAnimationWithStrength:(float)strength enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationF.copy;
+  anim = anim ?: [CCAnimation animation];
   
   // Repeat 4-8 x times
   int numTimes = strength*(MAX_SHOTS-1);

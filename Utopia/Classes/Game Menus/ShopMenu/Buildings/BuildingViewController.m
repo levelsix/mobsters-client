@@ -92,11 +92,11 @@
   NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
     int cur = [gl calculateCurrentQuantityOfStructId:obj1.structId structs:myStructs];
     int max = [gl calculateMaxQuantityOfStructId:obj1.structId withTownHall:thp];
-    BOOL avail1 = cur < max;
+    BOOL avail1 = cur < max && obj1.prerequisiteTownHallLvl <= thp.structInfo.level;
     
     cur = [gl calculateCurrentQuantityOfStructId:obj2.structId structs:myStructs];
     max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
-    BOOL avail2 = cur < max;
+    BOOL avail2 = cur < max && obj1.prerequisiteTownHallLvl <= thp.structInfo.level;
     
     BOOL isSpecial1 = avail1 && [self isTypeRecommended:obj1.structType];
     BOOL isSpecial2 = avail2 && [self isTypeRecommended:obj2.structType];

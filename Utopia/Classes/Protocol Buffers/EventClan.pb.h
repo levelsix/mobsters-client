@@ -2617,20 +2617,19 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   BOOL hasClientTime_:1;
   BOOL hasMaxHelpers_:1;
   BOOL hasSender_:1;
-  BOOL hasNotice_:1;
   int64_t clientTime;
   int32_t maxHelpers;
   MinimumUserProto* sender;
-  ClanHelpNoticeProto* notice;
+  NSMutableArray * mutableNoticeList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasNotice;
 - (BOOL) hasClientTime;
 - (BOOL) hasMaxHelpers;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) ClanHelpNoticeProto* notice;
+@property (readonly, strong) NSArray * noticeList;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t maxHelpers;
+- (ClanHelpNoticeProto*)noticeAtIndex:(NSUInteger)index;
 
 + (SolicitClanHelpRequestProto*) defaultInstance;
 - (SolicitClanHelpRequestProto*) defaultInstance;
@@ -2674,12 +2673,11 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (SolicitClanHelpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SolicitClanHelpRequestProto_Builder*) clearSender;
 
-- (BOOL) hasNotice;
-- (ClanHelpNoticeProto*) notice;
-- (SolicitClanHelpRequestProto_Builder*) setNotice:(ClanHelpNoticeProto*) value;
-- (SolicitClanHelpRequestProto_Builder*) setNotice_Builder:(ClanHelpNoticeProto_Builder*) builderForValue;
-- (SolicitClanHelpRequestProto_Builder*) mergeNotice:(ClanHelpNoticeProto*) value;
-- (SolicitClanHelpRequestProto_Builder*) clearNotice;
+- (NSMutableArray *)noticeList;
+- (ClanHelpNoticeProto*)noticeAtIndex:(NSUInteger)index;
+- (SolicitClanHelpRequestProto_Builder *)addNotice:(ClanHelpNoticeProto*)value;
+- (SolicitClanHelpRequestProto_Builder *)addAllNotice:(NSArray *)array;
+- (SolicitClanHelpRequestProto_Builder *)clearNotice;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -2695,18 +2693,17 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 @interface SolicitClanHelpResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasHelpProto_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  ClanHelpProto* helpProto;
   SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+  NSMutableArray * mutableHelpProtoList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasHelpProto;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) ClanHelpProto* helpProto;
+@property (readonly, strong) NSArray * helpProtoList;
 @property (readonly) SolicitClanHelpResponseProto_SolicitClanHelpStatus status;
+- (ClanHelpProto*)helpProtoAtIndex:(NSUInteger)index;
 
 + (SolicitClanHelpResponseProto*) defaultInstance;
 - (SolicitClanHelpResponseProto*) defaultInstance;
@@ -2750,12 +2747,11 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (SolicitClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SolicitClanHelpResponseProto_Builder*) clearSender;
 
-- (BOOL) hasHelpProto;
-- (ClanHelpProto*) helpProto;
-- (SolicitClanHelpResponseProto_Builder*) setHelpProto:(ClanHelpProto*) value;
-- (SolicitClanHelpResponseProto_Builder*) setHelpProto_Builder:(ClanHelpProto_Builder*) builderForValue;
-- (SolicitClanHelpResponseProto_Builder*) mergeHelpProto:(ClanHelpProto*) value;
-- (SolicitClanHelpResponseProto_Builder*) clearHelpProto;
+- (NSMutableArray *)helpProtoList;
+- (ClanHelpProto*)helpProtoAtIndex:(NSUInteger)index;
+- (SolicitClanHelpResponseProto_Builder *)addHelpProto:(ClanHelpProto*)value;
+- (SolicitClanHelpResponseProto_Builder *)addAllHelpProto:(NSArray *)array;
+- (SolicitClanHelpResponseProto_Builder *)clearHelpProto;
 
 - (BOOL) hasStatus;
 - (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
@@ -2830,11 +2826,14 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   GiveClanHelpResponseProto_GiveClanHelpStatus status;
+  NSMutableArray * mutableClanHelpsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * clanHelpsList;
 @property (readonly) GiveClanHelpResponseProto_GiveClanHelpStatus status;
+- (ClanHelpProto*)clanHelpsAtIndex:(NSUInteger)index;
 
 + (GiveClanHelpResponseProto*) defaultInstance;
 - (GiveClanHelpResponseProto*) defaultInstance;
@@ -2877,6 +2876,12 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (GiveClanHelpResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (GiveClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (GiveClanHelpResponseProto_Builder*) clearSender;
+
+- (NSMutableArray *)clanHelpsList;
+- (ClanHelpProto*)clanHelpsAtIndex:(NSUInteger)index;
+- (GiveClanHelpResponseProto_Builder *)addClanHelps:(ClanHelpProto*)value;
+- (GiveClanHelpResponseProto_Builder *)addAllClanHelps:(NSArray *)array;
+- (GiveClanHelpResponseProto_Builder *)clearClanHelps;
 
 - (BOOL) hasStatus;
 - (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
@@ -2948,10 +2953,17 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 @interface EndClanHelpResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  EndClanHelpResponseProto_EndClanHelpStatus status;
+  PBAppendableArray * mutableClanHelpIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * clanHelpIdsList;
+@property (readonly) EndClanHelpResponseProto_EndClanHelpStatus status;
+- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index;
 
 + (EndClanHelpResponseProto*) defaultInstance;
 - (EndClanHelpResponseProto*) defaultInstance;
@@ -2994,6 +3006,18 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (EndClanHelpResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
 - (EndClanHelpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EndClanHelpResponseProto_Builder*) clearSender;
+
+- (PBAppendableArray *)clanHelpIdsList;
+- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index;
+- (EndClanHelpResponseProto_Builder *)addClanHelpIds:(int64_t)value;
+- (EndClanHelpResponseProto_Builder *)addAllClanHelpIds:(NSArray *)array;
+- (EndClanHelpResponseProto_Builder *)setClanHelpIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (EndClanHelpResponseProto_Builder *)clearClanHelpIds;
+
+- (BOOL) hasStatus;
+- (EndClanHelpResponseProto_EndClanHelpStatus) status;
+- (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value;
+- (EndClanHelpResponseProto_Builder*) clearStatus;
 @end
 
 

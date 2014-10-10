@@ -163,7 +163,7 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     
-    MSDate *date = [listCell.userMiniJob.timeStarted dateByAddingTimeInterval:listCell.userMiniJob.durationMinutes*60];
+    MSDate *date = listCell.userMiniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];

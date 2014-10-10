@@ -47,6 +47,8 @@
   if ((self = [super init])) {
     self.prefix = prefix;
     [self addNewScene];
+    
+//    _curBasePoint = ccp(-175, 0);
   }
   return self;
 }
@@ -1034,10 +1036,14 @@
   bgdIcon.position = ccpAdd(label.position, ccp(0, -58));
   
   if (self.enemyPlayerObject.spritePrefix.length) {
-    CCSprite *inside = [CCSprite spriteWithImageNamed:[self.enemyPlayerObject.spritePrefix stringByAppendingString:@"Card.png"]];
+    CCSprite *inside = [CCSprite node];
     [bgdIcon addChild:inside];
     inside.position = ccp(bgdIcon.contentSize.width/2, bgdIcon.contentSize.height/2);
-    inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
+    
+    NSString *fileName = [self.enemyPlayerObject.spritePrefix stringByAppendingString:@"Card.png"];
+    [Globals imageNamed:fileName toReplaceSprite:inside completion:^(BOOL success) {
+      inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
+    }];
   }
   
   CCSprite *border = [CCSprite spriteWithImageNamed:@"youwonitemborder.png"];

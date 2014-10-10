@@ -952,7 +952,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       completion(YES);
     }
   } else {
-    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:NO];
+    NSString *resName = [self getDoubleResolutionImage:fileName useiPhone6Prefix:useiPhone6Prefix];
     [[Downloader sharedDownloader] asyncDownloadFile:resName completion:completion];
   }
 }
@@ -1115,26 +1115,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   [self checkAndLoadFile:imageName useiPhone6Prefix:useiPhone6Prefix completion:^(BOOL success) {
     NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
-    if (success && [str isEqualToString:imageName]) {
-      NSString *path = [self pathToFile:imageName useiPhone6Prefix:useiPhone6Prefix];
-      
-      if (path) {
-        UIImage *img = [UIImage imageWithContentsOfFile:path];
+    if ([str isEqualToString:imageName]) {
+      if (success) {
+        NSString *path = [self pathToFile:imageName useiPhone6Prefix:useiPhone6Prefix];
         
-        if (img) {
-          [gl.imageCache setObject:img forKey:imageName];
-          if (color) {
-            img = [self maskImage:img withColor:color];
-          } else if (greyscale) {
-            img = [self greyScaleImageWithBaseImage:img];
-            [gl.imageCache setObject:img forKey:greyImageKey];
+        if (path) {
+          UIImage *img = [UIImage imageWithContentsOfFile:path];
+          
+          if (img) {
+            [gl.imageCache setObject:img forKey:imageName];
+            if (color) {
+              img = [self maskImage:img withColor:color];
+            } else if (greyscale) {
+              img = [self greyScaleImageWithBaseImage:img];
+              [gl.imageCache setObject:img forKey:greyImageKey];
+            }
           }
-        }
-        
-        if ([view isKindOfClass:[UIImageView class]]) {
-          [(UIImageView *)view setImage:img];
-        } else if ([view isKindOfClass:[UIButton class]]) {
-          [(UIButton *)view setImage:img forState:UIControlStateNormal];
+          
+          if ([view isKindOfClass:[UIImageView class]]) {
+            [(UIImageView *)view setImage:img];
+          } else if ([view isKindOfClass:[UIButton class]]) {
+            [(UIButton *)view setImage:img forState:UIControlStateNormal];
+          }
         }
       }
       

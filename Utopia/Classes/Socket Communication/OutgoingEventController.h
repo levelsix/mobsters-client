@@ -66,6 +66,13 @@
 - (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId delegate:(id)delegate;
 
+- (void) solicitBuildingHelp:(UserStruct *)us;
+- (void) solicitMiniJobHelp:(UserMiniJob *)mj;
+- (void) solicitEvolveHelp:(UserEvolution *)ue;
+- (void) solicitHealHelp;
+- (void) giveClanHelp:(NSArray *)clanHelpIds;
+- (void) endClanHelp:(NSArray *)clanHelpIds;
+
 - (void) beginClanRaid:(PersistentClanEventProto *)event delegate:(id)delegate;
 - (void) setClanRaidTeam:(NSArray *)userMonsterIds delegate:(id)delegate;
 - (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)userMonsterId curTeam:(NSArray *)curTeam;

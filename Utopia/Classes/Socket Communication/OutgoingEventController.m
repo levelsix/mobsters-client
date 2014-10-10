@@ -313,7 +313,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
-    [gs readjustAllMonsterHealingProtos];
+    if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeHospital) {
+      [gs readjustAllMonsterHealingProtos];
+    }
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
@@ -348,6 +352,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
@@ -1031,12 +1037,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  UserStruct *clanHouse = gs.myClanHouse;
   if (clanName.length <= 0 || clanName.length > gl.maxCharLengthForClanName) {
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan name length."];
   } else if (clanTag.length <= 0 || clanTag.length > gl.maxCharLengthForClanTag) {
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan tag length."];
   } else if (!useGems && gs.cash < gl.coinPriceToCreateClan) {
     [Globals popupMessage:@"Attempting to create clan without enough cash."];
+  } else if (!clanHouse || (!clanHouse.isComplete && clanHouse.staticStruct.structInfo.level == 1)) {
+    [Globals popupMessage:@"Attempting to create clan without a clan house."];
   } else {
     int cost = gl.coinPriceToCreateClan;
     int curAmount = gs.cash;
@@ -1074,10 +1083,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) requestJoinClan:(int)clanId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
+  UserStruct *clanHouse = gs.myClanHouse;
   if (gs.clan) {
     [Globals popupMessage:@"You can't submit a clan request while you're already in a clan."];
   } else if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
     [Globals popupMessage:@"You already have a pending request with this clan!"];
+  } else if (!clanHouse || (!clanHouse.isComplete && clanHouse.staticStruct.structInfo.level == 1)) {
+    [Globals popupMessage:@"You can't join a clan without a clan house."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -1160,6 +1172,103 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   GameState *gs = [GameState sharedGameState];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+#pragma mark Clan Help
+
+- (void) solicitClanHelp:(NSArray *)clanHelpNotices {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserStruct *clanHouse = gs.myClanHouse;
+  if (!gs.clan) {
+    [Globals popupMessage:@"Attempting to solicit clan help without a clan."];
+  } else if (!gs.myClanHouse) {
+    [Globals popupMessage:@"Attempting to solicit clan help without a clan house."];
+  } else if ([gs canAskForClanHelp]) {
+    ClanHouseProto *chp = (ClanHouseProto *)(clanHouse.isComplete ? clanHouse.staticStruct : clanHouse.staticStructForPrevLevel);
+    [[SocketCommunication sharedSocketCommunication] sendSolicitClanHelpMessage:clanHelpNotices maxHelpers:chp.maxHelpersPerSolicitation clientTime:[self getCurrentMilliseconds]];
+    
+    for (ClanHelpNoticeProto *notice in clanHelpNotices) {
+      ClanHelp *ch = [[ClanHelp alloc] init];
+      ch.helpType = notice.helpType;
+      ch.userDataId = notice.userDataId;
+      ch.requester = [gs minUser];
+      ch.clanId = gs.clan.clanId;
+      ch.staticDataId = notice.staticDataId;
+      
+      [gs.clanHelpUtil addClanHelpProto:ch toArray:gs.clanHelpUtil.myClanHelps];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:self];
+  }
+}
+
+- (void) solicitBuildingHelp:(UserStruct *)us {
+  GameState *gs = [GameState sharedGameState];
+  
+  ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+  notice.helpType = ClanHelpTypeUpgradeStruct;
+  notice.userDataId = us.userStructId;
+  notice.staticDataId = us.structId;
+  
+  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+    [self solicitClanHelp:@[notice.build]];
+  }
+}
+
+- (void) solicitMiniJobHelp:(UserMiniJob *)mj {
+  GameState *gs = [GameState sharedGameState];
+  
+  ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+  notice.helpType = ClanHelpTypeMiniJob;
+  notice.userDataId = mj.userMiniJobId;
+  notice.staticDataId = mj.miniJob.quality;
+  
+  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+    [self solicitClanHelp:@[notice.build]];
+  }
+}
+
+- (void) solicitEvolveHelp:(UserEvolution *)ue {
+  GameState *gs = [GameState sharedGameState];
+  
+  ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+  notice.helpType = ClanHelpTypeEvolve;
+  notice.userDataId = ue.userMonsterId1;
+  notice.staticDataId = ue.evoItem.userMonster1.monsterId;
+  
+  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+    [self solicitClanHelp:@[notice.build]];
+  }
+}
+
+- (void) solicitHealHelp {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
+    ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
+    notice.helpType = ClanHelpTypeHeal;
+    notice.userDataId = hi.userMonsterId;
+    notice.staticDataId = hi.userMonster.monsterId;
+    
+    if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+      [arr addObject:notice];
+    }
+  }
+  
+  if (arr.count) {
+    [self solicitClanHelp:arr];
+  }
+}
+
+- (void) giveClanHelp:(NSArray *)clanHelpIds {
+  [[SocketCommunication sharedSocketCommunication] sendGiveClanHelpMessage:clanHelpIds];
+}
+
+- (void) endClanHelp:(NSArray *)clanHelpIds {
+  [[SocketCommunication sharedSocketCommunication] sendEndClanHelpMessage:clanHelpIds];
 }
 
 #pragma mark Clan Raids
@@ -1731,6 +1840,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
     [gs addUnrespondedUpdate:[CashUpdate updateWithTag:tag change:silverCost]];
     
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    
     [Analytics cancelHealMonster:um.monsterId cashChange:silverCost cashBalance:gs.cash];
     
     return YES;
@@ -1771,6 +1882,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs stopHealingTimer];
     
+    [gs.clanHelpUtil cleanupRogueClanHelps];
+    
     [Analytics instantFinish:@"healWait" gemChange:-goldCost gemBalance:gs.gems];
     
     return YES;
@@ -1805,6 +1918,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.monsterHealingQueue removeObjectsInArray:healingItems];
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   [gs beginHealingTimer];
+  
+  [gs.clanHelpUtil cleanupRogueClanHelps];
 }
 
 - (void) sellUserMonsters:(NSArray *)userMonsterIds {
@@ -1902,7 +2017,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
       oilCost = gs.oil;
     }
-
+    
     if (gs.gems < gemCost) {
       [Globals popupMessage:@"Trying to enhance without enough gems."];
     } else {
@@ -1924,7 +2039,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
       GemsUpdate *gold = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:oil, gold, nil];
-
+      
       [Analytics enhanceMonster:baseUm.monsterId feederId:0 oilChange:-oilCost oilBalance:gs.oil gemChange:-gemCost gemBalance:gs.gems];
       
       return YES;
@@ -1936,7 +2051,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId {
 //  GameState *gs = [GameState sharedGameState];
 //  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
-//  
+//
 //  if (gs.userEnhancement) {
 //    [Globals popupMessage:@"Trying to set base mobster while already enhancing."];
 //  } else if (![um isAvailable]) {
@@ -1944,12 +2059,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //  } else {
 //    EnhancementItem *ei = [[EnhancementItem alloc] init];
 //    ei.userMonsterId = userMonsterId;
-//    
+//
 //    UserEnhancement *ue = [[UserEnhancement alloc] init];
 //    ue.baseMonster = ei;
 //    ue.feeders = [NSMutableArray array];
 //    gs.userEnhancement = ue;
-//    
+//
 //    return YES;
 //  }
 //  return NO;
@@ -1958,26 +2073,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (BOOL) removeBaseEnhanceMonster {
 //  GameState *gs = [GameState sharedGameState];
 //  Globals *gl = [Globals sharedGlobals];
-//  
+//
 //  if (!gs.userEnhancement) {
 //    [Globals popupMessage:@"Trying to remove base monster without one."];
 //  }  else {
 //    int oilIncrease = 0;
 //    for (EnhancementItem *item in gs.userEnhancement.feeders) {
 //      int oilCost = [gl calculateOilCostForEnhancement:gs.userEnhancement feeder:item];
-//      
+//
 //      oilIncrease += oilCost;
 //    }
-//    
+//
 //    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithOilChange:oilIncrease gemCost:0];
 //    [gs addUnrespondedUpdate:[OilUpdate updateWithTag:tag change:oilIncrease]];
-//    
+//
 //    gs.userEnhancement = nil;
 //    [gs stopEnhanceTimer];
-//    
+//
 //    int baseMonsterId = gs.userEnhancement.baseMonster.userMonster.monsterId;
 //    [Analytics cancelEnhanceMonster:baseMonsterId feederId:0 oilChange:oilIncrease oilBalance:gs.oil];
-//    
+//
 //    return YES;
 //  }
 //  return NO;
@@ -1988,14 +2103,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //  GameState *gs = [GameState sharedGameState];
 //  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
 //  UserEnhancement *ue = gs.userEnhancement;
-//  
+//
 //  EnhancementItem *newItem = [[EnhancementItem alloc] init];
 //  newItem.userMonsterId = userMonsterId;
-//  
+//
 //  int oilCost = [gl calculateOilCostForEnhancement:ue feeder:newItem];
-//  
+//
 //  newItem.enhancementCost = oilCost;
-//  
+//
 //  if (!ue) {
 //    [Globals popupMessage:@"Trying to add feeder without base monster."];
 //  } else if (![um isAvailable]) {
@@ -2008,22 +2123,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //      gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
 //      oilCost = gs.oil;
 //    }
-//    
+//
 //    if (gs.gems < gemCost) {
 //      [Globals popupMessage:@"Trying to enhance without enough gems."];
 //    } else {
 //      [gs addEnhancingItemToEndOfQueue:newItem];
-//      
+//
 //      um.teamSlot = 0;
-//      
+//
 //      int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithOilChange:-oilCost gemCost:gemCost];
 //      OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
 //      GemsUpdate *gold = [GemsUpdate updateWithTag:tag change:-gemCost];
 //      [gs addUnrespondedUpdates:oil, gold, nil];
-//      
+//
 //      int baseMonsterId = ue.baseMonster.userMonster.monsterId;
 //      [Analytics enhanceMonster:baseMonsterId feederId:um.monsterId oilChange:-oilCost oilBalance:gs.oil gemChange:-gemCost gemBalance:gs.gems];
-//      
+//
 //      return YES;
 //    }
 //  }
@@ -2032,21 +2147,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //
 //- (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item {
 //  GameState *gs = [GameState sharedGameState];
-//  
+//
 //  if (![gs.userEnhancement.feeders containsObject:item]) {
 //    [Globals popupMessage:@"This item is not in the enhancing queue."];
 //  } else {
 //    [gs removeEnhancingItem:item];
-//    
+//
 //    int oilChange = item.enhancementCost;
 //    oilChange = MIN(oilChange, MAX(0, gs.maxOil-gs.oil));
 //    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithOilChange:oilChange gemCost:0];
 //    [gs addUnrespondedUpdate:[OilUpdate updateWithTag:tag change:oilChange]];
-//    
+//
 //    int baseMonsterId = gs.userEnhancement.baseMonster.userMonster.monsterId;
 //    int feederId = item.userMonster.monsterId;
 //    [Analytics cancelEnhanceMonster:baseMonsterId feederId:feederId oilChange:oilChange oilBalance:gs.oil];
-//    
+//
 //    return YES;
 //  }
 //  return NO;
@@ -2055,10 +2170,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (BOOL) speedupEnhancingQueue:(id)delegate {
 //  GameState *gs = [GameState sharedGameState];
 //  Globals *gl = [Globals sharedGlobals];
-//  
+//
 //  int timeLeft = [gl calculateTimeLeftForEnhancement:gs.userEnhancement];
 //  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-//  
+//
 //  if (gs.gems < goldCost) {
 //    [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];
 //  } else {
@@ -2072,23 +2187,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
 //      [gs.myMonsters removeObject:um];
 //    }
-//    
+//
 //    baseUm.curHealth = perc*[gl calculateMaxHealthForMonster:baseUm];
-//    
+//
 //    UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
 //    bldr.userMonsterId = baseUm.userMonsterId;
 //    bldr.expectedExperience = baseUm.experience;
 //    bldr.expectedLevel = baseUm.level;
 //    bldr.expectedHp = baseUm.curHealth;
-//    
+//
 //    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
 //    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 //    [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
-//    
+//
 //    [gs.userEnhancement.feeders removeAllObjects];
-//    
+//
 //    [Analytics instantFinish:@"enhanceWait" gemChange:-goldCost gemBalance:gs.gems];
-//    
+//
 //    return YES;
 //  }
 //  return NO;
@@ -2097,7 +2212,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems {
 //  GameState *gs = [GameState sharedGameState];
 //  Globals *gl = [Globals sharedGlobals];
-//  
+//
 //  NSMutableArray *arr = [NSMutableArray array];
 //  EnhancementItem *base = gs.userEnhancement.baseMonster;
 //  UserMonster *baseUm = base.userMonster;
@@ -2113,20 +2228,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //      [gs.myMonsters removeObject:um];
 //    }
 //  }
-//  
+//
 //  baseUm.curHealth = perc*[gl calculateMaxHealthForMonster:baseUm];
-//  
+//
 //  UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
 //  bldr.userMonsterId = baseUm.userMonsterId;
 //  bldr.expectedExperience = baseUm.experience;
 //  bldr.expectedLevel = baseUm.level;
 //  bldr.expectedHp = baseUm.curHealth;
-//  
+//
 //  [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueWaitTimeComplete:bldr.build userMonsterIds:arr];
-//  
+//
 //  // Remove after to let the queue update to not be affected
 //  [gs.userEnhancement.feeders removeObjectsInArray:enhancingItems];
-//  
+//
 //  if (gs.userEnhancement.feeders.count == 0) {
 //    [self removeBaseEnhanceMonster];
 //  } else {
@@ -2149,7 +2264,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to evolve without max monsters."];
   } else if (!gems && gs.oil < oilCost) {
     [Globals popupMessage:@"Trying to enhance item without enough oil."];
-  } else { 
+  } else {
     int gemCost = 0;
     if (gems && gs.oil < oilCost) {
       gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
@@ -2207,7 +2322,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
       gs.userEvolution = nil;
       
-      [gs beginEvolutionTimer];
+      [gs stopEvolutionTimer];
+      
+      [gs.clanHelpUtil cleanupRogueClanHelps];
       
       if (gems) {
         [Analytics instantFinish:@"evolveWait" gemChange:-numGems gemBalance:gs.gems];
@@ -2273,6 +2390,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
     [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
+    
+    [gs.clanHelpUtil cleanupRogueClanHelps];
     
     if (isSpeedup) {
       [Analytics instantFinish:@"miniJobWait" gemChange:-gemCost gemBalance:gs.gems];

@@ -165,6 +165,7 @@
 @property (nonatomic, retain) MSDate *purchaseTime;
 @property (nonatomic, assign) BOOL isComplete;
 @property (nonatomic, assign) StructOrientation orientation;
+@property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto;
 + (id) userStructWithTutorialStructProto:(TutorialStructProto *)proto;
@@ -355,6 +356,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 
 + (id) userMiniJobWithProto:(UserMiniJobProto *)proto;
+
+- (MSDate *) tentativeCompletionDate;
 
 - (NSDictionary *) damageDealtPerUserMonsterId;
 

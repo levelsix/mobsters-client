@@ -67,6 +67,10 @@ BOOL QualityIsValidValue(Quality value) {
 BOOL ClanHelpTypeIsValidValue(ClanHelpType value) {
   switch (value) {
     case ClanHelpTypeNoHelp:
+    case ClanHelpTypeUpgradeStruct:
+    case ClanHelpTypeHeal:
+    case ClanHelpTypeEvolve:
+    case ClanHelpTypeMiniJob:
       return YES;
     default:
       return NO;

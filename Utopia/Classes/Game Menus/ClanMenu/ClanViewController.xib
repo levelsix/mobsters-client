@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -12,8 +12,10 @@
                 <outlet property="backView" destination="qNi-mw-ZxT" id="7kN-un-w7a"/>
                 <outlet property="bgdView" destination="RtB-c5-JNq" id="29B-nH-o2b"/>
                 <outlet property="containerView" destination="YnG-8W-E9A" id="ZGe-kB-L2c"/>
+                <outlet property="helpBadge" destination="785-4t-8m6" id="VYD-uy-PeD"/>
+                <outlet property="inClanTopBar" destination="h28-vw-iq0" id="Ueo-Dr-4br"/>
                 <outlet property="mainView" destination="12n-hU-GhI" id="DIX-Oz-O32"/>
-                <outlet property="topBar" destination="IXC-fC-W7g" id="cla-9L-Ymt"/>
+                <outlet property="noClanTopBar" destination="IXC-fC-W7g" id="pxx-h6-f0D"/>
                 <outlet property="view" destination="TpO-4L-uQF" id="h9g-Br-Awe"/>
             </connections>
         </placeholder>
@@ -110,18 +112,7 @@
                                                 <action selector="buttonClicked:" destination="IXC-fC-W7g" eventType="touchUpInside" id="gMn-9f-h6e"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qRA-g2-fDB" customClass="GeneralButton">
-                                            <rect key="frame" x="120" y="9" width="86" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" image="popupinactivetab.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted" image="popuppressedtab.png"/>
-                                            <connections>
-                                                <action selector="buttonClicked:" destination="IXC-fC-W7g" eventType="touchUpInside" id="94n-ks-bYd"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ozl-GP-peE" customClass="GeneralButton">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ozl-GP-peE" customClass="GeneralButton">
                                             <rect key="frame" x="120" y="9" width="86" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="popupinactivetab.png">
@@ -144,14 +135,6 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8rT-zc-ZhR" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="128" y="19" width="70" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATE SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="zKd-vM-LVb" customClass="NiceFontLabel9">
                                             <rect key="frame" x="124" y="19" width="78" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -160,16 +143,12 @@
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanscreateinactive.png" highlightedImage="clanscreateactive.png" id="kRe-UK-SOA">
-                                            <rect key="frame" x="159" y="16" width="8" height="8"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanbrowseinactiveicon2.png" highlightedImage="clanbrowseactiveicon2.png" id="z4e-7A-asb">
                                             <rect key="frame" x="65" y="15" width="10" height="9"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clansbrowseinactive.png" highlightedImage="clansbrowseactive.png" id="0Pt-VD-r5D">
-                                            <rect key="frame" x="156" y="15" width="14" height="11"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanscreateinactive.png" highlightedImage="clanscreateactive.png" id="kRe-UK-SOA">
+                                            <rect key="frame" x="159" y="16" width="8" height="8"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -177,11 +156,9 @@
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="N8M-1Z-1sg"/>
                                         <outlet property="icon1" destination="z4e-7A-asb" id="rRy-Cx-Zhw"/>
-                                        <outlet property="icon2" destination="0Pt-VD-r5D" id="Fo2-vX-CnX"/>
-                                        <outlet property="icon3" destination="kRe-UK-SOA" id="cIr-sy-6Sa"/>
+                                        <outlet property="icon2" destination="kRe-UK-SOA" id="2Wu-xP-Egu"/>
                                         <outlet property="label1" destination="p7a-Bc-KAB" id="izK-8M-s8O"/>
-                                        <outlet property="label2" destination="8rT-zc-ZhR" id="RBW-pz-bNo"/>
-                                        <outlet property="label3" destination="zKd-vM-LVb" id="dD1-1V-zbH"/>
+                                        <outlet property="label2" destination="zKd-vM-LVb" id="IYC-WX-hTT"/>
                                         <outlet property="selectedView" destination="eR7-eY-vxM" id="LKJ-Ux-xjm"/>
                                     </connections>
                                 </view>
@@ -204,7 +181,7 @@
                             </connections>
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="YnG-8W-E9A">
-                            <rect key="frame" x="3" y="42" width="454" height="258"/>
+                            <rect key="frame" x="0.0" y="42" width="460" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -216,14 +193,134 @@
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
+        <view contentMode="scaleToFill" id="h28-vw-iq0" customClass="ButtonTabBar">
+            <rect key="frame" x="0.0" y="0.0" width="312" height="41"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rOr-jm-gV0" customClass="GeneralButton">
+                    <rect key="frame" x="28" y="9" width="86" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="popupinactivetab.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" image="popuppressedtab.png"/>
+                    <connections>
+                        <action selector="buttonClicked:" destination="h28-vw-iq0" eventType="touchUpInside" id="wQc-Sl-0yQ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9eC-yq-oVp" customClass="GeneralButton">
+                    <rect key="frame" x="120" y="9" width="86" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="popupinactivetab.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" image="popuppressedtab.png"/>
+                    <connections>
+                        <action selector="buttonClicked:" destination="h28-vw-iq0" eventType="touchUpInside" id="wTU-0r-Zaf"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MnK-Q0-uFf" customClass="GeneralButton">
+                    <rect key="frame" x="212" y="9" width="86" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="popupinactivetab.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" image="popuppressedtab.png"/>
+                    <connections>
+                        <action selector="buttonClicked:" destination="h28-vw-iq0" eventType="touchUpInside" id="Y6z-Yb-LYB"/>
+                    </connections>
+                </button>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupactivetab.png" id="PPn-ve-Zp5">
+                    <rect key="frame" x="28" y="9" width="86" height="32"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY SQUAD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bvA-7l-fSg" customClass="NiceFontLabel9">
+                    <rect key="frame" x="36" y="19" width="70" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HELP" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="fXg-eM-lcF" customClass="NiceFontLabel9">
+                    <rect key="frame" x="124" y="19" width="78" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BROWSE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Lgb-GW-MbF" customClass="NiceFontLabel9">
+                    <rect key="frame" x="220" y="19" width="70" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clansbrowseinactive.png" highlightedImage="clansbrowseactive.png" id="j14-Ld-Mra">
+                    <rect key="frame" x="64" y="15" width="14" height="11"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanshelpinactive.png" highlightedImage="clanshelpactive.png" id="s1J-8r-01v">
+                    <rect key="frame" x="158" y="13" width="10" height="12"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanbrowseinactiveicon2.png" highlightedImage="clanbrowseactiveicon2.png" id="FIE-oP-aK2">
+                    <rect key="frame" x="249" y="15" width="10" height="9"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="785-4t-8m6" customClass="BadgeIcon">
+                    <rect key="frame" x="193" y="3" width="18" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="Wcu-5c-lXT">
+                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Rnk-oh-heX" customClass="NiceFontLabel8S">
+                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="badgeLabel" destination="Rnk-oh-heX" id="jps-fZ-I5g"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="delegate" destination="-1" id="PZz-LD-qWu"/>
+                <outlet property="icon1" destination="j14-Ld-Mra" id="e5E-TX-AEc"/>
+                <outlet property="icon2" destination="s1J-8r-01v" id="Ym7-ut-WsF"/>
+                <outlet property="icon3" destination="FIE-oP-aK2" id="Qyn-8F-gK4"/>
+                <outlet property="label1" destination="bvA-7l-fSg" id="stX-fA-e0c"/>
+                <outlet property="label2" destination="fXg-eM-lcF" id="pxi-cd-h8J"/>
+                <outlet property="label3" destination="Lgb-GW-MbF" id="LbM-el-Cef"/>
+                <outlet property="selectedView" destination="PPn-ve-Zp5" id="PCq-6a-yKd"/>
+            </connections>
+            <point key="canvasLocation" x="104" y="382.5"/>
+        </view>
     </objects>
     <resources>
+        <image name="badgeicon.png" width="18" height="18"/>
         <image name="clanbrowseactiveicon2.png" width="10" height="9"/>
         <image name="clanbrowseinactiveicon2.png" width="10" height="9"/>
         <image name="clansbrowseactive.png" width="14" height="11"/>
         <image name="clansbrowseinactive.png" width="14" height="11"/>
         <image name="clanscreateactive.png" width="8" height="8"/>
         <image name="clanscreateinactive.png" width="8" height="8"/>
+        <image name="clanshelpactive.png" width="10" height="12"/>
+        <image name="clanshelpinactive.png" width="10" height="12"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="popupactivetab.png" width="86" height="32"/>
         <image name="popupheadercap.png" width="5" height="39"/>

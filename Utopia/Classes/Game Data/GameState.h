@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "FullUserUpdates.h"
 #import "StaticStructure.h"
+#import "ClanHelpUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_evolutionTimer;
@@ -112,6 +113,7 @@
 @property (nonatomic, retain) MinimumClanProto *clan;
 @property (nonatomic, retain) NSMutableArray *requestedClans;
 @property (nonatomic, assign) UserClanStatus myClanStatus;
+@property (nonatomic, retain) ClanHelpUtil *clanHelpUtil;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
@@ -199,6 +201,7 @@
 - (UserStruct *) myEvoChamber;
 - (UserStruct *) myTeamCenter;
 - (UserStruct *) myMiniJobCenter;
+- (UserStruct *) myClanHouse;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;
@@ -246,6 +249,8 @@
 - (BOOL) hasActiveShield;
 - (BOOL) hasDailyFreeSpin;
 - (int) numberOfFreeSpinsForBoosterPack:(int)boosterPackId;
+
+- (BOOL) canAskForClanHelp;
 
 - (int) lastLeagueShown;
 - (void) currentLeagueWasShown;

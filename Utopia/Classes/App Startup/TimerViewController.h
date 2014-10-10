@@ -18,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
+@property (weak, nonatomic) IBOutlet UIView *finishView;
+@property (weak, nonatomic) IBOutlet UIView *helpView;
+
 @end
 
 @interface TimerViewController : UIViewController

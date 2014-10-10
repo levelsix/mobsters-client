@@ -56,6 +56,10 @@ BOOL QualityIsValidValue(Quality value);
 
 typedef enum {
   ClanHelpTypeNoHelp = 1,
+  ClanHelpTypeUpgradeStruct = 2,
+  ClanHelpTypeHeal = 3,
+  ClanHelpTypeEvolve = 4,
+  ClanHelpTypeMiniJob = 5,
 } ClanHelpType;
 
 BOOL ClanHelpTypeIsValidValue(ClanHelpType value);

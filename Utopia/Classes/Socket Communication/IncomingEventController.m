@@ -285,6 +285,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSTradeItemForBoosterEvent:
       responseClass = [TradeItemForBoosterResponseProto class];
       break;
+    case EventProtocolResponseSSolicitClanHelpEvent:
+      responseClass = [SolicitClanHelpResponseProto class];
+      break;
+    case EventProtocolResponseSGiveClanHelpEvent:
+      responseClass = [GiveClanHelpResponseProto class];
+      break;
+    case EventProtocolResponseSEndClanHelpEvent:
+      responseClass = [EndClanHelpResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -393,6 +402,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.curClanRaidInfo = nil;
       [gs.curClanRaidUserInfos removeAllObjects];
     }
+    
+    ClanHelpUtil *clanHelpUtil = [[ClanHelpUtil alloc] initWithUserId:gs.userId clanId:gs.clan.clanId clanHelpProtos:proto.clanHelpingsList];
+    gs.clanHelpUtil = clanHelpUtil;
     
     [gs.globalChatMessages removeAllObjects];
     [gs.clanChatMessages removeAllObjects];
@@ -1225,6 +1237,54 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to boot player from squad."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Clan Help
+
+- (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
+  SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Solicit clan help response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
+    [gs.clanHelpUtil addClanHelpProtos:proto.helpProtoList fromUser:nil];
+  } else {
+    [Globals popupMessage:@"Server failed to solicit clan help."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleGiveClanHelpResponseProto:(FullEvent *)fe {
+  GiveClanHelpResponseProto *proto = (GiveClanHelpResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Give clan help response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == GiveClanHelpResponseProto_GiveClanHelpStatusSuccess) {
+    [gs.clanHelpUtil addClanHelpProtos:proto.clanHelpsList fromUser:proto.sender];
+  } else {
+    [Globals popupMessage:@"Server failed to give clan help."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEndClanHelpResponseProto:(FullEvent *)fe {
+  EndClanHelpResponseProto *proto = (EndClanHelpResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"End clan help response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {
+    [gs.clanHelpUtil removeClanHelpIds:proto.clanHelpIdsList.toNSArray];
+  } else {
+    [Globals popupMessage:@"Server failed to end clan help."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

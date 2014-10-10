@@ -26,7 +26,8 @@ typedef enum {
   MapBotViewButtonInfo,
   MapBotViewButtonRemove,
   MapBotViewButtonFix,
-  MapBotViewButtonClan,
+  MapBotViewButtonJoinClan,
+  MapBotViewButtonClanHelp,
 } MapBotViewButtonConfig;
 
 @protocol MapBotViewButtonDelegate <NSObject>
@@ -42,6 +43,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *actionIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *cashIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *oilIcon;
+@property (nonatomic, retain) IBOutlet UIButton *bgdButton;
 
 // Only used for gems
 @property (nonatomic, retain) IBOutlet THLabel *freeLabel;
@@ -59,7 +61,8 @@ typedef enum {
 + (id) teamButton;
 + (id) miniJobsButton;
 + (id) infoButton;
-+ (id) clanButton;
++ (id) joinClanButton;
++ (id) clanHelpButton;
 + (id) upgradeButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) fixButtonWithResourceType:(ResourceType)type buildCost:(int)buildCost;
 + (id) removeButtonWithResourceType:(ResourceType)type removeCost:(int)removeCost;

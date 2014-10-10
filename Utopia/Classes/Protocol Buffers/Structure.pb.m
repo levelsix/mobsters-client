@@ -7227,6 +7227,7 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
 
 @interface ClanHouseProto ()
 @property (strong) StructureInfoProto* structInfo;
+@property int32_t maxHelpersPerSolicitation;
 @end
 
 @implementation ClanHouseProto
@@ -7238,9 +7239,17 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   hasStructInfo_ = !!value_;
 }
 @synthesize structInfo;
+- (BOOL) hasMaxHelpersPerSolicitation {
+  return !!hasMaxHelpersPerSolicitation_;
+}
+- (void) setHasMaxHelpersPerSolicitation:(BOOL) value_ {
+  hasMaxHelpersPerSolicitation_ = !!value_;
+}
+@synthesize maxHelpersPerSolicitation;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
+    self.maxHelpersPerSolicitation = 0;
   }
   return self;
 }
@@ -7263,6 +7272,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   if (self.hasStructInfo) {
     [output writeMessage:1 value:self.structInfo];
   }
+  if (self.hasMaxHelpersPerSolicitation) {
+    [output writeInt32:2 value:self.maxHelpersPerSolicitation];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -7274,6 +7286,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   size_ = 0;
   if (self.hasStructInfo) {
     size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasMaxHelpersPerSolicitation) {
+    size_ += computeInt32Size(2, self.maxHelpersPerSolicitation);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -7316,6 +7331,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasMaxHelpersPerSolicitation) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"maxHelpersPerSolicitation", [NSNumber numberWithInteger:self.maxHelpersPerSolicitation]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -7329,12 +7347,17 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   return
       self.hasStructInfo == otherMessage.hasStructInfo &&
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasMaxHelpersPerSolicitation == otherMessage.hasMaxHelpersPerSolicitation &&
+      (!self.hasMaxHelpersPerSolicitation || self.maxHelpersPerSolicitation == otherMessage.maxHelpersPerSolicitation) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasStructInfo) {
     hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasMaxHelpersPerSolicitation) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.maxHelpersPerSolicitation] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7382,6 +7405,9 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
   if (other.hasStructInfo) {
     [self mergeStructInfo:other.structInfo];
   }
+  if (other.hasMaxHelpersPerSolicitation) {
+    [self setMaxHelpersPerSolicitation:other.maxHelpersPerSolicitation];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7410,6 +7436,10 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setMaxHelpersPerSolicitation:[input readInt32]];
         break;
       }
     }
@@ -7443,6 +7473,22 @@ static ClanHouseProto* defaultClanHouseProtoInstance = nil;
 - (ClanHouseProto_Builder*) clearStructInfo {
   result.hasStructInfo = NO;
   result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMaxHelpersPerSolicitation {
+  return result.hasMaxHelpersPerSolicitation;
+}
+- (int32_t) maxHelpersPerSolicitation {
+  return result.maxHelpersPerSolicitation;
+}
+- (ClanHouseProto_Builder*) setMaxHelpersPerSolicitation:(int32_t) value {
+  result.hasMaxHelpersPerSolicitation = YES;
+  result.maxHelpersPerSolicitation = value;
+  return self;
+}
+- (ClanHouseProto_Builder*) clearMaxHelpersPerSolicitation {
+  result.hasMaxHelpersPerSolicitation = NO;
+  result.maxHelpersPerSolicitation = 0;
   return self;
 }
 @end

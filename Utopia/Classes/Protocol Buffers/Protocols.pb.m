@@ -138,7 +138,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUnrestrictUserMonsterEvent:
     case EventProtocolRequestCEnhanceMonsterEvent:
     case EventProtocolRequestCTradeItemForBoosterEvent:
-    case EventProtocolRequestCSolicitCanHelpEvent:
+    case EventProtocolRequestCSolicitClanHelpEvent:
     case EventProtocolRequestCGiveClanHelpEvent:
     case EventProtocolRequestCEndClanHelpEvent:
     case EventProtocolRequestCLogoutEvent:
