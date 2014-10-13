@@ -41,6 +41,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *helpView;
+
 @property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 
 @property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
@@ -52,6 +54,7 @@
 
 - (void) updateLabels;
 - (IBAction) speedupButtonClicked:(id)sender;
+- (IBAction) getHelpClicked:(id)sender;
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um;
 

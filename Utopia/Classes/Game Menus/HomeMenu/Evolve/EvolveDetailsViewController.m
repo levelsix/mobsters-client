@@ -40,6 +40,12 @@
   self.title = [NSString stringWithFormat:@"Evolve %@ to %@", mp.monsterName, evo.monsterName];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+}
+
 - (void) waitTimeComplete {
   GameState *gs = [GameState sharedGameState];
   if (!gs.userEvolution) {
@@ -63,15 +69,20 @@
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
+    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:gs.userEvolution.userMonsterId1] < 0;
+    
     if (speedupCost > 0) {
       self.gemCostLabel.text = [Globals commafyNumber:speedupCost];
       [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
       
       self.gemCostLabel.superview.hidden = NO;
       self.freeLabel.hidden = YES;
+      
+      self.helpButtonView.hidden = !canHelp;
     } else {
       self.gemCostLabel.superview.hidden = YES;
       self.freeLabel.hidden = NO;
+      self.helpButtonView.hidden = YES;
     }
   }
 }
@@ -93,6 +104,7 @@
   self.oilButtonView.hidden = NO;
   self.gemButtonView.hidden = YES;
   self.descriptionLabel.hidden = NO;
+  self.helpButtonView.hidden = YES;
   
   [self createAttributedLabelString];
   
@@ -222,6 +234,14 @@
   [self updateButtonConfiguration];
 }
 
+- (IBAction)helpClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.userEvolution) {
+    [[OutgoingEventController sharedOutgoingEventController] solicitEvolveHelp:gs.userEvolution];
+    [self updateLabels];
+  }
+}
+
 - (IBAction)speedupClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -235,6 +255,9 @@
     } else {
       [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
       
+      [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      
       self.spinner.hidden = NO;
       [self.spinner startAnimating];
       self.gemLabelsView.hidden = YES;
@@ -247,9 +270,6 @@
   
   if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
     [self.parentViewController popViewControllerAnimated:YES];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     
     self.spinner.hidden = YES;
     self.gemLabelsView.hidden = NO;

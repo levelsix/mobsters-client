@@ -42,6 +42,8 @@
   [center addObserver:self selector:@selector(reloadTables:) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   
   [center addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -129,7 +131,7 @@
 - (void) reloadTablesAnimated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   [self.globalChatView updateForChats:gs.globalChatMessages animated:animated];
-  [self.clanChatView updateForChats:gs.clanChatMessages andClan:gs.clan animated:animated];
+  [self.clanChatView updateForChats:gs.allClanChatObjects andClan:gs.clan animated:animated];
   [self.privateChatView updateForPrivateChatList:gs.privateChats];
   
   [self updateBadges];

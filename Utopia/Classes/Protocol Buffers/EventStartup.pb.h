@@ -13,6 +13,7 @@
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -173,6 +174,8 @@
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_ClanConstants;
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
+@class StartupResponseProto_StartupConstants_ClanHelpConstants;
+@class StartupResponseProto_StartupConstants_ClanHelpConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants;
@@ -686,65 +689,66 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasAddAllFbFriends_:1;
-  BOOL hasBattleRunAwayIncrement_:1;
-  BOOL hasBattleRunAwayBasePercent_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
-  BOOL hasMonsterDmgMultiplier_:1;
-  BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
+  BOOL hasGemsPerResource_:1;
+  BOOL hasMonsterDmgMultiplier_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxMinutesForFreeSpeedUp_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMaxLengthOfChatString_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxLevelForUser_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasMaxObstacles_:1;
   BOOL hasMinutesPerObstacle_:1;
   BOOL hasFaqFileName_:1;
+  BOOL hasUserMonsterConstants_:1;
+  BOOL hasClanConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasAdminChatUserProto_:1;
-  BOOL hasClanConstants_:1;
-  BOOL hasUserMonsterConstants_:1;
+  BOOL hasTaskMapConstants_:1;
   BOOL hasMonsterConstants_:1;
   BOOL hasMiniTuts_:1;
-  BOOL hasTaskMapConstants_:1;
   BOOL addAllFbFriends_:1;
-  Float32 battleRunAwayIncrement;
-  Float32 battleRunAwayBasePercent;
-  Float32 continueBattleGemCostMultiplier;
-  Float32 monsterDmgMultiplier;
-  Float32 gemsPerResource;
   Float32 minutesPerGem;
+  Float32 gemsPerResource;
+  Float32 monsterDmgMultiplier;
+  Float32 continueBattleGemCostMultiplier;
+  Float32 battleRunAwayBasePercent;
+  Float32 battleRunAwayIncrement;
+  int32_t maxLevelForUser;
+  int32_t maxNumOfSingleStruct;
   int32_t maxMinutesForFreeSpeedUp;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t maxLengthOfChatString;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
   int32_t fbConnectRewardDiamonds;
-  int32_t maxLengthOfChatString;
-  int32_t maxNameLength;
-  int32_t pvpRequiredMinLvl;
-  int32_t minNameLength;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxLevelForUser;
   int32_t numBeginnerSalesAllowed;
+  int32_t pvpRequiredMinLvl;
   int32_t maxObstacles;
   int32_t minutesPerObstacle;
   NSString* faqFileName;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
-  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
-  NSMutableArray * mutableAnimatedSpriteOffsetsList;
   NSMutableArray * mutableInAppPurchasePackagesList;
+  NSMutableArray * mutableAnimatedSpriteOffsetsList;
+  NSMutableArray * mutableClanHelpConstantsList;
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
@@ -806,8 +810,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t minutesPerObstacle;
 @property (readonly, strong) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 @property (readonly) int32_t maxMinutesForFreeSpeedUp;
+@property (readonly, strong) NSArray * clanHelpConstantsList;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -1401,6 +1407,73 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearGuideMonsterId;
 @end
 
+@interface StartupResponseProto_StartupConstants_ClanHelpConstants : PBGeneratedMessage {
+@private
+  BOOL hasPercentRemovedPerHelp_:1;
+  BOOL hasAmountRemovedPerHelp_:1;
+  BOOL hasHelpType_:1;
+  Float32 percentRemovedPerHelp;
+  int32_t amountRemovedPerHelp;
+  ClanHelpType helpType;
+}
+- (BOOL) hasHelpType;
+- (BOOL) hasAmountRemovedPerHelp;
+- (BOOL) hasPercentRemovedPerHelp;
+@property (readonly) ClanHelpType helpType;
+@property (readonly) int32_t amountRemovedPerHelp;
+@property (readonly) Float32 percentRemovedPerHelp;
+
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ClanHelpConstants*) prototype;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) toBuilder;
+
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ClanHelpConstants_Builder : PBGeneratedMessageBuilder {
+@private
+  StartupResponseProto_StartupConstants_ClanHelpConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) build;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ClanHelpConstants*) other;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasHelpType;
+- (ClanHelpType) helpType;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(ClanHelpType) value;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType;
+
+- (BOOL) hasAmountRemovedPerHelp;
+- (int32_t) amountRemovedPerHelp;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setAmountRemovedPerHelp:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearAmountRemovedPerHelp;
+
+- (BOOL) hasPercentRemovedPerHelp;
+- (Float32) percentRemovedPerHelp;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setPercentRemovedPerHelp:(Float32) value;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearPercentRemovedPerHelp;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -1590,6 +1663,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) maxMinutesForFreeSpeedUp;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxMinutesForFreeSpeedUp:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxMinutesForFreeSpeedUp;
+
+- (NSMutableArray *)clanHelpConstantsList;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_Builder *)addClanHelpConstants:(StartupResponseProto_StartupConstants_ClanHelpConstants*)value;
+- (StartupResponseProto_StartupConstants_Builder *)addAllClanHelpConstants:(NSArray *)array;
+- (StartupResponseProto_StartupConstants_Builder *)clearClanHelpConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

@@ -1302,9 +1302,11 @@
   Globals *gl = [Globals sharedGlobals];
   NSTimeInterval timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
   
-  if (timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
+  if (!gs.hasShownFreeHealingQueueSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     NSString *desc = [NSString stringWithFormat:@"Healing time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
     [Globals addPurpleAlertNotification:desc];
+    
+    gs.hasShownFreeHealingQueueSpeedup = YES;
   }
   
   [_timers removeObject:timer];

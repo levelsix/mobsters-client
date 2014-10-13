@@ -9,6 +9,7 @@
                 <outlet property="buttonLabelsView" destination="d2L-pp-QOW" id="KAY-XY-3Oe"/>
                 <outlet property="buttonSpinner" destination="Sen-L1-DPN" id="cqh-PD-dWV"/>
                 <outlet property="freeLabel" destination="ZFi-NY-yMr" id="ir6-Fq-zUz"/>
+                <outlet property="helpView" destination="IXy-bD-niz" id="O7S-Tk-oLr"/>
                 <outlet property="listView" destination="Tap-sr-g1c" id="gLH-eb-P4x"/>
                 <outlet property="noMobstersLabel" destination="QRG-Md-zX9" id="54h-qp-9W0"/>
                 <outlet property="queueArrow" destination="MbH-4N-mry" id="3K9-Hv-ZAg"/>
@@ -108,7 +109,27 @@
                                     <nil key="highlightedColor"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <view contentMode="scaleToFill" id="9ni-Kh-sza">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitalopenarrow.png" highlightedImage="fullhospitalarrow.png" id="MbH-4N-mry">
+                                    <rect key="frame" x="86" y="5" width="185" height="39"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="Ysd-ZB-DYC" customClass="CancellableCollectionView">
+                                    <rect key="frame" x="1" y="0.0" width="246" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="1" minimumInteritemSpacing="3" id="Fel-kz-A96">
+                                        <size key="itemSize" width="50" height="50"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="50" height="50"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                    <cells/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="aLj-f3-aYh" id="brs-vt-0sk"/>
+                                        <outlet property="delegate" destination="aLj-f3-aYh" id="JIf-XT-NDB"/>
+                                    </connections>
+                                </collectionView>
+                                <view contentMode="scaleToFill" id="9ni-Kh-sza" userLabel="Finish View">
                                     <rect key="frame" x="339" y="5" width="80" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -174,26 +195,32 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitalopenarrow.png" highlightedImage="fullhospitalarrow.png" id="MbH-4N-mry">
-                                    <rect key="frame" x="86" y="5" width="185" height="39"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="Ysd-ZB-DYC" customClass="CancellableCollectionView">
-                                    <rect key="frame" x="1" y="0.0" width="246" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view contentMode="scaleToFill" id="IXy-bD-niz" userLabel="Help View">
+                                    <rect key="frame" x="339" y="5" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aFK-cD-DoC" customClass="GeneralButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="orangemenuoption.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="getHelpClicked:" destination="-1" eventType="touchUpInside" id="02L-lP-s29"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="tAq-r6-GFy" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="7" y="7" width="67" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="1" minimumInteritemSpacing="3" id="Fel-kz-A96">
-                                        <size key="itemSize" width="50" height="50"/>
-                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                        <size key="footerReferenceSize" width="50" height="50"/>
-                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </collectionViewFlowLayout>
-                                    <cells/>
-                                    <connections>
-                                        <outlet property="dataSource" destination="aLj-f3-aYh" id="brs-vt-0sk"/>
-                                        <outlet property="delegate" destination="aLj-f3-aYh" id="JIf-XT-NDB"/>
-                                    </connections>
-                                </collectionView>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -217,6 +244,7 @@
         <image name="diamond.png" width="29" height="27"/>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
         <image name="hospitalopenarrow.png" width="185" height="39"/>
+        <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="sellbarbg.png" width="424" height="50"/>
         <image name="sellcapn.png" width="81" height="54"/>

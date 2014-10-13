@@ -130,6 +130,8 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(clanChatsViewed) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
@@ -393,7 +395,7 @@
   if (scope == ChatScopeGlobal) {
     return (int)gs.globalChatMessages.count;
   } else if (scope == ChatScopeClan) {
-    return (int)gs.clanChatMessages.count;
+    return (int)gs.allClanChatObjects.count;
   } else if (scope == ChatScopePrivate) {
     return (int)gs.privateChats.count;
   }
@@ -416,12 +418,13 @@
   if (scope == ChatScopeGlobal) {
     return gs.globalChatMessages[gs.globalChatMessages.count-lineNum-1];
   } else if (scope == ChatScopeClan) {
-    return gs.clanChatMessages[gs.clanChatMessages.count-lineNum-1];
+    NSArray *arr = [gs allClanChatObjects];
+    return arr[arr.count-lineNum-1];
   } else if (scope == ChatScopePrivate) {
     PrivateChatPostProto *post = gs.privateChats[lineNum];
     
     ChatMessage *cm = [[ChatMessage alloc] init];
-    cm.sender = post.otherUserWithLevel;
+    cm.sender = post.otherUserWithLevel.minUserProto;
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
     cm.message = post.content;
     

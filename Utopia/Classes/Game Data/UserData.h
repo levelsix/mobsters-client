@@ -230,17 +230,6 @@ typedef enum {
 
 @end
 
-@interface ChatMessage : NSObject
-
-@property (nonatomic, retain) MinimumUserProtoWithLevel *sender;
-@property (nonatomic, copy) NSString *message;
-@property (nonatomic, retain) MSDate *date;
-@property (nonatomic, assign) BOOL isAdmin;
-
-- (id) initWithProto:(GroupChatMessageProto *)p;
-
-@end
-
 @interface UserExpansion : NSObject
 
 @property (nonatomic, assign) int userId;

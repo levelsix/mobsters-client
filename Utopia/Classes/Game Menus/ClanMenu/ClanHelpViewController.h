@@ -35,6 +35,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *helpAllView;
+
 @property (nonatomic, retain) NSArray *helpsArray;
 
 @end

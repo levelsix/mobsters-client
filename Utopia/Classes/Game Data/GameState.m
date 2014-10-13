@@ -68,8 +68,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     _requestedClans = [[NSMutableArray alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginMiniJobTimer) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginEvolutionTimer) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   }
   return self;
 }
@@ -539,7 +538,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
-  cm.sender = sender;
+  cm.sender = sender.minUserProto;
   cm.message = msg;
   cm.date = [MSDate date];
   cm.isAdmin = isAdmin;
@@ -548,7 +547,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
   Globals *gl = [Globals sharedGlobals];
-  if (![gl isUserIdMuted:cm.sender.minUserProto.userId]) {
+  if (![gl isUserIdMuted:cm.sender.userId]) {
     if (scope == GroupChatScopeGlobal) {
       [self.globalChatMessages addObject:cm];
     } else {
@@ -577,6 +576,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (NSArray *) allClanChatObjects {
+  NSArray *arr = [self.clanChatMessages arrayByAddingObjectsFromArray:[self.clanHelpUtil allClanHelps]];
+  arr = [arr arrayByAddingObjectsFromArray:[self.clanHelpUtil myClanHelps]];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
+    return [[obj1 date] compare:[obj2 date]];
+  }];
+  
+  return arr;
+}
+
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
 }
@@ -588,6 +598,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self.monsterHealingQueue addObject:item];
   [self readjustAllMonsterHealingProtos];
+  
+  self.hasShownFreeHealingQueueSpeedup = NO;
   
   [QuestUtil checkAllDonateQuests];
 }
@@ -617,6 +629,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   
   [self readjustAllMonsterHealingProtos];
+  
+  self.hasShownFreeHealingQueueSpeedup = NO;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   
@@ -1500,6 +1514,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return YES;
   //int league = [self lastLeagueShown];
   //return !league || league == self.pvpLeague.leagueId;
+}
+
+- (void) receivedClanHelpNotification:(NSNotification *)notif {
+  ClanHelp *ch = [notif object][CLAN_HELP_NOTIFICATION_KEY];
+  
+  if (ch.helpType == ClanHelpTypeHeal) {
+    [self readjustAllMonsterHealingProtos];
+  } else if (ch.helpType == ClanHelpTypeEvolve) {
+    [self beginEvolutionTimer];
+  } else if (ch.helpType == ClanHelpTypeMiniJob) {
+    [self beginMiniJobTimer];
+  }
 }
 
 @end

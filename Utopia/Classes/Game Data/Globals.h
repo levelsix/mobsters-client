@@ -56,6 +56,7 @@
 
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
+#define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
 
 #define STRUCT_PURCHASED_NOTIFICATION @"StructPurchasedNotification"
 #define STRUCT_COMPLETE_NOTIFICATION @"StructCompleteNotification"
@@ -156,6 +157,12 @@
 @property (nonatomic, assign) int maxCharLengthForClanTag;
 @property (nonatomic, assign) int maxClanSize;
 
+// Clan Help constants
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *healClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *evolveClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *miniJobClanHelpConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *buildingClanHelpConstants;
+
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;
 @property (nonatomic, assign) int tournamentLossesWeight;
@@ -246,8 +253,11 @@
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;
 + (void) addAlertNotification:(NSString *)msg;
++ (void) addAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
++ (void) addGreenAlertNotification:(NSString *)msg;
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addPurpleAlertNotification:(NSString *)msg;
++ (void) addOrangeAlertNotification:(NSString *)msg;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="rZA-MO-SVY">
-                        <rect key="frame" x="0.0" y="0.0" width="454" height="45"/>
+                        <rect key="frame" x="0.0" y="0.0" width="454" height="46"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QjL-Pw-rZw">
@@ -29,11 +29,11 @@
                                 </connections>
                             </button>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="LO6-5t-P0Z">
-                                <rect key="frame" x="0.0" y="44" width="454" height="1"/>
+                                <rect key="frame" x="0.0" y="45" width="454" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mJz-A3-1MB" customClass="CircleMonsterView">
-                                <rect key="frame" x="14" y="8" width="30" height="30"/>
+                                <rect key="frame" x="14" y="9" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="Tce-tX-hYo">
@@ -97,7 +97,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="jSa-hb-1y1">
-                                <rect key="frame" x="266" y="8" width="97" height="30"/>
+                                <rect key="frame" x="266" y="7" width="97" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clanhelpbarbg.png" id="ExS-YI-fvK">

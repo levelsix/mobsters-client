@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "UserData.h"
 #import "MonsterCardView.h"
+#import "NibUtils.h"
 
 @interface ChatCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
@@ -23,9 +23,13 @@
 // This is used for the popover to align correctly
 @property (nonatomic, retain) IBOutlet UIView *bubbleAlignView;
 
-@property (nonatomic, retain) ChatMessage *chatMessage;
+@property (nonatomic, retain) IBOutlet UIView *currentChatSubview;
 
-- (void) updateForChat:(ChatMessage *)msg showsClanTag:(BOOL)showsClanTag;
+@property (nonatomic, retain) NSMutableDictionary *chatSubviews;
+
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag chatSubview:(UIView *)view identifier:(NSString *)identifier;
+- (id) dequeueChatSubview:(NSString *)identifier;
 
 @end
 
@@ -44,3 +48,15 @@
 
 @end
 
+@interface ChatClanHelpView : UIView
+
+@property (nonatomic, assign) IBOutlet UILabel *numHelpsLabel;
+@property (nonatomic, assign) IBOutlet SplitImageProgressBar *progressBar;
+
+@property (nonatomic, assign) IBOutlet UIButton *helpButton;
+@property (nonatomic, assign) IBOutlet UIView *helpButtonView;
+@property (nonatomic, assign) IBOutlet UIView *helpedView;
+
+- (void) updateForClanHelp:(id)clanHelp;
+
+@end

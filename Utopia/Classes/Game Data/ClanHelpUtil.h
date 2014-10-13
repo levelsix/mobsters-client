@@ -21,12 +21,11 @@
 - (id) initWithUserId:(int)userId clanId:(int)clanId clanHelpProtos:(NSArray *)clanHelps;
 
 - (void) addClanHelpProtos:(NSArray *)clanHelpProtos fromUser:(MinimumUserProto *)sender;
-- (void) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array;
+- (id<ClanHelp>) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array;
 - (void) removeClanHelpIds:(NSArray *)helps;
 
 // Will return -1 if it doesn't exist
 - (int) getNumClanHelpsForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;
-- (id<ClanHelp>) getMyClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;
 
 - (NSArray *) getAllHelpableClanHelps;
 

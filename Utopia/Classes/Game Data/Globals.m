@@ -114,6 +114,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentFleesWeight = constants.touramentConstants.fleesWeight;
   self.tournamentNumHrsToDisplayAfterEnd = constants.touramentConstants.numHoursToShowAfterEventEnd;
   
+  for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
+    if (c.helpType == ClanHelpTypeHeal) {
+      self.healClanHelpConstants = c;
+    } else if (c.helpType == ClanHelpTypeUpgradeStruct) {
+      self.buildingClanHelpConstants = c;
+    } else if (c.helpType == ClanHelpTypeEvolve) {
+      self.evolveClanHelpConstants = c;
+    } else if (c.helpType == ClanHelpTypeMiniJob) {
+      self.miniJobClanHelpConstants = c;
+    }
+  }
+  
   if (constants.hasDownloadableNibConstants) {
     StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder *b = [StartupResponseProto_StartupConstants_DownloadableNibConstants builderWithPrototype:self.downloadableNibConstants];
     [b mergeFrom:constants.downloadableNibConstants];
@@ -710,7 +722,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         if (idx != NSNotFound) {
           [o removeObjectAtIndex:i];
           [n removeObjectAtIndex:idx];
-          [moves setObject:[NSIndexPath indexPathForRow:[oArr indexOfObject:oObj] inSection:section] forKey:[NSIndexPath indexPathForRow:[nArr indexOfObject:oObj] inSection:section]];
+          [moves setObject:[NSIndexPath indexPathForRow:[nArr indexOfObject:oObj] inSection:section] forKey:[NSIndexPath indexPathForRow:[oArr indexOfObject:oObj] inSection:section]];
         } else {
           LNLog(@"SOMETHING WENT WRONG.. LOOK AT CALCULATE DIFFERENCES");
           break;
@@ -1634,9 +1646,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) addAlertNotification:(NSString *)msg {
+  [self addAlertNotification:msg isImmediate:YES];
+}
+
++ (void) addAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate {
   GameViewController *gvc = [GameViewController baseController];
-  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorRed isImmediate:YES];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorRed isImmediate:isImmediate];
   [gvc.notificationController addNotification:oln];
+}
+
++ (void) addGreenAlertNotification:(NSString *)msg {
+  [self addGreenAlertNotification:msg isImmediate:NO];
 }
 
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate {
@@ -1648,6 +1668,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) addPurpleAlertNotification:(NSString *)msg {
   GameViewController *gvc = [GameViewController baseController];
   OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorPurple isImmediate:NO];
+  [gvc.notificationController addNotification:oln];
+}
+
++ (void) addOrangeAlertNotification:(NSString *)msg {
+  GameViewController *gvc = [GameViewController baseController];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorOrange isImmediate:NO];
   [gvc.notificationController addNotification:oln];
 }
 

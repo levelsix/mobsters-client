@@ -1195,11 +1195,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ch.requester = [gs minUser];
       ch.clanId = gs.clan.clanId;
       ch.staticDataId = notice.staticDataId;
+      ch.isOpen = YES;
+      ch.maxHelpers = chp.maxHelpersPerSolicitation;
       
       [gs.clanHelpUtil addClanHelpProto:ch toArray:gs.clanHelpUtil.myClanHelps];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:self];
+    LNLog(@"Soliciting help for %d timers.", (int)clanHelpNotices.count);
   }
 }
 
@@ -1211,7 +1215,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   notice.userDataId = us.userStructId;
   notice.staticDataId = us.structId;
   
-  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1224,7 +1228,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   notice.userDataId = mj.userMiniJobId;
   notice.staticDataId = mj.miniJob.quality;
   
-  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1237,7 +1241,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   notice.userDataId = ue.userMonsterId1;
   notice.staticDataId = ue.evoItem.userMonster1.monsterId;
   
-  if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1253,8 +1257,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     notice.userDataId = hi.userMonsterId;
     notice.staticDataId = hi.userMonster.monsterId;
     
-    if (![gs.clanHelpUtil getMyClanHelpForType:notice.helpType userDataId:notice.userDataId]) {
-      [arr addObject:notice];
+    if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+      [arr addObject:notice.build];
     }
   }
   

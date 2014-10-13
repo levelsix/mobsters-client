@@ -18,7 +18,7 @@
     self.clanHelpId = chp.clanHelpId;
     self.requester = chp.mup;
     self.clanId = chp.clanId;
-    self.requestedTime = [MSDate dateWithTimeIntervalSince1970:chp.timeRequested/1000.];
+    self.requestedTime = [MSDate dateWithTimeIntervalSince1970:chp.timeRequested/1000.0];
     self.maxHelpers = chp.maxHelpers;
     self.helperUserIds = [NSMutableSet setWithArray:[chp.helperIdsList toNSArray]];
     self.helpType = chp.helpType;
@@ -59,7 +59,7 @@
 }
 
 - (void) consumeClanHelp:(ClanHelp *)chp {
-  if (!self.clanHelpId) {
+  if (self.clanHelpId != chp.clanHelpId) {
     // This means we just asked for help and got back the response
     self.clanHelpId = chp.clanHelpId;
     self.requester = chp.requester;
@@ -73,6 +73,8 @@
     self.isOpen = chp.isOpen;
   } else {
     [self.helperUserIds unionSet:chp.helperUserIds];
+    
+    self.isOpen = self.isOpen & chp.isOpen;
   }
 }
 
@@ -110,19 +112,283 @@
 
 - (BOOL) removeClanHelps:(NSArray *)clanHelps {
   if ([clanHelps containsObject:self]) {
+    // Set to NO so that if anything is holding this object, it won't try to add helps
+    self.isOpen = NO;
     return YES;
   }
   return NO;
 }
 
 - (BOOL) isEqual:(ClanHelp *)object {
-  return (self.requester.userId == object.requester.userId &&
-           self.clanId == object.clanId && self.helpType == object.helpType &&
-           self.userDataId == object.userDataId);
+  // Types that are gonna be bundled need to match with this (2nd statement).
+  // Otherwise, actually compare values.
+  return ([self class] == [object class] && self.requester.userId == object.requester.userId &&
+          self.clanId == object.clanId && self.helpType == object.helpType &&
+          self.userDataId == object.userDataId) ||
+  // Bundle will match with this object
+  ([self class] != [object class] && [object respondsToSelector:@selector(helpType)]
+   && self.helpType == ClanHelpTypeHeal && object.helpType == ClanHelpTypeHeal);
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + self.userDataId*7);
+  // Types that are gonna be bundled need to match with this
+  uint64_t val = self.helpType == ClanHelpTypeHeal ? 1 : self.userDataId;
+  return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + val*7);
+}
+
+#pragma mark - ChatObject protocol
+
+- (MinimumUserProto *) sender {
+  return self.requester;
+}
+
+- (MSDate *) date {
+  return self.requestedTime;
+}
+
+- (NSString *) message {
+  return [self helpString];
+}
+
+- (UIColor *) textColor {
+  return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  
+  NSString *nibName = @"ChatClanHelpView";
+  ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForClanHelp:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  UIFont *font = chatCell.msgLabel.font;
+  CGRect frame = chatCell.msgLabel.frame;
+  
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  
+  NSString *msg = [self message];
+  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+frame.origin.y+14.f;
+  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
+  
+  return height;
+}
+
+- (IBAction)helpClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  [gs.clanHelpUtil giveClanHelps:@[self]];
+}
+
+@end
+
+@implementation BundleClanHelp
+
++ (id<ClanHelp>) getPossibleBundleFromClanHelp:(ClanHelp *)clanHelp {
+  if (clanHelp.helpType == ClanHelpTypeHeal) {
+    return [[BundleClanHelp alloc] initWithClanHelp:clanHelp];
+  }
+  return clanHelp;
+}
+
+- (id) initWithClanHelp:(ClanHelp *)clanHelp {
+  if ((self = [super init])) {
+    self.requester = clanHelp.requester;
+    self.clanId = clanHelp.clanId;
+    self.helpType = clanHelp.helpType;
+    self.clanHelps = [NSMutableArray arrayWithObject:clanHelp];
+  }
+  return self;
+}
+
+- (ClanHelp *) mainHelp {
+  // Find the help that requires the most num of helps
+  ClanHelp *needsMostHelp = nil;
+  for (ClanHelp *ch in self.clanHelps) {
+    if (ch.isOpen) {
+      int chHelps = ch.maxHelpers-ch.numHelpers;
+      int needsHelps = needsMostHelp.maxHelpers-needsMostHelp.numHelpers;
+      if (!needsMostHelp || chHelps > needsHelps ||
+          (chHelps == needsHelps && [ch.requestedTime compare:needsMostHelp.requestedTime] == NSOrderedDescending)) {
+        needsMostHelp = ch;
+      }
+    }
+  }
+  return needsMostHelp;
+}
+
+- (int) maxHelpers {
+  return self.mainHelp.maxHelpers;
+}
+
+- (int) numHelpers {
+  return self.mainHelp.numHelpers;
+}
+
+- (NSString *)helpString {
+  if (self.clanHelps.count == 1) {
+    return [self.clanHelps[0] helpString];
+  } else {
+    if (self.helpType == ClanHelpTypeHeal) {
+      return [NSString stringWithFormat:@"Help me heal %d %@s", (int)self.clanHelps.count, MONSTER_NAME];
+    }
+  }
+  return @"Help Me!";
+}
+
+- (NSString *) justHelpedString:(NSString *)name {
+  if (self.clanHelps.count == 1) {
+    return [self.clanHelps[0] justHelpedString:name];
+  } else {
+    if (self.helpType == ClanHelpTypeHeal) {
+      return [NSString stringWithFormat:@"%@ just helped you heal your %@s.", name, MONSTER_NAME];
+    }
+  }
+  return @"Help Me!";
+}
+
+- (MSDate *) requestedTime {
+  return self.mainHelp.requestedTime;
+}
+
+- (BOOL) isOpen {
+  for (ClanHelp *ch in self.clanHelps) {
+    if (ch.isOpen) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (void) consumeClanHelp:(ClanHelp *)clanHelp {
+  NSInteger idx = [self.clanHelps indexOfObject:clanHelp];
+  if (idx != NSNotFound) {
+    ClanHelp *preexisting = [self.clanHelps objectAtIndex:idx];
+    [preexisting consumeClanHelp:clanHelp];
+  } else {
+    [self.clanHelps addObject:clanHelp];
+  }
+}
+
+- (ClanHelp *) getClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+  for (ClanHelp *ch in self.clanHelps) {
+    if (ch.helpType == type && ch.userDataId == userDataId) {
+      return ch;
+    }
+  }
+  return nil;
+}
+
+- (NSArray *) helpableClanHelpIdsForUserId:(int)userId {
+  NSMutableArray *clanHelpIds = [NSMutableArray array];
+  for (ClanHelp *ch in self.clanHelps) {
+    if ([ch canHelpForUserId:userId]) {
+      [clanHelpIds addObject:@(ch.clanHelpId)];
+    }
+  }
+  return clanHelpIds;
+}
+
+- (BOOL) canHelpForUserId:(int)userId {
+  return [self helpableClanHelpIdsForUserId:userId].count > 0;
+}
+
+- (BOOL) hasHelpedForUserId:(int)userId {
+  // Only return YES if we have helped at least once and we can't help anymore.
+  BOOL hasHelped = NO;
+  for (ClanHelp *ch in self.clanHelps) {
+    if ([ch hasHelpedForUserId:userId]) {
+      hasHelped = YES;
+    }
+  }
+  
+  return hasHelped && ![self canHelpForUserId:userId];
+}
+
+- (NSArray *) allIndividualClanHelps {
+  return [self.clanHelps copy];
+}
+
+- (BOOL) removeClanHelps:(NSArray *)clanHelps {
+  [self.clanHelps removeObjectsInArray:clanHelps];
+  
+  // If clanHelps is empty, say YES so this object gets deleted.
+  return self.clanHelps.count == 0;
+}
+
+- (void) incrementHelpForUserId:(int)userId {
+  for (ClanHelp *ch in self.clanHelps) {
+    if ([ch canHelpForUserId:userId]) {
+      [ch incrementHelpForUserId:userId];
+    }
+  }
+}
+
+- (BOOL) isEqual:(ClanHelp *)object {
+  return ([object conformsToProtocol:@protocol(ClanHelp)] &&  self.requester.userId == object.requester.userId &&
+          self.clanId == object.clanId && self.helpType == object.helpType);
+}
+
+- (NSUInteger) hash {
+  uint64_t val = 1;
+  return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + val*7);
+}
+
+#pragma mark - ChatObject protocol
+
+- (MinimumUserProto *) sender {
+  return self.requester;
+}
+
+- (MSDate *) date {
+  return self.requestedTime;
+}
+
+- (NSString *) message {
+  return [self helpString];
+}
+
+- (UIColor *) textColor {
+  return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  NSString *nibName = @"ChatClanHelpView";
+  ChatClanHelpView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForClanHelp:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  UIFont *font = chatCell.msgLabel.font;
+  CGRect frame = chatCell.msgLabel.frame;
+  
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  
+  NSString *msg = [self message];
+  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+frame.origin.y+14.f;
+  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
+  
+  return height;
+}
+
+- (IBAction)helpClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  [gs.clanHelpUtil giveClanHelps:@[self]];
 }
 
 @end

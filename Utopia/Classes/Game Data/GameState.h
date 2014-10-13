@@ -12,6 +12,7 @@
 #import "FullUserUpdates.h"
 #import "StaticStructure.h"
 #import "ClanHelpUtil.h"
+#import "ChatObject.h"
 
 @interface GameState : NSObject {
   NSTimer *_evolutionTimer;
@@ -89,6 +90,7 @@
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
 @property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
+@property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -177,6 +179,8 @@
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
 - (void) addToExpansionCosts:(NSArray *)costs;
 - (void) addToEventCooldownTimes:(NSArray *)arr;
+
+- (NSArray *) allClanChatObjects;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;

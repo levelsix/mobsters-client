@@ -708,6 +708,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasItemDropId_:1;
   BOOL hasCashReward_:1;
   BOOL hasOilReward_:1;
+  BOOL hasCharImgVertPixelOffset_:1;
+  BOOL hasCharImgHorizPixelOffset_:1;
   BOOL hasBossImgName_:1;
   BOOL hasSectionName_:1;
   BOOL hasCharacterImgName_:1;
@@ -720,6 +722,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t itemDropId;
   int32_t cashReward;
   int32_t oilReward;
+  int32_t charImgVertPixelOffset;
+  int32_t charImgHorizPixelOffset;
   NSString* bossImgName;
   NSString* sectionName;
   NSString* characterImgName;
@@ -737,6 +741,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasCashReward;
 - (BOOL) hasOilReward;
 - (BOOL) hasCharacterImgName;
+- (BOOL) hasCharImgVertPixelOffset;
+- (BOOL) hasCharImgHorizPixelOffset;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -749,6 +755,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 @property (readonly, strong) NSString* characterImgName;
+@property (readonly) int32_t charImgVertPixelOffset;
+@property (readonly) int32_t charImgHorizPixelOffset;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -844,6 +852,16 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (NSString*) characterImgName;
 - (TaskMapElementProto_Builder*) setCharacterImgName:(NSString*) value;
 - (TaskMapElementProto_Builder*) clearCharacterImgName;
+
+- (BOOL) hasCharImgVertPixelOffset;
+- (int32_t) charImgVertPixelOffset;
+- (TaskMapElementProto_Builder*) setCharImgVertPixelOffset:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearCharImgVertPixelOffset;
+
+- (BOOL) hasCharImgHorizPixelOffset;
+- (int32_t) charImgHorizPixelOffset;
+- (TaskMapElementProto_Builder*) setCharImgHorizPixelOffset:(int32_t) value;
+- (TaskMapElementProto_Builder*) clearCharImgHorizPixelOffset;
 @end
 
 

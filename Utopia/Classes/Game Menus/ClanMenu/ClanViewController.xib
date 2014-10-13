@@ -194,7 +194,7 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
         <view contentMode="scaleToFill" id="h28-vw-iq0" customClass="ButtonTabBar">
-            <rect key="frame" x="0.0" y="0.0" width="312" height="41"/>
+            <rect key="frame" x="0.0" y="0.0" width="326" height="41"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rOr-jm-gV0" customClass="GeneralButton">
@@ -308,7 +308,7 @@
                 <outlet property="label3" destination="Lgb-GW-MbF" id="LbM-el-Cef"/>
                 <outlet property="selectedView" destination="PPn-ve-Zp5" id="PCq-6a-yKd"/>
             </connections>
-            <point key="canvasLocation" x="104" y="382.5"/>
+            <point key="canvasLocation" x="111" y="382.5"/>
         </view>
     </objects>
     <resources>

@@ -76,21 +76,37 @@
 
 - (void) awakeFromNib {
   self.chatTable.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
+  
+  [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
+  _testCell = self.chatCell;
 }
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
-  NSInteger oldCount = self.chats.count;
-  self.chats = chats;
-  NSInteger newCount = self.chats.count;
+  NSArray *oldArray = self.chats;
+  self.chats = [chats copy];
   
-  NSIndexPath *lastIp = [NSIndexPath indexPathForRow:newCount-1 inSection:0];
   BOOL shouldScrollToBottom = NO;
-  if (animated && oldCount < newCount) {
-    NSMutableArray *indexes = [NSMutableArray array];
-    for (NSInteger i = oldCount; i < newCount; i++) {
-      [indexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  if (animated) {
+    NSMutableArray *removedIps = [NSMutableArray array], *addedIps = [NSMutableArray array];
+    NSMutableDictionary *movedIps = [NSMutableDictionary dictionary];
+    
+    [Globals calculateDifferencesBetweenOldArray:oldArray newArray:self.chats removalIps:removedIps additionIps:addedIps movedIps:movedIps section:0];
+    
+    [self.chatTable beginUpdates];
+    
+    [self.chatTable deleteRowsAtIndexPaths:removedIps withRowAnimation:UITableViewRowAnimationFade];
+    
+    for (NSIndexPath *ip in movedIps) {
+      NSIndexPath *newIp = movedIps[ip];
+      [self.chatTable moveRowAtIndexPath:ip toIndexPath:newIp];
     }
-    [self.chatTable insertRowsAtIndexPaths:indexes withRowAnimation:UITableViewRowAnimationBottom];
+    [self.chatTable insertRowsAtIndexPaths:addedIps withRowAnimation:UITableViewRowAnimationFade];
+    
+    [self.chatTable endUpdates];
+    
+    for (ChatCell *cell in self.chatTable.visibleCells) {
+      [self.chats[[self.chatTable indexPathForCell:cell].row] updateInChatCell:cell showsClanTag:[self showsClanTag]];
+    }
     
     if (self.chatTable.contentOffset.y > self.chatTable.contentSize.height-self.chatTable.frame.size.height-100) {
       shouldScrollToBottom = YES;
@@ -101,8 +117,8 @@
     shouldScrollToBottom = YES;
   }
   
-  if (shouldScrollToBottom && newCount) {
-    [self.chatTable scrollToRowAtIndexPath:lastIp atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+  if (shouldScrollToBottom && self.chats.count) {
+    [self.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.chats.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
   }
   
   GameState *gs = [GameState sharedGameState];
@@ -124,7 +140,8 @@
   [self.popoverView openAtPoint:pt];
   self.popoverView.delegate = self;
   
-  _clickedMsg = cell.chatMessage;
+  NSInteger row = [self.chatTable indexPathForCell:cell].row;
+  _clickedMsg = self.chats[row];
 }
 
 - (void) closePopover {
@@ -134,20 +151,20 @@
 
 - (void) profileClicked {
   if (_clickedMsg) {
-    [self.delegate profileClicked:_clickedMsg.sender.minUserProto.userId];
+    [self.delegate profileClicked:_clickedMsg.sender.userId];
   }
 }
 
 - (void) messageClicked {
   if (_clickedMsg) {
-    MinimumUserProto *mup = _clickedMsg.sender.minUserProto;
+    MinimumUserProto *mup = _clickedMsg.sender;
     [self.delegate beginPrivateChatWithUserId:mup.userId name:mup.name];
   }
 }
 
 - (void) muteClicked {
   if (_clickedMsg) {
-    [self.delegate muteClicked:_clickedMsg.sender.minUserProto.userId name:_clickedMsg.sender.minUserProto.name];
+    [self.delegate muteClicked:_clickedMsg.sender.userId name:_clickedMsg.sender.name];
   }
 }
 
@@ -187,44 +204,25 @@
   
   if (!cell) {
     [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
-    self.chatCell.mainView.width += _cellWidthIncrease;
-    self.chatCell.msgLabel.width += _cellWidthIncrease;
     cell = self.chatCell;
   }
   
-  [cell updateForChat:self.chats[indexPath.row] showsClanTag:[self showsClanTag]];
+  [self.chats[indexPath.row] updateInChatCell:cell showsClanTag:[self showsClanTag]];
   
   return cell;
 }
 
-- (void) checkIfDimensionsLoaded {
-  if (!_msgLabelFont) {
-    [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
-    _msgLabelFont = self.chatCell.msgLabel.font;
-    _msgLabelInitialFrame = self.chatCell.msgLabel.frame;
-    
-    // This was added to adjust for bigger screens
-    float initWidth = _msgLabelInitialFrame.size.width;
-    _msgLabelInitialFrame.size.width = roundf(self.width*0.516);
-    _cellWidthIncrease = _msgLabelInitialFrame.size.width-initWidth;
-  }
-}
-
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  [self checkIfDimensionsLoaded];
-  NSString *msg = [self.chats[indexPath.row] message];
-  CGSize size = [msg getSizeWithFont:_msgLabelFont constrainedToSize:CGSizeMake(_msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+_msgLabelInitialFrame.origin.y+14.f;
-  return height;
+  return [self.chats[indexPath.row] heightWithTestChatCell:_testCell];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
   if (self.popoverView.hidden) {
     ChatCell *cell = (ChatCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     GameState *gs = [GameState sharedGameState];
-    if (cell.chatMessage.sender.minUserProto.userId != gs.userId) {
+    id<ChatObject> chatObject = self.chats[indexPath.row];
+    if (chatObject.sender.userId != gs.userId) {
       [self.chatTable scrollToRowAtIndexPath:[self.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
       [self displayPopoverOverCell:cell];
     }
@@ -401,7 +399,7 @@
   [post markAsRead];
   
   ChatMessage *cm = [[ChatMessage alloc] init];
-  cm.sender = post.poster;
+  cm.sender = post.poster.minUserProto;
   cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
   cm.message = post.content;
   [self addChatMessage:cm];
@@ -422,7 +420,7 @@
         ChatMessage *cm = [ChatMessage new];
         cm.date = [MSDate date];
         cm.message = msg;
-        cm.sender = gs.minUserWithLevel;
+        cm.sender = gs.minUserWithLevel.minUserProto;
         [self addChatMessage:cm];
       });
     }

@@ -279,7 +279,7 @@
   _curStage = 0;
   _hasStarted = YES;
   
-  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count];
+  self.hudView.waveNumLabel.text = [NSString stringWithFormat:@"ENEMY %d/%d", _curStage+1, (int)self.enemyTeam.count];
   
   [Analytics foundMatch:@"attack"];
 }

@@ -43,7 +43,7 @@
 @implementation ClanHelpViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
   
   GameState *gs = [GameState sharedGameState];
   self.botLabel.text = [NSString stringWithFormat:@"The higher your %@ level, the more help you can receive.", gs.myClanHouse.staticStruct.structInfo.name];
@@ -74,6 +74,12 @@
   [newHelps unionSet:[NSSet setWithArray:self.helpsArray]];
   
   NSArray *unionArr = newHelps.allObjects;
+  
+  NSPredicate *pred = [NSPredicate predicateWithBlock:^BOOL(id<ClanHelp> ch, NSDictionary *bindings) {
+    return [ch isOpen];
+  }];
+  unionArr = [unionArr filteredArrayUsingPredicate:pred];
+  
   unionArr = [unionArr sortedArrayUsingComparator:^NSComparisonResult(id<ClanHelp> obj1, id<ClanHelp> obj2) {
     return [[obj2 requestedTime] compare:[obj1 requestedTime]];
   }];
@@ -104,6 +110,10 @@
     [self.helpTable insertRowsAtIndexPaths:addedIps withRowAnimation:UITableViewRowAnimationFade];
     
     [self.helpTable endUpdates];
+    
+    for (ClanHelpCell *cell in self.helpTable.visibleCells) {
+      [cell updateForClanHelp:self.helpsArray[[self.helpTable indexPathForCell:cell].row]];
+    }
   } else {
     [self.helpTable reloadData];
   }
@@ -112,6 +122,7 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   int ct = (int)self.helpsArray.count;
   self.noHelpsLabel.hidden = !!ct;
+  self.helpAllView.hidden = !ct;
   return ct;
 }
 

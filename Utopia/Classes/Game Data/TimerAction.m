@@ -191,6 +191,16 @@
   return self;
 }
 
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
+    if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:hi.userMonsterId] < 0) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
 - (NSString *) confirmActionString {
   return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
@@ -198,6 +208,11 @@
 - (void) performSpeedup {
   HealViewController *hvc = [[HealViewController alloc] init];
   [hvc speedupButtonClicked:nil];
+}
+
+- (void) performHelp {
+  HealViewController *hvc = [[HealViewController alloc] init];
+  [hvc getHelpClicked:nil];
 }
 
 - (BOOL) isEqual:(id)object {
@@ -275,6 +290,11 @@
   return self;
 }
 
+- (BOOL) canGetHelp {
+  GameState *gs = [GameState sharedGameState];
+  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:self.userEvo.userMonsterId1] < 0;
+}
+
 - (NSString *) confirmActionString {
   return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
@@ -282,6 +302,11 @@
 - (void) performSpeedup {
   EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
   [evc speedupClicked:nil];
+}
+
+- (void) performHelp {
+  EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
+  [evc helpClicked:nil];
 }
 
 - (BOOL) isEqual:(id)object {

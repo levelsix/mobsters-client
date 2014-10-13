@@ -114,6 +114,11 @@
   self.orientation = self.orientation;
   
   _bubble.position = ccp(self.contentSize.width/2,self.contentSize.height+0.f);
+
+  if (self.progressBar) {
+    // Redisplay progress bar
+    [self displayProgressBar];
+  }
 }
 
 - (void) setupBuildingSprite:(NSString *)fileName {

@@ -11,9 +11,11 @@
 #import "UserData.h"
 #import "Protocols.pb.h"
 
+#import "ChatObject.h"
+
 @class ClanHelp;
 
-@protocol ClanHelp <NSObject>
+@protocol ClanHelp <ChatObject>
 
 - (int) maxHelpers;
 - (int) numHelpers;
@@ -24,9 +26,11 @@
 - (MSDate *) requestedTime;
 - (MinimumUserProto *) requester;
 
+- (BOOL) isOpen;
+
 - (void) consumeClanHelp:(ClanHelp *)clanHelp;
 
-// May be bundled up or not..
+// Since this object may be bundled up or not..
 - (ClanHelp *) getClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;
 
 - (NSArray *) helpableClanHelpIdsForUserId:(int)userId;
@@ -58,15 +62,19 @@
 
 - (NSString *) statusStingWithPossessive:(NSString *)possessive;
 
+- (IBAction)helpClicked:(id)sender;
+
 @end
 
 @interface BundleClanHelp : NSObject <ClanHelp>
 
-@property (nonatomic, assign) MinimumUserProto *requester;
+@property (nonatomic, retain) MinimumUserProto *requester;
 @property (nonatomic, assign) int clanId;
-@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, assign) ClanHelpType helpType;
 
 // Basically we are going to just hold the list and parse it for all protocol functions.
-@property (nonatomic, assign) NSMutableArray *clanHelps;
+@property (nonatomic, retain) NSMutableArray *clanHelps;
+
++ (id<ClanHelp>) getPossibleBundleFromClanHelp:(ClanHelp *)clanHelp;
 
 @end

@@ -119,7 +119,7 @@
   {
     self.skillView.hidden = YES;
     self.skillView.userInteractionEnabled = NO;
-    [self setDescriptionLabelString:@"This mobster does not have an offensive or defensive skill."];
+    [self setDescriptionLabelString:[NSString stringWithFormat:@"This %@ does not have an offensive or defensive skill.", MONSTER_NAME]];
     return;
   }
   

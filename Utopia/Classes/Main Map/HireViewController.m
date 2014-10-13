@@ -244,12 +244,17 @@
   [super viewDidLoad];
   [self.menuContainer addSubview:self.bonusView];
   
+  self.bonusTopBar.alpha = 0.f;
+  self.backView.alpha = 0.f;
   [self.bonusView updateForUserStruct:self.userStruct];
   [self loadHireView];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   _canClick = YES;
+  
+  NSString *gn = [GAME_NAME.uppercaseString substringToIndex:[GAME_NAME rangeOfString:@" "].location];
+  self.bonusTopBar.label2.text = [NSString stringWithFormat:@"%@ FRIENDS", gn];
 }
 
 - (void) viewDidAppear:(BOOL)animated {

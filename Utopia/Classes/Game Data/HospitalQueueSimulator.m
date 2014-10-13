@@ -41,6 +41,15 @@
     UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
     self.totalHealthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
     
+    // Subtract additional hp for clan helps
+    int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:self.userMonsterId];
+    if (numHelps > 0) {
+      int healthToDockPerHelp = MAX(gl.healClanHelpConstants.amountRemovedPerHelp, roundf(self.totalHealthToHeal*gl.healClanHelpConstants.percentRemovedPerHelp));
+      self.totalHealthToHeal -= numHelps*healthToDockPerHelp;
+    }
+    
+    self.totalHealthToHeal = MAX(0, self.totalHealthToHeal);
+    
     self.timeDistribution = [NSMutableArray array];
   }
   return self;

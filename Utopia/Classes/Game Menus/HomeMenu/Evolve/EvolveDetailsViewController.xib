@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
@@ -12,6 +13,7 @@
                 <outlet property="gemButtonView" destination="wCh-g2-aoH" id="d6L-zy-dyw"/>
                 <outlet property="gemCostLabel" destination="gZC-Sm-KaL" id="UjU-me-j4I"/>
                 <outlet property="gemLabelsView" destination="epT-wE-YLC" id="Iq4-Ko-Uif"/>
+                <outlet property="helpButtonView" destination="rkw-ci-ar2" id="Wfd-a8-QRz"/>
                 <outlet property="middleView" destination="iru-fn-fx4" id="bjy-5f-R4U"/>
                 <outlet property="oilButtonView" destination="b2z-o1-bgd" id="yFd-4m-zG0"/>
                 <outlet property="oilCostLabel" destination="ulj-aS-2Jt" id="kTA-do-y4m"/>
@@ -26,6 +28,51 @@
             <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" id="iru-fn-fx4" customClass="EvolveDetailsMiddleView">
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveplus.png" id="Kmn-a9-0fh">
+                            <rect key="frame" x="95" y="77" width="19" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveplus.png" id="bkZ-DS-EgM">
+                            <rect key="frame" x="206" y="77" width="19" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveequals.png" id="uZ7-Xo-RDe">
+                            <rect key="frame" x="316" y="79" width="19" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="FPa-zU-jdz" customClass="EvolveDetailsMonsterView">
+                            <rect key="frame" x="10" y="12" width="80" height="160"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="i0E-ZS-P6e" customClass="EvolveDetailsMonsterView">
+                            <rect key="frame" x="120" y="12" width="80" height="160"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="YJ1-mB-Enc" customClass="EvolveDetailsMonsterView">
+                            <rect key="frame" x="230" y="12" width="80" height="160"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="YKN-uK-ZfQ" customClass="EvolveDetailsMonsterView">
+                            <rect key="frame" x="340" y="12" width="80" height="160"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="baseMonsterView1" destination="FPa-zU-jdz" id="uNq-tF-gZN"/>
+                        <outlet property="baseMonsterView2" destination="i0E-ZS-P6e" id="oWb-zf-2Ki"/>
+                        <outlet property="cataMonsterView" destination="YJ1-mB-Enc" id="Dns-Sa-7QS"/>
+                        <outlet property="evoMonsterView" destination="YKN-uK-ZfQ" id="f6D-ca-SVR"/>
+                    </connections>
+                </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="lLQ-Y8-Jrv">
                     <rect key="frame" x="3" y="173" width="424" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -57,7 +104,7 @@
                             <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" id="wCh-g2-aoH">
+                        <view contentMode="scaleToFill" id="wCh-g2-aoH" userLabel="Finish View">
                             <rect key="frame" x="334" y="10" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -119,7 +166,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="b2z-o1-bgd">
+                        <view contentMode="scaleToFill" id="b2z-o1-bgd" userLabel="Start View">
                             <rect key="frame" x="334" y="10" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -152,9 +199,9 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ulj-aS-2Jt" customClass="NiceFontLabel12">
-                                                    <rect key="frame" x="17" y="-4" width="50" height="25"/>
+                                                    <rect key="frame" x="17" y="-4" width="60" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.82745098039999998" green="0.42745098040000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" red="1" green="0.99215686270000003" blue="0.56862745100000001" alpha="0.75" colorSpace="calibratedRGB"/>
@@ -177,53 +224,34 @@
                             <rect key="frame" x="364" y="19" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" id="iru-fn-fx4" customClass="EvolveDetailsMiddleView">
-                    <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveplus.png" id="Kmn-a9-0fh">
-                            <rect key="frame" x="95" y="77" width="19" height="19"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveplus.png" id="bkZ-DS-EgM">
-                            <rect key="frame" x="206" y="77" width="19" height="19"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evolveequals.png" id="uZ7-Xo-RDe">
-                            <rect key="frame" x="316" y="79" width="19" height="16"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <view contentMode="scaleToFill" id="FPa-zU-jdz" customClass="EvolveDetailsMonsterView">
-                            <rect key="frame" x="10" y="12" width="80" height="160"/>
+                        <view contentMode="scaleToFill" id="rkw-ci-ar2" userLabel="Help View">
+                            <rect key="frame" x="334" y="10" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="i0E-ZS-P6e" customClass="EvolveDetailsMonsterView">
-                            <rect key="frame" x="120" y="12" width="80" height="160"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="YJ1-mB-Enc" customClass="EvolveDetailsMonsterView">
-                            <rect key="frame" x="230" y="12" width="80" height="160"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="YKN-uK-ZfQ" customClass="EvolveDetailsMonsterView">
-                            <rect key="frame" x="340" y="12" width="80" height="160"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.75387474799999998" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DCv-ma-rl8" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="orangemenuoption.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="helpClicked:" destination="-1" eventType="touchUpInside" id="AIh-OT-Lk8"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="9qW-7m-uet" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="7" y="7" width="67" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="baseMonsterView1" destination="FPa-zU-jdz" id="uNq-tF-gZN"/>
-                        <outlet property="baseMonsterView2" destination="i0E-ZS-P6e" id="oWb-zf-2Ki"/>
-                        <outlet property="cataMonsterView" destination="YJ1-mB-Enc" id="Dns-Sa-7QS"/>
-                        <outlet property="evoMonsterView" destination="YKN-uK-ZfQ" id="f6D-ca-SVR"/>
-                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -239,6 +267,7 @@
         <image name="evolveequals.png" width="19" height="16"/>
         <image name="evolveplus.png" width="19" height="19"/>
         <image name="oilicon.png" width="25" height="30"/>
+        <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="yellowmenuoption.png" width="80" height="40"/>
     </resources>

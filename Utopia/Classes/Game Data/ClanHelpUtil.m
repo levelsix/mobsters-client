@@ -38,31 +38,46 @@
 }
 
 - (void) addClanHelpProtos:(NSArray *)clanHelpProtos fromUser:(MinimumUserProto *)sender {
+  BOOL checkMyHelps = NO;
+  NSMutableSet *forNotifications = [NSMutableSet set];
   for (ClanHelpProto *chp in clanHelpProtos) {
     ClanHelp *clanHelp = [[ClanHelp alloc] initWithClanHelpProto:chp];
     if (chp.mup.userId == self.userId) {
-      [self addClanHelpProto:clanHelp toArray:self.myClanHelps];
+      id<ClanHelp> help = [self addClanHelpProto:clanHelp toArray:self.myClanHelps];
       
       if (sender) {
-        [Globals addGreenAlertNotification:[clanHelp justHelpedString:sender.name] isImmediate:NO];
+        [forNotifications addObject:help];
       }
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:self];
+      checkMyHelps = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : clanHelp}];
     } else if (chp.clanId == self.clanId) {
       [self addClanHelpProto:clanHelp toArray:self.allClanHelps];
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:self];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
     }
+  }
+  
+  for (id<ClanHelp> help in forNotifications) {
+    [Globals addOrangeAlertNotification:[help justHelpedString:sender.name]];
+  }
+  
+  if (checkMyHelps) {
+    [self cleanupRogueClanHelps];
   }
 }
 
-- (void) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array {
+- (id<ClanHelp>) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array {
   NSInteger idx = [array indexOfObject:help];
   if (idx != NSNotFound) {
     id<ClanHelp> curHelp = [array objectAtIndex:idx];
     [curHelp consumeClanHelp:help];
+    return curHelp;
   } else {
-    [array addObject:help];
+    id<ClanHelp> newHelp = [BundleClanHelp getPossibleBundleFromClanHelp:help];
+    [array addObject:newHelp];
+    return newHelp;
   }
 }
 
@@ -89,10 +104,10 @@
     }
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
 }
 
-- (id<ClanHelp>) getMyClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getMyClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
   for (id<ClanHelp> help in self.myClanHelps) {
     ClanHelp *specific = [help getClanHelpForType:type userDataId:userDataId];
     
@@ -130,7 +145,7 @@
   if (clanHelpIds.count) {
     [[OutgoingEventController sharedOutgoingEventController] giveClanHelp:clanHelpIds];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   }
 }
 
@@ -146,7 +161,8 @@
       BOOL isValid = NO;
       
       if (ch.helpType == ClanHelpTypeUpgradeStruct) {
-        UserStruct *us = [gs structWithId:(int)ch.userDataId];
+        UserStruct *us = [gs myStructWithId:(int)ch.userDataId];
+        // If us doesn't exist, this will also return true which is good in case city hasn't loaded.
         isValid = !us.isComplete;
       } else if (ch.helpType == ClanHelpTypeMiniJob) {
         UserMiniJob *umj = nil;
@@ -160,7 +176,7 @@
       } else if (ch.helpType == ClanHelpTypeHeal) {
         UserMonsterHealingItem *hi = nil;
         for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
-          if (hi.userMonsterId == ch.userDataId) {
+          if (u.userMonsterId == ch.userDataId) {
             hi = u;
           }
         }
@@ -185,7 +201,7 @@
     }
   }
   
-  if (toRemove.count) {
+  if (removeClanHelpIds.count) {
     [self.myClanHelps removeObjectsInArray:toRemove];
     
     LNLog(@"Removing %d clan helps.", (int)removeClanHelpIds.count);

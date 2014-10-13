@@ -10,6 +10,7 @@
 #import "MapBotView.h"
 #import "MonsterCardView.h"
 #import "UserData.h"
+#import "ChatObject.h"
 
 typedef enum {
   ChatScopeGlobal = 1,
@@ -24,7 +25,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *dotIcon;
 
-- (void) updateForChatMessage:(ChatMessage *)cm shouldShowDot:(BOOL)showDot;
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot;
 
 @end
 
@@ -32,7 +33,7 @@ typedef enum {
 
 - (int) numChatsAvailableForScope:(ChatScope)scope;
 - (NSString *) emptyStringForScope:(ChatScope)scope;
-- (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope;
+- (id<ChatObject>) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (void) bottomViewClicked;
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope;

@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "UnreadNotifications.h"
+#import "ClanHelp.h"
 
 @implementation ChatCell
 
@@ -17,23 +18,30 @@ static float buttonInitialWidth = 159.f;
 
 - (void) awakeFromNib {
   buttonInitialWidth = self.nameLabel.frame.size.width;
+  
+  self.chatSubviews = [NSMutableDictionary dictionary];
+  
+  self.backgroundView = [[UIView alloc] init];
+  self.backgroundView.backgroundColor = [UIColor clearColor];
 }
 
-- (void) updateForChat:(ChatMessage *)msg showsClanTag:(BOOL)showsClanTag {
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag {
+  [self updateForMessage:message sender:sender date:date showsClanTag:showsClanTag chatSubview:nil identifier:nil];
+}
+
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag chatSubview:(UIView *)view identifier:(NSString *)identifier {
   GameState *gs = [GameState sharedGameState];
-  self.chatMessage = msg;
   
-  self.msgLabel.text = msg.message;
+  self.msgLabel.text = message;
   
-  self.levelLabel.text = [Globals commafyNumber:msg.sender.level];
-  self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date shortened:NO];
+  self.timeLabel.text = [Globals stringForTimeSinceNow:date shortened:NO];
   
-  NSString *buttonText = [Globals fullNameWithName:msg.sender.minUserProto.name clanTag:msg.sender.minUserProto.clan.tag];
+  NSString *buttonText = [Globals fullNameWithName:sender.name clanTag:sender.clan.tag];
   if (!showsClanTag) {
-    buttonText = msg.sender.minUserProto.name;
+    buttonText = sender.name;
   }
   
-//  if (msg.isAdmin) {
+//  if (isAdmin) {
 //    [self.nameButton setTitleColor:[Globals redColor] forState:UIControlStateNormal];
 //  } else {
 //    [self.nameButton setTitleColor:[Globals goldColor] forState:UIControlStateNormal];
@@ -42,13 +50,13 @@ static float buttonInitialWidth = 159.f;
   self.nameLabel.text = buttonText;
   CGSize buttonSize = [buttonText getSizeWithFont:self.nameLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameLabel.lineBreakMode];
   
-  [self.monsterView updateForMonsterId:msg.sender.minUserProto.avatarMonsterId];
+  [self.monsterView updateForMonsterId:sender.avatarMonsterId];
   
   CGRect r = self.nameLabel.frame;
   r.size.width = buttonSize.width+7.f;
   self.nameLabel.frame = r;
   
-  CGSize size = [msg.message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
+  CGSize size = [message getSizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
   CGRect frame = self.msgLabel.frame;
   frame.size.height = size.height+1.f;
   self.msgLabel.frame = frame;
@@ -57,13 +65,34 @@ static float buttonInitialWidth = 159.f;
   frame = self.mainView.frame;
   frame.size.width = size.width;
   self.mainView.frame = frame;
+  
+  // Chat subview stuff
+  for (UIView *sub in self.chatSubviews.allValues) {
+    [sub removeFromSuperview];
+  }
+  self.currentChatSubview = nil;
+  
+  if (view) {
+    self.chatSubviews[identifier] = view;
+    
+    [self.mainView addSubview:view];
+    
+    view.originX = self.msgLabel.originX;
+    view.originY = CGRectGetMaxY(self.msgLabel.frame);
+    
+    self.mainView.width = MAX(self.mainView.width, CGRectGetMaxX(view.frame)+14.f);
+    view.width = self.mainView.width-14.f-view.originX;
+    
+    self.currentChatSubview = view;
+  }
 
   BOOL shouldHighlight;
-  if (msg.sender.minUserProto.userId == gs.userId) {
+  if (sender.userId == gs.userId) {
     self.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.currentChatSubview.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameLabel.textAlignment = NSTextAlignmentRight;
     self.msgLabel.textAlignment = NSTextAlignmentRight;
     self.timeLabel.textAlignment = NSTextAlignmentLeft;
@@ -73,6 +102,7 @@ static float buttonInitialWidth = 159.f;
     self.nameLabel.transform = CGAffineTransformIdentity;
     self.msgLabel.transform = CGAffineTransformIdentity;
     self.timeLabel.transform = CGAffineTransformIdentity;
+    self.currentChatSubview.transform = CGAffineTransformIdentity;
     self.nameLabel.textAlignment = NSTextAlignmentLeft;
     self.msgLabel.textAlignment = NSTextAlignmentLeft;
     self.timeLabel.textAlignment = NSTextAlignmentRight;
@@ -94,6 +124,10 @@ static float buttonInitialWidth = 159.f;
   }
 }
 
+- (UIView *) dequeueChatSubview:(NSString *)identifier {
+  return self.chatSubviews[identifier];
+}
+
 @end
 
 @implementation PrivateChatListCell
@@ -106,6 +140,30 @@ static float buttonInitialWidth = 159.f;
   self.nameLabel.text = pcpp.otherUser.name;
   self.unreadIcon.hidden = ![pcpp isUnread];
   [self.monsterView updateForMonsterId:pcpp.otherUser.avatarMonsterId];
+}
+
+@end
+
+@implementation ChatClanHelpView
+
+- (void) updateForClanHelp:(id<ClanHelp>)help {
+  int numHelps = [help numHelpers];
+  int maxHelps = [help maxHelpers];
+  
+  NSString *str1 = @"Help: ";
+  NSString *str2 = [NSString stringWithFormat:@"%d/%d", numHelps, maxHelps];
+  NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
+  [attr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Gotham-Ultra" size:10] range:NSMakeRange(str1.length, str2.length)];
+  
+  self.numHelpsLabel.attributedText = attr;
+  self.progressBar.percentage = numHelps/(float)maxHelps;
+  
+  GameState *gs = [GameState sharedGameState];
+  self.helpButtonView.hidden = ![help canHelpForUserId:gs.userId];
+  self.helpedView.hidden = ![help hasHelpedForUserId:gs.userId];
+  
+  [self.helpButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.helpButton addTarget:help action:@selector(helpClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end

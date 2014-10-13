@@ -14,7 +14,24 @@
 @implementation OneLineNotificationView
 
 - (void) updateForString:(NSString *)str color:(NotificationColor)color {
-  NSString *prefix = color == NotificationColorRed ? @"red" : color == NotificationColorGreen ? @"green" : @"purple";
+  NSString *prefix = nil;
+  switch (color) {
+    case NotificationColorGreen:
+      prefix = @"green";
+      break;
+    case NotificationColorOrange:
+      prefix = @"orange";
+      break;
+    case NotificationColorPurple:
+      prefix = @"purple";
+      break;
+    case NotificationColorRed:
+      prefix = @"red";
+      break;
+      
+    default:
+      break;
+  }
   
   self.label.text = str;
   

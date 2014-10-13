@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ChatCell.h"
+#import "ChatObject.h"
 
 @protocol ChatPopoverDelegate <NSObject>
 
@@ -38,11 +38,9 @@
 @end
 
 @interface ChatView : UIView <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, ChatPopoverDelegate> {
-  CGRect _msgLabelInitialFrame;
-  float _cellWidthIncrease;
-  UIFont *_msgLabelFont;
+  ChatCell *_testCell;
   
-  ChatMessage *_clickedMsg;
+  id<ChatObject> _clickedMsg;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;

@@ -18,11 +18,13 @@
   self.monsterView.transform = CGAffineTransformMakeScale(0.45, 0.45);
 }
 
-- (void) updateForChatMessage:(ChatMessage *)cm shouldShowDot:(BOOL)showDot {
-  [self.monsterView updateForMonsterId:cm.sender.minUserProto.avatarMonsterId];
-  self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.minUserProto.name];
+- (void) updateForChatMessage:(id<ChatObject>)cm shouldShowDot:(BOOL)showDot {
+  [self.monsterView updateForMonsterId:cm.sender.avatarMonsterId];
+  self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.name];
   self.msgLabel.text = cm.message;
   self.dotIcon.hidden = !showDot;
+  
+  self.msgLabel.textColor = [cm textColor];
   
   CGSize s = [self.nameLabel.text getSizeWithFont:self.nameLabel.font constrainedToSize:self.nameLabel.frame.size];
   CGRect r = self.msgLabel.frame;
@@ -148,7 +150,7 @@
 }
 
 - (ChatBottomLineView *) getLineViewForLineNum:(int)lineNum {
-  ChatMessage *cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
+  id<ChatObject> cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
   ChatBottomLineView *lv = [self getUnusedLineView];
   [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope]];
   [self.lineViewContainer addSubview:lv];

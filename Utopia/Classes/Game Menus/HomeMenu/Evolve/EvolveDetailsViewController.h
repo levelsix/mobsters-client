@@ -26,6 +26,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *oilButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemButtonView;
+@property (nonatomic, retain) IBOutlet UIView *helpButtonView;
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UIView *gemLabelsView;
@@ -42,5 +43,6 @@
 - (id) initWithCurrentEvolution;
 
 - (IBAction)speedupClicked:(id)sender;
+- (IBAction)helpClicked:(id)sender;
 
 @end

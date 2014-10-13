@@ -24,6 +24,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -2386,6 +2387,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minutesPerObstacle;
 @property (strong) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 @property int32_t maxMinutesForFreeSpeedUp;
+@property (strong) NSMutableArray * mutableClanHelpConstantsList;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -2602,6 +2604,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxMinutesForFreeSpeedUp_ = !!value_;
 }
 @synthesize maxMinutesForFreeSpeedUp;
+@synthesize mutableClanHelpConstantsList;
+@dynamic clanHelpConstantsList;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -2659,6 +2663,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index {
   return [mutableAnimatedSpriteOffsetsList objectAtIndex:index];
+}
+- (NSArray *)clanHelpConstantsList {
+  return mutableClanHelpConstantsList;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpConstantsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2757,6 +2767,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMonsterDmgMultiplier) {
     [output writeFloat:31 value:self.monsterDmgMultiplier];
   }
+  [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:32 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2859,6 +2872,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMonsterDmgMultiplier) {
     size_ += computeFloatSize(31, self.monsterDmgMultiplier);
   }
+  [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(32, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3017,6 +3033,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMonsterDmgMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterDmgMultiplier", [NSNumber numberWithFloat:self.monsterDmgMultiplier]];
   }
+  [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanHelpConstants"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3088,6 +3110,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasMaxMinutesForFreeSpeedUp || self.maxMinutesForFreeSpeedUp == otherMessage.maxMinutesForFreeSpeedUp) &&
       self.hasMonsterDmgMultiplier == otherMessage.hasMonsterDmgMultiplier &&
       (!self.hasMonsterDmgMultiplier || self.monsterDmgMultiplier == otherMessage.monsterDmgMultiplier) &&
+      [self.clanHelpConstantsList isEqualToArray:otherMessage.clanHelpConstantsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3185,6 +3208,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMonsterDmgMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.monsterDmgMultiplier] hash];
   }
+  [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -5732,6 +5758,303 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_ClanHelpConstants ()
+@property ClanHelpType helpType;
+@property int32_t amountRemovedPerHelp;
+@property Float32 percentRemovedPerHelp;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ClanHelpConstants
+
+- (BOOL) hasHelpType {
+  return !!hasHelpType_;
+}
+- (void) setHasHelpType:(BOOL) value_ {
+  hasHelpType_ = !!value_;
+}
+@synthesize helpType;
+- (BOOL) hasAmountRemovedPerHelp {
+  return !!hasAmountRemovedPerHelp_;
+}
+- (void) setHasAmountRemovedPerHelp:(BOOL) value_ {
+  hasAmountRemovedPerHelp_ = !!value_;
+}
+@synthesize amountRemovedPerHelp;
+- (BOOL) hasPercentRemovedPerHelp {
+  return !!hasPercentRemovedPerHelp_;
+}
+- (void) setHasPercentRemovedPerHelp:(BOOL) value_ {
+  hasPercentRemovedPerHelp_ = !!value_;
+}
+@synthesize percentRemovedPerHelp;
+- (id) init {
+  if ((self = [super init])) {
+    self.helpType = ClanHelpTypeNoHelp;
+    self.amountRemovedPerHelp = 0;
+    self.percentRemovedPerHelp = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupResponseProto_StartupConstants_ClanHelpConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_ClanHelpConstants class]) {
+    defaultStartupResponseProto_StartupConstants_ClanHelpConstantsInstance = [[StartupResponseProto_StartupConstants_ClanHelpConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ClanHelpConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ClanHelpConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasHelpType) {
+    [output writeEnum:1 value:self.helpType];
+  }
+  if (self.hasAmountRemovedPerHelp) {
+    [output writeInt32:2 value:self.amountRemovedPerHelp];
+  }
+  if (self.hasPercentRemovedPerHelp) {
+    [output writeFloat:3 value:self.percentRemovedPerHelp];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasHelpType) {
+    size_ += computeEnumSize(1, self.helpType);
+  }
+  if (self.hasAmountRemovedPerHelp) {
+    size_ += computeInt32Size(2, self.amountRemovedPerHelp);
+  }
+  if (self.hasPercentRemovedPerHelp) {
+    size_ += computeFloatSize(3, self.percentRemovedPerHelp);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ClanHelpConstants*)[[[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_ClanHelpConstants_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ClanHelpConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_ClanHelpConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_ClanHelpConstants builder];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_ClanHelpConstants builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasHelpType) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"helpType", self.helpType];
+  }
+  if (self.hasAmountRemovedPerHelp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"amountRemovedPerHelp", [NSNumber numberWithInteger:self.amountRemovedPerHelp]];
+  }
+  if (self.hasPercentRemovedPerHelp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"percentRemovedPerHelp", [NSNumber numberWithFloat:self.percentRemovedPerHelp]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_ClanHelpConstants class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_ClanHelpConstants *otherMessage = other;
+  return
+      self.hasHelpType == otherMessage.hasHelpType &&
+      (!self.hasHelpType || self.helpType == otherMessage.helpType) &&
+      self.hasAmountRemovedPerHelp == otherMessage.hasAmountRemovedPerHelp &&
+      (!self.hasAmountRemovedPerHelp || self.amountRemovedPerHelp == otherMessage.amountRemovedPerHelp) &&
+      self.hasPercentRemovedPerHelp == otherMessage.hasPercentRemovedPerHelp &&
+      (!self.hasPercentRemovedPerHelp || self.percentRemovedPerHelp == otherMessage.percentRemovedPerHelp) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasHelpType) {
+    hashCode = hashCode * 31 + self.helpType;
+  }
+  if (self.hasAmountRemovedPerHelp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.amountRemovedPerHelp] hash];
+  }
+  if (self.hasPercentRemovedPerHelp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.percentRemovedPerHelp] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ClanHelpConstants_Builder()
+@property (strong) StartupResponseProto_StartupConstants_ClanHelpConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ClanHelpConstants_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_ClanHelpConstants alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_ClanHelpConstants alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_ClanHelpConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_ClanHelpConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_ClanHelpConstants* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ClanHelpConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_ClanHelpConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasHelpType) {
+    [self setHelpType:other.helpType];
+  }
+  if (other.hasAmountRemovedPerHelp) {
+    [self setAmountRemovedPerHelp:other.amountRemovedPerHelp];
+  }
+  if (other.hasPercentRemovedPerHelp) {
+    [self setPercentRemovedPerHelp:other.percentRemovedPerHelp];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        ClanHelpType value = (ClanHelpType)[input readEnum];
+        if (ClanHelpTypeIsValidValue(value)) {
+          [self setHelpType:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 16: {
+        [self setAmountRemovedPerHelp:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setPercentRemovedPerHelp:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasHelpType {
+  return result.hasHelpType;
+}
+- (ClanHelpType) helpType {
+  return result.helpType;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(ClanHelpType) value {
+  result.hasHelpType = YES;
+  result.helpType = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType {
+  result.hasHelpType = NO;
+  result.helpType = ClanHelpTypeNoHelp;
+  return self;
+}
+- (BOOL) hasAmountRemovedPerHelp {
+  return result.hasAmountRemovedPerHelp;
+}
+- (int32_t) amountRemovedPerHelp {
+  return result.amountRemovedPerHelp;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setAmountRemovedPerHelp:(int32_t) value {
+  result.hasAmountRemovedPerHelp = YES;
+  result.amountRemovedPerHelp = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearAmountRemovedPerHelp {
+  result.hasAmountRemovedPerHelp = NO;
+  result.amountRemovedPerHelp = 0;
+  return self;
+}
+- (BOOL) hasPercentRemovedPerHelp {
+  return result.hasPercentRemovedPerHelp;
+}
+- (Float32) percentRemovedPerHelp {
+  return result.percentRemovedPerHelp;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setPercentRemovedPerHelp:(Float32) value {
+  result.hasPercentRemovedPerHelp = YES;
+  result.percentRemovedPerHelp = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearPercentRemovedPerHelp {
+  result.hasPercentRemovedPerHelp = NO;
+  result.percentRemovedPerHelp = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (strong) StartupResponseProto_StartupConstants* result;
 @end
@@ -5870,6 +6193,13 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
   if (other.hasMaxMinutesForFreeSpeedUp) {
     [self setMaxMinutesForFreeSpeedUp:other.maxMinutesForFreeSpeedUp];
+  }
+  if (other.mutableClanHelpConstantsList.count > 0) {
+    if (result.mutableClanHelpConstantsList == nil) {
+      result.mutableClanHelpConstantsList = [[NSMutableArray alloc] initWithArray:other.mutableClanHelpConstantsList];
+    } else {
+      [result.mutableClanHelpConstantsList addObjectsFromArray:other.mutableClanHelpConstantsList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6058,6 +6388,12 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 253: {
         [self setMonsterDmgMultiplier:[input readFloat]];
+        break;
+      }
+      case 258: {
+        StartupResponseProto_StartupConstants_ClanHelpConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ClanHelpConstants builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanHelpConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -6685,6 +7021,30 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxMinutesForFreeSpeedUp {
   result.hasMaxMinutesForFreeSpeedUp = NO;
   result.maxMinutesForFreeSpeedUp = 0;
+  return self;
+}
+- (NSMutableArray *)clanHelpConstantsList {
+  return result.mutableClanHelpConstantsList;
+}
+- (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index {
+  return [result clanHelpConstantsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder *)addClanHelpConstants:(StartupResponseProto_StartupConstants_ClanHelpConstants*)value {
+  if (result.mutableClanHelpConstantsList == nil) {
+    result.mutableClanHelpConstantsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanHelpConstantsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)addAllClanHelpConstants:(NSArray *)array {
+  if (result.mutableClanHelpConstantsList == nil) {
+    result.mutableClanHelpConstantsList = [NSMutableArray array];
+  }
+  [result.mutableClanHelpConstantsList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)clearClanHelpConstants {
+  result.mutableClanHelpConstantsList = nil;
   return self;
 }
 @end

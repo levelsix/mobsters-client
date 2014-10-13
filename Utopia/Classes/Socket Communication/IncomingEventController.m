@@ -706,6 +706,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
+      [gs.clanHelpUtil cleanupRogueClanHelps];
+      
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1015,11 +1017,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
         
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been accepted to %@!", proto.minClan.name]];
+        [Globals addGreenAlertNotification:[NSString stringWithFormat:@"You have just been accepted to %@!", proto.minClan.name]];
       }
     } else {
       if (proto.accept) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.name]];
+        [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.name]];
       }
     }
     
@@ -1056,7 +1058,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.clanChatMessages removeAllObjects];
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name] isImmediate:NO];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1078,7 +1080,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
     } else {
       if (gs.myClanStatus == UserClanStatusLeader || gs.myClanStatus == UserClanStatusJuniorLeader) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your squad!", proto.sender.name]];
+        [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your squad!", proto.sender.name] isImmediate:NO];
       }
     }
     
@@ -1092,11 +1094,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name]];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name] isImmediate:NO];
     }
   } else {
     if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {
-      [Globals popupMessage:@"Sorry, this squad is full. Please try another."];
+      [Globals addAlertNotification:@"Sorry, this squad is full. Please try another."];
     } else {
       [Globals popupMessage:@"Server failed to request to join squad request."];
     }
@@ -1145,9 +1147,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     
     if (proto.clanOwnerNew.userId == gs.userId) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just become the new squad leader!"]];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"You have just become the new squad leader!"] isImmediate:NO];
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just become the new squad leader!", proto.clanOwnerNew.name]];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just become the new squad leader!", proto.clanOwnerNew.name] isImmediate:NO];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1175,9 +1177,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized) {
-      [Globals popupMessage:@"You do not have the permissions to change squad settings!"];
+      [Globals addAlertNotification:@"You do not have the permissions to change squad settings!"];
     } else if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan) {
-      [Globals popupMessage:@"You can't change the settings of a squad you don't belong to!"];
+      [Globals addAlertNotification:@"You can't change the settings of a squad you don't belong to!"];
     }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1194,11 +1196,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     BOOL isDemotion = proto.prevUserClanStatus < proto.userClanStatus;
     NSString *promoteOrDemote = isDemotion ? @"demoted" : @"promoted";
     NSString *position = [NSString stringWithFormat:@"%@%@", [Globals stringForClanStatus:proto.userClanStatus], isDemotion ? @"." : @"!"];
+    NSString *notif = nil;
     if (proto.victim.userId == gs.userId) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been %@ to %@", promoteOrDemote, position]];
+      notif = [NSString stringWithFormat:@"You have just been %@ to %@", promoteOrDemote, position];
       gs.myClanStatus = proto.userClanStatus;
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been %@ to %@", proto.victim.name, promoteOrDemote, position]];
+      notif = [NSString stringWithFormat:@"%@ has just been %@ to %@", proto.victim.name, promoteOrDemote, position];
+    }
+    
+    if (isDemotion) {
+      [Globals addAlertNotification:notif isImmediate:NO];
+    } else {
+      [Globals addGreenAlertNotification:notif isImmediate:NO];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1228,10 +1237,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
       
       if (clanName) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been booted from %@.", clanName]];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been booted from %@.", clanName] isImmediate:NO];
       }
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the squad.", proto.playerToBoot.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the squad.", proto.playerToBoot.name] isImmediate:NO];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1249,6 +1258,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   LNLog(@"Solicit clan help response received with status %d.", proto.status);
   
+  NSLog(@"%@", proto);
+  
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
     [gs.clanHelpUtil addClanHelpProtos:proto.helpProtoList fromUser:nil];
@@ -1263,6 +1274,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GiveClanHelpResponseProto *proto = (GiveClanHelpResponseProto *)fe.event;
   int tag = fe.tag;
   LNLog(@"Give clan help response received with status %d.", proto.status);
+  
+  NSLog(@"%@", proto);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GiveClanHelpResponseProto_GiveClanHelpStatusSuccess) {
@@ -1279,6 +1292,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   
   LNLog(@"End clan help response received with status %d.", proto.status);
+  
+  
+  NSLog(@"%@", proto);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {

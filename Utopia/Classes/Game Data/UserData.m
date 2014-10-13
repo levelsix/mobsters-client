@@ -528,8 +528,19 @@
 
 - (MSDate *) endTime {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
-  return [self.startTime dateByAddingTimeInterval:um.staticMonster.minutesToEvolve*60];
+  
+  int seconds = um.staticMonster.minutesToEvolve*60;
+  
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:self.userMonsterId1];
+  if (numHelps > 0) {
+    int secsToDockPerHelp = MAX(gl.evolveClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.evolveClanHelpConstants.percentRemovedPerHelp));
+    seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  return [self.startTime dateByAddingTimeInterval:seconds];
 }
 
 - (EvoItem *) evoItem {
@@ -788,13 +799,13 @@
 
 - (MSDate *) buildCompleteDate {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   int seconds = self.staticStruct.structInfo.minutesToBuild*60;
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:self.userStructId];
   if (numHelps > 0) {
-#warning don't hardcode
-    int secsToDockPerHelp = MAX(60, roundf(seconds*0.01));
+    int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
   }
   
@@ -890,22 +901,6 @@
 
 - (NSString *) description {
   return [NSString stringWithFormat:@"<UserNotification> Type: %d", self.type];
-}
-
-@end
-
-@implementation ChatMessage
-
-@synthesize message, sender, date, isAdmin;
-
-- (id) initWithProto:(GroupChatMessageProto *)p {
-  if ((self = [super init])) {
-    self.message = p.content;
-    self.sender = p.sender;
-    self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
-    self.isAdmin = p.isAdmin;
-  }
-  return self;
 }
 
 @end
@@ -1282,14 +1277,14 @@
 
 - (MSDate *)tentativeCompletionDate {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   int seconds = self.durationMinutes*60;
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJobId];
   if (numHelps > 0) {
-#warning don't hardcode
-    int secsToDockPerHelp = MAX(60, roundf(seconds*0.01));
+    int secsToDockPerHelp = MAX(gl.miniJobClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.miniJobClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
   }
   

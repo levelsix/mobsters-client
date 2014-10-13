@@ -51,6 +51,7 @@
   [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:NO];
   
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [self updateLabels];
 }
 
@@ -69,8 +70,19 @@
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int hospitalCount = self.numValidHospitals;
   
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  BOOL canHelp = [gs canAskForClanHelp];
+  if (canHelp) {
+    canHelp = NO;
+    for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:hi.userMonsterId] < 0) {
+        canHelp = YES;
+      }
+    }
+  }
   
   if (hospitalCount > 0) {
     if (timeLeft > 0) {
@@ -80,11 +92,14 @@
         self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
         [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
         
+        self.helpView.hidden = !canHelp;
+        
         self.speedupCostLabel.superview.hidden = NO;
         self.freeLabel.hidden = YES;
       } else {
         self.speedupCostLabel.superview.hidden = YES;
         self.freeLabel.hidden = NO;
+        self.helpView.hidden = YES;
       }
     }
     
@@ -370,6 +385,11 @@
       }
     }
   }
+}
+
+- (IBAction) getHelpClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] solicitHealHelp];
+  [self updateLabels];
 }
 
 - (void) handleHealMonsterResponseProto:(FullEvent *)fe {
