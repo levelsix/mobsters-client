@@ -92,21 +92,31 @@ static float buttonInitialWidth = 159.f;
     self.nameLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
-    self.currentChatSubview.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameLabel.textAlignment = NSTextAlignmentRight;
     self.msgLabel.textAlignment = NSTextAlignmentRight;
     self.timeLabel.textAlignment = NSTextAlignmentLeft;
     shouldHighlight = NO;
+    
+    if ([self.currentChatSubview respondsToSelector:@selector(flip)]) {
+      [self.currentChatSubview performSelector:@selector(flip)];
+    } else {
+      self.currentChatSubview.transform = CGAffineTransformMakeScale(-1, 1);
+    }
   } else {
     self.transform = CGAffineTransformIdentity;
     self.nameLabel.transform = CGAffineTransformIdentity;
     self.msgLabel.transform = CGAffineTransformIdentity;
     self.timeLabel.transform = CGAffineTransformIdentity;
-    self.currentChatSubview.transform = CGAffineTransformIdentity;
     self.nameLabel.textAlignment = NSTextAlignmentLeft;
     self.msgLabel.textAlignment = NSTextAlignmentLeft;
     self.timeLabel.textAlignment = NSTextAlignmentRight;
     shouldHighlight = YES;
+    
+    if ([self.currentChatSubview respondsToSelector:@selector(unflip)]) {
+      [self.currentChatSubview performSelector:@selector(unflip)];
+    } else {
+      self.currentChatSubview.transform = CGAffineTransformIdentity;
+    }
   }
   
   [self highlightSubviews:self.mainView shouldHighlight:shouldHighlight];
@@ -164,6 +174,14 @@ static float buttonInitialWidth = 159.f;
   
   [self.helpButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [self.helpButton addTarget:help action:@selector(helpClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) flip {
+  self.progressBar.superview.transform = CGAffineTransformMakeScale(-1, 1);
+}
+
+- (void) unflip {
+  self.progressBar.superview.transform = CGAffineTransformIdentity;
 }
 
 @end

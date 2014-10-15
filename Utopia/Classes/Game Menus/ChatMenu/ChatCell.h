@@ -59,4 +59,7 @@
 
 - (void) updateForClanHelp:(id)clanHelp;
 
+- (void) flip;
+- (void) unflip;
+
 @end

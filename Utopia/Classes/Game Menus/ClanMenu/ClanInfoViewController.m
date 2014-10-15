@@ -36,7 +36,7 @@
 }
 
 - (void) viewDidLoad {
-  [self loadInfoViewForClan:self.clan clanStatus:0];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

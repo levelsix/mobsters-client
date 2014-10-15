@@ -51,11 +51,18 @@
 }
 
 - (NSString *) helpString {
-  return [NSString stringWithFormat:@"Help me%@", [self statusStingWithPossessive:@"my"]];
+  return [NSString stringWithFormat:@"Help me%@.", [self statusStingWithPossessive:@"my"]];
 }
 
 - (NSString *) justHelpedString:(NSString *)name {
-  return [NSString stringWithFormat:@"%@ just helped you%@.", name, [self statusStingWithPossessive:@"your"]];
+  return [NSString stringWithFormat:@"%@ just helped you%@!", name, [self statusStingWithPossessive:@"your"]];
+}
+
+- (NSString *) justSolicitedString {
+  // Take out space and capitalize
+  NSString *str = [[self statusStingWithPossessive:@"my"] substringFromIndex:1];
+  str = [str stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[str substringToIndex:1] uppercaseString]];
+  return str;
 }
 
 - (void) consumeClanHelp:(ClanHelp *)chp {
@@ -125,9 +132,9 @@
   return ([self class] == [object class] && self.requester.userId == object.requester.userId &&
           self.clanId == object.clanId && self.helpType == object.helpType &&
           self.userDataId == object.userDataId) ||
-  // Bundle will match with this object
-  ([self class] != [object class] && [object respondsToSelector:@selector(helpType)]
-   && self.helpType == ClanHelpTypeHeal && object.helpType == ClanHelpTypeHeal);
+  // Bundle will match with this object but make sure its not also this object
+  ([self class] != [object class] && [object conformsToProtocol:@protocol(ClanHelp)] &&  self.requester.userId == object.requester.userId &&
+   self.clanId == object.clanId && self.helpType == object.helpType);
 }
 
 - (NSUInteger) hash {
@@ -152,6 +159,11 @@
 
 - (UIColor *) textColor {
   return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (BOOL) isRead {
+  GameState *gs = [GameState sharedGameState];
+  return ![self canHelpForUserId:gs.userId];
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
@@ -237,7 +249,7 @@
     return [self.clanHelps[0] helpString];
   } else {
     if (self.helpType == ClanHelpTypeHeal) {
-      return [NSString stringWithFormat:@"Help me heal %d %@s", (int)self.clanHelps.count, MONSTER_NAME];
+      return [NSString stringWithFormat:@"Help me heal %d %@s.", (int)self.clanHelps.count, MONSTER_NAME];
     }
   }
   return @"Help Me!";
@@ -248,10 +260,21 @@
     return [self.clanHelps[0] justHelpedString:name];
   } else {
     if (self.helpType == ClanHelpTypeHeal) {
-      return [NSString stringWithFormat:@"%@ just helped you heal your %@s.", name, MONSTER_NAME];
+      return [NSString stringWithFormat:@"%@ just helped you heal your %@s!", name, MONSTER_NAME];
     }
   }
   return @"Help Me!";
+}
+
+- (NSString *) justSolicitedString {
+  if (self.clanHelps.count == 1) {
+    return [self.clanHelps[0] justSolicitedString];
+  } else {
+    if (self.helpType == ClanHelpTypeHeal) {
+      return [NSString stringWithFormat:@"Heal %d %@s", (int)self.clanHelps.count, MONSTER_NAME];
+    }
+  }
+  return @"Help";
 }
 
 - (MSDate *) requestedTime {
@@ -353,6 +376,11 @@
 
 - (NSString *) message {
   return [self helpString];
+}
+
+- (BOOL) isRead {
+  GameState *gs = [GameState sharedGameState];
+  return ![self canHelpForUserId:gs.userId];
 }
 
 - (UIColor *) textColor {

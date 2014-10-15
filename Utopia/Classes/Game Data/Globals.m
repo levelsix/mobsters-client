@@ -657,7 +657,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *toRet = s.length > 0 ? [pre stringByAppendingString:s] : @"0";
   
   if (r > 0) {
-    toRet = [toRet stringByAppendingString:[[NSString stringWithFormat:@"%g", r] substringFromIndex:1]];
+    toRet = [toRet stringByAppendingString:[[NSString stringWithFormat:@"%.2f", r] substringFromIndex:1]];
   }
   
   return toRet;
@@ -1261,7 +1261,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount {
   if (type == ResourceTypeCash || type == ResourceTypeOil) {
-    return ceilf(amount*self.gemsPerResource);
+    return MAX(1, roundf(amount*self.gemsPerResource));
   }
   return amount;
 }
@@ -1336,7 +1336,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   Globals *gl = [Globals sharedGlobals];
   UserStruct *townHall = [gs myTownHall];
   
-  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
   
   int num = 0;
   for (id<StaticStructure> s in gs.staticStructs.allValues) {
@@ -1525,9 +1525,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   LabProto *lab = (LabProto *)[[gs myLaboratory] staticStruct];
   UserMonster *base = baseMonster.userMonster;
   UserMonster *um = feeder.userMonster;
-  float multiplier1 = lab.pointsMultiplier;
+  float multiplier1 = lab.pointsMultiplier ?: 1;
   float multiplier2 = base.staticMonster.monsterElement == um.staticMonster.monsterElement ? 1.5 : 1;
-  return um.levelInfo.feederExp*um.level*multiplier1*multiplier2;
+  return um.feederExp*multiplier1*multiplier2;
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience {
@@ -1637,6 +1637,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   gemCost += [self calculateGemSpeedupCostForTimeLeft:lastDate.timeIntervalSinceNow allowFreeSpeedup:NO];
   
   return gemCost*self.continueBattleGemCostMultiplier;
+}
+
+- (int) calculateTeamCostForTeam:(NSArray *)team {
+  int cost = 0;
+  for (UserMonster *um in team) {
+    cost += [um teamCost];
+  }
+  return cost;
+}
+
+- (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  int teamCost = [self calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam];
+  int maxCost = gs.maxTeamCost;
+  
+  return [um teamCost] <= maxCost-teamCost;
 }
 
 #pragma mark - Alerts
@@ -1815,8 +1831,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
   [arrow.layer removeAllAnimations];
   float rotation = -M_PI_2-angle;
-  arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
-  arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
+  arrow.layer.transform = CATransform3DMakeScale(1.f, 0.9f, 1.f);
+  arrow.layer.transform = CATransform3DRotate(arrow.layer.transform, rotation, 0.0f, 0.0f, 1.0f);
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   [UIView animateWithDuration:ARROW_ANIMATION_DURATION delay:0.f options:opt animations:^{
     arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);

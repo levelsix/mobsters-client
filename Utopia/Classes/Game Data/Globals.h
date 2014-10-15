@@ -317,6 +317,8 @@
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
+- (int) calculateTeamCostForTeam:(NSArray *)team;
+- (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;
 
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;

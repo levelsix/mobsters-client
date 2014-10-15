@@ -83,7 +83,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     } else {
       self.clan = nil;
     }
-    self.clanHelpUtil.clanId = self.clan.clanId;
     self.avatarMonsterId = user.avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
@@ -122,6 +121,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
+- (void) setClan:(MinimumClanProto *)clan {
+  _clan = clan;
+  self.clanHelpUtil.clanId = clan.clanId;
 }
 
 - (FullUserProto *) convertToFullUserProto {
@@ -577,10 +581,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (NSArray *) allClanChatObjects {
-  NSArray *arr = [self.clanChatMessages arrayByAddingObjectsFromArray:[self.clanHelpUtil allClanHelps]];
-  arr = [arr arrayByAddingObjectsFromArray:[self.clanHelpUtil myClanHelps]];
+  NSMutableArray *arr = [self.clanChatMessages mutableCopy];
   
-  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
+  // Ignore if past 24 hrs ago
+  if (self.clanHelpUtil) {
+    for (id<ClanHelp> ch in [self.clanHelpUtil getAllHelpableClanHelps]) {
+      if ([ch isOpen] && [ch requestedTime].timeIntervalSinceNow > -24*60*60) {
+        [arr addObject:ch];
+      }
+    }
+  }
+  
+  
+  [arr sortUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
     return [[obj1 date] compare:[obj2 date]];
   }];
   
@@ -591,10 +604,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
 }
 
+#pragma mark - Healing
+
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
+  // Save the last guy's health progress so we get elapsed time as well.
+  [self saveHealthProgressesFromIndex:self.monsterHealingQueue.count-1];
+  
   UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
   item.priority = prevItem.priority+1;
   item.queueTime = [MSDate date];
+  item.elapsedTime = prevItem.elapsedTime;
   
   [self.monsterHealingQueue addObject:item];
   [self readjustAllMonsterHealingProtos];
@@ -648,7 +667,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
   [sim simulateUntilDate:[MSDate date]];
   
-  for (HealingItemSim *hi in sim.healingItems) {
+  for (NSInteger i = index; i < sim.healingItems.count; i++) {
+    HealingItemSim *hi = sim.healingItems[i];
     UserMonsterHealingItem *item = nil;
     for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
       if (!item || hi.userMonsterId == i.userMonsterId) {
@@ -656,6 +676,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       }
     }
     item.healthProgress = hi.healthProgress;
+    item.elapsedTime += -[item.queueTime timeIntervalSinceNow];
     item.queueTime = [MSDate date];
   }
 }
@@ -667,6 +688,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [sim simulate];
   
   MSDate *lastDate = nil;
+  float totalTime = 0;
   for (HealingItemSim *hi in sim.healingItems) {
     UserMonsterHealingItem *item = nil;
     for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
@@ -681,14 +703,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
       lastDate = hi.endTime;
     }
+    
+    totalTime = MAX(totalTime, item.totalSeconds+item.elapsedTime+hi.waitingSeconds);
   }
   self.monsterHealingQueueEndTime = lastDate;
+  self.totalTimeForHealQueue = totalTime;
   
   [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:0 gemCost:0];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   [self beginHealingTimer];
 }
+
+#pragma mark -
 
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
   PersistentClanEventUserInfoProto *toRemove = nil;
@@ -1061,9 +1088,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...
 {
-	va_list params;
-	va_start(params,field1);
-	
+  va_list params;
+  va_start(params,field1);
+  
   for (id<GameStateUpdate> arg = field1; arg != nil; arg = va_arg(params, id<GameStateUpdate>))
   {
     [self addUnrespondedUpdate:arg];
@@ -1148,6 +1175,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return maxOil;
+}
+
+- (int) maxTeamCost {
+  UserStruct *us = self.myTeamCenter;
+  TeamCenterProto *tcp = (TeamCenterProto *)us.staticStructForCurrentConstructionLevel;
+  return tcp.teamCostLimit;
 }
 
 - (int) maxInventorySlots {

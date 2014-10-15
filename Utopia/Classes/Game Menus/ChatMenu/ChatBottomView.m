@@ -55,13 +55,13 @@
 
 - (void) swipeLeft {
   if (_chatScope != ChatScopePrivate) {
-    [self switchToScope:_chatScope+1];
+    [self switchToScope:_chatScope+1 animated:YES];
   }
 }
 
 - (void) swipeRight {
   if (_chatScope != ChatScopeGlobal) {
-    [self switchToScope:_chatScope-1];
+    [self switchToScope:_chatScope-1 animated:YES];
   }
 }
 
@@ -260,7 +260,7 @@
 
 #pragma Scope Switch
 
-- (void) switchToScope:(ChatScope)scope {
+- (void) switchToScope:(ChatScope)scope animated:(BOOL)animated {
   if ([self.delegate respondsToSelector:@selector(willSwitchToScope:)]) {
     [self.delegate willSwitchToScope:scope];
   }
@@ -271,7 +271,7 @@
   _numChats = [self.delegate numChatsAvailableForScope:_chatScope];
   _numToDisplay = MIN(_numChats, NUM_ROWS_DISPLAYED);
   
-  float duration = 0.3f;
+  float duration = animated ? 0.3f : 0.f;
   
   // Shift by delta
   for (ChatBottomLineView *lv in self.currentLineViews) {

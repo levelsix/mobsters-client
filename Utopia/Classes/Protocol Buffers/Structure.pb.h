@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class ClanHouseProto;
@@ -1512,11 +1513,19 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface EvoChamberProto : PBGeneratedMessage {
 @private
+  BOOL hasEvoTierUnlocked_:1;
   BOOL hasStructInfo_:1;
+  BOOL hasQualityUnlocked_:1;
+  int32_t evoTierUnlocked;
   StructureInfoProto* structInfo;
+  Quality qualityUnlocked;
 }
 - (BOOL) hasStructInfo;
+- (BOOL) hasQualityUnlocked;
+- (BOOL) hasEvoTierUnlocked;
 @property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) Quality qualityUnlocked;
+@property (readonly) int32_t evoTierUnlocked;
 
 + (EvoChamberProto*) defaultInstance;
 - (EvoChamberProto*) defaultInstance;
@@ -1559,15 +1568,29 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (EvoChamberProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (EvoChamberProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (EvoChamberProto_Builder*) clearStructInfo;
+
+- (BOOL) hasQualityUnlocked;
+- (Quality) qualityUnlocked;
+- (EvoChamberProto_Builder*) setQualityUnlocked:(Quality) value;
+- (EvoChamberProto_Builder*) clearQualityUnlocked;
+
+- (BOOL) hasEvoTierUnlocked;
+- (int32_t) evoTierUnlocked;
+- (EvoChamberProto_Builder*) setEvoTierUnlocked:(int32_t) value;
+- (EvoChamberProto_Builder*) clearEvoTierUnlocked;
 @end
 
 @interface TeamCenterProto : PBGeneratedMessage {
 @private
+  BOOL hasTeamCostLimit_:1;
   BOOL hasStructInfo_:1;
+  int32_t teamCostLimit;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
+- (BOOL) hasTeamCostLimit;
 @property (readonly, strong) StructureInfoProto* structInfo;
+@property (readonly) int32_t teamCostLimit;
 
 + (TeamCenterProto*) defaultInstance;
 - (TeamCenterProto*) defaultInstance;
@@ -1610,6 +1633,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TeamCenterProto_Builder*) setStructInfo_Builder:(StructureInfoProto_Builder*) builderForValue;
 - (TeamCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
 - (TeamCenterProto_Builder*) clearStructInfo;
+
+- (BOOL) hasTeamCostLimit;
+- (int32_t) teamCostLimit;
+- (TeamCenterProto_Builder*) setTeamCostLimit:(int32_t) value;
+- (TeamCenterProto_Builder*) clearTeamCostLimit;
 @end
 
 @interface ClanHouseProto : PBGeneratedMessage {

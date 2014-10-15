@@ -1096,6 +1096,8 @@
 }
 
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
+  GameState *gs = [GameState sharedGameState];
+  
   int amountCollected = [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
   mb.retrievable = NO;
   
@@ -1119,7 +1121,17 @@
     [AchievementUtil checkCollectResource:resType amount:amountCollected];
   } else {
     ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Your %@ storages are full. Time to upgrade your city!", resType == ResourceTypeOil ? @"oil" : @"cash"]];
+    
+    // Find the storage building
+    NSString *name = nil;
+    for (ResourceStorageProto *rsp in gs.staticStructs.allValues) {
+      if (rsp.structInfo.structType == StructureInfoProto_StructTypeResourceStorage &&
+          rsp.resourceType == resType && !rsp.structInfo.predecessorStructId) {
+        name = rsp.structInfo.name;
+      }
+    }
+    
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your storages are full.%@", name ? [NSString stringWithFormat:@" Upgrade or build more %@s to store more!", name] : @""]];
   }
   [self setupIncomeTimerForBuilding:mb];
 }

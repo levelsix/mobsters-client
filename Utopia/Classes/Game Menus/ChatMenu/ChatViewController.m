@@ -44,7 +44,8 @@
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   
   [center addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -55,7 +56,7 @@
   
   [Analytics openChat];
   
-  // Increase 
+  // Increase
   float newHeight = self.view.height-28.f;
   self.mainView.height = newHeight;
   self.mainView.center = ccp(self.view.width/2, self.view.height/2);
@@ -70,6 +71,7 @@
   [self.globalChatView.superview addSubview:self.privateChatView];
   
   [self button1Clicked:nil];
+  [self updateClanBadge];
   
   [self.view addSubview:self.popoverView];
   self.popoverView.hidden = YES;
@@ -108,12 +110,22 @@
   self.privateBadgeIcon.badgeNum = privBadge;
 }
 
-- (void) incrementClanBadge {
-  if (self.clanChatView.hidden) {
-    self.clanBadgeIcon.badgeNum++;
-  } else {
+- (void) updateClanBadge {
+  GameState *gs = [GameState sharedGameState];
+  if (!self.clanChatView.hidden) {
+    for (ChatMessage *cm in gs.clanChatMessages) {
+      cm.isRead = YES;
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   }
+  
+  int badgeNum = 0;
+  for (id<ChatObject> cm in gs.allClanChatObjects) {
+    badgeNum += !cm.isRead;
+  }
+  self.clanBadgeIcon.badgeNum = badgeNum;
+  
   [self updateBadges];
 }
 
@@ -200,9 +212,7 @@
   
   [self.topBar clickButton:2];
   
-  self.clanBadgeIcon.badgeNum = 0;
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
+  [self updateClanBadge];
 }
 
 - (void) button3Clicked:(id)sender {

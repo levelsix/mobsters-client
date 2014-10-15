@@ -91,6 +91,7 @@
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
 @property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
 @property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
+@property (nonatomic, assign) float totalTimeForHealQueue;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -229,6 +230,7 @@
 - (int) maxCash;
 - (int) maxOil;
 - (int) maxInventorySlots;
+- (int) maxTeamCost;
 
 - (int) expNeededForLevel:(int)level;
 - (int) currentExpForLevel;

@@ -2953,6 +2953,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 @property (strong) NSString* characterImgName;
 @property int32_t charImgVertPixelOffset;
 @property int32_t charImgHorizPixelOffset;
+@property Float32 charImgScaleFactor;
 @end
 
 @implementation TaskMapElementProto
@@ -3060,6 +3061,13 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   hasCharImgHorizPixelOffset_ = !!value_;
 }
 @synthesize charImgHorizPixelOffset;
+- (BOOL) hasCharImgScaleFactor {
+  return !!hasCharImgScaleFactor_;
+}
+- (void) setHasCharImgScaleFactor:(BOOL) value_ {
+  hasCharImgScaleFactor_ = !!value_;
+}
+@synthesize charImgScaleFactor;
 - (id) init {
   if ((self = [super init])) {
     self.mapElementId = 0;
@@ -3076,6 +3084,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.characterImgName = @"";
     self.charImgVertPixelOffset = 0;
     self.charImgHorizPixelOffset = 0;
+    self.charImgScaleFactor = 0;
   }
   return self;
 }
@@ -3137,6 +3146,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasCharImgHorizPixelOffset) {
     [output writeInt32:14 value:self.charImgHorizPixelOffset];
   }
+  if (self.hasCharImgScaleFactor) {
+    [output writeFloat:15 value:self.charImgScaleFactor];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3187,6 +3199,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasCharImgHorizPixelOffset) {
     size_ += computeInt32Size(14, self.charImgHorizPixelOffset);
+  }
+  if (self.hasCharImgScaleFactor) {
+    size_ += computeFloatSize(15, self.charImgScaleFactor);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3265,6 +3280,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (self.hasCharImgHorizPixelOffset) {
     [output appendFormat:@"%@%@: %@\n", indent, @"charImgHorizPixelOffset", [NSNumber numberWithInteger:self.charImgHorizPixelOffset]];
   }
+  if (self.hasCharImgScaleFactor) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"charImgScaleFactor", [NSNumber numberWithFloat:self.charImgScaleFactor]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3304,6 +3322,8 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       (!self.hasCharImgVertPixelOffset || self.charImgVertPixelOffset == otherMessage.charImgVertPixelOffset) &&
       self.hasCharImgHorizPixelOffset == otherMessage.hasCharImgHorizPixelOffset &&
       (!self.hasCharImgHorizPixelOffset || self.charImgHorizPixelOffset == otherMessage.charImgHorizPixelOffset) &&
+      self.hasCharImgScaleFactor == otherMessage.hasCharImgScaleFactor &&
+      (!self.hasCharImgScaleFactor || self.charImgScaleFactor == otherMessage.charImgScaleFactor) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3349,6 +3369,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   }
   if (self.hasCharImgHorizPixelOffset) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.charImgHorizPixelOffset] hash];
+  }
+  if (self.hasCharImgScaleFactor) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.charImgScaleFactor] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3435,6 +3458,9 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   if (other.hasCharImgHorizPixelOffset) {
     [self setCharImgHorizPixelOffset:other.charImgHorizPixelOffset];
   }
+  if (other.hasCharImgScaleFactor) {
+    [self setCharImgScaleFactor:other.charImgScaleFactor];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3515,6 +3541,10 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
       }
       case 112: {
         [self setCharImgHorizPixelOffset:[input readInt32]];
+        break;
+      }
+      case 125: {
+        [self setCharImgScaleFactor:[input readFloat]];
         break;
       }
     }
@@ -3742,6 +3772,22 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 - (TaskMapElementProto_Builder*) clearCharImgHorizPixelOffset {
   result.hasCharImgHorizPixelOffset = NO;
   result.charImgHorizPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasCharImgScaleFactor {
+  return result.hasCharImgScaleFactor;
+}
+- (Float32) charImgScaleFactor {
+  return result.charImgScaleFactor;
+}
+- (TaskMapElementProto_Builder*) setCharImgScaleFactor:(Float32) value {
+  result.hasCharImgScaleFactor = YES;
+  result.charImgScaleFactor = value;
+  return self;
+}
+- (TaskMapElementProto_Builder*) clearCharImgScaleFactor {
+  result.hasCharImgScaleFactor = NO;
+  result.charImgScaleFactor = 0;
   return self;
 }
 @end

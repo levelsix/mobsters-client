@@ -25,12 +25,15 @@
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int totalHealthToHeal;
 @property (nonatomic, retain) MSDate *queueTime;
-@property (nonatomic, retain) MSDate *startTime;
 @property (nonatomic, assign) int userStructId;
 
 @property (nonatomic, assign) int isFinished;
 @property (nonatomic, assign) float totalSeconds;
+@property (nonatomic, assign) float waitingSeconds;
 @property (nonatomic, retain) NSMutableArray *timeDistribution;
+
+// Used for intermediate steps
+@property (nonatomic, retain) MSDate *startTime;
 @property (nonatomic, retain) MSDate *endTime;
 
 - (id) initWithHealingItem:(UserMonsterHealingItem *)healingItem;

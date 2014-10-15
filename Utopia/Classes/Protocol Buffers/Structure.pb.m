@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [StructureRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -6783,6 +6784,8 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 
 @interface EvoChamberProto ()
 @property (strong) StructureInfoProto* structInfo;
+@property Quality qualityUnlocked;
+@property int32_t evoTierUnlocked;
 @end
 
 @implementation EvoChamberProto
@@ -6794,9 +6797,25 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   hasStructInfo_ = !!value_;
 }
 @synthesize structInfo;
+- (BOOL) hasQualityUnlocked {
+  return !!hasQualityUnlocked_;
+}
+- (void) setHasQualityUnlocked:(BOOL) value_ {
+  hasQualityUnlocked_ = !!value_;
+}
+@synthesize qualityUnlocked;
+- (BOOL) hasEvoTierUnlocked {
+  return !!hasEvoTierUnlocked_;
+}
+- (void) setHasEvoTierUnlocked:(BOOL) value_ {
+  hasEvoTierUnlocked_ = !!value_;
+}
+@synthesize evoTierUnlocked;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
+    self.qualityUnlocked = QualityNoQuality;
+    self.evoTierUnlocked = 0;
   }
   return self;
 }
@@ -6819,6 +6838,12 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   if (self.hasStructInfo) {
     [output writeMessage:1 value:self.structInfo];
   }
+  if (self.hasQualityUnlocked) {
+    [output writeEnum:2 value:self.qualityUnlocked];
+  }
+  if (self.hasEvoTierUnlocked) {
+    [output writeInt32:3 value:self.evoTierUnlocked];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -6830,6 +6855,12 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   size_ = 0;
   if (self.hasStructInfo) {
     size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasQualityUnlocked) {
+    size_ += computeEnumSize(2, self.qualityUnlocked);
+  }
+  if (self.hasEvoTierUnlocked) {
+    size_ += computeInt32Size(3, self.evoTierUnlocked);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6872,6 +6903,12 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasQualityUnlocked) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"qualityUnlocked", self.qualityUnlocked];
+  }
+  if (self.hasEvoTierUnlocked) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"evoTierUnlocked", [NSNumber numberWithInteger:self.evoTierUnlocked]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -6885,12 +6922,22 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   return
       self.hasStructInfo == otherMessage.hasStructInfo &&
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasQualityUnlocked == otherMessage.hasQualityUnlocked &&
+      (!self.hasQualityUnlocked || self.qualityUnlocked == otherMessage.qualityUnlocked) &&
+      self.hasEvoTierUnlocked == otherMessage.hasEvoTierUnlocked &&
+      (!self.hasEvoTierUnlocked || self.evoTierUnlocked == otherMessage.evoTierUnlocked) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasStructInfo) {
     hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasQualityUnlocked) {
+    hashCode = hashCode * 31 + self.qualityUnlocked;
+  }
+  if (self.hasEvoTierUnlocked) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.evoTierUnlocked] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6938,6 +6985,12 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   if (other.hasStructInfo) {
     [self mergeStructInfo:other.structInfo];
   }
+  if (other.hasQualityUnlocked) {
+    [self setQualityUnlocked:other.qualityUnlocked];
+  }
+  if (other.hasEvoTierUnlocked) {
+    [self setEvoTierUnlocked:other.evoTierUnlocked];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6966,6 +7019,19 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        Quality value = (Quality)[input readEnum];
+        if (QualityIsValidValue(value)) {
+          [self setQualityUnlocked:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setEvoTierUnlocked:[input readInt32]];
         break;
       }
     }
@@ -7001,10 +7067,43 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   result.structInfo = [StructureInfoProto defaultInstance];
   return self;
 }
+- (BOOL) hasQualityUnlocked {
+  return result.hasQualityUnlocked;
+}
+- (Quality) qualityUnlocked {
+  return result.qualityUnlocked;
+}
+- (EvoChamberProto_Builder*) setQualityUnlocked:(Quality) value {
+  result.hasQualityUnlocked = YES;
+  result.qualityUnlocked = value;
+  return self;
+}
+- (EvoChamberProto_Builder*) clearQualityUnlocked {
+  result.hasQualityUnlocked = NO;
+  result.qualityUnlocked = QualityNoQuality;
+  return self;
+}
+- (BOOL) hasEvoTierUnlocked {
+  return result.hasEvoTierUnlocked;
+}
+- (int32_t) evoTierUnlocked {
+  return result.evoTierUnlocked;
+}
+- (EvoChamberProto_Builder*) setEvoTierUnlocked:(int32_t) value {
+  result.hasEvoTierUnlocked = YES;
+  result.evoTierUnlocked = value;
+  return self;
+}
+- (EvoChamberProto_Builder*) clearEvoTierUnlocked {
+  result.hasEvoTierUnlocked = NO;
+  result.evoTierUnlocked = 0;
+  return self;
+}
 @end
 
 @interface TeamCenterProto ()
 @property (strong) StructureInfoProto* structInfo;
+@property int32_t teamCostLimit;
 @end
 
 @implementation TeamCenterProto
@@ -7016,9 +7115,17 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
   hasStructInfo_ = !!value_;
 }
 @synthesize structInfo;
+- (BOOL) hasTeamCostLimit {
+  return !!hasTeamCostLimit_;
+}
+- (void) setHasTeamCostLimit:(BOOL) value_ {
+  hasTeamCostLimit_ = !!value_;
+}
+@synthesize teamCostLimit;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
+    self.teamCostLimit = 0;
   }
   return self;
 }
@@ -7041,6 +7148,9 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   if (self.hasStructInfo) {
     [output writeMessage:1 value:self.structInfo];
   }
+  if (self.hasTeamCostLimit) {
+    [output writeInt32:2 value:self.teamCostLimit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -7052,6 +7162,9 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   size_ = 0;
   if (self.hasStructInfo) {
     size_ += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasTeamCostLimit) {
+    size_ += computeInt32Size(2, self.teamCostLimit);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -7094,6 +7207,9 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasTeamCostLimit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"teamCostLimit", [NSNumber numberWithInteger:self.teamCostLimit]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -7107,12 +7223,17 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   return
       self.hasStructInfo == otherMessage.hasStructInfo &&
       (!self.hasStructInfo || [self.structInfo isEqual:otherMessage.structInfo]) &&
+      self.hasTeamCostLimit == otherMessage.hasTeamCostLimit &&
+      (!self.hasTeamCostLimit || self.teamCostLimit == otherMessage.teamCostLimit) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasStructInfo) {
     hashCode = hashCode * 31 + [self.structInfo hash];
+  }
+  if (self.hasTeamCostLimit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.teamCostLimit] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7160,6 +7281,9 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
   if (other.hasStructInfo) {
     [self mergeStructInfo:other.structInfo];
   }
+  if (other.hasTeamCostLimit) {
+    [self setTeamCostLimit:other.teamCostLimit];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7188,6 +7312,10 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setTeamCostLimit:[input readInt32]];
         break;
       }
     }
@@ -7221,6 +7349,22 @@ static TeamCenterProto* defaultTeamCenterProtoInstance = nil;
 - (TeamCenterProto_Builder*) clearStructInfo {
   result.hasStructInfo = NO;
   result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTeamCostLimit {
+  return result.hasTeamCostLimit;
+}
+- (int32_t) teamCostLimit {
+  return result.teamCostLimit;
+}
+- (TeamCenterProto_Builder*) setTeamCostLimit:(int32_t) value {
+  result.hasTeamCostLimit = YES;
+  result.teamCostLimit = value;
+  return self;
+}
+- (TeamCenterProto_Builder*) clearTeamCostLimit {
+  result.hasTeamCostLimit = NO;
+  result.teamCostLimit = 0;
   return self;
 }
 @end

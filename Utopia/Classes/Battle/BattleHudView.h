@@ -54,7 +54,7 @@
 @property (nonatomic, assign) CGPoint schedulePosition;
 
 - (void) displaySwapButton;
-- (void) removeSwapButton;
+- (void) removeSwapButtonAnimated:(BOOL)animated;
 - (void) displayDeployViewToCenterX:(float)centerX cancelTarget:(id)target selector:(SEL)selector;
 - (void) removeDeployView;
 - (void) displayBattleScheduleView;

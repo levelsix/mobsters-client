@@ -23,6 +23,7 @@
 - (void) addClanHelpProtos:(NSArray *)clanHelpProtos fromUser:(MinimumUserProto *)sender;
 - (id<ClanHelp>) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array;
 - (void) removeClanHelpIds:(NSArray *)helps;
+- (void) removeClanHelpsForUserId:(int)userId;
 
 // Will return -1 if it doesn't exist
 - (int) getNumClanHelpsForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;

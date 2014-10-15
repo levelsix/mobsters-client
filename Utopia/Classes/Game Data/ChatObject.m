@@ -20,6 +20,10 @@
     self.sender = p.sender.minUserProto;
     self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
+    
+    // If being initialized with a proto, it means it didn't just get received right now
+    // So mark it as read..
+    self.isRead = YES;
   }
   return self;
 }

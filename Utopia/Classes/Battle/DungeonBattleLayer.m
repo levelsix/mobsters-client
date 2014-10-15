@@ -441,6 +441,10 @@
     _movesLeft = moves;
     _myDamageDealt = damage;
     
+    if (_movesLeft < NUM_MOVES_PER_TURN) {
+      [self.hudView removeSwapButtonAnimated:NO];
+    }
+    
     self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   } else {
     [super beginMyTurn];

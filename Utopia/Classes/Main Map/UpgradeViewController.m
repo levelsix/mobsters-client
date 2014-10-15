@@ -35,7 +35,20 @@
   self.nameLabel.text = curSS.structInfo.name;
   self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
   
-  [Globals imageNamed:nextSS.structInfo.imgName withView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  // We want to download the image and then adjust size accordingly (only shrink images that are too big. leave small ones alone).
+  NSString *imgName = nextSS.structInfo.imgName;
+  [Globals checkAndLoadFile:imgName useiPhone6Prefix:NO completion:^(BOOL success) {
+    if (success) {
+      self.structIcon.image = [Globals imageNamed:imgName];
+      
+      CGSize s = self.structIcon.image.size;
+      if (s.height < self.structIcon.height && s.width < self.structIcon.width) {
+        CGPoint center = self.structIcon.center;
+        self.structIcon.size = s;
+        self.structIcon.center = center;
+      }
+    }
+  }];
   
   // Button view
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;
@@ -50,7 +63,7 @@
   [self.greyscaleView removeFromSuperview];
   self.greyscaleView = nil;
   UserStruct *th = [gs myTownHall];
-  TownHallProto *thp = (TownHallProto *)(th.isComplete ? th.staticStruct : th.staticStructForPrevLevel);
+  TownHallProto *thp = (TownHallProto *)th.staticStructForCurrentConstructionLevel;
   int thLevel = thp.structInfo.level;
   if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
     UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];
@@ -189,9 +202,11 @@
   BOOL requiresTwoBars = NO;
   BOOL showsCashSymbol1 = NO, showsCashSymbol2 = NO;
   BOOL useSqrt1 = NO, useSqrt2 = NO;
+  BOOL usePow1 = NO, usePow2 = NO;
   float curStat1 = 0, newStat1 = 0, maxStat1 = 0;
   float curStat2 = 0, newStat2 = 0, maxStat2 = 0;
   NSString *statName1 = nil, *statName2 = nil;
+  NSString *statString1 = nil, *statString2 = nil;
   NSString *suffix1 = @"", *suffix2 = @"";
   if (structType == StructureInfoProto_StructTypeResourceGenerator) {
     ResourceGeneratorProto *cur = (ResourceGeneratorProto *)curSS;
@@ -204,7 +219,7 @@
     newStat1 = next.productionRate;
     maxStat1 = max.productionRate;
     statName1 = @"Rate:";
-    suffix1 = @"Per Hour";
+    suffix1 = @" Per Hour";
     
     curStat2 = cur.capacity;
     newStat2 = next.capacity;
@@ -241,7 +256,9 @@
     newStat2 = next.healthPerSecond;
     maxStat2 = max.healthPerSecond;
     statName2 = @"Rate:";
-    suffix2 = @"Health Per Sec";
+    suffix2 = @" Health Per Sec";
+    
+    usePow2 = YES;
   } else if (structType == StructureInfoProto_StructTypeLab) {
     LabProto *cur = (LabProto *)curSS;
     LabProto *next = (LabProto *)nextSS;
@@ -273,20 +290,55 @@
     MiniJobCenterProto *next = (MiniJobCenterProto *)nextSS;
     MiniJobCenterProto *max = (MiniJobCenterProto *)maxSS;
     
-    curStat1 = cur.generatedJobLimit;
-    newStat1 = next.generatedJobLimit;
-    maxStat1 = max.generatedJobLimit;
+    curStat1 = cur.structInfo.level;
+    newStat1 = next.structInfo.level;
+    maxStat1 = max.structInfo.level;
     
-    statName1 = @"Mini Jobs:";
+    statName1 = @"Reward Tier:";
+  } else if (structType == StructureInfoProto_StructTypeTeamCenter) {
+    TeamCenterProto *cur = (TeamCenterProto *)curSS;
+    TeamCenterProto *next = (TeamCenterProto *)nextSS;
+    TeamCenterProto *max = (TeamCenterProto *)maxSS;
+    
+    curStat1 = cur.teamCostLimit;
+    newStat1 = next.teamCostLimit;
+    maxStat1 = max.teamCostLimit;
+    
+    statName1 = @"Team Power:";
+  } else if (structType == StructureInfoProto_StructTypeClan) {
+    ClanHouseProto *cur = (ClanHouseProto *)curSS;
+    ClanHouseProto *next = (ClanHouseProto *)nextSS;
+    ClanHouseProto *max = (ClanHouseProto *)maxSS;
+    
+    curStat1 = cur.maxHelpersPerSolicitation;
+    newStat1 = next.maxHelpersPerSolicitation;
+    maxStat1 = max.maxHelpersPerSolicitation;
+    
+    statName1 = @"Help Limit:";
+  } else if (structType == StructureInfoProto_StructTypeEvo) {
+    EvoChamberProto *cur = (EvoChamberProto *)curSS;
+    EvoChamberProto *next = (EvoChamberProto *)nextSS;
+    EvoChamberProto *max = (EvoChamberProto *)maxSS;
+    
+    curStat1 = cur.structInfo.level;
+    newStat1 = next.structInfo.level;
+    maxStat1 = max.structInfo.level;
+    
+    statString1 = [NSString stringWithFormat:@"%@ Evo %d", [Globals stringForRarity:next.qualityUnlocked], next.evoTierUnlocked];
+    
+    statName1 = @"Unlocks:";
   }
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
   NSString *increase = newStat1 > curStat1 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat1-curStat1]] : @"";
   self.statNameLabel1.text = statName1;
-  self.statDescriptionLabel1.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
+  self.statDescriptionLabel1.text = statString1 ?: [NSString stringWithFormat:@"%@%@%@%@", dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
   
-  float powVal = 0.75;
-  if (useSqrt1) {
+  float sqrtVal = 0.75;
+  float sqPowVal = 1.5;
+  
+  float powVal = useSqrt1 ? sqrtVal : usePow1 ? sqPowVal : 1;
+  if (powVal) {
     self.statNewBar1.percentage = powf(newStat1/maxStat1, powVal);
     self.statCurrentBar1.percentage = powf(curStat1/maxStat1, powVal);
   } else {
@@ -298,9 +350,10 @@
     dollarSign = showsCashSymbol2 ? @"$" : @"";
     increase = newStat2 > curStat2 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat2-curStat2]] : @"";
     self.statNameLabel2.text = statName2;
-    self.statDescriptionLabel2.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
+    self.statDescriptionLabel2.text = statString2 ?: [NSString stringWithFormat:@"%@%@%@%@", dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
     
-    if (useSqrt2) {
+    powVal = useSqrt2 ? sqrtVal : usePow2 ? sqPowVal : 1;
+    if (powVal) {
       self.statNewBar2.percentage = powf(newStat2/maxStat2, powVal);
       self.statCurrentBar2.percentage = powf(curStat2/maxStat2, powVal);
     } else {

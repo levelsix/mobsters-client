@@ -34,33 +34,47 @@
     _clanId = clanId;
     
     [self.allClanHelps removeAllObjects];
+    
+    for (id<ClanHelp> ch in self.myClanHelps) {
+      for (ClanHelp *ind in [ch allIndividualClanHelps]) {
+        ind.isOpen = NO;
+      }
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   }
 }
 
 - (void) addClanHelpProtos:(NSArray *)clanHelpProtos fromUser:(MinimumUserProto *)sender {
   BOOL checkMyHelps = NO;
-  NSMutableSet *forNotifications = [NSMutableSet set];
+  NSMutableSet *forAlerts = [NSMutableSet set];
+  NSMutableArray *forNotifications = [NSMutableArray array];
   for (ClanHelpProto *chp in clanHelpProtos) {
     ClanHelp *clanHelp = [[ClanHelp alloc] initWithClanHelpProto:chp];
     if (chp.mup.userId == self.userId) {
       id<ClanHelp> help = [self addClanHelpProto:clanHelp toArray:self.myClanHelps];
       
       if (sender) {
-        [forNotifications addObject:help];
+        [forAlerts addObject:help];
       }
       
       checkMyHelps = YES;
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : clanHelp}];
-    } else if (chp.clanId == self.clanId) {
+      [forNotifications addObject:clanHelp];
+    } else if (chp.clanId == self.clanId && [clanHelp isOpen]) {
       [self addClanHelpProto:clanHelp toArray:self.allClanHelps];
       
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
     }
   }
   
-  for (id<ClanHelp> help in forNotifications) {
+  // We want to do alerts and then notifications so that free speedup timer doesn't popup before the help
+  for (id<ClanHelp> help in forAlerts) {
     [Globals addOrangeAlertNotification:[help justHelpedString:sender.name]];
+  }
+  
+  for (ClanHelp *ch in forNotifications) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
   }
   
   if (checkMyHelps) {
@@ -105,6 +119,21 @@
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+}
+
+- (void) removeClanHelpsForUserId:(int)userId {
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (id<ClanHelp> ch in self.allClanHelps) {
+    if (ch.requester.userId == userId) {
+      [toRemove addObject:ch];
+    }
+  }
+  
+  if (toRemove.count) {
+    [self.allClanHelps removeObjectsInArray:toRemove];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  }
 }
 
 - (ClanHelp *) getMyClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {

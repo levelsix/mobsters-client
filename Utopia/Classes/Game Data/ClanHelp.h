@@ -22,6 +22,7 @@
 
 - (NSString *) helpString;
 - (NSString *) justHelpedString:(NSString *)name;
+- (NSString *) justSolicitedString;
 
 - (MSDate *) requestedTime;
 - (MinimumUserProto *) requester;

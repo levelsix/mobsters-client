@@ -1659,6 +1659,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property Float32 expLvlDivisor;
 @property Float32 expLvlExponent;
 @property int32_t sellAmount;
+@property int32_t teamCost;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1775,6 +1776,13 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasSellAmount_ = !!value_;
 }
 @synthesize sellAmount;
+- (BOOL) hasTeamCost {
+  return !!hasTeamCost_;
+}
+- (void) setHasTeamCost:(BOOL) value_ {
+  hasTeamCost_ = !!value_;
+}
+@synthesize teamCost;
 - (id) init {
   if ((self = [super init])) {
     self.lvl = 0;
@@ -1793,6 +1801,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.expLvlDivisor = 0;
     self.expLvlExponent = 0;
     self.sellAmount = 0;
+    self.teamCost = 0;
   }
   return self;
 }
@@ -1860,6 +1869,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasSellAmount) {
     [output writeInt32:16 value:self.sellAmount];
   }
+  if (self.hasTeamCost) {
+    [output writeInt32:17 value:self.teamCost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1916,6 +1928,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasSellAmount) {
     size_ += computeInt32Size(16, self.sellAmount);
+  }
+  if (self.hasTeamCost) {
+    size_ += computeInt32Size(17, self.teamCost);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2000,6 +2015,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasSellAmount) {
     [output appendFormat:@"%@%@: %@\n", indent, @"sellAmount", [NSNumber numberWithInteger:self.sellAmount]];
   }
+  if (self.hasTeamCost) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"teamCost", [NSNumber numberWithInteger:self.teamCost]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2043,6 +2061,8 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       (!self.hasExpLvlExponent || self.expLvlExponent == otherMessage.expLvlExponent) &&
       self.hasSellAmount == otherMessage.hasSellAmount &&
       (!self.hasSellAmount || self.sellAmount == otherMessage.sellAmount) &&
+      self.hasTeamCost == otherMessage.hasTeamCost &&
+      (!self.hasTeamCost || self.teamCost == otherMessage.teamCost) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2094,6 +2114,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasSellAmount) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.sellAmount] hash];
+  }
+  if (self.hasTeamCost) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.teamCost] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2186,6 +2209,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasSellAmount) {
     [self setSellAmount:other.sellAmount];
   }
+  if (other.hasTeamCost) {
+    [self setTeamCost:other.teamCost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2269,6 +2295,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 128: {
         [self setSellAmount:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setTeamCost:[input readInt32]];
         break;
       }
     }
@@ -2528,6 +2558,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearSellAmount {
   result.hasSellAmount = NO;
   result.sellAmount = 0;
+  return self;
+}
+- (BOOL) hasTeamCost {
+  return result.hasTeamCost;
+}
+- (int32_t) teamCost {
+  return result.teamCost;
+}
+- (MonsterLevelInfoProto_Builder*) setTeamCost:(int32_t) value {
+  result.hasTeamCost = YES;
+  result.teamCost = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearTeamCost {
+  result.hasTeamCost = NO;
+  result.teamCost = 0;
   return self;
 }
 @end
@@ -3546,6 +3592,7 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 @property int64_t queuedTimeMillis;
 @property Float32 healthProgress;
 @property int32_t priority;
+@property Float32 elapsedSeconds;
 @end
 
 @implementation UserMonsterHealingProto
@@ -3585,6 +3632,13 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   hasPriority_ = !!value_;
 }
 @synthesize priority;
+- (BOOL) hasElapsedSeconds {
+  return !!hasElapsedSeconds_;
+}
+- (void) setHasElapsedSeconds:(BOOL) value_ {
+  hasElapsedSeconds_ = !!value_;
+}
+@synthesize elapsedSeconds;
 - (id) init {
   if ((self = [super init])) {
     self.userId = 0;
@@ -3592,6 +3646,7 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
     self.queuedTimeMillis = 0L;
     self.healthProgress = 0;
     self.priority = 0;
+    self.elapsedSeconds = 0;
   }
   return self;
 }
@@ -3626,6 +3681,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasPriority) {
     [output writeInt32:6 value:self.priority];
   }
+  if (self.hasElapsedSeconds) {
+    [output writeFloat:7 value:self.elapsedSeconds];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3649,6 +3707,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
   if (self.hasPriority) {
     size_ += computeInt32Size(6, self.priority);
+  }
+  if (self.hasElapsedSeconds) {
+    size_ += computeFloatSize(7, self.elapsedSeconds);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3700,6 +3761,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasPriority) {
     [output appendFormat:@"%@%@: %@\n", indent, @"priority", [NSNumber numberWithInteger:self.priority]];
   }
+  if (self.hasElapsedSeconds) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"elapsedSeconds", [NSNumber numberWithFloat:self.elapsedSeconds]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3721,6 +3785,8 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
       (!self.hasHealthProgress || self.healthProgress == otherMessage.healthProgress) &&
       self.hasPriority == otherMessage.hasPriority &&
       (!self.hasPriority || self.priority == otherMessage.priority) &&
+      self.hasElapsedSeconds == otherMessage.hasElapsedSeconds &&
+      (!self.hasElapsedSeconds || self.elapsedSeconds == otherMessage.elapsedSeconds) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3739,6 +3805,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
   if (self.hasPriority) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.priority] hash];
+  }
+  if (self.hasElapsedSeconds) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.elapsedSeconds] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3798,6 +3867,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (other.hasPriority) {
     [self setPriority:other.priority];
   }
+  if (other.hasElapsedSeconds) {
+    [self setElapsedSeconds:other.elapsedSeconds];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3837,6 +3909,10 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
       }
       case 48: {
         [self setPriority:[input readInt32]];
+        break;
+      }
+      case 61: {
+        [self setElapsedSeconds:[input readFloat]];
         break;
       }
     }
@@ -3920,6 +3996,22 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
 - (UserMonsterHealingProto_Builder*) clearPriority {
   result.hasPriority = NO;
   result.priority = 0;
+  return self;
+}
+- (BOOL) hasElapsedSeconds {
+  return result.hasElapsedSeconds;
+}
+- (Float32) elapsedSeconds {
+  return result.elapsedSeconds;
+}
+- (UserMonsterHealingProto_Builder*) setElapsedSeconds:(Float32) value {
+  result.hasElapsedSeconds = YES;
+  result.elapsedSeconds = value;
+  return self;
+}
+- (UserMonsterHealingProto_Builder*) clearElapsedSeconds {
+  result.hasElapsedSeconds = NO;
+  result.elapsedSeconds = 0;
   return self;
 }
 @end

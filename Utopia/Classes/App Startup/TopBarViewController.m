@@ -84,6 +84,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -115,7 +117,7 @@
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
   
-  if (!self.chatBottomView) {
+  if (gs.connected && !self.chatBottomView) {
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     [self.chatBottomView openAnimated:NO];
     
@@ -124,7 +126,10 @@
       self.chatBottomView.width = self.view.width;
     }
     
-    [self.chatBottomView switchToScope:ChatScopeGlobal];
+    [self removeViewOverChatView];
+    
+    ChatScope scope = gs.clan ? ChatScopeClan : ChatScopeGlobal;
+    [self.chatBottomView switchToScope:scope animated:NO];
   }
   
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -132,9 +137,10 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(clanChatsViewed) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
   if (self.coinBarsView.frame.size.width+self.expBar.frame.size.width > self.view.frame.size.width) {
@@ -176,18 +182,7 @@
   self.clanView.alpha = 0.f;
 }
 
-- (void) incrementClanBadge {
-  _clanChatBadgeNum++;
-  
-  if (self.chatBottomView.chatScope != ChatScopeClan) {
-    _shouldShowClanDotOnBotView = YES;
-    [self.chatBottomView reloadDataAnimated];
-  }
-}
-
-- (void) clanChatsViewed {
-  _clanChatBadgeNum = 0;
-  _shouldShowClanDotOnBotView = NO;
+- (void) updateClanChatBadge {
   [self.chatBottomView reloadDataAnimated];
 }
 
@@ -445,23 +440,19 @@
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopePrivate) {
-    int privBadge = 0;
     for (PrivateChatPostProto *p in gs.privateChats) {
       if (p.isUnread) {
-        privBadge++;
+        return YES;
       }
     }
-    return privBadge > 0;
   } else if (scope == ChatScopeClan) {
-    return _shouldShowClanDotOnBotView;
+    for (id<ChatObject> obj in gs.allClanChatObjects) {
+      if (![obj isRead]) {
+        return YES;
+      }
+    }
   }
   return NO;
-}
-
-- (void) willSwitchToScope:(ChatScope)scope {
-  if (scope == ChatScopeClan) {
-    _shouldShowClanDotOnBotView = NO;
-  }
 }
 
 - (void) bottomViewClicked {

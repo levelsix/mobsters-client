@@ -157,7 +157,7 @@
   }
   
   if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
-    TimerAction *ta = [[HealingTimerAction alloc] initWithHealingEndTime:gs.monsterHealingQueueEndTime totalSeconds:gs.monsterHealingQueueEndTime.timeIntervalSinceNow];
+    TimerAction *ta = [[HealingTimerAction alloc] initWithHealingEndTime:gs.monsterHealingQueueEndTime totalSeconds:gs.totalTimeForHealQueue];
     [arr addObject:ta];
   }
   

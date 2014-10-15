@@ -465,6 +465,7 @@
   _isBeginningJob = NO;
   [self.detailsViewController stopSpinning];
   [self transitionToListView];
+  self.listTable.contentOffset = ccp(0,0);
   _selectedCell = nil;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];

@@ -167,7 +167,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", (int)gs.allBattleAvailableAliveMonstersOnTeam.count, gl.maxTeamSize];
+  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", [gl calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam], gs.maxTeamCost];
   self.title = str;
 }
 
@@ -232,11 +232,11 @@
   }
   
   NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    BOOL isDead1 = obj1.curHealth <= 0;
-    BOOL isDead2 = obj2.curHealth <= 0;
+    BOOL isNotAddable1 = !obj1.isAvailable || obj1.curHealth <= 0;
+    BOOL isNotAddable2 = !obj2.isAvailable || obj2.curHealth <= 0;
     
-    if (isDead1 != isDead2) {
-      return [@(isDead1) compare:@(isDead2)];
+    if (isNotAddable1 != isNotAddable2) {
+      return [@(isNotAddable1) compare:@(isNotAddable2)];
     } else {
       return [obj1 compare:obj2];
     }
@@ -248,21 +248,39 @@
 #pragma mark - Monster card delegate
 
 - (void) listView:(ListCollectionView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
-  BOOL greyscale = !listObject.isAvailable || listObject.curHealth <= 0;
+  Globals *gl = [Globals sharedGlobals];
+  BOOL lowEnoughCost = [gl currentBattleReadyTeamHasCostFor:listObject];
+  BOOL available = listObject.isAvailable;
+  BOOL isDead = listObject.curHealth <= 0;
+  BOOL battleReady = available && !isDead;
+  BOOL greyscale = !lowEnoughCost || !battleReady;
+  
   [cell updateForListObject:listObject greyscale:greyscale];
   cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = !greyscale;
   
   // Need to do this because if monster's health is 0, it will not show the healthbar since greyscale = YES
-  if (listObject.isAvailable) {
-    cell.availableView.hidden = NO;
-    
+  if (available) {
+    if (isDead) {
+      cell.availableView.hidden = NO;
+    } else if (!lowEnoughCost) {
+      NSString *str1 = @"Power: ";
+      NSString *str2 = [Globals commafyNumber:[listObject teamCost]];
+      NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
+      [as addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(str1.length, str2.length)];
+      
+      cell.statusLabel.attributedText = as;
+    }
     cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = YES;
   }
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   UserMonster *um = self.userMonsters[indexPath.row];
-  if ([um isAvailable] && um.curHealth > 0) {
+  BOOL lowEnoughCost = [gl currentBattleReadyTeamHasCostFor:um];
+  
+  if ([um isAvailable] && um.curHealth > 0 && lowEnoughCost) {
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterId];
     
     if (success) {
@@ -276,6 +294,8 @@
     }
   } else if (um.curHealth <= 0) {
     [Globals addAlertNotification:[NSString stringWithFormat:@"You must heal %@ before adding to your team.", um.staticMonster.displayName]];
+  } else if (!lowEnoughCost) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You need a higher Power Limit to add %@3. Upgrade your %@!", um.staticMonster.monsterName, gs.myTeamCenter.staticStruct.structInfo.name]];
   }
 }
 
@@ -365,7 +385,7 @@
   UIView *animView = slotView.rightView;
   if (cardCell && slotView) {
     [self.teamCell updateForUserMonster:um];
-    [self.cardCell updateForListObject:um greyscale:![um isAvailable]];
+    [self listView:self.listView updateCell:self.cardCell forIndexPath:ip listObject:um];
     
     [self.view addSubview:self.teamCell];
     [self.view insertSubview:self.cardCell aboveSubview:self.listView];

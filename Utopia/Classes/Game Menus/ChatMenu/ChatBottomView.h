@@ -37,6 +37,8 @@ typedef enum {
 - (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (void) bottomViewClicked;
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope;
+
+@optional
 - (void) willSwitchToScope:(ChatScope)scope;
 
 @end
@@ -66,7 +68,7 @@ typedef enum {
 - (void) openAnimated:(BOOL)animated;
 - (void) closeAnimated:(BOOL)animated;
 
-- (void) switchToScope:(ChatScope)scope;
+- (void) switchToScope:(ChatScope)scope animated:(BOOL)animated;
 
 - (void) reloadData;
 - (void) reloadDataAnimated;

@@ -45,14 +45,19 @@
 - (BOOL) isOnAMiniJob;
 - (BOOL) isAvailable;
 - (BOOL) isAvailableForSelling;
+
 - (int) sellPrice;
+- (int) teamCost;
+- (int) feederExp;
+- (int) speed;
 
 - (MonsterProto *) staticMonster;
 - (NSString *) statusString;
 - (NSString *) statusImageName;
 - (MonsterProto *) staticEvolutionMonster;
 - (MonsterProto *) staticEvolutionCatalystMonster;
-- (MonsterLevelInfoProto *) levelInfo;
+- (MonsterLevelInfoProto *) minLevelInfo;
+- (MonsterLevelInfoProto *) maxLevelInfo;
 - (BOOL) isCombining;
 - (int) timeLeftForCombining;
 
@@ -73,6 +78,7 @@
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int priority;
 @property (nonatomic, assign) float totalSeconds;
+@property (nonatomic, assign) float elapsedTime;
 @property (nonatomic, retain) NSArray *timeDistribution;
 
 + (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
@@ -171,6 +177,8 @@
 + (id) userStructWithTutorialStructProto:(TutorialStructProto *)proto;
 - (id<StaticStructure>) staticStructForPrevLevel;
 - (id<StaticStructure>) staticStruct;
+// In case it's being build right now
+- (id<StaticStructure>) staticStructForCurrentConstructionLevel;
 - (id<StaticStructure>) staticStructForNextLevel;
 - (id<StaticStructure>) maxStaticStruct;
 - (NSArray *) allStaticStructs;

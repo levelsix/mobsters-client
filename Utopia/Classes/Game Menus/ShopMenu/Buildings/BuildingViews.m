@@ -18,7 +18,7 @@
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
   
   Globals *gl = [Globals sharedGlobals];
-  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
   int thLevel = thp.structInfo.level;
   
   self.nameLabel.text = structInfo.name;

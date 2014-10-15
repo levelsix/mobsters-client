@@ -60,7 +60,7 @@
     [super beginMyTurn];
     
     self.hudView.swapView.hidden = self.swappableTeamSlot == 0;
-    [self.hudView removeSwapButton];
+    [self.hudView removeSwapButtonAnimated:YES];
   }
 }
 

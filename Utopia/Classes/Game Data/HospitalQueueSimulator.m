@@ -56,7 +56,7 @@
 }
 
 - (NSString *) description {
-//  return [NSString stringWithFormat:@"HealingItem: %d, Q: %@, H: %d, T: %d S: %@, E: %@", self.userMonsterId, self.queueTime, self.totalHealthToHeal-self.healthProgress, (int)[self.endTime timeIntervalSinceDate:self.startTime], self.startTime, self.endTime];
+  //  return [NSString stringWithFormat:@"HealingItem: %d, Q: %@, H: %d, T: %d S: %@, E: %@", self.userMonsterId, self.queueTime, self.totalHealthToHeal-self.healthProgress, (int)[self.endTime timeIntervalSinceDate:self.startTime], self.startTime, self.endTime];
   NSMutableString *s = [NSMutableString stringWithFormat:@"("];
   for (int i = 0; i < self.timeDistribution.count; i+=2) {
     if (i > 0) [s appendFormat:@", "];
@@ -64,7 +64,7 @@
   }
   [s appendFormat:@")"];
   
-  return [NSString stringWithFormat:@"HealingItem: %lld, T: %@, P: %f, S: %@, E: %@", self.userMonsterId, s, self.healthProgress, self.startTime, self.endTime];
+  return [NSString stringWithFormat:@"HealingItem: %lld, T: %@, P: %f, S: %@, E: %@, TS: %f", self.userMonsterId, s, self.healthProgress, self.startTime, self.endTime, self.totalSeconds];
 }
 
 @end
@@ -102,9 +102,12 @@
   if (!self.healingItems.count) {
     return;
   }
+  MSDate *prev = nil;
+  MSDate *first = [self.healingItems[0] queueTime];
   SimLog(@"-------------------------------------");
-  SimLog(@"Starting with date: %@", [self.healingItems[0] queueTime]);
-  [self readjustAllItemsForDate:[self.healingItems[0] queueTime]];
+  SimLog(@"Starting with date: %@", first);
+  [self readjustAllItemsForDate:first secondsSinceLastItem:-[prev timeIntervalSinceDate:first]];
+  prev = first;
   SimLog(@"");
   SimLog(@"%@", self.healingItems);
   SimLog(@"-------------------------------------");
@@ -113,7 +116,8 @@
   for (MSDate *next = self.getNextDate; next && [date compare:next] != NSOrderedAscending; next = self.getNextDate) {
     SimLog(@"Round %d: %@", i, next);
     i++;
-    [self readjustAllItemsForDate:next];
+    [self readjustAllItemsForDate:next secondsSinceLastItem:-[prev timeIntervalSinceDate:next]];
+    prev = next;
     SimLog(@" ");
     SimLog(@"%@", self.healingItems);
     SimLog(@"-------------------------------------");
@@ -121,7 +125,7 @@
   
   if (date) {
     SimLog(@"Round %d: %@", i, date);
-    [self readjustAllItemsForDate:date];
+    [self readjustAllItemsForDate:date secondsSinceLastItem:-[prev timeIntervalSinceDate:date]];
     SimLog(@"Readjusted for date");
     SimLog(@"-------------------------------------");
   }
@@ -163,13 +167,13 @@
   return dates.count ? dates[0] : nil;
 }
 
-- (void) readjustAllItemsForDate:(MSDate *)date {
+- (void) readjustAllItemsForDate:(MSDate *)date secondsSinceLastItem:(float)secondsSinceLastItem {
   // First unschedule all monsters
   for (HealingItemSim *item in self.healingItems) {
     if (item.userStructId) {
-      HospitalSim *hs = [self hospitalWithId:item.userStructId];
       MSDate *startDate = item.startTime;
       float seconds = [date timeIntervalSinceDate:startDate];
+      HospitalSim *hs = [self hospitalWithId:item.userStructId];
       
       if ([item.endTime isEqualToDate:date]) {
         SimLog(@"Item %lld finished", item.userMonsterId);
@@ -194,6 +198,9 @@
         item.startTime = nil;
         item.endTime = nil;
       }
+    } else if (!item.isFinished) {
+      // This item is waiting
+      item.waitingSeconds += secondsSinceLastItem;
     }
   }
   

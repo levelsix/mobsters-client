@@ -640,7 +640,9 @@
     [self.orbLayer.bgdLayer turnTheLightsOn];
     [self.orbLayer allowInput];
     [skillManager enableSkillButton:YES];
+    
     [self.hudView prepareForMyTurn];
+    
     [self performAfterDelay:0.5 block:^{
       [self.hudView.battleScheduleView bounceLastView];
     }];
@@ -1511,7 +1513,7 @@
 - (void) moveBegan {
   _movesLeft--;
   [self updateHealthBars];
-  [self.hudView removeSwapButton];
+  [self.hudView removeSwapButtonAnimated:YES];
   [skillManager enableSkillButton:NO];
 }
 
@@ -1804,7 +1806,7 @@
 
 - (IBAction)swapClicked:(id)sender {
   if (_orbCount == 0 && !self.orbLayer.swipeLayer.isTrackingTouch) {
-    [self.hudView removeSwapButton];
+    [self.hudView removeSwapButtonAnimated:YES];
     [self displayDeployViewAndIsCancellable:YES];
   }
 }

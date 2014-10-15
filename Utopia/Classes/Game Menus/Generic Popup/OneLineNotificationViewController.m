@@ -50,6 +50,8 @@
     self.label.shadowColor = [UIColor colorWithRed:81/255.f green:111/255.f blue:5/255.f alpha:0.8];
   } else if (color == NotificationColorPurple) {
     self.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
+  } else if (color == NotificationColorOrange) {
+    self.label.shadowColor = [UIColor colorWithRed:195/255.f green:0.f blue:0.f alpha:0.8f];
   }
 }
 

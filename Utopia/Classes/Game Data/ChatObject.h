@@ -19,6 +19,8 @@
 - (MSDate *)date;
 - (UIColor *)textColor;
 
+- (BOOL) isRead;
+
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag;
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell;
 
@@ -30,6 +32,8 @@
 @property (nonatomic, copy) NSString *message;
 @property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
+
+@property (nonatomic, assign) BOOL isRead;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
 

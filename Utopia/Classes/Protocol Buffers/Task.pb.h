@@ -701,6 +701,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @interface TaskMapElementProto : PBGeneratedMessage {
 @private
   BOOL hasBoss_:1;
+  BOOL hasCharImgScaleFactor_:1;
   BOOL hasMapElementId_:1;
   BOOL hasTaskId_:1;
   BOOL hasXPos_:1;
@@ -715,6 +716,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasCharacterImgName_:1;
   BOOL hasElement_:1;
   BOOL boss_:1;
+  Float32 charImgScaleFactor;
   int32_t mapElementId;
   int32_t taskId;
   int32_t xPos;
@@ -743,6 +745,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasCharacterImgName;
 - (BOOL) hasCharImgVertPixelOffset;
 - (BOOL) hasCharImgHorizPixelOffset;
+- (BOOL) hasCharImgScaleFactor;
 @property (readonly) int32_t mapElementId;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t xPos;
@@ -757,6 +760,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly, strong) NSString* characterImgName;
 @property (readonly) int32_t charImgVertPixelOffset;
 @property (readonly) int32_t charImgHorizPixelOffset;
+@property (readonly) Float32 charImgScaleFactor;
 
 + (TaskMapElementProto*) defaultInstance;
 - (TaskMapElementProto*) defaultInstance;
@@ -862,6 +866,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) charImgHorizPixelOffset;
 - (TaskMapElementProto_Builder*) setCharImgHorizPixelOffset:(int32_t) value;
 - (TaskMapElementProto_Builder*) clearCharImgHorizPixelOffset;
+
+- (BOOL) hasCharImgScaleFactor;
+- (Float32) charImgScaleFactor;
+- (TaskMapElementProto_Builder*) setCharImgScaleFactor:(Float32) value;
+- (TaskMapElementProto_Builder*) clearCharImgScaleFactor;
 @end
 
 

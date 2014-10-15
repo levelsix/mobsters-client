@@ -223,7 +223,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
       
-      [gs readjustAllMonsterHealingProtos];
+      if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
+        if (gs.myValidHospitals.count) {
+          [gs readjustAllMonsterHealingProtos];
+        } else {
+          for (UserMonsterHealingItem *hi in gs.monsterHealingQueue.copy) {
+            [self removeMonsterFromHealingQueue:hi];
+          }
+        }
+      }
       
       int cashChange = isOilBuilding ? 0 : -cost;
       int oilChange = isOilBuilding ? -cost : 0;
@@ -1085,11 +1093,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   UserStruct *clanHouse = gs.myClanHouse;
   if (gs.clan) {
-    [Globals popupMessage:@"You can't submit a clan request while you're already in a clan."];
+    [Globals addAlertNotification:@"You can't submit a clan request while you're already in a clan."];
   } else if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [Globals popupMessage:@"You already have a pending request with this clan!"];
+    [Globals addAlertNotification:@"You already have a pending request with this clan!"];
   } else if (!clanHouse || (!clanHouse.isComplete && clanHouse.staticStruct.structInfo.level == 1)) {
-    [Globals popupMessage:@"You can't join a clan without a clan house."];
+    [Globals addAlertNotification:@"You can't join a clan without a clan house."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -1100,7 +1108,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.clan || ![gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [Globals popupMessage:@"You no longer have a request pending to this clan!"];
+    [Globals addAlertNotification:@"You no longer have a request pending to this clan!"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRetractRequestJoinClanMessage:clanId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -1185,9 +1193,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!gs.myClanHouse) {
     [Globals popupMessage:@"Attempting to solicit clan help without a clan house."];
   } else if ([gs canAskForClanHelp]) {
-    ClanHouseProto *chp = (ClanHouseProto *)(clanHouse.isComplete ? clanHouse.staticStruct : clanHouse.staticStructForPrevLevel);
+    ClanHouseProto *chp = (ClanHouseProto *)clanHouse.staticStructForCurrentConstructionLevel;
     [[SocketCommunication sharedSocketCommunication] sendSolicitClanHelpMessage:clanHelpNotices maxHelpers:chp.maxHelpersPerSolicitation clientTime:[self getCurrentMilliseconds]];
     
+    // We need to use a separate list in case helps get bundled, we won't know how many were added
+    NSMutableArray *forNotifications = [NSMutableArray array];
     for (ClanHelpNoticeProto *notice in clanHelpNotices) {
       ClanHelp *ch = [[ClanHelp alloc] init];
       ch.helpType = notice.helpType;
@@ -1199,8 +1209,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ch.maxHelpers = chp.maxHelpersPerSolicitation;
       
       [gs.clanHelpUtil addClanHelpProto:ch toArray:gs.clanHelpUtil.myClanHelps];
+      [gs.clanHelpUtil addClanHelpProto:ch toArray:forNotifications];
       
       [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
+    }
+    
+    for (id<ClanHelp> ch in forNotifications) {
+      [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"Squad Help Requested: %@.", [ch justSolicitedString]]];
     }
     
     LNLog(@"Soliciting help for %d timers.", (int)clanHelpNotices.count);
@@ -1624,43 +1639,72 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
-  NSArray *curMembers = [gs allMonstersOnMyTeam];
+  NSArray *wholeTeam = [gs allMonstersOnMyTeam];
+  NSArray *battleReadyTeam = [gs allBattleAvailableAliveMonstersOnTeam];
   
-  if (!um || um.teamSlot || !um.isComplete) {
+  NSMutableArray *overwritable = [wholeTeam mutableCopy];
+  [overwritable removeObjectsInArray:battleReadyTeam];
+  
+  int teamSlot = 0;
+  NSMutableArray *toRemove = [NSMutableArray array];
+  
+  if (!um || um.teamSlot || !um.isAvailable) {
     [Globals popupMessage:@"Trying to add invalid monster."];
-  } else {
-    UserMonster *potentialUm = nil;
-    int teamSlot = 1;
-    while (teamSlot <= gl.maxTeamSize) {
+  } else if (![gl currentBattleReadyTeamHasCostFor:um]) {
+    [Globals popupMessage:@"Trying to add monster without high enough power limit."];
+  } else if (battleReadyTeam.count >= gl.maxTeamSize) {
+    [Globals addAlertNotification:@"Team is already at max size!"];
+  } else if (wholeTeam.count < gl.maxTeamSize) {
+    // Find lowest available slot number
+    int potSlot = 1;
+    while (!teamSlot && potSlot <= gl.maxTeamSize) {
       BOOL found = NO;
-      for (UserMonster *m in curMembers) {
-        if (m.teamSlot == teamSlot) {
-          if (!potentialUm && (![m isAvailable] || m.curHealth <= 0)) {
-            potentialUm = m;
-          }
+      for (UserMonster *um in wholeTeam) {
+        if (um.teamSlot == potSlot) {
           found = YES;
         }
       }
       
       if (!found) {
-        potentialUm = nil;
-        break;
+        teamSlot = potSlot;
+      } else {
+        potSlot++;
       }
-      teamSlot++;
     }
-    if (teamSlot <= gl.maxTeamSize || potentialUm) {
-      if (potentialUm) {
-        teamSlot = potentialUm.teamSlot;
-        potentialUm.teamSlot = 0;
-      }
-      um.teamSlot = teamSlot;
-      
-      [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterId teamSlot:teamSlot];
-      return YES;
-    } else {
-      [Globals addAlertNotification:@"Team is already at max size!"];
-    }
+  } else if (overwritable.count) {
+    UserMonster *old = overwritable[0];
+    teamSlot = old.teamSlot;
+    [toRemove addObject:old];
+    [overwritable removeObject:old];
+    old.teamSlot = 0;
   }
+  
+  if (teamSlot) {
+    um.teamSlot = teamSlot;
+    
+    // Keep removing from overwritable until teamCost is low enough
+    BOOL firstCheck = YES;
+    do {
+      if (!firstCheck) {
+        UserMonster *del = [overwritable firstObject];
+        [toRemove addObject:del];
+        [overwritable removeObject:del];
+        del.teamSlot = 0;
+      }
+      firstCheck = NO;
+    } while (overwritable.count && [gl calculateTeamCostForTeam:[gs allMonstersOnMyTeam]] > gs.maxTeamCost);
+    
+    [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterId teamSlot:teamSlot];
+    
+    for (UserMonster *um in toRemove) {
+      // Set the team slot to something so remove won't complain
+      um.teamSlot = 1;
+      [self removeMonsterFromTeam:um.userMonsterId];
+    }
+    
+    return YES;
+  }
+  
   return NO;
 }
 

@@ -62,7 +62,7 @@
   
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
   self.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
-  self.speedLabel.text = [Globals commafyNumber:[um levelInfo].speed];
+  self.speedLabel.text = [Globals commafyNumber:um.speed];
 }
 
 @end

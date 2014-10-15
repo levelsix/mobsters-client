@@ -86,8 +86,8 @@
 }
 
 - (BOOL) isEnhancing {
-//  GameState *gs = [GameState sharedGameState];
-//  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+  //  GameState *gs = [GameState sharedGameState];
+  //  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
   return NO;
 }
 
@@ -99,12 +99,12 @@
 }
 
 - (BOOL) isSacrificing {
-//  GameState *gs = [GameState sharedGameState];
-//  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
-//    if (self.userMonsterId == ei.userMonsterId) {
-//      return YES;
-//    }
-//  }
+  //  GameState *gs = [GameState sharedGameState];
+  //  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
+  //    if (self.userMonsterId == ei.userMonsterId) {
+  //      return YES;
+  //    }
+  //  }
   return NO;
 }
 
@@ -161,10 +161,37 @@
 }
 
 - (int) sellPrice {
-  float base = self.levelInfo.sellAmount;
-  float fraction = self.isComplete ? self.level : self.numPieces/(float)self.staticMonster.numPuzzlePieces;
-  int price = MAX(1, base*fraction);
-  return price;
+  float min = self.minLevelInfo.sellAmount;
+  float max = self.maxLevelInfo.sellAmount;
+  int price = 1;
+  
+  if (self.isComplete) {
+    price = min+((self.level-1)/(float)(self.staticMonster.maxLevel-1))*(max-min);
+  } else {
+    price = min*self.numPieces/(float)self.staticMonster.numPuzzlePieces;
+  }
+  return MAX(1, price);
+}
+
+- (int) teamCost {
+  float min = self.minLevelInfo.teamCost;
+  float max = self.maxLevelInfo.teamCost;
+  
+  return min+((self.level-1)/(float)(self.staticMonster.maxLevel-1))*(max-min);
+}
+
+- (int) feederExp {
+  float min = self.minLevelInfo.feederExp;
+  float max = self.maxLevelInfo.feederExp;
+  
+  return min+((self.level-1)/(float)(self.staticMonster.maxLevel-1))*(max-min);
+}
+
+- (int) speed {
+  float min = self.minLevelInfo.speed;
+  float max = self.maxLevelInfo.speed;
+  
+  return min+((self.level-1)/(float)(self.staticMonster.maxLevel-1))*(max-min);
 }
 
 - (void) setExperience:(int)experience {
@@ -190,9 +217,14 @@
   return [gs monsterWithId:self.staticMonster.evolutionCatalystMonsterId];
 }
 
-- (MonsterLevelInfoProto *) levelInfo {
+- (MonsterLevelInfoProto *) minLevelInfo {
   NSArray *arr = self.staticMonster.lvlInfoList;
   return arr.count > 0 ? arr[0] : nil;
+}
+
+- (MonsterLevelInfoProto *) maxLevelInfo {
+  NSArray *arr = self.staticMonster.lvlInfoList;
+  return arr.count > 0 ? arr[arr.count-1] : nil;
 }
 
 - (BOOL) isCombining {
@@ -297,6 +329,7 @@
     self.queueTime = proto.hasQueuedTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
     self.healthProgress = proto.healthProgress;
     self.priority = proto.priority;
+    self.elapsedTime = proto.elapsedSeconds;
   }
   return self;
 }
@@ -311,11 +344,12 @@
 }
 
 - (UserMonsterHealingProto *) convertToProto {
-  UserMonsterHealingProto_Builder *bldr = [[[[[UserMonsterHealingProto builder]
-                                              setUserId:self.userId]
-                                             setUserMonsterId:self.userMonsterId]
-                                            setHealthProgress:self.healthProgress]
-                                           setPriority:self.priority];
+  UserMonsterHealingProto_Builder *bldr = [[[[[[UserMonsterHealingProto builder]
+                                               setUserId:self.userId]
+                                              setUserMonsterId:self.userMonsterId]
+                                             setHealthProgress:self.healthProgress]
+                                            setPriority:self.priority]
+                                           setElapsedSeconds:self.elapsedTime];
   
   [bldr setQueuedTimeMillis:self.queueTime.timeIntervalSince1970*1000];
   return [bldr build];
@@ -365,6 +399,7 @@
   item.queueTime = [self.queueTime copy];
   item.healthProgress = self.healthProgress;
   item.priority = self.priority;
+  item.elapsedTime = self.elapsedTime;
   return item;
 }
 
@@ -380,7 +415,7 @@
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %lld, %@", self, self.userMonsterId, self.queueTime];
+  return [NSString stringWithFormat:@"%p: %lld, QT: %@, H: %f, TS: %f, ET: %f", self, self.userMonsterId, self.queueTime, self.healthProgress, self.totalSeconds, self.elapsedTime];
 }
 
 @end
@@ -722,6 +757,10 @@
   } else {
     return nil;
   }
+}
+
+- (id<StaticStructure>) staticStructForCurrentConstructionLevel {
+  return self.isComplete ? [self staticStruct] : [self staticStructForPrevLevel];
 }
 
 - (id<StaticStructure>) maxStaticStruct {

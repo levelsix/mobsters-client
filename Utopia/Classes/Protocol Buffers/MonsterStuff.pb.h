@@ -396,6 +396,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasFeederExp_:1;
   BOOL hasSpeed_:1;
   BOOL hasSellAmount_:1;
+  BOOL hasTeamCost_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -412,6 +413,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t feederExp;
   int32_t speed;
   int32_t sellAmount;
+  int32_t teamCost;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -435,6 +437,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasExpLvlDivisor;
 - (BOOL) hasExpLvlExponent;
 - (BOOL) hasSellAmount;
+- (BOOL) hasTeamCost;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -451,6 +454,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) Float32 expLvlDivisor;
 @property (readonly) Float32 expLvlExponent;
 @property (readonly) int32_t sellAmount;
+@property (readonly) int32_t teamCost;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -566,6 +570,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) sellAmount;
 - (MonsterLevelInfoProto_Builder*) setSellAmount:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearSellAmount;
+
+- (BOOL) hasTeamCost;
+- (int32_t) teamCost;
+- (MonsterLevelInfoProto_Builder*) setTeamCost:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearTeamCost;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -786,11 +795,13 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @interface UserMonsterHealingProto : PBGeneratedMessage {
 @private
   BOOL hasHealthProgress_:1;
+  BOOL hasElapsedSeconds_:1;
   BOOL hasUserMonsterId_:1;
   BOOL hasQueuedTimeMillis_:1;
   BOOL hasUserId_:1;
   BOOL hasPriority_:1;
   Float32 healthProgress;
+  Float32 elapsedSeconds;
   int64_t userMonsterId;
   int64_t queuedTimeMillis;
   int32_t userId;
@@ -801,11 +812,13 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasQueuedTimeMillis;
 - (BOOL) hasHealthProgress;
 - (BOOL) hasPriority;
+- (BOOL) hasElapsedSeconds;
 @property (readonly) int32_t userId;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int64_t queuedTimeMillis;
 @property (readonly) Float32 healthProgress;
 @property (readonly) int32_t priority;
+@property (readonly) Float32 elapsedSeconds;
 
 + (UserMonsterHealingProto*) defaultInstance;
 - (UserMonsterHealingProto*) defaultInstance;
@@ -866,6 +879,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) priority;
 - (UserMonsterHealingProto_Builder*) setPriority:(int32_t) value;
 - (UserMonsterHealingProto_Builder*) clearPriority;
+
+- (BOOL) hasElapsedSeconds;
+- (Float32) elapsedSeconds;
+- (UserMonsterHealingProto_Builder*) setElapsedSeconds:(Float32) value;
+- (UserMonsterHealingProto_Builder*) clearElapsedSeconds;
 @end
 
 @interface UserMonsterCurrentHealthProto : PBGeneratedMessage {

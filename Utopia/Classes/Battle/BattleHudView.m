@@ -97,7 +97,7 @@
 }
 
 - (void) removeButtons {
-  [self removeSwapButton];
+  [self removeSwapButtonAnimated:YES];
   [self removeDeployView];
   self.forfeitButtonView.hidden = YES;
   self.elementButton.hidden = YES;
@@ -120,8 +120,8 @@
   }];
 }
 
-- (void) removeSwapButton {
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+- (void) removeSwapButtonAnimated:(BOOL)animated {
+  [UIView animateWithDuration:animated ? ANIMATION_TIME : 0.f animations:^{
     self.swapView.center = ccp(-self.swapView.frame.size.width/2, self.swapView.center.y);
   } completion:^(BOOL finished) {
     self.swapView.hidden = YES;

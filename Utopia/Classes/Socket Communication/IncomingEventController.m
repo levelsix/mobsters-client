@@ -1040,35 +1040,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleLeaveClanResponseProto:(FullEvent *)fe {
-  LeaveClanResponseProto *proto = (LeaveClanResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Leave clan response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
-    if (proto.sender.userId == gs.userId) {
-      [gs.requestedClans removeAllObjects];
-      gs.clan = nil;
-      [[SocketCommunication sharedSocketCommunication] rebuildSender];
-      gs.myClanStatus = 0;
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
-      
-      [gs.clanChatMessages removeAllObjects];
-      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
-    } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name] isImmediate:NO];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to leave squad."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
   RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1218,6 +1189,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+- (void) handleLeaveClanResponseProto:(FullEvent *)fe {
+  LeaveClanResponseProto *proto = (LeaveClanResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Leave clan response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+    if (proto.sender.userId == gs.userId) {
+      [gs.requestedClans removeAllObjects];
+      gs.clan = nil;
+      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      gs.myClanStatus = 0;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+      
+      [gs.clanChatMessages removeAllObjects];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name] isImmediate:NO];
+      
+      [gs.clanHelpUtil removeClanHelpsForUserId:proto.sender.userId];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to leave squad."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 - (void) handleBootPlayerFromClanResponseProto:(FullEvent *)fe {
   BootPlayerFromClanResponseProto *proto = (BootPlayerFromClanResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1241,6 +1243,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the squad.", proto.playerToBoot.name] isImmediate:NO];
+      
+      [gs.clanHelpUtil removeClanHelpsForUserId:proto.playerToBoot.userId];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1258,8 +1262,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   LNLog(@"Solicit clan help response received with status %d.", proto.status);
   
-  NSLog(@"%@", proto);
-  
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
     [gs.clanHelpUtil addClanHelpProtos:proto.helpProtoList fromUser:nil];
@@ -1274,8 +1276,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GiveClanHelpResponseProto *proto = (GiveClanHelpResponseProto *)fe.event;
   int tag = fe.tag;
   LNLog(@"Give clan help response received with status %d.", proto.status);
-  
-  NSLog(@"%@", proto);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GiveClanHelpResponseProto_GiveClanHelpStatusSuccess) {
@@ -1292,9 +1292,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   int tag = fe.tag;
   
   LNLog(@"End clan help response received with status %d.", proto.status);
-  
-  
-  NSLog(@"%@", proto);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {

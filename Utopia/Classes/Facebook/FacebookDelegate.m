@@ -15,6 +15,10 @@
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
 #define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email"]
 
+#ifdef DEBUG
+#define TEST_APP_SWITCH 1
+#endif
+
 @implementation FacebookDelegate
 
 + (FacebookDelegate *) sharedFacebookDelegate
@@ -106,6 +110,9 @@
   } else {
     [self respondToCompletionHandlersWithSuccess:NO];
   }
+  self.timeOfLastLoginAttempt = nil;
+  
+  
   if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
     // If the session is closed
     LNLog(@"Facebook session closed.");
@@ -185,7 +192,12 @@
       FBSession *session = [[FBSession alloc] initWithPermissions:READ_PERMISSIONS];
       [FBSession setActiveSession:session];
       if (login || session.state == FBSessionStateCreatedTokenLoaded) {
-        [session openWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+#ifdef TEST_APP_SWITCH
+        FBSessionLoginBehavior behavior = FBSessionLoginBehaviorWithFallbackToWebView;
+#else
+        FBSessionLoginBehavior behavior = FBSessionLoginBehaviorUseSystemAccountIfPresent;
+#endif
+        [session openWithBehavior:behavior completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
           [self sessionStateChanged:session state:state error:error];
         }];
       }

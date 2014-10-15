@@ -31,9 +31,6 @@
 @interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate> {
   CGPoint _originalProgressCenter;
   
-  int _clanChatBadgeNum;
-  BOOL _shouldShowClanDotOnBotView;
-  
   BOOL _shouldShowArrowOnResidence;
 }
 
@@ -81,7 +78,6 @@
 @property (nonatomic, retain) IBOutlet TopBarQuestProgressView *questProgressView;
 
 @property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
-@property (nonatomic, readonly) int clanChatBadgeNum;
 
 @property (nonatomic, retain) ShopViewController *shopViewController;
 @property (nonatomic, retain) IBOutlet TimerViewController *timerViewController;

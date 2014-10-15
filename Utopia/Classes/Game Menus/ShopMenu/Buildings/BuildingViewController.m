@@ -55,16 +55,18 @@
   [self.listView reloadTableAnimated:NO listObjects:self.staticStructs];
 }
 
-- (BOOL) isTypeRecommended:(StructureInfoProto_StructType)structType {
+- (int) isTypeRecommended:(StructureInfoProto_StructType)structType {
   switch (structType) {
     case StructureInfoProto_StructTypeClan:
+      return 3;
+    case StructureInfoProto_StructTypeMiniJob:
+      return 2;
     case StructureInfoProto_StructTypeEvo:
     case StructureInfoProto_StructTypeLab:
-    case StructureInfoProto_StructTypeMiniJob:
-      return YES;
+      return 1;
       
     default:
-      return NO;
+      return 0;
   }
 }
 
@@ -87,7 +89,7 @@
   }
   
   UserStruct *townHall = gs.myTownHall;
-  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
   NSArray *myStructs = gs.myStructs;
   NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
     int cur = [gl calculateCurrentQuantityOfStructId:obj1.structId structs:myStructs];
@@ -98,8 +100,8 @@
     max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
     BOOL avail2 = cur < max && obj1.prerequisiteTownHallLvl <= thp.structInfo.level;
     
-    BOOL isSpecial1 = avail1 && [self isTypeRecommended:obj1.structType];
-    BOOL isSpecial2 = avail2 && [self isTypeRecommended:obj2.structType];
+    int isSpecial1 = avail1 ? [self isTypeRecommended:obj1.structType] : 0;
+    int isSpecial2 = avail2 ? [self isTypeRecommended:obj2.structType] : 0;
     
     if (avail1 != avail2) {
       return [@(avail2) compare:@(avail1)];
@@ -156,7 +158,7 @@
   StructureInfoProto *fsp = self.staticStructs[indexPath.row];
   
   UserStruct *townHall = [self townHall];
-  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+  TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
   int thLevel = thp.structInfo.level;
   int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId structs:[self curStructsList]];
   int max = [gl calculateMaxQuantityOfStructId:fsp.structId withTownHall:thp];
