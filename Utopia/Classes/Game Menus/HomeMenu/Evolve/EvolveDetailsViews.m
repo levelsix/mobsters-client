@@ -71,18 +71,19 @@
 - (void) updateWithMonsterImagePrefix:(NSString *)imgPrefix maskedColor:(UIColor *)maskedColor showNonMaskedImage:(BOOL)showNonMaskedImage labelText:(id)labelText {
   NSString *fileName = [imgPrefix stringByAppendingString:@"Character.png"];
   
-  if (showNonMaskedImage) {
-    [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-    self.monsterImage.hidden = NO;
-  } else {
-    self.monsterImage.hidden = YES;
-  }
-  
+  // Do overlay first so that when it downloads it doesn't flicker with the non-overlayed image first
   if (maskedColor) {
     [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageOverlay maskedColor:maskedColor indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     self.monsterImageOverlay.hidden = NO;
   } else {
     self.monsterImageOverlay.hidden = YES;
+  }
+  
+  if (showNonMaskedImage) {
+    [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImage maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+    self.monsterImage.hidden = NO;
+  } else {
+    self.monsterImage.hidden = YES;
   }
   
   if ([labelText isKindOfClass:[NSAttributedString class]]) {

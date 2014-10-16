@@ -34,6 +34,8 @@
 
 @interface AchievementsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
   int _redeemingAchievementId;
+  
+  BOOL _redeemedSomething;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *achievementsTable;

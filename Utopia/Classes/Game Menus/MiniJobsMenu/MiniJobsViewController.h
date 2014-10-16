@@ -16,6 +16,8 @@
 @interface MiniJobsViewController : UIViewController <MiniJobsDetailsDelegate, MiniJobsCompleteDelegate>  {
   MiniJobsListCell *_selectedCell;
   BOOL _isBeginningJob;
+  
+  BOOL _beganSomeJob;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;

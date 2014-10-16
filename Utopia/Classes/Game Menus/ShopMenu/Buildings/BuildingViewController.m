@@ -98,7 +98,7 @@
     
     cur = [gl calculateCurrentQuantityOfStructId:obj2.structId structs:myStructs];
     max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
-    BOOL avail2 = cur < max && obj1.prerequisiteTownHallLvl <= thp.structInfo.level;
+    BOOL avail2 = cur < max && obj2.prerequisiteTownHallLvl <= thp.structInfo.level;
     
     int isSpecial1 = avail1 ? [self isTypeRecommended:obj1.structType] : 0;
     int isSpecial2 = avail2 ? [self isTypeRecommended:obj2.structType] : 0;

@@ -45,6 +45,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *enhanceLabel;
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 @property (nonatomic, strong) IBOutlet UILabel *speedLabel;
+@property (nonatomic, strong) IBOutlet UILabel *powerLabel;
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
 
 @property (nonatomic, strong) IBOutlet UIButton *avatarButton;

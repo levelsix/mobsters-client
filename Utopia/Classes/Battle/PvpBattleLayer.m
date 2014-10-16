@@ -17,6 +17,7 @@
 #import <cocos2d-ui.h>
 #import "SoundEngine.h"
 #import "AchievementUtil.h"
+#import "ChartboostDelegate.h"
 
 @implementation PvpBattleLayer
 
@@ -113,6 +114,14 @@
     } else {
       [self exitFinal];
     }
+  }
+}
+
+- (void) exitFinal {
+  [super exitFinal];
+  
+  if (_hasChosenEnemy) {
+    [ChartboostDelegate firePvpMatch];
   }
 }
 

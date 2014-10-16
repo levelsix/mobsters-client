@@ -23,16 +23,32 @@
 }
 
 - (void) updateForEvoItem:(EvoItem *)evoItem {
-  [self.topContainer.monsterCardView updateForMonster:evoItem.userMonster1];
-  [self.botContainer.monsterCardView updateForMonster:evoItem.userMonster2];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int reqEvoChamberLevel = [gl evoChamberLevelToEvolveMonster:evoItem.userMonster1.monsterId];
+  EvoChamberProto *ecp = (EvoChamberProto *)gs.myEvoChamber.staticStructForCurrentConstructionLevel;
+  BOOL evoChamberHighEnough = reqEvoChamberLevel <= ecp.structInfo.level;
   
-  BOOL lvl1 = evoItem.userMonster1.level >= evoItem.userMonster1.staticMonster.maxLevel;
-  if (evoItem.userMonster2 && evoItem.catalystMonster && lvl1) {
-    self.statusLabel.text = @"Ready!";
-    self.statusLabel.textColor = [UIColor colorWithRed:106/255.f green:180/255.f blue:0.f alpha:1.f];
+  [self.topContainer.monsterCardView updateForMonster:evoItem.userMonster1 backupString:nil greyscale:!evoChamberHighEnough];
+  [self.botContainer.monsterCardView updateForMonster:evoItem.userMonster2 backupString:nil greyscale:!evoChamberHighEnough];
+  
+  if (evoChamberHighEnough) {
+    BOOL lvl1 = evoItem.userMonster1.level >= evoItem.userMonster1.staticMonster.maxLevel;
+    if (evoItem.userMonster2 && evoItem.catalystMonster && lvl1) {
+      self.statusLabel.text = @"Ready!";
+      self.statusLabel.textColor = [UIColor colorWithRed:106/255.f green:180/255.f blue:0.f alpha:1.f];
+    } else {
+      self.statusLabel.text = @"Tap For Info";
+      self.statusLabel.textColor = [UIColor colorWithRed:255/255.f green:0.f blue:10/255.f alpha:1.f];
+    }
+    
+    self.statusLabel.superview.hidden = NO;
+    self.reqEvoChamberLabel.hidden = YES;
   } else {
-    self.statusLabel.text = @"Tap For Info";
-    self.statusLabel.textColor = [UIColor colorWithRed:255/255.f green:0.f blue:10/255.f alpha:1.f];
+    self.reqEvoChamberLabel.text = [NSString stringWithFormat:@"Req. LVL %d\n%@", reqEvoChamberLevel, ecp.structInfo.name];
+    
+    self.statusLabel.superview.hidden = YES;
+    self.reqEvoChamberLabel.hidden = NO;
   }
 }
 

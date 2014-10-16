@@ -1243,10 +1243,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return dict;
 }
 
+#define FAT_KID_DUNGEON_LEVEL 5
+
 + (BOOL) shouldShowFatKidDungeon {
   GameState *gs = [GameState sharedGameState];
   UserStruct *us = gs.myLaboratory;
-  return us.staticStruct.structInfo.level > 1 || (us.staticStruct.structInfo.level == 1 && us.isComplete);
+  return us.staticStruct.structInfo.level > FAT_KID_DUNGEON_LEVEL || (us.staticStruct.structInfo.level == FAT_KID_DUNGEON_LEVEL && us.isComplete);
 }
 
 #pragma mark - Formulas
@@ -1655,6 +1657,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [um teamCost] <= maxCost-teamCost;
 }
 
+- (int) evoChamberLevelToEvolveMonster:(int)monsterId {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:monsterId];
+  MonsterProto *evo = [gs monsterWithId:mp.evolutionMonsterId];
+  
+  EvoChamberProto *ecp = nil;
+  for (EvoChamberProto *ss in gs.staticStructs.allValues) {
+    if (ss.structInfo.structType == StructureInfoProto_StructTypeEvo &&
+        ss.qualityUnlocked == evo.quality && ss.evoTierUnlocked == evo.evolutionLevel) {
+      ecp = ss;
+      break;
+    }
+  }
+  
+  return ecp.structInfo.level;
+}
+
 #pragma mark - Alerts
 
 + (void) popupMessage:(NSString *)msg {
@@ -2044,7 +2063,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   BOOL hasFullTeam = team.count >= gl.maxTeamSize && !hasDeadMonster;
   BOOL hasAvailMobsters = NO;
   for (UserMonster *um in gs.myMonsters) {
-    if ([um isAvailable] && !um.teamSlot && um.curHealth > 0) {
+    if ([um isAvailable] && !um.teamSlot && um.curHealth > 0 && [gl currentBattleReadyTeamHasCostFor:um]) {
       hasAvailMobsters = YES;
     }
   }

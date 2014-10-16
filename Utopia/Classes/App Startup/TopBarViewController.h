@@ -56,6 +56,14 @@
 @property (nonatomic, assign) IBOutlet UIImageView *cashBgd;
 @property (nonatomic, assign) IBOutlet UIImageView *oilBgd;
 
+@property (nonatomic, retain) IBOutlet UIView *expView;
+@property (nonatomic, retain) IBOutlet UIView *cashView;
+@property (nonatomic, retain) IBOutlet UIView *oilView;
+@property (nonatomic, retain) IBOutlet UIView *gemsView;
+@property (nonatomic, retain) IBOutlet UIView *timersView;
+
+@property (nonatomic, assign) IBOutlet UILabel *timerHeaderLabel;
+
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;

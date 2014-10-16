@@ -1802,6 +1802,12 @@
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
   
   self.hudView.bottomView.centerX = DEPLOY_CENTER_X;
+  
+  UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
+  if (DEPLOY_CENTER_X*2 > img.size.width+self.hudView.battleScheduleView.originX*2) {
+    self.hudView.battleScheduleView.bgdView.image = img;
+    self.hudView.battleScheduleView.width = img.size.width;
+  }
 }
 
 - (IBAction)swapClicked:(id)sender {

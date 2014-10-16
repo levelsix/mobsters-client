@@ -319,6 +319,7 @@
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
 - (int) calculateTeamCostForTeam:(NSArray *)team;
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;
+- (int) evoChamberLevelToEvolveMonster:(int)monsterId;
 
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;

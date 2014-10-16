@@ -264,9 +264,18 @@
   EvoItem *ei = self.evoItems[ip.section][ip.row];
   
   GameState *gs = [GameState sharedGameState];
-  EvolveDetailsViewController *vc = [[EvolveDetailsViewController alloc] initWithEvoItem:ei allowEvolution:(gs.userEvolution == nil)];
+  Globals *gl = [Globals sharedGlobals];
+  int reqEvoChamberLevel = [gl evoChamberLevelToEvolveMonster:ei.userMonster1.monsterId];
+  EvoChamberProto *ecp = (EvoChamberProto *)gs.myEvoChamber.staticStructForCurrentConstructionLevel;
+  BOOL evoChamberHighEnough = reqEvoChamberLevel <= ecp.structInfo.level;
   
-  [self.parentViewController pushViewController:vc animated:YES];
+  if (evoChamberHighEnough) {
+    EvolveDetailsViewController *vc = [[EvolveDetailsViewController alloc] initWithEvoItem:ei allowEvolution:(gs.userEvolution == nil)];
+    
+    [self.parentViewController pushViewController:vc animated:YES];
+  } else {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"%@ %@s require a Level %d %@", [Globals stringForRarity:ei.userMonster1.staticMonster.quality], MONSTER_NAME, reqEvoChamberLevel, ecp.structInfo.name]];
+  }
 }
 
 - (void) infoClicked:(id)sender {

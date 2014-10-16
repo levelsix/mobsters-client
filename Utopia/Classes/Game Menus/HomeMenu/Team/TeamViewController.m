@@ -266,7 +266,7 @@
       NSString *str1 = @"Power: ";
       NSString *str2 = [Globals commafyNumber:[listObject teamCost]];
       NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", str1, str2]];
-      [as addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:219/255.f green:1/255.f blue:0.f alpha:1.f] range:NSMakeRange(str1.length, str2.length)];
+      [as addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"ff9494"] range:NSMakeRange(str1.length, str2.length)];
       
       cell.statusLabel.attributedText = as;
     }

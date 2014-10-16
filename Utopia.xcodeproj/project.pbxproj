@@ -4430,6 +4430,10 @@
 		CFA8B1B519EBACE100CF6BFD /* bluewhite.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8B1B219EBACE100CF6BFD /* bluewhite.png */; };
 		CFA8B1B619EBACE100CF6BFD /* bluewhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8B1B319EBACE100CF6BFD /* bluewhite@2x.png */; };
 		CFA8B1B719EBACE100CF6BFD /* bluewhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8B1B319EBACE100CF6BFD /* bluewhite@2x.png */; };
+		CFA8B1B919EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8B1B819EF524800CF6BFD /* 6movesqueuebgwide@2x.png */; };
+		CFA8B1BA19EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8B1B819EF524800CF6BFD /* 6movesqueuebgwide@2x.png */; };
+		CFA8B1BD19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA8B1BC19EF5D6600CF6BFD /* ChartboostDelegate.m */; };
+		CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA8B1BC19EF5D6600CF6BFD /* ChartboostDelegate.m */; };
 		CFADDB3517D00ED000B1FF3C /* MonsterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */; };
 		CFADDB3817D00EF300B1FF3C /* MonsterCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */; };
 		CFAF0D7F19C7DFCE00C0AB5B /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFBE9F3D19C7DA6A00E5520C /* libcocos2d.a */; };
@@ -8313,6 +8317,9 @@
 		CFA8B1AF19EB8C2F00CF6BFD /* ChatClanHelpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanHelpView.xib; sourceTree = "<group>"; };
 		CFA8B1B219EBACE100CF6BFD /* bluewhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluewhite.png; sourceTree = "<group>"; };
 		CFA8B1B319EBACE100CF6BFD /* bluewhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluewhite@2x.png"; sourceTree = "<group>"; };
+		CFA8B1B819EF524800CF6BFD /* 6movesqueuebgwide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6movesqueuebgwide@2x.png"; sourceTree = "<group>"; };
+		CFA8B1BB19EF5D6600CF6BFD /* ChartboostDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartboostDelegate.h; sourceTree = "<group>"; };
+		CFA8B1BC19EF5D6600CF6BFD /* ChartboostDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartboostDelegate.m; sourceTree = "<group>"; };
 		CFADDB3317D00ED000B1FF3C /* MonsterCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterCardView.h; sourceTree = "<group>"; };
 		CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterCardView.m; sourceTree = "<group>"; };
 		CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterCardView.xib; sourceTree = "<group>"; };
@@ -10394,6 +10401,7 @@
 		CF023C7D1992E2BA0082FE61 /* Current Queue:Speed */ = {
 			isa = PBXGroup;
 			children = (
+				CFA8B1B819EF524800CF6BFD /* 6movesqueuebgwide@2x.png */,
 				CF42519E19AC131000964547 /* enemystripes.png */,
 				CF42519F19AC131000964547 /* enemystripes@2x.png */,
 				CF023C7F1992E2BA0082FE61 /* currentborder.png */,
@@ -15836,6 +15844,8 @@
 			children = (
 				CFFCF56C19B01C4E007E316D /* TangoDelegate.h */,
 				CFFCF56D19B01C4E007E316D /* TangoDelegate.m */,
+				CFA8B1BB19EF5D6600CF6BFD /* ChartboostDelegate.h */,
+				CFA8B1BC19EF5D6600CF6BFD /* ChartboostDelegate.m */,
 			);
 			path = Tango;
 			sourceTree = "<group>";
@@ -18539,6 +18549,7 @@
 				CF0CF575196F452900ECD301 /* taskcompletion@2x.png in Resources */,
 				CF0CF576196F452900ECD301 /* teamemptyslot@2x.png in Resources */,
 				CFDA7905198C303C0014A8CD /* profilecircle.png in Resources */,
+				CFA8B1BA19EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */,
 				4C16FF1819CE03AE00F9FC1E /* goosplashicon.png in Resources */,
 				CF0CF577196F452900ECD301 /* cardhealthbg.png in Resources */,
 				CF0CF578196F452900ECD301 /* earthtimermobster@2x.png in Resources */,
@@ -22271,6 +22282,7 @@
 				CF22F97917F14C0600DFD79D /* power_up.aif in Resources */,
 				CF2A4AFD1901B8F500B2D7D7 /* orangenotificationheader.png in Resources */,
 				CF010F3119DDE5C400DAD527 /* chatinputbgmiddle@2x.png in Resources */,
+				CFA8B1B919EF524800CF6BFD /* 6movesqueuebgwide@2x.png in Resources */,
 				CFF7872918E28FE200413E78 /* askfacebook@2x.png in Resources */,
 				4C16FEE219CE03A200F9FC1E /* firepoison.png in Resources */,
 				CF812EF819E67D4E00D91157 /* clanshelpactive@2x.png in Resources */,
@@ -22649,6 +22661,7 @@
 				CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */,
 				CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */,
 				CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */,
+				CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
 				CF0CEDCD196F452900ECD301 /* MyTeamSprite.m in Sources */,
 				CF0CEDCE196F452900ECD301 /* PvpBattleLayer.m in Sources */,
 				CF0CEDCF196F452900ECD301 /* ClanCreateViewController.m in Sources */,
@@ -22739,6 +22752,7 @@
 				CFF6464A195A578800C43641 /* ListCollectionView.m in Sources */,
 				CF126D381538ACCA00E0C1AD /* UserData.m in Sources */,
 				CF688FFD1912E5D000FF1F71 /* MiniJobsDetailsViewController.m in Sources */,
+				CFA8B1BD19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
 				DA07605E19B129EC00E43E5A /* SkillController.m in Sources */,
 				CF0CE07F196D21CC00ECD301 /* TutorialTeamViewController.m in Sources */,
 				DA58F52119AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,

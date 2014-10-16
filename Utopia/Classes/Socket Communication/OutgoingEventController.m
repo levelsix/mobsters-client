@@ -1689,6 +1689,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         UserMonster *del = [overwritable firstObject];
         [toRemove addObject:del];
         [overwritable removeObject:del];
+        um.teamSlot = MIN(del.teamSlot, um.teamSlot);
         del.teamSlot = 0;
       }
       firstCheck = NO;

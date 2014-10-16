@@ -134,6 +134,11 @@
   // Do nothing
 }
 
+- (void) adjustTopBarForPhoneSize {
+  // Do nothing
+  // We want it to stay in the top right
+}
+
 - (BOOL) updateShopBadge {
   // Do nothing
   return NO;

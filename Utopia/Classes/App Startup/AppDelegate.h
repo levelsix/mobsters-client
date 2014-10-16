@@ -10,9 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <cocos2d.h>
 
-#import <Chartboost/Chartboost.h>
-
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, ChartboostDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 	UIWindow *window;
   
   BOOL _attemptedTango;

@@ -16,6 +16,7 @@
 #import "FacebookDelegate.h"
 #import "AchievementUtil.h"
 #import "SkillManager.h"
+#import "ChartboostDelegate.h"
 
 @implementation DungeonBattleLayer
 
@@ -246,6 +247,12 @@
       [self exitFinal];
     }
   }
+}
+
+- (void) exitFinal {
+  [super exitFinal];
+  
+  [ChartboostDelegate firePveMatch];
 }
 
 - (void) continueConfirmed {

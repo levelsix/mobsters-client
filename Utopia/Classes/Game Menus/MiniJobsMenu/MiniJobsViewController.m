@@ -11,6 +11,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "ChartboostDelegate.h"
 
 @implementation MiniJobsViewController
 
@@ -40,6 +41,10 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  if (_beganSomeJob) {
+    [ChartboostDelegate fireMiniJobSent];
+  }
 }
 
 - (void) miniJobWaitTimeComplete:(NSNotification *)notif {
@@ -223,6 +228,7 @@
     if (totalHp >= reqHp && totalAtk >= reqAtk) {
       [[OutgoingEventController sharedOutgoingEventController] beginMiniJob:miniJob userMonsterIds:arr delegate:self];
       _isBeginningJob = YES;
+      _beganSomeJob = YES;
       
       [self.detailsViewController beginEngageSpinning];
     } else {

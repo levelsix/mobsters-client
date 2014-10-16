@@ -350,23 +350,27 @@
 
 - (IBAction)enterEventClicked:(UIView *)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeon]) {
-    if (!sender.tag) {
-      [self enterEventConfirmed:_curEventView useGems:NO];
-    } else {
-      GameState *gs = [GameState sharedGameState];
-      Globals *gl = [Globals sharedGlobals];
-      PersistentEventProto *pe = [gs persistentEventWithId:_curEventView.persistentEventId];
-      FullTaskProto *ftp = [gs taskWithId:pe.taskId];
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    PersistentEventProto *pe = [gs persistentEventWithId:_curEventView.persistentEventId];
+    FullTaskProto *ftp = [gs taskWithId:pe.taskId];
+    
+    BOOL asked = NO;
+    if (sender.tag) {
       
       int timeLeft = [pe.cooldownEndTime timeIntervalSinceNow];
       int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
       
       if (speedupCost) {
-        NSString *str = [NSString stringWithFormat:@"Would you like to enter the %@ for %@ gems?", ftp.name, [Globals commafyNumber:speedupCost]];
+        NSString *str = [NSString stringWithFormat:@"Would you like to enter %@ for %@ gems?", ftp.name, [Globals commafyNumber:speedupCost]];
         [GenericPopupController displayGemConfirmViewWithDescription:str title:[NSString stringWithFormat:@"Enter %@?", ftp.name] gemCost:speedupCost target:self selector:@selector(enterEventWithGems)];
-      } else {
-        [self enterEventWithGems];
+        asked = YES;
       }
+    }
+    
+    if (!asked) {
+      NSString *str = [NSString stringWithFormat:@"Would you like to enter %@?", ftp.name];
+      [GenericPopupController displayConfirmationWithDescription:str title:[NSString stringWithFormat:@"Enter %@?", ftp.name] okayButton:@"Enter" cancelButton:@"Cancel" target:self selector:@selector(enterEventWithoutGems)];
     }
   }
 }
@@ -384,6 +388,10 @@
   } else {
     [GenericPopupController displayNotEnoughGemsView];
   }
+}
+
+- (void) enterEventWithoutGems {
+  [self enterEventConfirmed:_curEventView useGems:NO];
 }
 
 - (void) enterEventConfirmed:(AttackEventView *)eventView useGems:(BOOL)useGems {

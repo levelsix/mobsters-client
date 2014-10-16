@@ -113,16 +113,16 @@
 
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
-  float firstDur = 0.4f;
-  float secondDur = 0.6f;
-  float thirdDur = 0.2f;
-  float fourthDur = 0.5f;
-  float fifthDur = 0.3f;
-  float sixthDur = 0.3f;
-  float seventhDur = 0.3f;
+  float firstDur = 0.4f; // bgd node
+  float secondDur = 0.4f; // combination of "You Won"
+  float thirdDur = 0.2f; // each reward cell delay or sticker head
+  float fourthDur = 0.5f; // reward cell fly in
+  float fifthDur = 0.3f; // continue/share
+  float sixthDur = 0.3f; // done
+  float seventhDur = 0.3f; // tip
   
-  float eighthDur = 0.3f;
-  float ninthDur = 0.3f;
+  float eighthDur = 0.15f; // ribbon fade
+  float ninthDur = 0.3f; // rewards coming down
   
   self.bgdNode.opacity = 0.f;
   self.bgdNode.scale = MAX(self.parent.contentSize.height/self.bgdNode.contentSize.height,
@@ -171,7 +171,7 @@
   
   if (self.stickerHead.visible) {
     self.stickerHead.scale = 0.f;
-    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur+eighthDur+ninthDur-0.1],
+    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur+eighthDur+ninthDur],
                                  [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
     self.stickerHead.rotation = -12.5;
     CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];

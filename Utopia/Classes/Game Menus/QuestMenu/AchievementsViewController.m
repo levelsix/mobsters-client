@@ -11,6 +11,8 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
+#import "ChartboostDelegate.h"
+
 @implementation AchievementsCell
 
 - (void) awakeFromNib {
@@ -72,6 +74,14 @@
 
 @implementation AchievementsViewController
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  if (_redeemedSomething) {
+    [ChartboostDelegate fireAchievementRedeemed];
+  }
+}
+
 - (void) reloadWithAchievements:(NSDictionary *)allAchievements userAchievements:(NSDictionary *)userAchievements {
   self.allAchievements = allAchievements;
   self.userAchievements = userAchievements;
@@ -121,6 +131,8 @@
     [cell.spinner startAnimating];
     cell.collectLabel.hidden = YES;
     _redeemingAchievementId = cell.achievementId;
+    
+    _redeemedSomething = YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACHIEVEMENTS_CHANGED_NOTIFICATION object:self];
   }

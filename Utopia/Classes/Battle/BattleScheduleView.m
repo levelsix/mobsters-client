@@ -32,6 +32,12 @@
   _reorderingInProgress = NO;
 }
 
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  
+  self.numSlots = roundf(self.width/(self.currentBorder.width+VIEW_SPACING));
+}
+
 - (void) displayOverlayView {
   [UIView animateWithDuration:0.3f animations:^{
     self.overlayView.alpha = 1.f;

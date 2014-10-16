@@ -26,13 +26,11 @@
 #import <BugSense-iOS/BugSenseController.h>
 #import <Crashlytics/Crashlytics.h>
 #import <cocos2d-ui.h>
+#import "ChartboostDelegate.h"
 
 #import "TangoDelegate.h"
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
-
-#define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"
-#define CHARTBOOST_APP_SIG   @"91b5231f8da2a3f7698c29e2692b4addf8102a12"
 
 //#define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
 //#define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
@@ -58,15 +56,6 @@
 #endif
   
   return success;
-}
-
-- (void) setUpChartboost {
-#ifdef TOONSQUAD
-#ifndef DEBUG
-  [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:self];
-  [Chartboost showInterstitial:@"bootup_ad"];
-#endif
-#endif
 }
 
 - (BOOL)shouldRequestInterstitialsInFirstSession {
@@ -109,7 +98,7 @@
   //Init the window
   window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
-  [self setUpChartboost];
+  [ChartboostDelegate setUpChartboost];
   [self forcePurgeCache];
   
   GameViewController *gvc = [[GameViewController alloc] init];

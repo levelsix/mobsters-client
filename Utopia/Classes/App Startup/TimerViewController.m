@@ -15,7 +15,7 @@
 #define SCROLLVIEW_INSET 3
 #define CELL_SPACING 3
 #define MINIMIZED_CELLS_SHOWN 2
-#define MIN_HEIGHT 18
+#define MIN_HEIGHT 15.5f
 
 @implementation TimerCell
 
@@ -74,6 +74,11 @@
 
 
 @implementation TimerViewController
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  self.isOpen = YES;
+}
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];

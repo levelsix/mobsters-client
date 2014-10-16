@@ -89,6 +89,8 @@
   self.hpLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.monster.curHealth], [Globals commafyNumber:maxHealth]];
   self.progressBar.percentage = ((float)self.monster.curHealth)/maxHealth;
   
+  self.powerLabel.text = [Globals commafyNumber:[self.monster teamCost]];
+  
   Element elem = ElementFire;
   [self.fireView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
   elem = ElementWater;
@@ -107,7 +109,9 @@
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.elementType.image = [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"]];
+  [Globals adjustViewForCentering:self.monsterNameLabel.superview withLabel:self.monsterNameLabel];
 }
 
 - (void) updateSkillData:(BOOL)offensive

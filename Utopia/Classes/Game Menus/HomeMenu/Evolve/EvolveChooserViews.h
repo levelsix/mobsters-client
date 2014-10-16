@@ -28,6 +28,7 @@
 @property (nonatomic, retain) IBOutlet MonsterCardContainerView *botContainer;
 
 @property (nonatomic, retain) IBOutlet UILabel *statusLabel;
+@property (nonatomic, retain) IBOutlet UILabel *reqEvoChamberLabel;
 
 @property (nonatomic, assign) id<EvolveCardDelegate> delegate;
 

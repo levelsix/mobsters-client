@@ -112,12 +112,7 @@
     self.shopBadge.alpha = 0.f; 
   }
   
-  [self.updateTimer invalidate];
-  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
-  [self updateLabels];
-  
-  if (gs.connected && !self.chatBottomView) {
+  if (gs.connected && !self.chatBottomView && !gs.isTutorial) {
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     [self.chatBottomView openAnimated:NO];
     
@@ -130,7 +125,15 @@
     
     ChatScope scope = gs.clan ? ChatScopeClan : ChatScopeGlobal;
     [self.chatBottomView switchToScope:scope animated:NO];
+    
+    // Put this here so it only happens once
+    [self adjustTopBarForPhoneSize];
   }
+  
+  [self.updateTimer invalidate];
+  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+  [self updateLabels];
   
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -143,15 +146,74 @@
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
-  if (self.coinBarsView.frame.size.width+self.expBar.frame.size.width > self.view.frame.size.width) {
-    CGRect r = self.coinBarsView.frame;
-    r.origin.x = CGRectGetMaxX(self.expBar.superview.frame);
-    r.size.width = self.view.frame.size.width-r.origin.x;
-    self.coinBarsView.frame = r;
-  }
-  
   // Arrow to residence
   [Globals removeUIArrowFromViewRecursively:self.view];
+}
+
+- (void) adjustTopBarForPhoneSize {
+  if (![Globals isSmallestiPhone]) {
+    // Turn off autoresizing for coinbarsview while we adjust for diff
+    self.coinBarsView.autoresizesSubviews = NO;
+    
+    NSArray *arr = @[self.cashBgd, self.oilBgd];
+    for (UIImageView *iv in arr) {
+      iv.image = [Globals imageNamed:@"toplongbar.png"];
+      
+      CGSize s = iv.image.size;
+      CGSize cur = iv.size;
+      
+      // This will get auto readjusted
+      //iv.width = s.width;
+      
+      float diff = s.width-cur.width;
+      iv.superview.width += diff;
+      
+      // Check in case view is not part of coin bars view
+      if ([iv isDescendantOfView:self.coinBarsView]) {
+        self.coinBarsView.width += diff;
+        self.coinBarsView.originX -= diff;
+      }
+    }
+    
+    self.coinBarsView.autoresizesSubviews = YES;
+    
+    // Put cash bgd flush with right side
+    self.cashView.originX = self.cashView.superview.width-self.cashView.width;
+    
+    int extraSpace = self.view.frame.size.width-self.coinBarsView.frame.size.width-self.expView.frame.size.width;
+    if (extraSpace >= self.timersView.width || [Globals isiPhone6]) {
+      // iPhone 6 and bigger
+      // Move timers to top and move coin bars over
+      self.timersView.height += self.timersView.originY;
+      self.timersView.originY = 0;
+      
+      self.coinBarsView.originX -= self.timersView.width;
+      
+      
+      // Move gem bar to the end and adjust auto resizing masks
+      float diff = self.oilView.originX;
+      self.oilView.originX -= diff;
+      self.cashView.originX -= diff;
+      
+      self.gemsView.originX = self.coinBarsView.width-self.gemsView.width;
+      
+      self.oilView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+      self.cashView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+      self.gemsView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    }
+    
+    self.timerHeaderLabel.originX -= 14;
+  }
+  
+  // For iPhone 4, just squish top bar. autoresizing will put it into place
+  if (self.expView.originX+self.expView.width > self.coinBarsView.originX) {
+    float newX = CGRectGetMaxX(self.expView.frame);
+    float oldWidth = self.coinBarsView.width;
+    float newWidth = CGRectGetMaxX(self.coinBarsView.frame)-newX;
+    float maxWidth = self.view.width-newX;
+    self.coinBarsView.width = MIN(maxWidth, newWidth + (oldWidth-newWidth)/4);
+    self.coinBarsView.originX = newX;
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
