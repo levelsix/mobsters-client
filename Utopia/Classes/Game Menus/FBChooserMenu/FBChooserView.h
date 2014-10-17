@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "DBFBProfilePictureView.h"
 
 @interface FBFriendCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet FBProfilePictureView *profilePic;
+@property (nonatomic, retain) IBOutlet DBFBProfilePictureView *profilePic;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *checkmark;
 

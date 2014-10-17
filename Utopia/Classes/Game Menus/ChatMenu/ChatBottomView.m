@@ -170,10 +170,10 @@
 - (void) reloadPageControl {
   for (ChatScope i = ChatScopeGlobal; i <= ChatScopePrivate; i++) {
     NSString *filename = nil;
-    if (i == _chatScope) {
-      filename = @"activechatline.png";
-    } else if ([self.delegate shouldShowNotificationDotForScope:i]) {
+    if ([self.delegate shouldShowNotificationDotForScope:i]) {
       filename = @"newchatline.png";
+    } else if (i == _chatScope) {
+      filename = @"activechatline.png";
     } else {
       filename = @"inactivechatline.png";
     }

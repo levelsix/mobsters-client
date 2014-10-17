@@ -28,6 +28,8 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *finishSpinner;
 @property (nonatomic, retain) IBOutlet UIView *finishLabelsView;
 
+@property (nonatomic, retain) IBOutlet UILabel *totalTimeLabel;
+
 @property (nonatomic, retain) IBOutlet UIView *getHelpView;
 
 @property (nonatomic, retain) IBOutlet UIView *completeView;

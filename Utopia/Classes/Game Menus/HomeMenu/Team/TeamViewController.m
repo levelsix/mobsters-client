@@ -167,7 +167,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSString *str = [NSString stringWithFormat:@"MANAGE TEAM (%d/%d)", [gl calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam], gs.maxTeamCost];
+  NSString *str = [NSString stringWithFormat:@"TEAM (%d/%d POWER)", [gl calculateTeamCostForTeam:gs.allBattleAvailableAliveMonstersOnTeam], gs.maxTeamCost];
   self.title = str;
 }
 

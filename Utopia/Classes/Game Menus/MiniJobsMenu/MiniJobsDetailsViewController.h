@@ -67,14 +67,13 @@ typedef enum {
   MiniJobsSortOrderAtkDesc,
 } MiniJobsSortOrder;
 
-@interface MiniJobsDetailsViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface MiniJobsDetailsViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate, ListCollectionDelegate> {
   UIButton *_clickedButton;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 @property (nonatomic, retain) IBOutlet UIImageView *headerArrow;
 @property (nonatomic, retain) IBOutlet UITableView *monstersTable;
-@property (nonatomic, retain) IBOutlet UIView *tapCharView;
 
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *engageSpinner;
@@ -88,15 +87,17 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *hpProgressBar;
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *attackProgressBar;
 
-@property (nonatomic, retain) IBOutletCollection(MiniJobsMonsterView) NSMutableArray *monsterViews;
 @property (nonatomic, retain) IBOutlet MiniMonsterView *animMonsterView;
+@property (nonatomic, retain) IBOutlet ListCollectionView *queueView;
+@property (nonatomic, retain) MonsterQueueCell *queueCell;
+@property (nonatomic, retain) IBOutlet THLabel *slotsAvailableLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *queueArrow;
 
 @property (nonatomic, retain) IBOutlet MiniJobsInProgressView *inProgressView;
 
 @property (nonatomic, retain) IBOutlet MiniJobsDetailsCell *detailsCell;
 
 @property (nonatomic, retain) IBOutlet UILabel *availableMonstersLabel;
-@property (nonatomic, retain) IBOutlet UILabel *tapMobsterLabel;
 
 @property (nonatomic, retain) NSMutableArray *monsterArray;
 @property (nonatomic, retain) NSMutableArray *pickedMonsters;

@@ -61,7 +61,6 @@
 
 @property (readonly, nonatomic) NSDictionary *imageQueryParam;
 @property (strong, nonatomic) NSDictionary *previousImageQueryParam;
-@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) NSURL *url;
 
 @end

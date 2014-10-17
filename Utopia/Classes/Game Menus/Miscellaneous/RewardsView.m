@@ -24,7 +24,7 @@
     color = [Globals colorForRarity:mp.quality];
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
-    labelName = [Globals cashStringForNumber:reward.silverAmount];
+    labelName = [Globals commafyNumber:reward.silverAmount];
     color = [UIColor colorWithRed:105/255. green:141/255. blue:7/255.f alpha:1.f];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";

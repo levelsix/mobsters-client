@@ -107,34 +107,35 @@
   [self stopSpinning];
   
   self.availableMonstersLabel.text = [NSString stringWithFormat:@"AVAILABLE %@S", MONSTER_NAME.uppercaseString];
-  self.tapMobsterLabel.text = [NSString stringWithFormat:@"Tap a %@ to fill slot", MONSTER_NAME];
   
   self.title = self.userMiniJob.miniJob.name;
+  
+  self.slotsAvailableLabel.strokeSize = 0.5f;
+  self.slotsAvailableLabel.strokeColor = [UIColor colorWithRed:127/255.f green:168/255.f blue:39/255.f alpha:1.f];
+  
+  self.queueCell = [[NSBundle mainBundle] loadNibNamed:@"MonsterQueueCell" owner:self options:nil][0];
+  
+  self.queueView.isFlipped = YES;
+  self.queueView.cellClassName = @"MonsterQueueCell";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   self.sortOrder = MiniJobsSortOrderHpDesc;
-  [self reloadTable];
+  [self reloadTableAnimated:NO];
+  [self updateBottomLabels];
   
   // Hp should be autoclicked
   _clickedButton = (UIButton *)[self.headerView viewWithTag:1];
   
-  for (MiniJobsMonsterView *mv in self.monsterViews) {
-    [mv updateForMonsterId:0];
-  }
-  
   self.pickedMonsters = [NSMutableArray array];
-  
-  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
-  [self updateLabels];
   
   self.inProgressView.center = self.monstersTable.center;
   [self.monstersTable.superview addSubview:self.inProgressView];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-  [self.updateTimer invalidate];
+  [super viewWillAppear:animated];
 }
 
 - (void) updateLabels {
@@ -143,20 +144,26 @@
   }
 }
 
+- (void) waitTimeComplete {
+  [self reloadTableAnimated:YES];
+}
+
 - (void) setActiveMiniJob:(UserMiniJob *)activeMiniJob {
   _activeMiniJob = activeMiniJob;
   
   if (activeMiniJob) {
     self.monstersTable.hidden = YES;
     self.inProgressView.hidden = NO;
-    self.tapCharView.hidden = YES;
     
     [self.inProgressView updateForMiniJob:activeMiniJob];
   } else {
     self.monstersTable.hidden = NO;
     self.inProgressView.hidden = YES;
-    self.tapCharView.hidden = NO;
   }
+}
+
+- (void) reloadQueueViewAnimated:(BOOL)animated {
+  [self.queueView reloadTableAnimated:animated listObjects:self.pickedMonsters];
 }
 
 - (void) reloadMonstersArray {
@@ -172,12 +179,6 @@
   self.monsterArray = arr;
   
   [self sortMonsterArray];
-}
-
-- (void) reloadTable {
-  [self reloadMonstersArray];
-  [self.monstersTable reloadData];
-  [self updateBottomLabels];
 }
 
 - (void) updateBottomLabels {
@@ -203,9 +204,9 @@
   }
   self.timeLabel.text = time;
   
-  [UIView animateWithDuration:0.3f animations:^{
-    self.tapCharView.alpha = self.pickedMonsters.count ? 0.f : 1.f;
-  }];
+  int maxAllowed = self.userMiniJob.miniJob.maxNumMonstersAllowed;
+  self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];
+  self.queueArrow.highlighted = self.pickedMonsters.count >= maxAllowed;
   
   if (totalHp >= reqHp && totalAtk >= reqAtk) {
     self.engageArrow.highlighted = NO;
@@ -292,27 +293,26 @@
   }];
 }
 
-- (void) animateTableReload:(NSArray *)before {
-//  NSArray *after = self.monsterArray;
-//  [self.monstersTable beginUpdates];
-//  for (int i = 0; i < before.count; i++) {
-//    id object = [before objectAtIndex:i];
-//    NSInteger newIndex = [after indexOfObject:object];
-//    if (newIndex != NSNotFound) {
-//      [self.monstersTable moveRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] toIndexPath:[NSIndexPath indexPathForRow:newIndex inSection:0]];
-//    } else {
-//      [self.monstersTable deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-//  }
-//  
-//  for (int i = 0; i < after.count; i++) {
-//    id object = [after objectAtIndex:i];
-//    if (![before containsObject:object]) {
-//      [self.monstersTable insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-//  }
-//  [self.monstersTable endUpdates];
-  [self.monstersTable reloadData];
+- (void) reloadTableAnimated:(BOOL)animated {
+  NSArray *before = [self.monsterArray copy];
+  [self reloadMonstersArray];
+  
+  NSMutableArray *removedIps = [NSMutableArray array], *addedIps = [NSMutableArray array];
+  NSMutableDictionary *movedIps = [NSMutableDictionary dictionary];
+  
+  [Globals calculateDifferencesBetweenOldArray:before newArray:self.monsterArray removalIps:removedIps additionIps:addedIps movedIps:movedIps section:0];
+  
+  [self.monstersTable beginUpdates];
+  
+  [self.monstersTable deleteRowsAtIndexPaths:removedIps withRowAnimation:UITableViewRowAnimationFade];
+  
+  for (NSIndexPath *ip in movedIps) {
+    NSIndexPath *newIp = movedIps[ip];
+    [self.monstersTable moveRowAtIndexPath:ip toIndexPath:newIp];
+  }
+  [self.monstersTable insertRowsAtIndexPaths:addedIps withRowAnimation:UITableViewRowAnimationFade];
+  
+  [self.monstersTable endUpdates];
 }
 
 - (void) clickButton:(UIButton *)button isDesc:(BOOL)isDesc {
@@ -334,9 +334,7 @@
   } else {
     self.sortOrder = MiniJobsSortOrderHpDesc;
   }
-  NSArray *oldArr = [self.monsterArray copy];
-  [self sortMonsterArray];
-  [self animateTableReload:oldArr];
+  [self reloadTableAnimated:YES];
   
   [self clickButton:sender isDesc:self.sortOrder == MiniJobsSortOrderHpDesc];
 }
@@ -347,9 +345,7 @@
   } else {
     self.sortOrder = MiniJobsSortOrderAtkDesc;
   }
-  NSArray *oldArr = [self.monsterArray copy];
-  [self sortMonsterArray];
-  [self animateTableReload:oldArr];
+  [self reloadTableAnimated:YES];
   
   [self clickButton:sender isDesc:self.sortOrder == MiniJobsSortOrderAtkDesc];
 }
@@ -357,34 +353,17 @@
 #pragma mark - Picking and unpicking monsters
 
 - (void) pickMonsterAtRow:(int)row {
-  if (self.pickedMonsters.count < self.monsterViews.count) {
-    NSIndexPath *ip = [NSIndexPath indexPathForRow:row inSection:0];
+  if (self.pickedMonsters.count < self.userMiniJob.miniJob.maxNumMonstersAllowed) {
     UserMonster *um = self.monsterArray[row];
-    MiniJobsDetailsCell *cell = (MiniJobsDetailsCell *)[self.monstersTable cellForRowAtIndexPath:ip];
     
     if (um.curHealth <= 0) {
       [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is not healthy enough to go on this mini job.", MONSTER_NAME]];
     } else {
       [self.pickedMonsters addObject:um];
-      [self.monsterArray removeObjectAtIndex:row];
       
-      cell.monsterView.alpha = 0.f;
-      [self.animMonsterView updateForMonsterId:um.monsterId];
-      [self.view addSubview:self.animMonsterView];
-      self.animMonsterView.frame = [self.view convertRect:cell.monsterView.frame fromView:cell.monsterView.superview];
-      
-      NSUInteger idx = [self.pickedMonsters indexOfObject:um];
-      MiniJobsMonsterView *mv = [self.monsterViews objectAtIndex:idx];
-      [UIView animateWithDuration:0.3f animations:^{
-        self.animMonsterView.frame = [self.view convertRect:mv.monsterView.frame fromView:mv.monsterView.superview];
-      } completion:^(BOOL finished) {
-        [mv updateForMonsterId:um.monsterId];
-        if (finished) {
-          [self.animMonsterView removeFromSuperview];
-        }
-      }];
-      
-      [self.monstersTable deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
+      [self reloadQueueViewAnimated:YES];
+      [self animateIntoQueue:um];
+      [self reloadTableAnimated:YES];
       
       [self updateBottomLabels];
     }
@@ -393,51 +372,59 @@
   }
 }
 
-- (IBAction) minusButtonClicked:(UIView *)sender {
-  while (sender && ![sender isKindOfClass:[MiniJobsMonsterView class]]) {
-    sender = [sender superview];
-  }
+- (void) animateIntoQueue:(UserMonster *)um {
+  NSInteger monsterIndex = [self.monsterArray indexOfObject:um];
+  MiniJobsDetailsCell *listCell = (MiniJobsDetailsCell *)[self.monstersTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
+  MiniMonsterView *listMonsterView = listCell.monsterView;
   
-  MiniJobsMonsterView *mv = (MiniJobsMonsterView *)sender;
-  if (mv) {
-    mv.minusButton.hidden = YES;
+  monsterIndex = (int)[self.queueView.listObjects indexOfObject:um];
+  NSIndexPath *ip = [NSIndexPath indexPathForItem:monsterIndex inSection:0];
+  MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:ip];
+  
+  if (listMonsterView && queueCell) {
+    [self.queueCell updateForListObject:um];
+    [self.animMonsterView updateForMonsterId:um.monsterId];
     
-    UIImage *img = [Globals snapShotView:mv];
-    UIImageView *iv = [[UIImageView alloc] initWithImage:img];
-    [mv addSubview:iv];
-    [mv updateForMonsterId:0];
+    [self.view addSubview:self.queueCell];
+    [self.view insertSubview:self.animMonsterView aboveSubview:self.monstersTable];
     
-    [UIView animateWithDuration:0.3f animations:^{
-      iv.alpha = 0.f;
-    }];
+    [Globals animateStartView:listMonsterView toEndView:queueCell fakeStartView:self.animMonsterView fakeEndView:self.queueCell];
+  } else {
+    [self.queueView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+  }
+}
+
+- (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
+  UserMonster *um = self.pickedMonsters[indexPath.row];
+  
+  [self.pickedMonsters removeObject:um];
+  
+  [self reloadTableAnimated:YES];
+  [self animateOutOfQueue:um];
+  [self reloadQueueViewAnimated:YES];
+  
+  [self updateBottomLabels];
+}
+
+- (void) animateOutOfQueue:(UserMonster *)um {
+  NSInteger monsterIndex = [self.monsterArray indexOfObject:um];
+  NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
+  MiniJobsDetailsCell *listCell = (MiniJobsDetailsCell *)[self.monstersTable cellForRowAtIndexPath:ip];
+  MiniMonsterView *listMonsterView = listCell.monsterView;
+  
+  monsterIndex = (int)[self.queueView.listObjects indexOfObject:um];
+  MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:monsterIndex inSection:0]];
+  
+  if (listMonsterView && queueCell) {
+    [self.queueCell updateForListObject:um];
+    [self.animMonsterView updateForMonsterId:um.monsterId];
     
-    NSUInteger idx = [self.monsterViews indexOfObject:mv];
-    UserMonster *um = self.pickedMonsters[idx];
-    [self.monsterArray addObject:um];
-    [self.pickedMonsters removeObject:um];
+    [self.view addSubview:self.queueCell];
+    [self.view insertSubview:self.animMonsterView aboveSubview:self.monstersTable];
     
-    [self sortMonsterArray];
-    idx = [self.monsterArray indexOfObject:um];
-    [self.monstersTable insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-    
-    // Reorder monster views so that they match up with pickedMonsters array
-    [self.monsterViews removeObject:mv];
-    int newIdx = -1;
-    for (int i = 0; i < self.monsterViews.count; i++) {
-      MiniJobsMonsterView *test = self.monsterViews[i];
-      if (!test.monsterView.monsterId && test.tag > mv.tag) {
-        newIdx = i;
-        break;
-      }
-    }
-    
-    if (newIdx >= 0) {
-      [self.monsterViews insertObject:mv atIndex:newIdx];
-    } else {
-      [self.monsterViews addObject:mv];
-    }
-    
-    [self updateBottomLabels];
+    [Globals animateStartView:queueCell toEndView:listMonsterView fakeStartView:self.queueCell fakeEndView:self.animMonsterView];
+  } else {
+    [self.monstersTable scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionNone animated:YES];
   }
 }
 

@@ -16,7 +16,7 @@
 #define READ_PERMISSIONS @[@"public_profile", @"user_friends", @"email"]
 
 #ifdef DEBUG
-#define TEST_APP_SWITCH 1
+#define TEST_APP_SWITCH 0
 #endif
 
 @implementation FacebookDelegate

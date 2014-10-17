@@ -56,4 +56,6 @@ typedef void (^DBFBProfilePictureViewHandler)(DBFBProfilePictureView *profilePic
  */
 @property (strong) UIImage *emptyImage;
 
+@property (strong, nonatomic) UIImageView *imageView;
+
 @end

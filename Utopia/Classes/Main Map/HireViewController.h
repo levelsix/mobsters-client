@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "FBChooserView.h"
+#import "DBFBProfilePictureView.h"
 
 @interface FriendAcceptView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 @property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
-@property (nonatomic, retain) IBOutlet FBProfilePictureView *profPicView;
+@property (nonatomic, retain) IBOutlet DBFBProfilePictureView *profPicView;
 
 @end
 

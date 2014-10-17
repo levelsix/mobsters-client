@@ -151,6 +151,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="6 MINUTES" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="5ep-Mt-Osn" customClass="NiceFontLabel8">
+                                <rect key="frame" x="247" y="20" width="80" height="19"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -173,6 +181,7 @@
                 <outlet property="rewardsView" destination="ufj-A5-hf8" id="HMh-5G-hfU"/>
                 <outlet property="selectedBackgroundView" destination="e8t-Dd-qgq" id="yZz-H1-Enp"/>
                 <outlet property="timeLabel" destination="1tv-UC-bk6" id="8j5-dQ-29J"/>
+                <outlet property="totalTimeLabel" destination="5ep-Mt-Osn" id="DSf-aR-pe3"/>
             </connections>
             <point key="canvasLocation" x="586" y="454"/>
         </tableViewCell>

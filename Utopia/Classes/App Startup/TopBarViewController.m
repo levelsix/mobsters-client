@@ -200,9 +200,9 @@
       self.oilView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
       self.cashView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
       self.gemsView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+      
+      self.timerHeaderLabel.originX -= 14;
     }
-    
-    self.timerHeaderLabel.originX -= 14;
   }
   
   // For iPhone 4, just squish top bar. autoresizing will put it into place

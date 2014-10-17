@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FacebookDelegate.h"
+#import <UIKit+AFNetworking.h>
 
 @implementation FBFriendCell
 
@@ -19,14 +20,16 @@
   
   self.profilePic.profileID = nil;
   
+  [self.profilePic.imageView cancelImageRequestOperation];
+  
   // Invitable friends have picture property..
   // Actual friends don't so just set the id
   if (![data objectForKey:@"picture"]) {
     self.profilePic.profileID = data[@"id"];
   } else if (self.profilePic.subviews.count == 1) {
-    UIImageView *iv = self.profilePic.subviews[0];
+    UIImageView *iv = self.profilePic.imageView;
     iv.contentMode = UIViewContentModeScaleToFill;
-    [Globals imageNamed:data[@"picture"][@"data"][@"url"] withView:iv maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [self.profilePic.imageView setImageWithURL:data[@"picture"][@"data"][@"url"]];
   }
   
   self.profilePic.layer.cornerRadius = roundf(self.profilePic.frame.size.width/2.0);

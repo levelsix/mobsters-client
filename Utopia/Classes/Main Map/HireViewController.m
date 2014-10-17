@@ -29,17 +29,32 @@
     self.slotNumLabel.hidden = YES;
     self.profPicView.hidden = NO;
     
+    self.profPicView.startHandler = ^(DBFBProfilePictureView *profilePictureView) {
+      UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+      [profilePictureView addSubview:spinner];
+      spinner.center = ccp(profilePictureView.width/2, profilePictureView.height/2);
+      [spinner startAnimating];
+      spinner.tag = 1234;
+    };
+    
+    self.profPicView.completionHandler = ^(DBFBProfilePictureView *profilePictureView, NSError *error) {
+      [[profilePictureView viewWithTag:1234] removeFromSuperview];
+    };
+    
     // add the stuff at the end so it knows where to save it
     self.profPicView.profileID = uid;
+    
+    // Delete all the empty guys
+    self.bgdView.hidden = YES;
+    self.slotNumLabel.hidden = YES;
   } else {
     self.bgdView.highlighted = NO;
     self.slotNumLabel.hidden = NO;
     self.profPicView.hidden = YES;
+    
+    self.bgdView.hidden = NO;
+    self.slotNumLabel.hidden = NO;
   }
-  
-  // Delete all the empty guys
-  self.bgdView.hidden = YES;
-  self.slotNumLabel.hidden = YES;
 }
 
 @end
@@ -102,7 +117,14 @@
 }
 
 - (void) updateForUserStruct:(UserStruct *)us {
-  self.staticStructs = [us allStaticStructs];
+  NSMutableArray *arr = [NSMutableArray array];
+  for (ResidenceProto *rp in [us allStaticStructs]) {
+    if (rp.numBonusMonsterSlots) {
+      [arr addObject:rp];
+    }
+  }
+  self.staticStructs = arr;
+  
   self.userStruct = us;
   [self.hireTable reloadData];
 }
@@ -119,12 +141,27 @@
 - (void) updateAcceptViewsForFbLevel:(int)level friendSlots:(int)slots {
   GameState *gs = [GameState sharedGameState];
   NSArray *accepted = [gs acceptedFbRequestsForUserStructId:self.userStruct.userStructId fbStructLevel:level];
-  for (int i = 0; i < accepted.count && i < self.acceptViews.count; i++) {
+  
+  FriendAcceptView *lastAv = nil;
+  for (int i = 0; i < self.acceptViews.count; i++) {
     FriendAcceptView *av = self.acceptViews[i];
     RequestFromFriend *req = i < accepted.count ? accepted[i] : nil;
     
-    av.hidden = i >= slots;
-    [av updateForFacebookId:req.invite.recipientFacebookId];
+    if (i < slots) {
+      av.hidden = NO;
+      [av updateForFacebookId:req.invite.recipientFacebookId];
+      
+      lastAv = av;
+    } else {
+      av.hidden = YES;
+    }
+  }
+  
+  if (lastAv) {
+    UIView *v = lastAv.superview;
+    CGPoint center = v.center;
+    v.width = CGRectGetMaxX(lastAv.frame);
+    v.center = center;
   }
 }
 
@@ -136,12 +173,25 @@
   
   UIView *bottomView = self.alreadyHiredBottomView;
   if (accepted.count) {
+    FriendAcceptView *lastAv = nil;
     for (int i = 0; i < self.hiredFriendViews.count; i++) {
       FriendAcceptView *av = self.hiredFriendViews[i];
       RequestFromFriend *req = i < accepted.count ? accepted[i] : nil;
       
-      av.hidden = i >= res.numAcceptedFbInvites || i >= accepted.count;
-      [av updateForFacebookId:req.invite.recipientFacebookId];
+      if (i >= res.numAcceptedFbInvites || i >= accepted.count) {
+        av.hidden = YES;
+      } else {
+        av.hidden = NO;
+        [av updateForFacebookId:req.invite.recipientFacebookId];
+        lastAv = av;
+      }
+    }
+    
+    if (lastAv) {
+      UIView *v = lastAv.superview;
+      CGPoint center = v.center;
+      v.width = CGRectGetMaxX(lastAv.frame);
+      v.center = center;
     }
     
     bottomView.hidden = NO;
@@ -335,6 +385,7 @@
 #pragma mark - Displaying Views
 
 - (void) loadHireView {
+  _isOnFriendFinder = NO;
   [UIView animateWithDuration:0.3f animations:^{
     [self.bonusView moveToHireView];
     [self loadTopForSlotsList];
@@ -353,6 +404,7 @@
 }
 
 - (void) loadAlreadyHiredViewForResidence:(ResidenceProto *)rp {
+  _isOnFriendFinder = NO;
   [self.bonusView updateAlreadyHiredViewForResidence:rp];
   
   [UIView animateWithDuration:0.3f animations:^{

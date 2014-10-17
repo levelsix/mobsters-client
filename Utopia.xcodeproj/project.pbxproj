@@ -10828,7 +10828,6 @@
 				CF1265871538ACC400E0C1AD /* Miscellaneous */,
 				CFE02CBB182359EA0016C1E2 /* GachaponMenu */,
 				CF3764F8182DD6AC00D0A77E /* ChatMenu */,
-				CF688FEF1912E3CB00FF1F71 /* MiniJobsMenu */,
 				CF6F197A1815154600CFF2B9 /* QuestMenu */,
 				CFCE57121813BC0600494F8C /* ProfileMenu */,
 				CF62E6FE15FEC65600DF850F /* ClanMenu */,
@@ -12521,17 +12520,16 @@
 			path = "Proto files";
 			sourceTree = "<group>";
 		};
-		CF688FEF1912E3CB00FF1F71 /* MiniJobsMenu */ = {
+		CF688FEF1912E3CB00FF1F71 /* MiniJob */ = {
 			isa = PBXGroup;
 			children = (
-				CF688FF01912E4D800FF1F71 /* MiniJobsViewController.h */,
-				CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */,
-				CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */,
+				CFA8B1BF19F08B6900CF6BFD /* Legacy Nav */,
 				CF68905D1912E84200FF1F71 /* List */,
 				CF68905E1912E84900FF1F71 /* Details */,
 				CFF5DB9C194BD84A0019EB2B /* Complete */,
 			);
-			path = MiniJobsMenu;
+			name = MiniJob;
+			path = ../MiniJobsMenu;
 			sourceTree = "<group>";
 		};
 		CF688FFF1912E7B400FF1F71 /* Mini Jobs:Dock */ = {
@@ -13373,6 +13371,16 @@
 			name = Chat;
 			sourceTree = "<group>";
 		};
+		CFA8B1BF19F08B6900CF6BFD /* Legacy Nav */ = {
+			isa = PBXGroup;
+			children = (
+				CF688FF01912E4D800FF1F71 /* MiniJobsViewController.h */,
+				CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */,
+				CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */,
+			);
+			name = "Legacy Nav";
+			sourceTree = "<group>";
+		};
 		CFB2506618585D6700BE0C05 /* Loading */ = {
 			isa = PBXGroup;
 			children = (
@@ -13888,6 +13896,7 @@
 		CFCD0EFB1955004800EDC233 /* HomeMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF688FEF1912E3CB00FF1F71 /* MiniJob */,
 				CFF646FF195E044F00C43641 /* Evolve */,
 				CFF646E2195D222E00C43641 /* Team */,
 				CFF646C0195CD19900C43641 /* Heal */,
