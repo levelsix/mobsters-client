@@ -48,7 +48,7 @@
     self.prefix = prefix;
     [self addNewScene];
     
-//    _curBasePoint = ccp(-175, 0);
+    _curBasePoint = ccp(-175, 0);
   }
   return self;
 }
@@ -105,26 +105,31 @@
 }
 
 - (void) addSceneAtBasePosition:(CGPoint)pos {
-  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1left.png"]];
-  CCSprite *right1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1right.png"]];
+  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene.png"]];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
-  right1.position = ccp(left1.position.x+left1.contentSize.width/2+right1.contentSize.width/2,
-                        left1.position.y);
   
   [self addChild:left1];
-  [self addChild:right1];
-  
-  CCSprite *left2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2left.png"]];
-  CCSprite *right2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2right.png"]];
-  
-  left2.position = ccp(pos.x+left2.contentSize.width/2+POINT_OFFSET_PER_SCENE.x/2,
-                       left1.position.y+left1.contentSize.height/2+left2.contentSize.height/2);
-  right2.position = ccp(left2.position.x+left2.contentSize.width/2+right2.contentSize.width/2,
-                        left2.position.y);
-  
-  [self addChild:left2];
-  [self addChild:right2];
+//  CCSprite *left1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1left.png"]];
+//  CCSprite *right1 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene1right.png"]];
+//  
+//  left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
+//  right1.position = ccp(left1.position.x+left1.contentSize.width/2+right1.contentSize.width/2,
+//                        left1.position.y);
+//  
+//  [self addChild:left1];
+//  [self addChild:right1];
+//  
+//  CCSprite *left2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2left.png"]];
+//  CCSprite *right2 = [CCSprite spriteWithImageNamed:[self.prefix stringByAppendingString:@"scene2right.png"]];
+//  
+//  left2.position = ccp(pos.x+left2.contentSize.width/2+POINT_OFFSET_PER_SCENE.x/2,
+//                       left1.position.y+left1.contentSize.height/2+left2.contentSize.height/2);
+//  right2.position = ccp(left2.position.x+left2.contentSize.width/2+right2.contentSize.width/2,
+//                        left2.position.y);
+//  
+//  [self addChild:left2];
+//  [self addChild:right2];
 }
 
 @end

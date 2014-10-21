@@ -99,11 +99,16 @@
   CGRect oldRect = spinContainer.frame;
   self.machineImage.size = s;
   spinContainer.size = s;
-  spinContainer.originX = CGRectGetMaxX(oldRect)-spinContainer.width;
-  spinContainer.centerY = (self.tableContainerView.originY+navHeight)/2;
   
   // Find the approx perc of where spinView used to be and adjust for that
   self.spinView.superview.center = ccp(spinContainer.width/2, self.spinView.superview.centerY/oldRect.size.height*spinContainer.height);
+  
+  if ([Globals isiPhone6Plus]) {
+    spinContainer.transform = CGAffineTransformMakeScale(1.2, 1.2);
+  }
+  
+  spinContainer.originX = CGRectGetMaxX(oldRect)-spinContainer.width;
+  spinContainer.centerY = (self.tableContainerView.originY+navHeight)/2;
   
   
   // Now use the remaining space for the featured views
@@ -111,6 +116,10 @@
   featuredContainer.width = spinContainer.originX+10;
   featuredContainer.height = self.tableContainerView.originY-navHeight;
   featuredContainer.originY = navHeight;
+  
+  if ([Globals isSmallestiPhone]) {
+    featuredContainer.originX -= 20.f;
+  }
 }
 
 - (void) loadBoosterPacks {

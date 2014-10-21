@@ -102,6 +102,8 @@
 - (void) leaveBattle {
   [self exitFinal];
   
+  [self removeCloseButton];
+  
   [Analytics foundMatch:@"closed"];
 }
 

@@ -131,6 +131,14 @@
 
 - (void) awakeFromNib {
   self.coverGradient.alpha = 0.f;
+  
+  UIView *container = self.monsterIcon.superview;
+  container.centerX = self.hpLabel.superview.originX/2+10;
+  
+  if ([Globals isiPhone6Plus]) {
+    container.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    container.centerY -= 20.f;
+  }
 }
 
 - (void) updateForMonsterId:(int)monsterId {

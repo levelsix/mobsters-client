@@ -56,7 +56,7 @@
   _skillIcon = [CCSprite node];
   [Globals imageNamed:iconName toReplaceSprite:_skillIcon completion:^(BOOL success) {
     if (success) {
-      _skillIcon.position = ccp(0, 25);
+      _skillIcon.position = ccp(0, 28);
       [self addChild:_skillIcon];
       
       if (_skillController.activationType != SkillActivationTypePassive)

@@ -299,7 +299,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       [self.topBarViewController.shopViewController close];
     }
     
-    if (self.presentedViewController) {
+    if (self.presentedViewController && ![acceptable containsObject:self.presentedViewController]) {
       [self dismissViewControllerAnimated:NO completion:nil];
     }
   }
@@ -880,10 +880,10 @@ static const CGSize FIXED_SIZE = {568, 384};
   [tlv display:self.view];
   
   // Check if scenes have been dl'ed
-  NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene1left.png"],
-                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
-                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
-                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
+  NSArray *arr = @[[task.groundImgPrefix stringByAppendingString:@"scene.png"]];
+//                   [task.groundImgPrefix stringByAppendingString:@"scene2left.png"],
+//                   [task.groundImgPrefix stringByAppendingString:@"scene1right.png"],
+//                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
   [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
       DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
@@ -1116,9 +1116,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 #pragma mark - Gem Shop access
 
 - (void) openGemShop {
-  [self removeAllViewControllersWithExceptions:@[self.topBarViewController.shopViewController]];
+  NSMutableArray *arr = [NSMutableArray arrayWithObject:self.topBarViewController.shopViewController];
   
   if (self.presentedViewController) {
+    [arr addObject:self.presentedViewController];
+    
     // Gacha
     [self dismissViewControllerAnimated:YES completion:^{
       [self.topBarViewController openShopWithFunds];
@@ -1129,6 +1131,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   } else {
     [self.topBarViewController openShopWithFunds];
   }
+  
+  [self removeAllViewControllersWithExceptions:arr];
 }
 
 #pragma mark - Quests and Achievements
@@ -1237,14 +1241,14 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 #pragma mark - Level Up
-
+  
 - (void) checkLevelUp {
   //[self checkPvpRankUp];
   
   if ([CCDirector sharedDirector].runningScene) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
+    if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.level > 0 && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
       int prevLevel = gs.level;
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
       [self spawnLevelUp];

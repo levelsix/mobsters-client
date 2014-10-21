@@ -39,7 +39,7 @@
 - (void) awakeFromNib {
   self.monsterIcon.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
   
-  if ([Globals isiPhone6]) {
+  if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
   }
 }
@@ -70,7 +70,7 @@
 @implementation ProfileStatsView
 
 - (void) awakeFromNib {
-  if ([Globals isiPhone6]) {
+  if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     self.monsterIcon.transform = CGAffineTransformMakeScale(0.82, 0.82);
   }
 }

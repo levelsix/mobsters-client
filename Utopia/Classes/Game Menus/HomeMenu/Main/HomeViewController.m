@@ -96,7 +96,7 @@
   
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
-  if ([Globals shouldShowFatKidDungeon]) [arr addObject:enhance];
+  if (gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) [arr addObject:enhance];
   if (gs.myEvoChamber.isComplete) [arr addObject:evo];
   if (gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) [arr addObject:miniJobs];
   self.mainViewControllers = arr;

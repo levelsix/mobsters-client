@@ -981,7 +981,7 @@
     // Check the prefix
     NSString *prefix = [self progressBarPrefix];
     if ([bar.prefix isEqualToString:prefix]) {
-      float dur = self.activeMiniJob.durationMinutes*60;
+      float dur = self.activeMiniJob.durationSeconds;
       MSDate *endDate = self.activeMiniJob.tentativeCompletionDate;
       [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
       

@@ -229,6 +229,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return s;
 }
 
++ (NSString *) convertTimeToMediumString:(int)secs {
+  NSString *longStr = [self convertTimeToLongString:secs];
+  
+  if ([longStr componentsSeparatedByString:@" "].count > 2) {
+    longStr = [longStr stringByReplacingOccurrencesOfString:@"Minute" withString:@"Min"];
+    longStr = [longStr stringByReplacingOccurrencesOfString:@"Second" withString:@"Sec"];
+    longStr = [longStr stringByReplacingOccurrencesOfString:@"Hour" withString:@"Hr"];
+  }
+  
+  return longStr;
+}
+
 + (NSString *) convertTimeToLongString:(int)secs {
   if (secs <= 0) {
     return @"0 Seconds";
@@ -1185,8 +1197,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return path;
   }
   
-  if (iPhone6Prefix && [self isiPhone6]) {
-    path = [@"6" stringByAppendingString:path];
+  if (iPhone6Prefix) {
+    if ([self isiPhone6] || [self isiPhone6Plus]) {
+      path = [@"6" stringByAppendingString:path];
+    }
+    // Not using this atm
+    else if ([self isiPhone6Plus]) {
+      path = [@"6+" stringByAppendingString:path];
+    }
   }
   
   int scale = [UIScreen mainScreen].scale;
@@ -1789,6 +1807,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (BOOL) isiPhone6 {
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 667.0);
+}
+
++ (BOOL) isiPhone6Plus {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 736.0);
 }
 
 #pragma mark Colors

@@ -32,7 +32,8 @@
   self.nameLabel.text = mjp.name;
   self.nameLabel.textColor = [Globals colorForRarity:mjp.quality];
   self.jobQualityTag.image = [Globals imageNamed:[Globals imageNameForRarity:mjp.quality suffix:@"job.png"]];
-  self.totalTimeLabel.text = [[Globals convertTimeToLongString:umj.durationMinutes*60] uppercaseString];
+  
+  self.totalTimeLabel.text = [[Globals convertTimeToMediumString:umj.durationSeconds] uppercaseString];
   
   NSArray *rewards = [Reward createRewardsForMiniJob:mjp];
   if (rewards.count > 2) rewards = [rewards subarrayWithRange:NSMakeRange(0, 2)];

@@ -14,6 +14,7 @@
 
 #define IPHONE_5_TILE_SIZE 36
 #define IPHONE_6_TILE_SIZE 42
+#define IPHONE_6_PLUS_TILE_SIZE 47
 
 @implementation OrbBgdLayer
 
@@ -25,7 +26,7 @@
   _layout = layout;
   
   // Setup board background
-  int tileSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : IPHONE_5_TILE_SIZE;
+  int tileSize = [Globals isiPhone6] ? IPHONE_6_TILE_SIZE : [Globals isiPhone6Plus] ? IPHONE_6_PLUS_TILE_SIZE : IPHONE_5_TILE_SIZE;
   for (int i = 0; i < gridSize.width; i++) {
     for (int j = 0; j < gridSize.height; j++) {
       NSString *fileName = (i+j)%2==0 ? @"lightboardsquare.png" : @"darkboardsquare.png";

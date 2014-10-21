@@ -252,7 +252,9 @@
 - (void) exitFinal {
   [super exitFinal];
   
-  [ChartboostDelegate firePveMatch];
+  if (!self.itemIdGained) {
+    [ChartboostDelegate firePveMatch];
+  }
 }
 
 - (void) continueConfirmed {

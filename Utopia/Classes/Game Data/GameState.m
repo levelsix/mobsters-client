@@ -586,9 +586,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   // Ignore if past 24 hrs ago
   if (self.clanHelpUtil) {
     for (id<ClanHelp> ch in [self.clanHelpUtil getAllHelpableClanHelps]) {
-      if ([ch isOpen] && [ch requestedTime].timeIntervalSinceNow > -24*60*60) {
+//      if ([ch isOpen] && [ch requestedTime].timeIntervalSinceNow > -24*60*60) {
         [arr addObject:ch];
-      }
+//      }
     }
   }
   
@@ -1100,7 +1100,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) removeAndUndoAllUpdatesForTag:(int)tag {
   NSMutableArray *updates = [NSMutableArray array];
-  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+  for (id<GameStateUpdate> update in _unrespondedUpdates.copy) {
     if (update.tag == tag) {
       if ([update respondsToSelector:@selector(undo)]) {
         [update undo];
@@ -1117,7 +1117,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) removeFullUserUpdatesForTag:(int)tag {
   NSMutableArray *updates = [NSMutableArray array];
-  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+  for (id<GameStateUpdate> update in _unrespondedUpdates.copy) {
     if (update.tag == tag && [update isKindOfClass:[FullUserUpdate class]]) {
       [updates addObject:update];
     }
@@ -1131,7 +1131,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) removeNonFullUserUpdatesForTag:(int)tag {
   NSMutableArray *updates = [NSMutableArray array];
-  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+  for (id<GameStateUpdate> update in _unrespondedUpdates.copy) {
     if (update.tag == tag && ![update isKindOfClass:[FullUserUpdate class]]) {
       [updates addObject:update];
     }

@@ -66,7 +66,8 @@
     return YES;
   
   //if (trigger == SkillTriggerPointEndOfPlayerMove)
-  if (trigger == SkillTriggerPointManualActivation)
+  if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+      (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
   {
     if ([self skillIsReady])
     {
@@ -89,22 +90,26 @@
 
 - (void) addEnrageAnimations
 {
+  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  
   // Size player and make him blue
-  [self.playerSprite runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.25]]];
+  [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.25]]];
   CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor cyanColor]],
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor whiteColor]],
                                                                            nil]];
   action.tag = 1914;
-  [self.playerSprite.sprite runAction:action];
+  [owner.sprite runAction:action];
 }
 
 - (void) removeEnrageAnimations
 {
-  [self.playerSprite runAction:[CCActionEaseBounceIn actionWithAction:
+  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  
+  [owner runAction:[CCActionEaseBounceIn actionWithAction:
                                                         [CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:0.5 scale:1.0]]]];
-  [self.playerSprite.sprite stopActionByTag:1914];
-  [self.playerSprite.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
+  [owner.sprite stopActionByTag:1914];
+  [owner.sprite runAction:[CCActionTintTo actionWithDuration:0.3 color:[CCColor whiteColor]]];
 }
 
 - (void) becomeEnraged

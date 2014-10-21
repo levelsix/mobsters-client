@@ -194,6 +194,7 @@
 + (NSString *) convertTimeToShortString:(int)secs;
 + (NSString *) convertTimeToShorterString:(int)secs;
 + (NSString *) convertTimeToLongString:(int)secs;
++ (NSString *) convertTimeToMediumString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 
@@ -277,6 +278,7 @@
 
 + (BOOL) isSmallestiPhone;
 + (BOOL) isiPhone6;
++ (BOOL) isiPhone6Plus;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;

@@ -1306,7 +1306,7 @@
     self.userMiniJobId = proto.userMiniJobId;
     self.miniJob = proto.miniJob;
     self.baseDmgReceived = proto.baseDmgReceived;
-    self.durationMinutes = proto.durationMinutes;
+    self.durationSeconds = proto.durationSeconds ?: proto.durationMinutes*60;
     self.timeStarted = proto.hasTimeStarted ? [MSDate dateWithTimeIntervalSince1970:proto.timeStarted/1000.] : nil;
     self.timeCompleted = proto.hasTimeCompleted ? [MSDate dateWithTimeIntervalSince1970:proto.timeCompleted/1000.] : nil;
     self.userMonsterIds = proto.userMonsterIdsList.toNSArray;
@@ -1318,7 +1318,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int seconds = self.durationMinutes*60;
+  int seconds = self.durationSeconds;
   
   // Account for clan helps
   int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJobId];

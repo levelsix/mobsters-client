@@ -281,12 +281,14 @@
   BOOL hasTimeCompleted_:1;
   BOOL hasBaseDmgReceived_:1;
   BOOL hasDurationMinutes_:1;
+  BOOL hasDurationSeconds_:1;
   BOOL hasMiniJob_:1;
   int64_t userMiniJobId;
   int64_t timeStarted;
   int64_t timeCompleted;
   int32_t baseDmgReceived;
   int32_t durationMinutes;
+  int32_t durationSeconds;
   MiniJobProto* miniJob;
   PBAppendableArray * mutableUserMonsterIdsList;
 }
@@ -296,6 +298,7 @@
 - (BOOL) hasTimeCompleted;
 - (BOOL) hasDurationMinutes;
 - (BOOL) hasMiniJob;
+- (BOOL) hasDurationSeconds;
 @property (readonly) int64_t userMiniJobId;
 @property (readonly) int32_t baseDmgReceived;
 @property (readonly) int64_t timeStarted;
@@ -303,6 +306,7 @@
 @property (readonly) int64_t timeCompleted;
 @property (readonly) int32_t durationMinutes;
 @property (readonly, strong) MiniJobProto* miniJob;
+@property (readonly) int32_t durationSeconds;
 - (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (UserMiniJobProto*) defaultInstance;
@@ -378,6 +382,11 @@
 - (UserMiniJobProto_Builder*) setMiniJob_Builder:(MiniJobProto_Builder*) builderForValue;
 - (UserMiniJobProto_Builder*) mergeMiniJob:(MiniJobProto*) value;
 - (UserMiniJobProto_Builder*) clearMiniJob;
+
+- (BOOL) hasDurationSeconds;
+- (int32_t) durationSeconds;
+- (UserMiniJobProto_Builder*) setDurationSeconds:(int32_t) value;
+- (UserMiniJobProto_Builder*) clearDurationSeconds;
 @end
 
 

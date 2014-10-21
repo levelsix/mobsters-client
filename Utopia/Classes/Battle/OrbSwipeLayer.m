@@ -509,8 +509,8 @@
       texture.contentScale = img.scale;
     }
     CCSprite *spr = [CCSprite spriteWithTexture:texture];
-    spr.position = ccp(orbLayer.contentSize.width/2, orbLayer.contentSize.height/2);
-    [orbLayer addChild:spr z:0 name:@"Overlay"];
+    [orbLayer.orbSprite addChild:spr z:0 name:@"Overlay"];
+    spr.position = ccp(spr.parent.contentSize.width/2, spr.parent.contentSize.height/2);
     spr.opacity = 0.f;
     //spr.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
     spr.blendMode = [CCBlendMode blendModeWithOptions:@{CCBlendFuncSrcColor: @(GL_SRC_ALPHA), CCBlendFuncDstColor: @(GL_ONE)}];
@@ -546,7 +546,7 @@
     [node stopActionByTag:PULSING_ANIMATION_TAG];
     node.scale = 1.f;
     
-    CCNode *n = [node getChildByName:@"Overlay" recursively:NO];
+    CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
     [n removeFromParent];
   }
   _isPulsing = NO;

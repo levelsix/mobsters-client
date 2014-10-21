@@ -37,6 +37,10 @@
   _orbSprite = [CCSprite spriteWithImageNamed:imageName];
   [self addChild:self.orbSprite];
   
+  if ([Globals isiPhone6Plus]) {
+    self.orbSprite.scale = 1.1;
+  }
+  
   // Handle specials
   _bombCounter = nil;
   switch (_orb.specialOrbType)
@@ -52,14 +56,16 @@
 {
   // Particle effect
   CCParticleSystem* fire = [CCParticleSystem particleWithFile:@"bombparticle.plist"];
-  fire.position = ccp(30, 31);
+  fire.position = ccp(30/33.f, 31/34.f);
+  fire.positionType = CCPositionTypeNormalized;
   fire.scale = 0.5;
   [_orbSprite addChild:fire];
   
   // Counter
   _bombCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10];
   _bombCounter.color = [CCColor blackColor];
-  _bombCounter.position = CGPointMake(9, 9.5);
+  _bombCounter.position = CGPointMake(9/33.f, 9.5/34.f);
+  _bombCounter.positionType = CCPositionTypeNormalized;
   _bombCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
   _bombCounter.horizontalAlignment = CCTextAlignmentCenter;
   [_orbSprite addChild:_bombCounter];
@@ -102,7 +108,7 @@
   PowerupType powerupType = orb.powerupType;
   SpecialOrbType special = orb.specialOrbType;
   
-  NSString *resPrefix = [Globals isiPhone6] ? @"6" : @"";
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   
   switch (special) {
     case SpecialOrbTypeCake:

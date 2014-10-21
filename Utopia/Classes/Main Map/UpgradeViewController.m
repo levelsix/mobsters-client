@@ -33,7 +33,7 @@
   }
   
   self.nameLabel.text = curSS.structInfo.name;
-  self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
+  self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToMediumString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
   
   // We want to download the image and then adjust size accordingly (only shrink images that are too big. leave small ones alone).
   NSString *imgName = nextSS.structInfo.imgName;

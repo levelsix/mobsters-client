@@ -30,7 +30,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="hPF-d0-pRA">
-                    <rect key="frame" x="119.99999984673092" y="17" width="154" height="157"/>
+                    <rect key="frame" x="119.99999952492422" y="17" width="154" height="157"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="tBF-Rw-cxq">

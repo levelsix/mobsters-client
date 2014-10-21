@@ -39,7 +39,7 @@
     StructureInfoProto *sip = [[gs structWithId:self.staticDataId] structInfo];
     return [NSString stringWithFormat:@" build a Level %d %@", sip.level, sip.name];
   } else if (self.helpType == ClanHelpTypeMiniJob) {
-    return [NSString stringWithFormat:@" complete %@ %@ Job", possessive, [Globals stringForRarity:self.staticDataId]];
+    return [NSString stringWithFormat:@" speed up %@ %@ Job", possessive, [Globals stringForRarity:self.staticDataId]];
   } else if (self.helpType == ClanHelpTypeHeal) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" heal %@", mp.displayName];

@@ -950,6 +950,8 @@
         if (arr.count == 1) {
           [buttonViews addObject:[MapBotViewButton sellButton]];
         }
+      } else if (fsp.structType == StructureInfoProto_StructTypeTeamCenter) {
+        [buttonViews addObject:[MapBotViewButton teamButton]];
       }
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {

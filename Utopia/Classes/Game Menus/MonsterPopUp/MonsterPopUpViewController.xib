@@ -85,7 +85,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="rcP-DD-GXm">
-                                    <rect key="frame" x="5" y="0.0" width="354" height="39"/>
+                                    <rect key="frame" x="4" y="0.0" width="356" height="39"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="popupheadercap.png" id="60B-bB-c1v" customClass="FlipImageView">

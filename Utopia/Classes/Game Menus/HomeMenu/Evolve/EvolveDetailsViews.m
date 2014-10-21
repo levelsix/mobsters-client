@@ -16,7 +16,7 @@
 - (void) awakeFromNib {
   self.monsterImage.superview.transform = CGAffineTransformMakeScale(0.8, 0.8);
   
-  if ([Globals isiPhone6]) {
+  if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     self.monsterImage.transform = CGAffineTransformMakeScale(0.82, 0.82);
     self.monsterImageOverlay.transform = CGAffineTransformMakeScale(0.82, 0.82);
   }

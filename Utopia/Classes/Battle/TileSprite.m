@@ -47,7 +47,7 @@
                               nil]];
   }
   
-  NSString *resPrefix = [Globals isiPhone6] ? @"6" : @"";
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
   
   // Check if this tile is not empty
   NSString* imageName;
@@ -65,9 +65,10 @@
   {
     _sprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:imageName]];
     _sprite.scale = 0.0;
+    float finalScale = [Globals isiPhone6Plus] ? 1.1 : 1;
     [self addChild:_sprite];
     [_sprite runAction:[CCActionSequence actions:
-                        [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:1.0]],
+                        [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:tileUpdateAnimDuration scale:finalScale]],
                         nil]];
   }
 }

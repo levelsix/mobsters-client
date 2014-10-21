@@ -345,7 +345,7 @@ typedef enum {
 
 @property (nonatomic, assign) uint64_t userMiniJobId;
 @property (nonatomic, assign) int baseDmgReceived;
-@property (nonatomic, assign) int durationMinutes;
+@property (nonatomic, assign) int durationSeconds;
 @property (nonatomic, retain) MSDate *timeStarted;
 @property (nonatomic, retain) NSArray *userMonsterIds;
 @property (nonatomic, retain) MSDate *timeCompleted;

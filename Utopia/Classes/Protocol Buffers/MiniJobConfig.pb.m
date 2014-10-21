@@ -926,6 +926,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 @property int64_t timeCompleted;
 @property int32_t durationMinutes;
 @property (strong) MiniJobProto* miniJob;
+@property int32_t durationSeconds;
 @end
 
 @implementation UserMiniJobProto
@@ -974,6 +975,13 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   hasMiniJob_ = !!value_;
 }
 @synthesize miniJob;
+- (BOOL) hasDurationSeconds {
+  return !!hasDurationSeconds_;
+}
+- (void) setHasDurationSeconds:(BOOL) value_ {
+  hasDurationSeconds_ = !!value_;
+}
+@synthesize durationSeconds;
 - (id) init {
   if ((self = [super init])) {
     self.userMiniJobId = 0L;
@@ -982,6 +990,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
     self.timeCompleted = 0L;
     self.durationMinutes = 0;
     self.miniJob = [MiniJobProto defaultInstance];
+    self.durationSeconds = 0;
   }
   return self;
 }
@@ -1032,6 +1041,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasDurationMinutes) {
     [output writeInt32:7 value:self.durationMinutes];
   }
+  if (self.hasDurationSeconds) {
+    [output writeInt32:8 value:self.durationSeconds];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1068,6 +1080,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
   if (self.hasDurationMinutes) {
     size_ += computeInt32Size(7, self.durationMinutes);
+  }
+  if (self.hasDurationSeconds) {
+    size_ += computeInt32Size(8, self.durationSeconds);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1128,6 +1143,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasDurationMinutes) {
     [output appendFormat:@"%@%@: %@\n", indent, @"durationMinutes", [NSNumber numberWithInteger:self.durationMinutes]];
   }
+  if (self.hasDurationSeconds) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"durationSeconds", [NSNumber numberWithInteger:self.durationSeconds]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1152,6 +1170,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
       (!self.hasMiniJob || [self.miniJob isEqual:otherMessage.miniJob]) &&
       self.hasDurationMinutes == otherMessage.hasDurationMinutes &&
       (!self.hasDurationMinutes || self.durationMinutes == otherMessage.durationMinutes) &&
+      self.hasDurationSeconds == otherMessage.hasDurationSeconds &&
+      (!self.hasDurationSeconds || self.durationSeconds == otherMessage.durationSeconds) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1176,6 +1196,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
   if (self.hasDurationMinutes) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.durationMinutes] hash];
+  }
+  if (self.hasDurationSeconds) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.durationSeconds] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1245,6 +1268,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (other.hasMiniJob) {
     [self mergeMiniJob:other.miniJob];
   }
+  if (other.hasDurationSeconds) {
+    [self setDurationSeconds:other.durationSeconds];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1297,6 +1323,10 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
       }
       case 56: {
         [self setDurationMinutes:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setDurationSeconds:[input readInt32]];
         break;
       }
     }
@@ -1438,6 +1468,22 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
 - (UserMiniJobProto_Builder*) clearMiniJob {
   result.hasMiniJob = NO;
   result.miniJob = [MiniJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDurationSeconds {
+  return result.hasDurationSeconds;
+}
+- (int32_t) durationSeconds {
+  return result.durationSeconds;
+}
+- (UserMiniJobProto_Builder*) setDurationSeconds:(int32_t) value {
+  result.hasDurationSeconds = YES;
+  result.durationSeconds = value;
+  return self;
+}
+- (UserMiniJobProto_Builder*) clearDurationSeconds {
+  result.hasDurationSeconds = NO;
+  result.durationSeconds = 0;
   return self;
 }
 @end

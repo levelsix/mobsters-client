@@ -84,9 +84,11 @@
 
 - (void) makeBomb:(BattleOrb*)orb
 {
-  orb.specialOrbType = SpecialOrbTypeBomb;
-  orb.bombCounter = _bombCounter;
-  orb.bombDamage = _bombDamage;
+  if (orb.orbColor != OrbColorRock) {
+    orb.specialOrbType = SpecialOrbTypeBomb;
+    orb.bombCounter = _bombCounter;
+    orb.bombDamage = _bombDamage;
+  }
 }
 
 // Jumping, showing overlay and spawning initial set

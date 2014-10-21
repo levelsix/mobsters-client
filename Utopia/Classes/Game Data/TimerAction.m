@@ -236,7 +236,7 @@
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.miniJob.tentativeCompletionDate;
-    self.totalSeconds = self.miniJob.durationMinutes*60;
+    self.totalSeconds = self.miniJob.durationSeconds;
   }
   return self;
 }

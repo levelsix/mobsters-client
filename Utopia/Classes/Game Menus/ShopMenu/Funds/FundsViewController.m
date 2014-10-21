@@ -92,7 +92,8 @@
   _purchase = purch;
   if (purch.gemPrice) {
     GameState *gs = [GameState sharedGameState];
-    if ((purch.resourceType == ResourceTypeCash && (purch.amountGained > gs.maxCash-gs.cash)) ||
+    if (!purch.amountGained ||
+        (purch.resourceType == ResourceTypeCash && (purch.amountGained > gs.maxCash-gs.cash)) ||
         (purch.resourceType == ResourceTypeOil && (purch.amountGained > gs.maxOil-gs.oil))) {
       [Globals addAlertNotification:@"Not enough storage!"];
     } else {

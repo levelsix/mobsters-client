@@ -198,11 +198,7 @@
   //self.hpLabel.highlighted = totalHp >= reqHp;
   //self.attackLabel.highlighted = totalAtk >= reqAtk;
   
-  NSString *time = [[Globals convertTimeToShortString:self.userMiniJob.durationMinutes*60] uppercaseString];
-  if ([time rangeOfString:@" "].length == 0) {
-    time = [Globals convertTimeToLongString:self.userMiniJob.durationMinutes*60];
-  }
-  self.timeLabel.text = time;
+  self.timeLabel.text = [Globals convertTimeToMediumString:self.userMiniJob.durationSeconds];
   
   int maxAllowed = self.userMiniJob.miniJob.maxNumMonstersAllowed;
   self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];

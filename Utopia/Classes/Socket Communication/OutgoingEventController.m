@@ -1404,7 +1404,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     } else if (!pe.isRunning) {
       [Globals popupMessage:@"Trying to enter event dungeon that isn't running"];
       return;
-    } else if (!useGems && time > 0) {
+    } else if (!useGems && time > gl.maxMinutesForFreeSpeedUp*60) {
       [Globals popupMessage:@"Trying to enter event dungeon before cooldown time"];
       return;
     }
@@ -1571,7 +1571,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cashCost > gs.cash || gemCost > gs.gems) {
     [Globals popupMessage:@"Trying to view next pvp guy without enough resources."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:-cashCost oilSpent:0 gemsSpent:-gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
     
     CashUpdate *su = [CashUpdate updateWithTag:tag change:-cashCost];
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
