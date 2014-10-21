@@ -29,7 +29,7 @@
 
 #ifdef USE_PROD
 
-#define HOST_NAME @"prod.mobsters.lvl6.com"
+#define HOST_NAME @"amqp.prod.mobsters.lvl6.com"
 #define HOST_PORT 5672
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"

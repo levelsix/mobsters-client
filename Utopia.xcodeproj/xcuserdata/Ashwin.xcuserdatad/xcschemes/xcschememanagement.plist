@@ -9,29 +9,34 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>9</integer>
 		</dict>
 		<key>Mobsters-Release.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 		<key>Mobsters.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>Tango Toon Squad.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>17</integer>
+		</dict>
 		<key>Toon Squad App Store.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>7</integer>
 		</dict>
 		<key>Toon Squad.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>6</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -52,6 +57,21 @@
 			<true/>
 		</dict>
 		<key>CF1256411538A94D00E0C1AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF48189719F7217F00041486</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF48256919F7225400041486</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF48258119F7225500041486</key>
 		<dict>
 			<key>primary</key>
 			<true/>
