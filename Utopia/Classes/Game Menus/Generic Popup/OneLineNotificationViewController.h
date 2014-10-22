@@ -13,7 +13,8 @@ typedef enum {
   NotificationColorRed,
   NotificationColorGreen,
   NotificationColorPurple,
-  NotificationColorOrange
+  NotificationColorOrange,
+  NotificationColorBlue,
 } NotificationColor;
 
 @interface OneLineNotificationView : UIView

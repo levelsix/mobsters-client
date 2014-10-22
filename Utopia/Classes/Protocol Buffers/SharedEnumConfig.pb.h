@@ -64,6 +64,15 @@ typedef enum {
 
 BOOL ClanHelpTypeIsValidValue(ClanHelpType value);
 
+typedef enum {
+  GameTypeNoType = 1,
+  GameTypeStructure = 2,
+  GameTypeResearch = 3,
+  GameTypeSkill = 4,
+} GameType;
+
+BOOL GameTypeIsValidValue(GameType value);
+
 
 @interface SharedEnumConfigRoot : NSObject {
 }

@@ -46,12 +46,18 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
 @class EndClanHelpRequestProto;
 @class EndClanHelpRequestProto_Builder;
 @class EndClanHelpResponseProto;
@@ -62,6 +68,8 @@
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
+@class FullQuestProto;
+@class FullQuestProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserClanProto;
@@ -70,12 +78,16 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserQuestProto;
+@class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class GiveClanHelpRequestProto;
 @class GiveClanHelpRequestProto_Builder;
 @class GiveClanHelpResponseProto;
 @class GiveClanHelpResponseProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class LabProto;
@@ -128,6 +140,8 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class PromoteDemoteClanMemberRequestProto;
 @class PromoteDemoteClanMemberRequestProto_Builder;
 @class PromoteDemoteClanMemberResponseProto;
@@ -138,6 +152,8 @@
 @class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -206,6 +222,8 @@
 @class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature

@@ -9,14 +9,16 @@
 #import "NewBattleLayer.h"
 #import "Protocols.pb.h"
 #import "FullEvent.h"
+#import "DialogueViewController.h"
 
 #define BATTLE_MANAGE_CLICKED_KEY @"BattleManageClicked"
 #define BATTLE_USER_MONSTERS_GAINED_KEY @"BattleMonstersGained"
 #define BATTLE_SECTION_COMPLETE_KEY @"BattleSectionComplete"
 #define BATTLE_SECTION_NAME_KEY @"BattleSectionName"
 #define BATTLE_SECTION_ITEM_KEY @"BattleSectionItem"
+#define BATTLE_DEFEATED_DIALOGUE_KEY @"BattleDefeatedDialogue"
 
-@interface DungeonBattleLayer : NewBattleLayer {
+@interface DungeonBattleLayer : NewBattleLayer <DialogueViewControllerDelegate> {
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
   
@@ -29,6 +31,8 @@
   int _numAttemptedRunaways;
   BOOL _didRunaway;
   BOOL _numContinues;
+  
+  BOOL _isFirstTime;
   
   uint64_t _resumedUserMonsterId;
 }

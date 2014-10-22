@@ -9,6 +9,7 @@
 #import "Clan.pb.h"
 #import "Item.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
@@ -126,6 +127,8 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrereqProto;
+@class PrereqProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PvpHistoryProto;
@@ -249,6 +252,7 @@
   NSMutableArray * mutableLeaguesList;
   NSMutableArray * mutableAchievementsList;
   NSMutableArray * mutableSkillsList;
+  NSMutableArray * mutablePrereqsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
@@ -282,6 +286,7 @@
 @property (readonly, strong) NSArray * leaguesList;
 @property (readonly, strong) NSArray * achievementsList;
 @property (readonly, strong) NSArray * skillsList;
+@property (readonly, strong) NSArray * prereqsList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -312,6 +317,7 @@
 - (PvpLeagueProto*)leaguesAtIndex:(NSUInteger)index;
 - (AchievementProto*)achievementsAtIndex:(NSUInteger)index;
 - (SkillProto*)skillsAtIndex:(NSUInteger)index;
+- (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -534,6 +540,12 @@
 - (StaticDataProto_Builder *)addSkills:(SkillProto*)value;
 - (StaticDataProto_Builder *)addAllSkills:(NSArray *)array;
 - (StaticDataProto_Builder *)clearSkills;
+
+- (NSMutableArray *)prereqsList;
+- (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addPrereqs:(PrereqProto*)value;
+- (StaticDataProto_Builder *)addAllPrereqs:(NSArray *)array;
+- (StaticDataProto_Builder *)clearPrereqs;
 @end
 
 

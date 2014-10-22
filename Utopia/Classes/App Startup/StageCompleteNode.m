@@ -12,6 +12,7 @@
 #import "QuestCompleteLayer.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "GameViewController.h"
 
 @implementation StageCompleteNode
 
@@ -64,6 +65,8 @@
   self.stageNameLabel.parent.zOrder = 1;
   
   _completionBlock = completion;
+  
+  [self.delegate stageCompleteNodeBegan];
 }
 
 - (void) completedAnimationSequenceNamed:(NSString *)name {

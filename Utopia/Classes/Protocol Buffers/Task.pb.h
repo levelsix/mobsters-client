@@ -3,17 +3,58 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "Quest.pb.h"
 #import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanHouseProto;
+@class ClanHouseProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
+@class CoordinateProto;
+@class CoordinateProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
+@class EvoChamberProto;
+@class EvoChamberProto_Builder;
+@class FullQuestProto;
+@class FullQuestProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class FullUserProto;
+@class FullUserProto_Builder;
+@class FullUserQuestProto;
+@class FullUserQuestProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
+@class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MonsterBattleDialogueProto;
@@ -22,20 +63,44 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
 @class TaskMapElementProto;
 @class TaskMapElementProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TeamCenterProto;
+@class TeamCenterProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -44,8 +109,14 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -150,6 +221,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasGroundImgPrefix_:1;
+  BOOL hasInitialDefeatedDialogue_:1;
   int32_t taskId;
   int32_t cityId;
   int32_t assetNumWithinCity;
@@ -160,6 +232,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   NSString* name;
   NSString* description;
   NSString* groundImgPrefix;
+  DialogueProto* initialDefeatedDialogue;
 }
 - (BOOL) hasTaskId;
 - (BOOL) hasName;
@@ -171,6 +244,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasBoardWidth;
 - (BOOL) hasBoardHeight;
 - (BOOL) hasGroundImgPrefix;
+- (BOOL) hasInitialDefeatedDialogue;
 @property (readonly) int32_t taskId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* description;
@@ -181,6 +255,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t boardWidth;
 @property (readonly) int32_t boardHeight;
 @property (readonly, strong) NSString* groundImgPrefix;
+@property (readonly, strong) DialogueProto* initialDefeatedDialogue;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -266,6 +341,13 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (NSString*) groundImgPrefix;
 - (FullTaskProto_Builder*) setGroundImgPrefix:(NSString*) value;
 - (FullTaskProto_Builder*) clearGroundImgPrefix;
+
+- (BOOL) hasInitialDefeatedDialogue;
+- (DialogueProto*) initialDefeatedDialogue;
+- (FullTaskProto_Builder*) setInitialDefeatedDialogue:(DialogueProto*) value;
+- (FullTaskProto_Builder*) setInitialDefeatedDialogue_Builder:(DialogueProto_Builder*) builderForValue;
+- (FullTaskProto_Builder*) mergeInitialDefeatedDialogue:(DialogueProto*) value;
+- (FullTaskProto_Builder*) clearInitialDefeatedDialogue;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
@@ -360,6 +442,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasDefensiveSkillId_:1;
   BOOL hasOffensiveSkillId_:1;
   BOOL hasPuzzlePieceMonsterDropLvl_:1;
+  BOOL hasInitialD_:1;
+  BOOL hasDefaultD_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
@@ -375,6 +459,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t defensiveSkillId;
   int32_t offensiveSkillId;
   int32_t puzzlePieceMonsterDropLvl;
+  DialogueProto* initialD;
+  DialogueProto* defaultD;
   TaskStageMonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasTsfuId;
@@ -392,6 +478,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasDefensiveSkillId;
 - (BOOL) hasOffensiveSkillId;
 - (BOOL) hasPuzzlePieceMonsterDropLvl;
+- (BOOL) hasInitialD;
+- (BOOL) hasDefaultD;
 @property (readonly) int64_t tsfuId;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
@@ -407,6 +495,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t defensiveSkillId;
 @property (readonly) int32_t offensiveSkillId;
 @property (readonly) int32_t puzzlePieceMonsterDropLvl;
+@property (readonly, strong) DialogueProto* initialD;
+@property (readonly, strong) DialogueProto* defaultD;
 
 + (TaskStageMonsterProto*) defaultInstance;
 - (TaskStageMonsterProto*) defaultInstance;
@@ -517,6 +607,20 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) puzzlePieceMonsterDropLvl;
 - (TaskStageMonsterProto_Builder*) setPuzzlePieceMonsterDropLvl:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterDropLvl;
+
+- (BOOL) hasInitialD;
+- (DialogueProto*) initialD;
+- (TaskStageMonsterProto_Builder*) setInitialD:(DialogueProto*) value;
+- (TaskStageMonsterProto_Builder*) setInitialD_Builder:(DialogueProto_Builder*) builderForValue;
+- (TaskStageMonsterProto_Builder*) mergeInitialD:(DialogueProto*) value;
+- (TaskStageMonsterProto_Builder*) clearInitialD;
+
+- (BOOL) hasDefaultD;
+- (DialogueProto*) defaultD;
+- (TaskStageMonsterProto_Builder*) setDefaultD:(DialogueProto*) value;
+- (TaskStageMonsterProto_Builder*) setDefaultD_Builder:(DialogueProto_Builder*) builderForValue;
+- (TaskStageMonsterProto_Builder*) mergeDefaultD:(DialogueProto*) value;
+- (TaskStageMonsterProto_Builder*) clearDefaultD;
 @end
 
 @interface PersistentEventProto : PBGeneratedMessage {

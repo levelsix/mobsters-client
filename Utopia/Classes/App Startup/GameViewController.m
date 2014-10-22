@@ -526,7 +526,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     // Check to see if user has a daily free speedup
     GameState *gs = [GameState sharedGameState];
     if ([gs hasDailyFreeSpin]) {
-      [Globals addGreenAlertNotification:@"Your daily free Basic Grab is available. Click on Shop to claim!" isImmediate:NO];
+      [Globals addBlueAlertNotification:@"Your daily free Basic Grab is available. Click on Shop to claim!"];
     }
     
     //[[CCDirector sharedDirector] startAnimation];
@@ -1013,6 +1013,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
+  DialogueProto *dp = params[BATTLE_DEFEATED_DIALOGUE_KEY];
+  if (dp) {
+    [self beginDialogue:dp withQuestId:0];
+  }
+  
   // Don't show top bar if theres a completed quest because it will just be faded out immediately
   NSDictionary *stageComplete = params[BATTLE_SECTION_COMPLETE_KEY];
   if (stageComplete) {
@@ -1026,8 +1031,12 @@ static const CGSize FIXED_SIZE = {568, 384};
     node.delegate = self;
     [self.notificationController addNotification:node];
     
-    [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
-  } else {
+    // Only resume notifications if there's no dialogue
+    // In the future we should prob just make dialogue a notification
+    if (!dp) {
+      [self.notificationController performSelector:@selector(resumeNotifications) withObject:nil afterDelay:duration+0.1];
+    }
+  } else if (!dp) {
     [self showTopBarDuration:duration completion:^{
       [self checkQuests];
       [self.notificationController resumeNotifications];
@@ -1035,6 +1044,10 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
   
   [self playMapMusic];
+}
+
+- (void) stageCompleteNodeBegan {
+  [self hideTopBarDuration:0.f completion:nil];
 }
 
 - (void) stageCompleteNodeCompleted {
@@ -1224,6 +1237,9 @@ static const CGSize FIXED_SIZE = {568, 384};
     GameState *gs = [GameState sharedGameState];
     FullQuestProto *fqp = [gs questForId:_questIdAfterDialogue];
     [qvc loadDetailsViewForQuest:fqp userQuest:nil animated:NO];
+  } else {
+    // Came from battle
+    [self.notificationController resumeNotifications];
   }
 }
 

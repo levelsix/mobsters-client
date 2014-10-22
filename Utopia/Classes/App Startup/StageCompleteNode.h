@@ -15,6 +15,7 @@
 
 @protocol StageCompleteDelegate <NSObject>
 
+- (void) stageCompleteNodeBegan;
 - (void) stageCompleteNodeCompleted;
 
 @end

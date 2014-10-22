@@ -1730,6 +1730,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [gvc.notificationController addNotification:oln];
 }
 
++ (void) addBlueAlertNotification:(NSString *)msg {
+  GameViewController *gvc = [GameViewController baseController];
+  OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorBlue isImmediate:NO];
+  [gvc.notificationController addNotification:oln];
+}
+
 #pragma mark - Bounce View
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
   view.layer.transform = CATransform3DMakeScale(fScale, fScale, 1.0);

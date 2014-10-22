@@ -1716,7 +1716,11 @@
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
-  [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us];
+  if (us.userStructId == 0) {
+    [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us];
+  }
 }
 
 - (BOOL) speedUpBuilding {

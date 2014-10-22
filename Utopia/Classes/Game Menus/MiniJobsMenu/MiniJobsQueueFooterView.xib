@@ -6,15 +6,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HealQueueFooterView" id="bkh-vt-FLo" customClass="HealQueueFooterView">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MiniJobsQueueFooterView" id="dtq-E1-bxF" customClass="MiniJobsQueueFooterView">
             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptysmallsquare.png" id="Y2b-H5-kXr">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptysmallsquare.png" id="38y-Ex-uYG">
                     <rect key="frame" x="4" y="4" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 SLOT OPEN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="lO5-U2-4nq" customClass="NiceFontLabel7">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 SLOT OPEN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="O85-32-uEv" customClass="NiceFontLabel7">
                     <rect key="frame" x="7" y="9" width="36" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="7"/>
@@ -22,20 +22,22 @@
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOSPITAL FULL" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qde-66-dDr" customClass="NiceFontLabel7">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="VYR-uY-v3L" customClass="NiceFontLabel7">
                     <rect key="frame" x="0.0" y="9" width="43" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <string key="text">SLOTS
+FULL</string>
                     <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                    <color key="textColor" red="0.96078437566757202" green="0.0" blue="0.086274512112140656" alpha="1" colorSpace="deviceRGB"/>
+                    <color key="textColor" red="0.96078437569999997" green="0.0" blue="0.086274512110000007" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="openSlotsBorder" destination="Y2b-H5-kXr" id="5eC-vt-Tqo"/>
-                <outlet property="openSlotsLabel" destination="lO5-U2-4nq" id="62i-l1-m2H"/>
-                <outlet property="queueFullLabel" destination="qde-66-dDr" id="qWY-f3-kfD"/>
+                <outlet property="openSlotsBorder" destination="38y-Ex-uYG" id="ioD-cG-qLQ"/>
+                <outlet property="openSlotsLabel" destination="O85-32-uEv" id="a05-wM-Z24"/>
+                <outlet property="queueFullLabel" destination="VYR-uY-v3L" id="icV-rp-YXa"/>
             </connections>
         </collectionReusableView>
     </objects>

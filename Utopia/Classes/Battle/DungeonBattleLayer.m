@@ -105,6 +105,15 @@
     vals[BATTLE_SECTION_COMPLETE_KEY] = @{BATTLE_SECTION_NAME_KEY: self.sectionName, BATTLE_SECTION_ITEM_KEY : @(self.itemIdGained)};
   }
   
+  if (_wonBattle && _isFirstTime) {
+    // Set the dialogue
+    GameState *gs = [GameState sharedGameState];
+    FullTaskProto *ftp = [gs taskWithId:self.dungeonInfo.taskId];
+    if (ftp.hasInitialDefeatedDialogue) {
+      vals[BATTLE_DEFEATED_DIALOGUE_KEY] = ftp.initialDefeatedDialogue;
+    }
+  }
+  
   return vals;
 }
 
@@ -278,16 +287,24 @@
 #pragma mark - Waiting for server
 
 - (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
+  GameState *gs = [GameState sharedGameState];
   BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
   
   if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
     NSMutableSet *set = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
+    _isFirstTime = ![gs.completedTasks containsObject:@(proto.taskId)];
     for (TaskStageProto *tsp in proto.tspList) {
       TaskStageMonsterProto *tsm = [tsp.stageMonstersList objectAtIndex:0];
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um dmgMultiplier:tsm.dmgMultiplier monsterType:tsm.monsterType];
       [enemyTeam addObject:bp];
+      
+      if (_isFirstTime) {
+        bp.dialogue = !tsm.hasInitialD ? nil : tsm.initialD;
+      } else {
+        bp.dialogue = !tsm.hasDefaultD ? nil : tsm.defaultD;
+      }
       
       [set addObject:bp.spritePrefix];
     }
@@ -436,6 +453,25 @@
   _isResumingState = NO;
 }
 
+- (void) beginNextTurn {
+  if (self.currentEnemy && _displayedWaveNumber && _reachedNextScene && self.enemyPlayerObject.dialogue) {
+    DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:self.enemyPlayerObject.dialogue];
+    dvc.delegate = self;
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc addChildViewController:dvc];
+    gvc.view.frame = dvc.view.bounds;
+    [gvc.view addSubview:dvc.view];
+    
+    self.enemyPlayerObject.dialogue = nil;
+  } else {
+    [super beginNextTurn];
+  }
+}
+
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
+  [self beginNextTurn];
+}
+
 - (void) beginMyTurn {
   if (_isResumingState && !_damageWasDealt) {
     int moves = _movesLeft;
@@ -576,6 +612,7 @@
   if (curStage < self.enemyTeam.count) {
     BattlePlayer *bp = self.enemyTeam[curStage];
     bp.curHealth = enemyHealth;
+    bp.dialogue = nil;
   }
   
   _totalDamageTaken = (int)[[stateDict objectForKey:TOTAL_DAMAGE_TAKEN_KEY] integerValue];

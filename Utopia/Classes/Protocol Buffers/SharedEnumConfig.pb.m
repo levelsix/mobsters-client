@@ -76,5 +76,16 @@ BOOL ClanHelpTypeIsValidValue(ClanHelpType value) {
       return NO;
   }
 }
+BOOL GameTypeIsValidValue(GameType value) {
+  switch (value) {
+    case GameTypeNoType:
+    case GameTypeStructure:
+    case GameTypeResearch:
+    case GameTypeSkill:
+      return YES;
+    default:
+      return NO;
+  }
+}
 
 // @@protoc_insertion_point(global_scope)

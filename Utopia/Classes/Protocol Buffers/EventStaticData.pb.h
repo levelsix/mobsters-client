@@ -115,6 +115,8 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrereqProto;
+@class PrereqProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PurgeClientStaticDataResponseProto;

@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" style="plain" separatorStyle="none" rowHeight="53" sectionHeaderHeight="22" sectionFooterHeight="22" id="5" customClass="CancellableTableView">
-                    <rect key="frame" x="3" y="53" width="449" height="205"/>
+                    <rect key="frame" x="3" y="53" width="454" height="205"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" white="1" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>

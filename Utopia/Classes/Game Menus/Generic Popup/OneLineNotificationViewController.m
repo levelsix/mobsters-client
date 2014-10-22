@@ -18,15 +18,23 @@
   switch (color) {
     case NotificationColorGreen:
       prefix = @"green";
+      self.label.shadowColor = [UIColor colorWithRed:81/255.f green:111/255.f blue:5/255.f alpha:0.8];
       break;
     case NotificationColorOrange:
       prefix = @"orange";
+      self.label.shadowColor = [UIColor colorWithRed:195/255.f green:0.f blue:0.f alpha:0.8f];
       break;
     case NotificationColorPurple:
       prefix = @"purple";
+      self.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
       break;
     case NotificationColorRed:
       prefix = @"red";
+      self.label.shadowColor = [UIColor colorWithRed:92/255.f green:6/255.f blue:8/255.f alpha:0.8];
+      break;
+    case NotificationColorBlue:
+      prefix = @"blue";
+      self.label.shadowColor = [UIColor colorWithHexString:@"003a5a"];
       break;
       
     default:
@@ -43,16 +51,6 @@
   CGRect r = self.frame;
   r.size.width = (int)(size.width+self.label.frame.origin.x*2);
   self.frame = r;
-  
-  if (color == NotificationColorRed) {
-    self.label.shadowColor = [UIColor colorWithRed:92/255.f green:6/255.f blue:8/255.f alpha:0.8];
-  } else if (color == NotificationColorGreen) {
-    self.label.shadowColor = [UIColor colorWithRed:81/255.f green:111/255.f blue:5/255.f alpha:0.8];
-  } else if (color == NotificationColorPurple) {
-    self.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
-  } else if (color == NotificationColorOrange) {
-    self.label.shadowColor = [UIColor colorWithRed:195/255.f green:0.f blue:0.f alpha:0.8f];
-  }
 }
 
 - (void) animateIn:(dispatch_block_t)completion {

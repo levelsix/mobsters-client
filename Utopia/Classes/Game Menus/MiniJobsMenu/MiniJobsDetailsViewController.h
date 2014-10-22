@@ -10,6 +10,14 @@
 #import "NibUtils.h"
 #import "TopBarViewController.h"
 
+@interface MiniJobsQueueFooterView : UICollectionReusableView
+
+@property (nonatomic, retain) IBOutlet UILabel *openSlotsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *queueFullLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *openSlotsBorder;
+
+@end
+
 @interface MiniJobsDetailsCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
@@ -69,6 +77,8 @@ typedef enum {
 
 @interface MiniJobsDetailsViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate, ListCollectionDelegate> {
   UIButton *_clickedButton;
+  
+  MiniJobsQueueFooterView *_footerView;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;

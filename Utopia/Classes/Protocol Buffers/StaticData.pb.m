@@ -20,6 +20,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ClanRoot registerAllExtensions:registry];
     [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
@@ -64,6 +65,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableLeaguesList;
 @property (strong) NSMutableArray * mutableAchievementsList;
 @property (strong) NSMutableArray * mutableSkillsList;
+@property (strong) NSMutableArray * mutablePrereqsList;
 @end
 
 @implementation StaticDataProto
@@ -135,6 +137,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic achievementsList;
 @synthesize mutableSkillsList;
 @dynamic skillsList;
+@synthesize mutablePrereqsList;
+@dynamic prereqsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -333,6 +337,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (SkillProto*)skillsAtIndex:(NSUInteger)index {
   return [mutableSkillsList objectAtIndex:index];
 }
+- (NSArray *)prereqsList {
+  return mutablePrereqsList;
+}
+- (PrereqProto*)prereqsAtIndex:(NSUInteger)index {
+  return [mutablePrereqsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -429,6 +439,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.allClanHousesList enumerateObjectsUsingBlock:^(ClanHouseProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:32 value:element];
+  }];
+  [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:33 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -531,6 +544,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.allClanHousesList enumerateObjectsUsingBlock:^(ClanHouseProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(32, element);
+  }];
+  [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(33, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -753,6 +769,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"prereqs"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -796,6 +818,7 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.allTeamCentersList isEqualToArray:otherMessage.allTeamCentersList] &&
       [self.skillsList isEqualToArray:otherMessage.skillsList] &&
       [self.allClanHousesList isEqualToArray:otherMessage.allClanHousesList] &&
+      [self.prereqsList isEqualToArray:otherMessage.prereqsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -891,6 +914,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.allClanHousesList enumerateObjectsUsingBlock:^(ClanHouseProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1149,6 +1175,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutableSkillsList addObjectsFromArray:other.mutableSkillsList];
     }
   }
+  if (other.mutablePrereqsList.count > 0) {
+    if (result.mutablePrereqsList == nil) {
+      result.mutablePrereqsList = [[NSMutableArray alloc] initWithArray:other.mutablePrereqsList];
+    } else {
+      [result.mutablePrereqsList addObjectsFromArray:other.mutablePrereqsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1357,6 +1390,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         ClanHouseProto_Builder* subBuilder = [ClanHouseProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllClanHouses:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        PrereqProto_Builder* subBuilder = [PrereqProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPrereqs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2110,6 +2149,30 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearSkills {
   result.mutableSkillsList = nil;
+  return self;
+}
+- (NSMutableArray *)prereqsList {
+  return result.mutablePrereqsList;
+}
+- (PrereqProto*)prereqsAtIndex:(NSUInteger)index {
+  return [result prereqsAtIndex:index];
+}
+- (StaticDataProto_Builder *)addPrereqs:(PrereqProto*)value {
+  if (result.mutablePrereqsList == nil) {
+    result.mutablePrereqsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutablePrereqsList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllPrereqs:(NSArray *)array {
+  if (result.mutablePrereqsList == nil) {
+    result.mutablePrereqsList = [NSMutableArray array];
+  }
+  [result.mutablePrereqsList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearPrereqs {
+  result.mutablePrereqsList = nil;
   return self;
 }
 @end

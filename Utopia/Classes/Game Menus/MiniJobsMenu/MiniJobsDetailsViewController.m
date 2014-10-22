@@ -10,6 +10,10 @@
 #import "GameState.h"
 #import "Globals.h"
 
+@implementation MiniJobsQueueFooterView
+
+@end
+
 @implementation MiniJobsDetailsCell
 
 - (void) updateForUserMonster:(UserMonster *)um requiredHp:(int)reqHp requiredAttack:(int)reqAtk {
@@ -117,6 +121,7 @@
   
   self.queueView.isFlipped = YES;
   self.queueView.cellClassName = @"MonsterQueueCell";
+  self.queueView.footerClassName = @"MiniJobsQueueFooterView";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -204,6 +209,8 @@
   self.slotsAvailableLabel.text = [NSString stringWithFormat:@"%d Slot%@ Available", maxAllowed, maxAllowed == 1 ? @"" : @"s"];
   self.queueArrow.highlighted = self.pickedMonsters.count >= maxAllowed;
   
+  [self updateOpenSlotsView];
+  
   if (totalHp >= reqHp && totalAtk >= reqAtk) {
     self.engageArrow.highlighted = NO;
     [self.engageButton setImage:[Globals imageNamed:@"engagebutton.png"] forState:UIControlStateNormal];
@@ -216,6 +223,24 @@
     
     self.engageLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
     self.engageLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
+  }
+}
+
+- (void) updateOpenSlotsView {
+  int maxQueueSize = self.userMiniJob.miniJob.maxNumMonstersAllowed;
+  int curQueueSize = (int)self.pickedMonsters.count;
+  int openSlots = maxQueueSize-curQueueSize;
+  
+  if (openSlots > 0) {
+    _footerView.openSlotsLabel.text = [NSString stringWithFormat:@"%d SLOT%@ OPEN", openSlots, openSlots == 1 ? @"" : @"S"];
+    
+    _footerView.openSlotsLabel.hidden = NO;
+    _footerView.openSlotsBorder.hidden = NO;
+    _footerView.queueFullLabel.hidden = YES;
+  } else {
+    _footerView.openSlotsLabel.hidden = YES;
+    _footerView.openSlotsBorder.hidden = YES;
+    _footerView.queueFullLabel.hidden = NO;
   }
 }
 
@@ -422,6 +447,11 @@
   } else {
     [self.monstersTable scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionNone animated:YES];
   }
+}
+
+- (void) listView:(ListCollectionView *)listView updateFooterView:(id)footerView {
+  _footerView = footerView;
+  [self updateOpenSlotsView];
 }
 
 #pragma mark - UITableView dataSource/delegate

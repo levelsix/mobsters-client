@@ -6870,6 +6870,36 @@
 		CF48255B19F7217F00041486 /* bagcash.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6292E1180D22F500C6C196 /* bagcash.png */; };
 		CF48255C19F7217F00041486 /* enhancetime.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCD0E7D1953F07300EDC233 /* enhancetime.png */; };
 		CF48255D19F7217F00041486 /* yellowmenuoption.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2A4A5A1901B8F400B2D7D7 /* yellowmenuoption.png */; };
+		CF48259719F729D000041486 /* mysprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48259319F729D000041486 /* mysprite.png */; };
+		CF48259819F729D000041486 /* mysprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48259319F729D000041486 /* mysprite.png */; };
+		CF48259919F729D000041486 /* mysprite.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48259319F729D000041486 /* mysprite.png */; };
+		CF48259A19F729D000041486 /* PPEmitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48259519F729D000041486 /* PPEmitterView.m */; };
+		CF48259B19F729D000041486 /* PPEmitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48259519F729D000041486 /* PPEmitterView.m */; };
+		CF48259C19F729D000041486 /* PPEmitterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48259519F729D000041486 /* PPEmitterView.m */; };
+		CF48259D19F729D000041486 /* untitled.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF48259619F729D000041486 /* untitled.plist */; };
+		CF48259E19F729D000041486 /* untitled.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF48259619F729D000041486 /* untitled.plist */; };
+		CF48259F19F729D000041486 /* untitled.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF48259619F729D000041486 /* untitled.plist */; };
+		CF4825A419F72A3900041486 /* notendcapblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A019F72A3900041486 /* notendcapblue.png */; };
+		CF4825A519F72A3900041486 /* notendcapblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A019F72A3900041486 /* notendcapblue.png */; };
+		CF4825A619F72A3900041486 /* notendcapblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A019F72A3900041486 /* notendcapblue.png */; };
+		CF4825A719F72A3900041486 /* notendcapblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A119F72A3900041486 /* notendcapblue@2x.png */; };
+		CF4825A819F72A3900041486 /* notendcapblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A119F72A3900041486 /* notendcapblue@2x.png */; };
+		CF4825A919F72A3900041486 /* notendcapblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A119F72A3900041486 /* notendcapblue@2x.png */; };
+		CF4825AA19F72A3900041486 /* notmiddleblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A219F72A3900041486 /* notmiddleblue.png */; };
+		CF4825AB19F72A3900041486 /* notmiddleblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A219F72A3900041486 /* notmiddleblue.png */; };
+		CF4825AC19F72A3900041486 /* notmiddleblue.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A219F72A3900041486 /* notmiddleblue.png */; };
+		CF4825AD19F72A3900041486 /* notmiddleblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A319F72A3900041486 /* notmiddleblue@2x.png */; };
+		CF4825AE19F72A3900041486 /* notmiddleblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A319F72A3900041486 /* notmiddleblue@2x.png */; };
+		CF4825AF19F72A3900041486 /* notmiddleblue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4825A319F72A3900041486 /* notmiddleblue@2x.png */; };
+		CF4825B219F7549300041486 /* Prerequisite.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4825B119F7549300041486 /* Prerequisite.pb.m */; };
+		CF4825B319F7549300041486 /* Prerequisite.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4825B119F7549300041486 /* Prerequisite.pb.m */; };
+		CF4825B419F7549300041486 /* Prerequisite.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4825B119F7549300041486 /* Prerequisite.pb.m */; };
+		CF4825B619F754D300041486 /* Prerequisite.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B519F754D300041486 /* Prerequisite.proto */; };
+		CF4825B719F754D300041486 /* Prerequisite.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B519F754D300041486 /* Prerequisite.proto */; };
+		CF4825B819F754D300041486 /* Prerequisite.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B519F754D300041486 /* Prerequisite.proto */; };
+		CF4825BA19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */; };
+		CF4825BB19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */; };
+		CF4825BC19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */; };
 		CF4DB8DA1807DA1F00062258 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */; };
 		CF4DB8DC1807DA1F00062258 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8B01807DA1E00062258 /* Building.m */; };
 		CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8BD1807DA1E00062258 /* GameMap.m */; };
@@ -10783,6 +10813,18 @@
 		CF48189419F71D2900041486 /* LaboratoryT0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaboratoryT0@2x.png"; sourceTree = "<group>"; };
 		CF48256419F7217F00041486 /* Toon Squad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toon Squad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF48256519F7217F00041486 /* Tango Toon Squad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Tango Toon Squad-Info.plist"; path = "/Users/ashwin/mobsters-client/Tango Toon Squad-Info.plist"; sourceTree = "<absolute>"; };
+		CF48259319F729D000041486 /* mysprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysprite.png; sourceTree = "<group>"; };
+		CF48259419F729D000041486 /* PPEmitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPEmitterView.h; sourceTree = "<group>"; };
+		CF48259519F729D000041486 /* PPEmitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPEmitterView.m; sourceTree = "<group>"; };
+		CF48259619F729D000041486 /* untitled.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = untitled.plist; sourceTree = "<group>"; };
+		CF4825A019F72A3900041486 /* notendcapblue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notendcapblue.png; sourceTree = "<group>"; };
+		CF4825A119F72A3900041486 /* notendcapblue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notendcapblue@2x.png"; sourceTree = "<group>"; };
+		CF4825A219F72A3900041486 /* notmiddleblue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notmiddleblue.png; sourceTree = "<group>"; };
+		CF4825A319F72A3900041486 /* notmiddleblue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notmiddleblue@2x.png"; sourceTree = "<group>"; };
+		CF4825B019F7549300041486 /* Prerequisite.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prerequisite.pb.h; sourceTree = "<group>"; };
+		CF4825B119F7549300041486 /* Prerequisite.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prerequisite.pb.m; sourceTree = "<group>"; };
+		CF4825B519F754D300041486 /* Prerequisite.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Prerequisite.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Prerequisite.proto"; sourceTree = SOURCE_ROOT; };
+		CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsQueueFooterView.xib; sourceTree = "<group>"; };
 		CF4DB8AC1807DA1E00062258 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		CF4DB8AD1807DA1E00062258 /* AnimatedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedSprite.m; sourceTree = "<group>"; };
 		CF4DB8AF1807DA1E00062258 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
@@ -14301,6 +14343,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF48259219F729D000041486 /* Gacha Stars Particle Test */,
 				CF812EE719E67D4E00D91157 /* Clan Help */,
 				CF0CDE7419E5050E006A5ECB /* Timers */,
 				CF29E92D19620DB600B40DA4 /* Menu Header buildings */,
@@ -15523,6 +15566,17 @@
 			path = Chartboost;
 			sourceTree = "<group>";
 		};
+		CF48259219F729D000041486 /* Gacha Stars Particle Test */ = {
+			isa = PBXGroup;
+			children = (
+				CF48259319F729D000041486 /* mysprite.png */,
+				CF48259419F729D000041486 /* PPEmitterView.h */,
+				CF48259519F729D000041486 /* PPEmitterView.m */,
+				CF48259619F729D000041486 /* untitled.plist */,
+			);
+			path = "Gacha Stars Particle Test";
+			sourceTree = "<group>";
+		};
 		CF4DB8AB1807DA1E00062258 /* Main Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -15537,6 +15591,8 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				CF4825B019F7549300041486 /* Prerequisite.pb.h */,
+				CF4825B119F7549300041486 /* Prerequisite.pb.m */,
 				CFB97D7C19C14173003ABA66 /* EventItem.pb.h */,
 				CFB97D7D19C14173003ABA66 /* EventItem.pb.m */,
 				CFF412AC19BFE761002672D4 /* Item.pb.h */,
@@ -15796,6 +15852,7 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				CF4825B519F754D300041486 /* Prerequisite.proto */,
 				CFB97D8519C14183003ABA66 /* EventItem.proto */,
 				CFF412B019BFE76E002672D4 /* Item.proto */,
 				DA075FBE19AFEA4C00E43E5A /* Skill.proto */,
@@ -15938,6 +15995,7 @@
 				CF688FFB1912E5D000FF1F71 /* MiniJobsDetailsViewController.m */,
 				CF688FFC1912E5D000FF1F71 /* MiniJobsDetailsViewController.xib */,
 				CF689067191300F100FF1F71 /* MiniJobsDetailsCell.xib */,
+				CF4825B919F78FB900041486 /* MiniJobsQueueFooterView.xib */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -17677,6 +17735,10 @@
 		CFEE898E18EA610D00047CA4 /* Unobtrusive notifications */ = {
 			isa = PBXGroup;
 			children = (
+				CF4825A019F72A3900041486 /* notendcapblue.png */,
+				CF4825A119F72A3900041486 /* notendcapblue@2x.png */,
+				CF4825A219F72A3900041486 /* notmiddleblue.png */,
+				CF4825A319F72A3900041486 /* notmiddleblue@2x.png */,
 				CFA8B19E19EB740B00CF6BFD /* notendcaporange.png */,
 				CFA8B19F19EB740B00CF6BFD /* notendcaporange@2x.png */,
 				CFA8B1A019EB740B00CF6BFD /* notmiddleorange.png */,
@@ -19828,6 +19890,7 @@
 				CF0CEE46196F452900ECD301 /* backgroundleft.png in Resources */,
 				CF0CEE47196F452900ECD301 /* menuteamhealthbar.png in Resources */,
 				CF0CEE48196F452900ECD301 /* basicgrab.png in Resources */,
+				CF4825B719F754D300041486 /* Prerequisite.proto in Resources */,
 				CF0CEE49196F452900ECD301 /* lightcard.png in Resources */,
 				CF0CEE4A196F452900ECD301 /* timerbgmiddle@2x.png in Resources */,
 				CF0CEE4B196F452900ECD301 /* finishheal@2x.png in Resources */,
@@ -20025,6 +20088,7 @@
 				CF0CEEF8196F452900ECD301 /* FatBoy5Move00@2x.png in Resources */,
 				CF0CEEF9196F452900ECD301 /* Scientist1Blink04@2x.png in Resources */,
 				CF0CEEFA196F452900ECD301 /* FatBoy1Move10@2x.png in Resources */,
+				CF4825A819F72A3900041486 /* notendcapblue@2x.png in Resources */,
 				CF0CEEFB196F452900ECD301 /* buildingbg.png in Resources */,
 				CF0CEEFC196F452900ECD301 /* firegrenade@2x.png in Resources */,
 				CF0CEEFD196F452900ECD301 /* speechbubblename@2x.png in Resources */,
@@ -20714,6 +20778,7 @@
 				CF0CF15C196F452900ECD301 /* Scientist1Breath04@2x.png in Resources */,
 				CF0CF15D196F452900ECD301 /* sfx_notification_box_pop_up.mp3 in Resources */,
 				CF0CF15E196F452900ECD301 /* teamwonbg.png in Resources */,
+				CF48259819F729D000041486 /* mysprite.png in Resources */,
 				CF0CF15F196F452900ECD301 /* achievementsiconactive.png in Resources */,
 				CF0CF160196F452900ECD301 /* diagradient.png in Resources */,
 				CFF2A5FF19709C4800269084 /* dectree2.png in Resources */,
@@ -20761,6 +20826,7 @@
 				4C16FEE919CE03A200F9FC1E /* lightpoison@2x.png in Resources */,
 				CF0CF187196F452900ECD301 /* stagecomplete.png in Resources */,
 				CF0CF188196F452900ECD301 /* Scientist1Breath11@2x.png in Resources */,
+				CF4825BB19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */,
 				CF0CF189196F452900ECD301 /* healredbubble2.png in Resources */,
 				CF0CF18A196F452900ECD301 /* elementtree2.png in Resources */,
 				CF0CF18B196F452900ECD301 /* upgradedivider@2x.png in Resources */,
@@ -20880,6 +20946,7 @@
 				CFF9DD7319B861F200CA9A8E /* fireenhancebg.png in Resources */,
 				DAF7994E19AD65EF00586583 /* bluenotificationbubble.png in Resources */,
 				CF0CF1F4196F452900ECD301 /* overring@2x.png in Resources */,
+				CF48259E19F729D000041486 /* untitled.plist in Resources */,
 				CF0CF1F5196F452900ECD301 /* rockgrenade@2x.png in Resources */,
 				CF0CF1F6196F452900ECD301 /* chatglobalinactive@2x.png in Resources */,
 				CF0CF1F7196F452900ECD301 /* streak@2x.png in Resources */,
@@ -20887,6 +20954,7 @@
 				CF0CF1F8196F452900ECD301 /* upgradecheckbg@2x.png in Resources */,
 				CF0CF1F9196F452900ECD301 /* chatinput.png in Resources */,
 				CF0CF1FA196F452900ECD301 /* gooniegrab@2x.png in Resources */,
+				CF4825A519F72A3900041486 /* notendcapblue.png in Resources */,
 				CF0CF1FB196F452900ECD301 /* sfx_firework_03.mp3 in Resources */,
 				CF0CF1FC196F452900ECD301 /* sfx_points_fly_from_match_02.mp3 in Resources */,
 				CF0CF1FD196F452900ECD301 /* silvericon.png in Resources */,
@@ -21245,6 +21313,7 @@
 				CF0CF331196F452900ECD301 /* gachacommontag@2x.png in Resources */,
 				CF0CF332196F452900ECD301 /* clanscreateactive@2x.png in Resources */,
 				CF0CF333196F452900ECD301 /* shopbutton.png in Resources */,
+				CF4825AE19F72A3900041486 /* notmiddleblue@2x.png in Resources */,
 				CF0CF334196F452900ECD301 /* sharecheckboxbg.png in Resources */,
 				CF0CF336196F452900ECD301 /* 1starmachineinactive.png in Resources */,
 				DA173A8019CBAF2A005236C0 /* poisonlogo@2x.png in Resources */,
@@ -21737,6 +21806,7 @@
 				CFF9DD7519B861F200CA9A8E /* fireenhancebg@2x.png in Resources */,
 				CF0CF4DF196F452900ECD301 /* firemediumsquare.png in Resources */,
 				CF3737B419E3767600CB16E3 /* obtimeryellowmiddle.png in Resources */,
+				CF4825AB19F72A3900041486 /* notmiddleblue.png in Resources */,
 				CF0CDE9E19E5050E006A5ECB /* timersmiddlebg@2x.png in Resources */,
 				CFA8B1A519EB740B00CF6BFD /* notendcaporange@2x.png in Resources */,
 				CF6A650619D252D00002E05D /* 6firegrenade@2x.png in Resources */,
@@ -23199,6 +23269,7 @@
 				CF6CA6AE19DA2AA40075C98C /* findamatchtext.png in Resources */,
 				CF6A292118C2B2F200AD676F /* spotsmovedbg@2x.png in Resources */,
 				CFE02D3D1825D9CC0016C1E2 /* clanname.png in Resources */,
+				CF4825BA19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */,
 				CFF7875B18E28FE200413E78 /* newamountbarmiddle@2x.png in Resources */,
 				DA5E401419D104FC001F28CE /* momentumlogo@2x.png in Resources */,
 				CF32EAE3195FF81900A4AEE3 /* menusquareinactive@2x.png in Resources */,
@@ -23209,6 +23280,7 @@
 				CFA7502A18CAD3B900AC66FC /* nameinput.png in Resources */,
 				CFF7874218E28FE200413E78 /* friendmask.png in Resources */,
 				DA5E403B19D25B60001F28CE /* nightcounter.png in Resources */,
+				CF48259D19F729D000041486 /* untitled.plist in Resources */,
 				CF40D02B18DFCC6C0034A721 /* goldicon.png in Resources */,
 				CFF5DBE9194F90720019EB2B /* nightbigavatar.png in Resources */,
 				CF29EA171964BD0500B40DA4 /* sellbubbleexclamation@2x.png in Resources */,
@@ -23456,6 +23528,7 @@
 				CF6F1A17181518C900CFF2B9 /* visittask@2x.png in Resources */,
 				CFE7CD741819FC3300930847 /* lightbar@2x.png in Resources */,
 				CFCD0EE81953F07400EDC233 /* lightmediumsquare.png in Resources */,
+				CF4825A719F72A3900041486 /* notendcapblue@2x.png in Resources */,
 				CF5BD67219C925EE006C4B4C /* rankupblackgradientbg.png in Resources */,
 				CFBB37CB18F8BDA200FD6C8C /* runawaysuccess@2x.png in Resources */,
 				CFFBDF3618ACA3D90090CA9A /* Scientist1Blink12@2x.png in Resources */,
@@ -24257,6 +24330,7 @@
 				CFFEB1CB18384123007C4BA3 /* nightbattlering.png in Resources */,
 				CFE7CD1E1819FC3300930847 /* backgroundright.png in Resources */,
 				CFC4D28018D7BD04004681FD /* sfx_arial_bomb_drop.mp3 in Resources */,
+				CF48259719F729D000041486 /* mysprite.png in Resources */,
 				CF6A290F18C2B2F200AD676F /* activenewstab@2x.png in Resources */,
 				CF2A4B181901B8F500B2D7D7 /* tasknumberbg@2x.png in Resources */,
 				CF134A8018A5E4B500D7D700 /* FatBoy4Move10@2x.png in Resources */,
@@ -24264,6 +24338,7 @@
 				CF06B606193699FC008BF892 /* fullhospitalarrow.png in Resources */,
 				CFF390E51829C74A0010A3BE /* lightsideways.png in Resources */,
 				CF9F994019E48734006B0119 /* helpredbubble4.png in Resources */,
+				CF4825AD19F72A3900041486 /* notmiddleblue@2x.png in Resources */,
 				CF134A8918A5E4B500D7D700 /* FatBoy5Move06@2x.png in Resources */,
 				CFE7CD6C1819FC3300930847 /* leftrightexpand@2x.png in Resources */,
 				CF65ECC119A2B1CC00ABBC77 /* activechatline@2x.png in Resources */,
@@ -24859,6 +24934,7 @@
 				CF65ECBF19A2B1CC00ABBC77 /* activechatline.png in Resources */,
 				CF6A291C18C2B2F200AD676F /* raidwonbg.png in Resources */,
 				CFF2A62A1970C81200269084 /* battledoneorange@2x.png in Resources */,
+				CF4825B619F754D300041486 /* Prerequisite.proto in Resources */,
 				CFFBDFDE18ACA3D90090CA9A /* Scientist5Blink08@2x.png in Resources */,
 				CFC04CE2188DC90C00F2DB59 /* oilready.png in Resources */,
 				CF29EA051964BD0500B40DA4 /* sellbubble1@2x.png in Resources */,
@@ -24963,6 +25039,7 @@
 				CFCD0ED11953F07400EDC233 /* minusteam@2x.png in Resources */,
 				CFFBDF8E18ACA3D90090CA9A /* Scientist3Breath01@2x.png in Resources */,
 				CFC8B5D418E4547200CFD652 /* chatinput@2x.png in Resources */,
+				CF4825A419F72A3900041486 /* notendcapblue.png in Resources */,
 				CFCE570818137CD400494F8C /* notifcationsbg@2x.png in Resources */,
 				CF9F995819E48734006B0119 /* helpredbubbleexclamation.png in Resources */,
 				CFCD0E5E1953C93E00EDC233 /* gachacommonpiece.png in Resources */,
@@ -25101,6 +25178,7 @@
 				CFFBDF7618ACA3D90090CA9A /* Scientist2Turn07@2x.png in Resources */,
 				4C16FF0D19CE03AE00F9FC1E /* cakedropicon@2x.png in Resources */,
 				CF12798D181F5EF300211623 /* GothamNarrow-Ultra.otf in Resources */,
+				CF4825AA19F72A3900041486 /* notmiddleblue.png in Resources */,
 				CFEC99441947FBF300BD893E /* gachaultratag@2x.png in Resources */,
 				CFE7CD4C1819FC3300930847 /* emptycard@2x.png in Resources */,
 				CFC8B5D218E4547200CFD652 /* chatexpandarrow@2x.png in Resources */,
@@ -25741,6 +25819,7 @@
 				CF481A0919F7217F00041486 /* backgroundleft.png in Resources */,
 				CF481A0A19F7217F00041486 /* menuteamhealthbar.png in Resources */,
 				CF481A0B19F7217F00041486 /* basicgrab.png in Resources */,
+				CF4825B819F754D300041486 /* Prerequisite.proto in Resources */,
 				CF481A0C19F7217F00041486 /* lightcard.png in Resources */,
 				CF481A0D19F7217F00041486 /* timerbgmiddle@2x.png in Resources */,
 				CF481A0E19F7217F00041486 /* finishheal@2x.png in Resources */,
@@ -25938,6 +26017,7 @@
 				CF481ACE19F7217F00041486 /* FatBoy5Move00@2x.png in Resources */,
 				CF481ACF19F7217F00041486 /* Scientist1Blink04@2x.png in Resources */,
 				CF481AD019F7217F00041486 /* FatBoy1Move10@2x.png in Resources */,
+				CF4825A919F72A3900041486 /* notendcapblue@2x.png in Resources */,
 				CF481AD119F7217F00041486 /* buildingbg.png in Resources */,
 				CF481AD219F7217F00041486 /* firegrenade@2x.png in Resources */,
 				CF481AD319F7217F00041486 /* speechbubblename@2x.png in Resources */,
@@ -26627,6 +26707,7 @@
 				CF481D7F19F7217F00041486 /* Scientist1Breath04@2x.png in Resources */,
 				CF481D8019F7217F00041486 /* sfx_notification_box_pop_up.mp3 in Resources */,
 				CF481D8119F7217F00041486 /* teamwonbg.png in Resources */,
+				CF48259919F729D000041486 /* mysprite.png in Resources */,
 				CF481D8219F7217F00041486 /* achievementsiconactive.png in Resources */,
 				CF481D8319F7217F00041486 /* diagradient.png in Resources */,
 				CF481D8419F7217F00041486 /* dectree2.png in Resources */,
@@ -26674,6 +26755,7 @@
 				CF481DAE19F7217F00041486 /* lightpoison@2x.png in Resources */,
 				CF481DAF19F7217F00041486 /* stagecomplete.png in Resources */,
 				CF481DB019F7217F00041486 /* Scientist1Breath11@2x.png in Resources */,
+				CF4825BC19F78FB900041486 /* MiniJobsQueueFooterView.xib in Resources */,
 				CF481DB119F7217F00041486 /* healredbubble2.png in Resources */,
 				CF481DB219F7217F00041486 /* elementtree2.png in Resources */,
 				CF481DB319F7217F00041486 /* upgradedivider@2x.png in Resources */,
@@ -26793,6 +26875,7 @@
 				CF481E2519F7217F00041486 /* fireenhancebg.png in Resources */,
 				CF481E2619F7217F00041486 /* bluenotificationbubble.png in Resources */,
 				CF481E2719F7217F00041486 /* overring@2x.png in Resources */,
+				CF48259F19F729D000041486 /* untitled.plist in Resources */,
 				CF481E2819F7217F00041486 /* rockgrenade@2x.png in Resources */,
 				CF481E2919F7217F00041486 /* chatglobalinactive@2x.png in Resources */,
 				CF481E2A19F7217F00041486 /* streak@2x.png in Resources */,
@@ -26800,6 +26883,7 @@
 				CF481E2C19F7217F00041486 /* upgradecheckbg@2x.png in Resources */,
 				CF481E2D19F7217F00041486 /* chatinput.png in Resources */,
 				CF481E2E19F7217F00041486 /* gooniegrab@2x.png in Resources */,
+				CF4825A619F72A3900041486 /* notendcapblue.png in Resources */,
 				CF481E2F19F7217F00041486 /* sfx_firework_03.mp3 in Resources */,
 				CF481E3019F7217F00041486 /* sfx_points_fly_from_match_02.mp3 in Resources */,
 				CF481E3119F7217F00041486 /* silvericon.png in Resources */,
@@ -27158,6 +27242,7 @@
 				CF481F9219F7217F00041486 /* gachacommontag@2x.png in Resources */,
 				CF481F9319F7217F00041486 /* clanscreateactive@2x.png in Resources */,
 				CF481F9419F7217F00041486 /* shopbutton.png in Resources */,
+				CF4825AF19F72A3900041486 /* notmiddleblue@2x.png in Resources */,
 				CF481F9519F7217F00041486 /* sharecheckboxbg.png in Resources */,
 				CF481F9619F7217F00041486 /* 1starmachineinactive.png in Resources */,
 				CF481F9719F7217F00041486 /* poisonlogo@2x.png in Resources */,
@@ -27650,6 +27735,7 @@
 				CF48217E19F7217F00041486 /* fireenhancebg@2x.png in Resources */,
 				CF48217F19F7217F00041486 /* firemediumsquare.png in Resources */,
 				CF48218019F7217F00041486 /* obtimeryellowmiddle.png in Resources */,
+				CF4825AC19F72A3900041486 /* notmiddleblue.png in Resources */,
 				CF48218119F7217F00041486 /* timersmiddlebg@2x.png in Resources */,
 				CF48218219F7217F00041486 /* notendcaporange@2x.png in Resources */,
 				CF48218319F7217F00041486 /* 6firegrenade@2x.png in Resources */,
@@ -28825,6 +28911,7 @@
 				DA0FC57319B64E6800393BF4 /* OrbSprite.m in Sources */,
 				CF0CED24196F452900ECD301 /* PopupNavViewController.m in Sources */,
 				CF0CED25196F452900ECD301 /* IncomingEventController.m in Sources */,
+				CF4825B319F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF0CED27196F452900ECD301 /* Structure.pb.m in Sources */,
 				CF0CED28196F452900ECD301 /* OutgoingEventController.m in Sources */,
 				CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */,
@@ -28993,6 +29080,7 @@
 				DA07605F19B129EC00E43E5A /* SkillController.m in Sources */,
 				DA58F52219AE8B9D00D025BC /* UIView+Coordinates.m in Sources */,
 				CF0CEDC5196F452900ECD301 /* BuildingViewController.m in Sources */,
+				CF48259B19F729D000041486 /* PPEmitterView.m in Sources */,
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
 				CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */,
@@ -29209,6 +29297,7 @@
 				DA07605A19B129EC00E43E5A /* SkillBattleIndicatorView.m in Sources */,
 				CF6574F3190F2AE500ABF1F4 /* AchievementUtil.m in Sources */,
 				CFF2C95C193FE75B00F28D9E /* ChatBottomView.m in Sources */,
+				CF4825B219F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF29EA571964F64E00B40DA4 /* SettingsViewController.m in Sources */,
 				CF54943E18C71F3C001E7D32 /* TutorialHomeMap.m in Sources */,
 				CF6A292E18C430E800AD676F /* TutorialController.m in Sources */,
@@ -29263,6 +29352,7 @@
 				CF6574BA1909CAF200ABF1F4 /* EventStructure.pb.m in Sources */,
 				CF6574B21909CAF200ABF1F4 /* EventDungeon.pb.m in Sources */,
 				CF6574A61909CAF200ABF1F4 /* AchievementStuff.pb.m in Sources */,
+				CF48259A19F729D000041486 /* PPEmitterView.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
 				CF6574E51909CAF200ABF1F4 /* User.pb.m in Sources */,
 				DA5E3FFA19D0CB3F001F28CE /* SkillRoidRage.m in Sources */,
@@ -29378,6 +29468,7 @@
 				CF4818C919F7217F00041486 /* OrbSprite.m in Sources */,
 				CF4818CA19F7217F00041486 /* PopupNavViewController.m in Sources */,
 				CF4818CB19F7217F00041486 /* IncomingEventController.m in Sources */,
+				CF4825B419F7549300041486 /* Prerequisite.pb.m in Sources */,
 				CF4818CC19F7217F00041486 /* Structure.pb.m in Sources */,
 				CF4818CD19F7217F00041486 /* OutgoingEventController.m in Sources */,
 				CF4818CE19F7217F00041486 /* SocketCommunication.m in Sources */,
@@ -29546,6 +29637,7 @@
 				CF48197119F7217F00041486 /* SkillController.m in Sources */,
 				CF48197219F7217F00041486 /* UIView+Coordinates.m in Sources */,
 				CF48197319F7217F00041486 /* BuildingViewController.m in Sources */,
+				CF48259C19F729D000041486 /* PPEmitterView.m in Sources */,
 				CF48197419F7217F00041486 /* MenuNavigationController.m in Sources */,
 				CF48197519F7217F00041486 /* PersistentEventProto+Time.m in Sources */,
 				CF48197619F7217F00041486 /* ClanRaidListViewController.m in Sources */,

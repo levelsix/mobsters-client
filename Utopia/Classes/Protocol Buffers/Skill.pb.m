@@ -736,7 +736,6 @@ static SkillProto* defaultSkillProtoInstance = nil;
 @property int32_t skillPropertyId;
 @property (strong) NSString* name;
 @property Float32 skillValue;
-@property (strong) NSString* shorterName;
 @end
 
 @implementation SkillPropertyProto
@@ -762,19 +761,11 @@ static SkillProto* defaultSkillProtoInstance = nil;
   hasSkillValue_ = !!value_;
 }
 @synthesize skillValue;
-- (BOOL) hasShorterName {
-  return !!hasShorterName_;
-}
-- (void) setHasShorterName:(BOOL) value_ {
-  hasShorterName_ = !!value_;
-}
-@synthesize shorterName;
 - (id) init {
   if ((self = [super init])) {
     self.skillPropertyId = 0;
     self.name = @"";
     self.skillValue = 0;
-    self.shorterName = @"";
   }
   return self;
 }
@@ -803,9 +794,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (self.hasSkillValue) {
     [output writeFloat:3 value:self.skillValue];
   }
-  if (self.hasShorterName) {
-    [output writeString:4 value:self.shorterName];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -823,9 +811,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   }
   if (self.hasSkillValue) {
     size_ += computeFloatSize(3, self.skillValue);
-  }
-  if (self.hasShorterName) {
-    size_ += computeStringSize(4, self.shorterName);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -871,9 +856,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (self.hasSkillValue) {
     [output appendFormat:@"%@%@: %@\n", indent, @"skillValue", [NSNumber numberWithFloat:self.skillValue]];
   }
-  if (self.hasShorterName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"shorterName", self.shorterName];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -891,8 +873,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
       (!self.hasName || [self.name isEqual:otherMessage.name]) &&
       self.hasSkillValue == otherMessage.hasSkillValue &&
       (!self.hasSkillValue || self.skillValue == otherMessage.skillValue) &&
-      self.hasShorterName == otherMessage.hasShorterName &&
-      (!self.hasShorterName || [self.shorterName isEqual:otherMessage.shorterName]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -905,9 +885,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   }
   if (self.hasSkillValue) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.skillValue] hash];
-  }
-  if (self.hasShorterName) {
-    hashCode = hashCode * 31 + [self.shorterName hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -961,9 +938,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
   if (other.hasSkillValue) {
     [self setSkillValue:other.skillValue];
   }
-  if (other.hasShorterName) {
-    [self setShorterName:other.shorterName];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -995,10 +969,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
       }
       case 29: {
         [self setSkillValue:[input readFloat]];
-        break;
-      }
-      case 34: {
-        [self setShorterName:[input readString]];
         break;
       }
     }
@@ -1050,22 +1020,6 @@ static SkillPropertyProto* defaultSkillPropertyProtoInstance = nil;
 - (SkillPropertyProto_Builder*) clearSkillValue {
   result.hasSkillValue = NO;
   result.skillValue = 0;
-  return self;
-}
-- (BOOL) hasShorterName {
-  return result.hasShorterName;
-}
-- (NSString*) shorterName {
-  return result.shorterName;
-}
-- (SkillPropertyProto_Builder*) setShorterName:(NSString*) value {
-  result.hasShorterName = YES;
-  result.shorterName = value;
-  return self;
-}
-- (SkillPropertyProto_Builder*) clearShorterName {
-  result.hasShorterName = NO;
-  result.shorterName = @"";
   return self;
 }
 @end

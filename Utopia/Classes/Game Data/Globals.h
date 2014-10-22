@@ -259,6 +259,7 @@
 + (void) addGreenAlertNotification:(NSString *)msg isImmediate:(BOOL)isImmediate;
 + (void) addPurpleAlertNotification:(NSString *)msg;
 + (void) addOrangeAlertNotification:(NSString *)msg;
++ (void) addBlueAlertNotification:(NSString *)msg;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;

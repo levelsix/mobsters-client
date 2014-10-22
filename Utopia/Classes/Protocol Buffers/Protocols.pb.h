@@ -33,6 +33,7 @@
 #import "Item.pb.h"
 #import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
+#import "Prerequisite.pb.h"
 #import "Quest.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
@@ -335,6 +336,8 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrereqProto;
+@class PrereqProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;

@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [QuestRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -295,6 +296,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property int32_t boardWidth;
 @property int32_t boardHeight;
 @property (strong) NSString* groundImgPrefix;
+@property (strong) DialogueProto* initialDefeatedDialogue;
 @end
 
 @implementation FullTaskProto
@@ -369,6 +371,13 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasGroundImgPrefix_ = !!value_;
 }
 @synthesize groundImgPrefix;
+- (BOOL) hasInitialDefeatedDialogue {
+  return !!hasInitialDefeatedDialogue_;
+}
+- (void) setHasInitialDefeatedDialogue:(BOOL) value_ {
+  hasInitialDefeatedDialogue_ = !!value_;
+}
+@synthesize initialDefeatedDialogue;
 - (id) init {
   if ((self = [super init])) {
     self.taskId = 0;
@@ -381,6 +390,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.boardWidth = 0;
     self.boardHeight = 0;
     self.groundImgPrefix = @"";
+    self.initialDefeatedDialogue = [DialogueProto defaultInstance];
   }
   return self;
 }
@@ -430,6 +440,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasGroundImgPrefix) {
     [output writeString:10 value:self.groundImgPrefix];
   }
+  if (self.hasInitialDefeatedDialogue) {
+    [output writeMessage:11 value:self.initialDefeatedDialogue];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -468,6 +481,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasGroundImgPrefix) {
     size_ += computeStringSize(10, self.groundImgPrefix);
+  }
+  if (self.hasInitialDefeatedDialogue) {
+    size_ += computeMessageSize(11, self.initialDefeatedDialogue);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -534,6 +550,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasGroundImgPrefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"groundImgPrefix", self.groundImgPrefix];
   }
+  if (self.hasInitialDefeatedDialogue) {
+    [output appendFormat:@"%@%@ {\n", indent, @"initialDefeatedDialogue"];
+    [self.initialDefeatedDialogue writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -565,6 +587,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       (!self.hasBoardHeight || self.boardHeight == otherMessage.boardHeight) &&
       self.hasGroundImgPrefix == otherMessage.hasGroundImgPrefix &&
       (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
+      self.hasInitialDefeatedDialogue == otherMessage.hasInitialDefeatedDialogue &&
+      (!self.hasInitialDefeatedDialogue || [self.initialDefeatedDialogue isEqual:otherMessage.initialDefeatedDialogue]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -598,6 +622,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasGroundImgPrefix) {
     hashCode = hashCode * 31 + [self.groundImgPrefix hash];
+  }
+  if (self.hasInitialDefeatedDialogue) {
+    hashCode = hashCode * 31 + [self.initialDefeatedDialogue hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -672,6 +699,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasGroundImgPrefix) {
     [self setGroundImgPrefix:other.groundImgPrefix];
   }
+  if (other.hasInitialDefeatedDialogue) {
+    [self mergeInitialDefeatedDialogue:other.initialDefeatedDialogue];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -731,6 +761,15 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       }
       case 82: {
         [self setGroundImgPrefix:[input readString]];
+        break;
+      }
+      case 90: {
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasInitialDefeatedDialogue) {
+          [subBuilder mergeFrom:self.initialDefeatedDialogue];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInitialDefeatedDialogue:[subBuilder buildPartial]];
         break;
       }
     }
@@ -894,6 +933,36 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearGroundImgPrefix {
   result.hasGroundImgPrefix = NO;
   result.groundImgPrefix = @"";
+  return self;
+}
+- (BOOL) hasInitialDefeatedDialogue {
+  return result.hasInitialDefeatedDialogue;
+}
+- (DialogueProto*) initialDefeatedDialogue {
+  return result.initialDefeatedDialogue;
+}
+- (FullTaskProto_Builder*) setInitialDefeatedDialogue:(DialogueProto*) value {
+  result.hasInitialDefeatedDialogue = YES;
+  result.initialDefeatedDialogue = value;
+  return self;
+}
+- (FullTaskProto_Builder*) setInitialDefeatedDialogue_Builder:(DialogueProto_Builder*) builderForValue {
+  return [self setInitialDefeatedDialogue:[builderForValue build]];
+}
+- (FullTaskProto_Builder*) mergeInitialDefeatedDialogue:(DialogueProto*) value {
+  if (result.hasInitialDefeatedDialogue &&
+      result.initialDefeatedDialogue != [DialogueProto defaultInstance]) {
+    result.initialDefeatedDialogue =
+      [[[DialogueProto builderWithPrototype:result.initialDefeatedDialogue] mergeFrom:value] buildPartial];
+  } else {
+    result.initialDefeatedDialogue = value;
+  }
+  result.hasInitialDefeatedDialogue = YES;
+  return self;
+}
+- (FullTaskProto_Builder*) clearInitialDefeatedDialogue {
+  result.hasInitialDefeatedDialogue = NO;
+  result.initialDefeatedDialogue = [DialogueProto defaultInstance];
   return self;
 }
 @end
@@ -1252,6 +1321,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t defensiveSkillId;
 @property int32_t offensiveSkillId;
 @property int32_t puzzlePieceMonsterDropLvl;
+@property (strong) DialogueProto* initialD;
+@property (strong) DialogueProto* defaultD;
 @end
 
 @implementation TaskStageMonsterProto
@@ -1366,6 +1437,20 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasPuzzlePieceMonsterDropLvl_ = !!value_;
 }
 @synthesize puzzlePieceMonsterDropLvl;
+- (BOOL) hasInitialD {
+  return !!hasInitialD_;
+}
+- (void) setHasInitialD:(BOOL) value_ {
+  hasInitialD_ = !!value_;
+}
+@synthesize initialD;
+- (BOOL) hasDefaultD {
+  return !!hasDefaultD_;
+}
+- (void) setHasDefaultD:(BOOL) value_ {
+  hasDefaultD_ = !!value_;
+}
+@synthesize defaultD;
 - (id) init {
   if ((self = [super init])) {
     self.tsfuId = 0L;
@@ -1383,6 +1468,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.defensiveSkillId = 0;
     self.offensiveSkillId = 0;
     self.puzzlePieceMonsterDropLvl = 0;
+    self.initialD = [DialogueProto defaultInstance];
+    self.defaultD = [DialogueProto defaultInstance];
   }
   return self;
 }
@@ -1447,6 +1534,12 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasTsfuId) {
     [output writeInt64:15 value:self.tsfuId];
   }
+  if (self.hasInitialD) {
+    [output writeMessage:16 value:self.initialD];
+  }
+  if (self.hasDefaultD) {
+    [output writeMessage:17 value:self.defaultD];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1500,6 +1593,12 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasTsfuId) {
     size_ += computeInt64Size(15, self.tsfuId);
+  }
+  if (self.hasInitialD) {
+    size_ += computeMessageSize(16, self.initialD);
+  }
+  if (self.hasDefaultD) {
+    size_ += computeMessageSize(17, self.defaultD);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1581,6 +1680,18 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasTsfuId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"tsfuId", [NSNumber numberWithLongLong:self.tsfuId]];
   }
+  if (self.hasInitialD) {
+    [output appendFormat:@"%@%@ {\n", indent, @"initialD"];
+    [self.initialD writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasDefaultD) {
+    [output appendFormat:@"%@%@ {\n", indent, @"defaultD"];
+    [self.defaultD writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1622,6 +1733,10 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
       (!self.hasOffensiveSkillId || self.offensiveSkillId == otherMessage.offensiveSkillId) &&
       self.hasTsfuId == otherMessage.hasTsfuId &&
       (!self.hasTsfuId || self.tsfuId == otherMessage.tsfuId) &&
+      self.hasInitialD == otherMessage.hasInitialD &&
+      (!self.hasInitialD || [self.initialD isEqual:otherMessage.initialD]) &&
+      self.hasDefaultD == otherMessage.hasDefaultD &&
+      (!self.hasDefaultD || [self.defaultD isEqual:otherMessage.defaultD]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1670,6 +1785,12 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasTsfuId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.tsfuId] hash];
+  }
+  if (self.hasInitialD) {
+    hashCode = hashCode * 31 + [self.initialD hash];
+  }
+  if (self.hasDefaultD) {
+    hashCode = hashCode * 31 + [self.defaultD hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1769,6 +1890,12 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasPuzzlePieceMonsterDropLvl) {
     [self setPuzzlePieceMonsterDropLvl:other.puzzlePieceMonsterDropLvl];
   }
+  if (other.hasInitialD) {
+    [self mergeInitialD:other.initialD];
+  }
+  if (other.hasDefaultD) {
+    [self mergeDefaultD:other.defaultD];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1853,6 +1980,24 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 120: {
         [self setTsfuId:[input readInt64]];
+        break;
+      }
+      case 130: {
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasInitialD) {
+          [subBuilder mergeFrom:self.initialD];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInitialD:[subBuilder buildPartial]];
+        break;
+      }
+      case 138: {
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasDefaultD) {
+          [subBuilder mergeFrom:self.defaultD];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefaultD:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2096,6 +2241,66 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearPuzzlePieceMonsterDropLvl {
   result.hasPuzzlePieceMonsterDropLvl = NO;
   result.puzzlePieceMonsterDropLvl = 0;
+  return self;
+}
+- (BOOL) hasInitialD {
+  return result.hasInitialD;
+}
+- (DialogueProto*) initialD {
+  return result.initialD;
+}
+- (TaskStageMonsterProto_Builder*) setInitialD:(DialogueProto*) value {
+  result.hasInitialD = YES;
+  result.initialD = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) setInitialD_Builder:(DialogueProto_Builder*) builderForValue {
+  return [self setInitialD:[builderForValue build]];
+}
+- (TaskStageMonsterProto_Builder*) mergeInitialD:(DialogueProto*) value {
+  if (result.hasInitialD &&
+      result.initialD != [DialogueProto defaultInstance]) {
+    result.initialD =
+      [[[DialogueProto builderWithPrototype:result.initialD] mergeFrom:value] buildPartial];
+  } else {
+    result.initialD = value;
+  }
+  result.hasInitialD = YES;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearInitialD {
+  result.hasInitialD = NO;
+  result.initialD = [DialogueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDefaultD {
+  return result.hasDefaultD;
+}
+- (DialogueProto*) defaultD {
+  return result.defaultD;
+}
+- (TaskStageMonsterProto_Builder*) setDefaultD:(DialogueProto*) value {
+  result.hasDefaultD = YES;
+  result.defaultD = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) setDefaultD_Builder:(DialogueProto_Builder*) builderForValue {
+  return [self setDefaultD:[builderForValue build]];
+}
+- (TaskStageMonsterProto_Builder*) mergeDefaultD:(DialogueProto*) value {
+  if (result.hasDefaultD &&
+      result.defaultD != [DialogueProto defaultInstance]) {
+    result.defaultD =
+      [[[DialogueProto builderWithPrototype:result.defaultD] mergeFrom:value] buildPartial];
+  } else {
+    result.defaultD = value;
+  }
+  result.hasDefaultD = YES;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearDefaultD {
+  result.hasDefaultD = NO;
+  result.defaultD = [DialogueProto defaultInstance];
   return self;
 }
 @end

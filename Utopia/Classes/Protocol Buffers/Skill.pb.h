@@ -193,20 +193,16 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   BOOL hasSkillValue_:1;
   BOOL hasSkillPropertyId_:1;
   BOOL hasName_:1;
-  BOOL hasShorterName_:1;
   Float32 skillValue;
   int32_t skillPropertyId;
   NSString* name;
-  NSString* shorterName;
 }
 - (BOOL) hasSkillPropertyId;
 - (BOOL) hasName;
 - (BOOL) hasSkillValue;
-- (BOOL) hasShorterName;
 @property (readonly) int32_t skillPropertyId;
 @property (readonly, strong) NSString* name;
 @property (readonly) Float32 skillValue;
-@property (readonly, strong) NSString* shorterName;
 
 + (SkillPropertyProto*) defaultInstance;
 - (SkillPropertyProto*) defaultInstance;
@@ -257,11 +253,6 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (Float32) skillValue;
 - (SkillPropertyProto_Builder*) setSkillValue:(Float32) value;
 - (SkillPropertyProto_Builder*) clearSkillValue;
-
-- (BOOL) hasShorterName;
-- (NSString*) shorterName;
-- (SkillPropertyProto_Builder*) setShorterName:(NSString*) value;
-- (SkillPropertyProto_Builder*) clearShorterName;
 @end
 
 

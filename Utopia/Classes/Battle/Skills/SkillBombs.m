@@ -10,6 +10,7 @@
 #import "NewBattleLayer.h"
 #import "Globals.h"
 #import <CCTextureCache.h>
+#import "SoundEngine.h"
 
 @implementation SkillBombs
 
@@ -124,18 +125,18 @@ static const NSInteger bombsMaxSearchIterations = 5000;
     }
     while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.orbColor != self.orbColor) && counter < bombsMaxSearchIterations);
     
-    // Another loop if we haven't found the orb of the same color (avoiding chain)
-    if (counter == bombsMaxSearchIterations)
-    {
-      counter = 0;
-      do {
-        column = rand() % (layout.numColumns-2) + 1;  // So we'll never spawn at the edge of the board
-        row = rand() % (layout.numRows-2) + 1;
-        orb = [layout orbAtColumn:column row:row];
-        counter++;
-      } while (([self.battleLayer.orbLayer.layout hasChainAtColumn:column row:row] || orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) &&
-               counter < bombsMaxSearchIterations);
-    }
+//    // Another loop if we haven't found the orb of the same color (avoiding chain)
+//    if (counter == bombsMaxSearchIterations)
+//    {
+//      counter = 0;
+//      do {
+//        column = rand() % (layout.numColumns-2) + 1;  // So we'll never spawn at the edge of the board
+//        row = rand() % (layout.numRows-2) + 1;
+//        orb = [layout orbAtColumn:column row:row];
+//        counter++;
+//      } while (([self.battleLayer.orbLayer.layout hasChainAtColumn:column row:row] || orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) &&
+//               counter < bombsMaxSearchIterations);
+//    }
     
     // Nothing found (just in case), continue and perform selector if the last bomb
     if (counter == bombsMaxSearchIterations)
@@ -200,6 +201,8 @@ static const NSInteger bombsMaxSearchIterations = 5000;
           // Count damage and bombs
           totalDamage += orb.bombDamage;
           bombCount++;
+          
+          [SoundEngine puzzleBoardExplosion];
         }
         else
           [sprite updateBombCounter:YES];
@@ -273,6 +276,8 @@ static const NSInteger bombsMaxSearchIterations = 5000;
          if (i == 0) {
            [battleLayer shakeScreenWithIntensity:2.f];
          }
+         
+         [SoundEngine puzzleBoardExplosion];
        }],
       nil]];
   }

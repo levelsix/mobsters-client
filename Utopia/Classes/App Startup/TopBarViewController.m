@@ -685,6 +685,7 @@
 
 - (void) showArrowToResidence {
   _shouldShowArrowOnResidence = YES;
+  [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
 }
 

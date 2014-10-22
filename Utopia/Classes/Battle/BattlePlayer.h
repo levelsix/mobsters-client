@@ -48,6 +48,8 @@
 @property (nonatomic, assign) int offensiveSkillId;
 @property (nonatomic, assign) int defensiveSkillId;
 
+@property (nonatomic, retain) DialogueProto *dialogue;
+
 + (id) playerWithMonster:(UserMonster *)monster;
 + (id) playerWithMonster:(UserMonster *)monster dmgMultiplier:(float)dmgMultiplier monsterType:(TaskStageMonsterProto_MonsterType)monsterType;
 + (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;
