@@ -245,7 +245,7 @@
 }
 
 - (void) updateClanChatBadge {
-  [self.chatBottomView reloadDataAnimated];
+  [self.chatBottomView reloadPageControl];
 }
 
 - (void) privateChatViewed {

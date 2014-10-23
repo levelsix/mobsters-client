@@ -1094,6 +1094,11 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
 }
 
+- (void) chatViewControllerDidChangeScope:(ChatScope)scope {
+  // Update the bottom view to do the same
+  [self.topBarViewController.chatBottomView switchToScope:scope animated:YES];
+}
+
 - (void) chatViewControllerDidClose:(id)cvc {
   if (self.chatViewController == cvc) {
     self.chatViewController = nil;

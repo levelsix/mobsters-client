@@ -36,6 +36,12 @@
   self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToMediumString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
   
   // We want to download the image and then adjust size accordingly (only shrink images that are too big. leave small ones alone).
+  // Put our own spinner in for now
+  UIActivityIndicatorView *iv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  [iv startAnimating];
+  iv.center = self.structIcon.center;
+  [self.structIcon.superview addSubview:iv];
+  
   NSString *imgName = nextSS.structInfo.imgName;
   [Globals checkAndLoadFile:imgName useiPhone6Prefix:NO completion:^(BOOL success) {
     if (success) {
@@ -48,6 +54,8 @@
         self.structIcon.center = center;
       }
     }
+    
+    [iv removeFromSuperview];
   }];
   
   // Button view
@@ -60,25 +68,25 @@
   self.cashButtonView.hidden = isOil;
   
   // Town hall too low
-  [self.greyscaleView removeFromSuperview];
-  self.greyscaleView = nil;
-  UserStruct *th = [gs myTownHall];
-  TownHallProto *thp = (TownHallProto *)th.staticStructForCurrentConstructionLevel;
-  int thLevel = thp.structInfo.level;
-  if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
-    UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];
-    self.greyscaleView = [[UIImageView alloc] initWithImage:grey];
-    [self.oilButtonView.superview addSubview:self.greyscaleView];
-    
-    self.oilButtonView.hidden = YES;
-    self.cashButtonView.hidden = YES;
-    
-    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
-    
-    self.tooLowLevelView.hidden = NO;
-  } else {
-    self.tooLowLevelView.hidden = YES;
-  }
+//  [self.greyscaleView removeFromSuperview];
+//  self.greyscaleView = nil;
+//  UserStruct *th = [gs myTownHall];
+//  TownHallProto *thp = (TownHallProto *)th.staticStructForCurrentConstructionLevel;
+//  int thLevel = thp.structInfo.level;
+//  if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
+//    UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];
+//    self.greyscaleView = [[UIImageView alloc] initWithImage:grey];
+//    [self.oilButtonView.superview addSubview:self.greyscaleView];
+//    
+//    self.oilButtonView.hidden = YES;
+//    self.cashButtonView.hidden = YES;
+//    
+//    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
+//    
+//    self.tooLowLevelView.hidden = NO;
+//  } else {
+//    self.tooLowLevelView.hidden = YES;
+//  }
   
   if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
     [self loadStatBarsForUserStruct:us];
@@ -93,37 +101,37 @@
 - (NSArray *) buildingsThatChangedInQuantityWithCurTH:(TownHallProto *)curTh nextTh:(TownHallProto *)nextTh {
   NSMutableArray *arr = [NSMutableArray array];
   
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
-    StructureInfoProto *sip = ss.structInfo;
-    if (sip.level == 1) {
-      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
-      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
-      
-      if (before < after) {
-        [arr addObject:sip];
-      }
-    } else {
-      if (sip.prerequisiteTownHallLvl != curTh.structInfo.level && sip.prerequisiteTownHallLvl == nextTh.structInfo.level) {
-        // Make sure a lower lvl one isn't in the array already
-        
-        [arr addObject:sip];
-      }
-    }
-  }
-  
-  NSMutableArray *toRemove = [NSMutableArray array];
-  for (StructureInfoProto *sip in arr) {
-    StructureInfoProto *check = sip;
-    while (check.predecessorStructId) {
-      check = [[gs structWithId:check.predecessorStructId] structInfo];
-      if ([arr containsObject:check]) {
-        [toRemove addObject:check];
-      }
-    }
-  }
-  [arr removeObjectsInArray:toRemove];
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+//    StructureInfoProto *sip = ss.structInfo;
+//    if (sip.level == 1) {
+//      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
+//      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
+//      
+//      if (before < after) {
+//        [arr addObject:sip];
+//      }
+//    } else {
+//      if (sip.prerequisiteTownHallLvl != curTh.structInfo.level && sip.prerequisiteTownHallLvl == nextTh.structInfo.level) {
+//        // Make sure a lower lvl one isn't in the array already
+//        
+//        [arr addObject:sip];
+//      }
+//    }
+//  }
+//  
+//  NSMutableArray *toRemove = [NSMutableArray array];
+//  for (StructureInfoProto *sip in arr) {
+//    StructureInfoProto *check = sip;
+//    while (check.predecessorStructId) {
+//      check = [[gs structWithId:check.predecessorStructId] structInfo];
+//      if ([arr containsObject:check]) {
+//        [toRemove addObject:check];
+//      }
+//    }
+//  }
+//  [arr removeObjectsInArray:toRemove];
   
   return arr;
 }

@@ -72,5 +72,6 @@ typedef enum {
 
 - (void) reloadData;
 - (void) reloadDataAnimated;
+- (void) reloadPageControl;
 
 @end

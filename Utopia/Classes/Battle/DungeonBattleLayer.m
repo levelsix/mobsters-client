@@ -459,7 +459,7 @@
     dvc.delegate = self;
     GameViewController *gvc = [GameViewController baseController];
     [gvc addChildViewController:dvc];
-    gvc.view.frame = dvc.view.bounds;
+    dvc.view.frame = gvc.view.bounds;
     [gvc.view addSubview:dvc.view];
     
     self.enemyPlayerObject.dialogue = nil;

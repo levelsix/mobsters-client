@@ -1692,6 +1692,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ecp.structInfo.level;
 }
 
+- (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq {
+  GameState *gs = [GameState sharedGameState];
+  int quantity = 0;
+  
+  if (prereq.prereqGameType == GameTypeStructure) {
+    // Go through struct list
+    for (UserStruct *us in gs.myStructs) {
+      if ([us isAncestorOfStructId:prereq.prereqGameEntityId]) {
+        quantity++;
+      }
+    }
+  }
+  
+  return quantity >= prereq.quantity;
+}
+
 #pragma mark - Alerts
 
 + (void) popupMessage:(NSString *)msg {

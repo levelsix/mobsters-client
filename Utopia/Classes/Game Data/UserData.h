@@ -185,8 +185,13 @@
 - (id<StaticStructure>) staticStructForFbLevel;
 - (id<StaticStructure>) staticStructForNextFbLevel;
 - (int) maxLevel;
-- (int) baseStructId;
 - (int) numBonusSlots;
+
+- (int) baseStructId;
+- (BOOL) isAncestorOfStructId:(int)structId;
+
+- (NSArray *) allPrerequisites;
+- (NSArray *) incompletePrerequisites;
 
 - (int) numResourcesAvailable;
 

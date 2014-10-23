@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ChatView.h"
 #import "NibUtils.h"
+#import "ChatBottomView.h"
 
 @interface ChatMainView : PopupShadowView
 
@@ -18,6 +19,7 @@
 
 @protocol ChatViewControllerDelegate <NSObject>
 
+- (void) chatViewControllerDidChangeScope:(ChatScope)scope;
 - (void) chatViewControllerDidClose:(id)cvc;
 
 @end

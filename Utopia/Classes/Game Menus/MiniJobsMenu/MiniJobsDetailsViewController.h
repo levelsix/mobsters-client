@@ -13,7 +13,7 @@
 @interface MiniJobsQueueFooterView : UICollectionReusableView
 
 @property (nonatomic, retain) IBOutlet UILabel *openSlotsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *queueFullLabel;
+@property (nonatomic, retain) IBOutlet THLabel *queueFullLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *openSlotsBorder;
 
 @end

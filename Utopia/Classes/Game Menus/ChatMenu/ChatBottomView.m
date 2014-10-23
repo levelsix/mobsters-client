@@ -33,6 +33,10 @@
   self.msgLabel.frame = r;
 }
 
+- (NSString *) description {
+  return self.msgLabel.text;
+}
+
 @end
 
 @implementation ChatBottomView
@@ -143,12 +147,6 @@
   }
 }
 
-- (void) recycleLineView:(ChatBottomLineView *)lineView {
-  [lineView removeFromSuperview];
-  [self.currentLineViews removeObject:lineView];
-  [self.unusedLineViews addObject:lineView];
-}
-
 - (ChatBottomLineView *) getLineViewForLineNum:(int)lineNum {
   id<ChatObject> cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
   ChatBottomLineView *lv = [self getUnusedLineView];
@@ -187,7 +185,10 @@
 
 - (void) reloadData {
   while (self.currentLineViews.count > 0) {
-    [self recycleLineView:self.currentLineViews[0]];
+    ChatBottomLineView *lv = [self.currentLineViews firstObject];
+    [self.currentLineViews removeObject:lv];
+    [lv removeFromSuperview];
+    [self.unusedLineViews addObject:lv];
   }
   
   _numChats = [self.delegate numChatsAvailableForScope:_chatScope];
@@ -210,18 +211,26 @@
 #pragma mark Animations
 
 - (void) animateNewLinesInAndPhaseOutOldOnes {
+  NSMutableArray *phasedOuts = [NSMutableArray array];
   for (int i = 0; i < self.currentLineViews.count; i++) {
     ChatBottomLineView *lv = self.currentLineViews[i];
     BOOL phasedOut = i >= NUM_ROWS_DISPLAYED;
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:4.f animations:^{
       lv.center = [self centerForLineView:lv lineNum:i];
       lv.alpha = phasedOut ? 0.f : 1.f;
     } completion:^(BOOL finished) {
       if (phasedOut) {
-        [self recycleLineView:lv];
+        [lv removeFromSuperview];
+        [self.unusedLineViews addObject:lv];
       }
     }];
+    
+    if (phasedOut) {
+      [phasedOuts addObject:lv];
+    }
   }
+  
+  [self.currentLineViews removeObjectsInArray:phasedOuts];
   
   if (self.currentLineViews.count) {
     // Create a new reference so that we can deallocate it in completion block
@@ -278,7 +287,8 @@
     [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
       lv.center = ccpAdd(lv.center, ccpCompMult(ccpMult(delta, -1), ccp(self.openedView.frame.size.width, 0)));
     } completion:^(BOOL finished) {
-      [self recycleLineView:lv];
+      [lv removeFromSuperview];
+      [self.unusedLineViews addObject:lv];
     }];
   }
   [self.currentLineViews removeAllObjects];

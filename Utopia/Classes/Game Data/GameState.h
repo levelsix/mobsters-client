@@ -63,6 +63,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
 @property (nonatomic, retain) NSMutableDictionary *staticItems;
 @property (nonatomic, retain) NSMutableDictionary *staticObstacles;
+@property (nonatomic, retain) NSMutableDictionary *staticPrerequisites;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
@@ -150,6 +151,7 @@
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 - (ObstacleProto *) obstacleWithId:(int)obstacleId;
+- (NSArray *) prerequisitesForGameType:(GameType)gt gameEntityId:(int)gameEntityId;
 - (ClanIconProto *) clanIconWithId:(int)iconId;
 - (PvpLeagueProto *) leagueForId:(int)leagueId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;

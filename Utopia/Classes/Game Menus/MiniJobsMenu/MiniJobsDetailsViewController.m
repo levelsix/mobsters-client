@@ -12,6 +12,12 @@
 
 @implementation MiniJobsQueueFooterView
 
+- (void) awakeFromNib {
+  self.queueFullLabel.strokeColor = self.queueFullLabel.textColor;
+  self.queueFullLabel.textColor = [UIColor whiteColor];
+  self.queueFullLabel.strokeSize = 0.5;
+}
+
 @end
 
 @implementation MiniJobsDetailsCell

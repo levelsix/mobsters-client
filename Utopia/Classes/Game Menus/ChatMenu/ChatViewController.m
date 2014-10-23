@@ -70,7 +70,6 @@
   self.privateChatView.width *= 2;
   [self.globalChatView.superview addSubview:self.privateChatView];
   
-  [self button1Clicked:nil];
   [self updateClanBadge];
   
   [self.view addSubview:self.popoverView];
@@ -199,6 +198,8 @@
   [self.privateChatView loadListViewAnimated:NO];
   
   [self.topBar clickButton:1];
+  
+  [self.delegate chatViewControllerDidChangeScope:ChatScopeGlobal];
 }
 
 - (void) button2Clicked:(id)sender {
@@ -213,6 +214,8 @@
   [self.topBar clickButton:2];
   
   [self updateClanBadge];
+  
+  [self.delegate chatViewControllerDidChangeScope:ChatScopeClan];
 }
 
 - (void) button3Clicked:(id)sender {
@@ -225,6 +228,8 @@
   [self.privateChatView loadListViewAnimated:NO];
   
   [self.topBar clickButton:3];
+  
+  [self.delegate chatViewControllerDidChangeScope:ChatScopePrivate];
 }
 
 #pragma mark - ChatViewDelegate methods

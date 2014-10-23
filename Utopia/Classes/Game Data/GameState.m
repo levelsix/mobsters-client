@@ -41,6 +41,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticItems = [[NSMutableDictionary alloc] init];
     _staticObstacles = [[NSMutableDictionary alloc] init];
     _staticAchievements = [[NSMutableDictionary alloc] init];
+    _staticPrerequisites = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -268,6 +269,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticObstacles withId:obstacleId];
+}
+
+- (NSArray *) prerequisitesForGameType:(GameType)gt gameEntityId:(int)gameEntityId {
+  return self.staticPrerequisites[@(gt)][@(gameEntityId)];
 }
 
 - (ClanIconProto *) clanIconWithId:(int)iconId {
@@ -946,7 +951,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allEvoChambersList];
   [self addToStaticStructs:proto.allClanHousesList];
   
+  [self.staticItems removeAllObjects];
   [self addToStaticItems:proto.itemsList];
+  
+  [self.staticObstacles removeAllObjects];
   [self addToStaticObstacles:proto.obstaclesList];
   
   [self.staticAchievements removeAllObjects];
@@ -961,6 +969,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self.staticRaids removeAllObjects];
   [self addToStaticRaids:proto.raidsList];
+  
+  [self.staticPrerequisites removeAllObjects];
+  [self addToStaticPrerequisites:proto.prereqsList];
   
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
@@ -1020,6 +1031,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticAchievements:(NSArray *)arr {
   for (AchievementProto *p in arr) {
     [self.staticAchievements setObject:p forKey:@(p.achievementId)];
+  }
+}
+
+- (void) addToStaticPrerequisites:(NSArray *)pres {
+  for (PrereqProto *pre in pres) {
+    NSMutableDictionary *dict = self.staticPrerequisites[@(pre.gameType)];
+    
+    if (!dict) {
+      dict = [NSMutableDictionary dictionary];
+      self.staticPrerequisites[@(pre.gameType)] = dict;
+    }
+    
+    NSMutableArray *arr = dict[@(pre.gameEntityId)];
+    
+    if (!arr) {
+      arr = [NSMutableArray array];
+      dict[@(pre.gameEntityId)] = arr;
+    }
+    
+    [arr addObject:pre];
   }
 }
 
@@ -1322,7 +1353,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [QuestUtil checkAllDonateQuests];
     
     if (arr.count > 1) {
-      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d %@ have finished healing!", (int)arr.count, MONSTER_NAME] isImmediate:NO];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d %@s have finished healing!", (int)arr.count, MONSTER_NAME] isImmediate:NO];
     } else {
       UserMonsterHealingItem *item = arr[0];
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished healing!", item.userMonster.staticMonster.displayName] isImmediate:NO];

@@ -51,7 +51,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property ResourceType buildResourceType;
 @property int32_t buildCost;
 @property int32_t minutesToBuild;
-@property int32_t prerequisiteTownHallLvl;
 @property int32_t width;
 @property int32_t height;
 @property int32_t predecessorStructId;
@@ -118,13 +117,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value_;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasPrerequisiteTownHallLvl {
-  return !!hasPrerequisiteTownHallLvl_;
-}
-- (void) setHasPrerequisiteTownHallLvl:(BOOL) value_ {
-  hasPrerequisiteTownHallLvl_ = !!value_;
-}
-@synthesize prerequisiteTownHallLvl;
 - (BOOL) hasWidth {
   return !!hasWidth_;
 }
@@ -225,7 +217,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.buildResourceType = ResourceTypeNoResource;
     self.buildCost = 0;
     self.minutesToBuild = 0;
-    self.prerequisiteTownHallLvl = 0;
     self.width = 0;
     self.height = 0;
     self.predecessorStructId = 0;
@@ -278,9 +269,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasMinutesToBuild) {
     [output writeInt32:7 value:self.minutesToBuild];
-  }
-  if (self.hasPrerequisiteTownHallLvl) {
-    [output writeInt32:8 value:self.prerequisiteTownHallLvl];
   }
   if (self.hasWidth) {
     [output writeInt32:9 value:self.width];
@@ -350,9 +338,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasMinutesToBuild) {
     size_ += computeInt32Size(7, self.minutesToBuild);
-  }
-  if (self.hasPrerequisiteTownHallLvl) {
-    size_ += computeInt32Size(8, self.prerequisiteTownHallLvl);
   }
   if (self.hasWidth) {
     size_ += computeInt32Size(9, self.width);
@@ -449,9 +434,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output appendFormat:@"%@%@: %@\n", indent, @"minutesToBuild", [NSNumber numberWithInteger:self.minutesToBuild]];
   }
-  if (self.hasPrerequisiteTownHallLvl) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prerequisiteTownHallLvl", [NSNumber numberWithInteger:self.prerequisiteTownHallLvl]];
-  }
   if (self.hasWidth) {
     [output appendFormat:@"%@%@: %@\n", indent, @"width", [NSNumber numberWithInteger:self.width]];
   }
@@ -516,8 +498,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
       (!self.hasBuildCost || self.buildCost == otherMessage.buildCost) &&
       self.hasMinutesToBuild == otherMessage.hasMinutesToBuild &&
       (!self.hasMinutesToBuild || self.minutesToBuild == otherMessage.minutesToBuild) &&
-      self.hasPrerequisiteTownHallLvl == otherMessage.hasPrerequisiteTownHallLvl &&
-      (!self.hasPrerequisiteTownHallLvl || self.prerequisiteTownHallLvl == otherMessage.prerequisiteTownHallLvl) &&
       self.hasWidth == otherMessage.hasWidth &&
       (!self.hasWidth || self.width == otherMessage.width) &&
       self.hasHeight == otherMessage.hasHeight &&
@@ -568,9 +548,6 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasMinutesToBuild) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minutesToBuild] hash];
-  }
-  if (self.hasPrerequisiteTownHallLvl) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prerequisiteTownHallLvl] hash];
   }
   if (self.hasWidth) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.width] hash];
@@ -693,9 +670,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
-  if (other.hasPrerequisiteTownHallLvl) {
-    [self setPrerequisiteTownHallLvl:other.prerequisiteTownHallLvl];
-  }
   if (other.hasWidth) {
     [self setWidth:other.width];
   }
@@ -792,10 +766,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
       }
       case 56: {
         [self setMinutesToBuild:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setPrerequisiteTownHallLvl:[input readInt32]];
         break;
       }
       case 72: {
@@ -963,22 +933,6 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) clearMinutesToBuild {
   result.hasMinutesToBuild = NO;
   result.minutesToBuild = 0;
-  return self;
-}
-- (BOOL) hasPrerequisiteTownHallLvl {
-  return result.hasPrerequisiteTownHallLvl;
-}
-- (int32_t) prerequisiteTownHallLvl {
-  return result.prerequisiteTownHallLvl;
-}
-- (StructureInfoProto_Builder*) setPrerequisiteTownHallLvl:(int32_t) value {
-  result.hasPrerequisiteTownHallLvl = YES;
-  result.prerequisiteTownHallLvl = value;
-  return self;
-}
-- (StructureInfoProto_Builder*) clearPrerequisiteTownHallLvl {
-  result.hasPrerequisiteTownHallLvl = NO;
-  result.prerequisiteTownHallLvl = 0;
   return self;
 }
 - (BOOL) hasWidth {

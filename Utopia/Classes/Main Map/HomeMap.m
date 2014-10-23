@@ -546,9 +546,11 @@
   BOOL cashFull = curCash >= [gs maxCash];
   BOOL oilFull = curOil >= [gs maxOil];
   
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStructForCurrentConstructionLevel];
+  
   NSComparator comp = ^NSComparisonResult(ResourceStorageBuilding *obj1, ResourceStorageBuilding *obj2) {
-    int capacity1 = ((ResourceStorageProto *)obj1.userStruct.staticStruct).capacity;
-    int capacity2 = ((ResourceStorageProto *)obj2.userStruct.staticStruct).capacity;
+    int capacity1 = ((ResourceStorageProto *)obj1.userStruct.staticStructForCurrentConstructionLevel).capacity;
+    int capacity2 = ((ResourceStorageProto *)obj2.userStruct.staticStructForCurrentConstructionLevel).capacity;
     return [@(capacity1) compare:@(capacity2)];
   };
   [cashArr sortUsingComparator:comp];
@@ -556,6 +558,7 @@
   
   for (NSMutableArray *arr in @[cashArr, oilArr]) {
     int curVal = arr == cashArr ? curCash : curOil;
+    curVal -= thp.resourceCapacity;
     BuildingBubbleType bubbleType = (arr == cashArr ? cashFull : oilFull) ? BuildingBubbleTypeFull : BuildingBubbleTypeNone;
     while (arr.count > 0) {
       NSInteger count = arr.count;

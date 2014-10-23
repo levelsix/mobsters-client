@@ -23,8 +23,11 @@
 @property (nonatomic, assign) IBOutlet UILabel *upgradeCashLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradeOilLabel;
 @property (nonatomic, strong) UIImageView *greyscaleView;
-@property (nonatomic, assign) IBOutlet UIView *tooLowLevelView;
-@property (nonatomic, assign) IBOutlet UILabel *tooLowLevelLabel;
+
+@property (nonatomic, assign) IBOutlet UIImageView *bottomBgdView;
+@property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
+@property (nonatomic, assign) IBOutlet UILabel *readyLabel;
+@property (nonatomic, assign) IBOutlet UILabel *readySubLabel;
 
 @property (nonatomic, assign) IBOutlet UIView *statBarView1;
 @property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;

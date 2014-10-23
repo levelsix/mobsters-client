@@ -817,6 +817,23 @@
   return ss.structInfo.structId;
 }
 
+- (BOOL) isAncestorOfStructId:(int)structId {
+  if (self.structId == structId) {
+    return YES;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = self.staticStruct;
+  while (ss.structInfo.predecessorStructId) {
+    if (ss.structInfo.structId == structId) {
+      return YES;
+    }
+    
+    ss = [gs structWithId:ss.structInfo.predecessorStructId];
+  }
+  return NO;
+}
+
 - (int) numBonusSlots {
   int slots = 0;
   GameState *gs = [GameState sharedGameState];
@@ -863,6 +880,25 @@
   float secs = -[self.lastRetrieved timeIntervalSinceNow];
   int numRes = gen.productionRate/3600.f*secs;
   return MIN(numRes, gen.capacity);
+}
+
+- (NSArray *) allPrerequisites {
+  GameState *gs = [GameState sharedGameState];
+  return [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.structId];
+}
+
+- (NSArray *) incompletePrerequisites {
+  NSMutableArray *arr = [NSMutableArray array];
+  NSArray *allPrereqs = [self allPrerequisites];
+  Globals *gl = [Globals sharedGlobals];
+  
+  for (PrereqProto *pp in allPrereqs) {
+    if ([gl isPrerequisiteComplete:pp]) {
+      [arr addObject:pp];
+    }
+  }
+  
+  return arr;
 }
 
 - (NSString *) description {
