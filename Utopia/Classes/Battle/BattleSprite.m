@@ -487,7 +487,7 @@
   anim = anim ?: [CCAnimation animation];
   
   // Repeat 4-8 x times
-  int numTimes = strength*(MAX_SHOTS-1);
+  int numTimes = strength*(MAX_SHOTS-1)+1;
   
   CCActionSequence *seq;
   [self stopActionByTag:924];
@@ -499,7 +499,7 @@
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ if(strength>0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];}],
+            [CCActionCallBlock actionWithBlock:^{ if(strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -521,7 +521,7 @@
            [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ if (strength>0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
+            [CCActionCallBlock actionWithBlock:^{ if (strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:target selector:selector],

@@ -58,9 +58,9 @@
 {
   // Perform attack animation
   if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:1.0 enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
   else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:NO target:self selector:@selector(dealQuickAttack1)];
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldFlinch:YES target:self selector:@selector(dealQuickAttack1)];
   
   // Show attack label
   /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];
@@ -82,6 +82,10 @@
 {
   // Deal damage
   [self.battleLayer dealDamage:_damage enemyIsAttacker:(!self.belongsToPlayer) usingAbility:YES withTarget:self withSelector:@selector(dealQuickAttack2)];
+  
+  if (!self.belongsToPlayer) {
+    [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
+  }
 }
 
 - (void) dealQuickAttack2

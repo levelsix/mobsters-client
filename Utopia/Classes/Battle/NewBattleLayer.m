@@ -38,8 +38,8 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
-#define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
-#define SkillLogEnd(triggered, ...) //if (triggered) NSLogGreen(__VA_ARGS__); else NSLogYellow(__VA_ARGS__);
+#define SkillLogStart(...) NSLogYellow(__VA_ARGS__)
+#define SkillLogEnd(triggered, ...) if (triggered) NSLogGreen(__VA_ARGS__); else NSLogYellow(__VA_ARGS__);
 
 @implementation BattleBgdLayer
 
@@ -893,8 +893,8 @@
   }
 }
 
-- (void) sendServerUpdatedValues {
-  if (_enemyDamageDealt) {
+- (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
+  if (_enemyDamageDealt || !verify) {
     [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterId curHealth:self.myPlayerObject.curHealth];
   }
 }
@@ -947,7 +947,7 @@
       
       // Send server updated values here because monster just died
       // But make sure that I actually did damage..
-      [self sendServerUpdatedValues];
+      [self sendServerUpdatedValuesVerifyDamageDealt:YES];
       
     }];
     
@@ -973,7 +973,7 @@
 }
 
 - (void) checkMyHealth {
-  [self sendServerUpdatedValues];
+  [self sendServerUpdatedValuesVerifyDamageDealt:YES];
   if (self.myPlayerObject.curHealth <= 0) {
     _movesLeft = 0;
     [self stopPulsing];
@@ -1422,7 +1422,10 @@
 }
 
 - (void) youForfeited {
-  [self youLost];
+  // Make sure you can actually make a move
+  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
+    [self youLost];
+  }
 }
 
 - (void) endBattle:(BOOL)won {
@@ -1895,7 +1898,7 @@
 #pragma mark - Continue View Actions
 
 - (IBAction)forfeitClicked:(id)sender {
-  if (_movesLeft > 0) {
+  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
     [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
                                                                  title:@"Forfeit Battle"
                                                             okayButton:@"Forfeit"

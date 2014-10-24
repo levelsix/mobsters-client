@@ -185,7 +185,7 @@
 - (BOOL) checkEnemyHealth;
 - (void) checkEnemyHealthAndStartNewTurn;
 
-- (void) sendServerUpdatedValues;
+- (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify;
 
 - (void) pulseBloodOnce;
 - (void) pulseBloodContinuously;

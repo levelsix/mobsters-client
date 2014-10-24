@@ -102,7 +102,7 @@
 }
 
 - (void) checkMyHealth {
-  [self sendServerUpdatedValues];
+  [self sendServerUpdatedValuesVerifyDamageDealt:YES];
   [self.delegate turnFinished];
 }
 

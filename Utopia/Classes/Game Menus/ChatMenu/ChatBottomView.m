@@ -215,7 +215,7 @@
   for (int i = 0; i < self.currentLineViews.count; i++) {
     ChatBottomLineView *lv = self.currentLineViews[i];
     BOOL phasedOut = i >= NUM_ROWS_DISPLAYED;
-    [UIView animateWithDuration:4.f animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
       lv.center = [self centerForLineView:lv lineNum:i];
       lv.alpha = phasedOut ? 0.f : 1.f;
     } completion:^(BOOL finished) {

@@ -152,20 +152,22 @@
 
 #pragma mark - Run away
 
-- (IBAction)forfeitClicked:(id)sender {
-  if (_movesLeft > 0) {
-    [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
-    self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
-    [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
-                                                                title:@"Run Away?"
-                                                           okayButton:@"Run Away"
-                                                         cancelButton:@"Cancel"
-                                                             okTarget:self
-                                                           okSelector:@selector(attemptRunaway)
-                                                         cancelTarget:nil
-                                                       cancelSelector:nil];
-  }
-}
+// REMOVING RUN AWAY
+//- (IBAction)forfeitClicked:(id)sender {
+//  // Make sure a move is allowed
+//  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
+//    [[NSBundle mainBundle] loadNibNamed:@"RunawayMiddleView" owner:self options:nil];
+//    self.runawayPercentLabel.text = [NSString stringWithFormat:@"%d%%", (int)([self runAwayChance]*100)];
+//    [GenericPopupController displayNegativeConfirmationWithMiddleView:self.runawayMiddleView
+//                                                                title:@"Run Away?"
+//                                                           okayButton:@"Run Away"
+//                                                         cancelButton:@"Cancel"
+//                                                             okTarget:self
+//                                                           okSelector:@selector(attemptRunaway)
+//                                                         cancelTarget:nil
+//                                                       cancelSelector:nil];
+//  }
+//}
 
 - (float) runAwayChance {
 #ifdef DEBUG
@@ -177,7 +179,7 @@
 }
 
 - (void) attemptRunaway {
-  if (_movesLeft > 0) {
+  if (self.orbLayer.swipeLayer.userInteractionEnabled) {
     BOOL success = drand48() < [self runAwayChance];
     if (success) {
       [self runawaySuccess];
@@ -404,7 +406,9 @@
   [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker usingAbility:usingAbility withTarget:target withSelector:selector];
   
   if (enemyIsAttacker && ! usingAbility) {
-    _damageWasDealt = YES;
+    if (! usingAbility) {
+      _damageWasDealt = YES;
+    }
     [self saveCurrentState];
   }
 }

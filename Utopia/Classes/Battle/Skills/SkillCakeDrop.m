@@ -244,7 +244,7 @@
   
   // Send server updated values for health
   [self.battleLayer.droplessStageNums addObject:@(self.battleLayer.currentStageNum)];
-  [self.battleLayer sendServerUpdatedValues];
+  [self.battleLayer sendServerUpdatedValuesVerifyDamageDealt:NO];
   
   // Checking player's health (it will effectively call moveToNextEnemy when no enemy is found)
   if ([self.battleLayer stagesLeft] == 0)
