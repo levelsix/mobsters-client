@@ -28,8 +28,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _cheatEnemySkillId = _cheatPlayerSkillId = -1;
   
   // Change it to override current skills for debug purposes
-  //_cheatEnemySkillType = SkillTypeMomentum;
-  //_cheatPlayerSkillType = SkillTypeMomentum;
+  //_cheatEnemySkillType = SkillTypeQuickAttack;
+  //_cheatPlayerSkillType = SkillTypeQuickAttack;
   
   return self;
 }

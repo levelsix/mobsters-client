@@ -91,10 +91,10 @@
 - (void) dealQuickAttack2
 {
   // Turn on the lights for the board and finish skill execution
-  [self performAfterDelay:1.3 block:^{
-    [self.battleLayer.orbLayer allowInput];
-    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  }];
+//  [self performAfterDelay:1.3 block:^{
+//    [self.battleLayer.orbLayer allowInput];
+//    [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
+//  }];
   [self resetOrbCounter];
   [self skillTriggerFinished];
 }

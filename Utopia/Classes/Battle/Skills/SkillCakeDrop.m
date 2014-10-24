@@ -231,6 +231,8 @@
     [self destroyAllCakes];
   }];
   
+  [self.battleLayer blowupBattleSprite:self.playerSprite withBlock:^{}];
+  
   // Deal damage to the enemy and erase him/her
   self.enemy.curHealth = 0.0;
   self.battleLayer.enemyDamageDealt = YES;
@@ -249,7 +251,6 @@
   // Checking player's health (it will effectively call moveToNextEnemy when no enemy is found)
   if ([self.battleLayer stagesLeft] == 0)
   {
-    [self.battleLayer blowupBattleSprite:self.playerSprite withBlock:^{}];
     if ([self.battleLayer playerMobstersLeft] > 0)
       [self.battleLayer youWon];
     else
@@ -258,8 +259,9 @@
       [self.battleLayer youLost];
     }
   }
-  else
+  else {
     [self.battleLayer checkMyHealth]; // Switch mobster and proceed to new enemy or fail if no mobsters left
+  }
 }
 
 - (void) destroyAllCakes

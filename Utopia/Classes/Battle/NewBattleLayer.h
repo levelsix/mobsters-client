@@ -70,7 +70,7 @@
   
   int _curStage;
   int _lootCount;
-  BOOL _lootDropped;
+  CCSprite *_lootSprite;
   
   int _soundComboCount;
   BOOL _canPlayNextComboSound;
@@ -171,7 +171,7 @@
 - (BOOL) createNextEnemyObject;
 - (CCSprite *) getCurrentEnemyLoot;
 - (void) dropLoot:(CCSprite *)ed;
-- (void) pickUpLoot:(CCSprite *)ed;
+- (void) pickUpLoot;
 - (void) moveToNextEnemy;
 - (void) youWon;
 - (void) youLost;

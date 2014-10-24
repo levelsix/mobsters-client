@@ -305,17 +305,20 @@
       
       // Orb info
       BattleOrb *orb = [self.layout orbAtColumn:i row:j];
-      [gemInfo setObject:orb.serialize forKey:ORB_KEY];
       
-      // Tile info
-      BattleTile *tile = [self.layout tileAtColumn:i row:j];
-      [gemInfo setObject:@(tile.typeTop) forKey:TILE_TOP_KEY];
-      [gemInfo setObject:@(tile.typeBottom) forKey:TILE_BOTTOM_KEY];
-      
-      [gemInfo setObject:@(orb.column) forKey:POSITION_X_KEY];
-      [gemInfo setObject:@(orb.row) forKey:POSITION_Y_KEY];
-      
-      [arr addObject:gemInfo];
+      if (orb) {
+        [gemInfo setObject:orb.serialize forKey:ORB_KEY];
+        
+        // Tile info
+        BattleTile *tile = [self.layout tileAtColumn:i row:j];
+        [gemInfo setObject:@(tile.typeTop) forKey:TILE_TOP_KEY];
+        [gemInfo setObject:@(tile.typeBottom) forKey:TILE_BOTTOM_KEY];
+        
+        [gemInfo setObject:@(orb.column) forKey:POSITION_X_KEY];
+        [gemInfo setObject:@(orb.row) forKey:POSITION_Y_KEY];
+        
+        [arr addObject:gemInfo];
+      }
     }
   }
   return arr;

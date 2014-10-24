@@ -72,7 +72,7 @@
 - (void) hideWithCompletion:(SkillPopupBlock)completion
 {
   // Hide view
-  [UIView animateWithDuration:0.3 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
+  [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
     self.alpha = 0.0;
   } completion:^(BOOL finished) {
     [self removeFromSuperview];

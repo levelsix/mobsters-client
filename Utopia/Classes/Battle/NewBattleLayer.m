@@ -427,6 +427,11 @@
 - (void) moveToNextEnemy {
   [self.hudView removeButtons];
   
+  
+  if (_lootSprite) {
+    [self pickUpLoot];
+  }
+  
   if ([self spawnNextEnemy]) {
     [self.myPlayer beginWalking];
     [self.bgdLayer scrollToNewScene];
@@ -436,7 +441,7 @@
     _reachedNextScene = NO;
     _displayedWaveNumber = NO;
   } else {
-    if (_lootDropped) {
+    if (_lootSprite) {
       [self.myPlayer beginWalking];
       [self.bgdLayer scrollToNewScene];
       
@@ -706,12 +711,14 @@
   } else {
     [skillManager enableSkillButton:YES];
     [self.orbLayer allowInput];
+    [self.orbLayer.bgdLayer turnTheLightsOn];
     _myDamageForThisTurn = 0;
   }
 }
 
 - (void) myTurnEnded {
   [self showHighScoreWord];
+  [self.orbLayer disallowInput];
   [self.orbLayer.bgdLayer turnTheLightsOff];
   [self.hudView removeButtons];
   
@@ -822,8 +829,23 @@
                            [healthLabel stopActionByTag:1015];
                            [self updateHealthBars];
                            [SoundEngine puzzleDamageTickStop];
+                           
+                           if (newHealth <= 0) {
+                             [self blowupBattleSprite:defSpr withBlock:^{
+                               [target performSelector:selector];
+                             }];
+                             
+                             if (!enemyIsAttacker) {
+                               // Drop loot
+                               _lootSprite = [self getCurrentEnemyLoot];
+                               
+                               if (_lootSprite)
+                                 [self dropLoot:_lootSprite];
+                             }
+                           } else {
+                             [target performSelector:selector];
+                           }
                          }],
-                        [CCActionCallFunc actionWithTarget:target selector:selector],
                         nil]];
   
   CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
@@ -904,7 +926,7 @@
                      [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
                      [CCActionDelay actionWithDuration:0.7f],
                      [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
-                     [CCActionCallBlock actionWithBlock:block], nil]];
+                     [CCActionCallBlock actionWithBlock:^{if (block) block();}], nil]];
   
   CCParticleSystem *q = [CCParticleSystem particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
@@ -918,29 +940,12 @@
   
   if (self.enemyPlayerObject.curHealth <= 0) {
     
-    // Drop loot
-    CCSprite *loot = [self getCurrentEnemyLoot];
-    if (loot) {
-      _lootDropped = YES;
-    } else {
-      _lootDropped = NO;
-    }
-    
     // Trigger skills for move made by the player
     SkillLogStart(@"TRIGGER STARTED: enemy defeated");
     [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered) {
       
       SkillLogEnd(triggered, @"  Enemy defeated trigger ENDED");
       
-      if (_lootDropped)
-        [self dropLoot:loot];
-      
-      [self blowupBattleSprite:self.currentEnemy withBlock:
-       ^{
-         self.enemyPlayerObject = nil;
-         [self updateHealthBars];
-         [self moveToNextEnemy];
-       }];
       self.currentEnemy = nil;
       
       [self.hudView removeBattleScheduleView];
@@ -948,6 +953,10 @@
       // Send server updated values here because monster just died
       // But make sure that I actually did damage..
       [self sendServerUpdatedValuesVerifyDamageDealt:YES];
+      
+      self.enemyPlayerObject = nil;
+      [self updateHealthBars];
+      [self moveToNextEnemy];
       
     }];
     
@@ -978,13 +987,12 @@
     _movesLeft = 0;
     [self stopPulsing];
     
-    [self blowupBattleSprite:self.myPlayer withBlock:^{
-      self.myPlayerObject = nil;
-      [self updateHealthBars];
-      
-      [self currentMyPlayerDied];
-    }];
     self.myPlayer = nil;
+    
+    self.myPlayerObject = nil;
+    [self updateHealthBars];
+    
+    [self currentMyPlayerDied];
   } else {
     [self beginNextTurn];
   }
@@ -1173,14 +1181,12 @@
                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
                   [CCActionEaseBounceOut actionWithAction:
                    [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-27-self.currentEnemy.contentSize.height/2)]],
-                  [CCActionCallBlock actionWithBlock:
-                   ^{
-                     [self pickUpLoot:ed];
-                   }],
                   nil], nil]];
 }
 
-- (void) pickUpLoot:(CCSprite *)ed {
+- (void) pickUpLoot {
+  CCSprite *ed = _lootSprite;
+  
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
   CGPoint initPos = ed.position;
   CGFloat finalX = self.myPlayer.position.x+5;
@@ -1211,6 +1217,8 @@
         [CCActionSequence actions:
          scale,
          scale.reverse, nil]];
+       
+       _lootSprite = nil;
      }],
     nil]];
 }

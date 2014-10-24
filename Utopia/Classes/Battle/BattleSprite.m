@@ -486,8 +486,8 @@
   CCAnimation *anim = self.attackAnimationF.copy;
   anim = anim ?: [CCAnimation animation];
   
-  // Repeat 4-8 x times
-  int numTimes = strength*(MAX_SHOTS-1)+1;
+  // Repeat 4-8 x times. Don't add 1 because we automatically use 1
+  int numTimes = strength*(MAX_SHOTS-1);
   
   CCActionSequence *seq;
   [self stopActionByTag:924];
