@@ -1524,6 +1524,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 @property int64_t clientTime;
 @property int32_t oilChange;
 @property int32_t cashChange;
+@property Float32 nuPvpDmgMultiplier;
 @end
 
 @implementation EndPvpBattleRequestProto
@@ -1587,6 +1588,13 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
   hasCashChange_ = !!value_;
 }
 @synthesize cashChange;
+- (BOOL) hasNuPvpDmgMultiplier {
+  return !!hasNuPvpDmgMultiplier_;
+}
+- (void) setHasNuPvpDmgMultiplier:(BOOL) value_ {
+  hasNuPvpDmgMultiplier_ = !!value_;
+}
+@synthesize nuPvpDmgMultiplier;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -1596,6 +1604,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
     self.clientTime = 0L;
     self.oilChange = 0;
     self.cashChange = 0;
+    self.nuPvpDmgMultiplier = 0;
   }
   return self;
 }
@@ -1636,6 +1645,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashChange) {
     [output writeInt32:7 value:self.cashChange];
   }
+  if (self.hasNuPvpDmgMultiplier) {
+    [output writeFloat:8 value:self.nuPvpDmgMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1665,6 +1677,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   }
   if (self.hasCashChange) {
     size_ += computeInt32Size(7, self.cashChange);
+  }
+  if (self.hasNuPvpDmgMultiplier) {
+    size_ += computeFloatSize(8, self.nuPvpDmgMultiplier);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1725,6 +1740,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasCashChange) {
     [output appendFormat:@"%@%@: %@\n", indent, @"cashChange", [NSNumber numberWithInteger:self.cashChange]];
   }
+  if (self.hasNuPvpDmgMultiplier) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"nuPvpDmgMultiplier", [NSNumber numberWithFloat:self.nuPvpDmgMultiplier]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1750,6 +1768,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       (!self.hasOilChange || self.oilChange == otherMessage.oilChange) &&
       self.hasCashChange == otherMessage.hasCashChange &&
       (!self.hasCashChange || self.cashChange == otherMessage.cashChange) &&
+      self.hasNuPvpDmgMultiplier == otherMessage.hasNuPvpDmgMultiplier &&
+      (!self.hasNuPvpDmgMultiplier || self.nuPvpDmgMultiplier == otherMessage.nuPvpDmgMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1774,6 +1794,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   }
   if (self.hasCashChange) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashChange] hash];
+  }
+  if (self.hasNuPvpDmgMultiplier) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.nuPvpDmgMultiplier] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1839,6 +1862,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (other.hasCashChange) {
     [self setCashChange:other.cashChange];
   }
+  if (other.hasNuPvpDmgMultiplier) {
+    [self setNuPvpDmgMultiplier:other.nuPvpDmgMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1891,6 +1917,10 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       }
       case 56: {
         [self setCashChange:[input readInt32]];
+        break;
+      }
+      case 69: {
+        [self setNuPvpDmgMultiplier:[input readFloat]];
         break;
       }
     }
@@ -2020,6 +2050,22 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 - (EndPvpBattleRequestProto_Builder*) clearCashChange {
   result.hasCashChange = NO;
   result.cashChange = 0;
+  return self;
+}
+- (BOOL) hasNuPvpDmgMultiplier {
+  return result.hasNuPvpDmgMultiplier;
+}
+- (Float32) nuPvpDmgMultiplier {
+  return result.nuPvpDmgMultiplier;
+}
+- (EndPvpBattleRequestProto_Builder*) setNuPvpDmgMultiplier:(Float32) value {
+  result.hasNuPvpDmgMultiplier = YES;
+  result.nuPvpDmgMultiplier = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearNuPvpDmgMultiplier {
+  result.hasNuPvpDmgMultiplier = NO;
+  result.nuPvpDmgMultiplier = 0;
   return self;
 }
 @end

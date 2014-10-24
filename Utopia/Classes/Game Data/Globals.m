@@ -1286,6 +1286,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return amount;
 }
 
+- (int) baseStructIdForStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = [gs structWithId:structId];
+  while (ss.structInfo.predecessorStructId) {
+    ss = [gs structWithId:ss.structInfo.predecessorStructId];
+  }
+  return ss.structInfo.structId;
+}
+
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp {
   GameState *gs = [GameState sharedGameState];
   id<StaticStructure> ss = [gs structWithId:structId];
@@ -1347,25 +1356,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateMaxQuantityOfStructId:(int)structId {
   GameState *gs = [GameState sharedGameState];
-  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStructForCurrentConstructionLevel];
   return [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
 }
 
 - (int) calculateNumberOfUnpurchasedStructs {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserStruct *townHall = [gs myTownHall];
-  
-  TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
   
   int num = 0;
   for (id<StaticStructure> s in gs.staticStructs.allValues) {
     StructureInfoProto *structInfo = [s structInfo];
     if (!structInfo.predecessorStructId) {
       int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:gs.myStructs];
-      int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
+      int max = [gl calculateMaxQuantityOfStructId:structInfo.structId];
       
-      if (cur < max && structInfo.prerequisiteTownHallLvl <= thp.structInfo.level) {
+      NSArray *prereqs = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:structInfo.structId];
+      
+      BOOL satisfiesPrereqs = YES;
+      for (PrereqProto *pre in prereqs) {
+        if (![gl isPrerequisiteComplete:pre]) {
+          satisfiesPrereqs = NO;
+        }
+      }
+      
+      if (cur < max && satisfiesPrereqs) {
         num += max-cur;
       }
     }
@@ -1373,23 +1388,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return num;
 }
 
-- (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId {
+- (TownHallProto *) calculateNextTownHallForQuantityIncreaseForStructId:(int)structId {
   GameState *gs = [GameState sharedGameState];
-  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStructForCurrentConstructionLevel];
   int curMax = [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
   while (thp.structInfo.successorStructId) {
     thp = (TownHallProto *)[gs structWithId:thp.structInfo.successorStructId];
     int newMax = [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
     
     if (newMax > curMax) {
-      return thp.structInfo.level;
+      return thp;
     }
   }
-  return 0;
+  return nil;
 }
 
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs {
   int quantity = 0;
+  structId = [self baseStructIdForStructId:structId];
   
   for (UserStruct *us in structs) {
     if (us.baseStructId == structId) {
@@ -1706,6 +1722,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return quantity >= prereq.quantity;
+}
+
+- (NSArray *) incompletePrereqsForStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:structId];
+  
+  NSMutableArray *inc = [NSMutableArray array];
+  
+  for (PrereqProto *pp in arr) {
+    if (![self isPrerequisiteComplete:pp]) {
+      [inc addObject:pp];
+    }
+  }
+  
+  return inc;
+}
+
+- (BOOL) satisfiesPrereqsForStructId:(int)structId {
+  return [self incompletePrereqsForStructId:structId].count == 0;
 }
 
 #pragma mark - Alerts

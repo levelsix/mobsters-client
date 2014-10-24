@@ -31,7 +31,7 @@
 @interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate> {
   CGPoint _originalProgressCenter;
   
-  BOOL _shouldShowArrowOnResidence;
+  int _structIdForArrow;
 }
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
@@ -108,7 +108,7 @@
 - (void) openShopWithFunds;
 - (void) openShopWithBuildings:(int)structId;
 - (void) openShopWithGacha;
-- (void) showArrowToResidence;
+- (void) showArrowToStructId:(int)structId;
 
 - (void) displayHomeViewController:(HomeViewController *)hvc;
 

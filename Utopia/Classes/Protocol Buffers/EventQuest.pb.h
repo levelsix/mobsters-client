@@ -2,16 +2,11 @@
 
 #import "ProtocolBuffers.h"
 
-#import "City.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class CityElementProto;
-@class CityElementProto_Builder;
-@class CityExpansionCostProto;
-@class CityExpansionCostProto_Builder;
 @class ClanHouseProto;
 @class ClanHouseProto_Builder;
 @class ColorProto;
@@ -24,8 +19,6 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
-@class FullCityProto;
-@class FullCityProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullUserMonsterProto;
@@ -100,8 +93,6 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
-@class UserCityExpansionDataProto;
-@class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;

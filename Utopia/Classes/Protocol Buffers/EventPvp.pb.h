@@ -422,6 +422,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 @private
   BOOL hasUserAttacked_:1;
   BOOL hasUserWon_:1;
+  BOOL hasNuPvpDmgMultiplier_:1;
   BOOL hasClientTime_:1;
   BOOL hasDefenderId_:1;
   BOOL hasOilChange_:1;
@@ -429,6 +430,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   BOOL hasSender_:1;
   BOOL userAttacked_:1;
   BOOL userWon_:1;
+  Float32 nuPvpDmgMultiplier;
   int64_t clientTime;
   int32_t defenderId;
   int32_t oilChange;
@@ -442,6 +444,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasClientTime;
 - (BOOL) hasOilChange;
 - (BOOL) hasCashChange;
+- (BOOL) hasNuPvpDmgMultiplier;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t defenderId;
 - (BOOL) userAttacked;
@@ -449,6 +452,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t oilChange;
 @property (readonly) int32_t cashChange;
+@property (readonly) Float32 nuPvpDmgMultiplier;
 
 + (EndPvpBattleRequestProto*) defaultInstance;
 - (EndPvpBattleRequestProto*) defaultInstance;
@@ -521,6 +525,11 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (int32_t) cashChange;
 - (EndPvpBattleRequestProto_Builder*) setCashChange:(int32_t) value;
 - (EndPvpBattleRequestProto_Builder*) clearCashChange;
+
+- (BOOL) hasNuPvpDmgMultiplier;
+- (Float32) nuPvpDmgMultiplier;
+- (EndPvpBattleRequestProto_Builder*) setNuPvpDmgMultiplier:(Float32) value;
+- (EndPvpBattleRequestProto_Builder*) clearNuPvpDmgMultiplier;
 @end
 
 @interface EndPvpBattleResponseProto : PBGeneratedMessage {

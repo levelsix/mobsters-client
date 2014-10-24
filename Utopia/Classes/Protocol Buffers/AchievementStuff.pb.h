@@ -2,7 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 // @@protoc_insertion_point(imports)
@@ -15,8 +14,6 @@
 @class CoordinateProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
-@class FullUserMonsterProto;
-@class FullUserMonsterProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
@@ -27,16 +24,6 @@
 @class MiniJobCenterProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
-@class MinimumUserMonsterProto;
-@class MinimumUserMonsterProto_Builder;
-@class MinimumUserMonsterSellProto;
-@class MinimumUserMonsterSellProto_Builder;
-@class MonsterBattleDialogueProto;
-@class MonsterBattleDialogueProto_Builder;
-@class MonsterLevelInfoProto;
-@class MonsterLevelInfoProto_Builder;
-@class MonsterProto;
-@class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -55,20 +42,6 @@
 @class TutorialStructProto_Builder;
 @class UserAchievementProto;
 @class UserAchievementProto_Builder;
-@class UserCurrentMonsterTeamProto;
-@class UserCurrentMonsterTeamProto_Builder;
-@class UserEnhancementItemProto;
-@class UserEnhancementItemProto_Builder;
-@class UserEnhancementProto;
-@class UserEnhancementProto_Builder;
-@class UserMonsterCurrentExpProto;
-@class UserMonsterCurrentExpProto_Builder;
-@class UserMonsterCurrentHealthProto;
-@class UserMonsterCurrentHealthProto_Builder;
-@class UserMonsterEvolutionProto;
-@class UserMonsterEvolutionProto_Builder;
-@class UserMonsterHealingProto;
-@class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 #ifndef __has_feature

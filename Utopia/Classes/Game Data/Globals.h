@@ -323,10 +323,15 @@
 - (int) calculateTeamCostForTeam:(NSArray *)team;
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;
 - (int) evoChamberLevelToEvolveMonster:(int)monsterId;
-- (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
 
+- (BOOL) isPrerequisiteComplete:(PrereqProto *)prereq;
+- (NSArray *) incompletePrereqsForStructId:(int)structId;
+- (BOOL) satisfiesPrereqsForStructId:(int)structId;
+
+- (int) baseStructIdForStructId:(int)structId;
+- (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
-- (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;
+- (TownHallProto *) calculateNextTownHallForQuantityIncreaseForStructId:(int)structId;
 - (int) calculateNumberOfUnpurchasedStructs;
 - (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs;
 

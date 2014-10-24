@@ -13,11 +13,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ClanRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [BattleRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
-    [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -7337,6 +7335,390 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
 - (ClanHelpNoticeProto_Builder*) clearStaticDataId {
   result.hasStaticDataId = NO;
   result.staticDataId = 0;
+  return self;
+}
+@end
+
+@interface ClanInviteProto ()
+@property int32_t inviteId;
+@property int32_t userId;
+@property int32_t inviterId;
+@property int32_t clanId;
+@property int64_t timeOfInvite;
+@end
+
+@implementation ClanInviteProto
+
+- (BOOL) hasInviteId {
+  return !!hasInviteId_;
+}
+- (void) setHasInviteId:(BOOL) value_ {
+  hasInviteId_ = !!value_;
+}
+@synthesize inviteId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value_ {
+  hasUserId_ = !!value_;
+}
+@synthesize userId;
+- (BOOL) hasInviterId {
+  return !!hasInviterId_;
+}
+- (void) setHasInviterId:(BOOL) value_ {
+  hasInviterId_ = !!value_;
+}
+@synthesize inviterId;
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value_ {
+  hasClanId_ = !!value_;
+}
+@synthesize clanId;
+- (BOOL) hasTimeOfInvite {
+  return !!hasTimeOfInvite_;
+}
+- (void) setHasTimeOfInvite:(BOOL) value_ {
+  hasTimeOfInvite_ = !!value_;
+}
+@synthesize timeOfInvite;
+- (id) init {
+  if ((self = [super init])) {
+    self.inviteId = 0;
+    self.userId = 0;
+    self.inviterId = 0;
+    self.clanId = 0;
+    self.timeOfInvite = 0L;
+  }
+  return self;
+}
+static ClanInviteProto* defaultClanInviteProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanInviteProto class]) {
+    defaultClanInviteProtoInstance = [[ClanInviteProto alloc] init];
+  }
+}
++ (ClanInviteProto*) defaultInstance {
+  return defaultClanInviteProtoInstance;
+}
+- (ClanInviteProto*) defaultInstance {
+  return defaultClanInviteProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasInviteId) {
+    [output writeInt32:1 value:self.inviteId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasInviterId) {
+    [output writeInt32:3 value:self.inviterId];
+  }
+  if (self.hasClanId) {
+    [output writeInt32:4 value:self.clanId];
+  }
+  if (self.hasTimeOfInvite) {
+    [output writeInt64:5 value:self.timeOfInvite];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasInviteId) {
+    size_ += computeInt32Size(1, self.inviteId);
+  }
+  if (self.hasUserId) {
+    size_ += computeInt32Size(2, self.userId);
+  }
+  if (self.hasInviterId) {
+    size_ += computeInt32Size(3, self.inviterId);
+  }
+  if (self.hasClanId) {
+    size_ += computeInt32Size(4, self.clanId);
+  }
+  if (self.hasTimeOfInvite) {
+    size_ += computeInt64Size(5, self.timeOfInvite);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (ClanInviteProto*) parseFromData:(NSData*) data {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromData:data] build];
+}
++ (ClanInviteProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanInviteProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromInputStream:input] build];
+}
++ (ClanInviteProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanInviteProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanInviteProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanInviteProto*)[[[ClanInviteProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanInviteProto_Builder*) builder {
+  return [[ClanInviteProto_Builder alloc] init];
+}
++ (ClanInviteProto_Builder*) builderWithPrototype:(ClanInviteProto*) prototype {
+  return [[ClanInviteProto builder] mergeFrom:prototype];
+}
+- (ClanInviteProto_Builder*) builder {
+  return [ClanInviteProto builder];
+}
+- (ClanInviteProto_Builder*) toBuilder {
+  return [ClanInviteProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasInviteId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"inviteId", [NSNumber numberWithInteger:self.inviteId]];
+  }
+  if (self.hasUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  }
+  if (self.hasInviterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"inviterId", [NSNumber numberWithInteger:self.inviterId]];
+  }
+  if (self.hasClanId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  }
+  if (self.hasTimeOfInvite) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfInvite", [NSNumber numberWithLongLong:self.timeOfInvite]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[ClanInviteProto class]]) {
+    return NO;
+  }
+  ClanInviteProto *otherMessage = other;
+  return
+      self.hasInviteId == otherMessage.hasInviteId &&
+      (!self.hasInviteId || self.inviteId == otherMessage.inviteId) &&
+      self.hasUserId == otherMessage.hasUserId &&
+      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasInviterId == otherMessage.hasInviterId &&
+      (!self.hasInviterId || self.inviterId == otherMessage.inviterId) &&
+      self.hasClanId == otherMessage.hasClanId &&
+      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasTimeOfInvite == otherMessage.hasTimeOfInvite &&
+      (!self.hasTimeOfInvite || self.timeOfInvite == otherMessage.timeOfInvite) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasInviteId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.inviteId] hash];
+  }
+  if (self.hasUserId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  }
+  if (self.hasInviterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.inviterId] hash];
+  }
+  if (self.hasClanId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  }
+  if (self.hasTimeOfInvite) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfInvite] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface ClanInviteProto_Builder()
+@property (strong) ClanInviteProto* result;
+@end
+
+@implementation ClanInviteProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[ClanInviteProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanInviteProto_Builder*) clear {
+  self.result = [[ClanInviteProto alloc] init];
+  return self;
+}
+- (ClanInviteProto_Builder*) clone {
+  return [ClanInviteProto builderWithPrototype:result];
+}
+- (ClanInviteProto*) defaultInstance {
+  return [ClanInviteProto defaultInstance];
+}
+- (ClanInviteProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanInviteProto*) buildPartial {
+  ClanInviteProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (ClanInviteProto_Builder*) mergeFrom:(ClanInviteProto*) other {
+  if (other == [ClanInviteProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasInviteId) {
+    [self setInviteId:other.inviteId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasInviterId) {
+    [self setInviterId:other.inviterId];
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
+  }
+  if (other.hasTimeOfInvite) {
+    [self setTimeOfInvite:other.timeOfInvite];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setInviteId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setInviterId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setClanId:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setTimeOfInvite:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasInviteId {
+  return result.hasInviteId;
+}
+- (int32_t) inviteId {
+  return result.inviteId;
+}
+- (ClanInviteProto_Builder*) setInviteId:(int32_t) value {
+  result.hasInviteId = YES;
+  result.inviteId = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearInviteId {
+  result.hasInviteId = NO;
+  result.inviteId = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (ClanInviteProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasInviterId {
+  return result.hasInviterId;
+}
+- (int32_t) inviterId {
+  return result.inviterId;
+}
+- (ClanInviteProto_Builder*) setInviterId:(int32_t) value {
+  result.hasInviterId = YES;
+  result.inviterId = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearInviterId {
+  result.hasInviterId = NO;
+  result.inviterId = 0;
+  return self;
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (ClanInviteProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfInvite {
+  return result.hasTimeOfInvite;
+}
+- (int64_t) timeOfInvite {
+  return result.timeOfInvite;
+}
+- (ClanInviteProto_Builder*) setTimeOfInvite:(int64_t) value {
+  result.hasTimeOfInvite = YES;
+  result.timeOfInvite = value;
+  return self;
+}
+- (ClanInviteProto_Builder*) clearTimeOfInvite {
+  result.hasTimeOfInvite = NO;
+  result.timeOfInvite = 0L;
   return self;
 }
 @end

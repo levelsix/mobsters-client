@@ -37,6 +37,8 @@
 @class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
+@class ClanInviteProto;
+@class ClanInviteProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;

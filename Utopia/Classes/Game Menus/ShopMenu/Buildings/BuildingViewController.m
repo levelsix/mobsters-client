@@ -30,6 +30,14 @@
 }
 
 - (void) displayArrowOverStructId:(int)structId {
+  // Nab the root struct
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = [gs structWithId:structId];
+  while (ss.structInfo.predecessorStructId) {
+    ss = [gs structWithId:ss.structInfo.predecessorStructId];
+  }
+  structId = ss.structInfo.structId;
+  
   // Find the struct
   NSInteger section = 0, row = -1;
   for (StructureInfoProto *fsp in self.staticStructs) {
@@ -94,11 +102,11 @@
   NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
     int cur = [gl calculateCurrentQuantityOfStructId:obj1.structId structs:myStructs];
     int max = [gl calculateMaxQuantityOfStructId:obj1.structId withTownHall:thp];
-    BOOL avail1 = cur < max && obj1.prerequisiteTownHallLvl <= thp.structInfo.level;
+    BOOL avail1 = cur < max && [gl satisfiesPrereqsForStructId:obj1.structId];
     
     cur = [gl calculateCurrentQuantityOfStructId:obj2.structId structs:myStructs];
     max = [gl calculateMaxQuantityOfStructId:obj2.structId withTownHall:thp];
-    BOOL avail2 = cur < max && obj2.prerequisiteTownHallLvl <= thp.structInfo.level;
+    BOOL avail2 = cur < max && [gl satisfiesPrereqsForStructId:obj2.structId];
     
     int isSpecial1 = avail1 ? [self isTypeRecommended:obj1.structType] : 0;
     int isSpecial2 = avail2 ? [self isTypeRecommended:obj2.structType] : 0;
@@ -108,11 +116,11 @@
     } else if (isSpecial1 != isSpecial2) {
       return [@(isSpecial2) compare:@(isSpecial1)];
     } else {
-      if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
-        return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
-      } else {
+//      if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
+//        return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
+//      } else {
         return [@(obj1.structId) compare:@(obj2.structId)];
-      }
+//      }
     }
   };
   
@@ -159,16 +167,16 @@
   
   UserStruct *townHall = [self townHall];
   TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
-  int thLevel = thp.structInfo.level;
   int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId structs:[self curStructsList]];
   int max = [gl calculateMaxQuantityOfStructId:fsp.structId withTownHall:thp];
   
-  if (fsp.prerequisiteTownHallLvl > thLevel) {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to unlock!", thp.structInfo.name, fsp.prerequisiteTownHallLvl]];
+  NSArray *incomplete = [gl incompletePrereqsForStructId:fsp.structId];
+  if (incomplete.count) {
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Requires %@ to unlock!", [[incomplete firstObject] prereqString]]];
   } else if (cur >= max) {
-    int nextThLevel = [gl calculateNextTownHallLevelForQuantityIncreaseForStructId:fsp.structId];
-    if (nextThLevel) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", thp.structInfo.name, nextThLevel]];
+    TownHallProto *nextThp = [gl calculateNextTownHallForQuantityIncreaseForStructId:fsp.structId];
+    if (nextThp) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", thp.structInfo.name, nextThp.structInfo.level]];
     } else {
       [Globals addAlertNotification:@"You have already reached the max number of this building."];
     }

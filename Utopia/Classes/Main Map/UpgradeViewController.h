@@ -11,6 +11,24 @@
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
 
+@class UpgradePrereqView;
+
+@protocol UpgradePrereqDelegate <NSObject>
+
+- (void) goClicked:(UpgradePrereqView *)pre;
+
+@end
+
+@interface UpgradePrereqView : EmbeddedNibView
+
+@property (nonatomic, retain) IBOutlet UIImageView *checkIcon;
+@property (nonatomic, retain) IBOutlet UILabel *prereqLabel;
+@property (nonatomic, retain) IBOutlet UIView *goButtonView;
+
+@property (nonatomic, assign) IBOutlet id<UpgradePrereqDelegate> delegate;
+
+@end
+
 @interface UpgradeBuildingMenu : UIView <UITableViewDelegate>
 
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
@@ -18,11 +36,14 @@
 @property (nonatomic, assign) IBOutlet UILabel *upgradeTimeLabel;
 
 @property (nonatomic, assign) IBOutlet UIView *buttonContainerView;
+@property (nonatomic, assign) IBOutlet UIButton *oilButton;
+@property (nonatomic, assign) IBOutlet UIButton *cashButton;
+@property (nonatomic, assign) IBOutlet UIImageView *oilIcon;
+@property (nonatomic, assign) IBOutlet UIImageView *cashIcon;
 @property (nonatomic, assign) IBOutlet UIView *cashButtonView;
 @property (nonatomic, assign) IBOutlet UIView *oilButtonView;
 @property (nonatomic, assign) IBOutlet UILabel *upgradeCashLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradeOilLabel;
-@property (nonatomic, strong) UIImageView *greyscaleView;
 
 @property (nonatomic, assign) IBOutlet UIImageView *bottomBgdView;
 @property (nonatomic, assign) IBOutlet UIImageView *checkIcon;
@@ -48,6 +69,8 @@
 @property (nonatomic, assign) IBOutlet UILabel *nibUnlocksLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *nibUnlocksStructIcon;
 
+@property (nonatomic, retain) IBOutletCollection(UpgradePrereqView) NSArray *prereqViews;
+
 @end
 
 @protocol UpgradeViewControllerDelegate <NSObject>
@@ -56,7 +79,7 @@
 
 @end
 
-@interface UpgradeViewController : UIViewController <TabBarDelegate>
+@interface UpgradeViewController : UIViewController <TabBarDelegate, UpgradePrereqDelegate>
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
 

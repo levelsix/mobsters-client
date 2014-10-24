@@ -11,6 +11,23 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "GameViewController.h"
+
+@implementation UpgradePrereqView
+
+- (void) updateForPrereq:(PrereqProto *)pre isComplete:(BOOL)isComplete {
+  self.prereqLabel.text = [pre prereqString];
+  
+  self.checkIcon.highlighted = !isComplete;
+  self.prereqLabel.highlighted = !isComplete;
+  self.goButtonView.hidden = isComplete;
+}
+
+- (IBAction)goClicked:(id)sender {
+  [self.delegate goClicked:self];
+}
+
+@end
 
 @implementation UpgradeBuildingMenu
 
@@ -19,11 +36,11 @@
 }
 
 - (void) loadForUserStruct:(UserStruct *)us {
+  Globals *gl = [Globals sharedGlobals];
+  
   if (us == nil) {
     return;
   }
-  
-  GameState *gs = [GameState sharedGameState];
   
   id<StaticStructure> curSS = us.staticStruct;
   id<StaticStructure> nextSS = us.staticStructForNextLevel;
@@ -68,25 +85,43 @@
   self.cashButtonView.hidden = isOil;
   
   // Town hall too low
-//  [self.greyscaleView removeFromSuperview];
-//  self.greyscaleView = nil;
-//  UserStruct *th = [gs myTownHall];
-//  TownHallProto *thp = (TownHallProto *)th.staticStructForCurrentConstructionLevel;
-//  int thLevel = thp.structInfo.level;
-//  if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
-//    UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];
-//    self.greyscaleView = [[UIImageView alloc] initWithImage:grey];
-//    [self.oilButtonView.superview addSubview:self.greyscaleView];
-//    
-//    self.oilButtonView.hidden = YES;
-//    self.cashButtonView.hidden = YES;
-//    
-//    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
-//    
-//    self.tooLowLevelView.hidden = NO;
-//  } else {
-//    self.tooLowLevelView.hidden = YES;
-//  }
+  
+  NSArray *allPrereqs = [us allPrerequisites];
+  for (int i = 0; i < self.prereqViews.count; i++) {
+    UpgradePrereqView *preView = self.prereqViews[i];
+    
+    if (i < allPrereqs.count) {
+      PrereqProto *pre = allPrereqs[i];
+      BOOL isComplete = [gl isPrerequisiteComplete:pre];
+      [preView updateForPrereq:pre isComplete:isComplete];
+    } else {
+      preView.hidden = YES;
+    }
+  }
+  
+  NSArray *incomplete = [us incompletePrerequisites];
+  int numIncomplete = (int)incomplete.count;
+  if (numIncomplete) {
+    UIImage *grey = [Globals imageNamed:@"greymenuoption.png"];
+    [self.oilButton setImage:grey forState:UIControlStateNormal];
+    [self.cashButton setImage:grey forState:UIControlStateNormal];
+    
+    self.oilIcon.image = [Globals greyScaleImageWithBaseImage:self.oilIcon.image];
+    self.cashIcon.image = [Globals greyScaleImageWithBaseImage:self.oilIcon.image];
+    
+    self.upgradeCashLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
+    self.upgradeCashLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
+    self.upgradeOilLabel.textColor = [UIColor colorWithWhite:0.5f alpha:1.f];
+    self.upgradeOilLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25];
+    
+    self.readyLabel.text = @"Woops!";
+    self.readySubLabel.text = [NSString stringWithFormat:@"You are missing %d requirement%@ to upgrade.", numIncomplete, numIncomplete == 1 ? @"" : @"s"];
+    
+    self.bottomBgdView.highlighted = YES;
+    self.checkIcon.highlighted = YES;
+    self.readyLabel.highlighted = YES;
+    self.readySubLabel.highlighted = YES;
+  }
   
   if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
     [self loadStatBarsForUserStruct:us];
@@ -101,37 +136,44 @@
 - (NSArray *) buildingsThatChangedInQuantityWithCurTH:(TownHallProto *)curTh nextTh:(TownHallProto *)nextTh {
   NSMutableArray *arr = [NSMutableArray array];
   
-//  GameState *gs = [GameState sharedGameState];
-//  Globals *gl = [Globals sharedGlobals];
-//  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
-//    StructureInfoProto *sip = ss.structInfo;
-//    if (sip.level == 1) {
-//      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
-//      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
-//      
-//      if (before < after) {
-//        [arr addObject:sip];
-//      }
-//    } else {
-//      if (sip.prerequisiteTownHallLvl != curTh.structInfo.level && sip.prerequisiteTownHallLvl == nextTh.structInfo.level) {
-//        // Make sure a lower lvl one isn't in the array already
-//        
-//        [arr addObject:sip];
-//      }
-//    }
-//  }
-//  
-//  NSMutableArray *toRemove = [NSMutableArray array];
-//  for (StructureInfoProto *sip in arr) {
-//    StructureInfoProto *check = sip;
-//    while (check.predecessorStructId) {
-//      check = [[gs structWithId:check.predecessorStructId] structInfo];
-//      if ([arr containsObject:check]) {
-//        [toRemove addObject:check];
-//      }
-//    }
-//  }
-//  [arr removeObjectsInArray:toRemove];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+    StructureInfoProto *sip = ss.structInfo;
+    if (!sip.predecessorStructId) {
+      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
+      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
+      
+      if (before < after) {
+        [arr addObject:sip];
+      }
+    } else {
+      NSArray *prereqs = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:sip.structId];
+      BOOL unlocks = NO;
+      
+      for (PrereqProto *pp in prereqs) {
+        if (pp.prereqGameType == GameTypeStructure && pp.prereqGameEntityId == nextTh.structInfo.structId) {
+          unlocks = YES;
+        }
+      }
+      
+      if (unlocks) {
+        [arr addObject:sip];
+      }
+    }
+  }
+  
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (StructureInfoProto *sip in arr) {
+    StructureInfoProto *check = sip;
+    while (check.predecessorStructId) {
+      check = [[gs structWithId:check.predecessorStructId] structInfo];
+      if ([arr containsObject:check]) {
+        [toRemove addObject:check];
+      }
+    }
+  }
+  [arr removeObjectsInArray:toRemove];
   
   return arr;
 }
@@ -400,15 +442,41 @@
 #pragma mark - IBActions
 
 - (IBAction) upgradeClicked:(id)sender {
-  [self.delegate bigUpgradeClicked];
-  [self closeClicked:nil];
+  if ([self.userStruct satisfiesAllPrerequisites]) {
+    [self.delegate bigUpgradeClicked];
+    [self closeClicked:nil];
+  } else {
+    [Globals addAlertNotification:@"You have not yet met the requirements to upgrade."];
+  }
+}
+
+- (void) goClicked:(UpgradePrereqView *)pre {
+  NSArray *prereqs = [self.userStruct allPrerequisites];
+  NSInteger i = [self.upgradeView.prereqViews indexOfObject:pre];
+  
+  if (i != NSNotFound && i < prereqs.count) {
+    PrereqProto *pp = prereqs[i];
+    
+    GameViewController *gvc = [GameViewController baseController];
+    if (pp.prereqGameType == GameTypeStructure) {
+      BOOL success = [gvc pointArrowToUpgradeForStructId:pp.prereqGameEntityId quantity:pp.quantity];
+      
+      if (success) {
+        [self closeClicked:nil];
+      }
+    }
+  }
+  
 }
 
 - (IBAction) closeClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
+  // Check that no other animations are happenings
+  if (self.mainView.layer.animationKeys.count == 0) {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+    }];
+  }
 }
 
 @end

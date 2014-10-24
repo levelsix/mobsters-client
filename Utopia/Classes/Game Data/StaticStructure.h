@@ -41,3 +41,10 @@
 @interface MiniJobCenterProto (StaticStructureImpl) <StaticStructure>
 
 @end
+
+
+@interface PrereqProto (Stringify)
+
+- (NSString *) prereqString;
+
+@end

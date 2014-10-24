@@ -99,18 +99,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   StructureInfoProto *fsp = [[gs structWithId:structId] structInfo];
-  UserStruct *us = nil;
+  
+  UserStruct *us = [[UserStruct alloc] init];
+  us.structId = structId;
   
   int cur = [gl calculateCurrentQuantityOfStructId:structId structs:gs.myStructs];
   int max = [gl calculateMaxQuantityOfStructId:structId withTownHall:(TownHallProto *)gs.myTownHall.staticStruct];
   if (cur >= max) {
     [Globals popupMessage:@"You are already at the max of this struct"];
-    return us;
+    return nil;
   }
   
-  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
-  if (fsp.prerequisiteTownHallLvl > thLevel) {
-    [Globals popupMessage:@"Town hall not high enough for this building"];
+  if (![us satisfiesAllPrerequisites]) {
+    [Globals popupMessage:@"Prerequisites for this building not met"];
     return us;
   }
   
@@ -118,13 +119,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (UserStruct *u in gs.myStructs) {
     if (!u.isComplete) {
       [Globals popupMessage:@"You can only construct one building at a time!"];
-      return us;
+      return nil;
     }
   }
   for (UserObstacle *u in gs.myObstacles) {
     if (u.endTime) {
       [Globals popupMessage:@"You are removing an obstacle at the moment!"];
-      return us;
+      return nil;
     }
   }
   
@@ -145,10 +146,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs saveHealthProgressesFromIndex:0];
     
-    us = [[UserStruct alloc] init];
     // UserStructId will come in the response
     us.userId = [[GameState sharedGameState] userId];
-    us.structId = structId;
     us.isComplete = NO;
     us.coordinates = CGPointMake(x, y);
     us.orientation = 0;
@@ -175,9 +174,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   StructureInfoProto *nextFsp = userStruct.staticStructForNextLevel.structInfo;
   
-  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
-  if (nextFsp.prerequisiteTownHallLvl > thLevel) {
-    [Globals popupMessage:@"Town hall not high enough for this building"];
+  if (![userStruct satisfiesAllPrerequisites]) {
+    [Globals popupMessage:@"Prerequisites not met."];
     return;
   }
   

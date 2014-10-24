@@ -80,6 +80,7 @@
 - (void) buildingPurchased:(int)structId;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnManageTeam;
+- (BOOL) pointArrowToUpgradeForStructId:(int)structId quantity:(int)quantity;
 
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;
 

@@ -13,7 +13,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventQuestRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [CityRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];

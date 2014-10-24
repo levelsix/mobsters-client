@@ -610,6 +610,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (strong) NSMutableArray * mutableUserMiniJobProtosList;
 @property (strong) NSMutableArray * mutableUserItemsList;
 @property (strong) NSMutableArray * mutableClanHelpingsList;
+@property (strong) NSMutableArray * mutableClanInvitesList;
 @end
 
 @implementation StartupResponseProto
@@ -781,6 +782,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @dynamic userItemsList;
 @synthesize mutableClanHelpingsList;
 @dynamic clanHelpingsList;
+@synthesize mutableClanInvitesList;
+@dynamic clanInvitesList;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -964,6 +967,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index {
   return [mutableClanHelpingsList objectAtIndex:index];
 }
+- (NSArray *)clanInvitesList {
+  return mutableClanInvitesList;
+}
+- (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index {
+  return [mutableClanInvitesList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1102,6 +1111,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }];
   [self.clanHelpingsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:41 value:element];
+  }];
+  [self.clanInvitesList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:42 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1261,6 +1273,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }];
   [self.clanHelpingsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(41, element);
+  }];
+  [self.clanInvitesList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(42, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1507,6 +1522,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.clanInvitesList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanInvites"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1575,6 +1596,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       [self.userMiniJobProtosList isEqualToArray:otherMessage.userMiniJobProtosList] &&
       [self.userItemsList isEqualToArray:otherMessage.userItemsList] &&
       [self.clanHelpingsList isEqualToArray:otherMessage.clanHelpingsList] &&
+      [self.clanInvitesList isEqualToArray:otherMessage.clanInvitesList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1700,6 +1722,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.clanHelpingsList enumerateObjectsUsingBlock:^(ClanHelpProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.clanInvitesList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -2388,6 +2413,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 @property int32_t maxMinutesForFreeSpeedUp;
 @property (strong) NSMutableArray * mutableClanHelpConstantsList;
+@property (strong) StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -2606,6 +2632,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @synthesize maxMinutesForFreeSpeedUp;
 @synthesize mutableClanHelpConstantsList;
 @dynamic clanHelpConstantsList;
+- (BOOL) hasPvpConstant {
+  return !!hasPvpConstant_;
+}
+- (void) setHasPvpConstant:(BOOL) value_ {
+  hasPvpConstant_ = !!value_;
+}
+@synthesize pvpConstant;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -2637,6 +2670,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minutesPerObstacle = 0;
     self.taskMapConstants = [StartupResponseProto_StartupConstants_TaskMapConstants defaultInstance];
     self.maxMinutesForFreeSpeedUp = 0;
+    self.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
   }
   return self;
 }
@@ -2770,6 +2804,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:32 value:element];
   }];
+  if (self.hasPvpConstant) {
+    [output writeMessage:33 value:self.pvpConstant];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2875,6 +2912,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(32, element);
   }];
+  if (self.hasPvpConstant) {
+    size_ += computeMessageSize(33, self.pvpConstant);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3039,6 +3079,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasPvpConstant) {
+    [output appendFormat:@"%@%@ {\n", indent, @"pvpConstant"];
+    [self.pvpConstant writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3111,6 +3157,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       self.hasMonsterDmgMultiplier == otherMessage.hasMonsterDmgMultiplier &&
       (!self.hasMonsterDmgMultiplier || self.monsterDmgMultiplier == otherMessage.monsterDmgMultiplier) &&
       [self.clanHelpConstantsList isEqualToArray:otherMessage.clanHelpConstantsList] &&
+      self.hasPvpConstant == otherMessage.hasPvpConstant &&
+      (!self.hasPvpConstant || [self.pvpConstant isEqual:otherMessage.pvpConstant]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3211,6 +3259,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.clanHelpConstantsList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ClanHelpConstants *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasPvpConstant) {
+    hashCode = hashCode * 31 + [self.pvpConstant hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -6055,6 +6106,344 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_PvpConstants ()
+@property int32_t pvpDmgsWindowSize;
+@property Float32 minPvpDmgDelta;
+@property Float32 maxPvpDmgDelta;
+@property int32_t pvpRequiredMinLvl;
+@end
+
+@implementation StartupResponseProto_StartupConstants_PvpConstants
+
+- (BOOL) hasPvpDmgsWindowSize {
+  return !!hasPvpDmgsWindowSize_;
+}
+- (void) setHasPvpDmgsWindowSize:(BOOL) value_ {
+  hasPvpDmgsWindowSize_ = !!value_;
+}
+@synthesize pvpDmgsWindowSize;
+- (BOOL) hasMinPvpDmgDelta {
+  return !!hasMinPvpDmgDelta_;
+}
+- (void) setHasMinPvpDmgDelta:(BOOL) value_ {
+  hasMinPvpDmgDelta_ = !!value_;
+}
+@synthesize minPvpDmgDelta;
+- (BOOL) hasMaxPvpDmgDelta {
+  return !!hasMaxPvpDmgDelta_;
+}
+- (void) setHasMaxPvpDmgDelta:(BOOL) value_ {
+  hasMaxPvpDmgDelta_ = !!value_;
+}
+@synthesize maxPvpDmgDelta;
+- (BOOL) hasPvpRequiredMinLvl {
+  return !!hasPvpRequiredMinLvl_;
+}
+- (void) setHasPvpRequiredMinLvl:(BOOL) value_ {
+  hasPvpRequiredMinLvl_ = !!value_;
+}
+@synthesize pvpRequiredMinLvl;
+- (id) init {
+  if ((self = [super init])) {
+    self.pvpDmgsWindowSize = 0;
+    self.minPvpDmgDelta = 0;
+    self.maxPvpDmgDelta = 0;
+    self.pvpRequiredMinLvl = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupResponseProto_StartupConstants_PvpConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_PvpConstants class]) {
+    defaultStartupResponseProto_StartupConstants_PvpConstantsInstance = [[StartupResponseProto_StartupConstants_PvpConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_PvpConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_PvpConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasPvpDmgsWindowSize) {
+    [output writeInt32:1 value:self.pvpDmgsWindowSize];
+  }
+  if (self.hasMinPvpDmgDelta) {
+    [output writeFloat:2 value:self.minPvpDmgDelta];
+  }
+  if (self.hasMaxPvpDmgDelta) {
+    [output writeFloat:3 value:self.maxPvpDmgDelta];
+  }
+  if (self.hasPvpRequiredMinLvl) {
+    [output writeInt32:4 value:self.pvpRequiredMinLvl];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasPvpDmgsWindowSize) {
+    size_ += computeInt32Size(1, self.pvpDmgsWindowSize);
+  }
+  if (self.hasMinPvpDmgDelta) {
+    size_ += computeFloatSize(2, self.minPvpDmgDelta);
+  }
+  if (self.hasMaxPvpDmgDelta) {
+    size_ += computeFloatSize(3, self.maxPvpDmgDelta);
+  }
+  if (self.hasPvpRequiredMinLvl) {
+    size_ += computeInt32Size(4, self.pvpRequiredMinLvl);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_PvpConstants*)[[[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_PvpConstants_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_PvpConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_PvpConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_PvpConstants builder];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_PvpConstants builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasPvpDmgsWindowSize) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pvpDmgsWindowSize", [NSNumber numberWithInteger:self.pvpDmgsWindowSize]];
+  }
+  if (self.hasMinPvpDmgDelta) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minPvpDmgDelta", [NSNumber numberWithFloat:self.minPvpDmgDelta]];
+  }
+  if (self.hasMaxPvpDmgDelta) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"maxPvpDmgDelta", [NSNumber numberWithFloat:self.maxPvpDmgDelta]];
+  }
+  if (self.hasPvpRequiredMinLvl) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pvpRequiredMinLvl", [NSNumber numberWithInteger:self.pvpRequiredMinLvl]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_PvpConstants class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_PvpConstants *otherMessage = other;
+  return
+      self.hasPvpDmgsWindowSize == otherMessage.hasPvpDmgsWindowSize &&
+      (!self.hasPvpDmgsWindowSize || self.pvpDmgsWindowSize == otherMessage.pvpDmgsWindowSize) &&
+      self.hasMinPvpDmgDelta == otherMessage.hasMinPvpDmgDelta &&
+      (!self.hasMinPvpDmgDelta || self.minPvpDmgDelta == otherMessage.minPvpDmgDelta) &&
+      self.hasMaxPvpDmgDelta == otherMessage.hasMaxPvpDmgDelta &&
+      (!self.hasMaxPvpDmgDelta || self.maxPvpDmgDelta == otherMessage.maxPvpDmgDelta) &&
+      self.hasPvpRequiredMinLvl == otherMessage.hasPvpRequiredMinLvl &&
+      (!self.hasPvpRequiredMinLvl || self.pvpRequiredMinLvl == otherMessage.pvpRequiredMinLvl) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasPvpDmgsWindowSize) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pvpDmgsWindowSize] hash];
+  }
+  if (self.hasMinPvpDmgDelta) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.minPvpDmgDelta] hash];
+  }
+  if (self.hasMaxPvpDmgDelta) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.maxPvpDmgDelta] hash];
+  }
+  if (self.hasPvpRequiredMinLvl) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pvpRequiredMinLvl] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_PvpConstants_Builder()
+@property (strong) StartupResponseProto_StartupConstants_PvpConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_PvpConstants_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_PvpConstants alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_PvpConstants alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_PvpConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_PvpConstants* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_PvpConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_PvpConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasPvpDmgsWindowSize) {
+    [self setPvpDmgsWindowSize:other.pvpDmgsWindowSize];
+  }
+  if (other.hasMinPvpDmgDelta) {
+    [self setMinPvpDmgDelta:other.minPvpDmgDelta];
+  }
+  if (other.hasMaxPvpDmgDelta) {
+    [self setMaxPvpDmgDelta:other.maxPvpDmgDelta];
+  }
+  if (other.hasPvpRequiredMinLvl) {
+    [self setPvpRequiredMinLvl:other.pvpRequiredMinLvl];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setPvpDmgsWindowSize:[input readInt32]];
+        break;
+      }
+      case 21: {
+        [self setMinPvpDmgDelta:[input readFloat]];
+        break;
+      }
+      case 29: {
+        [self setMaxPvpDmgDelta:[input readFloat]];
+        break;
+      }
+      case 32: {
+        [self setPvpRequiredMinLvl:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasPvpDmgsWindowSize {
+  return result.hasPvpDmgsWindowSize;
+}
+- (int32_t) pvpDmgsWindowSize {
+  return result.pvpDmgsWindowSize;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setPvpDmgsWindowSize:(int32_t) value {
+  result.hasPvpDmgsWindowSize = YES;
+  result.pvpDmgsWindowSize = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpDmgsWindowSize {
+  result.hasPvpDmgsWindowSize = NO;
+  result.pvpDmgsWindowSize = 0;
+  return self;
+}
+- (BOOL) hasMinPvpDmgDelta {
+  return result.hasMinPvpDmgDelta;
+}
+- (Float32) minPvpDmgDelta {
+  return result.minPvpDmgDelta;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setMinPvpDmgDelta:(Float32) value {
+  result.hasMinPvpDmgDelta = YES;
+  result.minPvpDmgDelta = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearMinPvpDmgDelta {
+  result.hasMinPvpDmgDelta = NO;
+  result.minPvpDmgDelta = 0;
+  return self;
+}
+- (BOOL) hasMaxPvpDmgDelta {
+  return result.hasMaxPvpDmgDelta;
+}
+- (Float32) maxPvpDmgDelta {
+  return result.maxPvpDmgDelta;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setMaxPvpDmgDelta:(Float32) value {
+  result.hasMaxPvpDmgDelta = YES;
+  result.maxPvpDmgDelta = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearMaxPvpDmgDelta {
+  result.hasMaxPvpDmgDelta = NO;
+  result.maxPvpDmgDelta = 0;
+  return self;
+}
+- (BOOL) hasPvpRequiredMinLvl {
+  return result.hasPvpRequiredMinLvl;
+}
+- (int32_t) pvpRequiredMinLvl {
+  return result.pvpRequiredMinLvl;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setPvpRequiredMinLvl:(int32_t) value {
+  result.hasPvpRequiredMinLvl = YES;
+  result.pvpRequiredMinLvl = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpRequiredMinLvl {
+  result.hasPvpRequiredMinLvl = NO;
+  result.pvpRequiredMinLvl = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (strong) StartupResponseProto_StartupConstants* result;
 @end
@@ -6200,6 +6589,9 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
     } else {
       [result.mutableClanHelpConstantsList addObjectsFromArray:other.mutableClanHelpConstantsList];
     }
+  }
+  if (other.hasPvpConstant) {
+    [self mergePvpConstant:other.pvpConstant];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6394,6 +6786,15 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
         StartupResponseProto_StartupConstants_ClanHelpConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ClanHelpConstants builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanHelpConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        StartupResponseProto_StartupConstants_PvpConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_PvpConstants builder];
+        if (self.hasPvpConstant) {
+          [subBuilder mergeFrom:self.pvpConstant];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPvpConstant:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7045,6 +7446,36 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
 }
 - (StartupResponseProto_StartupConstants_Builder *)clearClanHelpConstants {
   result.mutableClanHelpConstantsList = nil;
+  return self;
+}
+- (BOOL) hasPvpConstant {
+  return result.hasPvpConstant;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants*) pvpConstant {
+  return result.pvpConstant;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPvpConstant:(StartupResponseProto_StartupConstants_PvpConstants*) value {
+  result.hasPvpConstant = YES;
+  result.pvpConstant = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPvpConstant_Builder:(StartupResponseProto_StartupConstants_PvpConstants_Builder*) builderForValue {
+  return [self setPvpConstant:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergePvpConstant:(StartupResponseProto_StartupConstants_PvpConstants*) value {
+  if (result.hasPvpConstant &&
+      result.pvpConstant != [StartupResponseProto_StartupConstants_PvpConstants defaultInstance]) {
+    result.pvpConstant =
+      [[[StartupResponseProto_StartupConstants_PvpConstants builderWithPrototype:result.pvpConstant] mergeFrom:value] buildPartial];
+  } else {
+    result.pvpConstant = value;
+  }
+  result.hasPvpConstant = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPvpConstant {
+  result.hasPvpConstant = NO;
+  result.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
   return self;
 }
 @end
@@ -8274,6 +8705,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableClanHelpingsList addObjectsFromArray:other.mutableClanHelpingsList];
     }
   }
+  if (other.mutableClanInvitesList.count > 0) {
+    if (result.mutableClanInvitesList == nil) {
+      result.mutableClanInvitesList = [[NSMutableArray alloc] initWithArray:other.mutableClanInvitesList];
+    } else {
+      [result.mutableClanInvitesList addObjectsFromArray:other.mutableClanInvitesList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8549,6 +8987,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         ClanHelpProto_Builder* subBuilder = [ClanHelpProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addClanHelpings:[subBuilder buildPartial]];
+        break;
+      }
+      case 338: {
+        ClanInviteProto_Builder* subBuilder = [ClanInviteProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanInvites:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9532,6 +9976,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearClanHelpings {
   result.mutableClanHelpingsList = nil;
+  return self;
+}
+- (NSMutableArray *)clanInvitesList {
+  return result.mutableClanInvitesList;
+}
+- (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index {
+  return [result clanInvitesAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addClanInvites:(ClanInviteProto*)value {
+  if (result.mutableClanInvitesList == nil) {
+    result.mutableClanInvitesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanInvitesList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllClanInvites:(NSArray *)array {
+  if (result.mutableClanInvitesList == nil) {
+    result.mutableClanInvitesList = [NSMutableArray array];
+  }
+  [result.mutableClanInvitesList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearClanInvites {
+  result.mutableClanInvitesList = nil;
   return self;
 }
 @end

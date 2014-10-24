@@ -192,6 +192,7 @@
 
 - (NSArray *) allPrerequisites;
 - (NSArray *) incompletePrerequisites;
+- (BOOL) satisfiesAllPrerequisites;
 
 - (int) numResourcesAvailable;
 

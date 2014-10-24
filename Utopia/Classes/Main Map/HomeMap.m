@@ -662,16 +662,15 @@
 
 #pragma mark - Moving
 
-- (BOOL) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
-  GameState *gs = [GameState sharedGameState];
+- (BOOL) moveToStruct:(int)structId animated:(BOOL)animated {
+  Globals *gl = [Globals sharedGlobals];
   
-  // Attempt to go to the prev struct or lower, otherwise return no
-  UserStruct *baseTester = [[UserStruct alloc] init];
-  baseTester.structId = structId;
+  int baseStructId = [gl baseStructIdForStructId:structId];
   
   UserStruct *chosen = nil;
-  for (UserStruct *us in gs.myStructs) {
-    if (us.baseStructId == baseTester.baseStructId && us.structId > chosen.structId && us.structId < structId) {
+  for (UserStruct *us in self.myStructsList) {
+    int trueStructId = us.isComplete ? us.structId : us.staticStructForPrevLevel.structInfo.structId;
+    if (us.baseStructId == baseStructId && (!chosen || trueStructId < chosen.structId) && trueStructId < structId) {
       chosen = us;
     }
   }
@@ -679,10 +678,8 @@
   HomeBuilding *mb = (HomeBuilding *)[self getChildByName:STRUCT_TAG(chosen.userStructId) recursively:NO];
   
   if (mb) {
-    [self moveToSprite:mb animated:animated];
-    if (showArrow) {
-      [mb displayArrow];
-    }
+    MapBotViewButtonConfig config = mb.userStruct.isComplete ? MapBotViewButtonUpgrade : MapBotViewButtonSpeedup;
+    [self pointArrowOnBuilding:mb config:config];
     return YES;
   } else {
     return NO;

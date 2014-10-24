@@ -671,10 +671,6 @@ static const CGSize FIXED_SIZE = {568, 384};
       }
       
       StructureInfoProto *sip = [us.staticStruct structInfo];
-      if (sip.structType == StructureInfoProto_StructTypeTownHall) {
-        thp = (TownHallProto *)us.staticStruct;
-      }
-      
       if (sip.structType == StructureInfoProto_StructTypeResidence &&
           (!lowestRes || sip.level < lowestRes.staticStruct.structInfo.level)) {
         lowestRes = us;
@@ -683,7 +679,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     if (!builderBusy && thp && lowestRes) {
       int cur = [gl calculateCurrentQuantityOfStructId:lowestRes.baseStructId structs:gs.myStructs];
-      int max = [gl calculateMaxQuantityOfStructId:lowestRes.baseStructId withTownHall:thp];
+      int max = [gl calculateMaxQuantityOfStructId:lowestRes.baseStructId];
       
       // Point to shop if we can build new residences
       if (cur < max) {
@@ -691,7 +687,7 @@ static const CGSize FIXED_SIZE = {568, 384};
         int curAmt = res.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
         if (curAmt >= res.structInfo.buildCost) {
           alertDescription = @"Your residences are full. Build another one now.";
-          [self.topBarViewController showArrowToResidence];
+          [self.topBarViewController showArrowToStructId:res.structInfo.structId];
           foundAction = YES;
         }
       }
@@ -700,7 +696,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       else if (lowestRes.staticStruct.structInfo.level <= 3) {
         ResidenceProto *nextRes = (ResidenceProto *)lowestRes.staticStructForNextLevel;
         int curAmt = nextRes.structInfo.buildResourceType == ResourceTypeCash ? gs.cash : gs.oil;
-        if (nextRes.structInfo.prerequisiteTownHallLvl <= thp.structInfo.level && curAmt >= nextRes.structInfo.buildCost) {
+        if ([lowestRes satisfiesAllPrerequisites] && curAmt >= nextRes.structInfo.buildCost) {
           alertDescription = @"Your residences are full. Upgrade one now.";
           [(HomeMap *)self.currentMap pointArrowOnUpgradeResidence];
           foundAction = YES;
@@ -717,6 +713,29 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     // Look at comment above
     [self removeAllViewControllersWithExceptions:self.notificationController.currentNotifications];
+  }
+}
+
+- (BOOL) pointArrowToUpgradeForStructId:(int)structId quantity:(int)quantity {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int cur = [gl calculateCurrentQuantityOfStructId:structId structs:gs.myStructs];
+  int max = [gl calculateMaxQuantityOfStructId:structId];
+  
+  if (cur < quantity && cur < max) {
+    [self.topBarViewController showArrowToStructId:structId];
+    
+    return YES;
+  } else {
+    BOOL success = [(HomeMap *)self.currentMap moveToStruct:structId animated:YES];
+    
+    if (!success) {
+      UserStruct *us = [gs myTownHall];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't have the required %@ level to construct this building.", us.staticStruct.structInfo.name]];
+    }
+    
+    return success;
   }
 }
 
@@ -784,7 +803,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (cityId == 0) {
       if (assetId) {
         HomeMap *hm = (HomeMap *)self.currentMap;
-        if (![hm moveToStruct:assetId showArrow:YES animated:YES]) {
+        if (![hm moveToStruct:assetId animated:YES]) {
           UserStruct *us = [[UserStruct alloc] init];
           us.structId = assetId;
           [self.topBarViewController openShopWithBuildings:us.baseStructId];

@@ -48,6 +48,10 @@
 @class AcceptAndRejectFbInviteForSlotsRequestProto_Builder;
 @class AcceptAndRejectFbInviteForSlotsResponseProto;
 @class AcceptAndRejectFbInviteForSlotsResponseProto_Builder;
+@class AcceptOrRejectClanInviteRequestProto;
+@class AcceptOrRejectClanInviteRequestProto_Builder;
+@class AcceptOrRejectClanInviteResponseProto;
+@class AcceptOrRejectClanInviteResponseProto_Builder;
 @class AchievementProgressRequestProto;
 @class AchievementProgressRequestProto_Builder;
 @class AchievementProgressResponseProto;
@@ -118,6 +122,8 @@
 @class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
+@class ClanInviteProto;
+@class ClanInviteProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -254,6 +260,10 @@
 @class InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder;
 @class InviteFbFriendsForSlotsResponseProto;
 @class InviteFbFriendsForSlotsResponseProto_Builder;
+@class InviteToClanRequestProto;
+@class InviteToClanRequestProto_Builder;
+@class InviteToClanResponseProto;
+@class InviteToClanResponseProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
@@ -510,6 +520,8 @@
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
+@class StartupResponseProto_StartupConstants_PvpConstants;
+@class StartupResponseProto_StartupConstants_PvpConstants_Builder;
 @class StartupResponseProto_StartupConstants_TaskMapConstants;
 @class StartupResponseProto_StartupConstants_TaskMapConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
@@ -699,6 +711,8 @@ typedef enum {
   EventProtocolRequestCSolicitClanHelpEvent = 79,
   EventProtocolRequestCGiveClanHelpEvent = 80,
   EventProtocolRequestCEndClanHelpEvent = 81,
+  EventProtocolRequestCInviteToClanEvent = 82,
+  EventProtocolRequestCApproveOrRejectClanInviteEvent = 83,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -786,6 +800,8 @@ typedef enum {
   EventProtocolResponseSSolicitClanHelpEvent = 79,
   EventProtocolResponseSGiveClanHelpEvent = 80,
   EventProtocolResponseSEndClanHelpEvent = 81,
+  EventProtocolResponseSInviteToClanEvent = 82,
+  EventProtocolResponseSApproveOrRejectClanInviteEvent = 83,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

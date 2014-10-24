@@ -525,19 +525,10 @@
 #pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
-  if (_shouldShowArrowOnResidence) {
-    // Find the base residence struct
-    GameState *gs = [GameState sharedGameState];
-    int structId = 0;
-    for (UserStruct *us in gs.myStructs) {
-      if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeResidence) {
-        structId = [us baseStructId];
-      }
-    }
-    
+  if (_structIdForArrow) {
     [Globals removeUIArrowFromViewRecursively:self.view];
-    [self openShopWithBuildings:structId];
-    _shouldShowArrowOnResidence = NO;
+    [self openShopWithBuildings:_structIdForArrow];
+    _structIdForArrow = 0;;
   } else {
     [self openShop];
   }
@@ -683,8 +674,8 @@
   [self.shopViewController openGachaShop];
 }
 
-- (void) showArrowToResidence {
-  _shouldShowArrowOnResidence = YES;
+- (void) showArrowToStructId:(int)structId {
+  _structIdForArrow = structId;
   [Globals removeUIArrowFromViewRecursively:self.view];
   [Globals createUIArrowForView:self.shopView atAngle:M_PI];
 }

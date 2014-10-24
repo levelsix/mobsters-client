@@ -7744,6 +7744,9 @@
 		CFA8FF5719F899B200F9908C /* woopsalertsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */; };
 		CFA8FF5819F899B200F9908C /* woopsalertsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */; };
 		CFA8FF5919F899B200F9908C /* woopsalertsign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */; };
+		CFA8FF5E19F9B31B00F9908C /* UpgradePrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */; };
+		CFA8FF5F19F9B31B00F9908C /* UpgradePrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */; };
+		CFA8FF6019F9B31B00F9908C /* UpgradePrereqView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */; };
 		CFADDB3517D00ED000B1FF3C /* MonsterCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */; };
 		CFADDB3817D00EF300B1FF3C /* MonsterCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */; };
 		CFAF0D7F19C7DFCE00C0AB5B /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFBE9F3D19C7DA6A00E5520C /* libcocos2d.a */; };
@@ -11677,6 +11680,7 @@
 		CFA8FF2A19F899B200F9908C /* upgradepopupbottomred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upgradepopupbottomred@2x.png"; sourceTree = "<group>"; };
 		CFA8FF2B19F899B200F9908C /* woopsalertsign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = woopsalertsign.png; sourceTree = "<group>"; };
 		CFA8FF2C19F899B200F9908C /* woopsalertsign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "woopsalertsign@2x.png"; sourceTree = "<group>"; };
+		CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradePrereqView.xib; sourceTree = "<group>"; };
 		CFADDB3317D00ED000B1FF3C /* MonsterCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterCardView.h; sourceTree = "<group>"; };
 		CFADDB3417D00ED000B1FF3C /* MonsterCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterCardView.m; sourceTree = "<group>"; };
 		CFADDB3717D00EF300B1FF3C /* MonsterCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterCardView.xib; sourceTree = "<group>"; };
@@ -17100,6 +17104,7 @@
 				CFFD311D18503E880091E315 /* UpgradeViewController.m */,
 				CF4DB8D81807DA1E00062258 /* UpgradeViewController.xib */,
 				CFC8B4FB18E3F5CE00CFD652 /* UpgradeUnlockView.xib */,
+				CFA8FF5D19F9B31B00F9908C /* UpgradePrereqView.xib */,
 			);
 			name = UpgradeMenu;
 			sourceTree = "<group>";
@@ -22011,6 +22016,7 @@
 				CF0CF553196F452900ECD301 /* fireupdown.png in Resources */,
 				DA6DBACB19C0F7E900BD7B7F /* skillgradient.png in Resources */,
 				CF0CF554196F452900ECD301 /* inactivedividerline.png in Resources */,
+				CFA8FF5F19F9B31B00F9908C /* UpgradePrereqView.xib in Resources */,
 				CF0CF555196F452900ECD301 /* sortedbyarrow@2x.png in Resources */,
 				CF6A64EC19D24F030002E05D /* 6rockpoison@2x.png in Resources */,
 				CF0CF556196F452900ECD301 /* Scientist3Turn09@2x.png in Resources */,
@@ -25709,6 +25715,7 @@
 				CF63F7C217ED3DB900FEBAA9 /* combo2a.aif in Resources */,
 				CFF391031829C74A0010A3BE /* waterupdown@2x.png in Resources */,
 				CFBFEE5B193D1E4C00DF8E53 /* Ziggurat-HTF-Black-Italic.otf in Resources */,
+				CFA8FF5E19F9B31B00F9908C /* UpgradePrereqView.xib in Resources */,
 				CF29E97E196228FA00B40DA4 /* menuresourcesinactive@2x.png in Resources */,
 				CFBB37CF18FC7B7400FD6C8C /* questspinner@2x.png in Resources */,
 				CFF2A52A19709C4800269084 /* ResidenceT1.png in Resources */,
@@ -27964,6 +27971,7 @@
 				CF4821FF19F7217F00041486 /* fireupdown.png in Resources */,
 				CF48220019F7217F00041486 /* skillgradient.png in Resources */,
 				CF48220119F7217F00041486 /* inactivedividerline.png in Resources */,
+				CFA8FF6019F9B31B00F9908C /* UpgradePrereqView.xib in Resources */,
 				CF48220219F7217F00041486 /* sortedbyarrow@2x.png in Resources */,
 				CF48220319F7217F00041486 /* 6rockpoison@2x.png in Resources */,
 				CF48220419F7217F00041486 /* Scientist3Turn09@2x.png in Resources */,

@@ -809,23 +809,20 @@
 }
 
 - (int) baseStructId {
-  GameState *gs = [GameState sharedGameState];
-  id<StaticStructure> ss = self.staticStruct;
-  while (ss.structInfo.predecessorStructId) {
-    ss = [gs structWithId:ss.structInfo.predecessorStructId];
-  }
-  return ss.structInfo.structId;
+  Globals *gl = [Globals sharedGlobals];
+  return [gl baseStructIdForStructId:self.structId];
 }
 
 - (BOOL) isAncestorOfStructId:(int)structId {
-  if (self.structId == structId) {
+  // If it's still constructing, it's not yet a prereq
+  if (self.isComplete && self.structId == structId) {
     return YES;
   }
   
   GameState *gs = [GameState sharedGameState];
   id<StaticStructure> ss = self.staticStruct;
   while (ss.structInfo.predecessorStructId) {
-    if (ss.structInfo.structId == structId) {
+    if (ss.structInfo.predecessorStructId == structId) {
       return YES;
     }
     
@@ -884,7 +881,13 @@
 
 - (NSArray *) allPrerequisites {
   GameState *gs = [GameState sharedGameState];
-  return [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.structId];
+  NSArray *arr = [gs prerequisitesForGameType:GameTypeStructure gameEntityId:self.staticStruct.structInfo.successorStructId];
+  
+  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(PrereqProto *obj1, PrereqProto *obj2) {
+    return [@(obj1.prereqId) compare:@(obj2.prereqId)];
+  }];
+  
+  return arr;
 }
 
 - (NSArray *) incompletePrerequisites {
@@ -893,12 +896,16 @@
   Globals *gl = [Globals sharedGlobals];
   
   for (PrereqProto *pp in allPrereqs) {
-    if ([gl isPrerequisiteComplete:pp]) {
+    if (![gl isPrerequisiteComplete:pp]) {
       [arr addObject:pp];
     }
   }
   
   return arr;
+}
+
+- (BOOL) satisfiesAllPrerequisites {
+  return [self incompletePrerequisites].count == 0;
 }
 
 - (NSString *) description {

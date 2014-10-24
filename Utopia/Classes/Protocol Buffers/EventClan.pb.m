@@ -15,7 +15,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
-    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -13080,6 +13079,1190 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (EndClanHelpResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EndClanHelpResponseProto_EndClanHelpStatusSuccess;
+  return self;
+}
+@end
+
+@interface InviteToClanRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property int32_t prospectiveMember;
+@end
+
+@implementation InviteToClanRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasProspectiveMember {
+  return !!hasProspectiveMember_;
+}
+- (void) setHasProspectiveMember:(BOOL) value_ {
+  hasProspectiveMember_ = !!value_;
+}
+@synthesize prospectiveMember;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.prospectiveMember = 0;
+  }
+  return self;
+}
+static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [InviteToClanRequestProto class]) {
+    defaultInviteToClanRequestProtoInstance = [[InviteToClanRequestProto alloc] init];
+  }
+}
++ (InviteToClanRequestProto*) defaultInstance {
+  return defaultInviteToClanRequestProtoInstance;
+}
+- (InviteToClanRequestProto*) defaultInstance {
+  return defaultInviteToClanRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasProspectiveMember) {
+    [output writeInt32:2 value:self.prospectiveMember];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasProspectiveMember) {
+    size_ += computeInt32Size(2, self.prospectiveMember);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (InviteToClanRequestProto*) parseFromData:(NSData*) data {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromData:data] build];
+}
++ (InviteToClanRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromInputStream:input] build];
+}
++ (InviteToClanRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (InviteToClanRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanRequestProto*)[[[InviteToClanRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanRequestProto_Builder*) builder {
+  return [[InviteToClanRequestProto_Builder alloc] init];
+}
++ (InviteToClanRequestProto_Builder*) builderWithPrototype:(InviteToClanRequestProto*) prototype {
+  return [[InviteToClanRequestProto builder] mergeFrom:prototype];
+}
+- (InviteToClanRequestProto_Builder*) builder {
+  return [InviteToClanRequestProto builder];
+}
+- (InviteToClanRequestProto_Builder*) toBuilder {
+  return [InviteToClanRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasProspectiveMember) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", [NSNumber numberWithInteger:self.prospectiveMember]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[InviteToClanRequestProto class]]) {
+    return NO;
+  }
+  InviteToClanRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasProspectiveMember == otherMessage.hasProspectiveMember &&
+      (!self.hasProspectiveMember || self.prospectiveMember == otherMessage.prospectiveMember) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasProspectiveMember) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveMember] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface InviteToClanRequestProto_Builder()
+@property (strong) InviteToClanRequestProto* result;
+@end
+
+@implementation InviteToClanRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[InviteToClanRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (InviteToClanRequestProto_Builder*) clear {
+  self.result = [[InviteToClanRequestProto alloc] init];
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) clone {
+  return [InviteToClanRequestProto builderWithPrototype:result];
+}
+- (InviteToClanRequestProto*) defaultInstance {
+  return [InviteToClanRequestProto defaultInstance];
+}
+- (InviteToClanRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (InviteToClanRequestProto*) buildPartial {
+  InviteToClanRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (InviteToClanRequestProto_Builder*) mergeFrom:(InviteToClanRequestProto*) other {
+  if (other == [InviteToClanRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasProspectiveMember) {
+    [self setProspectiveMember:other.prospectiveMember];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (InviteToClanRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setProspectiveMember:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (InviteToClanRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (InviteToClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasProspectiveMember {
+  return result.hasProspectiveMember;
+}
+- (int32_t) prospectiveMember {
+  return result.prospectiveMember;
+}
+- (InviteToClanRequestProto_Builder*) setProspectiveMember:(int32_t) value {
+  result.hasProspectiveMember = YES;
+  result.prospectiveMember = value;
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) clearProspectiveMember {
+  result.hasProspectiveMember = NO;
+  result.prospectiveMember = 0;
+  return self;
+}
+@end
+
+@interface InviteToClanResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property InviteToClanResponseProto_InviteToClanStatus status;
+@end
+
+@implementation InviteToClanResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+  }
+  return self;
+}
+static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [InviteToClanResponseProto class]) {
+    defaultInviteToClanResponseProtoInstance = [[InviteToClanResponseProto alloc] init];
+  }
+}
++ (InviteToClanResponseProto*) defaultInstance {
+  return defaultInviteToClanResponseProtoInstance;
+}
+- (InviteToClanResponseProto*) defaultInstance {
+  return defaultInviteToClanResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (InviteToClanResponseProto*) parseFromData:(NSData*) data {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromData:data] build];
+}
++ (InviteToClanResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromInputStream:input] build];
+}
++ (InviteToClanResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (InviteToClanResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteToClanResponseProto*)[[[InviteToClanResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteToClanResponseProto_Builder*) builder {
+  return [[InviteToClanResponseProto_Builder alloc] init];
+}
++ (InviteToClanResponseProto_Builder*) builderWithPrototype:(InviteToClanResponseProto*) prototype {
+  return [[InviteToClanResponseProto builder] mergeFrom:prototype];
+}
+- (InviteToClanResponseProto_Builder*) builder {
+  return [InviteToClanResponseProto builder];
+}
+- (InviteToClanResponseProto_Builder*) toBuilder {
+  return [InviteToClanResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[InviteToClanResponseProto class]]) {
+    return NO;
+  }
+  InviteToClanResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanResponseProto_InviteToClanStatus value) {
+  switch (value) {
+    case InviteToClanResponseProto_InviteToClanStatusSuccess:
+    case InviteToClanResponseProto_InviteToClanStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface InviteToClanResponseProto_Builder()
+@property (strong) InviteToClanResponseProto* result;
+@end
+
+@implementation InviteToClanResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[InviteToClanResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (InviteToClanResponseProto_Builder*) clear {
+  self.result = [[InviteToClanResponseProto alloc] init];
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) clone {
+  return [InviteToClanResponseProto builderWithPrototype:result];
+}
+- (InviteToClanResponseProto*) defaultInstance {
+  return [InviteToClanResponseProto defaultInstance];
+}
+- (InviteToClanResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (InviteToClanResponseProto*) buildPartial {
+  InviteToClanResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (InviteToClanResponseProto_Builder*) mergeFrom:(InviteToClanResponseProto*) other {
+  if (other == [InviteToClanResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (InviteToClanResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        InviteToClanResponseProto_InviteToClanStatus value = (InviteToClanResponseProto_InviteToClanStatus)[input readEnum];
+        if (InviteToClanResponseProto_InviteToClanStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (InviteToClanResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (InviteToClanResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (InviteToClanResponseProto_InviteToClanStatus) status {
+  return result.status;
+}
+- (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+  return self;
+}
+@end
+
+@interface AcceptOrRejectClanInviteRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) ClanInviteProto* accepted;
+@property (strong) NSMutableArray * mutableRejectedList;
+@end
+
+@implementation AcceptOrRejectClanInviteRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasAccepted {
+  return !!hasAccepted_;
+}
+- (void) setHasAccepted:(BOOL) value_ {
+  hasAccepted_ = !!value_;
+}
+@synthesize accepted;
+@synthesize mutableRejectedList;
+@dynamic rejectedList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.accepted = [ClanInviteProto defaultInstance];
+  }
+  return self;
+}
+static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [AcceptOrRejectClanInviteRequestProto class]) {
+    defaultAcceptOrRejectClanInviteRequestProtoInstance = [[AcceptOrRejectClanInviteRequestProto alloc] init];
+  }
+}
++ (AcceptOrRejectClanInviteRequestProto*) defaultInstance {
+  return defaultAcceptOrRejectClanInviteRequestProtoInstance;
+}
+- (AcceptOrRejectClanInviteRequestProto*) defaultInstance {
+  return defaultAcceptOrRejectClanInviteRequestProtoInstance;
+}
+- (NSArray *)rejectedList {
+  return mutableRejectedList;
+}
+- (ClanInviteProto*)rejectedAtIndex:(NSUInteger)index {
+  return [mutableRejectedList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasAccepted) {
+    [output writeMessage:2 value:self.accepted];
+  }
+  [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasAccepted) {
+    size_ += computeMessageSize(2, self.accepted);
+  }
+  [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromData:(NSData*) data {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromData:data] build];
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromInputStream:input] build];
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AcceptOrRejectClanInviteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteRequestProto*)[[[AcceptOrRejectClanInviteRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteRequestProto_Builder*) builder {
+  return [[AcceptOrRejectClanInviteRequestProto_Builder alloc] init];
+}
++ (AcceptOrRejectClanInviteRequestProto_Builder*) builderWithPrototype:(AcceptOrRejectClanInviteRequestProto*) prototype {
+  return [[AcceptOrRejectClanInviteRequestProto builder] mergeFrom:prototype];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) builder {
+  return [AcceptOrRejectClanInviteRequestProto builder];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) toBuilder {
+  return [AcceptOrRejectClanInviteRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasAccepted) {
+    [output appendFormat:@"%@%@ {\n", indent, @"accepted"];
+    [self.accepted writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rejected"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[AcceptOrRejectClanInviteRequestProto class]]) {
+    return NO;
+  }
+  AcceptOrRejectClanInviteRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasAccepted == otherMessage.hasAccepted &&
+      (!self.hasAccepted || [self.accepted isEqual:otherMessage.accepted]) &&
+      [self.rejectedList isEqualToArray:otherMessage.rejectedList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasAccepted) {
+    hashCode = hashCode * 31 + [self.accepted hash];
+  }
+  [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface AcceptOrRejectClanInviteRequestProto_Builder()
+@property (strong) AcceptOrRejectClanInviteRequestProto* result;
+@end
+
+@implementation AcceptOrRejectClanInviteRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[AcceptOrRejectClanInviteRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clear {
+  self.result = [[AcceptOrRejectClanInviteRequestProto alloc] init];
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clone {
+  return [AcceptOrRejectClanInviteRequestProto builderWithPrototype:result];
+}
+- (AcceptOrRejectClanInviteRequestProto*) defaultInstance {
+  return [AcceptOrRejectClanInviteRequestProto defaultInstance];
+}
+- (AcceptOrRejectClanInviteRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AcceptOrRejectClanInviteRequestProto*) buildPartial {
+  AcceptOrRejectClanInviteRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) mergeFrom:(AcceptOrRejectClanInviteRequestProto*) other {
+  if (other == [AcceptOrRejectClanInviteRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasAccepted) {
+    [self mergeAccepted:other.accepted];
+  }
+  if (other.mutableRejectedList.count > 0) {
+    if (result.mutableRejectedList == nil) {
+      result.mutableRejectedList = [[NSMutableArray alloc] initWithArray:other.mutableRejectedList];
+    } else {
+      [result.mutableRejectedList addObjectsFromArray:other.mutableRejectedList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        ClanInviteProto_Builder* subBuilder = [ClanInviteProto builder];
+        if (self.hasAccepted) {
+          [subBuilder mergeFrom:self.accepted];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAccepted:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        ClanInviteProto_Builder* subBuilder = [ClanInviteProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRejected:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAccepted {
+  return result.hasAccepted;
+}
+- (ClanInviteProto*) accepted {
+  return result.accepted;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setAccepted:(ClanInviteProto*) value {
+  result.hasAccepted = YES;
+  result.accepted = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setAccepted_Builder:(ClanInviteProto_Builder*) builderForValue {
+  return [self setAccepted:[builderForValue build]];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) mergeAccepted:(ClanInviteProto*) value {
+  if (result.hasAccepted &&
+      result.accepted != [ClanInviteProto defaultInstance]) {
+    result.accepted =
+      [[[ClanInviteProto builderWithPrototype:result.accepted] mergeFrom:value] buildPartial];
+  } else {
+    result.accepted = value;
+  }
+  result.hasAccepted = YES;
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clearAccepted {
+  result.hasAccepted = NO;
+  result.accepted = [ClanInviteProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)rejectedList {
+  return result.mutableRejectedList;
+}
+- (ClanInviteProto*)rejectedAtIndex:(NSUInteger)index {
+  return [result rejectedAtIndex:index];
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder *)addRejected:(ClanInviteProto*)value {
+  if (result.mutableRejectedList == nil) {
+    result.mutableRejectedList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableRejectedList addObject:value];
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder *)addAllRejected:(NSArray *)array {
+  if (result.mutableRejectedList == nil) {
+    result.mutableRejectedList = [NSMutableArray array];
+  }
+  [result.mutableRejectedList addObjectsFromArray:array];
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder *)clearRejected {
+  result.mutableRejectedList = nil;
+  return self;
+}
+@end
+
+@interface AcceptOrRejectClanInviteResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+@end
+
+@implementation AcceptOrRejectClanInviteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
+  }
+  return self;
+}
+static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [AcceptOrRejectClanInviteResponseProto class]) {
+    defaultAcceptOrRejectClanInviteResponseProtoInstance = [[AcceptOrRejectClanInviteResponseProto alloc] init];
+  }
+}
++ (AcceptOrRejectClanInviteResponseProto*) defaultInstance {
+  return defaultAcceptOrRejectClanInviteResponseProtoInstance;
+}
+- (AcceptOrRejectClanInviteResponseProto*) defaultInstance {
+  return defaultAcceptOrRejectClanInviteResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromData:(NSData*) data {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromData:data] build];
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AcceptOrRejectClanInviteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptOrRejectClanInviteResponseProto*)[[[AcceptOrRejectClanInviteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptOrRejectClanInviteResponseProto_Builder*) builder {
+  return [[AcceptOrRejectClanInviteResponseProto_Builder alloc] init];
+}
++ (AcceptOrRejectClanInviteResponseProto_Builder*) builderWithPrototype:(AcceptOrRejectClanInviteResponseProto*) prototype {
+  return [[AcceptOrRejectClanInviteResponseProto builder] mergeFrom:prototype];
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) builder {
+  return [AcceptOrRejectClanInviteResponseProto builder];
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) toBuilder {
+  return [AcceptOrRejectClanInviteResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[AcceptOrRejectClanInviteResponseProto class]]) {
+    return NO;
+  }
+  AcceptOrRejectClanInviteResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value) {
+  switch (value) {
+    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess:
+    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface AcceptOrRejectClanInviteResponseProto_Builder()
+@property (strong) AcceptOrRejectClanInviteResponseProto* result;
+@end
+
+@implementation AcceptOrRejectClanInviteResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[AcceptOrRejectClanInviteResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clear {
+  self.result = [[AcceptOrRejectClanInviteResponseProto alloc] init];
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clone {
+  return [AcceptOrRejectClanInviteResponseProto builderWithPrototype:result];
+}
+- (AcceptOrRejectClanInviteResponseProto*) defaultInstance {
+  return [AcceptOrRejectClanInviteResponseProto defaultInstance];
+}
+- (AcceptOrRejectClanInviteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AcceptOrRejectClanInviteResponseProto*) buildPartial {
+  AcceptOrRejectClanInviteResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFrom:(AcceptOrRejectClanInviteResponseProto*) other {
+  if (other == [AcceptOrRejectClanInviteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value = (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus)[input readEnum];
+        if (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status {
+  return result.status;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
   return self;
 }
 @end

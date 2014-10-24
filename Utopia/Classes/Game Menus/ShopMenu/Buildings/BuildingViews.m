@@ -19,7 +19,6 @@
   
   Globals *gl = [Globals sharedGlobals];
   TownHallProto *thp = (TownHallProto *)townHall.staticStructForCurrentConstructionLevel;
-  int thLevel = thp.structInfo.level;
   
   self.nameLabel.text = structInfo.name;
   
@@ -38,13 +37,23 @@
   
   int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:structs];
   int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
-  int nextThLevel = [gl calculateNextTownHallLevelForQuantityIncreaseForStructId:structInfo.structId];
+  TownHallProto *nextThp = [gl calculateNextTownHallForQuantityIncreaseForStructId:structInfo.structId];
   self.numOwnedLabel.text = [NSString stringWithFormat:@"Built: %d/%d", cur, max];
   
   BOOL greyscale = NO;
-  int reqThLevel = structInfo.prerequisiteTownHallLvl > thLevel ? structInfo.prerequisiteTownHallLvl : (cur >= max ? nextThLevel : 0);
-  if (reqThLevel) {
-    self.lockedLabel.text = [NSString stringWithFormat:@"Requires Level %d %@", reqThLevel, thp.structInfo.name];
+  NSMutableArray *incomplete = [[gl incompletePrereqsForStructId:structInfo.structId] mutableCopy];
+  
+  // Create a new prereq for th level
+  if (cur >= max && nextThp) {
+    PrereqProto_Builder *pre = [PrereqProto builder];
+    pre.quantity = 1;
+    pre.prereqGameType = GameTypeStructure;
+    pre.prereqGameEntityId = nextThp.structInfo.structId;
+    [incomplete addObject:pre.build];
+  }
+  
+  if (incomplete.count) {
+    self.lockedLabel.text = [NSString stringWithFormat:@"Requires %@", [[incomplete firstObject] prereqString]];
     self.lockedLabel.textColor = [UIColor colorWithRed:254/255.f green:2/255.f blue:0.f alpha:1.f];
     greyscale = YES;
   }

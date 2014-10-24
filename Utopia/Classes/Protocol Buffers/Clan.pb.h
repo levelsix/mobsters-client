@@ -2,11 +2,9 @@
 
 #import "ProtocolBuffers.h"
 
-#import "Battle.pb.h"
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
-#import "Task.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -18,6 +16,8 @@
 @class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
+@class ClanInviteProto;
+@class ClanInviteProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -26,36 +26,22 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
-@class ColorProto;
-@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class DialogueProto;
-@class DialogueProto_Builder;
-@class DialogueProto_SpeechSegmentProto;
-@class DialogueProto_SpeechSegmentProto_Builder;
 @class EvoChamberProto;
 @class EvoChamberProto_Builder;
 @class FullClanProto;
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
-@class FullTaskProto;
-@class FullTaskProto_Builder;
 @class FullUserClanProto;
 @class FullUserClanProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestProto;
-@class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class GroupChatMessageProto;
-@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class LabProto;
@@ -80,8 +66,6 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserTaskProto;
-@class MinimumUserTaskProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -102,18 +86,6 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
-@class PersistentEventProto;
-@class PersistentEventProto_Builder;
-@class PrivateChatPostProto;
-@class PrivateChatPostProto_Builder;
-@class PvpHistoryProto;
-@class PvpHistoryProto_Builder;
-@class PvpLeagueProto;
-@class PvpLeagueProto_Builder;
-@class PvpProto;
-@class PvpProto_Builder;
-@class QuestJobProto;
-@class QuestJobProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -124,12 +96,6 @@
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
-@class TaskMapElementProto;
-@class TaskMapElementProto_Builder;
-@class TaskStageMonsterProto;
-@class TaskStageMonsterProto_Builder;
-@class TaskStageProto;
-@class TaskStageProto_Builder;
 @class TeamCenterProto;
 @class TeamCenterProto_Builder;
 @class TownHallProto;
@@ -154,12 +120,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
-@class UserPersistentEventProto;
-@class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
-@class UserQuestJobProto;
-@class UserQuestJobProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -1749,6 +1711,91 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int32_t) staticDataId;
 - (ClanHelpNoticeProto_Builder*) setStaticDataId:(int32_t) value;
 - (ClanHelpNoticeProto_Builder*) clearStaticDataId;
+@end
+
+@interface ClanInviteProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfInvite_:1;
+  BOOL hasInviteId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasInviterId_:1;
+  BOOL hasClanId_:1;
+  int64_t timeOfInvite;
+  int32_t inviteId;
+  int32_t userId;
+  int32_t inviterId;
+  int32_t clanId;
+}
+- (BOOL) hasInviteId;
+- (BOOL) hasUserId;
+- (BOOL) hasInviterId;
+- (BOOL) hasClanId;
+- (BOOL) hasTimeOfInvite;
+@property (readonly) int32_t inviteId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t inviterId;
+@property (readonly) int32_t clanId;
+@property (readonly) int64_t timeOfInvite;
+
++ (ClanInviteProto*) defaultInstance;
+- (ClanInviteProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanInviteProto_Builder*) builder;
++ (ClanInviteProto_Builder*) builder;
++ (ClanInviteProto_Builder*) builderWithPrototype:(ClanInviteProto*) prototype;
+- (ClanInviteProto_Builder*) toBuilder;
+
++ (ClanInviteProto*) parseFromData:(NSData*) data;
++ (ClanInviteProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanInviteProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanInviteProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanInviteProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanInviteProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanInviteProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ClanInviteProto* result;
+}
+
+- (ClanInviteProto*) defaultInstance;
+
+- (ClanInviteProto_Builder*) clear;
+- (ClanInviteProto_Builder*) clone;
+
+- (ClanInviteProto*) build;
+- (ClanInviteProto*) buildPartial;
+
+- (ClanInviteProto_Builder*) mergeFrom:(ClanInviteProto*) other;
+- (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasInviteId;
+- (int32_t) inviteId;
+- (ClanInviteProto_Builder*) setInviteId:(int32_t) value;
+- (ClanInviteProto_Builder*) clearInviteId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (ClanInviteProto_Builder*) setUserId:(int32_t) value;
+- (ClanInviteProto_Builder*) clearUserId;
+
+- (BOOL) hasInviterId;
+- (int32_t) inviterId;
+- (ClanInviteProto_Builder*) setInviterId:(int32_t) value;
+- (ClanInviteProto_Builder*) clearInviterId;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (ClanInviteProto_Builder*) setClanId:(int32_t) value;
+- (ClanInviteProto_Builder*) clearClanId;
+
+- (BOOL) hasTimeOfInvite;
+- (int64_t) timeOfInvite;
+- (ClanInviteProto_Builder*) setTimeOfInvite:(int64_t) value;
+- (ClanInviteProto_Builder*) clearTimeOfInvite;
 @end
 
 

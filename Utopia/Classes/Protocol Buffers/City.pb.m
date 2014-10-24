@@ -14,7 +14,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
-    [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }

@@ -3,7 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "Structure.pb.h"
-#import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class CityElementProto;
@@ -18,8 +17,6 @@
 @class EvoChamberProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
-@class FullUserProto;
-@class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
@@ -28,18 +25,8 @@
 @class LabProto_Builder;
 @class MiniJobCenterProto;
 @class MiniJobCenterProto_Builder;
-@class MinimumClanProto;
-@class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
-@class MinimumUserProto;
-@class MinimumUserProtoWithFacebookId;
-@class MinimumUserProtoWithFacebookId_Builder;
-@class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevel_Builder;
-@class MinimumUserProtoWithMaxResources;
-@class MinimumUserProtoWithMaxResources_Builder;
-@class MinimumUserProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -48,8 +35,6 @@
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
-@class StaticUserLevelInfoProto;
-@class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TeamCenterProto;
@@ -60,12 +45,8 @@
 @class TutorialStructProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserFacebookInviteForSlotProto;
-@class UserFacebookInviteForSlotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
-@class UserPvpLeagueProto;
-@class UserPvpLeagueProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature

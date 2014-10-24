@@ -40,6 +40,8 @@
 @class ClanHouseProto_Builder;
 @class ClanIconProto;
 @class ClanIconProto_Builder;
+@class ClanInviteProto;
+@class ClanInviteProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -184,6 +186,8 @@
 @class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
+@class StartupResponseProto_StartupConstants_PvpConstants;
+@class StartupResponseProto_StartupConstants_PvpConstants_Builder;
 @class StartupResponseProto_StartupConstants_TaskMapConstants;
 @class StartupResponseProto_StartupConstants_TaskMapConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
@@ -448,6 +452,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableUserMiniJobProtosList;
   NSMutableArray * mutableUserItemsList;
   NSMutableArray * mutableClanHelpingsList;
+  NSMutableArray * mutableClanInvitesList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -506,6 +511,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * userMiniJobProtosList;
 @property (readonly, strong) NSArray * userItemsList;
 @property (readonly, strong) NSArray * clanHelpingsList;
+@property (readonly, strong) NSArray * clanInvitesList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -531,6 +537,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserMiniJobProto*)userMiniJobProtosAtIndex:(NSUInteger)index;
 - (UserItemProto*)userItemsAtIndex:(NSUInteger)index;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
+- (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -691,66 +698,68 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasAddAllFbFriends_:1;
+  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasBattleRunAwayBasePercent_:1;
+  BOOL hasContinueBattleGemCostMultiplier_:1;
+  BOOL hasMonsterDmgMultiplier_:1;
   BOOL hasMinutesPerGem_:1;
   BOOL hasGemsPerResource_:1;
-  BOOL hasMonsterDmgMultiplier_:1;
-  BOOL hasContinueBattleGemCostMultiplier_:1;
-  BOOL hasBattleRunAwayBasePercent_:1;
-  BOOL hasBattleRunAwayIncrement_:1;
+  BOOL hasMaxMinutesForFreeSpeedUp_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxMinutesForFreeSpeedUp_:1;
+  BOOL hasMinutesPerObstacle_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMaxObstacles_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasPvpRequiredMinLvl_:1;
-  BOOL hasMaxObstacles_:1;
-  BOOL hasMinutesPerObstacle_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasUserMonsterConstants_:1;
-  BOOL hasClanConstants_:1;
-  BOOL hasDownloadableNibConstants_:1;
-  BOOL hasTouramentConstants_:1;
-  BOOL hasAdminChatUserProto_:1;
-  BOOL hasTaskMapConstants_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasPvpConstant_:1;
+  BOOL hasAdminChatUserProto_:1;
+  BOOL hasTouramentConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
   BOOL hasMiniTuts_:1;
+  BOOL hasClanConstants_:1;
+  BOOL hasTaskMapConstants_:1;
+  BOOL hasUserMonsterConstants_:1;
   BOOL addAllFbFriends_:1;
+  Float32 battleRunAwayIncrement;
+  Float32 battleRunAwayBasePercent;
+  Float32 continueBattleGemCostMultiplier;
+  Float32 monsterDmgMultiplier;
   Float32 minutesPerGem;
   Float32 gemsPerResource;
-  Float32 monsterDmgMultiplier;
-  Float32 continueBattleGemCostMultiplier;
-  Float32 battleRunAwayBasePercent;
-  Float32 battleRunAwayIncrement;
+  int32_t maxMinutesForFreeSpeedUp;
   int32_t maxLevelForUser;
   int32_t maxNumOfSingleStruct;
-  int32_t maxMinutesForFreeSpeedUp;
+  int32_t minutesPerObstacle;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t maxLengthOfChatString;
+  int32_t maxObstacles;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
   int32_t fbConnectRewardDiamonds;
   int32_t numBeginnerSalesAllowed;
   int32_t pvpRequiredMinLvl;
-  int32_t maxObstacles;
-  int32_t minutesPerObstacle;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
+  MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
-  NSMutableArray * mutableInAppPurchasePackagesList;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   NSMutableArray * mutableAnimatedSpriteOffsetsList;
   NSMutableArray * mutableClanHelpConstantsList;
+  NSMutableArray * mutableInAppPurchasePackagesList;
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
@@ -781,6 +790,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMinutesPerObstacle;
 - (BOOL) hasTaskMapConstants;
 - (BOOL) hasMaxMinutesForFreeSpeedUp;
+- (BOOL) hasPvpConstant;
 @property (readonly, strong) NSArray * inAppPurchasePackagesList;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
@@ -813,6 +823,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
 @property (readonly) int32_t maxMinutesForFreeSpeedUp;
 @property (readonly, strong) NSArray * clanHelpConstantsList;
+@property (readonly, strong) StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
@@ -1476,6 +1487,82 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearPercentRemovedPerHelp;
 @end
 
+@interface StartupResponseProto_StartupConstants_PvpConstants : PBGeneratedMessage {
+@private
+  BOOL hasMinPvpDmgDelta_:1;
+  BOOL hasMaxPvpDmgDelta_:1;
+  BOOL hasPvpDmgsWindowSize_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
+  Float32 minPvpDmgDelta;
+  Float32 maxPvpDmgDelta;
+  int32_t pvpDmgsWindowSize;
+  int32_t pvpRequiredMinLvl;
+}
+- (BOOL) hasPvpDmgsWindowSize;
+- (BOOL) hasMinPvpDmgDelta;
+- (BOOL) hasMaxPvpDmgDelta;
+- (BOOL) hasPvpRequiredMinLvl;
+@property (readonly) int32_t pvpDmgsWindowSize;
+@property (readonly) Float32 minPvpDmgDelta;
+@property (readonly) Float32 maxPvpDmgDelta;
+@property (readonly) int32_t pvpRequiredMinLvl;
+
++ (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_PvpConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_PvpConstants*) prototype;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) toBuilder;
+
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_PvpConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_PvpConstants_Builder : PBGeneratedMessageBuilder {
+@private
+  StartupResponseProto_StartupConstants_PvpConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_PvpConstants*) build;
+- (StartupResponseProto_StartupConstants_PvpConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_PvpConstants*) other;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasPvpDmgsWindowSize;
+- (int32_t) pvpDmgsWindowSize;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setPvpDmgsWindowSize:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpDmgsWindowSize;
+
+- (BOOL) hasMinPvpDmgDelta;
+- (Float32) minPvpDmgDelta;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setMinPvpDmgDelta:(Float32) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearMinPvpDmgDelta;
+
+- (BOOL) hasMaxPvpDmgDelta;
+- (Float32) maxPvpDmgDelta;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setMaxPvpDmgDelta:(Float32) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearMaxPvpDmgDelta;
+
+- (BOOL) hasPvpRequiredMinLvl;
+- (int32_t) pvpRequiredMinLvl;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setPvpRequiredMinLvl:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpRequiredMinLvl;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessageBuilder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -1671,6 +1758,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder *)addClanHelpConstants:(StartupResponseProto_StartupConstants_ClanHelpConstants*)value;
 - (StartupResponseProto_StartupConstants_Builder *)addAllClanHelpConstants:(NSArray *)array;
 - (StartupResponseProto_StartupConstants_Builder *)clearClanHelpConstants;
+
+- (BOOL) hasPvpConstant;
+- (StartupResponseProto_StartupConstants_PvpConstants*) pvpConstant;
+- (StartupResponseProto_StartupConstants_Builder*) setPvpConstant:(StartupResponseProto_StartupConstants_PvpConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setPvpConstant_Builder:(StartupResponseProto_StartupConstants_PvpConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergePvpConstant:(StartupResponseProto_StartupConstants_PvpConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPvpConstant;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2123,6 +2217,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addClanHelpings:(ClanHelpProto*)value;
 - (StartupResponseProto_Builder *)addAllClanHelpings:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearClanHelpings;
+
+- (NSMutableArray *)clanInvitesList;
+- (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addClanInvites:(ClanInviteProto*)value;
+- (StartupResponseProto_Builder *)addAllClanInvites:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearClanInvites;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

@@ -76,7 +76,7 @@
 - (void) sendNormStructComplete:(UserStruct *)us;
 - (void) sendSpeedupBuilding:(UserStruct *)us;
 
-- (BOOL) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated;
+- (BOOL) moveToStruct:(int)structId animated:(BOOL)animated;
 
 - (void) beginTimers;
 
