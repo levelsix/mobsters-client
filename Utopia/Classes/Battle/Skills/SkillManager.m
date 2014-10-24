@@ -27,9 +27,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
   _cheatEnemySkillId = _cheatPlayerSkillId = -1;
   
+#ifdef DEBUG
   // Change it to override current skills for debug purposes
   //_cheatEnemySkillType = SkillTypeQuickAttack;
   //_cheatPlayerSkillType = SkillTypeQuickAttack;
+#endif
   
   return self;
 }
@@ -256,7 +258,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
   
   // Update enemy skill indicator and restore skill visuals
-  if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter == 0)
+  if (trigger == SkillTriggerPointEnemyAppeared)// && _turnsCounter == 0)
   {
     [self createEnemySkillIndicator];
     [self updateReferences];  // To update reference to enemy sprite which is not initialized when it's called for the first time few lines above
