@@ -52,12 +52,16 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [self reloadTableAnimated:NO];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(helpsChanged) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

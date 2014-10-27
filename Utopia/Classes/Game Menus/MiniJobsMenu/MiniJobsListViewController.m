@@ -129,6 +129,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [self reloadTableAnimated:NO];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -144,6 +146,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self.updateTimer invalidate];
 }

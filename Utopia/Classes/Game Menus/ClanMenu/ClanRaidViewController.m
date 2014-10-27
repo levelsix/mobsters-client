@@ -32,6 +32,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   GameState *gs = [GameState sharedGameState];
   if (self.leaderboardViewController) {
     self.navigationItem.titleView = self.menuTopBar;

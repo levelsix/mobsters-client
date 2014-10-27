@@ -36,10 +36,14 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [self.settingsView removeFromSuperview];
 }
 

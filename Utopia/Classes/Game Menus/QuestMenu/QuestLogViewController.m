@@ -38,6 +38,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged:) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(achievementsChanged:) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   [self updateBadges];
@@ -56,6 +58,8 @@
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

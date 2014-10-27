@@ -3025,15 +3025,19 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 
 @interface InviteToClanRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasProspectiveMember_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   int32_t prospectiveMember;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasProspectiveMember;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t prospectiveMember;
+@property (readonly) int64_t clientTime;
 
 + (InviteToClanRequestProto*) defaultInstance;
 - (InviteToClanRequestProto*) defaultInstance;
@@ -3081,19 +3085,28 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (int32_t) prospectiveMember;
 - (InviteToClanRequestProto_Builder*) setProspectiveMember:(int32_t) value;
 - (InviteToClanRequestProto_Builder*) clearProspectiveMember;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (InviteToClanRequestProto_Builder*) setClientTime:(int64_t) value;
+- (InviteToClanRequestProto_Builder*) clearClientTime;
 @end
 
 @interface InviteToClanResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasInvite_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  ClanInviteProto* invite;
   InviteToClanResponseProto_InviteToClanStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasInvite;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) InviteToClanResponseProto_InviteToClanStatus status;
+@property (readonly, strong) ClanInviteProto* invite;
 
 + (InviteToClanResponseProto*) defaultInstance;
 - (InviteToClanResponseProto*) defaultInstance;
@@ -3141,6 +3154,13 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (InviteToClanResponseProto_InviteToClanStatus) status;
 - (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value;
 - (InviteToClanResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasInvite;
+- (ClanInviteProto*) invite;
+- (InviteToClanResponseProto_Builder*) setInvite:(ClanInviteProto*) value;
+- (InviteToClanResponseProto_Builder*) setInvite_Builder:(ClanInviteProto_Builder*) builderForValue;
+- (InviteToClanResponseProto_Builder*) mergeInvite:(ClanInviteProto*) value;
+- (InviteToClanResponseProto_Builder*) clearInvite;
 @end
 
 @interface AcceptOrRejectClanInviteRequestProto : PBGeneratedMessage {
@@ -3217,14 +3237,18 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 @interface AcceptOrRejectClanInviteResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasFullClan_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  FullClanProtoWithClanSize* fullClan;
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasFullClan;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+@property (readonly, strong) FullClanProtoWithClanSize* fullClan;
 
 + (AcceptOrRejectClanInviteResponseProto*) defaultInstance;
 - (AcceptOrRejectClanInviteResponseProto*) defaultInstance;
@@ -3272,6 +3296,13 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasFullClan;
+- (FullClanProtoWithClanSize*) fullClan;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setFullClan_Builder:(FullClanProtoWithClanSize_Builder*) builderForValue;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearFullClan;
 @end
 
 

@@ -51,6 +51,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   self.enhanceEventView.width = self.pveView.width;
   self.evoEventView.width = self.pveView.width;
   
@@ -76,6 +78,8 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
   self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:Nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
@@ -92,6 +96,8 @@
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [self.timer invalidate];
 }
 

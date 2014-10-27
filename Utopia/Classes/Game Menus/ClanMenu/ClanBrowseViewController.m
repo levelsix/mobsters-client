@@ -79,12 +79,16 @@
 @implementation ClanBrowseViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   self.browseClansTable.tableFooterView = [[UIView alloc] init];
   
   self.title = @"Browse";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [self.browseClansTable reloadData];
 }
 

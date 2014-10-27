@@ -19,6 +19,8 @@
 @implementation RequestsViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   self.facebookController = [[RequestsFacebookTableController alloc] init];
@@ -28,6 +30,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:NEW_FB_INVITE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
@@ -43,6 +47,8 @@
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

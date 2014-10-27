@@ -58,6 +58,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   if ([Globals isiPhone6] || [Globals isiPhone6Plus]) {
     float aspectRatio = self.mainView.width/self.mainView.height;
     float newHeight = 339.f;//self.view.height-36.f; // Keep the 6+ same size as 6

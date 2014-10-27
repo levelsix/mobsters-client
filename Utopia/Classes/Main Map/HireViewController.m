@@ -308,11 +308,15 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbInviteAccepted) name:FB_INVITE_ACCEPTED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbIncreasedSlots:) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

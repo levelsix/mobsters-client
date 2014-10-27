@@ -16,6 +16,8 @@
 @implementation ClanRaidListViewController
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
   
@@ -24,6 +26,8 @@
 
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [self.timer invalidate];
   self.timer = nil;
 }

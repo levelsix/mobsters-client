@@ -13086,6 +13086,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 @interface InviteToClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property int32_t prospectiveMember;
+@property int64_t clientTime;
 @end
 
 @implementation InviteToClanRequestProto
@@ -13104,10 +13105,18 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   hasProspectiveMember_ = !!value_;
 }
 @synthesize prospectiveMember;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.prospectiveMember = 0;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -13133,6 +13142,9 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   if (self.hasProspectiveMember) {
     [output writeInt32:2 value:self.prospectiveMember];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -13147,6 +13159,9 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   }
   if (self.hasProspectiveMember) {
     size_ += computeInt32Size(2, self.prospectiveMember);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -13192,6 +13207,9 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   if (self.hasProspectiveMember) {
     [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", [NSNumber numberWithInteger:self.prospectiveMember]];
   }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -13207,6 +13225,8 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasProspectiveMember == otherMessage.hasProspectiveMember &&
       (!self.hasProspectiveMember || self.prospectiveMember == otherMessage.prospectiveMember) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -13216,6 +13236,9 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   }
   if (self.hasProspectiveMember) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveMember] hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -13266,6 +13289,9 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   if (other.hasProspectiveMember) {
     [self setProspectiveMember:other.prospectiveMember];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13298,6 +13324,10 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
       }
       case 16: {
         [self setProspectiveMember:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -13349,11 +13379,28 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   result.prospectiveMember = 0;
   return self;
 }
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (InviteToClanRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (InviteToClanRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
 @end
 
 @interface InviteToClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property InviteToClanResponseProto_InviteToClanStatus status;
+@property (strong) ClanInviteProto* invite;
 @end
 
 @implementation InviteToClanResponseProto
@@ -13372,10 +13419,18 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
   hasStatus_ = !!value_;
 }
 @synthesize status;
+- (BOOL) hasInvite {
+  return !!hasInvite_;
+}
+- (void) setHasInvite:(BOOL) value_ {
+  hasInvite_ = !!value_;
+}
+@synthesize invite;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+    self.invite = [ClanInviteProto defaultInstance];
   }
   return self;
 }
@@ -13401,6 +13456,9 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasInvite) {
+    [output writeMessage:3 value:self.invite];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -13415,6 +13473,9 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
+  }
+  if (self.hasInvite) {
+    size_ += computeMessageSize(3, self.invite);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -13460,6 +13521,12 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
+  if (self.hasInvite) {
+    [output appendFormat:@"%@%@ {\n", indent, @"invite"];
+    [self.invite writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -13475,6 +13542,8 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
+      self.hasInvite == otherMessage.hasInvite &&
+      (!self.hasInvite || [self.invite isEqual:otherMessage.invite]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -13484,6 +13553,9 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
   }
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
+  }
+  if (self.hasInvite) {
+    hashCode = hashCode * 31 + [self.invite hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -13543,6 +13615,9 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasInvite) {
+    [self mergeInvite:other.invite];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13580,6 +13655,15 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        ClanInviteProto_Builder* subBuilder = [ClanInviteProto builder];
+        if (self.hasInvite) {
+          [subBuilder mergeFrom:self.invite];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInvite:[subBuilder buildPartial]];
         break;
       }
     }
@@ -13629,6 +13713,36 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
 - (InviteToClanResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = InviteToClanResponseProto_InviteToClanStatusSuccess;
+  return self;
+}
+- (BOOL) hasInvite {
+  return result.hasInvite;
+}
+- (ClanInviteProto*) invite {
+  return result.invite;
+}
+- (InviteToClanResponseProto_Builder*) setInvite:(ClanInviteProto*) value {
+  result.hasInvite = YES;
+  result.invite = value;
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) setInvite_Builder:(ClanInviteProto_Builder*) builderForValue {
+  return [self setInvite:[builderForValue build]];
+}
+- (InviteToClanResponseProto_Builder*) mergeInvite:(ClanInviteProto*) value {
+  if (result.hasInvite &&
+      result.invite != [ClanInviteProto defaultInstance]) {
+    result.invite =
+      [[[ClanInviteProto builderWithPrototype:result.invite] mergeFrom:value] buildPartial];
+  } else {
+    result.invite = value;
+  }
+  result.hasInvite = YES;
+  return self;
+}
+- (InviteToClanResponseProto_Builder*) clearInvite {
+  result.hasInvite = NO;
+  result.invite = [ClanInviteProto defaultInstance];
   return self;
 }
 @end
@@ -13988,6 +14102,7 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
 @interface AcceptOrRejectClanInviteResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus status;
+@property (strong) FullClanProtoWithClanSize* fullClan;
 @end
 
 @implementation AcceptOrRejectClanInviteResponseProto
@@ -14006,10 +14121,18 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
   hasStatus_ = !!value_;
 }
 @synthesize status;
+- (BOOL) hasFullClan {
+  return !!hasFullClan_;
+}
+- (void) setHasFullClan:(BOOL) value_ {
+  hasFullClan_ = !!value_;
+}
+@synthesize fullClan;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
+    self.fullClan = [FullClanProtoWithClanSize defaultInstance];
   }
   return self;
 }
@@ -14035,6 +14158,9 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasFullClan) {
+    [output writeMessage:3 value:self.fullClan];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -14049,6 +14175,9 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
   }
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
+  }
+  if (self.hasFullClan) {
+    size_ += computeMessageSize(3, self.fullClan);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -14094,6 +14223,12 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
+  if (self.hasFullClan) {
+    [output appendFormat:@"%@%@ {\n", indent, @"fullClan"];
+    [self.fullClan writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -14109,6 +14244,8 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
+      self.hasFullClan == otherMessage.hasFullClan &&
+      (!self.hasFullClan || [self.fullClan isEqual:otherMessage.fullClan]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -14118,6 +14255,9 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
   }
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
+  }
+  if (self.hasFullClan) {
+    hashCode = hashCode * 31 + [self.fullClan hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -14177,6 +14317,9 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasFullClan) {
+    [self mergeFullClan:other.fullClan];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -14214,6 +14357,15 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        FullClanProtoWithClanSize_Builder* subBuilder = [FullClanProtoWithClanSize builder];
+        if (self.hasFullClan) {
+          [subBuilder mergeFrom:self.fullClan];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFullClan:[subBuilder buildPartial]];
         break;
       }
     }
@@ -14263,6 +14415,36 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess;
+  return self;
+}
+- (BOOL) hasFullClan {
+  return result.hasFullClan;
+}
+- (FullClanProtoWithClanSize*) fullClan {
+  return result.fullClan;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setFullClan:(FullClanProtoWithClanSize*) value {
+  result.hasFullClan = YES;
+  result.fullClan = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) setFullClan_Builder:(FullClanProtoWithClanSize_Builder*) builderForValue {
+  return [self setFullClan:[builderForValue build]];
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value {
+  if (result.hasFullClan &&
+      result.fullClan != [FullClanProtoWithClanSize defaultInstance]) {
+    result.fullClan =
+      [[[FullClanProtoWithClanSize builderWithPrototype:result.fullClan] mergeFrom:value] buildPartial];
+  } else {
+    result.fullClan = value;
+  }
+  result.hasFullClan = YES;
+  return self;
+}
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearFullClan {
+  result.hasFullClan = NO;
+  result.fullClan = [FullClanProtoWithClanSize defaultInstance];
   return self;
 }
 @end

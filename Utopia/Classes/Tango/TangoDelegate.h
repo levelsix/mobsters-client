@@ -17,6 +17,8 @@
 + (BOOL) isTangoAuthenticated;
 + (void) getProfilePicture:(void (^)(UIImage *img))comp;
 
++ (void) validatePurchase:(id)transaction;
+
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester;
 
 @end

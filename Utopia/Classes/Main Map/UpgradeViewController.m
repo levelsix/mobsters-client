@@ -429,6 +429,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [self.upgradeView loadForUserStruct:self.userStruct];
   
   int level = self.userStruct.staticStruct.structInfo.level;

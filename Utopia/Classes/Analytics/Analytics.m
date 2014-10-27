@@ -182,7 +182,9 @@ static Class amplitudeClass = nil;
 }
 
 + (void) tutorialComplete {
+#ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_tutorialComplete];
+#endif
   [self event:@"tut_complete"];
 }
 
@@ -190,23 +192,29 @@ static Class amplitudeClass = nil;
 
 + (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email {
   NSString *uid = [NSString stringWithFormat:@"%d", userId];
+#ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
   [ScopelyAttributionWrapper adjust_setUserId:uid];
   [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
+#endif
   
   [amplitudeClass setUserId:uid];
 }
 
 + (void) newAccountCreated {
+#ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_newAccountCreated];
+#endif
 }
 
 + (void) appOpen:(int)numTimesOpened {
+#ifdef MOBSTERS
   if (numTimesOpened == 2) {
     [ScopelyAttributionWrapper mat_appOpen_002];
   } else if (numTimesOpened == 20) {
     [ScopelyAttributionWrapper mat_appOpen_020];
   }
+#endif
 }
 
 + (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil {
@@ -289,7 +297,10 @@ static NSDate *timeSinceLastTutStep = nil;
 }
 
 + (void) inviteFacebook {
+  
+#ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_inviteFacebook];
+#endif
   
   [self event:@"fb_invite"];
   
@@ -304,19 +315,25 @@ static NSDate *timeSinceLastTutStep = nil;
 
 + (void) iapWithSKProduct:(SKProduct *)product forTransacton:(SKPaymentTransaction *)transaction amountUS:(float)amountUS {
   if (!product) return;
+#ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
+#endif
   
   NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
   float unitPrice = [product.price floatValue];
   
-  [self event:@"iap_purchased" withArgs:@{@"amount_us": @(amountUS),
-                                               @"amount_local": @(unitPrice),
-                                               @"local_cur_code": currencyCode,
-                                               @"store_sku": product.productIdentifier}];
+  NSDictionary *dict = @{@"amount_us": @(amountUS),
+                        @"amount_local": @(unitPrice),
+                        @"local_cur_code": currencyCode,
+                        @"store_sku": product.productIdentifier};
+  
+  [self event:@"iap_purchased" withArgs:dict];
   
   [self logRevenue:@(amountUS)];
   
   [titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
+  
+  [Adjust trackRevenue:roundf(amountUS*100) forEvent:@"unalrt" withParameters:@{@"productName": product.productIdentifier}];
 }
 
 + (void) iapFailedWithSKProduct:(SKProduct *)product error:(NSString *)error {

@@ -20,10 +20,14 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   self.mainView.layer.cornerRadius = 6.f;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   self.nameTextField.text = self.initialName;
   [self.nameTextField becomeFirstResponder];
   

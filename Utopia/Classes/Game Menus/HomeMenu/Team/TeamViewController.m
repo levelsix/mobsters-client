@@ -321,7 +321,7 @@
   CATransition *animation = [CATransition animation];
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  [slotView.rightView.layer addAnimation:animation forKey:@"fade"];
+  [animView.layer addAnimation:animation forKey:@"fade"];
 }
 
 - (void) listView:(ListCollectionView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {

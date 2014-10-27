@@ -18,6 +18,8 @@
 @implementation GenericPopupController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   // Retain the targets so it will never access null object
   self.targets = [NSMutableArray array];
 }

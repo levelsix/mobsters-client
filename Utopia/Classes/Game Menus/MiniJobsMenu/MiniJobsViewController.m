@@ -40,7 +40,7 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [super viewWillDisappear:animated];
   
   if (_beganSomeJob) {
     [ChartboostDelegate fireMiniJobSent];

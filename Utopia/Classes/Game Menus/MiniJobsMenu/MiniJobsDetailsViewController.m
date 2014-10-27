@@ -114,6 +114,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [self stopSpinning];
   
   self.availableMonstersLabel.text = [NSString stringWithFormat:@"AVAILABLE %@S", MONSTER_NAME.uppercaseString];
@@ -132,6 +134,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
   self.sortOrder = MiniJobsSortOrderHpDesc;
   [self reloadTableAnimated:NO];
   [self updateBottomLabels];
@@ -143,10 +146,6 @@
   
   self.inProgressView.center = self.monstersTable.center;
   [self.monstersTable.superview addSubview:self.inProgressView];
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-  [super viewWillAppear:animated];
 }
 
 - (void) updateLabels {

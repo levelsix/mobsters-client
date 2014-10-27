@@ -94,6 +94,8 @@
   
   // Size player and make him blue
   [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionScaleTo actionWithDuration:0.3 scale:1.25]]];
+  
+  [owner.sprite stopActionByTag:1914];
   CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor cyanColor]],
                                                                            [CCActionTintTo actionWithDuration:0.5 color:[CCColor whiteColor]],

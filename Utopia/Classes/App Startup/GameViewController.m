@@ -244,6 +244,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [self setupTopBar];
   [self fadeToLoadingScreenPercentage:PART_0_PERCENT animated:NO];
   
@@ -261,6 +263,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [self checkQuests];
   
   //GameState *gs = [GameState sharedGameState];

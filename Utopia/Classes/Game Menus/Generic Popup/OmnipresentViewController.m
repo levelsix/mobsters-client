@@ -52,15 +52,21 @@
 #pragma mark - Emulate UIAlertView behavior
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameOrOrientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameOrOrientationChanged:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
   [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

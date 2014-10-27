@@ -39,6 +39,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   if (_buttonText) {
     self.buttonLabel.text = _buttonText;
     
@@ -59,6 +61,8 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
   self.speechBubble.layer.anchorPoint = ccp(0.f, 0.41758);
   self.speechBubble.center = ccpAdd(self.speechBubble.center, ccp(-self.speechBubble.frame.size.width/2,
                                                                   -self.speechBubble.frame.size.height*(0.5-self.speechBubble.layer.anchorPoint.y)));

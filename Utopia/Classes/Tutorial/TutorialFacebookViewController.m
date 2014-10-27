@@ -16,6 +16,8 @@
 @implementation TutorialFacebookViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   [Analytics tutorialFbPopup];

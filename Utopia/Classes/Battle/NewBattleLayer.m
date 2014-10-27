@@ -38,8 +38,8 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
-#define SkillLogStart(...) NSLogYellow(__VA_ARGS__)
-#define SkillLogEnd(triggered, ...) if (triggered) NSLogGreen(__VA_ARGS__); else NSLogYellow(__VA_ARGS__);
+#define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
+#define SkillLogEnd(triggered, ...) //if (triggered) NSLogGreen(__VA_ARGS__); else NSLogYellow(__VA_ARGS__);
 
 @implementation BattleBgdLayer
 

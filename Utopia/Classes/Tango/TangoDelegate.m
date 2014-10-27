@@ -88,6 +88,15 @@ static TangoProfileEntry *profileEntry = nil;
 #endif
 }
 
++ (void) validatePurchase:(SKPaymentTransaction *)transaction {
+  TangoSession *session = [TangoSession sharedSession];
+  if (session.isInitialized || [TangoSession sessionInitialize]) {
+    [TangoTools validateTransaction:transaction withHandler:^(enum ValidationStatus status, NSError *error) {
+      NSLog(@"Tango validate purchase: Status %d, Error %@", status, error);
+    }];
+  };
+}
+
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)requester {
 #ifdef TANGO_ENABLED

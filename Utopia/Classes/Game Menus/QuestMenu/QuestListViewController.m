@@ -62,6 +62,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   [self.questListTable reloadData];
 }
 

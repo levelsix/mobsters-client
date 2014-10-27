@@ -13,6 +13,8 @@
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 
+#import "TangoDelegate.h"
+
 @implementation IAPHelper
 
 @synthesize  products = _products;
@@ -115,6 +117,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   self.lastTransaction = transaction;
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+  
+  [TangoDelegate validatePurchase:transaction];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {

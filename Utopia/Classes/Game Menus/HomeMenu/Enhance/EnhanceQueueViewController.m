@@ -113,10 +113,6 @@
   [self updateLabelsNonTimer];
 }
 
-- (UserEnhancement *) currentEnhancement {
-  return _currentEnhancement;
-}
-
 - (int) maxQueueSize {
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;

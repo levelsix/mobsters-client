@@ -18,7 +18,7 @@
 #ifdef TOONSQUAD
 #ifndef DEBUG
   [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:nil];
-  [self showInterstitial:@"bootup_ad"];
+  [self showInterstitial:@"toonsquad_bootup_ad"];
 #endif
 #endif
 }
@@ -35,19 +35,19 @@
 }
 
 + (void) firePvpMatch {
-  [self showInterstitial:@"gameplay_ad"];
+  [self showInterstitial:@"toonsquad_pvpmatch"];
 }
 
 + (void) firePveMatch {
-  [self showInterstitial:@"gameplay_ad2"];
+  [self showInterstitial:@"toonsquad_pvematch"];
 }
 
 + (void) fireAchievementRedeemed {
-  [self showInterstitial:@"gameplay_ad3"];
+  [self showInterstitial:@"toonsquad_achievement"];
 }
 
 + (void) fireMiniJobSent {
-  [self showInterstitial:@"gameplay_ad4"];
+  [self showInterstitial:@"toonsquad_minijob"];
 }
 
 @end

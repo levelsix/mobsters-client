@@ -87,6 +87,8 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -131,6 +133,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
   [self.iconChooserView close:nil];
 }
 

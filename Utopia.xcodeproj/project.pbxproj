@@ -30461,7 +30461,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = None;
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
@@ -30542,7 +30542,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = None;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -30624,7 +30624,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = None;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;

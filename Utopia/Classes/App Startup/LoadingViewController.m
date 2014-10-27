@@ -24,10 +24,14 @@
 }
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   self.loadingBar.percentage = _initPercentage;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   BOOL loading = [def boolForKey:FIRST_TIME_DEFAULTS_KEY];
   NSString *bgd = nil;

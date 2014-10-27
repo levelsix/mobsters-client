@@ -67,6 +67,8 @@
 @implementation TopBarViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   _originalProgressCenter = self.questProgressView.center;
   
   for (UIView *container in self.topBarMonsterViewContainers) {
@@ -84,6 +86,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
   GameState *gs = [GameState sharedGameState];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -217,11 +221,15 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
   // Have to do it again since animation gets cancelled otherwise
   [self updateShopBadge] ? [self animateShopBadge] : [self stopAnimatingShopBadge];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [self.updateTimer invalidate];
