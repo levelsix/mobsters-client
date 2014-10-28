@@ -139,7 +139,7 @@
       
       if (!chooserShouldBeMain) {
         // Replace chooser
-        BOOL shouldDisplay = eqvc != nil;
+        BOOL shouldDisplay = eqvc != nil || [vc isKindOfClass:[EnhanceChooserViewController class]];
         if (!eqvc) {
           eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
         }

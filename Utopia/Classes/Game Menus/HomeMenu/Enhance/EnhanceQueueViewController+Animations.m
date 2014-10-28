@@ -145,7 +145,7 @@ static int totalLevelUps = 0;
   totalLevelUps = (int)[ue finalPercentageFromCurrentLevel];
   
   self.skipButtonView.hidden = NO;
-  self.enhanceButtonView.hidden = YES;
+  self.collectButtonView.hidden = YES;
   
   [self animateNextEnhancementItem];
 }
