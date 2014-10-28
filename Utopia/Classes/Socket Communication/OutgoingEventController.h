@@ -69,7 +69,6 @@
 - (void) solicitBuildingHelp:(UserStruct *)us;
 - (void) solicitMiniJobHelp:(UserMiniJob *)mj;
 - (void) solicitEvolveHelp:(UserEvolution *)ue;
-- (void) solicitEnhanceHelp:(UserEnhancement *)ue;
 - (void) solicitHealHelp;
 - (void) giveClanHelp:(NSArray *)clanHelpIds;
 - (void) endClanHelp:(NSArray *)clanHelpIds;
@@ -112,9 +111,7 @@
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 - (void) sellUserMonsters:(NSArray *)userMonsterIds;
 
-- (BOOL) submitEnhancement:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
-- (BOOL) enhanceWaitComplete:(BOOL)useGems delegate:(id)delegate;
-- (void) collectEnhancementWithDelegate:(id)delegate;
+- (BOOL) enhanceMonster:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;

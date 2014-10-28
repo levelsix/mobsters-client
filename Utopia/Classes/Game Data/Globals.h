@@ -162,7 +162,6 @@
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *evolveClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *miniJobClanHelpConstants;
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *buildingClanHelpConstants;
-@property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *enhanceClanHelpConstants;
 
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;
@@ -352,6 +351,7 @@
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder;
 - (int) calculateTotalOilCostForEnhancement:(UserEnhancement *)ue;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (float) calculateLevelForMonster:(int)monsterId experience:(float)experience;

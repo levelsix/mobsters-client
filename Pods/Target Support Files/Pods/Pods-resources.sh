@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
-
 RESOURCES_TO_COPY=${PODS_ROOT}/resources-to-copy-${TARGETNAME}.txt
 > "$RESOURCES_TO_COPY"
 
@@ -48,15 +46,6 @@ install_resource()
                     install_resource "GPUImage/framework/Resources/lookup_miss_etikate.png"
                     install_resource "GPUImage/framework/Resources/lookup_soft_elegance_1.png"
                     install_resource "GPUImage/framework/Resources/lookup_soft_elegance_2.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/GFSettings.storyboard"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-logo.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-logo@2x.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-logo.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-logo@2x.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-settings.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-settings@2x.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-status.png"
-                    install_resource "Lookback/lookback/HD/Lookback.framework/Versions/A/Resources/lookback-recorder-status@2x.png"
           
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then
@@ -64,7 +53,7 @@ if [[ "${ACTION}" == "install" ]]; then
 fi
 rm -f "$RESOURCES_TO_COPY"
 
-if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ `find . -name '*.xcassets' | wc -l` -ne 0 ]
+if [[ -n "${WRAPPER_EXTENSION}" ]] && [ `xcrun --find actool` ] && [ `find . -name '*.xcassets' | wc -l` -ne 0 ]
 then
   case "${TARGETED_DEVICE_FAMILY}" in
     1,2)

@@ -27,7 +27,7 @@
 
 - (void) updateForListObject:(UserMonster *)listObject userEnhancement:(UserEnhancement *)ue {
   MonsterProto *mp = listObject.staticMonster;
-  BOOL greyscale = listObject.isProtected || ue.isActive;
+  BOOL greyscale = listObject.isProtected;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -68,14 +68,6 @@
   return self;
 }
 
-- (id) initWithCurrentEnhancement {
-  if ((self = [super init])) {
-    GameState *gs = [GameState sharedGameState];
-    _currentEnhancement = gs.userEnhancement;
-  }
-  return self;
-}
-
 - (void) viewDidLoad {
   [super viewDidLoad];
   
@@ -90,7 +82,7 @@
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.titleImageName = @"enhancelabmenuheader.png";
+  self.title = [NSString stringWithFormat:@"Enhance %@", mp.displayName];
   
   self.curExpLabel.superview.layer.cornerRadius = 4.f;
   
@@ -118,7 +110,6 @@
   [self reloadQueueViewAnimated:NO];
   [self reloadListViewAnimated:NO];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [self updateLabelsNonTimer];
 }
 
@@ -128,21 +119,6 @@
   return lab.queueSize;
 }
 
-- (UserEnhancement *) currentEnhancement {
-  return _currentEnhancement;
-}
-
-- (NSString *) title {
-  // DO it based on gs's enhancement since that will dictate whether we are base vc or not
-  GameState *gs = [GameState sharedGameState];
-  if (gs.userEnhancement) {
-    return [NSString stringWithFormat:@"ENHANCE %@S", MONSTER_NAME.uppercaseString];
-  } else {
-    MonsterProto *mp = self.currentEnhancement.baseMonster.userMonster.staticMonster;
-    return [NSString stringWithFormat:@"Enhance %@", mp.displayName];
-  }
-}
-
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self reloadQueueViewAnimated:YES];
@@ -150,11 +126,6 @@
 }
 
 - (void) updateLabelsNonTimer {
-  if (_waitingForResponse) {
-    // Do nothing
-    return;
-  }
-  
   Globals *gl = [Globals sharedGlobals];
   
   UserEnhancement *ue = self.currentEnhancement;
@@ -181,7 +152,7 @@
     int curExp = [gl calculateExperienceIncrease:ue]+um.experience;
     self.curExpLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:MAX(0, expToNewLevel-curExp)]];
     
-    self.nextLevelLabel.text = [NSString stringWithFormat:@"to level %d", newLevel];
+    self.nextLevelLabel.text = [NSString stringWithFormat:@"Needed for\nlevel %d", newLevel];
     
     self.curExpLabel.hidden = NO;
     self.nextLevelLabel.hidden = NO;
@@ -196,77 +167,14 @@
   self.queueingCostLabel.text = [Globals commafyNumber:baseOilCost];
   [Globals adjustViewForCentering:self.queueingCostLabel.superview withLabel:self.queueingCostLabel];
   
+  int totalOilCost = [gl calculateTotalOilCostForEnhancement:ue];
+  // Only change it if its not 0 so that when it fades out it doesn't change to 0.
+  if (totalOilCost > 0) {
+    self.totalQueueCostLabel.text = [Globals commafyNumber:totalOilCost];
+    [Globals adjustViewForCentering:self.totalQueueCostLabel.superview withLabel:self.totalQueueCostLabel];
+  }
+  
   [self updateStats];
-  [self updateLabels];
-}
-
-- (void) updateLabels {
-  if (_waitingForResponse) {
-    // Do nothing
-    return;
-  }
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserEnhancement *ue = self.currentEnhancement;
-  
-  self.oilButtonView.hidden = YES;
-  self.finishButtonView.hidden = YES;
-  self.helpButtonView.hidden = YES;
-  self.collectButtonView.hidden = YES;
-  
-  self.totalTimeLabel.highlighted = NO;
-  
-  MSDate *date = [ue expectedEndTime];
-  if (!date) {
-    int totalOilCost = [gl calculateTotalOilCostForEnhancement:ue];
-    // Only change it if its not 0 so that when it fades out it doesn't change to 0.
-    if (totalOilCost > 0) {
-      self.totalQueueCostLabel.text = [Globals commafyNumber:totalOilCost];
-      [Globals adjustViewForCentering:self.totalQueueCostLabel.superview withLabel:self.totalQueueCostLabel];
-    }
-    
-    int time = ue.totalSeconds;
-    if (time > 0) {
-      self.totalTimeLabel.text = [[Globals convertTimeToShortString:time] uppercaseString];
-    }
-    
-    self.oilButtonView.hidden = NO;
-  } else if (ue.isComplete) {
-    self.totalTimeLabel.highlighted = YES;
-    self.totalTimeLabel.text = @"Complete!";
-    
-    self.collectButtonView.hidden = NO;
-  } else {
-    // Timer
-    int timeLeft = date.timeIntervalSinceNow;
-    int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-    
-    self.totalTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    
-    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:ue.baseMonster.userMonsterId] < 0;
-    
-    self.finishButtonView.hidden = NO;
-    
-    if (speedupCost > 0) {
-      self.gemCostLabel.text = [Globals commafyNumber:speedupCost];
-      [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
-      
-      self.gemCostLabel.superview.hidden = NO;
-      self.freeLabel.hidden = YES;
-      
-      self.helpButtonView.hidden = !canHelp;
-    } else {
-      self.gemCostLabel.superview.hidden = YES;
-      self.freeLabel.hidden = NO;
-      self.helpButtonView.hidden = YES;
-    }
-    
-    for (MonsterQueueCell *cell in self.queueView.collectionView.visibleCells) {
-      NSIndexPath *ip = [self.queueView.collectionView indexPathForCell:cell];
-      [self listView:self.queueView updateCell:cell forIndexPath:ip listObject:self.currentEnhancement.feeders[ip.row]];
-    }
-  }
 }
 
 - (void) updateStats {
@@ -360,30 +268,13 @@
     [(EnhanceSmallCardCell *)cell updateForListObject:listObject userEnhancement:ue];
   } else {
     UserMonster *um = [listObject isKindOfClass:[EnhancementItem class]] ? [listObject userMonster] : listObject;
-    EnhancementItem *ei = [listObject isKindOfClass:[EnhancementItem class]] ? listObject : nil;
     [cell updateForListObject:um];
     
     MonsterQueueCell *queue = (MonsterQueueCell *)cell;
-    if (!ue.isActive) {
-      queue.minusButton.hidden = NO;
+    queue.botLabel.hidden = NO;
       
-      queue.botLabel.hidden = NO;
-      
-      int num = [ue experienceIncreaseOfNewUserMonster:um];
-      queue.botLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:num]];
-    } else {
-      queue.minusButton.hidden = YES;
-      
-      float percent = ue.isComplete ?: [ue currentPercentageForItem:ei];
-      
-      if (percent >= 1.f) {
-        queue.checkView.hidden = NO;
-      } else if (percent > 0.f) {
-        int timeLeft = [ue expectedEndTimeForItem:ei].timeIntervalSinceNow;
-        
-        [queue updateTimeWithTimeLeft:timeLeft percent:percent];
-      }
-    }
+    int num = [ue experienceIncreaseOfNewUserMonster:um];
+    queue.botLabel.text = [NSString stringWithFormat:@"%@xp", [Globals commafyNumber:num]];
   }
 }
 
@@ -391,7 +282,7 @@
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  if (!um.isProtected && !self.currentEnhancement.isActive) {
+  if (!um.isProtected) {
     if (!_waitingForResponse) {
       _confirmUserMonster = self.userMonsters[indexPath.row];
       [self checkMonsterIsNotMaxed];
@@ -447,7 +338,7 @@
 }
 
 - (void) allowAddToQueue {
-  if (!_waitingForResponse && !self.currentEnhancement.isActive) {
+  if (!_waitingForResponse) {
     Globals *gl = [Globals sharedGlobals];
     UserMonster *um = _confirmUserMonster;
     UserEnhancement *ue = self.currentEnhancement;
@@ -499,7 +390,7 @@
 #pragma mark Queue
 
 - (void) listView:(ListCollectionView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath {
-  if (!_waitingForResponse && !self.currentEnhancement.isActive) {
+  if (!_waitingForResponse) {
     EnhancementItem *ei = self.currentEnhancement.feeders[indexPath.row];
     [self.currentEnhancement.feeders removeObjectAtIndex:indexPath.row];
     
@@ -537,7 +428,7 @@
 - (IBAction) enhanceButtonClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  
+
   int oilCost = [gl calculateTotalOilCostForEnhancement:self.currentEnhancement];
   int curAmount = gs.oil;
   if (oilCost > curAmount) {
@@ -550,11 +441,11 @@
 - (void) useGemsForEnhance {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  
+
   int cost = [gl calculateTotalOilCostForEnhancement:self.currentEnhancement];
   int curAmount = gs.oil;
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
-  
+
   if (gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
@@ -564,76 +455,6 @@
 
 - (void) sendEnhanceAllowGems:(BOOL)allowGems {
   if (!_waitingForResponse) {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] submitEnhancement:self.currentEnhancement useGems:allowGems delegate:self];
-    
-    if (success) {
-      self.oilLabelsView.hidden = YES;
-      self.buttonSpinner.hidden = NO;
-      [self.buttonSpinner startAnimating];
-      
-      _waitingForResponse = YES;
-    }
-  }
-}
-
-- (void) handleSubmitMonsterEnhancementResponseProto:(FullEvent *)fe {
-  self.oilLabelsView.hidden = NO;
-  self.buttonSpinner.hidden = YES;
-  
-  _waitingForResponse = NO;
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-}
-
-- (IBAction)skipCLicked:(id)sender {
-  [self speedupEnhancement];
-}
-
-- (IBAction)helpClicked:(id)sender {
-  
-  if (!_waitingForResponse) {
-    [[OutgoingEventController sharedOutgoingEventController] solicitEnhanceHelp:self.currentEnhancement];
-    [self updateLabels];
-  }
-}
-
-- (IBAction)finishClicked:(id)sender {
-  if (!_waitingForResponse) {
-    GameState *gs = [GameState sharedGameState];
-    Globals *gl = [Globals sharedGlobals];
-    UserEnhancement *ue = [self currentEnhancement];
-    int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-    
-    if (gs.gems < goldCost) {
-      [GenericPopupController displayNotEnoughGemsView];
-    } else {
-      BOOL success = [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:YES delegate:self];
-      
-      if (success) {
-        self.finishLabelsView.hidden = YES;
-        self.buttonSpinner.hidden = NO;
-        
-        _waitingForResponse = YES;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
-      }
-    }
-  }
-}
-
-- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  self.finishLabelsView.hidden = NO;
-  self.buttonSpinner.hidden = YES;
-  
-  _waitingForResponse = NO;
-  
-  [self updateLabelsNonTimer];
-}
-
-- (IBAction)collectClicked:(id)sender {
-  if (!_waitingForResponse && self.currentEnhancement.isComplete) {
     // We must set the enhancement item's user monster to fake monsters so that they can be animated
     UserEnhancement *ue = self.currentEnhancement;
     UserMonster *baseUm = ue.baseMonster.userMonster.copy;
@@ -641,30 +462,50 @@
       [ei setFakedUserMonster:ei.userMonster.copy];
     }
     
-    [[OutgoingEventController sharedOutgoingEventController] collectEnhancementWithDelegate:self];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] enhanceMonster:self.currentEnhancement useGems:allowGems delegate:self];
     
     // Must do this after so that OutgoingEventController edits the actual user monster and not our fake one
     // For the enhancement items it doesn't matter so much since those will be removed from the array based on userMonsterId.
     [ue.baseMonster setFakedUserMonster:baseUm];
     
-    self.collectLabelsView.hidden = YES;
-    self.buttonSpinner.hidden = NO;
-    
-    _waitingForResponse = YES;
+    if (success) {
+      self.buttonLabelsView.hidden = YES;
+      self.buttonSpinner.hidden = NO;
+      [self.buttonSpinner startAnimating];
+      
+      // Clear the feeders list..
+      // Don't clear here, it will auto clear through the process of the animation?
+      //[self.currentEnhancement.feeders removeAllObjects];
+      
+      _waitingForResponse = YES;
+    } else {
+      // Set it back
+      [ue.baseMonster setFakedUserMonster:nil];
+      for (EnhancementItem *ei in ue.feeders) {
+        [ei setFakedUserMonster:nil];
+      }
+    }
   }
 }
 
-- (void) handleCollectMonsterEnhancementResponseProto:(FullEvent *)fe {
-  self.collectLabelsView.hidden = NO;
+- (void) handleEnhanceMonsterResponseProto:(FullEvent *)fe {
+  self.buttonLabelsView.hidden = NO;
   self.buttonSpinner.hidden = YES;
   
   [self animateEnhancement];
   
-  //  [self reloadListViewAnimated:YES];
-  //  [self reloadQueueViewAnimated:YES];
-  //  [self updateLabelsNonTimer];
+//  [self reloadListViewAnimated:YES];
+//  [self reloadQueueViewAnimated:YES];
+//  [self updateLabelsNonTimer];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  _waitingForResponse = NO;
+}
+
+- (IBAction)skipCLicked:(id)sender {
+  [self speedupEnhancement];
 }
 
 @end

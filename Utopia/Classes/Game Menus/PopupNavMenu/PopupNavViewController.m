@@ -53,7 +53,7 @@
 - (BOOL) shouldStopCCDirector {
   return YES;
 }
-
+      
 - (IBAction) backClicked:(id)sender {
   if ((!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack])) {
     [self goBack];
@@ -112,9 +112,8 @@
 }
 
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated {
-  PopupSubViewController *removeVc = [self.viewControllers lastObject];
-  // Check the special case where we are basically replacing root with the current view controller
-  if (animated && removeVc != viewController) {
+  if (animated) {
+    PopupSubViewController *removeVc = [self.viewControllers lastObject];
     [self.viewControllers removeObject:removeVc];
     PopupSubViewController *topVc = viewController;
     
@@ -160,24 +159,7 @@
     }];
   } else {
     [self unloadAllControllers];
-    
-    [self.viewControllers addObject:viewController];
-    [self setNewTopViewController:viewController];
-    
-    viewController.view.frame = self.containerView.bounds;
-    
-    [viewController beginAppearanceTransition:YES animated:animated];
-    [self.containerView addSubview:viewController.view];
-    [self addChildViewController:viewController];
-    [viewController endAppearanceTransition];
-    
-    if (animated) {
-      [UIView animateWithDuration:ANIMATION_TIME animations:^{
-        self.backView.alpha = 0.f;
-      }];
-    } else {
-      self.backView.alpha = 0.f;
-    }
+    [self pushViewController:viewController animated:animated];
   }
   
   [self loadNextTitleSelectionFromRight:fromRight animated:animated];
@@ -185,20 +167,8 @@
 
 - (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
   PopupSubViewController *curVc = [self.viewControllers lastObject];
-  
-  // This is in place for enhance views (check HomeViewController for reloading)
-  if (curVc != topVc) {
-    [self.viewControllers addObject:topVc];
-    [self setNewTopViewController:topVc];
-    
-    topVc.view.frame = self.containerView.bounds;
-    
-    [curVc beginAppearanceTransition:NO animated:animated];
-    [topVc beginAppearanceTransition:YES animated:animated];
-    
-    [self.containerView addSubview:topVc.view];
-    [self addChildViewController:topVc];
-  }
+  [self.viewControllers addObject:topVc];
+  [self setNewTopViewController:topVc];
   
   BOOL shouldDisplayBackButton = NO;
   if (self.viewControllers.count > 1) {
@@ -207,7 +177,15 @@
     [self remakeBackButton];
   }
   
-  if (animated && curVc != topVc) {
+  topVc.view.frame = self.containerView.bounds;
+  
+  [curVc beginAppearanceTransition:NO animated:animated];
+  [topVc beginAppearanceTransition:YES animated:animated];
+  
+  [self.containerView addSubview:topVc.view];
+  [self addChildViewController:topVc];
+  
+  if (animated) {
     topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
@@ -225,20 +203,11 @@
       [topVc endAppearanceTransition];
     }];
   } else {
-    if (animated) {
-      [UIView animateWithDuration:ANIMATION_TIME animations:^{
-        self.backView.alpha = shouldDisplayBackButton;
-      }];
-    } else {
-      self.backView.alpha = shouldDisplayBackButton;
-    }
+    self.backView.alpha = shouldDisplayBackButton;
+    [curVc.view removeFromSuperview];
     
-    if (curVc != topVc) {
-      [curVc.view removeFromSuperview];
-      
-      [curVc endAppearanceTransition];
-      [topVc endAppearanceTransition];
-    }
+    [curVc endAppearanceTransition];
+    [topVc endAppearanceTransition];
   }
   
   [self loadNextTitleSelectionFromRight:YES animated:animated];

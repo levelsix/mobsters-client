@@ -286,7 +286,7 @@ static NSString *udid = nil;
 
 - (void) unableToConnectToHost:(NSString *)error
 {
-  LNLog(@"Unable to connect: %@", error);
+	LNLog(@"Unable to connect: %@", error);
   
   if (_shouldReconnect) {
     _numDisconnects++;
@@ -885,9 +885,9 @@ static NSString *udid = nil;
 
 - (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime {
   TradeItemForBoosterRequestProto *req = [[[[[TradeItemForBoosterRequestProto builder]
-                                             setSender:_sender]
-                                            setItemId:itemId]
-                                           setClientTime:clientTime]
+                                            setSender:_sender]
+                                           setItemId:itemId]
+                                          setClientTime:clientTime]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForBoosterEvent];
@@ -930,12 +930,12 @@ static NSString *udid = nil;
 
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId droplessTsfuid:(uint64_t)droplessTsfuid {
   UpdateMonsterHealthRequestProto *req = [[[[[[[[[UpdateMonsterHealthRequestProto builder]
-                                                 setSender:_sender]
-                                                setClientTime:clientTime]
-                                               addAllUmchp:monsterHealths]
-                                              setIsUpdateTaskStageForUser:isForTask]
-                                             setUserTaskId:userTaskId]
-                                            setNuTaskStageId:taskStageId]
+                                                setSender:_sender]
+                                               setClientTime:clientTime]
+                                              addAllUmchp:monsterHealths]
+                                             setIsUpdateTaskStageForUser:isForTask]
+                                            setUserTaskId:userTaskId]
+                                           setNuTaskStageId:taskStageId]
                                            setDroplessTsfuId:droplessTsfuid]
                                           build];
   
@@ -944,12 +944,12 @@ static NSString *udid = nil;
 
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuIds:(NSArray *)droplessTsfuIds time:(uint64_t)time {
   EndDungeonRequestProto *req = [[[[[[[[EndDungeonRequestProto builder]
-                                       setSender:[self senderWithMaxResources]]
-                                      setUserTaskId:userTaskId]
-                                     setUserWon:userWon]
-                                    setFirstTimeUserWonTask:isFirstTimeCompleted]
-                                   setClientTime:time]
-                                  addAllDroplessTsfuIds:droplessTsfuIds]
+                                      setSender:[self senderWithMaxResources]]
+                                     setUserTaskId:userTaskId]
+                                    setUserWon:userWon]
+                                   setFirstTimeUserWonTask:isFirstTimeCompleted]
+                                  setClientTime:time]
+                                 addAllDroplessTsfuIds:droplessTsfuIds]
                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
@@ -1319,43 +1319,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEnhanceMonsterEvent];
 }
 
-- (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange {
-  SubmitMonsterEnhancementRequestProto *req = [[[[[[SubmitMonsterEnhancementRequestProto builder]
-                                                   setSender:[self senderWithMaxResources]]
-                                                  addAllUeipNew:items]
-                                                 setGemsSpent:gemCost]
-                                                setOilChange:oilChange]
-                                               build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
-}
-
-- (int) sendEnhanceWaitCompleteMessage:(uint64_t)userMonsterId isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
-  EnhancementWaitTimeCompleteRequestProto *req = [[[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                      setSender:_sender]
-                                                     setUserMonsterId:userMonsterId]
-                                                    setIsSpeedup:isSpeedup]
-                                                   setGemsForSpeedup:gemCost]
-                                                  build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
-}
-
-- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterIds:(NSArray *)userMonsterIds {
-  CollectMonsterEnhancementRequestProto *req = [[[[[CollectMonsterEnhancementRequestProto builder]
-                                                   setSender:_sender]
-                                                  setUmcep:exp]
-                                                 addAllUserMonsterIds:userMonsterIds]
-                                                build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCCollectMonsterEnhancementEvent];
-}
-
 - (int) sendSolicitClanHelpMessage:(NSArray *)clanHelpNotices maxHelpers:(int)maxHelpers clientTime:(uint64_t)clientTime {
   SolicitClanHelpRequestProto *req = [[[[[[SolicitClanHelpRequestProto builder]
-                                          setSender:_sender]
-                                         setClientTime:clientTime]
-                                        setMaxHelpers:maxHelpers]
+                                         setSender:_sender]
+                                        setClientTime:clientTime]
+                                       setMaxHelpers:maxHelpers]
                                        addAllNotice:clanHelpNotices]
                                       build];
   
@@ -1374,9 +1342,9 @@ static NSString *udid = nil;
 
 - (int) sendEndClanHelpMessage:(NSArray *)clanHelpIds {
   EndClanHelpRequestProto *req = [[[[EndClanHelpRequestProto builder]
-                                    setSender:_sender]
-                                   addAllClanHelpIds:clanHelpIds]
-                                  build];
+                                     setSender:_sender]
+                                    addAllClanHelpIds:clanHelpIds]
+                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent];
 }

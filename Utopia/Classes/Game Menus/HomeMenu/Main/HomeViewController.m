@@ -11,7 +11,6 @@
 
 #import "SellViewController.h"
 #import "EnhanceChooserViewController.h"
-#import "EnhanceQueueViewController.h"
 #import "EvolveChooserViewController.h"
 #import "HealViewController.h"
 #import "TeamViewController.h"
@@ -72,9 +71,6 @@
   
   [self loadMainViewControllers];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadEnhanceViewController) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
-  [self reloadEnhanceViewController];
-  
   PopupSubViewController *vc = self.mainViewControllers[0];
   if (_initViewControllerClass) {
     for (PopupSubViewController *mvc in self.mainViewControllers) {
@@ -106,76 +102,6 @@
   self.mainViewControllers = arr;
 }
 
-- (void) reloadEnhanceViewController {
-  NSInteger mainIdx = NSNotFound;
-  BOOL chooserIsMain = YES;
-  
-  EnhanceChooserViewController *ecvc = nil;
-  EnhanceQueueViewController *eqvc = nil;
-  for (id vc in self.mainViewControllers) {
-    if ([vc isKindOfClass:[EnhanceChooserViewController class]]) {
-      ecvc = vc;
-      chooserIsMain = YES;
-      mainIdx = [self.mainViewControllers indexOfObject:vc];
-    } else if ([vc isKindOfClass:[EnhanceQueueViewController class]]) {
-      eqvc = vc;
-      chooserIsMain = NO;
-      mainIdx = [self.mainViewControllers indexOfObject:vc];
-    }
-  }
-  
-  // Make sure they exist. If they don't that means its not unlocked so return.
-  if (mainIdx != NSNotFound) {
-    // Also, check if queue is in cur vcs
-    id vc = [self.viewControllers lastObject];
-    if ([vc isKindOfClass:[EnhanceQueueViewController class]]) {
-      eqvc = vc;
-    }
-    
-    GameState *gs = [GameState sharedGameState];
-    BOOL chooserShouldBeMain = gs.userEnhancement == nil;
-    
-    if (chooserIsMain != chooserShouldBeMain) {
-      
-      if (!chooserShouldBeMain) {
-        // Replace chooser
-        BOOL shouldDisplay = eqvc != nil;
-        if (!eqvc) {
-          eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-        }
-        
-        [self.mainViewControllers replaceObjectAtIndex:mainIdx withObject:eqvc];
-        
-        if (shouldDisplay) {
-          [self replaceRootWithViewController:eqvc fromRight:NO animated:YES];
-        }
-        
-        if (_initViewControllerClass == [EnhanceChooserViewController class]) {
-          _initViewControllerClass = [EnhanceQueueViewController class];
-        }
-      }
-      
-      else {
-        // Replace queue
-        BOOL shouldDisplay = eqvc == [self.viewControllers lastObject];
-        
-        if (!ecvc) {
-          ecvc = [[EnhanceChooserViewController alloc] init];
-        }
-        
-        [self.mainViewControllers replaceObjectAtIndex:mainIdx withObject:ecvc];
-        
-        if (shouldDisplay) {
-          [self.viewControllers insertObject:ecvc atIndex:0];
-          [self addChildViewController:ecvc];
-          
-          [self pushViewController:eqvc animated:YES];
-        }
-      }
-    }
-  }
-}
-
 - (IBAction)rightArrowClicked:(id)sender {
   _currentIndex = (_currentIndex+1)%self.mainViewControllers.count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
@@ -195,7 +121,7 @@
   UIView *oldTitleView = self.curTitleView;
   
   PopupSubViewController *svc = [self.viewControllers lastObject];
-  if (svc.titleImageName && self.viewControllers.count == 1) {
+  if (svc.titleImageName) {
     self.curHomeTitleView = [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil][0];
     self.curTitleLabel = self.curHomeTitleView.titleLabel;
     [Globals imageNamed:svc.titleImageName withView:self.curHomeTitleView.titleImageView greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];

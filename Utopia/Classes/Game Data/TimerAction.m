@@ -16,7 +16,6 @@
 #import "HealViewController.h"
 #import "MiniJobsListViewController.h"
 #import "EvolveDetailsViewController.h"
-#import "EnhanceQueueViewController.h"
 
 @implementation TimerAction
 
@@ -223,51 +222,6 @@
 
 - (NSUInteger) hash {
   return 3747823;
-}
-
-@end
-
-@implementation EnhancementTimerAction
-
-- (id) initWithEnhancement:(UserEnhancement *)ue {
-  if ((self = [super init])) {
-    self.userEnhancement = ue;
-    
-    MonsterProto *mp = self.userEnhancement.baseMonster.userMonster.staticMonster;
-    self.title = mp.monsterName;
-    self.normalProgressBarColor = TimerProgressBarColorGreen;
-    self.allowsFreeSpeedup = YES;
-    self.completionDate = self.userEnhancement.expectedEndTime;
-    self.totalSeconds = self.userEnhancement.totalSeconds;
-  }
-  return self;
-}
-
-- (BOOL) canGetHelp {
-  GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:self.userEnhancement.baseMonster.userMonsterId] < 0;
-}
-
-- (NSString *) confirmActionString {
-  return [NSString stringWithFormat:@"Would you like to speedup %@'s enhancement for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
-}
-
-- (void) performSpeedup {
-  EnhanceQueueViewController *evc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-  [evc finishClicked:nil];
-}
-
-- (void) performHelp {
-  EnhanceQueueViewController *evc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-  [evc helpClicked:nil];
-}
-
-- (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userEnhancement.baseMonster.userMonsterId == [object userEnhancement].baseMonster.userMonsterId;
-}
-
-- (NSUInteger) hash {
-  return (NSUInteger)self.userEnhancement.baseMonster.userMonsterId*17;
 }
 
 @end

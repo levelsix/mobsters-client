@@ -123,8 +123,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       self.evolveClanHelpConstants = c;
     } else if (c.helpType == ClanHelpTypeMiniJob) {
       self.miniJobClanHelpConstants = c;
-    } else if (c.helpType == ClanHelpTypeEnhanceTime) {
-      self.enhanceClanHelpConstants = c;
     }
   }
   
@@ -1533,8 +1531,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
   
   int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
-#warning set back
-  return (int)ceilf(expGain/1);//lab.pointsPerSecond);
+  return (int)ceilf(expGain/lab.pointsPerSecond);
+}
+
+- (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue {
+  int timeLeft = 0;
+  for (int i = 0; i < ue.feeders.count; i++) {
+    EnhancementItem *item = [ue.feeders objectAtIndex:i];
+    if (i == 0) {
+      timeLeft += [[ue expectedEndTimeForItem:item] timeIntervalSinceNow];
+    } else {
+      timeLeft += [ue secondsForCompletionForItem:item];
+    }
+  }
+  return timeLeft;
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {

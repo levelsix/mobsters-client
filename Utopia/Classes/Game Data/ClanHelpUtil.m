@@ -215,10 +215,6 @@
         UserEvolution *ue = gs.userEvolution;
         
         isValid = (ue.userMonsterId1 == ch.userDataId);
-      } else if (ch.helpType == ClanHelpTypeEnhanceTime) {
-        UserEnhancement *ue = gs.userEnhancement;
-        
-        isValid = ue.baseMonster.userMonsterId == ch.userDataId;
       }
       
       if (!isValid) {

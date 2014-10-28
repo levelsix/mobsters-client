@@ -68,14 +68,6 @@ typedef enum {
 
 @end
 
-@interface EnhancementTimerAction : TimerAction
-
-@property (nonatomic, retain) UserEnhancement *userEnhancement;
-
-- (id) initWithEnhancement:(UserEnhancement *)ue;
-
-@end
-
 @interface MiniJobTimerAction : TimerAction
 
 @property (nonatomic, retain) UserMiniJob *miniJob;

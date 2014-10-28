@@ -132,10 +132,6 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
-@class CollectMonsterEnhancementRequestProto;
-@class CollectMonsterEnhancementRequestProto_Builder;
-@class CollectMonsterEnhancementResponseProto;
-@class CollectMonsterEnhancementResponseProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class CombineUserMonsterPiecesRequestProto;
@@ -717,7 +713,6 @@ typedef enum {
   EventProtocolRequestCEndClanHelpEvent = 81,
   EventProtocolRequestCInviteToClanEvent = 82,
   EventProtocolRequestCApproveOrRejectClanInviteEvent = 83,
-  EventProtocolRequestCCollectMonsterEnhancementEvent = 84,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -807,7 +802,6 @@ typedef enum {
   EventProtocolResponseSEndClanHelpEvent = 81,
   EventProtocolResponseSInviteToClanEvent = 82,
   EventProtocolResponseSApproveOrRejectClanInviteEvent = 83,
-  EventProtocolResponseSCollectMonsterEnhancementEvent = 84,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

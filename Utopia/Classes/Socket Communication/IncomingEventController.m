@@ -294,9 +294,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEndClanHelpEvent:
       responseClass = [EndClanHelpResponseProto class];
       break;
-    case EventProtocolResponseSCollectMonsterEnhancementEvent:
-      responseClass = [CollectMonsterEnhancementResponseProto class];
-      break;
       
     default:
       responseClass = nil;
@@ -371,13 +368,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myMonsters removeAllObjects];
     [gs.monsterHealingQueue removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
-    [gs addAllMonsterHealingProtos:proto.monstersHealingList];;
-    
-    if (proto.hasEnhancements) {
-      [gs addEnhancementProto:proto.enhancements];
-    } else {
-      gs.userEnhancement = nil;
-    }
+    [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
     if (proto.hasEvolution) {
       gs.userEvolution = [UserEvolution evolutionWithUserEvolutionProto:proto.evolution];
@@ -1367,51 +1358,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to enhance monster."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleSubmitMonsterEnhancementResponseProto:(FullEvent *)fe {
-  SubmitMonsterEnhancementResponseProto *proto = (SubmitMonsterEnhancementResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Submit monster enhancement received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to submit monster enhancement."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  EnhancementWaitTimeCompleteResponseProto *proto = (EnhancementWaitTimeCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Enhancement wait time complete received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to complete enhance wait time."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleCollectMonsterEnhancementResponseProto:(FullEvent *)fe {
-  CollectMonsterEnhancementResponseProto *proto = (CollectMonsterEnhancementResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Collect monster enhancement received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to collect monster enhancement."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

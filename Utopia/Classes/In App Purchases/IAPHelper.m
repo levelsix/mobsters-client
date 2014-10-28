@@ -118,9 +118,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
   
-#ifdef TOONSQUAD
   [TangoDelegate validatePurchase:transaction];
-#endif
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {

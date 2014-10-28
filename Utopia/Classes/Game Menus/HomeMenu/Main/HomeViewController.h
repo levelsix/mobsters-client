@@ -25,7 +25,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *selectorView;
 
-@property (nonatomic, retain) NSMutableArray *mainViewControllers;
+@property (nonatomic, retain) NSArray *mainViewControllers;
 
 - (id) initWithSell;
 - (id) initWithHeal;

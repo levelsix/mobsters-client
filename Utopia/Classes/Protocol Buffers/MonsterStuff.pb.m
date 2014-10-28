@@ -4596,7 +4596,6 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 @property int64_t userMonsterId;
 @property int64_t expectedStartTimeMillis;
 @property int32_t enhancingCost;
-@property BOOL enhancingComplete;
 @end
 
 @implementation UserEnhancementItemProto
@@ -4622,24 +4621,11 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   hasEnhancingCost_ = !!value_;
 }
 @synthesize enhancingCost;
-- (BOOL) hasEnhancingComplete {
-  return !!hasEnhancingComplete_;
-}
-- (void) setHasEnhancingComplete:(BOOL) value_ {
-  hasEnhancingComplete_ = !!value_;
-}
-- (BOOL) enhancingComplete {
-  return !!enhancingComplete_;
-}
-- (void) setEnhancingComplete:(BOOL) value_ {
-  enhancingComplete_ = !!value_;
-}
 - (id) init {
   if ((self = [super init])) {
     self.userMonsterId = 0L;
     self.expectedStartTimeMillis = 0L;
     self.enhancingCost = 0;
-    self.enhancingComplete = NO;
   }
   return self;
 }
@@ -4668,9 +4654,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (self.hasEnhancingCost) {
     [output writeInt32:3 value:self.enhancingCost];
   }
-  if (self.hasEnhancingComplete) {
-    [output writeBool:4 value:self.enhancingComplete];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -4688,9 +4671,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   }
   if (self.hasEnhancingCost) {
     size_ += computeInt32Size(3, self.enhancingCost);
-  }
-  if (self.hasEnhancingComplete) {
-    size_ += computeBoolSize(4, self.enhancingComplete);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -4736,9 +4716,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (self.hasEnhancingCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"enhancingCost", [NSNumber numberWithInteger:self.enhancingCost]];
   }
-  if (self.hasEnhancingComplete) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"enhancingComplete", [NSNumber numberWithBool:self.enhancingComplete]];
-  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -4756,8 +4733,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
       (!self.hasExpectedStartTimeMillis || self.expectedStartTimeMillis == otherMessage.expectedStartTimeMillis) &&
       self.hasEnhancingCost == otherMessage.hasEnhancingCost &&
       (!self.hasEnhancingCost || self.enhancingCost == otherMessage.enhancingCost) &&
-      self.hasEnhancingComplete == otherMessage.hasEnhancingComplete &&
-      (!self.hasEnhancingComplete || self.enhancingComplete == otherMessage.enhancingComplete) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -4770,9 +4745,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   }
   if (self.hasEnhancingCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.enhancingCost] hash];
-  }
-  if (self.hasEnhancingComplete) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.enhancingComplete] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -4826,9 +4798,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (other.hasEnhancingCost) {
     [self setEnhancingCost:other.enhancingCost];
   }
-  if (other.hasEnhancingComplete) {
-    [self setEnhancingComplete:other.enhancingComplete];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4860,10 +4829,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
       }
       case 24: {
         [self setEnhancingCost:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setEnhancingComplete:[input readBool]];
         break;
       }
     }
@@ -4915,22 +4880,6 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 - (UserEnhancementItemProto_Builder*) clearEnhancingCost {
   result.hasEnhancingCost = NO;
   result.enhancingCost = 0;
-  return self;
-}
-- (BOOL) hasEnhancingComplete {
-  return result.hasEnhancingComplete;
-}
-- (BOOL) enhancingComplete {
-  return result.enhancingComplete;
-}
-- (UserEnhancementItemProto_Builder*) setEnhancingComplete:(BOOL) value {
-  result.hasEnhancingComplete = YES;
-  result.enhancingComplete = value;
-  return self;
-}
-- (UserEnhancementItemProto_Builder*) clearEnhancingComplete {
-  result.hasEnhancingComplete = NO;
-  result.enhancingComplete = NO;
   return self;
 }
 @end

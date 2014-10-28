@@ -144,7 +144,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEndClanHelpEvent:
     case EventProtocolRequestCInviteToClanEvent:
     case EventProtocolRequestCApproveOrRejectClanInviteEvent:
-    case EventProtocolRequestCCollectMonsterEnhancementEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -236,7 +235,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEndClanHelpEvent:
     case EventProtocolResponseSInviteToClanEvent:
     case EventProtocolResponseSApproveOrRejectClanInviteEvent:
-    case EventProtocolResponseSCollectMonsterEnhancementEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

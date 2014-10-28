@@ -1015,11 +1015,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserEnhancementItemProto : PBGeneratedMessage {
 @private
-  BOOL hasEnhancingComplete_:1;
   BOOL hasUserMonsterId_:1;
   BOOL hasExpectedStartTimeMillis_:1;
   BOOL hasEnhancingCost_:1;
-  BOOL enhancingComplete_:1;
   int64_t userMonsterId;
   int64_t expectedStartTimeMillis;
   int32_t enhancingCost;
@@ -1027,11 +1025,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasUserMonsterId;
 - (BOOL) hasExpectedStartTimeMillis;
 - (BOOL) hasEnhancingCost;
-- (BOOL) hasEnhancingComplete;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int64_t expectedStartTimeMillis;
 @property (readonly) int32_t enhancingCost;
-- (BOOL) enhancingComplete;
 
 + (UserEnhancementItemProto*) defaultInstance;
 - (UserEnhancementItemProto*) defaultInstance;
@@ -1082,11 +1078,6 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) enhancingCost;
 - (UserEnhancementItemProto_Builder*) setEnhancingCost:(int32_t) value;
 - (UserEnhancementItemProto_Builder*) clearEnhancingCost;
-
-- (BOOL) hasEnhancingComplete;
-- (BOOL) enhancingComplete;
-- (UserEnhancementItemProto_Builder*) setEnhancingComplete:(BOOL) value;
-- (UserEnhancementItemProto_Builder*) clearEnhancingComplete;
 @end
 
 @interface UserMonsterCurrentExpProto : PBGeneratedMessage {

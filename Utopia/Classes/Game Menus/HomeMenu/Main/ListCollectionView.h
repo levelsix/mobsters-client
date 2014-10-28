@@ -68,8 +68,6 @@
 @property (nonatomic, strong) IBOutlet SplitImageProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *checkView;
-
 @property (nonatomic, strong) IBOutlet UILabel *botLabel;
 
 @property (nonatomic, strong) IBOutlet UIButton *minusButton;
