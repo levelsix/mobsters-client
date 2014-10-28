@@ -86,9 +86,8 @@
 }
 
 - (BOOL) isEnhancing {
-  //  GameState *gs = [GameState sharedGameState];
-  //  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
-  return NO;
+  GameState *gs = [GameState sharedGameState];
+  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
 }
 
 - (BOOL) isEvolving {
@@ -99,12 +98,12 @@
 }
 
 - (BOOL) isSacrificing {
-  //  GameState *gs = [GameState sharedGameState];
-  //  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
-  //    if (self.userMonsterId == ei.userMonsterId) {
-  //      return YES;
-  //    }
-  //  }
+  GameState *gs = [GameState sharedGameState];
+  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
+    if (self.userMonsterId == ei.userMonsterId) {
+      return YES;
+    }
+  }
   return NO;
 }
 
@@ -430,6 +429,7 @@
   if ((self = [super init])) {
     if (proto.hasBaseMonster) {
       self.baseMonster = [EnhancementItem itemWithUserEnhancementItemProto:proto.baseMonster];
+      self.isComplete = proto.baseMonster.enhancingComplete;
     }
     self.feeders = [NSMutableArray array];
     
@@ -507,12 +507,49 @@
 }
 
 - (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item {
-  return [item.expectedStartTime dateByAddingTimeInterval:[self secondsForCompletionForItem:item]];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSInteger idx = [self.feeders indexOfObject:item];
+  
+  MSDate *startDate = item.expectedStartTime;
+  if (idx != NSNotFound && idx > 0) {
+    startDate = [self expectedEndTimeForItem:self.feeders[idx-1]];
+  }
+  
+  int seconds = [self totalSeconds];
+  int secsToDock = 0;
+  
+  // Account for clan helps
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:self.baseMonster.userMonsterId];
+  if (numHelps > 0) {
+    int secsToDockPerHelp = MAX(gl.enhanceClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.enhanceClanHelpConstants.percentRemovedPerHelp));
+    secsToDock = numHelps*secsToDockPerHelp;
+  }
+  
+  // Now we need to go through list up till idx to see how many seconds can be docked off this
+  if (idx != NSNotFound && idx > 0) {
+    for (int i = 0; i < idx; i++) {
+      secsToDock = MAX(0, secsToDock-[self secondsForCompletionForItem:self.feeders[i]]);
+    }
+  }
+  
+  int secsForThisItem = MAX(0, [self secondsForCompletionForItem:item]-secsToDock);
+  
+  return [startDate dateByAddingTimeInterval:secsForThisItem];
 }
 
 - (MSDate *) expectedEndTime {
   EnhancementItem *item = [self.feeders lastObject];
   return [self expectedEndTimeForItem:item];
+}
+
+- (int) totalSeconds {
+  int seconds = 0;
+  for (EnhancementItem *ei in self.feeders) {
+    seconds += [self secondsForCompletionForItem:ei];
+  }
+  return seconds;
 }
 
 - (id) copy {

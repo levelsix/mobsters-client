@@ -97,7 +97,12 @@
       [Globals addAlertNotification:[NSString stringWithFormat:@"Oops, %@ is at max enhancement level.", name]];
     }
   } else {
-    eqvc = [[EnhanceQueueViewController alloc] initWithBaseMonster:um];
+    GameState *gs = [GameState sharedGameState];
+    if (gs.userEnhancement) {
+      eqvc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
+    } else {
+      eqvc = [[EnhanceQueueViewController alloc] initWithBaseMonster:um];
+    }
   }
   
   if (eqvc) {

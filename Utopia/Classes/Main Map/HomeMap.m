@@ -642,11 +642,20 @@
     }
   }
   
+  BOOL enhancementInProgress = gs.userEnhancement && !gs.userEnhancement.isComplete;
   for (LabBuilding *b in [self childrenOfClassType:[LabBuilding class]]) {
-    if (b.userStruct.staticStruct.structInfo.level > 0) {
-      [b setBubbleType:BuildingBubbleTypeEnhance];
+    if (enhancementInProgress) {
+      [b setBubbleType:BuildingBubbleTypeNone];
+      [b beginAnimatingWithEnhancement:gs.userEnhancement];
     } else {
-      [b setBubbleType:BuildingBubbleTypeFix];
+      [b stopAnimating];
+      if (gs.userEnhancement.isComplete) {
+        [b setBubbleType:BuildingBubbleTypeComplete];
+      } else if (b.userStruct.staticStruct.structInfo.level > 0) {
+        [b setBubbleType:BuildingBubbleTypeEnhance];
+      } else {
+        [b setBubbleType:BuildingBubbleTypeFix];
+      }
     }
   }
 }

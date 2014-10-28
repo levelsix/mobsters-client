@@ -30,8 +30,7 @@
 }
 
 - (void) removeView {
-  MSWindow *window = (MSWindow *)[[UIApplication sharedApplication] keyWindow];
-  [window removeOmniPresentView:self.view];
+  [(MSWindow *)self.view.superview removeOmniPresentView:self.view];
   [self removeFromParentViewController];
 }
 

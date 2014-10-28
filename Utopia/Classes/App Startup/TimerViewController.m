@@ -100,6 +100,7 @@
   
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
@@ -158,6 +159,11 @@
   
   if (gs.userEvolution) {
     TimerAction *ta = [[EvolutionTimerAction alloc] initWithEvolution:gs.userEvolution];
+    [arr addObject:ta];
+  }
+  
+  if (gs.userEnhancement && !gs.userEnhancement.isComplete) {
+    TimerAction *ta = [[EnhancementTimerAction alloc] initWithEnhancement:gs.userEnhancement];
     [arr addObject:ta];
   }
   

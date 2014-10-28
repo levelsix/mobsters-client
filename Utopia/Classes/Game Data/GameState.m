@@ -722,6 +722,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark -
 
+- (void) addEnhancementProto:(UserEnhancementProto *)proto {
+  if (proto) {
+    self.userEnhancement = [UserEnhancement enhancementWithUserEnhancementProto:proto];
+    self.userEnhancement.isActive = YES;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+    
+    [self beginEnhanceTimer];
+    
+    [QuestUtil checkAllDonateQuests];
+  }
+}
+
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
   PersistentClanEventUserInfoProto *toRemove = nil;
   for (PersistentClanEventUserInfoProto *p in self.curClanRaidUserInfos) {
@@ -1368,6 +1381,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark Enhance Timer
+
+- (void) beginEnhanceTimer {
+  [self stopEnhanceTimer];
+  
+  if (self.userEnhancement && !self.userEnhancement.isComplete) {
+    MSDate *time = [self.userEnhancement expectedEndTime];
+    if ([time timeIntervalSinceNow] <= 0) {
+      [self enhancingWaitTimeComplete];
+    } else {
+      _enhanceTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) enhancingWaitTimeComplete {
+  if (self.userEnhancement && !self.userEnhancement.isComplete && [self.userEnhancement.expectedEndTime timeIntervalSinceNow] < 0) {
+    [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:NO delegate:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+    
+    [QuestUtil checkAllDonateQuests];
+  }
+}
+
+- (void) stopEnhanceTimer {
+  if (_enhanceTimer) {
+    [_enhanceTimer invalidate];
+    _enhanceTimer = nil;
+  }
+}
+
 #pragma mark Evolution Timer
 
 - (void) beginEvolutionTimer {
@@ -1388,7 +1433,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
-    [self beginEvolutionTimer];
     
     [QuestUtil checkAllDonateQuests];
   }
@@ -1589,6 +1633,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginEvolutionTimer];
   } else if (ch.helpType == ClanHelpTypeMiniJob) {
     [self beginMiniJobTimer];
+  } else if (ch.helpType == ClanHelpTypeEnhanceTime) {
+    [self beginEnhanceTimer];
   }
 }
 

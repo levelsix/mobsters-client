@@ -778,7 +778,7 @@
   if (ue.feeders.count) {
     [self displayProgressBar];
     
-    EnhancementItem *ei = [ue.feeders lastObject];
+    EnhancementItem *ei = ue.baseMonster;
     MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:ei.userMonster.monsterId];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
@@ -795,11 +795,26 @@
   }
 }
 
+- (BOOL) isFreeSpeedup {
+  if (self.isConstructing) {
+    return [super isFreeSpeedup];
+  } else {
+    Globals *gl = [Globals sharedGlobals];
+    NSTimeInterval timeLeft = _enhancement.expectedEndTime.timeIntervalSinceNow;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    return gemCost == 0;
+  }
+}
+
 - (NSString *) progressBarPrefix {
   if (self.isConstructing) {
     return [super progressBarPrefix];
   } else {
-    return @"obtimergreen";
+    if (![self isFreeSpeedup]) {
+      return @"obtimergreen";
+    } else {
+      return @"obtimerpurple";
+    }
   }
 }
 
@@ -809,10 +824,19 @@
   } else {
     UpgradeProgressBar *bar = self.progressBar;
     
-    EnhancementItem *feeder = _enhancement.feeders.firstObject;
-    NSTimeInterval time = [_enhancement expectedEndTimeForItem:feeder].timeIntervalSinceNow;
-    NSTimeInterval totalSecs = [_enhancement secondsForCompletionForItem:feeder];
-    [bar updateForSecsLeft:time totalSecs:totalSecs];
+    // Check the prefix
+    NSString *prefix = [self progressBarPrefix];
+    if ([bar.prefix isEqualToString:prefix]) {
+      NSTimeInterval time = _enhancement.expectedEndTime.timeIntervalSinceNow;
+      NSTimeInterval totalSecs = [_enhancement totalSeconds];
+      [self.progressBar updateForSecsLeft:time totalSecs:totalSecs];
+      
+      if ([self isFreeSpeedup]) {
+        [self.progressBar animateFreeLabel];
+      }
+    } else {
+      [self displayProgressBar];
+    }
   }
 }
 

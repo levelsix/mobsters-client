@@ -10,6 +10,9 @@ pod 'ProtocolBuffers', '1.9.2'
 #pod 'Reachability'
 #pod 'Adjust', :git => 'git://github.com/adjust/ios_sdk.git', :tag => 'v3.3.4'
 
+pod 'Lookback', :configurations => ['Debug', 'Release']
+#pod 'LookbackSafe', :configurations => ['App Store']
+
 post_install do |installer|
   installer.project.targets.each do |target|
     target.build_configurations.each do |config|

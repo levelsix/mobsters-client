@@ -60,6 +60,7 @@ typedef enum {
   ClanHelpTypeHeal = 3,
   ClanHelpTypeEvolve = 4,
   ClanHelpTypeMiniJob = 5,
+  ClanHelpTypeEnhanceTime = 6,
 } ClanHelpType;
 
 BOOL ClanHelpTypeIsValidValue(ClanHelpType value);

@@ -71,6 +71,7 @@ BOOL ClanHelpTypeIsValidValue(ClanHelpType value) {
     case ClanHelpTypeHeal:
     case ClanHelpTypeEvolve:
     case ClanHelpTypeMiniJob:
+    case ClanHelpTypeEnhanceTime:
       return YES;
     default:
       return NO;

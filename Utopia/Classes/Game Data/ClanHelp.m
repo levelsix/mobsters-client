@@ -46,6 +46,9 @@
   } else if (self.helpType == ClanHelpTypeEvolve) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" evolve %@", mp.displayName];
+  } else if (self.helpType == ClanHelpTypeEnhanceTime) {
+    MonsterProto *mp = [gs monsterWithId:self.staticDataId];
+    return [NSString stringWithFormat:@" enhance %@", mp.displayName];
   }
   return @"!";
 }

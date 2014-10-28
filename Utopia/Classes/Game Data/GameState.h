@@ -15,6 +15,7 @@
 #import "ChatObject.h"
 
 @interface GameState : NSObject {
+  NSTimer *_enhanceTimer;
   NSTimer *_evolutionTimer;
   NSTimer *_healingTimer;
   NSTimer *_combineTimer;
@@ -127,6 +128,7 @@
 
 @property (nonatomic, retain) NSMutableDictionary *staticSkills;
 
+@property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
 
 + (GameState *) sharedGameState;
@@ -195,6 +197,8 @@
 - (void) saveHealthProgressesFromIndex:(NSInteger)index;
 - (void) readjustAllMonsterHealingProtos;
 
+- (void) addEnhancementProto:(UserEnhancementProto *)proto;
+
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
 - (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId;
@@ -240,6 +244,9 @@
 
 - (void) beginHealingTimer;
 - (void) stopHealingTimer;
+
+- (void) beginEnhanceTimer;
+- (void) stopEnhanceTimer;
 
 - (void) beginEvolutionTimer;
 - (void) stopEvolutionTimer;

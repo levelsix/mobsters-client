@@ -14,6 +14,10 @@
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
 @class AddMonsterToBattleTeamResponseProto_Builder;
+@class CollectMonsterEnhancementRequestProto;
+@class CollectMonsterEnhancementRequestProto_Builder;
+@class CollectMonsterEnhancementResponseProto;
+@class CollectMonsterEnhancementResponseProto_Builder;
 @class CombineUserMonsterPiecesRequestProto;
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
@@ -159,12 +163,19 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
 
 typedef enum {
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess = 1,
-  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailHealingNotComplete = 2,
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds = 3,
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther = 4,
 } EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus;
 
 BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value);
+
+typedef enum {
+  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess = 1,
+  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailOther = 2,
+  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailEnhancementIncomplete = 3,
+} CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus;
+
+BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value);
 
 typedef enum {
   EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess = 1,
@@ -709,10 +720,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpeedup_:1;
+  BOOL hasUserMonsterId_:1;
   BOOL hasGemsForSpeedup_:1;
   BOOL hasSender_:1;
   BOOL hasUmcep_:1;
   BOOL isSpeedup_:1;
+  int64_t userMonsterId;
   int32_t gemsForSpeedup;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
@@ -722,11 +735,13 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
 - (BOOL) hasUmcep;
+- (BOOL) hasUserMonsterId;
 @property (readonly, strong) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, strong) UserMonsterCurrentExpProto* umcep;
 @property (readonly, strong) PBArray * userMonsterIdsList;
+@property (readonly) int64_t userMonsterId;
 - (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
 
 + (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
@@ -794,6 +809,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
 - (EnhancementWaitTimeCompleteRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
 - (EnhancementWaitTimeCompleteRequestProto_Builder *)clearUserMonsterIds;
+
+- (BOOL) hasUserMonsterId;
+- (int64_t) userMonsterId;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUserMonsterId:(int64_t) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterId;
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
@@ -854,6 +874,138 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus;
+@end
+
+@interface CollectMonsterEnhancementRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasUmcep_:1;
+  MinimumUserProto* sender;
+  UserMonsterCurrentExpProto* umcep;
+  PBAppendableArray * mutableUserMonsterIdsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUmcep;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) UserMonsterCurrentExpProto* umcep;
+@property (readonly, strong) PBArray * userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+
++ (CollectMonsterEnhancementRequestProto*) defaultInstance;
+- (CollectMonsterEnhancementRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectMonsterEnhancementRequestProto_Builder*) builder;
++ (CollectMonsterEnhancementRequestProto_Builder*) builder;
++ (CollectMonsterEnhancementRequestProto_Builder*) builderWithPrototype:(CollectMonsterEnhancementRequestProto*) prototype;
+- (CollectMonsterEnhancementRequestProto_Builder*) toBuilder;
+
++ (CollectMonsterEnhancementRequestProto*) parseFromData:(NSData*) data;
++ (CollectMonsterEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectMonsterEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectMonsterEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectMonsterEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectMonsterEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectMonsterEnhancementRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CollectMonsterEnhancementRequestProto* result;
+}
+
+- (CollectMonsterEnhancementRequestProto*) defaultInstance;
+
+- (CollectMonsterEnhancementRequestProto_Builder*) clear;
+- (CollectMonsterEnhancementRequestProto_Builder*) clone;
+
+- (CollectMonsterEnhancementRequestProto*) build;
+- (CollectMonsterEnhancementRequestProto*) buildPartial;
+
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFrom:(CollectMonsterEnhancementRequestProto*) other;
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectMonsterEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectMonsterEnhancementRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectMonsterEnhancementRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUmcep;
+- (UserMonsterCurrentExpProto*) umcep;
+- (CollectMonsterEnhancementRequestProto_Builder*) setUmcep:(UserMonsterCurrentExpProto*) value;
+- (CollectMonsterEnhancementRequestProto_Builder*) setUmcep_Builder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
+- (CollectMonsterEnhancementRequestProto_Builder*) clearUmcep;
+
+- (PBAppendableArray *)userMonsterIdsList;
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (CollectMonsterEnhancementRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
+- (CollectMonsterEnhancementRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
+- (CollectMonsterEnhancementRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
+- (CollectMonsterEnhancementRequestProto_Builder *)clearUserMonsterIds;
+@end
+
+@interface CollectMonsterEnhancementResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+
++ (CollectMonsterEnhancementResponseProto*) defaultInstance;
+- (CollectMonsterEnhancementResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectMonsterEnhancementResponseProto_Builder*) builder;
++ (CollectMonsterEnhancementResponseProto_Builder*) builder;
++ (CollectMonsterEnhancementResponseProto_Builder*) builderWithPrototype:(CollectMonsterEnhancementResponseProto*) prototype;
+- (CollectMonsterEnhancementResponseProto_Builder*) toBuilder;
+
++ (CollectMonsterEnhancementResponseProto*) parseFromData:(NSData*) data;
++ (CollectMonsterEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectMonsterEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectMonsterEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectMonsterEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectMonsterEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectMonsterEnhancementResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  CollectMonsterEnhancementResponseProto* result;
+}
+
+- (CollectMonsterEnhancementResponseProto*) defaultInstance;
+
+- (CollectMonsterEnhancementResponseProto_Builder*) clear;
+- (CollectMonsterEnhancementResponseProto_Builder*) clone;
+
+- (CollectMonsterEnhancementResponseProto*) build;
+- (CollectMonsterEnhancementResponseProto*) buildPartial;
+
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFrom:(CollectMonsterEnhancementResponseProto*) other;
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectMonsterEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectMonsterEnhancementResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectMonsterEnhancementResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status;
+- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value;
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus;
 @end
 
 @interface EnhanceMonsterRequestProto : PBGeneratedMessage {

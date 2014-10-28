@@ -44,8 +44,17 @@
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *afterEnhanceLevelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *nextLevelLabel;
-@property (nonatomic, retain) IBOutlet UILabel *totalQueueCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueingCostLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *totalTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *totalQueueCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *freeLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *oilButtonView;
+@property (nonatomic, retain) IBOutlet UIView *finishButtonView;
+@property (nonatomic, retain) IBOutlet UIView *helpButtonView;
+@property (nonatomic, retain) IBOutlet UIView *collectButtonView;
 
 @property (nonatomic, retain) IBOutlet THLabel *selectMobsterLabel;
 
@@ -68,7 +77,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
 
-@property (nonatomic, retain) IBOutlet UIView *buttonLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *oilLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *finishLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *collectLabelsView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
 @property (nonatomic, retain) IBOutlet UIView *skipButtonView;
@@ -79,6 +90,7 @@
 - (void) waitTimeComplete;
 
 - (id) initWithBaseMonster:(UserMonster *)um;
+- (id) initWithCurrentEnhancement;
 
 - (UserEnhancement *) currentEnhancement;
 
@@ -86,5 +98,8 @@
 - (void) reloadListViewAnimated:(BOOL)animated;
 - (void) updateLabelsNonTimer;
 - (void) updateStats;
+
+- (IBAction)helpClicked:(id)sender;
+- (IBAction)finishClicked:(id)sender;
 
 @end

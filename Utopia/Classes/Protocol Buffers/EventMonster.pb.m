@@ -2100,6 +2100,7 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
 @property int32_t gemsForSpeedup;
 @property (strong) UserMonsterCurrentExpProto* umcep;
 @property (strong) PBAppendableArray * mutableUserMonsterIdsList;
+@property int64_t userMonsterId;
 @end
 
 @implementation EnhancementWaitTimeCompleteRequestProto
@@ -2139,12 +2140,20 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
 @synthesize umcep;
 @synthesize mutableUserMonsterIdsList;
 @dynamic userMonsterIdsList;
+- (BOOL) hasUserMonsterId {
+  return !!hasUserMonsterId_;
+}
+- (void) setHasUserMonsterId:(BOOL) value_ {
+  hasUserMonsterId_ = !!value_;
+}
+@synthesize userMonsterId;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.isSpeedup = NO;
     self.gemsForSpeedup = 0;
     self.umcep = [UserMonsterCurrentExpProto defaultInstance];
+    self.userMonsterId = 0L;
   }
   return self;
 }
@@ -2189,6 +2198,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       [output writeInt64:5 value:values[i]];
     }
   }
+  if (self.hasUserMonsterId) {
+    [output writeInt64:6 value:self.userMonsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2219,6 +2231,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
     }
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
+  }
+  if (self.hasUserMonsterId) {
+    size_ += computeInt64Size(6, self.userMonsterId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2276,6 +2291,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterIds", obj];
   }];
+  if (self.hasUserMonsterId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2296,6 +2314,8 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       self.hasUmcep == otherMessage.hasUmcep &&
       (!self.hasUmcep || [self.umcep isEqual:otherMessage.umcep]) &&
       [self.userMonsterIdsList isEqualToArray:otherMessage.userMonsterIdsList] &&
+      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
+      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2315,6 +2335,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
   [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [obj longValue];
   }];
+  if (self.hasUserMonsterId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2377,6 +2400,9 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       [result.mutableUserMonsterIdsList appendArray:other.mutableUserMonsterIdsList];
     }
   }
+  if (other.hasUserMonsterId) {
+    [self setUserMonsterId:other.userMonsterId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2426,6 +2452,10 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
       }
       case 40: {
         [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setUserMonsterId:[input readInt64]];
         break;
       }
     }
@@ -2549,6 +2579,22 @@ static EnhancementWaitTimeCompleteRequestProto* defaultEnhancementWaitTimeComple
 }
 - (EnhancementWaitTimeCompleteRequestProto_Builder *)clearUserMonsterIds {
   result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+- (BOOL) hasUserMonsterId {
+  return result.hasUserMonsterId;
+}
+- (int64_t) userMonsterId {
+  return result.userMonsterId;
+}
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUserMonsterId:(int64_t) value {
+  result.hasUserMonsterId = YES;
+  result.userMonsterId = value;
+  return self;
+}
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterId {
+  result.hasUserMonsterId = NO;
+  result.userMonsterId = 0L;
   return self;
 }
 @end
@@ -2695,7 +2741,6 @@ static EnhancementWaitTimeCompleteResponseProto* defaultEnhancementWaitTimeCompl
 BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value) {
   switch (value) {
     case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess:
-    case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailHealingNotComplete:
     case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds:
     case EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther:
       return YES;
@@ -2833,6 +2878,651 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 - (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess;
+  return self;
+}
+@end
+
+@interface CollectMonsterEnhancementRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) UserMonsterCurrentExpProto* umcep;
+@property (strong) PBAppendableArray * mutableUserMonsterIdsList;
+@end
+
+@implementation CollectMonsterEnhancementRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasUmcep {
+  return !!hasUmcep_;
+}
+- (void) setHasUmcep:(BOOL) value_ {
+  hasUmcep_ = !!value_;
+}
+@synthesize umcep;
+@synthesize mutableUserMonsterIdsList;
+@dynamic userMonsterIdsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.umcep = [UserMonsterCurrentExpProto defaultInstance];
+  }
+  return self;
+}
+static CollectMonsterEnhancementRequestProto* defaultCollectMonsterEnhancementRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectMonsterEnhancementRequestProto class]) {
+    defaultCollectMonsterEnhancementRequestProtoInstance = [[CollectMonsterEnhancementRequestProto alloc] init];
+  }
+}
++ (CollectMonsterEnhancementRequestProto*) defaultInstance {
+  return defaultCollectMonsterEnhancementRequestProtoInstance;
+}
+- (CollectMonsterEnhancementRequestProto*) defaultInstance {
+  return defaultCollectMonsterEnhancementRequestProtoInstance;
+}
+- (PBArray *)userMonsterIdsList {
+  return mutableUserMonsterIdsList;
+}
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
+  return [mutableUserMonsterIdsList int64AtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUmcep) {
+    [output writeMessage:2 value:self.umcep];
+  }
+  const NSUInteger userMonsterIdsListCount = self.userMonsterIdsList.count;
+  if (userMonsterIdsListCount > 0) {
+    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
+    for (NSUInteger i = 0; i < userMonsterIdsListCount; ++i) {
+      [output writeInt64:3 value:values[i]];
+    }
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUmcep) {
+    size_ += computeMessageSize(2, self.umcep);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.userMonsterIdsList.count;
+    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt64SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromData:(NSData*) data {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromData:data] build];
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectMonsterEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementRequestProto*)[[[CollectMonsterEnhancementRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementRequestProto_Builder*) builder {
+  return [[CollectMonsterEnhancementRequestProto_Builder alloc] init];
+}
++ (CollectMonsterEnhancementRequestProto_Builder*) builderWithPrototype:(CollectMonsterEnhancementRequestProto*) prototype {
+  return [[CollectMonsterEnhancementRequestProto builder] mergeFrom:prototype];
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) builder {
+  return [CollectMonsterEnhancementRequestProto builder];
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) toBuilder {
+  return [CollectMonsterEnhancementRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasUmcep) {
+    [output appendFormat:@"%@%@ {\n", indent, @"umcep"];
+    [self.umcep writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterIds", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CollectMonsterEnhancementRequestProto class]]) {
+    return NO;
+  }
+  CollectMonsterEnhancementRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasUmcep == otherMessage.hasUmcep &&
+      (!self.hasUmcep || [self.umcep isEqual:otherMessage.umcep]) &&
+      [self.userMonsterIdsList isEqualToArray:otherMessage.userMonsterIdsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasUmcep) {
+    hashCode = hashCode * 31 + [self.umcep hash];
+  }
+  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface CollectMonsterEnhancementRequestProto_Builder()
+@property (strong) CollectMonsterEnhancementRequestProto* result;
+@end
+
+@implementation CollectMonsterEnhancementRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CollectMonsterEnhancementRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) clear {
+  self.result = [[CollectMonsterEnhancementRequestProto alloc] init];
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) clone {
+  return [CollectMonsterEnhancementRequestProto builderWithPrototype:result];
+}
+- (CollectMonsterEnhancementRequestProto*) defaultInstance {
+  return [CollectMonsterEnhancementRequestProto defaultInstance];
+}
+- (CollectMonsterEnhancementRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectMonsterEnhancementRequestProto*) buildPartial {
+  CollectMonsterEnhancementRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFrom:(CollectMonsterEnhancementRequestProto*) other {
+  if (other == [CollectMonsterEnhancementRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUmcep) {
+    [self mergeUmcep:other.umcep];
+  }
+  if (other.mutableUserMonsterIdsList.count > 0) {
+    if (result.mutableUserMonsterIdsList == nil) {
+      result.mutableUserMonsterIdsList = [other.mutableUserMonsterIdsList copy];
+    } else {
+      [result.mutableUserMonsterIdsList appendArray:other.mutableUserMonsterIdsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserMonsterCurrentExpProto_Builder* subBuilder = [UserMonsterCurrentExpProto builder];
+        if (self.hasUmcep) {
+          [subBuilder mergeFrom:self.umcep];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUmcep:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUmcep {
+  return result.hasUmcep;
+}
+- (UserMonsterCurrentExpProto*) umcep {
+  return result.umcep;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) setUmcep:(UserMonsterCurrentExpProto*) value {
+  result.hasUmcep = YES;
+  result.umcep = value;
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) setUmcep_Builder:(UserMonsterCurrentExpProto_Builder*) builderForValue {
+  return [self setUmcep:[builderForValue build]];
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value {
+  if (result.hasUmcep &&
+      result.umcep != [UserMonsterCurrentExpProto defaultInstance]) {
+    result.umcep =
+      [[[UserMonsterCurrentExpProto builderWithPrototype:result.umcep] mergeFrom:value] buildPartial];
+  } else {
+    result.umcep = value;
+  }
+  result.hasUmcep = YES;
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder*) clearUmcep {
+  result.hasUmcep = NO;
+  result.umcep = [UserMonsterCurrentExpProto defaultInstance];
+  return self;
+}
+- (PBAppendableArray *)userMonsterIdsList {
+  return result.mutableUserMonsterIdsList;
+}
+- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
+  return [result userMonsterIdsAtIndex:index];
+}
+- (CollectMonsterEnhancementRequestProto_Builder *)addUserMonsterIds:(int64_t)value {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+  }
+  [result.mutableUserMonsterIdsList addInt64:value];
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+  }
+  [result.mutableUserMonsterIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count {
+  result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
+  return self;
+}
+- (CollectMonsterEnhancementRequestProto_Builder *)clearUserMonsterIds {
+  result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+@end
+
+@interface CollectMonsterEnhancementResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus status;
+@end
+
+@implementation CollectMonsterEnhancementResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
+  }
+  return self;
+}
+static CollectMonsterEnhancementResponseProto* defaultCollectMonsterEnhancementResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectMonsterEnhancementResponseProto class]) {
+    defaultCollectMonsterEnhancementResponseProtoInstance = [[CollectMonsterEnhancementResponseProto alloc] init];
+  }
+}
++ (CollectMonsterEnhancementResponseProto*) defaultInstance {
+  return defaultCollectMonsterEnhancementResponseProtoInstance;
+}
+- (CollectMonsterEnhancementResponseProto*) defaultInstance {
+  return defaultCollectMonsterEnhancementResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromData:(NSData*) data {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromData:data] build];
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectMonsterEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectMonsterEnhancementResponseProto*)[[[CollectMonsterEnhancementResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectMonsterEnhancementResponseProto_Builder*) builder {
+  return [[CollectMonsterEnhancementResponseProto_Builder alloc] init];
+}
++ (CollectMonsterEnhancementResponseProto_Builder*) builderWithPrototype:(CollectMonsterEnhancementResponseProto*) prototype {
+  return [[CollectMonsterEnhancementResponseProto builder] mergeFrom:prototype];
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) builder {
+  return [CollectMonsterEnhancementResponseProto builder];
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) toBuilder {
+  return [CollectMonsterEnhancementResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[CollectMonsterEnhancementResponseProto class]]) {
+    return NO;
+  }
+  CollectMonsterEnhancementResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value) {
+  switch (value) {
+    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess:
+    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailOther:
+    case CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailEnhancementIncomplete:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CollectMonsterEnhancementResponseProto_Builder()
+@property (strong) CollectMonsterEnhancementResponseProto* result;
+@end
+
+@implementation CollectMonsterEnhancementResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[CollectMonsterEnhancementResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) clear {
+  self.result = [[CollectMonsterEnhancementResponseProto alloc] init];
+  return self;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) clone {
+  return [CollectMonsterEnhancementResponseProto builderWithPrototype:result];
+}
+- (CollectMonsterEnhancementResponseProto*) defaultInstance {
+  return [CollectMonsterEnhancementResponseProto defaultInstance];
+}
+- (CollectMonsterEnhancementResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectMonsterEnhancementResponseProto*) buildPartial {
+  CollectMonsterEnhancementResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFrom:(CollectMonsterEnhancementResponseProto*) other {
+  if (other == [CollectMonsterEnhancementResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value = (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus)[input readEnum];
+        if (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) status {
+  return result.status;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) setStatus:(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
   return self;
 }
 @end

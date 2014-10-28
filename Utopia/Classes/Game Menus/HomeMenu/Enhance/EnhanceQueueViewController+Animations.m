@@ -386,7 +386,12 @@ static int totalLevelUps = 0;
 }
 
 - (void) enhancementAnimationComplete {
+  // Basically start with a new enhancement
   [self.currentEnhancement.baseMonster setFakedUserMonster:nil];
+  self.currentEnhancement.isActive = NO;
+  self.currentEnhancement.isComplete = NO;
+  
+  _waitingForResponse = NO;
   
   // Don't animate queue view or the enhance button will show up and fade out...
   [self reloadQueueViewAnimated:NO];

@@ -125,6 +125,8 @@
 
 @property (nonatomic, retain) EnhancementItem *baseMonster;
 @property (nonatomic, retain) NSMutableArray *feeders;
+@property (nonatomic, assign) BOOL isActive;
+@property (nonatomic, assign) BOOL isComplete;
 
 + (id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto;
 
@@ -140,6 +142,7 @@
 - (MSDate *) expectedEndTimeForItem:(EnhancementItem *)item;
 
 - (MSDate *) expectedEndTime;
+- (int) totalSeconds;
 
 - (id) clone;
 
