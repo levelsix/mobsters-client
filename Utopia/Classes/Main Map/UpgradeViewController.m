@@ -321,11 +321,16 @@
     
     requiresTwoBars = YES;
     
-    curStat2 = roundf(cur.pointsMultiplier*100);
-    newStat2 = roundf(next.pointsMultiplier*100);
-    maxStat2 = roundf(max.pointsMultiplier*100);
-    statName2 = @"Multiplier:";
-    suffix2 = @"%";
+//    curStat2 = roundf(cur.pointsMultiplier*100);
+//    newStat2 = roundf(next.pointsMultiplier*100);
+//    maxStat2 = roundf(max.pointsMultiplier*100);
+//    statName2 = @"Multiplier:";
+//    suffix2 = @"%";
+    curStat2 = cur.pointsPerSecond;
+    newStat2 = next.pointsPerSecond;
+    maxStat2 = max.pointsPerSecond;
+    statName2 = @"Rate:";
+    suffix2 = @" Xp Per Sec";
   } else if (structType == StructureInfoProto_StructTypeResidence) {
     ResidenceProto *cur = (ResidenceProto *)curSS;
     ResidenceProto *next = (ResidenceProto *)nextSS;

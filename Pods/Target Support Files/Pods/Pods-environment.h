@@ -78,23 +78,3 @@
 #define COCOAPODS_VERSION_MINOR_UIImage_BlurredFrame 0
 #define COCOAPODS_VERSION_PATCH_UIImage_BlurredFrame 4
 
-// Debug build configuration
-#ifdef DEBUG
-
-  // Lookback
-  #define COCOAPODS_POD_AVAILABLE_Lookback
-  #define COCOAPODS_VERSION_MAJOR_Lookback 0
-  #define COCOAPODS_VERSION_MINOR_Lookback 6
-  #define COCOAPODS_VERSION_PATCH_Lookback 5
-
-#endif
-// Release build configuration
-#ifdef RELEASE
-
-  // Lookback
-  #define COCOAPODS_POD_AVAILABLE_Lookback
-  #define COCOAPODS_VERSION_MAJOR_Lookback 0
-  #define COCOAPODS_VERSION_MINOR_Lookback 6
-  #define COCOAPODS_VERSION_PATCH_Lookback 5
-
-#endif

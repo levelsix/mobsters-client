@@ -55,6 +55,7 @@
 @property (nonatomic, retain) IBOutlet UIView *finishButtonView;
 @property (nonatomic, retain) IBOutlet UIView *helpButtonView;
 @property (nonatomic, retain) IBOutlet UIView *collectButtonView;
+@property (nonatomic, retain) IBOutlet UIView *buttonViewsContainer;
 
 @property (nonatomic, retain) IBOutlet THLabel *selectMobsterLabel;
 

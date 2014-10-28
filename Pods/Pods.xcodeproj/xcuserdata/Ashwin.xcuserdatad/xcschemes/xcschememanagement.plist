@@ -19,11 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Lookback.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-NRTouchPoints.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,42 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1F9176BF90B0ECAFB089FB13</key>
+		<key>50718410F500186AA3A7CDDC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2222CB00ACF30B23E2F01972</key>
+		<key>55EBF17A202518710CB8AC69</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>266CEA72E59AEECEDC4C467C</key>
+		<key>58DB1E460D4D922E282DBF4B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>95BA38F3055CD5F068BA5451</key>
+		<key>7F20AB02DCFE5C8DFAE88B81</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A004AD4D6F0E63CA0587507F</key>
+		<key>BFBAF268B32CCD9ABA293FF7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A215F80C304F39ED085F5593</key>
+		<key>CF36B4A988AD9C57F05FE520</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AB3C6ED3F663A9E7F8231A2E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB3418997B1138E43E36A639</key>
+		<key>F185275401A668B709A1C76E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

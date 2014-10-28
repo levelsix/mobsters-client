@@ -445,6 +445,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       _isInBattle = NO;
       
       [self.notificationController clearAll];
+      [self.notificationController pauseNotifications];
     }
     
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
@@ -525,6 +526,8 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       self.resumeUserTask = nil;
       self.resumeTaskStages = nil;
+    } else {
+      [self.notificationController resumeNotifications];
     }
     
     // Check to see if user has a daily free speedup

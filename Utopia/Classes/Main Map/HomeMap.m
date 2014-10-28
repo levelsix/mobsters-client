@@ -1605,7 +1605,17 @@
       }
       
       if (activeQuest) {
-        [GenericPopupController displayNotificationViewWithText:@"You have a currently active mini job. Complete it before upgrading." title:@"Active Mini Job"];
+        [Globals addAlertNotification:@"You have a currently active mini job. Complete it before upgrading."];
+        return;
+      }
+    } else if (nextFsp.structType == StructureInfoProto_StructTypeLab) {
+      if (gs.userEnhancement) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently enhancing a %@. Complete it before upgrading.", MONSTER_NAME]];
+        return;
+      }
+    } else if (nextFsp.structType == StructureInfoProto_StructTypeEvo) {
+      if (gs.userEvolution) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently evolving a %@. Complete it before upgrading.", MONSTER_NAME]];
         return;
       }
     }

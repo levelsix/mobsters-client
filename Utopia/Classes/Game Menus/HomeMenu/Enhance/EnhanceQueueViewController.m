@@ -624,12 +624,17 @@
 }
 
 - (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  self.finishLabelsView.hidden = NO;
-  self.buttonSpinner.hidden = YES;
-  
-  _waitingForResponse = NO;
-  
-  [self updateLabelsNonTimer];
+  // In case its called from the timer action
+  if ([self isViewLoaded]) {
+//    self.finishLabelsView.hidden = NO;
+//    self.buttonSpinner.hidden = YES;
+//    
+//    _waitingForResponse = NO;
+//    
+//    [self updateLabelsNonTimer];
+    _waitingForResponse = NO;
+    [self collectClicked:nil];
+  }
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -656,6 +661,7 @@
 
 - (void) handleCollectMonsterEnhancementResponseProto:(FullEvent *)fe {
   self.collectLabelsView.hidden = NO;
+  self.finishLabelsView.hidden = NO;
   self.buttonSpinner.hidden = YES;
   
   [self animateEnhancement];

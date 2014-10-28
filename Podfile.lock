@@ -22,7 +22,6 @@ PODS:
     - AFNetworking/NSURLSession
   - Amplitude-iOS (2.1.1)
   - GPUImage (0.1.6)
-  - Lookback (0.6.5)
   - NRTouchPoints (0.1.0)
   - ProtocolBuffers (1.9.2)
   - UIImage+BlurredFrame (0.0.4)
@@ -31,7 +30,6 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - Amplitude-iOS (~> 2.1)
   - GPUImage
-  - Lookback
   - NRTouchPoints
   - ProtocolBuffers (= 1.9.2)
   - UIImage+BlurredFrame
@@ -40,7 +38,6 @@ SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   Amplitude-iOS: e72b65479dc035ef671a57e34e1a981767224318
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
-  Lookback: 59f217e51c1f2bcdf23d00522ef14b66be8557d1
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228
   UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d

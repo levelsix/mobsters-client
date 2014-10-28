@@ -712,6 +712,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
       [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
+      [gs beginEnhanceTimer];
       
       [gs removeNonFullUserUpdatesForTag:tag];
       

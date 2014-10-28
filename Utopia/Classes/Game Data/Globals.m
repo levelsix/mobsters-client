@@ -1533,8 +1533,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
   
   int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
-#warning set back
-  return (int)ceilf(expGain/1);//lab.pointsPerSecond);
+  return (int)ceilf(expGain/lab.pointsPerSecond);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {

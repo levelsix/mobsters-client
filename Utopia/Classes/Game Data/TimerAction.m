@@ -233,8 +233,7 @@
   if ((self = [super init])) {
     self.userEnhancement = ue;
     
-    MonsterProto *mp = self.userEnhancement.baseMonster.userMonster.staticMonster;
-    self.title = mp.monsterName;
+    self.title = @"Enhancing";
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.userEnhancement.expectedEndTime;
@@ -327,7 +326,7 @@
     self.userEvo = ue;
     
     MonsterProto *mp = self.userEvo.evoItem.userMonster1.staticMonster;
-    self.title = mp.monsterName;
+    self.title = @"Evolving";
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
     self.completionDate = self.userEvo.endTime;

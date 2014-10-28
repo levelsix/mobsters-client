@@ -127,6 +127,7 @@
 @property (nonatomic, retain) NSMutableArray *feeders;
 @property (nonatomic, assign) BOOL isActive;
 @property (nonatomic, assign) BOOL isComplete;
+@property (nonatomic, assign) BOOL hasShownFreeSpeedup;
 
 + (id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto;
 

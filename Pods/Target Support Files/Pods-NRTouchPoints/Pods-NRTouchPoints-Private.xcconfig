@@ -1,5 +1,5 @@
 #include "Pods-NRTouchPoints.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/NRTouchPoints" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Amplitude-iOS" "${PODS_ROOT}/Headers/Public/GPUImage" "${PODS_ROOT}/Headers/Public/Lookback" "${PODS_ROOT}/Headers/Public/NRTouchPoints" "${PODS_ROOT}/Headers/Public/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/ProtocolBuffers/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/UIImage+BlurredFrame"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/NRTouchPoints" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Amplitude-iOS" "${PODS_ROOT}/Headers/Public/GPUImage" "${PODS_ROOT}/Headers/Public/NRTouchPoints" "${PODS_ROOT}/Headers/Public/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/ProtocolBuffers/ProtocolBuffers" "${PODS_ROOT}/Headers/Public/UIImage+BlurredFrame"
 OTHER_LDFLAGS = -ObjC
 PODS_ROOT = ${SRCROOT}

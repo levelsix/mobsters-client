@@ -45,6 +45,11 @@
   _userAttacked = YES;
 }
 
+- (void) onExitTransitionDidStart {
+  [super onExitTransitionDidStart];
+  [self removeCloseButton];
+}
+
 #pragma mark - Close Button
 
 - (void) createCloseButton {
@@ -89,8 +94,6 @@
                                                     okSelector:@selector(leaveBattle)
                                                   cancelTarget:nil
                                                 cancelSelector:nil];
-    
-    [self removeCloseButton];
   }
 }
 

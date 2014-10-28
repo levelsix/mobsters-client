@@ -145,7 +145,7 @@ static int totalLevelUps = 0;
   totalLevelUps = (int)[ue finalPercentageFromCurrentLevel];
   
   self.skipButtonView.hidden = NO;
-  self.collectButtonView.hidden = YES;
+  self.buttonViewsContainer.hidden = YES;
   
   [self animateNextEnhancementItem];
 }
@@ -401,7 +401,7 @@ static int totalLevelUps = 0;
   self.queueView.userInteractionEnabled = YES;
   self.listView.userInteractionEnabled = YES;
   
-  self.enhanceButtonView.hidden = NO;
+  self.buttonViewsContainer.hidden = NO;
   
   [UIView animateWithDuration:0.3f animations:^{
     self.skipButtonView.alpha = 0.f;

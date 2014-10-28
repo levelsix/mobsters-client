@@ -16,7 +16,7 @@
 
 - (id) initWithSubViewController:(PopupSubViewController *)svc {
   if ((self = [super initWithNibName:@"HomeViewController" bundle:nil])) {
-    self.mainViewControllers = @[svc];
+    self.mainViewControllers = [@[svc] mutableCopy];
   }
   return self;
 }

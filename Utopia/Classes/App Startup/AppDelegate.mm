@@ -28,8 +28,6 @@
 #import <cocos2d-ui.h>
 #import "ChartboostDelegate.h"
 
-#import <Lookback/Lookback.h>
-
 #import "TangoDelegate.h"
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
@@ -44,8 +42,6 @@
 #define BUG_SENSE_API_KEY    @"ff946ee1"
 
 #define APP_OPEN_KEY         @"AppOpenKey"
-
-#define LOOKBACK_API_KEY     @"NZhHLZ2xvrmurjTox"
 
 @implementation AppDelegate
 
@@ -120,10 +116,6 @@
   // Bug sense
   [BugSenseController sharedControllerWithBugSenseAPIKey:BUG_SENSE_API_KEY];
 #endif
-  
-  [Lookback_Weak setupWithAppToken:LOOKBACK_API_KEY];
-  [Lookback_Weak lookback].shakeToRecord = YES;
-  [Lookback_Weak lookback].userIdentifier = [[UIDevice currentDevice] name];
   
   // Publish install
   [FacebookDelegate activateApp];
@@ -322,6 +314,10 @@
   
   if (gs.userEvolution) {
     [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished evolving.", gs.userEvolution.evoItem.userMonster1.staticEvolutionMonster.displayName] badge:1 date:gs.userEvolution.endTime];
+  }
+  
+  if (gs.userEnhancement && !gs.userEnhancement.isComplete) {
+    [self scheduleNotificationWithText:[NSString stringWithFormat:@"%@ has finished enhancing.", gs.userEnhancement.baseMonster.userMonster.staticMonster.displayName] badge:1 date:gs.userEnhancement.expectedEndTime];
   }
   
   for (UserMiniJob *miniJob in gs.myMiniJobs) {

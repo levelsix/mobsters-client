@@ -48,6 +48,7 @@ typedef enum {
 } TutorialDialogueSpeaker;
 
 typedef enum {
+  // 1
   TutorialStepGuideGreeting = 1,
   TutorialStepEnemyTeamDisembark,
   TutorialStepEnemyBossThreat,
@@ -55,16 +56,19 @@ typedef enum {
   TutorialStepGuideScared,
   TutorialStepFriendEnterFight,
   
+  // 7
   TutorialStepEnteredBattle,
   TutorialStepBattleFriendTaunt,
   TutorialStepBattleEnemyTaunt,
   TutorialStepBattleEnemyDefense,
   TutorialStepBattleEnemyBossAngry,
   
+  // 12
   TutorialStepFirstBattleFirstMove,
   TutorialStepFirstBattleSecondMove,
   TutorialStepFirstBattleLastMove,
   
+  // 15
   TutorialStepSecondBattleEnemyBossTaunt,
   TutorialStepSecondBattleFirstMove,
   TutorialStepSecondBattleSecondMove,
@@ -72,26 +76,31 @@ typedef enum {
   TutorialStepSecondBattleSwap,
   TutorialStepSecondBattleKillEnemy,
   
+  // 21
   TutorialStepPostBattleConfrontation,
   
   TutorialStepEnterHospital,
   
+  // 23
   TutorialStepBeginHealQueue,
   TutorialStepSpeedupHealQueue,
   TutorialStepExitHospital,
   
+  // 26
   TutorialStepBeginBuildingOne,
   TutorialStepSpeedupBuildingOne,
   
   TutorialStepBeginBuildingTwo,
   TutorialStepSpeedupBuildingTwo,
   
+  // 30
   TutorialStepBeginBuildingThree,
   TutorialStepSpeedupBuildingThree,
-  
+
   TutorialStepFacebookLogin,
   TutorialStepEnterName,
   
+  // 34
   TutorialStepAttackMap,
   TutorialStepAttackMapOpened,
   

@@ -332,7 +332,7 @@ static int numLeagues = 6;
   NSString* leagueText = league.leagueName;
   if (thisLeagueIsPlayers)
   {
-    leagueText = [leagueText stringByAppendingString:[NSString stringWithFormat:@" - %dth Place", gs.pvpLeague.rank]];
+    leagueText = [leagueText stringByAppendingString:[NSString stringWithFormat:@" - %@ Place", [Globals qualifierStringForNumber:gs.pvpLeague.rank]]];
     cell.backgroundColor = [UIColor colorWithHexString:@"fff7dc"];
   }
   else

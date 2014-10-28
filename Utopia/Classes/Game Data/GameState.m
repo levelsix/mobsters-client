@@ -591,9 +591,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   // Ignore if past 24 hrs ago
   if (self.clanHelpUtil) {
     for (id<ClanHelp> ch in [self.clanHelpUtil getAllHelpableClanHelps]) {
-//      if ([ch isOpen] && [ch requestedTime].timeIntervalSinceNow > -24*60*60) {
-        [arr addObject:ch];
-//      }
+      //      if ([ch isOpen] && [ch requestedTime].timeIntervalSinceNow > -24*60*60) {
+      [arr addObject:ch];
+      //      }
     }
   }
   
@@ -728,8 +728,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     self.userEnhancement.isActive = YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
-    
-    [self beginEnhanceTimer];
     
     [QuestUtil checkAllDonateQuests];
   }
@@ -1386,8 +1384,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) beginEnhanceTimer {
   [self stopEnhanceTimer];
   
-  if (self.userEnhancement && !self.userEnhancement.isComplete) {
-    MSDate *time = [self.userEnhancement expectedEndTime];
+  Globals *gl = [Globals sharedGlobals];
+  UserEnhancement *ue = self.userEnhancement;
+  if (ue && !ue.isComplete) {
+    MSDate *time = [ue expectedEndTime];
+    if (!ue.hasShownFreeSpeedup && ue.totalSeconds > gl.maxMinutesForFreeSpeedUp*60) {
+      time = [time dateByAddingTimeInterval:-gl.maxMinutesForFreeSpeedUp*60];
+    }
     if ([time timeIntervalSinceNow] <= 0) {
       [self enhancingWaitTimeComplete];
     } else {
@@ -1398,11 +1401,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) enhancingWaitTimeComplete {
-  if (self.userEnhancement && !self.userEnhancement.isComplete && [self.userEnhancement.expectedEndTime timeIntervalSinceNow] < 0) {
-    [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:NO delegate:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
-    
-    [QuestUtil checkAllDonateQuests];
+  Globals *gl = [Globals sharedGlobals];
+  UserEnhancement *ue = self.userEnhancement;
+  if (ue && !ue.isComplete) {
+    int timeLeft = [self.userEnhancement.expectedEndTime timeIntervalSinceNow];
+    if (timeLeft <= 0) {
+      [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:NO delegate:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+      
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished enhancing!", ue.baseMonster.userMonster.staticMonster.displayName] isImmediate:NO];
+      
+      [QuestUtil checkAllDonateQuests];
+    } else if (ue.totalSeconds > gl.maxMinutesForFreeSpeedUp*60 && timeLeft < gl.maxMinutesForFreeSpeedUp*60) {
+      NSString *desc = [NSString stringWithFormat:@"Your current Enhancement is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
+      [Globals addPurpleAlertNotification:desc];
+      
+      ue.hasShownFreeSpeedup = YES;
+    }
   }
 }
 
@@ -1430,9 +1445,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) evolutionWaitTimeComplete {
   if (self.userEvolution && [self.userEvolution.endTime timeIntervalSinceNow] < 0) {
+    UserMonster *um = self.userEvolution.evoItem.userMonster1;
+    
     [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+    
+    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished evolving!", um.staticMonster.displayName] isImmediate:NO];
     
     [QuestUtil checkAllDonateQuests];
   }
@@ -1481,6 +1500,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] combineMonsters:arr];
     [[NSNotificationCenter defaultCenter] postNotificationName:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
     [self beginCombineTimer];
+    
+    if (arr.count > 1) {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d %@s have finished combining!", (int)arr.count, MONSTER_NAME] isImmediate:NO];
+    } else {
+      GameState *gs = [GameState sharedGameState];
+      UserMonster *um = [gs myMonsterWithUserMonsterId:[arr[0] longLongValue]];
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished combining!", um.staticMonster.displayName] isImmediate:NO];
+    }
     
     [QuestUtil checkAllDonateQuests];
   }
