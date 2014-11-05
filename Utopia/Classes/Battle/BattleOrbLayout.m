@@ -11,7 +11,9 @@
 #import "Globals.h"
 
 // Make this 1 to allow user to swap wherever they want
+#ifdef DEBUG
 #define FREE_BATTLE_MOVEMENT 0
+#endif
 
 @interface BattleOrbLayout ()
 
@@ -670,6 +672,8 @@
   chain.chainType = ChainTypeMatch;
   [chain addOrb:rainbowOrb];
   [set addObject:chain];
+  
+  [self removeOrbs:[NSSet setWithObject:chain]];
   
   return set;
 }

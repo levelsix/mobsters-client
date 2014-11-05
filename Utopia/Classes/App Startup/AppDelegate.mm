@@ -133,23 +133,24 @@
   [self removeLocalNotifications];
   
   //[[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
-  
+    [[CCDirector sharedDirector] pause];
   return YES;
 }
 
 - (void) registerForPushNotifications {
   // Let the device know we want to receive push notifications
-  //	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-  //   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
   if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
     [[UIApplication sharedApplication] registerUserNotificationSettings:
      [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+  } else {
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
   }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
-  [[CCDirector sharedDirector] pause];
+
   [[SocketCommunication sharedSocketCommunication] flush];
 }
 
@@ -327,7 +328,7 @@
   }
   
   NSString *text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s need a leader.", gs.name, MONSTER_NAME];
-  MSDate *date = [MSDate dateWithTimeIntervalSinceNow:12*60*60];
+  MSDate *date = [MSDate dateWithTimeIntervalSinceNow:24*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];
   
   text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s really need a leader.", gs.name, MONSTER_NAME];

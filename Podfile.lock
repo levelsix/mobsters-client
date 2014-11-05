@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Amplitude-iOS (2.1.1)
+  - Amplitude-iOS (2.2.0)
   - GPUImage (0.1.6)
   - NRTouchPoints (0.1.0)
   - ProtocolBuffers (1.9.2)
@@ -36,7 +36,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  Amplitude-iOS: e72b65479dc035ef671a57e34e1a981767224318
+  Amplitude-iOS: 826033d01dee9383131d1237a1911e7170a8e0c1
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228

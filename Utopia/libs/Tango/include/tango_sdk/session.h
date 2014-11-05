@@ -646,7 +646,7 @@ public:
   ///                        a list of account IDs.
   ///    @param message      The message that you want to send. See the Message class in message.h.
   ///
-  ///    See <a href="/ApiDetails/advancedmessaging.html">Avanced Messaging API Details</a> for more information.
+  ///    See <a href="/ApiDetails/advancedmessaging.html">Advanced Messaging API Details</a> for more information.
   ///
   RequestID send_message_to_recipients(const AccountIdVector& recipients,
                                        const Message& message,

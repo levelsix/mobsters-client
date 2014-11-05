@@ -58,11 +58,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.iapPackages = constants.inAppPurchasePackagesList;
-  NSMutableArray *arr = [NSMutableArray array];
-  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-    [arr addObject:pkg];
-  }
-  self.iapPackages = arr;
   [self updateInAppPurchases];
   
   self.maxLevelForUser = constants.maxLevelForUser;

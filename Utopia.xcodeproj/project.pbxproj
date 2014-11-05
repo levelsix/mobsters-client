@@ -7660,6 +7660,9 @@
 		CF9F996319E49D20006B0119 /* superjob.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F996019E49D20006B0119 /* superjob.png */; };
 		CF9F996419E49D20006B0119 /* superjob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F996119E49D20006B0119 /* superjob@2x.png */; };
 		CF9F996519E49D20006B0119 /* superjob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9F996119E49D20006B0119 /* superjob@2x.png */; };
+		CFA744071A0975DC0068E1B7 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA744061A0975DB0068E1B7 /* Entitlements.plist */; };
+		CFA744081A0975DC0068E1B7 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA744061A0975DB0068E1B7 /* Entitlements.plist */; };
+		CFA744091A0975DC0068E1B7 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA744061A0975DB0068E1B7 /* Entitlements.plist */; };
 		CFA7502318CAD30000AC66FC /* TutorialNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */; };
 		CFA7502418CAD30000AC66FC /* TutorialNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */; };
 		CFA7502A18CAD3B900AC66FC /* nameinput.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA7502818CAD3B900AC66FC /* nameinput.png */; };
@@ -9876,6 +9879,17 @@
 		DAF7995019AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		CFA727FC1A097FF200FF6031 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXContainerItemProxy section */
 		CF48189919F7217F00041486 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -9943,7 +9957,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods.app store.xcconfig"; path = "Pods/Target Support Files/Pods/Pods.app store.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		454E624A15670A15004EB7E9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -9981,6 +9994,7 @@
 		4C16FF0519CE03AE00F9FC1E /* poisonicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poisonicon.png; sourceTree = "<group>"; };
 		4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonicon@2x.png"; sourceTree = "<group>"; };
 		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -11651,6 +11665,7 @@
 		CF9F992F19E48734006B0119 /* joinbubble1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "joinbubble1@2x.png"; sourceTree = "<group>"; };
 		CF9F996019E49D20006B0119 /* superjob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = superjob.png; sourceTree = "<group>"; };
 		CF9F996119E49D20006B0119 /* superjob@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "superjob@2x.png"; sourceTree = "<group>"; };
+		CFA744061A0975DB0068E1B7 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
 		CFA7502018CAD30000AC66FC /* TutorialNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialNameViewController.h; sourceTree = "<group>"; };
 		CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialNameViewController.m; sourceTree = "<group>"; };
 		CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialNameViewController.xib; sourceTree = "<group>"; };
@@ -13797,7 +13812,7 @@
 			children = (
 				7531CD67E149A97B795B119A /* Pods.debug.xcconfig */,
 				5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */,
-				3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */,
+				686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -14396,6 +14411,7 @@
 		CF1267661538ACC500E0C1AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CFA744061A0975DB0068E1B7 /* Entitlements.plist */,
 				CF5BD68E19CA5521006C4B4C /* icons.xcassets */,
 				CF0CF849196F4AA000ECD301 /* tips.txt */,
 				CF864D61193E639900DE0D7A /* NRTouchImage@2x.png */,
@@ -19840,6 +19856,7 @@
 				CF48255F19F7217F00041486 /* ShellScript */,
 			);
 			buildRules = (
+				CFA727FC1A097FF200FF6031 /* PBXBuildRule */,
 			);
 			dependencies = (
 				CF48189819F7217F00041486 /* PBXTargetDependency */,
@@ -22211,6 +22228,7 @@
 				CF010F4019DDFBDD00DAD527 /* 6thegooniegrab2@2x.png in Resources */,
 				CF0CF5E8196F452900ECD301 /* bronzeleaguebg@2x.png in Resources */,
 				CF0CDE9219E5050E006A5ECB /* timerfinish@2x.png in Resources */,
+				CFA744081A0975DC0068E1B7 /* Entitlements.plist in Resources */,
 				DA6EBF4819C273EE0020B628 /* cakedroplogo.png in Resources */,
 				CF0CF5E9196F452900ECD301 /* beigemenuoption@2x.png in Resources */,
 				CFF2A63B1970DCBA00269084 /* lockedbosspin@2x.png in Resources */,
@@ -25836,6 +25854,7 @@
 				CF22F98417F24E4A00DFD79D /* cancelbuild.png in Resources */,
 				CFA8FF5719F899B200F9908C /* woopsalertsign@2x.png in Resources */,
 				4C16FF0B19CE03AE00F9FC1E /* cakedropicon.png in Resources */,
+				CFA744071A0975DC0068E1B7 /* Entitlements.plist in Resources */,
 				CFC8B5DA18E4547200CFD652 /* bubble_bottom_middle@2x.png in Resources */,
 				CFF2A55019709C4800269084 /* Goonie1T1TutBig@2x.png in Resources */,
 				CF22F98617F24E4A00DFD79D /* cancelbuild@2x.png in Resources */,
@@ -28174,6 +28193,7 @@
 				CF4822A919F7217F00041486 /* 6thegooniegrab2@2x.png in Resources */,
 				CF4822AA19F7217F00041486 /* bronzeleaguebg@2x.png in Resources */,
 				CF4822AB19F7217F00041486 /* timerfinish@2x.png in Resources */,
+				CFA744091A0975DC0068E1B7 /* Entitlements.plist in Resources */,
 				CF4822AC19F7217F00041486 /* cakedroplogo.png in Resources */,
 				CF4822AD19F7217F00041486 /* beigemenuoption@2x.png in Resources */,
 				CF4822AE19F7217F00041486 /* lockedbosspin@2x.png in Resources */,
@@ -29877,7 +29897,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		CF0CECDC196F41F300ECD301 /* App Store */ = {
+		CF0CECDC196F41F300ECD301 /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -29911,11 +29931,11 @@
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
-			name = "App Store";
+			name = AppStore;
 		};
-		CF0CECDD196F41F300ECD301 /* App Store */ = {
+		CF0CECDD196F41F300ECD301 /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */;
+			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -29980,7 +30000,7 @@
 				);
 				WRAPPER_EXTENSION = app;
 			};
-			name = "App Store";
+			name = AppStore;
 		};
 		CF0CF844196F452900ECD301 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -29991,6 +30011,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30069,8 +30090,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30141,17 +30162,18 @@
 			};
 			name = Release;
 		};
-		CF0CF846196F452900ECD301 /* App Store */ = {
+		CF0CF846196F452900ECD301 /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */;
+			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30219,7 +30241,7 @@
 				);
 				WRAPPER_EXTENSION = app;
 			};
-			name = "App Store";
+			name = AppStore;
 		};
 		CF1256581538A94D00E0C1AD /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -30440,6 +30462,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30493,7 +30516,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = None;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
@@ -30519,8 +30542,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30574,7 +30597,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = None;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -30591,9 +30614,9 @@
 			};
 			name = Release;
 		};
-		CF48256319F7217F00041486 /* App Store */ = {
+		CF48256319F7217F00041486 /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EB4164FE39CFBD48D6999D3 /* Pods.app store.xcconfig */;
+			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = Lala;
@@ -30601,8 +30624,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Alex Lin (D4KGEV27YQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alex Lin (D4KGEV27YQ)";
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -30656,7 +30680,7 @@
 					"-ltango_sdk_objc",
 				);
 				PRODUCT_NAME = "Toon Squad";
-				PROVISIONING_PROFILE = None;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
@@ -30670,7 +30694,7 @@
 				);
 				WRAPPER_EXTENSION = app;
 			};
-			name = "App Store";
+			name = AppStore;
 		};
 /* End XCBuildConfiguration section */
 
@@ -30680,7 +30704,7 @@
 			buildConfigurations = (
 				CF0CF844196F452900ECD301 /* Debug */,
 				CF0CF845196F452900ECD301 /* Release */,
-				CF0CF846196F452900ECD301 /* App Store */,
+				CF0CF846196F452900ECD301 /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -30690,7 +30714,7 @@
 			buildConfigurations = (
 				CF1256581538A94D00E0C1AD /* Debug */,
 				CF1256591538A94D00E0C1AD /* Release */,
-				CF0CECDC196F41F300ECD301 /* App Store */,
+				CF0CECDC196F41F300ECD301 /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -30700,7 +30724,7 @@
 			buildConfigurations = (
 				CF12565B1538A94D00E0C1AD /* Debug */,
 				CF12565C1538A94D00E0C1AD /* Release */,
-				CF0CECDD196F41F300ECD301 /* App Store */,
+				CF0CECDD196F41F300ECD301 /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -30710,7 +30734,7 @@
 			buildConfigurations = (
 				CF48256119F7217F00041486 /* Debug */,
 				CF48256219F7217F00041486 /* Release */,
-				CF48256319F7217F00041486 /* App Store */,
+				CF48256319F7217F00041486 /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
