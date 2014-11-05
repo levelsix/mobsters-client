@@ -221,7 +221,11 @@
           BattleOrb *other = [self orbAtColumn:column+1 row:row];
           if (other != nil) {
             // Two powerups automatically count as a match
-            if (FREE_BATTLE_MOVEMENT || [self isPowerupMatch:orb otherOrb:other]) {
+            if (
+#ifdef FREE_BATTLE_MOVEMENT
+                FREE_BATTLE_MOVEMENT ||
+#endif
+                [self isPowerupMatch:orb otherOrb:other]) {
               BattleSwap *swap = [[BattleSwap alloc] init];
               swap.orbA = orb;
               swap.orbB = other;
@@ -255,7 +259,11 @@
           // Have a orb in this spot? If there is no tile, there is no orb.
           BattleOrb *other = [self orbAtColumn:column row:row+1];
           if (other != nil) {
-            if (FREE_BATTLE_MOVEMENT || [self isPowerupMatch:orb otherOrb:other]) {
+            if (
+#ifdef FREE_BATTLE_MOVEMENT
+                FREE_BATTLE_MOVEMENT ||
+#endif
+                [self isPowerupMatch:orb otherOrb:other]) {
               BattleSwap *swap = [[BattleSwap alloc] init];
               swap.orbA = orb;
               swap.orbB = other;

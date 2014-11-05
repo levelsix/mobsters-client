@@ -339,7 +339,7 @@
   }
   if (cashFullDate) {
     NSString *text = [NSString stringWithFormat:@"Your %@s have just filled up. Collect them now!", cashStr];
-    [self scheduleNotificationWithText:text badge:1 date:oilFullDate];
+    [self scheduleNotificationWithText:text badge:1 date:cashFullDate];
   }
   
   if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
