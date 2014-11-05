@@ -133,7 +133,7 @@
   [self removeLocalNotifications];
   
   //[[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
-    [[CCDirector sharedDirector] pause];
+  [[CCDirector sharedDirector] pause];
   return YES;
 }
 
@@ -150,7 +150,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
-
+  
   [[SocketCommunication sharedSocketCommunication] flush];
 }
 
@@ -301,12 +301,45 @@
     }
   }
   
+  MSDate *oilFullDate = nil, *cashFullDate = nil;
+  NSString *oilStr = nil, *cashStr = nil;
   for (UserStruct *us in gs.myStructs) {
+    StructureInfoProto *fsp = [[gs structWithId:us.structId] structInfo];
     if (!us.isComplete) {
-      StructureInfoProto *fsp = [[gs structWithId:us.structId] structInfo];
       NSString *text = [NSString stringWithFormat:@"Your Level %d %@ has finished building.", fsp.level, fsp.name];
       [self scheduleNotificationWithText:text badge:1 date:us.buildCompleteDate];
     }
+    
+    // If it's an oil/cash generator, check when last one will be done
+    else if (fsp.structType == StructureInfoProto_StructTypeResourceGenerator) {
+      ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)[gs structWithId:us.structId];
+      
+      float secsTillFull = rgp.capacity/rgp.productionRate*3600.f;
+      MSDate *finishDate = [us.lastRetrieved dateByAddingTimeInterval:secsTillFull];
+      // Check when it will be full
+      if (finishDate.timeIntervalSinceNow > 0) {
+        if (rgp.resourceType == ResourceTypeOil) {
+          if (!oilFullDate || [finishDate compare:oilFullDate] == NSOrderedDescending) {
+            oilFullDate = finishDate;
+            oilStr = fsp.name;
+          }
+        } else if (rgp.resourceType == ResourceTypeCash) {
+          if (!cashFullDate || [finishDate compare:cashFullDate] == NSOrderedDescending) {
+            cashFullDate = finishDate;
+            cashStr = fsp.name;
+          }
+        }
+      }
+    }
+  }
+  
+  if (oilFullDate) {
+    NSString *text = [NSString stringWithFormat:@"Your %@s have just filled up. Collect them now!", oilStr];
+    [self scheduleNotificationWithText:text badge:1 date:oilFullDate];
+  }
+  if (cashFullDate) {
+    NSString *text = [NSString stringWithFormat:@"Your %@s have just filled up. Collect them now!", cashStr];
+    [self scheduleNotificationWithText:text badge:1 date:oilFullDate];
   }
   
   if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
