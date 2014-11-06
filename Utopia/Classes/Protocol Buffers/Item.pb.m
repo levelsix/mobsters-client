@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ItemRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -23,6 +24,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL ItemTypeIsValidValue(ItemType value) {
   switch (value) {
     case ItemTypeBoosterPack:
+    case ItemTypeItemOil:
+    case ItemTypeItemCash:
+    case ItemTypeSpeedUp:
       return YES;
     default:
       return NO;
@@ -326,6 +330,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 @property (strong) NSString* imgName;
 @property ItemType itemType;
 @property int32_t staticDataId;
+@property int32_t amount;
+@property Float32 secretGiftChance;
 @end
 
 @implementation ItemProto
@@ -365,6 +371,20 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   hasStaticDataId_ = !!value_;
 }
 @synthesize staticDataId;
+- (BOOL) hasAmount {
+  return !!hasAmount_;
+}
+- (void) setHasAmount:(BOOL) value_ {
+  hasAmount_ = !!value_;
+}
+@synthesize amount;
+- (BOOL) hasSecretGiftChance {
+  return !!hasSecretGiftChance_;
+}
+- (void) setHasSecretGiftChance:(BOOL) value_ {
+  hasSecretGiftChance_ = !!value_;
+}
+@synthesize secretGiftChance;
 - (id) init {
   if ((self = [super init])) {
     self.itemId = 0;
@@ -372,6 +392,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
     self.imgName = @"";
     self.itemType = ItemTypeBoosterPack;
     self.staticDataId = 0;
+    self.amount = 0;
+    self.secretGiftChance = 0;
   }
   return self;
 }
@@ -406,6 +428,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasStaticDataId) {
     [output writeInt32:5 value:self.staticDataId];
   }
+  if (self.hasAmount) {
+    [output writeInt32:6 value:self.amount];
+  }
+  if (self.hasSecretGiftChance) {
+    [output writeFloat:7 value:self.secretGiftChance];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -429,6 +457,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasStaticDataId) {
     size_ += computeInt32Size(5, self.staticDataId);
+  }
+  if (self.hasAmount) {
+    size_ += computeInt32Size(6, self.amount);
+  }
+  if (self.hasSecretGiftChance) {
+    size_ += computeFloatSize(7, self.secretGiftChance);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -480,6 +514,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasStaticDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
   }
+  if (self.hasAmount) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"amount", [NSNumber numberWithInteger:self.amount]];
+  }
+  if (self.hasSecretGiftChance) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secretGiftChance", [NSNumber numberWithFloat:self.secretGiftChance]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -501,6 +541,10 @@ static ItemProto* defaultItemProtoInstance = nil;
       (!self.hasItemType || self.itemType == otherMessage.itemType) &&
       self.hasStaticDataId == otherMessage.hasStaticDataId &&
       (!self.hasStaticDataId || self.staticDataId == otherMessage.staticDataId) &&
+      self.hasAmount == otherMessage.hasAmount &&
+      (!self.hasAmount || self.amount == otherMessage.amount) &&
+      self.hasSecretGiftChance == otherMessage.hasSecretGiftChance &&
+      (!self.hasSecretGiftChance || self.secretGiftChance == otherMessage.secretGiftChance) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -519,6 +563,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasStaticDataId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.staticDataId] hash];
+  }
+  if (self.hasAmount) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.amount] hash];
+  }
+  if (self.hasSecretGiftChance) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secretGiftChance] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -578,6 +628,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (other.hasStaticDataId) {
     [self setStaticDataId:other.staticDataId];
   }
+  if (other.hasAmount) {
+    [self setAmount:other.amount];
+  }
+  if (other.hasSecretGiftChance) {
+    [self setSecretGiftChance:other.secretGiftChance];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -622,6 +678,14 @@ static ItemProto* defaultItemProtoInstance = nil;
       }
       case 40: {
         [self setStaticDataId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setAmount:[input readInt32]];
+        break;
+      }
+      case 61: {
+        [self setSecretGiftChance:[input readFloat]];
         break;
       }
     }
@@ -705,6 +769,473 @@ static ItemProto* defaultItemProtoInstance = nil;
 - (ItemProto_Builder*) clearStaticDataId {
   result.hasStaticDataId = NO;
   result.staticDataId = 0;
+  return self;
+}
+- (BOOL) hasAmount {
+  return result.hasAmount;
+}
+- (int32_t) amount {
+  return result.amount;
+}
+- (ItemProto_Builder*) setAmount:(int32_t) value {
+  result.hasAmount = YES;
+  result.amount = value;
+  return self;
+}
+- (ItemProto_Builder*) clearAmount {
+  result.hasAmount = NO;
+  result.amount = 0;
+  return self;
+}
+- (BOOL) hasSecretGiftChance {
+  return result.hasSecretGiftChance;
+}
+- (Float32) secretGiftChance {
+  return result.secretGiftChance;
+}
+- (ItemProto_Builder*) setSecretGiftChance:(Float32) value {
+  result.hasSecretGiftChance = YES;
+  result.secretGiftChance = value;
+  return self;
+}
+- (ItemProto_Builder*) clearSecretGiftChance {
+  result.hasSecretGiftChance = NO;
+  result.secretGiftChance = 0;
+  return self;
+}
+@end
+
+@interface UserItemUsageProto ()
+@property int64_t usageId;
+@property int32_t userId;
+@property int32_t itemId;
+@property int64_t timeOfEntry;
+@property int64_t userDataId;
+@property GameActionType actionType;
+@end
+
+@implementation UserItemUsageProto
+
+- (BOOL) hasUsageId {
+  return !!hasUsageId_;
+}
+- (void) setHasUsageId:(BOOL) value_ {
+  hasUsageId_ = !!value_;
+}
+@synthesize usageId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value_ {
+  hasUserId_ = !!value_;
+}
+@synthesize userId;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (BOOL) hasTimeOfEntry {
+  return !!hasTimeOfEntry_;
+}
+- (void) setHasTimeOfEntry:(BOOL) value_ {
+  hasTimeOfEntry_ = !!value_;
+}
+@synthesize timeOfEntry;
+- (BOOL) hasUserDataId {
+  return !!hasUserDataId_;
+}
+- (void) setHasUserDataId:(BOOL) value_ {
+  hasUserDataId_ = !!value_;
+}
+@synthesize userDataId;
+- (BOOL) hasActionType {
+  return !!hasActionType_;
+}
+- (void) setHasActionType:(BOOL) value_ {
+  hasActionType_ = !!value_;
+}
+@synthesize actionType;
+- (id) init {
+  if ((self = [super init])) {
+    self.usageId = 0L;
+    self.userId = 0;
+    self.itemId = 0;
+    self.timeOfEntry = 0L;
+    self.userDataId = 0L;
+    self.actionType = GameActionTypeNoHelp;
+  }
+  return self;
+}
+static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserItemUsageProto class]) {
+    defaultUserItemUsageProtoInstance = [[UserItemUsageProto alloc] init];
+  }
+}
++ (UserItemUsageProto*) defaultInstance {
+  return defaultUserItemUsageProtoInstance;
+}
+- (UserItemUsageProto*) defaultInstance {
+  return defaultUserItemUsageProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUsageId) {
+    [output writeInt64:1 value:self.usageId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasItemId) {
+    [output writeInt32:3 value:self.itemId];
+  }
+  if (self.hasTimeOfEntry) {
+    [output writeInt64:4 value:self.timeOfEntry];
+  }
+  if (self.hasUserDataId) {
+    [output writeInt64:5 value:self.userDataId];
+  }
+  if (self.hasActionType) {
+    [output writeEnum:6 value:self.actionType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUsageId) {
+    size_ += computeInt64Size(1, self.usageId);
+  }
+  if (self.hasUserId) {
+    size_ += computeInt32Size(2, self.userId);
+  }
+  if (self.hasItemId) {
+    size_ += computeInt32Size(3, self.itemId);
+  }
+  if (self.hasTimeOfEntry) {
+    size_ += computeInt64Size(4, self.timeOfEntry);
+  }
+  if (self.hasUserDataId) {
+    size_ += computeInt64Size(5, self.userDataId);
+  }
+  if (self.hasActionType) {
+    size_ += computeEnumSize(6, self.actionType);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UserItemUsageProto*) parseFromData:(NSData*) data {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromData:data] build];
+}
++ (UserItemUsageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserItemUsageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromInputStream:input] build];
+}
++ (UserItemUsageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserItemUsageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserItemUsageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemUsageProto*)[[[UserItemUsageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserItemUsageProto_Builder*) builder {
+  return [[UserItemUsageProto_Builder alloc] init];
+}
++ (UserItemUsageProto_Builder*) builderWithPrototype:(UserItemUsageProto*) prototype {
+  return [[UserItemUsageProto builder] mergeFrom:prototype];
+}
+- (UserItemUsageProto_Builder*) builder {
+  return [UserItemUsageProto builder];
+}
+- (UserItemUsageProto_Builder*) toBuilder {
+  return [UserItemUsageProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUsageId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"usageId", [NSNumber numberWithLongLong:self.usageId]];
+  }
+  if (self.hasUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  }
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  if (self.hasTimeOfEntry) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"timeOfEntry", [NSNumber numberWithLongLong:self.timeOfEntry]];
+  }
+  if (self.hasUserDataId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userDataId", [NSNumber numberWithLongLong:self.userDataId]];
+  }
+  if (self.hasActionType) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"actionType", self.actionType];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UserItemUsageProto class]]) {
+    return NO;
+  }
+  UserItemUsageProto *otherMessage = other;
+  return
+      self.hasUsageId == otherMessage.hasUsageId &&
+      (!self.hasUsageId || self.usageId == otherMessage.usageId) &&
+      self.hasUserId == otherMessage.hasUserId &&
+      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasTimeOfEntry == otherMessage.hasTimeOfEntry &&
+      (!self.hasTimeOfEntry || self.timeOfEntry == otherMessage.timeOfEntry) &&
+      self.hasUserDataId == otherMessage.hasUserDataId &&
+      (!self.hasUserDataId || self.userDataId == otherMessage.userDataId) &&
+      self.hasActionType == otherMessage.hasActionType &&
+      (!self.hasActionType || self.actionType == otherMessage.actionType) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUsageId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.usageId] hash];
+  }
+  if (self.hasUserId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  }
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasTimeOfEntry) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfEntry] hash];
+  }
+  if (self.hasUserDataId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userDataId] hash];
+  }
+  if (self.hasActionType) {
+    hashCode = hashCode * 31 + self.actionType;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UserItemUsageProto_Builder()
+@property (strong) UserItemUsageProto* result;
+@end
+
+@implementation UserItemUsageProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UserItemUsageProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserItemUsageProto_Builder*) clear {
+  self.result = [[UserItemUsageProto alloc] init];
+  return self;
+}
+- (UserItemUsageProto_Builder*) clone {
+  return [UserItemUsageProto builderWithPrototype:result];
+}
+- (UserItemUsageProto*) defaultInstance {
+  return [UserItemUsageProto defaultInstance];
+}
+- (UserItemUsageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserItemUsageProto*) buildPartial {
+  UserItemUsageProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UserItemUsageProto_Builder*) mergeFrom:(UserItemUsageProto*) other {
+  if (other == [UserItemUsageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUsageId) {
+    [self setUsageId:other.usageId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasTimeOfEntry) {
+    [self setTimeOfEntry:other.timeOfEntry];
+  }
+  if (other.hasUserDataId) {
+    [self setUserDataId:other.userDataId];
+  }
+  if (other.hasActionType) {
+    [self setActionType:other.actionType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUsageId:[input readInt64]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setTimeOfEntry:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setUserDataId:[input readInt64]];
+        break;
+      }
+      case 48: {
+        GameActionType value = (GameActionType)[input readEnum];
+        if (GameActionTypeIsValidValue(value)) {
+          [self setActionType:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUsageId {
+  return result.hasUsageId;
+}
+- (int64_t) usageId {
+  return result.usageId;
+}
+- (UserItemUsageProto_Builder*) setUsageId:(int64_t) value {
+  result.hasUsageId = YES;
+  result.usageId = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearUsageId {
+  result.hasUsageId = NO;
+  result.usageId = 0L;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserItemUsageProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (UserItemUsageProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfEntry {
+  return result.hasTimeOfEntry;
+}
+- (int64_t) timeOfEntry {
+  return result.timeOfEntry;
+}
+- (UserItemUsageProto_Builder*) setTimeOfEntry:(int64_t) value {
+  result.hasTimeOfEntry = YES;
+  result.timeOfEntry = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearTimeOfEntry {
+  result.hasTimeOfEntry = NO;
+  result.timeOfEntry = 0L;
+  return self;
+}
+- (BOOL) hasUserDataId {
+  return result.hasUserDataId;
+}
+- (int64_t) userDataId {
+  return result.userDataId;
+}
+- (UserItemUsageProto_Builder*) setUserDataId:(int64_t) value {
+  result.hasUserDataId = YES;
+  result.userDataId = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearUserDataId {
+  result.hasUserDataId = NO;
+  result.userDataId = 0L;
+  return self;
+}
+- (BOOL) hasActionType {
+  return result.hasActionType;
+}
+- (GameActionType) actionType {
+  return result.actionType;
+}
+- (UserItemUsageProto_Builder*) setActionType:(GameActionType) value {
+  result.hasActionType = YES;
+  result.actionType = value;
+  return self;
+}
+- (UserItemUsageProto_Builder*) clearActionType {
+  result.hasActionType = NO;
+  result.actionType = GameActionTypeNoHelp;
   return self;
 }
 @end

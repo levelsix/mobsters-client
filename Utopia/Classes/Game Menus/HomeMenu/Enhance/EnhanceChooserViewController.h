@@ -15,7 +15,7 @@
 
 #import "DailyEventCornerView.h"
 
-@interface EnhanceChooserViewController : PopupSubViewController <ListCollectionDelegate>
+@interface EnhanceChooserViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate>
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 

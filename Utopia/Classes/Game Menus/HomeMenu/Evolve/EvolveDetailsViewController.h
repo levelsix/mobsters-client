@@ -37,8 +37,6 @@
 
 @property (nonatomic, retain) EvoItem *evoItem;
 
-@property (nonatomic, strong) NSTimer *updateTimer;
-
 - (id) initWithEvoItem:(EvoItem *)evoItem allowEvolution:(BOOL)allowEvolution;
 - (id) initWithCurrentEvolution;
 

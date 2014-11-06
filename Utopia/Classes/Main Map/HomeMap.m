@@ -945,7 +945,7 @@
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:us.userStructId] < 0;
+      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:us.userStructId] < 0;
       
       if (gemCost && canGetHelp) {
         [buttonViews addObject:[MapBotViewButton clanHelpButton]];
@@ -1524,7 +1524,7 @@
   if (us) {
     if (us.userStructId == 0) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
-    } else if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:us.userStructId] < 0) {
+    } else if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:us.userStructId] < 0) {
       [[OutgoingEventController sharedOutgoingEventController] solicitBuildingHelp:us];
       
       if (_constrBuilding == self.selected) {

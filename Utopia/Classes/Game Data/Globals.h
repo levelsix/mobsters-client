@@ -92,6 +92,8 @@
 #define POINT_OFFSET_PER_SCENE ccp(512,360)
 #define SLOPE_OF_ROAD (POINT_OFFSET_PER_SCENE.y/POINT_OFFSET_PER_SCENE.x)
 
+#define FAT_KID_DUNGEON_LEVEL 5
+
 @interface Globals : NSObject
 
 @property (nonatomic, assign) int minNameLength;

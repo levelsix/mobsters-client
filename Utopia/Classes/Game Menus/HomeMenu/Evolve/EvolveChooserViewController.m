@@ -15,6 +15,8 @@
 #import "MonsterPopUpViewController.h"
 #import "GameViewController.h"
 
+#import "DailyEventViewController.h"
+
 #define NIB_NAME @"EvolveCardCell"
 #define HEADER_NAME @"EvolveHeaderView"
 #define DESCRIPTION_HEADER_NAME @"EvolveDescriptionHeaderView"
@@ -33,6 +35,8 @@
   
   self.title = [NSString stringWithFormat:@"EVOLVE %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"evolutionlabmenuheader.png";
+  
+  self.leftCornerView = [[NSBundle mainBundle] loadNibNamed:@"DailyEventCornerView" owner:self options:nil][0];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -43,6 +47,10 @@
   [self reloadListViewAnimated:NO];
   
   [self updateBottomView];
+  
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  cv.delegate = self;
+  [cv updateForEvo];
 }
 
 - (void) waitTimeComplete {
@@ -71,6 +79,12 @@
   }
 }
 
+- (void) eventCornerViewClicked:(id)sender {
+  DailyEventViewController *evc = [[DailyEventViewController alloc] init];
+  [self.parentViewController pushViewController:evc animated:YES];
+  [evc updateForEvo];
+}
+
 #pragma mark - Current enhancement
 
 - (IBAction)bottomBarClicked:(id)sender {
@@ -82,6 +96,9 @@
   GameState *gs = [GameState sharedGameState];
   int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
   self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
+  
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  [cv updateLabels];
 }
 
 #pragma mark - Reloading collection view
@@ -249,6 +266,14 @@
     yellow.layer.cornerRadius = 5.f;
     yellow.layer.borderColor = [UIColor colorWithRed:1.f green:211/255.f blue:145/255.f alpha:1.f].CGColor;
     yellow.layer.borderWidth = 0.5f;
+    
+    for (UIView *sv in yellow.subviews) {
+      if ([sv isKindOfClass:[UILabel class]]) {
+        UILabel *label = (UILabel *)sv;
+        label.text = [label.text stringByReplacingOccurrencesOfString:@"mobster" withString:MONSTER_NAME];
+      }
+    }
+    
     return rv;
   }
 }

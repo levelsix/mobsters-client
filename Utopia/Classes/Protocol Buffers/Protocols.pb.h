@@ -114,6 +114,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanDataProto;
+@class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -438,6 +440,8 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveClanDataResponseProto;
+@class RetrieveClanDataResponseProto_Builder;
 @class RetrieveClanInfoRequestProto;
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
@@ -604,6 +608,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -716,7 +722,7 @@ typedef enum {
   EventProtocolRequestCGiveClanHelpEvent = 80,
   EventProtocolRequestCEndClanHelpEvent = 81,
   EventProtocolRequestCInviteToClanEvent = 82,
-  EventProtocolRequestCApproveOrRejectClanInviteEvent = 83,
+  EventProtocolRequestCAcceptOrRejectClanInviteEvent = 83,
   EventProtocolRequestCCollectMonsterEnhancementEvent = 84,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
@@ -806,7 +812,7 @@ typedef enum {
   EventProtocolResponseSGiveClanHelpEvent = 80,
   EventProtocolResponseSEndClanHelpEvent = 81,
   EventProtocolResponseSInviteToClanEvent = 82,
-  EventProtocolResponseSApproveOrRejectClanInviteEvent = 83,
+  EventProtocolResponseSAcceptOrRejectClanInviteEvent = 83,
   EventProtocolResponseSCollectMonsterEnhancementEvent = 84,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
@@ -817,6 +823,7 @@ typedef enum {
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
   EventProtocolResponseSAwardClanRaidStageRewardEvent = 108,
   EventProtocolResponseSForceLogoutEvent = 109,
+  EventProtocolResponseSRetrieveClanDataEvent = 110,
   EventProtocolResponseSDevEvent = 200,
 } EventProtocolResponse;
 

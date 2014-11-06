@@ -32,7 +32,7 @@
 - (void) consumeClanHelp:(ClanHelp *)clanHelp;
 
 // Since this object may be bundled up or not..
-- (ClanHelp *) getClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;
+- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId;
 
 - (NSArray *) helpableClanHelpIdsForUserId:(int)userId;
 - (BOOL) canHelpForUserId:(int)userId;
@@ -52,7 +52,7 @@
 @property (nonatomic, retain) MinimumUserProto *requester;
 @property (nonatomic, assign) int clanId;
 @property (nonatomic, retain) MSDate *requestedTime;
-@property (nonatomic, assign) ClanHelpType helpType;
+@property (nonatomic, assign) GameActionType helpType;
 @property (nonatomic, assign) uint64_t userDataId;
 @property (nonatomic, assign) int staticDataId;
 @property (nonatomic, assign) int maxHelpers;
@@ -71,7 +71,7 @@
 
 @property (nonatomic, retain) MinimumUserProto *requester;
 @property (nonatomic, assign) int clanId;
-@property (nonatomic, assign) ClanHelpType helpType;
+@property (nonatomic, assign) GameActionType helpType;
 
 // Basically we are going to just hold the list and parse it for all protocol functions.
 @property (nonatomic, retain) NSMutableArray *clanHelps;

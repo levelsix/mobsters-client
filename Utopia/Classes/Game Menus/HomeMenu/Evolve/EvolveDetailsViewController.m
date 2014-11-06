@@ -69,7 +69,7 @@
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:gs.userEvolution.userMonsterId1] < 0;
+    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataId:gs.userEvolution.userMonsterId1] < 0;
     
     if (speedupCost > 0) {
       self.gemCostLabel.text = [Globals commafyNumber:speedupCost];

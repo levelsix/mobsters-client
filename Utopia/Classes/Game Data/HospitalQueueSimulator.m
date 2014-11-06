@@ -42,7 +42,7 @@
     self.totalHealthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
     
     // Subtract additional hp for clan helps
-    int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:self.userMonsterId];
+    int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:self.userMonsterId];
     if (numHelps > 0) {
       int healthToDockPerHelp = MAX(gl.healClanHelpConstants.amountRemovedPerHelp, roundf(self.totalHealthToHeal*gl.healClanHelpConstants.percentRemovedPerHelp));
       self.totalHealthToHeal -= numHelps*healthToDockPerHelp;

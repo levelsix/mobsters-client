@@ -141,7 +141,6 @@
     topVc.view.center = ccp(self.containerView.frame.size.width/2+movementFactor, self.containerView.frame.size.height/2);
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       removeVc.view.center = ccp(self.containerView.frame.size.width/2-movementFactor, self.containerView.frame.size.height/2);
-      self.backView.alpha = 0.f;
     } completion:^(BOOL finished) {
       if (finished) {
         [removeVc.view removeFromSuperview];
@@ -170,17 +169,10 @@
     [self.containerView addSubview:viewController.view];
     [self addChildViewController:viewController];
     [viewController endAppearanceTransition];
-    
-    if (animated) {
-      [UIView animateWithDuration:ANIMATION_TIME animations:^{
-        self.backView.alpha = 0.f;
-      }];
-    } else {
-      self.backView.alpha = 0.f;
-    }
   }
   
   [self loadNextTitleSelectionFromRight:fromRight animated:animated];
+  [self loadNextLeftCornerViewAnimated:animated];
 }
 
 - (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
@@ -200,19 +192,11 @@
     [self addChildViewController:topVc];
   }
   
-  BOOL shouldDisplayBackButton = NO;
-  if (self.viewControllers.count > 1) {
-    shouldDisplayBackButton = YES;
-    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self remakeBackButton];
-  }
-  
   if (animated && curVc != topVc) {
     topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       curVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
-      self.backView.alpha = shouldDisplayBackButton;
     } completion:^(BOOL finished) {
       [curVc.view removeFromSuperview];
       
@@ -224,24 +208,15 @@
     } completion:^(BOOL finished) {
       [topVc endAppearanceTransition];
     }];
-  } else {
-    if (animated) {
-      [UIView animateWithDuration:ANIMATION_TIME animations:^{
-        self.backView.alpha = shouldDisplayBackButton;
-      }];
-    } else {
-      self.backView.alpha = shouldDisplayBackButton;
-    }
+  } else if (curVc != topVc) {
+    [curVc.view removeFromSuperview];
     
-    if (curVc != topVc) {
-      [curVc.view removeFromSuperview];
-      
-      [curVc endAppearanceTransition];
-      [topVc endAppearanceTransition];
-    }
+    [curVc endAppearanceTransition];
+    [topVc endAppearanceTransition];
   }
   
   [self loadNextTitleSelectionFromRight:YES animated:animated];
+  [self loadNextLeftCornerViewAnimated:animated];
 }
 
 - (UIViewController *) popViewControllerAnimated:(BOOL)animated {
@@ -249,13 +224,6 @@
   [self.viewControllers removeObject:removeVc];
   PopupSubViewController *topVc = [self.viewControllers lastObject];
   [self setNewTopViewController:topVc];
-  
-  BOOL shouldDisplayBackButton = NO;
-  if (self.viewControllers.count > 1) {
-    shouldDisplayBackButton = YES;
-    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self remakeBackButton];
-  }
   
   topVc.view.frame = self.containerView.bounds;
   
@@ -266,7 +234,6 @@
     topVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       removeVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
-      self.backView.alpha = shouldDisplayBackButton;
     } completion:^(BOOL finished) {
       [removeVc.view removeFromSuperview];
       [removeVc removeFromParentViewController];
@@ -282,7 +249,6 @@
   } else {
     [removeVc.view removeFromSuperview];
     [removeVc removeFromParentViewController];
-    self.backView.alpha = shouldDisplayBackButton;
     
     topVc.view.frame = self.containerView.bounds;
     
@@ -291,6 +257,7 @@
   }
   
   [self loadNextTitleSelectionFromRight:NO animated:animated];
+  [self loadNextLeftCornerViewAnimated:animated];
   
   return removeVc;
 }
@@ -353,20 +320,46 @@
   }
 }
 
-//- (void) loadNextLeftCornerViewAnimated:(BOOL)animated {
-//  PopupSubViewController *svc = [self.viewControllers lastObject];
-//  
-//  BOOL shouldDisplayBackButton = NO;
-//  if (self.viewControllers.count > 1) {
-//    shouldDisplayBackButton = YES;
-//    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-//    [self remakeBackButton];
-//  }
-//  
-//  if (<#condition#>) {
-//    <#statements#>
-//  }
-//}
+- (void) loadNextLeftCornerViewAnimated:(BOOL)animated {
+  PopupSubViewController *svc = [self.viewControllers lastObject];
+  
+  BOOL shouldDisplayBackButton = NO;
+  if (self.viewControllers.count > 1) {
+    shouldDisplayBackButton = YES;
+    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
+    [self remakeBackButton];
+  }
+  
+  UIView *oldLeftCorner = self.leftCornerView;
+  
+  if (!shouldDisplayBackButton) {
+    self.leftCornerView = svc.leftCornerView;
+    [self.leftCornerViewContainer addSubview:self.leftCornerView];
+    self.leftCornerView.alpha = 0.f;
+    self.leftCornerView.originY = self.leftCornerViewContainer.height-self.leftCornerView.height;
+  } else {
+    self.leftCornerView = nil;
+  }
+  
+  // Disable touches so that we can reassign them after
+  oldLeftCorner.userInteractionEnabled = NO;
+  self.leftCornerView.userInteractionEnabled = NO;
+  self.backView.userInteractionEnabled = NO;
+  
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    oldLeftCorner.alpha = 0.f;
+    self.leftCornerView.alpha = 1.f;
+    self.backView.alpha = shouldDisplayBackButton;
+  } completion:^(BOOL finished) {
+    if (oldLeftCorner != self.leftCornerView) {
+      [oldLeftCorner removeFromSuperview];
+    }
+    
+    oldLeftCorner.userInteractionEnabled = YES;
+    self.leftCornerView.userInteractionEnabled = YES;
+    self.backView.userInteractionEnabled = YES;
+  }];
+}
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
   [self reloadTitleLabel];

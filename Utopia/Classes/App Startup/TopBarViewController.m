@@ -471,7 +471,12 @@
   if (scope == ChatScopeGlobal) {
     return @"Global chat is empty, say something!";
   } else if (scope == ChatScopeClan) {
-    return @"Join a squad to chat with them.";
+    GameState *gs = [GameState sharedGameState];
+    if (!gs.clan) {
+      return @"Join a squad to chat with them.";
+    } else {
+      return @"Squad chat is empty, say something!";
+    }
   } else if (scope == ChatScopePrivate) {
     return @"You have no private conversations.";
   }

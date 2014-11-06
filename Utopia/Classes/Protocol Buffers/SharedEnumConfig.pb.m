@@ -64,14 +64,14 @@ BOOL QualityIsValidValue(Quality value) {
       return NO;
   }
 }
-BOOL ClanHelpTypeIsValidValue(ClanHelpType value) {
+BOOL GameActionTypeIsValidValue(GameActionType value) {
   switch (value) {
-    case ClanHelpTypeNoHelp:
-    case ClanHelpTypeUpgradeStruct:
-    case ClanHelpTypeHeal:
-    case ClanHelpTypeEvolve:
-    case ClanHelpTypeMiniJob:
-    case ClanHelpTypeEnhanceTime:
+    case GameActionTypeNoHelp:
+    case GameActionTypeUpgradeStruct:
+    case GameActionTypeHeal:
+    case GameActionTypeEvolve:
+    case GameActionTypeMiniJob:
+    case GameActionTypeEnhanceTime:
       return YES;
     default:
       return NO;

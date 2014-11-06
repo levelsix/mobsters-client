@@ -13566,6 +13566,7 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
   switch (value) {
     case InviteToClanResponseProto_InviteToClanStatusSuccess:
     case InviteToClanResponseProto_InviteToClanStatusFailOther:
+    case InviteToClanResponseProto_InviteToClanStatusFailNotAuthorized:
       return YES;
     default:
       return NO;
@@ -13751,6 +13752,7 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
 @property (strong) MinimumUserProto* sender;
 @property (strong) ClanInviteProto* accepted;
 @property (strong) NSMutableArray * mutableRejectedList;
+@property int64_t clientTime;
 @end
 
 @implementation AcceptOrRejectClanInviteRequestProto
@@ -13771,10 +13773,18 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
 @synthesize accepted;
 @synthesize mutableRejectedList;
 @dynamic rejectedList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.accepted = [ClanInviteProto defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -13809,6 +13819,9 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
   [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -13827,6 +13840,9 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
   [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(4, self.clientTime);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -13880,6 +13896,9 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -13896,6 +13915,8 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
       self.hasAccepted == otherMessage.hasAccepted &&
       (!self.hasAccepted || [self.accepted isEqual:otherMessage.accepted]) &&
       [self.rejectedList isEqualToArray:otherMessage.rejectedList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -13909,6 +13930,9 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
   [self.rejectedList enumerateObjectsUsingBlock:^(ClanInviteProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -13965,6 +13989,9 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
       [result.mutableRejectedList addObjectsFromArray:other.mutableRejectedList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -14008,6 +14035,10 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
         ClanInviteProto_Builder* subBuilder = [ClanInviteProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRejected:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -14095,6 +14126,22 @@ static AcceptOrRejectClanInviteRequestProto* defaultAcceptOrRejectClanInviteRequ
 }
 - (AcceptOrRejectClanInviteRequestProto_Builder *)clearRejected {
   result.mutableRejectedList = nil;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
   return self;
 }
 @end
@@ -14268,6 +14315,7 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
   switch (value) {
     case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess:
     case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther:
+    case AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailClanIsFull:
       return YES;
     default:
       return NO;
@@ -14445,6 +14493,296 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearFullClan {
   result.hasFullClan = NO;
   result.fullClan = [FullClanProtoWithClanSize defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrieveClanDataResponseProto ()
+@property (strong) MinimumUserProto* mup;
+@property (strong) ClanDataProto* clanData;
+@end
+
+@implementation RetrieveClanDataResponseProto
+
+- (BOOL) hasMup {
+  return !!hasMup_;
+}
+- (void) setHasMup:(BOOL) value_ {
+  hasMup_ = !!value_;
+}
+@synthesize mup;
+- (BOOL) hasClanData {
+  return !!hasClanData_;
+}
+- (void) setHasClanData:(BOOL) value_ {
+  hasClanData_ = !!value_;
+}
+@synthesize clanData;
+- (id) init {
+  if ((self = [super init])) {
+    self.mup = [MinimumUserProto defaultInstance];
+    self.clanData = [ClanDataProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveClanDataResponseProto* defaultRetrieveClanDataResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveClanDataResponseProto class]) {
+    defaultRetrieveClanDataResponseProtoInstance = [[RetrieveClanDataResponseProto alloc] init];
+  }
+}
++ (RetrieveClanDataResponseProto*) defaultInstance {
+  return defaultRetrieveClanDataResponseProtoInstance;
+}
+- (RetrieveClanDataResponseProto*) defaultInstance {
+  return defaultRetrieveClanDataResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMup) {
+    [output writeMessage:1 value:self.mup];
+  }
+  if (self.hasClanData) {
+    [output writeMessage:2 value:self.clanData];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasMup) {
+    size_ += computeMessageSize(1, self.mup);
+  }
+  if (self.hasClanData) {
+    size_ += computeMessageSize(2, self.clanData);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RetrieveClanDataResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveClanDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveClanDataResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveClanDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveClanDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveClanDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveClanDataResponseProto*)[[[RetrieveClanDataResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveClanDataResponseProto_Builder*) builder {
+  return [[RetrieveClanDataResponseProto_Builder alloc] init];
+}
++ (RetrieveClanDataResponseProto_Builder*) builderWithPrototype:(RetrieveClanDataResponseProto*) prototype {
+  return [[RetrieveClanDataResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveClanDataResponseProto_Builder*) builder {
+  return [RetrieveClanDataResponseProto builder];
+}
+- (RetrieveClanDataResponseProto_Builder*) toBuilder {
+  return [RetrieveClanDataResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasMup) {
+    [output appendFormat:@"%@%@ {\n", indent, @"mup"];
+    [self.mup writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClanData) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanData"];
+    [self.clanData writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RetrieveClanDataResponseProto class]]) {
+    return NO;
+  }
+  RetrieveClanDataResponseProto *otherMessage = other;
+  return
+      self.hasMup == otherMessage.hasMup &&
+      (!self.hasMup || [self.mup isEqual:otherMessage.mup]) &&
+      self.hasClanData == otherMessage.hasClanData &&
+      (!self.hasClanData || [self.clanData isEqual:otherMessage.clanData]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasMup) {
+    hashCode = hashCode * 31 + [self.mup hash];
+  }
+  if (self.hasClanData) {
+    hashCode = hashCode * 31 + [self.clanData hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RetrieveClanDataResponseProto_Builder()
+@property (strong) RetrieveClanDataResponseProto* result;
+@end
+
+@implementation RetrieveClanDataResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RetrieveClanDataResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveClanDataResponseProto_Builder*) clear {
+  self.result = [[RetrieveClanDataResponseProto alloc] init];
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) clone {
+  return [RetrieveClanDataResponseProto builderWithPrototype:result];
+}
+- (RetrieveClanDataResponseProto*) defaultInstance {
+  return [RetrieveClanDataResponseProto defaultInstance];
+}
+- (RetrieveClanDataResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveClanDataResponseProto*) buildPartial {
+  RetrieveClanDataResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveClanDataResponseProto_Builder*) mergeFrom:(RetrieveClanDataResponseProto*) other {
+  if (other == [RetrieveClanDataResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMup) {
+    [self mergeMup:other.mup];
+  }
+  if (other.hasClanData) {
+    [self mergeClanData:other.clanData];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveClanDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMup) {
+          [subBuilder mergeFrom:self.mup];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMup:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        ClanDataProto_Builder* subBuilder = [ClanDataProto builder];
+        if (self.hasClanData) {
+          [subBuilder mergeFrom:self.clanData];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setClanData:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMup {
+  return result.hasMup;
+}
+- (MinimumUserProto*) mup {
+  return result.mup;
+}
+- (RetrieveClanDataResponseProto_Builder*) setMup:(MinimumUserProto*) value {
+  result.hasMup = YES;
+  result.mup = value;
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMup:[builderForValue build]];
+}
+- (RetrieveClanDataResponseProto_Builder*) mergeMup:(MinimumUserProto*) value {
+  if (result.hasMup &&
+      result.mup != [MinimumUserProto defaultInstance]) {
+    result.mup =
+      [[[MinimumUserProto builderWithPrototype:result.mup] mergeFrom:value] buildPartial];
+  } else {
+    result.mup = value;
+  }
+  result.hasMup = YES;
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) clearMup {
+  result.hasMup = NO;
+  result.mup = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClanData {
+  return result.hasClanData;
+}
+- (ClanDataProto*) clanData {
+  return result.clanData;
+}
+- (RetrieveClanDataResponseProto_Builder*) setClanData:(ClanDataProto*) value {
+  result.hasClanData = YES;
+  result.clanData = value;
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) setClanData_Builder:(ClanDataProto_Builder*) builderForValue {
+  return [self setClanData:[builderForValue build]];
+}
+- (RetrieveClanDataResponseProto_Builder*) mergeClanData:(ClanDataProto*) value {
+  if (result.hasClanData &&
+      result.clanData != [ClanDataProto defaultInstance]) {
+    result.clanData =
+      [[[ClanDataProto builderWithPrototype:result.clanData] mergeFrom:value] buildPartial];
+  } else {
+    result.clanData = value;
+  }
+  result.hasClanData = YES;
+  return self;
+}
+- (RetrieveClanDataResponseProto_Builder*) clearClanData {
+  result.hasClanData = NO;
+  result.clanData = [ClanDataProto defaultInstance];
   return self;
 }
 @end

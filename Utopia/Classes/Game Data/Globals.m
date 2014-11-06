@@ -110,15 +110,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentNumHrsToDisplayAfterEnd = constants.touramentConstants.numHoursToShowAfterEventEnd;
   
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
-    if (c.helpType == ClanHelpTypeHeal) {
+    if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;
-    } else if (c.helpType == ClanHelpTypeUpgradeStruct) {
+    } else if (c.helpType == GameActionTypeUpgradeStruct) {
       self.buildingClanHelpConstants = c;
-    } else if (c.helpType == ClanHelpTypeEvolve) {
+    } else if (c.helpType == GameActionTypeEvolve) {
       self.evolveClanHelpConstants = c;
-    } else if (c.helpType == ClanHelpTypeMiniJob) {
+    } else if (c.helpType == GameActionTypeMiniJob) {
       self.miniJobClanHelpConstants = c;
-    } else if (c.helpType == ClanHelpTypeEnhanceTime) {
+    } else if (c.helpType == GameActionTypeEnhanceTime) {
       self.enhanceClanHelpConstants = c;
     }
   }
@@ -1257,8 +1257,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   return dict;
 }
-
-#define FAT_KID_DUNGEON_LEVEL 5
 
 + (BOOL) shouldShowFatKidDungeon {
   GameState *gs = [GameState sharedGameState];

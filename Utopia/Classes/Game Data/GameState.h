@@ -186,6 +186,7 @@
 - (void) addToEventCooldownTimes:(NSArray *)arr;
 
 - (NSArray *) allClanChatObjects;
+- (void) updateClanData:(ClanDataProto *)clanData;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;

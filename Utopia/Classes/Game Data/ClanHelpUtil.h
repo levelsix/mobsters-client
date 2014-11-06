@@ -26,7 +26,7 @@
 - (void) removeClanHelpsForUserId:(int)userId;
 
 // Will return -1 if it doesn't exist
-- (int) getNumClanHelpsForType:(ClanHelpType)type userDataId:(uint64_t)userDataId;
+- (int) getNumClanHelpsForType:(GameActionType)type userDataId:(uint64_t)userDataId;
 
 - (NSArray *) getAllHelpableClanHelps;
 

@@ -605,6 +605,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (void) updateClanData:(ClanDataProto *)clanData {
+  [self.clanChatMessages removeAllObjects];
+  
+  for (GroupChatMessageProto *msg in clanData.clanChatsList) {
+    ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
+    [self addChatMessage:cm scope:GroupChatScopeClan];
+  }
+  
+  self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserId:self.userId clanId:self.clan.clanId clanHelpProtos:clanData.clanHelpingsList];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+}
+
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
 }
@@ -1654,13 +1668,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) receivedClanHelpNotification:(NSNotification *)notif {
   ClanHelp *ch = [notif object][CLAN_HELP_NOTIFICATION_KEY];
   
-  if (ch.helpType == ClanHelpTypeHeal) {
+  if (ch.helpType == GameActionTypeHeal) {
     [self readjustAllMonsterHealingProtos];
-  } else if (ch.helpType == ClanHelpTypeEvolve) {
+  } else if (ch.helpType == GameActionTypeEvolve) {
     [self beginEvolutionTimer];
-  } else if (ch.helpType == ClanHelpTypeMiniJob) {
+  } else if (ch.helpType == GameActionTypeMiniJob) {
     [self beginMiniJobTimer];
-  } else if (ch.helpType == ClanHelpTypeEnhanceTime) {
+  } else if (ch.helpType == GameActionTypeEnhanceTime) {
     [self beginEnhanceTimer];
   }
 }

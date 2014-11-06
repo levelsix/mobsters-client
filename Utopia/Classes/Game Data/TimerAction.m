@@ -116,7 +116,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:self.userStruct.userStructId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:self.userStruct.userStructId] < 0;
 }
 
 - (void) performSpeedup {
@@ -195,7 +195,7 @@
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
   for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
-    if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:hi.userMonsterId] < 0) {
+    if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:hi.userMonsterId] < 0) {
       return YES;
     }
   }
@@ -244,7 +244,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:self.userEnhancement.baseMonster.userMonsterId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:self.userEnhancement.baseMonster.userMonsterId] < 0;
 }
 
 - (NSString *) confirmActionString {
@@ -288,7 +288,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.miniJob.userMiniJobId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataId:self.miniJob.userMiniJobId] < 0;
 }
 
 - (NSString *) confirmActionString {
@@ -337,7 +337,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:self.userEvo.userMonsterId1] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataId:self.userEvo.userMonsterId1] < 0;
 }
 
 - (NSString *) confirmActionString {

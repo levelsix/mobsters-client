@@ -35,18 +35,18 @@
 
 - (NSString *) statusStingWithPossessive:(NSString *)possessive {
   GameState *gs = [GameState sharedGameState];
-  if (self.helpType == ClanHelpTypeUpgradeStruct) {
+  if (self.helpType == GameActionTypeUpgradeStruct) {
     StructureInfoProto *sip = [[gs structWithId:self.staticDataId] structInfo];
     return [NSString stringWithFormat:@" build a Level %d %@", sip.level, sip.name];
-  } else if (self.helpType == ClanHelpTypeMiniJob) {
+  } else if (self.helpType == GameActionTypeMiniJob) {
     return [NSString stringWithFormat:@" speed up %@ %@ Job", possessive, [Globals stringForRarity:self.staticDataId]];
-  } else if (self.helpType == ClanHelpTypeHeal) {
+  } else if (self.helpType == GameActionTypeHeal) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" heal %@", mp.displayName];
-  } else if (self.helpType == ClanHelpTypeEvolve) {
+  } else if (self.helpType == GameActionTypeEvolve) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" evolve %@", mp.displayName];
-  } else if (self.helpType == ClanHelpTypeEnhanceTime) {
+  } else if (self.helpType == GameActionTypeEnhanceTime) {
     MonsterProto *mp = [gs monsterWithId:self.staticDataId];
     return [NSString stringWithFormat:@" enhance %@", mp.displayName];
   }
@@ -88,7 +88,7 @@
   }
 }
 
-- (ClanHelp *) getClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
   if (self.helpType == type && self.userDataId == userDataId) {
     return self;
   }
@@ -142,7 +142,7 @@
 
 - (NSUInteger) hash {
   // Types that are gonna be bundled need to match with this
-  uint64_t val = self.helpType == ClanHelpTypeHeal ? 1 : self.userDataId;
+  uint64_t val = self.helpType == GameActionTypeHeal ? 1 : self.userDataId;
   return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + val*7);
 }
 
@@ -207,7 +207,7 @@
 @implementation BundleClanHelp
 
 + (id<ClanHelp>) getPossibleBundleFromClanHelp:(ClanHelp *)clanHelp {
-  if (clanHelp.helpType == ClanHelpTypeHeal) {
+  if (clanHelp.helpType == GameActionTypeHeal) {
     return [[BundleClanHelp alloc] initWithClanHelp:clanHelp];
   }
   return clanHelp;
@@ -251,7 +251,7 @@
   if (self.clanHelps.count == 1) {
     return [self.clanHelps[0] helpString];
   } else {
-    if (self.helpType == ClanHelpTypeHeal) {
+    if (self.helpType == GameActionTypeHeal) {
       return [NSString stringWithFormat:@"Help me heal %d %@s.", (int)self.clanHelps.count, MONSTER_NAME];
     }
   }
@@ -262,7 +262,7 @@
   if (self.clanHelps.count == 1) {
     return [self.clanHelps[0] justHelpedString:name];
   } else {
-    if (self.helpType == ClanHelpTypeHeal) {
+    if (self.helpType == GameActionTypeHeal) {
       return [NSString stringWithFormat:@"%@ just helped you heal your %@s!", name, MONSTER_NAME];
     }
   }
@@ -273,7 +273,7 @@
   if (self.clanHelps.count == 1) {
     return [self.clanHelps[0] justSolicitedString];
   } else {
-    if (self.helpType == ClanHelpTypeHeal) {
+    if (self.helpType == GameActionTypeHeal) {
       return [NSString stringWithFormat:@"Heal %d %@s", (int)self.clanHelps.count, MONSTER_NAME];
     }
   }
@@ -303,7 +303,7 @@
   }
 }
 
-- (ClanHelp *) getClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
   for (ClanHelp *ch in self.clanHelps) {
     if (ch.helpType == type && ch.userDataId == userDataId) {
       return ch;

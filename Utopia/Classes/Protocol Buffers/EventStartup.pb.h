@@ -32,6 +32,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanDataProto;
+@class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -228,6 +230,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
 @class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -397,62 +401,65 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
-  BOOL hasAppStoreUrl_:1;
-  BOOL hasReviewPageUrl_:1;
-  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasKabamNaid_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasAppStoreUrl_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasSender_:1;
-  BOOL hasStartupConstants_:1;
-  BOOL hasTutorialConstants_:1;
+  BOOL hasClanData_:1;
   BOOL hasCurTask_:1;
+  BOOL hasTutorialConstants_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasCurRaidClanInfo_:1;
   BOOL hasStaticDataStuffProto_:1;
   BOOL hasEvolution_:1;
-  BOOL hasEnhancements_:1;
-  BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
-  NSString* appStoreUrl;
-  NSString* reviewPageUrl;
-  NSString* reviewPageConfirmationMessage;
   NSString* kabamNaid;
+  NSString* reviewPageConfirmationMessage;
+  NSString* reviewPageUrl;
+  NSString* appStoreUrl;
+  UserEnhancementProto* enhancements;
   FullUserProto* sender;
-  StartupResponseProto_StartupConstants* startupConstants;
-  StartupResponseProto_TutorialConstants* tutorialConstants;
+  ClanDataProto* clanData;
   MinimumUserTaskProto* curTask;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
+  StartupResponseProto_StartupConstants* startupConstants;
   PersistentClanEventClanInfoProto* curRaidClanInfo;
   StaticDataProto* staticDataStuffProto;
   UserMonsterEvolutionProto* evolution;
-  UserEnhancementProto* enhancements;
-  StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
   PBAppendableArray * mutableRedeemedQuestIdsList;
-  PBAppendableArray * mutableCompletedTaskIdsList;
   PBAppendableArray * mutableTaskIdForCurrentCityBossList;
+  PBAppendableArray * mutableCompletedTaskIdsList;
   NSMutableArray * mutableNoticesToPlayersList;
+  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutablePcppList;
   NSMutableArray * mutableUsersMonstersList;
   NSMutableArray * mutableMonstersHealingList;
-  NSMutableArray * mutablePcppList;
-  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableRareBoosterPurchasesList;
   NSMutableArray * mutableGlobalChatsList;
   NSMutableArray * mutableInvitesToMeForSlotsList;
   NSMutableArray * mutableInvitesFromMeForSlotsList;
   NSMutableArray * mutableReferralNotificationsList;
-  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableUserEventsList;
-  NSMutableArray * mutableUserClanInfoList;
+  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableCurRaidClanUserInfoList;
   NSMutableArray * mutableRaidStageHistoryList;
   NSMutableArray * mutableRecentNbattlesList;
-  NSMutableArray * mutableUserQuestsList;
   NSMutableArray * mutableCurTaskStagesList;
   NSMutableArray * mutableUserAchievementsList;
   NSMutableArray * mutableUserMiniJobProtosList;
   NSMutableArray * mutableUserItemsList;
   NSMutableArray * mutableClanHelpingsList;
   NSMutableArray * mutableClanInvitesList;
+  NSMutableArray * mutableUserClanInfoList;
+  NSMutableArray * mutableItemsInUseList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -470,6 +477,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasStaticDataStuffProto;
 - (BOOL) hasCurRaidClanInfo;
 - (BOOL) hasCurTask;
+- (BOOL) hasClanData;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, strong) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -512,6 +520,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * userItemsList;
 @property (readonly, strong) NSArray * clanHelpingsList;
 @property (readonly, strong) NSArray * clanInvitesList;
+@property (readonly, strong) ClanDataProto* clanData;
+@property (readonly, strong) NSArray * itemsInUseList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -538,6 +548,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserItemProto*)userItemsAtIndex:(NSUInteger)index;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
+- (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1427,12 +1438,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasHelpType_:1;
   Float32 percentRemovedPerHelp;
   int32_t amountRemovedPerHelp;
-  ClanHelpType helpType;
+  GameActionType helpType;
 }
 - (BOOL) hasHelpType;
 - (BOOL) hasAmountRemovedPerHelp;
 - (BOOL) hasPercentRemovedPerHelp;
-@property (readonly) ClanHelpType helpType;
+@property (readonly) GameActionType helpType;
 @property (readonly) int32_t amountRemovedPerHelp;
 @property (readonly) Float32 percentRemovedPerHelp;
 
@@ -1472,8 +1483,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasHelpType;
-- (ClanHelpType) helpType;
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(ClanHelpType) value;
+- (GameActionType) helpType;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(GameActionType) value;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType;
 
 - (BOOL) hasAmountRemovedPerHelp;
@@ -2223,6 +2234,19 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addClanInvites:(ClanInviteProto*)value;
 - (StartupResponseProto_Builder *)addAllClanInvites:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearClanInvites;
+
+- (BOOL) hasClanData;
+- (ClanDataProto*) clanData;
+- (StartupResponseProto_Builder*) setClanData:(ClanDataProto*) value;
+- (StartupResponseProto_Builder*) setClanData_Builder:(ClanDataProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeClanData:(ClanDataProto*) value;
+- (StartupResponseProto_Builder*) clearClanData;
+
+- (NSMutableArray *)itemsInUseList;
+- (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addItemsInUse:(UserItemUsageProto*)value;
+- (StartupResponseProto_Builder *)addAllItemsInUse:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearItemsInUse;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

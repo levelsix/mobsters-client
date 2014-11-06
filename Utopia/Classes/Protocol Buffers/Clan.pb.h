@@ -2,12 +2,15 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Chat.pb.h"
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class ClanDataProto;
+@class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -26,6 +29,8 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class EvoChamberProto;
@@ -42,6 +47,8 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class LabProto;
@@ -86,6 +93,8 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -1532,7 +1541,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   int32_t maxHelpers;
   int32_t staticDataId;
   MinimumUserProto* mup;
-  ClanHelpType helpType;
+  GameActionType helpType;
   PBAppendableArray * mutableHelperIdsList;
 }
 - (BOOL) hasClanHelpId;
@@ -1548,7 +1557,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @property (readonly) int32_t clanId;
 @property (readonly, strong) MinimumUserProto* mup;
 @property (readonly) int64_t userDataId;
-@property (readonly) ClanHelpType helpType;
+@property (readonly) GameActionType helpType;
 @property (readonly) int64_t timeRequested;
 @property (readonly) int32_t maxHelpers;
 @property (readonly, strong) PBArray * helperIdsList;
@@ -1614,8 +1623,8 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) clearUserDataId;
 
 - (BOOL) hasHelpType;
-- (ClanHelpType) helpType;
-- (ClanHelpProto_Builder*) setHelpType:(ClanHelpType) value;
+- (GameActionType) helpType;
+- (ClanHelpProto_Builder*) setHelpType:(GameActionType) value;
 - (ClanHelpProto_Builder*) clearHelpType;
 
 - (BOOL) hasTimeRequested;
@@ -1653,12 +1662,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasHelpType_:1;
   int64_t userDataId;
   int32_t staticDataId;
-  ClanHelpType helpType;
+  GameActionType helpType;
 }
 - (BOOL) hasHelpType;
 - (BOOL) hasUserDataId;
 - (BOOL) hasStaticDataId;
-@property (readonly) ClanHelpType helpType;
+@property (readonly) GameActionType helpType;
 @property (readonly) int64_t userDataId;
 @property (readonly) int32_t staticDataId;
 
@@ -1698,8 +1707,8 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpNoticeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasHelpType;
-- (ClanHelpType) helpType;
-- (ClanHelpNoticeProto_Builder*) setHelpType:(ClanHelpType) value;
+- (GameActionType) helpType;
+- (ClanHelpNoticeProto_Builder*) setHelpType:(GameActionType) value;
 - (ClanHelpNoticeProto_Builder*) clearHelpType;
 
 - (BOOL) hasUserDataId;
@@ -1796,6 +1805,64 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int64_t) timeOfInvite;
 - (ClanInviteProto_Builder*) setTimeOfInvite:(int64_t) value;
 - (ClanInviteProto_Builder*) clearTimeOfInvite;
+@end
+
+@interface ClanDataProto : PBGeneratedMessage {
+@private
+  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutableClanHelpingsList;
+}
+@property (readonly, strong) NSArray * clanChatsList;
+@property (readonly, strong) NSArray * clanHelpingsList;
+- (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
+- (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
+
++ (ClanDataProto*) defaultInstance;
+- (ClanDataProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanDataProto_Builder*) builder;
++ (ClanDataProto_Builder*) builder;
++ (ClanDataProto_Builder*) builderWithPrototype:(ClanDataProto*) prototype;
+- (ClanDataProto_Builder*) toBuilder;
+
++ (ClanDataProto*) parseFromData:(NSData*) data;
++ (ClanDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanDataProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanDataProto_Builder : PBGeneratedMessageBuilder {
+@private
+  ClanDataProto* result;
+}
+
+- (ClanDataProto*) defaultInstance;
+
+- (ClanDataProto_Builder*) clear;
+- (ClanDataProto_Builder*) clone;
+
+- (ClanDataProto*) build;
+- (ClanDataProto*) buildPartial;
+
+- (ClanDataProto_Builder*) mergeFrom:(ClanDataProto*) other;
+- (ClanDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSMutableArray *)clanChatsList;
+- (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
+- (ClanDataProto_Builder *)addClanChats:(GroupChatMessageProto*)value;
+- (ClanDataProto_Builder *)addAllClanChats:(NSArray *)array;
+- (ClanDataProto_Builder *)clearClanChats;
+
+- (NSMutableArray *)clanHelpingsList;
+- (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
+- (ClanDataProto_Builder *)addClanHelpings:(ClanHelpProto*)value;
+- (ClanDataProto_Builder *)addAllClanHelpings:(NSArray *)array;
+- (ClanDataProto_Builder *)clearClanHelpings;
 @end
 
 

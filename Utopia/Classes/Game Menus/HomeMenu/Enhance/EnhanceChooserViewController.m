@@ -15,6 +15,8 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#import "DailyEventViewController.h"
+
 @implementation EnhanceChooserViewController
 
 - (void) viewDidLoad {
@@ -27,6 +29,8 @@
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no available %@s.", MONSTER_NAME];
   self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to enhance.", MONSTER_NAME];
+  
+  self.leftCornerView = [[NSBundle mainBundle] loadNibNamed:@"DailyEventCornerView" owner:self options:nil][0];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -35,10 +39,31 @@
   self.listView.collectionView.contentOffset = ccp(0,0);
   
   [self reloadListViewAnimated:NO];
+  
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  cv.delegate = self;
+  [cv updateForEnhance];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
+}
+
+- (void) updateLabels {
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  [cv updateLabels];
+}
+
+- (void) eventCornerViewClicked:(id)sender {
+  if ([Globals shouldShowFatKidDungeon]) {
+    DailyEventViewController *evc = [[DailyEventViewController alloc] init];
+    [self.parentViewController pushViewController:evc animated:YES];
+    [evc updateForEnhance];
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    UserStruct *us = gs.myLaboratory;
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You must upgrade your %@ to Level %d to access Cake Kid events.", us.staticStruct.structInfo.name, FAT_KID_DUNGEON_LEVEL]];
+  }
 }
 
 #pragma mark - Current enhancement

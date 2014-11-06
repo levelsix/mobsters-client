@@ -33,6 +33,8 @@
 @class ChangeClanSettingsRequestProto_Builder;
 @class ChangeClanSettingsResponseProto;
 @class ChangeClanSettingsResponseProto_Builder;
+@class ClanDataProto;
+@class ClanDataProto_Builder;
 @class ClanHelpNoticeProto;
 @class ClanHelpNoticeProto_Builder;
 @class ClanHelpProto;
@@ -51,6 +53,8 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -79,6 +83,8 @@
 @class GiveClanHelpRequestProto_Builder;
 @class GiveClanHelpResponseProto;
 @class GiveClanHelpResponseProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class InviteToClanRequestProto;
@@ -131,6 +137,8 @@
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
 @class PersistentClanEventUserRewardProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class PromoteDemoteClanMemberRequestProto;
 @class PromoteDemoteClanMemberRequestProto_Builder;
 @class PromoteDemoteClanMemberResponseProto;
@@ -153,6 +161,8 @@
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
 @class RetractRequestJoinClanResponseProto_Builder;
+@class RetrieveClanDataResponseProto;
+@class RetrieveClanDataResponseProto_Builder;
 @class RetrieveClanInfoRequestProto;
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
@@ -366,6 +376,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 typedef enum {
   InviteToClanResponseProto_InviteToClanStatusSuccess = 1,
   InviteToClanResponseProto_InviteToClanStatusFailOther = 2,
+  InviteToClanResponseProto_InviteToClanStatusFailNotAuthorized = 3,
 } InviteToClanResponseProto_InviteToClanStatus;
 
 BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanResponseProto_InviteToClanStatus value);
@@ -373,6 +384,7 @@ BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanRespon
 typedef enum {
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess = 1,
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther = 2,
+  AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailClanIsFull = 3,
 } AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus;
 
 BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value);
@@ -3165,17 +3177,21 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 
 @interface AcceptOrRejectClanInviteRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
   BOOL hasAccepted_:1;
+  int64_t clientTime;
   MinimumUserProto* sender;
   ClanInviteProto* accepted;
   NSMutableArray * mutableRejectedList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasAccepted;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) ClanInviteProto* accepted;
 @property (readonly, strong) NSArray * rejectedList;
+@property (readonly) int64_t clientTime;
 - (ClanInviteProto*)rejectedAtIndex:(NSUInteger)index;
 
 + (AcceptOrRejectClanInviteRequestProto*) defaultInstance;
@@ -3232,6 +3248,11 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (AcceptOrRejectClanInviteRequestProto_Builder *)addRejected:(ClanInviteProto*)value;
 - (AcceptOrRejectClanInviteRequestProto_Builder *)addAllRejected:(NSArray *)array;
 - (AcceptOrRejectClanInviteRequestProto_Builder *)clearRejected;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (AcceptOrRejectClanInviteRequestProto_Builder*) setClientTime:(int64_t) value;
+- (AcceptOrRejectClanInviteRequestProto_Builder*) clearClientTime;
 @end
 
 @interface AcceptOrRejectClanInviteResponseProto : PBGeneratedMessage {
@@ -3303,6 +3324,68 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (AcceptOrRejectClanInviteResponseProto_Builder*) setFullClan_Builder:(FullClanProtoWithClanSize_Builder*) builderForValue;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) clearFullClan;
+@end
+
+@interface RetrieveClanDataResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasMup_:1;
+  BOOL hasClanData_:1;
+  MinimumUserProto* mup;
+  ClanDataProto* clanData;
+}
+- (BOOL) hasMup;
+- (BOOL) hasClanData;
+@property (readonly, strong) MinimumUserProto* mup;
+@property (readonly, strong) ClanDataProto* clanData;
+
++ (RetrieveClanDataResponseProto*) defaultInstance;
+- (RetrieveClanDataResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveClanDataResponseProto_Builder*) builder;
++ (RetrieveClanDataResponseProto_Builder*) builder;
++ (RetrieveClanDataResponseProto_Builder*) builderWithPrototype:(RetrieveClanDataResponseProto*) prototype;
+- (RetrieveClanDataResponseProto_Builder*) toBuilder;
+
++ (RetrieveClanDataResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveClanDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanDataResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveClanDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveClanDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveClanDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveClanDataResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RetrieveClanDataResponseProto* result;
+}
+
+- (RetrieveClanDataResponseProto*) defaultInstance;
+
+- (RetrieveClanDataResponseProto_Builder*) clear;
+- (RetrieveClanDataResponseProto_Builder*) clone;
+
+- (RetrieveClanDataResponseProto*) build;
+- (RetrieveClanDataResponseProto*) buildPartial;
+
+- (RetrieveClanDataResponseProto_Builder*) mergeFrom:(RetrieveClanDataResponseProto*) other;
+- (RetrieveClanDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveClanDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMup;
+- (MinimumUserProto*) mup;
+- (RetrieveClanDataResponseProto_Builder*) setMup:(MinimumUserProto*) value;
+- (RetrieveClanDataResponseProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveClanDataResponseProto_Builder*) mergeMup:(MinimumUserProto*) value;
+- (RetrieveClanDataResponseProto_Builder*) clearMup;
+
+- (BOOL) hasClanData;
+- (ClanDataProto*) clanData;
+- (RetrieveClanDataResponseProto_Builder*) setClanData:(ClanDataProto*) value;
+- (RetrieveClanDataResponseProto_Builder*) setClanData_Builder:(ClanDataProto_Builder*) builderForValue;
+- (RetrieveClanDataResponseProto_Builder*) mergeClanData:(ClanDataProto*) value;
+- (RetrieveClanDataResponseProto_Builder*) clearClanData;
 @end
 
 

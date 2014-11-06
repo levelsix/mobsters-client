@@ -1224,7 +1224,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
-  notice.helpType = ClanHelpTypeUpgradeStruct;
+  notice.helpType = GameActionTypeUpgradeStruct;
   notice.userDataId = us.userStructId;
   notice.staticDataId = us.structId;
   
@@ -1237,7 +1237,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
-  notice.helpType = ClanHelpTypeMiniJob;
+  notice.helpType = GameActionTypeMiniJob;
   notice.userDataId = mj.userMiniJobId;
   notice.staticDataId = mj.miniJob.quality;
   
@@ -1250,7 +1250,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
-  notice.helpType = ClanHelpTypeEvolve;
+  notice.helpType = GameActionTypeEvolve;
   notice.userDataId = ue.userMonsterId1;
   notice.staticDataId = ue.evoItem.userMonster1.monsterId;
   
@@ -1263,7 +1263,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
-  notice.helpType = ClanHelpTypeEnhanceTime;
+  notice.helpType = GameActionTypeEnhanceTime;
   notice.userDataId = ue.baseMonster.userMonsterId;
   notice.staticDataId = ue.baseMonster.userMonster.monsterId;
   
@@ -1279,7 +1279,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
     ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
-    notice.helpType = ClanHelpTypeHeal;
+    notice.helpType = GameActionTypeHeal;
     notice.userDataId = hi.userMonsterId;
     notice.staticDataId = hi.userMonster.monsterId;
     

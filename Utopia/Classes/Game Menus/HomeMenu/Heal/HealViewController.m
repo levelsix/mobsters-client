@@ -78,7 +78,7 @@
   if (canHelp) {
     canHelp = NO;
     for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
-      if ([gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeHeal userDataId:hi.userMonsterId] < 0) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:hi.userMonsterId] < 0) {
         canHelp = YES;
       }
     }

@@ -2,12 +2,15 @@
 
 #import "ProtocolBuffers.h"
 
+#import "SharedEnumConfig.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class ItemProto;
 @class ItemProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -22,6 +25,9 @@
 
 typedef enum {
   ItemTypeBoosterPack = 1,
+  ItemTypeItemOil = 2,
+  ItemTypeItemCash = 3,
+  ItemTypeSpeedUp = 4,
 } ItemType;
 
 BOOL ItemTypeIsValidValue(ItemType value);
@@ -102,13 +108,17 @@ BOOL ItemTypeIsValidValue(ItemType value);
 
 @interface ItemProto : PBGeneratedMessage {
 @private
+  BOOL hasSecretGiftChance_:1;
   BOOL hasItemId_:1;
   BOOL hasStaticDataId_:1;
+  BOOL hasAmount_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasItemType_:1;
+  Float32 secretGiftChance;
   int32_t itemId;
   int32_t staticDataId;
+  int32_t amount;
   NSString* name;
   NSString* imgName;
   ItemType itemType;
@@ -118,11 +128,15 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasImgName;
 - (BOOL) hasItemType;
 - (BOOL) hasStaticDataId;
+- (BOOL) hasAmount;
+- (BOOL) hasSecretGiftChance;
 @property (readonly) int32_t itemId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* imgName;
 @property (readonly) ItemType itemType;
 @property (readonly) int32_t staticDataId;
+@property (readonly) int32_t amount;
+@property (readonly) Float32 secretGiftChance;
 
 + (ItemProto*) defaultInstance;
 - (ItemProto*) defaultInstance;
@@ -183,6 +197,110 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (int32_t) staticDataId;
 - (ItemProto_Builder*) setStaticDataId:(int32_t) value;
 - (ItemProto_Builder*) clearStaticDataId;
+
+- (BOOL) hasAmount;
+- (int32_t) amount;
+- (ItemProto_Builder*) setAmount:(int32_t) value;
+- (ItemProto_Builder*) clearAmount;
+
+- (BOOL) hasSecretGiftChance;
+- (Float32) secretGiftChance;
+- (ItemProto_Builder*) setSecretGiftChance:(Float32) value;
+- (ItemProto_Builder*) clearSecretGiftChance;
+@end
+
+@interface UserItemUsageProto : PBGeneratedMessage {
+@private
+  BOOL hasUsageId_:1;
+  BOOL hasTimeOfEntry_:1;
+  BOOL hasUserDataId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasItemId_:1;
+  BOOL hasActionType_:1;
+  int64_t usageId;
+  int64_t timeOfEntry;
+  int64_t userDataId;
+  int32_t userId;
+  int32_t itemId;
+  GameActionType actionType;
+}
+- (BOOL) hasUsageId;
+- (BOOL) hasUserId;
+- (BOOL) hasItemId;
+- (BOOL) hasTimeOfEntry;
+- (BOOL) hasUserDataId;
+- (BOOL) hasActionType;
+@property (readonly) int64_t usageId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t itemId;
+@property (readonly) int64_t timeOfEntry;
+@property (readonly) int64_t userDataId;
+@property (readonly) GameActionType actionType;
+
++ (UserItemUsageProto*) defaultInstance;
+- (UserItemUsageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserItemUsageProto_Builder*) builder;
++ (UserItemUsageProto_Builder*) builder;
++ (UserItemUsageProto_Builder*) builderWithPrototype:(UserItemUsageProto*) prototype;
+- (UserItemUsageProto_Builder*) toBuilder;
+
++ (UserItemUsageProto*) parseFromData:(NSData*) data;
++ (UserItemUsageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserItemUsageProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserItemUsageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserItemUsageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserItemUsageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserItemUsageProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserItemUsageProto* result;
+}
+
+- (UserItemUsageProto*) defaultInstance;
+
+- (UserItemUsageProto_Builder*) clear;
+- (UserItemUsageProto_Builder*) clone;
+
+- (UserItemUsageProto*) build;
+- (UserItemUsageProto*) buildPartial;
+
+- (UserItemUsageProto_Builder*) mergeFrom:(UserItemUsageProto*) other;
+- (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUsageId;
+- (int64_t) usageId;
+- (UserItemUsageProto_Builder*) setUsageId:(int64_t) value;
+- (UserItemUsageProto_Builder*) clearUsageId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserItemUsageProto_Builder*) setUserId:(int32_t) value;
+- (UserItemUsageProto_Builder*) clearUserId;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (UserItemUsageProto_Builder*) setItemId:(int32_t) value;
+- (UserItemUsageProto_Builder*) clearItemId;
+
+- (BOOL) hasTimeOfEntry;
+- (int64_t) timeOfEntry;
+- (UserItemUsageProto_Builder*) setTimeOfEntry:(int64_t) value;
+- (UserItemUsageProto_Builder*) clearTimeOfEntry;
+
+- (BOOL) hasUserDataId;
+- (int64_t) userDataId;
+- (UserItemUsageProto_Builder*) setUserDataId:(int64_t) value;
+- (UserItemUsageProto_Builder*) clearUserDataId;
+
+- (BOOL) hasActionType;
+- (GameActionType) actionType;
+- (UserItemUsageProto_Builder*) setActionType:(GameActionType) value;
+- (UserItemUsageProto_Builder*) clearActionType;
 @end
 
 

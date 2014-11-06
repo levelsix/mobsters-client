@@ -55,15 +55,15 @@ typedef enum {
 BOOL QualityIsValidValue(Quality value);
 
 typedef enum {
-  ClanHelpTypeNoHelp = 1,
-  ClanHelpTypeUpgradeStruct = 2,
-  ClanHelpTypeHeal = 3,
-  ClanHelpTypeEvolve = 4,
-  ClanHelpTypeMiniJob = 5,
-  ClanHelpTypeEnhanceTime = 6,
-} ClanHelpType;
+  GameActionTypeNoHelp = 1,
+  GameActionTypeUpgradeStruct = 2,
+  GameActionTypeHeal = 3,
+  GameActionTypeEvolve = 4,
+  GameActionTypeMiniJob = 5,
+  GameActionTypeEnhanceTime = 6,
+} GameActionType;
 
-BOOL ClanHelpTypeIsValidValue(ClanHelpType value);
+BOOL GameActionTypeIsValidValue(GameActionType value);
 
 typedef enum {
   GameTypeNoType = 1,

@@ -10,7 +10,9 @@
 
 #import "EvolveChooserViews.h"
 
-@interface EvolveChooserViewController : PopupSubViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EvolveCardDelegate>
+#import "DailyEventCornerView.h"
+
+@interface EvolveChooserViewController : PopupSubViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EvolveCardDelegate, DailyEventCornerDelegate>
 
 @property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *monsterNameLabel;
@@ -23,5 +25,7 @@
 @property (nonatomic, retain) IBOutlet UICollectionView *collectionView;
 
 @property (nonatomic, retain) NSArray *evoItems;
+
+@property (nonatomic, retain) DailyEventCornerView *dailyEventView;
 
 @end

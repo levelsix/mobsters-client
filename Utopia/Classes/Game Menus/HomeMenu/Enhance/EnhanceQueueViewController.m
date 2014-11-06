@@ -16,6 +16,8 @@
 #import "GameViewController.h"
 #import "EnhanceQueueViewController+Animations.h"
 
+#import "DailyEventViewController.h"
+
 #define ENHANCE_FIRST_TIME_DEFAULTS_KEY @"EnhanceFirstTime"
 
 @implementation EnhanceSmallCardCell
@@ -110,6 +112,8 @@
   
   self.monsterGlowIcon.alpha = 0.f;
   self.skipButtonView.hidden = YES;
+  
+  self.leftCornerView = [[NSBundle mainBundle] loadNibNamed:@"DailyEventCornerView" owner:self options:nil][0];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -120,6 +124,10 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [self updateLabelsNonTimer];
+  
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  cv.delegate = self;
+  [cv updateForEnhance];
 }
 
 - (int) maxQueueSize {
@@ -147,6 +155,18 @@
   [self reloadListViewAnimated:YES];
   [self reloadQueueViewAnimated:YES];
   [self updateLabelsNonTimer];
+}
+
+- (void) eventCornerViewClicked:(id)sender {
+  if ([Globals shouldShowFatKidDungeon]) {
+    DailyEventViewController *evc = [[DailyEventViewController alloc] init];
+    [self.parentViewController pushViewController:evc animated:YES];
+    [evc updateForEnhance];
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    UserStruct *us = gs.myLaboratory;
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You must upgrade your %@ to Level %d to access Cake Kid events.", us.staticStruct.structInfo.name, FAT_KID_DUNGEON_LEVEL]];
+  }
 }
 
 - (void) updateLabelsNonTimer {
@@ -244,7 +264,7 @@
     
     self.totalTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:ue.baseMonster.userMonsterId] < 0;
+    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:ue.baseMonster.userMonsterId] < 0;
     
     self.finishButtonView.hidden = NO;
     
@@ -267,6 +287,9 @@
       [self listView:self.queueView updateCell:cell forIndexPath:ip listObject:self.currentEnhancement.feeders[ip.row]];
     }
   }
+  
+  DailyEventCornerView *cv = (DailyEventCornerView *)self.leftCornerView;
+  [cv updateLabels];
 }
 
 - (void) updateStats {

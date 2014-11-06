@@ -143,7 +143,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCGiveClanHelpEvent:
     case EventProtocolRequestCEndClanHelpEvent:
     case EventProtocolRequestCInviteToClanEvent:
-    case EventProtocolRequestCApproveOrRejectClanInviteEvent:
+    case EventProtocolRequestCAcceptOrRejectClanInviteEvent:
     case EventProtocolRequestCCollectMonsterEnhancementEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
@@ -235,7 +235,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSGiveClanHelpEvent:
     case EventProtocolResponseSEndClanHelpEvent:
     case EventProtocolResponseSInviteToClanEvent:
-    case EventProtocolResponseSApproveOrRejectClanInviteEvent:
+    case EventProtocolResponseSAcceptOrRejectClanInviteEvent:
     case EventProtocolResponseSCollectMonsterEnhancementEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
@@ -246,6 +246,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
     case EventProtocolResponseSAwardClanRaidStageRewardEvent:
     case EventProtocolResponseSForceLogoutEvent:
+    case EventProtocolResponseSRetrieveClanDataEvent:
     case EventProtocolResponseSDevEvent:
       return YES;
     default:

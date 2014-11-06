@@ -79,7 +79,7 @@
     
     self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJob.userMiniJobId] < 0;
+    BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataId:self.userMiniJob.userMiniJobId] < 0;
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     if (gemCost > 0) {

@@ -136,7 +136,7 @@
   }
 }
 
-- (ClanHelp *) getMyClanHelpForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getMyClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
   for (id<ClanHelp> help in self.myClanHelps) {
     ClanHelp *specific = [help getClanHelpForType:type userDataId:userDataId];
     
@@ -147,7 +147,7 @@
   return nil;
 }
 
-- (int) getNumClanHelpsForType:(ClanHelpType)type userDataId:(uint64_t)userDataId {
+- (int) getNumClanHelpsForType:(GameActionType)type userDataId:(uint64_t)userDataId {
   id<ClanHelp> help = [self getMyClanHelpForType:type userDataId:userDataId];
   return help ? help.numHelpers : -1;
 }
@@ -189,11 +189,11 @@
     for (ClanHelp *ch in [help allIndividualClanHelps]) {
       BOOL isValid = NO;
       
-      if (ch.helpType == ClanHelpTypeUpgradeStruct) {
+      if (ch.helpType == GameActionTypeUpgradeStruct) {
         UserStruct *us = [gs myStructWithId:(int)ch.userDataId];
         // If us doesn't exist, this will also return true which is good in case city hasn't loaded.
         isValid = !us.isComplete;
-      } else if (ch.helpType == ClanHelpTypeMiniJob) {
+      } else if (ch.helpType == GameActionTypeMiniJob) {
         UserMiniJob *umj = nil;
         for (UserMiniJob *u in gs.myMiniJobs) {
           if (u.userMiniJobId == ch.userDataId) {
@@ -202,7 +202,7 @@
         }
         
         isValid = umj.timeStarted && !umj.timeCompleted;
-      } else if (ch.helpType == ClanHelpTypeHeal) {
+      } else if (ch.helpType == GameActionTypeHeal) {
         UserMonsterHealingItem *hi = nil;
         for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
           if (u.userMonsterId == ch.userDataId) {
@@ -211,11 +211,11 @@
         }
         
         isValid = !!hi;
-      } else if (ch.helpType == ClanHelpTypeEvolve) {
+      } else if (ch.helpType == GameActionTypeEvolve) {
         UserEvolution *ue = gs.userEvolution;
         
         isValid = (ue.userMonsterId1 == ch.userDataId);
-      } else if (ch.helpType == ClanHelpTypeEnhanceTime) {
+      } else if (ch.helpType == GameActionTypeEnhanceTime) {
         UserEnhancement *ue = gs.userEnhancement;
         
         isValid = ue.baseMonster.userMonsterId == ch.userDataId;

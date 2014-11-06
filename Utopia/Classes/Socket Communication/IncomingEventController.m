@@ -297,6 +297,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectMonsterEnhancementEvent:
       responseClass = [CollectMonsterEnhancementResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveClanDataEvent:
+      responseClass = [RetrieveClanDataResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -412,23 +415,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.curClanRaidUserInfos removeAllObjects];
     }
     
-    ClanHelpUtil *clanHelpUtil = [[ClanHelpUtil alloc] initWithUserId:gs.userId clanId:gs.clan.clanId clanHelpProtos:proto.clanHelpingsList];
-    gs.clanHelpUtil = clanHelpUtil;
-    
     [gs.globalChatMessages removeAllObjects];
-    [gs.clanChatMessages removeAllObjects];
     [gs.privateChats removeAllObjects];
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeGlobal];
     }
-    for (GroupChatMessageProto *msg in proto.clanChatsList) {
-      ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
-      [gs addChatMessage:cm scope:GroupChatScopeClan];
-    }
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
       [gs addPrivateChat:pcpp];
     }
+    [gs updateClanData:proto.clanData];
     
     gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
@@ -1262,6 +1258,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to boot player from squad."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveClanDataResponseProto:(FullEvent *)fe {
+  RetrieveClanDataResponseProto *proto = (RetrieveClanDataResponseProto *)fe.event;
+  LNLog(@"Retrieve clan data response received.");
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.mup.userId == gs.userId) {
+    [gs updateClanData:proto.clanData];
   }
 }
 

@@ -521,7 +521,7 @@
   int secsToDock = 0;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEnhanceTime userDataId:self.baseMonster.userMonsterId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:self.baseMonster.userMonsterId];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.enhanceClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.enhanceClanHelpConstants.percentRemovedPerHelp));
     secsToDock = numHelps*secsToDockPerHelp;
@@ -606,7 +606,7 @@
   int seconds = um.staticMonster.minutesToEvolve*60;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeEvolve userDataId:self.userMonsterId1];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataId:self.userMonsterId1];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.evolveClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.evolveClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
@@ -893,7 +893,7 @@
   int seconds = self.staticStruct.structInfo.minutesToBuild*60;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeUpgradeStruct userDataId:self.userStructId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:self.userStructId];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
@@ -1401,7 +1401,7 @@
   int seconds = self.durationSeconds;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:ClanHelpTypeMiniJob userDataId:self.userMiniJobId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataId:self.userMiniJobId];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.miniJobClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.miniJobClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;

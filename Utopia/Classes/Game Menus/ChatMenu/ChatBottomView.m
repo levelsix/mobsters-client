@@ -203,6 +203,8 @@
     
     [self.emptyLabel removeFromSuperview];
     self.emptyLabel = nil;
+  } else {
+    [self createEmptyLabel];
   }
   
   [self reloadPageControl];
@@ -317,29 +319,38 @@
       [self.currentLineViews addObject:lv];
     }
   } else {
-    CGRect r = CGRectZero;
-    r.size.width = self.openedView.frame.size.width;
-    r.size.height = self.lineViewContainer.frame.size.height;
-    NiceFontLabel14B *label = [[NiceFontLabel14B alloc] initWithFrame:r];
-    label.font = [UIFont systemFontOfSize:12.f];
-    [label awakeFromNib];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.8f];
-    label.shadowOffset = CGSizeMake(0, 1);
-    [self.lineViewContainer addSubview:label];
+    [self createEmptyLabel];
     
-    CGPoint center = ccp(self.openedView.frame.size.width/2, self.lineViewContainer.frame.size.height/2);
-    label.center = ccpAdd(center, ccpCompMult(delta, ccp(self.openedView.frame.size.width, 0)));
-    label.text = [self.delegate emptyStringForScope:scope];
+    CGPoint center = self.emptyLabel.center;
+    self.emptyLabel.center = ccpAdd(center, ccpCompMult(delta, ccp(self.openedView.frame.size.width, 0)));
     
     [UIView animateWithDuration:duration delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      label.center = center;
+      self.emptyLabel.center = center;
     } completion:nil];
-    self.emptyLabel = label;
   }
   
   [self performSelector:@selector(reloadPageControl) withObject:nil afterDelay:duration];
+}
+
+- (void) createEmptyLabel {
+  [self.emptyLabel removeFromSuperview];
+  
+  CGRect r = CGRectZero;
+  r.size.width = self.openedView.frame.size.width;
+  r.size.height = self.lineViewContainer.frame.size.height;
+  NiceFontLabel14B *label = [[NiceFontLabel14B alloc] initWithFrame:r];
+  label.font = [UIFont systemFontOfSize:12.f];
+  [label awakeFromNib];
+  label.textColor = [UIColor whiteColor];
+  label.textAlignment = NSTextAlignmentCenter;
+  label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.8f];
+  label.shadowOffset = CGSizeMake(0, 1);
+  [self.lineViewContainer addSubview:label];
+  
+  CGPoint center = ccp(self.openedView.frame.size.width/2, self.lineViewContainer.frame.size.height/2);
+  label.center = center;
+  label.text = [self.delegate emptyStringForScope:_chatScope];
+  self.emptyLabel = label;
 }
 
 @end

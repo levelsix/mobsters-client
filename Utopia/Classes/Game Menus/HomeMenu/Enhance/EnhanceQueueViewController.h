@@ -12,6 +12,8 @@
 
 #import "ListCollectionView.h"
 
+#import "DailyEventCornerView.h"
+
 @interface EnhanceSmallCardCell : ListCollectionViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
@@ -24,7 +26,7 @@
 
 @end
 
-@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate> {
+@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate> {
   UserMonster *_confirmUserMonster;
   
   UserEnhancement *_currentEnhancement;
@@ -86,7 +88,7 @@
 @property (nonatomic, retain) IBOutlet UIView *skipButtonView;
 @property (nonatomic, retain) IBOutlet UIView *enhanceButtonView;
 
-@property (nonatomic, strong) NSTimer *updateTimer;
+@property (nonatomic, retain) DailyEventCornerView *dailyEventView;
 
 - (void) waitTimeComplete;
 

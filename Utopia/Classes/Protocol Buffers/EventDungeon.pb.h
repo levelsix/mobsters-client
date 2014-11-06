@@ -119,6 +119,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
