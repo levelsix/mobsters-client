@@ -353,6 +353,21 @@
   }
 }
 
+//- (void) loadNextLeftCornerViewAnimated:(BOOL)animated {
+//  PopupSubViewController *svc = [self.viewControllers lastObject];
+//  
+//  BOOL shouldDisplayBackButton = NO;
+//  if (self.viewControllers.count > 1) {
+//    shouldDisplayBackButton = YES;
+//    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
+//    [self remakeBackButton];
+//  }
+//  
+//  if (<#condition#>) {
+//    <#statements#>
+//  }
+//}
+
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
   [self reloadTitleLabel];
 }

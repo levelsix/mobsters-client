@@ -24,6 +24,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *backLabel;
 @property (nonatomic, retain) IBOutlet MaskedButton *backMaskedButton;
 
+@property (nonatomic, retain) IBOutlet UIView *leftCornerViewContainer;
+@property (nonatomic, retain) IBOutlet UIView *leftCornerView;
+
 @property (nonatomic, retain) IBOutlet UIView *curTitleView;
 @property (nonatomic, retain) IBOutlet UILabel *curTitleLabel;
 

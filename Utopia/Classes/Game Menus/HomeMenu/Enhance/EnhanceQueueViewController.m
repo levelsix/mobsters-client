@@ -671,6 +671,7 @@
   //  [self updateLabelsNonTimer];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
 @end

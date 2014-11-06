@@ -13,6 +13,8 @@
 #import "MonsterCardView.h"
 #import "ListCollectionView.h"
 
+#import "DailyEventCornerView.h"
+
 @interface EnhanceChooserViewController : PopupSubViewController <ListCollectionDelegate>
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
@@ -23,9 +25,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
 
-@property (nonatomic, retain) NSMutableArray *userMonsters;
+@property (nonatomic, retain) DailyEventCornerView *dailyEventView;
 
-@property (nonatomic, retain) NSTimer *updateTimer;
+@property (nonatomic, retain) NSMutableArray *userMonsters;
 
 - (void) reloadListViewAnimated:(BOOL)animated;
 

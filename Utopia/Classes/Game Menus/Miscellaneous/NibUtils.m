@@ -148,6 +148,15 @@
 
 @end
 
+@implementation NiceFontLabel8T
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontLabel8S
 
 - (void) awakeFromNib {
@@ -268,6 +277,15 @@
 
 @end
 
+@implementation NiceFontLabel12T
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontLabel12R
 
 - (void) awakeFromNib {
@@ -329,6 +347,15 @@
 @end
 
 @implementation NiceFontLabel14
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel14T
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];

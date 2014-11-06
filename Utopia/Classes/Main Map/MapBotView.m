@@ -12,6 +12,15 @@
 
 @implementation MapBotViewButton
 
+- (void) awakeFromNib {
+  self.actionLabel.shadowBlur = 0.53f;
+  self.actionLabel.strokeSize = 0.9f;
+  self.actionLabel.shadowOffset = CGSizeMake(0, 0.6f);
+  self.actionLabel.strokeColor = [UIColor colorWithWhite:51/255.f alpha:1.f];
+  self.actionLabel.gradientStartColor = [UIColor whiteColor];
+  self.actionLabel.gradientEndColor = [UIColor colorWithWhite:233/255.f alpha:1.f];
+}
+
 + (id) button {
   return [[NSBundle mainBundle] loadNibNamed:@"MapBotViewButton" owner:nil options:nil][0];
 }
@@ -72,11 +81,16 @@
 
 + (id) clanHelpButton {
   MapBotViewButton *button = [self button];
-  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelp.png"] forState:UIControlStateNormal];
-  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelppressed.png"] forState:UIControlStateHighlighted];
-  button.actionLabel.textColor = [UIColor whiteColor];
-  button.actionLabel.shadowColor = [UIColor colorWithRed:195/255.f green:0.f blue:0.f alpha:0.8f];
-  [button updateWithImageName:@"buildinggethelpicon.png" actionText:@"Get Help!" config:MapBotViewButtonClanHelp];
+  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelpbutton.png"] forState:UIControlStateNormal];
+  [button.bgdButton setImage:[Globals imageNamed:@"buildinggethelpbuttonpressed.png"] forState:UIControlStateHighlighted];
+  
+  button.actionLabel.gradientEndColor = [UIColor colorWithHexString:@"fff6e8"];
+  button.actionLabel.strokeColor = [UIColor colorWithHexString:@"7e2f00"];
+  button.actionLabel.shadowColor = [UIColor colorWithRed:113/255.f green:45/255.f blue:0.f alpha:0.68f];
+  
+  button.actionIcon.centerY -= 2;
+  
+  [button updateWithImageName:@"buildinggethelp.png" actionText:@"Get Help!" config:MapBotViewButtonClanHelp];
   return button;
 }
 
@@ -105,14 +119,29 @@
   MapBotViewButton *button = [[NSBundle mainBundle] loadNibNamed:@"MapBotViewSpeedupButton" owner:nil options:nil][0];
   [button updateWithImageName:nil actionText:@"Finish Now" config:MapBotViewButtonSpeedup];
   
+  button.actionLabel.gradientEndColor = [UIColor colorWithHexString:@"f8e7ff"];
+  button.actionLabel.strokeColor = [UIColor colorWithHexString:@"3d006c"];
+  button.actionLabel.shadowColor = [UIColor colorWithRed:113/255.f green:45/255.f blue:0.f alpha:0.68f];
+  
+  THLabel *topLabel = nil;
   if (gemCost) {
     [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
     button.freeLabel.hidden = YES;
+    
+    topLabel = button.topLabel;
   } else {
     button.topLabel.superview.hidden = YES;
+    topLabel = button.freeLabel;
   }
   
-  button.topLabel.strokeSize = 0.f;
+  topLabel.gradientStartColor = button.actionLabel.gradientStartColor;
+  topLabel.gradientEndColor = button.actionLabel.gradientEndColor;
+  topLabel.strokeColor = button.actionLabel.strokeColor;
+  topLabel.shadowColor = button.actionLabel.shadowColor;
+  topLabel.strokeSize = button.actionLabel.strokeSize;
+  topLabel.shadowOffset = button.actionLabel.shadowOffset;
+  topLabel.shadowBlur = button.actionLabel.shadowBlur;
+  
   return button;
 }
 
@@ -124,7 +153,7 @@
 }
 
 - (void) updateTopLabelForResourceType:(ResourceType)type cost:(int)cost {
-  self.topLabel.text = [Globals commafyNumber:cost];
+  self.topLabel.text = [@" " stringByAppendingString:[Globals commafyNumber:cost]];
   [Globals adjustViewForCentering:self.topLabel.superview withLabel:self.topLabel];
   
   if (type == ResourceTypeCash) {

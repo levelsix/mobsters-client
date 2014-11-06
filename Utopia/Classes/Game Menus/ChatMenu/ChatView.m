@@ -363,6 +363,12 @@
   [self loadListViewAnimated:YES];
 }
 
+- (IBAction)adminChatClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  MinimumUserProto *mup = gl.adminChatUser;
+  [self openConversationWithUserId:mup.userId name:mup.name animated:YES];
+}
+
 - (void) openConversationWithUserId:(int)userId name:(NSString *)name animated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   if (self.curUserId != userId) {
@@ -391,6 +397,16 @@
     for (GroupChatMessageProto *chat in proto.postsList) {
       [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
     }
+    
+    Globals *gl = [Globals sharedGlobals];
+    if (arr.count == 0 && proto.otherUserId == gl.adminChatUser.userId) {
+      GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
+      p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
+      p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
+      p.timeOfChat = [[NSDate date] timeIntervalSince1970]*1000;
+      [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
+    }
+    
     [self updateForChats:[arr reversedArray] animated:NO];
   }
 }

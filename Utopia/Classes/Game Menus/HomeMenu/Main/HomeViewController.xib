@@ -13,6 +13,7 @@
                 <outlet property="containerView" destination="PQx-jD-nSH" id="EqL-p7-P1P"/>
                 <outlet property="curHomeTitleView" destination="Qtv-a7-n2a" id="fZO-ze-Wik"/>
                 <outlet property="curTitleView" destination="S3h-7l-GTp" id="cXp-hU-hrJ"/>
+                <outlet property="leftCornerViewContainer" destination="hW9-Uo-otF" id="aHL-OU-FDX"/>
                 <outlet property="mainView" destination="k2d-I9-p48" id="G9g-Yq-0nd"/>
                 <outlet property="selectorView" destination="S3h-7l-GTp" id="8F1-FH-WAG"/>
                 <outlet property="view" destination="jTA-4M-XPA" id="XeY-A7-hgw"/>
@@ -156,6 +157,11 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="hW9-Uo-otF">
+                            <rect key="frame" x="0.0" y="0.0" width="138" height="66"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -163,6 +169,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <point key="canvasLocation" x="698" y="447"/>
         </view>
     </objects>
     <resources>
