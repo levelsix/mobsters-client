@@ -186,6 +186,8 @@
   [[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
+  [[GameViewController baseController] invalidateAllTimers];
+  
   GameState *gs = [GameState sharedGameState];
   FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
   if (gs.connected && !fd.timeOfLastLoginAttempt) {

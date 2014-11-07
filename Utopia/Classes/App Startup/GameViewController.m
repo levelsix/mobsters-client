@@ -373,6 +373,8 @@ static const CGSize FIXED_SIZE = {568, 384};
     // App delegate will have already initialized network connection
     [self fadeToLoadingScreenPercentage:0 animated:YES];
     _isFreshRestart = YES;
+  } else if (!gs.isTutorial) {
+    [self beginAllTimers];
   }
 }
 
@@ -918,7 +920,12 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
       
-      [self blackFadeIntoBattleLayer:bl];
+      // Events come from a menus so we don't want to insta-transition
+      if (isEvent) {
+        [self crossFadeIntoBattleLayer:bl];
+      } else {
+        [self blackFadeIntoBattleLayer:bl];
+      }
     }
     
     [tlv stop];
@@ -1377,6 +1384,36 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) swapRejected {
   [FacebookDelegate logout];
+}
+
+#pragma mark - Timers
+
+- (void) invalidateAllTimers {
+  GameState *gs = [GameState sharedGameState];
+  [gs stopCombineTimer];
+  [gs stopEnhanceTimer];
+  [gs stopEvolutionTimer];
+  [gs stopHealingTimer];
+  [gs stopMiniJobTimer];
+  
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    HomeMap *hm = (HomeMap *)self.currentMap;
+    [hm invalidateAllTimers];
+  }
+}
+
+- (void) beginAllTimers {
+  GameState *gs = [GameState sharedGameState];
+  [gs beginCombineTimer];
+  [gs beginEnhanceTimer];
+  [gs beginEvolutionTimer];
+  [gs beginHealingTimer];
+  [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
+  
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    HomeMap *hm = (HomeMap *)self.currentMap;
+    [hm beginTimers];
+  }
 }
 
 @end

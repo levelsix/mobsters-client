@@ -284,7 +284,7 @@
 
 - (void) animateBubbleOutCompletion:(void (^)(void))completion {
   [UIView animateWithDuration:0.17f animations:^{
-    self.speechBubble.transform = CGAffineTransformMakeScale(0.f, 0.f);
+    self.speechBubble.transform = CGAffineTransformMakeScale(0.5f, 0.5f);
     self.speechBubble.alpha = 0.f;
   } completion:^(BOOL finished) {
     self.speechBubble.transform = CGAffineTransformIdentity;

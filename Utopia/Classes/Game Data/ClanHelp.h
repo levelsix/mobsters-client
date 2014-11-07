@@ -26,6 +26,7 @@
 
 - (MSDate *) requestedTime;
 - (MinimumUserProto *) requester;
+- (int) clanId;
 
 - (BOOL) isOpen;
 

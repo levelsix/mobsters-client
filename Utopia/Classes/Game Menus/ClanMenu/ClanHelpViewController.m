@@ -75,7 +75,12 @@
   
   NSArray *arr = [gs.clanHelpUtil getAllHelpableClanHelps];
   NSMutableSet *newHelps = [NSMutableSet setWithArray:arr];
-  [newHelps unionSet:[NSSet setWithArray:self.helpsArray]];
+  
+  for (id<ClanHelp> ch in self.helpsArray) {
+    if ([ch clanId] == gs.clan.clanId) {
+      [newHelps addObject:ch];
+    }
+  }
   
   NSArray *unionArr = newHelps.allObjects;
   

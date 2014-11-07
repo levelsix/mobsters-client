@@ -30,8 +30,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  GameState *gs = [GameState sharedGameState];
-  if ([Globals shouldShowFatKidDungeon] || gs.myEvoChamber) {
+  // Disabling attack event views in attack map
+  //GameState *gs = [GameState sharedGameState];
+  if (false) {//[Globals shouldShowFatKidDungeon] || gs.myEvoChamber) {
     NSString *nibFile = [Globals isSmallestiPhone] ? @"AttackEventViewSmall" : @"AttackEventView";
     [[NSBundle mainBundle] loadNibNamed:nibFile owner:self options:nil];
     

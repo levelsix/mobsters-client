@@ -266,7 +266,7 @@
   NSMutableArray *newAnim = [self.animateViews mutableCopy];
   [newAnim removeObjectsInArray:arr];
   
-  float spaceBetween = 0.f;
+  float spaceBetween = 3.f;
   float curX = 0.f;
   for (UIView *v in views) {
     v.center = ccp(curX+v.frame.size.width/2, self.containerView.frame.size.height/2);

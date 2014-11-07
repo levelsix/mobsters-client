@@ -105,4 +105,7 @@
 
 - (BOOL) canProceedWithFacebookUser:(NSDictionary *)fbUser;
 
+- (void) invalidateAllTimers;
+- (void) beginAllTimers;
+
 @end

@@ -26,6 +26,7 @@ static NSString* const TimeBotColor[] = {@"", @"64c817", @"64c817", @"0aadf5", @
   PersistentEventProto_EventType _eventType;
   
   float _initCharCenterX;
+  float _initTimeLabelX;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *gradientView;

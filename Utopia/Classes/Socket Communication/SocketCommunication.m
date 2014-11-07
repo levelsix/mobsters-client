@@ -221,7 +221,10 @@ static NSString *udid = nil;
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
-  [self.queuedMessages removeAllObjects];
+  if (self.queuedMessages.count) {
+    LNLog(@"Removing %d queued messages.", (int)self.queuedMessages.count);
+    [self.queuedMessages removeAllObjects];
+  }
 }
 
 - (void) reloadClanMessageQueue {

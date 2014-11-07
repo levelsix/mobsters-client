@@ -846,6 +846,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     NSRange r = [msg rangeOfString:CODE_PREFIX];
     if (r.length > 0) {
       NSString *code = [msg stringByReplacingCharactersInRange:r withString:@""];
+      msg = nil;
       
 #ifndef APPSTORE
       @try {

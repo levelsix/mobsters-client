@@ -284,6 +284,7 @@
     float movementFactor = 70.f*(fromRight?1:-1);
     newView.center = ccpAdd(oldView.center, ccp(movementFactor, 0));
     newView.alpha = 0.f;
+    
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       newView.center = oldView.center;
       oldView.center = ccpAdd(oldView.center, ccp(-movementFactor, 0));
@@ -291,12 +292,16 @@
       oldView.alpha = 0.f;
       newView.alpha = 1.f;
     } completion:^(BOOL finished) {
-      [oldView removeFromSuperview];
+      if (!oldView.layer.animationKeys.count) {
+        [oldView removeFromSuperview];
+      }
     }];
   } else {
     newView.center = oldView.center;
     
-    [oldView removeFromSuperview];
+    if (newView != oldView) {
+      [oldView removeFromSuperview];
+    }
   }
 }
 
@@ -341,7 +346,8 @@
     self.leftCornerView = nil;
   }
   
-  // Disable touches so that we can reassign them after
+  // Disable touches so that we can reassign them after.
+  // Having problems where someone rapidly clicks the event view and back and the main views disappear
   oldLeftCorner.userInteractionEnabled = NO;
   self.leftCornerView.userInteractionEnabled = NO;
   self.backView.userInteractionEnabled = NO;

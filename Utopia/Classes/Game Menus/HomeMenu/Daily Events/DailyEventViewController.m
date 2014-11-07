@@ -42,6 +42,8 @@
   self.timeLabel.gradientStartColor = [UIColor whiteColor];
   self.timeLabel.strokeSize = 1.f;
   self.timeLabel.shadowBlur = 0.5f;
+  
+  self.cooldownView.frame = self.enterView.frame;
 }
 
 - (void) updateForEvo {
@@ -125,6 +127,7 @@
 
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
   
   if (_persistentEventId != pe.eventId) {
@@ -135,7 +138,34 @@
     }
   } else {
     int timeLeft = [pe.endTime timeIntervalSinceNow];
-    self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    
+    MSDate *cdTime = pe.cooldownEndTime;
+    int cdTimeLeft = [cdTime timeIntervalSinceNow];
+    if (cdTimeLeft <= 0) {
+      self.enterView.hidden = NO;
+      self.cooldownView.hidden = YES;
+      
+      self.endsInLabel.text = @"Ends In:";
+      self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    } else {
+      self.endsInLabel.text = @"Reenter:";
+      self.timeLabel.text = [[Globals convertTimeToShortString:cdTimeLeft] uppercaseString];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:cdTimeLeft allowFreeSpeedup:YES];
+      
+      if (speedupCost > 0) {
+        self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
+        [Globals adjustViewForCentering:self.speedupGemsLabel.superview withLabel:self.speedupGemsLabel];
+        
+        self.speedupGemsLabel.superview.hidden = NO;
+        self.freeLabel.hidden = YES;
+      } else {
+        self.speedupGemsLabel.superview.hidden = YES;
+        self.freeLabel.hidden = NO;
+      }
+      
+      self.enterView.hidden = YES;
+      self.cooldownView.hidden = NO;
+    }
   }
 }
 

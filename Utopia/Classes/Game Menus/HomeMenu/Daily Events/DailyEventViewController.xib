@@ -8,13 +8,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DailyEventViewController">
             <connections>
                 <outlet property="characterIcon" destination="F16-ZT-f2i" id="b4m-6s-rIE"/>
+                <outlet property="cooldownView" destination="np9-pN-adQ" id="HO4-ks-grY"/>
                 <outlet property="descriptionLabel" destination="c2H-k1-VxC" id="HZD-CQ-h1J"/>
                 <outlet property="endsInLabel" destination="Y2X-XT-Hla" id="FNb-xS-UkC"/>
+                <outlet property="enterView" destination="wDs-AD-7mh" id="1qU-6U-IYk"/>
                 <outlet property="eventTagIcon" destination="tJX-fH-1uX" id="kGr-0C-qZg"/>
+                <outlet property="freeLabel" destination="bHV-1c-9RU" id="6e0-kM-3el"/>
                 <outlet property="leftBgdCap" destination="Hiu-db-GnZ" id="zlD-ev-wR7"/>
                 <outlet property="middleBgd" destination="EXd-fz-5f5" id="IAl-13-jcG"/>
                 <outlet property="nameLabel" destination="Oo4-UK-vE5" id="LmR-gm-5gt"/>
                 <outlet property="rightBgdCap" destination="Ze4-1c-gpt" id="ahM-x7-UnL"/>
+                <outlet property="speedupGemsLabel" destination="0Jx-Ps-K9D" id="29v-dR-qho"/>
                 <outlet property="timeLabel" destination="PkI-rh-PLB" id="vpj-Kq-jSf"/>
                 <outlet property="view" destination="Ie5-2U-REC" id="xbG-T7-wDQ"/>
             </connections>
@@ -55,6 +59,10 @@
                             <rect key="frame" x="-11" y="8" width="159" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="F16-ZT-f2i">
+                            <rect key="frame" x="-5" y="26" width="149" height="180"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Purple Cake" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oo4-UK-vE5" customClass="NiceFontLabel12T">
                             <rect key="frame" x="144" y="30" width="243" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -90,7 +98,21 @@
                             <rect key="frame" x="134" y="140" width="263" height="2"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <view contentMode="scaleToFill" id="wDs-AD-7mh">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c2H-k1-VxC" customClass="NiceFontLabel2">
+                            <rect key="frame" x="137" y="79" width="256" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <string key="text">Cake Kids give you the ultimate boost for enhancing characters. Their experience when sacrificed is unmatched by standard Skinny Toons.</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.45000000000000001" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nighteventtag.png" id="tJX-fH-1uX">
+                            <rect key="frame" x="121" y="2" width="23" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="wDs-AD-7mh" userLabel="Enter View">
                             <rect key="frame" x="277" y="154" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
@@ -120,24 +142,61 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c2H-k1-VxC" customClass="NiceFontLabel2">
-                            <rect key="frame" x="137" y="79" width="256" height="53"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <string key="text">Cake Kids give you the ultimate boost for enhancing characters. Their experience when sacrificed is unmatched by standard Skinny Toons.</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.45000000000000001" colorSpace="deviceRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nighteventtag.png" id="tJX-fH-1uX">
-                            <rect key="frame" x="121" y="2" width="23" height="18"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" id="F16-ZT-f2i">
-                            <rect key="frame" x="-5" y="26" width="149" height="180"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        </imageView>
+                        <view contentMode="scaleToFill" id="np9-pN-adQ" userLabel="Cooldown View">
+                            <rect key="frame" x="325" y="188" width="80" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a8b-V5-TrF" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" backgroundImage="purplemenuoption.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="enterClicked:" destination="-1" eventType="touchUpInside" id="Y6N-u0-LcO"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enter Now" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qGa-0d-ONX" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="9" y="2" width="63" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="bHV-1c-9RU" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="21" y="13" width="37" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="MEO-QW-LKv">
+                                    <rect key="frame" x="19" y="16" width="40" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="fr8-Do-bM8">
+                                            <rect key="frame" x="0.0" y="2" width="14" height="16"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="0Jx-Ps-K9D" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="17" y="-2" width="37" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -154,6 +213,7 @@
     <resources>
         <image name="behindcharacterglow.png" width="159" height="209"/>
         <image name="charactercircle.png" width="104" height="49"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>
         <image name="eventdivider.png" width="1" height="2"/>
@@ -161,6 +221,7 @@
         <image name="nighteventbigbg.png" width="1" height="225"/>
         <image name="nighteventbigbgcap.png" width="7" height="225"/>
         <image name="nighteventtag.png" width="23" height="18"/>
+        <image name="purplemenuoption.png" width="80" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
