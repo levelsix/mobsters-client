@@ -893,6 +893,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *task = [gs taskWithId:taskId];
   TaskMapElementProto *elem = [gs mapElementWithTaskId:taskId];
@@ -933,6 +938,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) beginClanRaidBattle:(PersistentClanEventProto *)clanEvent withTeam:(NSArray *)team {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   if (gs.curClanRaidInfo.clanEventId == clanEvent.clanEventId) {
     ClanRaidBattleLayer *bl = [[ClanRaidBattleLayer alloc] initWithEvent:gs.curClanRaidInfo myUserMonsters:team puzzleIsOnLeft:NO];
@@ -1003,6 +1013,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) findPvpMatch:(BOOL)useGems {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
   bl.delegate = self;
@@ -1014,6 +1029,11 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) beginPvpMatch:(PvpHistoryProto *)history {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) pvpHistoryForRevenge:history];
   bl.delegate = self;

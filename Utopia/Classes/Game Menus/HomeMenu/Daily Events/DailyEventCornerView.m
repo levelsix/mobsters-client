@@ -34,6 +34,7 @@
   
   self.timeLabel.strokeSize = 1.f;
   self.timeLabel.strokeColor = [UIColor whiteColor];
+  self.timeLabel.shadowBlur = 0.9f;
 }
 
 - (void) updateForEvo {
@@ -171,11 +172,13 @@
     
     _persistentEventId = pe.eventId;
     
+    [self updateLabels];
+    
     self.hidden = NO;
   } else {
+    _persistentEventId = 0;
     self.hidden = YES;
   }
-  [self updateLabels];
 }
 
 - (void) updateLabels {

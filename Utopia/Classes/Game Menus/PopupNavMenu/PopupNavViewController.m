@@ -112,6 +112,10 @@
 }
 
 - (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated {
+  if (_isAnimating) {
+    return;
+  }
+  
   PopupSubViewController *removeVc = [self.viewControllers lastObject];
   // Check the special case where we are basically replacing root with the current view controller
   if (animated && removeVc != viewController) {
@@ -137,6 +141,8 @@
     [self.containerView addSubview:topVc.view];
     [self addChildViewController:topVc];
     
+    _isAnimating = YES;
+    
     float movementFactor = self.containerView.frame.size.width*(fromRight?1:-1);
     topVc.view.center = ccp(self.containerView.frame.size.width/2+movementFactor, self.containerView.frame.size.height/2);
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
@@ -147,6 +153,7 @@
         [removeVc removeFromParentViewController];
         
         [removeVc endAppearanceTransition];
+        _isAnimating = NO;
       }
     }];
     
@@ -176,6 +183,10 @@
 }
 
 - (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
+  if (_isAnimating) {
+    return;
+  }
+  
   PopupSubViewController *curVc = [self.viewControllers lastObject];
   
   // This is in place for enhance views (check HomeViewController for reloading)
@@ -193,6 +204,8 @@
   }
   
   if (animated && curVc != topVc) {
+    _isAnimating = YES;
+    
     topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
@@ -201,6 +214,8 @@
       [curVc.view removeFromSuperview];
       
       [curVc endAppearanceTransition];
+      
+      _isAnimating = NO;
     }];
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
@@ -220,6 +235,10 @@
 }
 
 - (UIViewController *) popViewControllerAnimated:(BOOL)animated {
+  if (_isAnimating) {
+    return nil;
+  }
+  
   PopupSubViewController *removeVc = [self.viewControllers lastObject];
   [self.viewControllers removeObject:removeVc];
   PopupSubViewController *topVc = [self.viewControllers lastObject];
@@ -231,6 +250,8 @@
   [topVc beginAppearanceTransition:YES animated:animated];
   [self.containerView addSubview:topVc.view];
   if (animated) {
+    _isAnimating = YES;
+    
     topVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
       removeVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
@@ -239,6 +260,8 @@
       [removeVc removeFromParentViewController];
       
       [removeVc endAppearanceTransition];
+      
+      _isAnimating = NO;
     }];
     
     [UIView animateWithDuration:ANIMATION_TIME animations:^{

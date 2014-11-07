@@ -65,6 +65,11 @@
 }
 
 - (void) updateForPersistentEvent:(PersistentEventProto *)pe {
+  if (!pe) {
+    [self.parentViewController popViewControllerAnimated:YES];
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   
   NSString *fileName = nil;
@@ -114,6 +119,9 @@
       self.timeLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       self.timeLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
+      self.descriptionLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      
+      self.endsInLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
     }
     
     self.nameLabel.text = [task.name stringByAppendingString:@" Event"];
@@ -148,7 +156,7 @@
       self.endsInLabel.text = @"Ends In:";
       self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     } else {
-      self.endsInLabel.text = @"Reenter:";
+      self.endsInLabel.text = @"Reenter In:";
       self.timeLabel.text = [[Globals convertTimeToShortString:cdTimeLeft] uppercaseString];
       int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:cdTimeLeft allowFreeSpeedup:YES];
       

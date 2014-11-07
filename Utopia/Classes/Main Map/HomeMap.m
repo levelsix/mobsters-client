@@ -23,6 +23,7 @@
 #import "MiniJobsViewController.h"
 #import "HireViewController.h"
 #import "HomeViewController.h"
+#import "PersistentEventProto+Time.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -634,8 +635,15 @@
   BOOL evoInProgress = gs.userEvolution != nil;
   for (EvoBuilding *b in [self childrenOfClassType:[EvoBuilding class]]) {
     if (!evoInProgress) {
-        [b setBubbleType:BuildingBubbleTypeEvolve];
+      // Check for live scientist event
+      PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
+      
       [b stopAnimating];
+      if (pe && pe.cooldownEndTime.timeIntervalSinceNow <= 0) {
+        [b setBubbleType:BuildingBubbleTypeScientist withNum:pe.monsterElement];
+      } else {
+        [b setBubbleType:BuildingBubbleTypeEvolve];
+      }
     } else {
       [b setBubbleType:BuildingBubbleTypeNone];
       [b beginAnimatingWithEvolution:gs.userEvolution];
@@ -652,7 +660,21 @@
       if (gs.userEnhancement.isComplete) {
         [b setBubbleType:BuildingBubbleTypeComplete];
       } else if (b.userStruct.staticStruct.structInfo.level > 0) {
-        [b setBubbleType:BuildingBubbleTypeEnhance];
+        // Check for live cake kid event
+        BOOL showFatKid = NO;
+        
+        PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+        if (pe && [Globals shouldShowFatKidDungeon]) {
+          int cdTimeLeft = pe.cooldownEndTime.timeIntervalSinceNow;
+          
+          showFatKid = cdTimeLeft <= 0;
+        }
+        
+        if (showFatKid) {
+          [b setBubbleType:BuildingBubbleTypeCakeKid withNum:pe.monsterElement];
+        } else {
+          [b setBubbleType:BuildingBubbleTypeEnhance];
+        }
       } else {
         [b setBubbleType:BuildingBubbleTypeFix];
       }
@@ -1173,6 +1195,7 @@
   }
   
   [self updateTimerForHealingJustQueuedUp:NO];
+  [self updateTimerForPersistentEvents];
 }
 
 - (void) updateTimerForHealingDidJustQueueUp {
@@ -1205,6 +1228,48 @@
       [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
     }
   }
+}
+
+- (void) updateTimerForPersistentEvents {
+  NSMutableArray *oldTimers = [NSMutableArray array];
+  for (NSTimer *t in _timers) {
+    if ([t.userInfo isEqual:@"DailyEvent"]) {
+      [oldTimers addObject:t];
+    }
+  }
+  
+  for (NSTimer *oldTimer in oldTimers) {
+    [oldTimer invalidate];
+    [_timers removeObject:oldTimer];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  
+  MSDate *finalDate = nil;
+  NSMutableArray *dates = [NSMutableArray array];
+  
+  for (PersistentEventProto *pe in gs.persistentEvents) {
+    [dates addObject:pe.startTime];
+    
+    MSDate *cd = pe.cooldownEndTime;
+    if (cd) {
+      [dates addObject:pe.cooldownEndTime];
+    }
+    
+    [dates addObject:pe.endTime];
+  }
+  
+  for (MSDate *date in dates) {
+    if (date.timeIntervalSinceNow > 0 && (!finalDate || [date compare:finalDate] == NSOrderedAscending)) {
+      finalDate = date;
+    }
+  }
+  
+    if (finalDate) {
+      NSTimer *newTimer = [NSTimer timerWithTimeInterval:finalDate.timeIntervalSinceNow target:self selector:@selector(dailyEventTimerFired:) userInfo:@"DailyEvent" repeats:NO];
+      [_timers addObject:newTimer];
+      [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void) updateTimersForBuilding:(MapSprite *)ms justBuilt:(BOOL)justBuilt {
@@ -1357,6 +1422,13 @@
   mb.retrievable = YES;
   
   [_timers removeObject:timer];
+}
+
+- (void) dailyEventTimerFired:(NSTimer *)timer {
+  [self reloadBubblesOnMiscBuildings];
+  
+  [_timers removeObject:timer];
+  [self updateTimerForPersistentEvents];
 }
 
 #pragma mark - IBActions
@@ -1935,6 +2007,9 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadBubblesOnMiscBuildings) name:FB_INCREASE_SLOTS_NOTIFICATION object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllBubbles) name:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimers) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   

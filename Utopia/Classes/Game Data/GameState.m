@@ -1009,6 +1009,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticSkills = [NSMutableDictionary dictionary];
   for (SkillProto* skillProto in proto.skillsList)
     [self.staticSkills setObject:skillProto forKey:[NSNumber numberWithInteger:skillProto.skillId]];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {

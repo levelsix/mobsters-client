@@ -75,6 +75,8 @@
 #define CLAN_RAID_ATTACK_NOTIFICATION @"ClanRaidAttackNotification"
 #define NEW_OBSTACLES_CREATED_NOTIFICATION @"NewObstaclesCreatedNotification"
 
+#define STATIC_DATA_UPDATED_NOTIFICATION @"StaticDataUpdatedNotification"
+
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"

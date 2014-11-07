@@ -194,6 +194,12 @@
       case BuildingBubbleTypeClanHelp:
         imgName = [NSString stringWithFormat:@"helpredbubble%@.png", suffix];
         break;
+      case BuildingBubbleTypeCakeKid:
+        imgName = [Globals imageNameForElement:num suffix:@"cakeeventlive.png"];
+        break;
+      case BuildingBubbleTypeScientist:
+        imgName = [Globals imageNameForElement:num suffix:@"scientisteventlive.png"];
+        break;
         
       default:
         break;

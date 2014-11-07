@@ -11,7 +11,9 @@
 
 @class PopupSubViewController;
 
-@interface PopupNavViewController : UIViewController
+@interface PopupNavViewController : UIViewController {
+  BOOL _isAnimating;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
 
