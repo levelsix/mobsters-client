@@ -835,7 +835,7 @@ static NSString *udid = nil;
 - (int) sendBootPlayerFromClan:(NSString *)playerUuid {
   BootPlayerFromClanRequestProto *req = [[[[BootPlayerFromClanRequestProto builder]
                                            setSender:_sender]
-                                          setPlayerToBoot:playerUuid]
+                                          setPlayerToBootUuid:playerUuid]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBootPlayerFromClanEvent];

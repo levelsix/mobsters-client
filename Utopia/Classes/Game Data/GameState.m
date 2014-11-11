@@ -513,7 +513,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level {
+- (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level {
   NSMutableArray *arr = [NSMutableArray array];
   for (RequestFromFriend *req in self.fbAcceptedRequestsFromMe) {
     UserFacebookInviteForSlotProto *inv = req.invite;

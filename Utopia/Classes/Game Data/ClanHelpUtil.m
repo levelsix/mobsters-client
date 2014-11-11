@@ -95,7 +95,7 @@
   }
 }
 
-- (void) removeClanHelpIds:(NSArray *)helps {
+- (void) removeClanHelpUuids:(NSArray *)helps {
   for (NSString *chId in helps) {
     for (NSMutableArray *arr in @[self.myClanHelps, self.allClanHelps]) {
       NSMutableArray *toRemove = [NSMutableArray array];

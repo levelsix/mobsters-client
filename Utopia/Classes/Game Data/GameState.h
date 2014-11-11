@@ -189,7 +189,7 @@
 - (void) updateClanData:(ClanDataProto *)clanData;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
-- (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;
+- (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level;
 - (NSSet *) facebookIdsAlreadyUsed;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;

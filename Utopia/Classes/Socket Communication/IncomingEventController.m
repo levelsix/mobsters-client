@@ -588,15 +588,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Get the userstruct without a userStructId
     UserStruct *us = nil;
     for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
-      if (u.userStructId == 0) {
+      if (!u.userStructUuid) {
         us = u;
         break;
       }
     }
     
     if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
-      if (proto.hasUserStructId) {
-        us.userStructId = proto.userStructId;
+      if (proto.hasUserStructUuid) {
+        us.userStructUuid = proto.userStructUuid;
       } else {
         // This should never happen
         LNLog(@"Received success in purchase with no userStructId");
@@ -698,7 +698,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
-    if (proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
@@ -940,7 +940,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
     
     Globals *gl = [Globals sharedGlobals];
-    if (![gl isUserIdMuted:proto.sender.minUserProto.userId]) {
+    if (![gl isUserUuidMuted:proto.sender.minUserProto.userUuid]) {
       NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
       [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     }
@@ -956,7 +956,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addPrivateChat:proto.post];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
-     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userId]]];
+     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userUuid]]];
   }
 }
 
@@ -1014,7 +1014,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
-    if (proto.requester.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.requester.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       if (proto.accept) {
         gs.clan = proto.minClan;
@@ -1053,8 +1053,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
-    if (proto.sender.userUuid isEqualToString:gs.userUuid]) {
-      [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
+      [gs.requestedClans addObject:proto.clanUuid];
     } else {
       if (gs.myClanStatus == UserClanStatusLeader || gs.myClanStatus == UserClanStatusJuniorLeader) {
         [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your squad!", proto.sender.name] isImmediate:NO];
@@ -1063,7 +1063,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
-    if (proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1091,8 +1091,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
-    if (proto.sender.userUuid isEqualToString:gs.userUuid]) {
-      [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.clanId]];
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
+      [gs.requestedClans removeObject:proto.clanUuid];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1115,15 +1115,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
     
-    if (proto.clanOwnerNew.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.clanOwnerNew.userUuid isEqualToString:gs.userUuid]) {
       gs.myClanStatus = UserClanStatusLeader;
-    } else if (proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    } else if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       gs.myClanStatus = UserClanStatusJuniorLeader;
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     
-    if (proto.clanOwnerNew.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.clanOwnerNew.userUuid isEqualToString:gs.userUuid]) {
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"You have just become the new squad leader!"] isImmediate:NO];
     } else {
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just become the new squad leader!", proto.clanOwnerNew.name] isImmediate:NO];
@@ -1174,7 +1174,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     NSString *promoteOrDemote = isDemotion ? @"demoted" : @"promoted";
     NSString *position = [NSString stringWithFormat:@"%@%@", [Globals stringForClanStatus:proto.userClanStatus], isDemotion ? @"." : @"!"];
     NSString *notif = nil;
-    if (proto.victim.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.victim.userUuid isEqualToString:gs.userUuid]) {
       notif = [NSString stringWithFormat:@"You have just been %@ to %@", promoteOrDemote, position];
       gs.myClanStatus = proto.userClanStatus;
     } else {
@@ -1202,7 +1202,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
-    if (proto.sender.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1215,7 +1215,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name] isImmediate:NO];
       
-      [gs.clanHelpUtil removeClanHelpsForUserId:proto.sender.userId];
+      [gs.clanHelpUtil removeClanHelpsForUserUuid:proto.sender.userUuid];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1233,7 +1233,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
-    if (proto.playerToBoot.userUuid isEqualToString:gs.userUuid]) {
+    if ([proto.playerToBoot.userUuid isEqualToString:gs.userUuid]) {
       NSString *clanName = gs.clan.name;
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1250,7 +1250,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the squad.", proto.playerToBoot.name] isImmediate:NO];
       
-      [gs.clanHelpUtil removeClanHelpsForUserId:proto.playerToBoot.userId];
+      [gs.clanHelpUtil removeClanHelpsForUserUuid:proto.playerToBoot.userUuid];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1266,7 +1266,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve clan data response received.");
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.mup.userUuid isEqualToString:gs.userUuid]) {
+  if ([proto.mup.userUuid isEqualToString:gs.userUuid]) {
     [gs updateClanData:proto.clanData];
   }
 }
@@ -1311,7 +1311,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {
-    [gs.clanHelpUtil removeClanHelpIds:proto.clanHelpIdsList.toNSArray];
+    [gs.clanHelpUtil removeClanHelpUuids:proto.clanHelpUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan help."];
     
@@ -1330,7 +1330,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
     if (proto.hasFump) {
-      NSLog(@"Mobster %lld.", proto.fump.userMonsterId);
+      NSLog(@"Mobster %@.", proto.fump.userMonsterUuid);
       [gs addToMyMonsters:@[proto.fump]];
     }
     

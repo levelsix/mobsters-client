@@ -346,7 +346,6 @@
 }
 
 - (UserObstacle *) createNewObstacle {
-  GameState *gs = [GameState sharedGameState];
   ObstacleProto *op = [self randomObstacle];
   
   if (op) {

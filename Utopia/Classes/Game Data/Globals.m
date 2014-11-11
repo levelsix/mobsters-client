@@ -2210,7 +2210,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Muting Players
 
-- (void) muteUserId:(int)userId {
+- (void) muteUserUuid:(NSString *)userUuid {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
   
@@ -2218,14 +2218,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     dict = [NSMutableDictionary dictionary];
   }
   
-  [dict setObject:[NSDate date] forKey:[NSString stringWithFormat:@"%d", userId]];
+  [dict setObject:[NSDate date] forKey:[NSString stringWithFormat:@"%@", userUuid]];
   [def setObject:dict forKey:MUTED_PLAYERS_KEY];
 }
 
-- (BOOL) isUserIdMuted:(int)userId {
+- (BOOL) isUserUuidMuted:(NSString *)userUuid {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
-  NSDate *date = [dict objectForKey:[NSString stringWithFormat:@"%d", userId]];
+  NSDate *date = [dict objectForKey:[NSString stringWithFormat:@"%@", userUuid]];
   date = [date dateByAddingTimeInterval:24*60*60];
   
   return date && date.timeIntervalSinceNow > 0;
