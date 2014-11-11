@@ -45,8 +45,8 @@
 
 #else
 
-#define HOST_NAME @"staging.mobsters.lvl6.com"//staging.mobsters.lvl6.com"
-#define HOST_PORT 5672
+#define HOST_NAME @"54.148.31.23"//staging.mobsters.lvl6.com"
+#define HOST_PORT 5671
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devmobsters"
