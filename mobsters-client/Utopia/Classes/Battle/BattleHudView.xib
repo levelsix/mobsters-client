@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewBattleLayer">
+            <connections>
+                <outlet property="hudView" destination="iN0-l3-epB" id="CUt-h5-kBT"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BattleHudView">
+            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="gM6-4S-27Q" customClass="BattleScheduleView">
+                    <rect key="frame" x="13" y="0.0" width="234" height="75"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="movesqueuebgwide.png" id="XdL-Z4-Y4a">
+                            <rect key="frame" x="0.0" y="13" width="234" height="62"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MaP-FG-KFe" customClass="NiceFontLabel18B">
+                            <rect key="frame" x="185" y="61" width="49" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.65882354970000001" green="1" blue="0.34117648010000001" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="Khg-Xa-g6c">
+                            <rect key="frame" x="0.0" y="13" width="234" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="currentborder.png" id="9zk-OI-CN4">
+                            <rect key="frame" x="187" y="17" width="43" height="43"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdView" destination="XdL-Z4-Y4a" id="Y4D-tm-HUr"/>
+                        <outlet property="containerView" destination="Khg-Xa-g6c" id="ncm-MP-kFN"/>
+                        <outlet property="currentBorder" destination="9zk-OI-CN4" id="Xho-Am-DS7"/>
+                    </connections>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2kS-qV-7b6" userLabel="Element Button" customClass="GeneralButton">
+                    <rect key="frame" x="9" y="64" width="28" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="elementreeicon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="elementButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="rEo-UG-fjn"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" id="Qgz-Lk-NDV" customClass="BattleElementView">
+                    <rect key="frame" x="32" y="35" width="229" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="TopLeft" image="elementtree2.png" id="Uxw-jx-Swp">
+                            <rect key="frame" x="0.0" y="0.0" width="229" height="109"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="9tG-Yt-5ot" userLabel="Swap View">
+                    <rect key="frame" x="0.0" y="265" width="50" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eGz-xX-4kc" customClass="GeneralButton">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" image="swapbutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="swapClicked:" destination="-1" eventType="touchUpInside" id="1Qx-Zd-xBM"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Team" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XsK-lk-TxO" customClass="NiceFontLabel12">
+                            <rect key="frame" x="2" y="18" width="42" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.015686274510000001" green="0.33725490200000002" blue="0.39607843139999999" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.52941176469999995" green="0.98431372549999996" blue="1" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="MRM-zP-qe8" userLabel="Bottom View">
+                    <rect key="frame" x="88" y="265" width="84" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy 1/5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lh2-01-Mam" customClass="NiceFontLabel18S">
+                            <rect key="frame" x="-4" y="-1" width="92" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="BNm-Sv-afd" userLabel="Forfeit Button View">
+                            <rect key="frame" x="0.0" y="20" width="84" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O3q-JV-QJI">
+                                    <rect key="frame" x="0.0" y="0.0" width="84" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="runawaybgwide.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="runawaybgwidepressed.png"/>
+                                    <connections>
+                                        <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="81I-N9-aDe"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Run Away" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="wJ6-Aj-sLO" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="0.0" y="-1" width="84" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="deviceRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="zMQ-pc-wO7" customClass="BattleDeployView">
+                    <rect key="frame" x="52" y="168" width="157" height="93"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="deploybg.png" id="Dlv-9d-ABF">
+                            <rect key="frame" x="0.0" y="0.0" width="157" height="93"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a Mobster to Deploy:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="MBM-Xk-jdF" customClass="NiceFontLabel8">
+                            <rect key="frame" x="9" y="1" width="139" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="5Aj-Qu-dRy" customClass="BattleDeployCardView">
+                            <rect key="frame" x="2" y="19" width="55" height="69"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="nUG-qR-apn">
+                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="2Uk-Tv-UM4">
+                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="Gdf-RS-O6f" customClass="MiniMonsterView">
+                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="Z7a-66-Mow">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="usk-RI-7n5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="scL-Fa-LZq" customClass="DeployCardButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="Ywd-nA-SJa"/>
+                                                        <outlet property="baseImage" destination="Z7a-66-Mow" id="vQq-6e-Ivw"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <outlet property="bgdIcon" destination="Z7a-66-Mow" id="AWc-mX-AUg"/>
+                                                <outlet property="monsterIcon" destination="usk-RI-7n5" id="PF8-gj-859"/>
+                                            </connections>
+                                        </view>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="Tg6-Iy-NYX">
+                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="cE8-1z-duv" customClass="ProgressBar">
+                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Vt5-10-tkf" customClass="NiceFontLabel18">
+                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="nUG-qR-apn" id="8PO-3y-tc2"/>
+                                <outlet property="healthLabel" destination="Vt5-10-tkf" id="yNS-Gf-G4B"/>
+                                <outlet property="healthbar" destination="cE8-1z-duv" id="RJQ-ui-fjH"/>
+                                <outlet property="mainView" destination="2Uk-Tv-UM4" id="kVb-gd-ZmI"/>
+                                <outlet property="monsterView" destination="Gdf-RS-O6f" id="acN-W9-3TP"/>
+                            </connections>
+                        </view>
+                        <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="tv5-ko-5aW" customClass="BattleDeployCardView">
+                            <rect key="frame" x="51" y="19" width="55" height="69"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="AP9-Pv-kRr">
+                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="el3-5q-D1c">
+                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="eBo-xP-73b" customClass="MiniMonsterView">
+                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="doF-Dd-DtI">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="H6g-uG-C0J">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7b2-yH-hjx" customClass="DeployCardButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="U8i-j1-V2Z"/>
+                                                        <outlet property="baseImage" destination="doF-Dd-DtI" id="jyh-pZ-IHQ"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <outlet property="bgdIcon" destination="doF-Dd-DtI" id="LN2-k1-Cmk"/>
+                                                <outlet property="monsterIcon" destination="H6g-uG-C0J" id="4Ea-xy-j8E"/>
+                                            </connections>
+                                        </view>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="Wd4-Lb-SHS">
+                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="zJo-hd-Pnx" customClass="ProgressBar">
+                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Jy6-32-s0E" customClass="NiceFontLabel18">
+                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="AP9-Pv-kRr" id="6gC-R1-hJp"/>
+                                <outlet property="healthLabel" destination="Jy6-32-s0E" id="1uB-hA-pIc"/>
+                                <outlet property="healthbar" destination="zJo-hd-Pnx" id="yVR-gG-7eR"/>
+                                <outlet property="mainView" destination="el3-5q-D1c" id="AHA-rr-7YA"/>
+                                <outlet property="monsterView" destination="eBo-xP-73b" id="dEp-yd-BxN"/>
+                            </connections>
+                        </view>
+                        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="ys4-HV-hPN" customClass="BattleDeployCardView">
+                            <rect key="frame" x="99" y="19" width="55" height="69"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dottedsmallsquare.png" id="m24-E9-huY">
+                                    <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="VMl-2J-CGW">
+                                    <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="BUL-2h-gPn" customClass="MiniMonsterView">
+                                            <rect key="frame" x="6" y="6" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="firesmallsquare.png" id="vpr-4s-xKZ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="Ovq-nk-tBu">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CVv-ET-9SV" customClass="DeployCardButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="deployCardClicked:" destination="-1" eventType="touchUpInside" id="bga-vZ-0rq"/>
+                                                        <outlet property="baseImage" destination="vpr-4s-xKZ" id="rFC-DT-9DS"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <outlet property="bgdIcon" destination="vpr-4s-xKZ" id="Myd-2i-OWj"/>
+                                                <outlet property="monsterIcon" destination="Ovq-nk-tBu" id="pvM-L3-ipK"/>
+                                            </connections>
+                                        </view>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="g4d-t2-1hF">
+                                            <rect key="frame" x="5" y="54" width="44" height="11"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="58F-tC-7Jx" customClass="ProgressBar">
+                                            <rect key="frame" x="7" y="56" width="40" height="7"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="133/150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yZd-LP-5CJ" customClass="NiceFontLabel18">
+                                            <rect key="frame" x="1" y="44" width="52" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="emptyView" destination="m24-E9-huY" id="2K6-Lq-PRL"/>
+                                <outlet property="healthLabel" destination="yZd-LP-5CJ" id="ART-kx-m0V"/>
+                                <outlet property="healthbar" destination="58F-tC-7Jx" id="U8n-Yw-ZVE"/>
+                                <outlet property="mainView" destination="VMl-2J-CGW" id="vgS-n9-3f5"/>
+                                <outlet property="monsterView" destination="BUL-2h-gPn" id="AFA-Df-8Lq"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outletCollection property="cardViews" destination="5Aj-Qu-dRy" id="h5L-z8-diq"/>
+                        <outletCollection property="cardViews" destination="tv5-ko-5aW" id="Hdr-f1-jMO"/>
+                        <outletCollection property="cardViews" destination="ys4-HV-hPN" id="Ryz-G4-OxO"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <connections>
+                <outlet property="battleScheduleView" destination="gM6-4S-27Q" id="9CP-vj-g41"/>
+                <outlet property="bottomView" destination="MRM-zP-qe8" id="X5r-Nw-4V5"/>
+                <outlet property="deployView" destination="zMQ-pc-wO7" id="pam-1a-pfD"/>
+                <outlet property="elementButton" destination="2kS-qV-7b6" id="H06-P8-4sH"/>
+                <outlet property="elementView" destination="Qgz-Lk-NDV" id="Epa-eU-LmG"/>
+                <outlet property="forfeitButtonView" destination="BNm-Sv-afd" id="ZlG-ba-rmi"/>
+                <outlet property="swapLabel" destination="MBM-Xk-jdF" id="ewJ-3t-yWE"/>
+                <outlet property="swapView" destination="9tG-Yt-5ot" id="B0x-y1-nYq"/>
+                <outlet property="waveNumLabel" destination="lh2-01-Mam" id="wzS-sS-7f9"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="currentborder.png" width="43" height="43"/>
+        <image name="deploybg.png" width="157" height="93"/>
+        <image name="dottedsmallsquare.png" width="42" height="42"/>
+        <image name="elementreeicon.png" width="19" height="19"/>
+        <image name="elementtree2.png" width="227" height="109"/>
+        <image name="firesmallsquare.png" width="42" height="42"/>
+        <image name="minitimebar.png" width="40" height="7"/>
+        <image name="minitimebg.png" width="44" height="11"/>
+        <image name="movesqueuebgwide.png" width="234" height="62"/>
+        <image name="runawaybgwide.png" width="84" height="21"/>
+        <image name="runawaybgwidepressed.png" width="75" height="21"/>
+        <image name="swapbutton.png" width="50" height="46"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RequestsBattleTableController">
+            <connections>
+                <outlet property="requestCell" destination="uot-r1-kew" id="Rt7-H8-9ck"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RequestsBattleCell" id="uot-r1-kew" customClass="RequestsBattleCell">
+            <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uot-r1-kew" id="sNT-fV-Niv">
+                <rect key="frame" x="0.0" y="0.0" width="435" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" id="Qhi-pc-kl3">
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepsicle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ux6-K6-C6B" customClass="NiceFontLabel7">
+                                <rect key="frame" x="13" y="3" width="76" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Victory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dbC-AW-d7K" customClass="NiceFontLabel5">
+                                <rect key="frame" x="13" y="21" width="71" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" red="0.364705890417099" green="0.69803923368453979" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="highlightedColor" red="0.92941182851791382" green="0.0078431377187371254" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="41U-5L-Qfj" customClass="NiceFontLabel5">
+                                <rect key="frame" x="46" y="21" width="55" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" red="0.52549022436141968" green="0.52549022436141968" blue="0.52549022436141968" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="cIU-zI-Ezh">
+                                <rect key="frame" x="0.0" y="44" width="435" height="1"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="W7r-eh-qLQ" customClass="MiniMonsterView">
+                                <rect key="frame" x="97" y="2" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="M5u-V8-DdS">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="CKw-Lw-coH">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="M5u-V8-DdS" id="zis-TE-Xq6"/>
+                                    <outlet property="monsterIcon" destination="CKw-Lw-coH" id="Z4s-uI-Zxd"/>
+                                </connections>
+                            </view>
+                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="0tP-iH-wMW" customClass="MiniMonsterView">
+                                <rect key="frame" x="122" y="2" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="Shr-fD-wiQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="5RL-J7-8E6">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="Shr-fD-wiQ" id="pht-Qw-sY2"/>
+                                    <outlet property="monsterIcon" destination="5RL-J7-8E6" id="6JY-uE-PMN"/>
+                                </connections>
+                            </view>
+                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Bmc-w4-HNN" customClass="MiniMonsterView">
+                                <rect key="frame" x="147" y="2" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="hJs-TA-fWz">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="mNW-6H-gsP">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="hJs-TA-fWz" id="mjt-gE-egG"/>
+                                    <outlet property="monsterIcon" destination="mNW-6H-gsP" id="DWH-wx-hSX"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tUK-WU-Lad" customClass="NiceFontLabel8">
+                                <rect key="frame" x="223" y="10" width="41" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.36470589040000001" green="0.69803923369999998" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="highlightedColor" red="0.92941182850000004" green="0.0078431377190000002" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="bronzeicon.png" id="wi9-JA-sqZ">
+                                <rect key="frame" x="198" y="10" width="22" height="26"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="msD-sY-bzt">
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nameClicked:" destination="-1" eventType="touchUpInside" id="IbD-NU-Qok"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" id="Hwx-Hh-6Ae">
+                                <rect key="frame" x="267" y="0.0" width="80" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ezp-Ag-IoN" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="26" y="20" width="54" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.87058830261230469" green="0.69411766529083252" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="j70-CY-Eja" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="26" y="1" width="54" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.5058823823928833" green="0.70588237047195435" blue="0.22352942824363708" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="Xe6-Vf-fmt">
+                                        <rect key="frame" x="3" y="4" width="17" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="P5Y-xS-GMN">
+                                        <rect key="frame" x="3" y="23" width="17" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="YeH-fL-NkV">
+                                <rect key="frame" x="367" y="8" width="60" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lZl-dj-PJh">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="revenge.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="revengeClicked:" destination="-1" eventType="touchUpInside" id="TeL-SO-wG1"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Revenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ihq-ak-z5M" customClass="NiceFontLabel12B">
+                                        <rect key="frame" x="2" y="2" width="57" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" red="0.77647058823529413" green="0.14901960784313725" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.98039215686274506" green="0.7803921568627451" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="cashLabel" destination="j70-CY-Eja" id="Gwe-De-hjZ"/>
+                <outlet property="lootLostView" destination="Hwx-Hh-6Ae" id="nuN-Jj-GjL"/>
+                <outlet property="nameLabel" destination="Ux6-K6-C6B" id="Pqz-uG-C9I"/>
+                <outlet property="oilLabel" destination="Ezp-Ag-IoN" id="S37-tT-vAh"/>
+                <outlet property="rankChangeLabel" destination="tUK-WU-Lad" id="eTd-go-T14"/>
+                <outlet property="rankIcon" destination="wi9-JA-sqZ" id="10I-2A-tfy"/>
+                <outlet property="resultLabel" destination="dbC-AW-d7K" id="p6H-mN-Jbb"/>
+                <outlet property="revengeButton" destination="lZl-dj-PJh" id="7EW-rB-PbA"/>
+                <outlet property="revengeButtonView" destination="YeH-fL-NkV" id="eKj-DZ-8gW"/>
+                <outlet property="timeLabel" destination="41U-5L-Qfj" id="PT1-Oh-FUc"/>
+                <outletCollection property="monsterViews" destination="W7r-eh-qLQ" id="KXf-YG-xCB"/>
+                <outletCollection property="monsterViews" destination="0tP-iH-wMW" id="DKs-Ch-SB1"/>
+                <outletCollection property="monsterViews" destination="Bmc-w4-HNN" id="ChG-qF-YwW"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="bronzeicon.png" width="37" height="42"/>
+        <image name="fireteam.png" width="42" height="42"/>
+        <image name="moneystack.png" width="31" height="30"/>
+        <image name="oilicon.png" width="25" height="30"/>
+        <image name="popupline.png" width="1" height="1"/>
+        <image name="revenge.png" width="60" height="29"/>
+    </resources>
+</document>

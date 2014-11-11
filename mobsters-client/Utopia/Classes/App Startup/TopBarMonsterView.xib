@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
+            <connections>
+                <outlet property="topBarMonsterView" destination="1" id="YXW-bP-WVn"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" customClass="TopBarMonsterView">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="33"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="PDn-2W-qLR" customClass="MiniMonsterView">
+                    <rect key="frame" x="-6" y="-4" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="duj-Ym-TjZ">
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="jFF-ne-OWx">
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="duj-Ym-TjZ" id="coz-ob-b8y"/>
+                        <outlet property="monsterIcon" destination="jFF-ne-OWx" id="kHQ-TM-HVQ"/>
+                    </connections>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Lil Kim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qg5-8p-Zuq" customClass="NiceFontLabel">
+                    <rect key="frame" x="30" y="-1" width="45" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="laS-nS-0zD" customClass="NiceFontLabel">
+                    <rect key="frame" x="30" y="11" width="45" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <view contentMode="scaleToFill" id="4NV-7V-bTf">
+                    <rect key="frame" x="30" y="18" width="44" height="8"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamhealthbarbg.png" id="g4N-Bc-ICO">
+                            <rect key="frame" x="0.0" y="0.0" width="44" height="8"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="t1W-ke-djt" customClass="SplitImageProgressBar">
+                            <rect key="frame" x="0.0" y="0.0" width="44" height="8"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="vDe-Z5-BdX">
+                                    <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="aDh-rN-oPD">
+                                    <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="BBl-ns-wYt" customClass="FlipImageView">
+                                    <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="leftCap" destination="vDe-Z5-BdX" id="0K9-bk-LWR"/>
+                                <outlet property="middleBar" destination="aDh-rN-oPD" id="d5g-Bc-Khp"/>
+                                <outlet property="rightCap" destination="BBl-ns-wYt" id="oY4-Cg-wks"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="botLabel" destination="laS-nS-0zD" id="jBt-Ls-tLY"/>
+                <outlet property="healthBar" destination="t1W-ke-djt" id="LV5-xv-WBV"/>
+                <outlet property="healthBarView" destination="4NV-7V-bTf" id="sFQ-e2-hhq"/>
+                <outlet property="iconView" destination="PDn-2W-qLR" id="7ZO-ED-yQq"/>
+                <outlet property="monsterView" destination="PDn-2W-qLR" id="vMl-Lh-e1j"/>
+                <outlet property="topLabel" destination="qg5-8p-Zuq" id="c5C-lx-NQK"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="fireteam.png" width="42" height="42"/>
+        <image name="teamhealthbarbg.png" width="44" height="8"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

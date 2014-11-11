@@ -15,18 +15,18 @@
 @property (nonatomic, retain) NSMutableArray *myClanHelps;
 @property (nonatomic, retain) NSMutableArray *allClanHelps;
 
-@property (nonatomic, readonly) int userId;
-@property (nonatomic, assign) int clanId;
+@property (nonatomic, retain) NSString *userUuid;
+@property (nonatomic, retain) NSString *clanUuid;
 
-- (id) initWithUserId:(int)userId clanId:(int)clanId clanHelpProtos:(NSArray *)clanHelps;
+- (id) initWithUserUuid:(NSString *)userUuid clanUuid:(NSString *)clanUuid clanHelpProtos:(NSArray *)clanHelps;
 
 - (void) addClanHelpProtos:(NSArray *)clanHelpProtos fromUser:(MinimumUserProto *)sender;
 - (id<ClanHelp>) addClanHelpProto:(ClanHelp *)help toArray:(NSMutableArray *)array;
 - (void) removeClanHelpIds:(NSArray *)helps;
-- (void) removeClanHelpsForUserId:(int)userId;
+- (void) removeClanHelpsForUserUuid:(NSString *)userUuid;
 
 // Will return -1 if it doesn't exist
-- (int) getNumClanHelpsForType:(GameActionType)type userDataId:(uint64_t)userDataId;
+- (int) getNumClanHelpsForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid;
 
 - (NSArray *) getAllHelpableClanHelps;
 

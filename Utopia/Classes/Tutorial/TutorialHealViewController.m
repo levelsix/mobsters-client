@@ -118,7 +118,7 @@
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um {
   for (UserMonsterHealingItem *hi in self.healingQueue) {
-    if (hi.userMonsterId == um.userMonsterId) {
+    if ([hi.userMonsterUuid isEqualToString:um.userMonsterUuid]) {
       return NO;
     }
   }

@@ -1,0 +1,656 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		A9132F1919422876009A307D /* UniversalAttributionLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A9132F1A19422876009A307D /* Build configuration list for PBXAggregateTarget "UniversalAttributionLib" */;
+			buildPhases = (
+				A9132F1D1942289D009A307D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UniversalAttributionLib;
+			productName = UniversalAttributionLib;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		A9132F181942284F009A307D /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D2481940BF920071E519 /* MobileAppTracker.framework */; };
+		A966D1AD1940B5B40071E519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D1AC1940B5B40071E519 /* Foundation.framework */; };
+		A966D1B41940B5B40071E519 /* ScopelyAttributionWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D1B31940B5B40071E519 /* ScopelyAttributionWrapper.m */; };
+		A966D1BB1940B5B50071E519 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D1BA1940B5B50071E519 /* XCTest.framework */; };
+		A966D1BC1940B5B50071E519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D1AC1940B5B40071E519 /* Foundation.framework */; };
+		A966D1C11940B5B50071E519 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D1A91940B5B40071E519 /* libScopelyAttributionWrapper.a */; };
+		A966D1C71940B5B50071E519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A966D1C51940B5B50071E519 /* InfoPlist.strings */; };
+		A966D1C91940B5B50071E519 /* ScopelyAttributionWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D1C81940B5B50071E519 /* ScopelyAttributionWrapperTests.m */; };
+		A966D2281940BF4A0071E519 /* Adjust.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2081940BF4A0071E519 /* Adjust.m */; };
+		A966D2291940BF4A0071E519 /* Adjust.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2081940BF4A0071E519 /* Adjust.m */; };
+		A966D22A1940BF4A0071E519 /* AIActivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20A1940BF4A0071E519 /* AIActivityHandler.m */; };
+		A966D22B1940BF4A0071E519 /* AIActivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20A1940BF4A0071E519 /* AIActivityHandler.m */; };
+		A966D22C1940BF4A0071E519 /* AIActivityKind.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20C1940BF4A0071E519 /* AIActivityKind.m */; };
+		A966D22D1940BF4A0071E519 /* AIActivityKind.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20C1940BF4A0071E519 /* AIActivityKind.m */; };
+		A966D22E1940BF4A0071E519 /* AIActivityPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20E1940BF4A0071E519 /* AIActivityPackage.m */; };
+		A966D22F1940BF4A0071E519 /* AIActivityPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D20E1940BF4A0071E519 /* AIActivityPackage.m */; };
+		A966D2301940BF4A0071E519 /* AIActivityState.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2101940BF4A0071E519 /* AIActivityState.m */; };
+		A966D2311940BF4B0071E519 /* AIActivityState.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2101940BF4A0071E519 /* AIActivityState.m */; };
+		A966D2321940BF4B0071E519 /* NSData+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2131940BF4A0071E519 /* NSData+AIAdditions.m */; };
+		A966D2331940BF4B0071E519 /* NSData+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2131940BF4A0071E519 /* NSData+AIAdditions.m */; };
+		A966D2341940BF4B0071E519 /* NSString+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2151940BF4A0071E519 /* NSString+AIAdditions.m */; };
+		A966D2351940BF4B0071E519 /* NSString+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2151940BF4A0071E519 /* NSString+AIAdditions.m */; };
+		A966D2361940BF4B0071E519 /* UIDevice+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2171940BF4A0071E519 /* UIDevice+AIAdditions.m */; };
+		A966D2371940BF4B0071E519 /* UIDevice+AIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2171940BF4A0071E519 /* UIDevice+AIAdditions.m */; };
+		A966D2381940BF4B0071E519 /* AIAdjustFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2191940BF4A0071E519 /* AIAdjustFactory.m */; };
+		A966D2391940BF4B0071E519 /* AIAdjustFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2191940BF4A0071E519 /* AIAdjustFactory.m */; };
+		A966D23A1940BF4B0071E519 /* AILogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21B1940BF4A0071E519 /* AILogger.m */; };
+		A966D23B1940BF4B0071E519 /* AILogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21B1940BF4A0071E519 /* AILogger.m */; };
+		A966D23C1940BF4B0071E519 /* AIPackageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21D1940BF4A0071E519 /* AIPackageBuilder.m */; };
+		A966D23D1940BF4B0071E519 /* AIPackageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21D1940BF4A0071E519 /* AIPackageBuilder.m */; };
+		A966D23E1940BF4B0071E519 /* AIPackageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21F1940BF4A0071E519 /* AIPackageHandler.m */; };
+		A966D23F1940BF4B0071E519 /* AIPackageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D21F1940BF4A0071E519 /* AIPackageHandler.m */; };
+		A966D2401940BF4B0071E519 /* AIRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2211940BF4A0071E519 /* AIRequestHandler.m */; };
+		A966D2411940BF4B0071E519 /* AIRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2211940BF4A0071E519 /* AIRequestHandler.m */; };
+		A966D2421940BF4B0071E519 /* AIResponseData.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2231940BF4A0071E519 /* AIResponseData.m */; };
+		A966D2431940BF4B0071E519 /* AIResponseData.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2231940BF4A0071E519 /* AIResponseData.m */; };
+		A966D2441940BF4B0071E519 /* AITimer.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2251940BF4A0071E519 /* AITimer.m */; };
+		A966D2451940BF4B0071E519 /* AITimer.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2251940BF4A0071E519 /* AITimer.m */; };
+		A966D2461940BF4B0071E519 /* AIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2271940BF4A0071E519 /* AIUtil.m */; };
+		A966D2471940BF4B0071E519 /* AIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A966D2271940BF4A0071E519 /* AIUtil.m */; };
+		A966D24A1940BF920071E519 /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D2481940BF920071E519 /* MobileAppTracker.framework */; };
+		A966D24C1940BFBA0071E519 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D24B1940BFBA0071E519 /* CoreTelephony.framework */; };
+		A966D24E1940BFCB0071E519 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D24D1940BFCB0071E519 /* SystemConfiguration.framework */; };
+		A966D2501940BFD50071E519 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D24F1940BFD50071E519 /* MobileCoreServices.framework */; };
+		A966D2521940BFDD0071E519 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A966D2511940BFDD0071E519 /* iAd.framework */; };
+		A9BC43BD19422363000643C8 /* ScopelyAttributionWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A966D1B11940B5B40071E519 /* ScopelyAttributionWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A9E4C28619422087003EA442 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E4C28519422087003EA442 /* StoreKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A966D1BF1940B5B50071E519 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A966D1A11940B5B40071E519 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A966D1A81940B5B40071E519;
+			remoteInfo = ScopelyAttributionWrapper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6F4E9C89194BAC16006109C0 /* ExternalInterface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalInterface.mm; sourceTree = "<group>"; };
+		A966D1A91940B5B40071E519 /* libScopelyAttributionWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScopelyAttributionWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A966D1AC1940B5B40071E519 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A966D1B01940B5B40071E519 /* ScopelyAttributionWrapper-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScopelyAttributionWrapper-Prefix.pch"; sourceTree = "<group>"; };
+		A966D1B11940B5B40071E519 /* ScopelyAttributionWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScopelyAttributionWrapper.h; sourceTree = "<group>"; };
+		A966D1B31940B5B40071E519 /* ScopelyAttributionWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScopelyAttributionWrapper.m; sourceTree = "<group>"; };
+		A966D1B91940B5B50071E519 /* ScopelyAttributionWrapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScopelyAttributionWrapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A966D1BA1940B5B50071E519 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		A966D1C41940B5B50071E519 /* ScopelyAttributionWrapperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScopelyAttributionWrapperTests-Info.plist"; sourceTree = "<group>"; };
+		A966D1C61940B5B50071E519 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A966D1C81940B5B50071E519 /* ScopelyAttributionWrapperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScopelyAttributionWrapperTests.m; sourceTree = "<group>"; };
+		A966D2071940BF4A0071E519 /* Adjust.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Adjust.h; sourceTree = "<group>"; };
+		A966D2081940BF4A0071E519 /* Adjust.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Adjust.m; sourceTree = "<group>"; };
+		A966D2091940BF4A0071E519 /* AIActivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIActivityHandler.h; sourceTree = "<group>"; };
+		A966D20A1940BF4A0071E519 /* AIActivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIActivityHandler.m; sourceTree = "<group>"; };
+		A966D20B1940BF4A0071E519 /* AIActivityKind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIActivityKind.h; sourceTree = "<group>"; };
+		A966D20C1940BF4A0071E519 /* AIActivityKind.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIActivityKind.m; sourceTree = "<group>"; };
+		A966D20D1940BF4A0071E519 /* AIActivityPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIActivityPackage.h; sourceTree = "<group>"; };
+		A966D20E1940BF4A0071E519 /* AIActivityPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIActivityPackage.m; sourceTree = "<group>"; };
+		A966D20F1940BF4A0071E519 /* AIActivityState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIActivityState.h; sourceTree = "<group>"; };
+		A966D2101940BF4A0071E519 /* AIActivityState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIActivityState.m; sourceTree = "<group>"; };
+		A966D2121940BF4A0071E519 /* NSData+AIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AIAdditions.h"; sourceTree = "<group>"; };
+		A966D2131940BF4A0071E519 /* NSData+AIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AIAdditions.m"; sourceTree = "<group>"; };
+		A966D2141940BF4A0071E519 /* NSString+AIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AIAdditions.h"; sourceTree = "<group>"; };
+		A966D2151940BF4A0071E519 /* NSString+AIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AIAdditions.m"; sourceTree = "<group>"; };
+		A966D2161940BF4A0071E519 /* UIDevice+AIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+AIAdditions.h"; sourceTree = "<group>"; };
+		A966D2171940BF4A0071E519 /* UIDevice+AIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+AIAdditions.m"; sourceTree = "<group>"; };
+		A966D2181940BF4A0071E519 /* AIAdjustFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIAdjustFactory.h; sourceTree = "<group>"; };
+		A966D2191940BF4A0071E519 /* AIAdjustFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIAdjustFactory.m; sourceTree = "<group>"; };
+		A966D21A1940BF4A0071E519 /* AILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AILogger.h; sourceTree = "<group>"; };
+		A966D21B1940BF4A0071E519 /* AILogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AILogger.m; sourceTree = "<group>"; };
+		A966D21C1940BF4A0071E519 /* AIPackageBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIPackageBuilder.h; sourceTree = "<group>"; };
+		A966D21D1940BF4A0071E519 /* AIPackageBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIPackageBuilder.m; sourceTree = "<group>"; };
+		A966D21E1940BF4A0071E519 /* AIPackageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIPackageHandler.h; sourceTree = "<group>"; };
+		A966D21F1940BF4A0071E519 /* AIPackageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIPackageHandler.m; sourceTree = "<group>"; };
+		A966D2201940BF4A0071E519 /* AIRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRequestHandler.h; sourceTree = "<group>"; };
+		A966D2211940BF4A0071E519 /* AIRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRequestHandler.m; sourceTree = "<group>"; };
+		A966D2221940BF4A0071E519 /* AIResponseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIResponseData.h; sourceTree = "<group>"; };
+		A966D2231940BF4A0071E519 /* AIResponseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIResponseData.m; sourceTree = "<group>"; };
+		A966D2241940BF4A0071E519 /* AITimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AITimer.h; sourceTree = "<group>"; };
+		A966D2251940BF4A0071E519 /* AITimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AITimer.m; sourceTree = "<group>"; };
+		A966D2261940BF4A0071E519 /* AIUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIUtil.h; sourceTree = "<group>"; };
+		A966D2271940BF4A0071E519 /* AIUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIUtil.m; sourceTree = "<group>"; };
+		A966D2481940BF920071E519 /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
+		A966D24B1940BFBA0071E519 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		A966D24D1940BFCB0071E519 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A966D24F1940BFD50071E519 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		A966D2511940BFDD0071E519 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		A966D2531940BFE70071E519 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A9E4C28519422087003EA442 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A966D1A61940B5B40071E519 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9132F181942284F009A307D /* MobileAppTracker.framework in Frameworks */,
+				A9E4C28619422087003EA442 /* StoreKit.framework in Frameworks */,
+				A966D2521940BFDD0071E519 /* iAd.framework in Frameworks */,
+				A966D2501940BFD50071E519 /* MobileCoreServices.framework in Frameworks */,
+				A966D24E1940BFCB0071E519 /* SystemConfiguration.framework in Frameworks */,
+				A966D24C1940BFBA0071E519 /* CoreTelephony.framework in Frameworks */,
+				A966D1AD1940B5B40071E519 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A966D1B61940B5B50071E519 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A966D1BB1940B5B50071E519 /* XCTest.framework in Frameworks */,
+				A966D24A1940BF920071E519 /* MobileAppTracker.framework in Frameworks */,
+				A966D1C11940B5B50071E519 /* libScopelyAttributionWrapper.a in Frameworks */,
+				A966D1BC1940B5B50071E519 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A966D1A01940B5B40071E519 = {
+			isa = PBXGroup;
+			children = (
+				A966D1AE1940B5B40071E519 /* ScopelyAttributionWrapper */,
+				A966D1C21940B5B50071E519 /* ScopelyAttributionWrapperTests */,
+				A966D1AB1940B5B40071E519 /* Frameworks */,
+				A966D1AA1940B5B40071E519 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A966D1AA1940B5B40071E519 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A966D1A91940B5B40071E519 /* libScopelyAttributionWrapper.a */,
+				A966D1B91940B5B50071E519 /* ScopelyAttributionWrapperTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A966D1AB1940B5B40071E519 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9E4C28519422087003EA442 /* StoreKit.framework */,
+				A966D2531940BFE70071E519 /* UIKit.framework */,
+				A966D2511940BFDD0071E519 /* iAd.framework */,
+				A966D24F1940BFD50071E519 /* MobileCoreServices.framework */,
+				A966D24D1940BFCB0071E519 /* SystemConfiguration.framework */,
+				A966D24B1940BFBA0071E519 /* CoreTelephony.framework */,
+				A966D2481940BF920071E519 /* MobileAppTracker.framework */,
+				A966D1AC1940B5B40071E519 /* Foundation.framework */,
+				A966D1BA1940B5B50071E519 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A966D1AE1940B5B40071E519 /* ScopelyAttributionWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				A966D1B11940B5B40071E519 /* ScopelyAttributionWrapper.h */,
+				A966D1B31940B5B40071E519 /* ScopelyAttributionWrapper.m */,
+				A966D1AF1940B5B40071E519 /* Supporting Files */,
+				6F4E9C89194BAC16006109C0 /* ExternalInterface.mm */,
+			);
+			path = ScopelyAttributionWrapper;
+			sourceTree = "<group>";
+		};
+		A966D1AF1940B5B40071E519 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A966D2061940BF4A0071E519 /* Adjust */,
+				A966D1B01940B5B40071E519 /* ScopelyAttributionWrapper-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A966D1C21940B5B50071E519 /* ScopelyAttributionWrapperTests */ = {
+			isa = PBXGroup;
+			children = (
+				A966D1C81940B5B50071E519 /* ScopelyAttributionWrapperTests.m */,
+				A966D1C31940B5B50071E519 /* Supporting Files */,
+			);
+			path = ScopelyAttributionWrapperTests;
+			sourceTree = "<group>";
+		};
+		A966D1C31940B5B50071E519 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A966D1C41940B5B50071E519 /* ScopelyAttributionWrapperTests-Info.plist */,
+				A966D1C51940B5B50071E519 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A966D2061940BF4A0071E519 /* Adjust */ = {
+			isa = PBXGroup;
+			children = (
+				A966D2071940BF4A0071E519 /* Adjust.h */,
+				A966D2081940BF4A0071E519 /* Adjust.m */,
+				A966D2091940BF4A0071E519 /* AIActivityHandler.h */,
+				A966D20A1940BF4A0071E519 /* AIActivityHandler.m */,
+				A966D20B1940BF4A0071E519 /* AIActivityKind.h */,
+				A966D20C1940BF4A0071E519 /* AIActivityKind.m */,
+				A966D20D1940BF4A0071E519 /* AIActivityPackage.h */,
+				A966D20E1940BF4A0071E519 /* AIActivityPackage.m */,
+				A966D20F1940BF4A0071E519 /* AIActivityState.h */,
+				A966D2101940BF4A0071E519 /* AIActivityState.m */,
+				A966D2111940BF4A0071E519 /* AIAdditions */,
+				A966D2181940BF4A0071E519 /* AIAdjustFactory.h */,
+				A966D2191940BF4A0071E519 /* AIAdjustFactory.m */,
+				A966D21A1940BF4A0071E519 /* AILogger.h */,
+				A966D21B1940BF4A0071E519 /* AILogger.m */,
+				A966D21C1940BF4A0071E519 /* AIPackageBuilder.h */,
+				A966D21D1940BF4A0071E519 /* AIPackageBuilder.m */,
+				A966D21E1940BF4A0071E519 /* AIPackageHandler.h */,
+				A966D21F1940BF4A0071E519 /* AIPackageHandler.m */,
+				A966D2201940BF4A0071E519 /* AIRequestHandler.h */,
+				A966D2211940BF4A0071E519 /* AIRequestHandler.m */,
+				A966D2221940BF4A0071E519 /* AIResponseData.h */,
+				A966D2231940BF4A0071E519 /* AIResponseData.m */,
+				A966D2241940BF4A0071E519 /* AITimer.h */,
+				A966D2251940BF4A0071E519 /* AITimer.m */,
+				A966D2261940BF4A0071E519 /* AIUtil.h */,
+				A966D2271940BF4A0071E519 /* AIUtil.m */,
+			);
+			path = Adjust;
+			sourceTree = "<group>";
+		};
+		A966D2111940BF4A0071E519 /* AIAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				A966D2121940BF4A0071E519 /* NSData+AIAdditions.h */,
+				A966D2131940BF4A0071E519 /* NSData+AIAdditions.m */,
+				A966D2141940BF4A0071E519 /* NSString+AIAdditions.h */,
+				A966D2151940BF4A0071E519 /* NSString+AIAdditions.m */,
+				A966D2161940BF4A0071E519 /* UIDevice+AIAdditions.h */,
+				A966D2171940BF4A0071E519 /* UIDevice+AIAdditions.m */,
+			);
+			path = AIAdditions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A9BC43BC19422358000643C8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9BC43BD19422363000643C8 /* ScopelyAttributionWrapper.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A966D1A81940B5B40071E519 /* ScopelyAttributionWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A966D1CC1940B5B50071E519 /* Build configuration list for PBXNativeTarget "ScopelyAttributionWrapper" */;
+			buildPhases = (
+				A966D1A51940B5B40071E519 /* Sources */,
+				A966D1A61940B5B40071E519 /* Frameworks */,
+				A9BC43BC19422358000643C8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScopelyAttributionWrapper;
+			productName = ScopelyAttributionWrapper;
+			productReference = A966D1A91940B5B40071E519 /* libScopelyAttributionWrapper.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A966D1B81940B5B50071E519 /* ScopelyAttributionWrapperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A966D1CF1940B5B50071E519 /* Build configuration list for PBXNativeTarget "ScopelyAttributionWrapperTests" */;
+			buildPhases = (
+				A966D1B51940B5B50071E519 /* Sources */,
+				A966D1B61940B5B50071E519 /* Frameworks */,
+				A966D1B71940B5B50071E519 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A966D1C01940B5B50071E519 /* PBXTargetDependency */,
+			);
+			name = ScopelyAttributionWrapperTests;
+			productName = ScopelyAttributionWrapperTests;
+			productReference = A966D1B91940B5B50071E519 /* ScopelyAttributionWrapperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A966D1A11940B5B40071E519 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Scopely;
+			};
+			buildConfigurationList = A966D1A41940B5B40071E519 /* Build configuration list for PBXProject "ScopelyAttributionWrapper" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A966D1A01940B5B40071E519;
+			productRefGroup = A966D1AA1940B5B40071E519 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A966D1A81940B5B40071E519 /* ScopelyAttributionWrapper */,
+				A966D1B81940B5B50071E519 /* ScopelyAttributionWrapperTests */,
+				A9132F1919422876009A307D /* UniversalAttributionLib */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A966D1B71940B5B50071E519 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A966D1C71940B5B50071E519 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A9132F1D1942289D009A307D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target ScopelyAttributionWrapper ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ScopelyAttributionWrapper -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A966D1A51940B5B40071E519 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A966D2301940BF4A0071E519 /* AIActivityState.m in Sources */,
+				A966D2321940BF4B0071E519 /* NSData+AIAdditions.m in Sources */,
+				A966D22C1940BF4A0071E519 /* AIActivityKind.m in Sources */,
+				A966D2281940BF4A0071E519 /* Adjust.m in Sources */,
+				A966D23A1940BF4B0071E519 /* AILogger.m in Sources */,
+				A966D22E1940BF4A0071E519 /* AIActivityPackage.m in Sources */,
+				A966D2341940BF4B0071E519 /* NSString+AIAdditions.m in Sources */,
+				A966D2361940BF4B0071E519 /* UIDevice+AIAdditions.m in Sources */,
+				A966D2421940BF4B0071E519 /* AIResponseData.m in Sources */,
+				A966D23E1940BF4B0071E519 /* AIPackageHandler.m in Sources */,
+				A966D2381940BF4B0071E519 /* AIAdjustFactory.m in Sources */,
+				A966D2461940BF4B0071E519 /* AIUtil.m in Sources */,
+				A966D2401940BF4B0071E519 /* AIRequestHandler.m in Sources */,
+				A966D22A1940BF4A0071E519 /* AIActivityHandler.m in Sources */,
+				A966D23C1940BF4B0071E519 /* AIPackageBuilder.m in Sources */,
+				A966D1B41940B5B40071E519 /* ScopelyAttributionWrapper.m in Sources */,
+				A966D2441940BF4B0071E519 /* AITimer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A966D1B51940B5B50071E519 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A966D2311940BF4B0071E519 /* AIActivityState.m in Sources */,
+				A966D2331940BF4B0071E519 /* NSData+AIAdditions.m in Sources */,
+				A966D22D1940BF4A0071E519 /* AIActivityKind.m in Sources */,
+				A966D2291940BF4A0071E519 /* Adjust.m in Sources */,
+				A966D23B1940BF4B0071E519 /* AILogger.m in Sources */,
+				A966D22F1940BF4A0071E519 /* AIActivityPackage.m in Sources */,
+				A966D2351940BF4B0071E519 /* NSString+AIAdditions.m in Sources */,
+				A966D2371940BF4B0071E519 /* UIDevice+AIAdditions.m in Sources */,
+				A966D2431940BF4B0071E519 /* AIResponseData.m in Sources */,
+				A966D23F1940BF4B0071E519 /* AIPackageHandler.m in Sources */,
+				A966D2391940BF4B0071E519 /* AIAdjustFactory.m in Sources */,
+				A966D2471940BF4B0071E519 /* AIUtil.m in Sources */,
+				A966D2411940BF4B0071E519 /* AIRequestHandler.m in Sources */,
+				A966D22B1940BF4A0071E519 /* AIActivityHandler.m in Sources */,
+				A966D23D1940BF4B0071E519 /* AIPackageBuilder.m in Sources */,
+				A966D1C91940B5B50071E519 /* ScopelyAttributionWrapperTests.m in Sources */,
+				A966D2451940BF4B0071E519 /* AITimer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A966D1C01940B5B50071E519 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A966D1A81940B5B40071E519 /* ScopelyAttributionWrapper */;
+			targetProxy = A966D1BF1940B5B50071E519 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A966D1C51940B5B50071E519 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A966D1C61940B5B50071E519 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A9132F1B19422876009A307D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A9132F1C19422876009A307D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A966D1CA1940B5B50071E519 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A966D1CB1940B5B50071E519 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A966D1CD1940B5B50071E519 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/ScopelyAttributionWrapper.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ScopelyAttributionWrapper/ScopelyAttributionWrapper-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A966D1CE1940B5B50071E519 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/ScopelyAttributionWrapper.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ScopelyAttributionWrapper/ScopelyAttributionWrapper-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		A966D1D01940B5B50071E519 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ScopelyAttributionWrapper/ScopelyAttributionWrapper-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ScopelyAttributionWrapperTests/ScopelyAttributionWrapperTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		A966D1D11940B5B50071E519 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ScopelyAttributionWrapper/ScopelyAttributionWrapper-Prefix.pch";
+				INFOPLIST_FILE = "ScopelyAttributionWrapperTests/ScopelyAttributionWrapperTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A9132F1A19422876009A307D /* Build configuration list for PBXAggregateTarget "UniversalAttributionLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9132F1B19422876009A307D /* Debug */,
+				A9132F1C19422876009A307D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A966D1A41940B5B40071E519 /* Build configuration list for PBXProject "ScopelyAttributionWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A966D1CA1940B5B50071E519 /* Debug */,
+				A966D1CB1940B5B50071E519 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A966D1CC1940B5B50071E519 /* Build configuration list for PBXNativeTarget "ScopelyAttributionWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A966D1CD1940B5B50071E519 /* Debug */,
+				A966D1CE1940B5B50071E519 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A966D1CF1940B5B50071E519 /* Build configuration list for PBXNativeTarget "ScopelyAttributionWrapperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A966D1D01940B5B50071E519 /* Debug */,
+				A966D1D11940B5B50071E519 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A966D1A11940B5B40071E519 /* Project object */;
+}

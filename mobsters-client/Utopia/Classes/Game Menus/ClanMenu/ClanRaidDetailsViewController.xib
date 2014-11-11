@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRaidDetailsViewController">
+            <connections>
+                <outlet property="dialogueLabel" destination="WLc-en-JmB" id="sC0-6K-Jjm"/>
+                <outlet property="monsterImage" destination="iup-PA-asS" id="RAF-pr-KRL"/>
+                <outlet property="raidStageHeader" destination="H7p-QV-bjg" id="0uP-eZ-9LR"/>
+                <outlet property="tableContainerView" destination="aTO-HL-ehP" id="7Qz-lc-ygC"/>
+                <outlet property="view" destination="tk9-ck-V70" id="qFS-KT-UAW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="tk9-ck-V70">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="Mpr-4O-Erl">
+                    <rect key="frame" x="0.0" y="-40" width="480" height="320"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="Onk-Lp-FX1">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="spotlight.png" id="xPh-aA-i9a">
+                            <rect key="frame" x="4" y="-9" width="182" height="282"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="markz.png" id="iup-PA-asS">
+                            <rect key="frame" x="17" y="11" width="169" height="231"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="raidlairbubble.png" id="nHh-W5-M59">
+                            <rect key="frame" x="123" y="14" width="339" height="71"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Oh hey there buddy, you &quot;like my lair?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="WLc-en-JmB" customClass="NiceFontLabel5">
+                            <rect key="frame" x="161" y="21" width="286" height="58"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="raidbottombar.png" id="cav-8L-CiJ">
+                            <rect key="frame" x="0.0" y="250" width="480" height="30"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Once you enter a raid, you must use the same team for the whole raid." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fJg-dH-NFW" customClass="NiceFontLabel">
+                            <rect key="frame" x="2" y="256" width="476" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view tag="4" contentMode="scaleToFill" id="H7p-QV-bjg" userLabel="Unavailable Header">
+                            <rect key="frame" x="121" y="152" width="169" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="0hh-XQ-QMM">
+                                    <rect key="frame" x="15" y="12" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="NQ2-hX-naM">
+                                    <rect key="frame" x="15" y="15" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="7aH-nf-aBA">
+                                    <rect key="frame" x="119" y="12" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="41a-HC-W3m">
+                                    <rect key="frame" x="119" y="15" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dkv-98-E3D" customClass="NiceFontButton">
+                                    <rect key="frame" x="0.0" y="-1" width="168" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <size key="titleShadowOffset" width="0.0" height="1"/>
+                                    <state key="normal" title="Raid Stages">
+                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="headerClicked:" destination="-1" eventType="touchUpInside" id="Hwy-qy-snf"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="aTO-HL-ehP">
+                            <rect key="frame" x="218" y="87" width="262" height="161"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="mainmenubg.png" width="568" height="282"/>
+        <image name="markz.png" width="169" height="231"/>
+        <image name="raidbottombar.png" width="1" height="30"/>
+        <image name="raidlairbubble.png" width="339" height="71"/>
+        <image name="spotlight.png" width="134" height="209"/>
+    </resources>
+</document>

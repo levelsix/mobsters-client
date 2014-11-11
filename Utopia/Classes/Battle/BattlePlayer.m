@@ -40,7 +40,7 @@
     self.rockDamage = [gl calculateElementalDamageForMonster:monster element:ElementRock];
     self.spritePrefix = mp.imagePrefix;
     self.monsterId = monster.monsterId;
-    self.userMonsterId = monster.userMonsterId;
+    self.userMonsterUuid = monster.userMonsterUuid;
     self.slotNum = monster.teamSlot;
     self.animationType = mp.attackAnimationType;
     self.verticalOffset = mp.verticalPixelOffset;
@@ -80,7 +80,7 @@
     self.spritePrefix = mp.imagePrefix;
     self.animationType = mp.attackAnimationType;
     self.monsterId = monster.monsterId;
-    self.userMonsterId = monster.crsmId;
+    self.userMonsterUuid = [NSString stringWithFormat:@"%d", monster.crsmId];
     self.verticalOffset = mp.verticalPixelOffset;
     
     // Need to get a speed value for this guy

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>mir1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2,2},{520,50}}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1,0},{520,50}}</string>
+			<key>sourceSize</key>
+			<string>{522,50}</string>
+		</dict>
+		<key>mir2.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{524,2},{520,50}}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1,0},{520,50}}</string>
+			<key>sourceSize</key>
+			<string>{522,50}</string>
+		</dict>
+		<key>mir3.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1046,2},{520,50}}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1,0},{520,50}}</string>
+			<key>sourceSize</key>
+			<string>{522,50}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>realTextureFileName</key>
+		<string>makeitrain@2x.pvr.ccz</string>
+		<key>size</key>
+		<string>{1568,54}</string>
+		<key>smartupdate</key>
+		<string>$TexturePacker:SmartUpdate:600d88dbcedca99beb3fdfa58d02def3:b296008eb46dbc481d7b32a2c3d35d89:042ed1b84ba0593c8096ec49a1cd9713$</string>
+		<key>textureFileName</key>
+		<string>makeitrain@2x.pvr.ccz</string>
+	</dict>
+</dict>
+</plist>

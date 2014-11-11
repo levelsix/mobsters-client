@@ -42,7 +42,7 @@
 @property (nonatomic, assign) float upperBound;
 
 @property (nonatomic, assign) int monsterId;
-@property (nonatomic, assign) uint64_t userMonsterId;
+@property (nonatomic, retain) NSString *userMonsterUuid;
 @property (nonatomic, assign) int slotNum;
 
 @property (nonatomic, assign) int offensiveSkillId;

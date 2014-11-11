@@ -17,13 +17,13 @@
   if ((self = [super init])) {
     self.healthPerSecond = ((HospitalProto *)hospital.staticStruct).healthPerSecond;
     self.upgradeCompleteDate = !hospital.isComplete ? hospital.buildCompleteDate : nil;
-    self.userStructId = hospital.userStructId;
+    self.userStructUuid = hospital.userStructUuid;
   }
   return self;
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"Hospital: %d, %@, %f", self.userStructId, self.upgradeCompleteDate, self.healthPerSecond];
+  return [NSString stringWithFormat:@"Hospital: %@, %@, %f", self.userStructUuid, self.upgradeCompleteDate, self.healthPerSecond];
 }
 
 @end
@@ -32,17 +32,17 @@
 
 - (id) initWithHealingItem:(UserMonsterHealingItem *)healingItem {
   if ((self = [super init])) {
-    self.userMonsterId = healingItem.userMonsterId;
+    self.userMonsterUuid = healingItem.userMonsterUuid;
     self.healthProgress = healingItem.healthProgress;
     self.queueTime = healingItem.queueTime;
     
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
     self.totalHealthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
     
     // Subtract additional hp for clan helps
-    int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:self.userMonsterId];
+    int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:self.userMonsterUuid];
     if (numHelps > 0) {
       int healthToDockPerHelp = MAX(gl.healClanHelpConstants.amountRemovedPerHelp, roundf(self.totalHealthToHeal*gl.healClanHelpConstants.percentRemovedPerHelp));
       self.totalHealthToHeal -= numHelps*healthToDockPerHelp;
@@ -64,7 +64,7 @@
   }
   [s appendFormat:@")"];
   
-  return [NSString stringWithFormat:@"HealingItem: %lld, T: %@, P: %f, S: %@, E: %@, TS: %f", self.userMonsterId, s, self.healthProgress, self.startTime, self.endTime, self.totalSeconds];
+  return [NSString stringWithFormat:@"HealingItem: %@, T: %@, P: %f, S: %@, E: %@, TS: %f", self.userMonsterUuid, s, self.healthProgress, self.startTime, self.endTime, self.totalSeconds];
 }
 
 @end
@@ -139,9 +139,9 @@
   [self simulateUntilDate:nil];
 }
 
-- (HospitalSim *) hospitalWithId:(int)userStructId {
+- (HospitalSim *) hospitalWithUuid:(NSString *)userStructUuid {
   for (HospitalSim *hs in self.hospitals) {
-    if (hs.userStructId == userStructId) {
+    if ([hs.userStructUuid isEqualToString:userStructUuid]) {
       return hs;
     }
   }
@@ -170,15 +170,15 @@
 - (void) readjustAllItemsForDate:(MSDate *)date secondsSinceLastItem:(float)secondsSinceLastItem {
   // First unschedule all monsters
   for (HealingItemSim *item in self.healingItems) {
-    if (item.userStructId) {
+    if (item.userStructUuid) {
       MSDate *startDate = item.startTime;
       float seconds = [date timeIntervalSinceDate:startDate];
-      HospitalSim *hs = [self hospitalWithId:item.userStructId];
+      HospitalSim *hs = [self hospitalWithUuid:item.userStructUuid];
       
       if ([item.endTime isEqualToDate:date]) {
         SimLog(@"Item %lld finished", item.userMonsterId);
         item.isFinished = YES;
-        item.userStructId = 0;
+        item.userStructUuid = nil;
         item.totalSeconds += seconds;
         
         [item.timeDistribution addObject:@(seconds)];
@@ -194,7 +194,7 @@
         [item.timeDistribution addObject:@(seconds)];
         [item.timeDistribution addObject:@(healthPerSecond*seconds)];
         
-        item.userStructId = 0;
+        item.userStructUuid = nil;
         item.startTime = nil;
         item.endTime = nil;
       }
@@ -231,7 +231,7 @@
     HospitalSim *us = validHospitals[i];
     HealingItemSim *hi = validItems[i];
     
-    hi.userStructId = us.userStructId;
+    hi.userStructUuid = us.userStructUuid;
     hi.startTime = [date compare:hi.queueTime] == NSOrderedDescending ? date : hi.queueTime;
     hi.endTime = [hi.startTime dateByAddingTimeInterval:(hi.totalHealthToHeal-hi.healthProgress)/us.healthPerSecond];
   }

@@ -1,0 +1,73 @@
+//ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
+//DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
+
+import "AchievementStuff.proto";
+import "Battle.proto";
+import "BoosterPackStuff.proto";
+import "City.proto";
+import "Clan.proto";
+import "Item.proto";
+import "MonsterStuff.proto";
+import "Prerequisite.proto";
+import "Quest.proto";
+import "Skill.proto";
+import "Structure.proto";
+import "Task.proto";
+import "User.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "StaticDataStuffProto";
+//DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
+
+
+message StaticDataProto {
+    optional MinimumUserProto sender = 1;
+	repeated CityExpansionCostProto expansionCosts = 2;
+	repeated FullCityProto allCities = 3;
+	repeated FullTaskProto allTasks = 4;
+	repeated TaskMapElementProto allTaskMapElements = 28;
+	repeated MonsterProto allMonsters = 5;
+	repeated StaticUserLevelInfoProto slip = 6;
+	
+	repeated FullQuestProto inProgressQuests = 7; //has not been completed
+    repeated FullQuestProto unredeemedQuests = 8; //is complete
+	repeated FullQuestProto availableQuests = 9; 
+	
+	//optional RetrieveStaticDataStatus status = 10; //defined near the end
+	repeated BoosterPackProto boosterPacks = 11;
+	
+	repeated ResourceGeneratorProto allGenerators = 12;
+	repeated ResourceStorageProto allStorages = 13;
+	repeated HospitalProto allHospitals = 14;
+	repeated ResidenceProto allResidences = 15;
+	repeated TownHallProto allTownHalls = 16;
+	repeated LabProto allLabs = 17;
+	repeated MiniJobCenterProto allMiniJobCenters = 27;
+	repeated EvoChamberProto allEvoChambers = 29;
+	repeated TeamCenterProto allTeamCenters = 30;
+	repeated ClanHouseProto allClanHouses = 32;
+	
+	//the daily events where users can gain evolution and enhancement materials
+	repeated PersistentEventProto persistentEvents = 18;
+	repeated MonsterBattleDialogueProto mbds = 19;
+	
+	//these contains the stages. the stages contain the monsters and the rewards  
+	repeated ClanRaidProto raids = 20;
+	repeated PersistentClanEventProto persistentClanEvents = 21;
+	repeated ItemProto items = 22;
+	repeated ObstacleProto obstacles = 23; //might generate gems for user upon removal
+	repeated ClanIconProto clanIcons = 24;
+	repeated PvpLeagueProto leagues = 25;
+	repeated AchievementProto achievements = 26;
+	
+	//repeated MiniJobProto allMiniJobs = 27; defined above
+	//repeated TaskMapElementProto allTaskMapElements = 28; defined above
+	//repeated EvoChamberProto allEvoChambers = 29; defined above
+	//repeated TeamCenterProto allTeamCenters = 30; defined above
+	
+	repeated SkillProto skills = 31;
+	//repeated ClanHouseProto allClanHouses = 32; defined above
+	repeated PrereqProto prereqs = 33;
+}
+	

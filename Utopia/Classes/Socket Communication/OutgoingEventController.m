@@ -189,7 +189,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Hold on, we are still processing your building purchase."];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!nextFsp) {
     [Globals popupMessage:@"This building is not upgradable"];
@@ -259,7 +259,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (fsp.structType != StructureInfoProto_StructTypeResourceGenerator) {
     [Globals popupMessage:@"This building is not a resource generator"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
@@ -303,7 +303,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (gs.gems < gemCost) {
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
@@ -342,7 +342,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
     MSDate *date = userStruct.buildCompleteDate;
@@ -814,7 +814,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) protectUserMonster:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (um && !um.isProtected) {
     [[SocketCommunication sharedSocketCommunication] sendRestrictUserMonsterMessage:@[@(userMonsterId)]];
@@ -825,7 +825,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) unprotectUserMonster:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (um && um.isProtected) {
     [[SocketCommunication sharedSocketCommunication] sendUnrestrictUserMonsterMessage:@[@(userMonsterId)]];
@@ -1336,12 +1336,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     b.currentHealth = player.curHealth;
     [mut addObject:b.build];
     
-    UserMonster *um = [gs myMonsterWithUserMonsterId:player.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:player.userMonsterUuid];
     um.curHealth = player.curHealth;
     
     [ums addObject:[um convertToProto]];
     
-    if (um.userMonsterId == attacker.userMonsterId) {
+    if ([um.userMonsterUuid isEqualToString:attacker.userMonsterUuid]) {
       attackerProto = [um convertToProto];
     }
   }
@@ -1449,7 +1449,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to set health less than 0"];
   } else {
     GameState *gs = [GameState sharedGameState];
-    UserMonster *userMonster = [gs myMonsterWithUserMonsterId:userMonsterId];
+    UserMonster *userMonster = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
     userMonster.curHealth = curHealth;
     UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
                                           setCurrentHealth:userMonster.curHealth]
@@ -1548,7 +1548,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       pl.curHealth = pl.maxHealth;
       
-      UserMonster *um = [gs myMonsterWithUserMonsterId:pl.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:pl.userMonsterUuid];
       um.curHealth = pl.curHealth;
     }
     
@@ -1603,7 +1603,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (isRevenge) {
     PvpHistoryProto *pvp = nil;
     for (PvpHistoryProto *potential in gs.battleHistory) {
-      if (potential.attacker.userId == proto.defender.minUserProto.userId &&
+      if (potential.attacker.userUuid isEqualToString:proto.defender.minUserProto.userUuid] &&
           potential.battleEndTime == previousBattleTime) {
         pvp = potential;
       }
@@ -1634,7 +1634,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (!um || !um.teamSlot) {
     [Globals popupMessage:@"Trying to remove invalid monster."];
@@ -1650,7 +1650,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (BOOL) addMonsterToTeam:(uint64_t)userMonsterId {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   NSArray *wholeTeam = [gs allMonstersOnMyTeam];
   NSArray *battleReadyTeam = [gs allBattleAvailableAliveMonstersOnTeam];
   
@@ -1828,7 +1828,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   int timeLeft = um.timeLeftForCombining;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
   
@@ -1854,7 +1854,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   int maxHealth = [gl calculateMaxHealthForMonster:um];
   int silverCost = [gl calculateCostToHealMonster:um];
@@ -1889,7 +1889,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
   
   int silverCost = [gl calculateCostToHealMonster:um];
   if (![gs.monsterHealingQueue containsObject:item]) {
@@ -1922,7 +1922,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       
       UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
@@ -1961,7 +1961,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([item.endTime timeIntervalSinceNow] > 0) {
       [Globals popupMessage:@"Trying to finish healing item before time."];
     } else {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       
       UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
@@ -1998,7 +1998,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int moneyGained = 0;
   for (NSNumber *umId in userMonsterIds) {
     uint64_t userMonsterId = umId.longLongValue;
-    UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
     
     if (um) {
       if (um.isComplete) {
@@ -2134,7 +2134,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserMonster *baseUm = base.userMonster;
   float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
   for (EnhancementItem *item in gs.userEnhancement.feeders) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
     baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
     [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
     [gs.myMonsters removeObject:um];
@@ -2190,7 +2190,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //
 //      oilCost += bldr.enhancingCost;
 //
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      expIncrease += [gl calculateExperienceIncrease:enhancement.baseMonster feeder:item];
 //      [monstersToRemove addObject:um];
 //
@@ -2240,7 +2240,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 //- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId {
 //  GameState *gs = [GameState sharedGameState];
-//  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+//  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
 //
 //  if (gs.userEnhancement) {
 //    [Globals popupMessage:@"Trying to set base mobster while already enhancing."];
@@ -2291,7 +2291,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
 //  Globals *gl = [Globals sharedGlobals];
 //  GameState *gs = [GameState sharedGameState];
-//  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+//  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
 //  UserEnhancement *ue = gs.userEnhancement;
 //
 //  EnhancementItem *newItem = [[EnhancementItem alloc] init];
@@ -2372,7 +2372,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //    UserMonster *baseUm = base.userMonster;
 //    float perc = baseUm.curHealth/(float)[gl calculateMaxHealthForMonster:baseUm];
 //    for (EnhancementItem *item in gs.userEnhancement.feeders) {
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
 //      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
 //      [gs.myMonsters removeObject:um];
@@ -2412,7 +2412,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //    if ([endTime timeIntervalSinceNow] > 0) {
 //      [Globals popupMessage:@"Trying to finish enhancing item before time."];
 //    } else {
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
 //      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
 //      [gs.myMonsters removeObject:um];
@@ -2507,9 +2507,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
       
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid1]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid2]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.catalystMonsterUuid]];
       gs.userEvolution = nil;
       
       [gs stopEvolutionTimer];

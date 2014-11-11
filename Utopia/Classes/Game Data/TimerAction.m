@@ -262,7 +262,7 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userEnhancement.baseMonster.userMonsterId == [object userEnhancement].baseMonster.userMonsterId;
+  return [self class] == [object class] && [self.userEnhancement.baseMonster.userMonsterUuid isEqualToString:[object userEnhancement].baseMonster.userMonsterUuid];
 }
 
 - (NSUInteger) hash {

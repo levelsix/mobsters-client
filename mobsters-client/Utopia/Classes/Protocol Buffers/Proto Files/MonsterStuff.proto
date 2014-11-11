@@ -1,0 +1,209 @@
+//ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
+//DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
+
+import "SharedEnumConfig.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "MonsterStuffProto";
+//DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
+
+message MonsterProto {
+	optional int32 monsterId = 1;
+	optional string evolutionGroup = 2; //This is used to group monsters by evolution level.
+	optional string shorterName = 28;
+	optional string monsterGroup = 3;
+	optional Quality quality = 4 [default = NO_QUALITY];
+	optional int32 evolutionLevel = 5;
+	optional string displayName = 6;
+	optional Element monsterElement = 7 [default = NO_ELEMENT];
+	optional string imagePrefix = 8;
+	optional int32 numPuzzlePieces = 9;
+	optional int32 minutesToCombinePieces = 10;
+	optional int32 maxLevel = 11; //aka max enhancing level
+	
+	//what monster this monster evolves into
+	optional int32 evolutionMonsterId = 12;
+	//the monster that is needed in order to evolve this monster
+	optional int32 evolutionCatalystMonsterId = 13;
+	optional int32 minutesToEvolve = 14;
+	optional int32 numCatalystMonstersRequired = 15; //will most likely be 1
+	
+	optional string carrotRecruited = 16;
+	optional string carrotDefeated = 17;
+	optional string carrotEvolved = 18;
+	optional string description = 19; 
+	
+	//stores lvl determined hp, attack, exp,  among other things
+	repeated MonsterLevelInfoProto lvlInfo = 20;
+	
+	optional int32 evolutionCost = 21;
+	
+	optional AnimationType attackAnimationType = 22;
+	optional int32 verticalPixelOffset = 23;
+	optional string atkSoundFile = 24;
+	optional int32 atkSoundAnimationFrame = 25;
+	optional int32 atkAnimationRepeatedFramesStart = 26;
+	optional int32 atkAnimationRepeatedFramesEnd = 27;
+	
+	//optional string shorterName = 28; defined above
+	optional float shadowScaleFactor = 29;
+	
+	optional int32 baseOffensiveSkillId = 30;
+	optional int32 baseDefensiveSkillId = 31;
+	
+	enum AnimationType {
+		NO_ANIMATION = 3;
+		MELEE = 1;
+		RANGED = 2;
+		
+		//NO_ANIMATION = 3; defined above
+	}
+}
+
+message MonsterLevelInfoProto {
+	optional int32 lvl = 1;
+	optional int32 hp = 2;
+	
+	//exp required to get to current level
+	optional int32 curLvlRequiredExp = 3;
+	optional int32 feederExp = 4;
+	
+	//maybe the monsters can inflict dmg on themselves 
+	optional sint32 fireDmg = 5;
+	optional sint32 grassDmg = 6;
+	optional sint32 waterDmg = 7;
+	optional sint32 lightningDmg = 8;
+	optional sint32 darknessDmg = 9;
+	optional sint32 rockDmg = 10;
+	optional int32 speed = 11;
+	optional float hpExponentBase = 12;
+	optional float dmgExponentBase = 13;
+	optional float expLvlDivisor = 14;
+	optional float expLvlExponent = 15;
+	optional int32 sellAmount = 16;
+	optional int32 teamCost = 17;
+}
+
+//------------------------------------------------------------------------------------------
+
+message FullUserMonsterProto {
+	optional string userMonsterUuid = 1;
+	optional string userUuid = 2;
+	optional int32 monsterId = 3;
+	optional int32 currentExp = 4;
+	optional int32 currentLvl = 5;
+	optional int32 currentHealth = 6;
+	optional int32 numPieces = 7;
+	optional bool isComplete = 8; 
+	optional int64 combineStartTime = 9;
+	optional int32 teamSlotNum = 10;
+	//optional string sourceOfPieces = 11;	//not needed for client
+	optional bool isRestrictd = 12;
+	
+	optional int32 offensiveSkillId = 13;
+	optional int32 defensiveSkillId = 14;
+}
+
+message MinimumUserMonsterProto {
+	optional int32 monsterId = 1;
+	optional int32 monsterLvl = 2;
+}
+
+//------------------------------------------------------------------------------------------
+// used in HealMonsterRequestProto
+message UserMonsterHealingProto {
+	optional string userUuid = 1;
+	optional string userMonsterUuid = 2;
+	//optional int64 expectedStartTimeMillis = 3;
+	optional int64 queuedTimeMillis = 3; //when the monster was put into the queue(?)
+	
+	//id of the user's hospital structure
+	//optional string userHospitalStructUuid = 4; //not needed, can infer from priority and 
+											   //the hospitals the user has
+											   
+	//how much health is already healed	
+	optional float healthProgress = 5;
+	//incrementing number (starts back at one(?) when healing a monster and it's the first one)
+	optional int32 priority = 6;
+	optional float elapsedSeconds = 7; 
+}
+
+//------------------------------------------------------------------------------------------
+// used in UpdateMonsterHealthRequestProto
+// proto not created by server
+message UserMonsterCurrentHealthProto {
+	optional string userMonsterUuid = 1;
+	optional int32 currentHealth = 2; //what the health should be
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserEnhancementProto {
+	optional string userUuid = 1;
+	optional UserEnhancementItemProto baseMonster = 2;
+	repeated UserEnhancementItemProto feeders = 3;
+}
+
+message UserEnhancementItemProto {
+	//MONSTER BEING ENHANCED WILL HAVE NULL FOR expectedStartTime and not have
+	//enhancingCost set or have it set to 0
+	optional string userMonsterUuid = 1;
+	optional int64 expectedStartTimeMillis = 2; //TODO: get rid of this
+	optional int32 enhancingCost = 3; //oil not cash, the cost to sacrifice this monster
+	optional bool enhancingComplete = 4;
+}
+
+//------------------------------------------------------------------------------------------
+
+//when user enhances a monster, it gains "experience" 
+//(before it was termed enhancement or enhancement percentage)
+//proto not created by server
+message UserMonsterCurrentExpProto {
+	optional string userMonsterUuid = 1;
+	optional int32 expectedExperience = 2;
+	optional int32 expectedLevel = 3;
+	optional int32 expectedHp = 4;
+}
+
+//------------------------------------------------------------------------------------------
+//proto not created by server
+message MinimumUserMonsterSellProto {
+	optional string userMonsterUuid = 1;
+	optional int32 cashAmount = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserCurrentMonsterTeamProto {
+	optional string userUuid = 1;
+	repeated FullUserMonsterProto currentTeam = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserMonsterEvolutionProto {
+	//the monster that is required to combine 2 monsters
+	optional string catalystUserMonsterUuid = 1;
+	
+	//the 2 monsters that are combined
+	repeated string userMonsterUuids = 2;
+	
+	optional int64 startTime = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message MonsterBattleDialogueProto {
+	optional int32 monsterId = 1;
+	optional DialogueType dialogueType = 3;
+	optional string dialogue = 2;
+	optional float probabilityUttered = 4; //chance the monster says it
+	
+	enum DialogueType {
+		NO_DIALOGUE = 2;
+		ENTER_BATTLE = 1;
+		
+		//NO_DIALOGUE = 2; defined above 
+	}
+}

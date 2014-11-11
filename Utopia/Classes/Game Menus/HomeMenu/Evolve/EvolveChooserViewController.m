@@ -61,7 +61,7 @@
 - (void) updateBottomView {
   GameState *gs = [GameState sharedGameState];
   UserEvolution *ue = gs.userEvolution;
-  UserMonster *um = [gs myMonsterWithUserMonsterId:ue.userMonsterId1];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid1];
   
   if (ue) {
     [self.monsterView updateForMonsterId:um.monsterId];

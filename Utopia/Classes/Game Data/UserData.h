@@ -21,8 +21,8 @@
 
 @interface UserMonster : NSObject
 
-@property (nonatomic, assign) uint64_t userMonsterId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userMonsterUuid;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int curHealth;
 @property (nonatomic, assign) int level;
@@ -70,8 +70,8 @@
 
 @interface UserMonsterHealingItem : NSObject
 
-@property (nonatomic, assign) uint64_t userMonsterId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userMonsterUuid;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, retain) MSDate *queueTime;
 @property (nonatomic, retain) MSDate *endTime;
 
@@ -111,7 +111,7 @@
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
 
-@property (nonatomic, assign) uint64_t userMonsterId;
+@property (nonatomic, retain) NSString *userMonsterUuid;
 @property (nonatomic, assign) int enhancementCost;
 @property (nonatomic, retain) MSDate *expectedStartTime;
 
@@ -151,9 +151,9 @@
 
 @interface UserEvolution : NSObject
 
-@property (nonatomic, assign) uint64_t userMonsterId1;
-@property (nonatomic, assign) uint64_t userMonsterId2;
-@property (nonatomic, assign) uint64_t catalystMonsterId;
+@property (nonatomic, retain) NSString *userMonsterUuid1;
+@property (nonatomic, retain) NSString *userMonsterUuid2;
+@property (nonatomic, retain) NSString *catalystMonsterUuid;
 @property (nonatomic, retain) MSDate *startTime;
 
 + (id) evolutionWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto;
@@ -166,8 +166,8 @@
 
 @interface UserStruct : NSObject 
 
-@property (nonatomic, assign) int userStructId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userStructUuid;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int structId;
 @property (nonatomic, assign) int fbInviteStructLvl;
 @property (nonatomic, retain) MSDate *lastRetrieved;
@@ -207,8 +207,7 @@
 
 @interface UserObstacle : NSObject
 
-@property (nonatomic, assign) int userObstacleId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userObstacleUuid;
 @property (nonatomic, assign) int obstacleId;
 @property (nonatomic, assign) CGPoint coordinates;
 @property (nonatomic, retain) MSDate *removalTime;
@@ -250,7 +249,6 @@ typedef enum {
 
 @interface UserExpansion : NSObject
 
-@property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int xPosition;
 @property (nonatomic, assign) int yPosition;
 @property (nonatomic, assign) BOOL isExpanding;
@@ -309,7 +307,7 @@ typedef enum {
 
 @interface UserQuest : NSObject
 
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int questId;
 @property (nonatomic, assign) BOOL isRedeemed;
 @property (nonatomic, assign) BOOL isComplete;
@@ -353,11 +351,11 @@ typedef enum {
 
 @interface UserMiniJob : NSObject
 
-@property (nonatomic, assign) uint64_t userMiniJobId;
+@property (nonatomic, retain) NSString *userMiniJobUuid;
 @property (nonatomic, assign) int baseDmgReceived;
 @property (nonatomic, assign) int durationSeconds;
 @property (nonatomic, retain) MSDate *timeStarted;
-@property (nonatomic, retain) NSArray *userMonsterIds;
+@property (nonatomic, retain) NSArray *userMonsterUuids;
 @property (nonatomic, retain) MSDate *timeCompleted;
 @property (nonatomic, retain) MiniJobProto *miniJob;
 @property (nonatomic, assign) BOOL hasShownFreeSpeedup;
@@ -366,15 +364,15 @@ typedef enum {
 
 - (MSDate *) tentativeCompletionDate;
 
-- (NSDictionary *) damageDealtPerUserMonsterId;
+- (NSDictionary *) damageDealtPerUserMonsterUuid;
 
 @end
 
 @interface UserItem : NSObject
 
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int itemId;
-@property (nonatomic, assign) int userItemId;
+@property (nonatomic, retain) NSString *userItemUuid;
 @property (nonatomic, assign) int quantity;
 
 + (id) userItemWithProto:(UserItemProto *)proto;

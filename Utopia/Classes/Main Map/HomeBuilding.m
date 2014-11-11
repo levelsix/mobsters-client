@@ -643,7 +643,7 @@
   _healingItem = hi;
   if (hi) {
     GameState *gs = [GameState sharedGameState];
-    UserMonster *um = [gs myMonsterWithUserMonsterId:hi.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:hi.userMonsterUuid];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
     NSString *spritesheetName = [NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix];

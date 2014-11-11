@@ -690,7 +690,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     HealingItemSim *hi = sim.healingItems[i];
     UserMonsterHealingItem *item = nil;
     for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
-      if (!item || hi.userMonsterId == i.userMonsterId) {
+      if (!item || [hi.userMonsterUuid isEqualToString:i.userMonsterUuid]) {
         item = i;
       }
     }
@@ -711,7 +711,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (HealingItemSim *hi in sim.healingItems) {
     UserMonsterHealingItem *item = nil;
     for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
-      if (!item || hi.userMonsterId == i.userMonsterId) {
+      if (!item || [hi.userMonsterUuid isEqualToString:i.userMonsterUuid]) {
         item = i;
       }
     }
@@ -750,7 +750,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
   PersistentClanEventUserInfoProto *toRemove = nil;
   for (PersistentClanEventUserInfoProto *p in self.curClanRaidUserInfos) {
-    if (p.userId == info.userId) {
+    if (p.userUuid isEqualToString:info.userUuid]) {
       toRemove = p;
       break;
     }
@@ -763,9 +763,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.curClanRaidUserInfos addObject:info];
 }
 
-- (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId {
+- (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid {
   for (UserMonster *um in self.myMonsters) {
-    if (userMonsterId == um.userMonsterId) {
+    if ([userMonsterUuid isEqualToString:um.userMonsterUuid]) {
       return um;
     }
   }
@@ -817,9 +817,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
-- (UserStruct *) myStructWithId:(int)structId {
+- (UserStruct *) myStructWithUuid:(NSString *)structUuid {
   for (UserStruct *us in self.myStructs) {
-    if (us.userStructId == structId) {
+    if ([us.userStructId isEqualToString:structUuid]) {
       return us;
     }
   }
@@ -1286,7 +1286,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (PersistentClanEventUserInfoProto *) myClanRaidInfo {
   for (PersistentClanEventUserInfoProto *info in self.curClanRaidUserInfos) {
-    if (info.userId == self.userId) {
+    if (info.userUuid isEqualToString:self.userUuid]) {
       return info;
     }
   }

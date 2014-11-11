@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDisplayName</key>
+	<string>Toon Squad</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.lvl6.toonsquad</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName </key>
+			<string>com.lvl6.toonsquad</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb788673811165936</string>
+				<string>toonsquad4t</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1.0.17.319</string>
+	<key>FacebookAppID</key>
+	<string>788673811165936</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>TangoAppID</key>
+	<string>ToonSquad</string>
+	<key>TangoUrlScheme</key>
+	<string>toonsquad4t</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AxeHandel.ttf</string>
+		<string>Gotham-Ultra.otf</string>
+		<string>Gotham-UltraItalic.otf</string>
+		<string>Gotham-Book.otf</string>
+		<string>Gotham-Medium.otf</string>
+		<string>GothamNarrow-UltraItalic.otf</string>
+		<string>mini7.ttf</string>
+		<string>Akko-Bold.ttf</string>
+		<string>Aller_BdIt.ttf</string>
+		<string>klavika bold bold.ttf</string>
+		<string>Gotham-Bold.otf</string>
+		<string>GothamBlack.otf</string>
+		<string>GothamMedium-Italic.otf</string>
+		<string>Ziggurat-HTF-Black.otf</string>
+		<string>Ziggurat-HTF-Black-Italic.otf</string>
+		<string>Whitney-Black.otf</string>
+		<string>Whitney-Bold.otf</string>
+		<string>Whitney-Semibold.otf</string>
+		<string>Whitney-SemiboldItalic.otf</string>
+		<string>GothamNarrow-Ultra.otf</string>
+	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UIRequiredDeviceCapabilities</key>
+	<dict>
+		<key>accelerometer</key>
+		<true/>
+		<key>gamekit</key>
+		<true/>
+		<key>opengles-2</key>
+		<true/>
+	</dict>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>

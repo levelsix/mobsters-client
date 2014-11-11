@@ -1,0 +1,71 @@
+//BAD!!! DON'T START NAMES WITH NEW OR COPY
+
+import "BoosterPackStuff.proto";
+import "Item.proto";
+import "MonsterStuff.proto";
+import "User.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "EventItemProto";
+//DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
+
+message TradeItemForBoosterRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 itemId = 2;
+	optional int64 clientTime = 3; //for history purposes
+}
+
+																						//DONE
+message TradeItemForBoosterResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional TradeItemForBoosterStatus status = 2;
+	
+	//if user received, say, two pieces of a monster
+	//and he needs one to complete an existing monster
+	//there would be one monster that would be completed
+	//and another that would be the remaining pieces of the monster
+	repeated FullUserMonsterProto updatedOrNew = 3;
+	
+	optional BoosterItemProto prize = 4;
+	
+	enum TradeItemForBoosterStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		FAIL_INSUFFICIENT_ITEM = 3;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+//will only ever add or delete itemUsages
+message TradeItemForSpeedUpsRequestProto {
+	optional MinimumUserProto sender = 1;
+	repeated UserItemUsageProto itemsUsed = 2; //usageId not set
+	//updated quantity of user's items after using said items
+	repeated UserItemProto nuUserItems = 3;  
+	
+}
+
+message TradeItemForSpeedUpsResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional TradeItemForSpeedUpsStatus status = 2;
+	
+	repeated UserItemUsageProto itemsUsed = 3; //usageIds are now set
+	
+	enum TradeItemForSpeedUpsStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		
+	}
+}
+
+/*
+message TradeItemForResourcesRequestProto {
+	optional MinimumUserProto sender = 1;
+		
+}
+
+message TradeItemForResourcesResponseProto {
+	optional MinimumUserProto sender = 1;
+}
+*/

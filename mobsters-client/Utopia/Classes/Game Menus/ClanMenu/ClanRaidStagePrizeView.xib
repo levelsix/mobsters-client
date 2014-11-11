@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRaidStageCell">
+            <connections>
+                <outlet property="monsterView" destination="E04-ic-x3D" id="D5h-y7-1xI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="E04-ic-x3D" customClass="ClanTeamMonsterView">
+            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="gDr-60-jGA">
+                    <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="top" id="SE6-Mf-Tev">
+                    <rect key="frame" x="-8" y="4" width="59" height="59"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Evo 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="77Y-fY-ydq" customClass="NiceFontLabel">
+                    <rect key="frame" x="-4" y="21" width="50" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="bgdIcon" destination="gDr-60-jGA" id="TrY-tT-0i7"/>
+                <outlet property="lvlLabel" destination="77Y-fY-ydq" id="DyH-2Y-dwe"/>
+                <outlet property="monsterIcon" destination="SE6-Mf-Tev" id="yRm-2P-t0Z"/>
+            </connections>
+        </view>
+    </objects>
+</document>

@@ -202,12 +202,12 @@
 
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
-- (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId;
+- (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid;
 - (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (NSArray *) allBattleAvailableMonstersOnTeam;
 - (NSArray *) allBattleAvailableAliveMonstersOnTeam;
-- (UserStruct *) myStructWithId:(int)structId;
+- (UserStruct *) myStructWithUuid:(NSString *)structUuid;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;
 - (UserStruct *) myEvoChamber;

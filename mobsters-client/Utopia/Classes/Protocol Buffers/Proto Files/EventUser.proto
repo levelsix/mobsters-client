@@ -1,0 +1,195 @@
+//ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
+//DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
+
+import "MonsterStuff.proto";
+import "Structure.proto";
+import "User.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "EventUserProto";
+//DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
+
+
+//CALL STARTUP AFTER THIS
+
+//if devicetoken doesnt work, itll still return success
+//client can check user's diamonds to see if it went through
+message UserCreateRequestProto {
+     optional string udid = 1;
+     optional string name = 2;
+     optional string deviceToken = 3;
+     optional string facebookId = 4;
+     repeated TutorialStructProto structsJustBuilt = 5;
+     
+     optional int32 cash = 10;
+     optional int32 oil = 11;
+     optional int32 gems = 12;
+     optional string email = 13;
+     
+     optional string fbData = 14;
+}
+
+message UserCreateResponseProto {
+	//optional FullUserProto sender = 1;
+	//just need success, since client calls startup after this anyway
+	optional UserCreateStatus status = 2;
+	
+    enum UserCreateStatus {
+		SUCCESS = 1;
+		FAIL_INVALID_NAME = 2; //not checking
+		FAIL_USER_WITH_UDID_ALREADY_EXISTS = 3;
+     	FAIL_INVALID_REFER_CODE = 4; //not checking
+     	FAIL_USER_WITH_FACEBOOK_ID_EXISTS = 5;
+		FAIL_OTHER = 6;
+	}  
+}
+
+//------------------------------------------------------------------------------------------
+
+//client calls this whenever exp surpasses the next one
+//server checks if user's exp is over the next, if so, increments user's level
+message LevelUpRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 nextLevel = 2;
+}
+
+message LevelUpResponseProto {
+     optional MinimumUserProto sender = 1;
+     optional LevelUpStatus status = 2;
+     //repeated FullStructureProto newlyAvailableStructs = 3;					//only new ones
+
+	enum LevelUpStatus {
+     	SUCCESS = 1;
+     	FAIL_OTHER = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+message RetrieveUsersForUserIdsRequestProto {
+    optional MinimumUserProto sender = 1;
+	repeated string requestedUserUuids = 2;
+	optional bool includeCurMonsterTeam = 3;
+}
+
+																						//DONE
+message RetrieveUsersForUserIdsResponseProto {
+    optional MinimumUserProto sender = 1;
+	repeated FullUserProto requestedUsers = 2;
+	repeated UserCurrentMonsterTeamProto curTeam = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message LogoutRequestProto {
+	optional MinimumUserProto sender = 1;
+}
+
+//------------------------------------------------------------------------------------------
+	
+message UpdateClientUserResponseProto {
+     optional FullUserProto sender = 1;
+     optional int64 timeOfUserUpdate = 2;                               //new Date().getTime(); milliseconds since 1/1/70
+}
+
+//------------------------------------------------------------------------------------------
+//will always be used to set a fb id, not delete it	
+message SetFacebookIdRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional string fbId = 2;
+	
+	optional bool isUserCreate = 3;
+	optional string email = 4;
+	optional string fbData = 5;
+}
+
+message SetFacebookIdResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional SetFacebookIdStatus status = 2;
+	
+	optional MinimumUserProto existing = 3;
+	
+	enum SetFacebookIdStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		FAIL_FB_ID_EXISTS = 3;
+		FAIL_USER_FB_ID_ALREADY_SET = 4;
+	}
+}
+	
+
+//------------------------------------------------------------------------------------------
+//this event is mainly to make a regular user pay for something, never to give stuff to him
+message UpdateUserCurrencyRequestProto {
+	optional MinimumUserProto sender = 1;
+	
+	//1) positive numbers which the server will then make negative
+	//2) server then adds this negative number to the user's currency
+	//3) however if user is an admin, use it however you want :)
+	//NOTE: Ignore 2 and 3. For 3, use DevRequest/Response instead.
+	optional sint32 cashSpent = 2;
+	optional sint32 oilSpent = 3;
+	optional sint32 gemsSpent = 4;
+	
+	optional int64 clientTime = 5;
+	
+	//main subject regarding why user is charged, look at ControllerConstants.java
+	//for examples. Look in the section with prefix "UCHRFC__"
+	optional string reason = 6;
+	
+	optional string details = 7;
+}
+
+message UpdateUserCurrencyResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional UpdateUserCurrencyStatus status = 2;
+	
+	
+	enum UpdateUserCurrencyStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		FAIL_INSUFFICIENT_CASH = 3;
+		FAIL_INSUFFICIENT_OIL = 4;
+		FAIL_INSUFFICIENT_GEMS = 5;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message SetGameCenterIdRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional string gameCenterId = 2;
+}
+
+message SetGameCenterIdResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional string gameCenterId = 2;
+	
+	optional SetGameCenterIdStatus status = 3;
+	
+	enum SetGameCenterIdStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message SetAvatarMonsterRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 monsterId = 2;
+}
+
+message SetAvatarMonsterResponseProto {
+	optional MinimumUserProto sender = 1;
+	
+	optional SetAvatarMonsterStatus status = 2;
+	
+	enum SetAvatarMonsterStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+	
+	
