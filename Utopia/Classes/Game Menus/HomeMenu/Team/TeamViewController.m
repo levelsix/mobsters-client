@@ -262,6 +262,9 @@
   if (available) {
     if (isDead) {
       cell.availableView.hidden = NO;
+      
+      // Hide status label in case it is locked
+      cell.statusLabel.hidden = YES;
     } else if (!lowEnoughCost) {
       NSString *str1 = @"Power: ";
       NSString *str2 = [Globals commafyNumber:[listObject teamCost]];
@@ -295,7 +298,7 @@
   } else if (um.curHealth <= 0) {
     [Globals addAlertNotification:[NSString stringWithFormat:@"You must heal %@ before adding to your team.", um.staticMonster.displayName]];
   } else if (!lowEnoughCost) {
-    [Globals addAlertNotification:[NSString stringWithFormat:@"You need a higher Power Limit to add %@3. Upgrade your %@!", um.staticMonster.monsterName, gs.myTeamCenter.staticStruct.structInfo.name]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You need a higher Power Limit to add %@. Upgrade your %@!", um.staticMonster.monsterName, gs.myTeamCenter.staticStruct.structInfo.name]];
   }
 }
 
