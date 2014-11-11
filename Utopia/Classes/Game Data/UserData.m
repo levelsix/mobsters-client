@@ -1255,7 +1255,7 @@
 
 - (id) initWithProto:(FullUserQuestProto *)proto {
   if ((self = [self init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.questId = proto.questId;
     self.isRedeemed = proto.isRedeemed;
     self.isComplete = proto.isComplete;
@@ -1416,7 +1416,7 @@
   
   int totalAttack = 0;
   for (NSString *umUuid in self.userMonsterUuids) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:umUuid];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:umUuid];
     if (um) {
       [userMonsters addObject:um];
       totalAttack += [gl calculateTotalDamageForMonster:um];
@@ -1454,7 +1454,7 @@
       for (UserMonster *um in aliveMonsters) {
         int damage = [damages[um.userMonsterUuid] intValue];
         damage += dmgPerChar;
-        [damages setObject:@(damage) forKey:um.userMonsterU];
+        [damages setObject:@(damage) forKey:um.userMonsterUuid];
       }
       
       // Deal remaining damage (i.e. 2 monsters-7 dmg to deal: 1 dmg needs to be dealt to someone)

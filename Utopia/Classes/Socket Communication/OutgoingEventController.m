@@ -88,7 +88,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) logout {
   GameState *gs = [GameState sharedGameState];
-  if (gs.connected && gs.userId > 0) {
+  if (gs.connected && gs.userUuid.length > 0) {
     [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
   }
 }
@@ -147,7 +147,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs saveHealthProgressesFromIndex:0];
     
     // UserStructId will come in the response
-    us.userId = [[GameState sharedGameState] userId];
+    us.userUuid = [[GameState sharedGameState] userUuid];
     us.isComplete = NO;
     us.coordinates = CGPointMake(x, y);
     us.orientation = 0;
@@ -187,7 +187,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (userStruct.userStructId == 0) {
+  if (userStruct.userStructUuid == nil) {
     [Globals popupMessage:@"Hold on, we are still processing your building purchase."];
   } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
@@ -208,7 +208,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to upgrade without enough resources."];
     } else {
       int64_t ms = [self getCurrentMilliseconds];
-      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
       
       [gs saveHealthProgressesFromIndex:0];
       
