@@ -40,7 +40,7 @@
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupbigicon.png" id="BBs-MH-xa7">
+                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="speedupbigicon.png" id="BBs-MH-xa7">
                     <rect key="frame" x="28" y="13" width="23" height="18"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>

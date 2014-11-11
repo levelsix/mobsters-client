@@ -10,6 +10,6 @@
 
 #import "ItemSelectViewController.h"
 
-@interface ResourceItemsFiller : NSObject <ItemSelectDelegate>
+@interface ResourceItemsFiller : NSObject// <ItemSelectDelegate>
 
 @end

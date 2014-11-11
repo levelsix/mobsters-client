@@ -1798,6 +1798,7 @@
   ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
   SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
   svc.delegate = sif;
+  self.speedupItemsFiller = sif;
   
   GameViewController *gvc = [GameViewController baseController];
   svc.view.frame = gvc.view.bounds;

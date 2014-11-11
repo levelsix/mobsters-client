@@ -40,7 +40,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="cellButtonClicked:" destination="-1" eventType="touchUpInside" id="5nm-6l-zJG"/>
+                                            <action selector="cellButtonClicked:" destination="-1" eventType="touchUpInside" id="KHB-Vd-8Zj"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Use" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="OF9-3u-IH8" customClass="NiceFontLabel12">
@@ -89,6 +89,9 @@
                                         <state key="normal" image="purpleitemsbutton.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="cellButtonClicked:" destination="-1" eventType="touchUpInside" id="b52-RT-B6V"/>
+                                        </connections>
                                     </button>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" id="yiZ-5j-R0U">
                                         <rect key="frame" x="8" y="6" width="36" height="16"/>

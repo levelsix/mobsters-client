@@ -58,13 +58,15 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  self.headerView.layer.cornerRadius = self.mainView.layer.cornerRadius;
+  self.headerView.layer.cornerRadius = 6.f;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [self reloadData];
 }
 
 - (void) reloadData {
@@ -73,6 +75,13 @@
 
 - (void) reloadDataAnimated:(BOOL)animated {
   [self.itemsTable reloadData];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+  }];
 }
 
 #pragma mark - UITableView dataSource/delegate
