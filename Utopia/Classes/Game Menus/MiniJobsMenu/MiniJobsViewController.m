@@ -220,13 +220,13 @@
     int totalHp = 0, totalAtk = 0;
     int reqHp = miniJob.miniJob.hpRequired, reqAtk = miniJob.miniJob.atkRequired;
     for (UserMonster *um in userMonsters) {
-      [arr addObject:@(um.userMonsterId)];
+      [arr addObject:um.userMonsterUuid];
       
       totalHp += um.curHealth;
       totalAtk += [gl calculateTotalDamageForMonster:um];
     }
     if (totalHp >= reqHp && totalAtk >= reqAtk) {
-      [[OutgoingEventController sharedOutgoingEventController] beginMiniJob:miniJob userMonsterIds:arr delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] beginMiniJob:miniJob userMonsterUuids:arr delegate:self];
       _isBeginningJob = YES;
       _beganSomeJob = YES;
       

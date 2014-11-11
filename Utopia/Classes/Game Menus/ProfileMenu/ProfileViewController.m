@@ -39,9 +39,9 @@
 
 @implementation ProfileViewController
 
-- (id)initWithUserId:(int)userId {
+- (id)initWithUserUuid:(NSString *)userUuid {
   if ((self = [super init])) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:@(userId)] includeCurMonsterTeam:YES delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserUuids:@[userUuid] includeCurMonsterTeam:YES delegate:self];
   }
   return self;
 }
@@ -57,7 +57,7 @@
 - (void) handleRetrieveUsersForUserIdsResponseProto:(FullEvent *)fe {
   RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
   self.fup = [proto.requestedUsersList lastObject];
-  self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:@(self.fup.userId)];
+  self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:self.fup.userUuid];
   [self loadProfile];
 }
 
@@ -134,7 +134,7 @@
   // Go visit clan
   if (self.fup.hasClan) {
     GameViewController *gvc = [GameViewController baseController];
-    [gvc openClanViewForClanId:self.fup.clan.clanId];
+    [gvc openClanViewForClanUuid:self.fup.clan.clanUuid];
     
     [self close:nil];
   }
@@ -142,7 +142,7 @@
 
 - (IBAction)message:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
-  [gvc openPrivateChatWithUserId:self.fup.userId name:self.fup.name];
+  [gvc openPrivateChatWithUserUuid:self.fup.userUuid name:self.fup.name];
   
   // Will close automatically
   // [self close:nil];

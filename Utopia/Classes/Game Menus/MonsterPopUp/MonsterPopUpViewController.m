@@ -275,7 +275,7 @@ static int descriptionWidthChange = 50;
 }
 
 - (void) sell {
-  [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:@[@(self.monster.userMonsterId)]];
+  [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:@[self.monster.userMonsterUuid]];
   [self close:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [QuestUtil checkAllDonateQuests];
@@ -299,7 +299,7 @@ static int descriptionWidthChange = 50;
 
 - (void) changeAvatar {
   GameState *gs = [GameState sharedGameState];
-  if (self.monster.userUuid isEqualToString:gs.userUuid]) {
+  if ([self.monster.userUuid isEqualToString:gs.userUuid]) {
     [[OutgoingEventController sharedOutgoingEventController] setAvatarMonster:self.monster.monsterId];
     self.avatarButton.enabled = NO;
   }
@@ -319,9 +319,9 @@ static int descriptionWidthChange = 50;
 
 - (void) doLock {
   if (!self.monster.isProtected) {
-    [[OutgoingEventController sharedOutgoingEventController] protectUserMonster:self.monster.userMonsterId];
+    [[OutgoingEventController sharedOutgoingEventController] protectUserMonster:self.monster.userMonsterUuid];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] unprotectUserMonster:self.monster.userMonsterId];
+    [[OutgoingEventController sharedOutgoingEventController] unprotectUserMonster:self.monster.userMonsterUuid];
   }
   
   [self updateProtectedButton];

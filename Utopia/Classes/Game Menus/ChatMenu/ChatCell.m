@@ -169,8 +169,8 @@ static float buttonInitialWidth = 159.f;
   self.progressBar.percentage = numHelps/(float)maxHelps;
   
   GameState *gs = [GameState sharedGameState];
-  self.helpButtonView.hidden = ![help canHelpForUserId:gs.userId];
-  self.helpedView.hidden = ![help hasHelpedForUserId:gs.userId];
+  self.helpButtonView.hidden = ![help canHelpForUserUuid:gs.userUuid];
+  self.helpedView.hidden = ![help hasHelpedForUserUuid:gs.userUuid];
   
   [self.helpButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [self.helpButton addTarget:help action:@selector(helpClicked:) forControlEvents:UIControlEventTouchUpInside];

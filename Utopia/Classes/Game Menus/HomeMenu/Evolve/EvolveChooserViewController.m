@@ -154,7 +154,8 @@
       // Go backwards through the cata array since its ordered from highest to lowest
       NSMutableArray *catas = catalyts[@(um1.staticMonster.evolutionCatalystMonsterId)];
       for (UserMonster *um in catas.reverseObjectEnumerator) {
-        if (um.userMonsterId != um1.userMonsterId && um.userMonsterId != um2.userMonsterId) {
+        if (![um.userMonsterUuid isEqualToString:um1.userMonsterUuid] &&
+            ![um.userMonsterUuid isEqualToString:um2.userMonsterUuid]) {
           cata = um;
           break;
         }

@@ -284,7 +284,7 @@
   BOOL lowEnoughCost = [gl currentBattleReadyTeamHasCostFor:um];
   
   if ([um isAvailable] && um.curHealth > 0 && lowEnoughCost) {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterId];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterUuid];
     
     if (success) {
       [self updateTeamSlotViews];
@@ -342,7 +342,7 @@
   if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:um.userMonsterId];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:um.userMonsterUuid];
     if (success) {
       [self reloadListViewAnimated:YES];
       
@@ -364,7 +364,7 @@
   UserMonster *um = [self monsterForSlot:sender.tag];
   if (um.teamSlot) {
     int slotNum = um.teamSlot;
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterId];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterUuid];
     
     if (success) {
       [self reloadListViewAnimated:YES];

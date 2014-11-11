@@ -96,7 +96,7 @@
   // Grab the forced monsters
   NSMutableArray *team = [NSMutableArray array];
   for (FullUserMonsterProto *fup in forcedMonsters) {
-    UserMonster *um = [gs myMonsterWithUserMonsterUuid:(int)fup.userMonsterUuid];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:fup.userMonsterUuid];
     if (um) {
       [team addObject:um];
     }

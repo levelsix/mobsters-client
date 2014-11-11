@@ -1408,7 +1408,7 @@
   return [self.timeStarted dateByAddingTimeInterval:seconds];
 }
 
-- (NSDictionary *) damageDealtPerUserMonsterId {
+- (NSDictionary *) damageDealtPerUserMonsterUuid {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSMutableDictionary *damages = [NSMutableDictionary dictionary];

@@ -485,7 +485,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (!checkTango) {
       GameState *gs = [GameState sharedGameState];
-      [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userUuid withDelegate:self];
       
       if (proto.hasCurTask) {
         self.resumeUserTask = proto.curTask;
@@ -494,7 +494,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       
       // Track analytics
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
-      [Analytics setUserId:gs.userId name:gs.name email:email];
+      [Analytics setUserUuid:gs.userUuid name:gs.name email:email];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
@@ -1119,13 +1119,13 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 #pragma mark - Chat access
 
-- (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name {
+- (void) openPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name {
   // Do this so that chat view controller doesn't get removed
   NSArray *arr = self.chatViewController ? @[self.chatViewController] : nil;
   [self removeAllViewControllersWithExceptions:arr];
   
   [self openChatWithScope:ChatScopePrivate];
-  [self.chatViewController openWithConversationForUserId:userId name:name];
+  [self.chatViewController openWithConversationForUserUuid:userUuid name:name];
 }
 
 - (void) openChatWithScope:(ChatScope)scope {
@@ -1171,9 +1171,9 @@ static const CGSize FIXED_SIZE = {568, 384};
   }
 }
 
-- (void) openClanViewForClanId:(int)clanId {
+- (void) openClanViewForClanUuid:(NSString *)clanUuid {
   [self openClanView];
-  [self.clanViewController loadForClanId:clanId];
+  [self.clanViewController loadForClanUuid:clanUuid];
 }
 
 - (void) clanViewControllerDidClose:(id)cvc {

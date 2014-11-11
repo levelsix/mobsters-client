@@ -46,7 +46,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *settingsView;
 @property (nonatomic, retain) IBOutletCollection(ClanInfoSettingsButtonView) NSArray *settingsButtons;
 
-- (id) initWithClanId:(int)clanId andName:(NSString *)name;
+- (id) initWithClanUuid:(NSString *)clanUuid andName:(NSString *)name;
 - (id) initWithClan:(FullClanProtoWithClanSize *)clan;
 - (void) loadForMyClan;
 

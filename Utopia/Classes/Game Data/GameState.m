@@ -76,8 +76,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
   // Copy over data from full user proto
-  if (_userId != user.userId || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan) || self.avatarMonsterId != user.avatarMonsterId) {
-    self.userId = user.userId;
+  if (![_userUuid isEqualToString:user.userUuid] || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan) || self.avatarMonsterId != user.avatarMonsterId) {
+    self.userUuid = user.userUuid;
     self.name = user.name;
     if (user.hasClan) {
       self.clan = user.clan;
@@ -126,12 +126,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) setClan:(MinimumClanProto *)clan {
   _clan = clan;
-  self.clanHelpUtil.clanId = clan.clanId;
+  self.clanHelpUtil.clanUuid = clan.clanUuid;
 }
 
 - (FullUserProto *) convertToFullUserProto {
   FullUserProto_Builder *fup = [FullUserProto builder];
-  fup.userId = self.userId;
+  fup.userUuid = self.userUuid;
   fup.name = self.name;
   if (self.clan) fup.clan = self.clan;
   fup.level = self.level;
@@ -157,9 +157,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (MinimumUserProto *) minUser {
-  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserId:_userId];
+  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:self.name] setUserUuid:self.userUuid];
   if (_clan != nil) {
-    mup.clan = _clan;
+    mup.clan = self.clan;
   }
   mup.avatarMonsterId = self.avatarMonsterId;
   return mup.build;
@@ -354,7 +354,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyObstacles:(NSArray *)obstacles {
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UserObstacle *uo in self.myObstacles) {
-    if (uo.userObstacleId == 0) {
+    if (!uo.userObstacleUuid) {
       [toRemove addObject:uo];
     }
   }
@@ -504,10 +504,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserStruct *us in self.myStructs) {
     if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
       ResidenceProto *res = (ResidenceProto *)us.staticStructForNextFbLevel;
-      NSArray *arr = [self acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      NSArray *arr = [self acceptedFbRequestsForUserStructUuid:us.userStructUuid fbStructLevel:us.fbInviteStructLvl+1];
       if (res && res.numAcceptedFbInvites <= arr.count) {
         [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:us withGems:NO delegate:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@(us.userStructId), @"UserStructId", nil]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:us.userStructUuid, @"UserStructId", nil]];
       }
     }
   }
@@ -517,7 +517,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [NSMutableArray array];
   for (RequestFromFriend *req in self.fbAcceptedRequestsFromMe) {
     UserFacebookInviteForSlotProto *inv = req.invite;
-    if (inv.userStructId == userStructId && inv.structFbLvl == level) {
+    if ([inv.userStructUuid isEqualToString:userStructUuid] && inv.structFbLvl == level) {
       [arr addObject:req];
     }
   }
@@ -556,7 +556,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
   Globals *gl = [Globals sharedGlobals];
-  if (![gl isUserIdMuted:cm.sender.userId]) {
+  if (![gl isUserUuidMuted:cm.sender.userUuid]) {
     if (scope == GroupChatScopeGlobal) {
       [self.globalChatMessages addObject:cm];
     } else {
@@ -566,13 +566,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addPrivateChat:(PrivateChatPostProto *)post {
-  int userId = post.otherUser.userId;
+  NSString *userUuid = post.otherUser.userUuid;
   Globals *gl = [Globals sharedGlobals];
-  if (![gl isUserIdMuted:userId]) {
+  if (![gl isUserUuidMuted:userUuid]) {
     PrivateChatPostProto *privChat = nil;
     for (PrivateChatPostProto *pcpp in self.privateChats) {
-      int otherUserId = pcpp.otherUser.userId;
-      if (userId == otherUserId) {
+      NSString *otherUserUuid = pcpp.otherUser.userUuid;
+      if ([userUuid isEqualToString:otherUserUuid]) {
         privChat = pcpp;
       }
     }
@@ -613,7 +613,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self addChatMessage:cm scope:GroupChatScopeClan];
   }
   
-  self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserId:self.userId clanId:self.clan.clanId clanHelpProtos:clanData.clanHelpingsList];
+  self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -750,7 +750,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
   PersistentClanEventUserInfoProto *toRemove = nil;
   for (PersistentClanEventUserInfoProto *p in self.curClanRaidUserInfos) {
-    if (p.userUuid isEqualToString:info.userUuid]) {
+    if ([p.userUuid isEqualToString:info.userUuid]) {
       toRemove = p;
       break;
     }
@@ -819,7 +819,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (UserStruct *) myStructWithUuid:(NSString *)structUuid {
   for (UserStruct *us in self.myStructs) {
-    if ([us.userStructId isEqualToString:structUuid]) {
+    if ([us.userStructUuid isEqualToString:structUuid]) {
       return us;
     }
   }
@@ -1286,7 +1286,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (PersistentClanEventUserInfoProto *) myClanRaidInfo {
   for (PersistentClanEventUserInfoProto *info in self.curClanRaidUserInfos) {
-    if (info.userUuid isEqualToString:self.userUuid]) {
+    if ([info.userUuid isEqualToString:self.userUuid]) {
       return info;
     }
   }
@@ -1508,7 +1508,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonster *um in self.myMonsters) {
     if ([um isCombining] && um.timeLeftForCombining <= 0) {
-      [arr addObject:@(um.userMonsterId)];
+      [arr addObject:um.userMonsterUuid];
     }
   }
   
@@ -1521,7 +1521,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d %@s have finished combining!", (int)arr.count, MONSTER_NAME] isImmediate:NO];
     } else {
       GameState *gs = [GameState sharedGameState];
-      UserMonster *um = [gs myMonsterWithUserMonsterId:[arr[0] longLongValue]];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:arr[0]];
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has finished combining!", um.staticMonster.displayName] isImmediate:NO];
     }
     
@@ -1627,7 +1627,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToRequestedClans:(NSArray *)arr {
   for (FullUserClanProto *uc in arr) {
     if (uc.status == UserClanStatusRequesting) {
-      [self.requestedClans addObject:[NSNumber numberWithInt:uc.clanId]];
+      [self.requestedClans addObject:uc.clanUuid];
     } else {
       self.myClanStatus = uc.status;
     }

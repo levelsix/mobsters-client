@@ -139,7 +139,7 @@
   [self reloadTablesAnimated:YES];
   
   // Only add a private chat if it is from the other user
-  PrivateChatPostProto *pcpp = [notification.userInfo objectForKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.privateChatView.curUserId]];
+  PrivateChatPostProto *pcpp = [notification.userInfo objectForKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.privateChatView.curUserUuid]];
   if ([pcpp.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] && [pcpp.poster.minUserProto.userUuid isEqualToString:self.privateChatView.curUserUuid]) {
     [self.privateChatView addPrivateChat:pcpp];
   }
@@ -163,9 +163,9 @@
   [self button1Clicked:nil];
 }
 
-- (void) openWithConversationForUserId:(int)userId name:(NSString *)name {
+- (void) openWithConversationForUserUuid:(NSString *)userUuid name:(NSString *)name {
   [self button3Clicked:nil];
-  [self.privateChatView openConversationWithUserId:userId name:name animated:NO];
+  [self.privateChatView openConversationWithUserUuid:userUuid name:name animated:NO];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -242,38 +242,38 @@
 
 - (void) clanClicked:(MinimumClanProto *)clan {
   GameViewController *gvc = [GameViewController baseController];
-  [gvc openClanViewForClanId:clan.clanId];
+  [gvc openClanViewForClanUuid:clan.clanUuid];
   
   [self closeClicked:nil];
 }
 
-- (void) profileClicked:(int)userId {
+- (void) profileClicked:(NSString *)userUuid {
   UIViewController *gvc = [GameViewController baseController];
-  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserId:userId];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:userUuid];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];
 }
 
-- (void) beginPrivateChatWithUserId:(int)userId name:(NSString *)name {
-  [self openWithConversationForUserId:userId name:name];
+- (void) beginPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name {
+  [self openWithConversationForUserUuid:userUuid name:name];
 }
 
-- (void) muteClicked:(int)userId name:(NSString *)name {
+- (void) muteClicked:(NSString *)userUuid name:(NSString *)name {
   NSString *msg = [NSString stringWithFormat:@"Would you like to hide messages from %@ for 24 hours?", name];
   [GenericPopupController displayConfirmationWithDescription:msg title:[NSString stringWithFormat:@"Mute %@", name] okayButton:@"Mute" cancelButton:@"Cancel" target:self selector:@selector(muteConfirmed)];
   
-  _muteUserId = userId;
+  _muteUserUuid = userUuid;
   _muteName = name;
 }
 
 - (void) muteConfirmed {
   Globals *gl = [Globals sharedGlobals];
-  [gl muteUserId:_muteUserId];
+  [gl muteUserUuid:_muteUserUuid];
   
   [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just been muted.", _muteName] isImmediate:YES];
   
-  _muteUserId = 0;
+  _muteUserUuid = nil;
   _muteName = nil;
 }
 

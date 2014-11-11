@@ -27,7 +27,7 @@
 @interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
   
-  int _muteUserId;
+  NSString *_muteUserUuid;
   NSString *_muteName;
   
   BOOL _isEditing;
@@ -49,6 +49,6 @@
 
 @property (nonatomic, assign) id<ChatViewControllerDelegate> delegate;
 
-- (void) openWithConversationForUserId:(int)userId name:(NSString *)name;
+- (void) openWithConversationForUserUuid:(NSString *)userUuid name:(NSString *)name;
 
 @end

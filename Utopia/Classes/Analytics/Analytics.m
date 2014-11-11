@@ -190,8 +190,8 @@ static Class amplitudeClass = nil;
 
 #pragma mark - Attribution stuff
 
-+ (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email {
-  NSString *uid = [NSString stringWithFormat:@"%d", userId];
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email {
+  NSString *uid = userUuid;
 #ifdef MOBSTERS
   [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
   [ScopelyAttributionWrapper adjust_setUserId:uid];
@@ -387,7 +387,7 @@ static NSDate *timeSinceLastTutStep = nil;
   [self event:@"pve_match_end" withArgs:dict sendToTitan:YES];
 }
 
-+ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(int)oppId outcome:(NSString *)outcome league:(NSString *)league {
++ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(NSString *)oppId outcome:(NSString *)outcome league:(NSString *)league {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);
   dict[@"enemies_defeated"] = @(enemiesDefeated);
@@ -395,7 +395,7 @@ static NSDate *timeSinceLastTutStep = nil;
   dict[@"rounds"] = @(totalRounds);
   dict[@"elo"] = @(elo);
   dict[@"opp_elo"] = @(oppElo);
-  dict[@"opp_id"] = @(oppId);
+  dict[@"opp_id"] = oppId;
   dict[@"outcome"] = outcome;
   dict[@"league"] = league;
   

@@ -75,7 +75,7 @@
 - (IBAction) emailSupport:(id)sender {
   NSString *e = @"support@lvl6.com";
   GameState *gs = [GameState sharedGameState];
-  NSString *userId = gs.facebookId ? gs.facebookId : [NSString stringWithFormat:@"%d", gs.userId];
+  NSString *userId = gs.facebookId ? gs.facebookId : gs.userUuid;
   NSString *messageBody = [NSString stringWithFormat:@"\n\nSent by user %@ with id %@.", gs.name, userId];
   if ([MFMailComposeViewController canSendMail]) {
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];

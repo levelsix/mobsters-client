@@ -52,7 +52,7 @@
 
 @property (nonatomic, assign) id<TutorialHomeMapDelegate> delegate;
 
-@property (nonatomic, assign) int clickableUserStructId;
+@property (nonatomic, retain) NSString *clickableUserStructUuid;
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 

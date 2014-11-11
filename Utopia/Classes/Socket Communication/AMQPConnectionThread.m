@@ -15,9 +15,9 @@
 
 #define UDID_KEY [NSString stringWithFormat:@"client_udid_%@", _udid]
 #define FACEBOOK_KEY [NSString stringWithFormat:@"client_facebookid_%@", self.facebookId]
-#define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%d", gs.userId]
+#define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%@", gs.userUuid]
 #define CHAT_KEY @"chat_global"
-#define CLAN_KEY [NSString stringWithFormat:@"clan_%d", gs.clan.clanId]
+#define CLAN_KEY [NSString stringWithFormat:@"clan_%@", gs.clan.clanUuid]
 
 @implementation AMQPConnectionThread
 
@@ -100,7 +100,7 @@ static int sessionId;
 - (void) initClanMessageQueue {
   GameState *gs = [GameState sharedGameState];
   [self destroyClanMessageQueue];
-  if (gs.clan.clanId) {
+  if (gs.clan.clanUuid) {
     NSString *useridKey = USER_ID_KEY;
     self.lastClanKey = CLAN_KEY;
     _clanQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_clan_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];

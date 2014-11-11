@@ -59,7 +59,7 @@
 - (id) initWithBaseMonster:(UserMonster *)um {
   if ((self = [super init])) {
     EnhancementItem *ei = [[EnhancementItem alloc] init];
-    ei.userMonsterId = um.userMonsterId;
+    ei.userMonsterUuid = um.userMonsterUuid;
     
     UserEnhancement *ue = [[UserEnhancement alloc] init];
     ue.baseMonster = ei;
@@ -264,7 +264,7 @@
     
     self.totalTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:ue.baseMonster.userMonsterId] < 0;
+    BOOL canHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataUuid:ue.baseMonster.userMonsterUuid] < 0;
     
     self.finishButtonView.hidden = NO;
     
@@ -347,7 +347,7 @@
   NSMutableArray *arr = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
-    if (um.isAvailable && um.userMonsterId != self.currentEnhancement.baseMonster.userMonsterId && ![self.currentEnhancement.feeders containsObject:um]) {
+    if (um.isAvailable && ![um.userMonsterUuid isEqualToString:self.currentEnhancement.baseMonster.userMonsterUuid] && ![self.currentEnhancement.feeders containsObject:um]) {
       [arr addObject:um];
     }
   }
@@ -360,10 +360,10 @@
     }
     
     EnhancementItem *ei = [[EnhancementItem alloc] init];
-    ei.userMonsterId = obj1.userMonsterId;
+    ei.userMonsterUuid = obj1.userMonsterUuid;
     float exp1 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
     
-    ei.userMonsterId = obj2.userMonsterId;
+    ei.userMonsterUuid = obj2.userMonsterUuid;
     float exp2 = [gl calculateExperienceIncrease:ue.baseMonster feeder:ei];
     if (exp1 != exp2) {
       return [@(exp2) compare:@(exp1)];
@@ -476,7 +476,7 @@
     UserEnhancement *ue = self.currentEnhancement;
     
     EnhancementItem *ei = [[EnhancementItem alloc] init];
-    ei.userMonsterId = um.userMonsterId;
+    ei.userMonsterUuid = um.userMonsterUuid;
     ei.enhancementCost = [gl calculateOilCostForNewMonsterWithEnhancement:ue feeder:ei];
     [ue.feeders addObject:ei];
     

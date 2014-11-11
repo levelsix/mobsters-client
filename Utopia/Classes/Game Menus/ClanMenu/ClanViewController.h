@@ -43,6 +43,6 @@
 
 @property (nonatomic, assign) id<ClanViewControllerDelegate> delegate;
 
-- (void) loadForClanId:(int)clanId;
+- (void) loadForClanUuid:(NSString *)clanUuid;
 
 @end

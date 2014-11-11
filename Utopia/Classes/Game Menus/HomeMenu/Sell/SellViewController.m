@@ -235,7 +235,7 @@
 - (void) sell {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonster *um in self.sellQueue) {
-    [arr addObject:@(um.userMonsterId)];
+    [arr addObject:um.userMonsterUuid];
   }
   
   [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:arr];

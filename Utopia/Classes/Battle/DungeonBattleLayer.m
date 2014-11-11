@@ -277,7 +277,7 @@
     [GenericPopupController displayNotificationViewWithText:@"You do not have enough gems to continue this dungeon." title:@"Not enough gems"];
   } else {
     if (gemsAmount > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId taskId:self.dungeonInfo.taskId myTeam:self.myTeam];
+      [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskUuid taskId:self.dungeonInfo.taskId myTeam:self.myTeam];
     }
     [super continueConfirmed];
     _numAttemptedRunaways = 0;
@@ -330,7 +330,7 @@
 - (void) resumeFromUserTask:(MinimumUserTaskProto *)task stages:(NSArray *)stages {
   BeginDungeonResponseProto_Builder *bldr = [BeginDungeonResponseProto builder];
   bldr.taskId = task.taskId;
-  bldr.userTaskId = task.userTaskId;
+  bldr.userTaskUuid = task.userTaskUuid;
   [bldr addAllTsp:stages];
   
   FullEvent *fe = [[FullEvent alloc] init];
@@ -418,7 +418,7 @@
   BattlePlayer *bp = nil;
   if (_isResumingState) {
     for (BattlePlayer *b in self.myTeam) {
-      if (b.userMonsterId == _resumedUserMonsterId) {
+      if ([b.userMonsterUuid isEqualToString:_resumedUserMonsterUuid]) {
         bp = b;
       }
     }
@@ -555,9 +555,9 @@
   NSDictionary *dict = [defaults objectForKey:DUNGEON_DEFAULT_KEY];
   
   if (dict) {
-    NSInteger userTaskId = [[dict objectForKey:USER_TASK_KEY] integerValue];
+    NSString *userTaskUuid = [dict objectForKey:USER_TASK_KEY];
     NSInteger curStage = [[dict objectForKey:CUR_STAGE_KEY] integerValue];
-    if (self.dungeonInfo.userTaskId == userTaskId && curStage == _curStage+1) {
+    if ([self.dungeonInfo.userTaskUuid isEqualToString:userTaskUuid] && curStage == _curStage+1) {
       [self deserializeAndResumeState:dict];
       _isResumingState = YES;
     } else {
@@ -574,9 +574,9 @@
   [dict setObject:@(self.enemyPlayerObject.curHealth) forKey:ENEMY_HEALTH_KEY];
   [dict setObject:[self.orbLayer serialize] forKey:BOARD_CONFIG_KEY];
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
-  [dict setObject:@(self.dungeonInfo.userTaskId) forKey:USER_TASK_KEY];
+  [dict setObject:self.dungeonInfo.userTaskUuid forKey:USER_TASK_KEY];
   [dict setObject:@(_numAttemptedRunaways) forKey:RUNAWAY_COUNT_KEY];
-  [dict setObject:@(self.myPlayerObject.userMonsterId) forKey:MY_USER_MONSTER_ID_KEY];
+  [dict setObject:self.myPlayerObject.userMonsterUuid forKey:MY_USER_MONSTER_ID_KEY];
   
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
@@ -636,7 +636,7 @@
   self.battleSchedule = [[BattleSchedule alloc] initWithSequence:schedule currentIndex:curIdx-1];
   _shouldDisplayNewSchedule = YES;
   
-  _resumedUserMonsterId = [[stateDict objectForKey:MY_USER_MONSTER_ID_KEY] longLongValue];
+  _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
   
   [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];
 }

@@ -917,7 +917,7 @@
 
 - (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
   if (_enemyDamageDealt || !verify) {
-    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterId curHealth:self.myPlayerObject.curHealth];
+    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterUuid curHealth:self.myPlayerObject.curHealth];
   }
 }
 
@@ -1871,7 +1871,7 @@
 - (void) deployBattleSprite:(BattlePlayer *)bp {
   [self.hudView removeDeployView];
   BOOL isSwap = self.myPlayer != nil;
-  if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
+  if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
     
     [self createScheduleWithSwap:isSwap];

@@ -32,8 +32,8 @@
   self.progressBar.percentage = numHelps/(float)maxHelps;
   
   GameState *gs = [GameState sharedGameState];
-  self.helpButtonView.hidden = ![help canHelpForUserId:gs.userId];
-  self.helpedView.hidden = ![help hasHelpedForUserId:gs.userId];
+  self.helpButtonView.hidden = ![help canHelpForUserUuid:gs.userUuid];
+  self.helpedView.hidden = ![help hasHelpedForUserUuid:gs.userUuid];
   
   self.clanHelp = help;
 }
@@ -77,7 +77,7 @@
   NSMutableSet *newHelps = [NSMutableSet setWithArray:arr];
   
   for (id<ClanHelp> ch in self.helpsArray) {
-    if ([ch clanId] == gs.clan.clanId) {
+    if ([[ch clanUuid] isEqualToString:gs.clan.clanUuid]) {
       [newHelps addObject:ch];
     }
   }
@@ -178,7 +178,7 @@
   
   if (sender) {
     ClanHelpCell *cell = (ClanHelpCell *)sender;
-    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserId:[cell.clanHelp requester].userId];
+    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserUuid:[cell.clanHelp requester].userUuid];
     UIViewController *parent = [GameViewController baseController];
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];

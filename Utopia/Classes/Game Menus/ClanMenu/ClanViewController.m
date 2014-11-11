@@ -83,8 +83,8 @@
   }
 }
 
-- (void) loadForClanId:(int)clanId {
-  ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanId:clanId andName:nil];
+- (void) loadForClanUuid:(NSString *)clanUuid {
+  ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanUuid:clanUuid andName:nil];
   [self replaceRootWithViewController:civc];
   
   // Don't click any of the buttons
@@ -178,7 +178,7 @@
 
 - (void) handleClanEventLeaveClanResponseProto:(LeaveClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if (proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -186,7 +186,7 @@
 
 - (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if (proto.requester.userUuid isEqualToString:gs.userUuid] && proto.accept && proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+  if ([proto.requester.userUuid isEqualToString:gs.userUuid] && proto.accept && proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -194,7 +194,7 @@
 
 - (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if (proto.playerToBoot.userUuid isEqualToString:gs.userUuid] && proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
+  if ([proto.playerToBoot.userUuid isEqualToString:gs.userUuid] && proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -202,7 +202,7 @@
 
 - (void) handleClanEventRequestJoinClanResponseProto:(LeaveClanResponseProto *)proto {
   GameState *gs = [GameState sharedGameState];
-  if (proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
+  if ([proto.sender.userUuid isEqualToString:gs.userUuid] && proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
     [self updateConfiguration];
     [self button1Clicked:_activeTopBar];
   }
@@ -213,7 +213,7 @@
   
   GameState *gs = [GameState sharedGameState];
   RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
-  if (proto.clanInfoList.count == 1 && ((FullClanProtoWithClanSize *)proto.clanInfoList[0]).clan.clanId == gs.clan.clanId) {
+  if (proto.clanInfoList.count == 1 && [((FullClanProtoWithClanSize *)proto.clanInfoList[0]).clan.clanUuid isEqualToString:gs.clan.clanUuid]) {
     if (!self.clanRaidViewController.raidViewController.leaderboardViewController.allMembers) {
       [self.clanRaidViewController.raidViewController.leaderboardViewController createMembersListFromClanMembers:proto.membersList];
     }

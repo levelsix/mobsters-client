@@ -498,14 +498,14 @@
 - (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um1 = [[UserMonster alloc] init];
-  um1.userMonsterId = 1;
+  um1.userMonsterUuid = @"1";
   um1.monsterId = constants.startingMonsterId;
   um1.level = 1;
   um1.curHealth = [gl calculateMaxHealthForMonster:um1];
   um1.teamSlot = 1;
   
   UserMonster *um2 = [[UserMonster alloc] init];
-  um2.userMonsterId = 2;
+  um2.userMonsterUuid = @"2";
   um2.monsterId = constants.markZmonsterId;
   um2.level = 15;
   um2.curHealth = [gl calculateMaxHealthForMonster:um2];

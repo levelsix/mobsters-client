@@ -122,7 +122,7 @@
 }
 
 - (void) teamOpened {
-  [self.teamViewController allowEquip:self.lootUserMonsterId];
+  [self.teamViewController allowEquip:self.lootUserMonsterUuid];
 }
 
 - (void) enterTeamCenterClicked {

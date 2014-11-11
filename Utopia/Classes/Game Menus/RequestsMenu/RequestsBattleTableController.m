@@ -136,7 +136,7 @@
   
   if (cell.battleHistory.attacker.hasClan) {
     GameViewController *gvc = [GameViewController baseController];
-    ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanId:cell.battleHistory.attacker.clan.clanId andName:cell.battleHistory.attacker.clan.name];
+    ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanUuid:cell.battleHistory.attacker.clan.clanUuid andName:cell.battleHistory.attacker.clan.name];
     
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
     [gvc presentViewController:m animated:YES completion:nil];
