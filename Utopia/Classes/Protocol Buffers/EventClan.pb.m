@@ -5832,7 +5832,7 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
 
 @interface BootPlayerFromClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t playerToBoot;
+@property (strong) NSString* playerToBootUuid;
 @end
 
 @implementation BootPlayerFromClanRequestProto
@@ -5844,17 +5844,17 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasPlayerToBoot {
-  return !!hasPlayerToBoot_;
+- (BOOL) hasPlayerToBootUuid {
+  return !!hasPlayerToBootUuid_;
 }
-- (void) setHasPlayerToBoot:(BOOL) value_ {
-  hasPlayerToBoot_ = !!value_;
+- (void) setHasPlayerToBootUuid:(BOOL) value_ {
+  hasPlayerToBootUuid_ = !!value_;
 }
-@synthesize playerToBoot;
+@synthesize playerToBootUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.playerToBoot = 0;
+    self.playerToBootUuid = @"";
   }
   return self;
 }
@@ -5877,8 +5877,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasPlayerToBoot) {
-    [output writeInt32:2 value:self.playerToBoot];
+  if (self.hasPlayerToBootUuid) {
+    [output writeString:2 value:self.playerToBootUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5892,8 +5892,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasPlayerToBoot) {
-    size_ += computeInt32Size(2, self.playerToBoot);
+  if (self.hasPlayerToBootUuid) {
+    size_ += computeStringSize(2, self.playerToBootUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -5936,8 +5936,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasPlayerToBoot) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"playerToBoot", [NSNumber numberWithInteger:self.playerToBoot]];
+  if (self.hasPlayerToBootUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"playerToBootUuid", self.playerToBootUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -5952,8 +5952,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasPlayerToBoot == otherMessage.hasPlayerToBoot &&
-      (!self.hasPlayerToBoot || self.playerToBoot == otherMessage.playerToBoot) &&
+      self.hasPlayerToBootUuid == otherMessage.hasPlayerToBootUuid &&
+      (!self.hasPlayerToBootUuid || [self.playerToBootUuid isEqual:otherMessage.playerToBootUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -5961,8 +5961,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasPlayerToBoot) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.playerToBoot] hash];
+  if (self.hasPlayerToBootUuid) {
+    hashCode = hashCode * 31 + [self.playerToBootUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6010,8 +6010,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasPlayerToBoot) {
-    [self setPlayerToBoot:other.playerToBoot];
+  if (other.hasPlayerToBootUuid) {
+    [self setPlayerToBootUuid:other.playerToBootUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6043,8 +6043,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setPlayerToBoot:[input readInt32]];
+      case 18: {
+        [self setPlayerToBootUuid:[input readString]];
         break;
       }
     }
@@ -6080,20 +6080,20 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasPlayerToBoot {
-  return result.hasPlayerToBoot;
+- (BOOL) hasPlayerToBootUuid {
+  return result.hasPlayerToBootUuid;
 }
-- (int32_t) playerToBoot {
-  return result.playerToBoot;
+- (NSString*) playerToBootUuid {
+  return result.playerToBootUuid;
 }
-- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBoot:(int32_t) value {
-  result.hasPlayerToBoot = YES;
-  result.playerToBoot = value;
+- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBootUuid:(NSString*) value {
+  result.hasPlayerToBootUuid = YES;
+  result.playerToBootUuid = value;
   return self;
 }
-- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBoot {
-  result.hasPlayerToBoot = NO;
-  result.playerToBoot = 0;
+- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBootUuid {
+  result.hasPlayerToBootUuid = NO;
+  result.playerToBootUuid = @"";
   return self;
 }
 @end

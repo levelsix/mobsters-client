@@ -19,7 +19,7 @@
 #define EXPANSION_MID_SQUARE_SIZE 6
 #define EXPANSION_ROAD_SIZE 2
 
-#define STRUCT_TAG(d) [NSString stringWithFormat:@"UserStruct%d", d]
+#define STRUCT_TAG(d) [NSString stringWithFormat:@"UserStruct%@", d]
 
 @class HomeBuildingMenu;
 

@@ -22,13 +22,13 @@
   BOOL _allowClose;
 }
 
-@property (nonatomic, assign) uint64_t clickableUserMonsterId;
+@property (nonatomic, retain) NSString *clickableUserMonsterUuid;
 
 @property (nonatomic, assign) id<TutorialTeamDelegate> delegate;
 
-- (void) moveToMonster:(uint64_t)userMonsterId;
+- (void) moveToMonster:(NSString *)userMonsterUuid;
 - (void) unequipSlotThree;
-- (void) allowEquip:(uint64_t)userMonsterId;
+- (void) allowEquip:(NSString *)userMonsterUuid;
 - (void) allowClose;
 
 @end

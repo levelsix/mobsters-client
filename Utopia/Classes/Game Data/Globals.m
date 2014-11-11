@@ -1640,7 +1640,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (BattlePlayer *bp in team) {
     UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
     heal.queueTime = [MSDate date];
-    heal.userMonsterId = bp.userMonsterId;
+    heal.userMonsterUuid = bp.userMonsterUuid;
     [fakeQueue addObject:heal];
   }
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];

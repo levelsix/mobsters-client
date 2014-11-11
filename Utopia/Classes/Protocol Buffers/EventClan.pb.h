@@ -1568,15 +1568,15 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 
 @interface BootPlayerFromClanRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasPlayerToBoot_:1;
+  BOOL hasPlayerToBootUuid_:1;
   BOOL hasSender_:1;
-  int32_t playerToBoot;
+  NSString* playerToBootUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasPlayerToBoot;
+- (BOOL) hasPlayerToBootUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t playerToBoot;
+@property (readonly, strong) NSString* playerToBootUuid;
 
 + (BootPlayerFromClanRequestProto*) defaultInstance;
 - (BootPlayerFromClanRequestProto*) defaultInstance;
@@ -1620,10 +1620,10 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (BootPlayerFromClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BootPlayerFromClanRequestProto_Builder*) clearSender;
 
-- (BOOL) hasPlayerToBoot;
-- (int32_t) playerToBoot;
-- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBoot:(int32_t) value;
-- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBoot;
+- (BOOL) hasPlayerToBootUuid;
+- (NSString*) playerToBootUuid;
+- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBootUuid:(NSString*) value;
+- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBootUuid;
 @end
 
 @interface BootPlayerFromClanResponseProto : PBGeneratedMessage {
