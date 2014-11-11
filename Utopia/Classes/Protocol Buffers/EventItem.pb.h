@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "BoosterPackStuff.pb.h"
+#import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -17,6 +18,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
@@ -45,6 +48,10 @@
 @class TradeItemForBoosterRequestProto_Builder;
 @class TradeItemForBoosterResponseProto;
 @class TradeItemForBoosterResponseProto_Builder;
+@class TradeItemForSpeedUpsRequestProto;
+@class TradeItemForSpeedUpsRequestProto_Builder;
+@class TradeItemForSpeedUpsResponseProto;
+@class TradeItemForSpeedUpsResponseProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -53,6 +60,10 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserItemProto;
+@class UserItemProto_Builder;
+@class UserItemUsageProto;
+@class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -82,6 +93,13 @@ typedef enum {
 } TradeItemForBoosterResponseProto_TradeItemForBoosterStatus;
 
 BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus value);
+
+typedef enum {
+  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess = 1,
+  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusFailOther = 2,
+} TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus;
+
+BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value);
 
 
 @interface EventItemRoot : NSObject {
@@ -237,6 +255,144 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (TradeItemForBoosterResponseProto_Builder*) setPrize_Builder:(BoosterItemProto_Builder*) builderForValue;
 - (TradeItemForBoosterResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
 - (TradeItemForBoosterResponseProto_Builder*) clearPrize;
+@end
+
+@interface TradeItemForSpeedUpsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableItemsUsedList;
+  NSMutableArray * mutableNuUserItemsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * itemsUsedList;
+@property (readonly, strong) NSArray * nuUserItemsList;
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
+
++ (TradeItemForSpeedUpsRequestProto*) defaultInstance;
+- (TradeItemForSpeedUpsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TradeItemForSpeedUpsRequestProto_Builder*) builder;
++ (TradeItemForSpeedUpsRequestProto_Builder*) builder;
++ (TradeItemForSpeedUpsRequestProto_Builder*) builderWithPrototype:(TradeItemForSpeedUpsRequestProto*) prototype;
+- (TradeItemForSpeedUpsRequestProto_Builder*) toBuilder;
+
++ (TradeItemForSpeedUpsRequestProto*) parseFromData:(NSData*) data;
++ (TradeItemForSpeedUpsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForSpeedUpsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (TradeItemForSpeedUpsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForSpeedUpsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TradeItemForSpeedUpsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TradeItemForSpeedUpsRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TradeItemForSpeedUpsRequestProto* result;
+}
+
+- (TradeItemForSpeedUpsRequestProto*) defaultInstance;
+
+- (TradeItemForSpeedUpsRequestProto_Builder*) clear;
+- (TradeItemForSpeedUpsRequestProto_Builder*) clone;
+
+- (TradeItemForSpeedUpsRequestProto*) build;
+- (TradeItemForSpeedUpsRequestProto*) buildPartial;
+
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFrom:(TradeItemForSpeedUpsRequestProto*) other;
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TradeItemForSpeedUpsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TradeItemForSpeedUpsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TradeItemForSpeedUpsRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)itemsUsedList;
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
+- (TradeItemForSpeedUpsRequestProto_Builder *)addItemsUsed:(UserItemUsageProto*)value;
+- (TradeItemForSpeedUpsRequestProto_Builder *)addAllItemsUsed:(NSArray *)array;
+- (TradeItemForSpeedUpsRequestProto_Builder *)clearItemsUsed;
+
+- (NSMutableArray *)nuUserItemsList;
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
+- (TradeItemForSpeedUpsRequestProto_Builder *)addNuUserItems:(UserItemProto*)value;
+- (TradeItemForSpeedUpsRequestProto_Builder *)addAllNuUserItems:(NSArray *)array;
+- (TradeItemForSpeedUpsRequestProto_Builder *)clearNuUserItems;
+@end
+
+@interface TradeItemForSpeedUpsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+  NSMutableArray * mutableItemsUsedList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+@property (readonly, strong) NSArray * itemsUsedList;
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
+
++ (TradeItemForSpeedUpsResponseProto*) defaultInstance;
+- (TradeItemForSpeedUpsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TradeItemForSpeedUpsResponseProto_Builder*) builder;
++ (TradeItemForSpeedUpsResponseProto_Builder*) builder;
++ (TradeItemForSpeedUpsResponseProto_Builder*) builderWithPrototype:(TradeItemForSpeedUpsResponseProto*) prototype;
+- (TradeItemForSpeedUpsResponseProto_Builder*) toBuilder;
+
++ (TradeItemForSpeedUpsResponseProto*) parseFromData:(NSData*) data;
++ (TradeItemForSpeedUpsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForSpeedUpsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (TradeItemForSpeedUpsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForSpeedUpsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TradeItemForSpeedUpsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TradeItemForSpeedUpsResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TradeItemForSpeedUpsResponseProto* result;
+}
+
+- (TradeItemForSpeedUpsResponseProto*) defaultInstance;
+
+- (TradeItemForSpeedUpsResponseProto_Builder*) clear;
+- (TradeItemForSpeedUpsResponseProto_Builder*) clone;
+
+- (TradeItemForSpeedUpsResponseProto*) build;
+- (TradeItemForSpeedUpsResponseProto*) buildPartial;
+
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFrom:(TradeItemForSpeedUpsResponseProto*) other;
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TradeItemForSpeedUpsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TradeItemForSpeedUpsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) status;
+- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) value;
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatus;
+
+- (NSMutableArray *)itemsUsedList;
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index;
+- (TradeItemForSpeedUpsResponseProto_Builder *)addItemsUsed:(UserItemUsageProto*)value;
+- (TradeItemForSpeedUpsResponseProto_Builder *)addAllItemsUsed:(NSArray *)array;
+- (TradeItemForSpeedUpsResponseProto_Builder *)clearItemsUsed;
 @end
 
 

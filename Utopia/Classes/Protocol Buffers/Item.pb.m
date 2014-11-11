@@ -33,20 +33,20 @@ BOOL ItemTypeIsValidValue(ItemType value) {
   }
 }
 @interface UserItemProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t itemId;
 @property int32_t quantity;
 @end
 
 @implementation UserItemProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasItemId {
   return !!hasItemId_;
 }
@@ -63,7 +63,7 @@ BOOL ItemTypeIsValidValue(ItemType value) {
 @synthesize quantity;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.itemId = 0;
     self.quantity = 0;
   }
@@ -85,8 +85,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasItemId) {
     [output writeInt32:2 value:self.itemId];
@@ -103,8 +103,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasItemId) {
     size_ += computeInt32Size(2, self.itemId);
@@ -147,8 +147,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   return [UserItemProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasItemId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
@@ -167,8 +167,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   }
   UserItemProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasItemId == otherMessage.hasItemId &&
       (!self.hasItemId || self.itemId == otherMessage.itemId) &&
       self.hasQuantity == otherMessage.hasQuantity &&
@@ -177,8 +177,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasItemId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
@@ -229,8 +229,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
   if (other == [UserItemProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasItemId) {
     [self setItemId:other.itemId];
@@ -259,8 +259,8 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -274,20 +274,20 @@ static UserItemProto* defaultUserItemProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserItemProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserItemProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserItemProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserItemProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasItemId {
@@ -806,30 +806,30 @@ static ItemProto* defaultItemProtoInstance = nil;
 @end
 
 @interface UserItemUsageProto ()
-@property int64_t usageId;
-@property int32_t userId;
+@property (strong) NSString* usageUuid;
+@property (strong) NSString* userUuid;
 @property int32_t itemId;
 @property int64_t timeOfEntry;
-@property int64_t userDataId;
+@property (strong) NSString* userDataUuid;
 @property GameActionType actionType;
 @end
 
 @implementation UserItemUsageProto
 
-- (BOOL) hasUsageId {
-  return !!hasUsageId_;
+- (BOOL) hasUsageUuid {
+  return !!hasUsageUuid_;
 }
-- (void) setHasUsageId:(BOOL) value_ {
-  hasUsageId_ = !!value_;
+- (void) setHasUsageUuid:(BOOL) value_ {
+  hasUsageUuid_ = !!value_;
 }
-@synthesize usageId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+@synthesize usageUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasItemId {
   return !!hasItemId_;
 }
@@ -844,13 +844,13 @@ static ItemProto* defaultItemProtoInstance = nil;
   hasTimeOfEntry_ = !!value_;
 }
 @synthesize timeOfEntry;
-- (BOOL) hasUserDataId {
-  return !!hasUserDataId_;
+- (BOOL) hasUserDataUuid {
+  return !!hasUserDataUuid_;
 }
-- (void) setHasUserDataId:(BOOL) value_ {
-  hasUserDataId_ = !!value_;
+- (void) setHasUserDataUuid:(BOOL) value_ {
+  hasUserDataUuid_ = !!value_;
 }
-@synthesize userDataId;
+@synthesize userDataUuid;
 - (BOOL) hasActionType {
   return !!hasActionType_;
 }
@@ -860,11 +860,11 @@ static ItemProto* defaultItemProtoInstance = nil;
 @synthesize actionType;
 - (id) init {
   if ((self = [super init])) {
-    self.usageId = 0L;
-    self.userId = 0;
+    self.usageUuid = @"";
+    self.userUuid = @"";
     self.itemId = 0;
     self.timeOfEntry = 0L;
-    self.userDataId = 0L;
+    self.userDataUuid = @"";
     self.actionType = GameActionTypeNoHelp;
   }
   return self;
@@ -885,11 +885,11 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUsageId) {
-    [output writeInt64:1 value:self.usageId];
+  if (self.hasUsageUuid) {
+    [output writeString:1 value:self.usageUuid];
   }
-  if (self.hasUserId) {
-    [output writeInt32:2 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
   if (self.hasItemId) {
     [output writeInt32:3 value:self.itemId];
@@ -897,8 +897,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (self.hasTimeOfEntry) {
     [output writeInt64:4 value:self.timeOfEntry];
   }
-  if (self.hasUserDataId) {
-    [output writeInt64:5 value:self.userDataId];
+  if (self.hasUserDataUuid) {
+    [output writeString:5 value:self.userDataUuid];
   }
   if (self.hasActionType) {
     [output writeEnum:6 value:self.actionType];
@@ -912,11 +912,11 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUsageId) {
-    size_ += computeInt64Size(1, self.usageId);
+  if (self.hasUsageUuid) {
+    size_ += computeStringSize(1, self.usageUuid);
   }
-  if (self.hasUserId) {
-    size_ += computeInt32Size(2, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
   }
   if (self.hasItemId) {
     size_ += computeInt32Size(3, self.itemId);
@@ -924,8 +924,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (self.hasTimeOfEntry) {
     size_ += computeInt64Size(4, self.timeOfEntry);
   }
-  if (self.hasUserDataId) {
-    size_ += computeInt64Size(5, self.userDataId);
+  if (self.hasUserDataUuid) {
+    size_ += computeStringSize(5, self.userDataUuid);
   }
   if (self.hasActionType) {
     size_ += computeEnumSize(6, self.actionType);
@@ -965,11 +965,11 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   return [UserItemUsageProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUsageId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"usageId", [NSNumber numberWithLongLong:self.usageId]];
+  if (self.hasUsageUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"usageUuid", self.usageUuid];
   }
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasItemId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
@@ -977,8 +977,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (self.hasTimeOfEntry) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeOfEntry", [NSNumber numberWithLongLong:self.timeOfEntry]];
   }
-  if (self.hasUserDataId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userDataId", [NSNumber numberWithLongLong:self.userDataId]];
+  if (self.hasUserDataUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userDataUuid", self.userDataUuid];
   }
   if (self.hasActionType) {
     [output appendFormat:@"%@%@: %d\n", indent, @"actionType", self.actionType];
@@ -994,27 +994,27 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   }
   UserItemUsageProto *otherMessage = other;
   return
-      self.hasUsageId == otherMessage.hasUsageId &&
-      (!self.hasUsageId || self.usageId == otherMessage.usageId) &&
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUsageUuid == otherMessage.hasUsageUuid &&
+      (!self.hasUsageUuid || [self.usageUuid isEqual:otherMessage.usageUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasItemId == otherMessage.hasItemId &&
       (!self.hasItemId || self.itemId == otherMessage.itemId) &&
       self.hasTimeOfEntry == otherMessage.hasTimeOfEntry &&
       (!self.hasTimeOfEntry || self.timeOfEntry == otherMessage.timeOfEntry) &&
-      self.hasUserDataId == otherMessage.hasUserDataId &&
-      (!self.hasUserDataId || self.userDataId == otherMessage.userDataId) &&
+      self.hasUserDataUuid == otherMessage.hasUserDataUuid &&
+      (!self.hasUserDataUuid || [self.userDataUuid isEqual:otherMessage.userDataUuid]) &&
       self.hasActionType == otherMessage.hasActionType &&
       (!self.hasActionType || self.actionType == otherMessage.actionType) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUsageId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.usageId] hash];
+  if (self.hasUsageUuid) {
+    hashCode = hashCode * 31 + [self.usageUuid hash];
   }
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasItemId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
@@ -1022,8 +1022,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (self.hasTimeOfEntry) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfEntry] hash];
   }
-  if (self.hasUserDataId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userDataId] hash];
+  if (self.hasUserDataUuid) {
+    hashCode = hashCode * 31 + [self.userDataUuid hash];
   }
   if (self.hasActionType) {
     hashCode = hashCode * 31 + self.actionType;
@@ -1071,11 +1071,11 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (other == [UserItemUsageProto defaultInstance]) {
     return self;
   }
-  if (other.hasUsageId) {
-    [self setUsageId:other.usageId];
+  if (other.hasUsageUuid) {
+    [self setUsageUuid:other.usageUuid];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasItemId) {
     [self setItemId:other.itemId];
@@ -1083,8 +1083,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if (other.hasTimeOfEntry) {
     [self setTimeOfEntry:other.timeOfEntry];
   }
-  if (other.hasUserDataId) {
-    [self setUserDataId:other.userDataId];
+  if (other.hasUserDataUuid) {
+    [self setUserDataUuid:other.userDataUuid];
   }
   if (other.hasActionType) {
     [self setActionType:other.actionType];
@@ -1110,12 +1110,12 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUsageId:[input readInt64]];
+      case 10: {
+        [self setUsageUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserId:[input readInt32]];
+      case 18: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1126,8 +1126,8 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
         [self setTimeOfEntry:[input readInt64]];
         break;
       }
-      case 40: {
-        [self setUserDataId:[input readInt64]];
+      case 42: {
+        [self setUserDataUuid:[input readString]];
         break;
       }
       case 48: {
@@ -1142,36 +1142,36 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUsageId {
-  return result.hasUsageId;
+- (BOOL) hasUsageUuid {
+  return result.hasUsageUuid;
 }
-- (int64_t) usageId {
-  return result.usageId;
+- (NSString*) usageUuid {
+  return result.usageUuid;
 }
-- (UserItemUsageProto_Builder*) setUsageId:(int64_t) value {
-  result.hasUsageId = YES;
-  result.usageId = value;
+- (UserItemUsageProto_Builder*) setUsageUuid:(NSString*) value {
+  result.hasUsageUuid = YES;
+  result.usageUuid = value;
   return self;
 }
-- (UserItemUsageProto_Builder*) clearUsageId {
-  result.hasUsageId = NO;
-  result.usageId = 0L;
+- (UserItemUsageProto_Builder*) clearUsageUuid {
+  result.hasUsageUuid = NO;
+  result.usageUuid = @"";
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserItemUsageProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserItemUsageProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserItemUsageProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserItemUsageProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasItemId {
@@ -1206,20 +1206,20 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   result.timeOfEntry = 0L;
   return self;
 }
-- (BOOL) hasUserDataId {
-  return result.hasUserDataId;
+- (BOOL) hasUserDataUuid {
+  return result.hasUserDataUuid;
 }
-- (int64_t) userDataId {
-  return result.userDataId;
+- (NSString*) userDataUuid {
+  return result.userDataUuid;
 }
-- (UserItemUsageProto_Builder*) setUserDataId:(int64_t) value {
-  result.hasUserDataId = YES;
-  result.userDataId = value;
+- (UserItemUsageProto_Builder*) setUserDataUuid:(NSString*) value {
+  result.hasUserDataUuid = YES;
+  result.userDataUuid = value;
   return self;
 }
-- (UserItemUsageProto_Builder*) clearUserDataId {
-  result.hasUserDataId = NO;
-  result.userDataId = 0L;
+- (UserItemUsageProto_Builder*) clearUserDataUuid {
+  result.hasUserDataUuid = NO;
+  result.userDataUuid = @"";
   return self;
 }
 - (BOOL) hasActionType {

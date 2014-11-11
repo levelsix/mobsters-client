@@ -307,21 +307,21 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @interface BeginMiniJobRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasUserMiniJobId_:1;
+  BOOL hasUserMiniJobUuid_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
-  int64_t userMiniJobId;
+  NSString* userMiniJobUuid;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
-- (BOOL) hasUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
-@property (readonly, strong) PBArray * userMonsterIdsList;
-@property (readonly) int64_t userMiniJobId;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
+@property (readonly, strong) NSString* userMiniJobUuid;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (BeginMiniJobRequestProto*) defaultInstance;
 - (BeginMiniJobRequestProto*) defaultInstance;
@@ -370,17 +370,16 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BeginMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
 - (BeginMiniJobRequestProto_Builder*) clearClientTime;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (BeginMiniJobRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (BeginMiniJobRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (BeginMiniJobRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (BeginMiniJobRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (BeginMiniJobRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (BeginMiniJobRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (BeginMiniJobRequestProto_Builder *)clearUserMonsterUuids;
 
-- (BOOL) hasUserMiniJobId;
-- (int64_t) userMiniJobId;
-- (BeginMiniJobRequestProto_Builder*) setUserMiniJobId:(int64_t) value;
-- (BeginMiniJobRequestProto_Builder*) clearUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
+- (NSString*) userMiniJobUuid;
+- (BeginMiniJobRequestProto_Builder*) setUserMiniJobUuid:(NSString*) value;
+- (BeginMiniJobRequestProto_Builder*) clearUserMiniJobUuid;
 @end
 
 @interface BeginMiniJobResponseProto : PBGeneratedMessage {
@@ -447,23 +446,23 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @private
   BOOL hasIsSpeedUp_:1;
   BOOL hasClientTime_:1;
-  BOOL hasUserMiniJobId_:1;
   BOOL hasGemCost_:1;
+  BOOL hasUserMiniJobUuid_:1;
   BOOL hasSender_:1;
   BOOL isSpeedUp_:1;
   int64_t clientTime;
-  int64_t userMiniJobId;
   int32_t gemCost;
+  NSString* userMiniJobUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
-- (BOOL) hasUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
 - (BOOL) hasIsSpeedUp;
 - (BOOL) hasGemCost;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
-@property (readonly) int64_t userMiniJobId;
+@property (readonly, strong) NSString* userMiniJobUuid;
 - (BOOL) isSpeedUp;
 @property (readonly) int32_t gemCost;
 
@@ -514,10 +513,10 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (CompleteMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
 - (CompleteMiniJobRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasUserMiniJobId;
-- (int64_t) userMiniJobId;
-- (CompleteMiniJobRequestProto_Builder*) setUserMiniJobId:(int64_t) value;
-- (CompleteMiniJobRequestProto_Builder*) clearUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
+- (NSString*) userMiniJobUuid;
+- (CompleteMiniJobRequestProto_Builder*) setUserMiniJobUuid:(NSString*) value;
+- (CompleteMiniJobRequestProto_Builder*) clearUserMiniJobUuid;
 
 - (BOOL) hasIsSpeedUp;
 - (BOOL) isSpeedUp;
@@ -593,19 +592,19 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @interface RedeemMiniJobRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasUserMiniJobId_:1;
+  BOOL hasUserMiniJobUuid_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
-  int64_t userMiniJobId;
+  NSString* userMiniJobUuid;
   MinimumUserProtoWithMaxResources* sender;
   NSMutableArray * mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
-- (BOOL) hasUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int64_t clientTime;
-@property (readonly) int64_t userMiniJobId;
+@property (readonly, strong) NSString* userMiniJobUuid;
 @property (readonly, strong) NSArray * umchpList;
 - (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
 
@@ -656,10 +655,10 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (RedeemMiniJobRequestProto_Builder*) setClientTime:(int64_t) value;
 - (RedeemMiniJobRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasUserMiniJobId;
-- (int64_t) userMiniJobId;
-- (RedeemMiniJobRequestProto_Builder*) setUserMiniJobId:(int64_t) value;
-- (RedeemMiniJobRequestProto_Builder*) clearUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
+- (NSString*) userMiniJobUuid;
+- (RedeemMiniJobRequestProto_Builder*) setUserMiniJobUuid:(NSString*) value;
+- (RedeemMiniJobRequestProto_Builder*) clearUserMiniJobUuid;
 
 - (NSMutableArray *)umchpList;
 - (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;

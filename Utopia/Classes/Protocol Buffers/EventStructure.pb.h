@@ -330,19 +330,19 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 
 @interface PurchaseNormStructureResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 
 + (PurchaseNormStructureResponseProto*) defaultInstance;
 - (PurchaseNormStructureResponseProto*) defaultInstance;
@@ -391,32 +391,32 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value;
 - (PurchaseNormStructureResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (PurchaseNormStructureResponseProto_Builder*) setUserStructId:(int32_t) value;
-- (PurchaseNormStructureResponseProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (PurchaseNormStructureResponseProto_Builder*) setUserStructUuid:(NSString*) value;
+- (PurchaseNormStructureResponseProto_Builder*) clearUserStructUuid;
 @end
 
 @interface MoveOrRotateNormStructureRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasCurStructCoordinates_:1;
   BOOL hasType_:1;
   BOOL hasOrientationNew_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   CoordinateProto* curStructCoordinates;
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
   StructOrientation orientationNew;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasType;
 - (BOOL) hasCurStructCoordinates;
 - (BOOL) hasOrientationNew;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (readonly, strong) CoordinateProto* curStructCoordinates;
 @property (readonly) StructOrientation orientationNew;
@@ -463,10 +463,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (MoveOrRotateNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (MoveOrRotateNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasType;
 - (MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) type;
@@ -549,26 +549,26 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 @interface UpgradeNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfUpgrade_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasGemsSpent_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasResourceType_:1;
   BOOL hasResourceChange_:1;
   int64_t timeOfUpgrade;
-  int32_t userStructId;
   int32_t gemsSpent;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   ResourceType resourceType;
   int32_t resourceChange;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfUpgrade;
 - (BOOL) hasGemsSpent;
 - (BOOL) hasResourceChange;
 - (BOOL) hasResourceType;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) int64_t timeOfUpgrade;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t resourceChange;
@@ -616,10 +616,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (UpgradeNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpgradeNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (UpgradeNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (UpgradeNormStructureRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (UpgradeNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfUpgrade;
 - (int64_t) timeOfUpgrade;
@@ -705,20 +705,20 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 @interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfSpeedup_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasGemCostToSpeedup_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   int64_t timeOfSpeedup;
-  int32_t userStructId;
   int32_t gemCostToSpeedup;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfSpeedup;
 - (BOOL) hasGemCostToSpeedup;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) int64_t timeOfSpeedup;
 @property (readonly) int32_t gemCostToSpeedup;
 
@@ -764,10 +764,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfSpeedup;
 - (int64_t) timeOfSpeedup;
@@ -846,14 +846,14 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasSender_:1;
   int64_t curTime;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableUserStructIdList;
+  NSMutableArray * mutableUserStructUuidList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PBArray * userStructIdList;
+@property (readonly, strong) NSArray * userStructUuidList;
 @property (readonly) int64_t curTime;
-- (int32_t)userStructIdAtIndex:(NSUInteger)index;
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index;
 
 + (NormStructWaitCompleteRequestProto*) defaultInstance;
 - (NormStructWaitCompleteRequestProto*) defaultInstance;
@@ -897,12 +897,11 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (NormStructWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (NormStructWaitCompleteRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)userStructIdList;
-- (int32_t)userStructIdAtIndex:(NSUInteger)index;
-- (NormStructWaitCompleteRequestProto_Builder *)addUserStructId:(int32_t)value;
-- (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructId:(NSArray *)array;
-- (NormStructWaitCompleteRequestProto_Builder *)setUserStructIdValues:(const int32_t *)values count:(NSUInteger)count;
-- (NormStructWaitCompleteRequestProto_Builder *)clearUserStructId;
+- (NSMutableArray *)userStructUuidList;
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index;
+- (NormStructWaitCompleteRequestProto_Builder *)addUserStructUuid:(NSString*)value;
+- (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructUuid:(NSArray *)array;
+- (NormStructWaitCompleteRequestProto_Builder *)clearUserStructUuid;
 
 - (BOOL) hasCurTime;
 - (int64_t) curTime;
@@ -1011,16 +1010,16 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 @interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval : PBGeneratedMessage {
 @private
   BOOL hasTimeOfRetrieval_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasAmountCollected_:1;
+  BOOL hasUserStructUuid_:1;
   int64_t timeOfRetrieval;
-  int32_t userStructId;
   int32_t amountCollected;
+  NSString* userStructUuid;
 }
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfRetrieval;
 - (BOOL) hasAmountCollected;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) int64_t timeOfRetrieval;
 @property (readonly) int32_t amountCollected;
 
@@ -1059,10 +1058,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructUuid:(NSString*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfRetrieval;
 - (int64_t) timeOfRetrieval;
@@ -1475,13 +1474,13 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 @private
   BOOL hasCurTime_:1;
   BOOL hasGemsSpent_:1;
-  BOOL hasUserObstacleId_:1;
+  BOOL hasUserObstacleUuid_:1;
   BOOL hasSender_:1;
   BOOL hasResourceType_:1;
   BOOL hasResourceChange_:1;
   int64_t curTime;
   int32_t gemsSpent;
-  int32_t userObstacleId;
+  NSString* userObstacleUuid;
   MinimumUserProto* sender;
   ResourceType resourceType;
   int32_t resourceChange;
@@ -1491,13 +1490,13 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BOOL) hasGemsSpent;
 - (BOOL) hasResourceChange;
 - (BOOL) hasResourceType;
-- (BOOL) hasUserObstacleId;
+- (BOOL) hasUserObstacleUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 @property (readonly) int32_t gemsSpent;
 @property (readonly) int32_t resourceChange;
 @property (readonly) ResourceType resourceType;
-@property (readonly) int32_t userObstacleId;
+@property (readonly, strong) NSString* userObstacleUuid;
 
 + (BeginObstacleRemovalRequestProto*) defaultInstance;
 - (BeginObstacleRemovalRequestProto*) defaultInstance;
@@ -1561,10 +1560,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (BeginObstacleRemovalRequestProto_Builder*) setResourceType:(ResourceType) value;
 - (BeginObstacleRemovalRequestProto_Builder*) clearResourceType;
 
-- (BOOL) hasUserObstacleId;
-- (int32_t) userObstacleId;
-- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleId:(int32_t) value;
-- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleId;
+- (BOOL) hasUserObstacleUuid;
+- (NSString*) userObstacleUuid;
+- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleUuid:(NSString*) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleUuid;
 @end
 
 @interface BeginObstacleRemovalResponseProto : PBGeneratedMessage {
@@ -1633,26 +1632,26 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
   BOOL hasAtMaxObstacles_:1;
   BOOL hasCurTime_:1;
   BOOL hasGemsSpent_:1;
-  BOOL hasUserObstacleId_:1;
+  BOOL hasUserObstacleUuid_:1;
   BOOL hasSender_:1;
   BOOL speedUp_:1;
   BOOL atMaxObstacles_:1;
   int64_t curTime;
   int32_t gemsSpent;
-  int32_t userObstacleId;
+  NSString* userObstacleUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
 - (BOOL) hasSpeedUp;
 - (BOOL) hasGemsSpent;
-- (BOOL) hasUserObstacleId;
+- (BOOL) hasUserObstacleUuid;
 - (BOOL) hasAtMaxObstacles;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 - (BOOL) speedUp;
 @property (readonly) int32_t gemsSpent;
-@property (readonly) int32_t userObstacleId;
+@property (readonly, strong) NSString* userObstacleUuid;
 - (BOOL) atMaxObstacles;
 
 + (ObstacleRemovalCompleteRequestProto*) defaultInstance;
@@ -1712,10 +1711,10 @@ BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidVa
 - (ObstacleRemovalCompleteRequestProto_Builder*) setGemsSpent:(int32_t) value;
 - (ObstacleRemovalCompleteRequestProto_Builder*) clearGemsSpent;
 
-- (BOOL) hasUserObstacleId;
-- (int32_t) userObstacleId;
-- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleId:(int32_t) value;
-- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleId;
+- (BOOL) hasUserObstacleUuid;
+- (NSString*) userObstacleUuid;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleUuid:(NSString*) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleUuid;
 
 - (BOOL) hasAtMaxObstacles;
 - (BOOL) atMaxObstacles;

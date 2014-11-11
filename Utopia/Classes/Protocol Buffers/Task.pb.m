@@ -968,21 +968,21 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 @end
 
 @interface MinimumUserTaskProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t taskId;
 @property int32_t curTaskStageId;
-@property int64_t userTaskId;
+@property (strong) NSString* userTaskUuid;
 @end
 
 @implementation MinimumUserTaskProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasTaskId {
   return !!hasTaskId_;
 }
@@ -997,19 +997,19 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   hasCurTaskStageId_ = !!value_;
 }
 @synthesize curTaskStageId;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value_ {
-  hasUserTaskId_ = !!value_;
+- (void) setHasUserTaskUuid:(BOOL) value_ {
+  hasUserTaskUuid_ = !!value_;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.taskId = 0;
     self.curTaskStageId = 0;
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
   }
   return self;
 }
@@ -1029,8 +1029,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasTaskId) {
     [output writeInt32:2 value:self.taskId];
@@ -1038,8 +1038,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasCurTaskStageId) {
     [output writeInt32:3 value:self.curTaskStageId];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:4 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:4 value:self.userTaskUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1050,8 +1050,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasTaskId) {
     size_ += computeInt32Size(2, self.taskId);
@@ -1059,8 +1059,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasCurTaskStageId) {
     size_ += computeInt32Size(3, self.curTaskStageId);
   }
-  if (self.hasUserTaskId) {
-    size_ += computeInt64Size(4, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size_ += computeStringSize(4, self.userTaskUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1097,8 +1097,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   return [MinimumUserTaskProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasTaskId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskId", [NSNumber numberWithInteger:self.taskId]];
@@ -1106,8 +1106,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasCurTaskStageId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"curTaskStageId", [NSNumber numberWithInteger:self.curTaskStageId]];
   }
-  if (self.hasUserTaskId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskId", [NSNumber numberWithLongLong:self.userTaskId]];
+  if (self.hasUserTaskUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskUuid", self.userTaskUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1120,20 +1120,20 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   }
   MinimumUserTaskProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasTaskId == otherMessage.hasTaskId &&
       (!self.hasTaskId || self.taskId == otherMessage.taskId) &&
       self.hasCurTaskStageId == otherMessage.hasCurTaskStageId &&
       (!self.hasCurTaskStageId || self.curTaskStageId == otherMessage.curTaskStageId) &&
-      self.hasUserTaskId == otherMessage.hasUserTaskId &&
-      (!self.hasUserTaskId || self.userTaskId == otherMessage.userTaskId) &&
+      self.hasUserTaskUuid == otherMessage.hasUserTaskUuid &&
+      (!self.hasUserTaskUuid || [self.userTaskUuid isEqual:otherMessage.userTaskUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasTaskId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskId] hash];
@@ -1141,8 +1141,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasCurTaskStageId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.curTaskStageId] hash];
   }
-  if (self.hasUserTaskId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userTaskId] hash];
+  if (self.hasUserTaskUuid) {
+    hashCode = hashCode * 31 + [self.userTaskUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1187,8 +1187,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other == [MinimumUserTaskProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
@@ -1196,8 +1196,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other.hasCurTaskStageId) {
     [self setCurTaskStageId:other.curTaskStageId];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1220,8 +1220,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -1232,27 +1232,27 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
         [self setCurTaskStageId:[input readInt32]];
         break;
       }
-      case 32: {
-        [self setUserTaskId:[input readInt64]];
+      case 34: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (MinimumUserTaskProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (MinimumUserTaskProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (MinimumUserTaskProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasTaskId {
@@ -1287,26 +1287,26 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   result.curTaskStageId = 0;
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (MinimumUserTaskProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (MinimumUserTaskProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (MinimumUserTaskProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (MinimumUserTaskProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 @end
 
 @interface TaskStageMonsterProto ()
-@property int64_t tsfuId;
+@property (strong) NSString* tsfuUuid;
 @property int32_t tsmId;
 @property int32_t monsterId;
 @property TaskStageMonsterProto_MonsterType monsterType;
@@ -1327,13 +1327,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 
 @implementation TaskStageMonsterProto
 
-- (BOOL) hasTsfuId {
-  return !!hasTsfuId_;
+- (BOOL) hasTsfuUuid {
+  return !!hasTsfuUuid_;
 }
-- (void) setHasTsfuId:(BOOL) value_ {
-  hasTsfuId_ = !!value_;
+- (void) setHasTsfuUuid:(BOOL) value_ {
+  hasTsfuUuid_ = !!value_;
 }
-@synthesize tsfuId;
+@synthesize tsfuUuid;
 - (BOOL) hasTsmId {
   return !!hasTsmId_;
 }
@@ -1453,7 +1453,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @synthesize defaultD;
 - (id) init {
   if ((self = [super init])) {
-    self.tsfuId = 0L;
+    self.tsfuUuid = @"";
     self.tsmId = 0;
     self.monsterId = 0;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
@@ -1531,8 +1531,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOffensiveSkillId) {
     [output writeInt32:14 value:self.offensiveSkillId];
   }
-  if (self.hasTsfuId) {
-    [output writeInt64:15 value:self.tsfuId];
+  if (self.hasTsfuUuid) {
+    [output writeString:15 value:self.tsfuUuid];
   }
   if (self.hasInitialD) {
     [output writeMessage:16 value:self.initialD];
@@ -1591,8 +1591,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOffensiveSkillId) {
     size_ += computeInt32Size(14, self.offensiveSkillId);
   }
-  if (self.hasTsfuId) {
-    size_ += computeInt64Size(15, self.tsfuId);
+  if (self.hasTsfuUuid) {
+    size_ += computeStringSize(15, self.tsfuUuid);
   }
   if (self.hasInitialD) {
     size_ += computeMessageSize(16, self.initialD);
@@ -1677,8 +1677,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOffensiveSkillId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"offensiveSkillId", [NSNumber numberWithInteger:self.offensiveSkillId]];
   }
-  if (self.hasTsfuId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"tsfuId", [NSNumber numberWithLongLong:self.tsfuId]];
+  if (self.hasTsfuUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"tsfuUuid", self.tsfuUuid];
   }
   if (self.hasInitialD) {
     [output appendFormat:@"%@%@ {\n", indent, @"initialD"];
@@ -1731,8 +1731,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
       (!self.hasPuzzlePieceMonsterDropLvl || self.puzzlePieceMonsterDropLvl == otherMessage.puzzlePieceMonsterDropLvl) &&
       self.hasOffensiveSkillId == otherMessage.hasOffensiveSkillId &&
       (!self.hasOffensiveSkillId || self.offensiveSkillId == otherMessage.offensiveSkillId) &&
-      self.hasTsfuId == otherMessage.hasTsfuId &&
-      (!self.hasTsfuId || self.tsfuId == otherMessage.tsfuId) &&
+      self.hasTsfuUuid == otherMessage.hasTsfuUuid &&
+      (!self.hasTsfuUuid || [self.tsfuUuid isEqual:otherMessage.tsfuUuid]) &&
       self.hasInitialD == otherMessage.hasInitialD &&
       (!self.hasInitialD || [self.initialD isEqual:otherMessage.initialD]) &&
       self.hasDefaultD == otherMessage.hasDefaultD &&
@@ -1783,8 +1783,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasOffensiveSkillId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.offensiveSkillId] hash];
   }
-  if (self.hasTsfuId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.tsfuId] hash];
+  if (self.hasTsfuUuid) {
+    hashCode = hashCode * 31 + [self.tsfuUuid hash];
   }
   if (self.hasInitialD) {
     hashCode = hashCode * 31 + [self.initialD hash];
@@ -1845,8 +1845,8 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other == [TaskStageMonsterProto defaultInstance]) {
     return self;
   }
-  if (other.hasTsfuId) {
-    [self setTsfuId:other.tsfuId];
+  if (other.hasTsfuUuid) {
+    [self setTsfuUuid:other.tsfuUuid];
   }
   if (other.hasTsmId) {
     [self setTsmId:other.tsmId];
@@ -1978,8 +1978,8 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
         [self setOffensiveSkillId:[input readInt32]];
         break;
       }
-      case 120: {
-        [self setTsfuId:[input readInt64]];
+      case 122: {
+        [self setTsfuUuid:[input readString]];
         break;
       }
       case 130: {
@@ -2003,20 +2003,20 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
     }
   }
 }
-- (BOOL) hasTsfuId {
-  return result.hasTsfuId;
+- (BOOL) hasTsfuUuid {
+  return result.hasTsfuUuid;
 }
-- (int64_t) tsfuId {
-  return result.tsfuId;
+- (NSString*) tsfuUuid {
+  return result.tsfuUuid;
 }
-- (TaskStageMonsterProto_Builder*) setTsfuId:(int64_t) value {
-  result.hasTsfuId = YES;
-  result.tsfuId = value;
+- (TaskStageMonsterProto_Builder*) setTsfuUuid:(NSString*) value {
+  result.hasTsfuUuid = YES;
+  result.tsfuUuid = value;
   return self;
 }
-- (TaskStageMonsterProto_Builder*) clearTsfuId {
-  result.hasTsfuId = NO;
-  result.tsfuId = 0L;
+- (TaskStageMonsterProto_Builder*) clearTsfuUuid {
+  result.hasTsfuUuid = NO;
+  result.tsfuUuid = @"";
   return self;
 }
 - (BOOL) hasTsmId {
@@ -2852,20 +2852,20 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @end
 
 @interface UserPersistentEventProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t eventId;
 @property int64_t coolDownStartTime;
 @end
 
 @implementation UserPersistentEventProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasEventId {
   return !!hasEventId_;
 }
@@ -2882,7 +2882,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @synthesize coolDownStartTime;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.eventId = 0;
     self.coolDownStartTime = 0L;
   }
@@ -2904,8 +2904,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasEventId) {
     [output writeInt32:2 value:self.eventId];
@@ -2922,8 +2922,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasEventId) {
     size_ += computeInt32Size(2, self.eventId);
@@ -2966,8 +2966,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   return [UserPersistentEventProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasEventId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"eventId", [NSNumber numberWithInteger:self.eventId]];
@@ -2986,8 +2986,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   }
   UserPersistentEventProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasEventId == otherMessage.hasEventId &&
       (!self.hasEventId || self.eventId == otherMessage.eventId) &&
       self.hasCoolDownStartTime == otherMessage.hasCoolDownStartTime &&
@@ -2996,8 +2996,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasEventId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.eventId] hash];
@@ -3048,8 +3048,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
   if (other == [UserPersistentEventProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasEventId) {
     [self setEventId:other.eventId];
@@ -3078,8 +3078,8 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -3093,20 +3093,20 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserPersistentEventProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserPersistentEventProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserPersistentEventProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserPersistentEventProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasEventId {

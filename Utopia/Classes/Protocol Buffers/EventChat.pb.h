@@ -95,14 +95,14 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 
 @interface SendAdminMessageResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasSenderId_:1;
+  BOOL hasSenderUuid_:1;
   BOOL hasMessage_:1;
-  int32_t senderId;
+  NSString* senderUuid;
   NSString* message;
 }
-- (BOOL) hasSenderId;
+- (BOOL) hasSenderUuid;
 - (BOOL) hasMessage;
-@property (readonly) int32_t senderId;
+@property (readonly, strong) NSString* senderUuid;
 @property (readonly, strong) NSString* message;
 
 + (SendAdminMessageResponseProto*) defaultInstance;
@@ -140,10 +140,10 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (SendAdminMessageResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasSenderId;
-- (int32_t) senderId;
-- (SendAdminMessageResponseProto_Builder*) setSenderId:(int32_t) value;
-- (SendAdminMessageResponseProto_Builder*) clearSenderId;
+- (BOOL) hasSenderUuid;
+- (NSString*) senderUuid;
+- (SendAdminMessageResponseProto_Builder*) setSenderUuid:(NSString*) value;
+- (SendAdminMessageResponseProto_Builder*) clearSenderUuid;
 
 - (BOOL) hasMessage;
 - (NSString*) message;
@@ -438,18 +438,18 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 
 @interface PrivateChatPostRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasRecipientId_:1;
+  BOOL hasRecipientUuid_:1;
   BOOL hasContent_:1;
   BOOL hasSender_:1;
-  int32_t recipientId;
+  NSString* recipientUuid;
   NSString* content;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasRecipientId;
+- (BOOL) hasRecipientUuid;
 - (BOOL) hasContent;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t recipientId;
+@property (readonly, strong) NSString* recipientUuid;
 @property (readonly, strong) NSString* content;
 
 + (PrivateChatPostRequestProto*) defaultInstance;
@@ -494,10 +494,10 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (PrivateChatPostRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PrivateChatPostRequestProto_Builder*) clearSender;
 
-- (BOOL) hasRecipientId;
-- (int32_t) recipientId;
-- (PrivateChatPostRequestProto_Builder*) setRecipientId:(int32_t) value;
-- (PrivateChatPostRequestProto_Builder*) clearRecipientId;
+- (BOOL) hasRecipientUuid;
+- (NSString*) recipientUuid;
+- (PrivateChatPostRequestProto_Builder*) setRecipientUuid:(NSString*) value;
+- (PrivateChatPostRequestProto_Builder*) clearRecipientUuid;
 
 - (BOOL) hasContent;
 - (NSString*) content;
@@ -578,18 +578,18 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 
 @interface RetrievePrivateChatPostsRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasOtherUserId_:1;
   BOOL hasBeforePrivateChatId_:1;
+  BOOL hasOtherUserUuid_:1;
   BOOL hasSender_:1;
-  int32_t otherUserId;
   int32_t beforePrivateChatId;
+  NSString* otherUserUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasOtherUserId;
+- (BOOL) hasOtherUserUuid;
 - (BOOL) hasBeforePrivateChatId;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t otherUserId;
+@property (readonly, strong) NSString* otherUserUuid;
 @property (readonly) int32_t beforePrivateChatId;
 
 + (RetrievePrivateChatPostsRequestProto*) defaultInstance;
@@ -634,10 +634,10 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (RetrievePrivateChatPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrievePrivateChatPostsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasOtherUserId;
-- (int32_t) otherUserId;
-- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserId:(int32_t) value;
-- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserId;
+- (BOOL) hasOtherUserUuid;
+- (NSString*) otherUserUuid;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserUuid:(NSString*) value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserUuid;
 
 - (BOOL) hasBeforePrivateChatId;
 - (int32_t) beforePrivateChatId;
@@ -648,11 +648,11 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 @interface RetrievePrivateChatPostsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasBeforePrivateChatId_:1;
-  BOOL hasOtherUserId_:1;
+  BOOL hasOtherUserUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   int32_t beforePrivateChatId;
-  int32_t otherUserId;
+  NSString* otherUserUuid;
   MinimumUserProto* sender;
   RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
   NSMutableArray * mutablePostsList;
@@ -660,12 +660,12 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (BOOL) hasSender;
 - (BOOL) hasBeforePrivateChatId;
 - (BOOL) hasStatus;
-- (BOOL) hasOtherUserId;
+- (BOOL) hasOtherUserUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * postsList;
 @property (readonly) int32_t beforePrivateChatId;
 @property (readonly) RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
-@property (readonly) int32_t otherUserId;
+@property (readonly, strong) NSString* otherUserUuid;
 - (GroupChatMessageProto*)postsAtIndex:(NSUInteger)index;
 
 + (RetrievePrivateChatPostsResponseProto*) defaultInstance;
@@ -726,10 +726,10 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (RetrievePrivateChatPostsResponseProto_Builder*) setStatus:(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) value;
 - (RetrievePrivateChatPostsResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasOtherUserId;
-- (int32_t) otherUserId;
-- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserId:(int32_t) value;
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId;
+- (BOOL) hasOtherUserUuid;
+- (NSString*) otherUserUuid;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserUuid:(NSString*) value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserUuid;
 @end
 
 

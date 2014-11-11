@@ -276,38 +276,38 @@
 
 @interface UserMiniJobProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMiniJobId_:1;
   BOOL hasTimeStarted_:1;
   BOOL hasTimeCompleted_:1;
   BOOL hasBaseDmgReceived_:1;
   BOOL hasDurationMinutes_:1;
   BOOL hasDurationSeconds_:1;
+  BOOL hasUserMiniJobUuid_:1;
   BOOL hasMiniJob_:1;
-  int64_t userMiniJobId;
   int64_t timeStarted;
   int64_t timeCompleted;
   int32_t baseDmgReceived;
   int32_t durationMinutes;
   int32_t durationSeconds;
+  NSString* userMiniJobUuid;
   MiniJobProto* miniJob;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
-- (BOOL) hasUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
 - (BOOL) hasBaseDmgReceived;
 - (BOOL) hasTimeStarted;
 - (BOOL) hasTimeCompleted;
 - (BOOL) hasDurationMinutes;
 - (BOOL) hasMiniJob;
 - (BOOL) hasDurationSeconds;
-@property (readonly) int64_t userMiniJobId;
+@property (readonly, strong) NSString* userMiniJobUuid;
 @property (readonly) int32_t baseDmgReceived;
 @property (readonly) int64_t timeStarted;
-@property (readonly, strong) PBArray * userMonsterIdsList;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
 @property (readonly) int64_t timeCompleted;
 @property (readonly) int32_t durationMinutes;
 @property (readonly, strong) MiniJobProto* miniJob;
 @property (readonly) int32_t durationSeconds;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (UserMiniJobProto*) defaultInstance;
 - (UserMiniJobProto*) defaultInstance;
@@ -344,10 +344,10 @@
 - (UserMiniJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserMiniJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMiniJobId;
-- (int64_t) userMiniJobId;
-- (UserMiniJobProto_Builder*) setUserMiniJobId:(int64_t) value;
-- (UserMiniJobProto_Builder*) clearUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid;
+- (NSString*) userMiniJobUuid;
+- (UserMiniJobProto_Builder*) setUserMiniJobUuid:(NSString*) value;
+- (UserMiniJobProto_Builder*) clearUserMiniJobUuid;
 
 - (BOOL) hasBaseDmgReceived;
 - (int32_t) baseDmgReceived;
@@ -359,12 +359,11 @@
 - (UserMiniJobProto_Builder*) setTimeStarted:(int64_t) value;
 - (UserMiniJobProto_Builder*) clearTimeStarted;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (UserMiniJobProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (UserMiniJobProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (UserMiniJobProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (UserMiniJobProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (UserMiniJobProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (UserMiniJobProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (UserMiniJobProto_Builder *)clearUserMonsterUuids;
 
 - (BOOL) hasTimeCompleted;
 - (int64_t) timeCompleted;

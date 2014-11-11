@@ -492,14 +492,14 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
   BOOL hasSender_:1;
   BOOL includeCurMonsterTeam_:1;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableRequestedUserIdsList;
+  NSMutableArray * mutableRequestedUserUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIncludeCurMonsterTeam;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PBArray * requestedUserIdsList;
+@property (readonly, strong) NSArray * requestedUserUuidsList;
 - (BOOL) includeCurMonsterTeam;
-- (int32_t)requestedUserIdsAtIndex:(NSUInteger)index;
+- (NSString*)requestedUserUuidsAtIndex:(NSUInteger)index;
 
 + (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
 - (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
@@ -543,12 +543,11 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)requestedUserIdsList;
-- (int32_t)requestedUserIdsAtIndex:(NSUInteger)index;
-- (RetrieveUsersForUserIdsRequestProto_Builder *)addRequestedUserIds:(int32_t)value;
-- (RetrieveUsersForUserIdsRequestProto_Builder *)addAllRequestedUserIds:(NSArray *)array;
-- (RetrieveUsersForUserIdsRequestProto_Builder *)setRequestedUserIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (RetrieveUsersForUserIdsRequestProto_Builder *)clearRequestedUserIds;
+- (NSMutableArray *)requestedUserUuidsList;
+- (NSString*)requestedUserUuidsAtIndex:(NSUInteger)index;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)addRequestedUserUuids:(NSString*)value;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)addAllRequestedUserUuids:(NSArray *)array;
+- (RetrieveUsersForUserIdsRequestProto_Builder *)clearRequestedUserUuids;
 
 - (BOOL) hasIncludeCurMonsterTeam;
 - (BOOL) includeCurMonsterTeam;

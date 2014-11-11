@@ -83,19 +83,23 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 
 @interface DevRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasNum_:1;
+  BOOL hasStaticDataId_:1;
+  BOOL hasQuantity_:1;
   BOOL hasSender_:1;
   BOOL hasDevRequest_:1;
-  int32_t num;
+  int32_t staticDataId;
+  int32_t quantity;
   MinimumUserProto* sender;
   DevRequest devRequest;
 }
 - (BOOL) hasSender;
 - (BOOL) hasDevRequest;
-- (BOOL) hasNum;
+- (BOOL) hasStaticDataId;
+- (BOOL) hasQuantity;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) DevRequest devRequest;
-@property (readonly) int32_t num;
+@property (readonly) int32_t staticDataId;
+@property (readonly) int32_t quantity;
 
 + (DevRequestProto*) defaultInstance;
 - (DevRequestProto*) defaultInstance;
@@ -144,10 +148,15 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (DevRequestProto_Builder*) setDevRequest:(DevRequest) value;
 - (DevRequestProto_Builder*) clearDevRequest;
 
-- (BOOL) hasNum;
-- (int32_t) num;
-- (DevRequestProto_Builder*) setNum:(int32_t) value;
-- (DevRequestProto_Builder*) clearNum;
+- (BOOL) hasStaticDataId;
+- (int32_t) staticDataId;
+- (DevRequestProto_Builder*) setStaticDataId:(int32_t) value;
+- (DevRequestProto_Builder*) clearStaticDataId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (DevRequestProto_Builder*) setQuantity:(int32_t) value;
+- (DevRequestProto_Builder*) clearQuantity;
 @end
 
 @interface DevResponseProto : PBGeneratedMessage {

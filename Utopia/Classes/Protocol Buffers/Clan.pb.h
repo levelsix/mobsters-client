@@ -164,27 +164,27 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasClanId_:1;
   BOOL hasClanIconId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
-  int32_t clanId;
   int32_t clanIconId;
+  NSString* clanUuid;
   NSString* name;
   NSString* description;
   NSString* tag;
 }
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 - (BOOL) hasName;
 - (BOOL) hasCreateTime;
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
 - (BOOL) hasClanIconId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly, strong) NSString* name;
 @property (readonly) int64_t createTime;
 @property (readonly, strong) NSString* description;
@@ -227,10 +227,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (FullClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (FullClanProto_Builder*) setClanId:(int32_t) value;
-- (FullClanProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (FullClanProto_Builder*) setClanUuid:(NSString*) value;
+- (FullClanProto_Builder*) clearClanUuid;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -266,20 +266,20 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @interface FullUserClanProto : PBGeneratedMessage {
 @private
   BOOL hasRequestTime_:1;
-  BOOL hasUserId_:1;
-  BOOL hasClanId_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasStatus_:1;
   int64_t requestTime;
-  int32_t userId;
-  int32_t clanId;
+  NSString* userUuid;
+  NSString* clanUuid;
   UserClanStatus status;
 }
-- (BOOL) hasUserId;
-- (BOOL) hasClanId;
+- (BOOL) hasUserUuid;
+- (BOOL) hasClanUuid;
 - (BOOL) hasStatus;
 - (BOOL) hasRequestTime;
-@property (readonly) int32_t userId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly) UserClanStatus status;
 @property (readonly) int64_t requestTime;
 
@@ -318,15 +318,15 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (FullUserClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserClanProto_Builder*) setUserId:(int32_t) value;
-- (FullUserClanProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserClanProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserClanProto_Builder*) clearUserUuid;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (FullUserClanProto_Builder*) setClanId:(int32_t) value;
-- (FullUserClanProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (FullUserClanProto_Builder*) setClanUuid:(NSString*) value;
+- (FullUserClanProto_Builder*) clearClanUuid;
 
 - (BOOL) hasStatus;
 - (UserClanStatus) status;
@@ -978,27 +978,27 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   BOOL hasStageStartTime_:1;
   BOOL hasStageMonsterStartTime_:1;
-  BOOL hasClanId_:1;
   BOOL hasClanEventId_:1;
   BOOL hasClanRaidId_:1;
   BOOL hasClanRaidStageId_:1;
   BOOL hasCrsmId_:1;
+  BOOL hasClanUuid_:1;
   int64_t stageStartTime;
   int64_t stageMonsterStartTime;
-  int32_t clanId;
   int32_t clanEventId;
   int32_t clanRaidId;
   int32_t clanRaidStageId;
   int32_t crsmId;
+  NSString* clanUuid;
 }
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 - (BOOL) hasClanEventId;
 - (BOOL) hasClanRaidId;
 - (BOOL) hasClanRaidStageId;
 - (BOOL) hasStageStartTime;
 - (BOOL) hasCrsmId;
 - (BOOL) hasStageMonsterStartTime;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly) int32_t clanEventId;
 @property (readonly) int32_t clanRaidId;
 @property (readonly) int32_t clanRaidStageId;
@@ -1041,10 +1041,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (PersistentClanEventClanInfoProto_Builder*) setClanId:(int32_t) value;
-- (PersistentClanEventClanInfoProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (PersistentClanEventClanInfoProto_Builder*) setClanUuid:(NSString*) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearClanUuid;
 
 - (BOOL) hasClanEventId;
 - (int32_t) clanEventId;
@@ -1079,30 +1079,30 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 @interface PersistentClanEventUserInfoProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
-  BOOL hasClanId_:1;
   BOOL hasCrId_:1;
   BOOL hasCrDmgDone_:1;
   BOOL hasCrsDmgDone_:1;
   BOOL hasCrsmDmgDone_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasUserMonsters_:1;
-  int32_t userId;
-  int32_t clanId;
   int32_t crId;
   int32_t crDmgDone;
   int32_t crsDmgDone;
   int32_t crsmDmgDone;
+  NSString* userUuid;
+  NSString* clanUuid;
   UserCurrentMonsterTeamProto* userMonsters;
 }
-- (BOOL) hasUserId;
-- (BOOL) hasClanId;
+- (BOOL) hasUserUuid;
+- (BOOL) hasClanUuid;
 - (BOOL) hasCrId;
 - (BOOL) hasCrDmgDone;
 - (BOOL) hasCrsDmgDone;
 - (BOOL) hasCrsmDmgDone;
 - (BOOL) hasUserMonsters;
-@property (readonly) int32_t userId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly) int32_t crId;
 @property (readonly) int32_t crDmgDone;
 @property (readonly) int32_t crsDmgDone;
@@ -1144,15 +1144,15 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (PersistentClanEventUserInfoProto_Builder*) setUserId:(int32_t) value;
-- (PersistentClanEventUserInfoProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (PersistentClanEventUserInfoProto_Builder*) setUserUuid:(NSString*) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearUserUuid;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (PersistentClanEventUserInfoProto_Builder*) setClanId:(int32_t) value;
-- (PersistentClanEventUserInfoProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (PersistentClanEventUserInfoProto_Builder*) setClanUuid:(NSString*) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearClanUuid;
 
 - (BOOL) hasCrId;
 - (int32_t) crId;
@@ -1187,27 +1187,27 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasCrsEndTime_:1;
   BOOL hasTimeRedeemed_:1;
   BOOL hasRewardId_:1;
-  BOOL hasUserId_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasQuantity_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasResourceType_:1;
   int64_t crsEndTime;
   int64_t timeRedeemed;
   int32_t rewardId;
-  int32_t userId;
   int32_t staticDataId;
   int32_t quantity;
+  NSString* userUuid;
   ResourceType resourceType;
 }
 - (BOOL) hasRewardId;
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasCrsEndTime;
 - (BOOL) hasResourceType;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasQuantity;
 - (BOOL) hasTimeRedeemed;
 @property (readonly) int32_t rewardId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int64_t crsEndTime;
 @property (readonly) ResourceType resourceType;
 @property (readonly) int32_t staticDataId;
@@ -1254,10 +1254,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserRewardProto_Builder*) setRewardId:(int32_t) value;
 - (PersistentClanEventUserRewardProto_Builder*) clearRewardId;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (PersistentClanEventUserRewardProto_Builder*) setUserId:(int32_t) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (PersistentClanEventUserRewardProto_Builder*) setUserUuid:(NSString*) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearUserUuid;
 
 - (BOOL) hasCrsEndTime;
 - (int64_t) crsEndTime;
@@ -1390,17 +1390,17 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 @interface PersistentClanEventRaidHistoryProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
   BOOL hasCrDmg_:1;
   BOOL hasClanCrDmg_:1;
-  int32_t userId;
+  BOOL hasUserUuid_:1;
   int32_t crDmg;
   int32_t clanCrDmg;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasCrDmg;
 - (BOOL) hasClanCrDmg;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t crDmg;
 @property (readonly) int32_t clanCrDmg;
 
@@ -1439,10 +1439,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventRaidHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PersistentClanEventRaidHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (PersistentClanEventRaidHistoryProto_Builder*) setUserId:(int32_t) value;
-- (PersistentClanEventRaidHistoryProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (PersistentClanEventRaidHistoryProto_Builder*) setUserUuid:(NSString*) value;
+- (PersistentClanEventRaidHistoryProto_Builder*) clearUserUuid;
 
 - (BOOL) hasCrDmg;
 - (int32_t) crDmg;
@@ -1525,45 +1525,45 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @interface ClanHelpProto : PBGeneratedMessage {
 @private
   BOOL hasOpen_:1;
-  BOOL hasClanHelpId_:1;
-  BOOL hasUserDataId_:1;
   BOOL hasTimeRequested_:1;
-  BOOL hasClanId_:1;
   BOOL hasMaxHelpers_:1;
   BOOL hasStaticDataId_:1;
+  BOOL hasClanHelpUuid_:1;
+  BOOL hasClanUuid_:1;
+  BOOL hasUserDataUuid_:1;
   BOOL hasMup_:1;
   BOOL hasHelpType_:1;
   BOOL open_:1;
-  int64_t clanHelpId;
-  int64_t userDataId;
   int64_t timeRequested;
-  int32_t clanId;
   int32_t maxHelpers;
   int32_t staticDataId;
+  NSString* clanHelpUuid;
+  NSString* clanUuid;
+  NSString* userDataUuid;
   MinimumUserProto* mup;
   GameActionType helpType;
-  PBAppendableArray * mutableHelperIdsList;
+  NSMutableArray * mutableHelperUuidsList;
 }
-- (BOOL) hasClanHelpId;
-- (BOOL) hasClanId;
+- (BOOL) hasClanHelpUuid;
+- (BOOL) hasClanUuid;
 - (BOOL) hasMup;
-- (BOOL) hasUserDataId;
+- (BOOL) hasUserDataUuid;
 - (BOOL) hasHelpType;
 - (BOOL) hasTimeRequested;
 - (BOOL) hasMaxHelpers;
 - (BOOL) hasOpen;
 - (BOOL) hasStaticDataId;
-@property (readonly) int64_t clanHelpId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* clanHelpUuid;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly, strong) MinimumUserProto* mup;
-@property (readonly) int64_t userDataId;
+@property (readonly, strong) NSString* userDataUuid;
 @property (readonly) GameActionType helpType;
 @property (readonly) int64_t timeRequested;
 @property (readonly) int32_t maxHelpers;
-@property (readonly, strong) PBArray * helperIdsList;
+@property (readonly, strong) NSArray * helperUuidsList;
 - (BOOL) open;
 @property (readonly) int32_t staticDataId;
-- (int32_t)helperIdsAtIndex:(NSUInteger)index;
+- (NSString*)helperUuidsAtIndex:(NSUInteger)index;
 
 + (ClanHelpProto*) defaultInstance;
 - (ClanHelpProto*) defaultInstance;
@@ -1600,15 +1600,15 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (ClanHelpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasClanHelpId;
-- (int64_t) clanHelpId;
-- (ClanHelpProto_Builder*) setClanHelpId:(int64_t) value;
-- (ClanHelpProto_Builder*) clearClanHelpId;
+- (BOOL) hasClanHelpUuid;
+- (NSString*) clanHelpUuid;
+- (ClanHelpProto_Builder*) setClanHelpUuid:(NSString*) value;
+- (ClanHelpProto_Builder*) clearClanHelpUuid;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (ClanHelpProto_Builder*) setClanId:(int32_t) value;
-- (ClanHelpProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (ClanHelpProto_Builder*) setClanUuid:(NSString*) value;
+- (ClanHelpProto_Builder*) clearClanUuid;
 
 - (BOOL) hasMup;
 - (MinimumUserProto*) mup;
@@ -1617,10 +1617,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) mergeMup:(MinimumUserProto*) value;
 - (ClanHelpProto_Builder*) clearMup;
 
-- (BOOL) hasUserDataId;
-- (int64_t) userDataId;
-- (ClanHelpProto_Builder*) setUserDataId:(int64_t) value;
-- (ClanHelpProto_Builder*) clearUserDataId;
+- (BOOL) hasUserDataUuid;
+- (NSString*) userDataUuid;
+- (ClanHelpProto_Builder*) setUserDataUuid:(NSString*) value;
+- (ClanHelpProto_Builder*) clearUserDataUuid;
 
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
@@ -1637,12 +1637,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpProto_Builder*) setMaxHelpers:(int32_t) value;
 - (ClanHelpProto_Builder*) clearMaxHelpers;
 
-- (PBAppendableArray *)helperIdsList;
-- (int32_t)helperIdsAtIndex:(NSUInteger)index;
-- (ClanHelpProto_Builder *)addHelperIds:(int32_t)value;
-- (ClanHelpProto_Builder *)addAllHelperIds:(NSArray *)array;
-- (ClanHelpProto_Builder *)setHelperIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (ClanHelpProto_Builder *)clearHelperIds;
+- (NSMutableArray *)helperUuidsList;
+- (NSString*)helperUuidsAtIndex:(NSUInteger)index;
+- (ClanHelpProto_Builder *)addHelperUuids:(NSString*)value;
+- (ClanHelpProto_Builder *)addAllHelperUuids:(NSArray *)array;
+- (ClanHelpProto_Builder *)clearHelperUuids;
 
 - (BOOL) hasOpen;
 - (BOOL) open;
@@ -1657,18 +1656,18 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 @interface ClanHelpNoticeProto : PBGeneratedMessage {
 @private
-  BOOL hasUserDataId_:1;
   BOOL hasStaticDataId_:1;
+  BOOL hasUserDataUuid_:1;
   BOOL hasHelpType_:1;
-  int64_t userDataId;
   int32_t staticDataId;
+  NSString* userDataUuid;
   GameActionType helpType;
 }
 - (BOOL) hasHelpType;
-- (BOOL) hasUserDataId;
+- (BOOL) hasUserDataUuid;
 - (BOOL) hasStaticDataId;
 @property (readonly) GameActionType helpType;
-@property (readonly) int64_t userDataId;
+@property (readonly, strong) NSString* userDataUuid;
 @property (readonly) int32_t staticDataId;
 
 + (ClanHelpNoticeProto*) defaultInstance;
@@ -1711,10 +1710,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanHelpNoticeProto_Builder*) setHelpType:(GameActionType) value;
 - (ClanHelpNoticeProto_Builder*) clearHelpType;
 
-- (BOOL) hasUserDataId;
-- (int64_t) userDataId;
-- (ClanHelpNoticeProto_Builder*) setUserDataId:(int64_t) value;
-- (ClanHelpNoticeProto_Builder*) clearUserDataId;
+- (BOOL) hasUserDataUuid;
+- (NSString*) userDataUuid;
+- (ClanHelpNoticeProto_Builder*) setUserDataUuid:(NSString*) value;
+- (ClanHelpNoticeProto_Builder*) clearUserDataUuid;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
@@ -1725,25 +1724,25 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @interface ClanInviteProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfInvite_:1;
-  BOOL hasInviteId_:1;
-  BOOL hasUserId_:1;
-  BOOL hasInviterId_:1;
-  BOOL hasClanId_:1;
+  BOOL hasInviteUuid_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasInviterUuid_:1;
+  BOOL hasClanUuid_:1;
   int64_t timeOfInvite;
-  int32_t inviteId;
-  int32_t userId;
-  int32_t inviterId;
-  int32_t clanId;
+  NSString* inviteUuid;
+  NSString* userUuid;
+  NSString* inviterUuid;
+  NSString* clanUuid;
 }
-- (BOOL) hasInviteId;
-- (BOOL) hasUserId;
-- (BOOL) hasInviterId;
-- (BOOL) hasClanId;
+- (BOOL) hasInviteUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasInviterUuid;
+- (BOOL) hasClanUuid;
 - (BOOL) hasTimeOfInvite;
-@property (readonly) int32_t inviteId;
-@property (readonly) int32_t userId;
-@property (readonly) int32_t inviterId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* inviteUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* inviterUuid;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly) int64_t timeOfInvite;
 
 + (ClanInviteProto*) defaultInstance;
@@ -1781,25 +1780,25 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (ClanInviteProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasInviteId;
-- (int32_t) inviteId;
-- (ClanInviteProto_Builder*) setInviteId:(int32_t) value;
-- (ClanInviteProto_Builder*) clearInviteId;
+- (BOOL) hasInviteUuid;
+- (NSString*) inviteUuid;
+- (ClanInviteProto_Builder*) setInviteUuid:(NSString*) value;
+- (ClanInviteProto_Builder*) clearInviteUuid;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (ClanInviteProto_Builder*) setUserId:(int32_t) value;
-- (ClanInviteProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (ClanInviteProto_Builder*) setUserUuid:(NSString*) value;
+- (ClanInviteProto_Builder*) clearUserUuid;
 
-- (BOOL) hasInviterId;
-- (int32_t) inviterId;
-- (ClanInviteProto_Builder*) setInviterId:(int32_t) value;
-- (ClanInviteProto_Builder*) clearInviterId;
+- (BOOL) hasInviterUuid;
+- (NSString*) inviterUuid;
+- (ClanInviteProto_Builder*) setInviterUuid:(NSString*) value;
+- (ClanInviteProto_Builder*) clearInviterUuid;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (ClanInviteProto_Builder*) setClanId:(int32_t) value;
-- (ClanInviteProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (ClanInviteProto_Builder*) setClanUuid:(NSString*) value;
+- (ClanInviteProto_Builder*) clearClanUuid;
 
 - (BOOL) hasTimeOfInvite;
 - (int64_t) timeOfInvite;

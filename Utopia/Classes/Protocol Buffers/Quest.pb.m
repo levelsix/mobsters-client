@@ -2294,7 +2294,7 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 @end
 
 @interface FullUserQuestProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t questId;
 @property BOOL isRedeemed;
 @property BOOL isComplete;
@@ -2303,13 +2303,13 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 
 @implementation FullUserQuestProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasQuestId {
   return !!hasQuestId_;
 }
@@ -2345,7 +2345,7 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 @dynamic userQuestJobsList;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.questId = 0;
     self.isRedeemed = NO;
     self.isComplete = NO;
@@ -2374,8 +2374,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasQuestId) {
     [output writeInt32:2 value:self.questId];
@@ -2398,8 +2398,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasQuestId) {
     size_ += computeInt32Size(2, self.questId);
@@ -2448,8 +2448,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   return [FullUserQuestProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasQuestId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"questId", [NSNumber numberWithInteger:self.questId]];
@@ -2477,8 +2477,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   }
   FullUserQuestProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasQuestId == otherMessage.hasQuestId &&
       (!self.hasQuestId || self.questId == otherMessage.questId) &&
       self.hasIsRedeemed == otherMessage.hasIsRedeemed &&
@@ -2490,8 +2490,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasQuestId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.questId] hash];
@@ -2548,8 +2548,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   if (other == [FullUserQuestProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
@@ -2588,8 +2588,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -2613,20 +2613,20 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserQuestProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserQuestProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserQuestProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserQuestProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasQuestId {

@@ -25,7 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface QueueUpRequestProto ()
 @property (strong) MinimumUserProto* attacker;
 @property int32_t attackerElo;
-@property (strong) PBAppendableArray * mutableSeenUserIdsList;
+@property (strong) NSMutableArray * mutableSeenUserUuidsList;
 @property int64_t clientTime;
 @end
 
@@ -45,8 +45,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAttackerElo_ = !!value_;
 }
 @synthesize attackerElo;
-@synthesize mutableSeenUserIdsList;
-@dynamic seenUserIdsList;
+@synthesize mutableSeenUserUuidsList;
+@dynamic seenUserUuidsList;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -74,11 +74,11 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 - (QueueUpRequestProto*) defaultInstance {
   return defaultQueueUpRequestProtoInstance;
 }
-- (PBArray *)seenUserIdsList {
-  return mutableSeenUserIdsList;
+- (NSArray *)seenUserUuidsList {
+  return mutableSeenUserUuidsList;
 }
-- (int32_t)seenUserIdsAtIndex:(NSUInteger)index {
-  return [mutableSeenUserIdsList int32AtIndex:index];
+- (NSString*)seenUserUuidsAtIndex:(NSUInteger)index {
+  return [mutableSeenUserUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -90,13 +90,9 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttackerElo) {
     [output writeInt32:2 value:self.attackerElo];
   }
-  const NSUInteger seenUserIdsListCount = self.seenUserIdsList.count;
-  if (seenUserIdsListCount > 0) {
-    const int32_t *values = (const int32_t *)self.seenUserIdsList.data;
-    for (NSUInteger i = 0; i < seenUserIdsListCount; ++i) {
-      [output writeInt32:5 value:values[i]];
-    }
-  }
+  [self.seenUserUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:5 value:element];
+  }];
   if (self.hasClientTime) {
     [output writeInt64:6 value:self.clientTime];
   }
@@ -117,11 +113,10 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.seenUserIdsList.count;
-    const int32_t *values = (const int32_t *)self.seenUserIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt32SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.seenUserUuidsList.count;
+    [self.seenUserUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -172,8 +167,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttackerElo) {
     [output appendFormat:@"%@%@: %@\n", indent, @"attackerElo", [NSNumber numberWithInteger:self.attackerElo]];
   }
-  [self.seenUserIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"seenUserIds", obj];
+  [self.seenUserUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"seenUserUuids", obj];
   }];
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -193,7 +188,7 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
       (!self.hasAttacker || [self.attacker isEqual:otherMessage.attacker]) &&
       self.hasAttackerElo == otherMessage.hasAttackerElo &&
       (!self.hasAttackerElo || self.attackerElo == otherMessage.attackerElo) &&
-      [self.seenUserIdsList isEqualToArray:otherMessage.seenUserIdsList] &&
+      [self.seenUserUuidsList isEqualToArray:otherMessage.seenUserUuidsList] &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -206,8 +201,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttackerElo) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.attackerElo] hash];
   }
-  [self.seenUserIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.seenUserUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -261,11 +256,11 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (other.hasAttackerElo) {
     [self setAttackerElo:other.attackerElo];
   }
-  if (other.mutableSeenUserIdsList.count > 0) {
-    if (result.mutableSeenUserIdsList == nil) {
-      result.mutableSeenUserIdsList = [other.mutableSeenUserIdsList copy];
+  if (other.mutableSeenUserUuidsList.count > 0) {
+    if (result.mutableSeenUserUuidsList == nil) {
+      result.mutableSeenUserUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableSeenUserUuidsList];
     } else {
-      [result.mutableSeenUserIdsList appendArray:other.mutableSeenUserIdsList];
+      [result.mutableSeenUserUuidsList addObjectsFromArray:other.mutableSeenUserUuidsList];
     }
   }
   if (other.hasClientTime) {
@@ -305,8 +300,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
         [self setAttackerElo:[input readInt32]];
         break;
       }
-      case 40: {
-        [self addSeenUserIds:[input readInt32]];
+      case 42: {
+        [self addSeenUserUuids:[input readString]];
         break;
       }
       case 48: {
@@ -362,32 +357,28 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   result.attackerElo = 0;
   return self;
 }
-- (PBAppendableArray *)seenUserIdsList {
-  return result.mutableSeenUserIdsList;
+- (NSMutableArray *)seenUserUuidsList {
+  return result.mutableSeenUserUuidsList;
 }
-- (int32_t)seenUserIdsAtIndex:(NSUInteger)index {
-  return [result seenUserIdsAtIndex:index];
+- (NSString*)seenUserUuidsAtIndex:(NSUInteger)index {
+  return [result seenUserUuidsAtIndex:index];
 }
-- (QueueUpRequestProto_Builder *)addSeenUserIds:(int32_t)value {
-  if (result.mutableSeenUserIdsList == nil) {
-    result.mutableSeenUserIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (QueueUpRequestProto_Builder *)addSeenUserUuids:(NSString*)value {
+  if (result.mutableSeenUserUuidsList == nil) {
+    result.mutableSeenUserUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableSeenUserIdsList addInt32:value];
+  [result.mutableSeenUserUuidsList addObject:value];
   return self;
 }
-- (QueueUpRequestProto_Builder *)addAllSeenUserIds:(NSArray *)array {
-  if (result.mutableSeenUserIdsList == nil) {
-    result.mutableSeenUserIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (QueueUpRequestProto_Builder *)addAllSeenUserUuids:(NSArray *)array {
+  if (result.mutableSeenUserUuidsList == nil) {
+    result.mutableSeenUserUuidsList = [NSMutableArray array];
   }
-  [result.mutableSeenUserIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  [result.mutableSeenUserUuidsList addObjectsFromArray:array];
   return self;
 }
-- (QueueUpRequestProto_Builder *)setSeenUserIdsValues:(const int32_t *)values count:(NSUInteger)count {
-  result.mutableSeenUserIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
-  return self;
-}
-- (QueueUpRequestProto_Builder *)clearSeenUserIds {
-  result.mutableSeenUserIdsList = nil;
+- (QueueUpRequestProto_Builder *)clearSeenUserUuids {
+  result.mutableSeenUserUuidsList = nil;
   return self;
 }
 - (BOOL) hasClientTime {
@@ -1518,7 +1509,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 
 @interface EndPvpBattleRequestProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property int32_t defenderId;
+@property (strong) NSString* defenderUuid;
 @property BOOL userAttacked;
 @property BOOL userWon;
 @property int64_t clientTime;
@@ -1536,13 +1527,13 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasDefenderId {
-  return !!hasDefenderId_;
+- (BOOL) hasDefenderUuid {
+  return !!hasDefenderUuid_;
 }
-- (void) setHasDefenderId:(BOOL) value_ {
-  hasDefenderId_ = !!value_;
+- (void) setHasDefenderUuid:(BOOL) value_ {
+  hasDefenderUuid_ = !!value_;
 }
-@synthesize defenderId;
+@synthesize defenderUuid;
 - (BOOL) hasUserAttacked {
   return !!hasUserAttacked_;
 }
@@ -1598,7 +1589,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.defenderId = 0;
+    self.defenderUuid = @"";
     self.userAttacked = NO;
     self.userWon = NO;
     self.clientTime = 0L;
@@ -1627,8 +1618,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasDefenderId) {
-    [output writeInt32:2 value:self.defenderId];
+  if (self.hasDefenderUuid) {
+    [output writeString:2 value:self.defenderUuid];
   }
   if (self.hasUserAttacked) {
     [output writeBool:3 value:self.userAttacked];
@@ -1660,8 +1651,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasDefenderId) {
-    size_ += computeInt32Size(2, self.defenderId);
+  if (self.hasDefenderUuid) {
+    size_ += computeStringSize(2, self.defenderUuid);
   }
   if (self.hasUserAttacked) {
     size_ += computeBoolSize(3, self.userAttacked);
@@ -1722,8 +1713,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasDefenderId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"defenderId", [NSNumber numberWithInteger:self.defenderId]];
+  if (self.hasDefenderUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defenderUuid", self.defenderUuid];
   }
   if (self.hasUserAttacked) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userAttacked", [NSNumber numberWithBool:self.userAttacked]];
@@ -1756,8 +1747,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasDefenderId == otherMessage.hasDefenderId &&
-      (!self.hasDefenderId || self.defenderId == otherMessage.defenderId) &&
+      self.hasDefenderUuid == otherMessage.hasDefenderUuid &&
+      (!self.hasDefenderUuid || [self.defenderUuid isEqual:otherMessage.defenderUuid]) &&
       self.hasUserAttacked == otherMessage.hasUserAttacked &&
       (!self.hasUserAttacked || self.userAttacked == otherMessage.userAttacked) &&
       self.hasUserWon == otherMessage.hasUserWon &&
@@ -1777,8 +1768,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasDefenderId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defenderId] hash];
+  if (self.hasDefenderUuid) {
+    hashCode = hashCode * 31 + [self.defenderUuid hash];
   }
   if (self.hasUserAttacked) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.userAttacked] hash];
@@ -1844,8 +1835,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasDefenderId) {
-    [self setDefenderId:other.defenderId];
+  if (other.hasDefenderUuid) {
+    [self setDefenderUuid:other.defenderUuid];
   }
   if (other.hasUserAttacked) {
     [self setUserAttacked:other.userAttacked];
@@ -1895,8 +1886,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setDefenderId:[input readInt32]];
+      case 18: {
+        [self setDefenderUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1956,20 +1947,20 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
-- (BOOL) hasDefenderId {
-  return result.hasDefenderId;
+- (BOOL) hasDefenderUuid {
+  return result.hasDefenderUuid;
 }
-- (int32_t) defenderId {
-  return result.defenderId;
+- (NSString*) defenderUuid {
+  return result.defenderUuid;
 }
-- (EndPvpBattleRequestProto_Builder*) setDefenderId:(int32_t) value {
-  result.hasDefenderId = YES;
-  result.defenderId = value;
+- (EndPvpBattleRequestProto_Builder*) setDefenderUuid:(NSString*) value {
+  result.hasDefenderUuid = YES;
+  result.defenderUuid = value;
   return self;
 }
-- (EndPvpBattleRequestProto_Builder*) clearDefenderId {
-  result.hasDefenderId = NO;
-  result.defenderId = 0;
+- (EndPvpBattleRequestProto_Builder*) clearDefenderUuid {
+  result.hasDefenderUuid = NO;
+  result.defenderUuid = @"";
   return self;
 }
 - (BOOL) hasUserAttacked {
@@ -2072,7 +2063,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 
 @interface EndPvpBattleResponseProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property int32_t defenderId;
+@property (strong) NSString* defenderUuid;
 @property BOOL attackerAttacked;
 @property BOOL attackerWon;
 @property EndPvpBattleResponseProto_EndPvpBattleStatus status;
@@ -2087,13 +2078,13 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasDefenderId {
-  return !!hasDefenderId_;
+- (BOOL) hasDefenderUuid {
+  return !!hasDefenderUuid_;
 }
-- (void) setHasDefenderId:(BOOL) value_ {
-  hasDefenderId_ = !!value_;
+- (void) setHasDefenderUuid:(BOOL) value_ {
+  hasDefenderUuid_ = !!value_;
 }
-@synthesize defenderId;
+@synthesize defenderUuid;
 - (BOOL) hasAttackerAttacked {
   return !!hasAttackerAttacked_;
 }
@@ -2128,7 +2119,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.defenderId = 0;
+    self.defenderUuid = @"";
     self.attackerAttacked = NO;
     self.attackerWon = NO;
     self.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
@@ -2154,8 +2145,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasDefenderId) {
-    [output writeInt32:2 value:self.defenderId];
+  if (self.hasDefenderUuid) {
+    [output writeString:2 value:self.defenderUuid];
   }
   if (self.hasAttackerAttacked) {
     [output writeBool:3 value:self.attackerAttacked];
@@ -2178,8 +2169,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasDefenderId) {
-    size_ += computeInt32Size(2, self.defenderId);
+  if (self.hasDefenderUuid) {
+    size_ += computeStringSize(2, self.defenderUuid);
   }
   if (self.hasAttackerAttacked) {
     size_ += computeBoolSize(3, self.attackerAttacked);
@@ -2231,8 +2222,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasDefenderId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"defenderId", [NSNumber numberWithInteger:self.defenderId]];
+  if (self.hasDefenderUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defenderUuid", self.defenderUuid];
   }
   if (self.hasAttackerAttacked) {
     [output appendFormat:@"%@%@: %@\n", indent, @"attackerAttacked", [NSNumber numberWithBool:self.attackerAttacked]];
@@ -2256,8 +2247,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasDefenderId == otherMessage.hasDefenderId &&
-      (!self.hasDefenderId || self.defenderId == otherMessage.defenderId) &&
+      self.hasDefenderUuid == otherMessage.hasDefenderUuid &&
+      (!self.hasDefenderUuid || [self.defenderUuid isEqual:otherMessage.defenderUuid]) &&
       self.hasAttackerAttacked == otherMessage.hasAttackerAttacked &&
       (!self.hasAttackerAttacked || self.attackerAttacked == otherMessage.attackerAttacked) &&
       self.hasAttackerWon == otherMessage.hasAttackerWon &&
@@ -2271,8 +2262,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasDefenderId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defenderId] hash];
+  if (self.hasDefenderUuid) {
+    hashCode = hashCode * 31 + [self.defenderUuid hash];
   }
   if (self.hasAttackerAttacked) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.attackerAttacked] hash];
@@ -2339,8 +2330,8 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasDefenderId) {
-    [self setDefenderId:other.defenderId];
+  if (other.hasDefenderUuid) {
+    [self setDefenderUuid:other.defenderUuid];
   }
   if (other.hasAttackerAttacked) {
     [self setAttackerAttacked:other.attackerAttacked];
@@ -2381,8 +2372,8 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setDefenderId:[input readInt32]];
+      case 18: {
+        [self setDefenderUuid:[input readString]];
         break;
       }
       case 24: {
@@ -2435,20 +2426,20 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
-- (BOOL) hasDefenderId {
-  return result.hasDefenderId;
+- (BOOL) hasDefenderUuid {
+  return result.hasDefenderUuid;
 }
-- (int32_t) defenderId {
-  return result.defenderId;
+- (NSString*) defenderUuid {
+  return result.defenderUuid;
 }
-- (EndPvpBattleResponseProto_Builder*) setDefenderId:(int32_t) value {
-  result.hasDefenderId = YES;
-  result.defenderId = value;
+- (EndPvpBattleResponseProto_Builder*) setDefenderUuid:(NSString*) value {
+  result.hasDefenderUuid = YES;
+  result.defenderUuid = value;
   return self;
 }
-- (EndPvpBattleResponseProto_Builder*) clearDefenderId {
-  result.hasDefenderId = NO;
-  result.defenderId = 0;
+- (EndPvpBattleResponseProto_Builder*) clearDefenderUuid {
+  result.hasDefenderUuid = NO;
+  result.defenderUuid = @"";
   return self;
 }
 - (BOOL) hasAttackerAttacked {

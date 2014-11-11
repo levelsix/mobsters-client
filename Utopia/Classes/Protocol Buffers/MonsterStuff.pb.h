@@ -581,9 +581,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @private
   BOOL hasIsComplete_:1;
   BOOL hasIsRestrictd_:1;
-  BOOL hasUserMonsterId_:1;
   BOOL hasCombineStartTime_:1;
-  BOOL hasUserId_:1;
   BOOL hasMonsterId_:1;
   BOOL hasCurrentExp_:1;
   BOOL hasCurrentLvl_:1;
@@ -592,11 +590,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasTeamSlotNum_:1;
   BOOL hasOffensiveSkillId_:1;
   BOOL hasDefensiveSkillId_:1;
+  BOOL hasUserMonsterUuid_:1;
+  BOOL hasUserUuid_:1;
   BOOL isComplete_:1;
   BOOL isRestrictd_:1;
-  int64_t userMonsterId;
   int64_t combineStartTime;
-  int32_t userId;
   int32_t monsterId;
   int32_t currentExp;
   int32_t currentLvl;
@@ -605,9 +603,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t teamSlotNum;
   int32_t offensiveSkillId;
   int32_t defensiveSkillId;
+  NSString* userMonsterUuid;
+  NSString* userUuid;
 }
-- (BOOL) hasUserMonsterId;
-- (BOOL) hasUserId;
+- (BOOL) hasUserMonsterUuid;
+- (BOOL) hasUserUuid;
 - (BOOL) hasMonsterId;
 - (BOOL) hasCurrentExp;
 - (BOOL) hasCurrentLvl;
@@ -619,8 +619,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasIsRestrictd;
 - (BOOL) hasOffensiveSkillId;
 - (BOOL) hasDefensiveSkillId;
-@property (readonly) int64_t userMonsterId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userMonsterUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t monsterId;
 @property (readonly) int32_t currentExp;
 @property (readonly) int32_t currentLvl;
@@ -668,15 +668,15 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (FullUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (FullUserMonsterProto_Builder*) setUserMonsterId:(int64_t) value;
-- (FullUserMonsterProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (FullUserMonsterProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (FullUserMonsterProto_Builder*) clearUserMonsterUuid;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserMonsterProto_Builder*) setUserId:(int32_t) value;
-- (FullUserMonsterProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserMonsterProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserMonsterProto_Builder*) clearUserUuid;
 
 - (BOOL) hasMonsterId;
 - (int32_t) monsterId;
@@ -796,25 +796,25 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @private
   BOOL hasHealthProgress_:1;
   BOOL hasElapsedSeconds_:1;
-  BOOL hasUserMonsterId_:1;
   BOOL hasQueuedTimeMillis_:1;
-  BOOL hasUserId_:1;
   BOOL hasPriority_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasUserMonsterUuid_:1;
   Float32 healthProgress;
   Float32 elapsedSeconds;
-  int64_t userMonsterId;
   int64_t queuedTimeMillis;
-  int32_t userId;
   int32_t priority;
+  NSString* userUuid;
+  NSString* userMonsterUuid;
 }
-- (BOOL) hasUserId;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserUuid;
+- (BOOL) hasUserMonsterUuid;
 - (BOOL) hasQueuedTimeMillis;
 - (BOOL) hasHealthProgress;
 - (BOOL) hasPriority;
 - (BOOL) hasElapsedSeconds;
-@property (readonly) int32_t userId;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int64_t queuedTimeMillis;
 @property (readonly) Float32 healthProgress;
 @property (readonly) int32_t priority;
@@ -855,15 +855,15 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterHealingProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserMonsterHealingProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserMonsterHealingProto_Builder*) setUserId:(int32_t) value;
-- (UserMonsterHealingProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserMonsterHealingProto_Builder*) setUserUuid:(NSString*) value;
+- (UserMonsterHealingProto_Builder*) clearUserUuid;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (UserMonsterHealingProto_Builder*) setUserMonsterId:(int64_t) value;
-- (UserMonsterHealingProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (UserMonsterHealingProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (UserMonsterHealingProto_Builder*) clearUserMonsterUuid;
 
 - (BOOL) hasQueuedTimeMillis;
 - (int64_t) queuedTimeMillis;
@@ -888,14 +888,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserMonsterCurrentHealthProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
   BOOL hasCurrentHealth_:1;
-  int64_t userMonsterId;
+  BOOL hasUserMonsterUuid_:1;
   int32_t currentHealth;
+  NSString* userMonsterUuid;
 }
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 - (BOOL) hasCurrentHealth;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int32_t currentHealth;
 
 + (UserMonsterCurrentHealthProto*) defaultInstance;
@@ -933,10 +933,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterCurrentHealthProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserMonsterCurrentHealthProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (UserMonsterCurrentHealthProto_Builder*) setUserMonsterId:(int64_t) value;
-- (UserMonsterCurrentHealthProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (UserMonsterCurrentHealthProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (UserMonsterCurrentHealthProto_Builder*) clearUserMonsterUuid;
 
 - (BOOL) hasCurrentHealth;
 - (int32_t) currentHealth;
@@ -946,15 +946,15 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserEnhancementProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasBaseMonster_:1;
-  int32_t userId;
+  NSString* userUuid;
   UserEnhancementItemProto* baseMonster;
   NSMutableArray * mutableFeedersList;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasBaseMonster;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) UserEnhancementItemProto* baseMonster;
 @property (readonly, strong) NSArray * feedersList;
 - (UserEnhancementItemProto*)feedersAtIndex:(NSUInteger)index;
@@ -994,10 +994,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserEnhancementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserEnhancementProto_Builder*) setUserId:(int32_t) value;
-- (UserEnhancementProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserEnhancementProto_Builder*) setUserUuid:(NSString*) value;
+- (UserEnhancementProto_Builder*) clearUserUuid;
 
 - (BOOL) hasBaseMonster;
 - (UserEnhancementItemProto*) baseMonster;
@@ -1016,19 +1016,19 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @interface UserEnhancementItemProto : PBGeneratedMessage {
 @private
   BOOL hasEnhancingComplete_:1;
-  BOOL hasUserMonsterId_:1;
   BOOL hasExpectedStartTimeMillis_:1;
   BOOL hasEnhancingCost_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL enhancingComplete_:1;
-  int64_t userMonsterId;
   int64_t expectedStartTimeMillis;
   int32_t enhancingCost;
+  NSString* userMonsterUuid;
 }
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 - (BOOL) hasExpectedStartTimeMillis;
 - (BOOL) hasEnhancingCost;
 - (BOOL) hasEnhancingComplete;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int64_t expectedStartTimeMillis;
 @property (readonly) int32_t enhancingCost;
 - (BOOL) enhancingComplete;
@@ -1068,10 +1068,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserEnhancementItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (UserEnhancementItemProto_Builder*) setUserMonsterId:(int64_t) value;
-- (UserEnhancementItemProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (UserEnhancementItemProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (UserEnhancementItemProto_Builder*) clearUserMonsterUuid;
 
 - (BOOL) hasExpectedStartTimeMillis;
 - (int64_t) expectedStartTimeMillis;
@@ -1091,20 +1091,20 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserMonsterCurrentExpProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
   BOOL hasExpectedExperience_:1;
   BOOL hasExpectedLevel_:1;
   BOOL hasExpectedHp_:1;
-  int64_t userMonsterId;
+  BOOL hasUserMonsterUuid_:1;
   int32_t expectedExperience;
   int32_t expectedLevel;
   int32_t expectedHp;
+  NSString* userMonsterUuid;
 }
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 - (BOOL) hasExpectedExperience;
 - (BOOL) hasExpectedLevel;
 - (BOOL) hasExpectedHp;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int32_t expectedExperience;
 @property (readonly) int32_t expectedLevel;
 @property (readonly) int32_t expectedHp;
@@ -1144,10 +1144,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterCurrentExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserMonsterCurrentExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (UserMonsterCurrentExpProto_Builder*) setUserMonsterId:(int64_t) value;
-- (UserMonsterCurrentExpProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (UserMonsterCurrentExpProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (UserMonsterCurrentExpProto_Builder*) clearUserMonsterUuid;
 
 - (BOOL) hasExpectedExperience;
 - (int32_t) expectedExperience;
@@ -1167,14 +1167,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface MinimumUserMonsterSellProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
   BOOL hasCashAmount_:1;
-  int64_t userMonsterId;
+  BOOL hasUserMonsterUuid_:1;
   int32_t cashAmount;
+  NSString* userMonsterUuid;
 }
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 - (BOOL) hasCashAmount;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int32_t cashAmount;
 
 + (MinimumUserMonsterSellProto*) defaultInstance;
@@ -1212,10 +1212,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MinimumUserMonsterSellProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumUserMonsterSellProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (MinimumUserMonsterSellProto_Builder*) setUserMonsterId:(int64_t) value;
-- (MinimumUserMonsterSellProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (MinimumUserMonsterSellProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (MinimumUserMonsterSellProto_Builder*) clearUserMonsterUuid;
 
 - (BOOL) hasCashAmount;
 - (int32_t) cashAmount;
@@ -1225,12 +1225,12 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserCurrentMonsterTeamProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
-  int32_t userId;
+  BOOL hasUserUuid_:1;
+  NSString* userUuid;
   NSMutableArray * mutableCurrentTeamList;
 }
-- (BOOL) hasUserId;
-@property (readonly) int32_t userId;
+- (BOOL) hasUserUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSArray * currentTeamList;
 - (FullUserMonsterProto*)currentTeamAtIndex:(NSUInteger)index;
 
@@ -1269,10 +1269,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserCurrentMonsterTeamProto_Builder*) setUserId:(int32_t) value;
-- (UserCurrentMonsterTeamProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserCurrentMonsterTeamProto_Builder*) setUserUuid:(NSString*) value;
+- (UserCurrentMonsterTeamProto_Builder*) clearUserUuid;
 
 - (NSMutableArray *)currentTeamList;
 - (FullUserMonsterProto*)currentTeamAtIndex:(NSUInteger)index;
@@ -1283,18 +1283,18 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface UserMonsterEvolutionProto : PBGeneratedMessage {
 @private
-  BOOL hasCatalystUserMonsterId_:1;
   BOOL hasStartTime_:1;
-  int64_t catalystUserMonsterId;
+  BOOL hasCatalystUserMonsterUuid_:1;
   int64_t startTime;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSString* catalystUserMonsterUuid;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
-- (BOOL) hasCatalystUserMonsterId;
+- (BOOL) hasCatalystUserMonsterUuid;
 - (BOOL) hasStartTime;
-@property (readonly) int64_t catalystUserMonsterId;
-@property (readonly, strong) PBArray * userMonsterIdsList;
+@property (readonly, strong) NSString* catalystUserMonsterUuid;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
 @property (readonly) int64_t startTime;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (UserMonsterEvolutionProto*) defaultInstance;
 - (UserMonsterEvolutionProto*) defaultInstance;
@@ -1331,17 +1331,16 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasCatalystUserMonsterId;
-- (int64_t) catalystUserMonsterId;
-- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterId:(int64_t) value;
-- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterId;
+- (BOOL) hasCatalystUserMonsterUuid;
+- (NSString*) catalystUserMonsterUuid;
+- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterUuid:(NSString*) value;
+- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterUuid;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (UserMonsterEvolutionProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (UserMonsterEvolutionProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (UserMonsterEvolutionProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (UserMonsterEvolutionProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (UserMonsterEvolutionProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (UserMonsterEvolutionProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (UserMonsterEvolutionProto_Builder *)clearUserMonsterUuids;
 
 - (BOOL) hasStartTime;
 - (int64_t) startTime;

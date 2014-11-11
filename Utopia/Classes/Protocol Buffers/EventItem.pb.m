@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
+    [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -746,6 +747,696 @@ BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(Trad
 - (TradeItemForBoosterResponseProto_Builder*) clearPrize {
   result.hasPrize = NO;
   result.prize = [BoosterItemProto defaultInstance];
+  return self;
+}
+@end
+
+@interface TradeItemForSpeedUpsRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableItemsUsedList;
+@property (strong) NSMutableArray * mutableNuUserItemsList;
+@end
+
+@implementation TradeItemForSpeedUpsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableItemsUsedList;
+@dynamic itemsUsedList;
+@synthesize mutableNuUserItemsList;
+@dynamic nuUserItemsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static TradeItemForSpeedUpsRequestProto* defaultTradeItemForSpeedUpsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [TradeItemForSpeedUpsRequestProto class]) {
+    defaultTradeItemForSpeedUpsRequestProtoInstance = [[TradeItemForSpeedUpsRequestProto alloc] init];
+  }
+}
++ (TradeItemForSpeedUpsRequestProto*) defaultInstance {
+  return defaultTradeItemForSpeedUpsRequestProtoInstance;
+}
+- (TradeItemForSpeedUpsRequestProto*) defaultInstance {
+  return defaultTradeItemForSpeedUpsRequestProtoInstance;
+}
+- (NSArray *)itemsUsedList {
+  return mutableItemsUsedList;
+}
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index {
+  return [mutableItemsUsedList objectAtIndex:index];
+}
+- (NSArray *)nuUserItemsList {
+  return mutableNuUserItemsList;
+}
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index {
+  return [mutableNuUserItemsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromData:(NSData*) data {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromData:data] build];
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TradeItemForSpeedUpsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsRequestProto*)[[[TradeItemForSpeedUpsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsRequestProto_Builder*) builder {
+  return [[TradeItemForSpeedUpsRequestProto_Builder alloc] init];
+}
++ (TradeItemForSpeedUpsRequestProto_Builder*) builderWithPrototype:(TradeItemForSpeedUpsRequestProto*) prototype {
+  return [[TradeItemForSpeedUpsRequestProto builder] mergeFrom:prototype];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) builder {
+  return [TradeItemForSpeedUpsRequestProto builder];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) toBuilder {
+  return [TradeItemForSpeedUpsRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"itemsUsed"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"nuUserItems"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[TradeItemForSpeedUpsRequestProto class]]) {
+    return NO;
+  }
+  TradeItemForSpeedUpsRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.itemsUsedList isEqualToArray:otherMessage.itemsUsedList] &&
+      [self.nuUserItemsList isEqualToArray:otherMessage.nuUserItemsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface TradeItemForSpeedUpsRequestProto_Builder()
+@property (strong) TradeItemForSpeedUpsRequestProto* result;
+@end
+
+@implementation TradeItemForSpeedUpsRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[TradeItemForSpeedUpsRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) clear {
+  self.result = [[TradeItemForSpeedUpsRequestProto alloc] init];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) clone {
+  return [TradeItemForSpeedUpsRequestProto builderWithPrototype:result];
+}
+- (TradeItemForSpeedUpsRequestProto*) defaultInstance {
+  return [TradeItemForSpeedUpsRequestProto defaultInstance];
+}
+- (TradeItemForSpeedUpsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TradeItemForSpeedUpsRequestProto*) buildPartial {
+  TradeItemForSpeedUpsRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFrom:(TradeItemForSpeedUpsRequestProto*) other {
+  if (other == [TradeItemForSpeedUpsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableItemsUsedList.count > 0) {
+    if (result.mutableItemsUsedList == nil) {
+      result.mutableItemsUsedList = [[NSMutableArray alloc] initWithArray:other.mutableItemsUsedList];
+    } else {
+      [result.mutableItemsUsedList addObjectsFromArray:other.mutableItemsUsedList];
+    }
+  }
+  if (other.mutableNuUserItemsList.count > 0) {
+    if (result.mutableNuUserItemsList == nil) {
+      result.mutableNuUserItemsList = [[NSMutableArray alloc] initWithArray:other.mutableNuUserItemsList];
+    } else {
+      [result.mutableNuUserItemsList addObjectsFromArray:other.mutableNuUserItemsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserItemUsageProto_Builder* subBuilder = [UserItemUsageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addItemsUsed:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNuUserItems:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)itemsUsedList {
+  return result.mutableItemsUsedList;
+}
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index {
+  return [result itemsUsedAtIndex:index];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)addItemsUsed:(UserItemUsageProto*)value {
+  if (result.mutableItemsUsedList == nil) {
+    result.mutableItemsUsedList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableItemsUsedList addObject:value];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)addAllItemsUsed:(NSArray *)array {
+  if (result.mutableItemsUsedList == nil) {
+    result.mutableItemsUsedList = [NSMutableArray array];
+  }
+  [result.mutableItemsUsedList addObjectsFromArray:array];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)clearItemsUsed {
+  result.mutableItemsUsedList = nil;
+  return self;
+}
+- (NSMutableArray *)nuUserItemsList {
+  return result.mutableNuUserItemsList;
+}
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index {
+  return [result nuUserItemsAtIndex:index];
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)addNuUserItems:(UserItemProto*)value {
+  if (result.mutableNuUserItemsList == nil) {
+    result.mutableNuUserItemsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableNuUserItemsList addObject:value];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)addAllNuUserItems:(NSArray *)array {
+  if (result.mutableNuUserItemsList == nil) {
+    result.mutableNuUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableNuUserItemsList addObjectsFromArray:array];
+  return self;
+}
+- (TradeItemForSpeedUpsRequestProto_Builder *)clearNuUserItems {
+  result.mutableNuUserItemsList = nil;
+  return self;
+}
+@end
+
+@interface TradeItemForSpeedUpsResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus status;
+@property (strong) NSMutableArray * mutableItemsUsedList;
+@end
+
+@implementation TradeItemForSpeedUpsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+@synthesize mutableItemsUsedList;
+@dynamic itemsUsedList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess;
+  }
+  return self;
+}
+static TradeItemForSpeedUpsResponseProto* defaultTradeItemForSpeedUpsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [TradeItemForSpeedUpsResponseProto class]) {
+    defaultTradeItemForSpeedUpsResponseProtoInstance = [[TradeItemForSpeedUpsResponseProto alloc] init];
+  }
+}
++ (TradeItemForSpeedUpsResponseProto*) defaultInstance {
+  return defaultTradeItemForSpeedUpsResponseProtoInstance;
+}
+- (TradeItemForSpeedUpsResponseProto*) defaultInstance {
+  return defaultTradeItemForSpeedUpsResponseProtoInstance;
+}
+- (NSArray *)itemsUsedList {
+  return mutableItemsUsedList;
+}
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index {
+  return [mutableItemsUsedList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromData:(NSData*) data {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromData:data] build];
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TradeItemForSpeedUpsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForSpeedUpsResponseProto*)[[[TradeItemForSpeedUpsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForSpeedUpsResponseProto_Builder*) builder {
+  return [[TradeItemForSpeedUpsResponseProto_Builder alloc] init];
+}
++ (TradeItemForSpeedUpsResponseProto_Builder*) builderWithPrototype:(TradeItemForSpeedUpsResponseProto*) prototype {
+  return [[TradeItemForSpeedUpsResponseProto builder] mergeFrom:prototype];
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) builder {
+  return [TradeItemForSpeedUpsResponseProto builder];
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) toBuilder {
+  return [TradeItemForSpeedUpsResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"itemsUsed"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[TradeItemForSpeedUpsResponseProto class]]) {
+    return NO;
+  }
+  TradeItemForSpeedUpsResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      [self.itemsUsedList isEqualToArray:otherMessage.itemsUsedList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  [self.itemsUsedList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value) {
+  switch (value) {
+    case TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess:
+    case TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface TradeItemForSpeedUpsResponseProto_Builder()
+@property (strong) TradeItemForSpeedUpsResponseProto* result;
+@end
+
+@implementation TradeItemForSpeedUpsResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[TradeItemForSpeedUpsResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) clear {
+  self.result = [[TradeItemForSpeedUpsResponseProto alloc] init];
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) clone {
+  return [TradeItemForSpeedUpsResponseProto builderWithPrototype:result];
+}
+- (TradeItemForSpeedUpsResponseProto*) defaultInstance {
+  return [TradeItemForSpeedUpsResponseProto defaultInstance];
+}
+- (TradeItemForSpeedUpsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TradeItemForSpeedUpsResponseProto*) buildPartial {
+  TradeItemForSpeedUpsResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFrom:(TradeItemForSpeedUpsResponseProto*) other {
+  if (other == [TradeItemForSpeedUpsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableItemsUsedList.count > 0) {
+    if (result.mutableItemsUsedList == nil) {
+      result.mutableItemsUsedList = [[NSMutableArray alloc] initWithArray:other.mutableItemsUsedList];
+    } else {
+      [result.mutableItemsUsedList addObjectsFromArray:other.mutableItemsUsedList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value = (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus)[input readEnum];
+        if (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        UserItemUsageProto_Builder* subBuilder = [UserItemUsageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addItemsUsed:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) status {
+  return result.status;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) setStatus:(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess;
+  return self;
+}
+- (NSMutableArray *)itemsUsedList {
+  return result.mutableItemsUsedList;
+}
+- (UserItemUsageProto*)itemsUsedAtIndex:(NSUInteger)index {
+  return [result itemsUsedAtIndex:index];
+}
+- (TradeItemForSpeedUpsResponseProto_Builder *)addItemsUsed:(UserItemUsageProto*)value {
+  if (result.mutableItemsUsedList == nil) {
+    result.mutableItemsUsedList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableItemsUsedList addObject:value];
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder *)addAllItemsUsed:(NSArray *)array {
+  if (result.mutableItemsUsedList == nil) {
+    result.mutableItemsUsedList = [NSMutableArray array];
+  }
+  [result.mutableItemsUsedList addObjectsFromArray:array];
+  return self;
+}
+- (TradeItemForSpeedUpsResponseProto_Builder *)clearItemsUsed {
+  result.mutableItemsUsedList = nil;
   return self;
 }
 @end

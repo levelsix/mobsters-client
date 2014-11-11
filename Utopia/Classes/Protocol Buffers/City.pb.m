@@ -22,7 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface UserCityExpansionDataProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t xPosition;
 @property int32_t yPosition;
 @property BOOL isExpanding;
@@ -31,13 +31,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @implementation UserCityExpansionDataProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasXPosition {
   return !!hasXPosition_;
 }
@@ -73,7 +73,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize expandStartTime;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.xPosition = 0;
     self.yPosition = 0;
     self.isExpanding = NO;
@@ -97,8 +97,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasXPosition) {
     [output writeSInt32:2 value:self.xPosition];
@@ -121,8 +121,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasXPosition) {
     size_ += computeSInt32Size(2, self.xPosition);
@@ -171,8 +171,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   return [UserCityExpansionDataProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasXPosition) {
     [output appendFormat:@"%@%@: %@\n", indent, @"xPosition", [NSNumber numberWithInteger:self.xPosition]];
@@ -197,8 +197,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   }
   UserCityExpansionDataProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasXPosition == otherMessage.hasXPosition &&
       (!self.hasXPosition || self.xPosition == otherMessage.xPosition) &&
       self.hasYPosition == otherMessage.hasYPosition &&
@@ -211,8 +211,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasXPosition) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.xPosition] hash];
@@ -269,8 +269,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   if (other == [UserCityExpansionDataProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasXPosition) {
     [self setXPosition:other.xPosition];
@@ -305,8 +305,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -328,20 +328,20 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserCityExpansionDataProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserCityExpansionDataProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserCityExpansionDataProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasXPosition {

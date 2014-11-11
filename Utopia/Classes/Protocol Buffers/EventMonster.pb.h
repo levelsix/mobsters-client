@@ -720,29 +720,29 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsSpeedup_:1;
-  BOOL hasUserMonsterId_:1;
   BOOL hasGemsForSpeedup_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
   BOOL hasUmcep_:1;
   BOOL isSpeedup_:1;
-  int64_t userMonsterId;
   int32_t gemsForSpeedup;
+  NSString* userMonsterUuid;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIsSpeedup;
 - (BOOL) hasGemsForSpeedup;
 - (BOOL) hasUmcep;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, strong) UserMonsterCurrentExpProto* umcep;
-@property (readonly, strong) PBArray * userMonsterIdsList;
-@property (readonly) int64_t userMonsterId;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
+@property (readonly, strong) NSString* userMonsterUuid;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
 - (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
@@ -803,17 +803,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUmcep;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (EnhancementWaitTimeCompleteRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (EnhancementWaitTimeCompleteRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (EnhancementWaitTimeCompleteRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (EnhancementWaitTimeCompleteRequestProto_Builder *)clearUserMonsterUuids;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUserMonsterId:(int64_t) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterUuid;
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
@@ -882,14 +881,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasUmcep_:1;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUmcep;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) UserMonsterCurrentExpProto* umcep;
-@property (readonly, strong) PBArray * userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (CollectMonsterEnhancementRequestProto*) defaultInstance;
 - (CollectMonsterEnhancementRequestProto*) defaultInstance;
@@ -940,12 +939,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (CollectMonsterEnhancementRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
 - (CollectMonsterEnhancementRequestProto_Builder*) clearUmcep;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (CollectMonsterEnhancementRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (CollectMonsterEnhancementRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (CollectMonsterEnhancementRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (CollectMonsterEnhancementRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (CollectMonsterEnhancementRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (CollectMonsterEnhancementRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (CollectMonsterEnhancementRequestProto_Builder *)clearUserMonsterUuids;
 @end
 
 @interface CollectMonsterEnhancementResponseProto : PBGeneratedMessage {
@@ -1165,35 +1163,35 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasChangeNuPvpDmgMultiplier_:1;
   BOOL hasNuPvpDmgMultiplier_:1;
   BOOL hasClientTime_:1;
-  BOOL hasUserTaskId_:1;
-  BOOL hasDroplessTsfuId_:1;
   BOOL hasNuTaskStageId_:1;
+  BOOL hasUserTaskUuid_:1;
+  BOOL hasDroplessTsfuUuid_:1;
   BOOL hasSender_:1;
   BOOL isUpdateTaskStageForUser_:1;
   BOOL changeNuPvpDmgMultiplier_:1;
   Float32 nuPvpDmgMultiplier;
   int64_t clientTime;
-  int64_t userTaskId;
-  int64_t droplessTsfuId;
   int32_t nuTaskStageId;
+  NSString* userTaskUuid;
+  NSString* droplessTsfuUuid;
   MinimumUserProto* sender;
   NSMutableArray * mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
-- (BOOL) hasUserTaskId;
+- (BOOL) hasUserTaskUuid;
 - (BOOL) hasIsUpdateTaskStageForUser;
 - (BOOL) hasNuTaskStageId;
-- (BOOL) hasDroplessTsfuId;
+- (BOOL) hasDroplessTsfuUuid;
 - (BOOL) hasChangeNuPvpDmgMultiplier;
 - (BOOL) hasNuPvpDmgMultiplier;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly, strong) NSArray * umchpList;
 @property (readonly) int64_t clientTime;
-@property (readonly) int64_t userTaskId;
+@property (readonly, strong) NSString* userTaskUuid;
 - (BOOL) isUpdateTaskStageForUser;
 @property (readonly) int32_t nuTaskStageId;
-@property (readonly) int64_t droplessTsfuId;
+@property (readonly, strong) NSString* droplessTsfuUuid;
 - (BOOL) changeNuPvpDmgMultiplier;
 @property (readonly) Float32 nuPvpDmgMultiplier;
 - (UserMonsterCurrentHealthProto*)umchpAtIndex:(NSUInteger)index;
@@ -1251,10 +1249,10 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UpdateMonsterHealthRequestProto_Builder*) setClientTime:(int64_t) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearClientTime;
 
-- (BOOL) hasUserTaskId;
-- (int64_t) userTaskId;
-- (UpdateMonsterHealthRequestProto_Builder*) setUserTaskId:(int64_t) value;
-- (UpdateMonsterHealthRequestProto_Builder*) clearUserTaskId;
+- (BOOL) hasUserTaskUuid;
+- (NSString*) userTaskUuid;
+- (UpdateMonsterHealthRequestProto_Builder*) setUserTaskUuid:(NSString*) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearUserTaskUuid;
 
 - (BOOL) hasIsUpdateTaskStageForUser;
 - (BOOL) isUpdateTaskStageForUser;
@@ -1266,10 +1264,10 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UpdateMonsterHealthRequestProto_Builder*) setNuTaskStageId:(int32_t) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearNuTaskStageId;
 
-- (BOOL) hasDroplessTsfuId;
-- (int64_t) droplessTsfuId;
-- (UpdateMonsterHealthRequestProto_Builder*) setDroplessTsfuId:(int64_t) value;
-- (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuId;
+- (BOOL) hasDroplessTsfuUuid;
+- (NSString*) droplessTsfuUuid;
+- (UpdateMonsterHealthRequestProto_Builder*) setDroplessTsfuUuid:(NSString*) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearDroplessTsfuUuid;
 
 - (BOOL) hasChangeNuPvpDmgMultiplier;
 - (BOOL) changeNuPvpDmgMultiplier;
@@ -1527,19 +1525,19 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 
 @interface AddMonsterToBattleTeamRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
   BOOL hasTeamSlotNum_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
-  int64_t userMonsterId;
   int32_t teamSlotNum;
+  NSString* userMonsterUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTeamSlotNum;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int32_t teamSlotNum;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 
 + (AddMonsterToBattleTeamRequestProto*) defaultInstance;
 - (AddMonsterToBattleTeamRequestProto*) defaultInstance;
@@ -1588,10 +1586,10 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AddMonsterToBattleTeamRequestProto_Builder*) setTeamSlotNum:(int32_t) value;
 - (AddMonsterToBattleTeamRequestProto_Builder*) clearTeamSlotNum;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (AddMonsterToBattleTeamRequestProto_Builder*) setUserMonsterId:(int64_t) value;
-- (AddMonsterToBattleTeamRequestProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (AddMonsterToBattleTeamRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (AddMonsterToBattleTeamRequestProto_Builder*) clearUserMonsterUuid;
 @end
 
 @interface AddMonsterToBattleTeamResponseProto : PBGeneratedMessage {
@@ -1656,15 +1654,15 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 
 @interface RemoveMonsterFromBattleTeamRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
-  int64_t userMonsterId;
+  NSString* userMonsterUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, strong) NSString* userMonsterUuid;
 
 + (RemoveMonsterFromBattleTeamRequestProto*) defaultInstance;
 - (RemoveMonsterFromBattleTeamRequestProto*) defaultInstance;
@@ -1708,10 +1706,10 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setUserMonsterId:(int64_t) value;
-- (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearUserMonsterUuid;
 @end
 
 @interface RemoveMonsterFromBattleTeamResponseProto : PBGeneratedMessage {
@@ -1776,22 +1774,22 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 
 @interface IncreaseMonsterInventorySlotRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasIncreaseSlotType_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
-  PBAppendableArray * mutableUserFbInviteForSlotIdsList;
+  NSMutableArray * mutableUserFbInviteForSlotUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIncreaseSlotType;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
-@property (readonly) int32_t userStructId;
-@property (readonly, strong) PBArray * userFbInviteForSlotIdsList;
-- (int32_t)userFbInviteForSlotIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSString* userStructUuid;
+@property (readonly, strong) NSArray * userFbInviteForSlotUuidsList;
+- (NSString*)userFbInviteForSlotUuidsAtIndex:(NSUInteger)index;
 
 + (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
 - (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
@@ -1840,17 +1838,16 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setIncreaseSlotType:(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) value;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearUserStructUuid;
 
-- (PBAppendableArray *)userFbInviteForSlotIdsList;
-- (int32_t)userFbInviteForSlotIdsAtIndex:(NSUInteger)index;
-- (IncreaseMonsterInventorySlotRequestProto_Builder *)addUserFbInviteForSlotIds:(int32_t)value;
-- (IncreaseMonsterInventorySlotRequestProto_Builder *)addAllUserFbInviteForSlotIds:(NSArray *)array;
-- (IncreaseMonsterInventorySlotRequestProto_Builder *)setUserFbInviteForSlotIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (IncreaseMonsterInventorySlotRequestProto_Builder *)clearUserFbInviteForSlotIds;
+- (NSMutableArray *)userFbInviteForSlotUuidsList;
+- (NSString*)userFbInviteForSlotUuidsAtIndex:(NSUInteger)index;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)addUserFbInviteForSlotUuids:(NSString*)value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)addAllUserFbInviteForSlotUuids:(NSArray *)array;
+- (IncreaseMonsterInventorySlotRequestProto_Builder *)clearUserFbInviteForSlotUuids;
 @end
 
 @interface IncreaseMonsterInventorySlotResponseProto : PBGeneratedMessage {
@@ -1944,18 +1941,18 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 
 @interface InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
   BOOL hasUserStructFbLvl_:1;
   BOOL hasFbFriendId_:1;
-  int32_t userStructId;
+  BOOL hasUserStructUuid_:1;
   int32_t userStructFbLvl;
   NSString* fbFriendId;
+  NSString* userStructUuid;
 }
 - (BOOL) hasFbFriendId;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasUserStructFbLvl;
 @property (readonly, strong) NSString* fbFriendId;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) int32_t userStructFbLvl;
 
 + (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure*) defaultInstance;
@@ -1998,10 +1995,10 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) setFbFriendId:(NSString*) value;
 - (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) clearFbFriendId;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) setUserStructId:(int32_t) value;
-- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) setUserStructUuid:(NSString*) value;
+- (InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder*) clearUserStructUuid;
 
 - (BOOL) hasUserStructFbLvl;
 - (int32_t) userStructFbLvl;
@@ -2113,15 +2110,15 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithFacebookId* sender;
-  PBAppendableArray * mutableAcceptedInviteIdsList;
-  PBAppendableArray * mutableRejectedInviteIdsList;
+  NSMutableArray * mutableAcceptedInviteUuidsList;
+  NSMutableArray * mutableRejectedInviteUuidsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProtoWithFacebookId* sender;
-@property (readonly, strong) PBArray * acceptedInviteIdsList;
-@property (readonly, strong) PBArray * rejectedInviteIdsList;
-- (int32_t)acceptedInviteIdsAtIndex:(NSUInteger)index;
-- (int32_t)rejectedInviteIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * acceptedInviteUuidsList;
+@property (readonly, strong) NSArray * rejectedInviteUuidsList;
+- (NSString*)acceptedInviteUuidsAtIndex:(NSUInteger)index;
+- (NSString*)rejectedInviteUuidsAtIndex:(NSUInteger)index;
 
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
 - (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
@@ -2165,19 +2162,17 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)acceptedInviteIdsList;
-- (int32_t)acceptedInviteIdsAtIndex:(NSUInteger)index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAcceptedInviteIds:(int32_t)value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllAcceptedInviteIds:(NSArray *)array;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)setAcceptedInviteIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearAcceptedInviteIds;
+- (NSMutableArray *)acceptedInviteUuidsList;
+- (NSString*)acceptedInviteUuidsAtIndex:(NSUInteger)index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAcceptedInviteUuids:(NSString*)value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllAcceptedInviteUuids:(NSArray *)array;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearAcceptedInviteUuids;
 
-- (PBAppendableArray *)rejectedInviteIdsList;
-- (int32_t)rejectedInviteIdsAtIndex:(NSUInteger)index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addRejectedInviteIds:(int32_t)value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllRejectedInviteIds:(NSArray *)array;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)setRejectedInviteIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearRejectedInviteIds;
+- (NSMutableArray *)rejectedInviteUuidsList;
+- (NSString*)rejectedInviteUuidsAtIndex:(NSUInteger)index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addRejectedInviteUuids:(NSString*)value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)addAllRejectedInviteUuids:(NSArray *)array;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder *)clearRejectedInviteUuids;
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsResponseProto : PBGeneratedMessage {
@@ -2255,14 +2250,14 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   BOOL hasSender_:1;
   int32_t gemCost;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemCost;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PBArray * userMonsterIdsList;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
 @property (readonly) int32_t gemCost;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (CombineUserMonsterPiecesRequestProto*) defaultInstance;
 - (CombineUserMonsterPiecesRequestProto*) defaultInstance;
@@ -2306,12 +2301,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (CombineUserMonsterPiecesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (CombineUserMonsterPiecesRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (CombineUserMonsterPiecesRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (CombineUserMonsterPiecesRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (CombineUserMonsterPiecesRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (CombineUserMonsterPiecesRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (CombineUserMonsterPiecesRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (CombineUserMonsterPiecesRequestProto_Builder *)clearUserMonsterUuids;
 
 - (BOOL) hasGemCost;
 - (int32_t) gemCost;
@@ -2503,12 +2497,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PBArray * userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (RestrictUserMonsterRequestProto*) defaultInstance;
 - (RestrictUserMonsterRequestProto*) defaultInstance;
@@ -2552,12 +2546,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (RestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RestrictUserMonsterRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (RestrictUserMonsterRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (RestrictUserMonsterRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (RestrictUserMonsterRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (RestrictUserMonsterRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (RestrictUserMonsterRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (RestrictUserMonsterRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (RestrictUserMonsterRequestProto_Builder *)clearUserMonsterUuids;
 @end
 
 @interface RestrictUserMonsterResponseProto : PBGeneratedMessage {
@@ -2624,12 +2617,12 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableUserMonsterIdsList;
+  NSMutableArray * mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly, strong) PBArray * userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (UnrestrictUserMonsterRequestProto*) defaultInstance;
 - (UnrestrictUserMonsterRequestProto*) defaultInstance;
@@ -2673,12 +2666,11 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
 - (UnrestrictUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UnrestrictUserMonsterRequestProto_Builder*) clearSender;
 
-- (PBAppendableArray *)userMonsterIdsList;
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index;
-- (UnrestrictUserMonsterRequestProto_Builder *)addUserMonsterIds:(int64_t)value;
-- (UnrestrictUserMonsterRequestProto_Builder *)addAllUserMonsterIds:(NSArray *)array;
-- (UnrestrictUserMonsterRequestProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (UnrestrictUserMonsterRequestProto_Builder *)clearUserMonsterIds;
+- (NSMutableArray *)userMonsterUuidsList;
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index;
+- (UnrestrictUserMonsterRequestProto_Builder *)addUserMonsterUuids:(NSString*)value;
+- (UnrestrictUserMonsterRequestProto_Builder *)addAllUserMonsterUuids:(NSArray *)array;
+- (UnrestrictUserMonsterRequestProto_Builder *)clearUserMonsterUuids;
 @end
 
 @interface UnrestrictUserMonsterResponseProto : PBGeneratedMessage {

@@ -2579,8 +2579,8 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 @end
 
 @interface FullUserMonsterProto ()
-@property int64_t userMonsterId;
-@property int32_t userId;
+@property (strong) NSString* userMonsterUuid;
+@property (strong) NSString* userUuid;
 @property int32_t monsterId;
 @property int32_t currentExp;
 @property int32_t currentLvl;
@@ -2596,20 +2596,20 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 
 @implementation FullUserMonsterProto
 
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+@synthesize userMonsterUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasMonsterId {
   return !!hasMonsterId_;
 }
@@ -2699,8 +2699,8 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 @synthesize defensiveSkillId;
 - (id) init {
   if ((self = [super init])) {
-    self.userMonsterId = 0L;
-    self.userId = 0;
+    self.userMonsterUuid = @"";
+    self.userUuid = @"";
     self.monsterId = 0;
     self.currentExp = 0;
     self.currentLvl = 0;
@@ -2731,11 +2731,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMonsterId) {
-    [output writeInt64:1 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:1 value:self.userMonsterUuid];
   }
-  if (self.hasUserId) {
-    [output writeInt32:2 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
   if (self.hasMonsterId) {
     [output writeInt32:3 value:self.monsterId];
@@ -2779,11 +2779,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(1, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(1, self.userMonsterUuid);
   }
-  if (self.hasUserId) {
-    size_ += computeInt32Size(2, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
   }
   if (self.hasMonsterId) {
     size_ += computeInt32Size(3, self.monsterId);
@@ -2853,11 +2853,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   return [FullUserMonsterProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasMonsterId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
@@ -2903,10 +2903,10 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   }
   FullUserMonsterProto *otherMessage = other;
   return
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasMonsterId == otherMessage.hasMonsterId &&
       (!self.hasMonsterId || self.monsterId == otherMessage.monsterId) &&
       self.hasCurrentExp == otherMessage.hasCurrentExp &&
@@ -2933,11 +2933,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasMonsterId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterId] hash];
@@ -3015,11 +3015,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (other == [FullUserMonsterProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasMonsterId) {
     [self setMonsterId:other.monsterId];
@@ -3075,12 +3075,12 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserId:[input readInt32]];
+      case 18: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
@@ -3130,36 +3130,36 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (FullUserMonsterProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (FullUserMonsterProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (FullUserMonsterProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (FullUserMonsterProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserMonsterProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserMonsterProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserMonsterProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserMonsterProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasMonsterId {
@@ -3587,8 +3587,8 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 @end
 
 @interface UserMonsterHealingProto ()
-@property int32_t userId;
-@property int64_t userMonsterId;
+@property (strong) NSString* userUuid;
+@property (strong) NSString* userMonsterUuid;
 @property int64_t queuedTimeMillis;
 @property Float32 healthProgress;
 @property int32_t priority;
@@ -3597,20 +3597,20 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 
 @implementation UserMonsterHealingProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+@synthesize userUuid;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
+@synthesize userMonsterUuid;
 - (BOOL) hasQueuedTimeMillis {
   return !!hasQueuedTimeMillis_;
 }
@@ -3641,8 +3641,8 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 @synthesize elapsedSeconds;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
-    self.userMonsterId = 0L;
+    self.userUuid = @"";
+    self.userMonsterUuid = @"";
     self.queuedTimeMillis = 0L;
     self.healthProgress = 0;
     self.priority = 0;
@@ -3666,11 +3666,11 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
-  if (self.hasUserMonsterId) {
-    [output writeInt64:2 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:2 value:self.userMonsterUuid];
   }
   if (self.hasQueuedTimeMillis) {
     [output writeInt64:3 value:self.queuedTimeMillis];
@@ -3693,11 +3693,11 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(2, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(2, self.userMonsterUuid);
   }
   if (self.hasQueuedTimeMillis) {
     size_ += computeInt64Size(3, self.queuedTimeMillis);
@@ -3746,11 +3746,11 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   return [UserMonsterHealingProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
   if (self.hasQueuedTimeMillis) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queuedTimeMillis", [NSNumber numberWithLongLong:self.queuedTimeMillis]];
@@ -3775,10 +3775,10 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
   UserMonsterHealingProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasQueuedTimeMillis == otherMessage.hasQueuedTimeMillis &&
       (!self.hasQueuedTimeMillis || self.queuedTimeMillis == otherMessage.queuedTimeMillis) &&
       self.hasHealthProgress == otherMessage.hasHealthProgress &&
@@ -3791,11 +3791,11 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
   if (self.hasQueuedTimeMillis) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.queuedTimeMillis] hash];
@@ -3852,11 +3852,11 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (other == [UserMonsterHealingProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
   if (other.hasQueuedTimeMillis) {
     [self setQueuedTimeMillis:other.queuedTimeMillis];
@@ -3891,12 +3891,12 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserMonsterId:[input readInt64]];
+      case 18: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
       case 24: {
@@ -3918,36 +3918,36 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserMonsterHealingProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserMonsterHealingProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserMonsterHealingProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserMonsterHealingProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (UserMonsterHealingProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (UserMonsterHealingProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (UserMonsterHealingProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (UserMonsterHealingProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
 - (BOOL) hasQueuedTimeMillis {
@@ -4017,19 +4017,19 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
 @end
 
 @interface UserMonsterCurrentHealthProto ()
-@property int64_t userMonsterId;
+@property (strong) NSString* userMonsterUuid;
 @property int32_t currentHealth;
 @end
 
 @implementation UserMonsterCurrentHealthProto
 
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
+@synthesize userMonsterUuid;
 - (BOOL) hasCurrentHealth {
   return !!hasCurrentHealth_;
 }
@@ -4039,7 +4039,7 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
 @synthesize currentHealth;
 - (id) init {
   if ((self = [super init])) {
-    self.userMonsterId = 0L;
+    self.userMonsterUuid = @"";
     self.currentHealth = 0;
   }
   return self;
@@ -4060,8 +4060,8 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMonsterId) {
-    [output writeInt64:1 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:1 value:self.userMonsterUuid];
   }
   if (self.hasCurrentHealth) {
     [output writeInt32:2 value:self.currentHealth];
@@ -4075,8 +4075,8 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
   }
 
   size_ = 0;
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(1, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(1, self.userMonsterUuid);
   }
   if (self.hasCurrentHealth) {
     size_ += computeInt32Size(2, self.currentHealth);
@@ -4116,8 +4116,8 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
   return [UserMonsterCurrentHealthProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
   if (self.hasCurrentHealth) {
     [output appendFormat:@"%@%@: %@\n", indent, @"currentHealth", [NSNumber numberWithInteger:self.currentHealth]];
@@ -4133,16 +4133,16 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
   }
   UserMonsterCurrentHealthProto *otherMessage = other;
   return
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasCurrentHealth == otherMessage.hasCurrentHealth &&
       (!self.hasCurrentHealth || self.currentHealth == otherMessage.currentHealth) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
   if (self.hasCurrentHealth) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.currentHealth] hash];
@@ -4190,8 +4190,8 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
   if (other == [UserMonsterCurrentHealthProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
   if (other.hasCurrentHealth) {
     [self setCurrentHealth:other.currentHealth];
@@ -4217,8 +4217,8 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
         }
         break;
       }
-      case 8: {
-        [self setUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
       case 16: {
@@ -4228,20 +4228,20 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
     }
   }
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (UserMonsterCurrentHealthProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (UserMonsterCurrentHealthProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (UserMonsterCurrentHealthProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (UserMonsterCurrentHealthProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
 - (BOOL) hasCurrentHealth {
@@ -4263,20 +4263,20 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
 @end
 
 @interface UserEnhancementProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property (strong) UserEnhancementItemProto* baseMonster;
 @property (strong) NSMutableArray * mutableFeedersList;
 @end
 
 @implementation UserEnhancementProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasBaseMonster {
   return !!hasBaseMonster_;
 }
@@ -4288,7 +4288,7 @@ static UserMonsterCurrentHealthProto* defaultUserMonsterCurrentHealthProtoInstan
 @dynamic feedersList;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.baseMonster = [UserEnhancementItemProto defaultInstance];
   }
   return self;
@@ -4315,8 +4315,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasBaseMonster) {
     [output writeMessage:2 value:self.baseMonster];
@@ -4333,8 +4333,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasBaseMonster) {
     size_ += computeMessageSize(2, self.baseMonster);
@@ -4377,8 +4377,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   return [UserEnhancementProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasBaseMonster) {
     [output appendFormat:@"%@%@ {\n", indent, @"baseMonster"];
@@ -4403,8 +4403,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   }
   UserEnhancementProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasBaseMonster == otherMessage.hasBaseMonster &&
       (!self.hasBaseMonster || [self.baseMonster isEqual:otherMessage.baseMonster]) &&
       [self.feedersList isEqualToArray:otherMessage.feedersList] &&
@@ -4412,8 +4412,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasBaseMonster) {
     hashCode = hashCode * 31 + [self.baseMonster hash];
@@ -4464,8 +4464,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   if (other == [UserEnhancementProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasBaseMonster) {
     [self mergeBaseMonster:other.baseMonster];
@@ -4498,8 +4498,8 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 18: {
@@ -4520,20 +4520,20 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserEnhancementProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserEnhancementProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserEnhancementProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserEnhancementProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasBaseMonster {
@@ -4593,7 +4593,7 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 @end
 
 @interface UserEnhancementItemProto ()
-@property int64_t userMonsterId;
+@property (strong) NSString* userMonsterUuid;
 @property int64_t expectedStartTimeMillis;
 @property int32_t enhancingCost;
 @property BOOL enhancingComplete;
@@ -4601,13 +4601,13 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 
 @implementation UserEnhancementItemProto
 
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
+@synthesize userMonsterUuid;
 - (BOOL) hasExpectedStartTimeMillis {
   return !!hasExpectedStartTimeMillis_;
 }
@@ -4636,7 +4636,7 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userMonsterId = 0L;
+    self.userMonsterUuid = @"";
     self.expectedStartTimeMillis = 0L;
     self.enhancingCost = 0;
     self.enhancingComplete = NO;
@@ -4659,8 +4659,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMonsterId) {
-    [output writeInt64:1 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:1 value:self.userMonsterUuid];
   }
   if (self.hasExpectedStartTimeMillis) {
     [output writeInt64:2 value:self.expectedStartTimeMillis];
@@ -4680,8 +4680,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(1, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(1, self.userMonsterUuid);
   }
   if (self.hasExpectedStartTimeMillis) {
     size_ += computeInt64Size(2, self.expectedStartTimeMillis);
@@ -4727,8 +4727,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   return [UserEnhancementItemProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
   if (self.hasExpectedStartTimeMillis) {
     [output appendFormat:@"%@%@: %@\n", indent, @"expectedStartTimeMillis", [NSNumber numberWithLongLong:self.expectedStartTimeMillis]];
@@ -4750,8 +4750,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   }
   UserEnhancementItemProto *otherMessage = other;
   return
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasExpectedStartTimeMillis == otherMessage.hasExpectedStartTimeMillis &&
       (!self.hasExpectedStartTimeMillis || self.expectedStartTimeMillis == otherMessage.expectedStartTimeMillis) &&
       self.hasEnhancingCost == otherMessage.hasEnhancingCost &&
@@ -4762,8 +4762,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
   if (self.hasExpectedStartTimeMillis) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.expectedStartTimeMillis] hash];
@@ -4817,8 +4817,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (other == [UserEnhancementItemProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
   if (other.hasExpectedStartTimeMillis) {
     [self setExpectedStartTimeMillis:other.expectedStartTimeMillis];
@@ -4850,8 +4850,8 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
       case 16: {
@@ -4869,20 +4869,20 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (UserEnhancementItemProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (UserEnhancementItemProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (UserEnhancementItemProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (UserEnhancementItemProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
 - (BOOL) hasExpectedStartTimeMillis {
@@ -4936,7 +4936,7 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 @end
 
 @interface UserMonsterCurrentExpProto ()
-@property int64_t userMonsterId;
+@property (strong) NSString* userMonsterUuid;
 @property int32_t expectedExperience;
 @property int32_t expectedLevel;
 @property int32_t expectedHp;
@@ -4944,13 +4944,13 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 
 @implementation UserMonsterCurrentExpProto
 
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
+@synthesize userMonsterUuid;
 - (BOOL) hasExpectedExperience {
   return !!hasExpectedExperience_;
 }
@@ -4974,7 +4974,7 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 @synthesize expectedHp;
 - (id) init {
   if ((self = [super init])) {
-    self.userMonsterId = 0L;
+    self.userMonsterUuid = @"";
     self.expectedExperience = 0;
     self.expectedLevel = 0;
     self.expectedHp = 0;
@@ -4997,8 +4997,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMonsterId) {
-    [output writeInt64:1 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:1 value:self.userMonsterUuid];
   }
   if (self.hasExpectedExperience) {
     [output writeInt32:2 value:self.expectedExperience];
@@ -5018,8 +5018,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   }
 
   size_ = 0;
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(1, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(1, self.userMonsterUuid);
   }
   if (self.hasExpectedExperience) {
     size_ += computeInt32Size(2, self.expectedExperience);
@@ -5065,8 +5065,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   return [UserMonsterCurrentExpProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
   if (self.hasExpectedExperience) {
     [output appendFormat:@"%@%@: %@\n", indent, @"expectedExperience", [NSNumber numberWithInteger:self.expectedExperience]];
@@ -5088,8 +5088,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   }
   UserMonsterCurrentExpProto *otherMessage = other;
   return
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasExpectedExperience == otherMessage.hasExpectedExperience &&
       (!self.hasExpectedExperience || self.expectedExperience == otherMessage.expectedExperience) &&
       self.hasExpectedLevel == otherMessage.hasExpectedLevel &&
@@ -5100,8 +5100,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
   if (self.hasExpectedExperience) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.expectedExperience] hash];
@@ -5155,8 +5155,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
   if (other == [UserMonsterCurrentExpProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
   if (other.hasExpectedExperience) {
     [self setExpectedExperience:other.expectedExperience];
@@ -5188,8 +5188,8 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
         }
         break;
       }
-      case 8: {
-        [self setUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
       case 16: {
@@ -5207,20 +5207,20 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
     }
   }
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (UserMonsterCurrentExpProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (UserMonsterCurrentExpProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (UserMonsterCurrentExpProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (UserMonsterCurrentExpProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
 - (BOOL) hasExpectedExperience {
@@ -5274,19 +5274,19 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
 @end
 
 @interface MinimumUserMonsterSellProto ()
-@property int64_t userMonsterId;
+@property (strong) NSString* userMonsterUuid;
 @property int32_t cashAmount;
 @end
 
 @implementation MinimumUserMonsterSellProto
 
-- (BOOL) hasUserMonsterId {
-  return !!hasUserMonsterId_;
+- (BOOL) hasUserMonsterUuid {
+  return !!hasUserMonsterUuid_;
 }
-- (void) setHasUserMonsterId:(BOOL) value_ {
-  hasUserMonsterId_ = !!value_;
+- (void) setHasUserMonsterUuid:(BOOL) value_ {
+  hasUserMonsterUuid_ = !!value_;
 }
-@synthesize userMonsterId;
+@synthesize userMonsterUuid;
 - (BOOL) hasCashAmount {
   return !!hasCashAmount_;
 }
@@ -5296,7 +5296,7 @@ static UserMonsterCurrentExpProto* defaultUserMonsterCurrentExpProtoInstance = n
 @synthesize cashAmount;
 - (id) init {
   if ((self = [super init])) {
-    self.userMonsterId = 0L;
+    self.userMonsterUuid = @"";
     self.cashAmount = 0;
   }
   return self;
@@ -5317,8 +5317,8 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMonsterId) {
-    [output writeInt64:1 value:self.userMonsterId];
+  if (self.hasUserMonsterUuid) {
+    [output writeString:1 value:self.userMonsterUuid];
   }
   if (self.hasCashAmount) {
     [output writeInt32:2 value:self.cashAmount];
@@ -5332,8 +5332,8 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
   }
 
   size_ = 0;
-  if (self.hasUserMonsterId) {
-    size_ += computeInt64Size(1, self.userMonsterId);
+  if (self.hasUserMonsterUuid) {
+    size_ += computeStringSize(1, self.userMonsterUuid);
   }
   if (self.hasCashAmount) {
     size_ += computeInt32Size(2, self.cashAmount);
@@ -5373,8 +5373,8 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
   return [MinimumUserMonsterSellProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterId", [NSNumber numberWithLongLong:self.userMonsterId]];
+  if (self.hasUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuid", self.userMonsterUuid];
   }
   if (self.hasCashAmount) {
     [output appendFormat:@"%@%@: %@\n", indent, @"cashAmount", [NSNumber numberWithInteger:self.cashAmount]];
@@ -5390,16 +5390,16 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
   }
   MinimumUserMonsterSellProto *otherMessage = other;
   return
-      self.hasUserMonsterId == otherMessage.hasUserMonsterId &&
-      (!self.hasUserMonsterId || self.userMonsterId == otherMessage.userMonsterId) &&
+      self.hasUserMonsterUuid == otherMessage.hasUserMonsterUuid &&
+      (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasCashAmount == otherMessage.hasCashAmount &&
       (!self.hasCashAmount || self.cashAmount == otherMessage.cashAmount) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMonsterId] hash];
+  if (self.hasUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.userMonsterUuid hash];
   }
   if (self.hasCashAmount) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cashAmount] hash];
@@ -5447,8 +5447,8 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
   if (other == [MinimumUserMonsterSellProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMonsterId) {
-    [self setUserMonsterId:other.userMonsterId];
+  if (other.hasUserMonsterUuid) {
+    [self setUserMonsterUuid:other.userMonsterUuid];
   }
   if (other.hasCashAmount) {
     [self setCashAmount:other.cashAmount];
@@ -5474,8 +5474,8 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
         }
         break;
       }
-      case 8: {
-        [self setUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setUserMonsterUuid:[input readString]];
         break;
       }
       case 16: {
@@ -5485,20 +5485,20 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
     }
   }
 }
-- (BOOL) hasUserMonsterId {
-  return result.hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid {
+  return result.hasUserMonsterUuid;
 }
-- (int64_t) userMonsterId {
-  return result.userMonsterId;
+- (NSString*) userMonsterUuid {
+  return result.userMonsterUuid;
 }
-- (MinimumUserMonsterSellProto_Builder*) setUserMonsterId:(int64_t) value {
-  result.hasUserMonsterId = YES;
-  result.userMonsterId = value;
+- (MinimumUserMonsterSellProto_Builder*) setUserMonsterUuid:(NSString*) value {
+  result.hasUserMonsterUuid = YES;
+  result.userMonsterUuid = value;
   return self;
 }
-- (MinimumUserMonsterSellProto_Builder*) clearUserMonsterId {
-  result.hasUserMonsterId = NO;
-  result.userMonsterId = 0L;
+- (MinimumUserMonsterSellProto_Builder*) clearUserMonsterUuid {
+  result.hasUserMonsterUuid = NO;
+  result.userMonsterUuid = @"";
   return self;
 }
 - (BOOL) hasCashAmount {
@@ -5520,24 +5520,24 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
 @end
 
 @interface UserCurrentMonsterTeamProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property (strong) NSMutableArray * mutableCurrentTeamList;
 @end
 
 @implementation UserCurrentMonsterTeamProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 @synthesize mutableCurrentTeamList;
 @dynamic currentTeamList;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
   }
   return self;
 }
@@ -5563,8 +5563,8 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   [self.currentTeamList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
@@ -5578,8 +5578,8 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   [self.currentTeamList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
@@ -5619,8 +5619,8 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
   return [UserCurrentMonsterTeamProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   [self.currentTeamList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"currentTeam"];
@@ -5639,15 +5639,15 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
   }
   UserCurrentMonsterTeamProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       [self.currentTeamList isEqualToArray:otherMessage.currentTeamList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   [self.currentTeamList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -5695,8 +5695,8 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
   if (other == [UserCurrentMonsterTeamProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.mutableCurrentTeamList.count > 0) {
     if (result.mutableCurrentTeamList == nil) {
@@ -5726,8 +5726,8 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 18: {
@@ -5739,20 +5739,20 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserCurrentMonsterTeamProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserCurrentMonsterTeamProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserCurrentMonsterTeamProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserCurrentMonsterTeamProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (NSMutableArray *)currentTeamList {
@@ -5782,22 +5782,22 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
 @end
 
 @interface UserMonsterEvolutionProto ()
-@property int64_t catalystUserMonsterId;
-@property (strong) PBAppendableArray * mutableUserMonsterIdsList;
+@property (strong) NSString* catalystUserMonsterUuid;
+@property (strong) NSMutableArray * mutableUserMonsterUuidsList;
 @property int64_t startTime;
 @end
 
 @implementation UserMonsterEvolutionProto
 
-- (BOOL) hasCatalystUserMonsterId {
-  return !!hasCatalystUserMonsterId_;
+- (BOOL) hasCatalystUserMonsterUuid {
+  return !!hasCatalystUserMonsterUuid_;
 }
-- (void) setHasCatalystUserMonsterId:(BOOL) value_ {
-  hasCatalystUserMonsterId_ = !!value_;
+- (void) setHasCatalystUserMonsterUuid:(BOOL) value_ {
+  hasCatalystUserMonsterUuid_ = !!value_;
 }
-@synthesize catalystUserMonsterId;
-@synthesize mutableUserMonsterIdsList;
-@dynamic userMonsterIdsList;
+@synthesize catalystUserMonsterUuid;
+@synthesize mutableUserMonsterUuidsList;
+@dynamic userMonsterUuidsList;
 - (BOOL) hasStartTime {
   return !!hasStartTime_;
 }
@@ -5807,7 +5807,7 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
 @synthesize startTime;
 - (id) init {
   if ((self = [super init])) {
-    self.catalystUserMonsterId = 0L;
+    self.catalystUserMonsterUuid = @"";
     self.startTime = 0L;
   }
   return self;
@@ -5824,26 +5824,22 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
 - (UserMonsterEvolutionProto*) defaultInstance {
   return defaultUserMonsterEvolutionProtoInstance;
 }
-- (PBArray *)userMonsterIdsList {
-  return mutableUserMonsterIdsList;
+- (NSArray *)userMonsterUuidsList {
+  return mutableUserMonsterUuidsList;
 }
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
-  return [mutableUserMonsterIdsList int64AtIndex:index];
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index {
+  return [mutableUserMonsterUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasCatalystUserMonsterId) {
-    [output writeInt64:1 value:self.catalystUserMonsterId];
+  if (self.hasCatalystUserMonsterUuid) {
+    [output writeString:1 value:self.catalystUserMonsterUuid];
   }
-  const NSUInteger userMonsterIdsListCount = self.userMonsterIdsList.count;
-  if (userMonsterIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
-    for (NSUInteger i = 0; i < userMonsterIdsListCount; ++i) {
-      [output writeInt64:2 value:values[i]];
-    }
-  }
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
   if (self.hasStartTime) {
     [output writeInt64:3 value:self.startTime];
   }
@@ -5856,16 +5852,15 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
   }
 
   size_ = 0;
-  if (self.hasCatalystUserMonsterId) {
-    size_ += computeInt64Size(1, self.catalystUserMonsterId);
+  if (self.hasCatalystUserMonsterUuid) {
+    size_ += computeStringSize(1, self.catalystUserMonsterUuid);
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.userMonsterIdsList.count;
-    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.userMonsterUuidsList.count;
+    [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -5907,11 +5902,11 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
   return [UserMonsterEvolutionProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasCatalystUserMonsterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"catalystUserMonsterId", [NSNumber numberWithLongLong:self.catalystUserMonsterId]];
+  if (self.hasCatalystUserMonsterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"catalystUserMonsterUuid", self.catalystUserMonsterUuid];
   }
-  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterIds", obj];
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuids", obj];
   }];
   if (self.hasStartTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"startTime", [NSNumber numberWithLongLong:self.startTime]];
@@ -5927,20 +5922,20 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
   }
   UserMonsterEvolutionProto *otherMessage = other;
   return
-      self.hasCatalystUserMonsterId == otherMessage.hasCatalystUserMonsterId &&
-      (!self.hasCatalystUserMonsterId || self.catalystUserMonsterId == otherMessage.catalystUserMonsterId) &&
-      [self.userMonsterIdsList isEqualToArray:otherMessage.userMonsterIdsList] &&
+      self.hasCatalystUserMonsterUuid == otherMessage.hasCatalystUserMonsterUuid &&
+      (!self.hasCatalystUserMonsterUuid || [self.catalystUserMonsterUuid isEqual:otherMessage.catalystUserMonsterUuid]) &&
+      [self.userMonsterUuidsList isEqualToArray:otherMessage.userMonsterUuidsList] &&
       self.hasStartTime == otherMessage.hasStartTime &&
       (!self.hasStartTime || self.startTime == otherMessage.startTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasCatalystUserMonsterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.catalystUserMonsterId] hash];
+  if (self.hasCatalystUserMonsterUuid) {
+    hashCode = hashCode * 31 + [self.catalystUserMonsterUuid hash];
   }
-  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasStartTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.startTime] hash];
@@ -5988,14 +5983,14 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
   if (other == [UserMonsterEvolutionProto defaultInstance]) {
     return self;
   }
-  if (other.hasCatalystUserMonsterId) {
-    [self setCatalystUserMonsterId:other.catalystUserMonsterId];
+  if (other.hasCatalystUserMonsterUuid) {
+    [self setCatalystUserMonsterUuid:other.catalystUserMonsterUuid];
   }
-  if (other.mutableUserMonsterIdsList.count > 0) {
-    if (result.mutableUserMonsterIdsList == nil) {
-      result.mutableUserMonsterIdsList = [other.mutableUserMonsterIdsList copy];
+  if (other.mutableUserMonsterUuidsList.count > 0) {
+    if (result.mutableUserMonsterUuidsList == nil) {
+      result.mutableUserMonsterUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableUserMonsterUuidsList];
     } else {
-      [result.mutableUserMonsterIdsList appendArray:other.mutableUserMonsterIdsList];
+      [result.mutableUserMonsterUuidsList addObjectsFromArray:other.mutableUserMonsterUuidsList];
     }
   }
   if (other.hasStartTime) {
@@ -6022,12 +6017,12 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
         }
         break;
       }
-      case 8: {
-        [self setCatalystUserMonsterId:[input readInt64]];
+      case 10: {
+        [self setCatalystUserMonsterUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self addUserMonsterIds:[input readInt64]];
+      case 18: {
+        [self addUserMonsterUuids:[input readString]];
         break;
       }
       case 24: {
@@ -6037,48 +6032,44 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
     }
   }
 }
-- (BOOL) hasCatalystUserMonsterId {
-  return result.hasCatalystUserMonsterId;
+- (BOOL) hasCatalystUserMonsterUuid {
+  return result.hasCatalystUserMonsterUuid;
 }
-- (int64_t) catalystUserMonsterId {
-  return result.catalystUserMonsterId;
+- (NSString*) catalystUserMonsterUuid {
+  return result.catalystUserMonsterUuid;
 }
-- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterId:(int64_t) value {
-  result.hasCatalystUserMonsterId = YES;
-  result.catalystUserMonsterId = value;
+- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterUuid:(NSString*) value {
+  result.hasCatalystUserMonsterUuid = YES;
+  result.catalystUserMonsterUuid = value;
   return self;
 }
-- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterId {
-  result.hasCatalystUserMonsterId = NO;
-  result.catalystUserMonsterId = 0L;
+- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterUuid {
+  result.hasCatalystUserMonsterUuid = NO;
+  result.catalystUserMonsterUuid = @"";
   return self;
 }
-- (PBAppendableArray *)userMonsterIdsList {
-  return result.mutableUserMonsterIdsList;
+- (NSMutableArray *)userMonsterUuidsList {
+  return result.mutableUserMonsterUuidsList;
 }
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
-  return [result userMonsterIdsAtIndex:index];
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index {
+  return [result userMonsterUuidsAtIndex:index];
 }
-- (UserMonsterEvolutionProto_Builder *)addUserMonsterIds:(int64_t)value {
-  if (result.mutableUserMonsterIdsList == nil) {
-    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (UserMonsterEvolutionProto_Builder *)addUserMonsterUuids:(NSString*)value {
+  if (result.mutableUserMonsterUuidsList == nil) {
+    result.mutableUserMonsterUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUserMonsterIdsList addInt64:value];
+  [result.mutableUserMonsterUuidsList addObject:value];
   return self;
 }
-- (UserMonsterEvolutionProto_Builder *)addAllUserMonsterIds:(NSArray *)array {
-  if (result.mutableUserMonsterIdsList == nil) {
-    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (UserMonsterEvolutionProto_Builder *)addAllUserMonsterUuids:(NSArray *)array {
+  if (result.mutableUserMonsterUuidsList == nil) {
+    result.mutableUserMonsterUuidsList = [NSMutableArray array];
   }
-  [result.mutableUserMonsterIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableUserMonsterUuidsList addObjectsFromArray:array];
   return self;
 }
-- (UserMonsterEvolutionProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (UserMonsterEvolutionProto_Builder *)clearUserMonsterIds {
-  result.mutableUserMonsterIdsList = nil;
+- (UserMonsterEvolutionProto_Builder *)clearUserMonsterUuids {
+  result.mutableUserMonsterUuidsList = nil;
   return self;
 }
 - (BOOL) hasStartTime {

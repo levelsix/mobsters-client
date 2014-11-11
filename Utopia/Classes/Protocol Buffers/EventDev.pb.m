@@ -26,7 +26,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface DevRequestProto ()
 @property (strong) MinimumUserProto* sender;
 @property DevRequest devRequest;
-@property int32_t num;
+@property int32_t staticDataId;
+@property int32_t quantity;
 @end
 
 @implementation DevRequestProto
@@ -45,18 +46,26 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasDevRequest_ = !!value_;
 }
 @synthesize devRequest;
-- (BOOL) hasNum {
-  return !!hasNum_;
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
 }
-- (void) setHasNum:(BOOL) value_ {
-  hasNum_ = !!value_;
+- (void) setHasStaticDataId:(BOOL) value_ {
+  hasStaticDataId_ = !!value_;
 }
-@synthesize num;
+@synthesize staticDataId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value_ {
+  hasQuantity_ = !!value_;
+}
+@synthesize quantity;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.devRequest = DevRequestResetAccount;
-    self.num = 0;
+    self.staticDataId = 0;
+    self.quantity = 0;
   }
   return self;
 }
@@ -82,8 +91,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   if (self.hasDevRequest) {
     [output writeEnum:2 value:self.devRequest];
   }
-  if (self.hasNum) {
-    [output writeInt32:3 value:self.num];
+  if (self.hasStaticDataId) {
+    [output writeInt32:3 value:self.staticDataId];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:4 value:self.quantity];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -100,8 +112,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   if (self.hasDevRequest) {
     size_ += computeEnumSize(2, self.devRequest);
   }
-  if (self.hasNum) {
-    size_ += computeInt32Size(3, self.num);
+  if (self.hasStaticDataId) {
+    size_ += computeInt32Size(3, self.staticDataId);
+  }
+  if (self.hasQuantity) {
+    size_ += computeInt32Size(4, self.quantity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -147,8 +162,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   if (self.hasDevRequest) {
     [output appendFormat:@"%@%@: %d\n", indent, @"devRequest", self.devRequest];
   }
-  if (self.hasNum) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"num", [NSNumber numberWithInteger:self.num]];
+  if (self.hasStaticDataId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
+  }
+  if (self.hasQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"quantity", [NSNumber numberWithInteger:self.quantity]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -165,8 +183,10 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasDevRequest == otherMessage.hasDevRequest &&
       (!self.hasDevRequest || self.devRequest == otherMessage.devRequest) &&
-      self.hasNum == otherMessage.hasNum &&
-      (!self.hasNum || self.num == otherMessage.num) &&
+      self.hasStaticDataId == otherMessage.hasStaticDataId &&
+      (!self.hasStaticDataId || self.staticDataId == otherMessage.staticDataId) &&
+      self.hasQuantity == otherMessage.hasQuantity &&
+      (!self.hasQuantity || self.quantity == otherMessage.quantity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -177,8 +197,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   if (self.hasDevRequest) {
     hashCode = hashCode * 31 + self.devRequest;
   }
-  if (self.hasNum) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.num] hash];
+  if (self.hasStaticDataId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.staticDataId] hash];
+  }
+  if (self.hasQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.quantity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -229,8 +252,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   if (other.hasDevRequest) {
     [self setDevRequest:other.devRequest];
   }
-  if (other.hasNum) {
-    [self setNum:other.num];
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -272,7 +298,11 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setNum:[input readInt32]];
+        [self setStaticDataId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setQuantity:[input readInt32]];
         break;
       }
     }
@@ -324,20 +354,36 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   result.devRequest = DevRequestResetAccount;
   return self;
 }
-- (BOOL) hasNum {
-  return result.hasNum;
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
 }
-- (int32_t) num {
-  return result.num;
+- (int32_t) staticDataId {
+  return result.staticDataId;
 }
-- (DevRequestProto_Builder*) setNum:(int32_t) value {
-  result.hasNum = YES;
-  result.num = value;
+- (DevRequestProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
   return self;
 }
-- (DevRequestProto_Builder*) clearNum {
-  result.hasNum = NO;
-  result.num = 0;
+- (DevRequestProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (DevRequestProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (DevRequestProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
   return self;
 }
 @end

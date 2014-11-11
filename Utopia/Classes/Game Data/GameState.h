@@ -24,7 +24,7 @@
 
 @property (nonatomic, assign) BOOL isTutorial;
 @property (nonatomic, assign) BOOL connected;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int gems;

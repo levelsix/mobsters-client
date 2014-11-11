@@ -23,6 +23,7 @@ typedef enum {
   DevRequestFBGetOil = 4,
   DevRequestFBGetGems = 5,
   DevRequestFBGetCashOilGems = 6,
+  DevRequestGetItem = 7,
 } DevRequest;
 
 BOOL DevRequestIsValidValue(DevRequest value);

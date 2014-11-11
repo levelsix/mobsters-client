@@ -31,7 +31,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
   }
 }
 @interface PrivateChatPostProto ()
-@property int32_t privateChatPostId;
+@property (strong) NSString* privateChatPostUuid;
 @property (strong) MinimumUserProtoWithLevel* poster;
 @property (strong) MinimumUserProtoWithLevel* recipient;
 @property int64_t timeOfPost;
@@ -40,13 +40,13 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
 
 @implementation PrivateChatPostProto
 
-- (BOOL) hasPrivateChatPostId {
-  return !!hasPrivateChatPostId_;
+- (BOOL) hasPrivateChatPostUuid {
+  return !!hasPrivateChatPostUuid_;
 }
-- (void) setHasPrivateChatPostId:(BOOL) value_ {
-  hasPrivateChatPostId_ = !!value_;
+- (void) setHasPrivateChatPostUuid:(BOOL) value_ {
+  hasPrivateChatPostUuid_ = !!value_;
 }
-@synthesize privateChatPostId;
+@synthesize privateChatPostUuid;
 - (BOOL) hasPoster {
   return !!hasPoster_;
 }
@@ -77,7 +77,7 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
 @synthesize content;
 - (id) init {
   if ((self = [super init])) {
-    self.privateChatPostId = 0;
+    self.privateChatPostUuid = @"";
     self.poster = [MinimumUserProtoWithLevel defaultInstance];
     self.recipient = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfPost = 0L;
@@ -101,8 +101,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasPrivateChatPostId) {
-    [output writeInt32:1 value:self.privateChatPostId];
+  if (self.hasPrivateChatPostUuid) {
+    [output writeString:1 value:self.privateChatPostUuid];
   }
   if (self.hasPoster) {
     [output writeMessage:2 value:self.poster];
@@ -125,8 +125,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasPrivateChatPostId) {
-    size_ += computeInt32Size(1, self.privateChatPostId);
+  if (self.hasPrivateChatPostUuid) {
+    size_ += computeStringSize(1, self.privateChatPostUuid);
   }
   if (self.hasPoster) {
     size_ += computeMessageSize(2, self.poster);
@@ -175,8 +175,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   return [PrivateChatPostProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasPrivateChatPostId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"privateChatPostId", [NSNumber numberWithInteger:self.privateChatPostId]];
+  if (self.hasPrivateChatPostUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"privateChatPostUuid", self.privateChatPostUuid];
   }
   if (self.hasPoster) {
     [output appendFormat:@"%@%@ {\n", indent, @"poster"];
@@ -207,8 +207,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   }
   PrivateChatPostProto *otherMessage = other;
   return
-      self.hasPrivateChatPostId == otherMessage.hasPrivateChatPostId &&
-      (!self.hasPrivateChatPostId || self.privateChatPostId == otherMessage.privateChatPostId) &&
+      self.hasPrivateChatPostUuid == otherMessage.hasPrivateChatPostUuid &&
+      (!self.hasPrivateChatPostUuid || [self.privateChatPostUuid isEqual:otherMessage.privateChatPostUuid]) &&
       self.hasPoster == otherMessage.hasPoster &&
       (!self.hasPoster || [self.poster isEqual:otherMessage.poster]) &&
       self.hasRecipient == otherMessage.hasRecipient &&
@@ -221,8 +221,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasPrivateChatPostId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.privateChatPostId] hash];
+  if (self.hasPrivateChatPostUuid) {
+    hashCode = hashCode * 31 + [self.privateChatPostUuid hash];
   }
   if (self.hasPoster) {
     hashCode = hashCode * 31 + [self.poster hash];
@@ -279,8 +279,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
   if (other == [PrivateChatPostProto defaultInstance]) {
     return self;
   }
-  if (other.hasPrivateChatPostId) {
-    [self setPrivateChatPostId:other.privateChatPostId];
+  if (other.hasPrivateChatPostUuid) {
+    [self setPrivateChatPostUuid:other.privateChatPostUuid];
   }
   if (other.hasPoster) {
     [self mergePoster:other.poster];
@@ -315,8 +315,8 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setPrivateChatPostId:[input readInt32]];
+      case 10: {
+        [self setPrivateChatPostUuid:[input readString]];
         break;
       }
       case 18: {
@@ -348,20 +348,20 @@ static PrivateChatPostProto* defaultPrivateChatPostProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasPrivateChatPostId {
-  return result.hasPrivateChatPostId;
+- (BOOL) hasPrivateChatPostUuid {
+  return result.hasPrivateChatPostUuid;
 }
-- (int32_t) privateChatPostId {
-  return result.privateChatPostId;
+- (NSString*) privateChatPostUuid {
+  return result.privateChatPostUuid;
 }
-- (PrivateChatPostProto_Builder*) setPrivateChatPostId:(int32_t) value {
-  result.hasPrivateChatPostId = YES;
-  result.privateChatPostId = value;
+- (PrivateChatPostProto_Builder*) setPrivateChatPostUuid:(NSString*) value {
+  result.hasPrivateChatPostUuid = YES;
+  result.privateChatPostUuid = value;
   return self;
 }
-- (PrivateChatPostProto_Builder*) clearPrivateChatPostId {
-  result.hasPrivateChatPostId = NO;
-  result.privateChatPostId = 0;
+- (PrivateChatPostProto_Builder*) clearPrivateChatPostUuid {
+  result.hasPrivateChatPostUuid = NO;
+  result.privateChatPostUuid = @"";
   return self;
 }
 - (BOOL) hasPoster {
@@ -755,7 +755,7 @@ static ColorProto* defaultColorProtoInstance = nil;
 @property int64_t timeOfChat;
 @property (strong) NSString* content;
 @property BOOL isAdmin;
-@property int32_t chatId;
+@property (strong) NSString* chatUuid;
 @end
 
 @implementation GroupChatMessageProto
@@ -793,20 +793,20 @@ static ColorProto* defaultColorProtoInstance = nil;
 - (void) setIsAdmin:(BOOL) value_ {
   isAdmin_ = !!value_;
 }
-- (BOOL) hasChatId {
-  return !!hasChatId_;
+- (BOOL) hasChatUuid {
+  return !!hasChatUuid_;
 }
-- (void) setHasChatId:(BOOL) value_ {
-  hasChatId_ = !!value_;
+- (void) setHasChatUuid:(BOOL) value_ {
+  hasChatUuid_ = !!value_;
 }
-@synthesize chatId;
+@synthesize chatUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithLevel defaultInstance];
     self.timeOfChat = 0L;
     self.content = @"";
     self.isAdmin = NO;
-    self.chatId = 0;
+    self.chatUuid = @"";
   }
   return self;
 }
@@ -838,8 +838,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasIsAdmin) {
     [output writeBool:4 value:self.isAdmin];
   }
-  if (self.hasChatId) {
-    [output writeInt32:5 value:self.chatId];
+  if (self.hasChatUuid) {
+    [output writeString:5 value:self.chatUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -862,8 +862,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasIsAdmin) {
     size_ += computeBoolSize(4, self.isAdmin);
   }
-  if (self.hasChatId) {
-    size_ += computeInt32Size(5, self.chatId);
+  if (self.hasChatUuid) {
+    size_ += computeStringSize(5, self.chatUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -915,8 +915,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasIsAdmin) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isAdmin", [NSNumber numberWithBool:self.isAdmin]];
   }
-  if (self.hasChatId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"chatId", [NSNumber numberWithInteger:self.chatId]];
+  if (self.hasChatUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"chatUuid", self.chatUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -937,8 +937,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
       (!self.hasContent || [self.content isEqual:otherMessage.content]) &&
       self.hasIsAdmin == otherMessage.hasIsAdmin &&
       (!self.hasIsAdmin || self.isAdmin == otherMessage.isAdmin) &&
-      self.hasChatId == otherMessage.hasChatId &&
-      (!self.hasChatId || self.chatId == otherMessage.chatId) &&
+      self.hasChatUuid == otherMessage.hasChatUuid &&
+      (!self.hasChatUuid || [self.chatUuid isEqual:otherMessage.chatUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -955,8 +955,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (self.hasIsAdmin) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isAdmin] hash];
   }
-  if (self.hasChatId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.chatId] hash];
+  if (self.hasChatUuid) {
+    hashCode = hashCode * 31 + [self.chatUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1013,8 +1013,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   if (other.hasIsAdmin) {
     [self setIsAdmin:other.isAdmin];
   }
-  if (other.hasChatId) {
-    [self setChatId:other.chatId];
+  if (other.hasChatUuid) {
+    [self setChatUuid:other.chatUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1058,8 +1058,8 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
         [self setIsAdmin:[input readBool]];
         break;
       }
-      case 40: {
-        [self setChatId:[input readInt32]];
+      case 42: {
+        [self setChatUuid:[input readString]];
         break;
       }
     }
@@ -1143,20 +1143,20 @@ static GroupChatMessageProto* defaultGroupChatMessageProtoInstance = nil;
   result.isAdmin = NO;
   return self;
 }
-- (BOOL) hasChatId {
-  return result.hasChatId;
+- (BOOL) hasChatUuid {
+  return result.hasChatUuid;
 }
-- (int32_t) chatId {
-  return result.chatId;
+- (NSString*) chatUuid {
+  return result.chatUuid;
 }
-- (GroupChatMessageProto_Builder*) setChatId:(int32_t) value {
-  result.hasChatId = YES;
-  result.chatId = value;
+- (GroupChatMessageProto_Builder*) setChatUuid:(NSString*) value {
+  result.hasChatUuid = YES;
+  result.chatUuid = value;
   return self;
 }
-- (GroupChatMessageProto_Builder*) clearChatId {
-  result.hasChatId = NO;
-  result.chatId = 0;
+- (GroupChatMessageProto_Builder*) clearChatUuid {
+  result.hasChatUuid = NO;
+  result.chatUuid = @"";
   return self;
 }
 @end

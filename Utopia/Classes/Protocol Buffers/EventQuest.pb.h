@@ -291,7 +291,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   BOOL isComplete_:1;
   int32_t questId;
   MinimumUserProto* sender;
-  PBAppendableArray * mutableDeleteUserMonsterIdsList;
+  NSMutableArray * mutableDeleteUserMonsterUuidsList;
   NSMutableArray * mutableUserQuestJobsList;
 }
 - (BOOL) hasSender;
@@ -301,9 +301,9 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 @property (readonly) int32_t questId;
 - (BOOL) isComplete;
 @property (readonly, strong) NSArray * userQuestJobsList;
-@property (readonly, strong) PBArray * deleteUserMonsterIdsList;
+@property (readonly, strong) NSArray * deleteUserMonsterUuidsList;
 - (UserQuestJobProto*)userQuestJobsAtIndex:(NSUInteger)index;
-- (int64_t)deleteUserMonsterIdsAtIndex:(NSUInteger)index;
+- (NSString*)deleteUserMonsterUuidsAtIndex:(NSUInteger)index;
 
 + (QuestProgressRequestProto*) defaultInstance;
 - (QuestProgressRequestProto*) defaultInstance;
@@ -363,12 +363,11 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder *)addAllUserQuestJobs:(NSArray *)array;
 - (QuestProgressRequestProto_Builder *)clearUserQuestJobs;
 
-- (PBAppendableArray *)deleteUserMonsterIdsList;
-- (int64_t)deleteUserMonsterIdsAtIndex:(NSUInteger)index;
-- (QuestProgressRequestProto_Builder *)addDeleteUserMonsterIds:(int64_t)value;
-- (QuestProgressRequestProto_Builder *)addAllDeleteUserMonsterIds:(NSArray *)array;
-- (QuestProgressRequestProto_Builder *)setDeleteUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count;
-- (QuestProgressRequestProto_Builder *)clearDeleteUserMonsterIds;
+- (NSMutableArray *)deleteUserMonsterUuidsList;
+- (NSString*)deleteUserMonsterUuidsAtIndex:(NSUInteger)index;
+- (QuestProgressRequestProto_Builder *)addDeleteUserMonsterUuids:(NSString*)value;
+- (QuestProgressRequestProto_Builder *)addAllDeleteUserMonsterUuids:(NSArray *)array;
+- (QuestProgressRequestProto_Builder *)clearDeleteUserMonsterUuids;
 @end
 
 @interface QuestProgressResponseProto : PBGeneratedMessage {

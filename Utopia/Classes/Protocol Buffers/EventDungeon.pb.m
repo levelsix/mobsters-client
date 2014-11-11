@@ -761,7 +761,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 @interface BeginDungeonResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property (strong) NSMutableArray * mutableTspList;
-@property int64_t userTaskId;
+@property (strong) NSString* userTaskUuid;
 @property int32_t taskId;
 @property BeginDungeonResponseProto_BeginDungeonStatus status;
 @end
@@ -777,13 +777,13 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 @synthesize sender;
 @synthesize mutableTspList;
 @dynamic tspList;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value_ {
-  hasUserTaskId_ = !!value_;
+- (void) setHasUserTaskUuid:(BOOL) value_ {
+  hasUserTaskUuid_ = !!value_;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasTaskId {
   return !!hasTaskId_;
 }
@@ -801,7 +801,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.taskId = 0;
     self.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
   }
@@ -835,8 +835,8 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
   [self.tspList enumerateObjectsUsingBlock:^(TaskStageProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
-  if (self.hasUserTaskId) {
-    [output writeInt64:3 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:3 value:self.userTaskUuid];
   }
   if (self.hasTaskId) {
     [output writeInt32:4 value:self.taskId];
@@ -859,8 +859,8 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
   [self.tspList enumerateObjectsUsingBlock:^(TaskStageProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
-  if (self.hasUserTaskId) {
-    size_ += computeInt64Size(3, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size_ += computeStringSize(3, self.userTaskUuid);
   }
   if (self.hasTaskId) {
     size_ += computeInt32Size(4, self.taskId);
@@ -915,8 +915,8 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  if (self.hasUserTaskId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskId", [NSNumber numberWithLongLong:self.userTaskId]];
+  if (self.hasUserTaskUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskUuid", self.userTaskUuid];
   }
   if (self.hasTaskId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskId", [NSNumber numberWithInteger:self.taskId]];
@@ -938,8 +938,8 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.tspList isEqualToArray:otherMessage.tspList] &&
-      self.hasUserTaskId == otherMessage.hasUserTaskId &&
-      (!self.hasUserTaskId || self.userTaskId == otherMessage.userTaskId) &&
+      self.hasUserTaskUuid == otherMessage.hasUserTaskUuid &&
+      (!self.hasUserTaskUuid || [self.userTaskUuid isEqual:otherMessage.userTaskUuid]) &&
       self.hasTaskId == otherMessage.hasTaskId &&
       (!self.hasTaskId || self.taskId == otherMessage.taskId) &&
       self.hasStatus == otherMessage.hasStatus &&
@@ -954,8 +954,8 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
   [self.tspList enumerateObjectsUsingBlock:^(TaskStageProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasUserTaskId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userTaskId] hash];
+  if (self.hasUserTaskUuid) {
+    hashCode = hashCode * 31 + [self.userTaskUuid hash];
   }
   if (self.hasTaskId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskId] hash];
@@ -1025,8 +1025,8 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
       [result.mutableTspList addObjectsFromArray:other.mutableTspList];
     }
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
@@ -1070,8 +1070,8 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
         [self addTsp:[subBuilder buildPartial]];
         break;
       }
-      case 24: {
-        [self setUserTaskId:[input readInt64]];
+      case 26: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 32: {
@@ -1144,20 +1144,20 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   result.mutableTspList = nil;
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (BeginDungeonResponseProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (BeginDungeonResponseProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (BeginDungeonResponseProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (BeginDungeonResponseProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasTaskId {
@@ -1196,12 +1196,12 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 
 @interface EndDungeonRequestProto ()
 @property (strong) MinimumUserProtoWithMaxResources* sender;
-@property int64_t userTaskId;
+@property (strong) NSString* userTaskUuid;
 @property BOOL userWon;
 @property int64_t clientTime;
 @property BOOL firstTimeUserWonTask;
 @property BOOL userBeatAllCityTasks;
-@property (strong) PBAppendableArray * mutableDroplessTsfuIdsList;
+@property (strong) NSMutableArray * mutableDroplessTsfuUuidsList;
 @end
 
 @implementation EndDungeonRequestProto
@@ -1213,13 +1213,13 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value_ {
-  hasUserTaskId_ = !!value_;
+- (void) setHasUserTaskUuid:(BOOL) value_ {
+  hasUserTaskUuid_ = !!value_;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasUserWon {
   return !!hasUserWon_;
 }
@@ -1263,12 +1263,12 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 - (void) setUserBeatAllCityTasks:(BOOL) value_ {
   userBeatAllCityTasks_ = !!value_;
 }
-@synthesize mutableDroplessTsfuIdsList;
-@dynamic droplessTsfuIdsList;
+@synthesize mutableDroplessTsfuUuidsList;
+@dynamic droplessTsfuUuidsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.userWon = NO;
     self.clientTime = 0L;
     self.firstTimeUserWonTask = NO;
@@ -1288,11 +1288,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (EndDungeonRequestProto*) defaultInstance {
   return defaultEndDungeonRequestProtoInstance;
 }
-- (PBArray *)droplessTsfuIdsList {
-  return mutableDroplessTsfuIdsList;
+- (NSArray *)droplessTsfuUuidsList {
+  return mutableDroplessTsfuUuidsList;
 }
-- (int64_t)droplessTsfuIdsAtIndex:(NSUInteger)index {
-  return [mutableDroplessTsfuIdsList int64AtIndex:index];
+- (NSString*)droplessTsfuUuidsAtIndex:(NSUInteger)index {
+  return [mutableDroplessTsfuUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1301,8 +1301,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:2 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:2 value:self.userTaskUuid];
   }
   if (self.hasUserWon) {
     [output writeBool:3 value:self.userWon];
@@ -1316,13 +1316,9 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasUserBeatAllCityTasks) {
     [output writeBool:6 value:self.userBeatAllCityTasks];
   }
-  const NSUInteger droplessTsfuIdsListCount = self.droplessTsfuIdsList.count;
-  if (droplessTsfuIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.droplessTsfuIdsList.data;
-    for (NSUInteger i = 0; i < droplessTsfuIdsListCount; ++i) {
-      [output writeInt64:7 value:values[i]];
-    }
-  }
+  [self.droplessTsfuUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:7 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1335,8 +1331,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserTaskId) {
-    size_ += computeInt64Size(2, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size_ += computeStringSize(2, self.userTaskUuid);
   }
   if (self.hasUserWon) {
     size_ += computeBoolSize(3, self.userWon);
@@ -1352,11 +1348,10 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.droplessTsfuIdsList.count;
-    const int64_t *values = (const int64_t *)self.droplessTsfuIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.droplessTsfuUuidsList.count;
+    [self.droplessTsfuUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -1401,8 +1396,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasUserTaskId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskId", [NSNumber numberWithLongLong:self.userTaskId]];
+  if (self.hasUserTaskUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskUuid", self.userTaskUuid];
   }
   if (self.hasUserWon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userWon", [NSNumber numberWithBool:self.userWon]];
@@ -1416,8 +1411,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasUserBeatAllCityTasks) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userBeatAllCityTasks", [NSNumber numberWithBool:self.userBeatAllCityTasks]];
   }
-  [self.droplessTsfuIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"droplessTsfuIds", obj];
+  [self.droplessTsfuUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"droplessTsfuUuids", obj];
   }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1432,8 +1427,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUserTaskId == otherMessage.hasUserTaskId &&
-      (!self.hasUserTaskId || self.userTaskId == otherMessage.userTaskId) &&
+      self.hasUserTaskUuid == otherMessage.hasUserTaskUuid &&
+      (!self.hasUserTaskUuid || [self.userTaskUuid isEqual:otherMessage.userTaskUuid]) &&
       self.hasUserWon == otherMessage.hasUserWon &&
       (!self.hasUserWon || self.userWon == otherMessage.userWon) &&
       self.hasClientTime == otherMessage.hasClientTime &&
@@ -1442,7 +1437,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
       (!self.hasFirstTimeUserWonTask || self.firstTimeUserWonTask == otherMessage.firstTimeUserWonTask) &&
       self.hasUserBeatAllCityTasks == otherMessage.hasUserBeatAllCityTasks &&
       (!self.hasUserBeatAllCityTasks || self.userBeatAllCityTasks == otherMessage.userBeatAllCityTasks) &&
-      [self.droplessTsfuIdsList isEqualToArray:otherMessage.droplessTsfuIdsList] &&
+      [self.droplessTsfuUuidsList isEqualToArray:otherMessage.droplessTsfuUuidsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1450,8 +1445,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasUserTaskId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userTaskId] hash];
+  if (self.hasUserTaskUuid) {
+    hashCode = hashCode * 31 + [self.userTaskUuid hash];
   }
   if (self.hasUserWon) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.userWon] hash];
@@ -1465,8 +1460,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasUserBeatAllCityTasks) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.userBeatAllCityTasks] hash];
   }
-  [self.droplessTsfuIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.droplessTsfuUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1514,8 +1509,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasUserWon) {
     [self setUserWon:other.userWon];
@@ -1529,11 +1524,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasUserBeatAllCityTasks) {
     [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
   }
-  if (other.mutableDroplessTsfuIdsList.count > 0) {
-    if (result.mutableDroplessTsfuIdsList == nil) {
-      result.mutableDroplessTsfuIdsList = [other.mutableDroplessTsfuIdsList copy];
+  if (other.mutableDroplessTsfuUuidsList.count > 0) {
+    if (result.mutableDroplessTsfuUuidsList == nil) {
+      result.mutableDroplessTsfuUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableDroplessTsfuUuidsList];
     } else {
-      [result.mutableDroplessTsfuIdsList appendArray:other.mutableDroplessTsfuIdsList];
+      [result.mutableDroplessTsfuUuidsList addObjectsFromArray:other.mutableDroplessTsfuUuidsList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -1566,8 +1561,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserTaskId:[input readInt64]];
+      case 18: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1586,8 +1581,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
         [self setUserBeatAllCityTasks:[input readBool]];
         break;
       }
-      case 56: {
-        [self addDroplessTsfuIds:[input readInt64]];
+      case 58: {
+        [self addDroplessTsfuUuids:[input readString]];
         break;
       }
     }
@@ -1623,20 +1618,20 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (EndDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (EndDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (EndDungeonRequestProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (EndDungeonRequestProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasUserWon {
@@ -1703,32 +1698,28 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   result.userBeatAllCityTasks = NO;
   return self;
 }
-- (PBAppendableArray *)droplessTsfuIdsList {
-  return result.mutableDroplessTsfuIdsList;
+- (NSMutableArray *)droplessTsfuUuidsList {
+  return result.mutableDroplessTsfuUuidsList;
 }
-- (int64_t)droplessTsfuIdsAtIndex:(NSUInteger)index {
-  return [result droplessTsfuIdsAtIndex:index];
+- (NSString*)droplessTsfuUuidsAtIndex:(NSUInteger)index {
+  return [result droplessTsfuUuidsAtIndex:index];
 }
-- (EndDungeonRequestProto_Builder *)addDroplessTsfuIds:(int64_t)value {
-  if (result.mutableDroplessTsfuIdsList == nil) {
-    result.mutableDroplessTsfuIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndDungeonRequestProto_Builder *)addDroplessTsfuUuids:(NSString*)value {
+  if (result.mutableDroplessTsfuUuidsList == nil) {
+    result.mutableDroplessTsfuUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableDroplessTsfuIdsList addInt64:value];
+  [result.mutableDroplessTsfuUuidsList addObject:value];
   return self;
 }
-- (EndDungeonRequestProto_Builder *)addAllDroplessTsfuIds:(NSArray *)array {
-  if (result.mutableDroplessTsfuIdsList == nil) {
-    result.mutableDroplessTsfuIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndDungeonRequestProto_Builder *)addAllDroplessTsfuUuids:(NSArray *)array {
+  if (result.mutableDroplessTsfuUuidsList == nil) {
+    result.mutableDroplessTsfuUuidsList = [NSMutableArray array];
   }
-  [result.mutableDroplessTsfuIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableDroplessTsfuUuidsList addObjectsFromArray:array];
   return self;
 }
-- (EndDungeonRequestProto_Builder *)setDroplessTsfuIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableDroplessTsfuIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (EndDungeonRequestProto_Builder *)clearDroplessTsfuIds {
-  result.mutableDroplessTsfuIdsList = nil;
+- (EndDungeonRequestProto_Builder *)clearDroplessTsfuUuids {
+  result.mutableDroplessTsfuUuidsList = nil;
   return self;
 }
 @end
@@ -2290,7 +2281,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 
 @interface ReviveInDungeonRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int64_t userTaskId;
+@property (strong) NSString* userTaskUuid;
 @property int64_t clientTime;
 @property (strong) NSMutableArray * mutableReviveMeList;
 @property int32_t gemsSpent;
@@ -2305,13 +2296,13 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value_ {
-  hasUserTaskId_ = !!value_;
+- (void) setHasUserTaskUuid:(BOOL) value_ {
+  hasUserTaskUuid_ = !!value_;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -2331,7 +2322,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.clientTime = 0L;
     self.gemsSpent = 0;
   }
@@ -2362,8 +2353,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:2 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:2 value:self.userTaskUuid];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -2386,8 +2377,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserTaskId) {
-    size_ += computeInt64Size(2, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size_ += computeStringSize(2, self.userTaskUuid);
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(3, self.clientTime);
@@ -2439,8 +2430,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasUserTaskId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskId", [NSNumber numberWithLongLong:self.userTaskId]];
+  if (self.hasUserTaskUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userTaskUuid", self.userTaskUuid];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -2467,8 +2458,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUserTaskId == otherMessage.hasUserTaskId &&
-      (!self.hasUserTaskId || self.userTaskId == otherMessage.userTaskId) &&
+      self.hasUserTaskUuid == otherMessage.hasUserTaskUuid &&
+      (!self.hasUserTaskUuid || [self.userTaskUuid isEqual:otherMessage.userTaskUuid]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       [self.reviveMeList isEqualToArray:otherMessage.reviveMeList] &&
@@ -2481,8 +2472,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasUserTaskId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userTaskId] hash];
+  if (self.hasUserTaskUuid) {
+    hashCode = hashCode * 31 + [self.userTaskUuid hash];
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -2539,8 +2530,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -2585,8 +2576,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserTaskId:[input readInt64]];
+      case 18: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 24: {
@@ -2636,20 +2627,20 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (ReviveInDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (ReviveInDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (ReviveInDungeonRequestProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (ReviveInDungeonRequestProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasClientTime {

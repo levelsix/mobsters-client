@@ -600,19 +600,19 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 @private
   BOOL hasIsRedeemed_:1;
   BOOL hasIsComplete_:1;
-  BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasUserUuid_:1;
   BOOL isRedeemed_:1;
   BOOL isComplete_:1;
-  int32_t userId;
   int32_t questId;
+  NSString* userUuid;
   NSMutableArray * mutableUserQuestJobsList;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasQuestId;
 - (BOOL) hasIsRedeemed;
 - (BOOL) hasIsComplete;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
@@ -654,10 +654,10 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserQuestProto_Builder*) setUserId:(int32_t) value;
-- (FullUserQuestProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserQuestProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserQuestProto_Builder*) clearUserUuid;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;

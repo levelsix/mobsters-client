@@ -4090,8 +4090,8 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
 @end
 
 @interface FullUserStructureProto ()
-@property int32_t userStructId;
-@property int32_t userId;
+@property (strong) NSString* userStructUuid;
+@property (strong) NSString* userUuid;
 @property int32_t structId;
 @property int64_t lastRetrieved;
 @property int64_t purchaseTime;
@@ -4103,20 +4103,20 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
 
 @implementation FullUserStructureProto
 
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+@synthesize userStructUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasStructId {
   return !!hasStructId_;
 }
@@ -4173,8 +4173,8 @@ static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
 @synthesize fbInviteStructLvl;
 - (id) init {
   if ((self = [super init])) {
-    self.userStructId = 0;
-    self.userId = 0;
+    self.userStructUuid = @"";
+    self.userUuid = @"";
     self.structId = 0;
     self.lastRetrieved = 0L;
     self.purchaseTime = 0L;
@@ -4201,11 +4201,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserStructId) {
-    [output writeInt32:1 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:1 value:self.userStructUuid];
   }
-  if (self.hasUserId) {
-    [output writeInt32:2 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
   if (self.hasStructId) {
     [output writeInt32:3 value:self.structId];
@@ -4237,11 +4237,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(1, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(1, self.userStructUuid);
   }
-  if (self.hasUserId) {
-    size_ += computeInt32Size(2, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
   }
   if (self.hasStructId) {
     size_ += computeInt32Size(3, self.structId);
@@ -4299,11 +4299,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return [FullUserStructureProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasStructId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"structId", [NSNumber numberWithInteger:self.structId]];
@@ -4340,10 +4340,10 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   }
   FullUserStructureProto *otherMessage = other;
   return
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasStructId == otherMessage.hasStructId &&
       (!self.hasStructId || self.structId == otherMessage.structId) &&
       self.hasLastRetrieved == otherMessage.hasLastRetrieved &&
@@ -4362,11 +4362,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasStructId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structId] hash];
@@ -4432,11 +4432,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other == [FullUserStructureProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasStructId) {
     [self setStructId:other.structId];
@@ -4480,12 +4480,12 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserStructId:[input readInt32]];
+      case 10: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserId:[input readInt32]];
+      case 18: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
@@ -4529,36 +4529,36 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (FullUserStructureProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (FullUserStructureProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (FullUserStructureProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserStructureProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserStructureProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserStructureProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasStructId {
@@ -6326,8 +6326,8 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
 @end
 
 @interface UserObstacleProto ()
-@property int32_t userObstacleId;
-@property int32_t userId;
+@property (strong) NSString* userObstacleUuid;
+@property (strong) NSString* userUuid;
 @property int32_t obstacleId;
 @property (strong) CoordinateProto* coordinates;
 @property StructOrientation orientation;
@@ -6336,20 +6336,20 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
 
 @implementation UserObstacleProto
 
-- (BOOL) hasUserObstacleId {
-  return !!hasUserObstacleId_;
+- (BOOL) hasUserObstacleUuid {
+  return !!hasUserObstacleUuid_;
 }
-- (void) setHasUserObstacleId:(BOOL) value_ {
-  hasUserObstacleId_ = !!value_;
+- (void) setHasUserObstacleUuid:(BOOL) value_ {
+  hasUserObstacleUuid_ = !!value_;
 }
-@synthesize userObstacleId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+@synthesize userObstacleUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasObstacleId {
   return !!hasObstacleId_;
 }
@@ -6380,8 +6380,8 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
 @synthesize removalStartTime;
 - (id) init {
   if ((self = [super init])) {
-    self.userObstacleId = 0;
-    self.userId = 0;
+    self.userObstacleUuid = @"";
+    self.userUuid = @"";
     self.obstacleId = 0;
     self.coordinates = [CoordinateProto defaultInstance];
     self.orientation = StructOrientationNoOrientation;
@@ -6405,11 +6405,11 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserObstacleId) {
-    [output writeInt32:1 value:self.userObstacleId];
+  if (self.hasUserObstacleUuid) {
+    [output writeString:1 value:self.userObstacleUuid];
   }
-  if (self.hasUserId) {
-    [output writeInt32:2 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
   if (self.hasObstacleId) {
     [output writeInt32:3 value:self.obstacleId];
@@ -6432,11 +6432,11 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserObstacleId) {
-    size_ += computeInt32Size(1, self.userObstacleId);
+  if (self.hasUserObstacleUuid) {
+    size_ += computeStringSize(1, self.userObstacleUuid);
   }
-  if (self.hasUserId) {
-    size_ += computeInt32Size(2, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
   }
   if (self.hasObstacleId) {
     size_ += computeInt32Size(3, self.obstacleId);
@@ -6485,11 +6485,11 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   return [UserObstacleProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserObstacleId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleId", [NSNumber numberWithInteger:self.userObstacleId]];
+  if (self.hasUserObstacleUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleUuid", self.userObstacleUuid];
   }
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasObstacleId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"obstacleId", [NSNumber numberWithInteger:self.obstacleId]];
@@ -6517,10 +6517,10 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   }
   UserObstacleProto *otherMessage = other;
   return
-      self.hasUserObstacleId == otherMessage.hasUserObstacleId &&
-      (!self.hasUserObstacleId || self.userObstacleId == otherMessage.userObstacleId) &&
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserObstacleUuid == otherMessage.hasUserObstacleUuid &&
+      (!self.hasUserObstacleUuid || [self.userObstacleUuid isEqual:otherMessage.userObstacleUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasObstacleId == otherMessage.hasObstacleId &&
       (!self.hasObstacleId || self.obstacleId == otherMessage.obstacleId) &&
       self.hasCoordinates == otherMessage.hasCoordinates &&
@@ -6533,11 +6533,11 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserObstacleId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userObstacleId] hash];
+  if (self.hasUserObstacleUuid) {
+    hashCode = hashCode * 31 + [self.userObstacleUuid hash];
   }
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasObstacleId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.obstacleId] hash];
@@ -6594,11 +6594,11 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
   if (other == [UserObstacleProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserObstacleId) {
-    [self setUserObstacleId:other.userObstacleId];
+  if (other.hasUserObstacleUuid) {
+    [self setUserObstacleUuid:other.userObstacleUuid];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasObstacleId) {
     [self setObstacleId:other.obstacleId];
@@ -6633,12 +6633,12 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserObstacleId:[input readInt32]];
+      case 10: {
+        [self setUserObstacleUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserId:[input readInt32]];
+      case 18: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
@@ -6670,36 +6670,36 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserObstacleId {
-  return result.hasUserObstacleId;
+- (BOOL) hasUserObstacleUuid {
+  return result.hasUserObstacleUuid;
 }
-- (int32_t) userObstacleId {
-  return result.userObstacleId;
+- (NSString*) userObstacleUuid {
+  return result.userObstacleUuid;
 }
-- (UserObstacleProto_Builder*) setUserObstacleId:(int32_t) value {
-  result.hasUserObstacleId = YES;
-  result.userObstacleId = value;
+- (UserObstacleProto_Builder*) setUserObstacleUuid:(NSString*) value {
+  result.hasUserObstacleUuid = YES;
+  result.userObstacleUuid = value;
   return self;
 }
-- (UserObstacleProto_Builder*) clearUserObstacleId {
-  result.hasUserObstacleId = NO;
-  result.userObstacleId = 0;
+- (UserObstacleProto_Builder*) clearUserObstacleUuid {
+  result.hasUserObstacleUuid = NO;
+  result.userObstacleUuid = @"";
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserObstacleProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserObstacleProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserObstacleProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserObstacleProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasObstacleId {
