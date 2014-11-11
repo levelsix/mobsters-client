@@ -566,6 +566,10 @@
 @class TradeItemForBoosterRequestProto_Builder;
 @class TradeItemForBoosterResponseProto;
 @class TradeItemForBoosterResponseProto_Builder;
+@class TradeItemForSpeedUpsRequestProto;
+@class TradeItemForSpeedUpsRequestProto_Builder;
+@class TradeItemForSpeedUpsResponseProto;
+@class TradeItemForSpeedUpsResponseProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
@@ -724,6 +728,7 @@ typedef enum {
   EventProtocolRequestCInviteToClanEvent = 82,
   EventProtocolRequestCAcceptOrRejectClanInviteEvent = 83,
   EventProtocolRequestCCollectMonsterEnhancementEvent = 84,
+  EventProtocolRequestCTradeItemForSpeedUpsEvent = 85,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 } EventProtocolRequest;
@@ -814,6 +819,7 @@ typedef enum {
   EventProtocolResponseSInviteToClanEvent = 82,
   EventProtocolResponseSAcceptOrRejectClanInviteEvent = 83,
   EventProtocolResponseSCollectMonsterEnhancementEvent = 84,
+  EventProtocolResponseSTradeItemForSpeedUpsEvent = 85,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

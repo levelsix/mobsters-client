@@ -1260,10 +1260,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUnrestrictUserMonsterEvent];
 }
 
-- (int) sendDevRequestProto:(DevRequest)request num:(int)num {
-  DevRequestProto *req = [[[[[DevRequestProto builder]
+- (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity {
+  DevRequestProto *req = [[[[[[DevRequestProto builder]
                              setDevRequest:request]
-                            setNum:num]
+                            setStaticDataId:staticDataId]
+                            setQuantity:quantity]
                            setSender:_sender]
                           build];
   

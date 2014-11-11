@@ -48,7 +48,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myObstacles = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
     _myMiniJobs = [[NSMutableArray alloc] init];
-    _myItems = [[NSMutableArray alloc] init];
     _myQuests = [[NSMutableDictionary alloc] init];
     _myAchievements = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
@@ -419,19 +418,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:nil];
-}
-
-- (void) addToMyItems:(NSArray *)items {
-  for (UserItemProto *p in items) {
-    UserItem *ui = [UserItem userItemWithProto:p];
-    NSInteger index = [self.myMonsters indexOfObject:ui];
-    if (index != NSNotFound) {
-      [self.myItems replaceObjectAtIndex:index withObject:ui];
-      LNLog(@"Found matching user item..");
-    } else {
-      [self.myItems addObject:ui];
-    }
-  }
 }
 
 - (void) addToStaticLevelInfos:(NSArray *)lurep {
@@ -1314,14 +1300,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) numberOfFreeSpinsForBoosterPack:(int)boosterPackId {
-  int numSpins = 0;
-  for (UserItem *ui in self.myItems) {
-    ItemProto *ip = ui.staticItem;
-    if (ip.itemType == ItemTypeBoosterPack && ip.staticDataId == boosterPackId) {
-      numSpins += ui.quantity;
-    }
+  int quantity = 0;
+  NSArray *items = [self.itemUtil getItemsForType:ItemTypeBoosterPack staticDataId:boosterPackId];
+  for (UserItem *ui in items) {
+    quantity += ui.quantity;
   }
-  return numSpins;
+  return quantity;
 }
 
 - (BOOL) canAskForClanHelp {

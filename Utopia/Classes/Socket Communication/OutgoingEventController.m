@@ -35,6 +35,7 @@
 #define SKIP_QUESTS_CODE @"quickquests"
 #define FB_LOGOUT_CODE @"unfb"
 #define GET_MONSTER_CODE @"magicmob"
+#define GET_ITEM_CODE @"instaitem"
 #define SKILL_CODE @"skill"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
@@ -850,7 +851,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int amt = 0, numTimes = 1;
+        int amt = 0, staticDataId = 0;
         DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
@@ -873,19 +874,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          staticDataId = code.intValue;
           req = DevRequestGetMonzter;
           
-          r = [code rangeOfString:[NSString stringWithFormat:@"%d", amt]];
+          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            numTimes = code.intValue;
+            amt = code.intValue;
           }
           
-          MonsterProto *mp = [gs monsterWithId:amt];
+          MonsterProto *mp = [gs monsterWithId:staticDataId];
           if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", numTimes, mp.displayName];
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", amt, mp.displayName];
+          } else {
+            amt = 0;
+          }
+        } else if ((r = [code rangeOfString:GET_ITEM_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          staticDataId = code.intValue;
+          req = DevRequestGetItem;
+          
+          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
+          if (code.length > r.length+1) {
+            r.length++;
+            code = [code stringByReplacingCharactersInRange:r withString:@""];
+            amt = code.intValue;
+          }
+          
+          ItemProto *mp = [gs itemForId:staticDataId];
+          if (mp) {
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", amt, mp.name];
           } else {
             amt = 0;
           }
@@ -970,9 +990,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         } // Skill stuff ends
         
         if (amt) {
-          for (int i = 0; i < numTimes; i++) {
-            [[OutgoingEventController sharedOutgoingEventController] devRequest:req num:amt];
-          }
+          [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:amt];
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
@@ -995,7 +1013,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         msg = @"All downloaded data has been purged.";
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
-        [[OutgoingEventController sharedOutgoingEventController] devRequest:DevRequestResetAccount num:0];
+        [[OutgoingEventController sharedOutgoingEventController] devRequest:DevRequestResetAccount staticDataId:0 quantity:0];
       } else if ([code isEqualToString:FB_LOGOUT_CODE]) {
         msg = @"Logged out of Facebook.";
         [FacebookDelegate logout];
@@ -1020,8 +1038,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) devRequest:(DevRequest)req num:(int)num {
-  [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req num:num];
+- (void) devRequest:(DevRequest)req staticDataId:(int)staticDataId quantity:(int)quantity {
+  [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req staticDataId:staticDataId quantity:quantity];
 }
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content {
@@ -1374,7 +1392,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   UserItem *item = nil;
-  for (UserItem *ui in gs.myItems) {
+  for (UserItem *ui in [gs.itemUtil getItemsForType:ItemTypeBoosterPack staticDataId:boosterPackId]) {
     ItemProto *ip = ui.staticItem;
     if (ip.itemType == ItemTypeBoosterPack && ip.staticDataId == boosterPackId && ui.quantity > 0) {
       item = ui;

@@ -85,6 +85,9 @@ typedef enum {
 @interface NiceFontLabel9 : UILabel
 @end
 
+@interface NiceFontLabel9T : THLabel
+@end
+
 @interface NiceFontLabel9R : UILabel
 @end
 

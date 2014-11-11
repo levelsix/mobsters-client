@@ -423,6 +423,8 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   gs.isTutorial = NO;
   
+  _isInBattle = NO;
+  
   // For tutorial
   self.tutController = nil;
 }

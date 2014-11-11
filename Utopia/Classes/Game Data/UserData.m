@@ -133,7 +133,7 @@
     } else {
       str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
     }
-  } else if (self.isProtected ) {
+  } else if (self.isProtected) {
     str = @"Locked";
   }
   return str;
@@ -1488,28 +1488,6 @@
 
 - (NSUInteger) hash {
   return (NSUInteger)self.userMiniJobId;
-}
-
-@end
-
-@implementation UserItem
-
-+ (id) userItemWithProto:(UserItemProto *)proto {
-  return [[UserItem alloc] initWithProto:proto];
-}
-
-- (id) initWithProto:(UserItemProto *)proto {
-  if ((self = [super init])) {
-    self.userId = proto.userId;
-    self.itemId = proto.itemId;
-    self.quantity = proto.quantity;
-  }
-  return self;
-}
-
-- (ItemProto *) staticItem {
-  GameState *gs = [GameState sharedGameState];
-  return [gs itemForId:self.itemId];
 }
 
 @end

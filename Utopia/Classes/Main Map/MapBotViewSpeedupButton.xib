@@ -31,26 +31,6 @@
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="CL7-Gs-5BM">
-                    <rect key="frame" x="18" y="13" width="40" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5zN-Se-A2s" customClass="NiceFontLabel14T">
-                            <rect key="frame" x="18" y="-4" width="70" height="25"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="HRm-sn-ZGs">
-                            <rect key="frame" x="1" y="2" width="16" height="15"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Tk-c2-yPq" customClass="NiceFontLabel14T">
                     <rect key="frame" x="7" y="31" width="65" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -60,22 +40,26 @@
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupbigicon.png" id="BBs-MH-xa7">
+                    <rect key="frame" x="28" y="13" width="23" height="18"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="actionIcon" destination="BBs-MH-xa7" id="uun-66-4qw"/>
                 <outlet property="actionLabel" destination="7Tk-c2-yPq" id="6cP-DL-cfa"/>
                 <outlet property="freeLabel" destination="c1Y-D3-AHH" id="Ku8-iC-yt2"/>
-                <outlet property="topLabel" destination="5zN-Se-A2s" id="LVy-Wu-yLO"/>
             </connections>
-            <point key="canvasLocation" x="849" y="523"/>
+            <point key="canvasLocation" x="715" y="541"/>
         </view>
     </objects>
     <resources>
         <image name="buildingfinishnowbutton.png" width="76" height="54"/>
         <image name="buildingfinishnowbuttonpressed.png" width="76" height="54"/>
-        <image name="diamond.png" width="29" height="27"/>
+        <image name="speedupbigicon.png" width="23" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

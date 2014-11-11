@@ -188,6 +188,15 @@
 
 @end
 
+@implementation NiceFontLabel9T
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontLabel9R
 
 - (void) awakeFromNib {
@@ -742,10 +751,19 @@
 
 @end
 
+void undoDelayOnScrollViewHierarchy(UIView *v) {
+  if ([v isKindOfClass:[UIScrollView class]]) {
+    [(UIScrollView *)v setDelaysContentTouches:NO];
+  }
+  for (UIView *sv in v.subviews) {
+    undoDelayOnScrollViewHierarchy(sv);
+  }
+}
+
 @implementation CancellableTableView
 
 - (void) awakeFromNib {
-  self.delaysContentTouches = NO;
+  undoDelayOnScrollViewHierarchy(self);
 }
 
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {
@@ -757,7 +775,7 @@
 @implementation CancellableScrollView
 
 - (void) awakeFromNib {
-  self.delaysContentTouches = NO;
+  undoDelayOnScrollViewHierarchy(self);
 }
 
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {
@@ -769,7 +787,7 @@
 @implementation CancellableCollectionView
 
 - (void) awakeFromNib {
-  self.delaysContentTouches = NO;
+  undoDelayOnScrollViewHierarchy(self);
 }
 
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {

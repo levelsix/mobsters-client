@@ -117,7 +117,7 @@
 
 + (id) speedupButtonWithGemCost:(int)gemCost {
   MapBotViewButton *button = [[NSBundle mainBundle] loadNibNamed:@"MapBotViewSpeedupButton" owner:nil options:nil][0];
-  [button updateWithImageName:nil actionText:@"Finish Now" config:MapBotViewButtonSpeedup];
+  [button updateWithImageName:nil actionText:@"Speed Up!" config:MapBotViewButtonSpeedup];
   
   button.actionLabel.gradientEndColor = [UIColor colorWithHexString:@"f8e7ff"];
   button.actionLabel.strokeColor = [UIColor colorWithHexString:@"3d006c"];
@@ -128,9 +128,11 @@
     [button updateTopLabelForResourceType:ResourceTypeGems cost:gemCost];
     button.freeLabel.hidden = YES;
     
-    topLabel = button.topLabel;
+    //topLabel = button.topLabel;
   } else {
-    button.topLabel.superview.hidden = YES;
+    //button.topLabel.superview.hidden = YES;
+    
+    button.actionIcon.hidden = YES;
     topLabel = button.freeLabel;
   }
   

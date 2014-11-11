@@ -24,6 +24,7 @@
 #import "HireViewController.h"
 #import "HomeViewController.h"
 #import "PersistentEventProto+Time.h"
+#import "SpeedupItemsFiller.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -1794,16 +1795,25 @@
 - (IBAction)finishNowClicked:(id)sender {
   if (_isSpeedingUp) return;
   
-  Globals *gl = [Globals sharedGlobals];
-  int timeLeft = [self timeLeftForConstructionBuilding];
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+  SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+  svc.delegate = sif;
   
-  if (goldCost) {
-    NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
-    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
-  } else {
-    [self speedUpBuilding];
-  }
+  GameViewController *gvc = [GameViewController baseController];
+  svc.view.frame = gvc.view.bounds;
+  [gvc addChildViewController:svc];
+  [gvc.view addSubview:svc.view];
+  
+//  Globals *gl = [Globals sharedGlobals];
+//  int timeLeft = [self timeLeftForConstructionBuilding];
+//  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+//  
+//  if (goldCost) {
+//    NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
+//    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
+//  } else {
+//    [self speedUpBuilding];
+//  }
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {

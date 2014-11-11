@@ -11,6 +11,7 @@
 #import "AnimatedSprite.h"
 #import "HomeBuilding.h"
 #import "UpgradeViewController.h"
+#import "SpeedupItemsFiller.h"
 
 #define CENTER_TILE_X 13
 #define CENTER_TILE_Y 13
@@ -46,6 +47,7 @@
 @property (nonatomic, assign) IBOutlet THLabel *buildingNameLabel;
 
 @property (nonatomic, retain) UIViewController *currentViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;

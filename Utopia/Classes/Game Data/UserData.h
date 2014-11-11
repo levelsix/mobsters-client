@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
 #import "StaticStructure.h"
+#import "ItemObject.h"
 
 @class ForgeAttempt;
 @class MSDate;
@@ -367,18 +368,5 @@ typedef enum {
 - (MSDate *) tentativeCompletionDate;
 
 - (NSDictionary *) damageDealtPerUserMonsterId;
-
-@end
-
-@interface UserItem : NSObject
-
-@property (nonatomic, assign) int userId;
-@property (nonatomic, assign) int itemId;
-@property (nonatomic, assign) int userItemId;
-@property (nonatomic, assign) int quantity;
-
-+ (id) userItemWithProto:(UserItemProto *)proto;
-
-- (ItemProto *) staticItem;
 
 @end

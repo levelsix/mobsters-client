@@ -13,6 +13,7 @@
 #import "StaticStructure.h"
 #import "ClanHelpUtil.h"
 #import "ChatObject.h"
+#import "ItemUtil.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -87,7 +88,8 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 @property (nonatomic, retain) NSMutableDictionary *myAchievements;
 @property (nonatomic, retain) NSMutableArray *myMiniJobs;
-@property (nonatomic, retain) NSMutableArray *myItems;
+
+@property (nonatomic, retain) ItemUtil *itemUtil;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
@@ -176,7 +178,6 @@
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addToMiniJobs:(NSArray *)miniJobs isNew:(BOOL)isNew;
-- (void) addToMyItems:(NSArray *)items;
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addPrivateChat:(PrivateChatPostProto *)post;

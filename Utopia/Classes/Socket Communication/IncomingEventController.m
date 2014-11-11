@@ -394,8 +394,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
     
-    [gs.myItems removeAllObjects];
-    [gs addToMyItems:proto.userItemsList];
+    gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -1329,10 +1328,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
-    if (proto.hasFump) {
-      NSLog(@"Mobster %lld.", proto.fump.userMonsterId);
-      [gs addToMyMonsters:@[proto.fump]];
-    }
+    [gs addToMyMonsters:proto.fumpList];
+    [gs.itemUtil addToMyItems:@[proto.uip]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1492,7 +1489,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     if (proto.hasUserItem) {
-      [gs addToMyItems:@[proto.userItem]];
+      [gs.itemUtil addToMyItems:@[proto.userItem]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
