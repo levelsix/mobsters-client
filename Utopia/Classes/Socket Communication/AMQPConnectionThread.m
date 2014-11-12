@@ -167,7 +167,8 @@ static int sessionId;
 
 - (void) readData {
   if (_connection) {
-    if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
+#warning implement this
+    if (/*amqp_data_available(_connection.internalConnection) ||*/ amqp_data_in_buffer(_connection.internalConnection)) {
       AMQPMessage *message = [_udidConsumer pop];
       if(message)
       {

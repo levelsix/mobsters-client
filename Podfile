@@ -7,6 +7,7 @@ pod 'UIImage+BlurredFrame'
 pod 'GPUImage'
 pod 'Amplitude-iOS', '~> 2.1'
 pod 'ProtocolBuffers', '1.9.2'
+pod 'OpenSSL'
 #pod 'Reachability'
 #pod 'Adjust', :git => 'git://github.com/adjust/ios_sdk.git', :tag => 'v3.3.4'
 
