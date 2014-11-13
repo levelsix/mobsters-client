@@ -144,6 +144,7 @@
 
 - (BOOL) dequeueNextMove {
   self.currentIndex = (self.currentIndex+1) % (self.schedule.count);
+  self.numDequeued++;
   
   NSNumber *num = self.schedule[self.currentIndex];
   return [num boolValue];

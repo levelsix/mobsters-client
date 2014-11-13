@@ -22,6 +22,7 @@ typedef enum
 @property (nonatomic, retain) NSArray *schedule;
 
 @property (nonatomic, assign) int currentIndex;
+@property (nonatomic, assign) int numDequeued;
 
 // Player A should be your character
 - (id) initWithPlayerA:(int)speedA playerB:(int)speedB andOrder:(ScheduleFirstTurn)order;

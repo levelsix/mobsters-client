@@ -387,9 +387,9 @@
 
 // checkEnemyHealth is a better place for saving because it's called after both move and skill trigger for that move finish
 /*- (void) moveComplete {
-  [super moveComplete];
-  [self saveCurrentState];
-}*/
+ [super moveComplete];
+ [self saveCurrentState];
+ }*/
 
 - (BOOL) checkEnemyHealth {
   [self saveCurrentState];
@@ -410,6 +410,31 @@
       _damageWasDealt = YES;
     }
     [self saveCurrentState];
+  }
+  
+  // Record analytics
+  BattlePlayer *attkr = enemyIsAttacker ? self.enemyPlayerObject : self.myPlayerObject;
+  BattlePlayer *defndr = enemyIsAttacker ? self.myPlayerObject : self.enemyPlayerObject;
+  BOOL isKill = defndr.curHealth <= 0;
+  BOOL isFinalBlow = isKill && [self checkIfTeamDead:enemyIsAttacker];
+  int skillId = usingAbility ? (enemyIsAttacker ? attkr.defensiveSkillId : attkr.offensiveSkillId) : 0;
+  
+  [Analytics pveHit:self.dungeonInfo.taskId isEnemyAttack:enemyIsAttacker attackerMonsterId:attkr.monsterId attackerLevel:attkr.level attackerHp:attkr.curHealth defenderMonsterId:defndr.monsterId defenderLevel:defndr.level defenderHp:defndr.curHealth damageDealt:damageDone hitOrder:self.battleSchedule.numDequeued isKill:isKill isFinalBlow:isFinalBlow skillId:skillId numContinues:_numContinues];
+}
+
+- (BOOL) checkIfTeamDead:(BOOL)myTeam {
+  if (myTeam) {
+    BOOL isDead = YES;
+    for (BattlePlayer *bp in self.myTeam) {
+      if (bp.curHealth > 0) {
+        isDead = NO;
+      }
+    }
+    return isDead;
+  } else {
+    // Just check last mobster
+    BattlePlayer *last = [self.enemyTeam lastObject];
+    return last.curHealth <= 0;
   }
 }
 
@@ -581,7 +606,7 @@
   if (self.battleSchedule.schedule) {
     [dict setObject:self.battleSchedule.schedule forKey:SCHEDULE_KEY];
     [dict setObject:@(self.battleSchedule.currentIndex + (_firstTurn ? 1 : 0)) forKey:SCHEDULE_INDEX_KEY];
-        // For the situation when user leaves before the first move has been dequeued
+    // For the situation when user leaves before the first move has been dequeued
   }
   
   [dict setObject:self.droplessStageNums forKey:DROPLESS_STAGES_KEY];
