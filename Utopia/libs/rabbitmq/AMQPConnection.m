@@ -21,6 +21,7 @@
 
 # import <amqp.h>
 # import <amqp_framing.h>
+# import <amqp_ssl_socket.h>
 # import <unistd.h>
 
 # import "AMQPChannel.h"
@@ -50,14 +51,15 @@
 
 - (void)connectToHost:(NSString*)host onPort:(int)port
 {
-	socketFD = amqp_open_socket([host UTF8String], port);
+  amqp_socket_t *socket = amqp_ssl_socket_new(connection);
+  socketFD = amqp_socket_open(socket, [host UTF8String], port);
 	
 	if(socketFD < 0)
 	{
 		[NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d", host, port];
 	}
 
-	amqp_set_sockfd(connection, socketFD);
+//	amqp_ssl_socket_set_sockFD(connection, socketFD);
 }
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost
 {

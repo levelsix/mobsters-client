@@ -135,7 +135,7 @@ amqp_os_socket_setsockopt(int sock, int level, int optname,
      const char * */
   return setsockopt(sock, level, optname, (const char *)optval, optlen);
 #else
-  return setsockopt(sock, level, optname, optval, optlen);
+  return setsockopt(sock, level, optname, optval, (int)optlen);
 #endif
 }
 
@@ -357,7 +357,7 @@ int amqp_open_socket_noblock(char const *hostname,
 
         while(1) {
           struct pollfd pfd;
-          int timeout_ms;
+          long timeout_ms;
 
           pfd.fd = sockfd;
           pfd.events = POLLERR | POLLOUT;
@@ -376,7 +376,7 @@ int amqp_open_socket_noblock(char const *hostname,
            * failure. Other platforms only need write_fds, passing except_fds
            * seems to be harmless otherwise
            */
-          res = poll(&pfd, 1, timeout_ms);
+          res = poll(&pfd, 1, (int)timeout_ms);
 
           if (res > 0) {
             int result;
@@ -459,7 +459,7 @@ int amqp_send_header(amqp_connection_state_t state)
                                      AMQP_PROTOCOL_VERSION_MINOR,
                                      AMQP_PROTOCOL_VERSION_REVISION
                                    };
-  return amqp_socket_send(state->socket, header, sizeof(header));
+  return (int)amqp_socket_send(state->socket, header, sizeof(header));
 }
 
 static amqp_bytes_t sasl_method_name(amqp_sasl_method_enum method)
@@ -567,7 +567,7 @@ static int recv_with_timeout(amqp_connection_state_t state, uint64_t start, stru
 
     while (1) {
       struct pollfd pfd;
-      int timeout_ms;
+      long timeout_ms;
 
       pfd.fd = fd;
       pfd.events = POLLIN;
@@ -576,7 +576,7 @@ static int recv_with_timeout(amqp_connection_state_t state, uint64_t start, stru
       timeout_ms = timeout->tv_sec * AMQP_MS_PER_S +
           timeout->tv_usec / AMQP_US_PER_MS;
 
-      res = poll(&pfd, 1, timeout_ms);
+      res = poll(&pfd, 1, (int)timeout_ms);
 
       if (0 < res) {
         break;
@@ -610,7 +610,7 @@ static int recv_with_timeout(amqp_connection_state_t state, uint64_t start, stru
     }
   }
 
-  res = amqp_socket_recv(state->socket, state->sock_inbound_buffer.bytes,
+  res = (int)amqp_socket_recv(state->socket, state->sock_inbound_buffer.bytes,
                          state->sock_inbound_buffer.len, 0);
 
   if (res < 0) {
