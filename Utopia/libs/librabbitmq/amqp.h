@@ -1965,6 +1965,12 @@ int
 AMQP_CALL amqp_basic_nack(amqp_connection_state_t state, amqp_channel_t channel,
                           uint64_t delivery_tag, amqp_boolean_t multiple,
                           amqp_boolean_t requeue);
+
+// LVL6 Addition
+AMQP_PUBLIC_FUNCTION
+amqp_boolean_t
+AMQP_CALL amqp_data_available(amqp_connection_state_t state);
+
 /**
  * Check to see if there is data left in the receive buffer
  *

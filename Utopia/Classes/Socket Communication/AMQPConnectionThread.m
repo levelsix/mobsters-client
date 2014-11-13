@@ -36,7 +36,7 @@ static int sessionId;
     [self endConnection];
     
     _connection = [[AMQPConnection alloc] init];
-    [_connection connectToHost:HOST_NAME onPort:HOST_PORT];
+    [_connection connectToHost:HOST_NAME onPort:HOST_PORT useSSL:USE_SSL];
     [_connection loginAsUser:MQ_USERNAME withPassword:MQ_PASSWORD onVHost:MQ_VHOST];
     AMQPChannel *channel = [_connection openChannel];
     _directExchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:channel isPassive:NO isDurable:YES];
@@ -167,8 +167,7 @@ static int sessionId;
 
 - (void) readData {
   if (_connection) {
-#warning implement this
-    if (/*amqp_data_available(_connection.internalConnection) ||*/ amqp_data_in_buffer(_connection.internalConnection)) {
+    if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
       AMQPMessage *message = [_udidConsumer pop];
       if(message)
       {

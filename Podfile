@@ -7,12 +7,15 @@ pod 'UIImage+BlurredFrame'
 pod 'GPUImage'
 pod 'Amplitude-iOS', '~> 2.1'
 pod 'ProtocolBuffers', '1.9.2'
-pod 'OpenSSL'
 #pod 'Reachability'
 #pod 'Adjust', :git => 'git://github.com/adjust/ios_sdk.git', :tag => 'v3.3.4'
 
 #pod 'Lookback', :configurations => ['Debug', 'Release']
 #pod 'LookbackSafe', :configurations => ['App Store']
+
+target :Mobsters do
+  pod 'OpenSSL'
+end
 
 post_install do |installer|
   installer.project.targets.each do |target|

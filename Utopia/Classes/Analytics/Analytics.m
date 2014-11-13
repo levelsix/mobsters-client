@@ -366,6 +366,8 @@ static NSDate *timeSinceLastTutStep = nil;
                                        @"type": isRequestType ? @"request" : @"free_to_join"} sendToTitan:YES];
 }
 
+//+ (void) pveHit:(int)dungeonId isEnemyAttack:(BOOL)isEnemyAttack
+
 + (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);

@@ -91,7 +91,7 @@ static TangoProfileEntry *profileEntry = nil;
 + (void) validatePurchase:(SKPaymentTransaction *)transaction {
   TangoSession *session = [TangoSession sharedSession];
   if (session.isInitialized || [TangoSession sessionInitialize]) {
-    [TangoTools validateTransaction:transaction withHandler:^(enum ValidationStatus status, NSError *error) {
+    [TangoTools validateReceipt:transaction.transactionReceipt forProduct:transaction.payment.productIdentifier withHandler:^(enum ValidationStatus status, NSError *error) {
       NSLog(@"Tango validate purchase: Status %d, Error %@", status, error);
     }];
   };

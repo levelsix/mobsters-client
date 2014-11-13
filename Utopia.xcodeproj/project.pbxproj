@@ -8560,6 +8560,9 @@
 		CFE11F951A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; };
 		CFE11F961A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; };
 		CFE11F971A141C040094F797 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = CFE11F671A141C040094F797 /* amqp_url.c */; };
+		CFE11FA21A14472D0094F797 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = CFE11FA11A14472D0094F797 /* cacert.pem */; };
+		CFE11FA31A14472D0094F797 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = CFE11FA11A14472D0094F797 /* cacert.pem */; };
+		CFE11FA41A14472D0094F797 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = CFE11FA11A14472D0094F797 /* cacert.pem */; };
 		CFE5C5801938032C001B0531 /* onteamicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE5C57E1938032C001B0531 /* onteamicon.png */; };
 		CFE5C5811938032C001B0531 /* onteamicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE5C57F1938032C001B0531 /* onteamicon@2x.png */; };
 		CFE5C58319380D9C001B0531 /* EasyTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE5C58219380D9C001B0531 /* EasyTableHeaderView.xib */; };
@@ -10159,6 +10162,7 @@
 		DAF7994E19AD65EF00586583 /* bluenotificationbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994719AD65EF00586583 /* bluenotificationbubble.png */; };
 		DAF7994F19AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */; };
 		DAF7995019AD65EF00586583 /* bluenotificationbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAF7994819AD65EF00586583 /* bluenotificationbubble@2x.png */; };
+		DE267F8E3C81A941846229AB /* libPods-Mobsters.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -10239,6 +10243,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mobsters.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		454E624A15670A15004EB7E9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -10278,6 +10284,7 @@
 		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF010F2319DDE5C400DAD527 /* chatinputbgcap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatinputbgcap.png; sourceTree = "<group>"; };
@@ -12601,6 +12608,7 @@
 		CFE11F671A141C040094F797 /* amqp_url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_url.c; sourceTree = "<group>"; };
 		CFE11F681A141C040094F797 /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		CFE11F6A1A141C040094F797 /* threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threads.h; sourceTree = "<group>"; };
+		CFE11FA11A14472D0094F797 /* cacert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cacert.pem; sourceTree = "<group>"; };
 		CFE5C57E1938032C001B0531 /* onteamicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onteamicon.png; sourceTree = "<group>"; };
 		CFE5C57F1938032C001B0531 /* onteamicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onteamicon@2x.png"; sourceTree = "<group>"; };
 		CFE5C58219380D9C001B0531 /* EasyTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyTableHeaderView.xib; sourceTree = "<group>"; };
@@ -13834,6 +13842,7 @@
 		CFFF9A3D18BEB67D0036EEC3 /* watertimermobster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "watertimermobster@2x.png"; sourceTree = "<group>"; };
 		CFFF9A5C18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ClanRaidProto+EasyAccess.h"; sourceTree = "<group>"; };
 		CFFF9A5D18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ClanRaidProto+EasyAccess.m"; sourceTree = "<group>"; };
+		D5CE6A6498D96F51AF90E68F /* Pods-Mobsters.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.debug.xcconfig"; sourceTree = "<group>"; };
 		DA075FB519AFEA3500E43E5A /* Skill.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.pb.h; sourceTree = "<group>"; };
 		DA075FB619AFEA3500E43E5A /* Skill.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.pb.m; sourceTree = "<group>"; };
 		DA075FBE19AFEA4C00E43E5A /* Skill.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Skill.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Skill.proto"; sourceTree = SOURCE_ROOT; };
@@ -14084,6 +14093,7 @@
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
 				2636AB3AF3AA4E51B6778221 /* libPods.a in Frameworks */,
+				DE267F8E3C81A941846229AB /* libPods-Mobsters.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14196,6 +14206,9 @@
 				7531CD67E149A97B795B119A /* Pods.debug.xcconfig */,
 				5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */,
 				686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */,
+				D5CE6A6498D96F51AF90E68F /* Pods-Mobsters.debug.xcconfig */,
+				3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */,
+				C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -14533,6 +14546,7 @@
 				CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */,
 				455FC685157EE065008DB9E4 /* SenTestingKit.framework */,
 				E3B014266D6444DCA5AD786C /* libPods.a */,
+				1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -17550,6 +17564,7 @@
 		CFC1414D1657484A0060188D /* librabbitmq */ = {
 			isa = PBXGroup;
 			children = (
+				CFE11FA11A14472D0094F797 /* cacert.pem */,
 				CFE11F521A141C030094F797 /* amqp_api.c */,
 				CFE11F531A141C040094F797 /* amqp_connection.c */,
 				CFE11F541A141C040094F797 /* amqp_consumer.c */,
@@ -21807,6 +21822,7 @@
 				CF0CF282196F452900ECD301 /* EnhanceSmallCardCell.xib in Resources */,
 				CF0CF283196F452900ECD301 /* notificationsicon.png in Resources */,
 				CF0CF285196F452900ECD301 /* Scientist2Turn10@2x.png in Resources */,
+				CFE11FA31A14472D0094F797 /* cacert.pem in Resources */,
 				CF0CF286196F452900ECD301 /* mus_mobsquad_battle.mp3 in Resources */,
 				CFA793A51A0C63ED00DF3407 /* watercakeeventlive.png in Resources */,
 				CF0CF287196F452900ECD301 /* profteaminactive@2x.png in Resources */,
@@ -26027,6 +26043,7 @@
 				CFE7CD4C1819FC3300930847 /* emptycard@2x.png in Resources */,
 				CFC8B5D218E4547200CFD652 /* chatexpandarrow@2x.png in Resources */,
 				CF023C9E1992E2BB0082FE61 /* movesqueuebgwide@2x.png in Resources */,
+				CFE11FA21A14472D0094F797 /* cacert.pem in Resources */,
 				CF37378B19E3759100CB16E3 /* winlosegradient@2x.png in Resources */,
 				CFA729051A0B037900FF6031 /* lighteventtimer@2x.png in Resources */,
 				CF06B5D4193699FC008BF892 /* buildingbg@2x.png in Resources */,
@@ -27948,6 +27965,7 @@
 				CF481EC819F7217F00041486 /* EnhanceSmallCardCell.xib in Resources */,
 				CF481EC919F7217F00041486 /* notificationsicon.png in Resources */,
 				CF481ECA19F7217F00041486 /* Scientist2Turn10@2x.png in Resources */,
+				CFE11FA41A14472D0094F797 /* cacert.pem in Resources */,
 				CF481ECB19F7217F00041486 /* mus_mobsquad_battle.mp3 in Resources */,
 				CFA793A61A0C63ED00DF3407 /* watercakeeventlive.png in Resources */,
 				CF481ECC19F7217F00041486 /* profteaminactive@2x.png in Resources */,
@@ -29823,7 +29841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -30757,7 +30775,7 @@
 		};
 		CF0CECDD196F41F300ECD301 /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */;
+			baseConfigurationReference = C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -31144,7 +31162,7 @@
 		};
 		CF12565B1538A94D00E0C1AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7531CD67E149A97B795B119A /* Pods.debug.xcconfig */;
+			baseConfigurationReference = D5CE6A6498D96F51AF90E68F /* Pods-Mobsters.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -31212,7 +31230,7 @@
 		};
 		CF12565C1538A94D00E0C1AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

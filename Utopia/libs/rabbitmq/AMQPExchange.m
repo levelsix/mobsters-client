@@ -36,7 +36,7 @@
 {
 	if(self = [super init])
 	{
-    BOOL autoDelete = YES;
+    BOOL autoDelete = NO;
     BOOL internal = NO;
 		amqp_exchange_declare(theChannel.connection.internalConnection, theChannel.internalChannel, amqp_cstring_bytes([theName UTF8String]), amqp_cstring_bytes([theType UTF8String]), passive, durable, autoDelete, internal, AMQP_EMPTY_TABLE);
 		
