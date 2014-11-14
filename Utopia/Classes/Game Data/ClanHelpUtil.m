@@ -223,7 +223,9 @@
       
       if (!isValid) {
         [doneHelps addObject:ch];
-        [removeClanHelpUuids addObject:ch.clanHelpUuid];
+        if (ch.clanHelpUuid) {
+          [removeClanHelpUuids addObject:ch.clanHelpUuid];
+        }
       }
     }
     

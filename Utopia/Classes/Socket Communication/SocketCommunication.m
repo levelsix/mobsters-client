@@ -931,17 +931,22 @@ static NSString *udid = nil;
 }
 
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid {
-  UpdateMonsterHealthRequestProto *req = [[[[[[[[[UpdateMonsterHealthRequestProto builder]
-                                                 setSender:_sender]
-                                                setClientTime:clientTime]
-                                               addAllUmchp:monsterHealths]
-                                              setIsUpdateTaskStageForUser:isForTask]
-                                             setUserTaskUuid:userTaskUuid]
-                                            setNuTaskStageId:taskStageId]
-                                           setDroplessTsfuUuid:droplessTsfuUuid]
-                                          build];
+  UpdateMonsterHealthRequestProto_Builder *bldr = [[[[UpdateMonsterHealthRequestProto builder]
+                                                    setSender:_sender]
+                                                   setClientTime:clientTime]
+                                                  addAllUmchp:monsterHealths];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
+  if (isForTask) {
+    bldr.isUpdateTaskStageForUser = isForTask;
+    bldr.userTaskUuid = userTaskUuid;
+    bldr.nuTaskStageId = taskStageId;
+    
+    if (droplessTsfuUuid) {
+      bldr.droplessTsfuUuid = droplessTsfuUuid;
+    }
+  }
+  
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
 }
 
 - (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time {

@@ -1455,7 +1455,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                           setCurrentHealth:userMonster.curHealth]
                                          setUserMonsterUuid:userMonster.userMonsterUuid]
                                         build];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskUuid:0 taskStageId:0 droplessTsfuUuid:0];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskUuid:nil taskStageId:0 droplessTsfuUuid:nil];
   }
 }
 
