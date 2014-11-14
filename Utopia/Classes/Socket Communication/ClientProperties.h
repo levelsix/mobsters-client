@@ -31,6 +31,7 @@
 
 #define HOST_NAME @"amqp.prod.mobsters.lvl6.com"
 #define HOST_PORT 5672
+#define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
 #define MQ_VHOST @"prodmobsters"
@@ -39,14 +40,16 @@
 
 #define HOST_NAME @"staging.mobsters.lvl6.com"
 #define HOST_PORT 5672
+#define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devmobsters"
 
 #else
 
-#define HOST_NAME @"staging.mobsters.lvl6.com"//staging.mobsters.lvl6.com"
-#define HOST_PORT 5672
+#define HOST_NAME @"amqp1.staging.mobsters.lvl6.com"
+#define HOST_PORT 5671
+#define USE_SSL 1
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"devclient"
 #define MQ_VHOST @"devmobsters"

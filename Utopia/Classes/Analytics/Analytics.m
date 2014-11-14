@@ -366,6 +366,26 @@ static NSDate *timeSinceLastTutStep = nil;
                                        @"type": isRequestType ? @"request" : @"free_to_join"} sendToTitan:YES];
 }
 
++ (void) pveHit:(int)dungeonId isEnemyAttack:(BOOL)isEnemyAttack attackerMonsterId:(int)attackerMonsterId attackerLevel:(int)attackerLevel attackerHp:(int)attackerHp defenderMonsterId:(int)defenderMonsterId defenderLevel:(int)defenderLevel defenderHp:(int)defenderHp damageDealt:(int)damageDealt hitOrder:(int)hitOrder isKill:(BOOL)isKill isFinalBlow:(BOOL)isFinalBlow skillId:(int)skillId numContinues:(int)numContinues {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  dict[@"dungeon_id"] = @(dungeonId);
+  dict[@"attacker_type"] = isEnemyAttack ? @"enemy" : @"player";
+  dict[@"attacking_toon_id"] = @(attackerMonsterId);
+  dict[@"attacking_toon_level"] = @(attackerLevel);
+  dict[@"attacking_toon_current_hp"] = @(attackerHp);
+  dict[@"defending_toon_id"] = @(defenderMonsterId);
+  dict[@"defending_toon_level"] = @(defenderLevel);
+  dict[@"defending_toon_current_hp"] = @(defenderHp);
+  dict[@"damage_dealt"] = @(damageDealt);
+  dict[@"hit_order"] = @(hitOrder);
+  dict[@"is_kill"] = @(isKill);
+  dict[@"is_final"] = @(isFinalBlow);
+  dict[@"skill_id"] = @(skillId);
+  dict[@"num_continues"] = @(numContinues);
+  
+  [self event:@"pve_hit" withArgs:dict];
+}
+
 + (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"win"] = @(won);

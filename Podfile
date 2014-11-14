@@ -13,6 +13,10 @@ pod 'ProtocolBuffers', '1.9.2'
 #pod 'Lookback', :configurations => ['Debug', 'Release']
 #pod 'LookbackSafe', :configurations => ['App Store']
 
+target :Mobsters do
+  pod 'OpenSSL'
+end
+
 post_install do |installer|
   installer.project.targets.each do |target|
     target.build_configurations.each do |config|

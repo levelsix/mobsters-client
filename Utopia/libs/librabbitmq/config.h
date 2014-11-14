@@ -7,17 +7,29 @@
 /* Define to 1 for a static Win32 build. */
 /* #undef AMQP_STATIC */
 
+/* Host operating system string */
+#define AMQ_PLATFORM "darwin14.0.0"
+
+/* Define to 1 to enable thread safety */
+#define ENABLE_THREAD_SAFETY 1
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
-/* Define to 1 if you have the `htonll' function. */
-/* #undef HAVE_HTONLL */
+/* Define to 1 if the function (or macro) htonll exists. */
+#define HAVE_HTONLL 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
+
+/* Define to 1 if PolarSSL is available. */
+/* #undef HAVE_POLARSSL */
+
+/* Define to 1 if you have the <polarssl/ssl.h> header file. */
+/* #undef HAVE_POLARSSL_SSL_H */
 
 /* Define to 1 if Popt is available. */
 /* #undef HAVE_POPT */
@@ -54,7 +66,7 @@
 /* #undef OS_WIN32 */
 
 /* Name of package */
-#define PACKAGE "librabbitmq"
+#define PACKAGE "rabbitmq-c"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "https://github.com/alanxz/rabbitmq-c/issues"
@@ -63,16 +75,16 @@
 #define PACKAGE_NAME "rabbitmq-c"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "rabbitmq-c 0.2.0"
+#define PACKAGE_STRING "rabbitmq-c 0.5.3"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "librabbitmq"
+#define PACKAGE_TARNAME "rabbitmq-c"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL "http://www.rabbitmq.com/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.2.0"
+#define PACKAGE_VERSION "0.5.3"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -100,7 +112,10 @@
 
 
 /* Version number of package */
-#define VERSION "0.2.0"
+#define VERSION "0.5.3"
+
+/* Define to 1 if SSL/TLS is enabled. */
+#define WITH_SSL 1
 
 /* Define to 1 if on MINIX. */
 /* #undef _MINIX */

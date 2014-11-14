@@ -38,7 +38,7 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)connectToHost:(NSString*)host onPort:(int)port;
+- (void)connectToHost:(NSString*)host onPort:(int)port useSSL:(BOOL)useSSL;
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost;
 - (void)disconnect; // all channels have to be closed before closing the connection
 

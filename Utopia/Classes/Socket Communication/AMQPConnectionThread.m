@@ -36,7 +36,7 @@ static int sessionId;
     [self endConnection];
     
     _connection = [[AMQPConnection alloc] init];
-    [_connection connectToHost:HOST_NAME onPort:HOST_PORT];
+    [_connection connectToHost:HOST_NAME onPort:HOST_PORT useSSL:USE_SSL];
     [_connection loginAsUser:MQ_USERNAME withPassword:MQ_PASSWORD onVHost:MQ_VHOST];
     AMQPChannel *channel = [_connection openChannel];
     _directExchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:channel isPassive:NO isDurable:YES];

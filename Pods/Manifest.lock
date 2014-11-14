@@ -23,6 +23,7 @@ PODS:
   - Amplitude-iOS (2.2.0)
   - GPUImage (0.1.6)
   - NRTouchPoints (0.1.0)
+  - OpenSSL (1.0.109)
   - ProtocolBuffers (1.9.2)
   - UIImage+BlurredFrame (0.0.4)
 
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 2.1)
   - GPUImage
   - NRTouchPoints
+  - OpenSSL
   - ProtocolBuffers (= 1.9.2)
   - UIImage+BlurredFrame
 
@@ -39,6 +41,7 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 826033d01dee9383131d1237a1911e7170a8e0c1
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
+  OpenSSL: 4810adf5c99b0e2cd20670a11a987c805e8a521c
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228
   UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
 
