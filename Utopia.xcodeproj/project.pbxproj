@@ -11166,7 +11166,7 @@
 		CF42537D19AD746B00964547 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF48189419F71D2900041486 /* LaboratoryT0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaboratoryT0@2x.png"; sourceTree = "<group>"; };
 		CF48256419F7217F00041486 /* Toon Squad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toon Squad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF48256519F7217F00041486 /* Tango Toon Squad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Tango Toon Squad-Info.plist"; path = "/Users/ashwin/mobsters-client/Tango Toon Squad-Info.plist"; sourceTree = "<absolute>"; };
+		CF48256519F7217F00041486 /* Tango Toon Squad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tango Toon Squad-Info.plist"; sourceTree = "<group>"; };
 		CF48259319F729D000041486 /* mysprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysprite.png; sourceTree = "<group>"; };
 		CF48259419F729D000041486 /* PPEmitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPEmitterView.h; sourceTree = "<group>"; };
 		CF48259519F729D000041486 /* PPEmitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPEmitterView.m; sourceTree = "<group>"; };
