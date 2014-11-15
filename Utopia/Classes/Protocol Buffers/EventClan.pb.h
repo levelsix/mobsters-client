@@ -3038,14 +3038,14 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
   BOOL hasProspectiveMember_:1;
   BOOL hasSender_:1;
   int64_t clientTime;
-  int32_t prospectiveMember;
+  NSString* prospectiveMember;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasProspectiveMember;
 - (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t prospectiveMember;
+@property (readonly, strong) NSString* prospectiveMember;
 @property (readonly) int64_t clientTime;
 
 + (InviteToClanRequestProto*) defaultInstance;
@@ -3091,8 +3091,8 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (InviteToClanRequestProto_Builder*) clearSender;
 
 - (BOOL) hasProspectiveMember;
-- (int32_t) prospectiveMember;
-- (InviteToClanRequestProto_Builder*) setProspectiveMember:(int32_t) value;
+- (NSString*) prospectiveMember;
+- (InviteToClanRequestProto_Builder*) setProspectiveMember:(NSString*) value;
 - (InviteToClanRequestProto_Builder*) clearProspectiveMember;
 
 - (BOOL) hasClientTime;

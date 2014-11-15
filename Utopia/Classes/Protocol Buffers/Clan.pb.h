@@ -1186,27 +1186,27 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   BOOL hasCrsEndTime_:1;
   BOOL hasTimeRedeemed_:1;
-  BOOL hasRewardId_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasQuantity_:1;
+  BOOL hasRewardUuid_:1;
   BOOL hasUserUuid_:1;
   BOOL hasResourceType_:1;
   int64_t crsEndTime;
   int64_t timeRedeemed;
-  int32_t rewardId;
   int32_t staticDataId;
   int32_t quantity;
+  NSString* rewardUuid;
   NSString* userUuid;
   ResourceType resourceType;
 }
-- (BOOL) hasRewardId;
+- (BOOL) hasRewardUuid;
 - (BOOL) hasUserUuid;
 - (BOOL) hasCrsEndTime;
 - (BOOL) hasResourceType;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasQuantity;
 - (BOOL) hasTimeRedeemed;
-@property (readonly) int32_t rewardId;
+@property (readonly, strong) NSString* rewardUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int64_t crsEndTime;
 @property (readonly) ResourceType resourceType;
@@ -1249,10 +1249,10 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasRewardId;
-- (int32_t) rewardId;
-- (PersistentClanEventUserRewardProto_Builder*) setRewardId:(int32_t) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearRewardId;
+- (BOOL) hasRewardUuid;
+- (NSString*) rewardUuid;
+- (PersistentClanEventUserRewardProto_Builder*) setRewardUuid:(NSString*) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearRewardUuid;
 
 - (BOOL) hasUserUuid;
 - (NSString*) userUuid;

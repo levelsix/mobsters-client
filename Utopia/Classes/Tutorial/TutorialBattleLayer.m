@@ -539,7 +539,11 @@
   [self.hudView.elementView removeFromSuperview];
 }
 
-- (void) sendServerUpdatedValues {
+- (void) sendServerUpdatedValuesVerifyDamageDealt:(BOOL)verify {
+  // Do nothing
+}
+
+- (void) saveCurrentState {
   // Do nothing
 }
 

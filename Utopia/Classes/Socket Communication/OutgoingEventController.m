@@ -35,6 +35,7 @@
 #define SKIP_QUESTS_CODE @"quickquests"
 #define FB_LOGOUT_CODE @"unfb"
 #define GET_MONSTER_CODE @"magicmob"
+#define GET_ITEM_CODE @"instaitem"
 #define SKILL_CODE @"skill"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
@@ -850,44 +851,63 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int amt = 0, numTimes = 1;
+        int staticDataId = 0, quantity = 1, numTimes = 1;
         DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetCash;
-          msg = [NSString stringWithFormat:@"Awarded %d cash.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d cash.", quantity];
         } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetOil;
-          msg = [NSString stringWithFormat:@"Awarded %d oil.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d oil.", quantity];
         } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetGems;
-          msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d gems.", quantity];
         } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          staticDataId = code.intValue;
           req = DevRequestGetMonzter;
           
-          r = [code rangeOfString:[NSString stringWithFormat:@"%d", amt]];
+          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            numTimes = code.intValue;
+            quantity = code.intValue;
           }
           
-          MonsterProto *mp = [gs monsterWithId:amt];
+          MonsterProto *mp = [gs monsterWithId:staticDataId];
           if (mp) {
             msg = [NSString stringWithFormat:@"Awarded %d %@.", numTimes, mp.displayName];
           } else {
-            amt = 0;
+            quantity = 0;
+          }
+        } else if ((r = [code rangeOfString:GET_ITEM_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          staticDataId = code.intValue;
+          req = DevRequestGetItem;
+          
+          r = [code rangeOfString:[NSString stringWithFormat:@"%d", staticDataId]];
+          if (code.length > r.length+1) {
+            r.length++;
+            code = [code stringByReplacingCharactersInRange:r withString:@""];
+            quantity = code.intValue;
+          }
+          
+          ItemProto *mp = [gs itemForId:staticDataId];
+          if (mp) {
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.name];
+          } else {
+            quantity = 0;
           }
         } else if ((r = [code rangeOfString:SKILL_CODE]).length > 0) {    // Skill stuff
           code = [code stringByReplacingCharactersInRange:r withString:@""];
@@ -969,9 +989,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           }
         } // Skill stuff ends
         
-        if (amt) {
+        if (quantity) {
           for (int i = 0; i < numTimes; i++) {
-            [[OutgoingEventController sharedOutgoingEventController] devRequest:req num:amt];
+            [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:quantity];
           }
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
@@ -995,7 +1015,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         msg = @"All downloaded data has been purged.";
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
-        [[OutgoingEventController sharedOutgoingEventController] devRequest:DevRequestResetAccount num:0];
+        [[OutgoingEventController sharedOutgoingEventController] devRequest:DevRequestResetAccount staticDataId:0 quantity:0];
       } else if ([code isEqualToString:FB_LOGOUT_CODE]) {
         msg = @"Logged out of Facebook.";
         [FacebookDelegate logout];
@@ -1020,8 +1040,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) devRequest:(DevRequest)req num:(int)num {
-  [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req num:num];
+- (void) devRequest:(DevRequest)req staticDataId:(int)staticDataId quantity:(int)quantity {
+  [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req staticDataId:staticDataId quantity:quantity];
 }
 
 - (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content {

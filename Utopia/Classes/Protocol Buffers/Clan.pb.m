@@ -4810,7 +4810,7 @@ static PersistentClanEventUserInfoProto* defaultPersistentClanEventUserInfoProto
 @end
 
 @interface PersistentClanEventUserRewardProto ()
-@property int32_t rewardId;
+@property (strong) NSString* rewardUuid;
 @property (strong) NSString* userUuid;
 @property int64_t crsEndTime;
 @property ResourceType resourceType;
@@ -4821,13 +4821,13 @@ static PersistentClanEventUserInfoProto* defaultPersistentClanEventUserInfoProto
 
 @implementation PersistentClanEventUserRewardProto
 
-- (BOOL) hasRewardId {
-  return !!hasRewardId_;
+- (BOOL) hasRewardUuid {
+  return !!hasRewardUuid_;
 }
-- (void) setHasRewardId:(BOOL) value_ {
-  hasRewardId_ = !!value_;
+- (void) setHasRewardUuid:(BOOL) value_ {
+  hasRewardUuid_ = !!value_;
 }
-@synthesize rewardId;
+@synthesize rewardUuid;
 - (BOOL) hasUserUuid {
   return !!hasUserUuid_;
 }
@@ -4872,7 +4872,7 @@ static PersistentClanEventUserInfoProto* defaultPersistentClanEventUserInfoProto
 @synthesize timeRedeemed;
 - (id) init {
   if ((self = [super init])) {
-    self.rewardId = 0;
+    self.rewardUuid = @"";
     self.userUuid = @"";
     self.crsEndTime = 0L;
     self.resourceType = ResourceTypeCash;
@@ -4898,8 +4898,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasRewardId) {
-    [output writeInt32:1 value:self.rewardId];
+  if (self.hasRewardUuid) {
+    [output writeString:1 value:self.rewardUuid];
   }
   if (self.hasUserUuid) {
     [output writeString:2 value:self.userUuid];
@@ -4928,8 +4928,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   }
 
   size_ = 0;
-  if (self.hasRewardId) {
-    size_ += computeInt32Size(1, self.rewardId);
+  if (self.hasRewardUuid) {
+    size_ += computeStringSize(1, self.rewardUuid);
   }
   if (self.hasUserUuid) {
     size_ += computeStringSize(2, self.userUuid);
@@ -4984,8 +4984,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   return [PersistentClanEventUserRewardProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasRewardId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"rewardId", [NSNumber numberWithInteger:self.rewardId]];
+  if (self.hasRewardUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"rewardUuid", self.rewardUuid];
   }
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
@@ -5016,8 +5016,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   }
   PersistentClanEventUserRewardProto *otherMessage = other;
   return
-      self.hasRewardId == otherMessage.hasRewardId &&
-      (!self.hasRewardId || self.rewardId == otherMessage.rewardId) &&
+      self.hasRewardUuid == otherMessage.hasRewardUuid &&
+      (!self.hasRewardUuid || [self.rewardUuid isEqual:otherMessage.rewardUuid]) &&
       self.hasUserUuid == otherMessage.hasUserUuid &&
       (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasCrsEndTime == otherMessage.hasCrsEndTime &&
@@ -5034,8 +5034,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasRewardId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.rewardId] hash];
+  if (self.hasRewardUuid) {
+    hashCode = hashCode * 31 + [self.rewardUuid hash];
   }
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
@@ -5098,8 +5098,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
   if (other == [PersistentClanEventUserRewardProto defaultInstance]) {
     return self;
   }
-  if (other.hasRewardId) {
-    [self setRewardId:other.rewardId];
+  if (other.hasRewardUuid) {
+    [self setRewardUuid:other.rewardUuid];
   }
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
@@ -5140,8 +5140,8 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
         }
         break;
       }
-      case 8: {
-        [self setRewardId:[input readInt32]];
+      case 10: {
+        [self setRewardUuid:[input readString]];
         break;
       }
       case 18: {
@@ -5176,20 +5176,20 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
     }
   }
 }
-- (BOOL) hasRewardId {
-  return result.hasRewardId;
+- (BOOL) hasRewardUuid {
+  return result.hasRewardUuid;
 }
-- (int32_t) rewardId {
-  return result.rewardId;
+- (NSString*) rewardUuid {
+  return result.rewardUuid;
 }
-- (PersistentClanEventUserRewardProto_Builder*) setRewardId:(int32_t) value {
-  result.hasRewardId = YES;
-  result.rewardId = value;
+- (PersistentClanEventUserRewardProto_Builder*) setRewardUuid:(NSString*) value {
+  result.hasRewardUuid = YES;
+  result.rewardUuid = value;
   return self;
 }
-- (PersistentClanEventUserRewardProto_Builder*) clearRewardId {
-  result.hasRewardId = NO;
-  result.rewardId = 0;
+- (PersistentClanEventUserRewardProto_Builder*) clearRewardUuid {
+  result.hasRewardUuid = NO;
+  result.rewardUuid = @"";
   return self;
 }
 - (BOOL) hasUserUuid {

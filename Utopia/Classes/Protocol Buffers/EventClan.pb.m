@@ -13058,7 +13058,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 
 @interface InviteToClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t prospectiveMember;
+@property (strong) NSString* prospectiveMember;
 @property int64_t clientTime;
 @end
 
@@ -13088,7 +13088,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.prospectiveMember = 0;
+    self.prospectiveMember = @"";
     self.clientTime = 0L;
   }
   return self;
@@ -13113,7 +13113,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     [output writeMessage:1 value:self.sender];
   }
   if (self.hasProspectiveMember) {
-    [output writeInt32:2 value:self.prospectiveMember];
+    [output writeString:2 value:self.prospectiveMember];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -13131,7 +13131,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     size_ += computeMessageSize(1, self.sender);
   }
   if (self.hasProspectiveMember) {
-    size_ += computeInt32Size(2, self.prospectiveMember);
+    size_ += computeStringSize(2, self.prospectiveMember);
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(3, self.clientTime);
@@ -13178,7 +13178,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasProspectiveMember) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", [NSNumber numberWithInteger:self.prospectiveMember]];
+    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", self.prospectiveMember];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -13197,7 +13197,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasProspectiveMember == otherMessage.hasProspectiveMember &&
-      (!self.hasProspectiveMember || self.prospectiveMember == otherMessage.prospectiveMember) &&
+      (!self.hasProspectiveMember || [self.prospectiveMember isEqual:otherMessage.prospectiveMember]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -13208,7 +13208,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     hashCode = hashCode * 31 + [self.sender hash];
   }
   if (self.hasProspectiveMember) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveMember] hash];
+    hashCode = hashCode * 31 + [self.prospectiveMember hash];
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -13295,8 +13295,8 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setProspectiveMember:[input readInt32]];
+      case 18: {
+        [self setProspectiveMember:[input readString]];
         break;
       }
       case 24: {
@@ -13339,17 +13339,17 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
 - (BOOL) hasProspectiveMember {
   return result.hasProspectiveMember;
 }
-- (int32_t) prospectiveMember {
+- (NSString*) prospectiveMember {
   return result.prospectiveMember;
 }
-- (InviteToClanRequestProto_Builder*) setProspectiveMember:(int32_t) value {
+- (InviteToClanRequestProto_Builder*) setProspectiveMember:(NSString*) value {
   result.hasProspectiveMember = YES;
   result.prospectiveMember = value;
   return self;
 }
 - (InviteToClanRequestProto_Builder*) clearProspectiveMember {
   result.hasProspectiveMember = NO;
-  result.prospectiveMember = 0;
+  result.prospectiveMember = @"";
   return self;
 }
 - (BOOL) hasClientTime {

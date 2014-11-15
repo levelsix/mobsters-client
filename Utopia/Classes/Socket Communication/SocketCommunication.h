@@ -185,7 +185,7 @@
 - (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 - (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 
-- (int) sendDevRequestProto:(DevRequest)request num:(int)num;
+- (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 
 - (BOOL) flush;
 - (BOOL) flushAllExceptEventType:(int)val;

@@ -687,6 +687,9 @@
   [self reloadBubblesOnMiscBuildings];
   [self reloadTeamCenter];
   [self reloadClanHouse];
+  
+  // In case there's a purch building
+  [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
 }
 
 #pragma mark - Moving
@@ -1794,7 +1797,8 @@
   
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = [self timeLeftForConstructionBuilding];
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]] ? YES : NO;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
   
   if (goldCost) {
     NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];

@@ -324,7 +324,10 @@
   if (self.defendersList.count <= _curQueueNum) {
     if (!self.seenUserUuids) self.seenUserUuids = [NSMutableArray array];
     for (PvpProto *pvp in self.defendersList) {
-      [self.seenUserUuids addObject:pvp.defender.minUserProto.userUuid];
+      if (pvp.defender.minUserProto.hasUserUuid &&
+          pvp.defender.minUserProto.userUuid.length > 0) {
+        [self.seenUserUuids addObject:pvp.defender.minUserProto.userUuid];
+      }
     }
     [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserUuids withDelegate:self];
     self.defendersList = nil;

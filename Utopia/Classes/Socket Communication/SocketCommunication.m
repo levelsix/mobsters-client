@@ -932,9 +932,9 @@ static NSString *udid = nil;
 
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid {
   UpdateMonsterHealthRequestProto_Builder *bldr = [[[[UpdateMonsterHealthRequestProto builder]
-                                                    setSender:_sender]
-                                                   setClientTime:clientTime]
-                                                  addAllUmchp:monsterHealths];
+                                                     setSender:_sender]
+                                                    setClientTime:clientTime]
+                                                   addAllUmchp:monsterHealths];
   
   if (isForTask) {
     bldr.isUpdateTaskStageForUser = isForTask;
@@ -1264,10 +1264,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUnrestrictUserMonsterEvent];
 }
 
-- (int) sendDevRequestProto:(DevRequest)request num:(int)num {
-  DevRequestProto *req = [[[[[DevRequestProto builder]
-                             setDevRequest:request]
-                            setStaticDataId:num]
+- (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity {
+  DevRequestProto *req = [[[[[[DevRequestProto builder]
+                              setDevRequest:request]
+                             setStaticDataId:staticDataId]
+                            setQuantity:quantity]
                            setSender:_sender]
                           build];
   

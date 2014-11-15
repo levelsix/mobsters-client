@@ -599,7 +599,11 @@
   [dict setObject:@(self.enemyPlayerObject.curHealth) forKey:ENEMY_HEALTH_KEY];
   [dict setObject:[self.orbLayer serialize] forKey:BOARD_CONFIG_KEY];
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
-  [dict setObject:self.dungeonInfo.userTaskUuid forKey:USER_TASK_KEY];
+  
+  if (self.dungeonInfo.userTaskUuid) {
+    [dict setObject:self.dungeonInfo.userTaskUuid forKey:USER_TASK_KEY];
+  }
+  
   [dict setObject:@(_numAttemptedRunaways) forKey:RUNAWAY_COUNT_KEY];
   [dict setObject:self.myPlayerObject.userMonsterUuid forKey:MY_USER_MONSTER_ID_KEY];
   
