@@ -70,7 +70,7 @@
 }
 
 - (void) updateTimes {
-  if (self.userMiniJob.timeStarted) {
+  if (self.userMiniJob.timeStarted && !self.userMiniJob.timeCompleted) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     
