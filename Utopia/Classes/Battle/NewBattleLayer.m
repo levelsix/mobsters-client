@@ -1869,6 +1869,7 @@
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
+  [self.hudView removeDeployView];
   BOOL isSwap = self.myPlayer != nil;
   if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
@@ -1896,12 +1897,9 @@
     }];
     
   } else if (isSwap) {
-    [self.hudView removeDeployView];
     [self.hudView displaySwapButton];
     [self.orbLayer allowInput];
     [self.orbLayer.bgdLayer turnTheLightsOn];
-  } else {
-    [self.hudView removeDeployView];
   }
 }
 
