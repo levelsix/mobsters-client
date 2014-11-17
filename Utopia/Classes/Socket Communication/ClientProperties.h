@@ -30,16 +30,16 @@
 
 #ifdef USE_PROD
 
-#define HOST_NAME @"amqp.prod.mobsters.lvl6.com"
-#define HOST_PORT 5672
-#define USE_SSL 0
+#define HOST_NAME @"amqpprodmobsters.lvl6.com"
+#define HOST_PORT 5671
+#define USE_SSL 1
 #define MQ_USERNAME @"lvl6client"
 #define MQ_PASSWORD @"LvL6Pr0dCl!3nT"
 #define MQ_VHOST @"prodmobsters"
 
 #elif defined(USE_STAGING)
 
-#define HOST_NAME @"amqp1.staging.mobsters.lvl6.com"
+#define HOST_NAME @"amqpstagingmobsters.lvl6.com"
 #define HOST_PORT 5671
 #define USE_SSL 1
 #define MQ_USERNAME @"lvl6client"
@@ -48,7 +48,7 @@
 
 #else
 
-#define HOST_NAME @"amqp1.staging.mobsters.lvl6.com"
+#define HOST_NAME @"amqpstagingmobsters.lvl6.com"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"
