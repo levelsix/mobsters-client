@@ -21,6 +21,7 @@
 
 # import <amqp.h>
 # import <amqp_framing.h>
+# import <amqp_socket.h>
 # import <amqp_ssl_socket.h>
 # import <amqp_tcp_socket.h>
 # import <unistd.h>
@@ -59,6 +60,7 @@
     
     NSString *pathToCert = [[NSBundle mainBundle] pathForResource:@"cacert" ofType:@"pem"];
     if (amqp_ssl_socket_set_cacert(socket, [pathToCert UTF8String])) {
+      amqp_set_socket(connection, NULL);
       socket = NULL;
     }
   } else {
@@ -70,10 +72,9 @@
     
     if(socketFD < 0)
     {
+      amqp_set_socket(connection, NULL);
       [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d", host, port];
     }
-    
-    //	amqp_ssl_socket_set_sockFD(connection, socketFD);
   } else {
     [NSException raise:@"AMQPConnectionException" format:@"Unable to create socket"];
   }
@@ -89,14 +90,16 @@
 }
 - (void)disconnect
 {
-	amqp_rpc_reply_t reply = amqp_connection_close(connection, AMQP_REPLY_SUCCESS);
-	
-	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
-	{
-//		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
-	}
-	
-	close(socketFD);
+  if (connection->socket) {
+    amqp_rpc_reply_t reply = amqp_connection_close(connection, AMQP_REPLY_SUCCESS);
+    
+    if(reply.reply_type != AMQP_RESPONSE_NORMAL)
+    {
+      //		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
+    }
+    
+    close(socketFD);
+  }
 }
 
 - (void)checkLastOperation:(NSString*)context
