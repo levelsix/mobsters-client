@@ -117,7 +117,7 @@
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="gmf-cc-hdD">
-                                            <rect key="frame" x="333" y="4" width="78" height="19"/>
+                                            <rect key="frame" x="331" y="4" width="78" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MOBSTERS" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="56Y-pc-VSI" customClass="NiceFontLabel9">

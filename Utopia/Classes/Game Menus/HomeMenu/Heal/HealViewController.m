@@ -250,7 +250,11 @@
   } else if (um.curHealth >= [gl calculateMaxHealthForMonster:um]) {
     [Globals addAlertNotification:[NSString stringWithFormat:@"This %@ is already healthy!", MONSTER_NAME]];
   } else if (self.monsterHealingQueue.count >= self.maxQueueSize) {
-    [Globals addAlertNotification:@"The healing queue is already full!"];
+    if (self.maxQueueSize > 0) {
+      [Globals addAlertNotification:@"The healing queue is already full!"];
+    } else {
+      [Globals addAlertNotification:@"You don't have an open hospital at the moment. Speed it up now!"];
+    }
   } else {
     int cost = [gl calculateCostToHealMonster:um];
     int curAmount = gs.cash;
