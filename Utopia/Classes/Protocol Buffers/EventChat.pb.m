@@ -719,7 +719,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasScope) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"scope", self.scope];
+    [output appendFormat:@"%@%@: %@\n", indent, @"scope", [NSNumber numberWithInteger:self.scope]];
   }
   if (self.hasChatMessage) {
     [output appendFormat:@"%@%@: %@\n", indent, @"chatMessage", self.chatMessage];
@@ -1054,7 +1054,7 @@ static SendGroupChatResponseProto* defaultSendGroupChatResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1376,7 +1376,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
     [output appendFormat:@"%@%@: %@\n", indent, @"chatMessage", self.chatMessage];
   }
   if (self.hasScope) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"scope", self.scope];
+    [output appendFormat:@"%@%@: %@\n", indent, @"scope", [NSNumber numberWithInteger:self.scope]];
   }
   if (self.hasIsAdmin) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isAdmin", [NSNumber numberWithBool:self.isAdmin]];
@@ -2037,7 +2037,7 @@ static PrivateChatPostResponseProto* defaultPrivateChatPostResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasPost) {
     [output appendFormat:@"%@%@ {\n", indent, @"post"];
@@ -2743,7 +2743,7 @@ static RetrievePrivateChatPostsResponseProto* defaultRetrievePrivateChatPostsRes
     [output appendFormat:@"%@%@: %@\n", indent, @"beforePrivateChatId", [NSNumber numberWithInteger:self.beforePrivateChatId]];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasOtherUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"otherUserUuid", self.otherUserUuid];

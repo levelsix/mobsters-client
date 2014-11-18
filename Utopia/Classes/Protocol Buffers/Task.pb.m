@@ -1639,7 +1639,7 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterId", [NSNumber numberWithInteger:self.monsterId]];
   }
   if (self.hasMonsterType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"monsterType", self.monsterType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterType", [NSNumber numberWithInteger:self.monsterType]];
   }
   if (self.hasExpReward) {
     [output appendFormat:@"%@%@: %@\n", indent, @"expReward", [NSNumber numberWithInteger:self.expReward]];
@@ -2499,7 +2499,7 @@ static PersistentEventProto* defaultPersistentEventProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"eventId", [NSNumber numberWithInteger:self.eventId]];
   }
   if (self.hasDayOfWeek) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"dayOfWeek", self.dayOfWeek];
+    [output appendFormat:@"%@%@: %@\n", indent, @"dayOfWeek", [NSNumber numberWithInteger:self.dayOfWeek]];
   }
   if (self.hasStartHour) {
     [output appendFormat:@"%@%@: %@\n", indent, @"startHour", [NSNumber numberWithInteger:self.startHour]];
@@ -2514,10 +2514,10 @@ static PersistentEventProto* defaultPersistentEventProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"cooldownMinutes", [NSNumber numberWithInteger:self.cooldownMinutes]];
   }
   if (self.hasType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"type", self.type];
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
   if (self.hasMonsterElement) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"monsterElement", self.monsterElement];
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterElement", [NSNumber numberWithInteger:self.monsterElement]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3456,7 +3456,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"yPos", [NSNumber numberWithInteger:self.yPos]];
   }
   if (self.hasElement) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"element", self.element];
+    [output appendFormat:@"%@%@: %@\n", indent, @"element", [NSNumber numberWithInteger:self.element]];
   }
   if (self.hasBoss) {
     [output appendFormat:@"%@%@: %@\n", indent, @"boss", [NSNumber numberWithBool:self.boss]];

@@ -129,54 +129,54 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, UserCreateResponseProto_UserCreateStatus) {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
   UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,
   UserCreateResponseProto_UserCreateStatusFailUserWithUdidAlreadyExists = 3,
   UserCreateResponseProto_UserCreateStatusFailInvalidReferCode = 4,
   UserCreateResponseProto_UserCreateStatusFailUserWithFacebookIdExists = 5,
   UserCreateResponseProto_UserCreateStatusFailOther = 6,
-} UserCreateResponseProto_UserCreateStatus;
+};
 
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, LevelUpResponseProto_LevelUpStatus) {
   LevelUpResponseProto_LevelUpStatusSuccess = 1,
   LevelUpResponseProto_LevelUpStatusFailOther = 2,
-} LevelUpResponseProto_LevelUpStatus;
+};
 
 BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SetFacebookIdResponseProto_SetFacebookIdStatus) {
   SetFacebookIdResponseProto_SetFacebookIdStatusSuccess = 1,
   SetFacebookIdResponseProto_SetFacebookIdStatusFailOther = 2,
   SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists = 3,
   SetFacebookIdResponseProto_SetFacebookIdStatusFailUserFbIdAlreadySet = 4,
-} SetFacebookIdResponseProto_SetFacebookIdStatus;
+};
 
 BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) {
   UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess = 1,
   UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailOther = 2,
   UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientCash = 3,
   UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientOil = 4,
   UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientGems = 5,
-} UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus;
+};
 
 BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SetGameCenterIdResponseProto_SetGameCenterIdStatus) {
   SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess = 1,
   SetGameCenterIdResponseProto_SetGameCenterIdStatusFailOther = 2,
-} SetGameCenterIdResponseProto_SetGameCenterIdStatus;
+};
 
 BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) {
   SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess = 1,
   SetAvatarMonsterResponseProto_SetAvatarMonsterStatusFailOther = 2,
-} SetAvatarMonsterResponseProto_SetAvatarMonsterStatus;
+};
 
 BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value);
 

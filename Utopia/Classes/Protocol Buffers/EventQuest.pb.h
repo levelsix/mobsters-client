@@ -127,16 +127,16 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, QuestAcceptResponseProto_QuestAcceptStatus) {
   QuestAcceptResponseProto_QuestAcceptStatusSuccess = 1,
   QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser = 2,
   QuestAcceptResponseProto_QuestAcceptStatusFailAlreadyAccepted = 3,
   QuestAcceptResponseProto_QuestAcceptStatusFailOther = 4,
-} QuestAcceptResponseProto_QuestAcceptStatus;
+};
 
 BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseProto_QuestAcceptStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, QuestProgressResponseProto_QuestProgressStatus) {
   QuestProgressResponseProto_QuestProgressStatusSuccess = 1,
   QuestProgressResponseProto_QuestProgressStatusFailNoQuestExists = 2,
   QuestProgressResponseProto_QuestProgressStatusFailDeleteAmountDoesNotMatchQuest = 3,
@@ -144,15 +144,15 @@ typedef enum {
   QuestProgressResponseProto_QuestProgressStatusFailIncompleteUserMonsters = 5,
   QuestProgressResponseProto_QuestProgressStatusFailQuestJobIncomplete = 7,
   QuestProgressResponseProto_QuestProgressStatusFailOther = 6,
-} QuestProgressResponseProto_QuestProgressStatus;
+};
 
 BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressResponseProto_QuestProgressStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, QuestRedeemResponseProto_QuestRedeemStatus) {
   QuestRedeemResponseProto_QuestRedeemStatusSuccess = 1,
   QuestRedeemResponseProto_QuestRedeemStatusFailNotComplete = 2,
   QuestRedeemResponseProto_QuestRedeemStatusFailOther = 3,
-} QuestRedeemResponseProto_QuestRedeemStatus;
+};
 
 BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value);
 

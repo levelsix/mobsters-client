@@ -319,7 +319,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"questIds", obj];
   }];
   if (self.hasElem) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"elem", self.elem];
+    [output appendFormat:@"%@%@: %@\n", indent, @"elem", [NSNumber numberWithInteger:self.elem]];
   }
   if (self.hasForceEnemyElem) {
     [output appendFormat:@"%@%@: %@\n", indent, @"forceEnemyElem", [NSNumber numberWithBool:self.forceEnemyElem]];
@@ -922,7 +922,7 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
     [output appendFormat:@"%@%@: %@\n", indent, @"taskId", [NSNumber numberWithInteger:self.taskId]];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1911,7 +1911,7 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"updatedOrNew"];
@@ -2808,7 +2808,7 @@ static ReviveInDungeonResponseProto* defaultReviveInDungeonResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

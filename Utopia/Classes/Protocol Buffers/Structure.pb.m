@@ -438,10 +438,10 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
   }
   if (self.hasStructType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"structType", self.structType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"structType", [NSNumber numberWithInteger:self.structType]];
   }
   if (self.hasBuildResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"buildResourceType", self.buildResourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"buildResourceType", [NSNumber numberWithInteger:self.buildResourceType]];
   }
   if (self.hasBuildCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"buildCost", [NSNumber numberWithInteger:self.buildCost]];
@@ -1328,7 +1328,7 @@ static ResourceGeneratorProto* defaultResourceGeneratorProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasProductionRate) {
     [output appendFormat:@"%@%@: %@\n", indent, @"productionRate", [NSNumber numberWithFloat:self.productionRate]];
@@ -1678,7 +1678,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasCapacity) {
     [output appendFormat:@"%@%@: %@\n", indent, @"capacity", [NSNumber numberWithInteger:self.capacity]];
@@ -4324,7 +4324,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasOrientation) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"orientation", self.orientation];
+    [output appendFormat:@"%@%@: %@\n", indent, @"orientation", [NSNumber numberWithInteger:self.orientation]];
   }
   if (self.hasFbInviteStructLvl) {
     [output appendFormat:@"%@%@: %@\n", indent, @"fbInviteStructLvl", [NSNumber numberWithInteger:self.fbInviteStructLvl]];
@@ -5490,7 +5490,7 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
   }
   if (self.hasRemovalCostType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"removalCostType", self.removalCostType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"removalCostType", [NSNumber numberWithInteger:self.removalCostType]];
   }
   if (self.hasCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"cost", [NSNumber numberWithInteger:self.cost]];
@@ -6131,7 +6131,7 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasOrientation) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"orientation", self.orientation];
+    [output appendFormat:@"%@%@: %@\n", indent, @"orientation", [NSNumber numberWithInteger:self.orientation]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -6501,7 +6501,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasOrientation) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"orientation", self.orientation];
+    [output appendFormat:@"%@%@: %@\n", indent, @"orientation", [NSNumber numberWithInteger:self.orientation]];
   }
   if (self.hasRemovalStartTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"removalStartTime", [NSNumber numberWithLongLong:self.removalStartTime]];
@@ -6904,7 +6904,7 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasQualityUnlocked) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"qualityUnlocked", self.qualityUnlocked];
+    [output appendFormat:@"%@%@: %@\n", indent, @"qualityUnlocked", [NSNumber numberWithInteger:self.qualityUnlocked]];
   }
   if (self.hasEvoTierUnlocked) {
     [output appendFormat:@"%@%@: %@\n", indent, @"evoTierUnlocked", [NSNumber numberWithInteger:self.evoTierUnlocked]];

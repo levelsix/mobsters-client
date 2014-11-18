@@ -16,7 +16,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, DevRequest) {
   DevRequestResetAccount = 1,
   DevRequestGetMonzter = 2,
   DevRequestFBGetCash = 3,
@@ -24,7 +24,7 @@ typedef enum {
   DevRequestFBGetGems = 5,
   DevRequestFBGetCashOilGems = 6,
   DevRequestGetItem = 7,
-} DevRequest;
+};
 
 BOOL DevRequestIsValidValue(DevRequest value);
 

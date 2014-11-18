@@ -657,7 +657,7 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasDiamondsGained) {
     [output appendFormat:@"%@%@: %@\n", indent, @"diamondsGained", [NSNumber numberWithInteger:self.diamondsGained]];
@@ -1110,7 +1110,7 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasFreeDiamondsType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"freeDiamondsType", self.freeDiamondsType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"freeDiamondsType", [NSNumber numberWithInteger:self.freeDiamondsType]];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -1429,10 +1429,10 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasFreeDiamondsType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"freeDiamondsType", self.freeDiamondsType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"freeDiamondsType", [NSNumber numberWithInteger:self.freeDiamondsType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1800,7 +1800,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
     [output appendFormat:@"%@%@: %@\n", indent, @"numResources", [NSNumber numberWithInteger:self.numResources]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -2160,7 +2160,7 @@ static ExchangeGemsForResourcesResponseProto* defaultExchangeGemsForResourcesRes
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

@@ -20,12 +20,12 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, EarnFreeDiamondsType) {
   EarnFreeDiamondsTypeFbConnect = 1,
   EarnFreeDiamondsTypeTapjoy = 2,
   EarnFreeDiamondsTypeFlurryVideo = 3,
   EarnFreeDiamondsTypeTwitter = 4,
-} EarnFreeDiamondsType;
+};
 
 BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 

@@ -44,7 +44,7 @@
 }
 
 - (int) numberOfItems {
-  return self.items.count;
+  return (int)self.items.count;
 }
 
 - (id<ItemObject>) itemObjectAtIndex:(int)idx {

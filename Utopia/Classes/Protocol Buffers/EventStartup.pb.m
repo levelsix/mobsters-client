@@ -1352,10 +1352,10 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStartupStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"startupStatus", self.startupStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"startupStatus", [NSNumber numberWithInteger:self.startupStatus]];
   }
   if (self.hasUpdateStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"updateStatus", self.updateStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"updateStatus", [NSNumber numberWithInteger:self.updateStatus]];
   }
   if (self.hasStartupConstants) {
     [output appendFormat:@"%@%@ {\n", indent, @"startupConstants"];
@@ -5976,7 +5976,7 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
   if (self.hasHelpType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"helpType", self.helpType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"helpType", [NSNumber numberWithInteger:self.helpType]];
   }
   if (self.hasAmountRemovedPerHelp) {
     [output appendFormat:@"%@%@: %@\n", indent, @"amountRemovedPerHelp", [NSNumber numberWithInteger:self.amountRemovedPerHelp]];

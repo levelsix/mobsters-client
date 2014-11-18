@@ -80,28 +80,28 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, QueueUpResponseProto_QueueUpStatus) {
   QueueUpResponseProto_QueueUpStatusSuccess = 1,
   QueueUpResponseProto_QueueUpStatusFailNotEnoughCash = 2,
   QueueUpResponseProto_QueueUpStatusFailOther = 3,
   QueueUpResponseProto_QueueUpStatusFailNotEnoughGems = 4,
-} QueueUpResponseProto_QueueUpStatus;
+};
 
 BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, BeginPvpBattleResponseProto_BeginPvpBattleStatus) {
   BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess = 1,
   BeginPvpBattleResponseProto_BeginPvpBattleStatusFailEnemyUnavailable = 2,
   BeginPvpBattleResponseProto_BeginPvpBattleStatusFailOther = 3,
-} BeginPvpBattleResponseProto_BeginPvpBattleStatus;
+};
 
 BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattleResponseProto_BeginPvpBattleStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EndPvpBattleResponseProto_EndPvpBattleStatus) {
   EndPvpBattleResponseProto_EndPvpBattleStatusSuccess = 1,
   EndPvpBattleResponseProto_EndPvpBattleStatusFailOther = 2,
   EndPvpBattleResponseProto_EndPvpBattleStatusFailBattleTookTooLong = 3,
-} EndPvpBattleResponseProto_EndPvpBattleStatus;
+};
 
 BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value);
 

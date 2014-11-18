@@ -318,16 +318,16 @@ static AchievementProto* defaultAchievementProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"lvl", [NSNumber numberWithInteger:self.lvl]];
   }
   if (self.hasAchievementType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"achievementType", self.achievementType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"achievementType", [NSNumber numberWithInteger:self.achievementType]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasElement) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"element", self.element];
+    [output appendFormat:@"%@%@: %@\n", indent, @"element", [NSNumber numberWithInteger:self.element]];
   }
   if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"quality", self.quality];
+    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
   }
   if (self.hasStaticDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];

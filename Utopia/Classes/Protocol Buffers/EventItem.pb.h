@@ -86,18 +86,18 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, TradeItemForBoosterResponseProto_TradeItemForBoosterStatus) {
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess = 1,
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailOther = 2,
   TradeItemForBoosterResponseProto_TradeItemForBoosterStatusFailInsufficientItem = 3,
-} TradeItemForBoosterResponseProto_TradeItemForBoosterStatus;
+};
 
 BOOL TradeItemForBoosterResponseProto_TradeItemForBoosterStatusIsValidValue(TradeItemForBoosterResponseProto_TradeItemForBoosterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus) {
   TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess = 1,
   TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusFailOther = 2,
-} TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus;
+};
 
 BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value);
 

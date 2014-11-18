@@ -511,7 +511,7 @@ static SpawnMiniJobResponseProto* defaultSpawnMiniJobResponseProtoInstance = nil
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1211,7 +1211,7 @@ static BeginMiniJobResponseProto* defaultBeginMiniJobResponseProtoInstance = nil
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1905,7 +1905,7 @@ static CompleteMiniJobResponseProto* defaultCompleteMiniJobResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2586,7 +2586,7 @@ static RedeemMiniJobResponseProto* defaultRedeemMiniJobResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

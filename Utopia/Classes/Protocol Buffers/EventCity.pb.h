@@ -91,29 +91,29 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, LoadPlayerCityResponseProto_LoadPlayerCityStatus) {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailOther = 3,
-} LoadPlayerCityResponseProto_LoadPlayerCityStatus;
+};
 
 BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) {
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess = 1,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins = 2,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusAlreadyExpanding = 3,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusOtherFail = 4,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooApartFromServerTime = 5,
-} PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus;
+};
 
 BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, LoadCityResponseProto_LoadCityStatus) {
   LoadCityResponseProto_LoadCityStatusSuccess = 1,
   LoadCityResponseProto_LoadCityStatusNotAccessibleToUser = 2,
   LoadCityResponseProto_LoadCityStatusOtherFail = 3,
-} LoadCityResponseProto_LoadCityStatus;
+};
 
 BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_LoadCityStatus value);
 

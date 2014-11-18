@@ -20,7 +20,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeNoSkill = 1,
   SkillTypeCakeDrop = 2,
   SkillTypeJelly = 3,
@@ -30,15 +30,15 @@ typedef enum {
   SkillTypePoison = 7,
   SkillTypeRoidRage = 8,
   SkillTypeMomentum = 9,
-} SkillType;
+};
 
 BOOL SkillTypeIsValidValue(SkillType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SkillActivationType) {
   SkillActivationTypeUserActivated = 1,
   SkillActivationTypeAutoActivated = 2,
   SkillActivationTypePassive = 3,
-} SkillActivationType;
+};
 
 BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 

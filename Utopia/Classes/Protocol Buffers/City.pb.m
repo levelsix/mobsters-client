@@ -914,7 +914,7 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"assetId", [NSNumber numberWithInteger:self.assetId]];
   }
   if (self.hasType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"type", self.type];
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
   if (self.hasCoords) {
     [output appendFormat:@"%@%@ {\n", indent, @"coords"];
@@ -932,7 +932,7 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"imgId", self.imgId];
   }
   if (self.hasOrientation) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"orientation", self.orientation];
+    [output appendFormat:@"%@%@: %@\n", indent, @"orientation", [NSNumber numberWithInteger:self.orientation]];
   }
   if (self.hasSpriteCoords) {
     [output appendFormat:@"%@%@ {\n", indent, @"spriteCoords"];

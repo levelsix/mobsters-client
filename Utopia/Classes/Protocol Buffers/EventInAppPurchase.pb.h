@@ -87,28 +87,28 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, InAppPurchaseResponseProto_InAppPurchaseStatus) {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 1,
   InAppPurchaseResponseProto_InAppPurchaseStatusFail = 2,
   InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt = 3,
-} InAppPurchaseResponseProto_InAppPurchaseStatus;
+};
 
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) {
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 1,
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime = 2,
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported = 3,
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail = 4,
-} EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus;
+};
 
 BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) {
   ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess = 1,
   ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailOther = 2,
   ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailInsufficientGems = 3,
-} ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus;
+};
 
 BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value);
 

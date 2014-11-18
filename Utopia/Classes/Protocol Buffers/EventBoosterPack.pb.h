@@ -77,11 +77,11 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 2,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther = 3,
-} PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus;
+};
 
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
 

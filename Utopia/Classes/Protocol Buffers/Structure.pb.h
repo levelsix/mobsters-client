@@ -51,25 +51,25 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, ResourceType) {
   ResourceTypeNoResource = 4,
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
   ResourceTypeGems = 3,
   ResourceTypeMonster = 20,
-} ResourceType;
+};
 
 BOOL ResourceTypeIsValidValue(ResourceType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, StructOrientation) {
   StructOrientationNoOrientation = 3,
   StructOrientationPosition1 = 1,
   StructOrientationPosition2 = 2,
-} StructOrientation;
+};
 
 BOOL StructOrientationIsValidValue(StructOrientation value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, StructureInfoProto_StructType) {
   StructureInfoProto_StructTypeNoStruct = 8,
   StructureInfoProto_StructTypeResourceGenerator = 1,
   StructureInfoProto_StructTypeResourceStorage = 2,
@@ -81,7 +81,7 @@ typedef enum {
   StructureInfoProto_StructTypeMiniJob = 9,
   StructureInfoProto_StructTypeTeamCenter = 10,
   StructureInfoProto_StructTypeClan = 11,
-} StructureInfoProto_StructType;
+};
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
 

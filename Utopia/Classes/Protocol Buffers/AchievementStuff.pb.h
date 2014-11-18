@@ -56,7 +56,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, AchievementProto_AchievementType) {
   AchievementProto_AchievementTypeNoAchievement = 17,
   AchievementProto_AchievementTypeCollectResource = 1,
   AchievementProto_AchievementTypeCreateGrenade = 2,
@@ -74,7 +74,7 @@ typedef enum {
   AchievementProto_AchievementTypeTakeDamage = 14,
   AchievementProto_AchievementTypeUpgradeBuilding = 15,
   AchievementProto_AchievementTypeWinPvpBattle = 16,
-} AchievementProto_AchievementType;
+};
 
 BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementType value);
 

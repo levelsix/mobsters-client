@@ -60,29 +60,29 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, SendGroupChatResponseProto_SendGroupChatStatus) {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 1,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 2,
   SendGroupChatResponseProto_SendGroupChatStatusOtherFail = 3,
   SendGroupChatResponseProto_SendGroupChatStatusBanned = 4,
-} SendGroupChatResponseProto_SendGroupChatStatus;
+};
 
 BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatResponseProto_SendGroupChatStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, PrivateChatPostResponseProto_PrivateChatPostStatus) {
   PrivateChatPostResponseProto_PrivateChatPostStatusSuccess = 1,
   PrivateChatPostResponseProto_PrivateChatPostStatusNoContentSent = 2,
   PrivateChatPostResponseProto_PrivateChatPostStatusPostTooLarge = 3,
   PrivateChatPostResponseProto_PrivateChatPostStatusOtherFail = 4,
   PrivateChatPostResponseProto_PrivateChatPostStatusBanned = 5,
-} PrivateChatPostResponseProto_PrivateChatPostStatus;
+};
 
 BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatPostResponseProto_PrivateChatPostStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus) {
   RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess = 1,
   RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusFail = 2,
-} RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus;
+};
 
 BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus value);
 

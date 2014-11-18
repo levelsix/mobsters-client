@@ -509,7 +509,7 @@ static ItemProto* defaultItemProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"imgName", self.imgName];
   }
   if (self.hasItemType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"itemType", self.itemType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemType", [NSNumber numberWithInteger:self.itemType]];
   }
   if (self.hasStaticDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
@@ -981,7 +981,7 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"userDataUuid", self.userDataUuid];
   }
   if (self.hasActionType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"actionType", self.actionType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"actionType", [NSNumber numberWithInteger:self.actionType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

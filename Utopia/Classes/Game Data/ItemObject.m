@@ -19,7 +19,7 @@
 
 - (id) initWithProto:(UserItemProto *)proto {
   if ((self = [super init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.itemId = proto.itemId;
     self.quantity = proto.quantity;
   }
@@ -84,11 +84,11 @@
 
 - (id) initWithProto:(UserItemUsageProto *)proto {
   if ((self = [super init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.itemId = proto.itemId;
-    self.usageId = proto.usageId;
+    self.usageUuid = proto.usageUuid;
     self.timeOfEntry = [MSDate dateWithTimeIntervalSince1970:proto.timeOfEntry/1000.];
-    self.userDataId = proto.userDataId;
+    self.userDataUuid = proto.userDataUuid;
     self.actionType = proto.actionType;
   }
   return self;

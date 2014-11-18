@@ -396,7 +396,7 @@ static EnableAPNSResponseProto* defaultEnableAPNSResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

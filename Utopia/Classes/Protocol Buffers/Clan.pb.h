@@ -143,13 +143,13 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, UserClanStatus) {
   UserClanStatusLeader = 1,
   UserClanStatusJuniorLeader = 2,
   UserClanStatusCaptain = 3,
   UserClanStatusMember = 4,
   UserClanStatusRequesting = 10,
-} UserClanStatus;
+};
 
 BOOL UserClanStatusIsValidValue(UserClanStatus value);
 

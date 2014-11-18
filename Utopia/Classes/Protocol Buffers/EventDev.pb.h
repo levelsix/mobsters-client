@@ -3,7 +3,6 @@
 #import "ProtocolBuffers.h"
 
 #import "Dev.pb.h"
-#import "Item.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
@@ -16,8 +15,6 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class ItemProto;
-@class ItemProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
@@ -48,10 +45,6 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-@class UserItemProto;
-@class UserItemProto_Builder;
-@class UserItemUsageProto;
-@class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -74,10 +67,10 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, DevResponseProto_DevStatus) {
   DevResponseProto_DevStatusSuccess = 1,
   DevResponseProto_DevStatusFailOther = 2,
-} DevResponseProto_DevStatus;
+};
 
 BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 
@@ -169,21 +162,18 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 @interface DevResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasUip_:1;
+  BOOL hasFump_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  UserItemProto* uip;
+  FullUserMonsterProto* fump;
   DevResponseProto_DevStatus status;
-  NSMutableArray * mutableFumpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasUip;
+- (BOOL) hasFump;
 @property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) DevResponseProto_DevStatus status;
-@property (readonly, strong) NSArray * fumpList;
-@property (readonly, strong) UserItemProto* uip;
-- (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index;
+@property (readonly, strong) FullUserMonsterProto* fump;
 
 + (DevResponseProto*) defaultInstance;
 - (DevResponseProto*) defaultInstance;
@@ -232,18 +222,12 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (DevResponseProto_Builder*) setStatus:(DevResponseProto_DevStatus) value;
 - (DevResponseProto_Builder*) clearStatus;
 
-- (NSMutableArray *)fumpList;
-- (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index;
-- (DevResponseProto_Builder *)addFump:(FullUserMonsterProto*)value;
-- (DevResponseProto_Builder *)addAllFump:(NSArray *)array;
-- (DevResponseProto_Builder *)clearFump;
-
-- (BOOL) hasUip;
-- (UserItemProto*) uip;
-- (DevResponseProto_Builder*) setUip:(UserItemProto*) value;
-- (DevResponseProto_Builder*) setUip_Builder:(UserItemProto_Builder*) builderForValue;
-- (DevResponseProto_Builder*) mergeUip:(UserItemProto*) value;
-- (DevResponseProto_Builder*) clearUip;
+- (BOOL) hasFump;
+- (FullUserMonsterProto*) fump;
+- (DevResponseProto_Builder*) setFump:(FullUserMonsterProto*) value;
+- (DevResponseProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue;
+- (DevResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
+- (DevResponseProto_Builder*) clearFump;
 @end
 
 

@@ -355,7 +355,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterIdReward", [NSNumber numberWithInteger:self.monsterIdReward]];
   }
   if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"quality", self.quality];
+    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
   }
   if (self.hasMaxNumMonstersAllowed) {
     [output appendFormat:@"%@%@: %@\n", indent, @"maxNumMonstersAllowed", [NSNumber numberWithInteger:self.maxNumMonstersAllowed]];

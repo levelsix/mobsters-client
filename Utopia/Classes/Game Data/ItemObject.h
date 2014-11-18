@@ -29,7 +29,7 @@
 
 @interface UserItem : NSObject <ItemObject>
 
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int itemId;
 @property (nonatomic, assign) int quantity;
 
@@ -41,11 +41,11 @@
 
 @interface UserItemUsage : NSObject
 
-@property (nonatomic, assign) uint64_t usageId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *usageUuid;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, assign) int itemId;
 @property (nonatomic, retain) MSDate *timeOfEntry;
-@property (nonatomic, assign) uint64_t userDataId;
+@property (nonatomic, retain) NSString *userDataUuid;
 @property (nonatomic, assign) GameActionType actionType;
 
 + (id) userItemUsageWithProto:(UserItemUsageProto *)proto;

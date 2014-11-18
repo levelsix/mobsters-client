@@ -23,12 +23,12 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, ItemType) {
   ItemTypeBoosterPack = 1,
   ItemTypeItemOil = 2,
   ItemTypeItemCash = 3,
   ItemTypeSpeedUp = 4,
-} ItemType;
+};
 
 BOOL ItemTypeIsValidValue(ItemType value);
 

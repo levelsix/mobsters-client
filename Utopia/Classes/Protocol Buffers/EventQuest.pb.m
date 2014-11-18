@@ -398,7 +398,7 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1126,7 +1126,7 @@ static QuestProgressResponseProto* defaultQuestProgressResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1732,7 +1732,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasFump) {
     [output appendFormat:@"%@%@ {\n", indent, @"fump"];

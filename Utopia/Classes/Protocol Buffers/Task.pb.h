@@ -129,18 +129,18 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, TaskStageMonsterProto_MonsterType) {
   TaskStageMonsterProto_MonsterTypeRegular = 1,
   TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
   TaskStageMonsterProto_MonsterTypeBoss = 3,
-} TaskStageMonsterProto_MonsterType;
+};
 
 BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_MonsterType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, PersistentEventProto_EventType) {
   PersistentEventProto_EventTypeEnhance = 1,
   PersistentEventProto_EventTypeEvolution = 2,
-} PersistentEventProto_EventType;
+};
 
 BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType value);
 

@@ -117,36 +117,36 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, SpawnMiniJobResponseProto_SpawnMiniJobStatus) {
   SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess = 1,
   SpawnMiniJobResponseProto_SpawnMiniJobStatusFailOther = 2,
-} SpawnMiniJobResponseProto_SpawnMiniJobStatus;
+};
 
 BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobResponseProto_SpawnMiniJobStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, BeginMiniJobResponseProto_BeginMiniJobStatus) {
   BeginMiniJobResponseProto_BeginMiniJobStatusSuccess = 1,
   BeginMiniJobResponseProto_BeginMiniJobStatusFailOther = 2,
   BeginMiniJobResponseProto_BeginMiniJobStatusFailNoMiniJobExists = 3,
-} BeginMiniJobResponseProto_BeginMiniJobStatus;
+};
 
 BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobResponseProto_BeginMiniJobStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, CompleteMiniJobResponseProto_CompleteMiniJobStatus) {
   CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess = 1,
   CompleteMiniJobResponseProto_CompleteMiniJobStatusFailOther = 2,
   CompleteMiniJobResponseProto_CompleteMiniJobStatusFailInsufficientGems = 3,
   CompleteMiniJobResponseProto_CompleteMiniJobStatusFailNoMiniJobExists = 4,
-} CompleteMiniJobResponseProto_CompleteMiniJobStatus;
+};
 
 BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMiniJobResponseProto_CompleteMiniJobStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RedeemMiniJobResponseProto_RedeemMiniJobStatus) {
   RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess = 1,
   RedeemMiniJobResponseProto_RedeemMiniJobStatusFailOther = 2,
   RedeemMiniJobResponseProto_RedeemMiniJobStatusFailNoMiniJobExists = 3,
   RedeemMiniJobResponseProto_RedeemMiniJobStatusFailMiniJobIncomplete = 4,
-} RedeemMiniJobResponseProto_RedeemMiniJobStatus;
+};
 
 BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobResponseProto_RedeemMiniJobStatus value);
 

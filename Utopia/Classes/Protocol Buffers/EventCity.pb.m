@@ -464,7 +464,7 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.ownerNormStructsList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"ownerNormStructs"];
@@ -1310,7 +1310,7 @@ static PurchaseCityExpansionResponseProto* defaultPurchaseCityExpansionResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasUcedp) {
     [output appendFormat:@"%@%@ {\n", indent, @"ucedp"];
@@ -1946,7 +1946,7 @@ static LoadCityResponseProto* defaultLoadCityResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.cityElementsList enumerateObjectsUsingBlock:^(CityElementProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"cityElements"];

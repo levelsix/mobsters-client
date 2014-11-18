@@ -43,18 +43,18 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, MonsterProto_AnimationType) {
   MonsterProto_AnimationTypeNoAnimation = 3,
   MonsterProto_AnimationTypeMelee = 1,
   MonsterProto_AnimationTypeRanged = 2,
-} MonsterProto_AnimationType;
+};
 
 BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, MonsterBattleDialogueProto_DialogueType) {
   MonsterBattleDialogueProto_DialogueTypeNoDialogue = 2,
   MonsterBattleDialogueProto_DialogueTypeEnterBattle = 1,
-} MonsterBattleDialogueProto_DialogueType;
+};
 
 BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialogueProto_DialogueType value);
 

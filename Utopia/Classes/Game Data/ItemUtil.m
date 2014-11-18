@@ -31,7 +31,7 @@
       NSInteger idx = [self.myItems indexOfObject:ui];
       [self.myItems replaceObjectAtIndex:idx withObject:ui];
       
-      LNLog(@"Replacing item at index %d..", idx);
+      LNLog(@"Replacing item at index %d..", (int)idx);
     } else {
       [self.myItems addObject:ui];
     }
@@ -56,12 +56,12 @@
   return arr;
 }
 
-- (int) getSpeedupMinutesForType:(GameActionType)type userDataId:(uint64_t)userDataId {
+- (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
   int speedupMins = 0;
   
   GameState *gs = [GameState sharedGameState];
   for (UserItemUsage *uiu in self.myItemUsages) {
-    if (uiu.actionType == type && uiu.userDataId == userDataId) {
+    if (uiu.actionType == type && [uiu.userDataUuid isEqualToString:userDataUuid]) {
       ItemProto *ip = [gs itemForId:uiu.itemId];
       if (ip.itemType == ItemTypeSpeedUp) {
         speedupMins += ip.amount;

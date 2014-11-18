@@ -82,19 +82,19 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, AchievementProgressResponseProto_AchievementProgressStatus) {
   AchievementProgressResponseProto_AchievementProgressStatusSuccess = 1,
   AchievementProgressResponseProto_AchievementProgressStatusFailOther = 2,
-} AchievementProgressResponseProto_AchievementProgressStatus;
+};
 
 BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(AchievementProgressResponseProto_AchievementProgressStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, AchievementRedeemResponseProto_AchievementRedeemStatus) {
   AchievementRedeemResponseProto_AchievementRedeemStatusSuccess = 1,
   AchievementRedeemResponseProto_AchievementRedeemStatusFailNotComplete = 2,
   AchievementRedeemResponseProto_AchievementRedeemStatusFailOther = 3,
   AchievementRedeemResponseProto_AchievementRedeemStatusFailAlreadyRedeemed = 4,
-} AchievementRedeemResponseProto_AchievementRedeemStatus;
+};
 
 BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(AchievementRedeemResponseProto_AchievementRedeemStatus value);
 

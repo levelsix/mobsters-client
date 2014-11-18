@@ -52,10 +52,10 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus) {
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess = 1,
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusOtherFail = 2,
-} RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus;
+};
 
 BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValue(RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus value);
 

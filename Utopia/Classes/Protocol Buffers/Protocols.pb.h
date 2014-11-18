@@ -644,7 +644,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCStartupEvent = 1,
   EventProtocolRequestCInAppPurchaseEvent = 2,
   EventProtocolRequestCPurchaseNormStructureEvent = 3,
@@ -731,11 +731,11 @@ typedef enum {
   EventProtocolRequestCTradeItemForSpeedUpsEvent = 85,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
-} EventProtocolRequest;
+};
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSStartupEvent = 1,
   EventProtocolResponseSInAppPurchaseEvent = 2,
   EventProtocolResponseSPurchaseNormStructureEvent = 3,
@@ -831,7 +831,7 @@ typedef enum {
   EventProtocolResponseSForceLogoutEvent = 109,
   EventProtocolResponseSRetrieveClanDataEvent = 110,
   EventProtocolResponseSDevEvent = 200,
-} EventProtocolResponse;
+};
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
 

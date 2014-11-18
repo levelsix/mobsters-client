@@ -655,7 +655,7 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasRequestTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"requestTime", [NSNumber numberWithLongLong:self.requestTime]];
@@ -1266,7 +1266,7 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasClanStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"clanStatus", self.clanStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanStatus", [NSNumber numberWithInteger:self.clanStatus]];
   }
   if (self.hasRaidContribution) {
     [output appendFormat:@"%@%@: %@\n", indent, @"raidContribution", [NSNumber numberWithFloat:self.raidContribution]];
@@ -3595,7 +3595,7 @@ static PersistentClanEventProto* defaultPersistentClanEventProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"clanEventId", [NSNumber numberWithInteger:self.clanEventId]];
   }
   if (self.hasDayOfWeek) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"dayOfWeek", self.dayOfWeek];
+    [output appendFormat:@"%@%@: %@\n", indent, @"dayOfWeek", [NSNumber numberWithInteger:self.dayOfWeek]];
   }
   if (self.hasStartHour) {
     [output appendFormat:@"%@%@: %@\n", indent, @"startHour", [NSNumber numberWithInteger:self.startHour]];
@@ -4994,7 +4994,7 @@ static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardP
     [output appendFormat:@"%@%@: %@\n", indent, @"crsEndTime", [NSNumber numberWithLongLong:self.crsEndTime]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasStaticDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
@@ -6618,7 +6618,7 @@ static ClanHelpProto* defaultClanHelpProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"userDataUuid", self.userDataUuid];
   }
   if (self.hasHelpType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"helpType", self.helpType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"helpType", [NSNumber numberWithInteger:self.helpType]];
   }
   if (self.hasTimeRequested) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeRequested", [NSNumber numberWithLongLong:self.timeRequested]];
@@ -7150,7 +7150,7 @@ static ClanHelpNoticeProto* defaultClanHelpNoticeProtoInstance = nil;
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
   if (self.hasHelpType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"helpType", self.helpType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"helpType", [NSNumber numberWithInteger:self.helpType]];
   }
   if (self.hasUserDataUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userDataUuid", self.userDataUuid];

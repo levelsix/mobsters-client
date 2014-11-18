@@ -694,7 +694,7 @@ static CreateClanResponseProto* defaultCreateClanResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasClanInfo) {
     [output appendFormat:@"%@%@ {\n", indent, @"clanInfo"];
@@ -1257,7 +1257,7 @@ static LeaveClanResponseProto* defaultLeaveClanResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1914,7 +1914,7 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasClanUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
@@ -2826,7 +2826,7 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasClanUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
@@ -3525,7 +3525,7 @@ static ApproveOrRejectRequestToJoinClanResponseProto* defaultApproveOrRejectRequ
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasRequester) {
     [output appendFormat:@"%@%@ {\n", indent, @"requester"];
@@ -4072,7 +4072,7 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
     [output appendFormat:@"%@%@: %@\n", indent, @"clanName", self.clanName];
   }
   if (self.hasGrabType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"grabType", self.grabType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"grabType", [NSNumber numberWithInteger:self.grabType]];
   }
   if (self.hasBeforeThisClanId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"beforeThisClanId", [NSNumber numberWithInteger:self.beforeThisClanId]];
@@ -4615,7 +4615,7 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasIsForSearch) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isForSearch", [NSNumber numberWithBool:self.isForSearch]];
@@ -5494,7 +5494,7 @@ static TransferClanOwnershipResponseProto* defaultTransferClanOwnershipResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasMinClan) {
     [output appendFormat:@"%@%@ {\n", indent, @"minClan"];
@@ -6226,7 +6226,7 @@ static BootPlayerFromClanResponseProto* defaultBootPlayerFromClanResponseProtoIn
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -7105,7 +7105,7 @@ static ChangeClanSettingsResponseProto* defaultChangeClanSettingsResponseProtoIn
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasMinClan) {
     [output appendFormat:@"%@%@ {\n", indent, @"minClan"];
@@ -8055,7 +8055,7 @@ static BeginClanRaidResponseProto* defaultBeginClanRaidResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasUserDetails) {
     [output appendFormat:@"%@%@ {\n", indent, @"userDetails"];
@@ -9102,7 +9102,7 @@ static AttackClanRaidMonsterResponseProto* defaultAttackClanRaidMonsterResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -10127,7 +10127,7 @@ static RecordClanRaidStatsResponseProto* defaultRecordClanRaidStatsResponseProto
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -10428,7 +10428,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
     [output appendFormat:@"%@%@: %@\n", indent, @"victimUuid", self.victimUuid];
   }
   if (self.hasUserClanStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"userClanStatus", self.userClanStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"userClanStatus", [NSNumber numberWithInteger:self.userClanStatus]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -10780,13 +10780,13 @@ static PromoteDemoteClanMemberResponseProto* defaultPromoteDemoteClanMemberRespo
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasUserClanStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"userClanStatus", self.userClanStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"userClanStatus", [NSNumber numberWithInteger:self.userClanStatus]];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasPrevUserClanStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"prevUserClanStatus", self.prevUserClanStatus];
+    [output appendFormat:@"%@%@: %@\n", indent, @"prevUserClanStatus", [NSNumber numberWithInteger:self.prevUserClanStatus]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -11580,7 +11580,7 @@ static SolicitClanHelpResponseProto* defaultSolicitClanHelpResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -12210,7 +12210,7 @@ static GiveClanHelpResponseProto* defaultGiveClanHelpResponseProtoInstance = nil
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -12842,7 +12842,7 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpUuids", obj];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -13492,7 +13492,7 @@ static InviteToClanResponseProto* defaultInviteToClanResponseProtoInstance = nil
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasInvite) {
     [output appendFormat:@"%@%@ {\n", indent, @"invite"];
@@ -14241,7 +14241,7 @@ static AcceptOrRejectClanInviteResponseProto* defaultAcceptOrRejectClanInviteRes
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasFullClan) {
     [output appendFormat:@"%@%@ {\n", indent, @"fullClan"];

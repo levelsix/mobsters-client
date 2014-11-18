@@ -16,7 +16,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, DayOfWeek) {
   DayOfWeekSunday = 1,
   DayOfWeekMonday = 2,
   DayOfWeekTuesday = 3,
@@ -25,11 +25,11 @@ typedef enum {
   DayOfWeekFriday = 6,
   DayOfWeekSaturday = 7,
   DayOfWeekNoDayOfWeek = 8,
-} DayOfWeek;
+};
 
 BOOL DayOfWeekIsValidValue(DayOfWeek value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, Element) {
   ElementFire = 1,
   ElementEarth = 2,
   ElementWater = 3,
@@ -37,11 +37,11 @@ typedef enum {
   ElementDark = 5,
   ElementRock = 6,
   ElementNoElement = 7,
-} Element;
+};
 
 BOOL ElementIsValidValue(Element value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, Quality) {
   QualityNoQuality = 1,
   QualityCommon = 2,
   QualityRare = 3,
@@ -50,27 +50,27 @@ typedef enum {
   QualityEpic = 6,
   QualityLegendary = 7,
   QualityEvo = 8,
-} Quality;
+};
 
 BOOL QualityIsValidValue(Quality value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, GameActionType) {
   GameActionTypeNoHelp = 1,
   GameActionTypeUpgradeStruct = 2,
   GameActionTypeHeal = 3,
   GameActionTypeEvolve = 4,
   GameActionTypeMiniJob = 5,
   GameActionTypeEnhanceTime = 6,
-} GameActionType;
+};
 
 BOOL GameActionTypeIsValidValue(GameActionType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, GameType) {
   GameTypeNoType = 1,
   GameTypeStructure = 2,
   GameTypeResearch = 3,
   GameTypeSkill = 4,
-} GameType;
+};
 
 BOOL GameTypeIsValidValue(GameType value);
 

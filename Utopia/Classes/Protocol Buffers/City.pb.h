@@ -59,12 +59,12 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, CityElementProto_CityElemType) {
   CityElementProto_CityElemTypeBuilding = 1,
   CityElementProto_CityElemTypeDecoration = 2,
   CityElementProto_CityElemTypePersonNeutralEnemy = 3,
   CityElementProto_CityElemTypeBoss = 4,
-} CityElementProto_CityElemType;
+};
 
 BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType value);
 

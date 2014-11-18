@@ -511,7 +511,7 @@ static EvolveMonsterResponseProto* defaultEvolveMonsterResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1087,7 +1087,7 @@ static EvolutionFinishedResponseProto* defaultEvolutionFinishedResponseProtoInst
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1917,7 +1917,7 @@ static SubmitMonsterEnhancementResponseProto* defaultSubmitMonsterEnhancementRes
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2697,7 +2697,7 @@ static EnhancementWaitTimeCompleteResponseProto* defaultEnhancementWaitTimeCompl
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3333,7 +3333,7 @@ static CollectMonsterEnhancementResponseProto* defaultCollectMonsterEnhancementR
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -4066,7 +4066,7 @@ static EnhanceMonsterResponseProto* defaultEnhanceMonsterResponseProtoInstance =
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -4966,7 +4966,7 @@ static UpdateMonsterHealthResponseProto* defaultUpdateMonsterHealthResponseProto
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -5908,7 +5908,7 @@ static HealMonsterResponseProto* defaultHealMonsterResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -6508,7 +6508,7 @@ static AddMonsterToBattleTeamResponseProto* defaultAddMonsterToBattleTeamRespons
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -7058,7 +7058,7 @@ static RemoveMonsterFromBattleTeamResponseProto* defaultRemoveMonsterFromBattleT
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -7376,7 +7376,7 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasIncreaseSlotType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"increaseSlotType", self.increaseSlotType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"increaseSlotType", [NSNumber numberWithInteger:self.increaseSlotType]];
   }
   if (self.hasUserStructUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
@@ -7731,7 +7731,7 @@ static IncreaseMonsterInventorySlotResponseProto* defaultIncreaseMonsterInventor
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -8608,7 +8608,7 @@ static InviteFbFriendsForSlotsResponseProto* defaultInviteFbFriendsForSlotsRespo
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.invitesNewList enumerateObjectsUsingBlock:^(UserFacebookInviteForSlotProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"invitesNew"];
@@ -9300,7 +9300,7 @@ static AcceptAndRejectFbInviteForSlotsResponseProto* defaultAcceptAndRejectFbInv
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.acceptedInvitesList enumerateObjectsUsingBlock:^(UserFacebookInviteForSlotProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"acceptedInvites"];
@@ -9962,7 +9962,7 @@ static CombineUserMonsterPiecesResponseProto* defaultCombineUserMonsterPiecesRes
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -10530,7 +10530,7 @@ static SellUserMonsterResponseProto* defaultSellUserMonsterResponseProtoInstance
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -11097,7 +11097,7 @@ static RestrictUserMonsterResponseProto* defaultRestrictUserMonsterResponseProto
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -11664,7 +11664,7 @@ static UnrestrictUserMonsterResponseProto* defaultUnrestrictUserMonsterResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

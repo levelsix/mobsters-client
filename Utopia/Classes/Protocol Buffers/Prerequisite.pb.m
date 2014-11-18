@@ -185,13 +185,13 @@ static PrereqProto* defaultPrereqProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"prereqId", [NSNumber numberWithInteger:self.prereqId]];
   }
   if (self.hasGameType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"gameType", self.gameType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"gameType", [NSNumber numberWithInteger:self.gameType]];
   }
   if (self.hasGameEntityId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gameEntityId", [NSNumber numberWithInteger:self.gameEntityId]];
   }
   if (self.hasPrereqGameType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"prereqGameType", self.prereqGameType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"prereqGameType", [NSNumber numberWithInteger:self.prereqGameType]];
   }
   if (self.hasPrereqGameEntityId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"prereqGameEntityId", [NSNumber numberWithInteger:self.prereqGameEntityId]];

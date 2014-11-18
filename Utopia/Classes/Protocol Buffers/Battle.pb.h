@@ -68,11 +68,11 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, BattleResult) {
   BattleResultAttackerWin = 1,
   BattleResultDefenderWin = 2,
   BattleResultAttackerFlee = 3,
-} BattleResult;
+};
 
 BOOL BattleResultIsValidValue(BattleResult value);
 

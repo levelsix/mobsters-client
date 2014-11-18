@@ -291,10 +291,10 @@ static SkillProto* defaultSkillProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"orbCost", [NSNumber numberWithInteger:self.orbCost]];
   }
   if (self.hasType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"type", self.type];
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
   if (self.hasActivationType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"activationType", self.activationType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"activationType", [NSNumber numberWithInteger:self.activationType]];
   }
   if (self.hasPredecId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"predecId", [NSNumber numberWithInteger:self.predecId]];

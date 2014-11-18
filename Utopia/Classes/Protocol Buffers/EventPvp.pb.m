@@ -527,7 +527,7 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1331,7 +1331,7 @@ static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance =
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2232,7 +2232,7 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
     [output appendFormat:@"%@%@: %@\n", indent, @"attackerWon", [NSNumber numberWithBool:self.attackerWon]];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

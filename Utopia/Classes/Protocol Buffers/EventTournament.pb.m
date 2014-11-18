@@ -518,7 +518,7 @@ static RetrieveTournamentRankingsResponseProto* defaultRetrieveTournamentRanking
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasEventId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"eventId", [NSNumber numberWithInteger:self.eventId]];

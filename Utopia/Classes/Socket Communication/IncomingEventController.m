@@ -1328,8 +1328,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
-    [gs addToMyMonsters:proto.fumpList];
-    [gs.itemUtil addToMyItems:@[proto.uip]];
+#warning add back..
+//    [gs addToMyMonsters:proto.fumpList];
+//    [gs.itemUtil addToMyItems:@[proto.uip]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

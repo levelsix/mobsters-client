@@ -566,7 +566,7 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"monsterGroup", self.monsterGroup];
   }
   if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"quality", self.quality];
+    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
   }
   if (self.hasEvolutionLevel) {
     [output appendFormat:@"%@%@: %@\n", indent, @"evolutionLevel", [NSNumber numberWithInteger:self.evolutionLevel]];
@@ -575,7 +575,7 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"displayName", self.displayName];
   }
   if (self.hasMonsterElement) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"monsterElement", self.monsterElement];
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterElement", [NSNumber numberWithInteger:self.monsterElement]];
   }
   if (self.hasImagePrefix) {
     [output appendFormat:@"%@%@: %@\n", indent, @"imagePrefix", self.imagePrefix];
@@ -623,7 +623,7 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"evolutionCost", [NSNumber numberWithInteger:self.evolutionCost]];
   }
   if (self.hasAttackAnimationType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"attackAnimationType", self.attackAnimationType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"attackAnimationType", [NSNumber numberWithInteger:self.attackAnimationType]];
   }
   if (self.hasVerticalPixelOffset) {
     [output appendFormat:@"%@%@: %@\n", indent, @"verticalPixelOffset", [NSNumber numberWithInteger:self.verticalPixelOffset]];
@@ -6227,7 +6227,7 @@ static MonsterBattleDialogueProto* defaultMonsterBattleDialogueProtoInstance = n
     [output appendFormat:@"%@%@: %@\n", indent, @"dialogue", self.dialogue];
   }
   if (self.hasDialogueType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"dialogueType", self.dialogueType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"dialogueType", [NSNumber numberWithInteger:self.dialogueType]];
   }
   if (self.hasProbabilityUttered) {
     [output appendFormat:@"%@%@: %@\n", indent, @"probabilityUttered", [NSNumber numberWithFloat:self.probabilityUttered]];

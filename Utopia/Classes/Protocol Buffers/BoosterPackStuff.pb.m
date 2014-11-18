@@ -1808,7 +1808,7 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"isComplete", [NSNumber numberWithBool:self.isComplete]];
   }
   if (self.hasQuality) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"quality", self.quality];
+    [output appendFormat:@"%@%@: %@\n", indent, @"quality", [NSNumber numberWithInteger:self.quality]];
   }
   if (self.hasGemReward) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemReward", [NSNumber numberWithInteger:self.gemReward]];

@@ -116,14 +116,14 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, QuestJobProto_QuestJobType) {
   QuestJobProto_QuestJobTypeKillSpecificMonster = 1,
   QuestJobProto_QuestJobTypeKillMonsterInCity = 2,
   QuestJobProto_QuestJobTypeDonateMonster = 3,
   QuestJobProto_QuestJobTypeCompleteTask = 4,
   QuestJobProto_QuestJobTypeUpgradeStruct = 5,
   QuestJobProto_QuestJobTypeCollectSpecialItem = 6,
-} QuestJobProto_QuestJobType;
+};
 
 BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 

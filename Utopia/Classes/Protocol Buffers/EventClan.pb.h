@@ -217,7 +217,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, CreateClanResponseProto_CreateClanStatus) {
   CreateClanResponseProto_CreateClanStatusSuccess = 1,
   CreateClanResponseProto_CreateClanStatusFailOther = 2,
   CreateClanResponseProto_CreateClanStatusFailNotEnoughCash = 3,
@@ -226,166 +226,166 @@ typedef enum {
   CreateClanResponseProto_CreateClanStatusFailInvalidTagLength = 6,
   CreateClanResponseProto_CreateClanStatusFailTagTaken = 7,
   CreateClanResponseProto_CreateClanStatusFailInsufficientFunds = 8,
-} CreateClanResponseProto_CreateClanStatus;
+};
 
 BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProto_CreateClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, LeaveClanResponseProto_LeaveClanStatus) {
   LeaveClanResponseProto_LeaveClanStatusSuccess = 1,
   LeaveClanResponseProto_LeaveClanStatusFailOther = 2,
   LeaveClanResponseProto_LeaveClanStatusFailNotInClan = 3,
   LeaveClanResponseProto_LeaveClanStatusFailOwnerOfClanWithOthersStillIn = 4,
-} LeaveClanResponseProto_LeaveClanStatus;
+};
 
 BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_LeaveClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RequestJoinClanResponseProto_RequestJoinClanStatus) {
   RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest = 1,
   RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin = 2,
   RequestJoinClanResponseProto_RequestJoinClanStatusFailAlreadyInClan = 3,
   RequestJoinClanResponseProto_RequestJoinClanStatusFailRequestAlreadyFiled = 4,
   RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull = 5,
   RequestJoinClanResponseProto_RequestJoinClanStatusFailOther = 6,
-} RequestJoinClanResponseProto_RequestJoinClanStatus;
+};
 
 BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinClanResponseProto_RequestJoinClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) {
   RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess = 1,
   RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailOther = 2,
   RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailAlreadyInClan = 3,
   RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusFailDidNotRequest = 4,
-} RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus;
+};
 
 BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValue(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) {
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess = 1,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailOther = 2,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized = 3,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotARequester = 4,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan = 5,
   ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull = 6,
-} ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus;
+};
 
 BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusIsValidValue(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetrieveClanInfoRequestProto_ClanInfoGrabType) {
   RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll = 1,
   RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo = 2,
   RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers = 3,
-} RetrieveClanInfoRequestProto_ClanInfoGrabType;
+};
 
 BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoRequestProto_ClanInfoGrabType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) {
   RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess = 1,
   RetrieveClanInfoResponseProto_RetrieveClanInfoStatusOtherFail = 2,
-} RetrieveClanInfoResponseProto_RetrieveClanInfoStatus;
+};
 
 BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) {
   TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess = 1,
   TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailOther = 2,
   TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNotAuthorized = 3,
   TransferClanOwnershipResponseProto_TransferClanOwnershipStatusFailNewOwnerNotInClan = 4,
-} TransferClanOwnershipResponseProto_TransferClanOwnershipStatus;
+};
 
 BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) {
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess = 1,
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailOther = 2,
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailNotAuthorized = 3,
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatusFailBootedNotInClan = 4,
-} BootPlayerFromClanResponseProto_BootPlayerFromClanStatus;
+};
 
 BOOL BootPlayerFromClanResponseProto_BootPlayerFromClanStatusIsValidValue(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) {
   ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess = 1,
   ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized = 2,
   ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan = 3,
   ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailOther = 4,
-} ChangeClanSettingsResponseProto_ChangeClanSettingsStatus;
+};
 
 BOOL ChangeClanSettingsResponseProto_ChangeClanSettingsStatusIsValidValue(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, BeginClanRaidResponseProto_BeginClanRaidStatus) {
   BeginClanRaidResponseProto_BeginClanRaidStatusSuccess = 1,
   BeginClanRaidResponseProto_BeginClanRaidStatusFailAlreadyStarted = 2,
   BeginClanRaidResponseProto_BeginClanRaidStatusFailNotAuthorized = 3,
   BeginClanRaidResponseProto_BeginClanRaidStatusFailNoActiveClanRaid = 4,
   BeginClanRaidResponseProto_BeginClanRaidStatusFailNoMonstersSent = 5,
   BeginClanRaidResponseProto_BeginClanRaidStatusFailOther = 6,
-} BeginClanRaidResponseProto_BeginClanRaidStatus;
+};
 
 BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidResponseProto_BeginClanRaidStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) {
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess = 1,
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied = 2,
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailUserNotInClan = 3,
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailNoStageRaidInProgress = 4,
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailMonsterAlreadyDead = 5,
   AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailOther = 6,
-} AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus;
+};
 
 BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) {
   RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess = 1,
   RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailMonsterAlreadyDead = 2,
   RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailOther = 3,
-} RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus;
+};
 
 BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) {
   PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess = 1,
   PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotInClan = 2,
   PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailNotAuthorized = 3,
   PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusFailOther = 4,
-} PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus;
+};
 
 BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidValue(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SolicitClanHelpResponseProto_SolicitClanHelpStatus) {
   SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess = 1,
   SolicitClanHelpResponseProto_SolicitClanHelpStatusFailOther = 2,
   SolicitClanHelpResponseProto_SolicitClanHelpStatusFailNotInClan = 3,
-} SolicitClanHelpResponseProto_SolicitClanHelpStatus;
+};
 
 BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanHelpResponseProto_SolicitClanHelpStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, GiveClanHelpResponseProto_GiveClanHelpStatus) {
   GiveClanHelpResponseProto_GiveClanHelpStatusSuccess = 1,
   GiveClanHelpResponseProto_GiveClanHelpStatusFailOther = 2,
-} GiveClanHelpResponseProto_GiveClanHelpStatus;
+};
 
 BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpResponseProto_GiveClanHelpStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EndClanHelpResponseProto_EndClanHelpStatus) {
   EndClanHelpResponseProto_EndClanHelpStatusSuccess = 1,
   EndClanHelpResponseProto_EndClanHelpStatusFailOther = 2,
-} EndClanHelpResponseProto_EndClanHelpStatus;
+};
 
 BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseProto_EndClanHelpStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, InviteToClanResponseProto_InviteToClanStatus) {
   InviteToClanResponseProto_InviteToClanStatusSuccess = 1,
   InviteToClanResponseProto_InviteToClanStatusFailOther = 2,
   InviteToClanResponseProto_InviteToClanStatusFailNotAuthorized = 3,
-} InviteToClanResponseProto_InviteToClanStatus;
+};
 
 BOOL InviteToClanResponseProto_InviteToClanStatusIsValidValue(InviteToClanResponseProto_InviteToClanStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) {
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusSuccess = 1,
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailOther = 2,
   AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusFailClanIsFull = 3,
-} AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus;
+};
 
 BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value);
 

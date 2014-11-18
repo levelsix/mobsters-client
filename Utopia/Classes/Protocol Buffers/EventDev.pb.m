@@ -14,7 +14,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [DevRoot registerAllExtensions:registry];
-    [ItemRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
@@ -161,7 +160,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasDevRequest) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"devRequest", self.devRequest];
+    [output appendFormat:@"%@%@: %@\n", indent, @"devRequest", [NSNumber numberWithInteger:self.devRequest]];
   }
   if (self.hasStaticDataId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"staticDataId", [NSNumber numberWithInteger:self.staticDataId]];
@@ -357,7 +356,6 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
 }
 - (BOOL) hasStaticDataId {
   return result.hasStaticDataId;
-<<<<<<< HEAD
 }
 - (int32_t) staticDataId {
   return result.staticDataId;
@@ -383,33 +381,6 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   result.quantity = value;
   return self;
 }
-=======
-}
-- (int32_t) staticDataId {
-  return result.staticDataId;
-}
-- (DevRequestProto_Builder*) setStaticDataId:(int32_t) value {
-  result.hasStaticDataId = YES;
-  result.staticDataId = value;
-  return self;
-}
-- (DevRequestProto_Builder*) clearStaticDataId {
-  result.hasStaticDataId = NO;
-  result.staticDataId = 0;
-  return self;
-}
-- (BOOL) hasQuantity {
-  return result.hasQuantity;
-}
-- (int32_t) quantity {
-  return result.quantity;
-}
-- (DevRequestProto_Builder*) setQuantity:(int32_t) value {
-  result.hasQuantity = YES;
-  result.quantity = value;
-  return self;
-}
->>>>>>> uuid
 - (DevRequestProto_Builder*) clearQuantity {
   result.hasQuantity = NO;
   result.quantity = 0;
@@ -420,8 +391,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
 @interface DevResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property DevResponseProto_DevStatus status;
-@property (strong) NSMutableArray * mutableFumpList;
-@property (strong) UserItemProto* uip;
+@property (strong) FullUserMonsterProto* fump;
 @end
 
 @implementation DevResponseProto
@@ -440,20 +410,18 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   hasStatus_ = !!value_;
 }
 @synthesize status;
-@synthesize mutableFumpList;
-@dynamic fumpList;
-- (BOOL) hasUip {
-  return !!hasUip_;
+- (BOOL) hasFump {
+  return !!hasFump_;
 }
-- (void) setHasUip:(BOOL) value_ {
-  hasUip_ = !!value_;
+- (void) setHasFump:(BOOL) value_ {
+  hasFump_ = !!value_;
 }
-@synthesize uip;
+@synthesize fump;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = DevResponseProto_DevStatusSuccess;
-    self.uip = [UserItemProto defaultInstance];
+    self.fump = [FullUserMonsterProto defaultInstance];
   }
   return self;
 }
@@ -469,12 +437,6 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
 - (DevResponseProto*) defaultInstance {
   return defaultDevResponseProtoInstance;
 }
-- (NSArray *)fumpList {
-  return mutableFumpList;
-}
-- (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index {
-  return [mutableFumpList objectAtIndex:index];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -485,11 +447,8 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  [self.fumpList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:3 value:element];
-  }];
-  if (self.hasUip) {
-    [output writeMessage:4 value:self.uip];
+  if (self.hasFump) {
+    [output writeMessage:3 value:self.fump];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -506,11 +465,8 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
   }
-  [self.fumpList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(3, element);
-  }];
-  if (self.hasUip) {
-    size_ += computeMessageSize(4, self.uip);
+  if (self.hasFump) {
+    size_ += computeMessageSize(3, self.fump);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -554,17 +510,11 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
-  [self.fumpList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  if (self.hasFump) {
     [output appendFormat:@"%@%@ {\n", indent, @"fump"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
-  if (self.hasUip) {
-    [output appendFormat:@"%@%@ {\n", indent, @"uip"];
-    [self.uip writeDescriptionTo:output
+    [self.fump writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -583,9 +533,8 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      [self.fumpList isEqualToArray:otherMessage.fumpList] &&
-      self.hasUip == otherMessage.hasUip &&
-      (!self.hasUip || [self.uip isEqual:otherMessage.uip]) &&
+      self.hasFump == otherMessage.hasFump &&
+      (!self.hasFump || [self.fump isEqual:otherMessage.fump]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -596,11 +545,8 @@ static DevResponseProto* defaultDevResponseProtoInstance = nil;
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  [self.fumpList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
-  if (self.hasUip) {
-    hashCode = hashCode * 31 + [self.uip hash];
+  if (self.hasFump) {
+    hashCode = hashCode * 31 + [self.fump hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -660,15 +606,8 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableFumpList.count > 0) {
-    if (result.mutableFumpList == nil) {
-      result.mutableFumpList = [[NSMutableArray alloc] initWithArray:other.mutableFumpList];
-    } else {
-      [result.mutableFumpList addObjectsFromArray:other.mutableFumpList];
-    }
-  }
-  if (other.hasUip) {
-    [self mergeUip:other.uip];
+  if (other.hasFump) {
+    [self mergeFump:other.fump];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -711,17 +650,11 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
       }
       case 26: {
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addFump:[subBuilder buildPartial]];
-        break;
-      }
-      case 34: {
-        UserItemProto_Builder* subBuilder = [UserItemProto builder];
-        if (self.hasUip) {
-          [subBuilder mergeFrom:self.uip];
+        if (self.hasFump) {
+          [subBuilder mergeFrom:self.fump];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUip:[subBuilder buildPartial]];
+        [self setFump:[subBuilder buildPartial]];
         break;
       }
     }
@@ -773,58 +706,34 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value) {
   result.status = DevResponseProto_DevStatusSuccess;
   return self;
 }
-- (NSMutableArray *)fumpList {
-  return result.mutableFumpList;
+- (BOOL) hasFump {
+  return result.hasFump;
 }
-- (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index {
-  return [result fumpAtIndex:index];
+- (FullUserMonsterProto*) fump {
+  return result.fump;
 }
-- (DevResponseProto_Builder *)addFump:(FullUserMonsterProto*)value {
-  if (result.mutableFumpList == nil) {
-    result.mutableFumpList = [[NSMutableArray alloc]init];
-  }
-  [result.mutableFumpList addObject:value];
+- (DevResponseProto_Builder*) setFump:(FullUserMonsterProto*) value {
+  result.hasFump = YES;
+  result.fump = value;
   return self;
 }
-- (DevResponseProto_Builder *)addAllFump:(NSArray *)array {
-  if (result.mutableFumpList == nil) {
-    result.mutableFumpList = [NSMutableArray array];
-  }
-  [result.mutableFumpList addObjectsFromArray:array];
-  return self;
+- (DevResponseProto_Builder*) setFump_Builder:(FullUserMonsterProto_Builder*) builderForValue {
+  return [self setFump:[builderForValue build]];
 }
-- (DevResponseProto_Builder *)clearFump {
-  result.mutableFumpList = nil;
-  return self;
-}
-- (BOOL) hasUip {
-  return result.hasUip;
-}
-- (UserItemProto*) uip {
-  return result.uip;
-}
-- (DevResponseProto_Builder*) setUip:(UserItemProto*) value {
-  result.hasUip = YES;
-  result.uip = value;
-  return self;
-}
-- (DevResponseProto_Builder*) setUip_Builder:(UserItemProto_Builder*) builderForValue {
-  return [self setUip:[builderForValue build]];
-}
-- (DevResponseProto_Builder*) mergeUip:(UserItemProto*) value {
-  if (result.hasUip &&
-      result.uip != [UserItemProto defaultInstance]) {
-    result.uip =
-      [[[UserItemProto builderWithPrototype:result.uip] mergeFrom:value] buildPartial];
+- (DevResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value {
+  if (result.hasFump &&
+      result.fump != [FullUserMonsterProto defaultInstance]) {
+    result.fump =
+      [[[FullUserMonsterProto builderWithPrototype:result.fump] mergeFrom:value] buildPartial];
   } else {
-    result.uip = value;
+    result.fump = value;
   }
-  result.hasUip = YES;
+  result.hasFump = YES;
   return self;
 }
-- (DevResponseProto_Builder*) clearUip {
-  result.hasUip = NO;
-  result.uip = [UserItemProto defaultInstance];
+- (DevResponseProto_Builder*) clearFump {
+  result.hasFump = NO;
+  result.fump = [FullUserMonsterProto defaultInstance];
   return self;
 }
 @end

@@ -453,7 +453,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasMonsterElement) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"monsterElement", self.monsterElement];
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterElement", [NSNumber numberWithInteger:self.monsterElement]];
   }
   [self.jobsList enumerateObjectsUsingBlock:^(QuestJobProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"jobs"];
@@ -1360,7 +1360,7 @@ static QuestJobProto* defaultQuestJobProtoInstance = nil;
     [output appendFormat:@"%@%@: %@\n", indent, @"questId", [NSNumber numberWithInteger:self.questId]];
   }
   if (self.hasQuestJobType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"questJobType", self.questJobType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"questJobType", [NSNumber numberWithInteger:self.questJobType]];
   }
   if (self.hasDescription) {
     [output appendFormat:@"%@%@: %@\n", indent, @"description", self.description];

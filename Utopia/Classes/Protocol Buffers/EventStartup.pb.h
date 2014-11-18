@@ -262,19 +262,19 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, StartupResponseProto_UpdateStatus) {
   StartupResponseProto_UpdateStatusNoUpdate = 1,
   StartupResponseProto_UpdateStatusMinorUpdate = 2,
   StartupResponseProto_UpdateStatusMajorUpdate = 3,
-} StartupResponseProto_UpdateStatus;
+};
 
 BOOL StartupResponseProto_UpdateStatusIsValidValue(StartupResponseProto_UpdateStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, StartupResponseProto_StartupStatus) {
   StartupResponseProto_StartupStatusUserInDb = 1,
   StartupResponseProto_StartupStatusUserNotInDb = 2,
   StartupResponseProto_StartupStatusServerInMaintenance = 3,
-} StartupResponseProto_StartupStatus;
+};
 
 BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_StartupStatus value);
 

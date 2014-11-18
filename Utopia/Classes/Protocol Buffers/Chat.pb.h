@@ -41,10 +41,10 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, GroupChatScope) {
   GroupChatScopeClan = 1,
   GroupChatScopeGlobal = 2,
-} GroupChatScope;
+};
 
 BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 

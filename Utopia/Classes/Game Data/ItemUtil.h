@@ -21,7 +21,7 @@
 - (void) addToMyItemUsages:(NSArray *)itemUsageProtos;
 
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId;
-- (int) getSpeedupMinutesForType:(GameActionType)type userDataId:(uint64_t)userDataId;
+- (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid;
 
 - (void) cleanupRogueItemUsages;
 

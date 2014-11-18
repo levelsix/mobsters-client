@@ -132,7 +132,7 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, EvolveMonsterResponseProto_EvolveMonsterStatus) {
   EvolveMonsterResponseProto_EvolveMonsterStatusSuccess = 1,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientGems = 2,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientResources = 3,
@@ -140,146 +140,146 @@ typedef enum {
   EvolveMonsterResponseProto_EvolveMonsterStatusFailMaxNumEvolutionsReached = 5,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailNonexistentMonsters = 6,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailOther = 7,
-} EvolveMonsterResponseProto_EvolveMonsterStatus;
+};
 
 BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterResponseProto_EvolveMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EvolutionFinishedResponseProto_EvolutionFinishedStatus) {
   EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess = 1,
   EvolutionFinishedResponseProto_EvolutionFinishedStatusFailInsufficientGems = 2,
   EvolutionFinishedResponseProto_EvolutionFinishedStatusFailOther = 3,
-} EvolutionFinishedResponseProto_EvolutionFinishedStatus;
+};
 
 BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(EvolutionFinishedResponseProto_EvolutionFinishedStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) {
   SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess = 1,
   SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientGems = 2,
   SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientOil = 3,
   SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailOther = 4,
-} SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus;
+};
 
 BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) {
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess = 1,
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds = 3,
   EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther = 4,
-} EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus;
+};
 
 BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus) {
   CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess = 1,
   CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailOther = 2,
   CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusFailEnhancementIncomplete = 3,
-} CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus;
+};
 
 BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsValidValue(CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EnhanceMonsterResponseProto_EnhanceMonsterStatus) {
   EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess = 1,
   EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientGems = 2,
   EnhanceMonsterResponseProto_EnhanceMonsterStatusFailInsufficientOil = 3,
   EnhanceMonsterResponseProto_EnhanceMonsterStatusFailOther = 4,
-} EnhanceMonsterResponseProto_EnhanceMonsterStatus;
+};
 
 BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonsterResponseProto_EnhanceMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) {
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess = 1,
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailInsufficientFunds = 2,
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusFailOther = 3,
-} UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus;
+};
 
 BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, HealMonsterResponseProto_HealMonsterStatus) {
   HealMonsterResponseProto_HealMonsterStatusSuccess = 1,
   HealMonsterResponseProto_HealMonsterStatusFailInsufficientFunds = 2,
   HealMonsterResponseProto_HealMonsterStatusFailAllMonstersAlreadyHealing = 3,
   HealMonsterResponseProto_HealMonsterStatusFailAllMonstersNonexistent = 4,
   HealMonsterResponseProto_HealMonsterStatusFailOther = 5,
   HealMonsterResponseProto_HealMonsterStatusFailHealingNotComplete = 6,
-} HealMonsterResponseProto_HealMonsterStatus;
+};
 
 BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseProto_HealMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus) {
   AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess = 1,
   AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusFailOther = 2,
-} AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus;
+};
 
 BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) {
   RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess = 1,
   RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusFailOther = 2,
-} RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus;
+};
 
 BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) {
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase = 1,
   IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites = 2,
-} IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType;
+};
 
 BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) {
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess = 1,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds = 2,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites = 3,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther = 4,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInconsistentInviteData = 5,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailStructureAtMaxFbInviteLvl = 6,
-} IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus;
+};
 
 BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) {
   InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess = 1,
   InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusFailOther = 2,
-} InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus;
+};
 
 BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) {
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess = 1,
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired = 2,
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed = 3,
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailOther = 4,
-} AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus;
+};
 
 BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) {
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess = 1,
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailInsuffucientGems = 2,
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailMoreThanOneMonsterForSpeedup = 3,
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther = 4,
-} CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus;
+};
 
 BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SellUserMonsterResponseProto_SellUserMonsterStatus) {
   SellUserMonsterResponseProto_SellUserMonsterStatusSuccess = 1,
   SellUserMonsterResponseProto_SellUserMonsterStatusFailOther = 2,
-} SellUserMonsterResponseProto_SellUserMonsterStatus;
+};
 
 BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMonsterResponseProto_SellUserMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RestrictUserMonsterResponseProto_RestrictUserMonsterStatus) {
   RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess = 1,
   RestrictUserMonsterResponseProto_RestrictUserMonsterStatusFailOther = 2,
-} RestrictUserMonsterResponseProto_RestrictUserMonsterStatus;
+};
 
 BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(RestrictUserMonsterResponseProto_RestrictUserMonsterStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus) {
   UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess = 1,
   UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusFailOther = 2,
-} UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus;
+};
 
 BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatus value);
 

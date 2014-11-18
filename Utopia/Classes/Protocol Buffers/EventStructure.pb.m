@@ -223,7 +223,7 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
     [output appendFormat:@"%@%@: %@\n", indent, @"resourceChange", [NSNumber numberWithInteger:self.resourceChange]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -670,7 +670,7 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasUserStructUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
@@ -1034,7 +1034,7 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
     [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"type", self.type];
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", [NSNumber numberWithInteger:self.type]];
   }
   if (self.hasCurStructCoordinates) {
     [output appendFormat:@"%@%@ {\n", indent, @"curStructCoordinates"];
@@ -1043,7 +1043,7 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasOrientationNew) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"orientationNew", self.orientationNew];
+    [output appendFormat:@"%@%@: %@\n", indent, @"orientationNew", [NSNumber numberWithInteger:self.orientationNew]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1432,7 +1432,7 @@ static MoveOrRotateNormStructureResponseProto* defaultMoveOrRotateNormStructureR
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1786,7 +1786,7 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
     [output appendFormat:@"%@%@: %@\n", indent, @"resourceChange", [NSNumber numberWithInteger:self.resourceChange]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2171,7 +2171,7 @@ static UpgradeNormStructureResponseProto* defaultUpgradeNormStructureResponsePro
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2819,7 +2819,7 @@ static FinishNormStructWaittimeWithDiamondsResponseProto* defaultFinishNormStruc
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -3448,7 +3448,7 @@ static NormStructWaitCompleteResponseProto* defaultNormStructWaitCompleteRespons
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.userStructList enumerateObjectsUsingBlock:^(FullUserStructureProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"userStruct"];
@@ -4354,7 +4354,7 @@ static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFr
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -5108,7 +5108,7 @@ static ExpansionWaitCompleteResponseProto* defaultExpansionWaitCompleteResponseP
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   if (self.hasUcedp) {
     [output appendFormat:@"%@%@ {\n", indent, @"ucedp"];
@@ -5797,7 +5797,7 @@ static SpawnObstacleResponseProto* defaultSpawnObstacleResponseProtoInstance = n
     [output appendFormat:@"%@}\n", indent];
   }];
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -6189,7 +6189,7 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
     [output appendFormat:@"%@%@: %@\n", indent, @"resourceChange", [NSNumber numberWithInteger:self.resourceChange]];
   }
   if (self.hasResourceType) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
   }
   if (self.hasUserObstacleUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleUuid", self.userObstacleUuid];
@@ -6577,7 +6577,7 @@ static BeginObstacleRemovalResponseProto* defaultBeginObstacleRemovalResponsePro
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -7323,7 +7323,7 @@ static ObstacleRemovalCompleteResponseProto* defaultObstacleRemovalCompleteRespo
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasStatus) {
-    [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }

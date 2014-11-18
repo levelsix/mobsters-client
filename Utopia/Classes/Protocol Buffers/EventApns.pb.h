@@ -39,10 +39,10 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, EnableAPNSResponseProto_EnableAPNSStatus) {
   EnableAPNSResponseProto_EnableAPNSStatusSuccess = 1,
   EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 2,
-} EnableAPNSResponseProto_EnableAPNSStatus;
+};
 
 BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value);
 

@@ -149,25 +149,25 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, BeginDungeonResponseProto_BeginDungeonStatus) {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
   BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
-} BeginDungeonResponseProto_BeginDungeonStatus;
+};
 
 BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonResponseProto_BeginDungeonStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, EndDungeonResponseProto_EndDungeonStatus) {
   EndDungeonResponseProto_EndDungeonStatusSuccess = 1,
   EndDungeonResponseProto_EndDungeonStatusFailOther = 2,
-} EndDungeonResponseProto_EndDungeonStatus;
+};
 
 BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProto_EndDungeonStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ReviveInDungeonResponseProto_ReviveInDungeonStatus) {
   ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess = 1,
   ReviveInDungeonResponseProto_ReviveInDungeonStatusFailInsufficientFunds = 2,
   ReviveInDungeonResponseProto_ReviveInDungeonStatusFailOther = 3,
-} ReviveInDungeonResponseProto_ReviveInDungeonStatus;
+};
 
 BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDungeonResponseProto_ReviveInDungeonStatus value);
 

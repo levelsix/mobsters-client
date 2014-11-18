@@ -121,30 +121,30 @@
   #endif
 #endif
 
-typedef enum {
+typedef NS_ENUM(SInt32, PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems = 3,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientOil = 4,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther = 5,
-} PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
+};
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) {
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove = 1,
-} MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType;
+};
 
 BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValue(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) {
   MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess = 1,
   MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusOtherFail = 2,
-} MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus;
+};
 
 BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess = 1,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash = 2,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems = 3,
@@ -153,64 +153,64 @@ typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct = 6,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready = 8,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther = 9,
-} UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
+};
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) {
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 1,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems = 2,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther = 3,
-} FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus;
+};
 
 BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) {
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess = 1,
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailNotDoneYet = 2,
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailOther = 3,
-} NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus;
+};
 
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) {
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 1,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusFailOther = 2,
-} RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
+};
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) {
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess = 1,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailWasNotExpanding = 2,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailNotDoneYet = 3,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailInsufficientGems = 4,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailOther = 5,
-} ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus;
+};
 
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, SpawnObstacleResponseProto_SpawnObstacleStatus) {
   SpawnObstacleResponseProto_SpawnObstacleStatusSuccess = 1,
   SpawnObstacleResponseProto_SpawnObstacleStatusFailOther = 2,
-} SpawnObstacleResponseProto_SpawnObstacleStatus;
+};
 
 BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleResponseProto_SpawnObstacleStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) {
   BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess = 1,
   BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientGems = 2,
   BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientResource = 3,
   BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailOther = 4,
-} BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus;
+};
 
 BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value);
 
-typedef enum {
+typedef NS_ENUM(SInt32, ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) {
   ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess = 1,
   ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailInsufficientGems = 2,
   ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailOther = 3,
-} ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus;
+};
 
 BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value);
 
