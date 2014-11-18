@@ -10244,6 +10244,7 @@
 
 /* Begin PBXFileReference section */
 		1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mobsters.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ToonSquad-Info.plist"; sourceTree = "<group>"; };
 		2982A1691A1973B700CEB283 /* cacert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cacert.pem; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -10452,7 +10453,6 @@
 		CF0CECEA196F450C00ECD301 /* splashguys@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splashguys@2x.png"; sourceTree = "<group>"; };
 		CF0CECEB196F450C00ECD301 /* splashguyswide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splashguyswide@2x.png"; sourceTree = "<group>"; };
 		CF0CF847196F452900ECD301 /* ToonSquad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToonSquad.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF0CF848196F452D00ECD301 /* ToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ToonSquad-Info.plist"; path = "/Users/Ashwin/mobsters-client/ToonSquad-Info.plist"; sourceTree = "<absolute>"; };
 		CF0CF849196F4AA000ECD301 /* tips.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tips.txt; sourceTree = "<group>"; };
 		CF1256421538A94D00E0C1AD /* Mobsters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mobsters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -11167,7 +11167,7 @@
 		CF42537D19AD746B00964547 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF48189419F71D2900041486 /* LaboratoryT0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaboratoryT0@2x.png"; sourceTree = "<group>"; };
 		CF48256419F7217F00041486 /* Toon Squad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toon Squad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF48256519F7217F00041486 /* Tango Toon Squad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tango Toon Squad-Info.plist"; sourceTree = "<group>"; };
+		CF48256519F7217F00041486 /* TangoToonSquad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TangoToonSquad-Info.plist"; path = "../../TangoToonSquad-Info.plist"; sourceTree = "<group>"; };
 		CF48259319F729D000041486 /* mysprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysprite.png; sourceTree = "<group>"; };
 		CF48259419F729D000041486 /* PPEmitterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPEmitterView.h; sourceTree = "<group>"; };
 		CF48259519F729D000041486 /* PPEmitterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPEmitterView.m; sourceTree = "<group>"; };
@@ -14494,7 +14494,6 @@
 				CF1256451538A94D00E0C1AD /* Frameworks */,
 				CF1256431538A94D00E0C1AD /* Products */,
 				7A2AF416E1B4BB3498E05A47 /* Pods */,
-				CF48256519F7217F00041486 /* Tango Toon Squad-Info.plist */,
 				2982A1691A1973B700CEB283 /* cacert.pem */,
 			);
 			sourceTree = "<group>";
@@ -14809,6 +14808,8 @@
 		CF1267661538ACC500E0C1AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF48256519F7217F00041486 /* TangoToonSquad-Info.plist */,
+				294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */,
 				CFA744061A0975DB0068E1B7 /* Entitlements.plist */,
 				CF5BD68E19CA5521006C4B4C /* icons.xcassets */,
 				CF0CF849196F4AA000ECD301 /* tips.txt */,
@@ -14817,7 +14818,6 @@
 				CF1273BB1538AE1E00E0C1AD /* main.m */,
 				CF1273BC1538AE1E00E0C1AD /* Utopia-Prefix.pch */,
 				CF1273B91538ADF000E0C1AD /* Utopia-Info.plist */,
-				CF0CF848196F452D00ECD301 /* ToonSquad-Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -20355,9 +20355,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CF0CECF2196F452900ECD301 /* Toon Squad */ = {
+		CF0CECF2196F452900ECD301 /* ToonSquad */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF0CF843196F452900ECD301 /* Build configuration list for PBXNativeTarget "Toon Squad" */;
+			buildConfigurationList = CF0CF843196F452900ECD301 /* Build configuration list for PBXNativeTarget "ToonSquad" */;
 			buildPhases = (
 				CF0CECF7196F452900ECD301 /* Check Pods Manifest.lock */,
 				CF0CECF8196F452900ECD301 /* Sources */,
@@ -20372,7 +20372,7 @@
 				CFAF0D8619C7DFE200C0AB5B /* PBXTargetDependency */,
 				CFF2A67A1975FE9E00269084 /* PBXTargetDependency */,
 			);
-			name = "Toon Squad";
+			name = ToonSquad;
 			productName = Utopia;
 			productReference = CF0CF847196F452900ECD301 /* ToonSquad.app */;
 			productType = "com.apple.product-type.application";
@@ -20399,9 +20399,9 @@
 			productReference = CF1256421538A94D00E0C1AD /* Mobsters.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF48189719F7217F00041486 /* Tango Toon Squad */ = {
+		CF48189719F7217F00041486 /* TangoToonSquad */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF48256019F7217F00041486 /* Build configuration list for PBXNativeTarget "Tango Toon Squad" */;
+			buildConfigurationList = CF48256019F7217F00041486 /* Build configuration list for PBXNativeTarget "TangoToonSquad" */;
 			buildPhases = (
 				CF48189C19F7217F00041486 /* Check Pods Manifest.lock */,
 				CF48189D19F7217F00041486 /* Sources */,
@@ -20417,7 +20417,7 @@
 				CF48189819F7217F00041486 /* PBXTargetDependency */,
 				CF48189A19F7217F00041486 /* PBXTargetDependency */,
 			);
-			name = "Tango Toon Squad";
+			name = TangoToonSquad;
 			productName = Utopia;
 			productReference = CF48256419F7217F00041486 /* Toon Squad.app */;
 			productType = "com.apple.product-type.application";
@@ -20468,8 +20468,8 @@
 			projectRoot = "";
 			targets = (
 				CF1256411538A94D00E0C1AD /* Mobsters */,
-				CF0CECF2196F452900ECD301 /* Toon Squad */,
-				CF48189719F7217F00041486 /* Tango Toon Squad */,
+				CF0CECF2196F452900ECD301 /* ToonSquad */,
+				CF48189719F7217F00041486 /* TangoToonSquad */,
 			);
 		};
 /* End PBXProject section */
@@ -30932,8 +30932,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -31015,8 +31015,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -31342,7 +31342,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Tango Toon Squad-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -31423,7 +31423,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Tango Toon Squad-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -31507,7 +31507,7 @@
 					"Utopia/libs/**",
 					"\"$(SRCROOT)/Utopia/libs/Tango/include\"",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Tango Toon Squad-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/TangoToonSquad-Info.plist";
 				INSTALL_OWNER = "$(USER)";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -31548,7 +31548,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CF0CF843196F452900ECD301 /* Build configuration list for PBXNativeTarget "Toon Squad" */ = {
+		CF0CF843196F452900ECD301 /* Build configuration list for PBXNativeTarget "ToonSquad" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF0CF844196F452900ECD301 /* Debug */,
@@ -31578,7 +31578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF48256019F7217F00041486 /* Build configuration list for PBXNativeTarget "Tango Toon Squad" */ = {
+		CF48256019F7217F00041486 /* Build configuration list for PBXNativeTarget "TangoToonSquad" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF48256119F7217F00041486 /* Debug */,
