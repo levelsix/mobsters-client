@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShopViewController">
@@ -116,24 +116,31 @@
                                             <color key="highlightedColor" red="0.070588235294117646" green="0.47058823529411764" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MOBSTERS" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="56Y-pc-VSI" customClass="NiceFontLabel9">
-                                            <rect key="frame" x="354" y="4" width="63" height="19"/>
+                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="gmf-cc-hdD">
+                                            <rect key="frame" x="333" y="4" width="78" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="highlightedColor" red="0.070588235294117646" green="0.47058823529411764" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MOBSTERS" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="56Y-pc-VSI" customClass="NiceFontLabel9">
+                                                    <rect key="frame" x="21" y="0.0" width="63" height="19"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="0.070588235294117646" green="0.47058823529411764" blue="0.96862745098039216" alpha="1" colorSpace="deviceRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="menumobstersinactive.png" highlightedImage="menumobstersactive.png" id="Xji-ef-1pO">
+                                                    <rect key="frame" x="7" y="4" width="11" height="10"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
                                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="menubuildingsiconinactive.png" highlightedImage="menubuildingsiconactive.png" id="c2F-QJ-kaG">
                                             <rect key="frame" x="96" y="6" width="11" height="14"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="menuresourcesinactive.png" highlightedImage="menuresourcesactive.png" id="RDO-JE-qva">
                                             <rect key="frame" x="210" y="7" width="13" height="13"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="menumobstersinactive.png" highlightedImage="menumobstersactive.png" id="Xji-ef-1pO">
-                                            <rect key="frame" x="340" y="8" width="11" height="10"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" id="6mn-09-lhV" userLabel="Badge - Buildings" customClass="BadgeIcon">

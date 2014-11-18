@@ -97,7 +97,7 @@
     cell = self.selectCell;
   }
   
-  [cell updateForItemObject:[self.delegate itemObjectAtIndex:indexPath.row]];
+  [cell updateForItemObject:[self.delegate itemObjectAtIndex:(int)indexPath.row]];
   
   return cell;
 }
@@ -110,7 +110,7 @@
   if (sender) {
     ItemSelectCell *cell = (ItemSelectCell *)sender;
     NSIndexPath *ip = [self.itemsTable indexPathForCell:cell];
-    [self.delegate itemSelectedAtIndex:ip.row];
+    [self.delegate itemSelectedAtIndex:(int)ip.row];
   }
 }
 

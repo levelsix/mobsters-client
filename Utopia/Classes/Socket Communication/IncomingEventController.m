@@ -316,14 +316,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
-  LNLog(@"User create response received with status %d.", proto.status);
+  LNLog(@"User create response received with status %d.", (int)proto.status);
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Startup response received with status %d.", proto.startupStatus);
+  LNLog(@"Startup response received with status %d.", (int)proto.startupStatus);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -485,7 +485,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LevelUpResponseProto *proto = (LevelUpResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Level up response received with status %d.", proto.status);
+  LNLog(@"Level up response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
@@ -504,7 +504,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   
-  LNLog(@"In App Purchase response received with status %d.", proto.status);
+  LNLog(@"In App Purchase response received with status %d.", (int)proto.status);
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -553,7 +553,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ExchangeGemsForResourcesResponseProto *proto = (ExchangeGemsForResourcesResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Exchange gems response received with status %d.", proto.status);
+  LNLog(@"Exchange gems response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess) {
@@ -580,7 +580,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PurchaseNormStructureResponseProto *proto = (PurchaseNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Purchase norm struct response received with status: %d.", proto.status);
+  LNLog(@"Purchase norm struct response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
@@ -601,7 +601,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         LNLog(@"Received success in purchase with no userStructId");
       }
     } else {
-      [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
+      [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", (int)proto.status]];
       [gs.myStructs removeObject:us];
     }
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -615,7 +615,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   MoveOrRotateNormStructureResponseProto *proto = (MoveOrRotateNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Move norm struct response received with status: %d.", proto.status);
+  LNLog(@"Move norm struct response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
@@ -630,7 +630,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UpgradeNormStructureResponseProto *proto = (UpgradeNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Upgrade norm structure response received with status %d.", proto.status);
+  LNLog(@"Upgrade norm structure response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
@@ -645,7 +645,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NormStructWaitCompleteResponseProto *proto = (NormStructWaitCompleteResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Norm struct builds complete response received with status %d.", proto.status);
+  LNLog(@"Norm struct builds complete response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
@@ -660,7 +660,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FinishNormStructWaittimeWithDiamondsResponseProto *proto = (FinishNormStructWaittimeWithDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
+  LNLog(@"Finish norm struct with diamonds response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
@@ -675,7 +675,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveCurrencyFromNormStructureResponseProto *proto = (RetrieveCurrencyFromNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Retrieve currency response received with status: %d.", proto.status);
+  LNLog(@"Retrieve currency response received with status: %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
@@ -692,7 +692,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LoadPlayerCityResponseProto *proto = (LoadPlayerCityResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Load player city response received with status %d.", proto.status);
+  LNLog(@"Load player city response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   
@@ -736,7 +736,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LoadCityResponseProto *proto = (LoadCityResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Load neutral city response received for city %d with status %d.", proto.cityId, proto.status);
+  LNLog(@"Load neutral city response received for city %d with status %d.", proto.cityId, (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LoadCityResponseProto_LoadCityStatusSuccess) {
@@ -756,7 +756,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   QuestAcceptResponseProto *proto = (QuestAcceptResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Quest accept response received with status %d", proto.status);
+  LNLog(@"Quest accept response received with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
@@ -771,7 +771,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   QuestRedeemResponseProto *proto = (QuestRedeemResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Quest redeem response received with status %d", proto.status);
+  LNLog(@"Quest redeem response received with status %d", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
@@ -787,7 +787,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleQuestProgressResponseProto:(FullEvent *)fe {
   QuestProgressResponseProto *proto = (QuestProgressResponseProto *)fe.event;
   
-  LNLog(@"Received quest progress response with status %d.", proto.status);
+  LNLog(@"Received quest progress response with status %d.", (int)proto.status);
   
   if (proto.status == QuestProgressResponseProto_QuestProgressStatusSuccess) {
   } else {
@@ -810,7 +810,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UpdateUserCurrencyResponseProto *proto = (UpdateUserCurrencyResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Update user currency response received with status %d.", proto.status);
+  LNLog(@"Update user currency response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess) {
@@ -836,7 +836,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EnableAPNSResponseProto *proto = (EnableAPNSResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Enable apns response received with status %d.", proto.status);
+  LNLog(@"Enable apns response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EnableAPNSResponseProto_EnableAPNSStatusSuccess) {
@@ -850,7 +850,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSetGameCenterIdResponseProto:(FullEvent *)fe {
   SetGameCenterIdResponseProto *proto = (SetGameCenterIdResponseProto *)fe.event;
   
-  LNLog(@"Set game center response received with status %d.", proto.status);
+  LNLog(@"Set game center response received with status %d.", (int)proto.status);
   if (proto.status != SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess) {
     [Globals popupMessage:@"Server failed to set game center id."];
   }
@@ -859,7 +859,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {
   SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
   
-  LNLog(@"Set facebook id response received with status %d.", proto.status);
+  LNLog(@"Set facebook id response received with status %d.", (int)proto.status);
   
   if (proto.status != SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
@@ -871,7 +871,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EarnFreeDiamondsResponseProto *proto = (EarnFreeDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Earn free diamonds response received with status %d.", proto.status);
+  LNLog(@"Earn free diamonds response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
@@ -900,7 +900,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SetAvatarMonsterResponseProto *proto = (SetAvatarMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Set avatar monster response received with status %d.", proto.status);
+  LNLog(@"Set avatar monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess) {
@@ -917,7 +917,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Send group chat response received with status %d.", proto.status);
+  LNLog(@"Send group chat response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
@@ -948,7 +948,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
-  LNLog(@"Private chat post response received with status %d.", proto.status);
+  LNLog(@"Private chat post response received with status %d.", (int)proto.status);
   
   if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
@@ -961,7 +961,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
-  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status,  (int)proto.postsList.count);
+  LNLog(@"Retrieve private chats received with status %d and %d posts.", (int)proto.status,  (int)proto.postsList.count);
 }
 
 #pragma mark - Clan
@@ -969,7 +969,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleCreateClanResponseProto:(FullEvent *)fe {
   CreateClanResponseProto *proto = (CreateClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Create clan response received with status %d.", proto.status);
+  LNLog(@"Create clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   
@@ -993,7 +993,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
   RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Retrieve clan response received with status %d.", proto.status);
+  LNLog(@"Retrieve clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess) {
@@ -1009,7 +1009,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleApproveOrRejectRequestToJoinClanResponseProto:(FullEvent *)fe {
   ApproveOrRejectRequestToJoinClanResponseProto *proto = (ApproveOrRejectRequestToJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Approve or reject request to join clan response received with status %d.", proto.status);
+  LNLog(@"Approve or reject request to join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
@@ -1048,7 +1048,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
   RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Request join clan response received with status %d.", proto.status);
+  LNLog(@"Request join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
@@ -1086,7 +1086,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)fe {
   RetractRequestJoinClanResponseProto *proto = (RetractRequestJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Retract request to join clan response received with status %d.", proto.status);
+  LNLog(@"Retract request to join clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
@@ -1105,7 +1105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTransferClanOwnershipResponseProto:(FullEvent *)fe {
   TransferClanOwnershipResponseProto *proto = (TransferClanOwnershipResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Transfer clan ownership response received with status %d.", proto.status);
+  LNLog(@"Transfer clan ownership response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
@@ -1139,7 +1139,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleChangeClanSettingsResponseProto:(FullEvent *)fe {
   ChangeClanSettingsResponseProto *proto = (ChangeClanSettingsResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Change clan description response received with status %d.", proto.status);
+  LNLog(@"Change clan description response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess) {
@@ -1165,7 +1165,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePromoteDemoteClanMemberResponseProto:(FullEvent *)fe {
   PromoteDemoteClanMemberResponseProto *proto = (PromoteDemoteClanMemberResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Promote demote clan member response received with status %d.", proto.status);
+  LNLog(@"Promote demote clan member response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess) {
@@ -1197,7 +1197,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleLeaveClanResponseProto:(FullEvent *)fe {
   LeaveClanResponseProto *proto = (LeaveClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Leave clan response received with status %d.", proto.status);
+  LNLog(@"Leave clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
@@ -1228,7 +1228,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleBootPlayerFromClanResponseProto:(FullEvent *)fe {
   BootPlayerFromClanResponseProto *proto = (BootPlayerFromClanResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Boot player from clan response received with status %d.", proto.status);
+  LNLog(@"Boot player from clan response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
@@ -1275,7 +1275,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSolicitClanHelpResponseProto:(FullEvent *)fe {
   SolicitClanHelpResponseProto *proto = (SolicitClanHelpResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Solicit clan help response received with status %d.", proto.status);
+  LNLog(@"Solicit clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SolicitClanHelpResponseProto_SolicitClanHelpStatusSuccess) {
@@ -1290,7 +1290,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleGiveClanHelpResponseProto:(FullEvent *)fe {
   GiveClanHelpResponseProto *proto = (GiveClanHelpResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Give clan help response received with status %d.", proto.status);
+  LNLog(@"Give clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GiveClanHelpResponseProto_GiveClanHelpStatusSuccess) {
@@ -1306,7 +1306,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EndClanHelpResponseProto *proto = (EndClanHelpResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"End clan help response received with status %d.", proto.status);
+  LNLog(@"End clan help response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanHelpResponseProto_EndClanHelpStatusSuccess) {
@@ -1324,7 +1324,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   DevResponseProto *proto = (DevResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Dev response received with status %d.", proto.status);
+  LNLog(@"Dev response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
@@ -1365,7 +1365,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleEnhanceMonsterResponseProto:(FullEvent *)fe {
   EnhanceMonsterResponseProto *proto = (EnhanceMonsterResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Enhance monster received with status %d.", proto.status);
+  LNLog(@"Enhance monster received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess) {
@@ -1380,7 +1380,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSubmitMonsterEnhancementResponseProto:(FullEvent *)fe {
   SubmitMonsterEnhancementResponseProto *proto = (SubmitMonsterEnhancementResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Submit monster enhancement received with status %d.", proto.status);
+  LNLog(@"Submit monster enhancement received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
@@ -1395,7 +1395,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
   EnhancementWaitTimeCompleteResponseProto *proto = (EnhancementWaitTimeCompleteResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Enhancement wait time complete received with status %d.", proto.status);
+  LNLog(@"Enhancement wait time complete received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess) {
@@ -1410,7 +1410,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleCollectMonsterEnhancementResponseProto:(FullEvent *)fe {
   CollectMonsterEnhancementResponseProto *proto = (CollectMonsterEnhancementResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Collect monster enhancement received with status %d.", proto.status);
+  LNLog(@"Collect monster enhancement received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess) {
@@ -1427,7 +1427,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Purchase booster pack received with status %d.", proto.status);
+  LNLog(@"Purchase booster pack received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
@@ -1444,7 +1444,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTradeItemForBoosterResponseProto:(FullEvent *)fe {
   TradeItemForBoosterResponseProto *proto = (TradeItemForBoosterResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Trade item for booster pack received with status %d.", proto.status);
+  LNLog(@"Trade item for booster pack received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TradeItemForBoosterResponseProto_TradeItemForBoosterStatusSuccess) {
@@ -1468,7 +1468,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
   BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
-  LNLog(@"Begin dungeon response received with status %d.", proto.status);
+  LNLog(@"Begin dungeon response received with status %d.", (int)proto.status);
   
   if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
   } else {
@@ -1479,7 +1479,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe {
   EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"End dungeon response received with status %d.", proto.status);
+  LNLog(@"End dungeon response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
@@ -1503,7 +1503,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleReviveInDungeonResponseProto:(FullEvent *)fe {
   ReviveInDungeonResponseProto *proto = (ReviveInDungeonResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Revive in dungeon response received with status %d.", proto.status);
+  LNLog(@"Revive in dungeon response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess) {
@@ -1519,7 +1519,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleQueueUpResponseProto:(FullEvent *)fe {
   QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Queue up response received with status %d.", proto.status);
+  LNLog(@"Queue up response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
@@ -1534,7 +1534,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BeginPvpBattleResponseProto *proto = (BeginPvpBattleResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Begin pvp battle response received with status %d.", proto.status);
+  LNLog(@"Begin pvp battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
@@ -1550,7 +1550,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EndPvpBattleResponseProto *proto = (EndPvpBattleResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"End pvp battle response received with status %d.", proto.status);
+  LNLog(@"End pvp battle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
@@ -1569,7 +1569,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   HealMonsterResponseProto *proto = (HealMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Heal monster response received with status %d.", proto.status);
+  LNLog(@"Heal monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == HealMonsterResponseProto_HealMonsterStatusSuccess) {
@@ -1586,7 +1586,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   AddMonsterToBattleTeamResponseProto *proto = (AddMonsterToBattleTeamResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Add monster to squad response received with status %d.", proto.status);
+  LNLog(@"Add monster to squad response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess) {
@@ -1601,7 +1601,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RemoveMonsterFromBattleTeamResponseProto *proto = (RemoveMonsterFromBattleTeamResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  LNLog(@"Remove monster from squad response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess) {
@@ -1616,7 +1616,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Increase monster inventory slots response received with status %d.", proto.status);
+  LNLog(@"Increase monster inventory slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
@@ -1631,7 +1631,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UpdateMonsterHealthResponseProto *proto = (UpdateMonsterHealthResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Update monster health response received with status %d.", proto.status);
+  LNLog(@"Update monster health response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
@@ -1646,7 +1646,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   CombineUserMonsterPiecesResponseProto *proto = (CombineUserMonsterPiecesResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Combine user monster response received with status %d.", proto.status);
+  LNLog(@"Combine user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess) {
@@ -1661,7 +1661,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SellUserMonsterResponseProto *proto = (SellUserMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Sell user monster response received with status %d.", proto.status);
+  LNLog(@"Sell user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SellUserMonsterResponseProto_SellUserMonsterStatusSuccess) {
@@ -1676,7 +1676,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RestrictUserMonsterResponseProto *proto = (RestrictUserMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Restrict user monster response received with status %d.", proto.status);
+  LNLog(@"Restrict user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess) {
@@ -1692,7 +1692,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UnrestrictUserMonsterResponseProto *proto = (UnrestrictUserMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Unrestrict user monster response received with status %d.", proto.status);
+  LNLog(@"Unrestrict user monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess) {
@@ -1710,7 +1710,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   InviteFbFriendsForSlotsResponseProto *proto = (InviteFbFriendsForSlotsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Invite fb friends for slots response received with status %d.", proto.status);
+  LNLog(@"Invite fb friends for slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess) {
@@ -1726,7 +1726,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   AcceptAndRejectFbInviteForSlotsResponseProto *proto = (AcceptAndRejectFbInviteForSlotsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Accept and reject fb invite for slots response received with status %d.", proto.status);
+  LNLog(@"Accept and reject fb invite for slots response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess) {
@@ -1749,7 +1749,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EvolveMonsterResponseProto *proto = (EvolveMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Evolve monster response received with status %d.", proto.status);
+  LNLog(@"Evolve monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EvolveMonsterResponseProto_EvolveMonsterStatusSuccess) {
@@ -1765,7 +1765,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EvolutionFinishedResponseProto *proto = (EvolutionFinishedResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Evolution finished response received with status %d.", proto.status);
+  LNLog(@"Evolution finished response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
@@ -1785,7 +1785,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BeginClanRaidResponseProto *proto = (BeginClanRaidResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Begin clan raid response received with status %d.", proto.status);
+  LNLog(@"Begin clan raid response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginClanRaidResponseProto_BeginClanRaidStatusSuccess) {
@@ -1808,7 +1808,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   AttackClanRaidMonsterResponseProto *proto = (AttackClanRaidMonsterResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Attack clan raid monster response received with status %d.", proto.status);
+  LNLog(@"Attack clan raid monster response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess ||
@@ -1837,7 +1837,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SpawnObstacleResponseProto *proto = (SpawnObstacleResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Spawn obstacle response received with status %d.", proto.status);
+  LNLog(@"Spawn obstacle response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SpawnObstacleResponseProto_SpawnObstacleStatusSuccess) {
@@ -1854,7 +1854,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BeginObstacleRemovalResponseProto *proto = (BeginObstacleRemovalResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Begin obstacle removal response received with status %d.", proto.status);
+  LNLog(@"Begin obstacle removal response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess) {
@@ -1870,7 +1870,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ObstacleRemovalCompleteResponseProto *proto = (ObstacleRemovalCompleteResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Obstacle removal complete response received with status %d.", proto.status);
+  LNLog(@"Obstacle removal complete response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess) {
@@ -1888,7 +1888,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   AchievementProgressResponseProto *proto = (AchievementProgressResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Achievement progress response received with status %d.", proto.status);
+  LNLog(@"Achievement progress response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AchievementProgressResponseProto_AchievementProgressStatusSuccess) {
@@ -1904,7 +1904,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   AchievementRedeemResponseProto *proto = (AchievementRedeemResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Achievement redeem response received with status %d.", proto.status);
+  LNLog(@"Achievement redeem response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AchievementRedeemResponseProto_AchievementRedeemStatusSuccess) {
@@ -1922,7 +1922,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SpawnMiniJobResponseProto *proto = (SpawnMiniJobResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Spawn mini job response received with status %d.", proto.status);
+  LNLog(@"Spawn mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess) {
@@ -1940,7 +1940,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BeginMiniJobResponseProto *proto = (BeginMiniJobResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Begin mini job response received with status %d.", proto.status);
+  LNLog(@"Begin mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginMiniJobResponseProto_BeginMiniJobStatusSuccess) {
@@ -1956,7 +1956,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   CompleteMiniJobResponseProto *proto = (CompleteMiniJobResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Complete mini job response received with status %d.", proto.status);
+  LNLog(@"Complete mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess) {
@@ -1972,7 +1972,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RedeemMiniJobResponseProto *proto = (RedeemMiniJobResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Redeem mini job response received with status %d.", proto.status);
+  LNLog(@"Redeem mini job response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess) {

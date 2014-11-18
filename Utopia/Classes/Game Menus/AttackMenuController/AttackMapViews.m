@@ -190,7 +190,7 @@
   float speed = 0.1;
   if (pe.type == PersistentEventProto_EventTypeEvolution) {
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", (int)pe.monsterElement, i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
@@ -199,7 +199,7 @@
       [imgs addObject:imgs[i]];
     }
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dBlink%02d.png", pe.monsterElement, i];
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBlink%02d.png", (int)pe.monsterElement, i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
@@ -212,14 +212,14 @@
       [imgs addObject:imgs[i]];
     }
     for (int i = 0; i <= 16; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dTurn%02d.png", pe.monsterElement, i];
+      NSString *str = [NSString stringWithFormat:@"Scientist%dTurn%02d.png", (int)pe.monsterElement, i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
     speed = 0.08;
   } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", pe.monsterElement, i];
+      NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", (int)pe.monsterElement, i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
