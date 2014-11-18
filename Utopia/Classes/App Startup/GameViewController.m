@@ -49,6 +49,7 @@
 #import "TangoDelegate.h"
 #import "StageCompleteNode.h"
 #import "PvpRankUpNode.h"
+#import <Kamcord/Kamcord.h>
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -279,6 +280,10 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
+//    if ([Kamcord isViewShowing]) {
+//      Kamcord 
+//    }
+    
     NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
     if (self.loadingViewController) acceptable = [acceptable arrayByAddingObject:self.loadingViewController];
     if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
@@ -444,6 +449,10 @@ static const CGSize FIXED_SIZE = {568, 384};
       }
       if (dir.runningScene) {
         [dir popToRootScene];
+        
+        if (dir.isPaused) {
+          [dir resume];
+        }
       }
       self.questCompleteLayer = nil;
       _isInBattle = NO;

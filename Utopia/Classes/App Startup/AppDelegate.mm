@@ -76,6 +76,7 @@
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
   [Kamcord setFacebookAppID:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"FacebookAppID"] sharedAuth:YES];
+  [Kamcord setShouldPauseGameEngine:NO];
 }
 
 - (void) registerAppOpen {
