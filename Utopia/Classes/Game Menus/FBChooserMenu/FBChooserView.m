@@ -29,7 +29,9 @@
   } else if (self.profilePic.subviews.count == 1) {
     UIImageView *iv = self.profilePic.imageView;
     iv.contentMode = UIViewContentModeScaleToFill;
-    [self.profilePic.imageView setImageWithURL:data[@"picture"][@"data"][@"url"]];
+    
+    NSURL *url = [NSURL URLWithString:data[@"picture"][@"data"][@"url"]];
+    [self.profilePic.imageView setImageWithURL:url];
   }
   
   self.profilePic.layer.cornerRadius = roundf(self.profilePic.frame.size.width/2.0);
