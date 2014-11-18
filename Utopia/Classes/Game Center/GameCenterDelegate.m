@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "GameViewController.h"
 
 @implementation GameCenterDelegate
 
@@ -34,8 +35,12 @@ BOOL isGameCenterAPIAvailable()
       GKLocalPlayer *player = [GKLocalPlayer localPlayer];
       if (player.isAuthenticated) {
         [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:player.playerID];
+        
+        LNLog(@"Connected to Game Center.");
       }
-      LNLog(@"Connected to Game Center.");
+//      else if (vc) {
+//        [[GameViewController baseController] presentViewController:vc animated:YES completion:nil];
+//      }
     }];
   }
 }
