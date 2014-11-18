@@ -395,7 +395,7 @@ static NSString *udid = nil;
   // Get the proto class for this event type
   Class typeClass = [iec getClassForType:eventType];
   if (!typeClass) {
-    LNLog(@"Unable to find controller for event type: %d", eventType);
+    LNLog(@"Unable to find controller for event type: %d", (int)eventType);
     return;
   }
   

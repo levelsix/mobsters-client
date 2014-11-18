@@ -75,12 +75,12 @@
   NSString *fileName = nil;
   NSString *description = nil;
   if (pe.type == PersistentEventProto_EventTypeEvolution) {
-    fileName = [NSString stringWithFormat:@"6Scientist%dT1Character.png", pe.monsterElement];
+    fileName = [NSString stringWithFormat:@"6Scientist%dT1Character.png", (int)pe.monsterElement];
     
     UserStruct *us = gs.myEvoChamber;
     description = [NSString stringWithFormat:@"Scientists let you take your %@s to the next level. Combine 1 Max Level %@ with the same %@ (any level); add a Scientist of the same element and a dash of Oil into the %@ and see what emerges!", MONSTER_NAME, MONSTER_NAME, MONSTER_NAME, us.staticStruct.structInfo.name];
   } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
-    fileName = [NSString stringWithFormat:@"6CakeKid%dT1Character.png", pe.monsterElement];
+    fileName = [NSString stringWithFormat:@"6CakeKid%dT1Character.png", (int)pe.monsterElement];
     
     description = [NSString stringWithFormat:@"Cake Kids give you the ultimate boost for enhancing characters. Their experience when sacrificed is unmatched by standard Skinny %@s™.", MONSTER_NAME];
   }

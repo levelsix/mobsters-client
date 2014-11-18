@@ -63,7 +63,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
     if (! playerSkillProto)
     {
-      NSLog(@"Skill prototype not found for skill num %d", _playerSkillType);
+      NSLog(@"Skill prototype not found for skill num %d", (int)_playerSkillType);
       return;
     }
     else
@@ -112,7 +112,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     SkillProto* enemySkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
     if ( ! enemySkillProto )
     {
-      NSLog(@"Skill prototype not found for skill num %d", _enemySkillType);
+      NSLog(@"Skill prototype not found for skill num %d", (int)_enemySkillType);
       return;
     }
     else

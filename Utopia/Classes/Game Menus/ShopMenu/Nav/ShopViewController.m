@@ -28,6 +28,9 @@
   
   [self initializeSubViewControllers];
   
+  self.tabBar.label3.text = [NSString stringWithFormat:@"%@S", MONSTER_NAME.uppercaseString];
+  [Globals adjustViewForCentering:self.tabBar.label3.superview withLabel:self.tabBar.label3];
+  
   if (!self.topViewController) {
     if (self.gachasBadge.badgeNum) {
       [self button3Clicked:nil];
