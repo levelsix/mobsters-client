@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2636AB3AF3AA4E51B6778221 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B014266D6444DCA5AD786C /* libPods.a */; };
+		295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
+		295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C21A118DCE00149937 /* SpeedupItemsFiller.m */; };
+		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
+		295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
 		2982A16A1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16B1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16C1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
@@ -30093,6 +30097,7 @@
 				CF0CED01196F452900ECD301 /* HospitalQueueSimulator.m in Sources */,
 				CF0CED02196F452900ECD301 /* Protocols.pb.m in Sources */,
 				CF0CED03196F452900ECD301 /* UnreadNotifications.m in Sources */,
+				295FA2AF1A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
 				CF0CED04196F452900ECD301 /* UpgradeViewController.m in Sources */,
 				CF0CED05196F452900ECD301 /* MessageComposerView.m in Sources */,
 				CF0CED06196F452900ECD301 /* StaticStructure.m in Sources */,
@@ -30229,6 +30234,7 @@
 				CF413C411977494500848AF5 /* AppDelegate.mm in Sources */,
 				CF812F0E19E747AB00D91157 /* ClanHelpUtil.m in Sources */,
 				DA88EB3B19B90250005EE827 /* NSObject+PerformBlockAfterDelay.m in Sources */,
+				295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
 				CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */,
 				CF7CFE2319A55A68009338A2 /* BattleOrb.m in Sources */,
 				CF0CED7C196F452900ECD301 /* AchievementUtil.m in Sources */,
@@ -30280,7 +30286,6 @@
 				CF0CEDAC196F452900ECD301 /* Quest.pb.m in Sources */,
 				CF0CEDAE196F452900ECD301 /* EventReferral.pb.m in Sources */,
 				CFFCF56119AFF141007E316D /* BattleSimulation.m in Sources */,
-				CF0CEDB1196F452900ECD301 /* amqp_url.c in Sources */,
 				CFA9F7CD1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
@@ -30671,6 +30676,7 @@
 				CF4818A519F7217F00041486 /* HospitalQueueSimulator.m in Sources */,
 				CF4818A619F7217F00041486 /* Protocols.pb.m in Sources */,
 				CF4818A719F7217F00041486 /* UnreadNotifications.m in Sources */,
+				295FA2B31A1B44A4006B79F3 /* SpeedupItemsFiller.m in Sources */,
 				CF4818A819F7217F00041486 /* UpgradeViewController.m in Sources */,
 				CF4818A919F7217F00041486 /* MessageComposerView.m in Sources */,
 				CF4818AA19F7217F00041486 /* StaticStructure.m in Sources */,
@@ -30807,6 +30813,7 @@
 				CF48192319F7217F00041486 /* AppDelegate.mm in Sources */,
 				CF48192419F7217F00041486 /* ClanHelpUtil.m in Sources */,
 				CF48192519F7217F00041486 /* NSObject+PerformBlockAfterDelay.m in Sources */,
+				295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */,
 				CF48192619F7217F00041486 /* BattleChain.m in Sources */,
 				CF48192719F7217F00041486 /* BattleOrb.m in Sources */,
 				CF48192819F7217F00041486 /* AchievementUtil.m in Sources */,
