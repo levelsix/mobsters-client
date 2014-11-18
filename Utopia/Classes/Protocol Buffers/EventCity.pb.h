@@ -126,15 +126,15 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 
 @interface LoadPlayerCityRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasCityOwnerId_:1;
+  BOOL hasCityOwnerUuid_:1;
   BOOL hasSender_:1;
-  int32_t cityOwnerId;
+  NSString* cityOwnerUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasCityOwnerId;
+- (BOOL) hasCityOwnerUuid;
 @property (readonly, strong) MinimumUserProto* sender;
-@property (readonly) int32_t cityOwnerId;
+@property (readonly, strong) NSString* cityOwnerUuid;
 
 + (LoadPlayerCityRequestProto*) defaultInstance;
 - (LoadPlayerCityRequestProto*) defaultInstance;
@@ -178,10 +178,10 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityRequestProto_Builder*) clearSender;
 
-- (BOOL) hasCityOwnerId;
-- (int32_t) cityOwnerId;
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value;
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId;
+- (BOOL) hasCityOwnerUuid;
+- (NSString*) cityOwnerUuid;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerUuid:(NSString*) value;
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerUuid;
 @end
 
 @interface LoadPlayerCityResponseProto : PBGeneratedMessage {

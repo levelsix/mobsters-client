@@ -151,20 +151,20 @@
 
 - (void) profileClicked {
   if (_clickedMsg) {
-    [self.delegate profileClicked:_clickedMsg.sender.userId];
+    [self.delegate profileClicked:_clickedMsg.sender.userUuid];
   }
 }
 
 - (void) messageClicked {
   if (_clickedMsg) {
     MinimumUserProto *mup = _clickedMsg.sender;
-    [self.delegate beginPrivateChatWithUserId:mup.userId name:mup.name];
+    [self.delegate beginPrivateChatWithUserUuid:mup.userUuid name:mup.name];
   }
 }
 
 - (void) muteClicked {
   if (_clickedMsg) {
-    [self.delegate muteClicked:_clickedMsg.sender.userId name:_clickedMsg.sender.name];
+    [self.delegate muteClicked:_clickedMsg.sender.userUuid name:_clickedMsg.sender.name];
   }
 }
 
@@ -222,7 +222,7 @@
     
     GameState *gs = [GameState sharedGameState];
     id<ChatObject> chatObject = self.chats[indexPath.row];
-    if (chatObject.sender.userId != gs.userId) {
+    if (![chatObject.sender.userUuid isEqualToString:gs.userUuid]) {
       [self.chatTable scrollToRowAtIndexPath:[self.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
       [self displayPopoverOverCell:cell];
     }
@@ -328,7 +328,7 @@
   
   [self.listTable reloadData];
   self.chats = nil;
-  self.curUserId = 0;
+  self.curUserUuid = nil;
   if (animated) {
     [UIView animateWithDuration:0.3f animations:^{
       self.frame = r;
@@ -366,16 +366,16 @@
 - (IBAction)adminChatClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
   MinimumUserProto *mup = gl.adminChatUser;
-  [self openConversationWithUserId:mup.userId name:mup.name animated:YES];
+  [self openConversationWithUserUuid:mup.userUuid name:mup.name animated:YES];
 }
 
-- (void) openConversationWithUserId:(int)userId name:(NSString *)name animated:(BOOL)animated {
+- (void) openConversationWithUserUuid:(NSString *)userUuid name:(NSString *)name animated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
-  if (self.curUserId != userId) {
-    if (gs.userId != userId) {
-      [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId delegate:self];
+  if (![self.curUserUuid isEqualToString:userUuid]) {
+    if (![gs.userUuid isEqualToString:userUuid]) {
+      [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userUuid delegate:self];
       [self loadConversationViewAnimated:animated];
-      self.curUserId = userId;
+      self.curUserUuid = userUuid;
       _isLoading = YES;
       [self.chatTable reloadData];
       
@@ -391,7 +391,7 @@
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
   
-  if (_isLoading && proto.otherUserId == self.curUserId) {
+  if (_isLoading && [proto.otherUserUuid isEqualToString:self.curUserUuid]) {
     _isLoading = NO;
     NSMutableArray *arr = [NSMutableArray array];
     for (GroupChatMessageProto *chat in proto.postsList) {
@@ -399,7 +399,7 @@
     }
     
     Globals *gl = [Globals sharedGlobals];
-    if (arr.count == 0 && proto.otherUserId == gl.adminChatUser.userId) {
+    if (arr.count == 0 && [proto.otherUserUuid isEqualToString:gl.adminChatUser.userUuid]) {
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
       p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
       p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
@@ -429,7 +429,7 @@
   if (!_isLoading) {
     NSString *msg = self.textField.text;
     if (msg.length > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.curUserId content:msg];
+      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.curUserUuid content:msg];
       
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         GameState *gs = [GameState sharedGameState];
@@ -504,7 +504,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     PrivateChatPostProto *post = self.privateChatList[indexPath.row];
-    [self openConversationWithUserId:post.otherUser.userId name:post.otherUser.name animated:YES];
+    [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     
     [self.delegate viewedPrivateChat];

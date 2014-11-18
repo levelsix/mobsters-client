@@ -21,6 +21,9 @@
 
 # import <amqp.h>
 # import <amqp_framing.h>
+# import <amqp_socket.h>
+# import <amqp_ssl_socket.h>
+# import <amqp_tcp_socket.h>
 # import <unistd.h>
 
 # import "AMQPChannel.h"
@@ -48,16 +51,33 @@
 	[super dealloc];
 }
 
-- (void)connectToHost:(NSString*)host onPort:(int)port
+- (void)connectToHost:(NSString*)host onPort:(int)port useSSL:(BOOL)useSSL
 {
-	socketFD = amqp_open_socket([host UTF8String], port);
-	
-	if(socketFD < 0)
-	{
-		[NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d", host, port];
-	}
-
-	amqp_set_sockfd(connection, socketFD);
+  amqp_socket_t *socket;
+  
+  if (useSSL) {
+    socket = amqp_ssl_socket_new(connection);
+    
+    NSString *pathToCert = [[NSBundle mainBundle] pathForResource:@"cacert" ofType:@"pem"];
+    if (amqp_ssl_socket_set_cacert(socket, [pathToCert UTF8String])) {
+      amqp_set_socket(connection, NULL);
+      socket = NULL;
+    }
+  } else {
+    socket = amqp_tcp_socket_new(connection);
+  }
+  
+  if (socket) {
+    socketFD = amqp_socket_open(socket, [host UTF8String], port);
+    
+    if(socketFD < 0)
+    {
+      amqp_set_socket(connection, NULL);
+      [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d", host, port];
+    }
+  } else {
+    [NSException raise:@"AMQPConnectionException" format:@"Unable to create socket"];
+  }
 }
 - (void)loginAsUser:(NSString*)username withPassword:(NSString*)password onVHost:(NSString*)vhost
 {
@@ -70,14 +90,16 @@
 }
 - (void)disconnect
 {
-	amqp_rpc_reply_t reply = amqp_connection_close(connection, AMQP_REPLY_SUCCESS);
-	
-	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
-	{
-//		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
-	}
-	
-	close(socketFD);
+  if (connection->socket) {
+    amqp_rpc_reply_t reply = amqp_connection_close(connection, AMQP_REPLY_SUCCESS);
+    
+    if(reply.reply_type != AMQP_RESPONSE_NORMAL)
+    {
+      //		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
+    }
+    
+    close(socketFD);
+  }
 }
 
 - (void)checkLastOperation:(NSString*)context

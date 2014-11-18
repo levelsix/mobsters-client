@@ -57,8 +57,8 @@
   [self reloadRequestsArray];
   self.spinner.hidden = YES;
   
-  self.acceptedRequestIds = [NSMutableArray array];
-  self.rejectedRequestIds = [NSMutableArray array];
+  self.acceptedRequestUuids = [NSMutableArray array];
+  self.rejectedRequestUuids = [NSMutableArray array];
 }
 
 - (void) resignDelegate {
@@ -104,7 +104,7 @@
     sender = [sender superview];
   }
   RequestsFacebookCell *cell = (RequestsFacebookCell *)sender;
-  [self.acceptedRequestIds addObject:@(cell.request.invite.inviteId)];
+  [self.acceptedRequestUuids addObject:cell.request.invite.inviteUuid];
   
   [self removeRequestCell:cell];
 }
@@ -114,7 +114,7 @@
     sender = [sender superview];
   }
   RequestsFacebookCell *cell = (RequestsFacebookCell *)sender;
-  [self.rejectedRequestIds addObject:@(cell.request.invite.inviteId)];
+  [self.rejectedRequestUuids addObject:cell.request.invite.inviteUuid];
   
   [self removeRequestCell:cell];
 }
@@ -134,7 +134,7 @@
 }
 
 - (void) sendInviteResponses {
-  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:self.acceptedRequestIds rejectIds:self.rejectedRequestIds];
+  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptUuids:self.acceptedRequestUuids rejectUuids:self.rejectedRequestUuids];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
 }

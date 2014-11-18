@@ -278,7 +278,7 @@
     if (!fsp)
       continue;
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
-    [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructId)];
+    [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructUuid)];
     
     [arr addObject:homeBuilding];
     [homeBuilding placeBlock:NO];
@@ -347,7 +347,6 @@
 }
 
 - (UserObstacle *) createNewObstacle {
-  GameState *gs = [GameState sharedGameState];
   ObstacleProto *op = [self randomObstacle];
   
   if (op) {
@@ -355,7 +354,6 @@
     
     if (!CGPointEqualToPoint(pt, ccp(-1, -1))) {
       UserObstacle *uo = [[UserObstacle alloc] init];
-      uo.userId = gs.userId;
       uo.obstacleId = op.obstacleId;
       uo.coordinates = pt;
       uo.orientation = arc4random()%2 ? StructOrientationPosition1 : StructOrientationPosition2;
@@ -500,7 +498,7 @@
   UserStruct *mjc = [gs myMiniJobCenter];
   
   if (mjc) {
-    MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructId) recursively:NO];
+    MiniJobCenterBuilding *mjcb = (MiniJobCenterBuilding *)[self getChildByName:STRUCT_TAG(mjc.userStructUuid) recursively:NO];
     
     if (mjc.staticStruct.structInfo.level == 0) {
       [mjcb setBubbleType:BuildingBubbleTypeFix];
@@ -690,6 +688,9 @@
   [self reloadBubblesOnMiscBuildings];
   [self reloadTeamCenter];
   [self reloadClanHouse];
+  
+  // In case there's a purch building
+  [_purchBuilding setBubbleType:BuildingBubbleTypeNone];
 }
 
 #pragma mark - Moving
@@ -707,7 +708,7 @@
     }
   }
   
-  HomeBuilding *mb = (HomeBuilding *)[self getChildByName:STRUCT_TAG(chosen.userStructId) recursively:NO];
+  HomeBuilding *mb = (HomeBuilding *)[self getChildByName:STRUCT_TAG(chosen.userStructUuid) recursively:NO];
   
   if (mb) {
     MapBotViewButtonConfig config = mb.userStruct.isComplete ? MapBotViewButtonUpgrade : MapBotViewButtonSpeedup;
@@ -968,7 +969,7 @@
     } else {
       int timeLeft = [self timeLeftForConstructionBuilding];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:us.userStructId] < 0;
+      BOOL canGetHelp = [gs canAskForClanHelp] && [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0;
       
       if (gemCost && canGetHelp) {
         [buttonViews addObject:[MapBotViewButton clanHelpButton]];
@@ -1344,7 +1345,7 @@
 
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
-  if (mb.userStruct.userStructId) {
+  if (mb.userStruct.userStructUuid) {
     [self sendNormStructComplete:mb.userStruct];
     [self updateTimersForBuilding:mb justBuilt:NO];
     mb.isConstructing = NO;
@@ -1499,7 +1500,7 @@
     [self updateTimersForBuilding:homeBuilding justBuilt:YES];
     homeBuilding.isConstructing = YES;
     homeBuilding.isPurchasing = NO;
-    homeBuilding.name = STRUCT_TAG(us.userStructId);
+    homeBuilding.name = STRUCT_TAG(us.userStructUuid);
     
     [homeBuilding displayProgressBar];
     
@@ -1595,9 +1596,9 @@
   UserStruct *us = ((HomeBuilding *)_constrBuilding).userStruct;
   
   if (us) {
-    if (us.userStructId == 0) {
+    if (us.userStructUuid == nil) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
-    } else if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:us.userStructId] < 0) {
+    } else if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:us.userStructUuid] < 0) {
       [[OutgoingEventController sharedOutgoingEventController] solicitBuildingHelp:us];
       
       if (_constrBuilding == self.selected) {
@@ -1756,7 +1757,7 @@
     HomeBuilding *hb = (HomeBuilding *)self.selected;
     UserStruct *us = hb.userStruct;
     
-    if (us.userStructId == 0) {
+    if (us.userStructUuid == nil) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems];
@@ -1807,8 +1808,9 @@
   
 //  Globals *gl = [Globals sharedGlobals];
 //  int timeLeft = [self timeLeftForConstructionBuilding];
-//  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-//  
+//  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]] ? YES : NO;
+//  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+// 
 //  if (goldCost) {
 //    NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
 //    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
@@ -1818,7 +1820,7 @@
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
-  if (us.userStructId == 0) {
+  if (us.userStructUuid == nil) {
     [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us];

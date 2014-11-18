@@ -21,7 +21,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface MinimumClanProto ()
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @property (strong) NSString* name;
 @property int64_t createTime;
 @property (strong) NSString* description;
@@ -32,13 +32,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @implementation MinimumClanProto
 
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -88,7 +88,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize clanIconId;
 - (id) init {
   if ((self = [super init])) {
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.name = @"";
     self.createTime = 0L;
     self.description = @"";
@@ -114,8 +114,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasClanId) {
-    [output writeInt32:1 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:1 value:self.clanUuid];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -144,8 +144,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasClanId) {
-    size_ += computeInt32Size(1, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(1, self.clanUuid);
   }
   if (self.hasName) {
     size_ += computeStringSize(2, self.name);
@@ -200,8 +200,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   return [MinimumClanProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
@@ -232,8 +232,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
   MinimumClanProto *otherMessage = other;
   return
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasName == otherMessage.hasName &&
       (!self.hasName || [self.name isEqual:otherMessage.name]) &&
       self.hasCreateTime == otherMessage.hasCreateTime &&
@@ -250,8 +250,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   if (self.hasName) {
     hashCode = hashCode * 31 + [self.name hash];
@@ -314,8 +314,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (other == [MinimumClanProto defaultInstance]) {
     return self;
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -356,8 +356,8 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setClanId:[input readInt32]];
+      case 10: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 18: {
@@ -387,20 +387,20 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (MinimumClanProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (MinimumClanProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (MinimumClanProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (MinimumClanProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasName {
@@ -502,7 +502,7 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 @end
 
 @interface MinimumUserProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property (strong) NSString* name;
 @property (strong) MinimumClanProto* clan;
 @property int32_t avatarMonsterId;
@@ -510,13 +510,13 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 
 @implementation MinimumUserProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -540,7 +540,7 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 @synthesize avatarMonsterId;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.name = @"";
     self.clan = [MinimumClanProto defaultInstance];
     self.avatarMonsterId = 0;
@@ -563,8 +563,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -584,8 +584,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasName) {
     size_ += computeStringSize(2, self.name);
@@ -631,8 +631,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   return [MinimumUserProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
@@ -657,8 +657,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   }
   MinimumUserProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasName == otherMessage.hasName &&
       (!self.hasName || [self.name isEqual:otherMessage.name]) &&
       self.hasClan == otherMessage.hasClan &&
@@ -669,8 +669,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasName) {
     hashCode = hashCode * 31 + [self.name hash];
@@ -724,8 +724,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   if (other == [MinimumUserProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -757,8 +757,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 18: {
@@ -781,20 +781,20 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (MinimumUserProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (MinimumUserProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (MinimumUserProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (MinimumUserProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasName {
@@ -1712,25 +1712,25 @@ static MinimumUserProtoWithMaxResources* defaultMinimumUserProtoWithMaxResources
 @end
 
 @interface UserFacebookInviteForSlotProto ()
-@property int32_t inviteId;
+@property (strong) NSString* inviteUuid;
 @property (strong) MinimumUserProtoWithFacebookId* inviter;
 @property (strong) NSString* recipientFacebookId;
 @property int64_t timeOfInvite;
 @property int64_t timeAccepted;
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @property int32_t structFbLvl;
 @property int64_t redeemedTime;
 @end
 
 @implementation UserFacebookInviteForSlotProto
 
-- (BOOL) hasInviteId {
-  return !!hasInviteId_;
+- (BOOL) hasInviteUuid {
+  return !!hasInviteUuid_;
 }
-- (void) setHasInviteId:(BOOL) value_ {
-  hasInviteId_ = !!value_;
+- (void) setHasInviteUuid:(BOOL) value_ {
+  hasInviteUuid_ = !!value_;
 }
-@synthesize inviteId;
+@synthesize inviteUuid;
 - (BOOL) hasInviter {
   return !!hasInviter_;
 }
@@ -1759,13 +1759,13 @@ static MinimumUserProtoWithMaxResources* defaultMinimumUserProtoWithMaxResources
   hasTimeAccepted_ = !!value_;
 }
 @synthesize timeAccepted;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (BOOL) hasStructFbLvl {
   return !!hasStructFbLvl_;
 }
@@ -1782,12 +1782,12 @@ static MinimumUserProtoWithMaxResources* defaultMinimumUserProtoWithMaxResources
 @synthesize redeemedTime;
 - (id) init {
   if ((self = [super init])) {
-    self.inviteId = 0;
+    self.inviteUuid = @"";
     self.inviter = [MinimumUserProtoWithFacebookId defaultInstance];
     self.recipientFacebookId = @"";
     self.timeOfInvite = 0L;
     self.timeAccepted = 0L;
-    self.userStructId = 0;
+    self.userStructUuid = @"";
     self.structFbLvl = 0;
     self.redeemedTime = 0L;
   }
@@ -1809,8 +1809,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasInviteId) {
-    [output writeInt32:1 value:self.inviteId];
+  if (self.hasInviteUuid) {
+    [output writeString:1 value:self.inviteUuid];
   }
   if (self.hasInviter) {
     [output writeMessage:2 value:self.inviter];
@@ -1824,8 +1824,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (self.hasTimeAccepted) {
     [output writeInt64:5 value:self.timeAccepted];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:6 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:6 value:self.userStructUuid];
   }
   if (self.hasStructFbLvl) {
     [output writeInt32:7 value:self.structFbLvl];
@@ -1842,8 +1842,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   }
 
   size_ = 0;
-  if (self.hasInviteId) {
-    size_ += computeInt32Size(1, self.inviteId);
+  if (self.hasInviteUuid) {
+    size_ += computeStringSize(1, self.inviteUuid);
   }
   if (self.hasInviter) {
     size_ += computeMessageSize(2, self.inviter);
@@ -1857,8 +1857,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (self.hasTimeAccepted) {
     size_ += computeInt64Size(5, self.timeAccepted);
   }
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(6, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(6, self.userStructUuid);
   }
   if (self.hasStructFbLvl) {
     size_ += computeInt32Size(7, self.structFbLvl);
@@ -1901,8 +1901,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   return [UserFacebookInviteForSlotProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasInviteId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"inviteId", [NSNumber numberWithInteger:self.inviteId]];
+  if (self.hasInviteUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"inviteUuid", self.inviteUuid];
   }
   if (self.hasInviter) {
     [output appendFormat:@"%@%@ {\n", indent, @"inviter"];
@@ -1919,8 +1919,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (self.hasTimeAccepted) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeAccepted", [NSNumber numberWithLongLong:self.timeAccepted]];
   }
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasStructFbLvl) {
     [output appendFormat:@"%@%@: %@\n", indent, @"structFbLvl", [NSNumber numberWithInteger:self.structFbLvl]];
@@ -1939,8 +1939,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   }
   UserFacebookInviteForSlotProto *otherMessage = other;
   return
-      self.hasInviteId == otherMessage.hasInviteId &&
-      (!self.hasInviteId || self.inviteId == otherMessage.inviteId) &&
+      self.hasInviteUuid == otherMessage.hasInviteUuid &&
+      (!self.hasInviteUuid || [self.inviteUuid isEqual:otherMessage.inviteUuid]) &&
       self.hasInviter == otherMessage.hasInviter &&
       (!self.hasInviter || [self.inviter isEqual:otherMessage.inviter]) &&
       self.hasRecipientFacebookId == otherMessage.hasRecipientFacebookId &&
@@ -1949,8 +1949,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
       (!self.hasTimeOfInvite || self.timeOfInvite == otherMessage.timeOfInvite) &&
       self.hasTimeAccepted == otherMessage.hasTimeAccepted &&
       (!self.hasTimeAccepted || self.timeAccepted == otherMessage.timeAccepted) &&
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       self.hasStructFbLvl == otherMessage.hasStructFbLvl &&
       (!self.hasStructFbLvl || self.structFbLvl == otherMessage.structFbLvl) &&
       self.hasRedeemedTime == otherMessage.hasRedeemedTime &&
@@ -1959,8 +1959,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasInviteId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.inviteId] hash];
+  if (self.hasInviteUuid) {
+    hashCode = hashCode * 31 + [self.inviteUuid hash];
   }
   if (self.hasInviter) {
     hashCode = hashCode * 31 + [self.inviter hash];
@@ -1974,8 +1974,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (self.hasTimeAccepted) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeAccepted] hash];
   }
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   if (self.hasStructFbLvl) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.structFbLvl] hash];
@@ -2026,8 +2026,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (other == [UserFacebookInviteForSlotProto defaultInstance]) {
     return self;
   }
-  if (other.hasInviteId) {
-    [self setInviteId:other.inviteId];
+  if (other.hasInviteUuid) {
+    [self setInviteUuid:other.inviteUuid];
   }
   if (other.hasInviter) {
     [self mergeInviter:other.inviter];
@@ -2041,8 +2041,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (other.hasTimeAccepted) {
     [self setTimeAccepted:other.timeAccepted];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   if (other.hasStructFbLvl) {
     [self setStructFbLvl:other.structFbLvl];
@@ -2071,8 +2071,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
         }
         break;
       }
-      case 8: {
-        [self setInviteId:[input readInt32]];
+      case 10: {
+        [self setInviteUuid:[input readString]];
         break;
       }
       case 18: {
@@ -2096,8 +2096,8 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
         [self setTimeAccepted:[input readInt64]];
         break;
       }
-      case 48: {
-        [self setUserStructId:[input readInt32]];
+      case 50: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
       case 56: {
@@ -2111,20 +2111,20 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     }
   }
 }
-- (BOOL) hasInviteId {
-  return result.hasInviteId;
+- (BOOL) hasInviteUuid {
+  return result.hasInviteUuid;
 }
-- (int32_t) inviteId {
-  return result.inviteId;
+- (NSString*) inviteUuid {
+  return result.inviteUuid;
 }
-- (UserFacebookInviteForSlotProto_Builder*) setInviteId:(int32_t) value {
-  result.hasInviteId = YES;
-  result.inviteId = value;
+- (UserFacebookInviteForSlotProto_Builder*) setInviteUuid:(NSString*) value {
+  result.hasInviteUuid = YES;
+  result.inviteUuid = value;
   return self;
 }
-- (UserFacebookInviteForSlotProto_Builder*) clearInviteId {
-  result.hasInviteId = NO;
-  result.inviteId = 0;
+- (UserFacebookInviteForSlotProto_Builder*) clearInviteUuid {
+  result.hasInviteUuid = NO;
+  result.inviteUuid = @"";
   return self;
 }
 - (BOOL) hasInviter {
@@ -2205,20 +2205,20 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   result.timeAccepted = 0L;
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (UserFacebookInviteForSlotProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (UserFacebookInviteForSlotProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (UserFacebookInviteForSlotProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (UserFacebookInviteForSlotProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 - (BOOL) hasStructFbLvl {
@@ -2256,7 +2256,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @end
 
 @interface FullUserProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property (strong) NSString* name;
 @property int32_t level;
 @property int32_t gems;
@@ -2298,13 +2298,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 
 @implementation FullUserProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -2586,7 +2586,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @synthesize udid;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.name = @"";
     self.level = 0;
     self.gems = 0;
@@ -2643,8 +2643,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -2766,8 +2766,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasName) {
     size_ += computeStringSize(2, self.name);
@@ -2915,8 +2915,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   return [FullUserProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"name", self.name];
@@ -3046,8 +3046,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   FullUserProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasName == otherMessage.hasName &&
       (!self.hasName || [self.name isEqual:otherMessage.name]) &&
       self.hasLevel == otherMessage.hasLevel &&
@@ -3126,8 +3126,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasName) {
     hashCode = hashCode * 31 + [self.name hash];
@@ -3283,8 +3283,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other == [FullUserProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -3418,8 +3418,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 18: {
@@ -3583,20 +3583,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasName {
@@ -4468,7 +4468,7 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 @end
 
 @interface UserPvpLeagueProto ()
-@property int32_t userId;
+@property (strong) NSString* userUuid;
 @property int32_t leagueId;
 @property int32_t rank;
 @property int32_t elo;
@@ -4480,13 +4480,13 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 
 @implementation UserPvpLeagueProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value_ {
-  hasUserId_ = !!value_;
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasLeagueId {
   return !!hasLeagueId_;
 }
@@ -4538,7 +4538,7 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 @synthesize monsterDmgMultiplier;
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.leagueId = 0;
     self.rank = 0;
     self.elo = 0;
@@ -4565,8 +4565,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasLeagueId) {
     [output writeInt32:2 value:self.leagueId];
@@ -4598,8 +4598,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(1, self.userUuid);
   }
   if (self.hasLeagueId) {
     size_ += computeInt32Size(2, self.leagueId);
@@ -4657,8 +4657,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   return [UserPvpLeagueProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", [NSNumber numberWithInteger:self.userId]];
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
   if (self.hasLeagueId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"leagueId", [NSNumber numberWithInteger:self.leagueId]];
@@ -4692,8 +4692,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   }
   UserPvpLeagueProto *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || self.userId == otherMessage.userId) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
       self.hasLeagueId == otherMessage.hasLeagueId &&
       (!self.hasLeagueId || self.leagueId == otherMessage.leagueId) &&
       self.hasRank == otherMessage.hasRank &&
@@ -4712,8 +4712,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userId] hash];
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
   }
   if (self.hasLeagueId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.leagueId] hash];
@@ -4779,8 +4779,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
   if (other == [UserPvpLeagueProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasLeagueId) {
     [self setLeagueId:other.leagueId];
@@ -4824,8 +4824,8 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -4859,20 +4859,20 @@ static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserPvpLeagueProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserPvpLeagueProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserPvpLeagueProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserPvpLeagueProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasLeagueId {

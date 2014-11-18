@@ -216,14 +216,14 @@
 
 @interface PurgeClientStaticDataResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasSenderId_:1;
+  BOOL hasSenderUuid_:1;
   BOOL hasStaticDataStuff_:1;
-  int32_t senderId;
+  NSString* senderUuid;
   StaticDataProto* staticDataStuff;
 }
-- (BOOL) hasSenderId;
+- (BOOL) hasSenderUuid;
 - (BOOL) hasStaticDataStuff;
-@property (readonly) int32_t senderId;
+@property (readonly, strong) NSString* senderUuid;
 @property (readonly, strong) StaticDataProto* staticDataStuff;
 
 + (PurgeClientStaticDataResponseProto*) defaultInstance;
@@ -261,10 +261,10 @@
 - (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasSenderId;
-- (int32_t) senderId;
-- (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
-- (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
+- (BOOL) hasSenderUuid;
+- (NSString*) senderUuid;
+- (PurgeClientStaticDataResponseProto_Builder*) setSenderUuid:(NSString*) value;
+- (PurgeClientStaticDataResponseProto_Builder*) clearSenderUuid;
 
 - (BOOL) hasStaticDataStuff;
 - (StaticDataProto*) staticDataStuff;

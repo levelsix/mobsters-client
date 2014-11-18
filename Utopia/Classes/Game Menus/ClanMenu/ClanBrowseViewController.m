@@ -56,7 +56,7 @@
   
   if (!gs.clan) {
     self.buttonView.hidden = NO;
-    if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+    if ([gs.requestedClans containsObject:c.clan.clanUuid]) {
       self.buttonLabel.text = @"Cancel";
     } else {
       if (c.clan.requestToJoinRequired) {
@@ -100,8 +100,8 @@
 
 - (void) reload {
   [self.clanList removeAllObjects];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
-  _reachedEnd = NO;
+  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
+  _reachedEnd = YES;//NO;
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
@@ -124,7 +124,7 @@
     
     BOOL canAdd = YES;
     for (FullClanProtoWithClanSize *c in arr) {
-      if (c.clan.clanId == fcp.clan.clanId) {
+      if ([c.clan.clanUuid isEqualToString:fcp.clan.clanUuid]) {
         canAdd = NO;
       }
     }
@@ -194,8 +194,8 @@
   // Load more rows when we get low enough
   if (scrollView.contentOffset.y > -REFRESH_ROWS*self.browseClansTable.rowHeight) {
     if (self.shouldReload) {
-      int min = [[self.clanList lastObject] clan].clanId;
-      [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:min delegate:self];
+//      int min = [[self.clanList lastObject] clan].clanId;
+//      [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:min delegate:self];
       self.shouldReload = NO;
     }
   }
@@ -206,14 +206,14 @@
 - (IBAction)searchClicked:(id)sender {
   [self.searchField resignFirstResponder];
   if (self.searchField.text.length > 0 && ![self.searchField.text isEqualToString:self.searchString]) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:self.searchField.text clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:self.searchField.text clanUuid:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
     [self.clanList removeAllObjects];
     isSearching = YES;
     self.searchString = self.searchField.text;
     _reachedEnd = NO;
     [self.browseClansTable reloadData];
   } else if (self.searchString && self.searchField.text.length == 0) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
     [self.clanList removeAllObjects];
     isSearching = NO;
     self.searchString = nil;
@@ -240,11 +240,11 @@
   BrowseClanCell *cell = (BrowseClanCell *)sender;
   
   GameState *gs = [GameState sharedGameState];
-  int clanId = cell.clan.clan.clanId;
-  if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId delegate:self];
+  NSString *clanUuid = cell.clan.clan.clanUuid;
+  if ([gs.requestedClans containsObject:clanUuid]) {
+    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanUuid delegate:self];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanUuid delegate:self];
   }
   
   cell.buttonLabel.hidden = YES;

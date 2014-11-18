@@ -24,7 +24,7 @@
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
   if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
     PvpProto_Builder *pvp = [PvpProto builder];
-    MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserId:hist.attacker.userId] setClan:hist.attacker.clan] build];
+    MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserUuid:hist.attacker.userUuid] setClan:hist.attacker.clan] build];
     pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];
     pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
     pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
@@ -157,7 +157,7 @@
   PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
-  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userId outcome:outcome league:league.leagueName];
+  [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
 }
 
 #pragma mark - Queue Node Methods
@@ -322,11 +322,14 @@
 - (void) prepareNextEnemyTeam {
   _curQueueNum++;
   if (self.defendersList.count <= _curQueueNum) {
-    if (!self.seenUserIds) self.seenUserIds = [NSMutableArray array];
+    if (!self.seenUserUuids) self.seenUserUuids = [NSMutableArray array];
     for (PvpProto *pvp in self.defendersList) {
-      [self.seenUserIds addObject:@(pvp.defender.minUserProto.userId)];
+      if (pvp.defender.minUserProto.hasUserUuid &&
+          pvp.defender.minUserProto.userUuid.length > 0) {
+        [self.seenUserUuids addObject:pvp.defender.minUserProto.userUuid];
+      }
     }
-    [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserIds withDelegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserUuids withDelegate:self];
     self.defendersList = nil;
     
     _isRevenge = NO;

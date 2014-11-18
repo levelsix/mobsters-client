@@ -551,7 +551,7 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
 @interface PurchaseNormStructureResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @end
 
 @implementation PurchaseNormStructureResponseProto
@@ -570,18 +570,18 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   hasStatus_ = !!value_;
 }
 @synthesize status;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
-    self.userStructId = 0;
+    self.userStructUuid = @"";
   }
   return self;
 }
@@ -607,8 +607,8 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:3 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:3 value:self.userStructUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -625,8 +625,8 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
   }
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(3, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(3, self.userStructUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -672,8 +672,8 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -690,8 +690,8 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -702,8 +702,8 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -766,8 +766,8 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -808,8 +808,8 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
         }
         break;
       }
-      case 24: {
-        [self setUserStructId:[input readInt32]];
+      case 26: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
     }
@@ -861,27 +861,27 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
   result.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (PurchaseNormStructureResponseProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (PurchaseNormStructureResponseProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (PurchaseNormStructureResponseProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (PurchaseNormStructureResponseProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 @end
 
 @interface MoveOrRotateNormStructureRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @property MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (strong) CoordinateProto* curStructCoordinates;
 @property StructOrientation orientationNew;
@@ -896,13 +896,13 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (BOOL) hasType {
   return !!hasType_;
 }
@@ -927,7 +927,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userStructId = 0;
+    self.userStructUuid = @"";
     self.type = MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove;
     self.curStructCoordinates = [CoordinateProto defaultInstance];
     self.orientationNew = StructOrientationPosition1;
@@ -953,8 +953,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:2 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:2 value:self.userStructUuid];
   }
   if (self.hasType) {
     [output writeEnum:3 value:self.type];
@@ -977,8 +977,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(2, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(2, self.userStructUuid);
   }
   if (self.hasType) {
     size_ += computeEnumSize(3, self.type);
@@ -1030,8 +1030,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasType) {
     [output appendFormat:@"%@%@: %d\n", indent, @"type", self.type];
@@ -1058,8 +1058,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       self.hasType == otherMessage.hasType &&
       (!self.hasType || self.type == otherMessage.type) &&
       self.hasCurStructCoordinates == otherMessage.hasCurStructCoordinates &&
@@ -1073,8 +1073,8 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   if (self.hasType) {
     hashCode = hashCode * 31 + self.type;
@@ -1139,8 +1139,8 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   if (other.hasType) {
     [self setType:other.type];
@@ -1181,8 +1181,8 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserStructId:[input readInt32]];
+      case 18: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1245,20 +1245,20 @@ BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValu
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 - (BOOL) hasType {
@@ -1609,7 +1609,7 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
 
 @interface UpgradeNormStructureRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @property int64_t timeOfUpgrade;
 @property int32_t gemsSpent;
 @property int32_t resourceChange;
@@ -1625,13 +1625,13 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (BOOL) hasTimeOfUpgrade {
   return !!hasTimeOfUpgrade_;
 }
@@ -1663,7 +1663,7 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userStructId = 0;
+    self.userStructUuid = @"";
     self.timeOfUpgrade = 0L;
     self.gemsSpent = 0;
     self.resourceChange = 0;
@@ -1690,8 +1690,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:2 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:2 value:self.userStructUuid];
   }
   if (self.hasTimeOfUpgrade) {
     [output writeInt64:3 value:self.timeOfUpgrade];
@@ -1717,8 +1717,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(2, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(2, self.userStructUuid);
   }
   if (self.hasTimeOfUpgrade) {
     size_ += computeInt64Size(3, self.timeOfUpgrade);
@@ -1773,8 +1773,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasTimeOfUpgrade) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeOfUpgrade", [NSNumber numberWithLongLong:self.timeOfUpgrade]];
@@ -1801,8 +1801,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       self.hasTimeOfUpgrade == otherMessage.hasTimeOfUpgrade &&
       (!self.hasTimeOfUpgrade || self.timeOfUpgrade == otherMessage.timeOfUpgrade) &&
       self.hasGemsSpent == otherMessage.hasGemsSpent &&
@@ -1818,8 +1818,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   if (self.hasTimeOfUpgrade) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfUpgrade] hash];
@@ -1879,8 +1879,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   if (other.hasTimeOfUpgrade) {
     [self setTimeOfUpgrade:other.timeOfUpgrade];
@@ -1924,8 +1924,8 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserStructId:[input readInt32]];
+      case 18: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1982,20 +1982,20 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (UpgradeNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (UpgradeNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (UpgradeNormStructureRequestProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (UpgradeNormStructureRequestProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 - (BOOL) hasTimeOfUpgrade {
@@ -2354,7 +2354,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 
 @interface FinishNormStructWaittimeWithDiamondsRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @property int64_t timeOfSpeedup;
 @property int32_t gemCostToSpeedup;
 @end
@@ -2368,13 +2368,13 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (BOOL) hasTimeOfSpeedup {
   return !!hasTimeOfSpeedup_;
 }
@@ -2392,7 +2392,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userStructId = 0;
+    self.userStructUuid = @"";
     self.timeOfSpeedup = 0L;
     self.gemCostToSpeedup = 0;
   }
@@ -2417,8 +2417,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserStructId) {
-    [output writeInt32:2 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:2 value:self.userStructUuid];
   }
   if (self.hasTimeOfSpeedup) {
     [output writeInt64:3 value:self.timeOfSpeedup];
@@ -2438,8 +2438,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(2, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(2, self.userStructUuid);
   }
   if (self.hasTimeOfSpeedup) {
     size_ += computeInt64Size(3, self.timeOfSpeedup);
@@ -2488,8 +2488,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasTimeOfSpeedup) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeOfSpeedup", [NSNumber numberWithLongLong:self.timeOfSpeedup]];
@@ -2510,8 +2510,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       self.hasTimeOfSpeedup == otherMessage.hasTimeOfSpeedup &&
       (!self.hasTimeOfSpeedup || self.timeOfSpeedup == otherMessage.timeOfSpeedup) &&
       self.hasGemCostToSpeedup == otherMessage.hasGemCostToSpeedup &&
@@ -2523,8 +2523,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   if (self.hasTimeOfSpeedup) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfSpeedup] hash];
@@ -2578,8 +2578,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   if (other.hasTimeOfSpeedup) {
     [self setTimeOfSpeedup:other.timeOfSpeedup];
@@ -2617,8 +2617,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserStructId:[input readInt32]];
+      case 18: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
       case 24: {
@@ -2662,20 +2662,20 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 - (BOOL) hasTimeOfSpeedup {
@@ -2997,7 +2997,7 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
 
 @interface NormStructWaitCompleteRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) PBAppendableArray * mutableUserStructIdList;
+@property (strong) NSMutableArray * mutableUserStructUuidList;
 @property int64_t curTime;
 @end
 
@@ -3010,8 +3010,8 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableUserStructIdList;
-@dynamic userStructIdList;
+@synthesize mutableUserStructUuidList;
+@dynamic userStructUuidList;
 - (BOOL) hasCurTime {
   return !!hasCurTime_;
 }
@@ -3038,11 +3038,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
 - (NormStructWaitCompleteRequestProto*) defaultInstance {
   return defaultNormStructWaitCompleteRequestProtoInstance;
 }
-- (PBArray *)userStructIdList {
-  return mutableUserStructIdList;
+- (NSArray *)userStructUuidList {
+  return mutableUserStructUuidList;
 }
-- (int32_t)userStructIdAtIndex:(NSUInteger)index {
-  return [mutableUserStructIdList int32AtIndex:index];
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index {
+  return [mutableUserStructUuidList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -3051,13 +3051,9 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  const NSUInteger userStructIdListCount = self.userStructIdList.count;
-  if (userStructIdListCount > 0) {
-    const int32_t *values = (const int32_t *)self.userStructIdList.data;
-    for (NSUInteger i = 0; i < userStructIdListCount; ++i) {
-      [output writeInt32:2 value:values[i]];
-    }
-  }
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
   if (self.hasCurTime) {
     [output writeInt64:3 value:self.curTime];
   }
@@ -3075,11 +3071,10 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.userStructIdList.count;
-    const int32_t *values = (const int32_t *)self.userStructIdList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt32SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.userStructUuidList.count;
+    [self.userStructUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -3127,8 +3122,8 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.userStructIdList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", obj];
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", obj];
   }];
   if (self.hasCurTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"curTime", [NSNumber numberWithLongLong:self.curTime]];
@@ -3146,7 +3141,7 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.userStructIdList isEqualToArray:otherMessage.userStructIdList] &&
+      [self.userStructUuidList isEqualToArray:otherMessage.userStructUuidList] &&
       self.hasCurTime == otherMessage.hasCurTime &&
       (!self.hasCurTime || self.curTime == otherMessage.curTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3156,8 +3151,8 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.userStructIdList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.userStructUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasCurTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.curTime] hash];
@@ -3208,11 +3203,11 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableUserStructIdList.count > 0) {
-    if (result.mutableUserStructIdList == nil) {
-      result.mutableUserStructIdList = [other.mutableUserStructIdList copy];
+  if (other.mutableUserStructUuidList.count > 0) {
+    if (result.mutableUserStructUuidList == nil) {
+      result.mutableUserStructUuidList = [[NSMutableArray alloc] initWithArray:other.mutableUserStructUuidList];
     } else {
-      [result.mutableUserStructIdList appendArray:other.mutableUserStructIdList];
+      [result.mutableUserStructUuidList addObjectsFromArray:other.mutableUserStructUuidList];
     }
   }
   if (other.hasCurTime) {
@@ -3248,8 +3243,8 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addUserStructId:[input readInt32]];
+      case 18: {
+        [self addUserStructUuid:[input readString]];
         break;
       }
       case 24: {
@@ -3289,32 +3284,28 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (PBAppendableArray *)userStructIdList {
-  return result.mutableUserStructIdList;
+- (NSMutableArray *)userStructUuidList {
+  return result.mutableUserStructUuidList;
 }
-- (int32_t)userStructIdAtIndex:(NSUInteger)index {
-  return [result userStructIdAtIndex:index];
+- (NSString*)userStructUuidAtIndex:(NSUInteger)index {
+  return [result userStructUuidAtIndex:index];
 }
-- (NormStructWaitCompleteRequestProto_Builder *)addUserStructId:(int32_t)value {
-  if (result.mutableUserStructIdList == nil) {
-    result.mutableUserStructIdList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (NormStructWaitCompleteRequestProto_Builder *)addUserStructUuid:(NSString*)value {
+  if (result.mutableUserStructUuidList == nil) {
+    result.mutableUserStructUuidList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUserStructIdList addInt32:value];
+  [result.mutableUserStructUuidList addObject:value];
   return self;
 }
-- (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructId:(NSArray *)array {
-  if (result.mutableUserStructIdList == nil) {
-    result.mutableUserStructIdList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+- (NormStructWaitCompleteRequestProto_Builder *)addAllUserStructUuid:(NSArray *)array {
+  if (result.mutableUserStructUuidList == nil) {
+    result.mutableUserStructUuidList = [NSMutableArray array];
   }
-  [result.mutableUserStructIdList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  [result.mutableUserStructUuidList addObjectsFromArray:array];
   return self;
 }
-- (NormStructWaitCompleteRequestProto_Builder *)setUserStructIdValues:(const int32_t *)values count:(NSUInteger)count {
-  result.mutableUserStructIdList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
-  return self;
-}
-- (NormStructWaitCompleteRequestProto_Builder *)clearUserStructId {
-  result.mutableUserStructIdList = nil;
+- (NormStructWaitCompleteRequestProto_Builder *)clearUserStructUuid {
+  result.mutableUserStructUuidList = nil;
   return self;
 }
 - (BOOL) hasCurTime {
@@ -3822,20 +3813,20 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 @end
 
 @interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval ()
-@property int32_t userStructId;
+@property (strong) NSString* userStructUuid;
 @property int64_t timeOfRetrieval;
 @property int32_t amountCollected;
 @end
 
 @implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval
 
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value_ {
-  hasUserStructId_ = !!value_;
+- (void) setHasUserStructUuid:(BOOL) value_ {
+  hasUserStructUuid_ = !!value_;
 }
-@synthesize userStructId;
+@synthesize userStructUuid;
 - (BOOL) hasTimeOfRetrieval {
   return !!hasTimeOfRetrieval_;
 }
@@ -3852,7 +3843,7 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 @synthesize amountCollected;
 - (id) init {
   if ((self = [super init])) {
-    self.userStructId = 0;
+    self.userStructUuid = @"";
     self.timeOfRetrieval = 0L;
     self.amountCollected = 0;
   }
@@ -3874,8 +3865,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserStructId) {
-    [output writeInt32:1 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:1 value:self.userStructUuid];
   }
   if (self.hasTimeOfRetrieval) {
     [output writeInt64:2 value:self.timeOfRetrieval];
@@ -3892,8 +3883,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   }
 
   size_ = 0;
-  if (self.hasUserStructId) {
-    size_ += computeInt32Size(1, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size_ += computeStringSize(1, self.userStructUuid);
   }
   if (self.hasTimeOfRetrieval) {
     size_ += computeInt64Size(2, self.timeOfRetrieval);
@@ -3936,8 +3927,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserStructId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userStructId", [NSNumber numberWithInteger:self.userStructId]];
+  if (self.hasUserStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userStructUuid", self.userStructUuid];
   }
   if (self.hasTimeOfRetrieval) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeOfRetrieval", [NSNumber numberWithLongLong:self.timeOfRetrieval]];
@@ -3956,8 +3947,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   }
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *otherMessage = other;
   return
-      self.hasUserStructId == otherMessage.hasUserStructId &&
-      (!self.hasUserStructId || self.userStructId == otherMessage.userStructId) &&
+      self.hasUserStructUuid == otherMessage.hasUserStructUuid &&
+      (!self.hasUserStructUuid || [self.userStructUuid isEqual:otherMessage.userStructUuid]) &&
       self.hasTimeOfRetrieval == otherMessage.hasTimeOfRetrieval &&
       (!self.hasTimeOfRetrieval || self.timeOfRetrieval == otherMessage.timeOfRetrieval) &&
       self.hasAmountCollected == otherMessage.hasAmountCollected &&
@@ -3966,8 +3957,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserStructId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userStructId] hash];
+  if (self.hasUserStructUuid) {
+    hashCode = hashCode * 31 + [self.userStructUuid hash];
   }
   if (self.hasTimeOfRetrieval) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeOfRetrieval] hash];
@@ -4018,8 +4009,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   if (other == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance]) {
     return self;
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
   if (other.hasTimeOfRetrieval) {
     [self setTimeOfRetrieval:other.timeOfRetrieval];
@@ -4048,8 +4039,8 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
         }
         break;
       }
-      case 8: {
-        [self setUserStructId:[input readInt32]];
+      case 10: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
       case 16: {
@@ -4063,20 +4054,20 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
     }
   }
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
 - (BOOL) hasTimeOfRetrieval {
@@ -6028,7 +6019,7 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
 @property int32_t gemsSpent;
 @property int32_t resourceChange;
 @property ResourceType resourceType;
-@property int32_t userObstacleId;
+@property (strong) NSString* userObstacleUuid;
 @end
 
 @implementation BeginObstacleRemovalRequestProto
@@ -6068,13 +6059,13 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
   hasResourceType_ = !!value_;
 }
 @synthesize resourceType;
-- (BOOL) hasUserObstacleId {
-  return !!hasUserObstacleId_;
+- (BOOL) hasUserObstacleUuid {
+  return !!hasUserObstacleUuid_;
 }
-- (void) setHasUserObstacleId:(BOOL) value_ {
-  hasUserObstacleId_ = !!value_;
+- (void) setHasUserObstacleUuid:(BOOL) value_ {
+  hasUserObstacleUuid_ = !!value_;
 }
-@synthesize userObstacleId;
+@synthesize userObstacleUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -6082,7 +6073,7 @@ BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleRes
     self.gemsSpent = 0;
     self.resourceChange = 0;
     self.resourceType = ResourceTypeCash;
-    self.userObstacleId = 0;
+    self.userObstacleUuid = @"";
   }
   return self;
 }
@@ -6117,8 +6108,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   if (self.hasResourceType) {
     [output writeEnum:5 value:self.resourceType];
   }
-  if (self.hasUserObstacleId) {
-    [output writeInt32:6 value:self.userObstacleId];
+  if (self.hasUserObstacleUuid) {
+    [output writeString:6 value:self.userObstacleUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6144,8 +6135,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   if (self.hasResourceType) {
     size_ += computeEnumSize(5, self.resourceType);
   }
-  if (self.hasUserObstacleId) {
-    size_ += computeInt32Size(6, self.userObstacleId);
+  if (self.hasUserObstacleUuid) {
+    size_ += computeStringSize(6, self.userObstacleUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6200,8 +6191,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   if (self.hasResourceType) {
     [output appendFormat:@"%@%@: %d\n", indent, @"resourceType", self.resourceType];
   }
-  if (self.hasUserObstacleId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleId", [NSNumber numberWithInteger:self.userObstacleId]];
+  if (self.hasUserObstacleUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleUuid", self.userObstacleUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -6224,8 +6215,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
       (!self.hasResourceChange || self.resourceChange == otherMessage.resourceChange) &&
       self.hasResourceType == otherMessage.hasResourceType &&
       (!self.hasResourceType || self.resourceType == otherMessage.resourceType) &&
-      self.hasUserObstacleId == otherMessage.hasUserObstacleId &&
-      (!self.hasUserObstacleId || self.userObstacleId == otherMessage.userObstacleId) &&
+      self.hasUserObstacleUuid == otherMessage.hasUserObstacleUuid &&
+      (!self.hasUserObstacleUuid || [self.userObstacleUuid isEqual:otherMessage.userObstacleUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6245,8 +6236,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   if (self.hasResourceType) {
     hashCode = hashCode * 31 + self.resourceType;
   }
-  if (self.hasUserObstacleId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userObstacleId] hash];
+  if (self.hasUserObstacleUuid) {
+    hashCode = hashCode * 31 + [self.userObstacleUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6306,8 +6297,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   if (other.hasResourceType) {
     [self setResourceType:other.resourceType];
   }
-  if (other.hasUserObstacleId) {
-    [self setUserObstacleId:other.userObstacleId];
+  if (other.hasUserObstacleUuid) {
+    [self setUserObstacleUuid:other.userObstacleUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6360,8 +6351,8 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
         }
         break;
       }
-      case 48: {
-        [self setUserObstacleId:[input readInt32]];
+      case 50: {
+        [self setUserObstacleUuid:[input readString]];
         break;
       }
     }
@@ -6461,20 +6452,20 @@ static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProto
   result.resourceType = ResourceTypeCash;
   return self;
 }
-- (BOOL) hasUserObstacleId {
-  return result.hasUserObstacleId;
+- (BOOL) hasUserObstacleUuid {
+  return result.hasUserObstacleUuid;
 }
-- (int32_t) userObstacleId {
-  return result.userObstacleId;
+- (NSString*) userObstacleUuid {
+  return result.userObstacleUuid;
 }
-- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleId:(int32_t) value {
-  result.hasUserObstacleId = YES;
-  result.userObstacleId = value;
+- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleUuid:(NSString*) value {
+  result.hasUserObstacleUuid = YES;
+  result.userObstacleUuid = value;
   return self;
 }
-- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleId {
-  result.hasUserObstacleId = NO;
-  result.userObstacleId = 0;
+- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleUuid {
+  result.hasUserObstacleUuid = NO;
+  result.userObstacleUuid = @"";
   return self;
 }
 @end
@@ -6768,7 +6759,7 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
 @property int64_t curTime;
 @property BOOL speedUp;
 @property int32_t gemsSpent;
-@property int32_t userObstacleId;
+@property (strong) NSString* userObstacleUuid;
 @property BOOL atMaxObstacles;
 @end
 
@@ -6807,13 +6798,13 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
   hasGemsSpent_ = !!value_;
 }
 @synthesize gemsSpent;
-- (BOOL) hasUserObstacleId {
-  return !!hasUserObstacleId_;
+- (BOOL) hasUserObstacleUuid {
+  return !!hasUserObstacleUuid_;
 }
-- (void) setHasUserObstacleId:(BOOL) value_ {
-  hasUserObstacleId_ = !!value_;
+- (void) setHasUserObstacleUuid:(BOOL) value_ {
+  hasUserObstacleUuid_ = !!value_;
 }
-@synthesize userObstacleId;
+@synthesize userObstacleUuid;
 - (BOOL) hasAtMaxObstacles {
   return !!hasAtMaxObstacles_;
 }
@@ -6832,7 +6823,7 @@ BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(Be
     self.curTime = 0L;
     self.speedUp = NO;
     self.gemsSpent = 0;
-    self.userObstacleId = 0;
+    self.userObstacleUuid = @"";
     self.atMaxObstacles = NO;
   }
   return self;
@@ -6865,8 +6856,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   if (self.hasGemsSpent) {
     [output writeInt32:4 value:self.gemsSpent];
   }
-  if (self.hasUserObstacleId) {
-    [output writeInt32:5 value:self.userObstacleId];
+  if (self.hasUserObstacleUuid) {
+    [output writeString:5 value:self.userObstacleUuid];
   }
   if (self.hasAtMaxObstacles) {
     [output writeBool:6 value:self.atMaxObstacles];
@@ -6892,8 +6883,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   if (self.hasGemsSpent) {
     size_ += computeInt32Size(4, self.gemsSpent);
   }
-  if (self.hasUserObstacleId) {
-    size_ += computeInt32Size(5, self.userObstacleId);
+  if (self.hasUserObstacleUuid) {
+    size_ += computeStringSize(5, self.userObstacleUuid);
   }
   if (self.hasAtMaxObstacles) {
     size_ += computeBoolSize(6, self.atMaxObstacles);
@@ -6948,8 +6939,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   if (self.hasGemsSpent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gemsSpent", [NSNumber numberWithInteger:self.gemsSpent]];
   }
-  if (self.hasUserObstacleId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleId", [NSNumber numberWithInteger:self.userObstacleId]];
+  if (self.hasUserObstacleUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userObstacleUuid", self.userObstacleUuid];
   }
   if (self.hasAtMaxObstacles) {
     [output appendFormat:@"%@%@: %@\n", indent, @"atMaxObstacles", [NSNumber numberWithBool:self.atMaxObstacles]];
@@ -6973,8 +6964,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
       (!self.hasSpeedUp || self.speedUp == otherMessage.speedUp) &&
       self.hasGemsSpent == otherMessage.hasGemsSpent &&
       (!self.hasGemsSpent || self.gemsSpent == otherMessage.gemsSpent) &&
-      self.hasUserObstacleId == otherMessage.hasUserObstacleId &&
-      (!self.hasUserObstacleId || self.userObstacleId == otherMessage.userObstacleId) &&
+      self.hasUserObstacleUuid == otherMessage.hasUserObstacleUuid &&
+      (!self.hasUserObstacleUuid || [self.userObstacleUuid isEqual:otherMessage.userObstacleUuid]) &&
       self.hasAtMaxObstacles == otherMessage.hasAtMaxObstacles &&
       (!self.hasAtMaxObstacles || self.atMaxObstacles == otherMessage.atMaxObstacles) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -6993,8 +6984,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   if (self.hasGemsSpent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.gemsSpent] hash];
   }
-  if (self.hasUserObstacleId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.userObstacleId] hash];
+  if (self.hasUserObstacleUuid) {
+    hashCode = hashCode * 31 + [self.userObstacleUuid hash];
   }
   if (self.hasAtMaxObstacles) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.atMaxObstacles] hash];
@@ -7054,8 +7045,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   if (other.hasGemsSpent) {
     [self setGemsSpent:other.gemsSpent];
   }
-  if (other.hasUserObstacleId) {
-    [self setUserObstacleId:other.userObstacleId];
+  if (other.hasUserObstacleUuid) {
+    [self setUserObstacleUuid:other.userObstacleUuid];
   }
   if (other.hasAtMaxObstacles) {
     [self setAtMaxObstacles:other.atMaxObstacles];
@@ -7102,8 +7093,8 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
         [self setGemsSpent:[input readInt32]];
         break;
       }
-      case 40: {
-        [self setUserObstacleId:[input readInt32]];
+      case 42: {
+        [self setUserObstacleUuid:[input readString]];
         break;
       }
       case 48: {
@@ -7191,20 +7182,20 @@ static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteReques
   result.gemsSpent = 0;
   return self;
 }
-- (BOOL) hasUserObstacleId {
-  return result.hasUserObstacleId;
+- (BOOL) hasUserObstacleUuid {
+  return result.hasUserObstacleUuid;
 }
-- (int32_t) userObstacleId {
-  return result.userObstacleId;
+- (NSString*) userObstacleUuid {
+  return result.userObstacleUuid;
 }
-- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleId:(int32_t) value {
-  result.hasUserObstacleId = YES;
-  result.userObstacleId = value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleUuid:(NSString*) value {
+  result.hasUserObstacleUuid = YES;
+  result.userObstacleUuid = value;
   return self;
 }
-- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleId {
-  result.hasUserObstacleId = NO;
-  result.userObstacleId = 0;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleUuid {
+  result.hasUserObstacleUuid = NO;
+  result.userObstacleUuid = @"";
   return self;
 }
 - (BOOL) hasAtMaxObstacles {

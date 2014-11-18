@@ -22,19 +22,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface PurgeClientStaticDataResponseProto ()
-@property int32_t senderId;
+@property (strong) NSString* senderUuid;
 @property (strong) StaticDataProto* staticDataStuff;
 @end
 
 @implementation PurgeClientStaticDataResponseProto
 
-- (BOOL) hasSenderId {
-  return !!hasSenderId_;
+- (BOOL) hasSenderUuid {
+  return !!hasSenderUuid_;
 }
-- (void) setHasSenderId:(BOOL) value_ {
-  hasSenderId_ = !!value_;
+- (void) setHasSenderUuid:(BOOL) value_ {
+  hasSenderUuid_ = !!value_;
 }
-@synthesize senderId;
+@synthesize senderUuid;
 - (BOOL) hasStaticDataStuff {
   return !!hasStaticDataStuff_;
 }
@@ -44,7 +44,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize staticDataStuff;
 - (id) init {
   if ((self = [super init])) {
-    self.senderId = 0;
+    self.senderUuid = @"";
     self.staticDataStuff = [StaticDataProto defaultInstance];
   }
   return self;
@@ -65,8 +65,8 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSenderId) {
-    [output writeInt32:1 value:self.senderId];
+  if (self.hasSenderUuid) {
+    [output writeString:1 value:self.senderUuid];
   }
   if (self.hasStaticDataStuff) {
     [output writeMessage:2 value:self.staticDataStuff];
@@ -80,8 +80,8 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   }
 
   size_ = 0;
-  if (self.hasSenderId) {
-    size_ += computeInt32Size(1, self.senderId);
+  if (self.hasSenderUuid) {
+    size_ += computeStringSize(1, self.senderUuid);
   }
   if (self.hasStaticDataStuff) {
     size_ += computeMessageSize(2, self.staticDataStuff);
@@ -121,8 +121,8 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   return [PurgeClientStaticDataResponseProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasSenderId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"senderId", [NSNumber numberWithInteger:self.senderId]];
+  if (self.hasSenderUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"senderUuid", self.senderUuid];
   }
   if (self.hasStaticDataStuff) {
     [output appendFormat:@"%@%@ {\n", indent, @"staticDataStuff"];
@@ -141,16 +141,16 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   }
   PurgeClientStaticDataResponseProto *otherMessage = other;
   return
-      self.hasSenderId == otherMessage.hasSenderId &&
-      (!self.hasSenderId || self.senderId == otherMessage.senderId) &&
+      self.hasSenderUuid == otherMessage.hasSenderUuid &&
+      (!self.hasSenderUuid || [self.senderUuid isEqual:otherMessage.senderUuid]) &&
       self.hasStaticDataStuff == otherMessage.hasStaticDataStuff &&
       (!self.hasStaticDataStuff || [self.staticDataStuff isEqual:otherMessage.staticDataStuff]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasSenderId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.senderId] hash];
+  if (self.hasSenderUuid) {
+    hashCode = hashCode * 31 + [self.senderUuid hash];
   }
   if (self.hasStaticDataStuff) {
     hashCode = hashCode * 31 + [self.staticDataStuff hash];
@@ -198,8 +198,8 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   if (other == [PurgeClientStaticDataResponseProto defaultInstance]) {
     return self;
   }
-  if (other.hasSenderId) {
-    [self setSenderId:other.senderId];
+  if (other.hasSenderUuid) {
+    [self setSenderUuid:other.senderUuid];
   }
   if (other.hasStaticDataStuff) {
     [self mergeStaticDataStuff:other.staticDataStuff];
@@ -225,8 +225,8 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
         }
         break;
       }
-      case 8: {
-        [self setSenderId:[input readInt32]];
+      case 10: {
+        [self setSenderUuid:[input readString]];
         break;
       }
       case 18: {
@@ -241,20 +241,20 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
     }
   }
 }
-- (BOOL) hasSenderId {
-  return result.hasSenderId;
+- (BOOL) hasSenderUuid {
+  return result.hasSenderUuid;
 }
-- (int32_t) senderId {
-  return result.senderId;
+- (NSString*) senderUuid {
+  return result.senderUuid;
 }
-- (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value {
-  result.hasSenderId = YES;
-  result.senderId = value;
+- (PurgeClientStaticDataResponseProto_Builder*) setSenderUuid:(NSString*) value {
+  result.hasSenderUuid = YES;
+  result.senderUuid = value;
   return self;
 }
-- (PurgeClientStaticDataResponseProto_Builder*) clearSenderId {
-  result.hasSenderId = NO;
-  result.senderId = 0;
+- (PurgeClientStaticDataResponseProto_Builder*) clearSenderUuid {
+  result.hasSenderUuid = NO;
+  result.senderUuid = @"";
   return self;
 }
 - (BOOL) hasStaticDataStuff {

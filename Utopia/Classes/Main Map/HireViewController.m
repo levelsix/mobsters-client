@@ -140,7 +140,7 @@
 
 - (void) updateAcceptViewsForFbLevel:(int)level friendSlots:(int)slots {
   GameState *gs = [GameState sharedGameState];
-  NSArray *accepted = [gs acceptedFbRequestsForUserStructId:self.userStruct.userStructId fbStructLevel:level];
+  NSArray *accepted = [gs acceptedFbRequestsForUserStructUuid:self.userStruct.userStructUuid fbStructLevel:level];
   
   FriendAcceptView *lastAv = nil;
   for (int i = 0; i < self.acceptViews.count; i++) {
@@ -167,7 +167,7 @@
 
 - (void) updateAlreadyHiredViewForResidence:(ResidenceProto *)res {
   GameState *gs = [GameState sharedGameState];
-  NSArray *accepted = [gs acceptedFbRequestsForUserStructId:self.userStruct.userStructId fbStructLevel:res.structInfo.level];
+  NSArray *accepted = [gs acceptedFbRequestsForUserStructUuid:self.userStruct.userStructUuid fbStructLevel:res.structInfo.level];
   
   self.alreadyHiredLabel.text = [NSString stringWithFormat:@"You have hired a %@.", res.occupationName];
   
@@ -329,9 +329,9 @@
 
 - (void) fbIncreasedSlots:(NSNotification *)notif {
   NSDictionary *dict = notif.userInfo;
-  NSNumber *userStructId = dict[@"UserStructId"];
+  NSString *userStructUuid = dict[@"UserStructId"];
   
-  if (userStructId.intValue == self.userStruct.userStructId && self.bonusView.superview) {
+  if ([userStructUuid isEqualToString:self.userStruct.userStructUuid] && self.bonusView.superview) {
     [self.bonusView updateForUserStruct:self.userStruct];
     [self loadHireView];
   }

@@ -79,21 +79,21 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @private
   BOOL hasIsExpanding_:1;
   BOOL hasExpandStartTime_:1;
-  BOOL hasUserId_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasXPosition_:1;
   BOOL hasYPosition_:1;
   BOOL isExpanding_:1;
   int64_t expandStartTime;
-  int32_t userId;
+  NSString* userUuid;
   int32_t xPosition;
   int32_t yPosition;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasXPosition;
 - (BOOL) hasYPosition;
 - (BOOL) hasIsExpanding;
 - (BOOL) hasExpandStartTime;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t xPosition;
 @property (readonly) int32_t yPosition;
 - (BOOL) isExpanding;
@@ -134,10 +134,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
-- (UserCityExpansionDataProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserCityExpansionDataProto_Builder*) setUserUuid:(NSString*) value;
+- (UserCityExpansionDataProto_Builder*) clearUserUuid;
 
 - (BOOL) hasXPosition;
 - (int32_t) xPosition;

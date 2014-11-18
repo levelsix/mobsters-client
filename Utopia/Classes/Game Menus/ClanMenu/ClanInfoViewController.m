@@ -17,9 +17,9 @@
 
 @implementation ClanInfoViewController
 
-- (id) initWithClanId:(int)clanId andName:(NSString *)name {
+- (id) initWithClanUuid:(NSString *)clanUuid andName:(NSString *)name {
   if ((self = [super initWithNibName:nil bundle:nil])) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO delegate:self];
     self.title = name ? name : @"Loading...";
   }
   return self;
@@ -30,7 +30,7 @@
     self.clan = clan;
     self.title = clan.clan.name;
     
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:clan.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:clan.clan.clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO delegate:self];
   }
   return self;
 }
@@ -54,7 +54,7 @@
   self.allMembers = nil;
   self.shownMembers = nil;
   self.requesters = nil;
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:gs.clan.clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO delegate:self];
   [self.infoTable reloadData];
   
   [self loadInfoViewForClan:nil clanStatus:0];
@@ -89,7 +89,7 @@
   };
   
   NSComparator baseComp = ^NSComparisonResult(MinimumUserProtoForClans *m1, MinimumUserProtoForClans *m2) {
-    return [@(m1.minUserProtoWithLevel.minUserProto.userId) compare:@(m2.minUserProtoWithLevel.minUserProto.userId)];
+    return [m1.minUserProtoWithLevel.minUserProto.userUuid compare:m2.minUserProtoWithLevel.minUserProto.userUuid];
   };
   
   if (_sortOrder == ClanInfoSortOrderLevel) {
@@ -123,8 +123,8 @@
       NSComparisonResult reqResult = reqComp(m1, m2);
       if (reqResult != NSOrderedSame) return reqResult;
       
-      NSArray *ums1 = self.curTeams[@(m1.minUserProtoWithLevel.minUserProto.userId)];
-      NSArray *ums2 = self.curTeams[@(m2.minUserProtoWithLevel.minUserProto.userId)];
+      NSArray *ums1 = self.curTeams[m1.minUserProtoWithLevel.minUserProto.userUuid];
+      NSArray *ums2 = self.curTeams[m2.minUserProtoWithLevel.minUserProto.userUuid];
       
       Globals *gl = [Globals sharedGlobals];
       int str1 = 0, str2 = 0;
@@ -396,8 +396,8 @@
 
 - (void) setDataForCellAtIndexPath:(NSIndexPath *)indexPath cell:(ClanMemberCell *)cell {
   MinimumUserProtoForClans *user = [self.shownMembers objectAtIndex:indexPath.row];
-  int userId = user.minUserProtoWithLevel.minUserProto.userId;
-  [cell loadForUser:user currentTeam:self.curTeams[@(userId)] myStatus:self.myUser.clanStatus];
+  NSString *userUuid = user.minUserProtoWithLevel.minUserProto.userUuid;
+  [cell loadForUser:user currentTeam:self.curTeams[userUuid] myStatus:self.myUser.clanStatus];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -422,24 +422,24 @@
 - (void) settingClicked:(ClanInfoSettingsButtonView *)button {
   if (!_waitingForResponse) {
     ClanSetting setting = button.setting;
-    int userId = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userId;
+    NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
     BOOL confirming = NO;
     if (setting == ClanSettingAcceptMember) {
-      [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userId accept:YES delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userUuid accept:YES delegate:self];
     } else if (setting == ClanSettingBoot) {
       NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to boot %@?", _curClickedCell.user.minUserProtoWithLevel.minUserProto.name];
       [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Boot Member?" okayButton:@"Boot" cancelButton:@"Cancel"  okTarget:self okSelector:@selector(sendBoot) cancelTarget:nil cancelSelector:nil];
       confirming = YES;
     } else if (setting == ClanSettingDemoteToCaptain) {
-      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userId newStatus:UserClanStatusCaptain delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userUuid newStatus:UserClanStatusCaptain delegate:self];
     } else if (setting == ClanSettingDemoteToMember) {
-      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userId newStatus:UserClanStatusMember delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userUuid newStatus:UserClanStatusMember delegate:self];
     } else if (setting == ClanSettingPromoteToCaptain) {
-      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userId newStatus:UserClanStatusCaptain delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userUuid newStatus:UserClanStatusCaptain delegate:self];
     } else if (setting == ClanSettingPromoteToJrLeader) {
-      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userId newStatus:UserClanStatusJuniorLeader delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] promoteOrDemoteMember:userUuid newStatus:UserClanStatusJuniorLeader delegate:self];
     } else if (setting == ClanSettingRejectMember) {
-      [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userId accept:NO delegate:self];
+      [[OutgoingEventController sharedOutgoingEventController] approveOrRejectRequestToJoinClan:userUuid accept:NO delegate:self];
     } else if (setting == ClanSettingTransferLeader) {
       NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to transfer leadership to %@?", _curClickedCell.user.minUserProtoWithLevel.minUserProto.name];
       [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Transfer Leadership?" okayButton:@"Transfer" cancelButton:@"Cancel" okTarget:self okSelector:@selector(sendTransferClanOwnership) cancelTarget:nil cancelSelector:nil];
@@ -458,16 +458,16 @@
 }
 
 - (void) sendBoot {
-  int userId = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userId;
-  [[OutgoingEventController sharedOutgoingEventController] bootPlayerFromClan:userId delegate:self];
+  NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
+  [[OutgoingEventController sharedOutgoingEventController] bootPlayerFromClan:userUuid delegate:self];
   _waitingForResponse = YES;
   [_clickedSettingsButton beginSpinning];
   _clickedSettingsButton = nil;
 }
 
 - (void) sendTransferClanOwnership {
-  int userId = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userId;
-  [[OutgoingEventController sharedOutgoingEventController] transferClanOwnership:userId delegate:self];
+  NSString *userUuid = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userUuid;
+  [[OutgoingEventController sharedOutgoingEventController] transferClanOwnership:userUuid delegate:self];
   _waitingForResponse = YES;
   [_clickedSettingsButton beginSpinning];
   _clickedSettingsButton = nil;
@@ -476,13 +476,13 @@
 #pragma mark - IBActions for green buttons
 
 - (IBAction)joinClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanUuid delegate:self];
   [self.infoView beginSpinners];
   _waitingForResponse = YES;
 }
 
 - (IBAction)requestClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanUuid delegate:self];
   [self.infoView beginSpinners];
   _waitingForResponse = YES;
 }
@@ -508,7 +508,7 @@
 }
 
 - (IBAction)cancelClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanUuid delegate:self];
   [self.infoView beginSpinners];
   _waitingForResponse = YES;
 }
@@ -533,7 +533,7 @@
   
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;
-    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserId:cell.user.minUserProtoWithLevel.minUserProto.userId];
+    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserUuid:cell.user.minUserProtoWithLevel.minUserProto.userUuid];
     UIViewController *parent = [GameViewController baseController];
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];
@@ -561,11 +561,11 @@
   return [members arrayByAddingObject:user];
 }
 
-- (NSArray *) userRemoved:(int)userId members:(NSArray *)members {
+- (NSArray *) userRemoved:(NSString *)userUuid members:(NSArray *)members {
   NSMutableArray *arr = members.mutableCopy;
   for (int i = 0; i < arr.count; i++) {
     MinimumUserProtoForClans *mup = members[i];
-    if (mup.minUserProtoWithLevel.minUserProto.userId == userId) {
+    if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:userUuid]) {
       [arr removeObjectAtIndex:i];
       
       if (mup.clanStatus != UserClanStatusRequesting) {
@@ -578,16 +578,16 @@
   return arr;
 }
 
-- (NSArray *) userStatusChanged:(int)userId newStatus:(UserClanStatus)status members:(NSArray *)members {
+- (NSArray *) userStatusChanged:(NSString *)userUuid newStatus:(UserClanStatus)status members:(NSArray *)members {
   NSMutableArray *arr = members.mutableCopy;
   for (int i = 0; i < arr.count; i++) {
     MinimumUserProtoForClans *mup = members[i];
-    if (mup.minUserProtoWithLevel.minUserProto.userId == userId) {
+    if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:userUuid]) {
       MinimumUserProtoForClans *newMup = [[[MinimumUserProtoForClans builderWithPrototype:mup] setClanStatus:status] build];
       [arr replaceObjectAtIndex:i withObject:newMup];
       
       GameState *gs = [GameState sharedGameState];
-      if (userId == gs.userId) {
+      if ([userUuid isEqualToString:gs.userUuid]) {
         self.myUser = newMup;
       }
       
@@ -620,7 +620,7 @@
   if (_isMyClan) {
     GameState *gs = [GameState sharedGameState];
     for (MinimumUserProtoForClans *mup in self.allMembers) {
-      if (mup.minUserProtoWithLevel.minUserProto.userId == gs.userId) {
+      if ([mup.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:gs.userUuid]) {
         self.myUser = mup;
       }
     }
@@ -682,36 +682,36 @@
 
 - (void) handleClanEventLeaveClanResponseProto:(LeaveClanResponseProto *)proto {
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
-    NSArray *arr = [self userRemoved:proto.sender.userId members:self.allMembers];
+    NSArray *arr = [self userRemoved:proto.sender.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
   if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
-    NSArray *arr = [self userRemoved:proto.playerToBoot.userId members:self.allMembers];
+    NSArray *arr = [self userRemoved:proto.playerToBoot.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventTransferClanOwnershipResponseProto:(TransferClanOwnershipResponseProto *)proto {
   if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
-    NSArray *arr = [self userStatusChanged:proto.sender.userId newStatus:UserClanStatusJuniorLeader members:self.allMembers];
-    arr = [self userStatusChanged:proto.clanOwnerNew.userId newStatus:UserClanStatusLeader members:arr];
+    NSArray *arr = [self userStatusChanged:proto.sender.userUuid newStatus:UserClanStatusJuniorLeader members:self.allMembers];
+    arr = [self userStatusChanged:proto.clanOwnerNew.userUuid newStatus:UserClanStatusLeader members:arr];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventPromoteDemoteClanMemberResponseProto:(PromoteDemoteClanMemberResponseProto *)proto {
   if (proto.status == PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess) {
-    NSArray *arr = [self userStatusChanged:proto.victim.userId newStatus:proto.userClanStatus members:self.allMembers];
+    NSArray *arr = [self userStatusChanged:proto.victim.userUuid newStatus:proto.userClanStatus members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }
 
 - (void) handleClanEventRequestJoinClanResponseProto:(RequestJoinClanResponseProto *)proto {
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin || proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
-    [self.curTeams setObject:[Globals convertCurrentTeamToArray:proto.requesterMonsters] forKey:@(proto.requesterMonsters.userId)];
+    [self.curTeams setObject:[Globals convertCurrentTeamToArray:proto.requesterMonsters] forKey:proto.requesterMonsters.userUuid];
     NSArray *arr = [self userAdded:proto.requester members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
@@ -728,9 +728,9 @@
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
     NSArray *arr = nil;
     if (proto.accept) {
-      arr = [self userStatusChanged:proto.requester.userId newStatus:UserClanStatusMember members:self.allMembers];
+      arr = [self userStatusChanged:proto.requester.userUuid newStatus:UserClanStatusMember members:self.allMembers];
     } else {
-      arr = [self userRemoved:proto.requester.userId members:self.allMembers];
+      arr = [self userRemoved:proto.requester.userUuid members:self.allMembers];
     }
     [self closeSettingsAndReorderWithArray:arr];
   }
@@ -738,7 +738,7 @@
 
 - (void) handleClanEventRetractRequestJoinClanResponseProto:(RetractRequestJoinClanResponseProto *)proto {
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
-    NSArray *arr = [self userRemoved:proto.sender.userId members:self.allMembers];
+    NSArray *arr = [self userRemoved:proto.sender.userUuid members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
   }
 }

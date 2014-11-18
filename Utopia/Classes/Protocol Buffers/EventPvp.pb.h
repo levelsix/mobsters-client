@@ -120,16 +120,16 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   int64_t clientTime;
   int32_t attackerElo;
   MinimumUserProto* attacker;
-  PBAppendableArray * mutableSeenUserIdsList;
+  NSMutableArray * mutableSeenUserUuidsList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasAttackerElo;
 - (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProto* attacker;
 @property (readonly) int32_t attackerElo;
-@property (readonly, strong) PBArray * seenUserIdsList;
+@property (readonly, strong) NSArray * seenUserUuidsList;
 @property (readonly) int64_t clientTime;
-- (int32_t)seenUserIdsAtIndex:(NSUInteger)index;
+- (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
 
 + (QueueUpRequestProto*) defaultInstance;
 - (QueueUpRequestProto*) defaultInstance;
@@ -178,12 +178,11 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value;
 - (QueueUpRequestProto_Builder*) clearAttackerElo;
 
-- (PBAppendableArray *)seenUserIdsList;
-- (int32_t)seenUserIdsAtIndex:(NSUInteger)index;
-- (QueueUpRequestProto_Builder *)addSeenUserIds:(int32_t)value;
-- (QueueUpRequestProto_Builder *)addAllSeenUserIds:(NSArray *)array;
-- (QueueUpRequestProto_Builder *)setSeenUserIdsValues:(const int32_t *)values count:(NSUInteger)count;
-- (QueueUpRequestProto_Builder *)clearSeenUserIds;
+- (NSMutableArray *)seenUserUuidsList;
+- (NSString*)seenUserUuidsAtIndex:(NSUInteger)index;
+- (QueueUpRequestProto_Builder *)addSeenUserUuids:(NSString*)value;
+- (QueueUpRequestProto_Builder *)addAllSeenUserUuids:(NSArray *)array;
+- (QueueUpRequestProto_Builder *)clearSeenUserUuids;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -424,21 +423,21 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   BOOL hasUserWon_:1;
   BOOL hasNuPvpDmgMultiplier_:1;
   BOOL hasClientTime_:1;
-  BOOL hasDefenderId_:1;
   BOOL hasOilChange_:1;
   BOOL hasCashChange_:1;
+  BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
   BOOL userAttacked_:1;
   BOOL userWon_:1;
   Float32 nuPvpDmgMultiplier;
   int64_t clientTime;
-  int32_t defenderId;
   int32_t oilChange;
   int32_t cashChange;
+  NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasDefenderId;
+- (BOOL) hasDefenderUuid;
 - (BOOL) hasUserAttacked;
 - (BOOL) hasUserWon;
 - (BOOL) hasClientTime;
@@ -446,7 +445,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasCashChange;
 - (BOOL) hasNuPvpDmgMultiplier;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) int32_t defenderId;
+@property (readonly, strong) NSString* defenderUuid;
 - (BOOL) userAttacked;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
@@ -496,10 +495,10 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndPvpBattleRequestProto_Builder*) clearSender;
 
-- (BOOL) hasDefenderId;
-- (int32_t) defenderId;
-- (EndPvpBattleRequestProto_Builder*) setDefenderId:(int32_t) value;
-- (EndPvpBattleRequestProto_Builder*) clearDefenderId;
+- (BOOL) hasDefenderUuid;
+- (NSString*) defenderUuid;
+- (EndPvpBattleRequestProto_Builder*) setDefenderUuid:(NSString*) value;
+- (EndPvpBattleRequestProto_Builder*) clearDefenderUuid;
 
 - (BOOL) hasUserAttacked;
 - (BOOL) userAttacked;
@@ -536,22 +535,22 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 @private
   BOOL hasAttackerAttacked_:1;
   BOOL hasAttackerWon_:1;
-  BOOL hasDefenderId_:1;
+  BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   BOOL attackerAttacked_:1;
   BOOL attackerWon_:1;
-  int32_t defenderId;
+  NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
   EndPvpBattleResponseProto_EndPvpBattleStatus status;
 }
 - (BOOL) hasSender;
-- (BOOL) hasDefenderId;
+- (BOOL) hasDefenderUuid;
 - (BOOL) hasAttackerAttacked;
 - (BOOL) hasAttackerWon;
 - (BOOL) hasStatus;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
-@property (readonly) int32_t defenderId;
+@property (readonly, strong) NSString* defenderUuid;
 - (BOOL) attackerAttacked;
 - (BOOL) attackerWon;
 @property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
@@ -598,10 +597,10 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndPvpBattleResponseProto_Builder*) clearSender;
 
-- (BOOL) hasDefenderId;
-- (int32_t) defenderId;
-- (EndPvpBattleResponseProto_Builder*) setDefenderId:(int32_t) value;
-- (EndPvpBattleResponseProto_Builder*) clearDefenderId;
+- (BOOL) hasDefenderUuid;
+- (NSString*) defenderUuid;
+- (EndPvpBattleResponseProto_Builder*) setDefenderUuid:(NSString*) value;
+- (EndPvpBattleResponseProto_Builder*) clearDefenderUuid;
 
 - (BOOL) hasAttackerAttacked;
 - (BOOL) attackerAttacked;

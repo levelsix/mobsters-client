@@ -25,7 +25,7 @@
 
 @property (nonatomic, assign) BOOL isTutorial;
 @property (nonatomic, assign) BOOL connected;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSString *userUuid;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int gems;
@@ -190,7 +190,7 @@
 - (void) updateClanData:(ClanDataProto *)clanData;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
-- (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;
+- (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level;
 - (NSSet *) facebookIdsAlreadyUsed;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
@@ -203,12 +203,12 @@
 
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
-- (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId;
+- (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid;
 - (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (NSArray *) allBattleAvailableMonstersOnTeam;
 - (NSArray *) allBattleAvailableAliveMonstersOnTeam;
-- (UserStruct *) myStructWithId:(int)structId;
+- (UserStruct *) myStructWithUuid:(NSString *)structUuid;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;
 - (UserStruct *) myEvoChamber;

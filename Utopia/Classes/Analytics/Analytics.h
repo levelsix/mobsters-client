@@ -25,7 +25,7 @@
 + (void) tutorialFbConfirmSkip;
 + (void) tutorialWaitingOnUserCreate;
 
-+ (void) setUserId:(int)userId name:(NSString *)name email:(NSString *)email;
++ (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email;
 + (void) newAccountCreated;
 + (void) tutorialComplete;
 + (void) appOpen:(int)numTimesOpened;
@@ -44,8 +44,10 @@
 + (void) openChat;
 + (void) createSquad:(NSString *)squadName;
 + (void) joinSquad:(NSString *)squadName isRequestType:(BOOL)isRequestType;
+
++ (void) pveHit:(int)dungeonId isEnemyAttack:(BOOL)isEnemyAttack attackerMonsterId:(int)attackerMonsterId attackerLevel:(int)attackerLevel attackerHp:(int)attackerHp defenderMonsterId:(int)defenderMonsterId defenderLevel:(int)defenderLevel defenderHp:(int)defenderHp damageDealt:(int)damageDealt hitOrder:(int)hitOrder isKill:(BOOL)isKill isFinalBlow:(BOOL)isFinalBlow skillId:(int)skillId numContinues:(int)numContinues;
 + (void) pveMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated type:(NSString *)type mobsterIdsUsed:(NSArray *)mobsterIdsUsed numPiecesGained:(int)numPieces mobsterIdsGained:(NSArray *)mobsterIdsGained totalRounds:(int)totalRounds dungeonId:(int)dungeonId numContinues:(int)numContinues outcome:(NSString *)outcome;
-+ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(int)oppId outcome:(NSString *)outcome league:(NSString *)league;
++ (void) pvpMatchEnd:(BOOL)won numEnemiesDefeated:(int)enemiesDefeated mobsterIdsUsed:(NSArray *)mobsterIdsUsed totalRounds:(int)totalRounds elo:(int)elo oppElo:(int)oppElo oppId:(NSString *)oppId outcome:(NSString *)outcome league:(NSString *)league;
 
 
 + (void) userCreateWithCashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance;

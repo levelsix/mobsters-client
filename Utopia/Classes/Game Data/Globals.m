@@ -1253,7 +1253,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   for (UserCurrentMonsterTeamProto *team in array) {
-    [dict setObject:[self convertCurrentTeamToArray:team] forKey:@(team.userId)];
+    [dict setObject:[self convertCurrentTeamToArray:team] forKey:team.userUuid];
   }
   return dict;
 }
@@ -1631,7 +1631,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int gemCost = 0;
   
   for (BattlePlayer *bp in team) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:bp.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:bp.userMonsterUuid];
     cashCost += [self calculateCostToHealMonster:um];
   }
   gemCost += [self calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost];
@@ -1640,7 +1640,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (BattlePlayer *bp in team) {
     UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
     heal.queueTime = [MSDate date];
-    heal.userMonsterId = bp.userMonsterId;
+    heal.userMonsterUuid = bp.userMonsterUuid;
     [fakeQueue addObject:heal];
   }
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
@@ -2210,7 +2210,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Muting Players
 
-- (void) muteUserId:(int)userId {
+- (void) muteUserUuid:(NSString *)userUuid {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
   
@@ -2218,14 +2218,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     dict = [NSMutableDictionary dictionary];
   }
   
-  [dict setObject:[NSDate date] forKey:[NSString stringWithFormat:@"%d", userId]];
+  [dict setObject:[NSDate date] forKey:[NSString stringWithFormat:@"%@", userUuid]];
   [def setObject:dict forKey:MUTED_PLAYERS_KEY];
 }
 
-- (BOOL) isUserIdMuted:(int)userId {
+- (BOOL) isUserUuidMuted:(NSString *)userUuid {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
-  NSDate *date = [dict objectForKey:[NSString stringWithFormat:@"%d", userId]];
+  NSDate *date = [dict objectForKey:[NSString stringWithFormat:@"%@", userUuid]];
   date = [date dateByAddingTimeInterval:24*60*60];
   
   return date && date.timeIntervalSinceNow > 0;

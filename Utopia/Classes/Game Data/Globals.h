@@ -366,8 +366,8 @@
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
 
-- (void) muteUserId:(int)userId;
-- (BOOL) isUserIdMuted:(int)userId;
+- (void) muteUserUuid:(NSString *)userUuid;
+- (BOOL) isUserUuidMuted:(NSString *)userUuid;
 - (void) unmuteAllPlayers;
 
 @end

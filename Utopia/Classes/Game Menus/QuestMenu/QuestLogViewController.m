@@ -320,10 +320,10 @@
       if (um.teamSlot > 0) {
         numOnTeam++;
       }
-      [ids addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
+      [ids addObject:um.userMonsterUuid];
     }
     
-    self.userMonsterIds = ids;
+    self.userMonsterUuids = ids;
     
     _donateJobId = jobId;
     if (numOnTeam) {
@@ -338,8 +338,8 @@
 - (void) donateConfirmed {
   GameState *gs = [GameState sharedGameState];
   FullQuestProto *quest = self.questDetailsViewController.quest;
-  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId jobId:_donateJobId monsterIds:self.userMonsterIds];
-  self.userMonsterIds = nil;
+  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId jobId:_donateJobId monsterUuids:self.userMonsterUuids];
+  self.userMonsterUuids = nil;
   if (uqNew.isComplete) {
     [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
     

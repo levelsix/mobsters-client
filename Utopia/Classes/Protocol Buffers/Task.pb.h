@@ -352,23 +352,23 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
 @private
-  BOOL hasUserTaskId_:1;
-  BOOL hasUserId_:1;
   BOOL hasTaskId_:1;
   BOOL hasCurTaskStageId_:1;
-  int64_t userTaskId;
-  int32_t userId;
+  BOOL hasUserUuid_:1;
+  BOOL hasUserTaskUuid_:1;
   int32_t taskId;
   int32_t curTaskStageId;
+  NSString* userUuid;
+  NSString* userTaskUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasTaskId;
 - (BOOL) hasCurTaskStageId;
-- (BOOL) hasUserTaskId;
-@property (readonly) int32_t userId;
+- (BOOL) hasUserTaskUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t curTaskStageId;
-@property (readonly) int64_t userTaskId;
+@property (readonly, strong) NSString* userTaskUuid;
 
 + (MinimumUserTaskProto*) defaultInstance;
 - (MinimumUserTaskProto*) defaultInstance;
@@ -405,10 +405,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value;
-- (MinimumUserTaskProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (MinimumUserTaskProto_Builder*) setUserUuid:(NSString*) value;
+- (MinimumUserTaskProto_Builder*) clearUserUuid;
 
 - (BOOL) hasTaskId;
 - (int32_t) taskId;
@@ -420,17 +420,16 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (MinimumUserTaskProto_Builder*) setCurTaskStageId:(int32_t) value;
 - (MinimumUserTaskProto_Builder*) clearCurTaskStageId;
 
-- (BOOL) hasUserTaskId;
-- (int64_t) userTaskId;
-- (MinimumUserTaskProto_Builder*) setUserTaskId:(int64_t) value;
-- (MinimumUserTaskProto_Builder*) clearUserTaskId;
+- (BOOL) hasUserTaskUuid;
+- (NSString*) userTaskUuid;
+- (MinimumUserTaskProto_Builder*) setUserTaskUuid:(NSString*) value;
+- (MinimumUserTaskProto_Builder*) clearUserTaskUuid;
 @end
 
 @interface TaskStageMonsterProto : PBGeneratedMessage {
 @private
   BOOL hasPuzzlePieceDropped_:1;
   BOOL hasDmgMultiplier_:1;
-  BOOL hasTsfuId_:1;
   BOOL hasTsmId_:1;
   BOOL hasMonsterId_:1;
   BOOL hasLevel_:1;
@@ -442,12 +441,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasDefensiveSkillId_:1;
   BOOL hasOffensiveSkillId_:1;
   BOOL hasPuzzlePieceMonsterDropLvl_:1;
+  BOOL hasTsfuUuid_:1;
   BOOL hasInitialD_:1;
   BOOL hasDefaultD_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   Float32 dmgMultiplier;
-  int64_t tsfuId;
   int32_t tsmId;
   int32_t monsterId;
   int32_t level;
@@ -459,11 +458,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t defensiveSkillId;
   int32_t offensiveSkillId;
   int32_t puzzlePieceMonsterDropLvl;
+  NSString* tsfuUuid;
   DialogueProto* initialD;
   DialogueProto* defaultD;
   TaskStageMonsterProto_MonsterType monsterType;
 }
-- (BOOL) hasTsfuId;
+- (BOOL) hasTsfuUuid;
 - (BOOL) hasTsmId;
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterType;
@@ -480,7 +480,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasPuzzlePieceMonsterDropLvl;
 - (BOOL) hasInitialD;
 - (BOOL) hasDefaultD;
-@property (readonly) int64_t tsfuId;
+@property (readonly, strong) NSString* tsfuUuid;
 @property (readonly) int32_t tsmId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
@@ -533,10 +533,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasTsfuId;
-- (int64_t) tsfuId;
-- (TaskStageMonsterProto_Builder*) setTsfuId:(int64_t) value;
-- (TaskStageMonsterProto_Builder*) clearTsfuId;
+- (BOOL) hasTsfuUuid;
+- (NSString*) tsfuUuid;
+- (TaskStageMonsterProto_Builder*) setTsfuUuid:(NSString*) value;
+- (TaskStageMonsterProto_Builder*) clearTsfuUuid;
 
 - (BOOL) hasTsmId;
 - (int32_t) tsmId;
@@ -738,16 +738,16 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @interface UserPersistentEventProto : PBGeneratedMessage {
 @private
   BOOL hasCoolDownStartTime_:1;
-  BOOL hasUserId_:1;
   BOOL hasEventId_:1;
+  BOOL hasUserUuid_:1;
   int64_t coolDownStartTime;
-  int32_t userId;
   int32_t eventId;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasEventId;
 - (BOOL) hasCoolDownStartTime;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t eventId;
 @property (readonly) int64_t coolDownStartTime;
 
@@ -786,10 +786,10 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserPersistentEventProto_Builder*) setUserId:(int32_t) value;
-- (UserPersistentEventProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserPersistentEventProto_Builder*) setUserUuid:(NSString*) value;
+- (UserPersistentEventProto_Builder*) clearUserUuid;
 
 - (BOOL) hasEventId;
 - (int32_t) eventId;

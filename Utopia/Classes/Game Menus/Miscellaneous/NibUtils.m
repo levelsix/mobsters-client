@@ -1583,7 +1583,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   }
   
   NSString *league = pvp.imgPrefix;
-  int rank = upvp.rank;
+  int rank = upvp ? upvp.rank : 100;
   [Globals imageNamed:[league stringByAppendingString:ribbonSuffix] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   [Globals imageNamed:[league stringByAppendingString:@"icon.png"] withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   self.leagueLabel.text = pvp.leagueName;

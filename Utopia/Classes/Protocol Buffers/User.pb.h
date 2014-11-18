@@ -45,27 +45,27 @@
 @private
   BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasClanId_:1;
   BOOL hasClanIconId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
-  int32_t clanId;
   int32_t clanIconId;
+  NSString* clanUuid;
   NSString* name;
   NSString* description;
   NSString* tag;
 }
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 - (BOOL) hasName;
 - (BOOL) hasCreateTime;
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
 - (BOOL) hasClanIconId;
-@property (readonly) int32_t clanId;
+@property (readonly, strong) NSString* clanUuid;
 @property (readonly, strong) NSString* name;
 @property (readonly) int64_t createTime;
 @property (readonly, strong) NSString* description;
@@ -108,10 +108,10 @@
 - (MinimumClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumClanProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (MinimumClanProto_Builder*) setClanId:(int32_t) value;
-- (MinimumClanProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (MinimumClanProto_Builder*) setClanUuid:(NSString*) value;
+- (MinimumClanProto_Builder*) clearClanUuid;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -146,20 +146,20 @@
 
 @interface MinimumUserProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
   BOOL hasAvatarMonsterId_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasName_:1;
   BOOL hasClan_:1;
-  int32_t userId;
   int32_t avatarMonsterId;
+  NSString* userUuid;
   NSString* name;
   MinimumClanProto* clan;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasName;
 - (BOOL) hasClan;
 - (BOOL) hasAvatarMonsterId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) MinimumClanProto* clan;
 @property (readonly) int32_t avatarMonsterId;
@@ -199,10 +199,10 @@
 - (MinimumUserProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumUserProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (MinimumUserProto_Builder*) setUserId:(int32_t) value;
-- (MinimumUserProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (MinimumUserProto_Builder*) setUserUuid:(NSString*) value;
+- (MinimumUserProto_Builder*) clearUserUuid;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -416,34 +416,34 @@
   BOOL hasTimeOfInvite_:1;
   BOOL hasTimeAccepted_:1;
   BOOL hasRedeemedTime_:1;
-  BOOL hasInviteId_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasStructFbLvl_:1;
+  BOOL hasInviteUuid_:1;
   BOOL hasRecipientFacebookId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasInviter_:1;
   int64_t timeOfInvite;
   int64_t timeAccepted;
   int64_t redeemedTime;
-  int32_t inviteId;
-  int32_t userStructId;
   int32_t structFbLvl;
+  NSString* inviteUuid;
   NSString* recipientFacebookId;
+  NSString* userStructUuid;
   MinimumUserProtoWithFacebookId* inviter;
 }
-- (BOOL) hasInviteId;
+- (BOOL) hasInviteUuid;
 - (BOOL) hasInviter;
 - (BOOL) hasRecipientFacebookId;
 - (BOOL) hasTimeOfInvite;
 - (BOOL) hasTimeAccepted;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasStructFbLvl;
 - (BOOL) hasRedeemedTime;
-@property (readonly) int32_t inviteId;
+@property (readonly, strong) NSString* inviteUuid;
 @property (readonly, strong) MinimumUserProtoWithFacebookId* inviter;
 @property (readonly, strong) NSString* recipientFacebookId;
 @property (readonly) int64_t timeOfInvite;
 @property (readonly) int64_t timeAccepted;
-@property (readonly) int32_t userStructId;
+@property (readonly, strong) NSString* userStructUuid;
 @property (readonly) int32_t structFbLvl;
 @property (readonly) int64_t redeemedTime;
 
@@ -482,10 +482,10 @@
 - (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasInviteId;
-- (int32_t) inviteId;
-- (UserFacebookInviteForSlotProto_Builder*) setInviteId:(int32_t) value;
-- (UserFacebookInviteForSlotProto_Builder*) clearInviteId;
+- (BOOL) hasInviteUuid;
+- (NSString*) inviteUuid;
+- (UserFacebookInviteForSlotProto_Builder*) setInviteUuid:(NSString*) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearInviteUuid;
 
 - (BOOL) hasInviter;
 - (MinimumUserProtoWithFacebookId*) inviter;
@@ -509,10 +509,10 @@
 - (UserFacebookInviteForSlotProto_Builder*) setTimeAccepted:(int64_t) value;
 - (UserFacebookInviteForSlotProto_Builder*) clearTimeAccepted;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (UserFacebookInviteForSlotProto_Builder*) setUserStructId:(int32_t) value;
-- (UserFacebookInviteForSlotProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (UserFacebookInviteForSlotProto_Builder*) setUserStructUuid:(NSString*) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasStructFbLvl;
 - (int32_t) structFbLvl;
@@ -538,30 +538,30 @@
   BOOL hasLastObstacleSpawnedTime_:1;
   BOOL hasLastMiniJobSpawnedTime_:1;
   BOOL hasLastFreeBoosterPackTime_:1;
-  BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasGems_:1;
   BOOL hasCash_:1;
   BOOL hasOil_:1;
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
+  BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumOilRetrievedFromStructs_:1;
-  BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasApsalarId_:1;
+  BOOL hasNumBeginnerSalesPurchased_:1;
+  BOOL hasNumBadges_:1;
   BOOL hasNumObstaclesRemoved_:1;
   BOOL hasAvatarMonsterId_:1;
-  BOOL hasNumBadges_:1;
   BOOL hasNumClanHelps_:1;
+  BOOL hasFacebookId_:1;
   BOOL hasUdidForHistory_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasGameCenterId_:1;
-  BOOL hasFacebookId_:1;
   BOOL hasReferralCode_:1;
-  BOOL hasKabamNaid_:1;
   BOOL hasName_:1;
+  BOOL hasKabamNaid_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasUdid_:1;
   BOOL hasPvpLeagueInfo_:1;
   BOOL hasClan_:1;
@@ -576,35 +576,35 @@
   int64_t lastObstacleSpawnedTime;
   int64_t lastMiniJobSpawnedTime;
   int64_t lastFreeBoosterPackTime;
-  int32_t userId;
   int32_t level;
   int32_t gems;
   int32_t cash;
   int32_t oil;
   int32_t experience;
   int32_t tasksCompleted;
+  int32_t numConsecutiveDaysPlayed;
   int32_t numReferrals;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numOilRetrievedFromStructs;
-  int32_t numConsecutiveDaysPlayed;
-  int32_t numBeginnerSalesPurchased;
   int32_t apsalarId;
+  int32_t numBeginnerSalesPurchased;
+  int32_t numBadges;
   int32_t numObstaclesRemoved;
   int32_t avatarMonsterId;
-  int32_t numBadges;
   int32_t numClanHelps;
+  NSString* facebookId;
   NSString* udidForHistory;
   NSString* deviceToken;
   NSString* gameCenterId;
-  NSString* facebookId;
   NSString* referralCode;
-  NSString* kabamNaid;
   NSString* name;
+  NSString* kabamNaid;
+  NSString* userUuid;
   NSString* udid;
   UserPvpLeagueProto* pvpLeagueInfo;
   MinimumClanProto* clan;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasName;
 - (BOOL) hasLevel;
 - (BOOL) hasGems;
@@ -642,7 +642,7 @@
 - (BOOL) hasKabamNaid;
 - (BOOL) hasFbIdSetOnUserCreate;
 - (BOOL) hasUdid;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) int32_t gems;
@@ -716,10 +716,10 @@
 - (FullUserProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserProto_Builder*) setUserId:(int32_t) value;
-- (FullUserProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserProto_Builder*) clearUserUuid;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -973,22 +973,22 @@
 @private
   BOOL hasMonsterDmgMultiplier_:1;
   BOOL hasShieldEndTime_:1;
-  BOOL hasUserId_:1;
   BOOL hasLeagueId_:1;
   BOOL hasRank_:1;
   BOOL hasElo_:1;
   BOOL hasBattlesWon_:1;
   BOOL hasBattlesLost_:1;
+  BOOL hasUserUuid_:1;
   Float32 monsterDmgMultiplier;
   int64_t shieldEndTime;
-  int32_t userId;
   int32_t leagueId;
   int32_t rank;
   int32_t elo;
   int32_t battlesWon;
   int32_t battlesLost;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasLeagueId;
 - (BOOL) hasRank;
 - (BOOL) hasElo;
@@ -996,7 +996,7 @@
 - (BOOL) hasBattlesLost;
 - (BOOL) hasShieldEndTime;
 - (BOOL) hasMonsterDmgMultiplier;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t leagueId;
 @property (readonly) int32_t rank;
 @property (readonly) int32_t elo;
@@ -1040,10 +1040,10 @@
 - (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserPvpLeagueProto_Builder*) setUserId:(int32_t) value;
-- (UserPvpLeagueProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserPvpLeagueProto_Builder*) setUserUuid:(NSString*) value;
+- (UserPvpLeagueProto_Builder*) clearUserUuid;
 
 - (BOOL) hasLeagueId;
 - (int32_t) leagueId;

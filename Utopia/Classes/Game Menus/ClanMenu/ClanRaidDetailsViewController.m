@@ -77,7 +77,7 @@
     for (UserMonster *um in currentTeam) {
       BOOL found = NO;
       for (FullUserMonsterProto *fup in forcedMonsters) {
-        if (fup.userMonsterId == um.userMonsterId) {
+        if ([fup.userMonsterUuid isEqualToString:um.userMonsterUuid]) {
           found = YES;
         }
       }
@@ -96,7 +96,7 @@
   // Grab the forced monsters
   NSMutableArray *team = [NSMutableArray array];
   for (FullUserMonsterProto *fup in forcedMonsters) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:(int)fup.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:fup.userMonsterUuid];
     if (um) {
       [team addObject:um];
     }

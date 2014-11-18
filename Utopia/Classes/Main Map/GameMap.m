@@ -17,7 +17,7 @@
 
 #define REORDER_START_Z 150
 
-#define MY_TEAM_TAG_BASE(d) [NSString stringWithFormat:@"MyTeam%lld", d]
+#define MY_TEAM_TAG_BASE(d) [NSString stringWithFormat:@"MyTeam%@", d]
 
 @implementation GameMap
 
@@ -112,7 +112,7 @@
       continue;
     }
     
-    NSString *name = MY_TEAM_TAG_BASE(um.userMonsterId);
+    NSString *name = MY_TEAM_TAG_BASE(um.userMonsterUuid);
     MyTeamSprite *ts = (MyTeamSprite *)[self getChildByName:name recursively:NO];
     
     if (!ts) {

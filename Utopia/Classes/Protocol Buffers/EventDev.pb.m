@@ -357,6 +357,7 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
 }
 - (BOOL) hasStaticDataId {
   return result.hasStaticDataId;
+<<<<<<< HEAD
 }
 - (int32_t) staticDataId {
   return result.staticDataId;
@@ -382,6 +383,33 @@ static DevRequestProto* defaultDevRequestProtoInstance = nil;
   result.quantity = value;
   return self;
 }
+=======
+}
+- (int32_t) staticDataId {
+  return result.staticDataId;
+}
+- (DevRequestProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
+  return self;
+}
+- (DevRequestProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (DevRequestProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+>>>>>>> uuid
 - (DevRequestProto_Builder*) clearQuantity {
   result.hasQuantity = NO;
   result.quantity = 0;

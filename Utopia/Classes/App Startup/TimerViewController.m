@@ -335,8 +335,10 @@
   
   if (sender) {
     NSInteger idx = [self.timerCells indexOfObject:sender];
-    TimerAction *ta = self.timerActionsArray[idx];
-    [ta speedupClicked];
+    if (idx < self.timerActionsArray.count) {
+      TimerAction *ta = self.timerActionsArray[idx];
+      [ta speedupClicked];
+    }
   }
 }
 

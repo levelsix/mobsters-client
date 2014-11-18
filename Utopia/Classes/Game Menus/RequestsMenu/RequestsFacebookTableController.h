@@ -31,8 +31,8 @@
 @property (nonatomic, retain) NSMutableArray *requests;
 @property (nonatomic, retain) NSDictionary *fbInfo;
 
-@property (nonatomic, retain) NSMutableArray *acceptedRequestIds;
-@property (nonatomic, retain) NSMutableArray *rejectedRequestIds;
+@property (nonatomic, retain) NSMutableArray *acceptedRequestUuids;
+@property (nonatomic, retain) NSMutableArray *rejectedRequestUuids;
 
 @property (nonatomic, retain) IBOutlet RequestsFacebookCell *requestCell;
 @property (nonatomic, retain) IBOutlet UIView *headerView;

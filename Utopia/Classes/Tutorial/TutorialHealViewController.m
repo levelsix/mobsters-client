@@ -22,7 +22,7 @@
     
     Globals *gl = [Globals sharedGlobals];
     UserMonster *um = [[UserMonster alloc] init];
-    um.userMonsterId = 1;
+    um.userMonsterUuid = @"1";
     um.monsterId = constants.startingMonsterId;
     um.teamSlot = 1;
     um.isComplete = YES;
@@ -118,7 +118,7 @@
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um {
   for (UserMonsterHealingItem *hi in self.healingQueue) {
-    if (hi.userMonsterId == um.userMonsterId) {
+    if ([hi.userMonsterUuid isEqualToString:um.userMonsterUuid]) {
       return NO;
     }
   }
@@ -126,12 +126,12 @@
   return um.curHealth < [gl calculateMaxHealthForMonster:um];
 }
 
-- (BOOL) addMonsterToHealingQueue:(int)umId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(NSString *)umId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = self.myMonsters[0];
   int maxHp = [gl calculateMaxHealthForMonster:um];
   UserMonsterHealingItem *hi = [[UserMonsterHealingItem alloc] init];
-  hi.userMonsterId = umId;
+  hi.userMonsterUuid = umId;
   hi.queueTime = [MSDate date];
   hi.endTime = [hi.queueTime dateByAddingTimeInterval:(maxHp-um.curHealth)/_hospitalHealSpeed];
   hi.timeDistribution = @[@(hi.endTime.timeIntervalSinceNow), @(maxHp-um.curHealth)];

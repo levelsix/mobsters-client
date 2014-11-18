@@ -78,7 +78,7 @@
   if (canHelp) {
     canHelp = NO;
     for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
-      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:hi.userMonsterId] < 0) {
+      if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
         canHelp = YES;
       }
     }
@@ -170,8 +170,8 @@
   return um.isAvailable && um.curHealth < [gl calculateMaxHealthForMonster:um];
 }
 
-- (BOOL) addMonsterToHealingQueue:(uint64_t)umId useGems:(BOOL)useGems {
-  return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umId useGems:useGems];
+- (BOOL) addMonsterToHealingQueue:(NSString *)umUuid useGems:(BOOL)useGems {
+  return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umUuid useGems:useGems];
 }
 
 - (BOOL) speedupHealingQueue {
@@ -281,7 +281,7 @@
 
 - (void) sendHeal:(UserMonster *)um allowGems:(BOOL)allowGems {
   if (!_waitingForResponse) {
-    BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
+    BOOL success = [self addMonsterToHealingQueue:um.userMonsterUuid useGems:allowGems];
     if (success) {
       // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
       [self reloadQueueViewAnimated:YES];

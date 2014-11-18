@@ -133,7 +133,7 @@
     
     [self hideAllViews];
     self.gradientView.hidden = NO;
-    if (gs.clan.clanId == c.clan.clanId) {
+    if ([gs.clan.clanUuid isEqualToString:c.clan.clanUuid]) {
       if (clanStatus == UserClanStatusLeader || clanStatus == UserClanStatusJuniorLeader) {
         self.leaderView.hidden = NO;
       } else if (clanStatus) {
@@ -143,7 +143,7 @@
     } else if (gs.clan) {
       self.anotherClanView.hidden = NO;
     } else {
-      if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+      if ([gs.requestedClans containsObject:c.clan.clanUuid]) {
         self.cancelView.hidden = NO;
       } else {
         if (c.clan.requestToJoinRequired) {

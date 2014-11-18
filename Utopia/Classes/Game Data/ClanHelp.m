@@ -15,14 +15,14 @@
 
 - (id) initWithClanHelpProto:(ClanHelpProto *)chp {
   if ((self = [super init])) {
-    self.clanHelpId = chp.clanHelpId;
+    self.clanHelpUuid = chp.clanHelpUuid;
     self.requester = chp.mup;
-    self.clanId = chp.clanId;
+    self.clanUuid = chp.clanUuid;
     self.requestedTime = [MSDate dateWithTimeIntervalSince1970:chp.timeRequested/1000.0];
     self.maxHelpers = chp.maxHelpers;
-    self.helperUserIds = [NSMutableSet setWithArray:[chp.helperIdsList toNSArray]];
+    self.helperUserUuids = [NSMutableSet setWithArray:chp.helperUuidsList];
     self.helpType = chp.helpType;
-    self.userDataId = chp.userDataId;
+    self.userDataUuid = chp.userDataUuid;
     self.staticDataId = chp.staticDataId;
     self.isOpen = chp.open;
   }
@@ -30,7 +30,7 @@
 }
 
 - (int) numHelpers {
-  return MIN(self.maxHelpers, (int)self.helperUserIds.count);
+  return MIN(self.maxHelpers, (int)self.helperUserUuids.count);
 }
 
 - (NSString *) statusStingWithPossessive:(NSString *)possessive {
@@ -69,50 +69,50 @@
 }
 
 - (void) consumeClanHelp:(ClanHelp *)chp {
-  if (self.clanHelpId != chp.clanHelpId) {
+  if (![self.clanHelpUuid isEqualToString:chp.clanHelpUuid]) {
     // This means we just asked for help and got back the response
-    self.clanHelpId = chp.clanHelpId;
+    self.clanHelpUuid = chp.clanHelpUuid;
     self.requester = chp.requester;
-    self.clanId = chp.clanId;
+    self.clanUuid = chp.clanUuid;
     self.requestedTime = chp.requestedTime;
     self.maxHelpers = chp.maxHelpers;
-    self.helperUserIds = chp.helperUserIds;
+    self.helperUserUuids = chp.helperUserUuids;
     self.helpType = chp.helpType;
-    self.userDataId = chp.userDataId;
+    self.userDataUuid = chp.userDataUuid;
     self.staticDataId = chp.staticDataId;
     self.isOpen = chp.isOpen;
   } else {
-    [self.helperUserIds unionSet:chp.helperUserIds];
+    [self.helperUserUuids unionSet:chp.helperUserUuids];
     
     self.isOpen = self.isOpen & chp.isOpen;
   }
 }
 
-- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
-  if (self.helpType == type && self.userDataId == userDataId) {
+- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
+  if (self.helpType == type && [self.userDataUuid isEqualToString:userDataUuid]) {
     return self;
   }
   return nil;
 }
 
-- (NSArray *) helpableClanHelpIdsForUserId:(int)userId {
-  if (self.isOpen && self.requester.userId != userId && ![self.helperUserIds containsObject:@(userId)] && self.numHelpers < self.maxHelpers) {
-    return @[@(self.clanHelpId)];
+- (NSArray *) helpableClanHelpIdsForUserUuid:(NSString *)userUuid {
+  if (self.isOpen && ![self.requester.userUuid isEqualToString:userUuid] && ![self.helperUserUuids containsObject:userUuid] && self.numHelpers < self.maxHelpers) {
+    return @[self.clanHelpUuid];
   }
   return nil;
 }
 
-- (BOOL) canHelpForUserId:(int)userId {
-  return [self helpableClanHelpIdsForUserId:userId].count > 0;
+- (BOOL) canHelpForUserUuid:(NSString *)userUuid {
+  return [self helpableClanHelpIdsForUserUuid:userUuid].count > 0;
 }
 
-- (BOOL) hasHelpedForUserId:(int)userId {
-  return [self.helperUserIds containsObject:@(userId)];
+- (BOOL) hasHelpedForUserUuid:(NSString *)userUuid {
+  return [self.helperUserUuids containsObject:userUuid];
 }
 
-- (void) incrementHelpForUserId:(int)userId {
-  if ([self canHelpForUserId:userId]) {
-    [self.helperUserIds addObject:@(userId)];
+- (void) incrementHelpForUserUuid:(NSString *)userUuid {
+  if ([self canHelpForUserUuid:userUuid]) {
+    [self.helperUserUuids addObject:userUuid];
   }
 }
 
@@ -132,18 +132,18 @@
 - (BOOL) isEqual:(ClanHelp *)object {
   // Types that are gonna be bundled need to match with this (2nd statement).
   // Otherwise, actually compare values.
-  return ([self class] == [object class] && self.requester.userId == object.requester.userId &&
-          self.clanId == object.clanId && self.helpType == object.helpType &&
-          self.userDataId == object.userDataId) ||
+  return ([self class] == [object class] && [self.requester.userUuid isEqualToString:object.requester.userUuid] &&
+          [self.clanUuid isEqualToString:object.clanUuid] && self.helpType == object.helpType &&
+          [self.userDataUuid isEqualToString:object.userDataUuid]) ||
   // Bundle will match with this object but make sure its not also this object
-  ([self class] != [object class] && [object conformsToProtocol:@protocol(ClanHelp)] &&  self.requester.userId == object.requester.userId &&
-   self.clanId == object.clanId && self.helpType == object.helpType);
+  ([self class] != [object class] && [object conformsToProtocol:@protocol(ClanHelp)] &&  [self.requester.userUuid isEqualToString:object.requester.userUuid] &&
+   [self.clanUuid isEqualToString:object.clanUuid] && self.helpType == object.helpType);
 }
 
 - (NSUInteger) hash {
   // Types that are gonna be bundled need to match with this
-  uint64_t val = self.helpType == GameActionTypeHeal ? 1 : self.userDataId;
-  return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + val*7);
+  NSUInteger val = self.helpType == GameActionTypeHeal ? 1 : self.userDataUuid.hash;
+  return (NSUInteger)(self.requester.userUuid.hash*31 + self.clanUuid.hash*29 + self.helpType*11 + val*7);
 }
 
 #pragma mark - ChatObject protocol
@@ -166,7 +166,7 @@
 
 - (BOOL) isRead {
   GameState *gs = [GameState sharedGameState];
-  return ![self canHelpForUserId:gs.userId];
+  return ![self canHelpForUserUuid:gs.userUuid];
 }
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
@@ -216,7 +216,7 @@
 - (id) initWithClanHelp:(ClanHelp *)clanHelp {
   if ((self = [super init])) {
     self.requester = clanHelp.requester;
-    self.clanId = clanHelp.clanId;
+    self.clanUuid = clanHelp.clanUuid;
     self.helpType = clanHelp.helpType;
     self.clanHelps = [NSMutableArray arrayWithObject:clanHelp];
   }
@@ -303,39 +303,39 @@
   }
 }
 
-- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getClanHelpForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
   for (ClanHelp *ch in self.clanHelps) {
-    if (ch.helpType == type && ch.userDataId == userDataId) {
+    if (ch.helpType == type && [ch.userDataUuid isEqualToString:userDataUuid]) {
       return ch;
     }
   }
   return nil;
 }
 
-- (NSArray *) helpableClanHelpIdsForUserId:(int)userId {
-  NSMutableArray *clanHelpIds = [NSMutableArray array];
+- (NSArray *) helpableClanHelpIdsForUserUuid:(NSString *)userUuid {
+  NSMutableArray *clanHelpUuids = [NSMutableArray array];
   for (ClanHelp *ch in self.clanHelps) {
-    if ([ch canHelpForUserId:userId]) {
-      [clanHelpIds addObject:@(ch.clanHelpId)];
+    if ([ch canHelpForUserUuid:userUuid]) {
+      [clanHelpUuids addObject:ch.clanHelpUuid];
     }
   }
-  return clanHelpIds;
+  return clanHelpUuids;
 }
 
-- (BOOL) canHelpForUserId:(int)userId {
-  return [self helpableClanHelpIdsForUserId:userId].count > 0;
+- (BOOL) canHelpForUserUuid:(NSString *)userUuid {
+  return [self helpableClanHelpIdsForUserUuid:userUuid].count > 0;
 }
 
-- (BOOL) hasHelpedForUserId:(int)userId {
+- (BOOL) hasHelpedForUserUuid:(NSString *)userUuid {
   // Only return YES if we have helped at least once and we can't help anymore.
   BOOL hasHelped = NO;
   for (ClanHelp *ch in self.clanHelps) {
-    if ([ch hasHelpedForUserId:userId]) {
+    if ([ch hasHelpedForUserUuid:userUuid]) {
       hasHelped = YES;
     }
   }
   
-  return hasHelped && ![self canHelpForUserId:userId];
+  return hasHelped && ![self canHelpForUserUuid:userUuid];
 }
 
 - (NSArray *) allIndividualClanHelps {
@@ -349,22 +349,22 @@
   return self.clanHelps.count == 0;
 }
 
-- (void) incrementHelpForUserId:(int)userId {
+- (void) incrementHelpForUserUuid:(NSString *)userUuid {
   for (ClanHelp *ch in self.clanHelps) {
-    if ([ch canHelpForUserId:userId]) {
-      [ch incrementHelpForUserId:userId];
+    if ([ch canHelpForUserUuid:userUuid]) {
+      [ch incrementHelpForUserUuid:userUuid];
     }
   }
 }
 
 - (BOOL) isEqual:(ClanHelp *)object {
-  return ([object conformsToProtocol:@protocol(ClanHelp)] &&  self.requester.userId == object.requester.userId &&
-          self.clanId == object.clanId && self.helpType == object.helpType);
+  return ([object conformsToProtocol:@protocol(ClanHelp)] &&  [self.requester.userUuid isEqualToString:object.requester.userUuid] &&
+          [self.clanUuid isEqualToString:object.clanUuid] && self.helpType == object.helpType);
 }
 
 - (NSUInteger) hash {
   uint64_t val = 1;
-  return (NSUInteger)(self.requester.userId*31 + self.clanId*29 + self.helpType*11 + val*7);
+  return (NSUInteger)(self.requester.userUuid.hash*31 + self.clanUuid.hash*29 + self.helpType*11 + val*7);
 }
 
 #pragma mark - ChatObject protocol
@@ -383,7 +383,7 @@
 
 - (BOOL) isRead {
   GameState *gs = [GameState sharedGameState];
-  return ![self canHelpForUserId:gs.userId];
+  return ![self canHelpForUserUuid:gs.userUuid];
 }
 
 - (UIColor *) textColor {

@@ -919,10 +919,10 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 @end
 
 @interface UserMiniJobProto ()
-@property int64_t userMiniJobId;
+@property (strong) NSString* userMiniJobUuid;
 @property int32_t baseDmgReceived;
 @property int64_t timeStarted;
-@property (strong) PBAppendableArray * mutableUserMonsterIdsList;
+@property (strong) NSMutableArray * mutableUserMonsterUuidsList;
 @property int64_t timeCompleted;
 @property int32_t durationMinutes;
 @property (strong) MiniJobProto* miniJob;
@@ -931,13 +931,13 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 
 @implementation UserMiniJobProto
 
-- (BOOL) hasUserMiniJobId {
-  return !!hasUserMiniJobId_;
+- (BOOL) hasUserMiniJobUuid {
+  return !!hasUserMiniJobUuid_;
 }
-- (void) setHasUserMiniJobId:(BOOL) value_ {
-  hasUserMiniJobId_ = !!value_;
+- (void) setHasUserMiniJobUuid:(BOOL) value_ {
+  hasUserMiniJobUuid_ = !!value_;
 }
-@synthesize userMiniJobId;
+@synthesize userMiniJobUuid;
 - (BOOL) hasBaseDmgReceived {
   return !!hasBaseDmgReceived_;
 }
@@ -952,8 +952,8 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   hasTimeStarted_ = !!value_;
 }
 @synthesize timeStarted;
-@synthesize mutableUserMonsterIdsList;
-@dynamic userMonsterIdsList;
+@synthesize mutableUserMonsterUuidsList;
+@dynamic userMonsterUuidsList;
 - (BOOL) hasTimeCompleted {
   return !!hasTimeCompleted_;
 }
@@ -984,7 +984,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 @synthesize durationSeconds;
 - (id) init {
   if ((self = [super init])) {
-    self.userMiniJobId = 0L;
+    self.userMiniJobUuid = @"";
     self.baseDmgReceived = 0;
     self.timeStarted = 0L;
     self.timeCompleted = 0L;
@@ -1006,18 +1006,18 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
 - (UserMiniJobProto*) defaultInstance {
   return defaultUserMiniJobProtoInstance;
 }
-- (PBArray *)userMonsterIdsList {
-  return mutableUserMonsterIdsList;
+- (NSArray *)userMonsterUuidsList {
+  return mutableUserMonsterUuidsList;
 }
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
-  return [mutableUserMonsterIdsList int64AtIndex:index];
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index {
+  return [mutableUserMonsterUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserMiniJobId) {
-    [output writeInt64:1 value:self.userMiniJobId];
+  if (self.hasUserMiniJobUuid) {
+    [output writeString:1 value:self.userMiniJobUuid];
   }
   if (self.hasBaseDmgReceived) {
     [output writeInt32:2 value:self.baseDmgReceived];
@@ -1025,13 +1025,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasTimeStarted) {
     [output writeInt64:3 value:self.timeStarted];
   }
-  const NSUInteger userMonsterIdsListCount = self.userMonsterIdsList.count;
-  if (userMonsterIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
-    for (NSUInteger i = 0; i < userMonsterIdsListCount; ++i) {
-      [output writeInt64:4 value:values[i]];
-    }
-  }
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:4 value:element];
+  }];
   if (self.hasTimeCompleted) {
     [output writeInt64:5 value:self.timeCompleted];
   }
@@ -1053,8 +1049,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserMiniJobId) {
-    size_ += computeInt64Size(1, self.userMiniJobId);
+  if (self.hasUserMiniJobUuid) {
+    size_ += computeStringSize(1, self.userMiniJobUuid);
   }
   if (self.hasBaseDmgReceived) {
     size_ += computeInt32Size(2, self.baseDmgReceived);
@@ -1064,11 +1060,10 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.userMonsterIdsList.count;
-    const int64_t *values = (const int64_t *)self.userMonsterIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.userMonsterUuidsList.count;
+    [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -1119,8 +1114,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   return [UserMiniJobProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserMiniJobId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMiniJobId", [NSNumber numberWithLongLong:self.userMiniJobId]];
+  if (self.hasUserMiniJobUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMiniJobUuid", self.userMiniJobUuid];
   }
   if (self.hasBaseDmgReceived) {
     [output appendFormat:@"%@%@: %@\n", indent, @"baseDmgReceived", [NSNumber numberWithInteger:self.baseDmgReceived]];
@@ -1128,8 +1123,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasTimeStarted) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeStarted", [NSNumber numberWithLongLong:self.timeStarted]];
   }
-  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterIds", obj];
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userMonsterUuids", obj];
   }];
   if (self.hasTimeCompleted) {
     [output appendFormat:@"%@%@: %@\n", indent, @"timeCompleted", [NSNumber numberWithLongLong:self.timeCompleted]];
@@ -1157,13 +1152,13 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
   UserMiniJobProto *otherMessage = other;
   return
-      self.hasUserMiniJobId == otherMessage.hasUserMiniJobId &&
-      (!self.hasUserMiniJobId || self.userMiniJobId == otherMessage.userMiniJobId) &&
+      self.hasUserMiniJobUuid == otherMessage.hasUserMiniJobUuid &&
+      (!self.hasUserMiniJobUuid || [self.userMiniJobUuid isEqual:otherMessage.userMiniJobUuid]) &&
       self.hasBaseDmgReceived == otherMessage.hasBaseDmgReceived &&
       (!self.hasBaseDmgReceived || self.baseDmgReceived == otherMessage.baseDmgReceived) &&
       self.hasTimeStarted == otherMessage.hasTimeStarted &&
       (!self.hasTimeStarted || self.timeStarted == otherMessage.timeStarted) &&
-      [self.userMonsterIdsList isEqualToArray:otherMessage.userMonsterIdsList] &&
+      [self.userMonsterUuidsList isEqualToArray:otherMessage.userMonsterUuidsList] &&
       self.hasTimeCompleted == otherMessage.hasTimeCompleted &&
       (!self.hasTimeCompleted || self.timeCompleted == otherMessage.timeCompleted) &&
       self.hasMiniJob == otherMessage.hasMiniJob &&
@@ -1176,8 +1171,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserMiniJobId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.userMiniJobId] hash];
+  if (self.hasUserMiniJobUuid) {
+    hashCode = hashCode * 31 + [self.userMiniJobUuid hash];
   }
   if (self.hasBaseDmgReceived) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.baseDmgReceived] hash];
@@ -1185,8 +1180,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasTimeStarted) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeStarted] hash];
   }
-  [self.userMonsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.userMonsterUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasTimeCompleted) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.timeCompleted] hash];
@@ -1243,8 +1238,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (other == [UserMiniJobProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserMiniJobId) {
-    [self setUserMiniJobId:other.userMiniJobId];
+  if (other.hasUserMiniJobUuid) {
+    [self setUserMiniJobUuid:other.userMiniJobUuid];
   }
   if (other.hasBaseDmgReceived) {
     [self setBaseDmgReceived:other.baseDmgReceived];
@@ -1252,11 +1247,11 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (other.hasTimeStarted) {
     [self setTimeStarted:other.timeStarted];
   }
-  if (other.mutableUserMonsterIdsList.count > 0) {
-    if (result.mutableUserMonsterIdsList == nil) {
-      result.mutableUserMonsterIdsList = [other.mutableUserMonsterIdsList copy];
+  if (other.mutableUserMonsterUuidsList.count > 0) {
+    if (result.mutableUserMonsterUuidsList == nil) {
+      result.mutableUserMonsterUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableUserMonsterUuidsList];
     } else {
-      [result.mutableUserMonsterIdsList appendArray:other.mutableUserMonsterIdsList];
+      [result.mutableUserMonsterUuidsList addObjectsFromArray:other.mutableUserMonsterUuidsList];
     }
   }
   if (other.hasTimeCompleted) {
@@ -1292,8 +1287,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserMiniJobId:[input readInt64]];
+      case 10: {
+        [self setUserMiniJobUuid:[input readString]];
         break;
       }
       case 16: {
@@ -1304,8 +1299,8 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
         [self setTimeStarted:[input readInt64]];
         break;
       }
-      case 32: {
-        [self addUserMonsterIds:[input readInt64]];
+      case 34: {
+        [self addUserMonsterUuids:[input readString]];
         break;
       }
       case 40: {
@@ -1332,20 +1327,20 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserMiniJobId {
-  return result.hasUserMiniJobId;
+- (BOOL) hasUserMiniJobUuid {
+  return result.hasUserMiniJobUuid;
 }
-- (int64_t) userMiniJobId {
-  return result.userMiniJobId;
+- (NSString*) userMiniJobUuid {
+  return result.userMiniJobUuid;
 }
-- (UserMiniJobProto_Builder*) setUserMiniJobId:(int64_t) value {
-  result.hasUserMiniJobId = YES;
-  result.userMiniJobId = value;
+- (UserMiniJobProto_Builder*) setUserMiniJobUuid:(NSString*) value {
+  result.hasUserMiniJobUuid = YES;
+  result.userMiniJobUuid = value;
   return self;
 }
-- (UserMiniJobProto_Builder*) clearUserMiniJobId {
-  result.hasUserMiniJobId = NO;
-  result.userMiniJobId = 0L;
+- (UserMiniJobProto_Builder*) clearUserMiniJobUuid {
+  result.hasUserMiniJobUuid = NO;
+  result.userMiniJobUuid = @"";
   return self;
 }
 - (BOOL) hasBaseDmgReceived {
@@ -1380,32 +1375,28 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   result.timeStarted = 0L;
   return self;
 }
-- (PBAppendableArray *)userMonsterIdsList {
-  return result.mutableUserMonsterIdsList;
+- (NSMutableArray *)userMonsterUuidsList {
+  return result.mutableUserMonsterUuidsList;
 }
-- (int64_t)userMonsterIdsAtIndex:(NSUInteger)index {
-  return [result userMonsterIdsAtIndex:index];
+- (NSString*)userMonsterUuidsAtIndex:(NSUInteger)index {
+  return [result userMonsterUuidsAtIndex:index];
 }
-- (UserMiniJobProto_Builder *)addUserMonsterIds:(int64_t)value {
-  if (result.mutableUserMonsterIdsList == nil) {
-    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (UserMiniJobProto_Builder *)addUserMonsterUuids:(NSString*)value {
+  if (result.mutableUserMonsterUuidsList == nil) {
+    result.mutableUserMonsterUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableUserMonsterIdsList addInt64:value];
+  [result.mutableUserMonsterUuidsList addObject:value];
   return self;
 }
-- (UserMiniJobProto_Builder *)addAllUserMonsterIds:(NSArray *)array {
-  if (result.mutableUserMonsterIdsList == nil) {
-    result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (UserMiniJobProto_Builder *)addAllUserMonsterUuids:(NSArray *)array {
+  if (result.mutableUserMonsterUuidsList == nil) {
+    result.mutableUserMonsterUuidsList = [NSMutableArray array];
   }
-  [result.mutableUserMonsterIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableUserMonsterUuidsList addObjectsFromArray:array];
   return self;
 }
-- (UserMiniJobProto_Builder *)setUserMonsterIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableUserMonsterIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (UserMiniJobProto_Builder *)clearUserMonsterIds {
-  result.mutableUserMonsterIdsList = nil;
+- (UserMiniJobProto_Builder *)clearUserMonsterUuids {
+  result.mutableUserMonsterUuidsList = nil;
   return self;
 }
 - (BOOL) hasTimeCompleted {

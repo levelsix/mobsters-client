@@ -8,7 +8,7 @@
 
 #import "Protocols.pb.h"
 
-#define PRIVATE_CHAT_DEFAULTS_KEY @"PrivateChat%d"
+#define PRIVATE_CHAT_DEFAULTS_KEY @"PrivateChat%@"
 #define PVP_HISTORY_DEFAULTS_KEY @"PvpHistoryLastRead"
 
 @interface PrivateChatPostProto (UnreadStatus)

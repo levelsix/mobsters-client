@@ -34,7 +34,7 @@
   
   BOOL _isFirstTime;
   
-  uint64_t _resumedUserMonsterId;
+  NSString *_resumedUserMonsterUuid;
 }
 
 @property (nonatomic, retain) IBOutlet NSString *dungeonType;

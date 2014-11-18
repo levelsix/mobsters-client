@@ -428,12 +428,12 @@
   [self moveToSprite:hospital animated:YES withOffset:ccp(0, -50)];
   [hospital displayArrow];
   
-  self.clickableUserStructId = hospital.userStruct.userStructId;
+  self.clickableUserStructUuid = hospital.userStruct.userStructUuid;
   _enteringHospital = YES;
 }
 
 - (void) enterClicked:(id)sender {
-  self.clickableUserStructId = 0;
+  self.clickableUserStructUuid = nil;
   self.selected = nil;
   
   if (_enteringHospital) {
@@ -449,7 +449,7 @@
 }
 
 - (void) speedupPurchasedBuilding {
-  self.clickableUserStructId = ((HomeBuilding *)_constrBuilding).userStruct.userStructId;
+  self.clickableUserStructUuid = ((HomeBuilding *)_constrBuilding).userStruct.userStructUuid;
 }
 
 - (void) moveToOilDrill {
@@ -461,7 +461,7 @@
   [tcb displayArrow];
   [self moveToSprite:tcb animated:YES withOffset:ccp(50, 0)];
   
-  self.clickableUserStructId = tcb.userStruct.userStructId;
+  self.clickableUserStructUuid = tcb.userStruct.userStructUuid;
 }
 
 - (void) panToMark {
@@ -520,7 +520,7 @@
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
   SelectableSprite *ss = [super selectableForPt:pt];
-  if ([ss.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
+  if ([ss.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
     [ss removeArrowAnimated:YES];
     return ss;
   }
@@ -528,7 +528,7 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (self.selected != selected && [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
+  if (self.selected != selected && [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
     return;
   }
   [super setSelected:selected];
@@ -549,7 +549,7 @@
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
   UserStruct *us = [[UserStruct alloc] init];
-  us.userStructId = _purchStructId;
+  us.userStructUuid = [NSString stringWithFormat:@"%d", _purchStructId];
   us.structId = _purchStructId;
   us.purchaseTime = [MSDate date];
   us.orientation = StructOrientationPosition1;
@@ -557,7 +557,7 @@
   us.lastRetrieved = [MSDate date];
   [self.myStructs addObject:us];
   
-  self.clickableUserStructId = _purchStructId;
+  self.clickableUserStructUuid = us.userStructUuid;
   
   return us;
 }
@@ -584,7 +584,7 @@
 - (void) sendNormStructComplete:(UserStruct *)us {
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:0];
-  self.clickableUserStructId = 0;
+  self.clickableUserStructUuid = nil;
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
@@ -593,13 +593,13 @@
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:gemCost];
-  self.clickableUserStructId = 0;
+  self.clickableUserStructUuid = nil;
   [Globals removeUIArrowFromViewRecursively:self.bottomOptionView];
   self.bottomOptionView = nil;
 }
 
 - (void) reselectCurrentSelection {
-  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
+  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
     [super reselectCurrentSelection];
   } else {
     self.selected = nil;
@@ -614,7 +614,7 @@
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer {
-  if (self.clickableUserStructId) {
+  if (self.clickableUserStructUuid) {
     [super tap:recognizer];
     
     if (!_enteringHospital) {

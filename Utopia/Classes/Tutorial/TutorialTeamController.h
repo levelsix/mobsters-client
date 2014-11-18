@@ -28,6 +28,6 @@ typedef enum {
 @property (nonatomic, retain) TutorialTeamViewController *teamViewController;
 
 @property (nonatomic, assign) int lootMonsterId;
-@property (nonatomic, assign) uint64_t lootUserMonsterId;
+@property (nonatomic, retain) NSString *lootUserMonsterUuid;
 
 @end

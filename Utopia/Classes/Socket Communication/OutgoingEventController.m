@@ -89,7 +89,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) logout {
   GameState *gs = [GameState sharedGameState];
-  if (gs.connected && gs.userId > 0) {
+  if (gs.connected && gs.userUuid.length > 0) {
     [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
   }
 }
@@ -148,7 +148,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs saveHealthProgressesFromIndex:0];
     
     // UserStructId will come in the response
-    us.userId = [[GameState sharedGameState] userId];
+    us.userUuid = [[GameState sharedGameState] userUuid];
     us.isComplete = NO;
     us.coordinates = CGPointMake(x, y);
     us.orientation = 0;
@@ -188,9 +188,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (userStruct.userStructId == 0) {
+  if (userStruct.userStructUuid == nil) {
     [Globals popupMessage:@"Hold on, we are still processing your building purchase."];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!nextFsp) {
     [Globals popupMessage:@"This building is not upgradable"];
@@ -209,7 +209,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to upgrade without enough resources."];
     } else {
       int64_t ms = [self getCurrentMilliseconds];
-      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
       
       [gs saveHealthProgressesFromIndex:0];
       
@@ -242,7 +242,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
   CGPoint newCoord = CGPointMake(x, y);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructUuid x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
     
     [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -256,11 +256,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   StructureInfoProto *fsp = gen.structInfo;
   int amountCollected = 0;
   
-  if (userStruct.userStructId == 0) {
+  if (!userStruct.userStructUuid) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (fsp.structType != StructureInfoProto_StructTypeResourceGenerator) {
     [Globals popupMessage:@"This building is not a resource generator"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
@@ -271,7 +271,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (amountCollected > 0) {
       ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
       
-      int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms amountCollected:amountCollected];
+      int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructUuid time:ms amountCollected:amountCollected];
       userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
       
       // Update game state
@@ -289,7 +289,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Analytics retrieveCurrency:fsp.structId cashChange:cashChange cashBalance:gs.cash oilChange:oilChange oilBalance:gs.oil];
     }
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %@ is not ready to be retrieved", userStruct.userStructUuid]];
   }
   return amountCollected;
 }
@@ -302,15 +302,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int timeLeft = userStruct.timeLeftForBuildComplete;
   
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-  if (userStruct.userStructId == 0) {
+  if (!userStruct.userStructUuid) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (gs.gems < gemCost) {
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
-    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId gemCost:gemCost time:[self getCurrentMilliseconds]];
+    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds]];
     
     [gs saveHealthProgressesFromIndex:0];
     
@@ -333,7 +333,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [Analytics instantFinish:@"buildingWait" gemChange:-gemCost gemBalance:gs.gems];
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %@ is not upgrading", userStruct.userStructUuid]];
   }
 }
 
@@ -341,9 +341,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (userStruct.userStructId == 0) {
+  if (!userStruct.userStructUuid) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
+  } else if (![userStruct.userUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
     MSDate *date = userStruct.buildCompleteDate;
@@ -356,7 +356,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.isComplete = YES;
     
     int64_t ms = [self getCurrentMilliseconds];
-    int tag = [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
+    int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
@@ -367,7 +367,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
     }
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %@ is not upgrading or constructing", userStruct.userStructUuid]];
   }
 }
 
@@ -410,7 +410,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (!obstacle.userObstacleId) {
+  if (!obstacle.userObstacleUuid) {
     [Globals popupMessage:@"Attempting to remove obstacle without id."];
   } else {
     int cost = op.cost;
@@ -427,7 +427,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to build without enough resources."];
     } else {
       uint64_t ms = [self getCurrentMilliseconds];
-      int tag = [[SocketCommunication sharedSocketCommunication] sendBeginObstacleRemovalMessage:obstacle.userObstacleId resType:op.removalCostType resChange:-cost gemsSpent:gemCost clientTime:ms];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendBeginObstacleRemovalMessage:obstacle.userObstacleUuid resType:op.removalCostType resChange:-cost gemsSpent:gemCost clientTime:ms];
       
       obstacle.removalTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
       
@@ -448,7 +448,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   
   int timeLeft = obstacle.endTime.timeIntervalSinceNow;
-  if (!obstacle.userObstacleId) {
+  if (!obstacle.userObstacleUuid) {
     [Globals popupMessage:@"Attempting to complete obstacle removal without id."];
   } else if (timeLeft > 0 && !speedup) {
     [Globals popupMessage:@"Attempting to complete obstacle before time."];
@@ -465,7 +465,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       BOOL shouldResetTime = gs.myObstacles.count >= gl.maxObstacles;
       
-      int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleId speedup:numGems > 0 gemsSpent:numGems maxObstacles:shouldResetTime clientTime:ms];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleUuid speedup:numGems > 0 gemsSpent:numGems maxObstacles:shouldResetTime clientTime:ms];
       [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
       
       obstacle.removalTime = nil;
@@ -487,10 +487,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Loading Cities
 
-- (void) loadPlayerCity:(int)userId withDelegate:(id)delegate {
+- (void) loadPlayerCity:(NSString *)userUuid withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:userId];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:userUuid];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
@@ -518,7 +518,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
     
     UserQuest *uq = [[UserQuest alloc] init];
-    uq.userId = gs.userId;
+    uq.userUuid = gs.userUuid;
     uq.questId = questId;
     [gs.myQuests setObject:uq forKey:@(questId)];
     
@@ -540,7 +540,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       UserQuestJobProto *proto = [uqj convertToProto];
       [arr addObject:proto];
     }
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:arr userMonsterIds:nil];
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:arr userMonsterUuids:nil];
     
     if (uq.isComplete) {
       NSNumber *questIdNum = [NSNumber numberWithInt:questId];
@@ -555,18 +555,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterIds:(NSArray *)monsterIds {
+- (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterUuids:(NSArray *)monsterUuids {
   GameState *gs = [GameState sharedGameState];
   UserQuest *uq = [gs myQuestWithId:questId];
   FullQuestProto *fqp = [gs questForId:uq.questId];
   QuestJobProto *jp = [fqp jobForId:jobId];
   
-  if (monsterIds.count < jp.quantity) {
+  if (monsterUuids.count < jp.quantity) {
     [Globals popupMessage:@"Attempting to donate without enough of monster."];
   } else if (uq) {
     NSMutableArray *toRemove = [NSMutableArray array];
-    for (NSNumber *num in monsterIds) {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:num.intValue];
+    for (NSString *mId in monsterUuids) {
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:mId];
       if (um && um.isComplete) {
         [toRemove addObject:um];
       } else {
@@ -595,7 +595,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     UserQuestJob *uqj = [uq jobForId:jobId];
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:@[[uqj convertToProto]] userMonsterIds:monsterIds];
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:@[[uqj convertToProto]] userMonsterUuids:monsterUuids];
     
     int numLeft = 0;
     for (UserMonster *um in gs.myMonsters) {
@@ -670,9 +670,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Retrieving users
 
-- (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate {
+- (void) retrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:[[NSSet setWithArray:userIds] allObjects] includeCurMonsterTeam:includeCurMonsterTeam];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserUuids:[[NSSet setWithArray:userUuids] allObjects] includeCurMonsterTeam:includeCurMonsterTeam];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
@@ -813,23 +813,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) protectUserMonster:(uint64_t)userMonsterId {
+- (void) protectUserMonster:(NSString *)userMonsterUuid {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (um && !um.isProtected) {
-    [[SocketCommunication sharedSocketCommunication] sendRestrictUserMonsterMessage:@[@(userMonsterId)]];
+    [[SocketCommunication sharedSocketCommunication] sendRestrictUserMonsterMessage:@[userMonsterUuid]];
     
     um.isProtected = YES;
   }
 }
 
-- (void) unprotectUserMonster:(uint64_t)userMonsterId {
+- (void) unprotectUserMonster:(NSString *)userMonsterUuid {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (um && um.isProtected) {
-    [[SocketCommunication sharedSocketCommunication] sendUnrestrictUserMonsterMessage:@[@(userMonsterId)]];
+    [[SocketCommunication sharedSocketCommunication] sendUnrestrictUserMonsterMessage:@[userMonsterUuid]];
     
     um.isProtected = NO;
   }
@@ -851,26 +851,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int amt = 0, staticDataId = 0;
+        int staticDataId = 0, quantity = 1, numTimes = 1;
         DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetCash;
-          msg = [NSString stringWithFormat:@"Awarded %d cash.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d cash.", quantity];
         } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetOil;
-          msg = [NSString stringWithFormat:@"Awarded %d oil.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d oil.", quantity];
         } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
-          amt = code.intValue;
+          quantity = code.intValue;
           req = DevRequestFBGetGems;
-          msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
+          msg = [NSString stringWithFormat:@"Awarded %d gems.", quantity];
         } else if ((r = [code rangeOfString:GET_MONSTER_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
@@ -881,14 +881,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            amt = code.intValue;
+            quantity = code.intValue;
           }
           
           MonsterProto *mp = [gs monsterWithId:staticDataId];
           if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", amt, mp.displayName];
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", numTimes, mp.displayName];
           } else {
-            amt = 0;
+            quantity = 0;
           }
         } else if ((r = [code rangeOfString:GET_ITEM_CODE]).length > 0) {
           r.length++;
@@ -900,14 +900,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           if (code.length > r.length+1) {
             r.length++;
             code = [code stringByReplacingCharactersInRange:r withString:@""];
-            amt = code.intValue;
+            quantity = code.intValue;
           }
           
           ItemProto *mp = [gs itemForId:staticDataId];
           if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", amt, mp.name];
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.name];
           } else {
-            amt = 0;
+            quantity = 0;
           }
         } else if ((r = [code rangeOfString:SKILL_CODE]).length > 0) {    // Skill stuff
           code = [code stringByReplacingCharactersInRange:r withString:@""];
@@ -989,8 +989,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           }
         } // Skill stuff ends
         
-        if (amt) {
-          [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:amt];
+        if (quantity) {
+            [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:quantity];
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
@@ -1042,17 +1042,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendDevRequestProto:req staticDataId:staticDataId quantity:quantity];
 }
 
-- (void) privateChatPost:(int)recipientId content:(NSString *)content {
+- (void) privateChatPost:(NSString *)recipientUuid content:(NSString *)content {
   GameState *gs = [GameState sharedGameState];
-  if (recipientId == gs.userId) {
+  if ([recipientUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"You are not allowed to send private chats to yourself."];
   } else {
-    [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientId content:content];
+    [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientUuid content:content];
   }
 }
 
-- (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserId];
+- (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserUuid];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
@@ -1105,51 +1105,51 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) requestJoinClan:(int)clanId delegate:(id)delegate {
+- (void) requestJoinClan:(NSString *)clanUuid delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   UserStruct *clanHouse = gs.myClanHouse;
   if (gs.clan) {
     [Globals addAlertNotification:@"You can't submit a clan request while you're already in a clan."];
-  } else if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+  } else if ([gs.requestedClans containsObject:clanUuid]) {
     [Globals addAlertNotification:@"You already have a pending request with this clan!"];
   } else if (!clanHouse || (!clanHouse.isComplete && clanHouse.staticStruct.structInfo.level == 1)) {
     [Globals addAlertNotification:@"You can't join a clan without a clan house."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanUuid];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) retractRequestToJoinClan:(int)clanId delegate:(id)delegate {
+- (void) retractRequestToJoinClan:(NSString *)clanUuid delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (gs.clan || ![gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+  if (gs.clan || ![gs.requestedClans containsObject:clanUuid]) {
     [Globals addAlertNotification:@"You no longer have a request pending to this clan!"];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRetractRequestJoinClanMessage:clanId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRetractRequestJoinClanMessage:clanUuid];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept delegate:(id)delegate {
+- (void) approveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.clan) {
     [Globals popupMessage:@"Attempting to respond to clan request while not clan leader."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterUuid accept:accept];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) transferClanOwnership:(int)newClanOwnerId delegate:(id)delegate {
+- (void) transferClanOwnership:(NSString *)newClanOwnerUuid delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.clan) {
     [Globals popupMessage:@"Attempting to transfer clan ownership while not clan leader."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendTransferClanOwnership:newClanOwnerId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendTransferClanOwnership:newClanOwnerUuid];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
@@ -1168,31 +1168,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) promoteOrDemoteMember:(int)memberId newStatus:(UserClanStatus)status delegate:(id)delegate {
+- (void) promoteOrDemoteMember:(NSString *)memberUuid newStatus:(UserClanStatus)status delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.clan) {
     [Globals popupMessage:@"Attempting to change member status while not in a clan."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendPromoteDemoteClanMemberMessage:memberId newStatus:status];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPromoteDemoteClanMemberMessage:memberUuid newStatus:status];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate {
+- (void) bootPlayerFromClan:(NSString *)playerUuid delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.clan) {
     [Globals popupMessage:@"Attempting to boot player while not clan leader."];
   } else {
     // Make sure clan is not engaged in a clan tower war
-    int tag = [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerUuid];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList  beforeClanId:(int)beforeClanId delegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanInfoMessage:clanName clanId:clanId grabType:grabType isForBrowsingList:isForBrowsingList beforeClanId:beforeClanId];
+- (void) retrieveClanInfo:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveClanInfoMessage:clanName clanUuid:clanUuid grabType:grabType isForBrowsingList:isForBrowsingList];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   GameState *gs = [GameState sharedGameState];
@@ -1218,9 +1218,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     for (ClanHelpNoticeProto *notice in clanHelpNotices) {
       ClanHelp *ch = [[ClanHelp alloc] init];
       ch.helpType = notice.helpType;
-      ch.userDataId = notice.userDataId;
+      ch.userDataUuid = notice.userDataUuid;
       ch.requester = [gs minUser];
-      ch.clanId = gs.clan.clanId;
+      ch.clanUuid = gs.clan.clanUuid;
       ch.staticDataId = notice.staticDataId;
       ch.isOpen = YES;
       ch.maxHelpers = chp.maxHelpersPerSolicitation;
@@ -1244,10 +1244,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
   notice.helpType = GameActionTypeUpgradeStruct;
-  notice.userDataId = us.userStructId;
+  notice.userDataUuid = us.userStructUuid;
   notice.staticDataId = us.structId;
   
-  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1257,10 +1257,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
   notice.helpType = GameActionTypeMiniJob;
-  notice.userDataId = mj.userMiniJobId;
+  notice.userDataUuid = mj.userMiniJobUuid;
   notice.staticDataId = mj.miniJob.quality;
   
-  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1270,10 +1270,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
   notice.helpType = GameActionTypeEvolve;
-  notice.userDataId = ue.userMonsterId1;
+  notice.userDataUuid = ue.userMonsterUuid1;
   notice.staticDataId = ue.evoItem.userMonster1.monsterId;
   
-  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1283,10 +1283,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
   notice.helpType = GameActionTypeEnhanceTime;
-  notice.userDataId = ue.baseMonster.userMonsterId;
+  notice.userDataUuid = ue.baseMonster.userMonsterUuid;
   notice.staticDataId = ue.baseMonster.userMonster.monsterId;
   
-  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+  if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
     [self solicitClanHelp:@[notice.build]];
   }
 }
@@ -1299,10 +1299,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
     ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
     notice.helpType = GameActionTypeHeal;
-    notice.userDataId = hi.userMonsterId;
+    notice.userDataUuid = hi.userMonsterUuid;
     notice.staticDataId = hi.userMonster.monsterId;
     
-    if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataId:notice.userDataId] < 0) {
+    if ([gs.clanHelpUtil getNumClanHelpsForType:notice.helpType userDataUuid:notice.userDataUuid] < 0) {
       [arr addObject:notice.build];
     }
   }
@@ -1350,21 +1350,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullUserMonsterProto *attackerProto = nil;
   for (BattlePlayer *player in curTeam) {
     UserMonsterCurrentHealthProto_Builder *b = [UserMonsterCurrentHealthProto builder];
-    b.userMonsterId = player.userMonsterId;
+    b.userMonsterUuid = player.userMonsterUuid;
     b.currentHealth = player.curHealth;
     [mut addObject:b.build];
     
-    UserMonster *um = [gs myMonsterWithUserMonsterId:player.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:player.userMonsterUuid];
     um.curHealth = player.curHealth;
     
     [ums addObject:[um convertToProto]];
     
-    if (um.userMonsterId == attacker.userMonsterId) {
+    if ([um.userMonsterUuid isEqualToString:attacker.userMonsterUuid]) {
       attackerProto = [um convertToProto];
     }
   }
   
-  UserCurrentMonsterTeamProto *team = [[[[UserCurrentMonsterTeamProto builder] addAllCurrentTeam:ums] setUserId:gs.userId] build];
+  UserCurrentMonsterTeamProto *team = [[[[UserCurrentMonsterTeamProto builder] addAllCurrentTeam:ums] setUserUuid:gs.userUuid] build];
   PersistentClanEventClanInfoProto *info = gs.curClanRaidInfo;
   [[SocketCommunication sharedSocketCommunication] sendAttackClanRaidMonsterMessage:info clientTime:[self getCurrentMilliseconds] damageDealt:dmg curTeam:team monsterHealths:mut attacker:attackerProto];
 }
@@ -1460,20 +1460,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth {
-  if (userMonsterId <= 0) {
+- (void) updateMonsterHealth:(NSString *)userMonsterUuid curHealth:(int)curHealth {
+  if (!userMonsterUuid) {
     [Globals popupMessage:@"Trying to update invalid user monster"];
   } else if (curHealth < 0) {
     [Globals popupMessage:@"Trying to set health less than 0"];
   } else {
     GameState *gs = [GameState sharedGameState];
-    UserMonster *userMonster = [gs myMonsterWithUserMonsterId:userMonsterId];
+    UserMonster *userMonster = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
     userMonster.curHealth = curHealth;
     UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
                                           setCurrentHealth:userMonster.curHealth]
-                                         setUserMonsterId:userMonster.userMonsterId]
+                                         setUserMonsterUuid:userMonster.userMonsterUuid]
                                         build];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskId:0 taskStageId:0 droplessTsfuid:0];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskUuid:nil taskStageId:0 droplessTsfuUuid:nil];
   }
 }
 
@@ -1482,38 +1482,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (BattlePlayer *bp in curHealths) {
     UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
                                           setCurrentHealth:bp.curHealth]
-                                         setUserMonsterId:bp.userMonsterId]
+                                         setUserMonsterUuid:bp.userMonsterUuid]
                                         build];
     [arr addObject:m];
   }
   
   if (newStageNum < dungeonInfo.tspList.count) {
-    uint64_t tsfuId = 0;
+    NSString *tsfuUuid = nil;
     if (dropless && newStageNum-1 < dungeonInfo.tspList.count) {
       // Get the prev stage if dropless
       TaskStageProto *tsp = dungeonInfo.tspList[newStageNum-1];
       TaskStageMonsterProto *tsm = tsp.stageMonstersList[0];
-      tsfuId = tsm.tsfuId;
+      tsfuUuid = tsm.tsfuUuid;
     }
     TaskStageProto *tsp = dungeonInfo.tspList[newStageNum];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId  droplessTsfuid:tsfuId];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskUuid:dungeonInfo.userTaskUuid taskStageId:tsp.stageId  droplessTsfuUuid:tsfuUuid];
   } else {
     [Globals popupMessage:@"Attempting to progress dungeon with invalid stage num."];
   }
 }
 
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate {
-  NSMutableArray *droplessTsfuids = [NSMutableArray array];
+  NSMutableArray *droplessTsfuUuids = [NSMutableArray array];
   for (int i = 0; i < dungeonInfo.tspList.count; i++) {
     if ([droplessStageNums containsObject:@(i)]) {
       TaskStageMonsterProto *mon = [dungeonInfo.tspList[i] stageMonstersList][0];
-      [droplessTsfuids addObject:@(mon.tsfuId)];
+      [droplessTsfuUuids addObject:mon.tsfuUuid];
     }
   }
   
   GameState *gs = [GameState sharedGameState];
   BOOL isFirstTime = ![gs.completedTasks containsObject:@(dungeonInfo.taskId)];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskId userWon:userWon isFirstTimeCompleted:isFirstTime droplessTsfuIds:droplessTsfuids time:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskUuid userWon:userWon isFirstTimeCompleted:isFirstTime droplessTsfuUuids:droplessTsfuUuids time:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   if (userWon) {
@@ -1550,7 +1550,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) reviveInDungeon:(uint64_t)userTaskId taskId:(int)taskId myTeam:(NSArray *)team {
+- (void) reviveInDungeon:(NSString *)userTaskUuid taskId:(int)taskId myTeam:(NSArray *)team {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1561,16 +1561,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     NSMutableArray *arr = [NSMutableArray array];
     for (BattlePlayer *pl in team) {
-      UserMonsterCurrentHealthProto *pr = [[[[UserMonsterCurrentHealthProto builder] setCurrentHealth:pl.maxHealth] setUserMonsterId:pl.userMonsterId] build];
+      UserMonsterCurrentHealthProto *pr = [[[[UserMonsterCurrentHealthProto builder] setCurrentHealth:pl.maxHealth] setUserMonsterUuid:pl.userMonsterUuid] build];
       [arr addObject:pr];
       
       pl.curHealth = pl.maxHealth;
       
-      UserMonster *um = [gs myMonsterWithUserMonsterId:pl.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:pl.userMonsterUuid];
       um.curHealth = pl.curHealth;
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendReviveInDungeonMessage:userTaskId clientTime:[self getCurrentMilliseconds] userHealths:arr gems:gemCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendReviveInDungeonMessage:userTaskUuid clientTime:[self getCurrentMilliseconds] userHealths:arr gems:gemCost];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
     [Analytics continueDungeon:taskId gemChange:-gemCost gemBalance:gs.gems];
@@ -1621,7 +1621,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (isRevenge) {
     PvpHistoryProto *pvp = nil;
     for (PvpHistoryProto *potential in gs.battleHistory) {
-      if (potential.attacker.userId == proto.defender.minUserProto.userId &&
+      if ([potential.attacker.userUuid isEqualToString:proto.defender.minUserProto.userUuid] &&
           potential.battleEndTime == previousBattleTime) {
         pvp = potential;
       }
@@ -1639,7 +1639,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   int oilGained = userWon ? proto.prospectiveOilWinnings : 0;
   int cashGained = userWon ? proto.prospectiveCashWinnings : 0;
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userId userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   
@@ -1650,25 +1650,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Team
 
-- (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId {
+- (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   if (!um || !um.teamSlot) {
     [Globals popupMessage:@"Trying to remove invalid monster."];
   } else {
     um.teamSlot = 0;
     
-    [[SocketCommunication sharedSocketCommunication] sendRemoveMonsterFromTeam:userMonsterId];
+    [[SocketCommunication sharedSocketCommunication] sendRemoveMonsterFromTeam:userMonsterUuid];
     return YES;
   }
   return NO;
 }
 
-- (BOOL) addMonsterToTeam:(uint64_t)userMonsterId {
+- (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   NSArray *wholeTeam = [gs allMonstersOnMyTeam];
   NSArray *battleReadyTeam = [gs allBattleAvailableAliveMonstersOnTeam];
   
@@ -1725,12 +1725,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       firstCheck = NO;
     } while (overwritable.count && [gl calculateTeamCostForTeam:[gs allMonstersOnMyTeam]] > gs.maxTeamCost);
     
-    [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterId teamSlot:teamSlot];
+    [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterUuid teamSlot:teamSlot];
     
     for (UserMonster *um in toRemove) {
       // Set the team slot to something so remove won't complain
       um.teamSlot = 1;
-      [self removeMonsterFromTeam:um.userMonsterId];
+      [self removeMonsterFromTeam:um.userMonsterUuid];
     }
     
     return YES;
@@ -1755,14 +1755,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     int tag = 0;
     if (gems) {
-      NSArray *arr = [gs acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      NSArray *arr = [gs acceptedFbRequestsForUserStructUuid:us.userStructUuid fbStructLevel:us.fbInviteStructLvl+1];
       for (RequestFromFriend *req in arr) {
         [gs.fbAcceptedRequestsFromMe removeObject:req];
       }
       
-      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlotsWithGems:us.userStructId];
+      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlotsWithGems:us.userStructUuid];
     } else {
-      NSArray *reqs = [gs acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      NSArray *reqs = [gs acceptedFbRequestsForUserStructUuid:us.userStructUuid fbStructLevel:us.fbInviteStructLvl+1];
       
       if (reqs.count < fbRes.numAcceptedFbInvites) {
         [Globals popupMessage:@"Trying to increase inventory without enough accepted invites."];
@@ -1785,10 +1785,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       NSMutableArray *invs = [NSMutableArray array];
       for (RequestFromFriend *req in realReqs) {
-        [invs addObject:@(req.invite.inviteId)];
+        [invs addObject:req.invite.inviteUuid];
       }
       
-      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlots:us.userStructId withFriendInvites:invs];
+      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlots:us.userStructUuid withFriendInvites:invs];
     }
     us.fbInviteStructLvl++;
     
@@ -1806,7 +1806,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (NSString *fbId in fbFriends) {
     InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder *bldr = [InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure builder];
     bldr.fbFriendId = [NSString stringWithFormat:@"%@", fbId];
-    bldr.userStructId = us.userStructId;
+    bldr.userStructUuid = us.userStructUuid;
     bldr.userStructFbLvl = us.fbInviteStructLvl+1;
     [invs addObject:bldr.build];
   }
@@ -1814,13 +1814,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendInviteFbFriendsForSlotsMessage:invs];
 }
 
-- (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
-  if (acceptIds.count > 0 || rejectIds.count > 0) {
+- (void) acceptAndRejectInvitesWithAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids {
+  if (acceptUuids.count > 0 || rejectUuids.count > 0) {
     GameState *gs = [GameState sharedGameState];
     NSMutableArray *toRemove = [NSMutableArray array];
     for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
-      NSNumber *num = @(req.invite.inviteId);
-      if ([acceptIds containsObject:num] || [rejectIds containsObject:num]) {
+      NSString *inviteUuid = req.invite.inviteUuid;
+      if ([acceptUuids containsObject:inviteUuid] || [rejectUuids containsObject:inviteUuid]) {
         [toRemove addObject:req];
       }
     }
@@ -1828,25 +1828,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.fbUnacceptedRequestsFromFriends removeObject:req];
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:acceptIds rejectIds:rejectIds];
+    [[SocketCommunication sharedSocketCommunication] sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:acceptUuids rejectUuids:rejectUuids];
   }
 }
 
 #pragma mark - Combining monsters
 
-- (void) combineMonsters:(NSArray *)userMonsterIds {
+- (void) combineMonsters:(NSArray *)userMonsterUuids {
   GameState *gs = [GameState sharedGameState];
-  for (NSNumber *umId in userMonsterIds) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.intValue];
+  for (NSString *umId in userMonsterUuids) {
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:umId];
     um.isComplete = YES;
   }
-  [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterIds gemCost:0];
+  [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterUuids gemCost:0];
 }
 
-- (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId {
+- (BOOL) combineMonsterWithSpeedup:(NSString *)userMonsterUuid {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   int timeLeft = um.timeLeftForCombining;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
   
@@ -1855,7 +1855,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     um.isComplete = YES;
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:[NSArray arrayWithObject:[NSNumber numberWithUnsignedLongLong:userMonsterId]] gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:@[userMonsterUuid] gemCost:goldCost];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     [gs beginCombineTimer];
@@ -1869,10 +1869,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Healing
 
-- (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(NSString *)userMonsterUuid useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
   
   int maxHealth = [gl calculateMaxHealthForMonster:um];
   int silverCost = [gl calculateCostToHealMonster:um];
@@ -1888,8 +1888,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
-    item.userMonsterId = userMonsterId;
-    item.userId = gs.userId;
+    item.userMonsterUuid = userMonsterUuid;
+    item.userUuid = gs.userUuid;
     [gs addUserMonsterHealingItemToEndOfQueue:item];
     
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:gemCost];
@@ -1907,7 +1907,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
   
   int silverCost = [gl calculateCostToHealMonster:um];
   if (![gs.monsterHealingQueue containsObject:item]) {
@@ -1940,15 +1940,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       
       UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
-      monsterHealth.userMonsterId = um.userMonsterId;
+      monsterHealth.userMonsterUuid = um.userMonsterUuid;
       monsterHealth.currentHealth = um.curHealth;
       [arr addObject:monsterHealth.build];
       
-      [gs.recentlyHealedMonsterIds addObject:@(um.userMonsterId)];
+      [gs.recentlyHealedMonsterIds addObject:um.userMonsterUuid];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
@@ -1979,15 +1979,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([item.endTime timeIntervalSinceNow] > 0) {
       [Globals popupMessage:@"Trying to finish healing item before time."];
     } else {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       
       UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
-      monsterHealth.userMonsterId = um.userMonsterId;
+      monsterHealth.userMonsterUuid = um.userMonsterUuid;
       monsterHealth.currentHealth = um.curHealth;
       [arr addObject:monsterHealth.build];
       
-      [gs.recentlyHealedMonsterIds addObject:@(um.userMonsterId)];
+      [gs.recentlyHealedMonsterIds addObject:um.userMonsterUuid];
     }
   }
   
@@ -2001,7 +2001,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.clanHelpUtil cleanupRogueClanHelps];
 }
 
-- (void) sellUserMonsters:(NSArray *)userMonsterIds {
+- (void) sellUserMonsters:(NSArray *)userMonsterUuids {
   GameState *gs = [GameState sharedGameState];
   
   int numCompleteMonsters = 0;
@@ -2014,9 +2014,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSMutableArray *sellProtos = [NSMutableArray array];
   NSMutableArray *monstersToRemove = [NSMutableArray array];
   int moneyGained = 0;
-  for (NSNumber *umId in userMonsterIds) {
-    uint64_t userMonsterId = umId.longLongValue;
-    UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  for (NSString *userMonsterUuid in userMonsterUuids) {
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
     
     if (um) {
       if (um.isComplete) {
@@ -2025,7 +2024,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       moneyGained += um.sellPrice;
       
-      MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterId:userMonsterId] setCashAmount:um.sellPrice] build];
+      MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterUuid:userMonsterUuid] setCashAmount:um.sellPrice] build];
       [sellProtos addObject:sell];
       [monstersToRemove addObject:um];
     } else {
@@ -2058,7 +2057,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return NO;
   } else {
     UserEnhancementItemProto_Builder *bldr = [UserEnhancementItemProto builder];
-    bldr.userMonsterId = enhancement.baseMonster.userMonsterId;
+    bldr.userMonsterUuid = enhancement.baseMonster.userMonsterUuid;
     [enhancementItems addObject:bldr.build];
   }
   
@@ -2071,7 +2070,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       item.expectedStartTime = [MSDate date];
       
       UserEnhancementItemProto_Builder *bldr = [UserEnhancementItemProto builder];
-      bldr.userMonsterId = item.userMonsterId;
+      bldr.userMonsterUuid = item.userMonsterUuid;
       bldr.enhancingCost = [gl calculateOilCostForNewMonsterWithEnhancement:enhancement feeder:item];
       bldr.expectedStartTimeMillis = item.expectedStartTime.timeIntervalSince1970*1000.;
       
@@ -2123,7 +2122,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterId isSpeedup:goldCost > 0 gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceWaitCompleteMessage:gs.userEnhancement.baseMonster.userMonsterUuid isSpeedup:goldCost > 0 gemCost:goldCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
@@ -2152,21 +2151,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserMonster *baseUm = base.userMonster;
   float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
   for (EnhancementItem *item in gs.userEnhancement.feeders) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
     baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
-    [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
+    [arr addObject:um.userMonsterUuid];
     [gs.myMonsters removeObject:um];
   }
   
   baseUm.curHealth = perc*[gl calculateMaxHealthForMonster:baseUm];
   
   UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
-  bldr.userMonsterId = baseUm.userMonsterId;
+  bldr.userMonsterUuid = baseUm.userMonsterUuid;
   bldr.expectedExperience = baseUm.experience;
   bldr.expectedLevel = baseUm.level;
   bldr.expectedHp = baseUm.curHealth;
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectMonsterEnhancementMessage:bldr.build userMonsterIds:arr];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCollectMonsterEnhancementMessage:bldr.build userMonsterUuids:arr];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   // Remove after to let the queue update to not be affected
@@ -2208,7 +2207,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //
 //      oilCost += bldr.enhancingCost;
 //
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      expIncrease += [gl calculateExperienceIncrease:enhancement.baseMonster feeder:item];
 //      [monstersToRemove addObject:um];
 //
@@ -2258,7 +2257,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 //- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId {
 //  GameState *gs = [GameState sharedGameState];
-//  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+//  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
 //
 //  if (gs.userEnhancement) {
 //    [Globals popupMessage:@"Trying to set base mobster while already enhancing."];
@@ -2309,7 +2308,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //- (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
 //  Globals *gl = [Globals sharedGlobals];
 //  GameState *gs = [GameState sharedGameState];
-//  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+//  UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
 //  UserEnhancement *ue = gs.userEnhancement;
 //
 //  EnhancementItem *newItem = [[EnhancementItem alloc] init];
@@ -2390,7 +2389,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //    UserMonster *baseUm = base.userMonster;
 //    float perc = baseUm.curHealth/(float)[gl calculateMaxHealthForMonster:baseUm];
 //    for (EnhancementItem *item in gs.userEnhancement.feeders) {
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
 //      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
 //      [gs.myMonsters removeObject:um];
@@ -2430,7 +2429,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //    if ([endTime timeIntervalSinceNow] > 0) {
 //      [Globals popupMessage:@"Trying to finish enhancing item before time."];
 //    } else {
-//      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//      UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
 //      baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];
 //      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
 //      [gs.myMonsters removeObject:um];
@@ -2525,9 +2524,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
       [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-numGems]];
       
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
-      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid1]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.userMonsterUuid2]];
+      [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterUuid:ue.catalystMonsterUuid]];
       gs.userEvolution = nil;
       
       [gs stopEvolutionTimer];
@@ -2563,14 +2562,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Timer will be reset by gamestate
 }
 
-- (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterIds:(NSArray *)userMonsterIds delegate:(id)delegate {
+- (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterUuids:(NSArray *)userMonsterUuids delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   uint64_t ms = [self getCurrentMilliseconds];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginMiniJobMessage:userMiniJob.userMiniJobId userMonsterIds:userMonsterIds clientTime:ms];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginMiniJobMessage:userMiniJob.userMiniJobUuid userMonsterUuids:userMonsterUuids clientTime:ms];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   userMiniJob.timeStarted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
-  userMiniJob.userMonsterIds = userMonsterIds;
+  userMiniJob.userMonsterUuids = userMonsterUuids;
   
   [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
 }
@@ -2590,7 +2589,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to speedup without enough gems."];
   } else {
     uint64_t ms = [self getCurrentMilliseconds];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteMiniJobMessage:userMiniJob.userMiniJobId isSpeedUp:isSpeedup gemCost:gemCost clientTime:ms];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteMiniJobMessage:userMiniJob.userMiniJobUuid isSpeedUp:isSpeedup gemCost:gemCost clientTime:ms];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     userMiniJob.timeCompleted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
@@ -2612,22 +2611,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userMiniJob.timeCompleted) {
     uint64_t ms = [self getCurrentMilliseconds];
     
-    NSDictionary *damages = [userMiniJob damageDealtPerUserMonsterId];
+    NSDictionary *damages = [userMiniJob damageDealtPerUserMonsterUuid];
     
     // Create monster healths
     NSMutableArray *monsterHealths = [NSMutableArray array];
-    for (NSNumber *umId in userMiniJob.userMonsterIds) {
-      UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
-      int damage = [damages[@(um.userMonsterId)] intValue];
+    for (NSString *umId in userMiniJob.userMonsterUuids) {
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:umId];
+      int damage = [damages[um.userMonsterUuid] intValue];
       um.curHealth -= damage;
       
       UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
-      bldr.userMonsterId = um.userMonsterId;
+      bldr.userMonsterUuid = um.userMonsterUuid;
       bldr.currentHealth = um.curHealth;
       [monsterHealths addObject:bldr.build];
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniJobMessage:userMiniJob.userMiniJobId clientTime:ms monsterHealths:monsterHealths];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniJobMessage:userMiniJob.userMiniJobUuid clientTime:ms monsterHealths:monsterHealths];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     GameState *gs = [GameState sharedGameState];

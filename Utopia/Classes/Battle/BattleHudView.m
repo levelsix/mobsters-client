@@ -148,7 +148,7 @@
 }
 
 - (void) removeDeployView {
-  if (!self.deployView.hidden) {
+  if (!self.deployView.hidden && !self.deployView.layer.animationKeys.count) {
     [self.deployCancelButton removeFromSuperview];
     self.deployCancelButton = nil;
     [UIView animateWithDuration:ANIMATION_TIME animations:^{

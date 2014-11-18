@@ -14,10 +14,10 @@
 
 @implementation ClanHelpUtil
 
-- (id) initWithUserId:(int)userId clanId:(int)clanId clanHelpProtos:(NSArray *)clanHelps {
+- (id) initWithUserUuid:(NSString *)userUuid clanUuid:(NSString *)clanUuid clanHelpProtos:(NSArray *)clanHelps {
   if ((self = [super init])) {
-    _userId = userId;
-    _clanId = clanId;
+    self.userUuid = userUuid;
+    self.clanUuid = clanUuid;
     
     self.myClanHelps = [NSMutableArray array];
     self.allClanHelps = [NSMutableArray array];
@@ -29,9 +29,9 @@
   return self;
 }
 
-- (void) setClanId:(int)clanId {
-  if (clanId != _clanId) {
-    _clanId = clanId;
+- (void) setClanUuid:(NSString *)clanUuid {
+  if (![clanUuid isEqualToString: self.clanUuid]) {
+    _clanUuid = clanUuid;
     
     [self.allClanHelps removeAllObjects];
     
@@ -51,7 +51,7 @@
   NSMutableArray *forNotifications = [NSMutableArray array];
   for (ClanHelpProto *chp in clanHelpProtos) {
     ClanHelp *clanHelp = [[ClanHelp alloc] initWithClanHelpProto:chp];
-    if (chp.mup.userId == self.userId) {
+    if ([chp.mup.userUuid isEqualToString:self.userUuid]) {
       id<ClanHelp> help = [self addClanHelpProto:clanHelp toArray:self.myClanHelps];
       
       if (sender) {
@@ -61,7 +61,7 @@
       checkMyHelps = YES;
       
       [forNotifications addObject:clanHelp];
-    } else if (chp.clanId == self.clanId && [clanHelp isOpen]) {
+    } else if ([chp.clanUuid isEqualToString:self.clanUuid] && [clanHelp isOpen]) {
       [self addClanHelpProto:clanHelp toArray:self.allClanHelps];
       
       [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
@@ -95,15 +95,15 @@
   }
 }
 
-- (void) removeClanHelpIds:(NSArray *)helps {
-  for (NSNumber *chId in helps) {
+- (void) removeClanHelpUuids:(NSArray *)helps {
+  for (NSString *chId in helps) {
     for (NSMutableArray *arr in @[self.myClanHelps, self.allClanHelps]) {
       NSMutableArray *toRemove = [NSMutableArray array];
       for (id<ClanHelp> help in arr) {
         
         NSMutableArray *doneHelps = [NSMutableArray array];
         for (ClanHelp *ch in [help allIndividualClanHelps]) {
-          if (ch.clanHelpId == [chId intValue]) {
+          if ([ch.clanHelpUuid isEqualToString:chId]) {
             [doneHelps addObject:ch];
           }
         }
@@ -121,10 +121,10 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
 }
 
-- (void) removeClanHelpsForUserId:(int)userId {
+- (void) removeClanHelpsForUserUuid:(NSString *)userUuid {
   NSMutableArray *toRemove = [NSMutableArray array];
   for (id<ClanHelp> ch in self.allClanHelps) {
-    if (ch.requester.userId == userId) {
+    if ([ch.requester.userUuid isEqualToString:userUuid]) {
       [toRemove addObject:ch];
     }
   }
@@ -136,9 +136,9 @@
   }
 }
 
-- (ClanHelp *) getMyClanHelpForType:(GameActionType)type userDataId:(uint64_t)userDataId {
+- (ClanHelp *) getMyClanHelpForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
   for (id<ClanHelp> help in self.myClanHelps) {
-    ClanHelp *specific = [help getClanHelpForType:type userDataId:userDataId];
+    ClanHelp *specific = [help getClanHelpForType:type userDataUuid:userDataUuid];
     
     if (specific) {
       return specific;
@@ -147,15 +147,15 @@
   return nil;
 }
 
-- (int) getNumClanHelpsForType:(GameActionType)type userDataId:(uint64_t)userDataId {
-  id<ClanHelp> help = [self getMyClanHelpForType:type userDataId:userDataId];
+- (int) getNumClanHelpsForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
+  id<ClanHelp> help = [self getMyClanHelpForType:type userDataUuid:userDataUuid];
   return help ? help.numHelpers : -1;
 }
 
 - (NSArray *) getAllHelpableClanHelps {
   NSMutableArray *arr = [NSMutableArray array];
   for (id<ClanHelp> help in self.allClanHelps) {
-    if ([help canHelpForUserId:self.userId]) {
+    if ([help canHelpForUserUuid:self.userUuid]) {
       [arr addObject:help];
     }
   }
@@ -165,9 +165,9 @@
 - (void) giveClanHelps:(NSArray *)clanHelps {
   NSMutableArray *clanHelpIds = [NSMutableArray array];
   for (id<ClanHelp> help in clanHelps) {
-    if ([help canHelpForUserId:self.userId]) {
-      [clanHelpIds addObjectsFromArray:[help helpableClanHelpIdsForUserId:self.userId]];
-      [help incrementHelpForUserId:self.userId];
+    if ([help canHelpForUserUuid:self.userUuid]) {
+      [clanHelpIds addObjectsFromArray:[help helpableClanHelpIdsForUserUuid:self.userUuid]];
+      [help incrementHelpForUserUuid:self.userUuid];
     }
   }
   
@@ -183,20 +183,20 @@
   
   // Grab all individual clan helps
   NSMutableArray *toRemove = [NSMutableArray array];
-  NSMutableArray *removeClanHelpIds = [NSMutableArray array];
+  NSMutableArray *removeClanHelpUuids = [NSMutableArray array];
   for (id<ClanHelp> help in self.myClanHelps) {
     NSMutableArray *doneHelps = [NSMutableArray array];
     for (ClanHelp *ch in [help allIndividualClanHelps]) {
       BOOL isValid = NO;
       
       if (ch.helpType == GameActionTypeUpgradeStruct) {
-        UserStruct *us = [gs myStructWithId:(int)ch.userDataId];
+        UserStruct *us = [gs myStructWithUuid:ch.userDataUuid];
         // If us doesn't exist, this will also return true which is good in case city hasn't loaded.
         isValid = !us.isComplete;
       } else if (ch.helpType == GameActionTypeMiniJob) {
         UserMiniJob *umj = nil;
         for (UserMiniJob *u in gs.myMiniJobs) {
-          if (u.userMiniJobId == ch.userDataId) {
+          if ([u.userMiniJobUuid isEqualToString:ch.userDataUuid]) {
             umj = u;
           }
         }
@@ -205,7 +205,7 @@
       } else if (ch.helpType == GameActionTypeHeal) {
         UserMonsterHealingItem *hi = nil;
         for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
-          if (u.userMonsterId == ch.userDataId) {
+          if ([u.userMonsterUuid isEqualToString:ch.userDataUuid]) {
             hi = u;
           }
         }
@@ -214,16 +214,18 @@
       } else if (ch.helpType == GameActionTypeEvolve) {
         UserEvolution *ue = gs.userEvolution;
         
-        isValid = (ue.userMonsterId1 == ch.userDataId);
+        isValid = ([ue.userMonsterUuid1 isEqualToString:ch.userDataUuid]);
       } else if (ch.helpType == GameActionTypeEnhanceTime) {
         UserEnhancement *ue = gs.userEnhancement;
         
-        isValid = ue.baseMonster.userMonsterId == ch.userDataId;
+        isValid = [ue.baseMonster.userMonsterUuid isEqualToString:ch.userDataUuid];
       }
       
       if (!isValid) {
         [doneHelps addObject:ch];
-        [removeClanHelpIds addObject:@(ch.clanHelpId)];
+        if (ch.clanHelpUuid) {
+          [removeClanHelpUuids addObject:ch.clanHelpUuid];
+        }
       }
     }
     
@@ -234,12 +236,12 @@
     }
   }
   
-  if (removeClanHelpIds.count) {
+  if (removeClanHelpUuids.count) {
     [self.myClanHelps removeObjectsInArray:toRemove];
     
-    LNLog(@"Removing %d clan helps.", (int)removeClanHelpIds.count);
+    LNLog(@"Removing %d clan helps.", (int)removeClanHelpUuids.count);
     
-    [[OutgoingEventController sharedOutgoingEventController] endClanHelp:removeClanHelpIds];
+    [[OutgoingEventController sharedOutgoingEventController] endClanHelp:removeClanHelpUuids];
   }
 }
 

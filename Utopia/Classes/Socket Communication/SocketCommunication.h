@@ -84,24 +84,25 @@
 
 // Norm Struct messages
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
-- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds;
+- (int) sendMoveNormStructureMessage:(NSString *)userStructUuid x:(int)x y:(int)y;
+- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime;
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds;
+- (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected;
 
-- (int) sendLoadPlayerCityMessage:(int)userId;
+- (int) sendLoadPlayerCityMessage:(NSString *)userUuid;
 - (int) sendLoadCityMessage:(int)cityId;
 
 - (int) sendLevelUpMessage:(int)level;
 
 - (int) sendQuestAcceptMessage:(int)questId;
-- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterUuids:(NSArray *)userMonsterUuids;
 - (int) sendQuestRedeemMessage:(int)questId;
 
 - (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime;
 - (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime;
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
+- (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
 - (int) sendSetGameCenterMessage:(NSString *)gameCenterId;
@@ -113,18 +114,18 @@
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent;
 - (int) sendLeaveClanMessage;
-- (int) sendRequestJoinClanMessage:(int)clanId;
-- (int) sendRetractRequestJoinClanMessage:(int)clanId;
-- (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept;
-- (int) sendTransferClanOwnership:(int)newClanOwnerId;
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid;
+- (int) sendRetractRequestJoinClanMessage:(NSString *)clanUuid;
+- (int) sendApproveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept;
+- (int) sendTransferClanOwnership:(NSString *)newClanOwnerUuid;
 - (int) sendChangeClanDescription:(BOOL)isDescription description:(NSString *)description isRequestType:(BOOL)isRequestType requestRequired:(BOOL)requestRequired isIcon:(BOOL)isIcon iconId:(int)iconId;
-- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
-- (int) sendPromoteDemoteClanMemberMessage:(int)victimId newStatus:(UserClanStatus)status;
-- (int) sendBootPlayerFromClan:(int)playerId;
+- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList;
+- (int) sendPromoteDemoteClanMemberMessage:(NSString *)victimUuid newStatus:(UserClanStatus)status;
+- (int) sendBootPlayerFromClan:(NSString *)playerUuid;
 
 - (int) sendSolicitClanHelpMessage:(NSArray *)clanHelpNotices maxHelpers:(int)maxHelpers clientTime:(uint64_t)clientTime;
-- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpIds;
-- (int) sendEndClanHelpMessage:(NSArray *)clanHelpIds;
+- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids;
+- (int) sendEndClanHelpMessage:(NSArray *)clanHelpUuids;
 
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y;
@@ -134,57 +135,55 @@
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId isFree:(BOOL)free clientTime:(uint64_t)clientTime;
 - (int) sendTradeItemForBoosterMessage:(int)itemId clientTime:(uint64_t)clientTime;
 
-- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
-- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content;
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem alreadyCompletedMiniTutorialTask:(BOOL)alreadyCompletedMiniTutorialTask questIds:(NSArray *)questIds;
-- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId droplessTsfuid:(uint64_t)droplessTsfuid;
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuIds:(NSArray *)droplessTsfuIds time:(uint64_t)time;
-- (int) sendReviveInDungeonMessage:(uint64_t)userTaskId clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems;
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid;
+- (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time;
+- (int) sendReviveInDungeonMessage:(NSString *)userTaskUuid clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems;
 
-- (int) sendQueueUpMessage:(NSArray *)seenUserIds clientTime:(uint64_t)clientTime;
+- (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime;
 - (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason;
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime;
-- (int) sendEndPvpBattleMessage:(int)defenderId userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime;
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime;
 
 - (int) sendBeginClanRaidMessage:(int)raidId eventId:(int)eventId isFirstStage:(BOOL)isFirstStage curTime:(uint64_t)curTime userMonsters:(NSArray *)userMonsters;
 - (int) sendAttackClanRaidMonsterMessage:(PersistentClanEventClanInfoProto *)eventDetails clientTime:(uint64_t)clientTime damageDealt:(int)damageDealt curTeam:(UserCurrentMonsterTeamProto *)curTeam monsterHealths:(NSArray *)monsterHealths attacker:(FullUserMonsterProto *)attacker;
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time amountCollected:(int)amountCollected;
-
 - (int) sendSpawnObstacleMessage:(NSArray *)obstacles clientTime:(uint64_t)clientTime;
-- (int) sendBeginObstacleRemovalMessage:(int)userObstacleId resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
-- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime;
+- (int) sendBeginObstacleRemovalMessage:(NSString *)userObstacleUuid resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
+- (int) sendObstacleRemovalCompleteMessage:(NSString *)userObstacleUuid speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime;
 
 - (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange;
 - (int) sendEvolutionFinishedMessageWithGems:(int)gems;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
-- (int) sendAddMonsterToTeam:(uint64_t)userMonsterId teamSlot:(int)teamSlot;
-- (int) sendRemoveMonsterFromTeam:(uint64_t)userMonsterId;
-- (int) sendBuyInventorySlotsWithGems:(int)userStructId;
-- (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds;
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;
+- (int) sendAddMonsterToTeam:(NSString *)userMonsterUuid teamSlot:(int)teamSlot;
+- (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid;
+- (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid;
+- (int) sendBuyInventorySlots:(NSString *)userStructUuid withFriendInvites:(NSArray *)inviteIds;
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost;
 - (int) sendSellUserMonstersMessage:(NSArray *)sellProtos;
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
-- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
+- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids;
 - (void) reloadHealQueueSnapshot;
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 
 - (int) sendEnhanceMessage:(UserEnhancementProto *)enhancement monsterExp:(UserMonsterCurrentExpProto *)monsterExp gemCost:(int)gemCost oilChange:(int)oilChange;
 - (int) sendSubmitEnhancementMessage:(NSArray *)items gemCost:(int)gemCost oilChange:(int)oilChange;
-- (int) sendEnhanceWaitCompleteMessage:(uint64_t)userMonsterId isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
-- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost;
+- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids;
 
 - (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId;
-- (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime;
-- (int) sendCompleteMiniJobMessage:(uint64_t)userMiniJobId isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
-- (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths ;
+- (int) sendBeginMiniJobMessage:(NSString *)userMiniJobUuid userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime;
+- (int) sendCompleteMiniJobMessage:(NSString *)userMiniJobUuid isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime;
+- (int) sendRedeemMiniJobMessage:(NSString *)userMiniJobUuid clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths;
 
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId;
-- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterIds;
-- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterIds;
+- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
+- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 

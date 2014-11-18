@@ -42,7 +42,7 @@
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;
 
-- (id)initWithUserId:(int)userId;
+- (id)initWithUserUuid:(NSString *)userUuid;
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam;
 - (IBAction)message:(id)sender;
 - (IBAction)close:(id)sender;

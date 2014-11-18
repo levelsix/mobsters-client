@@ -87,10 +87,10 @@
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId;
 - (void) visitCityClicked:(int)cityId;
 
-- (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name;
+- (void) openPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name;
 - (void) openChatWithScope:(ChatScope)scope;
 - (void) openClanView;
-- (void) openClanViewForClanId:(int)clanId;
+- (void) openClanViewForClanUuid:(NSString *)clanUuid;
 
 - (void) openGemShop;
 

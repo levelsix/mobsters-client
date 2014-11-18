@@ -41,17 +41,17 @@ BOOL ItemTypeIsValidValue(ItemType value);
 
 @interface UserItemProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
   BOOL hasItemId_:1;
   BOOL hasQuantity_:1;
-  int32_t userId;
+  BOOL hasUserUuid_:1;
   int32_t itemId;
   int32_t quantity;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasItemId;
 - (BOOL) hasQuantity;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t itemId;
 @property (readonly) int32_t quantity;
 
@@ -90,10 +90,10 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (UserItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserItemProto_Builder*) setUserId:(int32_t) value;
-- (UserItemProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserItemProto_Builder*) setUserUuid:(NSString*) value;
+- (UserItemProto_Builder*) clearUserUuid;
 
 - (BOOL) hasItemId;
 - (int32_t) itemId;
@@ -211,30 +211,30 @@ BOOL ItemTypeIsValidValue(ItemType value);
 
 @interface UserItemUsageProto : PBGeneratedMessage {
 @private
-  BOOL hasUsageId_:1;
   BOOL hasTimeOfEntry_:1;
-  BOOL hasUserDataId_:1;
-  BOOL hasUserId_:1;
   BOOL hasItemId_:1;
+  BOOL hasUsageUuid_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasUserDataUuid_:1;
   BOOL hasActionType_:1;
-  int64_t usageId;
   int64_t timeOfEntry;
-  int64_t userDataId;
-  int32_t userId;
   int32_t itemId;
+  NSString* usageUuid;
+  NSString* userUuid;
+  NSString* userDataUuid;
   GameActionType actionType;
 }
-- (BOOL) hasUsageId;
-- (BOOL) hasUserId;
+- (BOOL) hasUsageUuid;
+- (BOOL) hasUserUuid;
 - (BOOL) hasItemId;
 - (BOOL) hasTimeOfEntry;
-- (BOOL) hasUserDataId;
+- (BOOL) hasUserDataUuid;
 - (BOOL) hasActionType;
-@property (readonly) int64_t usageId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* usageUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t itemId;
 @property (readonly) int64_t timeOfEntry;
-@property (readonly) int64_t userDataId;
+@property (readonly, strong) NSString* userDataUuid;
 @property (readonly) GameActionType actionType;
 
 + (UserItemUsageProto*) defaultInstance;
@@ -272,15 +272,15 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserItemUsageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUsageId;
-- (int64_t) usageId;
-- (UserItemUsageProto_Builder*) setUsageId:(int64_t) value;
-- (UserItemUsageProto_Builder*) clearUsageId;
+- (BOOL) hasUsageUuid;
+- (NSString*) usageUuid;
+- (UserItemUsageProto_Builder*) setUsageUuid:(NSString*) value;
+- (UserItemUsageProto_Builder*) clearUsageUuid;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserItemUsageProto_Builder*) setUserId:(int32_t) value;
-- (UserItemUsageProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserItemUsageProto_Builder*) setUserUuid:(NSString*) value;
+- (UserItemUsageProto_Builder*) clearUserUuid;
 
 - (BOOL) hasItemId;
 - (int32_t) itemId;
@@ -292,10 +292,10 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (UserItemUsageProto_Builder*) setTimeOfEntry:(int64_t) value;
 - (UserItemUsageProto_Builder*) clearTimeOfEntry;
 
-- (BOOL) hasUserDataId;
-- (int64_t) userDataId;
-- (UserItemUsageProto_Builder*) setUserDataId:(int64_t) value;
-- (UserItemUsageProto_Builder*) clearUserDataId;
+- (BOOL) hasUserDataUuid;
+- (NSString*) userDataUuid;
+- (UserItemUsageProto_Builder*) setUserDataUuid:(NSString*) value;
+- (UserItemUsageProto_Builder*) clearUserDataUuid;
 
 - (BOOL) hasActionType;
 - (GameActionType) actionType;

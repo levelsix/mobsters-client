@@ -23,9 +23,9 @@
 
 - (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
   if ((self = [super init])){
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.monsterId = proto.monsterId;
-    self.userMonsterId = proto.userMonsterId;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.level = proto.currentLvl;
     self.experience = proto.currentExp;
     self.curHealth = proto.currentHealth;
@@ -78,7 +78,7 @@
 - (BOOL) isHealing {
   GameState *gs = [GameState sharedGameState];
   for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
-    if (item.userMonsterId == self.userMonsterId) {
+    if ([item.userMonsterUuid isEqualToString:self.userMonsterUuid]) {
       return YES;
     }
   }
@@ -87,20 +87,20 @@
 
 - (BOOL) isEnhancing {
   GameState *gs = [GameState sharedGameState];
-  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+  return [self.userMonsterUuid isEqualToString:gs.userEnhancement.baseMonster.userMonsterUuid];
 }
 
 - (BOOL) isEvolving {
   GameState *gs = [GameState sharedGameState];
-  uint64_t i = self.userMonsterId;
+  NSString *i = self.userMonsterUuid;
   UserEvolution *evo = gs.userEvolution;
-  return evo.userMonsterId1 == i || evo.userMonsterId2 == i || evo.catalystMonsterId == i;
+  return [evo.userMonsterUuid1 isEqualToString:i] || [evo.userMonsterUuid2 isEqualToString:i] || [evo.catalystMonsterUuid isEqualToString:i];
 }
 
 - (BOOL) isSacrificing {
   GameState *gs = [GameState sharedGameState];
   for (EnhancementItem *ei in gs.userEnhancement.feeders) {
-    if (self.userMonsterId == ei.userMonsterId) {
+    if ([self.userMonsterUuid isEqualToString:ei.userMonsterUuid]) {
       return YES;
     }
   }
@@ -110,7 +110,7 @@
 - (BOOL) isOnAMiniJob {
   GameState *gs = [GameState sharedGameState];
   for (UserMiniJob *mj in gs.myMiniJobs) {
-    if ([mj.userMonsterIds containsObject:@(self.userMonsterId)]) {
+    if ([mj.userMonsterUuids containsObject:self.userMonsterUuid]) {
       return YES;
     }
   }
@@ -235,14 +235,14 @@
 }
 
 - (BOOL) isEqual:(UserMonster *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userMonsterId;
+  return self.userMonsterUuid.hash;
 }
 
 - (NSComparisonResult) compare:(UserMonster *)um {
@@ -294,8 +294,8 @@
 
 - (FullUserMonsterProto *) convertToProto {
   FullUserMonsterProto_Builder *bldr = [FullUserMonsterProto builder];
-  bldr.userMonsterId = self.userMonsterId;
-  bldr.userId = self.userId;
+  bldr.userMonsterUuid = self.userMonsterUuid;
+  bldr.userUuid = self.userUuid;
   bldr.monsterId = self.monsterId;
   bldr.currentHealth = self.curHealth;
   bldr.currentExp = self.experience;
@@ -323,8 +323,8 @@
 
 - (id) initWithHealingProto:(UserMonsterHealingProto *)proto {
   if ((self = [super init])){
-    self.userId = proto.userId;
-    self.userMonsterId = proto.userMonsterId;
+    self.userUuid = proto.userUuid;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.queueTime = proto.hasQueuedTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
     self.healthProgress = proto.healthProgress;
     self.priority = proto.priority;
@@ -339,13 +339,13 @@
 
 - (UserMonster *) userMonster {
   GameState *gs = [GameState sharedGameState];
-  return [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  return [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
 }
 
 - (UserMonsterHealingProto *) convertToProto {
   UserMonsterHealingProto_Builder *bldr = [[[[[[UserMonsterHealingProto builder]
-                                               setUserId:self.userId]
-                                              setUserMonsterId:self.userMonsterId]
+                                               setUserUuid:self.userUuid]
+                                              setUserMonsterUuid:self.userMonsterUuid]
                                              setHealthProgress:self.healthProgress]
                                             setPriority:self.priority]
                                            setElapsedSeconds:self.elapsedTime];
@@ -393,8 +393,8 @@
 
 - (id) copy {
   UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
-  item.userId = self.userId;
-  item.userMonsterId = self.userMonsterId;
+  item.userUuid = self.userUuid;
+  item.userMonsterUuid = self.userMonsterUuid;
   item.queueTime = [self.queueTime copy];
   item.healthProgress = self.healthProgress;
   item.priority = self.priority;
@@ -403,18 +403,18 @@
 }
 
 - (BOOL) isEqual:(UserMonsterHealingItem *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userMonsterId;
+  return self.userMonsterUuid.hash;
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %lld, QT: %@, H: %f, TS: %f, ET: %f", self, self.userMonsterId, self.queueTime, self.healthProgress, self.totalSeconds, self.elapsedTime];
+  return [NSString stringWithFormat:@"%p: %@, QT: %@, H: %f, TS: %f, ET: %f", self, self.userMonsterUuid, self.queueTime, self.healthProgress, self.totalSeconds, self.elapsedTime];
 }
 
 @end
@@ -521,7 +521,7 @@
   int secsToDock = 0;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:self.baseMonster.userMonsterId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataUuid:self.baseMonster.userMonsterUuid];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.enhanceClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.enhanceClanHelpConstants.percentRemovedPerHelp));
     secsToDock = numHelps*secsToDockPerHelp;
@@ -580,9 +580,9 @@
 
 - (id) initWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto {
   if ((self = [super init])) {
-    self.userMonsterId1 = proto.userMonsterIdsList.count > 0 ? [proto.userMonsterIdsList[0] intValue] : 0;
-    self.userMonsterId2 = proto.userMonsterIdsList.count > 1 ? [proto.userMonsterIdsList[1] intValue] : 0;
-    self.catalystMonsterId = proto.catalystUserMonsterId;
+    self.userMonsterUuid1 = proto.userMonsterUuidsList.count > 0 ? proto.userMonsterUuidsList[0] : nil;
+    self.userMonsterUuid2 = proto.userMonsterUuidsList.count > 1 ? proto.userMonsterUuidsList[1] : nil;
+    self.catalystMonsterUuid = proto.catalystUserMonsterUuid;
     self.startTime = [MSDate dateWithTimeIntervalSince1970:proto.startTime/1000.];
   }
   return self;
@@ -590,9 +590,9 @@
 
 - (id) initWithEvoItem:(EvoItem *)evo time:(MSDate *)time {
   if ((self = [super init])) {
-    self.userMonsterId1 = evo.userMonster1.userMonsterId;
-    self.userMonsterId2 = evo.userMonster2.userMonsterId;
-    self.catalystMonsterId = evo.catalystMonster.userMonsterId;
+    self.userMonsterUuid1 = evo.userMonster1.userMonsterUuid;
+    self.userMonsterUuid2 = evo.userMonster2.userMonsterUuid;
+    self.catalystMonsterUuid = evo.catalystMonster.userMonsterUuid;
     self.startTime = time;
   }
   return self;
@@ -601,12 +601,12 @@
 - (MSDate *) endTime {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid1];
   
   int seconds = um.staticMonster.minutesToEvolve*60;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataId:self.userMonsterId1];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataUuid:self.userMonsterUuid1];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.evolveClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.evolveClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
@@ -617,17 +617,17 @@
 
 - (EvoItem *) evoItem {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um1 = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
-  UserMonster *um2 = [gs myMonsterWithUserMonsterId:self.userMonsterId2];
-  UserMonster *cata = [gs myMonsterWithUserMonsterId:self.catalystMonsterId];
+  UserMonster *um1 = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid1];
+  UserMonster *um2 = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid2];
+  UserMonster *cata = [gs myMonsterWithUserMonsterUuid:self.catalystMonsterUuid];
   return [[EvoItem alloc] initWithUserMonster:um1 andUserMonster:um2 catalystMonster:cata suggestedMonster:nil];
 }
 
 - (UserMonsterEvolutionProto *) convertToProto {
   UserMonsterEvolutionProto_Builder *bldr = [UserMonsterEvolutionProto builder];
-  [bldr addUserMonsterIds:self.userMonsterId1];
-  [bldr addUserMonsterIds:self.userMonsterId2];
-  bldr.catalystUserMonsterId = self.catalystMonsterId;
+  [bldr addUserMonsterUuids:self.userMonsterUuid1];
+  [bldr addUserMonsterUuids:self.userMonsterUuid2];
+  bldr.catalystUserMonsterUuid = self.catalystMonsterUuid;
   bldr.startTime = self.startTime.timeIntervalSince1970*1000;
   return bldr.build;
 }
@@ -667,11 +667,11 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"%@ - 1:%lld, 2:%lld, C:%lld", self, self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
+  return [NSString stringWithFormat:@"%@ - 1:%@, 2:%@, C:%@", self, self.userMonster1.userMonsterUuid, self.userMonster2.userMonsterUuid, self.catalystMonster.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)(self.userMonster1.userMonsterId+self.userMonster2.userMonsterId);
+  return (NSUInteger)(self.userMonster1.userMonsterUuid.hash*7+self.userMonster2.userMonsterUuid.hash);
 }
 
 @end
@@ -684,7 +684,7 @@
 
 - (id) initWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
   if ((self = [super init])) {
-    self.userMonsterId = proto.userMonsterId;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
     self.enhancementCost = proto.enhancingCost;
   }
@@ -693,7 +693,7 @@
 
 - (UserMonster *) userMonster {
   GameState *gs = [GameState sharedGameState];
-  return _fakedUserMonster ? _fakedUserMonster : [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  return _fakedUserMonster ? _fakedUserMonster : [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
 }
 
 - (void) setFakedUserMonster:(UserMonster *)userMonster {
@@ -702,7 +702,7 @@
 
 - (UserEnhancementItemProto *) convertToProto {
   UserEnhancementItemProto_Builder *bldr = [UserEnhancementItemProto builder];
-  bldr.userMonsterId = self.userMonsterId;
+  bldr.userMonsterUuid = self.userMonsterUuid;
   if (self.expectedStartTime) {
     bldr.expectedStartTimeMillis = self.expectedStartTime.timeIntervalSince1970*1000;
   }
@@ -712,25 +712,25 @@
 
 - (id) copy {
   EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = self.userMonsterId;
+  item.userMonsterUuid = self.userMonsterUuid;
   item.expectedStartTime = [self.expectedStartTime copy];
   item.enhancementCost = self.enhancementCost;
   return item;
 }
 
 - (BOOL) isEqual:(UserMonsterHealingItem *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userMonsterId;
+  return self.userMonsterUuid.hash;
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"Id %lld: %@", self.userMonsterId, self.expectedStartTime];
+  return [NSString stringWithFormat:@"Id %@: %@", self.userMonsterUuid, self.expectedStartTime];
 }
 
 @end
@@ -739,8 +739,8 @@
 
 - (id) initWithStructProto:(FullUserStructureProto *)proto {
   if ((self = [super init])) {
-    self.userStructId = proto.userStructId;
-    self.userId = proto.userId;
+    self.userStructUuid = proto.userStructUuid;
+    self.userUuid = proto.userUuid;
     self.structId = proto.structId;
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
@@ -759,7 +759,7 @@
 - (id) initWithTutorialStructProto:(TutorialStructProto *)proto {
   if ((self = [super init])) {
     self.structId = proto.structId;
-    self.userStructId = proto.structId;
+    self.userStructUuid = [NSString stringWithFormat:@"%d", proto.structId];
     self.isComplete = YES;
     self.coordinates = CGPointMake(proto.coordinate.x, proto.coordinate.y);
     self.orientation = StructOrientationPosition1;
@@ -893,7 +893,7 @@
   int seconds = self.staticStruct.structInfo.minutesToBuild*60;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:self.userStructId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.buildingClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.buildingClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
@@ -956,8 +956,7 @@
 
 - (id) initWithObstacleProto:(UserObstacleProto *)obstacle {
   if ((self = [super init])) {
-    self.userObstacleId = obstacle.userObstacleId;
-    self.userId = obstacle.userId;
+    self.userObstacleUuid = obstacle.userObstacleUuid;
     self.obstacleId = obstacle.obstacleId;
     self.coordinates = ccp(obstacle.coordinates.x, obstacle.coordinates.y);
     self.removalTime = obstacle.hasRemovalStartTime ? [MSDate dateWithTimeIntervalSince1970:obstacle.removalStartTime/1000.] : nil;
@@ -1028,7 +1027,6 @@
 
 - (id) initWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
   if ((self = [super init])) {
-    self.userId = proto.userId;
     self.xPosition = proto.xPosition;
     self.yPosition = proto.yPosition;
     self.lastExpandTime = proto.hasExpandStartTime ? [MSDate dateWithTimeIntervalSince1970:proto.expandStartTime/1000.0] : nil;
@@ -1257,7 +1255,7 @@
 
 - (id) initWithProto:(FullUserQuestProto *)proto {
   if ((self = [self init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.questId = proto.questId;
     self.isRedeemed = proto.isRedeemed;
     self.isComplete = proto.isComplete;
@@ -1366,11 +1364,11 @@
 }
 
 - (BOOL) isEqual:(RequestFromFriend *)object {
-  return self.invite.inviteId == object.invite.inviteId;
+  return [self.invite.inviteUuid isEqualToString:object.invite.inviteUuid];
 }
 
 - (NSUInteger) hash {
-  return self.invite.inviteId;
+  return self.invite.inviteUuid.hash;
 }
 
 @end
@@ -1383,13 +1381,13 @@
 
 - (id) initWithProto:(UserMiniJobProto *)proto {
   if ((self = [super init])) {
-    self.userMiniJobId = proto.userMiniJobId;
+    self.userMiniJobUuid = proto.userMiniJobUuid;
     self.miniJob = proto.miniJob;
     self.baseDmgReceived = proto.baseDmgReceived;
     self.durationSeconds = proto.durationSeconds ?: proto.durationMinutes*60;
     self.timeStarted = proto.hasTimeStarted ? [MSDate dateWithTimeIntervalSince1970:proto.timeStarted/1000.] : nil;
     self.timeCompleted = proto.hasTimeCompleted ? [MSDate dateWithTimeIntervalSince1970:proto.timeCompleted/1000.] : nil;
-    self.userMonsterIds = proto.userMonsterIdsList.toNSArray;
+    self.userMonsterUuids = proto.userMonsterUuidsList;
   }
   return self;
 }
@@ -1401,7 +1399,7 @@
   int seconds = self.durationSeconds;
   
   // Account for clan helps
-  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataId:self.userMiniJobId];
+  int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataUuid:self.userMiniJobUuid];
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.miniJobClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.miniJobClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
@@ -1410,15 +1408,15 @@
   return [self.timeStarted dateByAddingTimeInterval:seconds];
 }
 
-- (NSDictionary *) damageDealtPerUserMonsterId {
+- (NSDictionary *) damageDealtPerUserMonsterUuid {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   NSMutableDictionary *damages = [NSMutableDictionary dictionary];
   NSMutableArray *userMonsters = [NSMutableArray array];
   
   int totalAttack = 0;
-  for (NSNumber *umId in self.userMonsterIds) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
+  for (NSString *umUuid in self.userMonsterUuids) {
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:umUuid];
     if (um) {
       [userMonsters addObject:um];
       totalAttack += [gl calculateTotalDamageForMonster:um];
@@ -1437,7 +1435,7 @@
     int lowestHealth = [aliveMonsters[0] curHealth];
     for (UserMonster *um in aliveMonsters) {
       if (um.curHealth < lowestHealth) {
-        int damage = [damages[@(um.userMonsterId)] intValue];
+        int damage = [damages[um.userMonsterUuid] intValue];
         lowestHealth = um.curHealth-damage;
       }
     }
@@ -1445,34 +1443,34 @@
     int dmgThisRound = lowestHealth * (int)aliveMonsters.count;
     if (dmgThisRound < damageToDeal) {
       for (UserMonster *um in aliveMonsters) {
-        int damage = [damages[@(um.userMonsterId)] intValue];
+        int damage = [damages[um.userMonsterUuid] intValue];
         damage += lowestHealth;
-        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+        [damages setObject:@(damage) forKey:um.userMonsterUuid];
       }
       damageToDeal -= dmgThisRound;
     } else {
       int dmgPerChar = damageToDeal/aliveMonsters.count;
       
       for (UserMonster *um in aliveMonsters) {
-        int damage = [damages[@(um.userMonsterId)] intValue];
+        int damage = [damages[um.userMonsterUuid] intValue];
         damage += dmgPerChar;
-        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+        [damages setObject:@(damage) forKey:um.userMonsterUuid];
       }
       
       // Deal remaining damage (i.e. 2 monsters-7 dmg to deal: 1 dmg needs to be dealt to someone)
       damageToDeal -= dmgPerChar * aliveMonsters.count;
       for (int i = 0; i < damageToDeal; i++) {
         UserMonster *um = aliveMonsters[i];
-        int damage = [damages[@(um.userMonsterId)] intValue];
+        int damage = [damages[um.userMonsterUuid] intValue];
         damage += 1;
-        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+        [damages setObject:@(damage) forKey:um.userMonsterUuid];
       }
       damageToDeal = 0;
     }
     
     // Clear out all dead monsters
     for (UserMonster *um in userMonsters) {
-      int damage = [damages[@(um.userMonsterId)] intValue];
+      int damage = [damages[um.userMonsterUuid] intValue];
       if (um.curHealth-damage <= 0) {
         [aliveMonsters removeObject:um];
       }
@@ -1483,11 +1481,11 @@
 }
 
 - (BOOL) isEqual:(UserMiniJob *)object {
-  return self.userMiniJobId == object.userMiniJobId;
+  return [self.userMiniJobUuid isEqualToString:object.userMiniJobUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userMiniJobId;
+  return self.userMiniJobUuid.hash;
 }
 
 @end

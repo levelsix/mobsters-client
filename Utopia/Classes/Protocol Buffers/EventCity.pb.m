@@ -25,7 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface LoadPlayerCityRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t cityOwnerId;
+@property (strong) NSString* cityOwnerUuid;
 @end
 
 @implementation LoadPlayerCityRequestProto
@@ -37,17 +37,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasCityOwnerId {
-  return !!hasCityOwnerId_;
+- (BOOL) hasCityOwnerUuid {
+  return !!hasCityOwnerUuid_;
 }
-- (void) setHasCityOwnerId:(BOOL) value_ {
-  hasCityOwnerId_ = !!value_;
+- (void) setHasCityOwnerUuid:(BOOL) value_ {
+  hasCityOwnerUuid_ = !!value_;
 }
-@synthesize cityOwnerId;
+@synthesize cityOwnerUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.cityOwnerId = 0;
+    self.cityOwnerUuid = @"";
   }
   return self;
 }
@@ -70,8 +70,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasCityOwnerId) {
-    [output writeInt32:2 value:self.cityOwnerId];
+  if (self.hasCityOwnerUuid) {
+    [output writeString:2 value:self.cityOwnerUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -85,8 +85,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasCityOwnerId) {
-    size_ += computeInt32Size(2, self.cityOwnerId);
+  if (self.hasCityOwnerUuid) {
+    size_ += computeStringSize(2, self.cityOwnerUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -129,8 +129,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasCityOwnerId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"cityOwnerId", [NSNumber numberWithInteger:self.cityOwnerId]];
+  if (self.hasCityOwnerUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"cityOwnerUuid", self.cityOwnerUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -145,8 +145,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasCityOwnerId == otherMessage.hasCityOwnerId &&
-      (!self.hasCityOwnerId || self.cityOwnerId == otherMessage.cityOwnerId) &&
+      self.hasCityOwnerUuid == otherMessage.hasCityOwnerUuid &&
+      (!self.hasCityOwnerUuid || [self.cityOwnerUuid isEqual:otherMessage.cityOwnerUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -154,8 +154,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasCityOwnerId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.cityOwnerId] hash];
+  if (self.hasCityOwnerUuid) {
+    hashCode = hashCode * 31 + [self.cityOwnerUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -203,8 +203,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasCityOwnerId) {
-    [self setCityOwnerId:other.cityOwnerId];
+  if (other.hasCityOwnerUuid) {
+    [self setCityOwnerUuid:other.cityOwnerUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -236,8 +236,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setCityOwnerId:[input readInt32]];
+      case 18: {
+        [self setCityOwnerUuid:[input readString]];
         break;
       }
     }
@@ -273,20 +273,20 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCityOwnerId {
-  return result.hasCityOwnerId;
+- (BOOL) hasCityOwnerUuid {
+  return result.hasCityOwnerUuid;
 }
-- (int32_t) cityOwnerId {
-  return result.cityOwnerId;
+- (NSString*) cityOwnerUuid {
+  return result.cityOwnerUuid;
 }
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value {
-  result.hasCityOwnerId = YES;
-  result.cityOwnerId = value;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerUuid:(NSString*) value {
+  result.hasCityOwnerUuid = YES;
+  result.cityOwnerUuid = value;
   return self;
 }
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId {
-  result.hasCityOwnerId = NO;
-  result.cityOwnerId = 0;
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerUuid {
+  result.hasCityOwnerUuid = NO;
+  result.cityOwnerUuid = @"";
   return self;
 }
 @end

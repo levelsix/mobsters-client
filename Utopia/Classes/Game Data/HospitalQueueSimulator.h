@@ -13,7 +13,7 @@
 
 @property (nonatomic, assign) float healthPerSecond;
 @property (nonatomic, retain) MSDate *upgradeCompleteDate;
-@property (nonatomic, assign) int userStructId;
+@property (nonatomic, retain) NSString *userStructUuid;
 
 - (id) initWithHospital:(UserStruct *)hospital;
 
@@ -21,11 +21,11 @@
 
 @interface HealingItemSim : NSObject
 
-@property (nonatomic, assign) uint64_t userMonsterId;
+@property (nonatomic, retain) NSString *userMonsterUuid;
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int totalHealthToHeal;
 @property (nonatomic, retain) MSDate *queueTime;
-@property (nonatomic, assign) int userStructId;
+@property (nonatomic, retain) NSString *userStructUuid;
 
 @property (nonatomic, assign) int isFinished;
 @property (nonatomic, assign) float totalSeconds;

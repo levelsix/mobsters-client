@@ -116,7 +116,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataId:self.userStruct.userStructId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStruct.userStructUuid] < 0;
 }
 
 - (void) performSpeedup {
@@ -137,11 +137,11 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userStruct.userStructId == [object userStruct].userStructId;
+  return [self class] == [object class] && [self.userStruct.userStructUuid isEqualToString:[object userStruct].userStructUuid];
 }
 
 - (NSUInteger) hash {
-  return self.userStruct.userStructId*31;
+  return self.userStruct.userStructUuid.hash;
 }
 
 @end
@@ -170,11 +170,11 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userObstacle.userObstacleId == [object userObstacle].userObstacleId;
+  return [self class] == [object class] && [self.userObstacle.userObstacleUuid isEqualToString:[object userObstacle].userObstacleUuid];
 }
 
 - (NSUInteger) hash {
-  return self.userObstacle.userObstacleId*97;
+  return self.userObstacle.userObstacleUuid.hash;
 }
 
 @end
@@ -195,7 +195,7 @@
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
   for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
-    if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataId:hi.userMonsterId] < 0) {
+    if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
       return YES;
     }
   }
@@ -244,7 +244,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataId:self.userEnhancement.baseMonster.userMonsterId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEnhanceTime userDataUuid:self.userEnhancement.baseMonster.userMonsterUuid] < 0;
 }
 
 - (NSString *) confirmActionString {
@@ -262,11 +262,11 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userEnhancement.baseMonster.userMonsterId == [object userEnhancement].baseMonster.userMonsterId;
+  return [self class] == [object class] && [self.userEnhancement.baseMonster.userMonsterUuid isEqualToString:[object userEnhancement].baseMonster.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userEnhancement.baseMonster.userMonsterId*17;
+  return self.userEnhancement.baseMonster.userMonsterUuid.hash;
 }
 
 @end
@@ -288,7 +288,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataId:self.miniJob.userMiniJobId] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeMiniJob userDataUuid:self.miniJob.userMiniJobUuid] < 0;
 }
 
 - (NSString *) confirmActionString {
@@ -310,11 +310,11 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.miniJob.userMiniJobId == [(MiniJobTimerAction *)object miniJob].userMiniJobId;
+  return [self class] == [object class] && [self.miniJob.userMiniJobUuid isEqualToString:[(MiniJobTimerAction *)object miniJob].userMiniJobUuid];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.miniJob.userMiniJobId*51;
+  return self.miniJob.userMiniJobUuid.hash;
 }
 
 @end
@@ -337,7 +337,7 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataId:self.userEvo.userMonsterId1] < 0;
+  return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeEvolve userDataUuid:self.userEvo.userMonsterUuid1] < 0;
 }
 
 - (NSString *) confirmActionString {
@@ -355,11 +355,11 @@
 }
 
 - (BOOL) isEqual:(id)object {
-  return [self class] == [object class] && self.userEvo.userMonsterId1 == [object userEvo].userMonsterId1;
+  return [self class] == [object class] && [self.userEvo.userMonsterUuid1 isEqualToString:[object userEvo].userMonsterUuid1];
 }
 
 - (NSUInteger) hash {
-  return (NSUInteger)self.userEvo.userMonsterId1*19;
+  return (NSUInteger)self.userEvo.userMonsterUuid1.hash;
 }
 
 @end

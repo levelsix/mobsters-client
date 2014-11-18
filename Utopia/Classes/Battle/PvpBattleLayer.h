@@ -33,7 +33,7 @@
 
 @property (nonatomic, retain) UIButton *closeButton;
 
-@property (nonatomic, retain) IBOutlet NSMutableArray *seenUserIds;
+@property (nonatomic, retain) IBOutlet NSMutableArray *seenUserUuids;
 
 @property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
 

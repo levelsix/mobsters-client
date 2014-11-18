@@ -34,17 +34,17 @@
   [self.delegate teamOpened];
 }
 
-- (NSIndexPath *) indexPathForUserMonsterId:(uint64_t)userMonsterId {
+- (NSIndexPath *) indexPathForUserMonsterUuid:(NSString *)userMonsterUuid {
   for (UserMonster *um in self.userMonsters) {
-    if (um.userMonsterId == userMonsterId) {
+    if ([um.userMonsterUuid isEqualToString:userMonsterUuid]) {
       return [NSIndexPath indexPathForItem:[self.userMonsters indexOfObject:um] inSection:0];
     }
   }
   return nil;
 }
 
-- (void) moveToMonster:(uint64_t)userMonsterId {
-  NSIndexPath *ip = [self indexPathForUserMonsterId:userMonsterId];
+- (void) moveToMonster:(NSString *)userMonsterUuid {
+  NSIndexPath *ip = [self indexPathForUserMonsterUuid:userMonsterUuid];
   [self.listView.collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
 }
 
@@ -52,18 +52,18 @@
   [self teamSlotMinusClicked:self.teamSlotViews[2]];
 }
 
-- (void) allowEquip:(uint64_t)userMonsterId {
-  self.clickableUserMonsterId = userMonsterId;
+- (void) allowEquip:(NSString *)userMonsterUuid {
+  self.clickableUserMonsterUuid = userMonsterUuid;
   self.listView.userInteractionEnabled = YES;
   
-  [self moveToMonster:userMonsterId];
-  [self arrowOverMonster:userMonsterId];
+  [self moveToMonster:userMonsterUuid];
+  [self arrowOverMonster:userMonsterUuid];
 }
 
-- (void) arrowOverMonster:(uint64_t)userMonsterId {
+- (void) arrowOverMonster:(NSString *)userMonsterUuid {
   if (!_arrowOverPlusCreated) {
     [Globals removeUIArrowFromViewRecursively:self.view];
-    NSIndexPath *ip = [self indexPathForUserMonsterId:userMonsterId];
+    NSIndexPath *ip = [self indexPathForUserMonsterUuid:userMonsterUuid];
     MonsterListCell *cell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
     if (cell) {
       _arrowOverPlusCreated = YES;
@@ -89,11 +89,11 @@
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  if (um.userMonsterId == self.clickableUserMonsterId) {
+  if ([um.userMonsterUuid isEqualToString:self.clickableUserMonsterUuid]) {
     [super listView:listView cardClickedAtIndexPath:indexPath];
     [Globals removeUIArrowFromViewRecursively:self.view];
     [self.delegate addedMobsterToTeam];
-    self.clickableUserMonsterId = 0;
+    self.clickableUserMonsterUuid = nil;
   }
 }
 

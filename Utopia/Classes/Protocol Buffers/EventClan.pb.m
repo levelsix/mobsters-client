@@ -1436,7 +1436,7 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
 
 @interface RequestJoinClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @end
 
 @implementation RequestJoinClanRequestProto
@@ -1448,17 +1448,17 @@ BOOL LeaveClanResponseProto_LeaveClanStatusIsValidValue(LeaveClanResponseProto_L
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanId = 0;
+    self.clanUuid = @"";
   }
   return self;
 }
@@ -1481,8 +1481,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanId) {
-    [output writeInt32:2 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:2 value:self.clanUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1496,8 +1496,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(2, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(2, self.clanUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1540,8 +1540,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -1556,8 +1556,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1565,8 +1565,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1614,8 +1614,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1647,8 +1647,8 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setClanId:[input readInt32]];
+      case 18: {
+        [self setClanUuid:[input readString]];
         break;
       }
     }
@@ -1684,20 +1684,20 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RequestJoinClanRequestProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RequestJoinClanRequestProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RequestJoinClanRequestProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RequestJoinClanRequestProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 @end
@@ -1705,7 +1705,7 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
 @interface RequestJoinClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property RequestJoinClanResponseProto_RequestJoinClanStatus status;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @property (strong) MinimumUserProtoForClans* requester;
 @property (strong) MinimumClanProto* minClan;
 @property (strong) FullClanProtoWithClanSize* fullClan;
@@ -1730,13 +1730,13 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   hasStatus_ = !!value_;
 }
 @synthesize status;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasRequester {
   return !!hasRequester_;
 }
@@ -1778,7 +1778,7 @@ static RequestJoinClanRequestProto* defaultRequestJoinClanRequestProtoInstance =
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.requester = [MinimumUserProtoForClans defaultInstance];
     self.minClan = [MinimumClanProto defaultInstance];
     self.fullClan = [FullClanProtoWithClanSize defaultInstance];
@@ -1815,8 +1815,8 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasClanId) {
-    [output writeInt32:3 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:3 value:self.clanUuid];
   }
   if (self.hasRequester) {
     [output writeMessage:4 value:self.requester];
@@ -1851,8 +1851,8 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(3, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(3, self.clanUuid);
   }
   if (self.hasRequester) {
     size_ += computeMessageSize(4, self.requester);
@@ -1916,8 +1916,8 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasRequester) {
     [output appendFormat:@"%@%@ {\n", indent, @"requester"];
@@ -1970,8 +1970,8 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasRequester == otherMessage.hasRequester &&
       (!self.hasRequester || [self.requester isEqual:otherMessage.requester]) &&
       self.hasMinClan == otherMessage.hasMinClan &&
@@ -1993,8 +1993,8 @@ static RequestJoinClanResponseProto* defaultRequestJoinClanResponseProtoInstance
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   if (self.hasRequester) {
     hashCode = hashCode * 31 + [self.requester hash];
@@ -2076,8 +2076,8 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasRequester) {
     [self mergeRequester:other.requester];
@@ -2140,8 +2140,8 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
         }
         break;
       }
-      case 24: {
-        [self setClanId:[input readInt32]];
+      case 26: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 34: {
@@ -2244,20 +2244,20 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   result.status = RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest;
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RequestJoinClanResponseProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RequestJoinClanResponseProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RequestJoinClanResponseProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RequestJoinClanResponseProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasRequester {
@@ -2438,7 +2438,7 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
 
 @interface RetractRequestJoinClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @end
 
 @implementation RetractRequestJoinClanRequestProto
@@ -2450,17 +2450,17 @@ BOOL RequestJoinClanResponseProto_RequestJoinClanStatusIsValidValue(RequestJoinC
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanId = 0;
+    self.clanUuid = @"";
   }
   return self;
 }
@@ -2483,8 +2483,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanId) {
-    [output writeInt32:2 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:2 value:self.clanUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2498,8 +2498,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(2, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(2, self.clanUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2542,8 +2542,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2558,8 +2558,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2567,8 +2567,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2616,8 +2616,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2649,8 +2649,8 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setClanId:[input readInt32]];
+      case 18: {
+        [self setClanUuid:[input readString]];
         break;
       }
     }
@@ -2686,20 +2686,20 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RetractRequestJoinClanRequestProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RetractRequestJoinClanRequestProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RetractRequestJoinClanRequestProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RetractRequestJoinClanRequestProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 @end
@@ -2707,7 +2707,7 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
 @interface RetractRequestJoinClanResponseProto ()
 @property (strong) MinimumUserProto* sender;
 @property RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @end
 
 @implementation RetractRequestJoinClanResponseProto
@@ -2726,18 +2726,18 @@ static RetractRequestJoinClanRequestProto* defaultRetractRequestJoinClanRequestP
   hasStatus_ = !!value_;
 }
 @synthesize status;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
-    self.clanId = 0;
+    self.clanUuid = @"";
   }
   return self;
 }
@@ -2763,8 +2763,8 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasClanId) {
-    [output writeInt32:3 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:3 value:self.clanUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2781,8 +2781,8 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
   if (self.hasStatus) {
     size_ += computeEnumSize(2, self.status);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(3, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(3, self.clanUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2828,8 +2828,8 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2846,8 +2846,8 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2858,8 +2858,8 @@ static RetractRequestJoinClanResponseProto* defaultRetractRequestJoinClanRespons
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2921,8 +2921,8 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2963,8 +2963,8 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
         }
         break;
       }
-      case 24: {
-        [self setClanId:[input readInt32]];
+      case 26: {
+        [self setClanUuid:[input readString]];
         break;
       }
     }
@@ -3016,27 +3016,27 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
   result.status = RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess;
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RetractRequestJoinClanResponseProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RetractRequestJoinClanResponseProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RetractRequestJoinClanResponseProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RetractRequestJoinClanResponseProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 @end
 
 @interface ApproveOrRejectRequestToJoinClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t requesterId;
+@property (strong) NSString* requesterUuid;
 @property BOOL accept;
 @end
 
@@ -3049,13 +3049,13 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasRequesterId {
-  return !!hasRequesterId_;
+- (BOOL) hasRequesterUuid {
+  return !!hasRequesterUuid_;
 }
-- (void) setHasRequesterId:(BOOL) value_ {
-  hasRequesterId_ = !!value_;
+- (void) setHasRequesterUuid:(BOOL) value_ {
+  hasRequesterUuid_ = !!value_;
 }
-@synthesize requesterId;
+@synthesize requesterUuid;
 - (BOOL) hasAccept {
   return !!hasAccept_;
 }
@@ -3071,7 +3071,7 @@ BOOL RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusIsValidValu
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.requesterId = 0;
+    self.requesterUuid = @"";
     self.accept = NO;
   }
   return self;
@@ -3095,8 +3095,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasRequesterId) {
-    [output writeInt32:2 value:self.requesterId];
+  if (self.hasRequesterUuid) {
+    [output writeString:2 value:self.requesterUuid];
   }
   if (self.hasAccept) {
     [output writeBool:3 value:self.accept];
@@ -3113,8 +3113,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasRequesterId) {
-    size_ += computeInt32Size(2, self.requesterId);
+  if (self.hasRequesterUuid) {
+    size_ += computeStringSize(2, self.requesterUuid);
   }
   if (self.hasAccept) {
     size_ += computeBoolSize(3, self.accept);
@@ -3160,8 +3160,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasRequesterId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"requesterId", [NSNumber numberWithInteger:self.requesterId]];
+  if (self.hasRequesterUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"requesterUuid", self.requesterUuid];
   }
   if (self.hasAccept) {
     [output appendFormat:@"%@%@: %@\n", indent, @"accept", [NSNumber numberWithBool:self.accept]];
@@ -3179,8 +3179,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasRequesterId == otherMessage.hasRequesterId &&
-      (!self.hasRequesterId || self.requesterId == otherMessage.requesterId) &&
+      self.hasRequesterUuid == otherMessage.hasRequesterUuid &&
+      (!self.hasRequesterUuid || [self.requesterUuid isEqual:otherMessage.requesterUuid]) &&
       self.hasAccept == otherMessage.hasAccept &&
       (!self.hasAccept || self.accept == otherMessage.accept) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -3190,8 +3190,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasRequesterId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.requesterId] hash];
+  if (self.hasRequesterUuid) {
+    hashCode = hashCode * 31 + [self.requesterUuid hash];
   }
   if (self.hasAccept) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.accept] hash];
@@ -3242,8 +3242,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasRequesterId) {
-    [self setRequesterId:other.requesterId];
+  if (other.hasRequesterUuid) {
+    [self setRequesterUuid:other.requesterUuid];
   }
   if (other.hasAccept) {
     [self setAccept:other.accept];
@@ -3278,8 +3278,8 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setRequesterId:[input readInt32]];
+      case 18: {
+        [self setRequesterUuid:[input readString]];
         break;
       }
       case 24: {
@@ -3319,20 +3319,20 @@ static ApproveOrRejectRequestToJoinClanRequestProto* defaultApproveOrRejectReque
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasRequesterId {
-  return result.hasRequesterId;
+- (BOOL) hasRequesterUuid {
+  return result.hasRequesterUuid;
 }
-- (int32_t) requesterId {
-  return result.requesterId;
+- (NSString*) requesterUuid {
+  return result.requesterUuid;
 }
-- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) setRequesterId:(int32_t) value {
-  result.hasRequesterId = YES;
-  result.requesterId = value;
+- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) setRequesterUuid:(NSString*) value {
+  result.hasRequesterUuid = YES;
+  result.requesterUuid = value;
   return self;
 }
-- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) clearRequesterId {
-  result.hasRequesterId = NO;
-  result.requesterId = 0;
+- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) clearRequesterUuid {
+  result.hasRequesterUuid = NO;
+  result.requesterUuid = @"";
   return self;
 }
 - (BOOL) hasAccept {
@@ -3896,7 +3896,7 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
 
 @interface RetrieveClanInfoRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @property (strong) NSString* clanName;
 @property RetrieveClanInfoRequestProto_ClanInfoGrabType grabType;
 @property int32_t beforeThisClanId;
@@ -3912,13 +3912,13 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasClanName {
   return !!hasClanName_;
 }
@@ -3955,7 +3955,7 @@ BOOL ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinC
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.clanName = @"";
     self.grabType = RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll;
     self.beforeThisClanId = 0;
@@ -3982,8 +3982,8 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanId) {
-    [output writeInt32:2 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:2 value:self.clanUuid];
   }
   if (self.hasClanName) {
     [output writeString:3 value:self.clanName];
@@ -4009,8 +4009,8 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(2, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(2, self.clanUuid);
   }
   if (self.hasClanName) {
     size_ += computeStringSize(3, self.clanName);
@@ -4065,8 +4065,8 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasClanName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanName", self.clanName];
@@ -4093,8 +4093,8 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasClanName == otherMessage.hasClanName &&
       (!self.hasClanName || [self.clanName isEqual:otherMessage.clanName]) &&
       self.hasGrabType == otherMessage.hasGrabType &&
@@ -4110,8 +4110,8 @@ static RetrieveClanInfoRequestProto* defaultRetrieveClanInfoRequestProtoInstance
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   if (self.hasClanName) {
     hashCode = hashCode * 31 + [self.clanName hash];
@@ -4181,8 +4181,8 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasClanName) {
     [self setClanName:other.clanName];
@@ -4226,8 +4226,8 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setClanId:[input readInt32]];
+      case 18: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 26: {
@@ -4284,20 +4284,20 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RetrieveClanInfoRequestProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RetrieveClanInfoRequestProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RetrieveClanInfoRequestProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RetrieveClanInfoRequestProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasClanName {
@@ -4373,7 +4373,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
 @property RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
 @property BOOL isForSearch;
 @property BOOL isForBrowsingList;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @property (strong) NSString* clanName;
 @property int32_t beforeThisClanId;
 @property (strong) NSMutableArray * mutableMonsterTeamsList;
@@ -4423,13 +4423,13 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
 - (void) setIsForBrowsingList:(BOOL) value_ {
   isForBrowsingList_ = !!value_;
 }
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasClanName {
   return !!hasClanName_;
 }
@@ -4452,7 +4452,7 @@ BOOL RetrieveClanInfoRequestProto_ClanInfoGrabTypeIsValidValue(RetrieveClanInfoR
     self.status = RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess;
     self.isForSearch = NO;
     self.isForBrowsingList = NO;
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.clanName = @"";
     self.beforeThisClanId = 0;
   }
@@ -4510,8 +4510,8 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
   if (self.hasIsForBrowsingList) {
     [output writeBool:6 value:self.isForBrowsingList];
   }
-  if (self.hasClanId) {
-    [output writeInt32:7 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:7 value:self.clanUuid];
   }
   if (self.hasClanName) {
     [output writeString:8 value:self.clanName];
@@ -4549,8 +4549,8 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
   if (self.hasIsForBrowsingList) {
     size_ += computeBoolSize(6, self.isForBrowsingList);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(7, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(7, self.clanUuid);
   }
   if (self.hasClanName) {
     size_ += computeStringSize(8, self.clanName);
@@ -4623,8 +4623,8 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
   if (self.hasIsForBrowsingList) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isForBrowsingList", [NSNumber numberWithBool:self.isForBrowsingList]];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasClanName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clanName", self.clanName];
@@ -4659,8 +4659,8 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
       (!self.hasIsForSearch || self.isForSearch == otherMessage.isForSearch) &&
       self.hasIsForBrowsingList == otherMessage.hasIsForBrowsingList &&
       (!self.hasIsForBrowsingList || self.isForBrowsingList == otherMessage.isForBrowsingList) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasClanName == otherMessage.hasClanName &&
       (!self.hasClanName || [self.clanName isEqual:otherMessage.clanName]) &&
       self.hasBeforeThisClanId == otherMessage.hasBeforeThisClanId &&
@@ -4688,8 +4688,8 @@ static RetrieveClanInfoResponseProto* defaultRetrieveClanInfoResponseProtoInstan
   if (self.hasIsForBrowsingList) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isForBrowsingList] hash];
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   if (self.hasClanName) {
     hashCode = hashCode * 31 + [self.clanName hash];
@@ -4778,8 +4778,8 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
   if (other.hasIsForBrowsingList) {
     [self setIsForBrowsingList:other.isForBrowsingList];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasClanName) {
     [self setClanName:other.clanName];
@@ -4853,8 +4853,8 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
         [self setIsForBrowsingList:[input readBool]];
         break;
       }
-      case 56: {
-        [self setClanId:[input readInt32]];
+      case 58: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 66: {
@@ -5000,20 +5000,20 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
   result.isForBrowsingList = NO;
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RetrieveClanInfoResponseProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RetrieveClanInfoResponseProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RetrieveClanInfoResponseProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RetrieveClanInfoResponseProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasClanName {
@@ -5076,7 +5076,7 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
 
 @interface TransferClanOwnershipRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t clanOwnerIdNew;
+@property (strong) NSString* clanOwnerUuidNew;
 @end
 
 @implementation TransferClanOwnershipRequestProto
@@ -5088,17 +5088,17 @@ BOOL RetrieveClanInfoResponseProto_RetrieveClanInfoStatusIsValidValue(RetrieveCl
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanOwnerIdNew {
-  return !!hasClanOwnerIdNew_;
+- (BOOL) hasClanOwnerUuidNew {
+  return !!hasClanOwnerUuidNew_;
 }
-- (void) setHasClanOwnerIdNew:(BOOL) value_ {
-  hasClanOwnerIdNew_ = !!value_;
+- (void) setHasClanOwnerUuidNew:(BOOL) value_ {
+  hasClanOwnerUuidNew_ = !!value_;
 }
-@synthesize clanOwnerIdNew;
+@synthesize clanOwnerUuidNew;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanOwnerIdNew = 0;
+    self.clanOwnerUuidNew = @"";
   }
   return self;
 }
@@ -5121,8 +5121,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanOwnerIdNew) {
-    [output writeInt32:2 value:self.clanOwnerIdNew];
+  if (self.hasClanOwnerUuidNew) {
+    [output writeString:2 value:self.clanOwnerUuidNew];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5136,8 +5136,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanOwnerIdNew) {
-    size_ += computeInt32Size(2, self.clanOwnerIdNew);
+  if (self.hasClanOwnerUuidNew) {
+    size_ += computeStringSize(2, self.clanOwnerUuidNew);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -5180,8 +5180,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanOwnerIdNew) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanOwnerIdNew", [NSNumber numberWithInteger:self.clanOwnerIdNew]];
+  if (self.hasClanOwnerUuidNew) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanOwnerUuidNew", self.clanOwnerUuidNew];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -5196,8 +5196,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanOwnerIdNew == otherMessage.hasClanOwnerIdNew &&
-      (!self.hasClanOwnerIdNew || self.clanOwnerIdNew == otherMessage.clanOwnerIdNew) &&
+      self.hasClanOwnerUuidNew == otherMessage.hasClanOwnerUuidNew &&
+      (!self.hasClanOwnerUuidNew || [self.clanOwnerUuidNew isEqual:otherMessage.clanOwnerUuidNew]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -5205,8 +5205,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanOwnerIdNew) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanOwnerIdNew] hash];
+  if (self.hasClanOwnerUuidNew) {
+    hashCode = hashCode * 31 + [self.clanOwnerUuidNew hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -5254,8 +5254,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanOwnerIdNew) {
-    [self setClanOwnerIdNew:other.clanOwnerIdNew];
+  if (other.hasClanOwnerUuidNew) {
+    [self setClanOwnerUuidNew:other.clanOwnerUuidNew];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5287,8 +5287,8 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setClanOwnerIdNew:[input readInt32]];
+      case 18: {
+        [self setClanOwnerUuidNew:[input readString]];
         break;
       }
     }
@@ -5324,20 +5324,20 @@ static TransferClanOwnershipRequestProto* defaultTransferClanOwnershipRequestPro
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanOwnerIdNew {
-  return result.hasClanOwnerIdNew;
+- (BOOL) hasClanOwnerUuidNew {
+  return result.hasClanOwnerUuidNew;
 }
-- (int32_t) clanOwnerIdNew {
-  return result.clanOwnerIdNew;
+- (NSString*) clanOwnerUuidNew {
+  return result.clanOwnerUuidNew;
 }
-- (TransferClanOwnershipRequestProto_Builder*) setClanOwnerIdNew:(int32_t) value {
-  result.hasClanOwnerIdNew = YES;
-  result.clanOwnerIdNew = value;
+- (TransferClanOwnershipRequestProto_Builder*) setClanOwnerUuidNew:(NSString*) value {
+  result.hasClanOwnerUuidNew = YES;
+  result.clanOwnerUuidNew = value;
   return self;
 }
-- (TransferClanOwnershipRequestProto_Builder*) clearClanOwnerIdNew {
-  result.hasClanOwnerIdNew = NO;
-  result.clanOwnerIdNew = 0;
+- (TransferClanOwnershipRequestProto_Builder*) clearClanOwnerUuidNew {
+  result.hasClanOwnerUuidNew = NO;
+  result.clanOwnerUuidNew = @"";
   return self;
 }
 @end
@@ -5832,7 +5832,7 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
 
 @interface BootPlayerFromClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t playerToBoot;
+@property (strong) NSString* playerToBootUuid;
 @end
 
 @implementation BootPlayerFromClanRequestProto
@@ -5844,17 +5844,17 @@ BOOL TransferClanOwnershipResponseProto_TransferClanOwnershipStatusIsValidValue(
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasPlayerToBoot {
-  return !!hasPlayerToBoot_;
+- (BOOL) hasPlayerToBootUuid {
+  return !!hasPlayerToBootUuid_;
 }
-- (void) setHasPlayerToBoot:(BOOL) value_ {
-  hasPlayerToBoot_ = !!value_;
+- (void) setHasPlayerToBootUuid:(BOOL) value_ {
+  hasPlayerToBootUuid_ = !!value_;
 }
-@synthesize playerToBoot;
+@synthesize playerToBootUuid;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.playerToBoot = 0;
+    self.playerToBootUuid = @"";
   }
   return self;
 }
@@ -5877,8 +5877,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasPlayerToBoot) {
-    [output writeInt32:2 value:self.playerToBoot];
+  if (self.hasPlayerToBootUuid) {
+    [output writeString:2 value:self.playerToBootUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5892,8 +5892,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasPlayerToBoot) {
-    size_ += computeInt32Size(2, self.playerToBoot);
+  if (self.hasPlayerToBootUuid) {
+    size_ += computeStringSize(2, self.playerToBootUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -5936,8 +5936,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasPlayerToBoot) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"playerToBoot", [NSNumber numberWithInteger:self.playerToBoot]];
+  if (self.hasPlayerToBootUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"playerToBootUuid", self.playerToBootUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -5952,8 +5952,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasPlayerToBoot == otherMessage.hasPlayerToBoot &&
-      (!self.hasPlayerToBoot || self.playerToBoot == otherMessage.playerToBoot) &&
+      self.hasPlayerToBootUuid == otherMessage.hasPlayerToBootUuid &&
+      (!self.hasPlayerToBootUuid || [self.playerToBootUuid isEqual:otherMessage.playerToBootUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -5961,8 +5961,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasPlayerToBoot) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.playerToBoot] hash];
+  if (self.hasPlayerToBootUuid) {
+    hashCode = hashCode * 31 + [self.playerToBootUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6010,8 +6010,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasPlayerToBoot) {
-    [self setPlayerToBoot:other.playerToBoot];
+  if (other.hasPlayerToBootUuid) {
+    [self setPlayerToBootUuid:other.playerToBootUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6043,8 +6043,8 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setPlayerToBoot:[input readInt32]];
+      case 18: {
+        [self setPlayerToBootUuid:[input readString]];
         break;
       }
     }
@@ -6080,20 +6080,20 @@ static BootPlayerFromClanRequestProto* defaultBootPlayerFromClanRequestProtoInst
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasPlayerToBoot {
-  return result.hasPlayerToBoot;
+- (BOOL) hasPlayerToBootUuid {
+  return result.hasPlayerToBootUuid;
 }
-- (int32_t) playerToBoot {
-  return result.playerToBoot;
+- (NSString*) playerToBootUuid {
+  return result.playerToBootUuid;
 }
-- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBoot:(int32_t) value {
-  result.hasPlayerToBoot = YES;
-  result.playerToBoot = value;
+- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBootUuid:(NSString*) value {
+  result.hasPlayerToBootUuid = YES;
+  result.playerToBootUuid = value;
   return self;
 }
-- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBoot {
-  result.hasPlayerToBoot = NO;
-  result.playerToBoot = 0;
+- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBootUuid {
+  result.hasPlayerToBootUuid = NO;
+  result.playerToBootUuid = @"";
   return self;
 }
 @end
@@ -9708,7 +9708,7 @@ static AwardClanRaidStageRewardResponseProto* defaultAwardClanRaidStageRewardRes
 
 @interface RecordClanRaidStatsRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t clanId;
+@property (strong) NSString* clanUuid;
 @property int64_t clientTime;
 @end
 
@@ -9721,13 +9721,13 @@ static AwardClanRaidStageRewardResponseProto* defaultAwardClanRaidStageRewardRes
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value_ {
-  hasClanId_ = !!value_;
+- (void) setHasClanUuid:(BOOL) value_ {
+  hasClanUuid_ = !!value_;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -9738,7 +9738,7 @@ static AwardClanRaidStageRewardResponseProto* defaultAwardClanRaidStageRewardRes
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.clientTime = 0L;
   }
   return self;
@@ -9762,8 +9762,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasClanId) {
-    [output writeInt32:2 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:2 value:self.clanUuid];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -9780,8 +9780,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasClanId) {
-    size_ += computeInt32Size(2, self.clanId);
+  if (self.hasClanUuid) {
+    size_ += computeStringSize(2, self.clanUuid);
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(3, self.clientTime);
@@ -9827,8 +9827,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasClanId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanId", [NSNumber numberWithInteger:self.clanId]];
+  if (self.hasClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -9846,8 +9846,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasClanId == otherMessage.hasClanId &&
-      (!self.hasClanId || self.clanId == otherMessage.clanId) &&
+      self.hasClanUuid == otherMessage.hasClanUuid &&
+      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -9857,8 +9857,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasClanId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.clanId] hash];
+  if (self.hasClanUuid) {
+    hashCode = hashCode * 31 + [self.clanUuid hash];
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -9909,8 +9909,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -9945,8 +9945,8 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setClanId:[input readInt32]];
+      case 18: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 24: {
@@ -9986,20 +9986,20 @@ static RecordClanRaidStatsRequestProto* defaultRecordClanRaidStatsRequestProtoIn
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (RecordClanRaidStatsRequestProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (RecordClanRaidStatsRequestProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (RecordClanRaidStatsRequestProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (RecordClanRaidStatsRequestProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasClientTime {
@@ -10305,7 +10305,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
 
 @interface PromoteDemoteClanMemberRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t victimId;
+@property (strong) NSString* victimUuid;
 @property UserClanStatus userClanStatus;
 @end
 
@@ -10318,13 +10318,13 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
   hasSender_ = !!value_;
 }
 @synthesize sender;
-- (BOOL) hasVictimId {
-  return !!hasVictimId_;
+- (BOOL) hasVictimUuid {
+  return !!hasVictimUuid_;
 }
-- (void) setHasVictimId:(BOOL) value_ {
-  hasVictimId_ = !!value_;
+- (void) setHasVictimUuid:(BOOL) value_ {
+  hasVictimUuid_ = !!value_;
 }
-@synthesize victimId;
+@synthesize victimUuid;
 - (BOOL) hasUserClanStatus {
   return !!hasUserClanStatus_;
 }
@@ -10335,7 +10335,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.victimId = 0;
+    self.victimUuid = @"";
     self.userClanStatus = UserClanStatusMember;
   }
   return self;
@@ -10359,8 +10359,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasVictimId) {
-    [output writeInt32:2 value:self.victimId];
+  if (self.hasVictimUuid) {
+    [output writeString:2 value:self.victimUuid];
   }
   if (self.hasUserClanStatus) {
     [output writeEnum:3 value:self.userClanStatus];
@@ -10377,8 +10377,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (self.hasSender) {
     size_ += computeMessageSize(1, self.sender);
   }
-  if (self.hasVictimId) {
-    size_ += computeInt32Size(2, self.victimId);
+  if (self.hasVictimUuid) {
+    size_ += computeStringSize(2, self.victimUuid);
   }
   if (self.hasUserClanStatus) {
     size_ += computeEnumSize(3, self.userClanStatus);
@@ -10424,8 +10424,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  if (self.hasVictimId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"victimId", [NSNumber numberWithInteger:self.victimId]];
+  if (self.hasVictimUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"victimUuid", self.victimUuid];
   }
   if (self.hasUserClanStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"userClanStatus", self.userClanStatus];
@@ -10443,8 +10443,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      self.hasVictimId == otherMessage.hasVictimId &&
-      (!self.hasVictimId || self.victimId == otherMessage.victimId) &&
+      self.hasVictimUuid == otherMessage.hasVictimUuid &&
+      (!self.hasVictimUuid || [self.victimUuid isEqual:otherMessage.victimUuid]) &&
       self.hasUserClanStatus == otherMessage.hasUserClanStatus &&
       (!self.hasUserClanStatus || self.userClanStatus == otherMessage.userClanStatus) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -10454,8 +10454,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  if (self.hasVictimId) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.victimId] hash];
+  if (self.hasVictimUuid) {
+    hashCode = hashCode * 31 + [self.victimUuid hash];
   }
   if (self.hasUserClanStatus) {
     hashCode = hashCode * 31 + self.userClanStatus;
@@ -10506,8 +10506,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasVictimId) {
-    [self setVictimId:other.victimId];
+  if (other.hasVictimUuid) {
+    [self setVictimUuid:other.victimUuid];
   }
   if (other.hasUserClanStatus) {
     [self setUserClanStatus:other.userClanStatus];
@@ -10542,8 +10542,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setVictimId:[input readInt32]];
+      case 18: {
+        [self setVictimUuid:[input readString]];
         break;
       }
       case 24: {
@@ -10588,20 +10588,20 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasVictimId {
-  return result.hasVictimId;
+- (BOOL) hasVictimUuid {
+  return result.hasVictimUuid;
 }
-- (int32_t) victimId {
-  return result.victimId;
+- (NSString*) victimUuid {
+  return result.victimUuid;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) setVictimId:(int32_t) value {
-  result.hasVictimId = YES;
-  result.victimId = value;
+- (PromoteDemoteClanMemberRequestProto_Builder*) setVictimUuid:(NSString*) value {
+  result.hasVictimUuid = YES;
+  result.victimUuid = value;
   return self;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictimId {
-  result.hasVictimId = NO;
-  result.victimId = 0;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictimUuid {
+  result.hasVictimUuid = NO;
+  result.victimUuid = @"";
   return self;
 }
 - (BOOL) hasUserClanStatus {
@@ -11799,7 +11799,7 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
 
 @interface GiveClanHelpRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) PBAppendableArray * mutableClanHelpIdsList;
+@property (strong) NSMutableArray * mutableClanHelpUuidsList;
 @end
 
 @implementation GiveClanHelpRequestProto
@@ -11811,8 +11811,8 @@ BOOL SolicitClanHelpResponseProto_SolicitClanHelpStatusIsValidValue(SolicitClanH
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableClanHelpIdsList;
-@dynamic clanHelpIdsList;
+@synthesize mutableClanHelpUuidsList;
+@dynamic clanHelpUuidsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -11831,11 +11831,11 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
 - (GiveClanHelpRequestProto*) defaultInstance {
   return defaultGiveClanHelpRequestProtoInstance;
 }
-- (PBArray *)clanHelpIdsList {
-  return mutableClanHelpIdsList;
+- (NSArray *)clanHelpUuidsList {
+  return mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [mutableClanHelpIdsList int64AtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -11844,13 +11844,9 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  const NSUInteger clanHelpIdsListCount = self.clanHelpIdsList.count;
-  if (clanHelpIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < clanHelpIdsListCount; ++i) {
-      [output writeInt64:2 value:values[i]];
-    }
-  }
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -11865,11 +11861,10 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.clanHelpIdsList.count;
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.clanHelpUuidsList.count;
+    [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -11914,8 +11909,8 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpIds", obj];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpUuids", obj];
   }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -11930,7 +11925,7 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.clanHelpIdsList isEqualToArray:otherMessage.clanHelpIdsList] &&
+      [self.clanHelpUuidsList isEqualToArray:otherMessage.clanHelpUuidsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -11938,8 +11933,8 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -11987,11 +11982,11 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableClanHelpIdsList.count > 0) {
-    if (result.mutableClanHelpIdsList == nil) {
-      result.mutableClanHelpIdsList = [other.mutableClanHelpIdsList copy];
+  if (other.mutableClanHelpUuidsList.count > 0) {
+    if (result.mutableClanHelpUuidsList == nil) {
+      result.mutableClanHelpUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableClanHelpUuidsList];
     } else {
-      [result.mutableClanHelpIdsList appendArray:other.mutableClanHelpIdsList];
+      [result.mutableClanHelpUuidsList addObjectsFromArray:other.mutableClanHelpUuidsList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -12024,8 +12019,8 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addClanHelpIds:[input readInt64]];
+      case 18: {
+        [self addClanHelpUuids:[input readString]];
         break;
       }
     }
@@ -12061,32 +12056,28 @@ static GiveClanHelpRequestProto* defaultGiveClanHelpRequestProtoInstance = nil;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (PBAppendableArray *)clanHelpIdsList {
-  return result.mutableClanHelpIdsList;
+- (NSMutableArray *)clanHelpUuidsList {
+  return result.mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [result clanHelpIdsAtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [result clanHelpUuidsAtIndex:index];
 }
-- (GiveClanHelpRequestProto_Builder *)addClanHelpIds:(int64_t)value {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (GiveClanHelpRequestProto_Builder *)addClanHelpUuids:(NSString*)value {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableClanHelpIdsList addInt64:value];
+  [result.mutableClanHelpUuidsList addObject:value];
   return self;
 }
-- (GiveClanHelpRequestProto_Builder *)addAllClanHelpIds:(NSArray *)array {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (GiveClanHelpRequestProto_Builder *)addAllClanHelpUuids:(NSArray *)array {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [NSMutableArray array];
   }
-  [result.mutableClanHelpIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableClanHelpUuidsList addObjectsFromArray:array];
   return self;
 }
-- (GiveClanHelpRequestProto_Builder *)setClanHelpIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (GiveClanHelpRequestProto_Builder *)clearClanHelpIds {
-  result.mutableClanHelpIdsList = nil;
+- (GiveClanHelpRequestProto_Builder *)clearClanHelpUuids {
+  result.mutableClanHelpUuidsList = nil;
   return self;
 }
 @end
@@ -12437,7 +12428,7 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
 
 @interface EndClanHelpRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) PBAppendableArray * mutableClanHelpIdsList;
+@property (strong) NSMutableArray * mutableClanHelpUuidsList;
 @end
 
 @implementation EndClanHelpRequestProto
@@ -12449,8 +12440,8 @@ BOOL GiveClanHelpResponseProto_GiveClanHelpStatusIsValidValue(GiveClanHelpRespon
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableClanHelpIdsList;
-@dynamic clanHelpIdsList;
+@synthesize mutableClanHelpUuidsList;
+@dynamic clanHelpUuidsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -12469,11 +12460,11 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
 - (EndClanHelpRequestProto*) defaultInstance {
   return defaultEndClanHelpRequestProtoInstance;
 }
-- (PBArray *)clanHelpIdsList {
-  return mutableClanHelpIdsList;
+- (NSArray *)clanHelpUuidsList {
+  return mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [mutableClanHelpIdsList int64AtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -12482,13 +12473,9 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  const NSUInteger clanHelpIdsListCount = self.clanHelpIdsList.count;
-  if (clanHelpIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < clanHelpIdsListCount; ++i) {
-      [output writeInt64:2 value:values[i]];
-    }
-  }
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -12503,11 +12490,10 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.clanHelpIdsList.count;
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.clanHelpUuidsList.count;
+    [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -12552,8 +12538,8 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpIds", obj];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpUuids", obj];
   }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -12568,7 +12554,7 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.clanHelpIdsList isEqualToArray:otherMessage.clanHelpIdsList] &&
+      [self.clanHelpUuidsList isEqualToArray:otherMessage.clanHelpUuidsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -12576,8 +12562,8 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -12625,11 +12611,11 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableClanHelpIdsList.count > 0) {
-    if (result.mutableClanHelpIdsList == nil) {
-      result.mutableClanHelpIdsList = [other.mutableClanHelpIdsList copy];
+  if (other.mutableClanHelpUuidsList.count > 0) {
+    if (result.mutableClanHelpUuidsList == nil) {
+      result.mutableClanHelpUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableClanHelpUuidsList];
     } else {
-      [result.mutableClanHelpIdsList appendArray:other.mutableClanHelpIdsList];
+      [result.mutableClanHelpUuidsList addObjectsFromArray:other.mutableClanHelpUuidsList];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -12662,8 +12648,8 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addClanHelpIds:[input readInt64]];
+      case 18: {
+        [self addClanHelpUuids:[input readString]];
         break;
       }
     }
@@ -12699,39 +12685,35 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (PBAppendableArray *)clanHelpIdsList {
-  return result.mutableClanHelpIdsList;
+- (NSMutableArray *)clanHelpUuidsList {
+  return result.mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [result clanHelpIdsAtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [result clanHelpUuidsAtIndex:index];
 }
-- (EndClanHelpRequestProto_Builder *)addClanHelpIds:(int64_t)value {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndClanHelpRequestProto_Builder *)addClanHelpUuids:(NSString*)value {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableClanHelpIdsList addInt64:value];
+  [result.mutableClanHelpUuidsList addObject:value];
   return self;
 }
-- (EndClanHelpRequestProto_Builder *)addAllClanHelpIds:(NSArray *)array {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndClanHelpRequestProto_Builder *)addAllClanHelpUuids:(NSArray *)array {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [NSMutableArray array];
   }
-  [result.mutableClanHelpIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableClanHelpUuidsList addObjectsFromArray:array];
   return self;
 }
-- (EndClanHelpRequestProto_Builder *)setClanHelpIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (EndClanHelpRequestProto_Builder *)clearClanHelpIds {
-  result.mutableClanHelpIdsList = nil;
+- (EndClanHelpRequestProto_Builder *)clearClanHelpUuids {
+  result.mutableClanHelpUuidsList = nil;
   return self;
 }
 @end
 
 @interface EndClanHelpResponseProto ()
 @property (strong) MinimumUserProto* sender;
-@property (strong) PBAppendableArray * mutableClanHelpIdsList;
+@property (strong) NSMutableArray * mutableClanHelpUuidsList;
 @property EndClanHelpResponseProto_EndClanHelpStatus status;
 @end
 
@@ -12744,8 +12726,8 @@ static EndClanHelpRequestProto* defaultEndClanHelpRequestProtoInstance = nil;
   hasSender_ = !!value_;
 }
 @synthesize sender;
-@synthesize mutableClanHelpIdsList;
-@dynamic clanHelpIdsList;
+@synthesize mutableClanHelpUuidsList;
+@dynamic clanHelpUuidsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -12772,11 +12754,11 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
 - (EndClanHelpResponseProto*) defaultInstance {
   return defaultEndClanHelpResponseProtoInstance;
 }
-- (PBArray *)clanHelpIdsList {
-  return mutableClanHelpIdsList;
+- (NSArray *)clanHelpUuidsList {
+  return mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [mutableClanHelpIdsList int64AtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [mutableClanHelpUuidsList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -12785,13 +12767,9 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  const NSUInteger clanHelpIdsListCount = self.clanHelpIdsList.count;
-  if (clanHelpIdsListCount > 0) {
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < clanHelpIdsListCount; ++i) {
-      [output writeInt64:2 value:values[i]];
-    }
-  }
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
@@ -12809,11 +12787,10 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   }
   {
     __block SInt32 dataSize = 0;
-    const NSUInteger count = self.clanHelpIdsList.count;
-    const int64_t *values = (const int64_t *)self.clanHelpIdsList.data;
-    for (NSUInteger i = 0; i < count; ++i) {
-      dataSize += computeInt64SizeNoTag(values[i]);
-    }
+    const NSUInteger count = self.clanHelpUuidsList.count;
+    [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
     size_ += dataSize;
     size_ += (SInt32)(1 * count);
   }
@@ -12861,8 +12838,8 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpIds", obj];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanHelpUuids", obj];
   }];
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %d\n", indent, @"status", self.status];
@@ -12880,7 +12857,7 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   return
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
-      [self.clanHelpIdsList isEqualToArray:otherMessage.clanHelpIdsList] &&
+      [self.clanHelpUuidsList isEqualToArray:otherMessage.clanHelpUuidsList] &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -12890,8 +12867,8 @@ static EndClanHelpResponseProto* defaultEndClanHelpResponseProtoInstance = nil;
   if (self.hasSender) {
     hashCode = hashCode * 31 + [self.sender hash];
   }
-  [self.clanHelpIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [obj longValue];
+  [self.clanHelpUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
@@ -12951,11 +12928,11 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableClanHelpIdsList.count > 0) {
-    if (result.mutableClanHelpIdsList == nil) {
-      result.mutableClanHelpIdsList = [other.mutableClanHelpIdsList copy];
+  if (other.mutableClanHelpUuidsList.count > 0) {
+    if (result.mutableClanHelpUuidsList == nil) {
+      result.mutableClanHelpUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableClanHelpUuidsList];
     } else {
-      [result.mutableClanHelpIdsList appendArray:other.mutableClanHelpIdsList];
+      [result.mutableClanHelpUuidsList addObjectsFromArray:other.mutableClanHelpUuidsList];
     }
   }
   if (other.hasStatus) {
@@ -12991,8 +12968,8 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addClanHelpIds:[input readInt64]];
+      case 18: {
+        [self addClanHelpUuids:[input readString]];
         break;
       }
       case 24: {
@@ -13037,32 +13014,28 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (PBAppendableArray *)clanHelpIdsList {
-  return result.mutableClanHelpIdsList;
+- (NSMutableArray *)clanHelpUuidsList {
+  return result.mutableClanHelpUuidsList;
 }
-- (int64_t)clanHelpIdsAtIndex:(NSUInteger)index {
-  return [result clanHelpIdsAtIndex:index];
+- (NSString*)clanHelpUuidsAtIndex:(NSUInteger)index {
+  return [result clanHelpUuidsAtIndex:index];
 }
-- (EndClanHelpResponseProto_Builder *)addClanHelpIds:(int64_t)value {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndClanHelpResponseProto_Builder *)addClanHelpUuids:(NSString*)value {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [[NSMutableArray alloc]init];
   }
-  [result.mutableClanHelpIdsList addInt64:value];
+  [result.mutableClanHelpUuidsList addObject:value];
   return self;
 }
-- (EndClanHelpResponseProto_Builder *)addAllClanHelpIds:(NSArray *)array {
-  if (result.mutableClanHelpIdsList == nil) {
-    result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt64];
+- (EndClanHelpResponseProto_Builder *)addAllClanHelpUuids:(NSArray *)array {
+  if (result.mutableClanHelpUuidsList == nil) {
+    result.mutableClanHelpUuidsList = [NSMutableArray array];
   }
-  [result.mutableClanHelpIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt64]];
+  [result.mutableClanHelpUuidsList addObjectsFromArray:array];
   return self;
 }
-- (EndClanHelpResponseProto_Builder *)setClanHelpIdsValues:(const int64_t *)values count:(NSUInteger)count {
-  result.mutableClanHelpIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt64];
-  return self;
-}
-- (EndClanHelpResponseProto_Builder *)clearClanHelpIds {
-  result.mutableClanHelpIdsList = nil;
+- (EndClanHelpResponseProto_Builder *)clearClanHelpUuids {
+  result.mutableClanHelpUuidsList = nil;
   return self;
 }
 - (BOOL) hasStatus {
@@ -13085,7 +13058,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 
 @interface InviteToClanRequestProto ()
 @property (strong) MinimumUserProto* sender;
-@property int32_t prospectiveMember;
+@property (strong) NSString* prospectiveMember;
 @property int64_t clientTime;
 @end
 
@@ -13115,7 +13088,7 @@ BOOL EndClanHelpResponseProto_EndClanHelpStatusIsValidValue(EndClanHelpResponseP
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.prospectiveMember = 0;
+    self.prospectiveMember = @"";
     self.clientTime = 0L;
   }
   return self;
@@ -13140,7 +13113,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     [output writeMessage:1 value:self.sender];
   }
   if (self.hasProspectiveMember) {
-    [output writeInt32:2 value:self.prospectiveMember];
+    [output writeString:2 value:self.prospectiveMember];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -13158,7 +13131,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     size_ += computeMessageSize(1, self.sender);
   }
   if (self.hasProspectiveMember) {
-    size_ += computeInt32Size(2, self.prospectiveMember);
+    size_ += computeStringSize(2, self.prospectiveMember);
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(3, self.clientTime);
@@ -13205,7 +13178,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     [output appendFormat:@"%@}\n", indent];
   }
   if (self.hasProspectiveMember) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", [NSNumber numberWithInteger:self.prospectiveMember]];
+    [output appendFormat:@"%@%@: %@\n", indent, @"prospectiveMember", self.prospectiveMember];
   }
   if (self.hasClientTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
@@ -13224,7 +13197,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
       self.hasSender == otherMessage.hasSender &&
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasProspectiveMember == otherMessage.hasProspectiveMember &&
-      (!self.hasProspectiveMember || self.prospectiveMember == otherMessage.prospectiveMember) &&
+      (!self.hasProspectiveMember || [self.prospectiveMember isEqual:otherMessage.prospectiveMember]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
@@ -13235,7 +13208,7 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
     hashCode = hashCode * 31 + [self.sender hash];
   }
   if (self.hasProspectiveMember) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.prospectiveMember] hash];
+    hashCode = hashCode * 31 + [self.prospectiveMember hash];
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -13322,8 +13295,8 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setProspectiveMember:[input readInt32]];
+      case 18: {
+        [self setProspectiveMember:[input readString]];
         break;
       }
       case 24: {
@@ -13366,17 +13339,17 @@ static InviteToClanRequestProto* defaultInviteToClanRequestProtoInstance = nil;
 - (BOOL) hasProspectiveMember {
   return result.hasProspectiveMember;
 }
-- (int32_t) prospectiveMember {
+- (NSString*) prospectiveMember {
   return result.prospectiveMember;
 }
-- (InviteToClanRequestProto_Builder*) setProspectiveMember:(int32_t) value {
+- (InviteToClanRequestProto_Builder*) setProspectiveMember:(NSString*) value {
   result.hasProspectiveMember = YES;
   result.prospectiveMember = value;
   return self;
 }
 - (InviteToClanRequestProto_Builder*) clearProspectiveMember {
   result.hasProspectiveMember = NO;
-  result.prospectiveMember = 0;
+  result.prospectiveMember = @"";
   return self;
 }
 - (BOOL) hasClientTime {

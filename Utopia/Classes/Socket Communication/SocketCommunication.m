@@ -164,12 +164,12 @@ static NSString *udid = nil;
 }
 
 - (void) rebuildSender {
-  int oldClanId = _sender.clan.clanId;
+  NSString *oldClanUuid = _sender.clan.clanUuid;
   GameState *gs = [GameState sharedGameState];
   _sender = gs.minUser;
   
   // if clan changes, reload the queue
-  if (oldClanId != _sender.clan.clanId) {
+  if (![oldClanUuid isEqualToString:_sender.clan.clanUuid]) {
     [self reloadClanMessageQueue];
   }
 }
@@ -566,11 +566,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
 }
 
-- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
+- (int) sendMoveNormStructureMessage:(NSString *)userStructUuid x:(int)x y:(int)y {
   MoveOrRotateNormStructureRequestProto *req =
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
-      setUserStructId:userStructId]
+      setUserStructUuid:userStructUuid]
      setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove]
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
@@ -578,10 +578,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
+- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
   UpgradeNormStructureRequestProto *req = [[[[[[[[UpgradeNormStructureRequestProto builder]
                                                  setSender:_sender]
-                                                setUserStructId:userStructId]
+                                                setUserStructUuid:userStructUuid]
                                                setTimeOfUpgrade:curTime]
                                               setResourceChange:resourceChange]
                                              setResourceType:type]
@@ -591,31 +591,31 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds {
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds {
   FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
                                                                setSender:_sender]
                                                               setGemCostToSpeedup:gemCost]
-                                                             setUserStructId:userStructId]
+                                                             setUserStructUuid:userStructUuid]
                                                             setTimeOfSpeedup:milliseconds]
                                                            build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
 }
 
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime {
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime {
   NormStructWaitCompleteRequestProto *req = [[[[[NormStructWaitCompleteRequestProto builder]
                                                 setSender:_sender]
-                                               addAllUserStructId:userStructIds]
+                                               addAllUserStructUuid:userStructUuids]
                                               setCurTime:curTime]
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
 }
 
-- (int) sendLoadPlayerCityMessage:(int)userId {
+- (int) sendLoadPlayerCityMessage:(NSString *)userUuid {
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]
-                                      setCityOwnerId:userId]
+                                      setCityOwnerUuid:userUuid]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
@@ -648,13 +648,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestAcceptEvent];
 }
 
-- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterIds:(NSArray *)userMonsterIds {
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterUuids:(NSArray *)userMonsterUuids {
   QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
                                          setSender:_sender]
                                         setQuestId:questId]
                                        setIsComplete:isComplete]
                                       addAllUserQuestJobs:userQuestJobs]
-                                     addAllDeleteUserMonsterIds:userMonsterIds]
+                                     addAllDeleteUserMonsterUuids:userMonsterUuids]
                                     build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCQuestProgressEvent];
@@ -669,10 +669,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestRedeemEvent];
 }
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam {
+- (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam {
   RetrieveUsersForUserIdsRequestProto *req = [[[[[RetrieveUsersForUserIdsRequestProto builder]
                                                  setSender:_sender]
-                                                addAllRequestedUserIds:userIds]
+                                                addAllRequestedUserUuids:userUuids]
                                                setIncludeCurMonsterTeam:includeCurMonsterTeam]
                                               build];
   
@@ -752,38 +752,38 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLeaveClanEvent];
 }
 
-- (int) sendRequestJoinClanMessage:(int)clanId {
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid {
   RequestJoinClanRequestProto *req = [[[[RequestJoinClanRequestProto builder]
                                         setSender:_sender]
-                                       setClanId:clanId]
+                                       setClanUuid:clanUuid]
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRequestJoinClanEvent];
 }
 
-- (int) sendRetractRequestJoinClanMessage:(int)clanId {
+- (int) sendRetractRequestJoinClanMessage:(NSString *)clanUuid {
   RetractRequestJoinClanRequestProto *req = [[[[RetractRequestJoinClanRequestProto builder]
                                                setSender:_sender]
-                                              setClanId:clanId]
+                                              setClanUuid:clanUuid]
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetractRequestJoinClanEvent];
 }
 
-- (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept {
+- (int) sendApproveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept {
   ApproveOrRejectRequestToJoinClanRequestProto *req = [[[[[ApproveOrRejectRequestToJoinClanRequestProto builder]
                                                           setSender:_sender]
-                                                         setRequesterId:requesterId]
+                                                         setRequesterUuid:requesterUuid]
                                                         setAccept:accept]
                                                        build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent];
 }
 
-- (int) sendTransferClanOwnership:(int)newClanOwnerId {
+- (int) sendTransferClanOwnership:(NSString *)newClanOwnerUuid {
   TransferClanOwnershipRequestProto *req = [[[[TransferClanOwnershipRequestProto builder]
                                               setSender:_sender]
-                                             setClanOwnerIdNew:newClanOwnerId]
+                                             setClanOwnerUuidNew:newClanOwnerUuid]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTransferClanOwnership];
@@ -808,35 +808,34 @@ static NSString *udid = nil;
   return [self sendData:bldr.build withMessageType:EventProtocolRequestCChangeClanSettingsEvent];
 }
 
-- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId {
+- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList {
   RetrieveClanInfoRequestProto_Builder *bldr = [[[[RetrieveClanInfoRequestProto builder]
                                                   setSender:_sender]
                                                  setGrabType:grabType]
                                                 setIsForBrowsingList:isForBrowsingList];
   
   if (clanName) bldr.clanName = clanName;
-  if (clanId) bldr.clanId = clanId;
-  if (beforeClanId) bldr.beforeThisClanId = beforeClanId;
+  if (clanUuid) bldr.clanUuid = clanUuid;
   
   RetrieveClanInfoRequestProto *req = [bldr build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanInfoEvent];
 }
 
-- (int) sendPromoteDemoteClanMemberMessage:(int)victimId newStatus:(UserClanStatus)status {
+- (int) sendPromoteDemoteClanMemberMessage:(NSString *)victimUuid newStatus:(UserClanStatus)status {
   PromoteDemoteClanMemberRequestProto *req = [[[[[PromoteDemoteClanMemberRequestProto builder]
                                                  setSender:_sender]
-                                                setVictimId:victimId]
+                                                setVictimUuid:victimUuid]
                                                setUserClanStatus:status]
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPromoteDemoteClanMemberEvent];
 }
 
-- (int) sendBootPlayerFromClan:(int)playerId {
+- (int) sendBootPlayerFromClan:(NSString *)playerUuid {
   BootPlayerFromClanRequestProto *req = [[[[BootPlayerFromClanRequestProto builder]
                                            setSender:_sender]
-                                          setPlayerToBoot:playerId]
+                                          setPlayerToBootUuid:playerUuid]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBootPlayerFromClanEvent];
@@ -896,19 +895,19 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForBoosterEvent];
 }
 
-- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content {
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content {
   PrivateChatPostRequestProto *req = [[[[[PrivateChatPostRequestProto builder]
                                          setSender:_sender]
-                                        setRecipientId:recipientId]
+                                        setRecipientUuid:recipientUuid]
                                        setContent:content]
                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPrivateChatPostEvent];
 }
 
-- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId {
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid {
   RetrievePrivateChatPostsRequestProto *req = [[[[RetrievePrivateChatPostsRequestProto builder]
-                                                 setOtherUserId:otherUserId]
+                                                 setOtherUserUuid:otherUserUuid]
                                                 setSender:_sender]
                                                build];
   
@@ -931,37 +930,42 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
-- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId droplessTsfuid:(uint64_t)droplessTsfuid {
-  UpdateMonsterHealthRequestProto *req = [[[[[[[[[UpdateMonsterHealthRequestProto builder]
-                                                 setSender:_sender]
-                                                setClientTime:clientTime]
-                                               addAllUmchp:monsterHealths]
-                                              setIsUpdateTaskStageForUser:isForTask]
-                                             setUserTaskId:userTaskId]
-                                            setNuTaskStageId:taskStageId]
-                                           setDroplessTsfuId:droplessTsfuid]
-                                          build];
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid {
+  UpdateMonsterHealthRequestProto_Builder *bldr = [[[[UpdateMonsterHealthRequestProto builder]
+                                                     setSender:_sender]
+                                                    setClientTime:clientTime]
+                                                   addAllUmchp:monsterHealths];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
+  if (isForTask) {
+    bldr.isUpdateTaskStageForUser = isForTask;
+    bldr.userTaskUuid = userTaskUuid;
+    bldr.nuTaskStageId = taskStageId;
+    
+    if (droplessTsfuUuid) {
+      bldr.droplessTsfuUuid = droplessTsfuUuid;
+    }
+  }
+  
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
 }
 
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuIds:(NSArray *)droplessTsfuIds time:(uint64_t)time {
+- (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time {
   EndDungeonRequestProto *req = [[[[[[[[EndDungeonRequestProto builder]
                                        setSender:[self senderWithMaxResources]]
-                                      setUserTaskId:userTaskId]
+                                      setUserTaskUuid:userTaskUuid]
                                      setUserWon:userWon]
                                     setFirstTimeUserWonTask:isFirstTimeCompleted]
                                    setClientTime:time]
-                                  addAllDroplessTsfuIds:droplessTsfuIds]
+                                  addAllDroplessTsfuUuids:droplessTsfuUuids]
                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
 }
 
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost {
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost {
   CombineUserMonsterPiecesRequestProto *req = [[[[[CombineUserMonsterPiecesRequestProto builder]
                                                   setSender:_sender]
-                                                 addAllUserMonsterIds:userMonsterIds]
+                                                 addAllUserMonsterUuids:userMonsterUuids]
                                                 setGemCost:gemCost]
                                                build];
   
@@ -992,7 +996,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInviteFbFriendsForSlotsEvent];
 }
 
-- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
+- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids {
   GameState *gs = [GameState sharedGameState];
   MinimumUserProtoWithFacebookId *mup = [[[[MinimumUserProtoWithFacebookId builder]
                                            setMinUserProto:_sender]
@@ -1001,8 +1005,8 @@ static NSString *udid = nil;
   
   AcceptAndRejectFbInviteForSlotsRequestProto *req = [[[[[AcceptAndRejectFbInviteForSlotsRequestProto builder]
                                                          setSender:mup]
-                                                        addAllAcceptedInviteIds:acceptIds]
-                                                       addAllRejectedInviteIds:rejectIds]
+                                                        addAllAcceptedInviteUuids:acceptUuids]
+                                                       addAllRejectedInviteUuids:rejectUuids]
                                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent];
@@ -1028,10 +1032,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEvolutionFinishedEvent];
 }
 
-- (int) sendReviveInDungeonMessage:(uint64_t)userTaskId clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems {
+- (int) sendReviveInDungeonMessage:(NSString *)userTaskUuid clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems {
   ReviveInDungeonRequestProto *req = [[[[[[[ReviveInDungeonRequestProto builder]
                                            setSender:_sender]
-                                          setUserTaskId:userTaskId]
+                                          setUserTaskUuid:userTaskUuid]
                                          setClientTime:clientTime]
                                         addAllReviveMe:healths]
                                        setGemsSpent:gems]
@@ -1040,10 +1044,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCReviveInDungeonEvent];
 }
 
-- (int) sendQueueUpMessage:(NSArray *)seenUserIds clientTime:(uint64_t)clientTime {
+- (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime {
   GameState *gs = [GameState sharedGameState];
   QueueUpRequestProto *req = [[[[[[QueueUpRequestProto builder]
-                                  addAllSeenUserIds:seenUserIds]
+                                  addAllSeenUserUuids:seenUserUuids]
                                  setAttackerElo:gs.elo]
                                 setAttacker:_sender]
                                setClientTime:clientTime]
@@ -1078,10 +1082,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
 }
 
-- (int) sendEndPvpBattleMessage:(int)defenderId userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime {
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime {
   EndPvpBattleRequestProto *req = [[[[[[[[[EndPvpBattleRequestProto builder]
                                           setSender:[self senderWithMaxResources]]
-                                         setDefenderId:defenderId]
+                                         setDefenderUuid:defenderUuid]
                                         setUserAttacked:userAttacked]
                                        setUserWon:userWon]
                                       setOilChange:oilChange]
@@ -1131,10 +1135,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSpawnObstacleEvent];
 }
 
-- (int) sendBeginObstacleRemovalMessage:(int)userObstacleId resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+- (int) sendBeginObstacleRemovalMessage:(NSString *)userObstacleUuid resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
   BeginObstacleRemovalRequestProto *req = [[[[[[[[BeginObstacleRemovalRequestProto builder]
                                                  setSender:_sender]
-                                                setUserObstacleId:userObstacleId]
+                                                setUserObstacleUuid:userObstacleUuid]
                                                setResourceType:resType]
                                               setResourceChange:resChange]
                                              setGemsSpent:gemsSpent]
@@ -1144,9 +1148,9 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginObstacleRemovalEvent];
 }
 
-- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime {
+- (int) sendObstacleRemovalCompleteMessage:(NSString *)userObstacleUuid speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime {
   ObstacleRemovalCompleteRequestProto *req = [[[[[[[[ObstacleRemovalCompleteRequestProto builder]
-                                                    setUserObstacleId:userObstacleId]
+                                                    setUserObstacleUuid:userObstacleUuid]
                                                    setSender:_sender]
                                                   setSpeedUp:speedUp]
                                                  setGemsSpent:gemsSpent]
@@ -1199,21 +1203,21 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSpawnMiniJobEvent];
 }
 
-- (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime {
+- (int) sendBeginMiniJobMessage:(NSString *)userMiniJobUuid userMonsterUuids:(NSArray *)userMonsterUuids clientTime:(uint64_t)clientTime {
   BeginMiniJobRequestProto *req = [[[[[[BeginMiniJobRequestProto builder]
                                        setSender:_sender]
-                                      setUserMiniJobId:userMiniJobId]
-                                     addAllUserMonsterIds:userMonsterIds]
+                                      setUserMiniJobUuid:userMiniJobUuid]
+                                     addAllUserMonsterUuids:userMonsterUuids]
                                     setClientTime:clientTime]
                                    build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBeginMiniJobEvent];
 }
 
-- (int) sendCompleteMiniJobMessage:(uint64_t)userMiniJobId isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime{
+- (int) sendCompleteMiniJobMessage:(NSString *)userMiniJobUuid isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime {
   CompleteMiniJobRequestProto *req = [[[[[[[CompleteMiniJobRequestProto builder]
                                            setSender:_sender]
-                                          setUserMiniJobId:userMiniJobId]
+                                          setUserMiniJobUuid:userMiniJobUuid]
                                          setIsSpeedUp:isSpeedUp]
                                         setGemCost:gemCost]
                                        setClientTime:clientTime]
@@ -1222,10 +1226,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCompleteMiniJobEvent];
 }
 
-- (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths  {
+- (int) sendRedeemMiniJobMessage:(NSString *)userMiniJobUuid clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths {
   RedeemMiniJobRequestProto *req = [[[[[[RedeemMiniJobRequestProto builder]
                                         setSender:[self senderWithMaxResources]]
-                                       setUserMiniJobId:userMiniJobId]
+                                       setUserMiniJobUuid:userMiniJobUuid]
                                       setClientTime:clientTime]
                                      addAllUmchp:monsterHealths]
                                     build];
@@ -1242,19 +1246,19 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetAvatarMonsterEvent];
 }
 
-- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterIds {
+- (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterUuids {
   RestrictUserMonsterRequestProto *req = [[[[RestrictUserMonsterRequestProto builder]
                                             setSender:_sender]
-                                           addAllUserMonsterIds:userMonsterIds]
+                                           addAllUserMonsterUuids:userMonsterUuids]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRestrictUserMonsterEvent];
 }
 
-- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterIds {
+- (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids {
   UnrestrictUserMonsterRequestProto *req = [[[[UnrestrictUserMonsterRequestProto builder]
                                               setSender:_sender]
-                                             addAllUserMonsterIds:userMonsterIds]
+                                             addAllUserMonsterUuids:userMonsterUuids]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUnrestrictUserMonsterEvent];
@@ -1262,8 +1266,8 @@ static NSString *udid = nil;
 
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity {
   DevRequestProto *req = [[[[[[DevRequestProto builder]
-                             setDevRequest:request]
-                            setStaticDataId:staticDataId]
+                              setDevRequest:request]
+                             setStaticDataId:staticDataId]
                             setQuantity:quantity]
                            setSender:_sender]
                           build];
@@ -1271,41 +1275,41 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCDevEvent];
 }
 
-- (int) sendAddMonsterToTeam:(uint64_t)userMonsterId teamSlot:(int)teamSlot {
+- (int) sendAddMonsterToTeam:(NSString *)userMonsterUuid teamSlot:(int)teamSlot {
   AddMonsterToBattleTeamRequestProto *req = [[[[[AddMonsterToBattleTeamRequestProto builder]
                                                 setSender:_sender]
-                                               setUserMonsterId:userMonsterId]
+                                               setUserMonsterUuid:userMonsterUuid]
                                               setTeamSlotNum:teamSlot]
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
 }
 
-- (int) sendRemoveMonsterFromTeam:(uint64_t)userMonsterId {
+- (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid {
   RemoveMonsterFromBattleTeamRequestProto *req = [[[[RemoveMonsterFromBattleTeamRequestProto builder]
                                                     setSender:_sender]
-                                                   setUserMonsterId:userMonsterId]
+                                                   setUserMonsterUuid:userMonsterUuid]
                                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
 }
 
-- (int) sendBuyInventorySlotsWithGems:(int)userStructId {
+- (int) sendBuyInventorySlotsWithGems:(NSString *)userStructUuid {
   IncreaseMonsterInventorySlotRequestProto *req = [[[[[IncreaseMonsterInventorySlotRequestProto builder]
                                                       setSender:_sender]
                                                      setIncreaseSlotType:IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase]
-                                                    setUserStructId:userStructId]
+                                                    setUserStructUuid:userStructUuid]
                                                    build];
   
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
 }
 
-- (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds {
+- (int) sendBuyInventorySlots:(NSString *)userStructUuid withFriendInvites:(NSArray *)inviteUuids {
   IncreaseMonsterInventorySlotRequestProto *req = [[[[[[IncreaseMonsterInventorySlotRequestProto builder]
                                                        setSender:_sender]
                                                       setIncreaseSlotType:IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites]
-                                                     setUserStructId:userStructId]
-                                                    addAllUserFbInviteForSlotIds:inviteIds]
+                                                     setUserStructUuid:userStructUuid]
+                                                    addAllUserFbInviteForSlotUuids:inviteUuids]
                                                    build];
   
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
@@ -1334,10 +1338,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
 }
 
-- (int) sendEnhanceWaitCompleteMessage:(uint64_t)userMonsterId isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
+- (int) sendEnhanceWaitCompleteMessage:(NSString *)userMonsterUuid isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[[EnhancementWaitTimeCompleteRequestProto builder]
                                                       setSender:_sender]
-                                                     setUserMonsterId:userMonsterId]
+                                                     setUserMonsterUuid:userMonsterUuid]
                                                     setIsSpeedup:isSpeedup]
                                                    setGemsForSpeedup:gemCost]
                                                   build];
@@ -1345,11 +1349,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
 }
 
-- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterIds:(NSArray *)userMonsterIds {
+- (int) sendCollectMonsterEnhancementMessage:(UserMonsterCurrentExpProto *)exp userMonsterUuids:(NSArray *)userMonsterUuids {
   CollectMonsterEnhancementRequestProto *req = [[[[[CollectMonsterEnhancementRequestProto builder]
                                                    setSender:_sender]
                                                   setUmcep:exp]
-                                                 addAllUserMonsterIds:userMonsterIds]
+                                                 addAllUserMonsterUuids:userMonsterUuids]
                                                 build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCollectMonsterEnhancementEvent];
@@ -1366,20 +1370,20 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent];
 }
 
-- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpIds {
+- (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids {
   GiveClanHelpRequestProto *req = [[[[GiveClanHelpRequestProto builder]
                                      setSender:_sender]
-                                    addAllClanHelpIds:clanHelpIds]
+                                    addAllClanHelpUuids:clanHelpUuids]
                                    build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCGiveClanHelpEvent];
 }
 
 
-- (int) sendEndClanHelpMessage:(NSArray *)clanHelpIds {
+- (int) sendEndClanHelpMessage:(NSArray *)clanHelpUuids {
   EndClanHelpRequestProto *req = [[[[EndClanHelpRequestProto builder]
                                     setSender:_sender]
-                                   addAllClanHelpIds:clanHelpIds]
+                                   addAllClanHelpUuids:clanHelpUuids]
                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent];
@@ -1411,10 +1415,10 @@ static NSString *udid = nil;
   return tag;
 }
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time amountCollected:(int)amountCollected {
+- (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
   [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
-                                                                          setUserStructId:userStructId]
+                                                                          setUserStructUuid:userStructUuid]
                                                                          setTimeOfRetrieval:time]
                                                                         setAmountCollected:amountCollected]
                                                                        build];

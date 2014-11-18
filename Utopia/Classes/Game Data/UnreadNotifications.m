@@ -13,7 +13,7 @@
 
 - (MinimumUserProtoWithLevel *) otherUserWithLevel {
   GameState *gs = [GameState sharedGameState];
-  return self.recipient.minUserProto.userId == gs.userId ? self.poster : self.recipient;
+  return [self.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] ? self.poster : self.recipient;
 }
 
 - (MinimumUserProto *) otherUser {
@@ -22,12 +22,13 @@
 
 - (BOOL) isUnread {
   GameState *gs = [GameState sharedGameState];
-  if (self.poster.minUserProto.userId != gs.userId) {
+  if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    NSInteger curId = [ud integerForKey:key];
-    int thisId = self.privateChatPostId;
-    return curId < thisId;
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
+    uint64_t curTime = [[ud objectForKey:key] longLongValue];
+    
+    uint64_t thisTime = self.timeOfPost;
+    return curTime < thisTime;
   } else {
     // This means you are the poster
     return NO;
@@ -37,13 +38,13 @@
 - (void) markAsRead {
   GameState *gs = [GameState sharedGameState];
   // Only need to do this if you are not the poster
-  if (self.poster.minUserProto.userId != gs.userId) {
+  if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    NSInteger curId = [ud integerForKey:key];
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
+    uint64_t curTime = [[ud objectForKey:key] longLongValue];
     
-    if (curId < self.privateChatPostId) {
-      [ud setInteger:self.privateChatPostId forKey:key];
+    if (curTime < self.timeOfPost) {
+      [ud setObject:@(self.timeOfPost) forKey:key];
     }
   }
 }

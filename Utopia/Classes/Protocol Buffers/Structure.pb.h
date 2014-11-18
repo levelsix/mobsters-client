@@ -944,24 +944,24 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasIsComplete_:1;
   BOOL hasLastRetrieved_:1;
   BOOL hasPurchaseTime_:1;
-  BOOL hasUserStructId_:1;
-  BOOL hasUserId_:1;
   BOOL hasStructId_:1;
   BOOL hasFbInviteStructLvl_:1;
+  BOOL hasUserStructUuid_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasCoordinates_:1;
   BOOL hasOrientation_:1;
   BOOL isComplete_:1;
   int64_t lastRetrieved;
   int64_t purchaseTime;
-  int32_t userStructId;
-  int32_t userId;
   int32_t structId;
   int32_t fbInviteStructLvl;
+  NSString* userStructUuid;
+  NSString* userUuid;
   CoordinateProto* coordinates;
   StructOrientation orientation;
 }
-- (BOOL) hasUserStructId;
-- (BOOL) hasUserId;
+- (BOOL) hasUserStructUuid;
+- (BOOL) hasUserUuid;
 - (BOOL) hasStructId;
 - (BOOL) hasLastRetrieved;
 - (BOOL) hasPurchaseTime;
@@ -969,8 +969,8 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinates;
 - (BOOL) hasOrientation;
 - (BOOL) hasFbInviteStructLvl;
-@property (readonly) int32_t userStructId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userStructUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t structId;
 @property (readonly) int64_t lastRetrieved;
 @property (readonly) int64_t purchaseTime;
@@ -1014,15 +1014,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (FullUserStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (FullUserStructureProto_Builder*) setUserStructId:(int32_t) value;
-- (FullUserStructureProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (FullUserStructureProto_Builder*) setUserStructUuid:(NSString*) value;
+- (FullUserStructureProto_Builder*) clearUserStructUuid;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserStructureProto_Builder*) setUserId:(int32_t) value;
-- (FullUserStructureProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserStructureProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserStructureProto_Builder*) clearUserUuid;
 
 - (BOOL) hasStructId;
 - (int32_t) structId;
@@ -1418,26 +1418,26 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @interface UserObstacleProto : PBGeneratedMessage {
 @private
   BOOL hasRemovalStartTime_:1;
-  BOOL hasUserObstacleId_:1;
-  BOOL hasUserId_:1;
   BOOL hasObstacleId_:1;
+  BOOL hasUserObstacleUuid_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasCoordinates_:1;
   BOOL hasOrientation_:1;
   int64_t removalStartTime;
-  int32_t userObstacleId;
-  int32_t userId;
   int32_t obstacleId;
+  NSString* userObstacleUuid;
+  NSString* userUuid;
   CoordinateProto* coordinates;
   StructOrientation orientation;
 }
-- (BOOL) hasUserObstacleId;
-- (BOOL) hasUserId;
+- (BOOL) hasUserObstacleUuid;
+- (BOOL) hasUserUuid;
 - (BOOL) hasObstacleId;
 - (BOOL) hasCoordinates;
 - (BOOL) hasOrientation;
 - (BOOL) hasRemovalStartTime;
-@property (readonly) int32_t userObstacleId;
-@property (readonly) int32_t userId;
+@property (readonly, strong) NSString* userObstacleUuid;
+@property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t obstacleId;
 @property (readonly, strong) CoordinateProto* coordinates;
 @property (readonly) StructOrientation orientation;
@@ -1478,15 +1478,15 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserObstacleId;
-- (int32_t) userObstacleId;
-- (UserObstacleProto_Builder*) setUserObstacleId:(int32_t) value;
-- (UserObstacleProto_Builder*) clearUserObstacleId;
+- (BOOL) hasUserObstacleUuid;
+- (NSString*) userObstacleUuid;
+- (UserObstacleProto_Builder*) setUserObstacleUuid:(NSString*) value;
+- (UserObstacleProto_Builder*) clearUserObstacleUuid;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserObstacleProto_Builder*) setUserId:(int32_t) value;
-- (UserObstacleProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserObstacleProto_Builder*) setUserUuid:(NSString*) value;
+- (UserObstacleProto_Builder*) clearUserUuid;
 
 - (BOOL) hasObstacleId;
 - (int32_t) obstacleId;

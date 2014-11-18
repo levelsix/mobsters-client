@@ -183,7 +183,7 @@
   AttackClanRaidMonsterResponseProto *proto = [notif.userInfo objectForKey:CLAN_RAID_ATTACK_KEY];
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.sender.userId != gs.userId) {
+  if (![proto.sender.userUuid isEqualToString:gs.userUuid]) {
     for (int i = 0; i < 10; i++) {
       int dmg = proto.dmgDealt/10;
       if (i == 9) {
