@@ -24,7 +24,7 @@
 //#define USE_STAGING
 
 #define UDID [OpenUDID value]
-// #define FORCE_TUTORIAL
+//#define FORCE_TUTORIAL
 
 #endif
 
