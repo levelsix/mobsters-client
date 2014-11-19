@@ -388,8 +388,11 @@
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
   int avatarId = pvp.defender.minUserProto.avatarMonsterId;
+  NSMutableArray *arr = nil;
   while (!avatarId) {
-    NSMutableArray *arr = gs.staticMonsters.allValues.mutableCopy;
+    if (!arr) {
+      arr = gs.staticMonsters.allValues.mutableCopy;
+    }
     [arr shuffle];
     
     MonsterProto *mp = arr[0];

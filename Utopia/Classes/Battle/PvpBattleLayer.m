@@ -24,8 +24,18 @@
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
   if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
     PvpProto_Builder *pvp = [PvpProto builder];
-    MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserUuid:hist.attacker.userUuid] setClan:hist.attacker.clan] build];
-    pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];
+    
+    MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:hist.attacker.name]
+                                setUserUuid:hist.attacker.userUuid]
+                               setClan:hist.attacker.clan]
+                              setAvatarMonsterId:hist.attacker.avatarMonsterId]
+                             build];
+    
+    pvp.defender = [[[[MinimumUserProtoWithLevel builder]
+                      setLevel:hist.attacker.level]
+                     setMinUserProto:mup]
+                    build];
+    
     pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
     pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
     pvp.pvpLeagueStats = hist.attackerAfter;
