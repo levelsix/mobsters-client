@@ -353,7 +353,7 @@
   
   if (as == self.enemy1Sprite) {
     CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
-    CGPoint midPos = BOAT_UNLOAD_POSITION;
+    CGPoint midPos = [self convertTilePointToCCPoint:BOAT_UNLOAD_POSITION];
     CGPoint finalPos = ccpAdd(midPos, ccpMult(ptOffset, -0.5f));
     
     [self.boatSprite runAction:
