@@ -81,6 +81,8 @@
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"
 
+#define APP_OPEN_KEY @"AppOpenKey"
+
 #ifdef MOBSTERS
 #define GAME_NAME @"Mob Squad"
 #define GAME_ABBREV @"MS"

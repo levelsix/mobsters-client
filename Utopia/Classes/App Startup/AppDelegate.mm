@@ -41,8 +41,6 @@
 
 #define BUG_SENSE_API_KEY    @"ff946ee1"
 
-#define APP_OPEN_KEY         @"AppOpenKey"
-
 @implementation AppDelegate
 
 @synthesize window;
@@ -94,8 +92,7 @@
   }
 }
 
-- (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   //Init the window
   window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
@@ -149,13 +146,13 @@
   }
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
+- (void) applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
   
   [[SocketCommunication sharedSocketCommunication] flush];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void) applicationDidBecomeActive:(UIApplication *)application {
   LNLog(@"did become active");
   //if ([[CCDirector sharedDirector] runningScene]) {
   [[CCDirector sharedDirector] resume];
@@ -182,7 +179,7 @@
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
 }
 
--(void) applicationDidEnterBackground:(UIApplication *)application {
+- (void) applicationDidEnterBackground:(UIApplication *)application {
   LNLog(@"did enter background");
   [[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
@@ -235,7 +232,7 @@
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
 }
 
-- (void)applicationSignificantTimeChange:(UIApplication *)application {
+- (void) applicationSignificantTimeChange:(UIApplication *)application {
   LNLog(@"sig time change");
   [[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
   
@@ -243,8 +240,7 @@
   [gvc handleSignificantTimeChange];
 }
 
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
+- (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
   LNLog(@"My token is: %@", deviceToken);
   
   NSString *str = @"";
@@ -256,8 +252,7 @@
   [[OutgoingEventController sharedOutgoingEventController] enableApns:self.apnsToken];
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
   LNLog(@"Failed to get token, error: %@", error);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
