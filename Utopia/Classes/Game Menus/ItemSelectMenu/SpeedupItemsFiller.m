@@ -27,17 +27,22 @@
     }
   }
   
+  // Add a gems item object.. maybe
+  int gems = [self.delegate numGemsForTotalSpeedup];
+  GemsItemObject *gio = [[GemsItemObject alloc] initWithNumGems:gems];
+  [userItems addObject:gio];
+  
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
       ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
       ItemProto *ip2 = [gs itemForId:[obj2 itemId]];
       
       return [@(ip1.amount) compare:@(ip2.amount)];
-    } else {
+    } else if ([obj1 class] != [obj2 class]) {
       // Prioritize gems
-#warning fix
-      return NSOrderedAscending;
+      return [obj1 isKindOfClass:[GemsItemObject class]] ? NSOrderedAscending : NSOrderedDescending;
     }
+    return NSOrderedSame;
   }];
   
   self.items = userItems;
@@ -51,8 +56,11 @@
   return self.items[idx];
 }
 
-- (void) itemSelectedAtIndex:(int)idx {
-  NSLog(@"Meep");
+- (void) itemSelected:(id)viewController atIndex:(int)idx {
+  if (idx < self.items.count) {
+    id<ItemObject> io = self.items[idx];
+    [self.delegate itemUsed:io viewController:viewController];
+  }
 }
 
 - (NSString *) titleName {

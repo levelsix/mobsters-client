@@ -133,4 +133,6 @@
 - (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate;
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
 
+- (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us;
+
 @end

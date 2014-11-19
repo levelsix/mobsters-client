@@ -20,6 +20,7 @@
 
 - (NSString *) buttonText;
 - (BOOL) useGemsButton;
+- (BOOL) showFreeLabel;
 
 - (NSString *) iconImageName;
 - (NSString *) iconText;
@@ -37,6 +38,8 @@
 
 - (ItemProto *) staticItem;
 
+- (UserItemProto *) toProto;
+
 @end
 
 @interface UserItemUsage : NSObject
@@ -51,5 +54,14 @@
 + (id) userItemUsageWithProto:(UserItemUsageProto *)proto;
 
 - (ItemProto *) staticItem;
+
+@end
+
+
+@interface GemsItemObject : NSObject <ItemObject>
+
+@property (nonatomic, assign) int numGems;
+
+- (id) initWithNumGems:(int)numGems;
 
 @end

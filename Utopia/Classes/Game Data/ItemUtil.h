@@ -20,6 +20,7 @@
 - (void) addToMyItems:(NSArray *)itemProtos;
 - (void) addToMyItemUsages:(NSArray *)itemUsageProtos;
 
+- (UserItem *) getUserItemForItemId:(int)itemId;
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId;
 - (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid;
 

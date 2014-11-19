@@ -34,6 +34,9 @@
   int _healingQueueCashChange;
   int _healingQueueGemCost;
   
+  NSMutableArray *_speedupItemUsages;
+  NSMutableArray *_speedupUpdatedUserItems;
+  
   NSDate *_lastFlushedTime;
 }
 
@@ -186,6 +189,8 @@
 - (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
+
+- (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
 
 - (BOOL) flush;
 - (BOOL) flushAllExceptEventType:(int)val;

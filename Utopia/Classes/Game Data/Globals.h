@@ -58,6 +58,9 @@
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
 
+#define SPEEDUP_USED_NOTIFICATION @"SpeedupUsedNotification"
+#define SPEEDUP_NOTIFICATION_KEY @"SpeedupNotificationKey"
+
 #define STRUCT_PURCHASED_NOTIFICATION @"StructPurchasedNotification"
 #define STRUCT_COMPLETE_NOTIFICATION @"StructCompleteNotification"
 #define OBSTACLE_REMOVAL_BEGAN_NOTIFICATION @"ObstaclePurchasedNotification"

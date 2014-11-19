@@ -39,6 +39,25 @@
 }
 
 - (void) addToMyItemUsages:(NSArray *)itemUsageProtos {
+  for (UserItemUsageProto *iup in itemUsageProtos) {
+    UserItemUsage *uiu = [UserItemUsage userItemUsageWithProto:iup];
+    
+    NSInteger idx = [self.myItemUsages indexOfObject:uiu];
+    if (idx != NSNotFound) {
+      [self.myItemUsages insertObject:uiu atIndex:idx];
+    } else {
+      [self.myItemUsages addObject:uiu];
+    }
+  }
+}
+
+- (UserItem *) getUserItemForItemId:(int)itemId {
+  for (UserItem *ui in self.myItems) {
+    if (ui.itemId == itemId) {
+      return ui;
+    }
+  }
+  return nil;
 }
 
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId {

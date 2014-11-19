@@ -10,8 +10,19 @@
 
 #import "ItemSelectViewController.h"
 
+@protocol SpeedupItemsFillerDelegate <NSObject>
+
+- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
+- (int) numGemsForTotalSpeedup;
+
+@end
+
 @interface SpeedupItemsFiller : NSObject <ItemSelectDelegate>
 
 @property (nonatomic, retain) NSMutableArray *items;
+
+@property (nonatomic, assign) id<SpeedupItemsFillerDelegate> delegate;
+
+- (void) reloadItemsArray;
 
 @end

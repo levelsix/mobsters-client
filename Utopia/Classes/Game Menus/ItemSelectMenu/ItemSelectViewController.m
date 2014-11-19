@@ -11,43 +11,76 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#import "SocketCommunication.h"
+
 @implementation ItemSelectCell
 
 - (void) awakeFromNib {
   [super awakeFromNib];
   
   self.gemsButtonView.frame = self.useButtonView.frame;
+  
+  self.iconLabel.strokeSize = 2.1f;
+  self.iconLabel.strokeColor = [UIColor colorWithWhite:236/255.f alpha:1.f];
+  
+  _origIconLabelColor = self.iconLabel.textColor;
 }
 
 - (void) updateForItemObject:(id<ItemObject>)itemObject {
   BOOL available = [itemObject isValid];
   
   self.nameLabel.text = [itemObject name];
+  self.nameLabel.highlighted = !available;
   
   NSString *str1 = @"Owned: ";
   NSString *str2 = [Globals commafyNumber:[itemObject numOwned]];
   NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[str1 stringByAppendingString:str2]];
   
   if (available) {
-    [attr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Gotham-Bold" size:self.quantityLabel.font.pointSize] range:NSMakeRange(str1.length, str2.length)];
+    NSRange range = NSMakeRange(str1.length, str2.length);
+    [attr addAttribute:NSFontAttributeName value:self.nameLabel.font range:range];
+    [attr addAttribute:NSForegroundColorAttributeName value:self.nameLabel.textColor range:range];
   }
   self.quantityLabel.attributedText = attr;
   
   [Globals imageNamed:[itemObject iconImageName] withView:self.itemIcon greyscale:!available indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.iconLabel.text = [itemObject iconText];
+  self.iconLabel.textColor = available ? _origIconLabelColor : self.nameLabel.highlightedTextColor;
   
   if ([itemObject useGemsButton]) {
-    self.gemsLabel.text = [itemObject buttonText];
-    [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
+    [self updateForTime:itemObject];
     
     self.gemsButtonView.hidden = NO;
     self.useButtonView.hidden = YES;
   } else {
     self.buttonLabel.text = [itemObject buttonText];
     
+    if (!available) {
+      [self.useButton setImage:[Globals imageNamed:@"greyitemsbutton.png"] forState:UIControlStateNormal];
+      self.buttonLabel.textColor = [UIColor colorWithHexString:@"666666"];
+      self.buttonLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+    } else {
+      [self.useButton setImage:[Globals imageNamed:@"greenitemsbutton.png"] forState:UIControlStateNormal];
+      self.buttonLabel.textColor = [UIColor colorWithHexString:@"065d18"];
+      self.buttonLabel.shadowColor = [UIColor colorWithHexString:@"eeffbbbd"];
+    }
+    
     self.gemsButtonView.hidden = YES;
     self.useButtonView.hidden = NO;
+  }
+}
+
+- (void) updateForTime:(id<ItemObject>)itemObject {
+  if ([itemObject showFreeLabel]) {
+    self.freeLabel.hidden = NO;
+    self.gemsLabel.superview.hidden = YES;
+  } else {
+    self.gemsLabel.text = [itemObject buttonText];
+    [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
+    
+    self.freeLabel.hidden = YES;
+    self.gemsLabel.superview.hidden = NO;
   }
 }
 
@@ -69,11 +102,21 @@
   [self reloadData];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
+}
+
 - (void) reloadData {
   [self reloadDataAnimated:NO];
 }
 
 - (void) reloadDataAnimated:(BOOL)animated {
+  if ([self.delegate respondsToSelector:@selector(reloadItemsArray)]) {
+    [self.delegate reloadItemsArray];
+  }
+  
   [self.itemsTable reloadData];
 }
 
@@ -110,7 +153,7 @@
   if (sender) {
     ItemSelectCell *cell = (ItemSelectCell *)sender;
     NSIndexPath *ip = [self.itemsTable indexPathForCell:cell];
-    [self.delegate itemSelectedAtIndex:(int)ip.row];
+    [self.delegate itemSelected:self atIndex:(int)ip.row];
   }
 }
 

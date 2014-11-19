@@ -608,16 +608,18 @@
 
 - (void) reloadClanHouse {
   GameState *gs = [GameState sharedGameState];
-  for (TeamCenterBuilding *b in [self childrenOfClassType:[ClanHouseBuilding class]]) {
-    if (!gs.clan) {
-      [b setBubbleType:BuildingBubbleTypeJoinClan];
-    } else {
-      // Check if anyone needs help
-      int numHelps = (int)[gs.clanHelpUtil getAllHelpableClanHelps].count;
-      if (numHelps > 0) {
-        [b setBubbleType:BuildingBubbleTypeClanHelp withNum:numHelps];
+  for (ClanHouseBuilding *b in [self childrenOfClassType:[ClanHouseBuilding class]]) {
+    if (b != _purchBuilding) {
+      if (!gs.clan) {
+        [b setBubbleType:BuildingBubbleTypeJoinClan];
       } else {
-        [b setBubbleType:BuildingBubbleTypeNone];
+        // Check if anyone needs help
+        int numHelps = (int)[gs.clanHelpUtil getAllHelpableClanHelps].count;
+        if (numHelps > 0) {
+          [b setBubbleType:BuildingBubbleTypeClanHelp withNum:numHelps];
+        } else {
+          [b setBubbleType:BuildingBubbleTypeNone];
+        }
       }
     }
   }
@@ -1798,8 +1800,10 @@
   
   ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
   SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+  sif.delegate = self;
   svc.delegate = sif;
   self.speedupItemsFiller = sif;
+  self.currentViewController = svc;
   
   GameViewController *gvc = [GameViewController baseController];
   svc.view.frame = gvc.view.bounds;
@@ -1830,6 +1834,10 @@
 - (BOOL) speedUpBuilding {
   if (_isSpeedingUp) return NO;
   if (!_constrBuilding) return NO;
+  
+  // Close the speedup popup
+  [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
+  self.currentViewController = nil;
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -1941,6 +1949,39 @@
     }
   }
 }
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = [self timeLeftForConstructionBuilding];
+  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+  return gemCost;
+}
+
+- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedUpBuilding];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
+        HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
+        [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userStruct:hb.userStruct];
+        
+        [viewController reloadDataAnimated:YES];
+        [self beginTimers];
+      }
+    }
+  }
+}
+
+#pragma mark - Changing arrays
 
 - (void) changeTiles:(CGRect)buildBlock toBuildable:(BOOL)canBuild {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {

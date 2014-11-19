@@ -1228,7 +1228,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.clanHelpUtil addClanHelpProto:ch toArray:gs.clanHelpUtil.myClanHelps];
       [gs.clanHelpUtil addClanHelpProto:ch toArray:forNotifications];
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
+      [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:self userInfo:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
     }
     
     for (id<ClanHelp> ch in forNotifications) {
@@ -1367,6 +1367,57 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserCurrentMonsterTeamProto *team = [[[[UserCurrentMonsterTeamProto builder] addAllCurrentTeam:ums] setUserUuid:gs.userUuid] build];
   PersistentClanEventClanInfoProto *info = gs.curClanRaidInfo;
   [[SocketCommunication sharedSocketCommunication] sendAttackClanRaidMonsterMessage:info clientTime:[self getCurrentMilliseconds] damageDealt:dmg curTeam:team monsterHealths:mut attacker:attackerProto];
+}
+
+#pragma mark - Speedups
+
+- (void) tradeItemForSpeedup:(NSArray *)uiups {
+  // Assume that they all have the same itemId
+  if (uiups.count > 0) {
+    UserItemUsageProto *uiup = uiups[0];
+    int itemId = uiup.itemId;
+    
+    for (UserItemUsageProto *item in uiups) {
+      if (item.itemId != itemId) {
+        [Globals popupMessage:@"Trying to use multiple items all at once."];
+        break;
+      }
+    }
+    
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
+    
+    if (ui.quantity <= 0) {
+      [Globals popupMessage:@"Trying to use item with no quantity."];
+    } else {
+      ui.quantity--;
+      
+      [[SocketCommunication sharedSocketCommunication] tradeItemForSpeedups:uiups updatedUserItem:[ui toProto]];
+      
+      [gs.itemUtil addToMyItemUsages:uiups];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:SPEEDUP_USED_NOTIFICATION object:self userInfo:@{SPEEDUP_NOTIFICATION_KEY : uiup}];
+    }
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeUpgradeStruct;
+  bldr.userDataUuid = us.userStructUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (us.isComplete) {
+    [Globals popupMessage:@"Trying to speedup complete building."];
+  } else if (!us.userStructUuid) {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request!"];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
 }
 
 #pragma mark - Gacha

@@ -24,7 +24,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, SpeedupItemsFillerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;

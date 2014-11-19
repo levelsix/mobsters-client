@@ -300,6 +300,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveClanDataEvent:
       responseClass = [RetrieveClanDataResponseProto class];
       break;
+    case EventProtocolResponseSTradeItemForSpeedUpsEvent:
+      responseClass = [TradeItemForSpeedUpsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1313,6 +1316,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.clanHelpUtil removeClanHelpUuids:proto.clanHelpUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan help."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Speedups/Items
+
+- (void) handleTradeItemForSpeedUpsResponseProto:(FullEvent *)fe {
+  TradeItemForSpeedUpsResponseProto *proto = (TradeItemForSpeedUpsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Trade item for booster response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess) {
+    [gs.itemUtil addToMyItemUsages:proto.itemsUsedList];
+  } else {
+    [Globals popupMessage:@"Server failed to trade item for speed up."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

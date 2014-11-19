@@ -217,6 +217,8 @@ static NSString *udid = nil;
   self.structRetrievals = [NSMutableArray array];
   self.structRetrievalAchievements = [NSMutableDictionary dictionary];
   _healingQueuePotentiallyChanged = NO;
+  _speedupItemUsages = [NSMutableArray array];
+  _speedupUpdatedUserItems = [NSMutableArray array];
   
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
@@ -1315,6 +1317,30 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
 }
 
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
+  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
+                                    setSender:[self senderWithMaxResources]]
+                                   addAllUmchp:monsterHealths]
+                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
+  
+  return tag;
+}
+
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
+  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
+                                      setSender:[self senderWithMaxResources]]
+                                     setIsSpeedup:YES]
+                                    setGemsForSpeedup:goldCost]
+                                   addAllUmchp:monsterHealths]
+                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
+  
+  return tag;
+}
+
 - (int) sendEnhanceMessage:(UserEnhancementProto *)enhancement monsterExp:(UserMonsterCurrentExpProto *)monsterExp gemCost:(int)gemCost oilChange:(int)oilChange {
   EnhanceMonsterRequestProto *req = [[[[[[[EnhanceMonsterRequestProto builder]
                                           setSender:_sender]
@@ -1391,30 +1417,6 @@ static NSString *udid = nil;
 
 #pragma mark - Batch/Flush events
 
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
-  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
-                                    setSender:[self senderWithMaxResources]]
-                                   addAllUmchp:monsterHealths]
-                                  build];
-  
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  return tag;
-}
-
-- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
-  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
-                                      setSender:[self senderWithMaxResources]]
-                                     setIsSpeedup:YES]
-                                    setGemsForSpeedup:goldCost]
-                                   addAllUmchp:monsterHealths]
-                                  build];
-  
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
-  
-  return tag;
-}
-
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
   [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
@@ -1435,6 +1437,33 @@ static NSString *udid = nil;
   LNLog(@"Sending retrieve currency message with %d structs.",  (int)self.structRetrievals.count);
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
+}
+
+- (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip {
+  [_speedupItemUsages addObjectsFromArray:uiups];
+  
+  // remove the user item first if it is already in here
+  for (int i = 0; i < _speedupUpdatedUserItems.count; i++) {
+    UserItemProto *u = _speedupUpdatedUserItems[i];
+    if (u.itemId == uip.itemId) {
+      [_speedupUpdatedUserItems removeObjectAtIndex:i];
+    }
+  }
+  [_speedupUpdatedUserItems addObject:uip];
+  
+  return _currentTagNum;
+}
+
+- (int) sendTradeItemForSpeedUpsMessage {
+  TradeItemForSpeedUpsRequestProto *req = [[[[[TradeItemForSpeedUpsRequestProto builder]
+                                              setSender:_sender]
+                                             addAllItemsUsed:_speedupItemUsages]
+                                            addAllNuUserItems:_speedupUpdatedUserItems]
+                                           build];
+  
+  LNLog(@"Sending trade item for speedups message with %d item usages.", (int)_speedupItemUsages.count);
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO];
 }
 
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
@@ -1539,6 +1568,17 @@ static NSString *udid = nil;
       if (val) {
         found = YES;
       }
+    }
+  }
+  
+  if (type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+    if (_speedupItemUsages.count > 0) {
+      [self sendTradeItemForSpeedUpsMessage];
+      
+      [_speedupItemUsages removeAllObjects];
+      [_speedupUpdatedUserItems removeAllObjects];
+      
+      found = YES;
     }
   }
   

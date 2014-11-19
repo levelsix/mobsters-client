@@ -11,7 +11,9 @@
 #import "ItemObject.h"
 #import "NibUtils.h"
 
-@interface ItemSelectCell : UITableViewCell
+@interface ItemSelectCell : UITableViewCell {
+  UIColor *_origIconLabelColor;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
 @property (nonatomic, retain) IBOutlet THLabel *iconLabel;
@@ -22,11 +24,13 @@
 @property (nonatomic, retain) IBOutlet UIButton *useButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *freeLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *useButtonView;
 @property (nonatomic, retain) IBOutlet UIView *gemsButtonView;
 
 - (void) updateForItemObject:(id<ItemObject>)itemObject;
+- (void) updateForTime:(id<ItemObject>)itemObject;
 
 @end
 
@@ -34,8 +38,12 @@
 
 - (int) numberOfItems;
 - (id<ItemObject>) itemObjectAtIndex:(int)idx;
-- (void) itemSelectedAtIndex:(int)idx;
 - (NSString *) titleName;
+
+- (void) itemSelected:(id)viewController atIndex:(int)idx;
+
+@optional
+- (void) reloadItemsArray;
 
 @end
 

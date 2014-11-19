@@ -69,6 +69,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _requestedClans = [[NSMutableArray alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSpeedupNotification:) name:SPEEDUP_USED_NOTIFICATION object:nil];
   }
   return self;
 }
@@ -1652,7 +1653,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) receivedClanHelpNotification:(NSNotification *)notif {
-  ClanHelp *ch = [notif object][CLAN_HELP_NOTIFICATION_KEY];
+  ClanHelp *ch = [notif userInfo][CLAN_HELP_NOTIFICATION_KEY];
   
   if (ch.helpType == GameActionTypeHeal) {
     [self readjustAllMonsterHealingProtos];
@@ -1661,6 +1662,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   } else if (ch.helpType == GameActionTypeMiniJob) {
     [self beginMiniJobTimer];
   } else if (ch.helpType == GameActionTypeEnhanceTime) {
+    [self beginEnhanceTimer];
+  }
+}
+
+- (void) receivedSpeedupNotification:(NSNotification *)notif {
+  UserItemUsageProto *ch = [notif userInfo][SPEEDUP_NOTIFICATION_KEY];
+  
+  if (ch.actionType == GameActionTypeHeal) {
+    [self readjustAllMonsterHealingProtos];
+  } else if (ch.actionType == GameActionTypeEvolve) {
+    [self beginEvolutionTimer];
+  } else if (ch.actionType == GameActionTypeMiniJob) {
+    [self beginMiniJobTimer];
+  } else if (ch.actionType == GameActionTypeEnhanceTime) {
     [self beginEnhanceTimer];
   }
 }

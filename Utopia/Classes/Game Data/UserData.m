@@ -899,6 +899,12 @@
     seconds -= numHelps*secsToDockPerHelp;
   }
   
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
+  }
+  
   return [self.purchaseTime dateByAddingTimeInterval:seconds];
 }
 

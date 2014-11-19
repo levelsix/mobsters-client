@@ -74,7 +74,7 @@
   }
   
   for (ClanHelp *ch in forNotifications) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_CLAN_HELP_NOTIFICATION object:self userInfo:@{CLAN_HELP_NOTIFICATION_KEY : ch}];
   }
   
   if (checkMyHelps) {
