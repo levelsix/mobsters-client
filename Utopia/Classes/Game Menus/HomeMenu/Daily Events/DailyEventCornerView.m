@@ -120,11 +120,11 @@
       }
     } else {
       if (pe.type == PersistentEventProto_EventTypeEvolution) {
-        NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, 0];
+        NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", (int)pe.monsterElement, 0];
         UIImage *img = [Globals imageNamed:str];
         self.characterIcon.image = img;
       } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
-        NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", pe.monsterElement, 0];
+        NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", (int)pe.monsterElement, 0];
         UIImage *img = [Globals imageNamed:str];
         self.characterIcon.image = img;
       }
