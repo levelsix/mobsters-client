@@ -42,6 +42,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     self.imageCache = [NSMutableDictionary dictionary];
     self.imageViewsWaitingForDownloading = [NSMutableDictionary dictionary];
     self.animatingSpriteOffsets = [NSMutableDictionary dictionary];
+    
+    // Turn on logging on non-app store builds
+#ifndef APPSTORE
+    [Globals turnOnLogging];
+#endif
   }
   return self;
 }
@@ -2234,6 +2239,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (void) unmuteAllPlayers {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   [def removeObjectForKey:MUTED_PLAYERS_KEY];
+}
+
+#pragma mark - Logging
+
++ (void) turnOnLogging {
+  if (![Globals isLoggingEnabled]) {
+    [Globals toggleLogging];
+  }
+}
+
++ (void) toggleLogging {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def setBool:![self isLoggingEnabled] forKey:LOGGING_ENABLED_KEY];
+}
+
++ (BOOL) isLoggingEnabled {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  return [def boolForKey:LOGGING_ENABLED_KEY];
 }
 
 @end
