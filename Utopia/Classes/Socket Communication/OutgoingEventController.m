@@ -326,6 +326,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
@@ -362,6 +363,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
     
     if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       gs.lastMiniJobSpawnTime = nil;
@@ -475,6 +477,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (shouldResetTime) {
         gs.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
       }
+      
+      [gs.itemUtil cleanupRogueItemUsages];
       
       if (numGems) {
         [Analytics instantFinish:@"obstacleWait" gemChange:-numGems gemBalance:gs.gems];
@@ -852,7 +856,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
 #ifndef APPSTORE
       @try {
-        int staticDataId = 0, quantity = 1, numTimes = 1;
+        int staticDataId = 0, quantity = 1;
         DevRequest req = 0;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
@@ -887,7 +891,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           
           MonsterProto *mp = [gs monsterWithId:staticDataId];
           if (mp) {
-            msg = [NSString stringWithFormat:@"Awarded %d %@.", numTimes, mp.displayName];
+            msg = [NSString stringWithFormat:@"Awarded %d %@.", quantity, mp.displayName];
           } else {
             quantity = 0;
           }
@@ -1422,6 +1426,78 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [self tradeItemForSpeedup:@[bldr.build]];
   }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userObstacle:(UserObstacle *)uo {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeRemoveObstacle;
+  bldr.userDataUuid = uo.userObstacleUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (!uo.removalTime || !uo.userObstacleUuid) {
+    [Globals popupMessage:@"Trying to speedup invalid obstacle."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userMiniJob:(UserMiniJob *)umj {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeMiniJob;
+  bldr.userDataUuid = umj.userMiniJobUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (!umj.timeStarted || umj.timeCompleted) {
+    [Globals popupMessage:@"Trying to speedup invalid mini job."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeEnhanceTime;
+  bldr.userDataUuid = ue.baseMonster.userMonsterUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (ue.isComplete) {
+    [Globals popupMessage:@"Trying to speedup invalid enhancement."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeEvolve;
+  bldr.userDataUuid = ue.userMonsterUuid1;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (ue.startTime) {
+    [Globals popupMessage:@"Trying to speedup invalid evolution."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
+  }
+}
+
+- (void) removeUserItemUsed:(NSArray *)usageUuids {
+  [[SocketCommunication sharedSocketCommunication] sendRemoveUserItemUsedMessage:usageUuids];
 }
 
 #pragma mark - Gacha
@@ -1975,6 +2051,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[CashUpdate updateWithTag:tag change:silverCost]];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
     
     [Analytics cancelHealMonster:um.monsterId cashChange:silverCost cashBalance:gs.cash];
     
@@ -2017,6 +2094,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs stopHealingTimer];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
     
     [Analytics instantFinish:@"healWait" gemChange:-goldCost gemBalance:gs.gems];
     
@@ -2054,6 +2132,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs beginHealingTimer];
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
+  [gs.itemUtil cleanupRogueItemUsages];
 }
 
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids {
@@ -2227,6 +2306,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   gs.userEnhancement = nil;
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
+  [gs.itemUtil cleanupRogueItemUsages];
 }
 
 //- (BOOL) enhanceMonster:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate {
@@ -2587,6 +2667,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs stopEvolutionTimer];
       
       [gs.clanHelpUtil cleanupRogueClanHelps];
+      [gs.itemUtil cleanupRogueItemUsages];
       
       if (gems) {
         [Analytics instantFinish:@"evolveWait" gemChange:-numGems gemBalance:gs.gems];
@@ -2654,6 +2735,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs beginMiniJobTimerShowFreeSpeedupImmediately:NO];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
+    [gs.itemUtil cleanupRogueItemUsages];
     
     if (isSpeedup) {
       [Analytics instantFinish:@"miniJobWait" gemChange:-gemCost gemBalance:gs.gems];

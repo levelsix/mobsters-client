@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -21,7 +21,6 @@
                 <outlet property="finishButtonView" destination="h4O-jM-BIp" id="3du-8Q-jsm"/>
                 <outlet property="finishLabelsView" destination="bsY-Mr-FDy" id="SfI-cG-Vea"/>
                 <outlet property="freeLabel" destination="2qV-NH-VHZ" id="09Q-Yb-VC3"/>
-                <outlet property="gemCostLabel" destination="hbP-Dk-osS" id="dsb-Eo-WvV"/>
                 <outlet property="healthLabel" destination="2jm-JB-hGf" id="T4V-ga-fri"/>
                 <outlet property="helpButtonView" destination="Fty-V8-LJ8" id="KHd-wb-2Y6"/>
                 <outlet property="levelIcon" destination="2xD-Pf-Jgm" id="0bg-ZS-8x1"/>
@@ -41,6 +40,7 @@
                 <outlet property="queueingCostLabel" destination="Zgh-dF-dwT" id="9fF-3N-xDp"/>
                 <outlet property="selectMobsterLabel" destination="7bQ-P1-4gI" id="F86-lF-nFq"/>
                 <outlet property="skipButtonView" destination="bct-xw-bLW" id="gVu-DZ-sIi"/>
+                <outlet property="speedupIcon" destination="fdg-fJ-WYC" id="yqt-g4-Nra"/>
                 <outlet property="totalQueueCostLabel" destination="vB2-fg-nSW" id="8ca-bc-yYB"/>
                 <outlet property="totalTimeLabel" destination="qN0-Gf-hyN" id="Pje-ew-7A6"/>
                 <outlet property="upIcon" destination="WvG-UY-M0M" id="lMa-Rq-KpS"/>
@@ -332,44 +332,19 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="LmA-xb-MWe" customClass="NiceFontLabel12B">
-                                                                    <rect key="frame" x="20" y="2" width="40" height="17"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                                </label>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupbigicon.png" id="fdg-fJ-WYC">
+                                                                    <rect key="frame" x="29" y="10" width="23" height="18"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="2qV-NH-VHZ" customClass="NiceFontLabel12B">
-                                                                    <rect key="frame" x="21" y="13" width="37" height="23"/>
+                                                                    <rect key="frame" x="15" y="5" width="50" height="27"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                     <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                                 </label>
-                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="WvZ-gh-NXP">
-                                                                    <rect key="frame" x="20" y="16" width="40" height="18"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <subviews>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="vtr-af-dkU">
-                                                                            <rect key="frame" x="0.0" y="2" width="14" height="16"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                        </imageView>
-                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="hbP-Dk-osS" customClass="NiceFontLabel12B">
-                                                                            <rect key="frame" x="17" y="-2" width="37" height="23"/>
-                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                                                        </label>
-                                                                    </subviews>
-                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                                </view>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </view>
@@ -624,7 +599,6 @@ Level!</string>
         <image name="attackbarcapmj.png" width="3" height="8"/>
         <image name="attackbarmiddlemj.png" width="1" height="8"/>
         <image name="detailshadow.png" width="66" height="31"/>
-        <image name="diamond.png" width="29" height="27"/>
         <image name="earthenhancebg.png" width="153" height="211"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
@@ -639,6 +613,7 @@ Level!</string>
         <image name="popupline.png" width="1" height="1"/>
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
+        <image name="speedupbigicon.png" width="23" height="18"/>
         <image name="up.png" width="79" height="46"/>
         <image name="yellowmenuoption.png" width="80" height="40"/>
     </resources>

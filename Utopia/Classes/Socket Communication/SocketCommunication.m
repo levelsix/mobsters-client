@@ -1415,6 +1415,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent];
 }
 
+- (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids {
+  RemoveUserItemUsedRequestProto *req = [[[[RemoveUserItemUsedRequestProto builder]
+                                           setSender:_sender]
+                                          addAllUserItemUsedUuid:usageUuids]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

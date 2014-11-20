@@ -134,5 +134,10 @@
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
 
 - (void) tradeItemForSpeedup:(int)itemId userStruct:(UserStruct *)us;
+- (void) tradeItemForSpeedup:(int)itemId userObstacle:(UserObstacle *)uo;
+- (void) tradeItemForSpeedup:(int)itemId userMiniJob:(UserMiniJob *)umj;
+- (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue;
+- (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue;
+- (void) removeUserItemUsed:(NSArray *)usageUuids;
 
 @end

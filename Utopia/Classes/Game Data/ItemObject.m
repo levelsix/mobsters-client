@@ -112,7 +112,10 @@
 }
 
 - (BOOL) isEqual:(UserItemUsage *)object {
-  if (!self.usageUuid || !object.usageUuid) {
+  if (!self.usageUuid && !object.usageUuid) {
+    return NO;
+  } else if (!self.usageUuid || !object.usageUuid) {
+    // Will come here when response occurs
     return (self.itemId == object.itemId && [self.timeOfEntry isEqualToDate:object.timeOfEntry] &&
             [self.userDataUuid isEqualToString:object.userDataUuid] && self.actionType == object.actionType);
   } else {

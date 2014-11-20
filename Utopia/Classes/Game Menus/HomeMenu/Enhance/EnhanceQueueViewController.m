@@ -257,6 +257,8 @@
     self.totalTimeLabel.text = @"Complete!";
     
     self.collectButtonView.hidden = NO;
+    
+    [self.itemSelectViewController closeClicked:nil];
   } else {
     // Timer
     int timeLeft = date.timeIntervalSinceNow;
@@ -273,11 +275,13 @@
       [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
       
       self.gemCostLabel.superview.hidden = NO;
+      self.speedupIcon.hidden = NO;
       self.freeLabel.hidden = YES;
       
       self.helpButtonView.hidden = !canHelp;
     } else {
       self.gemCostLabel.superview.hidden = YES;
+      self.speedupIcon.hidden = YES;
       self.freeLabel.hidden = NO;
       self.helpButtonView.hidden = YES;
     }
@@ -610,7 +614,7 @@
 }
 
 - (IBAction)skipCLicked:(id)sender {
-  [self speedupEnhancement];
+  [self speedupEnhancementAnimation];
 }
 
 - (IBAction)helpClicked:(id)sender {
@@ -623,38 +627,105 @@
 
 - (IBAction)finishClicked:(id)sender {
   if (!_waitingForResponse) {
-    GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     UserEnhancement *ue = [self currentEnhancement];
     int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
     int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
-    if (gs.gems < goldCost) {
-      [GenericPopupController displayNotEnoughGemsView];
+    if (goldCost <= 0) {
+      [self speedupEnhancement];
     } else {
-      BOOL success = [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:YES delegate:self];
-      
-      if (success) {
-        self.finishLabelsView.hidden = YES;
-        self.buttonSpinner.hidden = NO;
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.itemSelectViewController = svc;
         
-        _waitingForResponse = YES;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
       }
     }
   }
 }
 
+- (void) speedupEnhancement {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserEnhancement *ue = [self currentEnhancement];
+  int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  [self.itemSelectViewController closeClicked:nil];
+  
+  if (gs.gems < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] enhanceWaitComplete:YES delegate:self];
+    
+    if (success) {
+      self.finishLabelsView.hidden = YES;
+      self.buttonSpinner.hidden = NO;
+      
+      _waitingForResponse = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_MONSTER_NOTIFICATION object:nil];
+    }
+  }
+}
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  UserEnhancement *ue = [self currentEnhancement];
+  int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  return gemCost;
+}
+
+- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedupEnhancement];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    UserEnhancement *ue = [self currentEnhancement];
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userEnhancement:ue];
+      
+      [self updateLabels];
+    }
+    
+    int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (void) itemSelectClosed {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
+}
+
+#pragma mark - Responses
+
 - (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
   // In case its called from the timer action
   if ([self isViewLoaded]) {
-//    self.finishLabelsView.hidden = NO;
-//    self.buttonSpinner.hidden = YES;
-//    
-//    _waitingForResponse = NO;
-//    
-//    [self updateLabelsNonTimer];
+    //    self.finishLabelsView.hidden = NO;
+    //    self.buttonSpinner.hidden = YES;
+    //
+    //    _waitingForResponse = NO;
+    //
+    //    [self updateLabelsNonTimer];
     _waitingForResponse = NO;
     [self collectClicked:nil];
   }

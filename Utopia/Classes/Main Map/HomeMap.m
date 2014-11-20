@@ -890,8 +890,7 @@
     // Remove any arrows
     self.bottomOptionView = nil;
     _canMove = NO;
-    [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
-    self.currentViewController = nil;
+    [self closeCurrentViewController];
     if (_purchasing) {
       _purchasing = NO;
       [_purchBuilding removeFromParent];
@@ -1175,6 +1174,7 @@
 
 - (void) sendNormStructComplete:(UserStruct *)us {
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:us];
+  us.hasShownFreeSpeedup = NO;
 }
 
 #pragma mark - Timers
@@ -1385,6 +1385,8 @@
     
     us.hasShownFreeSpeedup = YES;
   }
+  
+  [self updateMapBotView:self.bottomOptionView];
   
   [_timers removeObject:timer];
 }
@@ -1798,29 +1800,28 @@
 - (IBAction)finishNowClicked:(id)sender {
   if (_isSpeedingUp) return;
   
-  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
-  SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
-  sif.delegate = self;
-  svc.delegate = sif;
-  self.speedupItemsFiller = sif;
-  self.currentViewController = svc;
-  
-  GameViewController *gvc = [GameViewController baseController];
-  svc.view.frame = gvc.view.bounds;
-  [gvc addChildViewController:svc];
-  [gvc.view addSubview:svc.view];
-  
-//  Globals *gl = [Globals sharedGlobals];
-//  int timeLeft = [self timeLeftForConstructionBuilding];
-//  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]] ? YES : NO;
-//  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
-// 
-//  if (goldCost) {
-//    NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
-//    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
-//  } else {
-//    [self speedUpBuilding];
-//  }
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = [self timeLeftForConstructionBuilding];
+  BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]] ? YES : NO;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+ 
+  if (goldCost) {
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+      sif.delegate = self;
+      svc.delegate = sif;
+      self.speedupItemsFiller = sif;
+      self.currentViewController = svc;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+    }
+  } else {
+    [self speedUpBuilding];
+  }
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
@@ -1836,8 +1837,7 @@
   if (!_constrBuilding) return NO;
   
   // Close the speedup popup
-  [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
-  self.currentViewController = nil;
+  [self closeCurrentViewController];
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -1976,9 +1976,27 @@
         
         [viewController reloadDataAnimated:YES];
         [self beginTimers];
+        [self updateMapBotView:self.bottomOptionView];
+      } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
+        ObstacleSprite *hb = (ObstacleSprite *)_constrBuilding;
+        [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userObstacle:hb.obstacle];
+        
+        [viewController reloadDataAnimated:YES];
+        [self beginTimers];
+        [self updateMapBotView:self.bottomOptionView];
       }
     }
+    
+    int timeLeft = [self timeLeftForConstructionBuilding];
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
   }
+}
+
+- (void) itemSelectClosed {
+  self.currentViewController = nil;
+  self.speedupItemsFiller = nil;
 }
 
 #pragma mark - Changing arrays
@@ -2036,6 +2054,12 @@
   SelectableSprite *n = self.selected;
   //  self.selected = nil;
   self.selected = n;
+  
+  [self closeCurrentViewController];
+}
+
+- (void) closeCurrentViewController {
+  [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -2074,9 +2098,7 @@
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   
-  [self.currentViewController.view removeFromSuperview];
-  [self.currentViewController removeFromParentViewController];
-  self.currentViewController = nil;
+  [self closeCurrentViewController];
 }
 
 - (void) onExit {

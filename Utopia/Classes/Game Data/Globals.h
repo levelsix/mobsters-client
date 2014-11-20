@@ -76,6 +76,9 @@
 
 #define STATIC_DATA_UPDATED_NOTIFICATION @"StaticDataUpdatedNotification"
 
+#define ITEM_SELECT_OPENED_NOTIFICATION @"ItemSelectOpenedNotification"
+#define ITEM_SELECT_CLOSED_NOTIFICATION @"ItemSelectClosedNotification"
+
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"

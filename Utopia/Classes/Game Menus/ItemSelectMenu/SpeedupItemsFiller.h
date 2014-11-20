@@ -14,6 +14,7 @@
 
 - (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
 - (int) numGemsForTotalSpeedup;
+- (void) itemSelectClosed;
 
 @end
 

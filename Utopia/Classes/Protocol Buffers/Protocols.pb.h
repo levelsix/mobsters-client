@@ -422,6 +422,10 @@
 @class RemoveMonsterFromBattleTeamRequestProto_Builder;
 @class RemoveMonsterFromBattleTeamResponseProto;
 @class RemoveMonsterFromBattleTeamResponseProto_Builder;
+@class RemoveUserItemUsedRequestProto;
+@class RemoveUserItemUsedRequestProto_Builder;
+@class RemoveUserItemUsedResponseProto;
+@class RemoveUserItemUsedResponseProto_Builder;
 @class RequestJoinClanRequestProto;
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
@@ -566,6 +570,10 @@
 @class TradeItemForBoosterRequestProto_Builder;
 @class TradeItemForBoosterResponseProto;
 @class TradeItemForBoosterResponseProto_Builder;
+@class TradeItemForResourcesRequestProto;
+@class TradeItemForResourcesRequestProto_Builder;
+@class TradeItemForResourcesResponseProto;
+@class TradeItemForResourcesResponseProto_Builder;
 @class TradeItemForSpeedUpsRequestProto;
 @class TradeItemForSpeedUpsRequestProto_Builder;
 @class TradeItemForSpeedUpsResponseProto;
@@ -729,6 +737,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCAcceptOrRejectClanInviteEvent = 83,
   EventProtocolRequestCCollectMonsterEnhancementEvent = 84,
   EventProtocolRequestCTradeItemForSpeedUpsEvent = 85,
+  EventProtocolRequestCRemoveUserItemUsedEvent = 86,
+  EventProtocolRequestCTradeItemForResouresEvent = 87,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -820,6 +830,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSAcceptOrRejectClanInviteEvent = 83,
   EventProtocolResponseSCollectMonsterEnhancementEvent = 84,
   EventProtocolResponseSTradeItemForSpeedUpsEvent = 85,
+  EventProtocolResponseSRemoveUserItemUsedEvent = 86,
+  EventProtocolResponseSTradeItemForResourcesEvent = 87,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

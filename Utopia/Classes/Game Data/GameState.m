@@ -1418,6 +1418,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [Globals addPurpleAlertNotification:desc];
       
       ue.hasShownFreeSpeedup = YES;
+      
+      [self beginEnhanceTimer];
     }
   }
 }

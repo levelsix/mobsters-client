@@ -361,7 +361,7 @@ static int totalLevelUps = 0;
   v.transform = CGAffineTransformIdentity;
 }
 
-- (void) speedupEnhancement {
+- (void) speedupEnhancementAnimation {
   // Stop the currently animating 
   [self.queueCell removeFromSuperview];
   [self.levelUpView removeFromSuperview];

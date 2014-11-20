@@ -27,7 +27,8 @@ typedef enum {
 
 - (BOOL) canGetHelp;
 
-- (void) speedupClicked;
+// Should return an array of dummy objects that will be retained
+- (NSArray *) speedupClicked;
 - (void) helpClicked;
 
 @end
@@ -41,7 +42,7 @@ typedef enum {
 @property (nonatomic, assign) TimerProgressBarColor normalProgressBarColor;
 
 - (NSString *) confirmActionString;
-- (void) performSpeedup;
+- (NSArray *) performSpeedup;
 - (void) performHelp;
 
 @end

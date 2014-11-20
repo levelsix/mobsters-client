@@ -42,12 +42,20 @@
 @class MonsterProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class RemoveUserItemUsedRequestProto;
+@class RemoveUserItemUsedRequestProto_Builder;
+@class RemoveUserItemUsedResponseProto;
+@class RemoveUserItemUsedResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class TradeItemForBoosterRequestProto;
 @class TradeItemForBoosterRequestProto_Builder;
 @class TradeItemForBoosterResponseProto;
 @class TradeItemForBoosterResponseProto_Builder;
+@class TradeItemForResourcesRequestProto;
+@class TradeItemForResourcesRequestProto_Builder;
+@class TradeItemForResourcesResponseProto;
+@class TradeItemForResourcesResponseProto_Builder;
 @class TradeItemForSpeedUpsRequestProto;
 @class TradeItemForSpeedUpsRequestProto_Builder;
 @class TradeItemForSpeedUpsResponseProto;
@@ -100,6 +108,20 @@ typedef NS_ENUM(SInt32, TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsSt
 };
 
 BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatus value);
+
+typedef NS_ENUM(SInt32, RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) {
+  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess = 1,
+  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusFailOther = 2,
+};
+
+BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value);
+
+typedef NS_ENUM(SInt32, TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) {
+  TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess = 1,
+  TradeItemForResourcesResponseProto_TradeItemForResourcesStatusFailOther = 2,
+};
+
+BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value);
 
 
 @interface EventItemRoot : NSObject {
@@ -393,6 +415,256 @@ BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(Tr
 - (TradeItemForSpeedUpsResponseProto_Builder *)addItemsUsed:(UserItemUsageProto*)value;
 - (TradeItemForSpeedUpsResponseProto_Builder *)addAllItemsUsed:(NSArray *)array;
 - (TradeItemForSpeedUpsResponseProto_Builder *)clearItemsUsed;
+@end
+
+@interface RemoveUserItemUsedRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableUserItemUsedUuidList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * userItemUsedUuidList;
+- (NSString*)userItemUsedUuidAtIndex:(NSUInteger)index;
+
++ (RemoveUserItemUsedRequestProto*) defaultInstance;
+- (RemoveUserItemUsedRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RemoveUserItemUsedRequestProto_Builder*) builder;
++ (RemoveUserItemUsedRequestProto_Builder*) builder;
++ (RemoveUserItemUsedRequestProto_Builder*) builderWithPrototype:(RemoveUserItemUsedRequestProto*) prototype;
+- (RemoveUserItemUsedRequestProto_Builder*) toBuilder;
+
++ (RemoveUserItemUsedRequestProto*) parseFromData:(NSData*) data;
++ (RemoveUserItemUsedRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RemoveUserItemUsedRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RemoveUserItemUsedRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RemoveUserItemUsedRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RemoveUserItemUsedRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RemoveUserItemUsedRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RemoveUserItemUsedRequestProto* result;
+}
+
+- (RemoveUserItemUsedRequestProto*) defaultInstance;
+
+- (RemoveUserItemUsedRequestProto_Builder*) clear;
+- (RemoveUserItemUsedRequestProto_Builder*) clone;
+
+- (RemoveUserItemUsedRequestProto*) build;
+- (RemoveUserItemUsedRequestProto*) buildPartial;
+
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFrom:(RemoveUserItemUsedRequestProto*) other;
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RemoveUserItemUsedRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RemoveUserItemUsedRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RemoveUserItemUsedRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RemoveUserItemUsedRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)userItemUsedUuidList;
+- (NSString*)userItemUsedUuidAtIndex:(NSUInteger)index;
+- (RemoveUserItemUsedRequestProto_Builder *)addUserItemUsedUuid:(NSString*)value;
+- (RemoveUserItemUsedRequestProto_Builder *)addAllUserItemUsedUuid:(NSArray *)array;
+- (RemoveUserItemUsedRequestProto_Builder *)clearUserItemUsedUuid;
+@end
+
+@interface RemoveUserItemUsedResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+
++ (RemoveUserItemUsedResponseProto*) defaultInstance;
+- (RemoveUserItemUsedResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RemoveUserItemUsedResponseProto_Builder*) builder;
++ (RemoveUserItemUsedResponseProto_Builder*) builder;
++ (RemoveUserItemUsedResponseProto_Builder*) builderWithPrototype:(RemoveUserItemUsedResponseProto*) prototype;
+- (RemoveUserItemUsedResponseProto_Builder*) toBuilder;
+
++ (RemoveUserItemUsedResponseProto*) parseFromData:(NSData*) data;
++ (RemoveUserItemUsedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RemoveUserItemUsedResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RemoveUserItemUsedResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RemoveUserItemUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RemoveUserItemUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RemoveUserItemUsedResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RemoveUserItemUsedResponseProto* result;
+}
+
+- (RemoveUserItemUsedResponseProto*) defaultInstance;
+
+- (RemoveUserItemUsedResponseProto_Builder*) clear;
+- (RemoveUserItemUsedResponseProto_Builder*) clone;
+
+- (RemoveUserItemUsedResponseProto*) build;
+- (RemoveUserItemUsedResponseProto*) buildPartial;
+
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFrom:(RemoveUserItemUsedResponseProto*) other;
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RemoveUserItemUsedResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RemoveUserItemUsedResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RemoveUserItemUsedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RemoveUserItemUsedResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) status;
+- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) value;
+- (RemoveUserItemUsedResponseProto_Builder*) clearStatus;
+@end
+
+@interface TradeItemForResourcesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  PBAppendableArray * mutableItemIdsUsedList;
+  NSMutableArray * mutableNuUserItemsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) PBArray * itemIdsUsedList;
+@property (readonly, strong) NSArray * nuUserItemsList;
+- (int32_t)itemIdsUsedAtIndex:(NSUInteger)index;
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
+
++ (TradeItemForResourcesRequestProto*) defaultInstance;
+- (TradeItemForResourcesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TradeItemForResourcesRequestProto_Builder*) builder;
++ (TradeItemForResourcesRequestProto_Builder*) builder;
++ (TradeItemForResourcesRequestProto_Builder*) builderWithPrototype:(TradeItemForResourcesRequestProto*) prototype;
+- (TradeItemForResourcesRequestProto_Builder*) toBuilder;
+
++ (TradeItemForResourcesRequestProto*) parseFromData:(NSData*) data;
++ (TradeItemForResourcesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (TradeItemForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TradeItemForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TradeItemForResourcesRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TradeItemForResourcesRequestProto* result;
+}
+
+- (TradeItemForResourcesRequestProto*) defaultInstance;
+
+- (TradeItemForResourcesRequestProto_Builder*) clear;
+- (TradeItemForResourcesRequestProto_Builder*) clone;
+
+- (TradeItemForResourcesRequestProto*) build;
+- (TradeItemForResourcesRequestProto*) buildPartial;
+
+- (TradeItemForResourcesRequestProto_Builder*) mergeFrom:(TradeItemForResourcesRequestProto*) other;
+- (TradeItemForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TradeItemForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TradeItemForResourcesRequestProto_Builder*) clearSender;
+
+- (PBAppendableArray *)itemIdsUsedList;
+- (int32_t)itemIdsUsedAtIndex:(NSUInteger)index;
+- (TradeItemForResourcesRequestProto_Builder *)addItemIdsUsed:(int32_t)value;
+- (TradeItemForResourcesRequestProto_Builder *)addAllItemIdsUsed:(NSArray *)array;
+- (TradeItemForResourcesRequestProto_Builder *)setItemIdsUsedValues:(const int32_t *)values count:(NSUInteger)count;
+- (TradeItemForResourcesRequestProto_Builder *)clearItemIdsUsed;
+
+- (NSMutableArray *)nuUserItemsList;
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
+- (TradeItemForResourcesRequestProto_Builder *)addNuUserItems:(UserItemProto*)value;
+- (TradeItemForResourcesRequestProto_Builder *)addAllNuUserItems:(NSArray *)array;
+- (TradeItemForResourcesRequestProto_Builder *)clearNuUserItems;
+@end
+
+@interface TradeItemForResourcesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+
++ (TradeItemForResourcesResponseProto*) defaultInstance;
+- (TradeItemForResourcesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TradeItemForResourcesResponseProto_Builder*) builder;
++ (TradeItemForResourcesResponseProto_Builder*) builder;
++ (TradeItemForResourcesResponseProto_Builder*) builderWithPrototype:(TradeItemForResourcesResponseProto*) prototype;
+- (TradeItemForResourcesResponseProto_Builder*) toBuilder;
+
++ (TradeItemForResourcesResponseProto*) parseFromData:(NSData*) data;
++ (TradeItemForResourcesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (TradeItemForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TradeItemForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TradeItemForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TradeItemForResourcesResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  TradeItemForResourcesResponseProto* result;
+}
+
+- (TradeItemForResourcesResponseProto*) defaultInstance;
+
+- (TradeItemForResourcesResponseProto_Builder*) clear;
+- (TradeItemForResourcesResponseProto_Builder*) clone;
+
+- (TradeItemForResourcesResponseProto*) build;
+- (TradeItemForResourcesResponseProto*) buildPartial;
+
+- (TradeItemForResourcesResponseProto_Builder*) mergeFrom:(TradeItemForResourcesResponseProto*) other;
+- (TradeItemForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TradeItemForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (TradeItemForResourcesResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status;
+- (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value;
+- (TradeItemForResourcesResponseProto_Builder*) clearStatus;
 @end
 
 

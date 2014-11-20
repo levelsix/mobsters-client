@@ -67,4 +67,8 @@
   return @"SPEEDUP COMPLETION";
 }
 
+- (void) itemSelectClosed:(id)viewController {
+  [self.delegate itemSelectClosed];
+}
+
 @end

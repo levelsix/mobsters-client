@@ -37,17 +37,21 @@
   }
 }
 
-- (void) speedupClicked {
+- (NSArray *) speedupClicked {
   GameState *gs = [GameState sharedGameState];
   int gemCost = [self gemCost];
   NSString *confirm = [self confirmActionString];
-  if ([self gemCost] > gs.gems) {
+  // Disabled since the item select popup will show up
+  if (false && [self gemCost] > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else if (gemCost && confirm) {
-    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup)];
-  } else {
-    [self performSpeedup];
   }
+  else if (false && gemCost && confirm) {
+    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup)];
+  }
+  else {
+    return [self performSpeedup];
+  }
+  return nil;
 }
 
 - (NSString *) confirmActionString {
@@ -58,8 +62,9 @@
   return NO;
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   // We can assume we have enough gems at this point
+  return nil;
 }
 
 - (void) helpClicked {
@@ -119,13 +124,14 @@
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStruct.userStructUuid] < 0;
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   // Somewhat hacky, but super easy. Just let the home map deal with it
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
     [hm finishNowClicked:nil];
   }
+  return nil;
 }
 
 - (void) performHelp {
@@ -161,12 +167,13 @@
   return self;
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
     [hm finishNowClicked:nil];
   }
+  return nil;
 }
 
 - (BOOL) isEqual:(id)object {
@@ -206,9 +213,11 @@
   return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   HealViewController *hvc = [[HealViewController alloc] init];
   [hvc speedupButtonClicked:nil];
+  
+  return @[hvc];
 }
 
 - (void) performHelp {
@@ -251,9 +260,11 @@
   return [NSString stringWithFormat:@"Would you like to speedup %@'s enhancement for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   EnhanceQueueViewController *evc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
   [evc finishClicked:nil];
+  
+  return @[evc];
 }
 
 - (void) performHelp {
@@ -295,11 +306,13 @@
   return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   MiniJobsListViewController *lvc = [[MiniJobsListViewController alloc] init];
   MiniJobsListCell *cell = [[MiniJobsListCell alloc] init];
   cell.userMiniJob = self.miniJob;
   [lvc miniJobsListFinishClicked:cell];
+  
+  return @[lvc];
 }
 
 - (void) performHelp {
@@ -344,9 +357,11 @@
   return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (void) performSpeedup {
+- (NSArray *) performSpeedup {
   EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
   [evc speedupClicked:nil];
+  
+  return @[evc];
 }
 
 - (void) performHelp {

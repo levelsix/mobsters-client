@@ -94,9 +94,11 @@
       [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
       
       self.gemCostLabel.superview.hidden = NO;
+      self.speedupIcon.hidden = NO;
       self.freeLabel.hidden = YES;
     } else {
       self.gemCostLabel.superview.hidden = YES;
+      self.speedupIcon.hidden = YES;
       self.freeLabel.hidden = NO;
     }
   }

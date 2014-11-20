@@ -14,6 +14,8 @@
 
 #import "DailyEventCornerView.h"
 
+#import "SpeedupItemsFiller.h"
+
 @interface EnhanceSmallCardCell : ListCollectionViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
@@ -26,7 +28,7 @@
 
 @end
 
-@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate> {
+@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate, SpeedupItemsFillerDelegate> {
   UserMonster *_confirmUserMonster;
   
   UserEnhancement *_currentEnhancement;
@@ -52,6 +54,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *totalQueueCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *oilButtonView;
 @property (nonatomic, retain) IBOutlet UIView *finishButtonView;
@@ -89,6 +92,9 @@
 @property (nonatomic, retain) IBOutlet UIView *enhanceButtonView;
 
 @property (nonatomic, retain) DailyEventCornerView *dailyEventView;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 - (void) waitTimeComplete;
 

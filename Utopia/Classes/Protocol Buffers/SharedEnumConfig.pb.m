@@ -72,6 +72,7 @@ BOOL GameActionTypeIsValidValue(GameActionType value) {
     case GameActionTypeEvolve:
     case GameActionTypeMiniJob:
     case GameActionTypeEnhanceTime:
+    case GameActionTypeRemoveObstacle:
       return YES;
     default:
       return NO;

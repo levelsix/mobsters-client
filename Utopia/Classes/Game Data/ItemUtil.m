@@ -10,6 +10,8 @@
 
 #import "GameState.h"
 
+#import "OutgoingEventController.h"
+
 @implementation ItemUtil
 
 - (id) initWithItemProtos:(NSArray *)items itemUsageProtos:(NSArray *)itemUsages {
@@ -19,6 +21,8 @@
     
     [self addToMyItems:items];
     [self addToMyItemUsages:itemUsages];
+    
+    [self cleanupRogueItemUsages];
   }
   return self;
 }
@@ -44,11 +48,13 @@
     
     NSInteger idx = [self.myItemUsages indexOfObject:uiu];
     if (idx != NSNotFound) {
-      [self.myItemUsages insertObject:uiu atIndex:idx];
+      [self.myItemUsages replaceObjectAtIndex:idx withObject:uiu];
     } else {
       [self.myItemUsages addObject:uiu];
     }
   }
+  
+  [self cleanupRogueItemUsages];
 }
 
 - (UserItem *) getUserItemForItemId:(int)itemId {
@@ -75,12 +81,12 @@
   return arr;
 }
 
-- (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid {
+- (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid earliestDate:(MSDate *)date {
   int speedupMins = 0;
   
   GameState *gs = [GameState sharedGameState];
   for (UserItemUsage *uiu in self.myItemUsages) {
-    if (uiu.actionType == type && [uiu.userDataUuid isEqualToString:userDataUuid]) {
+    if (uiu.actionType == type && [uiu.userDataUuid isEqualToString:userDataUuid] && [uiu.timeOfEntry compare:date] == NSOrderedDescending) {
       ItemProto *ip = [gs itemForId:uiu.itemId];
       if (ip.itemType == ItemTypeSpeedUp) {
         speedupMins += ip.amount;
@@ -89,6 +95,74 @@
   }
   
   return speedupMins;
+}
+
+- (void) cleanupRogueItemUsages {
+  GameState *gs = [GameState sharedGameState];
+  
+  // Grab all individual clan helps
+  NSMutableArray *toRemove = [NSMutableArray array];
+  NSMutableArray *removeUsageUuids = [NSMutableArray array];
+  for (UserItemUsage *iu in self.myItemUsages) {
+    BOOL isValid = NO;
+    
+    if (iu.actionType == GameActionTypeUpgradeStruct) {
+      UserStruct *us = [gs myStructWithUuid:iu.userDataUuid];
+      // If us doesn't exist, this will also return true which is good in case city hasn't loaded.
+      isValid = !us.isComplete;
+    } else if (iu.actionType == GameActionTypeRemoveObstacle) {
+      UserObstacle *uo = nil;
+      for (UserObstacle *u in gs.myObstacles) {
+        if ([u.userObstacleUuid isEqualToString:iu.userDataUuid]) {
+          uo = u;
+        }
+      }
+      
+      isValid = !!uo.removalTime;
+    } else if (iu.actionType == GameActionTypeMiniJob) {
+      UserMiniJob *umj = nil;
+      for (UserMiniJob *u in gs.myMiniJobs) {
+        if ([u.userMiniJobUuid isEqualToString:iu.userDataUuid]) {
+          umj = u;
+        }
+      }
+      
+      isValid = umj.timeStarted && !umj.timeCompleted;
+    } else if (iu.actionType == GameActionTypeHeal) {
+      UserMonsterHealingItem *hi = nil;
+      for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
+        if ([u.userMonsterUuid isEqualToString:iu.userDataUuid]) {
+          hi = u;
+        }
+      }
+      
+      isValid = !!hi;
+    } else if (iu.actionType == GameActionTypeEvolve) {
+      UserEvolution *ue = gs.userEvolution;
+      
+      isValid = ([ue.userMonsterUuid1 isEqualToString:iu.userDataUuid]);
+    } else if (iu.actionType == GameActionTypeEnhanceTime) {
+      UserEnhancement *ue = gs.userEnhancement;
+      
+      isValid = [ue.baseMonster.userMonsterUuid isEqualToString:iu.userDataUuid];
+    }
+    
+    if (!isValid) {
+      [toRemove addObject:iu];
+      
+      if (iu.usageUuid) {
+        [removeUsageUuids addObject:iu.usageUuid];
+      }
+    }
+  }
+  
+  if (removeUsageUuids.count) {
+    [self.myItemUsages removeObjectsInArray:toRemove];
+    
+    LNLog(@"Removing %d item usages.", (int)removeUsageUuids.count);
+    
+    [[OutgoingEventController sharedOutgoingEventController] removeUserItemUsed:removeUsageUuids];
+  }
 }
 
 @end

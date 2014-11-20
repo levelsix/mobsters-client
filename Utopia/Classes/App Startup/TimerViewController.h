@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet SplitImageProgressBar *progressBar;
 @property (weak, nonatomic) IBOutlet UILabel *gemsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *freeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *speedupIcon;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
@@ -23,7 +24,10 @@
 
 @end
 
-@interface TimerViewController : UIViewController
+@interface TimerViewController : UIViewController {
+  // Basically we need to retain
+  NSMutableArray *_dummyObjects;
+}
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *scrollViewContainer;

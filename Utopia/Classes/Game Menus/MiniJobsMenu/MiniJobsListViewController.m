@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "GameViewController.h"
 
 #define SPACING_PER_NODE 46.f
 
@@ -89,10 +90,12 @@
       self.getHelpView.hidden = !canGetHelp;
       
       self.gemCostLabel.superview.hidden = NO;
+      self.speedupIcon.hidden = NO;
       self.freeLabel.hidden = YES;
     } else {
       self.getHelpView.hidden = YES;
       self.gemCostLabel.superview.hidden = YES;
+      self.speedupIcon.hidden = YES;
       self.freeLabel.hidden = NO;
     }
   }
@@ -189,6 +192,7 @@
     self.detailsViewController.activeMiniJob = mjp;
     [self reloadTableAnimated:YES];
     if (mjp.timeCompleted) {
+      [self.itemSelectViewController closeClicked:nil];
       [self displayCompleteView:[self activeMiniJob] animated:YES];
     }
   }
@@ -352,26 +356,51 @@
 
 - (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell {
   if (!_selectedCell) {
-    GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
+    
+    _selectedCell = listCell;
     
     MSDate *date = listCell.userMiniJob.tentativeCompletionDate;
     int timeLeft = [date timeIntervalSinceNow];
     
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
-    if (gs.gems < gemCost) {
-      [GenericPopupController displayNotEnoughGemsView];
+    if (gemCost <= 0) {
+      [self speedupMiniJob];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:listCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];
-      [listCell spinFinish];
-      _selectedCell = listCell;
-      
-      [self.detailsViewController beginFinishSpinning];
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.itemSelectViewController = svc;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     }
-    
-    // Added this here so that timers can update
-    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
   }
+}
+
+- (void) speedupMiniJob {
+  Globals *gl = [Globals sharedGlobals];
+  
+  [self.itemSelectViewController closeClicked:nil];
+  
+  MSDate *date = _selectedCell.userMiniJob.tentativeCompletionDate;
+  int timeLeft = [date timeIntervalSinceNow];
+  
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:_selectedCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];
+  [_selectedCell spinFinish];
+  
+  [self.detailsViewController beginFinishSpinning];
+  
+  // Added this here so that timers can update
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
 }
 
 - (void) miniJobsListHelpClicked:(MiniJobsListCell *)listCell {
@@ -405,6 +434,50 @@
   if (!_isBeginningJob) {
     [self transitionToListView];
     _selectedCell = nil;
+  }
+}
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  MSDate *date = _selectedCell.userMiniJob.tentativeCompletionDate;
+  int timeLeft = [date timeIntervalSinceNow];
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  return gemCost;
+}
+
+- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    _itemSelectClosedProgrammatically = YES;
+    [self speedupMiniJob];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    UserMiniJob *umj = _selectedCell.userMiniJob;
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userMiniJob:umj];
+      
+      [self updateLabels];
+    }
+    
+    int timeLeft = umj.tentativeCompletionDate.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (void) itemSelectClosed {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
+  
+  if (!_itemSelectClosedProgrammatically) {
+    _selectedCell = nil;
+    _itemSelectClosedProgrammatically = NO;
   }
 }
 

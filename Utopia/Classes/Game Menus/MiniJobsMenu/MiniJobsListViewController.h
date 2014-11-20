@@ -12,6 +12,7 @@
 #import "PopupSubViewController.h"
 #import "MiniJobsDetailsViewController.h"
 #import "MiniJobsCompleteViewController.h"
+#import "SpeedupItemsFiller.h"
 
 @interface MiniJobsListCell : UITableViewCell
 
@@ -25,6 +26,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *finishSpinner;
 @property (nonatomic, retain) IBOutlet UIView *finishLabelsView;
 
@@ -48,8 +50,9 @@
 
 @end
 
-@interface MiniJobsListViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate> {
+@interface MiniJobsListViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate, SpeedupItemsFillerDelegate> {
   MiniJobsListCell *_selectedCell;
+  BOOL _itemSelectClosedProgrammatically;
   BOOL _isBeginningJob;
 }
 
@@ -65,6 +68,9 @@
 @property (nonatomic, retain) NSMutableArray *miniJobsList;
 
 @property (nonatomic, retain) NSTimer *updateTimer;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
 @property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;

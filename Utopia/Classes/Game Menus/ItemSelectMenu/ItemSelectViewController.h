@@ -41,6 +41,7 @@
 - (NSString *) titleName;
 
 - (void) itemSelected:(id)viewController atIndex:(int)idx;
+- (void) itemSelectClosed:(id)viewController;
 
 @optional
 - (void) reloadItemsArray;
@@ -62,7 +63,11 @@
 
 @property (nonatomic, assign) id<ItemSelectDelegate> delegate;
 
++ (BOOL) canCreateNewVc;
+
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;
+
+- (IBAction)closeClicked:(id)sender;
 
 @end

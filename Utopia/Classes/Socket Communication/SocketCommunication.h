@@ -130,6 +130,8 @@
 - (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids;
 - (int) sendEndClanHelpMessage:(NSArray *)clanHelpUuids;
 
+- (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids;
+
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y;
 

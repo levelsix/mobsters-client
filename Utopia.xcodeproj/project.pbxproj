@@ -13,6 +13,12 @@
 		295FA2B41A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
 		295FA2B51A1B44A7006B79F3 /* ResourceItemsFiller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBEB1C51A118DD900149937 /* ResourceItemsFiller.m */; };
 		295FA2BD1A1BEC7D006B79F3 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */; };
+		29804F271A1DA91200806253 /* speedupicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F251A1DA91200806253 /* speedupicon.png */; };
+		29804F281A1DA91200806253 /* speedupicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F251A1DA91200806253 /* speedupicon.png */; };
+		29804F291A1DA91200806253 /* speedupicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F251A1DA91200806253 /* speedupicon.png */; };
+		29804F2A1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
+		29804F2B1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
+		29804F2C1A1DA91200806253 /* speedupicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29804F261A1DA91200806253 /* speedupicon@2x.png */; };
 		2982A16A1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16B1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16C1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
@@ -10319,6 +10325,8 @@
 		1019B1CB8EE4CED7B1E11F70 /* libPods-Mobsters.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mobsters.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		294E23631A1B19EF00148D7E /* ToonSquad-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ToonSquad-Info.plist"; sourceTree = "<group>"; };
 		295FA2BC1A1BEC7D006B79F3 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
+		29804F251A1DA91200806253 /* speedupicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speedupicon.png; sourceTree = "<group>"; };
+		29804F261A1DA91200806253 /* speedupicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speedupicon@2x.png"; sourceTree = "<group>"; };
 		2982A1691A1973B700CEB283 /* cacert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cacert.pem; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -14727,8 +14735,8 @@
 			isa = PBXGroup;
 			children = (
 				CFA9F7C91A0D9CEB00EBE77D /* Items */,
-				CFA8B1AA19EB789400CF6BFD /* Chat */,
 				CF812F0A19E7479700D91157 /* ClanHelp */,
+				CFA8B1AA19EB789400CF6BFD /* Chat */,
 				CF1265411538ACC400E0C1AD /* GameState.h */,
 				CF1265421538ACC400E0C1AD /* GameState.m */,
 				CFC3712F1884C2BC000348D8 /* HospitalQueueSimulator.h */,
@@ -17540,6 +17548,8 @@
 				CFA9F78A1A0D8F6300EBE77D /* itemssidearrow@2x.png */,
 				CFA9F78B1A0D8F6300EBE77D /* purpleitemsbutton.png */,
 				CFA9F78C1A0D8F6300EBE77D /* purpleitemsbutton@2x.png */,
+				29804F251A1DA91200806253 /* speedupicon.png */,
+				29804F261A1DA91200806253 /* speedupicon@2x.png */,
 				CFA9F78F1A0D8F6300EBE77D /* speedupitemicon.png */,
 				CFA9F7901A0D8F6300EBE77D /* speedupitemicon@2x.png */,
 				CFA9F7911A0D8F6300EBE77D /* yellowitemsbutton.png */,
@@ -22575,6 +22585,7 @@
 				CF0CF456196F452900ECD301 /* chatinactivemiddle.png in Resources */,
 				CF0CF457196F452900ECD301 /* greywhite3.png in Resources */,
 				4C16FF1A19CE03AE00F9FC1E /* goosplashicon@2x.png in Resources */,
+				29804F281A1DA91200806253 /* speedupicon.png in Resources */,
 				CF0CF458196F452900ECD301 /* bubble_top_right.png in Resources */,
 				CF0CF459196F452900ECD301 /* enhanceaddpercent@2x.png in Resources */,
 				DAAD3E0319C8D7E700557698 /* waterbomb@2x.png in Resources */,
@@ -22829,6 +22840,7 @@
 				CF0CF53B196F452900ECD301 /* Scientist1Breath00@2x.png in Resources */,
 				CF0CF53C196F452900ECD301 /* oilupgradebutton.png in Resources */,
 				DA173A3E19CA4230005236C0 /* forcefieldglow@2x.png in Resources */,
+				29804F2B1A1DA91200806253 /* speedupicon@2x.png in Resources */,
 				CF0CF53D196F452900ECD301 /* Scientist2Breath01@2x.png in Resources */,
 				CF0CF53E196F452900ECD301 /* timerbgmiddlemobster.png in Resources */,
 				CF0CF53F196F452900ECD301 /* commandcenterunlocksbg.png in Resources */,
@@ -23880,6 +23892,7 @@
 				CF134A8F18A5E4B500D7D700 /* FatBoy5Move12@2x.png in Resources */,
 				CF6CA6B419DA49090075C98C /* Chicken1T1Character.png in Resources */,
 				CF37379F19E3767600CB16E3 /* obtimergreencap.png in Resources */,
+				29804F271A1DA91200806253 /* speedupicon.png in Resources */,
 				CFC8B59918E431CF00CFD652 /* menuresourcebg.png in Resources */,
 				CFF5DC8219514FA50019EB2B /* hiringlocked.png in Resources */,
 				CFF390811828BF890010A3BE /* RequestsFacebookCell.xib in Resources */,
@@ -26748,6 +26761,7 @@
 				4C16FEE619CE03A200F9FC1E /* lightpoison.png in Resources */,
 				CF63F7D217ED3DB900FEBAA9 /* combo11a.aif in Resources */,
 				CF63F7D417ED3DB900FEBAA9 /* combo12a.aif in Resources */,
+				29804F2A1A1DA91200806253 /* speedupicon@2x.png in Resources */,
 				CFFBDF6E18ACA3D90090CA9A /* Scientist2Breath12@2x.png in Resources */,
 				CF746147196B61C5002D6AE6 /* fightonbubblebutton.png in Resources */,
 				CFF646F6195D319C00C43641 /* blacksquareoverlay@2x.png in Resources */,
@@ -26918,6 +26932,7 @@
 				CF481A0D19F7217F00041486 /* timerbgmiddle@2x.png in Resources */,
 				CFA729251A0B037900FF6031 /* watereventtag@2x.png in Resources */,
 				CF481A0E19F7217F00041486 /* finishheal@2x.png in Resources */,
+				29804F291A1DA91200806253 /* speedupicon.png in Resources */,
 				CF481A0F19F7217F00041486 /* Zark1T1Card.png in Resources */,
 				CF481A1019F7217F00041486 /* diamondribbon.png in Resources */,
 				CF481A1119F7217F00041486 /* Scientist4Blink12@2x.png in Resources */,
@@ -28507,6 +28522,7 @@
 				CF481FFF19F7217F00041486 /* timerbgrightcap.png in Resources */,
 				CF48200019F7217F00041486 /* bluenotificationbubble@2x.png in Resources */,
 				CF48200119F7217F00041486 /* nameinput@2x.png in Resources */,
+				29804F2C1A1DA91200806253 /* speedupicon@2x.png in Resources */,
 				CF48200219F7217F00041486 /* loststickerhead.png in Resources */,
 				CF48200319F7217F00041486 /* Scientist2Blink05@2x.png in Resources */,
 				CF48200419F7217F00041486 /* sendchat.png in Resources */,

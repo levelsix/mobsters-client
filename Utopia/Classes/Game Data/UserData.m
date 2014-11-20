@@ -513,6 +513,7 @@
   NSInteger idx = [self.feeders indexOfObject:item];
   
   MSDate *startDate = item.expectedStartTime;
+  // Use end time of previous item as final say, in case there are clan helps and speedups going on
   if (idx != NSNotFound && idx > 0) {
     startDate = [self expectedEndTimeForItem:self.feeders[idx-1]];
   }
@@ -525,6 +526,13 @@
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.enhanceClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.enhanceClanHelpConstants.percentRemovedPerHelp));
     secsToDock = numHelps*secsToDockPerHelp;
+  }
+  
+  // Account for speedups
+  MSDate *initialStartDate = [[self.feeders firstObject] expectedStartTime];
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeEnhanceTime userDataUuid:self.baseMonster.userMonsterUuid earliestDate:initialStartDate];
+  if (speedupMins > 0) {
+    secsToDock += speedupMins*60;
   }
   
   // Now we need to go through list up till idx to see how many seconds can be docked off this
@@ -610,6 +618,12 @@
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.evolveClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.evolveClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeEvolve userDataUuid:self.userMonsterUuid1 earliestDate:self.startTime];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
   }
   
   return [self.startTime dateByAddingTimeInterval:seconds];
@@ -900,7 +914,7 @@
   }
   
   // Account for speedups
-  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid];
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeUpgradeStruct userDataUuid:self.userStructUuid earliestDate:self.purchaseTime];
   if (speedupMins > 0) {
     seconds -= speedupMins*60;
   }
@@ -977,8 +991,17 @@
 }
 
 - (MSDate *) endTime {
+  GameState *gs = [GameState sharedGameState];
   ObstacleProto *op = self.staticObstacle;
-  return [self.removalTime dateByAddingTimeInterval:op.secondsToRemove];
+  int seconds = op.secondsToRemove;
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeRemoveObstacle userDataUuid:self.userObstacleUuid earliestDate:self.removalTime];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
+  }
+  
+  return [self.removalTime dateByAddingTimeInterval:seconds];
 }
 
 @end
@@ -1409,6 +1432,12 @@
   if (numHelps > 0) {
     int secsToDockPerHelp = MAX(gl.miniJobClanHelpConstants.amountRemovedPerHelp*60, roundf(seconds*gl.miniJobClanHelpConstants.percentRemovedPerHelp));
     seconds -= numHelps*secsToDockPerHelp;
+  }
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeMiniJob userDataUuid:self.userMiniJobUuid earliestDate:self.timeStarted];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
   }
   
   return [self.timeStarted dateByAddingTimeInterval:seconds];

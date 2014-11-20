@@ -51,6 +51,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *finishSpinner;
 @property (nonatomic, retain) IBOutlet UIView *finishLabelsView;
 

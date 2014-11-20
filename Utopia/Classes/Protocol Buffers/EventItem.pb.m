@@ -1441,5 +1441,1210 @@ BOOL TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusIsValidValue(Tr
 }
 @end
 
+@interface RemoveUserItemUsedRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableUserItemUsedUuidList;
+@end
+
+@implementation RemoveUserItemUsedRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableUserItemUsedUuidList;
+@dynamic userItemUsedUuidList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RemoveUserItemUsedRequestProto* defaultRemoveUserItemUsedRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RemoveUserItemUsedRequestProto class]) {
+    defaultRemoveUserItemUsedRequestProtoInstance = [[RemoveUserItemUsedRequestProto alloc] init];
+  }
+}
++ (RemoveUserItemUsedRequestProto*) defaultInstance {
+  return defaultRemoveUserItemUsedRequestProtoInstance;
+}
+- (RemoveUserItemUsedRequestProto*) defaultInstance {
+  return defaultRemoveUserItemUsedRequestProtoInstance;
+}
+- (NSArray *)userItemUsedUuidList {
+  return mutableUserItemUsedUuidList;
+}
+- (NSString*)userItemUsedUuidAtIndex:(NSUInteger)index {
+  return [mutableUserItemUsedUuidList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.userItemUsedUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.userItemUsedUuidList.count;
+    [self.userItemUsedUuidList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RemoveUserItemUsedRequestProto*) parseFromData:(NSData*) data {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromData:data] build];
+}
++ (RemoveUserItemUsedRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RemoveUserItemUsedRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RemoveUserItemUsedRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedRequestProto*)[[[RemoveUserItemUsedRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedRequestProto_Builder*) builder {
+  return [[RemoveUserItemUsedRequestProto_Builder alloc] init];
+}
++ (RemoveUserItemUsedRequestProto_Builder*) builderWithPrototype:(RemoveUserItemUsedRequestProto*) prototype {
+  return [[RemoveUserItemUsedRequestProto builder] mergeFrom:prototype];
+}
+- (RemoveUserItemUsedRequestProto_Builder*) builder {
+  return [RemoveUserItemUsedRequestProto builder];
+}
+- (RemoveUserItemUsedRequestProto_Builder*) toBuilder {
+  return [RemoveUserItemUsedRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.userItemUsedUuidList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userItemUsedUuid", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RemoveUserItemUsedRequestProto class]]) {
+    return NO;
+  }
+  RemoveUserItemUsedRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.userItemUsedUuidList isEqualToArray:otherMessage.userItemUsedUuidList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.userItemUsedUuidList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface RemoveUserItemUsedRequestProto_Builder()
+@property (strong) RemoveUserItemUsedRequestProto* result;
+@end
+
+@implementation RemoveUserItemUsedRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RemoveUserItemUsedRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) clear {
+  self.result = [[RemoveUserItemUsedRequestProto alloc] init];
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) clone {
+  return [RemoveUserItemUsedRequestProto builderWithPrototype:result];
+}
+- (RemoveUserItemUsedRequestProto*) defaultInstance {
+  return [RemoveUserItemUsedRequestProto defaultInstance];
+}
+- (RemoveUserItemUsedRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RemoveUserItemUsedRequestProto*) buildPartial {
+  RemoveUserItemUsedRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFrom:(RemoveUserItemUsedRequestProto*) other {
+  if (other == [RemoveUserItemUsedRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserItemUsedUuidList.count > 0) {
+    if (result.mutableUserItemUsedUuidList == nil) {
+      result.mutableUserItemUsedUuidList = [[NSMutableArray alloc] initWithArray:other.mutableUserItemUsedUuidList];
+    } else {
+      [result.mutableUserItemUsedUuidList addObjectsFromArray:other.mutableUserItemUsedUuidList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RemoveUserItemUsedRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addUserItemUsedUuid:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RemoveUserItemUsedRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)userItemUsedUuidList {
+  return result.mutableUserItemUsedUuidList;
+}
+- (NSString*)userItemUsedUuidAtIndex:(NSUInteger)index {
+  return [result userItemUsedUuidAtIndex:index];
+}
+- (RemoveUserItemUsedRequestProto_Builder *)addUserItemUsedUuid:(NSString*)value {
+  if (result.mutableUserItemUsedUuidList == nil) {
+    result.mutableUserItemUsedUuidList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUserItemUsedUuidList addObject:value];
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder *)addAllUserItemUsedUuid:(NSArray *)array {
+  if (result.mutableUserItemUsedUuidList == nil) {
+    result.mutableUserItemUsedUuidList = [NSMutableArray array];
+  }
+  [result.mutableUserItemUsedUuidList addObjectsFromArray:array];
+  return self;
+}
+- (RemoveUserItemUsedRequestProto_Builder *)clearUserItemUsedUuid {
+  result.mutableUserItemUsedUuidList = nil;
+  return self;
+}
+@end
+
+@interface RemoveUserItemUsedResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus status;
+@end
+
+@implementation RemoveUserItemUsedResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess;
+  }
+  return self;
+}
+static RemoveUserItemUsedResponseProto* defaultRemoveUserItemUsedResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RemoveUserItemUsedResponseProto class]) {
+    defaultRemoveUserItemUsedResponseProtoInstance = [[RemoveUserItemUsedResponseProto alloc] init];
+  }
+}
++ (RemoveUserItemUsedResponseProto*) defaultInstance {
+  return defaultRemoveUserItemUsedResponseProtoInstance;
+}
+- (RemoveUserItemUsedResponseProto*) defaultInstance {
+  return defaultRemoveUserItemUsedResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (RemoveUserItemUsedResponseProto*) parseFromData:(NSData*) data {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromData:data] build];
+}
++ (RemoveUserItemUsedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RemoveUserItemUsedResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RemoveUserItemUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RemoveUserItemUsedResponseProto*)[[[RemoveUserItemUsedResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RemoveUserItemUsedResponseProto_Builder*) builder {
+  return [[RemoveUserItemUsedResponseProto_Builder alloc] init];
+}
++ (RemoveUserItemUsedResponseProto_Builder*) builderWithPrototype:(RemoveUserItemUsedResponseProto*) prototype {
+  return [[RemoveUserItemUsedResponseProto builder] mergeFrom:prototype];
+}
+- (RemoveUserItemUsedResponseProto_Builder*) builder {
+  return [RemoveUserItemUsedResponseProto builder];
+}
+- (RemoveUserItemUsedResponseProto_Builder*) toBuilder {
+  return [RemoveUserItemUsedResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[RemoveUserItemUsedResponseProto class]]) {
+    return NO;
+  }
+  RemoveUserItemUsedResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value) {
+  switch (value) {
+    case RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess:
+    case RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RemoveUserItemUsedResponseProto_Builder()
+@property (strong) RemoveUserItemUsedResponseProto* result;
+@end
+
+@implementation RemoveUserItemUsedResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[RemoveUserItemUsedResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) clear {
+  self.result = [[RemoveUserItemUsedResponseProto alloc] init];
+  return self;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) clone {
+  return [RemoveUserItemUsedResponseProto builderWithPrototype:result];
+}
+- (RemoveUserItemUsedResponseProto*) defaultInstance {
+  return [RemoveUserItemUsedResponseProto defaultInstance];
+}
+- (RemoveUserItemUsedResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RemoveUserItemUsedResponseProto*) buildPartial {
+  RemoveUserItemUsedResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFrom:(RemoveUserItemUsedResponseProto*) other {
+  if (other == [RemoveUserItemUsedResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RemoveUserItemUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus value = (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus)[input readEnum];
+        if (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RemoveUserItemUsedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) status {
+  return result.status;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) setStatus:(RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RemoveUserItemUsedResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess;
+  return self;
+}
+@end
+
+@interface TradeItemForResourcesRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) PBAppendableArray * mutableItemIdsUsedList;
+@property (strong) NSMutableArray * mutableNuUserItemsList;
+@end
+
+@implementation TradeItemForResourcesRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableItemIdsUsedList;
+@dynamic itemIdsUsedList;
+@synthesize mutableNuUserItemsList;
+@dynamic nuUserItemsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [TradeItemForResourcesRequestProto class]) {
+    defaultTradeItemForResourcesRequestProtoInstance = [[TradeItemForResourcesRequestProto alloc] init];
+  }
+}
++ (TradeItemForResourcesRequestProto*) defaultInstance {
+  return defaultTradeItemForResourcesRequestProtoInstance;
+}
+- (TradeItemForResourcesRequestProto*) defaultInstance {
+  return defaultTradeItemForResourcesRequestProtoInstance;
+}
+- (PBArray *)itemIdsUsedList {
+  return mutableItemIdsUsedList;
+}
+- (int32_t)itemIdsUsedAtIndex:(NSUInteger)index {
+  return [mutableItemIdsUsedList int32AtIndex:index];
+}
+- (NSArray *)nuUserItemsList {
+  return mutableNuUserItemsList;
+}
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index {
+  return [mutableNuUserItemsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  const NSUInteger itemIdsUsedListCount = self.itemIdsUsedList.count;
+  if (itemIdsUsedListCount > 0) {
+    const int32_t *values = (const int32_t *)self.itemIdsUsedList.data;
+    for (NSUInteger i = 0; i < itemIdsUsedListCount; ++i) {
+      [output writeInt32:2 value:values[i]];
+    }
+  }
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:3 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.itemIdsUsedList.count;
+    const int32_t *values = (const int32_t *)self.itemIdsUsedList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt32SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(3, element);
+  }];
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (TradeItemForResourcesRequestProto*) parseFromData:(NSData*) data {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromData:data] build];
+}
++ (TradeItemForResourcesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromInputStream:input] build];
+}
++ (TradeItemForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TradeItemForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesRequestProto*)[[[TradeItemForResourcesRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesRequestProto_Builder*) builder {
+  return [[TradeItemForResourcesRequestProto_Builder alloc] init];
+}
++ (TradeItemForResourcesRequestProto_Builder*) builderWithPrototype:(TradeItemForResourcesRequestProto*) prototype {
+  return [[TradeItemForResourcesRequestProto builder] mergeFrom:prototype];
+}
+- (TradeItemForResourcesRequestProto_Builder*) builder {
+  return [TradeItemForResourcesRequestProto builder];
+}
+- (TradeItemForResourcesRequestProto_Builder*) toBuilder {
+  return [TradeItemForResourcesRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.itemIdsUsedList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemIdsUsed", obj];
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"nuUserItems"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[TradeItemForResourcesRequestProto class]]) {
+    return NO;
+  }
+  TradeItemForResourcesRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.itemIdsUsedList isEqualToArray:otherMessage.itemIdsUsedList] &&
+      [self.nuUserItemsList isEqualToArray:otherMessage.nuUserItemsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.itemIdsUsedList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
+  [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface TradeItemForResourcesRequestProto_Builder()
+@property (strong) TradeItemForResourcesRequestProto* result;
+@end
+
+@implementation TradeItemForResourcesRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[TradeItemForResourcesRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TradeItemForResourcesRequestProto_Builder*) clear {
+  self.result = [[TradeItemForResourcesRequestProto alloc] init];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) clone {
+  return [TradeItemForResourcesRequestProto builderWithPrototype:result];
+}
+- (TradeItemForResourcesRequestProto*) defaultInstance {
+  return [TradeItemForResourcesRequestProto defaultInstance];
+}
+- (TradeItemForResourcesRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TradeItemForResourcesRequestProto*) buildPartial {
+  TradeItemForResourcesRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (TradeItemForResourcesRequestProto_Builder*) mergeFrom:(TradeItemForResourcesRequestProto*) other {
+  if (other == [TradeItemForResourcesRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableItemIdsUsedList.count > 0) {
+    if (result.mutableItemIdsUsedList == nil) {
+      result.mutableItemIdsUsedList = [other.mutableItemIdsUsedList copy];
+    } else {
+      [result.mutableItemIdsUsedList appendArray:other.mutableItemIdsUsedList];
+    }
+  }
+  if (other.mutableNuUserItemsList.count > 0) {
+    if (result.mutableNuUserItemsList == nil) {
+      result.mutableNuUserItemsList = [[NSMutableArray alloc] initWithArray:other.mutableNuUserItemsList];
+    } else {
+      [result.mutableNuUserItemsList addObjectsFromArray:other.mutableNuUserItemsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TradeItemForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addItemIdsUsed:[input readInt32]];
+        break;
+      }
+      case 26: {
+        UserItemProto_Builder* subBuilder = [UserItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNuUserItems:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (PBAppendableArray *)itemIdsUsedList {
+  return result.mutableItemIdsUsedList;
+}
+- (int32_t)itemIdsUsedAtIndex:(NSUInteger)index {
+  return [result itemIdsUsedAtIndex:index];
+}
+- (TradeItemForResourcesRequestProto_Builder *)addItemIdsUsed:(int32_t)value {
+  if (result.mutableItemIdsUsedList == nil) {
+    result.mutableItemIdsUsedList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableItemIdsUsedList addInt32:value];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder *)addAllItemIdsUsed:(NSArray *)array {
+  if (result.mutableItemIdsUsedList == nil) {
+    result.mutableItemIdsUsedList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableItemIdsUsedList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder *)setItemIdsUsedValues:(const int32_t *)values count:(NSUInteger)count {
+  result.mutableItemIdsUsedList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder *)clearItemIdsUsed {
+  result.mutableItemIdsUsedList = nil;
+  return self;
+}
+- (NSMutableArray *)nuUserItemsList {
+  return result.mutableNuUserItemsList;
+}
+- (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index {
+  return [result nuUserItemsAtIndex:index];
+}
+- (TradeItemForResourcesRequestProto_Builder *)addNuUserItems:(UserItemProto*)value {
+  if (result.mutableNuUserItemsList == nil) {
+    result.mutableNuUserItemsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableNuUserItemsList addObject:value];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder *)addAllNuUserItems:(NSArray *)array {
+  if (result.mutableNuUserItemsList == nil) {
+    result.mutableNuUserItemsList = [NSMutableArray array];
+  }
+  [result.mutableNuUserItemsList addObjectsFromArray:array];
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder *)clearNuUserItems {
+  result.mutableNuUserItemsList = nil;
+  return self;
+}
+@end
+
+@interface TradeItemForResourcesResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
+@end
+
+@implementation TradeItemForResourcesResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
+  }
+  return self;
+}
+static TradeItemForResourcesResponseProto* defaultTradeItemForResourcesResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [TradeItemForResourcesResponseProto class]) {
+    defaultTradeItemForResourcesResponseProtoInstance = [[TradeItemForResourcesResponseProto alloc] init];
+  }
+}
++ (TradeItemForResourcesResponseProto*) defaultInstance {
+  return defaultTradeItemForResourcesResponseProtoInstance;
+}
+- (TradeItemForResourcesResponseProto*) defaultInstance {
+  return defaultTradeItemForResourcesResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (TradeItemForResourcesResponseProto*) parseFromData:(NSData*) data {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromData:data] build];
+}
++ (TradeItemForResourcesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromInputStream:input] build];
+}
++ (TradeItemForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TradeItemForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TradeItemForResourcesResponseProto*)[[[TradeItemForResourcesResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TradeItemForResourcesResponseProto_Builder*) builder {
+  return [[TradeItemForResourcesResponseProto_Builder alloc] init];
+}
++ (TradeItemForResourcesResponseProto_Builder*) builderWithPrototype:(TradeItemForResourcesResponseProto*) prototype {
+  return [[TradeItemForResourcesResponseProto builder] mergeFrom:prototype];
+}
+- (TradeItemForResourcesResponseProto_Builder*) builder {
+  return [TradeItemForResourcesResponseProto builder];
+}
+- (TradeItemForResourcesResponseProto_Builder*) toBuilder {
+  return [TradeItemForResourcesResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[TradeItemForResourcesResponseProto class]]) {
+    return NO;
+  }
+  TradeItemForResourcesResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value) {
+  switch (value) {
+    case TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess:
+    case TradeItemForResourcesResponseProto_TradeItemForResourcesStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface TradeItemForResourcesResponseProto_Builder()
+@property (strong) TradeItemForResourcesResponseProto* result;
+@end
+
+@implementation TradeItemForResourcesResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[TradeItemForResourcesResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TradeItemForResourcesResponseProto_Builder*) clear {
+  self.result = [[TradeItemForResourcesResponseProto alloc] init];
+  return self;
+}
+- (TradeItemForResourcesResponseProto_Builder*) clone {
+  return [TradeItemForResourcesResponseProto builderWithPrototype:result];
+}
+- (TradeItemForResourcesResponseProto*) defaultInstance {
+  return [TradeItemForResourcesResponseProto defaultInstance];
+}
+- (TradeItemForResourcesResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TradeItemForResourcesResponseProto*) buildPartial {
+  TradeItemForResourcesResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (TradeItemForResourcesResponseProto_Builder*) mergeFrom:(TradeItemForResourcesResponseProto*) other {
+  if (other == [TradeItemForResourcesResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TradeItemForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TradeItemForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value = (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus)[input readEnum];
+        if (TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (TradeItemForResourcesResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status {
+  return result.status;
+}
+- (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (TradeItemForResourcesResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -9,15 +9,15 @@
             <connections>
                 <outlet property="bottomView" destination="lLQ-Y8-Jrv" id="KIM-AD-lEI"/>
                 <outlet property="descriptionLabel" destination="G07-iK-rKY" id="7nc-0Z-sF6"/>
-                <outlet property="freeLabel" destination="BU9-1Y-48R" id="4oA-vd-tpk"/>
+                <outlet property="freeLabel" destination="Y0t-sN-BwP" id="z0o-ay-vlp"/>
                 <outlet property="gemButtonView" destination="wCh-g2-aoH" id="d6L-zy-dyw"/>
-                <outlet property="gemCostLabel" destination="gZC-Sm-KaL" id="UjU-me-j4I"/>
-                <outlet property="gemLabelsView" destination="epT-wE-YLC" id="Iq4-Ko-Uif"/>
+                <outlet property="gemLabelsView" destination="xDP-59-yc7" id="TNo-c8-xmw"/>
                 <outlet property="helpButtonView" destination="rkw-ci-ar2" id="Wfd-a8-QRz"/>
                 <outlet property="middleView" destination="iru-fn-fx4" id="bjy-5f-R4U"/>
                 <outlet property="oilButtonView" destination="b2z-o1-bgd" id="yFd-4m-zG0"/>
                 <outlet property="oilCostLabel" destination="ulj-aS-2Jt" id="kTA-do-y4m"/>
                 <outlet property="oilLabelsView" destination="Iyn-ro-tEN" id="tCJ-L0-MwT"/>
+                <outlet property="speedupIcon" destination="cna-OR-FiR" id="uei-8m-wq4"/>
                 <outlet property="spinner" destination="MAc-zk-rfM" id="6YB-QV-eWi"/>
                 <outlet property="timeLabel" destination="hAv-7a-wY7" id="ujl-Aq-tBi"/>
                 <outlet property="view" destination="Ojm-yd-v3e" id="pmy-Yf-QJa"/>
@@ -118,48 +118,23 @@
                                         <action selector="speedupClicked:" destination="-1" eventType="touchUpInside" id="Djr-Pu-IIz"/>
                                     </connections>
                                 </button>
-                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="epT-wE-YLC">
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="xDP-59-yc7">
                                     <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Obo-NZ-CXC" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="20" y="2" width="40" height="17"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupbigicon.png" id="cna-OR-FiR">
+                                            <rect key="frame" x="29" y="10" width="23" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Y0t-sN-BwP" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="15" y="5" width="50" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="BU9-1Y-48R" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="21" y="13" width="37" height="23"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="L0o-Bh-bfX">
-                                            <rect key="frame" x="20" y="16" width="40" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="fEJ-E3-Q2O">
-                                                    <rect key="frame" x="0.0" y="2" width="14" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="gZC-Sm-KaL" customClass="NiceFontLabel12B">
-                                                    <rect key="frame" x="17" y="-2" width="50" height="23"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -262,13 +237,13 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="27"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="evolveequals.png" width="19" height="16"/>
         <image name="evolveplus.png" width="19" height="19"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="orangemenuoption.png" width="80" height="40"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
+        <image name="speedupbigicon.png" width="23" height="18"/>
         <image name="yellowmenuoption.png" width="80" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

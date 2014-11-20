@@ -12,6 +12,8 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#import "ItemSelectViewController.h"
+
 #define SCROLLVIEW_INSET 3
 #define CELL_SPACING 3
 #define MINIMIZED_CELLS_SHOWN 2
@@ -54,6 +56,7 @@
   if (gemCost) {
     self.freeLabel.hidden = YES;
     self.gemsLabel.superview.hidden = NO;
+    self.speedupIcon.hidden = NO;
     
     self.gemsLabel.text = [Globals commafyNumber:gemCost];
     [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
@@ -64,6 +67,7 @@
   } else {
     self.freeLabel.hidden = NO;
     self.gemsLabel.superview.hidden = YES;
+    self.speedupIcon.hidden = YES;
     
     self.helpView.hidden = YES;
     self.finishView.hidden = NO;
@@ -99,6 +103,9 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   
+  _dummyObjects = [NSMutableArray array];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearDummyObjects) name:ITEM_SELECT_CLOSED_NOTIFICATION object:nil];
+  
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_MONSTER_NOTIFICATION object:nil];
@@ -128,6 +135,10 @@
     
     [tc updateForTimerAction:ta];
   }
+}
+
+- (void) clearDummyObjects {
+  [_dummyObjects removeAllObjects];
 }
 
 #pragma mark - Loading Table
@@ -334,11 +345,11 @@
     sender = [sender superview];
   }
   
-  if (sender) {
+  if (sender && [ItemSelectViewController canCreateNewVc]) {
     NSInteger idx = [self.timerCells indexOfObject:sender];
     if (idx < self.timerActionsArray.count) {
       TimerAction *ta = self.timerActionsArray[idx];
-      [ta speedupClicked];
+      [_dummyObjects addObjectsFromArray:[ta speedupClicked]];
     }
   }
 }

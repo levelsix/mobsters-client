@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimerViewController">
@@ -56,26 +57,6 @@
                                 <action selector="speedupClicked:" destination="-1" eventType="touchUpInside" id="Uea-8f-5BV"/>
                             </connections>
                         </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="kOZ-N5-moz" userLabel="Gems View">
-                            <rect key="frame" x="2" y="4" width="36" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8dF-6T-R1u" customClass="NiceFontLabel8">
-                                    <rect key="frame" x="13" y="-4" width="30" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="diamond.png" id="gnC-RM-2iR">
-                                    <rect key="frame" x="0.0" y="2" width="11" height="11"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREE!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hBZ-pn-x8P" customClass="NiceFontLabel8">
                             <rect key="frame" x="1" y="2" width="40" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -85,6 +66,10 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupicon.png" id="aSK-ue-BGk">
+                            <rect key="frame" x="13" y="5" width="15" height="12"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -113,9 +98,9 @@
             <connections>
                 <outlet property="finishView" destination="JYC-WL-blq" id="AWu-Vk-A9h"/>
                 <outlet property="freeLabel" destination="hBZ-pn-x8P" id="Kai-GQ-lhE"/>
-                <outlet property="gemsLabel" destination="8dF-6T-R1u" id="Hyz-cD-5ZM"/>
                 <outlet property="helpView" destination="Hpf-BX-ODP" id="4Ta-tr-d8H"/>
                 <outlet property="progressBar" destination="fmS-z3-bxD" id="bxi-RM-mdS"/>
+                <outlet property="speedupIcon" destination="aSK-ue-BGk" id="rge-jk-3BX"/>
                 <outlet property="timeLabel" destination="KzQ-mg-j8b" id="Dug-Kn-KQv"/>
                 <outlet property="titleLabel" destination="3BW-0A-IVU" id="yVa-99-Bnf"/>
             </connections>
@@ -152,10 +137,10 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="27"/>
         <image name="obtimerbg.png" width="79" height="13"/>
         <image name="obtimergreencap.png" width="4" height="13"/>
         <image name="obtimergreenmiddle.png" width="1" height="13"/>
+        <image name="speedupicon.png" width="15" height="12"/>
         <image name="timerfinish.png" width="41" height="23"/>
         <image name="timergethelp.png" width="41" height="23"/>
     </resources>

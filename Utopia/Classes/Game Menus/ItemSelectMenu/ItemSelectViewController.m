@@ -88,6 +88,19 @@
 
 @implementation ItemSelectViewController
 
+static BOOL _instanceOpened = NO;
+
+- (id) init {
+  if (!_instanceOpened) {
+    return [super init];
+  }
+  return nil;
+}
+
++ (BOOL) canCreateNewVc {
+  return !_instanceOpened;
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
@@ -100,6 +113,9 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   [self reloadData];
+  
+  _instanceOpened = YES;
+  [[NSNotificationCenter defaultCenter] postNotificationName:ITEM_SELECT_OPENED_NOTIFICATION object:self];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -125,6 +141,12 @@
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
+  
+  [self.delegate itemSelectClosed:self];
+  self.delegate = nil;
+  
+  _instanceOpened = NO;
+  [[NSNotificationCenter defaultCenter] postNotificationName:ITEM_SELECT_CLOSED_NOTIFICATION object:self];
 }
 
 #pragma mark - UITableView dataSource/delegate

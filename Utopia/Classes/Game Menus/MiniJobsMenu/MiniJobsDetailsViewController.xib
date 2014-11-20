@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniJobsDetailsViewController">
@@ -391,48 +392,23 @@ before starting another.</string>
                                 <action selector="finishClicked:" destination="-1" eventType="touchUpInside" id="hz0-Hl-Imm"/>
                             </connections>
                         </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="1QF-Ez-QH2">
-                            <rect key="frame" x="0.0" y="14" width="65" height="29"/>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="y3S-ae-ldw">
+                            <rect key="frame" x="0.0" y="14" width="65" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="zbb-Jl-h3f" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="13" y="-2" width="40" height="17"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="xCo-g6-VfQ" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="7" y="-1" width="50" height="27"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Onx-ZW-B1I" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="12" y="8" width="40" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="WlD-IU-aTY">
-                                    <rect key="frame" x="15" y="11" width="36" height="16"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XbL-5j-2AA" customClass="NiceFontLabel12">
-                                            <rect key="frame" x="13" y="-4" width="30" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="diamond.png" id="QdV-vb-0HM">
-                                            <rect key="frame" x="0.0" y="2" width="11" height="11"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="speedupbigicon.png" id="8mH-8q-RNm">
+                                    <rect key="frame" x="22" y="5" width="21" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -497,11 +473,10 @@ before starting another.</string>
                 <outlet property="completeLabelsView" destination="Bfl-oN-UwQ" id="eZw-XH-BVv"/>
                 <outlet property="completeSpinner" destination="Q8B-op-8rH" id="e77-nZ-QqP"/>
                 <outlet property="completeView" destination="bI3-9z-p5T" id="kTW-7j-hin"/>
-                <outlet property="finishLabelsView" destination="1QF-Ez-QH2" id="1d8-wB-1Cb"/>
+                <outlet property="finishLabelsView" destination="y3S-ae-ldw" id="0uv-9D-tzj"/>
                 <outlet property="finishSpinner" destination="6vz-oy-dke" id="c5e-3b-bB7"/>
                 <outlet property="finishView" destination="u9R-vH-RTp" id="A5z-ck-22w"/>
-                <outlet property="freeLabel" destination="Onx-ZW-B1I" id="nfP-C7-MXp"/>
-                <outlet property="gemCostLabel" destination="XbL-5j-2AA" id="YKg-Hj-lQb"/>
+                <outlet property="freeLabel" destination="xCo-g6-VfQ" id="Ygs-ec-NHl"/>
                 <outlet property="inProgressLabel" destination="I0V-Q5-hyj" id="21f-Kf-GAd"/>
                 <outlet property="nameLabel" destination="wvk-ep-MTW" id="zZD-w7-RoW"/>
                 <outlet property="timeLabel" destination="E1W-HT-KjH" id="URN-PD-Q22"/>
@@ -512,7 +487,6 @@ before starting another.</string>
     <resources>
         <image name="attackbarcapmj.png" width="3" height="8"/>
         <image name="attackbarmiddlemj.png" width="1" height="8"/>
-        <image name="diamond.png" width="29" height="27"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagebutton.png" width="65" height="29"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>
@@ -526,6 +500,7 @@ before starting another.</string>
         <image name="mjrequiredbg.png" width="87" height="8"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="sortedbyarrow.png" width="10" height="6"/>
+        <image name="speedupbigicon.png" width="23" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

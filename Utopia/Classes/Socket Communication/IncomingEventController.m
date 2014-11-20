@@ -303,6 +303,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSTradeItemForSpeedUpsEvent:
       responseClass = [TradeItemForSpeedUpsResponseProto class];
       break;
+    case EventProtocolResponseSRemoveUserItemUsedEvent:
+      responseClass = [RemoveUserItemUsedResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -715,6 +718,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs removeNonFullUserUpdatesForTag:tag];
       
       [gs.clanHelpUtil cleanupRogueClanHelps];
+      [gs.itemUtil cleanupRogueItemUsages];
       
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
@@ -1339,6 +1343,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+- (void) handleRemoveUserItemUsedResponseProto:(FullEvent *)fe {
+  RemoveUserItemUsedResponseProto *proto = (RemoveUserItemUsedResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Remove user item usage response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to remove user item usages."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 #pragma mark - Misc
 
 - (void) handleDevResponseProto:(FullEvent *)fe {
@@ -1349,9 +1369,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == DevResponseProto_DevStatusSuccess) {
-#warning add back..
-//    [gs addToMyMonsters:proto.fumpList];
-//    [gs.itemUtil addToMyItems:@[proto.uip]];
+    [gs addToMyMonsters:proto.fumpList];
+    
+    if (proto.hasUip) {
+      [gs.itemUtil addToMyItems:@[proto.uip]];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
