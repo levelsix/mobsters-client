@@ -19,11 +19,7 @@
 
 #define BUTTON_CLICKED_LEEWAY 30
 
-#ifdef APPSTORE
-#define LNLog(...)
-#else
-#define LNLog(...) NSLog(__VA_ARGS__)
-#endif
+#define LNLog(...) if ([Globals isLoggingEnabled]) NSLog(__VA_ARGS__)
 
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
@@ -85,6 +81,8 @@
 #define MUTED_PLAYERS_KEY @"MutedPlayersKey"
 
 #define APP_OPEN_KEY @"AppOpenKey"
+
+#define LOGGING_ENABLED_KEY @"LoggingEnabledKey"
 
 #ifdef MOBSTERS
 #define GAME_NAME @"Mob Squad"
@@ -374,6 +372,10 @@
 - (void) muteUserUuid:(NSString *)userUuid;
 - (BOOL) isUserUuidMuted:(NSString *)userUuid;
 - (void) unmuteAllPlayers;
+
++ (void) turnOnLogging;
++ (void) toggleLogging;
++ (BOOL) isLoggingEnabled;
 
 @end
 

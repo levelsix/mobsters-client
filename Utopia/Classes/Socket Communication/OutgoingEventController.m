@@ -37,6 +37,7 @@
 #define GET_MONSTER_CODE @"magicmob"
 #define GET_ITEM_CODE @"instaitem"
 #define SKILL_CODE @"skill"
+#define LOG_TOGGLE_CODE @"togglelog"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -1020,6 +1021,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:UNMUTE_CODE]) {
         msg = @"Unmuted all players.";
         [gl unmuteAllPlayers];
+      } else if ([code isEqualToString:LOG_TOGGLE_CODE]) {
+        [Globals toggleLogging];
+        msg = [NSString stringWithFormat:@"Logging turned %@.", [Globals isLoggingEnabled] ? @"on" : @"off"];
       }
       
       else if (!msg) {

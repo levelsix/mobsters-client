@@ -190,9 +190,7 @@
   [self beginGuideGreetingPhase];
 #endif
   
-#ifndef APPSTORE
   [self createCloseButton];
-#endif
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
 }
@@ -384,14 +382,20 @@
 
 #pragma mark - Skipping Tutorial
 
+static int timesCloseClicked = 0;
+
 - (void) createCloseButton {
   self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+#ifndef APPSTORE
   [self.closeButton setImage:[Globals imageNamed:@"close1.png"] forState:UIControlStateNormal];
+#endif
   self.closeButton.frame = CGRectMake(4, 4, 30, 30);
   [self.gameViewController.view addSubview:self.closeButton];
   [self.closeButton addTarget:self action:@selector(skipToNamePhase) forControlEvents:UIControlEventTouchUpInside];
   
   [self performSelector:@selector(removeCloseButton) withObject:nil afterDelay:10.f];
+  
+  timesCloseClicked = 0;
 }
 
 - (void) removeCloseButton {
@@ -399,7 +403,18 @@
 }
 
 - (void) skipToNamePhase {
-  [GenericPopupController displayConfirmationWithDescription:@"Would you like to skip the tutorial?" title:@"Skip Tutorial?" okayButton:@"Skip" cancelButton:@"Cancel" target:self selector:@selector(doSkip)];
+  timesCloseClicked++;
+  
+#ifdef APPSTORE
+  int timesRequired = 3;
+#else
+  int timesRequired = 1;
+#endif
+  if (timesCloseClicked >= timesRequired) {
+    [Globals turnOnLogging];
+    
+    [GenericPopupController displayConfirmationWithDescription:@"Would you like to skip the tutorial?" title:@"Skip Tutorial?" okayButton:@"Skip" cancelButton:@"Cancel" target:self selector:@selector(doSkip)];
+  }
 }
 
 - (void) doSkip {
@@ -410,7 +425,8 @@
   self.dialogueViewController = nil;
   
   [self initTopBar];
-  [self beginFacebookRejectedNamingPhase];
+  [self.homeMap moveFriendsOffBuildableMap];
+  [self beginFacebookLoginPhase];
 }
 
 #pragma mark - Tutorial Sequence
