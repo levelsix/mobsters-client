@@ -127,7 +127,7 @@
         }
       }
       
-      isValid = umj.timeStarted && !umj.timeCompleted;
+      isValid = !!umj.timeStarted;
     } else if (iu.actionType == GameActionTypeHeal) {
       UserMonsterHealingItem *hi = nil;
       for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
@@ -147,6 +147,7 @@
       isValid = [ue.baseMonster.userMonsterUuid isEqualToString:iu.userDataUuid];
     }
     
+    // Wait till it is at least
     if (!isValid) {
       [toRemove addObject:iu];
       

@@ -578,7 +578,7 @@
 }
 
 - (IBAction)finishNowClicked:(id)sender {
-  [self speedUpBuilding];
+  [self speedUpBuildingQueueUp:NO];
 }
 
 - (void) sendNormStructComplete:(UserStruct *)us {
@@ -587,7 +587,7 @@
   self.clickableUserStructUuid = nil;
 }
 
-- (void) sendSpeedupBuilding:(UserStruct *)us {
+- (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp {
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = us.timeLeftForBuildComplete;
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];

@@ -486,6 +486,8 @@
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
     }];
+    
+    [self.delegate hireViewControllerClosed];
   }
 }
 

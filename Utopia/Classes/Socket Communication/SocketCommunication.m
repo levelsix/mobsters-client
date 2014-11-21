@@ -341,7 +341,7 @@ static NSString *udid = nil;
 
 - (void) sendFullEvents:(NSArray *)events {
   if (events.count > 1) {
-    LNLog(@"Sending %d events at once..", events.count);
+    LNLog(@"Sending %d events at once.. %@", events.count, events);
   }
   
   NSMutableData *mutableData = [NSMutableData data];
@@ -381,11 +381,9 @@ static NSString *udid = nil;
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush queueUp:(BOOL)queueUp {
-  BOOL didFlush = NO;
   if (flush) {
     if ([self flushAndQueueUp]) {
       _lastFlushedTime = [NSDate date];
-      didFlush = YES;
     }
   }
   
@@ -395,7 +393,7 @@ static NSString *udid = nil;
   
   FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
   if (!queueUp) {
-    if (didFlush) {
+    if (flush && self.queuedMessages.count > 0) {
       NSArray *msgs = [self.queuedMessages arrayByAddingObject:fe];
       [self.queuedMessages removeAllObjects];
       [self sendFullEvents:msgs];
@@ -408,6 +406,10 @@ static NSString *udid = nil;
   }
   
   return tag;
+}
+
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type queueUp:(BOOL)queueUp {
+  return [self sendData:msg withMessageType:type flush:YES queueUp:queueUp];
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type {
@@ -628,7 +630,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds {
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds queueUp:(BOOL)queueUp {
   FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
                                                                setSender:_sender]
                                                               setGemCostToSpeedup:gemCost]
@@ -636,7 +638,7 @@ static NSString *udid = nil;
                                                             setTimeOfSpeedup:milliseconds]
                                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent queueUp:queueUp];
 }
 
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime {
@@ -1207,7 +1209,7 @@ static NSString *udid = nil;
                                              addAllUapList:userAchievements]
                                             build];
     
-    return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent];
+    return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent queueUp:YES];
   } else {
     // Use a dictionary so that repeats will be replaced (i.e. 2 retrievals of cash)
     for (UserAchievementProto *uap in userAchievements) {
@@ -1428,7 +1430,7 @@ static NSString *udid = nil;
                                        addAllNotice:clanHelpNotices]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCSolicitClanHelpEvent queueUp:YES];
 }
 
 - (int) sendGiveClanHelpMessage:(NSArray *)clanHelpUuids {
@@ -1447,7 +1449,7 @@ static NSString *udid = nil;
                                    addAllClanHelpUuids:clanHelpUuids]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanHelpEvent queueUp:YES];
 }
 
 - (int) sendRemoveUserItemUsedMessage:(NSArray *)usageUuids {
@@ -1456,7 +1458,7 @@ static NSString *udid = nil;
                                           addAllUserItemUsedUuid:usageUuids]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES];
 }
 
 #pragma mark - Batch/Flush events

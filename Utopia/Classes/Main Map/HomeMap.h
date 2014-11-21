@@ -12,6 +12,7 @@
 #import "HomeBuilding.h"
 #import "UpgradeViewController.h"
 #import "SpeedupItemsFiller.h"
+#import "HireViewController.h"
 
 #define CENTER_TILE_X 13
 #define CENTER_TILE_Y 13
@@ -25,7 +26,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, SpeedupItemsFillerDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
@@ -68,7 +69,7 @@
 - (void) pointArrowOnUpgradeResidence;
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config;
 
-- (BOOL) speedUpBuilding;
+- (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
@@ -79,7 +80,7 @@
 - (void) reselectCurrentSelection;
 
 - (void) sendNormStructComplete:(UserStruct *)us;
-- (void) sendSpeedupBuilding:(UserStruct *)us;
+- (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp;
 
 - (BOOL) moveToStruct:(int)structId animated:(BOOL)animated;
 

@@ -72,6 +72,12 @@
 
 @end
 
+@protocol HireViewDelegate <NSObject>
+
+- (void) hireViewControllerClosed;
+
+@end
+
 @interface HireViewController : UIViewController <UITableViewDelegate> {
   BOOL _canClick;
   BOOL _isOnFriendFinder;
@@ -90,6 +96,8 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) UserStruct *userStruct;
+
+@property (nonatomic, assign) id<HireViewDelegate> delegate;
 
 - (id) initWithUserStruct:(UserStruct *)us;
 

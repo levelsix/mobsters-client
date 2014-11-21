@@ -872,6 +872,9 @@
 - (void) setSelected:(SelectableSprite *)selected {
   [super setSelected:selected];
   
+  // Turn off moving so you can't do some janky stuff like dragging after it's been placed.
+  // Previous bug occurred where you speedup and then drag so selection gets reset, but you can continue dragging after and place anywhere.
+  _isMoving = NO;
   if ([self.selected isKindOfClass: [HomeBuilding class]]) {
     HomeBuilding *mb = (HomeBuilding *) self.selected;
     if (_purchasing) {
@@ -1364,6 +1367,11 @@
     }
     _constrBuilding = nil;
     
+    // Make sure we don't actually have the upgrade view open
+    if (self.speedupItemsFiller) {
+      [self closeCurrentViewController];
+    }
+    
     [self reloadAllBubbles];
     
     [QuestUtil checkAllStructQuests];
@@ -1650,18 +1658,22 @@
   GameViewController *gvc = [GameViewController baseController];
   UIViewController *uvc;
   
-  if (!isHire) {
-    UpgradeViewController *up = [[UpgradeViewController alloc] initWithUserStruct:us];
-    up.delegate = self;
-    uvc = up;
-  } else {
-    uvc = [[HireViewController alloc] initWithUserStruct:us];
+  if (!self.currentViewController) {
+    if (!isHire) {
+      UpgradeViewController *up = [[UpgradeViewController alloc] initWithUserStruct:us];
+      up.delegate = self;
+      uvc = up;
+    } else {
+      HireViewController *hvc = [[HireViewController alloc] initWithUserStruct:us];
+      hvc.delegate = self;
+      uvc = hvc;
+    }
+    
+    [gvc addChildViewController:uvc];
+    uvc.view.frame = gvc.view.bounds;
+    [gvc.view addSubview:uvc.view];
+    self.currentViewController = uvc;
   }
-  
-  [gvc addChildViewController:uvc];
-  uvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:uvc.view];
-  self.currentViewController = uvc;
 }
 
 - (int) timeLeftForConstructionBuilding {
@@ -1678,6 +1690,8 @@
 - (void) bigUpgradeClicked {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  
+  self.currentViewController = nil;
   
   int cost = 0;
   BOOL isOilBuilding = NO;
@@ -1826,34 +1840,40 @@
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
  
   if (goldCost) {
-    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
-    if (svc) {
-      SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
-      sif.delegate = self;
-      svc.delegate = sif;
-      self.speedupItemsFiller = sif;
-      self.currentViewController = svc;
-      
-      GameViewController *gvc = [GameViewController baseController];
-      svc.view.frame = gvc.view.bounds;
-      [gvc addChildViewController:svc];
-      [gvc.view addSubview:svc.view];
+    if (!self.currentViewController) {
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.currentViewController = svc;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     }
   } else {
-    [self speedUpBuilding];
+    [self speedUpBuildingQueueUp:NO];
   }
 }
 
-- (void) sendSpeedupBuilding:(UserStruct *)us {
+- (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp {
   if (us.userStructUuid == nil || _waitingForResponse) {
     [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us delegate:self];
-    _waitingForResponse = YES;
+    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us delegate:self queueUp:queueUp];
+    
+    // If queue up is on, that means a purch is gonna come right after
+    if (!queueUp) {
+      _waitingForResponse = YES;
+    }
   }
 }
 
-- (BOOL) speedUpBuilding {
+- (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp {
   if (_isSpeedingUp) return NO;
   if (!_constrBuilding) return NO;
   
@@ -1872,7 +1892,7 @@
     if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
       HomeBuilding *mb = (HomeBuilding *)_constrBuilding;
       UserStruct *us = mb.userStruct;
-      [self sendSpeedupBuilding:mb.userStruct];
+      [self sendSpeedupBuilding:mb.userStruct queueUp:queueUp];
       if (us.isComplete) {
         _isSpeedingUp = YES;
         
@@ -1962,13 +1982,23 @@
 }
 
 - (void) speedupBuildingAndUpgradeOrPurchase {
-  if ([self speedUpBuilding]) {
+  if ([self speedUpBuildingQueueUp:YES]) {
     if (_purchasing) {
       [self moveCheckClicked:nil];
     } else {
       [self bigUpgradeClicked];
     }
   }
+}
+
+#pragma mark Hire/Upgrade delegates
+
+- (void) upgradeViewControllerClosed {
+  self.currentViewController = nil;
+}
+
+- (void) hireViewControllerClosed {
+  self.currentViewController = nil;
 }
 
 #pragma mark - Speedup Items Filler
@@ -1983,7 +2013,7 @@
 
 - (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
-    [self speedUpBuilding];
+    [self speedUpBuildingQueueUp:NO];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
     // Apply items
     GameState *gs = [GameState sharedGameState];

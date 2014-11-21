@@ -38,4 +38,8 @@
   return self;
 }
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"%d: %@", tag, NSStringFromClass([self.event class])];
+}
+
 @end

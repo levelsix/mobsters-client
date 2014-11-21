@@ -201,7 +201,7 @@
           }
         }
         
-        isValid = umj.timeStarted && !umj.timeCompleted;
+        isValid = !!umj.timeStarted;
       } else if (ch.helpType == GameActionTypeHeal) {
         UserMonsterHealingItem *hi = nil;
         for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {

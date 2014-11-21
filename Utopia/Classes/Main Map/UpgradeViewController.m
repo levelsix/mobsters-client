@@ -483,6 +483,8 @@
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
     }];
+    
+    [self.delegate upgradeViewControllerClosed];
   }
 }
 

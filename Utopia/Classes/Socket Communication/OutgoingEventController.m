@@ -297,7 +297,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return amountCollected;
 }
 
-- (void) instaUpgrade:(UserStruct *)userStruct delegate:(id)delegate {
+- (void) instaUpgrade:(UserStruct *)userStruct delegate:(id)delegate queueUp:(BOOL)queueUp {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
@@ -313,7 +313,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
-    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds]];
+    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds] queueUp:queueUp];
     [sc setDelegate:delegate forTag:tag];
     
     [gs saveHealthProgressesFromIndex:0];
