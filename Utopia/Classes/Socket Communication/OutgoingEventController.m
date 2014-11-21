@@ -147,7 +147,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-cost gemCost:gemCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
-    [gs saveHealthProgressesFromIndex:0];
+    BOOL recalcHealing = fsp.structType == StructureInfoProto_StructTypeHospital;
+    if (recalcHealing) {
+      [gs saveHealthProgressesFromIndex:0];
+    }
     
     // UserStructId will come in the response
     us.userUuid = [[GameState sharedGameState] userUuid];
@@ -162,7 +165,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
-    [gs readjustAllMonsterHealingProtos];
+    if (recalcHealing) {
+      [gs readjustAllMonsterHealingProtos];
+    }
     
     int cashChange = isOilBuilding ? 0 : -cost;
     int oilChange = isOilBuilding ? -cost : 0;
@@ -214,7 +219,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
       [sc setDelegate:delegate forTag:tag];
       
-      [gs saveHealthProgressesFromIndex:0];
+      BOOL recalcHealing = nextFsp.structType == StructureInfoProto_StructTypeHospital;
+      if (recalcHealing) {
+        [gs saveHealthProgressesFromIndex:0];
+      }
       
       userStruct.isComplete = NO;
       userStruct.purchaseTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
@@ -225,7 +233,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
       
-      if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
+      if (recalcHealing) {
         if (gs.myValidHospitals.count) {
           [gs readjustAllMonsterHealingProtos];
         } else {
@@ -316,7 +324,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds] queueUp:queueUp];
     [sc setDelegate:delegate forTag:tag];
     
-    [gs saveHealthProgressesFromIndex:0];
+    BOOL recalcHealing = userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeHospital;
+    if (recalcHealing) {
+      [gs saveHealthProgressesFromIndex:0];
+    }
     
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
@@ -324,7 +335,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
     
-    if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeHospital) {
+    if (recalcHealing) {
       [gs readjustAllMonsterHealingProtos];
     }
     
@@ -999,7 +1010,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         } // Skill stuff ends
         
         if (quantity) {
-            [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:quantity];
+          [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:quantity];
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }
