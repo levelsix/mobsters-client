@@ -255,12 +255,12 @@ static NSString *udid = nil;
   NSMutableArray *toRemove = [NSMutableArray array];
   for (FullEvent *fe in self.queuedMessages) {
     if ([self isPreDbEventType:fe.requestType]) {
-      NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      NSLog(@"1: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
       [toRemove addObject:fe];
     }
   }
-  [self sendFullEvents:toRemove];
   [self.queuedMessages removeObjectsInArray:toRemove];
+  [self sendFullEvents:toRemove];
   
   _numDisconnects = 0;
 }
@@ -277,10 +277,11 @@ static NSString *udid = nil;
   
   if (_canSendPreDbEvents) {
     for (FullEvent *fe in self.queuedMessages) {
-      NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      NSLog(@"2: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
     }
-    [self sendFullEvents:self.queuedMessages];
+    NSArray *msgs = [self.queuedMessages copy];
     [self.queuedMessages removeAllObjects];
+    [self sendFullEvents:msgs];
   }
 }
 
@@ -339,6 +340,10 @@ static NSString *udid = nil;
 }
 
 - (void) sendFullEvents:(NSArray *)events {
+  if (events.count > 1) {
+    LNLog(@"Sending %d events at once..", events.count);
+  }
+  
   NSMutableData *mutableData = [NSMutableData data];
   for (FullEvent *fe in events) {
     PBGeneratedMessage *msg = fe.event;
@@ -346,14 +351,14 @@ static NSString *udid = nil;
     EventProtocolRequest type = fe.requestType;
     
     if (!_canSendPreDbEvents) {
-      LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+      LNLog(@"3: Queueing up event of type %@.", NSStringFromClass(msg.class));
       
       [self.queuedMessages addObject:fe];
       continue;
     } else {
       if (!_canSendRegularEvents) {
         if (![self isPreDbEventType:type]) {
-          LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+          LNLog(@"4: Queueing up event of type %@.", NSStringFromClass(msg.class));
           
           [self.queuedMessages addObject:fe];
           continue;
@@ -370,32 +375,43 @@ static NSString *udid = nil;
   //  [messageWithHeader writeToFile:filePath atomically:YES];
   
   if (mutableData.length) {
-    float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
+    float delay = 0.f;//MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
     [self.connectionThread sendData:mutableData withDelay:delay];
   }
 }
 
-- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
-  FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
-  [self sendFullEvents:@[fe]];
-}
-
-- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush queueUp:(BOOL)queueUp {
+  BOOL didFlush = NO;
   if (flush) {
-    if ([self flush]) {
+    if ([self flushAndQueueUp]) {
       _lastFlushedTime = [NSDate date];
+      didFlush = YES;
     }
   }
   
   int tag = _currentTagNum;
   _currentTagNum++;
   _currentTagNum %= RAND_MAX;
-  [self sendData:msg withMessageType:type tagNum:tag];
+  
+  FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
+  if (!queueUp) {
+    if (didFlush) {
+      NSArray *msgs = [self.queuedMessages arrayByAddingObject:fe];
+      [self.queuedMessages removeAllObjects];
+      [self sendFullEvents:msgs];
+    } else {
+      [self sendFullEvents:@[fe]];
+    }
+  } else {
+    FullEvent *fe = [FullEvent createWithEvent:msg tag:tag requestType:type];
+    [self.queuedMessages addObject:fe];
+  }
+  
   return tag;
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type {
-  return [self sendData:msg withMessageType:type flush:YES];
+  return [self sendData:msg withMessageType:type flush:YES queueUp:NO];
 }
 
 - (void) amqpConsumerThreadReceivedNewMessage:(AMQPMessage *)theMessage {
@@ -1464,10 +1480,11 @@ static NSString *udid = nil;
   
   LNLog(@"Sending retrieve currency message with %d structs.",  (int)self.structRetrievals.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO queueUp:YES];
 }
 
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip {
+  [self flushAllExceptEventType:EventProtocolRequestCTradeItemForSpeedUpsEvent];
   [_speedupItemUsages addObjectsFromArray:uiups];
   
   // remove the user item first if it is already in here
@@ -1491,7 +1508,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending trade item for speedups message with %d item usages.", (int)_speedupItemUsages.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES];
 }
 
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
@@ -1553,13 +1570,22 @@ static NSString *udid = nil;
     NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO];
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
   } else {
     return 0;
   }
 }
 
-- (BOOL) flush {
+- (void) flush {
+  [self flushAndQueueUp];
+  if (self.queuedMessages.count) {
+    NSArray *msgs = [self.queuedMessages copy];
+    [self.queuedMessages removeAllObjects];
+    [self sendFullEvents:msgs];
+  }
+}
+
+- (BOOL) flushAndQueueUp {
   return [self flushAllExceptEventType:-1];
 }
 

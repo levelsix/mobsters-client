@@ -194,8 +194,6 @@
 
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
 
-- (BOOL) flush;
-- (BOOL) flushAllExceptEventType:(int)val;
-- (BOOL) flushAllExcept:(NSNumber *)type;
+- (void) flush;
 
 @end
