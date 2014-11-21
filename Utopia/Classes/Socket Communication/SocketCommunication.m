@@ -1461,6 +1461,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES];
 }
 
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems {
+  TradeItemForResourcesRequestProto *req = [[[[[TradeItemForResourcesRequestProto builder]
+                                               setSender:[self senderWithMaxResources]]
+                                              addAllItemIdsUsed:itemIdsUsed]
+                                             addAllNuUserItems:updatedUserItems]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResouresEvent queueUp:YES];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

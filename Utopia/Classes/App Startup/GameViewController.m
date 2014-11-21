@@ -748,7 +748,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     
     return YES;
   } else {
-    BOOL success = [(HomeMap *)self.currentMap moveToStruct:structId animated:YES];
+    BOOL success = [(HomeMap *)self.currentMap moveToStruct:structId quantity:quantity animated:YES];
     
     if (!success) {
       UserStruct *us = [gs myTownHall];
@@ -823,7 +823,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (cityId == 0) {
       if (assetId) {
         HomeMap *hm = (HomeMap *)self.currentMap;
-        if (![hm moveToStruct:assetId animated:YES]) {
+        if (![hm moveToStruct:assetId quantity:1 animated:YES]) {
           UserStruct *us = [[UserStruct alloc] init];
           us.structId = assetId;
           [self.topBarViewController openShopWithBuildings:us.baseStructId];

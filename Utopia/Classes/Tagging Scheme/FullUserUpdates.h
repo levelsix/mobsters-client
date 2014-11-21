@@ -23,9 +23,15 @@
 @end
 
 @interface CashUpdate : FullUserUpdate
+
++ (id) updateWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax;
+
 @end
 
 @interface OilUpdate : FullUserUpdate
+
++ (id) updateWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax;
+
 @end
 
 @interface LevelUpdate : FullUserUpdate

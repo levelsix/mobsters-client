@@ -11,6 +11,8 @@
 #import "NibUtils.h"
 #import "ListCollectionView.h"
 
+#import "SpeedupItemsFiller.h"
+
 @interface HealQueueFooterView : UICollectionReusableView
 
 @property (nonatomic, retain) IBOutlet UILabel *openSlotsLabel;
@@ -19,7 +21,7 @@
 
 @end
 
-@interface HealViewController : PopupSubViewController <ListCollectionDelegate> {
+@interface HealViewController : PopupSubViewController <ListCollectionDelegate, SpeedupItemsFillerDelegate> {
   UserMonster *_tempMonster;
   
   HealQueueFooterView *_footerView;
@@ -36,6 +38,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *freeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *speedupIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
@@ -50,6 +53,9 @@
 @property (nonatomic, retain) NSArray *userMonsters;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 - (void) updateLabels;
 - (IBAction) speedupButtonClicked:(id)sender;

@@ -135,6 +135,8 @@ static BOOL _instanceOpened = NO;
   }
   
   [self.itemsTable reloadData];
+  
+  self.titleLabel.text = [self.delegate titleName];
 }
 
 - (IBAction)closeClicked:(id)sender {

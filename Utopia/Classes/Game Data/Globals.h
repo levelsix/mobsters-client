@@ -257,6 +257,7 @@
 
 + (NSString *) cashStringForNumber:(int)n;
 + (NSString *) commafyNumber:(float)n;
++ (NSString *) shortenNumber:(int)num;
 + (NSString *) qualifierStringForNumber:(int)rank;
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section;
@@ -330,6 +331,7 @@
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft allowFreeSpeedup:(BOOL)free;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
+- (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity;
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
 - (int) calculateTeamCostForTeam:(NSArray *)team;
 - (BOOL) currentBattleReadyTeamHasCostFor:(UserMonster *)um;

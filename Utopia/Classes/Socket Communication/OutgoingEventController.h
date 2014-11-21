@@ -138,6 +138,9 @@
 - (void) tradeItemForSpeedup:(int)itemId userMiniJob:(UserMiniJob *)umj;
 - (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue;
 - (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue;
+- (void) tradeItemForHealSpeedup:(int)itemId;
 - (void) removeUserItemUsed:(NSArray *)usageUuids;
+
+- (void) tradeItemForResources:(NSDictionary *)itemIdsToQuantity;
 
 @end

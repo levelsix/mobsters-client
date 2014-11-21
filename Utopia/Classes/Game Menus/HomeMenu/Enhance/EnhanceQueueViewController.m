@@ -130,6 +130,12 @@
   [cv updateForEnhance];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [self.itemSelectViewController closeClicked:nil];
+}
+
 - (int) maxQueueSize {
   GameState *gs = [GameState sharedGameState];
   LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
@@ -687,7 +693,7 @@
   return gemCost;
 }
 
-- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
     [self speedupEnhancement];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
@@ -710,7 +716,18 @@
   }
 }
 
-- (void) itemSelectClosed {
+- (int) timeLeftForSpeedup {
+  UserEnhancement *ue = [self currentEnhancement];
+  int timeLeft = ue.expectedEndTime.timeIntervalSinceNow;
+  return timeLeft;
+}
+
+- (int) totalSecondsRequired {
+  UserEnhancement *ue = [self currentEnhancement];
+  return ue.totalSeconds;
+}
+
+- (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
 }

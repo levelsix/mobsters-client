@@ -13,6 +13,7 @@
 #import "UpgradeViewController.h"
 #import "SpeedupItemsFiller.h"
 #import "HireViewController.h"
+#import "ResourceItemsFiller.h"
 
 #define CENTER_TILE_X 13
 #define CENTER_TILE_Y 13
@@ -26,7 +27,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, MapBotViewButtonDelegate, UpgradeViewControllerDelegate, HireViewDelegate, SpeedupItemsFillerDelegate, HomeViewControllerDelegate, ResourceItemsFillerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
@@ -52,6 +53,7 @@
 
 @property (nonatomic, retain) UIViewController *currentViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
@@ -61,8 +63,8 @@
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) refresh;
 - (void) preparePurchaseOfStruct:(int)structId;
-- (UserStruct *) sendPurchaseStruct:(BOOL)allowGems;
-- (void) purchaseBuildingAllowGems:(BOOL)allowGems;
+- (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
+- (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems;
 
 - (void) pointArrowOnManageTeam;
 - (void) pointArrowOnSellMobsters;
@@ -82,7 +84,7 @@
 - (void) sendNormStructComplete:(UserStruct *)us;
 - (void) sendSpeedupBuilding:(UserStruct *)us queueUp:(BOOL)queueUp;
 
-- (BOOL) moveToStruct:(int)structId animated:(BOOL)animated;
+- (BOOL) moveToStruct:(int)structId quantity:(int)quantity animated:(BOOL)animated;
 
 - (void) beginTimers;
 

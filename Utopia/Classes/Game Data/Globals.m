@@ -677,6 +677,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return toRet;
 }
 
++ (NSString *) shortenNumber:(int)num {
+  int sigFigs = num;
+  NSString *mult = @"";
+  
+  if (num >= 1000000000) {
+    sigFigs = num / 1000000000;
+    mult = @"B";
+  } else if (num >= 1000000) {
+    sigFigs = num / 1000000;
+    mult = @"M";
+  } else if (num >= 1000) {
+    sigFigs = num / 1000;
+    mult = @"K";
+  }
+  
+  return [NSString stringWithFormat:@"%d%@", sigFigs, mult];
+}
+
 + (NSString *) qualifierStringForNumber:(int)rank {
   int lastDigit = rank % 10;
   int secondDigit = (rank / 10) % 10;
@@ -1283,6 +1301,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (type == ResourceTypeCash || type == ResourceTypeOil) {
     return MAX(1, roundf(amount*self.gemsPerResource));
   }
+  return amount;
+}
+
+- (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity {
+  GameState *gs = [GameState sharedGameState];
+  int amount = type == ResourceTypeCash ? gs.cash : gs.oil;
+  ItemType itemType = type == ResourceTypeCash ? ItemTypeItemCash : ItemTypeItemOil;
+  
+  for (NSNumber *num in itemIdsToQuantity) {
+    int itemId = num.intValue;
+    int numUsed = [itemIdsToQuantity[num] intValue];
+    if (itemId > 0) {
+      ItemProto *ip = [gs itemForId:itemId];
+      
+      if (ip.itemType == itemType) {
+        amount += ip.amount*numUsed;
+      }
+    }
+  }
+  
   return amount;
 }
 

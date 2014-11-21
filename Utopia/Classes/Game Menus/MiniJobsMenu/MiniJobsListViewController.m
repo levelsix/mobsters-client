@@ -153,6 +153,8 @@
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self.updateTimer invalidate];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (void) updateLabels {
@@ -452,7 +454,7 @@
   return gemCost;
 }
 
-- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
     _itemSelectClosedProgrammatically = YES;
     [self speedupMiniJob];
@@ -476,7 +478,18 @@
   }
 }
 
-- (void) itemSelectClosed {
+- (int) timeLeftForSpeedup {
+  MSDate *date = _selectedCell.userMiniJob.tentativeCompletionDate;
+  int timeLeft = [date timeIntervalSinceNow];
+  return timeLeft;
+}
+
+- (int) totalSecondsRequired {
+  UserMiniJob *umj = _selectedCell.userMiniJob;
+  return umj.durationSeconds;
+}
+
+- (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
   

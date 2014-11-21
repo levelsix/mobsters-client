@@ -146,7 +146,7 @@
   return YES;
 }
 
-- (BOOL) speedupHealingQueue {
+- (BOOL) sendSpeedupHealingQueue {
   Globals *gl = [Globals sharedGlobals];
   
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;

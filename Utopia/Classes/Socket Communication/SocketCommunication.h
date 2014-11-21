@@ -193,6 +193,7 @@
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems;
 
 - (void) flush;
 

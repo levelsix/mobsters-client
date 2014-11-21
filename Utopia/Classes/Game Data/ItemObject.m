@@ -81,6 +81,8 @@
   ItemProto *ip = self.staticItem;
   if (ip.itemType == ItemTypeSpeedUp) {
     return [[Globals convertTimeToShorterString:ip.amount*60] uppercaseString];
+  } else if (ip.itemType == ItemTypeItemCash || ip.itemType == ItemTypeItemOil) {
+    return [Globals shortenNumber:ip.amount];
   }
   
   return nil;

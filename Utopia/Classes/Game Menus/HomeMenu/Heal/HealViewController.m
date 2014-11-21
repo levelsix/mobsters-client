@@ -16,6 +16,8 @@
 
 #import "AchievementUtil.h"
 
+#import "GameViewController.h"
+
 @implementation HealQueueFooterView
 
 @end
@@ -59,6 +61,8 @@
   [super viewWillDisappear:animated];
   
   [[SocketCommunication sharedSocketCommunication] flush];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (void) waitTimeComplete {
@@ -95,12 +99,16 @@
         self.helpView.hidden = !canHelp;
         
         self.speedupCostLabel.superview.hidden = NO;
+        self.speedupIcon.hidden = NO;
         self.freeLabel.hidden = YES;
       } else {
         self.speedupCostLabel.superview.hidden = YES;
+        self.speedupIcon.hidden = YES;
         self.freeLabel.hidden = NO;
         self.helpView.hidden = YES;
       }
+    } else {
+      [self.itemSelectViewController closeClicked:nil];
     }
     
     for (int i = 0; i < hospitalCount && i < self.monsterHealingQueue.count; i++) {
@@ -174,7 +182,7 @@
   return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umUuid useGems:useGems];
 }
 
-- (BOOL) speedupHealingQueue {
+- (BOOL) sendSpeedupHealingQueue {
   int queueSize = (int)self.monsterHealingQueue.count;
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue:self];
   if (success) {
@@ -368,28 +376,100 @@
 
 - (IBAction) speedupButtonClicked:(id)sender {
   if (!_waitingForResponse) {
-    GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     
     int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
-    if ([self numValidHospitals] == 0) {
-      [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
-    } else if (gs.gems < goldCost) {
-      [GenericPopupController displayNotEnoughGemsView];
+    if (gemCost <= 0) {
+      [self speedupHealingQueue];
     } else {
-      BOOL success = [self speedupHealingQueue];
-      if (success) {
-        self.buttonLabelsView.hidden = YES;
-        self.buttonSpinner.hidden = NO;
-        [self.buttonSpinner startAnimating];
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.itemSelectViewController = svc;
         
-        _waitingForResponse = YES;
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
       }
     }
   }
 }
+
+- (void) speedupHealingQueue {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if ([self numValidHospitals] == 0) {
+    [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
+  } else if (gs.gems < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [self sendSpeedupHealingQueue];
+    if (success) {
+      self.buttonLabelsView.hidden = YES;
+      self.buttonSpinner.hidden = NO;
+      [self.buttonSpinner startAnimating];
+      
+      _waitingForResponse = YES;
+    }
+  }
+}
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  return gemCost;
+}
+
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedupHealingQueue];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForHealSpeedup:ui.itemId];
+      
+      [self updateLabels];
+    }
+    
+    int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (int) timeLeftForSpeedup {
+  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  return timeLeft;
+}
+
+- (int) totalSecondsRequired {
+  return self.totalSecondsRequired;
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
+}
+
+#pragma mark - Get Help
 
 - (IBAction) getHelpClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] solicitHealHelp];

@@ -1493,15 +1493,81 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   bldr.itemId = itemId;
   bldr.timeOfEntry = [self getCurrentMilliseconds];
   
-  if (ue.startTime) {
+  if (!ue.startTime) {
     [Globals popupMessage:@"Trying to speedup invalid evolution."];
   } else {
     [self tradeItemForSpeedup:@[bldr.build]];
   }
 }
 
+- (void) tradeItemForHealSpeedup:(int)itemId {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
+    UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+    bldr.userUuid = gs.userUuid;
+    bldr.actionType = GameActionTypeHeal;
+    bldr.userDataUuid = hi.userMonsterUuid;
+    bldr.itemId = itemId;
+    bldr.timeOfEntry = [self getCurrentMilliseconds];
+  }
+  
+  if (arr.count) {
+    [self tradeItemForSpeedup:arr];
+  }
+}
+
 - (void) removeUserItemUsed:(NSArray *)usageUuids {
   [[SocketCommunication sharedSocketCommunication] sendRemoveUserItemUsedMessage:usageUuids];
+}
+
+#pragma mark - Resources
+
+- (void) tradeItemForResources:(NSDictionary *)itemIdsToQuantity {
+  GameState *gs = [GameState sharedGameState];
+  
+  int cashGained = 0, oilGained = 0;
+  
+  NSMutableArray *itemIdsUsed = [NSMutableArray array];
+  NSMutableArray *changedUserItems = [NSMutableArray array];
+  for (NSNumber *num in itemIdsToQuantity) {
+    int itemId = num.intValue;
+    int quantity = [itemIdsToQuantity[num] intValue];
+    
+    if (itemId > 0) {
+      ItemProto *ip = [gs itemForId:itemId];
+      UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
+      
+      if (quantity <= ui.quantity) {
+        ui.quantity -= quantity;
+        [changedUserItems addObject:[ui toProto]];
+      } else {
+        [Globals popupMessage:@"Trying to use invalid items.."];
+        return;
+      }
+      
+      if (ip.itemType == ItemTypeItemOil) {
+        oilGained += ip.amount*quantity;
+      } else if (ip.itemType == ItemTypeItemCash) {
+        cashGained += ip.amount*quantity;
+      }
+      
+      for (int i = 0; i < quantity; i++) {
+        [itemIdsUsed addObject:@(itemId)];
+      }
+    }
+  }
+  
+  // Might just be a gem usage so check that we're actually using an item
+  if (itemIdsUsed.count) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForResourcesMessage:itemIdsUsed updatedUserItems:changedUserItems];
+    
+    CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
+    [gs addUnrespondedUpdates:cu, ou, nil];
+  }
 }
 
 #pragma mark - Gacha

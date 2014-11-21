@@ -220,4 +220,9 @@
   }
 }
 
+- (void) close {
+  [super close];
+  [self.delegate homeViewControllerClosed];
+}
+
 @end

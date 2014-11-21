@@ -49,9 +49,17 @@
 @implementation CashUpdate
 
 - (id) initWithTag:(int)t change:(int)change {
+  return [self initWithTag:t change:change enforceMax:YES];
+}
+
+- (id) initWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax {
   GameState *gs = [GameState sharedGameState];
-  change = MIN(change, MAX(0, gs.maxCash-gs.cash));
+  if (enforceMax) change = MIN(change, MAX(0, gs.maxCash-gs.cash));
   return [super initWithTag:t change:change];
+}
+
++ (id) updateWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax {
+  return [[self alloc] initWithTag:t change:change enforceMax:enforceMax];
 }
 
 - (void) update {
@@ -71,9 +79,17 @@
 @implementation OilUpdate
 
 - (id) initWithTag:(int)t change:(int)change {
+  return [self initWithTag:t change:change enforceMax:YES];
+}
+
+- (id) initWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax {
   GameState *gs = [GameState sharedGameState];
-  change = MIN(change, MAX(0, gs.maxOil-gs.oil));
+  if (enforceMax) change = MIN(change, MAX(0, gs.maxOil-gs.oil));
   return [super initWithTag:t change:change];
+}
+
++ (id) updateWithTag:(int)t change:(int)change enforceMax:(BOOL)enforceMax {
+  return [[self alloc] initWithTag:t change:change enforceMax:enforceMax];
 }
 
 - (void) update {

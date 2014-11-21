@@ -84,7 +84,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemssidearrow.png" id="4Rk-l9-dtk">
+                        <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemssidearrow.png" id="4Rk-l9-dtk">
                             <rect key="frame" x="249" y="77" width="8" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>

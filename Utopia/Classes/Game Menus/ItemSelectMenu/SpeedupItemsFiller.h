@@ -12,9 +12,11 @@
 
 @protocol SpeedupItemsFillerDelegate <NSObject>
 
-- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController;
 - (int) numGemsForTotalSpeedup;
-- (void) itemSelectClosed;
+- (void) itemSelectClosed:(id)viewController;
+- (int) timeLeftForSpeedup;
+- (int) totalSecondsRequired;
 
 @end
 

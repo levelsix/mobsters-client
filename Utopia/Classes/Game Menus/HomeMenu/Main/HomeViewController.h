@@ -16,6 +16,12 @@
 
 @end
 
+@protocol HomeViewControllerDelegate <NSObject>
+
+- (void) homeViewControllerClosed;
+
+@end
+
 @interface HomeViewController : PopupNavViewController {
   Class _initViewControllerClass;
   int _currentIndex;
@@ -26,6 +32,8 @@
 @property (nonatomic, retain) IBOutlet UIView *selectorView;
 
 @property (nonatomic, retain) NSMutableArray *mainViewControllers;
+
+@property (nonatomic, retain) id<HomeViewControllerDelegate> delegate;
 
 - (id) initWithSell;
 - (id) initWithHeal;

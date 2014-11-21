@@ -451,7 +451,6 @@
 - (IBAction) upgradeClicked:(id)sender {
   if ([self.userStruct satisfiesAllPrerequisites]) {
     [self.delegate bigUpgradeClicked];
-    [self closeClicked:nil];
   } else {
     [Globals addAlertNotification:@"You have not yet met the requirements to upgrade."];
   }

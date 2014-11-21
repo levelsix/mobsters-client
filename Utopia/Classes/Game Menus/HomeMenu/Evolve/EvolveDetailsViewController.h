@@ -14,7 +14,7 @@
 
 #import "SpeedupItemsFiller.h"
 
-@interface EvolveDetailsViewController : PopupSubViewController {
+@interface EvolveDetailsViewController : PopupSubViewController <SpeedupItemsFillerDelegate> {
   BOOL _allowEvolution;
 }
 

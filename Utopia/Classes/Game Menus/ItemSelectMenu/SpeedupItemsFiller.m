@@ -59,7 +59,13 @@
 - (void) itemSelected:(id)viewController atIndex:(int)idx {
   if (idx < self.items.count) {
     id<ItemObject> io = self.items[idx];
-    [self.delegate itemUsed:io viewController:viewController];
+    
+    if (![io isKindOfClass:[UserItem class]] || [io numOwned] > 0) {
+      [self.delegate speedupItemUsed:io viewController:viewController];
+    } else {
+      UserItem *ui = (UserItem *)io;
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];
+    }
   }
 }
 
@@ -68,7 +74,7 @@
 }
 
 - (void) itemSelectClosed:(id)viewController {
-  [self.delegate itemSelectClosed];
+  [self.delegate itemSelectClosed:viewController];
 }
 
 @end

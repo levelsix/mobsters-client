@@ -697,18 +697,28 @@
 
 #pragma mark - Moving
 
-- (BOOL) moveToStruct:(int)structId animated:(BOOL)animated {
+- (BOOL) moveToStruct:(int)structId quantity:(int)quantity animated:(BOOL)animated {
   Globals *gl = [Globals sharedGlobals];
   
   int baseStructId = [gl baseStructIdForStructId:structId];
   
-  UserStruct *chosen = nil;
+  NSMutableArray *validStructs = [NSMutableArray array];
   for (UserStruct *us in self.myStructsList) {
     int trueStructId = us.staticStructForCurrentConstructionLevel.structInfo.structId;
-    if (us.baseStructId == baseStructId && (!chosen || trueStructId < chosen.structId) && trueStructId < structId) {
-      chosen = us;
+    if (us.baseStructId == baseStructId && trueStructId < structId) {
+      [validStructs addObject:us];
     }
   }
+  
+  // Descending order
+  [validStructs sortUsingComparator:^NSComparisonResult(UserStruct *obj1, UserStruct *obj2) {
+    return [@(obj2.structId) compare:@(obj1.structId)];
+  }];
+  
+  // Get the lowest level one that is within quantity
+  // i.e. if we have level 3 4 5 and we only need quantity 2, return the level 4 one
+  int idx = quantity-1;
+  UserStruct *chosen = idx < validStructs.count ? validStructs[idx] : [validStructs lastObject];
   
   HomeBuilding *mb = (HomeBuilding *)[self getChildByName:STRUCT_TAG(chosen.userStructUuid) recursively:NO];
   
@@ -1433,6 +1443,11 @@
   }
   _constrBuilding = nil;
   
+  // Make sure we don't actually have the upgrade view open
+  if (self.speedupItemsFiller) {
+    [self closeCurrentViewController];
+  }
+  
   [SoundEngine structCompleted];
   
   [AchievementUtil checkObstacleRemoved];
@@ -1454,114 +1469,6 @@
 }
 
 #pragma mark - IBActions
-
-- (IBAction)moveCheckClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
-  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
-  
-  if (homeBuilding.isSetDown && _purchasing) {
-    if (_constrBuilding) {
-      int timeLeft = [self timeLeftForConstructionBuilding];
-      BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
-      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
-      
-      if (gemCost) {
-        NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
-        [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
-      } else {
-        [self speedupBuildingAndUpgradeOrPurchase];
-      }
-    } else {
-      int cost = fsp.buildCost;
-      BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
-      int curAmount = isOilBuilding ? gs.oil : gs.cash;
-      
-      if (cost > curAmount) {
-        [GenericPopupController displayExchangeForGemsViewWithResourceType:fsp.buildResourceType amount:cost-curAmount target:self selector:@selector(useGemsForPurchase)];
-      } else {
-        [self purchaseBuildingAllowGems:NO];
-      }
-    }
-    
-    [SoundEngine generalButtonClick];
-  } else {
-    [Globals addAlertNotification:@"You can't build a building there, silly!"];
-    [SoundEngine structCantPlace];
-  }
-}
-
-- (void) useGemsForPurchase {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
-  
-  int cost = fsp.buildCost;
-  BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
-  int curAmount = isOilBuilding ? gs.oil : gs.cash;
-  int gemCost = [gl calculateGemConversionForResourceType:fsp.buildResourceType amount:cost-curAmount];
-  
-  if (gemCost > gs.gems) {
-    [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self purchaseBuildingAllowGems:YES];
-  }
-}
-
-- (void) purchaseBuildingAllowGems:(BOOL)allowGems {
-  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
-  
-  if (!_waitingForResponse) {
-    // Use return value as an indicator that purchase is accepted by client
-    UserStruct *us = [self sendPurchaseStruct:allowGems];
-    if (us) {
-      homeBuilding.userStruct = us;
-      _constrBuilding = homeBuilding;
-      [self updateTimersForBuilding:homeBuilding justBuilt:YES];
-      homeBuilding.isConstructing = YES;
-      homeBuilding.isPurchasing = NO;
-      homeBuilding.name = PURCH_STRUCT_TAG;
-      
-      [homeBuilding displayProgressBar];
-      
-      [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
-      
-      _canMove = NO;
-      _purchasing = NO;
-      _purchBuilding = nil;
-      
-      [self reselectCurrentSelection];
-    } else {
-      [homeBuilding liftBlock];
-      [homeBuilding removeFromParent];
-      
-      self.selected = nil;
-    }
-    [self doReorder];
-  } else {
-    [Globals addAlertNotification:@"Hold on, we are still processing your previous request!"];
-  }
-}
-
-- (UserStruct *) sendPurchaseStruct:(BOOL)allowGems {
-  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
-  
-  _waitingForResponse = YES;
-  
-  // Use return value as an indicator that purchase is accepted by client
-  return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems delegate:self];
-}
-
-- (IBAction)cancelMoveClicked:(id)sender {
-  if (_purchasing) {
-    self.selected = nil;
-    
-    [SoundEngine closeButtonClick];
-  }
-}
 
 - (IBAction)enterClicked:(id)sender {
   UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
@@ -1605,6 +1512,8 @@
   
   if (hvc) {
     [gvc.topBarViewController displayHomeViewController:hvc];
+    hvc.delegate = self;
+    self.currentViewController = hvc;
   }
 }
 
@@ -1641,6 +1550,132 @@
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
+}
+
+#pragma mark - Purchase
+
+- (IBAction)moveCheckClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
+  
+  if (homeBuilding.isSetDown && _purchasing) {
+    if (_constrBuilding) {
+      int timeLeft = [self timeLeftForConstructionBuilding];
+      BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
+      
+      if (gemCost) {
+        NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+        [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      } else {
+        [self speedupBuildingAndUpgradeOrPurchase];
+      }
+    } else {
+      int cost = fsp.buildCost;
+      BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+      int curAmount = isOilBuilding ? gs.oil : gs.cash;
+      
+      if (cost > curAmount) {
+        ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+        if (svc) {
+          ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:fsp.buildResourceType requiredAmount:cost shouldAccumulate:YES];
+          rif.delegate = self;
+          svc.delegate = rif;
+          self.resourceItemsFiller = rif;
+          
+          GameViewController *gvc = [GameViewController baseController];
+          svc.view.frame = gvc.view.bounds;
+          [gvc addChildViewController:svc];
+          [gvc.view addSubview:svc.view];
+        }
+      } else {
+        [self purchaseBuildingWithItemDict:nil allowGems:NO];
+      }
+    }
+    
+    [SoundEngine generalButtonClick];
+  } else {
+    [Globals addAlertNotification:@"You can't build a building there, silly!"];
+    [SoundEngine structCantPlace];
+  }
+}
+
+- (void) purchaseWithItemDict:(NSDictionary *)itemIdsToQuantity {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
+  
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
+  
+  int cost = fsp.buildCost;
+  ResourceType resType = fsp.buildResourceType;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else if (allowGems || cost <= curAmount) {
+    [self purchaseBuildingWithItemDict:itemIdsToQuantity allowGems:allowGems];
+  }
+}
+
+- (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  
+  if (!_waitingForResponse) {
+    // Use return value as an indicator that purchase is accepted by client
+    UserStruct *us = [self sendPurchaseStructWithItemDict:itemIdsToQuantity allowGems:allowGems];
+    if (us) {
+      homeBuilding.userStruct = us;
+      _constrBuilding = homeBuilding;
+      [self updateTimersForBuilding:homeBuilding justBuilt:YES];
+      homeBuilding.isConstructing = YES;
+      homeBuilding.isPurchasing = NO;
+      homeBuilding.name = PURCH_STRUCT_TAG;
+      
+      [homeBuilding displayProgressBar];
+      
+      [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
+      
+      _canMove = NO;
+      _purchasing = NO;
+      _purchBuilding = nil;
+      
+      [self reselectCurrentSelection];
+    } else {
+      [homeBuilding liftBlock];
+      [homeBuilding removeFromParent];
+      
+      self.selected = nil;
+    }
+    [self doReorder];
+  } else {
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request!"];
+  }
+}
+
+- (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  
+  _waitingForResponse = YES;
+  
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
+  
+  // Use return value as an indicator that purchase is accepted by client
+  return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems delegate:self];
+}
+
+- (IBAction)cancelMoveClicked:(id)sender {
+  if (_purchasing) {
+    self.selected = nil;
+    
+    [SoundEngine closeButtonClick];
+  }
 }
 
 #pragma mark - Upgrade
@@ -1691,16 +1726,14 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  self.currentViewController = nil;
-  
   int cost = 0;
-  BOOL isOilBuilding = NO;
+  ResourceType resType = 0;
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
     StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
     
     cost = nextFsp.buildCost;
-    isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+    resType = nextFsp.buildResourceType;
     
     if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
       BOOL activeQuest = NO;
@@ -1735,10 +1768,10 @@
     }
     
     cost = op.cost;
-    isOilBuilding = op.removalCostType == ResourceTypeOil;
+    resType = op.removalCostType;
   }
   
-  int curAmount = isOilBuilding ? gs.oil : gs.cash;
+  int curAmount = resType == ResourceTypeOil ? gs.oil : gs.cash;
   if (_constrBuilding) {
     int timeLeft = [self timeLeftForConstructionBuilding];
     BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
@@ -1752,44 +1785,57 @@
     }
   } else if (cost) {
     if (cost > curAmount) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForUpgrade)];
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:resType requiredAmount:cost shouldAccumulate:YES];
+        rif.delegate = self;
+        svc.delegate = rif;
+        self.resourceItemsFiller = rif;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     } else {
-      [self sendUpgradeAllowGems:NO];
+      [self sendUpgradeWithItemDict:nil allowGems:NO];
     }
   }
 }
 
-- (void) useGemsForUpgrade {
+- (void) upgradeWithItemDict:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
+  
   int cost = 0;
-  BOOL isOilBuilding = NO;
+  ResourceType resType = 0;
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
     StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
     
     cost = nextFsp.buildCost;
-    isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+    resType = nextFsp.buildResourceType;
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     UserObstacle *ub = ((ObstacleSprite *)self.selected).obstacle;
     ObstacleProto *op = ub.staticObstacle;
     
     cost = op.cost;
-    isOilBuilding = op.removalCostType == ResourceTypeOil;
+    resType = op.removalCostType;
   }
   
-  int curAmount = isOilBuilding ? gs.oil : gs.cash;
-  int gemCost = [gl calculateGemConversionForResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount];
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
   
-  if (gemCost > gs.gems) {
+  if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self sendUpgradeAllowGems:YES];
+  } else if (allowGems || cost <= curAmount) {
+    [self sendUpgradeWithItemDict:itemIdsToQuantity allowGems:allowGems];
   }
 }
 
-- (void) sendUpgradeAllowGems:(BOOL)allowGems {
+- (void) sendUpgradeWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     HomeBuilding *hb = (HomeBuilding *)self.selected;
     UserStruct *us = hb.userStruct;
@@ -1797,6 +1843,7 @@
     if (us.userStructUuid == nil || _waitingForResponse) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
     } else {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems delegate:self];
       _waitingForResponse = YES;
     }
@@ -1815,6 +1862,7 @@
     ObstacleSprite *os = (ObstacleSprite *)self.selected;
     UserObstacle *uo = os.obstacle;
     
+    [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
     [[OutgoingEventController sharedOutgoingEventController] beginObstacleRemoval:uo spendGems:allowGems];
     
     if (uo.endTime) {
@@ -1991,7 +2039,7 @@
   }
 }
 
-#pragma mark Hire/Upgrade delegates
+#pragma mark - Hire/Upgrade delegates
 
 - (void) upgradeViewControllerClosed {
   self.currentViewController = nil;
@@ -2001,7 +2049,11 @@
   self.currentViewController = nil;
 }
 
-#pragma mark - Speedup Items Filler
+- (void) homeViewControllerClosed {
+  self.currentViewController = nil;
+}
+
+#pragma mark - Speedup/Resource Items Filler
 
 - (int) numGemsForTotalSpeedup {
   Globals *gl = [Globals sharedGlobals];
@@ -2011,7 +2063,7 @@
   return gemCost;
 }
 
-- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
     [self speedUpBuildingQueueUp:NO];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
@@ -2045,9 +2097,35 @@
   }
 }
 
-- (void) itemSelectClosed {
-  self.currentViewController = nil;
+- (int) timeLeftForSpeedup {
+  return [self timeLeftForConstructionBuilding];
+}
+
+- (int) totalSecondsRequired {
+  if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
+    HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
+    return hb.userStruct.staticStruct.structInfo.minutesToBuild*60;
+  } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
+    ObstacleSprite *os = (ObstacleSprite *)_constrBuilding;
+    return os.obstacle.staticObstacle.secondsToRemove;
+  }
+  return 0;
+}
+
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  if (_purchasing) {
+    [self purchaseWithItemDict:itemUsages];
+  } else {
+    [self upgradeWithItemDict:itemUsages];
+  }
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  if (self.currentViewController == viewController) {
+    self.currentViewController = nil;
+  }
   self.speedupItemsFiller = nil;
+  self.resourceItemsFiller = nil;
 }
 
 #pragma mark - Response Events

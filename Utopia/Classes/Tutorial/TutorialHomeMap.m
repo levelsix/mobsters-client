@@ -545,7 +545,7 @@
   [Globals createUIArrowForView:botView.animateViews.lastObject atAngle:0];
 }
 
-- (UserStruct *) sendPurchaseStruct:(BOOL)allowGems {
+- (UserStruct *) sendPurchaseStructWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
   UserStruct *us = [[UserStruct alloc] init];
@@ -562,8 +562,8 @@
   return us;
 }
 
-- (void) purchaseBuildingAllowGems:(BOOL)allowGems {
-  [super purchaseBuildingAllowGems:allowGems];
+- (void) purchaseBuildingWithItemDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
+  [super purchaseBuildingWithItemDict:itemIdsToQuantity allowGems:allowGems];
   [self moveToSprite:_constrBuilding animated:YES];
   
   HomeBuilding *hb = (HomeBuilding *)_constrBuilding;

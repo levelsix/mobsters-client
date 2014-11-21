@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "GameViewController.h"
 
 @implementation EvolveDetailsViewController
 
@@ -44,6 +45,12 @@
   [super viewDidAppear:animated];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (void) waitTimeComplete {
@@ -253,10 +260,22 @@
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
     int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
-    if (goldCost < 0) {
+    if (goldCost <= 0) {
       [self speedupEvolution];
     } else {
-      
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+        sif.delegate = self;
+        svc.delegate = sif;
+        self.speedupItemsFiller = sif;
+        self.itemSelectViewController = svc;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     }
   }
 }
@@ -306,7 +325,7 @@
   return gemCost;
 }
 
-- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
   if ([itemObject isKindOfClass:[GemsItemObject class]]) {
     [self speedupEvolution];
   } else if ([itemObject isKindOfClass:[UserItem class]]) {
@@ -329,7 +348,17 @@
   }
 }
 
-- (void) itemSelectClosed {
+- (int) timeLeftForSpeedup {
+  GameState *gs = [GameState sharedGameState];
+  int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
+  return timeLeft;
+}
+
+- (int) totalSecondsRequired {
+  return self.evoItem.userMonster1.staticMonster.minutesToEvolve*60;
+}
+
+- (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
 }
