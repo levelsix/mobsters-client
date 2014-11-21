@@ -704,7 +704,7 @@
   
   UserStruct *chosen = nil;
   for (UserStruct *us in self.myStructsList) {
-    int trueStructId = us.isComplete ? us.structId : us.staticStructForPrevLevel.structInfo.structId;
+    int trueStructId = us.staticStructForCurrentConstructionLevel.structInfo.structId;
     if (us.baseStructId == baseStructId && (!chosen || trueStructId < chosen.structId) && trueStructId < structId) {
       chosen = us;
     }
@@ -1173,8 +1173,9 @@
 }
 
 - (void) sendNormStructComplete:(UserStruct *)us {
-  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:us];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:us delegate:self];
   us.hasShownFreeSpeedup = NO;
+  _waitingForResponse = YES;
 }
 
 #pragma mark - Timers
@@ -1276,6 +1277,10 @@
     }
 }
 
+- (void) updateTimersForBuilding:(MapSprite *)ms {
+  [self updateTimersForBuilding:ms justBuilt:NO];
+}
+
 - (void) updateTimersForBuilding:(MapSprite *)ms justBuilt:(BOOL)justBuilt {
   Globals *gl = [Globals sharedGlobals];
   
@@ -1347,7 +1352,7 @@
 
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
-  if (mb.userStruct.userStructUuid) {
+  if (mb.userStruct.userStructUuid && !_waitingForResponse) {
     [self sendNormStructComplete:mb.userStruct];
     [self updateTimersForBuilding:mb justBuilt:NO];
     mb.isConstructing = NO;
@@ -1367,6 +1372,9 @@
     // Max cash/oil may have changed
     [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  } else {
+    // Try again in 1 second
+    [self performSelector:@selector(updateTimersForBuilding:) withObject:mb afterDelay:1.f];
   }
 }
 
@@ -1496,41 +1504,47 @@
 - (void) purchaseBuildingAllowGems:(BOOL)allowGems {
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
-  // Use return value as an indicator that purchase is accepted by client
-  UserStruct *us = [self sendPurchaseStruct:allowGems];
-  if (us) {
-    homeBuilding.userStruct = us;
-    _constrBuilding = homeBuilding;
-    [self updateTimersForBuilding:homeBuilding justBuilt:YES];
-    homeBuilding.isConstructing = YES;
-    homeBuilding.isPurchasing = NO;
-    homeBuilding.name = STRUCT_TAG(us.userStructUuid);
-    
-    [homeBuilding displayProgressBar];
-    
-    [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
-    
-    _canMove = NO;
-    _purchasing = NO;
-    _purchBuilding = nil;
-    
-    [self reselectCurrentSelection];
+  if (!_waitingForResponse) {
+    // Use return value as an indicator that purchase is accepted by client
+    UserStruct *us = [self sendPurchaseStruct:allowGems];
+    if (us) {
+      homeBuilding.userStruct = us;
+      _constrBuilding = homeBuilding;
+      [self updateTimersForBuilding:homeBuilding justBuilt:YES];
+      homeBuilding.isConstructing = YES;
+      homeBuilding.isPurchasing = NO;
+      homeBuilding.name = PURCH_STRUCT_TAG;
+      
+      [homeBuilding displayProgressBar];
+      
+      [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
+      
+      _canMove = NO;
+      _purchasing = NO;
+      _purchBuilding = nil;
+      
+      [self reselectCurrentSelection];
+    } else {
+      [homeBuilding liftBlock];
+      [homeBuilding removeFromParent];
+      
+      self.selected = nil;
+    }
+    [self doReorder];
   } else {
-    [homeBuilding liftBlock];
-    [homeBuilding removeFromParent];
-    
-    self.selected = nil;
+    [Globals addAlertNotification:@"Hold on, we are still processing your previous request!"];
   }
-  [self doReorder];
 }
 
 - (UserStruct *) sendPurchaseStruct:(BOOL)allowGems {
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
+  _waitingForResponse = YES;
+  
   // Use return value as an indicator that purchase is accepted by client
-  return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems];
+  return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems delegate:self];
 }
 
 - (IBAction)cancelMoveClicked:(id)sender {
@@ -1761,10 +1775,11 @@
     HomeBuilding *hb = (HomeBuilding *)self.selected;
     UserStruct *us = hb.userStruct;
     
-    if (us.userStructUuid == nil) {
+    if (us.userStructUuid == nil || _waitingForResponse) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems];
+      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems delegate:self];
+      _waitingForResponse = YES;
     }
   
     if (!us.isComplete) {
@@ -1825,10 +1840,11 @@
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
-  if (us.userStructUuid == nil) {
+  if (us.userStructUuid == nil || _waitingForResponse) {
     [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us];
+    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us delegate:self];
+    _waitingForResponse = YES;
   }
 }
 
@@ -1997,6 +2013,40 @@
 - (void) itemSelectClosed {
   self.currentViewController = nil;
   self.speedupItemsFiller = nil;
+}
+
+#pragma mark - Response Events
+
+- (void) handlePurchaseNormStructureResponseProto:(FullEvent *)fe {
+  PurchaseNormStructureResponseProto *proto = (PurchaseNormStructureResponseProto *)fe.event;
+  
+  if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
+    NSString *newName = STRUCT_TAG(proto.userStructUuid);
+    
+    HomeBuilding *hb = (HomeBuilding *)[self getChildByName:PURCH_STRUCT_TAG recursively:NO];
+    
+    if (hb) {
+      hb.name = newName;
+    } else {
+      // Can't find struct, just reload everything
+      LNLog(@"Unable to find purchased struct.. reloading everything.");
+      [self refresh];
+    }
+  }
+  
+  _waitingForResponse = NO;
+}
+
+- (void) handleUpgradeNormStructureResponseProto:(FullEvent *)fe {
+  _waitingForResponse = NO;
+}
+
+- (void) handleFinishNormStructWaittimeWithDiamondsResponseProto:(FullEvent *)fe {
+  _waitingForResponse = NO;
+}
+
+- (void) handleNormStructWaitCompleteResponseProto:(FullEvent *)fe {
+  _waitingForResponse = NO;
 }
 
 #pragma mark - Changing arrays

@@ -21,6 +21,7 @@
 #define EXPANSION_ROAD_SIZE 2
 
 #define STRUCT_TAG(d) [NSString stringWithFormat:@"UserStruct%@", d]
+#define PURCH_STRUCT_TAG @"PurchasingStruct"
 
 @class HomeBuildingMenu;
 
@@ -31,6 +32,8 @@
   BOOL _purchasing;
   BOOL _isSpeedingUp;
   int _purchStructId;
+  
+  BOOL _waitingForResponse;
   
   Building *_constrBuilding;
   HomeBuilding *_purchBuilding;

@@ -385,6 +385,7 @@
 }
 
 - (void) speedupMiniJob {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   [self.itemSelectViewController closeClicked:nil];
@@ -394,13 +395,17 @@
   
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:_selectedCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];
-  [_selectedCell spinFinish];
-  
-  [self.detailsViewController beginFinishSpinning];
-  
-  // Added this here so that timers can update
-  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
+  if (gs.gems < gemCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:_selectedCell.userMiniJob isSpeedup:YES gemCost:gemCost delegate:self];
+    [_selectedCell spinFinish];
+    
+    [self.detailsViewController beginFinishSpinning];
+    
+    // Added this here so that timers can update
+    [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_CHANGED_NOTIFICATION object:self];
+  }
 }
 
 - (void) miniJobsListHelpClicked:(MiniJobsListCell *)listCell {

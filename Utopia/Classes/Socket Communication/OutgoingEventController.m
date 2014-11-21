@@ -97,7 +97,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Home map
 
-- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems {
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   StructureInfoProto *fsp = [[gs structWithId:structId] structInfo];
@@ -145,6 +145,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to build without enough resources."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     [gs saveHealthProgressesFromIndex:0];
     
@@ -170,7 +171,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return us;
 }
 
-- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems {
+- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems delegate:(id)delegate {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
@@ -211,6 +212,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     } else {
       int64_t ms = [self getCurrentMilliseconds];
       int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+      [sc setDelegate:delegate forTag:tag];
       
       [gs saveHealthProgressesFromIndex:0];
       
@@ -295,7 +297,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return amountCollected;
 }
 
-- (void) instaUpgrade:(UserStruct *)userStruct {
+- (void) instaUpgrade:(UserStruct *)userStruct delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
@@ -312,6 +314,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds]];
+    [sc setDelegate:self forTag:tag];
     
     [gs saveHealthProgressesFromIndex:0];
     
@@ -339,7 +342,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) normStructWaitComplete:(UserStruct *)userStruct {
+- (void) normStructWaitComplete:(UserStruct *)userStruct delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
@@ -359,6 +362,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
+    [sc setDelegate:self forTag:tag];
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     

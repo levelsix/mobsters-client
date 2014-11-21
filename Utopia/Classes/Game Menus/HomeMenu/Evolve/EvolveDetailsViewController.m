@@ -51,6 +51,7 @@
   if (!gs.userEvolution) {
     if (_allowEvolution) {
       // Waiting for evo to complete.. go back to chooser screen
+      [self.itemSelectViewController closeClicked:nil];
       [self.parentViewController popViewControllerAnimated:YES];
     } else {
       _allowEvolution = YES;
@@ -252,18 +253,34 @@
     int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
     int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     
-    if (gs.gems < goldCost) {
-      [GenericPopupController displayNotEnoughGemsView];
+    if (goldCost < 0) {
+      [self speedupEvolution];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-      
-      self.spinner.hidden = NO;
-      [self.spinner startAnimating];
-      self.gemLabelsView.hidden = YES;
     }
+  }
+}
+
+- (void) speedupEvolution {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  [self.itemSelectViewController closeClicked:nil];
+  
+  int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (gs.gems < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:YES withDelegate:self];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    self.gemLabelsView.hidden = YES;
   }
 }
 
@@ -277,6 +294,44 @@
     self.gemLabelsView.hidden = NO;
     self.oilLabelsView.hidden = NO;
   }
+}
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  return gemCost;
+}
+
+- (void) itemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedupEvolution];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    UserEvolution *ue = gs.userEvolution;
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId userEvolution:ue];
+      
+      [self updateLabels];
+    }
+    
+    int timeLeft = ue.endTime.timeIntervalSinceNow;
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (void) itemSelectClosed {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
 }
 
 @end

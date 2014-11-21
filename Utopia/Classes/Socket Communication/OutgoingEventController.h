@@ -28,12 +28,12 @@
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate;
 - (void) exchangeGemsForResources:(int)gems resources:(int)resources percFill:(int)percFill resType:(ResourceType)resType delegate:(id)delegate;
 
-- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems;
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems delegate:(id)delegate;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
 - (int) retrieveFromNormStructure:(UserStruct *)userStruct;
-- (void) instaUpgrade:(UserStruct *)userStruct;
-- (void) normStructWaitComplete:(UserStruct *)userStruct;
-- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems;
+- (void) instaUpgrade:(UserStruct *)userStruct delegate:(id)delegate;
+- (void) normStructWaitComplete:(UserStruct *)userStruct delegate:(id)delegate;
+- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems delegate:(id)delegate;
 
 - (void) loadPlayerCity:(NSString *)userUuid withDelegate:(id)delegate;
 - (void) loadNeutralCity:(int)cityId withDelegate:(id)delegate;

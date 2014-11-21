@@ -12,6 +12,8 @@
 
 #import "UserData.h"
 
+#import "SpeedupItemsFiller.h"
+
 @interface EvolveDetailsViewController : PopupSubViewController {
   BOOL _allowEvolution;
 }
@@ -37,6 +39,9 @@
 @property (nonatomic, retain) IBOutlet UIView *bottomView;
 
 @property (nonatomic, retain) EvoItem *evoItem;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 - (id) initWithEvoItem:(EvoItem *)evoItem allowEvolution:(BOOL)allowEvolution;
 - (id) initWithCurrentEvolution;
