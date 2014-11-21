@@ -2009,7 +2009,7 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 @end
 
 @interface TradeItemForResourcesRequestProto ()
-@property (strong) MinimumUserProto* sender;
+@property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) PBAppendableArray * mutableItemIdsUsedList;
 @property (strong) NSMutableArray * mutableNuUserItemsList;
 @end
@@ -2029,7 +2029,7 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 @dynamic nuUserItemsList;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   }
   return self;
 }
@@ -2259,7 +2259,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -2283,22 +2283,22 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -2307,7 +2307,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 }
 - (TradeItemForResourcesRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (PBAppendableArray *)itemIdsUsedList {
@@ -2365,7 +2365,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 @end
 
 @interface TradeItemForResourcesResponseProto ()
-@property (strong) MinimumUserProto* sender;
+@property (strong) MinimumUserProtoWithMaxResources* sender;
 @property TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
 @end
 
@@ -2387,7 +2387,7 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 @synthesize status;
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.status = TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess;
   }
   return self;
@@ -2578,7 +2578,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -2601,22 +2601,22 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -2625,7 +2625,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 }
 - (TradeItemForResourcesResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

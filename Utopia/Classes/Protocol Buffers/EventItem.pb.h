@@ -540,12 +540,12 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 @interface TradeItemForResourcesRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   PBAppendableArray * mutableItemIdsUsedList;
   NSMutableArray * mutableNuUserItemsList;
 }
 - (BOOL) hasSender;
-@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) PBArray * itemIdsUsedList;
 @property (readonly, strong) NSArray * nuUserItemsList;
 - (int32_t)itemIdsUsedAtIndex:(NSUInteger)index;
@@ -587,10 +587,10 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (TradeItemForResourcesRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (TradeItemForResourcesRequestProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (TradeItemForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (TradeItemForResourcesRequestProto_Builder*) clearSender;
 
 - (PBAppendableArray *)itemIdsUsedList;
@@ -611,12 +611,12 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) TradeItemForResourcesResponseProto_TradeItemForResourcesStatus status;
 
 + (TradeItemForResourcesResponseProto*) defaultInstance;
@@ -655,10 +655,10 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (TradeItemForResourcesResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (TradeItemForResourcesResponseProto_Builder*) setSender_Builder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (TradeItemForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (TradeItemForResourcesResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;

@@ -256,10 +256,10 @@ static NSString *udid = nil;
   for (FullEvent *fe in self.queuedMessages) {
     if ([self isPreDbEventType:fe.requestType]) {
       NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
-      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
       [toRemove addObject:fe];
     }
   }
+  [self sendFullEvents:toRemove];
   [self.queuedMessages removeObjectsInArray:toRemove];
   
   _numDisconnects = 0;
@@ -278,8 +278,8 @@ static NSString *udid = nil;
   if (_canSendPreDbEvents) {
     for (FullEvent *fe in self.queuedMessages) {
       NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
-      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag];
     }
+    [self sendFullEvents:self.queuedMessages];
     [self.queuedMessages removeAllObjects];
   }
 }
@@ -310,25 +310,7 @@ static NSString *udid = nil;
   return type == EventProtocolRequestCStartupEvent || type == EventProtocolRequestCUserCreateEvent;
 }
 
-- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
-  if (!_canSendPreDbEvents) {
-    LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
-    
-    FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
-    [self.queuedMessages addObject:fe];
-    return;
-  } else {
-    if (!_canSendRegularEvents) {
-      if (![self isPreDbEventType:type]) {
-        LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
-        
-        FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
-        [self.queuedMessages addObject:fe];
-        return;
-      }
-    }
-  }
-  
+- (NSData *) serializeEvent:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
   NSMutableData *messageWithHeader = [NSMutableData data];
   NSData *data = [msg data];
   
@@ -353,12 +335,49 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
+  return messageWithHeader;
+}
+
+- (void) sendFullEvents:(NSArray *)events {
+  NSMutableData *mutableData = [NSMutableData data];
+  for (FullEvent *fe in events) {
+    PBGeneratedMessage *msg = fe.event;
+    int tagNum = fe.tag;
+    EventProtocolRequest type = fe.requestType;
+    
+    if (!_canSendPreDbEvents) {
+      LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+      
+      [self.queuedMessages addObject:fe];
+      continue;
+    } else {
+      if (!_canSendRegularEvents) {
+        if (![self isPreDbEventType:type]) {
+          LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+          
+          [self.queuedMessages addObject:fe];
+          continue;
+        }
+      }
+    }
+    
+    NSData *messageWithHeader = [self serializeEvent:msg withMessageType:type tagNum:tagNum];
+    [mutableData appendData:messageWithHeader];
+  }
+  
   //  NSString *cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
   //  NSString *filePath = [NSString stringWithFormat:@"%@/event%d.dat",cacheDir, tagNum];
   //  [messageWithHeader writeToFile:filePath atomically:YES];
   
-  float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
-  [self.connectionThread sendData:messageWithHeader withDelay:delay];
+  if (mutableData.length) {
+    float delay = MAX(0.f, [[_lastFlushedTime dateByAddingTimeInterval:0.6f] timeIntervalSinceNow]);
+    [self.connectionThread sendData:mutableData withDelay:delay];
+  }
+}
+
+- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum {
+  FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
+  [self sendFullEvents:@[fe]];
 }
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {

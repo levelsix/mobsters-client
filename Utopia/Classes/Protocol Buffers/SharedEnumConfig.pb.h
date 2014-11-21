@@ -62,6 +62,7 @@ typedef NS_ENUM(SInt32, GameActionType) {
   GameActionTypeMiniJob = 5,
   GameActionTypeEnhanceTime = 6,
   GameActionTypeRemoveObstacle = 7,
+  GameActionTypeCombineMonster = 8,
 };
 
 BOOL GameActionTypeIsValidValue(GameActionType value);
