@@ -1393,6 +1393,10 @@
   } else {
     // Try again in 1 second
     [self performSelector:@selector(updateTimersForBuilding:) withObject:mb afterDelay:1.f];
+    
+    // Do cleanup or it will crash
+    [timer invalidate];
+    [_timers removeObject:timer];
   }
 }
 
