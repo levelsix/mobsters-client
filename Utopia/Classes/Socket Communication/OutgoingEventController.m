@@ -314,7 +314,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds]];
-    [sc setDelegate:self forTag:tag];
+    [sc setDelegate:delegate forTag:tag];
     
     [gs saveHealthProgressesFromIndex:0];
     
@@ -362,7 +362,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendNormStructBuildsCompleteMessage:@[userStruct.userStructUuid] time:ms];
-    [sc setDelegate:self forTag:tag];
+    [sc setDelegate:delegate forTag:tag];
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     

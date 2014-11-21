@@ -1715,6 +1715,11 @@
     UserObstacle *ub = ((ObstacleSprite *)self.selected).obstacle;
     ObstacleProto *op = ub.staticObstacle;
     
+    if (!ub.userObstacleUuid) {
+      [Globals addAlertNotification:@"Hold on, we're still processing your previous request!"];
+      return;
+    }
+    
     cost = op.cost;
     isOilBuilding = op.removalCostType == ResourceTypeOil;
   }
