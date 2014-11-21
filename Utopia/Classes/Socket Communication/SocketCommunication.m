@@ -1495,6 +1495,8 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO queueUp:YES];
 }
 
+
+
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip {
   [self flushAllExceptEventType:EventProtocolRequestCTradeItemForSpeedUpsEvent];
   [_speedupItemUsages addObjectsFromArray:uiups];
@@ -1522,6 +1524,38 @@ static NSString *udid = nil;
   
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForSpeedUpsEvent flush:NO queueUp:YES];
 }
+
+
+
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip {
+  [self flushAllExceptEventType:EventProtocolRequestCTradeItemForResouresEvent];
+  [_resourceUpdatedUserItems addObject:@(itemId)];
+  
+  // remove the user item first if it is already in here
+  for (int i = 0; i < _resourceUpdatedUserItems.count; i++) {
+    UserItemProto *u = _resourceUpdatedUserItems[i];
+    if (u.itemId == uip.itemId) {
+      [_resourceUpdatedUserItems removeObjectAtIndex:i];
+    }
+  }
+  [_resourceUpdatedUserItems addObject:uip];
+  
+  return _currentTagNum;
+}
+
+- (int) sendTradeItemForResourcesMessage {
+  TradeItemForResourcesRequestProto *req = [[[[[TradeItemForResourcesRequestProto builder]
+                                               setSender:[self senderWithMaxResources]]
+                                              addAllItemIdsUsed:_resourceItemIdsUsed]
+                                             addAllNuUserItems:_resourceUpdatedUserItems]
+                                            build];
+  
+  LNLog(@"Sending trade item for resources message with %d items.", (int)_resourceItemIdsUsed.count);
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResouresEvent flush:NO queueUp:YES];
+}
+
+
 
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
   [self flushAllExceptEventType:EventProtocolRequestCHealMonsterEvent];
@@ -1588,6 +1622,9 @@ static NSString *udid = nil;
   }
 }
 
+
+#pragma mark - Flush
+
 - (void) flush {
   [self flushAndQueueUp];
   if (self.queuedMessages.count) {
@@ -1643,6 +1680,17 @@ static NSString *udid = nil;
       
       [_speedupItemUsages removeAllObjects];
       [_speedupUpdatedUserItems removeAllObjects];
+      
+      found = YES;
+    }
+  }
+  
+  if (type != EventProtocolRequestCTradeItemForResouresEvent) {
+    if (_resourceItemIdsUsed.count > 0) {
+      [self sendTradeItemForResourcesMessage];
+      
+      [_resourceItemIdsUsed removeAllObjects];
+      [_resourceUpdatedUserItems removeAllObjects];
       
       found = YES;
     }

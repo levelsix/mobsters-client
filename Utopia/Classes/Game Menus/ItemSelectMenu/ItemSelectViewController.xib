@@ -11,7 +11,10 @@
                 <outlet property="headerView" destination="cRQ-qH-e4y" id="W3P-i4-ogt"/>
                 <outlet property="itemsTable" destination="rJM-vz-7R3" id="2ul-ec-6SL"/>
                 <outlet property="mainView" destination="1ok-cB-71x" id="dVS-OG-Kll"/>
-                <outlet property="titleLabel" destination="gA1-LP-hcP" id="GRj-T5-OQQ"/>
+                <outlet property="progressBar" destination="ZOW-SP-F1g" id="984-jU-3Dc"/>
+                <outlet property="progressBarLabel" destination="tlX-x3-CTo" id="PTR-Uz-n5G"/>
+                <outlet property="progressBarView" destination="gEH-Be-IxU" id="0Ef-PD-W0V"/>
+                <outlet property="titleLabel" destination="tlX-x3-CTo" id="CVn-tD-A6D"/>
                 <outlet property="triangle" destination="4Rk-l9-dtk" id="6yK-IY-jdA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -51,7 +54,7 @@
                             <rect key="frame" x="8" y="9" width="241" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="52" sectionHeaderHeight="14" sectionFooterHeight="22" id="rJM-vz-7R3" customClass="CancellableTableView">
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="52" sectionHeaderHeight="32" sectionFooterHeight="22" id="rJM-vz-7R3" customClass="CancellableTableView">
                                     <rect key="frame" x="0.0" y="31" width="241" height="227"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -81,6 +84,54 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <view contentMode="scaleToFill" id="gEH-Be-IxU" userLabel="Progress Bar View">
+                                    <rect key="frame" x="0.0" y="79" width="241" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemstimerbg.png" id="Q4g-bl-x2Z">
+                                            <rect key="frame" x="9" y="9" width="222" height="13"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" id="ZOW-SP-F1g" customClass="SplitImageProgressBar">
+                                            <rect key="frame" x="9" y="9" width="222" height="13"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="m1O-Yg-Gsw">
+                                                    <rect key="frame" x="71" y="0.0" width="4" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreenmiddle.png" id="6w3-Xg-F3N">
+                                                    <rect key="frame" x="5" y="0.0" width="1" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="obtimergreencap.png" id="pGT-sQ-LxG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="4" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <outlet property="leftCap" destination="pGT-sQ-LxG" id="z9S-YU-Yyn"/>
+                                                <outlet property="middleBar" destination="6w3-Xg-F3N" id="hq8-Pd-q5I"/>
+                                                <outlet property="rightCap" destination="m1O-Yg-Gsw" id="08Q-wK-Bdj"/>
+                                            </connections>
+                                        </view>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9M 33S" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tlX-x3-CTo" customClass="NiceFontLabel14S">
+                                            <rect key="frame" x="19" y="8" width="203" height="11"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="8g6-MN-lFt">
+                                            <rect key="frame" x="8" y="31" width="225" height="1"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -102,6 +153,10 @@
     <resources>
         <image name="itemsheaderbg.png" width="1" height="35"/>
         <image name="itemssidearrow.png" width="8" height="16"/>
+        <image name="itemstimerbg.png" width="222" height="13"/>
+        <image name="obtimergreencap.png" width="4" height="13"/>
+        <image name="obtimergreenmiddle.png" width="1" height="13"/>
+        <image name="popupline.png" width="1" height="1"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -72,15 +72,17 @@
 }
 
 - (void) updateForTime:(id<ItemObject>)itemObject {
-  if ([itemObject showFreeLabel]) {
-    self.freeLabel.hidden = NO;
-    self.gemsLabel.superview.hidden = YES;
-  } else {
-    self.gemsLabel.text = [itemObject buttonText];
-    [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
-    
-    self.freeLabel.hidden = YES;
-    self.gemsLabel.superview.hidden = NO;
+  if ([itemObject useGemsButton]) {
+    if ([itemObject showFreeLabel]) {
+      self.freeLabel.hidden = NO;
+      self.gemsLabel.superview.hidden = YES;
+    } else {
+      self.gemsLabel.text = [itemObject buttonText];
+      [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
+      
+      self.freeLabel.hidden = YES;
+      self.gemsLabel.superview.hidden = NO;
+    }
   }
 }
 
@@ -117,12 +119,32 @@ static BOOL _instanceOpened = NO;
   
   _instanceOpened = YES;
   [[NSNotificationCenter defaultCenter] postNotificationName:ITEM_SELECT_OPENED_NOTIFICATION object:self];
+  
+  self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+  [self updateLabels];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
+  [self.updateTimer invalidate];
+  self.updateTimer = nil;
+  
   [[SocketCommunication sharedSocketCommunication] flush];
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) updateLabels {
+  self.titleLabel.text = [self.delegate titleName];
+  
+  [self updateProgressBar];
+  
+  for (ItemSelectCell *cell in self.itemsTable.visibleCells) {
+    id<ItemObject> io = self.items[[self.itemsTable indexPathForCell:cell].row];
+    [cell updateForTime:io];
+  }
 }
 
 - (void) reloadData {
@@ -130,13 +152,64 @@ static BOOL _instanceOpened = NO;
 }
 
 - (void) reloadDataAnimated:(BOOL)animated {
-  if ([self.delegate respondsToSelector:@selector(reloadItemsArray)]) {
-    [self.delegate reloadItemsArray];
+  NSArray *oldArray = self.items;
+  self.items = [self.delegate reloadItemsArray];
+  
+  if (animated) {
+    NSMutableArray *removedIps = [NSMutableArray array], *addedIps = [NSMutableArray array];
+    NSMutableDictionary *movedIps = [NSMutableDictionary dictionary];
+    
+    [Globals calculateDifferencesBetweenOldArray:oldArray newArray:self.items removalIps:removedIps additionIps:addedIps movedIps:movedIps section:0];
+    
+    [self.itemsTable beginUpdates];
+    
+    [self.itemsTable deleteRowsAtIndexPaths:removedIps withRowAnimation:UITableViewRowAnimationFade];
+    
+    for (NSIndexPath *ip in movedIps) {
+      NSIndexPath *newIp = movedIps[ip];
+      [self.itemsTable moveRowAtIndexPath:ip toIndexPath:newIp];
+    }
+    [self.itemsTable insertRowsAtIndexPaths:addedIps withRowAnimation:UITableViewRowAnimationFade];
+    
+    [self.itemsTable endUpdates];
+    
+    for (ItemSelectCell *cell in self.itemsTable.visibleCells) {
+      id<ItemObject> io = self.items[[self.itemsTable indexPathForCell:cell].row];
+      [cell updateForItemObject:io];
+    }
+  } else {
+    [self.itemsTable reloadData];
   }
   
-  [self.itemsTable reloadData];
-  
   self.titleLabel.text = [self.delegate titleName];
+  
+  [self updateProgressBar];
+}
+
+- (void) updateProgressBar {
+  self.progressBarLabel.text = [self.delegate progressBarText];
+  
+  // Use tag of the progress bar to determine what color it is
+  TimerProgressBarColor color = [self.delegate progressBarColor];
+  if (self.progressBar.tag != color) {
+    // Reload it
+    NSString *prefix = nil;
+    if (color == TimerProgressBarColorYellow) {
+      prefix = @"obtimeryellow";
+    } else if (color == TimerProgressBarColorGreen) {
+      prefix = @"obtimergreen";
+    } else if (color == TimerProgressBarColorPurple) {
+      prefix = @"obtimerpurple";
+    }
+    
+    self.progressBar.leftCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+    self.progressBar.rightCap.image = [Globals imageNamed:[prefix stringByAppendingString:@"cap.png"]];
+    self.progressBar.middleBar.image = [Globals imageNamed:[prefix stringByAppendingString:@"middle.png"]];
+    
+    self.progressBar.tag = color;
+  }
+  
+  [self.progressBar setPercentage:[self.delegate progressBarPercent]];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -155,7 +228,7 @@ static BOOL _instanceOpened = NO;
 #pragma mark - UITableView dataSource/delegate
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [self.delegate numberOfItems];
+  return self.items.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -165,9 +238,13 @@ static BOOL _instanceOpened = NO;
     cell = self.selectCell;
   }
   
-  [cell updateForItemObject:[self.delegate itemObjectAtIndex:(int)indexPath.row]];
+  [cell updateForItemObject:self.items[indexPath.row]];
   
   return cell;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  return self.progressBarView;
 }
 
 - (IBAction) cellButtonClicked:(UIView *)sender {
@@ -178,7 +255,8 @@ static BOOL _instanceOpened = NO;
   if (sender) {
     ItemSelectCell *cell = (ItemSelectCell *)sender;
     NSIndexPath *ip = [self.itemsTable indexPathForCell:cell];
-    [self.delegate itemSelected:self atIndex:(int)ip.row];
+    id<ItemObject> item = self.items[ip.row];
+    [self.delegate itemSelected:item viewController:self];
   }
 }
 

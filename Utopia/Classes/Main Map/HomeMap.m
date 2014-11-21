@@ -1668,7 +1668,7 @@
   
   _waitingForResponse = YES;
   
-  [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
   
   // Use return value as an indicator that purchase is accepted by client
   return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems delegate:self];
@@ -1847,7 +1847,7 @@
     if (us.userStructUuid == nil || _waitingForResponse) {
       [Globals addAlertNotification:@"Hold on, we are still processing your building purchase."];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems delegate:self];
       _waitingForResponse = YES;
     }
@@ -1866,7 +1866,7 @@
     ObstacleSprite *os = (ObstacleSprite *)self.selected;
     UserObstacle *uo = os.obstacle;
     
-    [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:itemIdsToQuantity];
+    [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
     [[OutgoingEventController sharedOutgoingEventController] beginObstacleRemoval:uo spendGems:allowGems];
     
     if (uo.endTime) {

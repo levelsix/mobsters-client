@@ -14,6 +14,7 @@
 #import "ShopViewController.h"
 #import "HomeViewController.h"
 #import "TimerViewController.h"
+#import "ResourceItemsFiller.h"
 
 @interface TopBarMonsterView : UIView
 
@@ -28,7 +29,7 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate> {
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate, ResourceItemsFillerDelegate> {
   CGPoint _originalProgressCenter;
   
   int _structIdForArrow;
@@ -91,6 +92,9 @@
 @property (nonatomic, retain) IBOutlet TimerViewController *timerViewController;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (void) showMyCityView;
 - (void) removeMyCityView;

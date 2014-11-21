@@ -141,6 +141,7 @@
 - (void) tradeItemForHealSpeedup:(int)itemId;
 - (void) removeUserItemUsed:(NSArray *)usageUuids;
 
-- (void) tradeItemForResources:(NSDictionary *)itemIdsToQuantity;
+- (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity;
+- (void) tradeItemForResources:(int)itemId;
 
 @end

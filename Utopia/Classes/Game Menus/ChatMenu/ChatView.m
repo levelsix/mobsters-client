@@ -105,7 +105,8 @@
     [self.chatTable endUpdates];
     
     for (ChatCell *cell in self.chatTable.visibleCells) {
-      [self.chats[[self.chatTable indexPathForCell:cell].row] updateInChatCell:cell showsClanTag:[self showsClanTag]];
+      id<ChatObject> co = self.chats[[self.chatTable indexPathForCell:cell].row];
+      [co updateInChatCell:cell showsClanTag:[self showsClanTag]];
     }
     
     if (self.chatTable.contentOffset.y > self.chatTable.contentSize.height-self.chatTable.frame.size.height-100) {

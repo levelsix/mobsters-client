@@ -11,6 +11,8 @@
 #import "ItemObject.h"
 #import "NibUtils.h"
 
+#import "TimerAction.h"
+
 @interface ItemSelectCell : UITableViewCell {
   UIColor *_origIconLabelColor;
 }
@@ -36,15 +38,16 @@
 
 @protocol ItemSelectDelegate <NSObject>
 
-- (int) numberOfItems;
-- (id<ItemObject>) itemObjectAtIndex:(int)idx;
 - (NSString *) titleName;
 
-- (void) itemSelected:(id)viewController atIndex:(int)idx;
+- (void) itemSelected:(id<ItemObject>)item viewController:(id)viewController;
 - (void) itemSelectClosed:(id)viewController;
 
-@optional
-- (void) reloadItemsArray;
+- (NSArray *) reloadItemsArray;
+
+- (TimerProgressBarColor) progressBarColor;
+- (NSString *) progressBarText;
+- (float) progressBarPercent;
 
 @end
 
@@ -59,9 +62,17 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *itemsTable;
 
+@property (nonatomic, retain) IBOutlet UIView *progressBarView;
+@property (nonatomic, retain) IBOutlet THLabel *progressBarLabel;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *progressBar;
+
 @property (nonatomic, retain) IBOutlet ItemSelectCell *selectCell;
 
+@property (nonatomic, retain) NSArray *items;
+
 @property (nonatomic, assign) id<ItemSelectDelegate> delegate;
+
+@property (strong, nonatomic) NSTimer *updateTimer;
 
 + (BOOL) canCreateNewVc;
 

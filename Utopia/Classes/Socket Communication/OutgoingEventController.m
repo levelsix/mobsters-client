@@ -1536,7 +1536,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Resources
 
-- (void) tradeItemForResources:(NSDictionary *)itemIdsToQuantity {
+- (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   
   int cashGained = 0, oilGained = 0;
@@ -1579,6 +1579,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
     [gs addUnrespondedUpdates:cu, ou, nil];
   }
+}
+
+- (void) tradeItemForResources:(int)itemId {
+  GameState *gs = [GameState sharedGameState];
+  
+  int cashGained = 0, oilGained = 0;
+  UserItemProto *changedItem = nil;
+  
+  ItemProto *ip = [gs itemForId:itemId];
+  UserItem *ui = [gs.itemUtil getUserItemForItemId:itemId];
+  int quantity = 1;
+  
+  if (quantity <= ui.quantity) {
+    ui.quantity -= quantity;
+    changedItem = [ui toProto];
+  } else {
+    [Globals popupMessage:@"Trying to use invalid items.."];
+    return;
+  }
+  
+  if (ip.itemType == ItemTypeItemOil) {
+    oilGained += ip.amount*quantity;
+  } else if (ip.itemType == ItemTypeItemCash) {
+    cashGained += ip.amount*quantity;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem];
+  
+  CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
+  [gs addUnrespondedUpdates:cu, ou, nil];
 }
 
 #pragma mark - Gacha

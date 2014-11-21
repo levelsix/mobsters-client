@@ -12,7 +12,7 @@
 
 @implementation SpeedupItemsFiller
 
-- (void) reloadItemsArray {
+- (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *userItems = [[gs.itemUtil getItemsForType:ItemTypeSpeedUp staticDataId:0] mutableCopy];
   
@@ -45,28 +45,34 @@
     return NSOrderedSame;
   }];
   
-  self.items = userItems;
+  return userItems;
 }
 
-- (int) numberOfItems {
-  return (int)self.items.count;
+- (TimerProgressBarColor) progressBarColor {
+  int gems = [self.delegate numGemsForTotalSpeedup];
+  if (gems <= 0) {
+    return TimerProgressBarColorPurple;
+  } else {
+    return TimerProgressBarColorYellow;
+  }
 }
 
-- (id<ItemObject>) itemObjectAtIndex:(int)idx {
-  return self.items[idx];
+- (NSString *) progressBarText {
+  int secsLeft = [self.delegate timeLeftForSpeedup];
+  return [[Globals convertTimeToShortString:secsLeft] uppercaseString];
 }
 
-- (void) itemSelected:(id)viewController atIndex:(int)idx {
-  if (idx < self.items.count) {
-    id<ItemObject> io = self.items[idx];
-    
+- (float) progressBarPercent {
+  return (1.f-[self.delegate timeLeftForSpeedup]/(float)[self.delegate totalSecondsRequired]);
+}
+
+- (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
     if (![io isKindOfClass:[UserItem class]] || [io numOwned] > 0) {
       [self.delegate speedupItemUsed:io viewController:viewController];
     } else {
       UserItem *ui = (UserItem *)io;
       [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@s.", ui.name]];
     }
-  }
 }
 
 - (NSString *) titleName {

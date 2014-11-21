@@ -306,6 +306,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRemoveUserItemUsedEvent:
       responseClass = [RemoveUserItemUsedResponseProto class];
       break;
+    case EventProtocolResponseSTradeItemForResourcesEvent:
+      responseClass = [TradeItemForResourcesResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1331,7 +1334,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   TradeItemForSpeedUpsResponseProto *proto = (TradeItemForSpeedUpsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Trade item for booster response received with status %d.", (int)proto.status);
+  LNLog(@"Trade item for speed ups response received with status %d.", (int)proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TradeItemForSpeedUpsResponseProto_TradeItemForSpeedUpsStatusSuccess) {
@@ -1354,6 +1357,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to remove user item usages."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleTradeItemForResourcesResponseProto:(FullEvent *)fe {
+  TradeItemForResourcesResponseProto *proto = (TradeItemForResourcesResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Trade item for resources response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TradeItemForResourcesResponseProto_TradeItemForResourcesStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to trade item for resources."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

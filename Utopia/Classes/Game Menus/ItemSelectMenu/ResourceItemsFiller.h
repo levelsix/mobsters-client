@@ -30,13 +30,12 @@
   BOOL _accumulate;
 }
 
+@property (nonatomic, assign) ResourceType resourceType;
+
 - (id) initWithResourceType:(ResourceType)resType requiredAmount:(int)requiredAmount shouldAccumulate:(BOOL)accumulate;
 
-@property (nonatomic, retain) NSMutableArray *items;
 @property (nonatomic, retain) NSMutableDictionary *usedItems;
 
 @property (nonatomic, assign) id<ResourceItemsFillerDelegate> delegate;
-
-- (void) reloadItemsArray;
 
 @end

@@ -22,10 +22,6 @@
 
 @interface SpeedupItemsFiller : NSObject <ItemSelectDelegate>
 
-@property (nonatomic, retain) NSMutableArray *items;
-
 @property (nonatomic, assign) id<SpeedupItemsFillerDelegate> delegate;
-
-- (void) reloadItemsArray;
 
 @end

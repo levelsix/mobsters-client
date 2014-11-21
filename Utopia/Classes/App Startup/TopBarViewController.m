@@ -22,6 +22,8 @@
 #import "ClanViewController.h"
 #import "HomeViewController.h"
 #import "ShopViewController.h"
+#import "GenericPopupController.h"
+#import "OutgoingEventController.h"
 
 @implementation TopBarMonsterView
 
@@ -706,6 +708,77 @@
     // Move the coin bars above
     [self.mainView insertSubview:hvc.view belowSubview:self.coinBarsView];
   }
+}
+
+#pragma mark - Resource Filler delegate
+
+- (IBAction) resourceBarTapped:(UIView *)sender {
+  GameState *gs = [GameState sharedGameState];
+  ResourceType resType = [sender tag];
+  
+  ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+  if (svc) {
+    int reqAmt = resType == ResourceTypeCash ? [gs maxCash] : [gs maxOil];
+    ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:resType requiredAmount:reqAmt shouldAccumulate:NO];
+    rif.delegate = self;
+    svc.delegate = rif;
+    self.itemSelectViewController = svc;
+    self.resourceItemsFiller = rif;
+    
+    GameViewController *gvc = [GameViewController baseController];
+    svc.view.frame = gvc.view.bounds;
+    [gvc addChildViewController:svc];
+    [gvc.view addSubview:svc.view];
+  }
+}
+
+- (void) resourceItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  ResourceType resType = self.resourceItemsFiller.resourceType;
+  
+  int maxAmount = resType == ResourceTypeCash ? [gs maxCash] : [gs maxOil];
+  int curAmount = resType == ResourceTypeCash ? gs.cash : gs.oil;
+  int reqAmt = maxAmount-curAmount;
+  
+  if (reqAmt > 0) {
+    if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+      int gemCost = [gl calculateGemConversionForResourceType:resType amount:reqAmt];
+      
+      if (gemCost > gs.gems) {
+        [GenericPopupController displayNotEnoughGemsView];
+      } else {
+        [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemCost resources:reqAmt percFill:1.f resType:resType delegate:nil];
+      }
+    } else if ([itemObject isKindOfClass:[UserItem class]]) {
+      // Apply items
+      GameState *gs = [GameState sharedGameState];
+      UserItem *ui = (UserItem *)itemObject;
+      ItemProto *ip = [gs itemForId:ui.itemId];
+      
+      if (ip.itemType == ItemTypeItemCash || ip.itemType == ItemTypeItemOil) {
+        [[OutgoingEventController sharedOutgoingEventController] tradeItemForResources:ip.itemId];
+      }
+    }
+    
+    [viewController reloadDataAnimated:YES];
+  } else {
+    // Find the storage building
+    NSString *name = nil;
+    for (ResourceStorageProto *rsp in gs.staticStructs.allValues) {
+      if (rsp.structInfo.structType == StructureInfoProto_StructTypeResourceStorage &&
+          rsp.resourceType == resType && !rsp.structInfo.predecessorStructId) {
+        name = rsp.structInfo.name;
+      }
+    }
+    
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your storages are full.%@", name ? [NSString stringWithFormat:@" Upgrade or build more %@s to store more!", name] : @""]];
+  }
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.resourceItemsFiller = nil;
 }
 
 @end

@@ -37,6 +37,9 @@
   NSMutableArray *_speedupItemUsages;
   NSMutableArray *_speedupUpdatedUserItems;
   
+  NSMutableArray *_resourceItemIdsUsed;
+  NSMutableArray *_resourceUpdatedUserItems;
+  
   NSDate *_lastFlushedTime;
 }
 
@@ -193,7 +196,10 @@
 - (int) sendDevRequestProto:(DevRequest)request staticDataId:(int)staticDataId quantity:(int)quantity;
 
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
+
+// First one is the non-batched one, second one batches
 - (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems;
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip;
 
 - (void) flush;
 

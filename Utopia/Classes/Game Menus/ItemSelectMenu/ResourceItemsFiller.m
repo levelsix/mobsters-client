@@ -30,7 +30,7 @@
   return [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:self.usedItems];
 }
 
-- (void) reloadItemsArray {
+- (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -54,9 +54,12 @@
   }
   
   // Add a gems item object.. maybe
-  int gems = [gl calculateGemConversionForResourceType:_resourceType amount:_requiredAmount-[self currentAmount]];
-  GemsItemObject *gio = [[GemsItemObject alloc] initWithNumGems:gems];
-  [userItems addObject:gio];
+  int amountLeft = _requiredAmount-[self currentAmount];
+  if (amountLeft > 0 || _accumulate) {
+    int gems = [gl calculateGemConversionForResourceType:_resourceType amount:amountLeft];
+    GemsItemObject *gio = [[GemsItemObject alloc] initWithNumGems:gems];
+    [userItems addObject:gio];
+  }
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
@@ -71,15 +74,19 @@
     return NSOrderedSame;
   }];
   
-  self.items = userItems;
+  return userItems;
 }
 
-- (int) numberOfItems {
-  return (int)self.items.count;
+- (TimerProgressBarColor) progressBarColor {
+  return _resourceType == ResourceTypeCash ? TimerProgressBarColorGreen : TimerProgressBarColorYellow;
 }
 
-- (id<ItemObject>) itemObjectAtIndex:(int)idx {
-  return self.items[idx];
+- (NSString *) progressBarText {
+  return [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:[self currentAmount]], [Globals commafyNumber:_requiredAmount]];
+}
+
+- (float) progressBarPercent {
+  return [self currentAmount]/(float)_requiredAmount;
 }
 
 - (NSString *) titleName {
@@ -91,38 +98,34 @@
   }
 }
 
-- (void) itemSelected:(ItemSelectViewController *)viewController atIndex:(int)idx {
-  if (idx < self.items.count) {
-    id<ItemObject> io = self.items[idx];
-    
-    if ([io isKindOfClass:[UserItem class]]) {
-      UserItem *ui = (UserItem *)io;
-      int numUsed = [self.usedItems[@(ui.itemId)] intValue];
-      if ([io numOwned]-numUsed > 0) {
-        if (!_accumulate) {
-          [self.delegate resourceItemUsed:io viewController:viewController];
-        } else {
-          self.usedItems[@(ui.itemId)] = @(numUsed+1);
-          
-          if ([self currentAmount] > _requiredAmount) {
-            [self.delegate resourceItemsUsed:self.usedItems];
-            [viewController closeClicked:nil];
-          } else {
-            [viewController reloadDataAnimated:YES];
-          }
-        }
-      } else {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@ packages.", ui.name]];
-      }
-    } else {
-      // Gem object - delegate should recalculate how many gems should be sent..
+- (void) itemSelected:(id<ItemObject>)io viewController:(id)viewController {
+  if ([io isKindOfClass:[UserItem class]]) {
+    UserItem *ui = (UserItem *)io;
+    int numUsed = [self.usedItems[@(ui.itemId)] intValue];
+    if ([io numOwned]-numUsed > 0) {
       if (!_accumulate) {
         [self.delegate resourceItemUsed:io viewController:viewController];
       } else {
-        self.usedItems[@0] = @1;
-        [self.delegate resourceItemsUsed:self.usedItems];
-        [viewController closeClicked:nil];
+        self.usedItems[@(ui.itemId)] = @(numUsed+1);
+        
+        if ([self currentAmount] > _requiredAmount) {
+          [self.delegate resourceItemsUsed:self.usedItems];
+          [viewController closeClicked:nil];
+        } else {
+          [viewController reloadDataAnimated:YES];
+        }
       }
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You don't own any %@ packages.", ui.name]];
+    }
+  } else {
+    // Gem object - delegate should recalculate how many gems should be sent..
+    if (!_accumulate) {
+      [self.delegate resourceItemUsed:io viewController:viewController];
+    } else {
+      self.usedItems[@0] = @1;
+      [self.delegate resourceItemsUsed:self.usedItems];
+      [viewController closeClicked:nil];
     }
   }
 }
