@@ -444,7 +444,7 @@
 }
 
 - (void) nextMatch:(BOOL)useGems {
-  // GameViewController will close
+  // GameViewController will close this menu
   [self.delegate findPvpMatch:useGems];
 }
 

@@ -539,15 +539,19 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 
 @interface TradeItemForResourcesRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
+  int64_t clientTime;
   MinimumUserProtoWithMaxResources* sender;
   PBAppendableArray * mutableItemIdsUsedList;
   NSMutableArray * mutableNuUserItemsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasClientTime;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) PBArray * itemIdsUsedList;
 @property (readonly, strong) NSArray * nuUserItemsList;
+@property (readonly) int64_t clientTime;
 - (int32_t)itemIdsUsedAtIndex:(NSUInteger)index;
 - (UserItemProto*)nuUserItemsAtIndex:(NSUInteger)index;
 
@@ -605,6 +609,11 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForResourcesRequestProto_Builder *)addNuUserItems:(UserItemProto*)value;
 - (TradeItemForResourcesRequestProto_Builder *)addAllNuUserItems:(NSArray *)array;
 - (TradeItemForResourcesRequestProto_Builder *)clearNuUserItems;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (TradeItemForResourcesRequestProto_Builder*) setClientTime:(int64_t) value;
+- (TradeItemForResourcesRequestProto_Builder*) clearClientTime;
 @end
 
 @interface TradeItemForResourcesResponseProto : PBGeneratedMessage {

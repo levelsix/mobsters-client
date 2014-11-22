@@ -361,6 +361,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (!proto.sender.hasUserUuid || proto.sender.userUuid.length == 0) {
       LNLog(@"Received user id 0..");
+      return;
     }
     
     // Remove structs so that the capacities don't get calculated till load player city

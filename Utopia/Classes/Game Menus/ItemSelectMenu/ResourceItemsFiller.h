@@ -31,6 +31,7 @@
 }
 
 @property (nonatomic, assign) ResourceType resourceType;
+@property (nonatomic, assign) int requiredAmount;
 
 - (id) initWithResourceType:(ResourceType)resType requiredAmount:(int)requiredAmount shouldAccumulate:(BOOL)accumulate;
 

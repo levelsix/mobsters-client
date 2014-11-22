@@ -2012,6 +2012,7 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 @property (strong) MinimumUserProtoWithMaxResources* sender;
 @property (strong) PBAppendableArray * mutableItemIdsUsedList;
 @property (strong) NSMutableArray * mutableNuUserItemsList;
+@property int64_t clientTime;
 @end
 
 @implementation TradeItemForResourcesRequestProto
@@ -2027,9 +2028,17 @@ BOOL RemoveUserItemUsedResponseProto_RemoveUserItemUsedStatusIsValidValue(Remove
 @dynamic itemIdsUsedList;
 @synthesize mutableNuUserItemsList;
 @dynamic nuUserItemsList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -2074,6 +2083,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2099,6 +2111,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(4, self.clientTime);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2149,6 +2164,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2164,6 +2182,8 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
       (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       [self.itemIdsUsedList isEqualToArray:otherMessage.itemIdsUsedList] &&
       [self.nuUserItemsList isEqualToArray:otherMessage.nuUserItemsList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2177,6 +2197,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
   [self.nuUserItemsList enumerateObjectsUsingBlock:^(UserItemProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2237,6 +2260,9 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
       [result.mutableNuUserItemsList addObjectsFromArray:other.mutableNuUserItemsList];
     }
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2275,6 +2301,10 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
         UserItemProto_Builder* subBuilder = [UserItemProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addNuUserItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -2360,6 +2390,22 @@ static TradeItemForResourcesRequestProto* defaultTradeItemForResourcesRequestPro
 }
 - (TradeItemForResourcesRequestProto_Builder *)clearNuUserItems {
   result.mutableNuUserItemsList = nil;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (TradeItemForResourcesRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (TradeItemForResourcesRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
   return self;
 }
 @end

@@ -198,8 +198,8 @@
 - (int) tradeItemForSpeedups:(NSArray *)uiups updatedUserItem:(UserItemProto *)uip;
 
 // First one is the non-batched one, second one batches
-- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems;
-- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip;
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime;
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip clientTime:(uint64_t)clientTime;
 
 - (void) flush;
 

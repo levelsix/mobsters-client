@@ -14,7 +14,7 @@
                 <outlet property="progressBar" destination="ZOW-SP-F1g" id="984-jU-3Dc"/>
                 <outlet property="progressBarLabel" destination="tlX-x3-CTo" id="PTR-Uz-n5G"/>
                 <outlet property="progressBarView" destination="gEH-Be-IxU" id="0Ef-PD-W0V"/>
-                <outlet property="titleLabel" destination="tlX-x3-CTo" id="CVn-tD-A6D"/>
+                <outlet property="titleLabel" destination="gA1-LP-hcP" id="EsI-5H-l9x"/>
                 <outlet property="triangle" destination="4Rk-l9-dtk" id="6yK-IY-jdA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

@@ -1573,7 +1573,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   // Might just be a gem usage so check that we're actually using an item
   if (itemIdsUsed.count) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForResourcesMessage:itemIdsUsed updatedUserItems:changedUserItems];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendTradeItemForResourcesMessage:itemIdsUsed updatedUserItems:changedUserItems clientTime:[self getCurrentMilliseconds]];
     
     CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];
@@ -1605,7 +1605,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     cashGained += ip.amount*quantity;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem];
+  int tag = [[SocketCommunication sharedSocketCommunication] tradeItemForResources:itemId updatedUserItem:changedItem clientTime:[self getCurrentMilliseconds]];
   
   CashUpdate *cu = [CashUpdate updateWithTag:tag change:cashGained enforceMax:NO];
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilGained enforceMax:NO];

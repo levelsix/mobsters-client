@@ -219,6 +219,8 @@ static NSString *udid = nil;
   _healingQueuePotentiallyChanged = NO;
   _speedupItemUsages = [NSMutableArray array];
   _speedupUpdatedUserItems = [NSMutableArray array];
+  _resourceItemIdsUsed = [NSMutableArray array];
+  _resourceUpdatedUserItems = [NSMutableArray array];
   
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
@@ -1461,11 +1463,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRemoveUserItemUsedEvent queueUp:YES];
 }
 
-- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems {
-  TradeItemForResourcesRequestProto *req = [[[[[TradeItemForResourcesRequestProto builder]
-                                               setSender:[self senderWithMaxResources]]
-                                              addAllItemIdsUsed:itemIdsUsed]
-                                             addAllNuUserItems:updatedUserItems]
+- (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime {
+  TradeItemForResourcesRequestProto *req = [[[[[[TradeItemForResourcesRequestProto builder]
+                                                setSender:[self senderWithMaxResources]]
+                                               addAllItemIdsUsed:itemIdsUsed]
+                                              addAllNuUserItems:updatedUserItems]
+                                             setClientTime:clientTime]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES];
@@ -1527,9 +1530,9 @@ static NSString *udid = nil;
 
 
 
-- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip {
+- (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip clientTime:(uint64_t)clientTime {
   [self flushAllExceptEventType:EventProtocolRequestCTradeItemForResourcesEvent];
-  [_resourceUpdatedUserItems addObject:@(itemId)];
+  [_resourceItemIdsUsed addObject:@(itemId)];
   
   // remove the user item first if it is already in here
   for (int i = 0; i < _resourceUpdatedUserItems.count; i++) {
@@ -1540,14 +1543,17 @@ static NSString *udid = nil;
   }
   [_resourceUpdatedUserItems addObject:uip];
   
+  self.lastClientTime = clientTime;
+  
   return _currentTagNum;
 }
 
 - (int) sendTradeItemForResourcesMessage {
-  TradeItemForResourcesRequestProto *req = [[[[[TradeItemForResourcesRequestProto builder]
-                                               setSender:[self senderWithMaxResources]]
-                                              addAllItemIdsUsed:_resourceItemIdsUsed]
-                                             addAllNuUserItems:_resourceUpdatedUserItems]
+  TradeItemForResourcesRequestProto *req = [[[[[[TradeItemForResourcesRequestProto builder]
+                                                setSender:[self senderWithMaxResources]]
+                                               addAllItemIdsUsed:_resourceItemIdsUsed]
+                                              addAllNuUserItems:_resourceUpdatedUserItems]
+                                             setClientTime:self.lastClientTime]
                                             build];
   
   LNLog(@"Sending trade item for resources message with %d items.", (int)_resourceItemIdsUsed.count);

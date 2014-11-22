@@ -27,7 +27,7 @@
 
 - (int) currentAmount {
   Globals *gl = [Globals sharedGlobals];
-  return [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:self.usedItems];
+  return MAX(_requiredAmount, [gl calculateTotalResourcesForResourceType:_resourceType itemIdsToQuantity:self.usedItems]);
 }
 
 - (NSArray *) reloadItemsArray {
