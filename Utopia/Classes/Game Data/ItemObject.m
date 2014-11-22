@@ -133,13 +133,6 @@
 
 @implementation GemsItemObject
 
-- (id) initWithNumGems:(int)numGems {
-  if ((self = [super init])) {
-    self.numGems = numGems;
-  }
-  return self;
-}
-
 // There should only ever be one so just check class comparison
 - (BOOL) isEqual:(id)object {
   return [self class] == [object class];
@@ -165,7 +158,7 @@
 }
 
 - (NSString *) buttonText {
-  return [Globals commafyNumber:self.numGems];
+  return [Globals commafyNumber:[self.delegate numGems]];
 }
 
 - (BOOL) useGemsButton {
@@ -173,7 +166,7 @@
 }
 
 - (BOOL) showFreeLabel {
-  return self.numGems <= 0;
+  return [self.delegate numGems] <= 0;
 }
 
 - (NSString *) iconImageName {

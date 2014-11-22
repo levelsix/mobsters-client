@@ -28,8 +28,8 @@
   }
   
   // Add a gems item object.. maybe
-  int gems = [self.delegate numGemsForTotalSpeedup];
-  GemsItemObject *gio = [[GemsItemObject alloc] initWithNumGems:gems];
+  GemsItemObject *gio = [[GemsItemObject alloc] init];
+  gio.delegate = self;
   [userItems addObject:gio];
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
@@ -46,6 +46,10 @@
   }];
   
   return userItems;
+}
+
+- (int) numGems {
+  return [self.delegate numGemsForTotalSpeedup];
 }
 
 - (TimerProgressBarColor) progressBarColor {

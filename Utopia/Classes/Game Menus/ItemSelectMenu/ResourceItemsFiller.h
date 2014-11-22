@@ -23,7 +23,7 @@
 @end
 
 
-@interface ResourceItemsFiller : NSObject <ItemSelectDelegate> {
+@interface ResourceItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate> {
   ResourceType _resourceType;
   ItemType _itemType;
   int _requiredAmount;

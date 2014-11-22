@@ -147,7 +147,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCCollectMonsterEnhancementEvent:
     case EventProtocolRequestCTradeItemForSpeedUpsEvent:
     case EventProtocolRequestCRemoveUserItemUsedEvent:
-    case EventProtocolRequestCTradeItemForResouresEvent:
+    case EventProtocolRequestCTradeItemForResourcesEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;

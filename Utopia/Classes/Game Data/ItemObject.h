@@ -57,11 +57,14 @@
 
 @end
 
+@protocol GemsItemDelegate <NSObject>
+
+- (int) numGems;
+
+@end
 
 @interface GemsItemObject : NSObject <ItemObject>
 
-@property (nonatomic, assign) int numGems;
-
-- (id) initWithNumGems:(int)numGems;
+@property (nonatomic, assign) id<GemsItemDelegate> delegate;
 
 @end

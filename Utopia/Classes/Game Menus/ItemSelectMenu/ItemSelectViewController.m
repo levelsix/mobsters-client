@@ -213,9 +213,12 @@ static BOOL _instanceOpened = NO;
 }
 
 - (IBAction)closeClicked:(id)sender {
+  // Do the appearance transition so that viewWillDisappear gets called immediately
+  [self beginAppearanceTransition:NO animated:YES];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    [self endAppearanceTransition];
   }];
   
   [self.delegate itemSelectClosed:self];

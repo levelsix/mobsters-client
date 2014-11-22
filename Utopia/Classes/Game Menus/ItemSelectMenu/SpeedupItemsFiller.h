@@ -20,7 +20,7 @@
 
 @end
 
-@interface SpeedupItemsFiller : NSObject <ItemSelectDelegate>
+@interface SpeedupItemsFiller : NSObject <ItemSelectDelegate, GemsItemDelegate>
 
 @property (nonatomic, assign) id<SpeedupItemsFillerDelegate> delegate;
 

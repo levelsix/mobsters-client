@@ -121,7 +121,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   
+  [self checkMaxResourceCapacities];
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
+- (void) checkMaxResourceCapacities {
+  int maxCash = [self maxCash], maxOil = [self maxOil];
+  
+  // Make sure we actually have structs to rely on
+  if (maxCash && maxOil) {
+    int cashChange = 0, oilChange = 0;
+    
+    if (self.cash > maxCash) {
+      cashChange = maxCash-self.cash;
+    }
+    
+    if (self.oil > maxOil) {
+      oilChange = maxOil-self.oil;
+    }
+    
+    if (cashChange || oilChange) {
+      LNLog(@"WARNING: Resources over max.. cash - cur:%d max:%d, oil - cur:%d max:%d", self.cash, maxCash, self.oil, maxOil);
+      LNLog(@"Cash change: %d, Oil change: %d", cashChange, oilChange);
+      [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashSpent:-cashChange oilSpent:-oilChange gemsSpent:0 reason:@"resources over max"];
+    }
+  }
 }
 
 - (void) setClan:(MinimumClanProto *)clan {

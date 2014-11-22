@@ -363,6 +363,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       LNLog(@"Received user id 0..");
     }
     
+    // Remove structs so that the capacities don't get calculated till load player city
+    [gs.myStructs removeAllObjects];
+    
     // Update user before creating map
     [gs.unrespondedUpdates removeAllObjects];
     [gs updateUser:proto.sender timestamp:0];
@@ -707,7 +710,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     if ([proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
-      [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
       [gs.myObstacles removeAllObjects];
@@ -722,6 +724,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs.clanHelpUtil cleanupRogueClanHelps];
       [gs.itemUtil cleanupRogueItemUsages];
+      
+      [gs checkMaxResourceCapacities];
       
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;

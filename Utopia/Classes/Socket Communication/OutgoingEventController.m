@@ -2788,13 +2788,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason {
+- (void) updateUserCurrencyWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent reason:(NSString *)reason {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashChange oilSpent:oilChange gemsSpent:gemChange clientTime:[self getCurrentMilliseconds] reason:reason];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashSpent oilSpent:oilSpent gemsSpent:gemsSpent clientTime:[self getCurrentMilliseconds] reason:reason];
   
-  CashUpdate *su = [CashUpdate updateWithTag:tag change:cashChange];
-  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
-  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemChange];
+  CashUpdate *su = [CashUpdate updateWithTag:tag change:-cashSpent];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:-oilSpent];
+  GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemsSpent];
   [gs addUnrespondedUpdates:su, ou, gu, nil];
 }
 

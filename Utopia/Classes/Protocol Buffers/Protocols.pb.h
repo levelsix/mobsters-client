@@ -738,7 +738,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCCollectMonsterEnhancementEvent = 84,
   EventProtocolRequestCTradeItemForSpeedUpsEvent = 85,
   EventProtocolRequestCRemoveUserItemUsedEvent = 86,
-  EventProtocolRequestCTradeItemForResouresEvent = 87,
+  EventProtocolRequestCTradeItemForResourcesEvent = 87,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };

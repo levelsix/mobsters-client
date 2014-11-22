@@ -1468,7 +1468,7 @@ static NSString *udid = nil;
                                              addAllNuUserItems:updatedUserItems]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResouresEvent queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES];
 }
 
 #pragma mark - Batch/Flush events
@@ -1528,7 +1528,7 @@ static NSString *udid = nil;
 
 
 - (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip {
-  [self flushAllExceptEventType:EventProtocolRequestCTradeItemForResouresEvent];
+  [self flushAllExceptEventType:EventProtocolRequestCTradeItemForResourcesEvent];
   [_resourceUpdatedUserItems addObject:@(itemId)];
   
   // remove the user item first if it is already in here
@@ -1552,7 +1552,7 @@ static NSString *udid = nil;
   
   LNLog(@"Sending trade item for resources message with %d items.", (int)_resourceItemIdsUsed.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResouresEvent flush:NO queueUp:YES];
+  return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent flush:NO queueUp:YES];
 }
 
 
@@ -1685,7 +1685,7 @@ static NSString *udid = nil;
     }
   }
   
-  if (type != EventProtocolRequestCTradeItemForResouresEvent) {
+  if (type != EventProtocolRequestCTradeItemForResourcesEvent) {
     if (_resourceItemIdsUsed.count > 0) {
       [self sendTradeItemForResourcesMessage];
       

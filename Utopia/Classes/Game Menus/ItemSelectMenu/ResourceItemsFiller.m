@@ -32,7 +32,6 @@
 
 - (NSArray *) reloadItemsArray {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   NSMutableArray *realItems = [[gs.itemUtil getItemsForType:_itemType staticDataId:0] mutableCopy];
   NSMutableArray *userItems = [NSMutableArray array];
@@ -56,8 +55,8 @@
   // Add a gems item object.. maybe
   int amountLeft = _requiredAmount-[self currentAmount];
   if (amountLeft > 0 || _accumulate) {
-    int gems = [gl calculateGemConversionForResourceType:_resourceType amount:amountLeft];
-    GemsItemObject *gio = [[GemsItemObject alloc] initWithNumGems:gems];
+    GemsItemObject *gio = [[GemsItemObject alloc] init];
+    gio.delegate = self;
     [userItems addObject:gio];
   }
   
@@ -75,6 +74,13 @@
   }];
   
   return userItems;
+}
+
+- (int) numGems {
+  Globals *gl = [Globals sharedGlobals];
+  int amountLeft = _requiredAmount-[self currentAmount];
+  int gems = [gl calculateGemConversionForResourceType:_resourceType amount:amountLeft];
+  return gems;
 }
 
 - (TimerProgressBarColor) progressBarColor {
@@ -108,7 +114,7 @@
       } else {
         self.usedItems[@(ui.itemId)] = @(numUsed+1);
         
-        if ([self currentAmount] > _requiredAmount) {
+        if ([self currentAmount] >= _requiredAmount) {
           [self.delegate resourceItemsUsed:self.usedItems];
           [viewController closeClicked:nil];
         } else {

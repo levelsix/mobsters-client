@@ -122,7 +122,7 @@
 - (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems delegate:(id)delegate;
 - (void) finishEvolutionWithGems:(BOOL)gems withDelegate:(id)delegate;
 
-- (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason;
+- (void) updateUserCurrencyWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent reason:(NSString *)reason;
 
 - (void) spawnObstacles:(NSArray *)obstacles delegate:(id)delegate;
 - (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems;

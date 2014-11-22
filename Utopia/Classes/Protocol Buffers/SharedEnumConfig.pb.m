@@ -74,6 +74,8 @@ BOOL GameActionTypeIsValidValue(GameActionType value) {
     case GameActionTypeEnhanceTime:
     case GameActionTypeRemoveObstacle:
     case GameActionTypeCombineMonster:
+    case GameActionTypeEnterPersistentEvent:
+    case GameActionTypeGameActionTypeResearch:
       return YES;
     default:
       return NO;

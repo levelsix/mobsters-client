@@ -140,6 +140,7 @@
 - (MinimumUserProtoWithLevel *) minUserWithLevel;
 - (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
+- (void) checkMaxResourceCapacities;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
 - (id<StaticStructure>) structWithId:(int)structId;
