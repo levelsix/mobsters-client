@@ -9,7 +9,7 @@
 #import "HospitalQueueSimulator.h"
 #import "GameState.h"
 
-#define SimLog(...) //LNLog(__VA_ARGS__)
+#define SimLog(...) LNLog(__VA_ARGS__)
 
 @implementation HospitalSim
 
@@ -176,7 +176,7 @@
       HospitalSim *hs = [self hospitalWithUuid:item.userStructUuid];
       
       if ([item.endTime isEqualToDate:date]) {
-        SimLog(@"Item %lld finished", item.userMonsterId);
+        SimLog(@"Item %@ finished", item.userMonsterUuid);
         item.isFinished = YES;
         item.userStructUuid = nil;
         item.totalSeconds += seconds;
@@ -208,7 +208,7 @@
   NSMutableArray *validHospitals = [NSMutableArray array];
   for (HospitalSim *sim in self.hospitals) {
     if (sim.upgradeCompleteDate && [date compare:sim.upgradeCompleteDate] != NSOrderedAscending) {
-      SimLog(@"Hospital %d finished", sim.userStructId);
+      SimLog(@"Hospital %@ finished", sim.userStructUuid);
       sim.upgradeCompleteDate = nil;
     }
     

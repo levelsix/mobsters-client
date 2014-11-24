@@ -68,6 +68,7 @@
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self reloadQueueViewAnimated:YES];
+  [self updateLabels];
 }
 
 - (void) updateLabels {
@@ -163,6 +164,11 @@
   return gs.monsterHealingQueueEndTime;
 }
 
+- (int) totalTimeForHealQueue {
+  GameState *gs = [GameState sharedGameState];
+  return gs.totalTimeForHealQueue;
+}
+
 - (int) maxQueueSize {
   GameState *gs = [GameState sharedGameState];
   return gs.maxHospitalQueueSize;
@@ -178,7 +184,8 @@
   return um.isAvailable && um.curHealth < [gl calculateMaxHealthForMonster:um];
 }
 
-- (BOOL) addMonsterToHealingQueue:(NSString *)umUuid useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(NSString *)umUuid itemsDict:(NSDictionary *)itemsDict useGems:(BOOL)useGems {
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemsDict];
   return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umUuid useGems:useGems];
 }
 
@@ -268,32 +275,49 @@
     int curAmount = gs.cash;
     if (cost > curAmount) {
       _tempMonster = um;
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForHeal)];
+      
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:cost shouldAccumulate:YES];
+        rif.delegate = self;
+        svc.delegate = rif;
+        self.itemSelectViewController = svc;
+        self.resourceItemsFiller = rif;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     } else {
-      [self sendHeal:um allowGems:NO];
+      [self sendHeal:um itemsDict:nil allowGems:NO];
     }
   }
 }
 
-- (void) useGemsForHeal {
+- (void) healWithItemsDict:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int cost = [gl calculateCostToHealMonster:_tempMonster];
-  int curAmount = gs.cash;
-  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
   
-  if (gemCost > gs.gems) {
+  int cost = [gl calculateCostToHealMonster:_tempMonster];
+  ResourceType resType = ResourceTypeCash;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self sendHeal:_tempMonster allowGems:YES];
+  } else if (allowGems || cost <= curAmount) {
+    [self sendHeal:_tempMonster itemsDict:itemIdsToQuantity allowGems:allowGems];
     _tempMonster = nil;
   }
 }
 
-- (void) sendHeal:(UserMonster *)um allowGems:(BOOL)allowGems {
+- (void) sendHeal:(UserMonster *)um itemsDict:(NSDictionary *)itemsDict allowGems:(BOOL)allowGems {
   if (!_waitingForResponse) {
-    BOOL success = [self addMonsterToHealingQueue:um.userMonsterUuid useGems:allowGems];
+    BOOL success = [self addMonsterToHealingQueue:um.userMonsterUuid itemsDict:itemsDict useGems:allowGems];
     if (success) {
       // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
       [self reloadQueueViewAnimated:YES];
@@ -461,12 +485,17 @@
 }
 
 - (int) totalSecondsRequired {
-  return self.totalSecondsRequired;
+  return self.totalTimeForHealQueue;
+}
+
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  [self healWithItemsDict:itemUsages];
 }
 
 - (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
+  self.resourceItemsFiller = nil;
 }
 
 #pragma mark - Get Help

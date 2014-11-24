@@ -10,6 +10,8 @@
 #import "Globals.h"
 #import "PopupSubViewController.h"
 
+#import "ResourceItemsFiller.h"
+
 @protocol ClanIconChooserDelegate <NSObject>
 
 - (void) iconChosen:(int)iconId;
@@ -30,7 +32,7 @@
 
 @end
 
-@interface ClanCreateViewController : PopupSubViewController <UITextFieldDelegate, ClanIconChooserDelegate> {
+@interface ClanCreateViewController : PopupSubViewController <UITextFieldDelegate, ClanIconChooserDelegate, ResourceItemsFillerDelegate> {
   BOOL _isRequestType;
   BOOL _isEditMode;
   int _iconId;
@@ -61,6 +63,9 @@
 @property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (id) initInEditModeForClan:(FullClanProtoWithClanSize *)clan;
 

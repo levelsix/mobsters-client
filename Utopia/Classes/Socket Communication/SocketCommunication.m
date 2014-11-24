@@ -1666,7 +1666,10 @@ static NSString *udid = nil;
     }
   }
   
-  if (type != EventProtocolRequestCHealMonsterEvent) {
+  // Combining heal and speedups becuase otherwise speeding up heal queue won't batch either event
+  // since it changes heal queue and adds a speedup
+  if (type != EventProtocolRequestCHealMonsterEvent &&
+      type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
     if (_healingQueuePotentiallyChanged) {
       int val = [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
@@ -1678,9 +1681,7 @@ static NSString *udid = nil;
         found = YES;
       }
     }
-  }
-  
-  if (type != EventProtocolRequestCTradeItemForSpeedUpsEvent) {
+    
     if (_speedupItemUsages.count > 0) {
       [self sendTradeItemForSpeedUpsMessage];
       

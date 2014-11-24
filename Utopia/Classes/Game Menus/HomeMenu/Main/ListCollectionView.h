@@ -43,6 +43,8 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *combineTimeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *combineCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *combineFreeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *combineSpeedupIcon;
 
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;

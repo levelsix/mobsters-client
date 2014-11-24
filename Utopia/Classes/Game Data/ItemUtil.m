@@ -145,6 +145,10 @@
       UserEnhancement *ue = gs.userEnhancement;
       
       isValid = [ue.baseMonster.userMonsterUuid isEqualToString:iu.userDataUuid];
+    } else if (iu.actionType == GameActionTypeCombineMonster) {
+      UserMonster *um = [gs myMonsterWithUserMonsterUuid:iu.userDataUuid];
+      
+      isValid = um.isCombining;
     }
     
     // Wait till it is at least

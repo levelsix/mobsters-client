@@ -126,12 +126,12 @@
   return um.curHealth < [gl calculateMaxHealthForMonster:um];
 }
 
-- (BOOL) addMonsterToHealingQueue:(NSString *)umId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(NSString *)umUuid itemsDict:(NSDictionary *)itemsDict useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = self.myMonsters[0];
   int maxHp = [gl calculateMaxHealthForMonster:um];
   UserMonsterHealingItem *hi = [[UserMonsterHealingItem alloc] init];
-  hi.userMonsterUuid = umId;
+  hi.userMonsterUuid = umUuid;
   hi.queueTime = [MSDate date];
   hi.endTime = [hi.queueTime dateByAddingTimeInterval:(maxHp-um.curHealth)/_hospitalHealSpeed];
   hi.timeDistribution = @[@(hi.endTime.timeIntervalSinceNow), @(maxHp-um.curHealth)];

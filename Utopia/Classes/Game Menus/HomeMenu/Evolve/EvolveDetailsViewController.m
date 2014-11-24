@@ -197,28 +197,46 @@
     int oilCost = self.evoItem.userMonster1.staticMonster.evolutionCost;
     
     if (gs.oil < oilCost) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:oilCost-gs.oil target:self selector:@selector(gemsConfirmed)];
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeOil requiredAmount:oilCost shouldAccumulate:YES];
+        rif.delegate = self;
+        svc.delegate = rif;
+        self.itemSelectViewController = svc;
+        self.resourceItemsFiller = rif;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     } else {
-      [self beginEvo:NO];
+      [self beginEvoWithItemsDict:nil useGems:NO];
     }
   }
 }
 
-- (void) gemsConfirmed {
+- (void) evolveWithItemsDict:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int oilCost = self.evoItem.userMonster1.staticMonster.evolutionCost;
-  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
   
-  if (gs.gems < gemCost) {
+  int cost = self.evoItem.userMonster1.staticMonster.evolutionCost;
+  ResourceType resType = ResourceTypeOil;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self beginEvo:YES];
+  } else if (allowGems || cost <= curAmount) {
+    [self beginEvoWithItemsDict:itemIdsToQuantity useGems:allowGems];
   }
 }
 
-- (void) beginEvo:(BOOL)useGems {
+- (void) beginEvoWithItemsDict:(NSDictionary *)itemIdsToQuantity useGems:(BOOL)useGems {
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] evolveMonster:self.evoItem useGems:useGems delegate:self];
   
   if (success) {
@@ -358,9 +376,14 @@
   return self.evoItem.userMonster1.staticMonster.minutesToEvolve*60;
 }
 
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  [self evolveWithItemsDict:itemUsages];
+}
+
 - (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
+  self.resourceItemsFiller = nil;
 }
 
 @end

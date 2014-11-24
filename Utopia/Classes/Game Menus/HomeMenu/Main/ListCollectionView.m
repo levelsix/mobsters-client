@@ -110,6 +110,7 @@
     if ([um isCombining]) {
       self.combiningView.hidden = NO;
       [self updateCombineTimeForUserMonster:um];
+      self.statusLabel.text = nil;
     } else {
       self.combiningView.hidden = YES;
     }
@@ -128,8 +129,21 @@
   if (!um.isComplete && um.numPieces >= um.staticMonster.numPuzzlePieces) {
     int timeLeft = [um timeLeftForCombining];
     self.combineTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-    self.combineCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO]];
-    [Globals adjustViewForCentering:self.combineCostLabel.superview withLabel:self.combineCostLabel];
+    
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+    
+    if (gemCost > 0) {
+      self.combineCostLabel.text = [Globals commafyNumber:gemCost];
+      [Globals adjustViewForCentering:self.combineCostLabel.superview withLabel:self.combineCostLabel];
+      
+      self.combineCostLabel.superview.hidden = NO;
+      self.combineSpeedupIcon.hidden = NO;
+      self.combineFreeLabel.hidden = YES;
+    } else {
+      self.combineCostLabel.superview.hidden = YES;
+      self.combineSpeedupIcon.hidden = YES;
+      self.combineFreeLabel.hidden = NO;
+    }
   }
 }
 

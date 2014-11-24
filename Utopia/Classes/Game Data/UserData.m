@@ -231,7 +231,17 @@
 }
 
 - (int) timeLeftForCombining {
-  return self.combineStartTime.timeIntervalSinceNow + self.staticMonster.minutesToCombinePieces*60;
+  GameState *gs = [GameState sharedGameState];
+  
+  int seconds = self.combineStartTime.timeIntervalSinceNow + self.staticMonster.minutesToCombinePieces*60;
+  
+  // Account for speedups
+  int speedupMins = [gs.itemUtil getSpeedupMinutesForType:GameActionTypeCombineMonster userDataUuid:self.userMonsterUuid earliestDate:self.combineStartTime];
+  if (speedupMins > 0) {
+    seconds -= speedupMins*60;
+  }
+  
+  return seconds;
 }
 
 - (BOOL) isEqual:(UserMonster *)object {

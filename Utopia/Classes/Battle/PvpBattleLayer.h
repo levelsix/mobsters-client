@@ -8,7 +8,9 @@
 
 #import "NewBattleLayer.h"
 
-@interface PvpBattleLayer : NewBattleLayer {
+#import "ResourceItemsFiller.h"
+
+@interface PvpBattleLayer : NewBattleLayer <ResourceItemsFillerDelegate> {
   BOOL _receivedEndPvpResponse;
   BOOL _waitingForEndPvpResponse;
   
@@ -18,8 +20,6 @@
   BOOL _spawnedNewTeam;
   
   BOOL _userAttacked;
-  
-  BOOL _useGemsForQueue;
   
   BOOL _isRevenge;
   uint64_t _prevBattleStartTime;
@@ -37,7 +37,10 @@
 
 @property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
 
-@property (nonatomic, assign) BOOL useGemsForQueue;
+@property (nonatomic, retain) NSDictionary *itemUsagesForQueue;
+
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist;
 

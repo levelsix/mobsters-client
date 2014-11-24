@@ -148,18 +148,25 @@
   [super viewWillDisappear:animated];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (void) waitTimeComplete {
   [self reloadListViewAnimated:YES];
   [self updateTeamSlotViews];
   [self reloadTitleView];
+  [self updateLabels];
 }
 
 - (void) updateLabels {
   for (MonsterListCell *listCell in self.listView.collectionView.visibleCells) {
     UserMonster *um = self.userMonsters[[self.listView.collectionView indexPathForCell:listCell].row];
     [listCell updateCombineTimeForUserMonster:um];
+  }
+  
+  if (!_combineMonster.isCombining) {
+    [self.itemSelectViewController closeClicked:nil];
   }
 }
 
@@ -333,11 +340,43 @@
 }
 
 - (void) listView:(ListCollectionView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
+  UserMonster *um = self.userMonsters[indexPath.row];
+  [self speedupClicked:um];
+}
+
+- (void) speedupClicked:(UserMonster *)um {
+  Globals *gl = [Globals sharedGlobals];
+  _combineMonster = um;
+  
+  int timeLeft = um.timeLeftForCombining;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  
+  if (gemCost <= 0) {
+    [self speedupCombineMonster];
+  } else {
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      SpeedupItemsFiller *sif = [[SpeedupItemsFiller alloc] init];
+      sif.delegate = self;
+      svc.delegate = sif;
+      self.speedupItemsFiller = sif;
+      self.itemSelectViewController = svc;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+    }
+  }
+}
+
+- (void) speedupCombineMonster {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = self.userMonsters[indexPath.row];
+  UserMonster *um = _combineMonster;
+  
   int timeLeft = um.timeLeftForCombining;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:NO];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
@@ -347,6 +386,8 @@
       [self reloadListViewAnimated:YES];
       
       [QuestUtil checkAllDonateQuests];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:COMBINE_WAIT_COMPLETE_NOTIFICATION object:self];
     }
   }
 }
@@ -402,6 +443,51 @@
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [animView.layer addAnimation:animation forKey:@"fade"];
+}
+
+#pragma mark - Speedup Items Filler
+
+- (int) numGemsForTotalSpeedup {
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = _combineMonster.timeLeftForCombining;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
+  return gemCost;
+}
+
+- (void) speedupItemUsed:(id<ItemObject>)itemObject viewController:(ItemSelectViewController *)viewController {
+  if ([itemObject isKindOfClass:[GemsItemObject class]]) {
+    [self speedupCombineMonster];
+  } else if ([itemObject isKindOfClass:[UserItem class]]) {
+    // Apply items
+    GameState *gs = [GameState sharedGameState];
+    UserItem *ui = (UserItem *)itemObject;
+    ItemProto *ip = [gs itemForId:ui.itemId];
+    
+    if (ip.itemType == ItemTypeSpeedUp) {
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId combineUserMonster:_combineMonster];
+      
+      [self updateLabels];
+    }
+    
+    int timeLeft = _combineMonster.timeLeftForCombining;
+    if (timeLeft > 0) {
+      [viewController reloadDataAnimated:YES];
+    }
+  }
+}
+
+- (int) timeLeftForSpeedup {
+  return _combineMonster.timeLeftForCombining;
+}
+
+- (int) totalSecondsRequired {
+  return _combineMonster.staticMonster.minutesToCombinePieces*60;
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.speedupItemsFiller = nil;
+  _combineMonster = nil;
 }
 
 @end

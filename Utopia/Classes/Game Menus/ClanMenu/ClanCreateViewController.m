@@ -11,6 +11,8 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 
+#import "GameViewController.h"
+
 #define ICON_WIDTH 31.f
 #define ICON_HEIGHT 34.f
 #define ICON_SPACING 8.f
@@ -136,6 +138,8 @@
   [super viewWillDisappear:animated];
   
   [self.iconChooserView close:nil];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (void) loadClanCreationView {
@@ -252,32 +256,50 @@
     [Globals addAlertNotification:@"The tag you entered is too long."];
   } else {
     if (gs.cash < gl.coinPriceToCreateClan) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:gl.coinPriceToCreateClan-gs.cash target:self selector:@selector(allowCreateWithGems)];
+      ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+      if (svc) {
+        ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:gl.coinPriceToCreateClan shouldAccumulate:YES];
+        rif.delegate = self;
+        svc.delegate = rif;
+        self.itemSelectViewController = svc;
+        self.resourceItemsFiller = rif;
+        
+        GameViewController *gvc = [GameViewController baseController];
+        svc.view.frame = gvc.view.bounds;
+        [gvc addChildViewController:svc];
+        [gvc.view addSubview:svc.view];
+      }
     } else {
-      [self createClanWithGems:NO];
+      [self createWithItemsDict:nil useGems:NO];
     }
   }
 }
 
-- (void) allowCreateWithGems {
+- (void) createWithItemsDict:(NSDictionary *)itemIdsToQuantity {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
+  
   int cost = gl.coinPriceToCreateClan;
-  int curAmount = gs.cash;
+  ResourceType resType = ResourceTypeCash;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
   int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
   
-  if (gs.gems < gemCost) {
+  if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self createClanWithGems:YES];
+  } else if (allowGems || cost <= curAmount) {
+    [self createWithItemsDict:itemIdsToQuantity useGems:allowGems];
   }
 }
 
-- (void) createClanWithGems:(BOOL)useGems {
+- (void) createWithItemsDict:(NSDictionary *)itemIdsToQuantity useGems:(BOOL)useGems {
   NSString *name = nameField.text;
   NSString *tag = tagField.text;
   NSString *description = self.descriptionField.text;
   
+  [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
   [[OutgoingEventController sharedOutgoingEventController] createClan:name tag:tag description:description requestOnly:_isRequestType iconId:_iconId useGems:useGems delegate:self];
   
   self.createButtonView.hidden = YES;
@@ -359,6 +381,17 @@
     [self goBack];
   }
   _waitingForResponse = NO;
+}
+
+#pragma mark - Resource Items Filler
+
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  [self createWithItemsDict:itemUsages];
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.resourceItemsFiller = nil;
 }
 
 @end

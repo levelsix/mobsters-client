@@ -148,6 +148,13 @@
   
   GameState *gs = [GameState sharedGameState];
   
+  for (UserMonster *um in gs.myMonsters) {
+    if (um.isCombining) {
+      TimerAction *ta = [[CombineMonsterTimerAction alloc] initWithUserMonster:um];
+      [arr addObject:ta];
+    }
+  }
+  
   for (UserMiniJob *mj in gs.myMiniJobs) {
     if (mj.timeStarted && !mj.timeCompleted) {
       TimerAction *ta = [[MiniJobTimerAction alloc] initWithMiniJob:mj];

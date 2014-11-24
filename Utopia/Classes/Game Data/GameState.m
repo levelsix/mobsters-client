@@ -688,6 +688,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) saveHealthProgressesFromIndex:(NSInteger)index {
+  [self saveHealthProgressesFromIndex:index withDate:[MSDate date]];
+}
+
+- (void) saveHealthProgressesFromIndex:(NSInteger)index withDate:(MSDate *)date {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
     if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
@@ -696,7 +700,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
-  [sim simulateUntilDate:[MSDate date]];
+  [sim simulateUntilDate:date];
   
   for (NSInteger i = index; i < sim.healingItems.count; i++) {
     HealingItemSim *hi = sim.healingItems[i];
@@ -707,8 +711,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       }
     }
     item.healthProgress = hi.healthProgress;
-    item.elapsedTime += -[item.queueTime timeIntervalSinceNow];
-    item.queueTime = [MSDate date];
+    item.elapsedTime += -[item.queueTime timeIntervalSinceDate:date];
+    
+    // Essentially, we use this method to allow us to skip forward in time, i.e. using a speedup
+    // What will happen is that we save healthProgress as if we are at date, but set queue time to right now
+    item.queueTime = [MSDate date];//date;
   }
 }
 
@@ -1696,7 +1703,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) receivedSpeedupNotification:(NSNotification *)notif {
   UserItemUsageProto *ch = [notif userInfo][SPEEDUP_NOTIFICATION_KEY];
   
-  if (ch.actionType == GameActionTypeHeal) {
+  // Disabled healing since speedups will happen immediately
+  if (false && ch.actionType == GameActionTypeHeal) {
     [self readjustAllMonsterHealingProtos];
   } else if (ch.actionType == GameActionTypeEvolve) {
     [self beginEvolutionTimer];
@@ -1704,6 +1712,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self beginMiniJobTimer];
   } else if (ch.actionType == GameActionTypeEnhanceTime) {
     [self beginEnhanceTimer];
+  } else if (ch.actionType == GameActionTypeCombineMonster) {
+    [self beginCombineTimer];
   }
 }
 

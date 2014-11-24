@@ -12,6 +12,7 @@
 #import "ListCollectionView.h"
 
 #import "SpeedupItemsFiller.h"
+#import "ResourceItemsFiller.h"
 
 @interface HealQueueFooterView : UICollectionReusableView
 
@@ -21,7 +22,7 @@
 
 @end
 
-@interface HealViewController : PopupSubViewController <ListCollectionDelegate, SpeedupItemsFillerDelegate> {
+@interface HealViewController : PopupSubViewController <ListCollectionDelegate, SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate> {
   UserMonster *_tempMonster;
   
   HealQueueFooterView *_footerView;
@@ -52,10 +53,9 @@
 
 @property (nonatomic, retain) NSArray *userMonsters;
 
-@property (nonatomic, strong) NSTimer *updateTimer;
-
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (void) updateLabels;
 - (IBAction) speedupButtonClicked:(id)sender;

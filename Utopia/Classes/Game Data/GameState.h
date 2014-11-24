@@ -198,6 +198,7 @@
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
 - (void) addAllMonsterHealingProtos:(NSArray *)items;
 - (void) saveHealthProgressesFromIndex:(NSInteger)index;
+- (void) saveHealthProgressesFromIndex:(NSInteger)index withDate:(MSDate *)date;
 - (void) readjustAllMonsterHealingProtos;
 
 - (void) addEnhancementProto:(UserEnhancementProto *)proto;

@@ -11,6 +11,8 @@
 #import "NibUtils.h"
 #import "ListCollectionView.h"
 
+#import "SpeedupItemsFiller.h"
+
 @protocol TeamSlotDelegate <NSObject>
 
 - (void) teamSlotMinusClicked:(id)sender;
@@ -40,7 +42,9 @@
 
 @end
 
-@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate>
+@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate, SpeedupItemsFillerDelegate> {
+  UserMonster *_combineMonster;
+}
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
 
@@ -53,8 +57,11 @@
 
 @property (nonatomic, retain) NSArray *userMonsters;
 
-@property (nonatomic, strong) NSTimer *updateTimer;
+@property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
+@property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 
 - (UserMonster *) monsterForSlot:(NSInteger)slot;
+
+- (void) speedupClicked:(UserMonster *)um;
 
 @end

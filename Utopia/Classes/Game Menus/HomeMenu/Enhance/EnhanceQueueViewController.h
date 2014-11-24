@@ -15,6 +15,7 @@
 #import "DailyEventCornerView.h"
 
 #import "SpeedupItemsFiller.h"
+#import "ResourceItemsFiller.h"
 
 @interface EnhanceSmallCardCell : ListCollectionViewCell
 
@@ -28,7 +29,7 @@
 
 @end
 
-@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate, SpeedupItemsFillerDelegate> {
+@interface EnhanceQueueViewController : PopupSubViewController <ListCollectionDelegate, DailyEventCornerDelegate, SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate> {
   UserMonster *_confirmUserMonster;
   
   UserEnhancement *_currentEnhancement;
@@ -95,6 +96,7 @@
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
+@property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (void) waitTimeComplete;
 

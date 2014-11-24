@@ -17,6 +17,7 @@
 #import "MiniJobsListViewController.h"
 #import "EvolveDetailsViewController.h"
 #import "EnhanceQueueViewController.h"
+#import "TeamViewController.h"
 
 @implementation TimerAction
 
@@ -375,6 +376,51 @@
 
 - (NSUInteger) hash {
   return (NSUInteger)self.userEvo.userMonsterUuid1.hash;
+}
+
+@end
+
+@implementation CombineMonsterTimerAction
+
+- (id) initWithUserMonster:(UserMonster *)um {
+  if ((self = [super init])) {
+    self.userMonster = um;
+    
+    MonsterProto *mp = self.userMonster.staticMonster;
+    self.title = @"Combining";
+    self.normalProgressBarColor = TimerProgressBarColorGreen;
+    self.allowsFreeSpeedup = YES;
+    self.completionDate = [MSDate dateWithTimeIntervalSinceNow:um.timeLeftForCombining];
+    self.totalSeconds = mp.minutesToCombinePieces*60;
+  }
+  return self;
+}
+
+- (BOOL) canGetHelp {
+  return NO;
+}
+
+- (NSString *) confirmActionString {
+  return [NSString stringWithFormat:@"Would you like to speedup combining %@'s for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
+}
+
+- (NSArray *) performSpeedup {
+  TeamViewController *tvc = [[TeamViewController alloc] init];
+  [tvc speedupClicked:self.userMonster];
+  
+  return @[tvc];
+}
+
+- (void) performHelp {
+  // Do nothing
+}
+
+- (BOOL) isEqual:(id)object {
+  return [self class] == [object class] && [self.userMonster.userMonsterUuid isEqualToString:[object userMonster].userMonsterUuid];
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.userMonster.userMonsterUuid.hash;
 }
 
 @end

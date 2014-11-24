@@ -1523,10 +1523,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     bldr.userDataUuid = hi.userMonsterUuid;
     bldr.itemId = itemId;
     bldr.timeOfEntry = [self getCurrentMilliseconds];
+    
+    [arr addObject:bldr.build];
   }
   
   if (arr.count) {
     [self tradeItemForSpeedup:arr];
+    
+    ItemProto *ip = [gs itemForId:itemId];
+    if (ip.itemType == ItemTypeSpeedUp) {
+      int speedupMins = ip.amount;
+      [gs saveHealthProgressesFromIndex:0 withDate:[MSDate dateWithTimeIntervalSinceNow:speedupMins*60]];
+      [gs readjustAllMonsterHealingProtos];
+    }
+  }
+}
+
+- (void) tradeItemForSpeedup:(int)itemId combineUserMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeCombineMonster;
+  bldr.userDataUuid = um.userMonsterUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  if (!um.isCombining) {
+    [Globals popupMessage:@"Trying to speedup invalid monster."];
+  } else {
+    [self tradeItemForSpeedup:@[bldr.build]];
   }
 }
 

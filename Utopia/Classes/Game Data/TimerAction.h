@@ -92,3 +92,11 @@ typedef enum {
 - (id) initWithEvolution:(UserEvolution *)ue;
 
 @end
+
+@interface CombineMonsterTimerAction : TimerAction
+
+@property (nonatomic, retain) UserMonster *userMonster;
+
+- (id) initWithUserMonster:(UserMonster *)um;
+
+@end

@@ -139,6 +139,7 @@
 - (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue;
 - (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue;
 - (void) tradeItemForHealSpeedup:(int)itemId;
+- (void) tradeItemForSpeedup:(int)itemId combineUserMonster:(UserMonster *)um;
 - (void) removeUserItemUsed:(NSArray *)usageUuids;
 
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity;

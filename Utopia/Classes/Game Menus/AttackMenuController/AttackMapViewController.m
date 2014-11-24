@@ -96,10 +96,12 @@
   //  }
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
   
   [self.timer invalidate];
+  
+  [self.itemSelectViewController closeClicked:nil];
 }
 
 - (IBAction)close:(id)sender {
@@ -419,33 +421,45 @@
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   if (gs.cash < thp.pvpQueueCashCost) {
-    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.cash target:self selector:@selector(nextMatchUseGems)];
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeCash requiredAmount:thp.pvpQueueCashCost shouldAccumulate:YES];
+      rif.delegate = self;
+      svc.delegate = rif;
+      self.itemSelectViewController = svc;
+      self.resourceItemsFiller = rif;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+    }
   } else {
-    [self nextMatch:NO];
+    [self nextMatchWithItemsDict:nil];
   }
 }
 
-- (void) nextMatchUseGems {
+- (void) nextMatchWithItemsDict:(NSDictionary *)itemIdsToQuantity {
   if (!_buttonClicked) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-    int cost = thp.pvpQueueCashCost;
-    int curAmount = gs.cash;
-    int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
     
-    if (gemCost > gs.gems) {
+    BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
+    
+    int cost = thp.pvpQueueCashCost;
+    ResourceType resType = ResourceTypeCash;
+    
+    int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+    int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+    
+    if (allowGems && gemCost > gs.gems) {
       [GenericPopupController displayNotEnoughGemsView];
-    } else {
+    } else if (allowGems || cost <= curAmount) {
       _buttonClicked = YES;
-      [self nextMatch:YES];
+      [self.delegate findPvpMatchWithItemsDict:itemIdsToQuantity];
     }
   }
-}
-
-- (void) nextMatch:(BOOL)useGems {
-  // GameViewController will close this menu
-  [self.delegate findPvpMatch:useGems];
 }
 
 - (IBAction)openLeagueListClicked:(id)sender {
@@ -519,6 +533,17 @@
     [_curEventView.monsterImage stopAnimating];
     _curEventView = eventView;
   }
+}
+
+#pragma mark - Resource Items Filler
+
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  [self nextMatchWithItemsDict:itemUsages];
+}
+
+- (void) itemSelectClosed:(id)viewController {
+  self.itemSelectViewController = nil;
+  self.resourceItemsFiller = nil;
 }
 
 @end

@@ -1023,7 +1023,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isInBattle = YES;
 }
 
-- (void) findPvpMatch:(BOOL)useGems {
+- (void) findPvpMatchWithItemsDict:(NSDictionary *)itemsDict {
   if (_isInBattle) {
     [self removeAllViewControllers];
     return;
@@ -1032,7 +1032,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
   bl.delegate = self;
-  bl.useGemsForQueue = useGems;
+  bl.itemUsagesForQueue = itemsDict;
   
   [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:nil withDelegate:bl];
   

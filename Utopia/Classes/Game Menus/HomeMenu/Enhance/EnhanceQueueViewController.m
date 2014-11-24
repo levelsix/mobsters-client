@@ -574,29 +574,46 @@
   int oilCost = [gl calculateTotalOilCostForEnhancement:self.currentEnhancement];
   int curAmount = gs.oil;
   if (oilCost > curAmount) {
-    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:oilCost-curAmount target:self selector:@selector(useGemsForEnhance)];
+    ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
+    if (svc) {
+      ResourceItemsFiller *rif = [[ResourceItemsFiller alloc] initWithResourceType:ResourceTypeOil requiredAmount:oilCost shouldAccumulate:YES];
+      rif.delegate = self;
+      svc.delegate = rif;
+      self.itemSelectViewController = svc;
+      self.resourceItemsFiller = rif;
+      
+      GameViewController *gvc = [GameViewController baseController];
+      svc.view.frame = gvc.view.bounds;
+      [gvc addChildViewController:svc];
+      [gvc.view addSubview:svc.view];
+    }
   } else {
-    [self sendEnhanceAllowGems:NO];
+    [self sendEnhanceWithItemsDict:nil allowGems:NO];
   }
 }
 
-- (void) useGemsForEnhance {
+- (void) enhanceWithItemsDict:(NSDictionary *)itemIdsToQuantity {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int cost = [gl calculateTotalOilCostForEnhancement:self.currentEnhancement];
-  int curAmount = gs.oil;
-  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
+  BOOL allowGems = [itemIdsToQuantity[@0] boolValue];
   
-  if (gemCost > gs.gems) {
+  int cost = [gl calculateTotalOilCostForEnhancement:self.currentEnhancement];
+  ResourceType resType = ResourceTypeOil;
+  
+  int curAmount = [gl calculateTotalResourcesForResourceType:resType itemIdsToQuantity:itemIdsToQuantity];
+  int gemCost = [gl calculateGemConversionForResourceType:resType amount:cost-curAmount];
+  
+  if (allowGems && gemCost > gs.gems) {
     [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self sendEnhanceAllowGems:YES];
+  } else if (allowGems || cost <= curAmount) {
+    [self sendEnhanceWithItemsDict:itemIdsToQuantity allowGems:allowGems];
   }
 }
 
-- (void) sendEnhanceAllowGems:(BOOL)allowGems {
+- (void) sendEnhanceWithItemsDict:(NSDictionary *)itemIdsToQuantity allowGems:(BOOL)allowGems {
   if (!_waitingForResponse) {
+    [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemIdsToQuantity];
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] submitEnhancement:self.currentEnhancement useGems:allowGems delegate:self];
     
     if (success) {
@@ -727,9 +744,14 @@
   return ue.totalSeconds;
 }
 
+- (void) resourceItemsUsed:(NSDictionary *)itemUsages {
+  [self enhanceWithItemsDict:itemUsages];
+}
+
 - (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.speedupItemsFiller = nil;
+  self.resourceItemsFiller = nil;
 }
 
 #pragma mark - Responses
