@@ -51,6 +51,14 @@
 
 @end
 
+typedef enum
+{
+  ViewAnchoringPreferLeftPlacement,   // View will be anchored to the LEFT of the invoking view, if possible
+  ViewAnchoringPreferRightPlacement,  // RIGHT
+  ViewAnchoringPreferTopPlacement,    // TOP
+  ViewAnchoringPreferBottomPlacement, // BOTTOM
+} ViewAnchoringDirection;
+
 @interface ItemSelectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
@@ -75,6 +83,8 @@
 @property (strong, nonatomic) NSTimer *updateTimer;
 
 + (BOOL) canCreateNewVc;
+
+- (void) anchorToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)preferredDirection;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;

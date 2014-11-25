@@ -1802,6 +1802,12 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if ([self.currentViewController isKindOfClass:[UpgradeViewController class]])
+        {
+          UpgradeViewController* uvc = (UpgradeViewController*)self.currentViewController;
+          [svc anchorToInvokingView:uvc.upgradeView.oilButtonView withDirection:ViewAnchoringPreferTopPlacement];
+        }
       }
     } else {
       [self sendUpgradeWithItemDict:nil allowGems:NO];
