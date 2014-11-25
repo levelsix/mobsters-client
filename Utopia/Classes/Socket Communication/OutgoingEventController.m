@@ -1516,18 +1516,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   
-  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
-    UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
-    bldr.userUuid = gs.userUuid;
-    bldr.actionType = GameActionTypeHeal;
-    bldr.userDataUuid = hi.userMonsterUuid;
-    bldr.itemId = itemId;
-    bldr.timeOfEntry = [self getCurrentMilliseconds];
-    
-    [arr addObject:bldr.build];
-  }
+  UserMonsterHealingItem *hi = [gs.monsterHealingQueue firstObject];
   
-  if (arr.count) {
+  UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
+  bldr.userUuid = gs.userUuid;
+  bldr.actionType = GameActionTypeHeal;
+  bldr.userDataUuid = hi.userMonsterUuid;
+  bldr.itemId = itemId;
+  bldr.timeOfEntry = [self getCurrentMilliseconds];
+  
+  [arr addObject:bldr.build];
+  
+  if (hi != nil) {
     [self tradeItemForSpeedup:arr];
     
     ItemProto *ip = [gs itemForId:itemId];

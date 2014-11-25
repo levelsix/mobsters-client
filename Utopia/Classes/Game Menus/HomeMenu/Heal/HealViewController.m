@@ -444,6 +444,8 @@
       [self.buttonSpinner startAnimating];
       
       _waitingForResponse = YES;
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
     }
   }
 }

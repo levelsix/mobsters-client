@@ -9,7 +9,7 @@
 #import "HospitalQueueSimulator.h"
 #import "GameState.h"
 
-#define SimLog(...) LNLog(__VA_ARGS__)
+#define SimLog(...) //LNLog(__VA_ARGS__)
 
 @implementation HospitalSim
 

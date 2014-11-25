@@ -710,7 +710,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         item = i;
       }
     }
-    item.healthProgress = hi.healthProgress;
+    item.healthProgress = [item.endTime compare:date] == NSOrderedAscending ? hi.totalHealthToHeal : hi.healthProgress;
     item.elapsedTime += -[item.queueTime timeIntervalSinceDate:date];
     
     // Essentially, we use this method to allow us to skip forward in time, i.e. using a speedup
