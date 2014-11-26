@@ -1258,6 +1258,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals addOrangeAlertNotification:[NSString stringWithFormat:@"Squad Help Requested: %@.", [ch justSolicitedString]]];
     }
     
+    [AchievementUtil checkSolicitedClanHelp];
+    
     LNLog(@"Soliciting help for %d timers.", (int)clanHelpNotices.count);
   }
 }
@@ -1337,6 +1339,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) giveClanHelp:(NSArray *)clanHelpIds {
   [[SocketCommunication sharedSocketCommunication] sendGiveClanHelpMessage:clanHelpIds];
+  
+  [AchievementUtil checkGaveClanHelp:(int)clanHelpIds.count];
 }
 
 - (void) endClanHelp:(NSArray *)clanHelpIds {

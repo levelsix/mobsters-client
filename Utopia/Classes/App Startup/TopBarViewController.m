@@ -24,6 +24,7 @@
 #import "ShopViewController.h"
 #import "GenericPopupController.h"
 #import "OutgoingEventController.h"
+#import "ClanRewardsViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -109,7 +110,10 @@
   
   [center addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateFreeGemsView) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateFreeGemsView) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   [self updateQuestBadge];
+  [self updateFreeGemsView];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
@@ -377,13 +381,51 @@
         if (pre.isRedeemed) {
           badgeNum++;
         }
-      } else {
+      } else if (ap.priority) {
         badgeNum++;
       }
+      
+      // If no prereq or priority, then it won't be in the achievements menu
     }
   }
   
   self.questBadge.badgeNum = badgeNum;
+}
+
+- (void) updateFreeGemsView {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int badgeNum = 0;
+  BOOL availAchievement = NO;
+  for (NSNumber *num in gl.clanRewardAchievementIds) {
+    int achievementId = [num intValue];
+    
+    UserAchievement *ua = gs.myAchievements[@(achievementId)];
+    
+    if (!ua.isRedeemed) {
+      badgeNum += ua.isComplete;
+      availAchievement = YES;
+    }
+  }
+  
+  // Check if squad HQ can even be built yet
+  UserStruct *cs = [gs myClanHouse];
+  int level = cs.staticStruct.structInfo.level;
+  BOOL availBuilding = (cs.isComplete || level > 1);
+  
+  self.freeGemsBadge.badgeNum = badgeNum;
+  self.freeGemsView.hidden = !availAchievement || !availBuilding;
+  
+  if (!self.freeGemsView.hidden && self.freeGemsSpinner.layer.animationKeys.count == 0) {
+    CABasicAnimation *fullRotation;
+    fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    fullRotation.fromValue = [NSNumber numberWithFloat:0];
+    fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 2];
+    fullRotation.duration = 6.f;
+    fullRotation.repeatCount = 50000;
+    [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
+  }
 }
 
 - (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId completion:(void (^)(void))completion {
@@ -598,6 +640,14 @@
 - (IBAction)clanClicked:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
   [gvc openClanView];
+}
+
+- (IBAction)freeGemClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  ClanRewardsViewController *rvc = [[ClanRewardsViewController alloc] init];
+  [gvc addChildViewController:rvc];
+  rvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:rvc.view];
 }
 
 #pragma mark - Updating HUD Stuff

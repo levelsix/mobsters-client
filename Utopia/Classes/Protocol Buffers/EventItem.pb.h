@@ -42,6 +42,10 @@
 @class MonsterProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class RedeemSecretGiftRequestProto;
+@class RedeemSecretGiftRequestProto_Builder;
+@class RedeemSecretGiftResponseProto;
+@class RedeemSecretGiftResponseProto_Builder;
 @class RemoveUserItemUsedRequestProto;
 @class RemoveUserItemUsedRequestProto_Builder;
 @class RemoveUserItemUsedResponseProto;
@@ -70,6 +74,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMonsterCurrentExpProto;
@@ -122,6 +128,14 @@ typedef NS_ENUM(SInt32, TradeItemForResourcesResponseProto_TradeItemForResources
 };
 
 BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus value);
+
+typedef NS_ENUM(SInt32, RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) {
+  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess = 1,
+  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailItemsNonexistent = 2,
+  RedeemSecretGiftResponseProto_RedeemSecretGiftStatusFailOther = 3,
+};
+
+BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus value);
 
 
 @interface EventItemRoot : NSObject {
@@ -674,6 +688,144 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 - (TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) status;
 - (TradeItemForResourcesResponseProto_Builder*) setStatus:(TradeItemForResourcesResponseProto_TradeItemForResourcesStatus) value;
 - (TradeItemForResourcesResponseProto_Builder*) clearStatus;
+@end
+
+@interface RedeemSecretGiftRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasMup_:1;
+  int64_t clientTime;
+  MinimumUserProto* mup;
+  NSMutableArray * mutableUisgUuidList;
+}
+- (BOOL) hasMup;
+- (BOOL) hasClientTime;
+@property (readonly, strong) MinimumUserProto* mup;
+@property (readonly) int64_t clientTime;
+@property (readonly, strong) NSArray * uisgUuidList;
+- (NSString*)uisgUuidAtIndex:(NSUInteger)index;
+
++ (RedeemSecretGiftRequestProto*) defaultInstance;
+- (RedeemSecretGiftRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemSecretGiftRequestProto_Builder*) builder;
++ (RedeemSecretGiftRequestProto_Builder*) builder;
++ (RedeemSecretGiftRequestProto_Builder*) builderWithPrototype:(RedeemSecretGiftRequestProto*) prototype;
+- (RedeemSecretGiftRequestProto_Builder*) toBuilder;
+
++ (RedeemSecretGiftRequestProto*) parseFromData:(NSData*) data;
++ (RedeemSecretGiftRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemSecretGiftRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemSecretGiftRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemSecretGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemSecretGiftRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemSecretGiftRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RedeemSecretGiftRequestProto* result;
+}
+
+- (RedeemSecretGiftRequestProto*) defaultInstance;
+
+- (RedeemSecretGiftRequestProto_Builder*) clear;
+- (RedeemSecretGiftRequestProto_Builder*) clone;
+
+- (RedeemSecretGiftRequestProto*) build;
+- (RedeemSecretGiftRequestProto*) buildPartial;
+
+- (RedeemSecretGiftRequestProto_Builder*) mergeFrom:(RedeemSecretGiftRequestProto*) other;
+- (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMup;
+- (MinimumUserProto*) mup;
+- (RedeemSecretGiftRequestProto_Builder*) setMup:(MinimumUserProto*) value;
+- (RedeemSecretGiftRequestProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemSecretGiftRequestProto_Builder*) mergeMup:(MinimumUserProto*) value;
+- (RedeemSecretGiftRequestProto_Builder*) clearMup;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (RedeemSecretGiftRequestProto_Builder*) setClientTime:(int64_t) value;
+- (RedeemSecretGiftRequestProto_Builder*) clearClientTime;
+
+- (NSMutableArray *)uisgUuidList;
+- (NSString*)uisgUuidAtIndex:(NSUInteger)index;
+- (RedeemSecretGiftRequestProto_Builder *)addUisgUuid:(NSString*)value;
+- (RedeemSecretGiftRequestProto_Builder *)addAllUisgUuid:(NSArray *)array;
+- (RedeemSecretGiftRequestProto_Builder *)clearUisgUuid;
+@end
+
+@interface RedeemSecretGiftResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasMup_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* mup;
+  RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+  NSMutableArray * mutableNuGiftsList;
+}
+- (BOOL) hasMup;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* mup;
+@property (readonly, strong) NSArray * nuGiftsList;
+@property (readonly) RedeemSecretGiftResponseProto_RedeemSecretGiftStatus status;
+- (UserItemSecretGiftProto*)nuGiftsAtIndex:(NSUInteger)index;
+
++ (RedeemSecretGiftResponseProto*) defaultInstance;
+- (RedeemSecretGiftResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RedeemSecretGiftResponseProto_Builder*) builder;
++ (RedeemSecretGiftResponseProto_Builder*) builder;
++ (RedeemSecretGiftResponseProto_Builder*) builderWithPrototype:(RedeemSecretGiftResponseProto*) prototype;
+- (RedeemSecretGiftResponseProto_Builder*) toBuilder;
+
++ (RedeemSecretGiftResponseProto*) parseFromData:(NSData*) data;
++ (RedeemSecretGiftResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemSecretGiftResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RedeemSecretGiftResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RedeemSecretGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RedeemSecretGiftResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RedeemSecretGiftResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  RedeemSecretGiftResponseProto* result;
+}
+
+- (RedeemSecretGiftResponseProto*) defaultInstance;
+
+- (RedeemSecretGiftResponseProto_Builder*) clear;
+- (RedeemSecretGiftResponseProto_Builder*) clone;
+
+- (RedeemSecretGiftResponseProto*) build;
+- (RedeemSecretGiftResponseProto*) buildPartial;
+
+- (RedeemSecretGiftResponseProto_Builder*) mergeFrom:(RedeemSecretGiftResponseProto*) other;
+- (RedeemSecretGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RedeemSecretGiftResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMup;
+- (MinimumUserProto*) mup;
+- (RedeemSecretGiftResponseProto_Builder*) setMup:(MinimumUserProto*) value;
+- (RedeemSecretGiftResponseProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemSecretGiftResponseProto_Builder*) mergeMup:(MinimumUserProto*) value;
+- (RedeemSecretGiftResponseProto_Builder*) clearMup;
+
+- (NSMutableArray *)nuGiftsList;
+- (UserItemSecretGiftProto*)nuGiftsAtIndex:(NSUInteger)index;
+- (RedeemSecretGiftResponseProto_Builder *)addNuGifts:(UserItemSecretGiftProto*)value;
+- (RedeemSecretGiftResponseProto_Builder *)addAllNuGifts:(NSArray *)array;
+- (RedeemSecretGiftResponseProto_Builder *)clearNuGifts;
+
+- (BOOL) hasStatus;
+- (RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) status;
+- (RedeemSecretGiftResponseProto_Builder*) setStatus:(RedeemSecretGiftResponseProto_RedeemSecretGiftStatus) value;
+- (RedeemSecretGiftResponseProto_Builder*) clearStatus;
 @end
 
 

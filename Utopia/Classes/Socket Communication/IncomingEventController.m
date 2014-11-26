@@ -996,6 +996,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.myClanStatus = UserClanStatusLeader;
       
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+      
+      [AchievementUtil checkClanJoined];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1038,6 +1040,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
         
         [Globals addGreenAlertNotification:[NSString stringWithFormat:@"You have just been accepted to %@!", proto.minClan.name]];
+        
+        [AchievementUtil checkClanJoined];
       }
     } else {
       if (proto.accept) {
@@ -1084,6 +1088,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.myClanStatus = UserClanStatusMember;
       
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+      
+      [AchievementUtil checkClanJoined];
     } else {
       [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just joined your squad. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name] isImmediate:NO];
     }

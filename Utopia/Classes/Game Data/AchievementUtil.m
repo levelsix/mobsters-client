@@ -184,6 +184,18 @@
   return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeJoinLeague staticDataId:leagueId byAmount:1];
 }
 
++ (NSSet *) clanJoined {
+  return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeJoinClan byAmount:1];
+}
+
++ (NSSet *) solicitedClanHelp {
+  return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeSolicitHelp byAmount:1];
+}
+
++ (NSSet *) gaveClanHelp:(int)numTimes {
+  return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeGiveHelp byAmount:numTimes];
+}
+
 + (NSSet *) checkAchievementsForBattleCompleteWithOrbCounts:(int[])orbCounts powerupCounts:(int[])powerupCounts comboCount:(int)comboCount damageTaken:(int)damageTaken {
   NSMutableSet *changed = [NSMutableSet set];
   [changed unionSet:[self destroyOrbs:orbCounts]];
@@ -240,6 +252,18 @@
 
 + (void) checkCollectResource:(ResourceType)res amount:(int)amount {
   [self sendAchievements:[self collectResource:res amount:amount]];
+}
+
++ (void) checkClanJoined {
+  [self sendAchievements:[self clanJoined]];
+}
+
++ (void) checkSolicitedClanHelp {
+  [self sendAchievements:[self solicitedClanHelp]];
+}
+
++ (void) checkGaveClanHelp:(int)clanHelp {
+  [self sendAchievements:[self gaveClanHelp:clanHelp]];
 }
 
 @end

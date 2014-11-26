@@ -74,6 +74,9 @@ typedef NS_ENUM(SInt32, AchievementProto_AchievementType) {
   AchievementProto_AchievementTypeTakeDamage = 14,
   AchievementProto_AchievementTypeUpgradeBuilding = 15,
   AchievementProto_AchievementTypeWinPvpBattle = 16,
+  AchievementProto_AchievementTypeJoinClan = 18,
+  AchievementProto_AchievementTypeSolicitHelp = 19,
+  AchievementProto_AchievementTypeGiveHelp = 20,
 };
 
 BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementType value);

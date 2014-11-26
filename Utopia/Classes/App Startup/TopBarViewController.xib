@@ -22,6 +22,9 @@
                 <outlet property="expBgd" destination="x8b-eE-lJh" id="fLK-6T-A7T"/>
                 <outlet property="expLabel" destination="jBk-ZB-O11" id="8zs-ST-LMK"/>
                 <outlet property="expView" destination="qAj-Vx-LTt" id="FLf-3u-8Io"/>
+                <outlet property="freeGemsBadge" destination="iFW-g9-gLo" id="4VJ-tr-Kja"/>
+                <outlet property="freeGemsSpinner" destination="rXv-EN-27y" id="aUJ-UR-m0w"/>
+                <outlet property="freeGemsView" destination="R4r-CQ-wtp" id="G8r-Np-eNH"/>
                 <outlet property="gemsLabel" destination="KKx-uR-59O" id="oQz-wG-ryh"/>
                 <outlet property="gemsView" destination="2Q7-bV-IcA" id="m1w-bG-R7I"/>
                 <outlet property="levelLabel" destination="z9g-Pu-hrw" id="YhS-Up-92A"/>
@@ -457,6 +460,70 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="R4r-CQ-wtp" userLabel="Gem View">
+                            <rect key="frame" x="8" y="198" width="44" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gemsspinner.png" id="rXv-EN-27y">
+                                    <rect key="frame" x="-10" y="-16" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="OOP-Px-Mn9">
+                                    <rect key="frame" x="0.0" y="0.0" width="44" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="freegem.png" id="LS5-TK-uUi">
+                                            <rect key="frame" x="2" y="0.0" width="40" height="32"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homescreentimer.png" id="pGu-FF-QGi">
+                                            <rect key="frame" x="0.0" y="31" width="44" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="freegemslabel.png" id="zdH-kg-JKw">
+                                            <rect key="frame" x="8" y="34" width="29" height="9"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YWw-nD-tJu" customClass="MaskedButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="44" height="46"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="freeGemClicked:" destination="-1" eventType="touchUpInside" id="d94-7R-W2z"/>
+                                                <outlet property="baseImage" destination="OOP-Px-Mn9" id="EZq-7M-Yzu"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="iFW-g9-gLo" customClass="BadgeIcon">
+                                    <rect key="frame" x="26" y="0.0" width="18" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="tvn-rQ-5Us">
+                                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="m4P-ba-b5t" customClass="NiceFontLabel8S">
+                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="badgeLabel" destination="m4P-ba-b5t" id="Wxf-PO-r6Z"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="myw-qd-Tq0" userLabel="Coin Bars" customClass="TouchableSubviewsView">
                             <rect key="frame" x="198" y="0.0" width="370" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -678,6 +745,10 @@
         <image name="cashmiddle.png" width="1" height="18"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="diamondbar.png" width="72" height="18"/>
+        <image name="freegem.png" width="40" height="32"/>
+        <image name="freegemslabel.png" width="29" height="9"/>
+        <image name="gemsspinner.png" width="64" height="64"/>
+        <image name="homescreentimer.png" width="44" height="15"/>
         <image name="inaclanbutton.png" width="44" height="42"/>
         <image name="jobsbutton.png" width="44" height="44"/>
         <image name="levelicon.png" width="30" height="30"/>

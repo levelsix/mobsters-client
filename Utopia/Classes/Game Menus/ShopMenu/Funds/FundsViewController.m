@@ -40,7 +40,6 @@
 - (void) reloadPackagesArray {
   NSMutableArray *packages = [NSMutableArray array];
   
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   IAPHelper *iap = [IAPHelper sharedIAPHelper];
   for (InAppPurchasePackageProto *pkg in gl.iapPackages) {
@@ -50,16 +49,17 @@
     }
   }
   
-  int maxCash = [gs maxCash];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.cash percFill:100 storageTier:4 title:@"Fill Storages"]];
-  
-  int maxOil = [gs maxOil];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
-  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil percFill:100 storageTier:4 title:@"Fill Storages"]];
-  
+//  GameState *gs = [GameState sharedGameState];
+//  int maxCash = [gs maxCash];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.cash percFill:100 storageTier:4 title:@"Fill Storages"]];
+//  
+//  int maxOil = [gs maxOil];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 percFill:10 storageTier:2 title:@"Fill (10%)"]];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 percFill:50 storageTier:3 title:@"Fill (50%)"]];
+//  [packages addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil percFill:100 storageTier:4 title:@"Fill Storages"]];
+//  
   self.packages = packages;
 }
 

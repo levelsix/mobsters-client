@@ -613,6 +613,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (strong) NSMutableArray * mutableClanInvitesList;
 @property (strong) ClanDataProto* clanData;
 @property (strong) NSMutableArray * mutableItemsInUseList;
+@property (strong) NSMutableArray * mutableGiftsList;
 @end
 
 @implementation StartupResponseProto
@@ -795,6 +796,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize clanData;
 @synthesize mutableItemsInUseList;
 @dynamic itemsInUseList;
+@synthesize mutableGiftsList;
+@dynamic giftsList;
 - (id) init {
   if ((self = [super init])) {
     self.serverTimeMillis = 0L;
@@ -991,6 +994,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index {
   return [mutableItemsInUseList objectAtIndex:index];
 }
+- (NSArray *)giftsList {
+  return mutableGiftsList;
+}
+- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+  return [mutableGiftsList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1138,6 +1147,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:44 value:element];
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:45 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1306,6 +1318,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(44, element);
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(45, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1570,6 +1585,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"gifts"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1642,6 +1663,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       self.hasClanData == otherMessage.hasClanData &&
       (!self.hasClanData || [self.clanData isEqual:otherMessage.clanData]) &&
       [self.itemsInUseList isEqualToArray:otherMessage.itemsInUseList] &&
+      [self.giftsList isEqualToArray:otherMessage.giftsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1776,6 +1798,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [self.clanData hash];
   }
   [self.itemsInUseList enumerateObjectsUsingBlock:^(UserItemUsageProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -3592,6 +3617,7 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 @property int32_t maxCharLengthForClanDescription;
 @property int32_t maxCharLengthForClanTag;
 @property int32_t maxClanSize;
+@property (strong) PBAppendableArray * mutableAchievementIdsForClanRewardsList;
 @end
 
 @implementation StartupResponseProto_StartupConstants_ClanConstants
@@ -3631,6 +3657,8 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
   hasMaxClanSize_ = !!value_;
 }
 @synthesize maxClanSize;
+@synthesize mutableAchievementIdsForClanRewardsList;
+@dynamic achievementIdsForClanRewardsList;
 - (id) init {
   if ((self = [super init])) {
     self.coinPriceToCreateClan = 0;
@@ -3653,6 +3681,12 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
 - (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance {
   return defaultStartupResponseProto_StartupConstants_ClanConstantsInstance;
 }
+- (PBArray *)achievementIdsForClanRewardsList {
+  return mutableAchievementIdsForClanRewardsList;
+}
+- (int32_t)achievementIdsForClanRewardsAtIndex:(NSUInteger)index {
+  return [mutableAchievementIdsForClanRewardsList int32AtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3671,6 +3705,13 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   }
   if (self.hasMaxClanSize) {
     [output writeInt32:5 value:self.maxClanSize];
+  }
+  const NSUInteger achievementIdsForClanRewardsListCount = self.achievementIdsForClanRewardsList.count;
+  if (achievementIdsForClanRewardsListCount > 0) {
+    const int32_t *values = (const int32_t *)self.achievementIdsForClanRewardsList.data;
+    for (NSUInteger i = 0; i < achievementIdsForClanRewardsListCount; ++i) {
+      [output writeInt32:6 value:values[i]];
+    }
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3695,6 +3736,16 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   }
   if (self.hasMaxClanSize) {
     size_ += computeInt32Size(5, self.maxClanSize);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.achievementIdsForClanRewardsList.count;
+    const int32_t *values = (const int32_t *)self.achievementIdsForClanRewardsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt32SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3746,6 +3797,9 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (self.hasMaxClanSize) {
     [output appendFormat:@"%@%@: %@\n", indent, @"maxClanSize", [NSNumber numberWithInteger:self.maxClanSize]];
   }
+  [self.achievementIdsForClanRewardsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"achievementIdsForClanRewards", obj];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3767,6 +3821,7 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
       (!self.hasMaxCharLengthForClanTag || self.maxCharLengthForClanTag == otherMessage.maxCharLengthForClanTag) &&
       self.hasMaxClanSize == otherMessage.hasMaxClanSize &&
       (!self.hasMaxClanSize || self.maxClanSize == otherMessage.maxClanSize) &&
+      [self.achievementIdsForClanRewardsList isEqualToArray:otherMessage.achievementIdsForClanRewardsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3786,6 +3841,9 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (self.hasMaxClanSize) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.maxClanSize] hash];
   }
+  [self.achievementIdsForClanRewardsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -3844,6 +3902,13 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (other.hasMaxClanSize) {
     [self setMaxClanSize:other.maxClanSize];
   }
+  if (other.mutableAchievementIdsForClanRewardsList.count > 0) {
+    if (result.mutableAchievementIdsForClanRewardsList == nil) {
+      result.mutableAchievementIdsForClanRewardsList = [other.mutableAchievementIdsForClanRewardsList copy];
+    } else {
+      [result.mutableAchievementIdsForClanRewardsList appendArray:other.mutableAchievementIdsForClanRewardsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3883,6 +3948,10 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
       }
       case 40: {
         [self setMaxClanSize:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self addAchievementIdsForClanRewards:[input readInt32]];
         break;
       }
     }
@@ -3966,6 +4035,34 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxClanSize {
   result.hasMaxClanSize = NO;
   result.maxClanSize = 0;
+  return self;
+}
+- (PBAppendableArray *)achievementIdsForClanRewardsList {
+  return result.mutableAchievementIdsForClanRewardsList;
+}
+- (int32_t)achievementIdsForClanRewardsAtIndex:(NSUInteger)index {
+  return [result achievementIdsForClanRewardsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)addAchievementIdsForClanRewards:(int32_t)value {
+  if (result.mutableAchievementIdsForClanRewardsList == nil) {
+    result.mutableAchievementIdsForClanRewardsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableAchievementIdsForClanRewardsList addInt32:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)addAllAchievementIdsForClanRewards:(NSArray *)array {
+  if (result.mutableAchievementIdsForClanRewardsList == nil) {
+    result.mutableAchievementIdsForClanRewardsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableAchievementIdsForClanRewardsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)setAchievementIdsForClanRewardsValues:(const int32_t *)values count:(NSUInteger)count {
+  result.mutableAchievementIdsForClanRewardsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)clearAchievementIdsForClanRewards {
+  result.mutableAchievementIdsForClanRewardsList = nil;
   return self;
 }
 @end
@@ -8773,6 +8870,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableItemsInUseList addObjectsFromArray:other.mutableItemsInUseList];
     }
   }
+  if (other.mutableGiftsList.count > 0) {
+    if (result.mutableGiftsList == nil) {
+      result.mutableGiftsList = [[NSMutableArray alloc] initWithArray:other.mutableGiftsList];
+    } else {
+      [result.mutableGiftsList addObjectsFromArray:other.mutableGiftsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9069,6 +9173,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserItemUsageProto_Builder* subBuilder = [UserItemUsageProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addItemsInUse:[subBuilder buildPartial]];
+        break;
+      }
+      case 362: {
+        UserItemSecretGiftProto_Builder* subBuilder = [UserItemSecretGiftProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addGifts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10130,6 +10240,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearItemsInUse {
   result.mutableItemsInUseList = nil;
+  return self;
+}
+- (NSMutableArray *)giftsList {
+  return result.mutableGiftsList;
+}
+- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index {
+  return [result giftsAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value {
+  if (result.mutableGiftsList == nil) {
+    result.mutableGiftsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableGiftsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllGifts:(NSArray *)array {
+  if (result.mutableGiftsList == nil) {
+    result.mutableGiftsList = [NSMutableArray array];
+  }
+  [result.mutableGiftsList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearGifts {
+  result.mutableGiftsList = nil;
   return self;
 }
 @end

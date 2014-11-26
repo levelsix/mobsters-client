@@ -9,6 +9,8 @@
 @class ItemProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 #ifndef __has_feature
@@ -301,6 +303,82 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (GameActionType) actionType;
 - (UserItemUsageProto_Builder*) setActionType:(GameActionType) value;
 - (UserItemUsageProto_Builder*) clearActionType;
+@end
+
+@interface UserItemSecretGiftProto : PBGeneratedMessage {
+@private
+  BOOL hasMinsForCollection_:1;
+  BOOL hasItemId_:1;
+  BOOL hasUisgUuid_:1;
+  BOOL hasUserUuid_:1;
+  int32_t minsForCollection;
+  int32_t itemId;
+  NSString* uisgUuid;
+  NSString* userUuid;
+}
+- (BOOL) hasUisgUuid;
+- (BOOL) hasUserUuid;
+- (BOOL) hasMinsForCollection;
+- (BOOL) hasItemId;
+@property (readonly, strong) NSString* uisgUuid;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly) int32_t minsForCollection;
+@property (readonly) int32_t itemId;
+
++ (UserItemSecretGiftProto*) defaultInstance;
+- (UserItemSecretGiftProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserItemSecretGiftProto_Builder*) builder;
++ (UserItemSecretGiftProto_Builder*) builder;
++ (UserItemSecretGiftProto_Builder*) builderWithPrototype:(UserItemSecretGiftProto*) prototype;
+- (UserItemSecretGiftProto_Builder*) toBuilder;
+
++ (UserItemSecretGiftProto*) parseFromData:(NSData*) data;
++ (UserItemSecretGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserItemSecretGiftProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserItemSecretGiftProto* result;
+}
+
+- (UserItemSecretGiftProto*) defaultInstance;
+
+- (UserItemSecretGiftProto_Builder*) clear;
+- (UserItemSecretGiftProto_Builder*) clone;
+
+- (UserItemSecretGiftProto*) build;
+- (UserItemSecretGiftProto*) buildPartial;
+
+- (UserItemSecretGiftProto_Builder*) mergeFrom:(UserItemSecretGiftProto*) other;
+- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUisgUuid;
+- (NSString*) uisgUuid;
+- (UserItemSecretGiftProto_Builder*) setUisgUuid:(NSString*) value;
+- (UserItemSecretGiftProto_Builder*) clearUisgUuid;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserItemSecretGiftProto_Builder*) setUserUuid:(NSString*) value;
+- (UserItemSecretGiftProto_Builder*) clearUserUuid;
+
+- (BOOL) hasMinsForCollection;
+- (int32_t) minsForCollection;
+- (UserItemSecretGiftProto_Builder*) setMinsForCollection:(int32_t) value;
+- (UserItemSecretGiftProto_Builder*) clearMinsForCollection;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (UserItemSecretGiftProto_Builder*) setItemId:(int32_t) value;
+- (UserItemSecretGiftProto_Builder*) clearItemId;
 @end
 
 

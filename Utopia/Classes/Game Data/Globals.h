@@ -166,6 +166,7 @@
 @property (nonatomic, assign) int maxCharLengthForClanDescription;
 @property (nonatomic, assign) int maxCharLengthForClanTag;
 @property (nonatomic, assign) int maxClanSize;
+@property (nonatomic, retain) NSArray *clanRewardAchievementIds;
 
 // Clan Help constants
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_ClanHelpConstants *healClanHelpConstants;

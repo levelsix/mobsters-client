@@ -416,6 +416,10 @@
 @class RedeemMiniJobRequestProto_Builder;
 @class RedeemMiniJobResponseProto;
 @class RedeemMiniJobResponseProto_Builder;
+@class RedeemSecretGiftRequestProto;
+@class RedeemSecretGiftRequestProto_Builder;
+@class RedeemSecretGiftResponseProto;
+@class RedeemSecretGiftResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
@@ -620,6 +624,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
@@ -739,6 +745,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCTradeItemForSpeedUpsEvent = 85,
   EventProtocolRequestCRemoveUserItemUsedEvent = 86,
   EventProtocolRequestCTradeItemForResourcesEvent = 87,
+  EventProtocolRequestCRedeemSecretGiftEvent = 88,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -832,6 +839,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSTradeItemForSpeedUpsEvent = 85,
   EventProtocolResponseSRemoveUserItemUsedEvent = 86,
   EventProtocolResponseSTradeItemForResourcesEvent = 87,
+  EventProtocolResponseSRedeemSecretGiftEvent = 88,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

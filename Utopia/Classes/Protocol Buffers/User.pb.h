@@ -536,6 +536,7 @@
   BOOL hasLastLogoutTime_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
+  BOOL hasLastSecretGiftCollectTime_:1;
   BOOL hasLastMiniJobSpawnedTime_:1;
   BOOL hasLastFreeBoosterPackTime_:1;
   BOOL hasLevel_:1;
@@ -574,6 +575,7 @@
   int64_t lastLogoutTime;
   int64_t createTime;
   int64_t lastObstacleSpawnedTime;
+  int64_t lastSecretGiftCollectTime;
   int64_t lastMiniJobSpawnedTime;
   int64_t lastFreeBoosterPackTime;
   int32_t level;
@@ -632,6 +634,7 @@
 - (BOOL) hasLastMiniJobSpawnedTime;
 - (BOOL) hasLastFreeBoosterPackTime;
 - (BOOL) hasNumClanHelps;
+- (BOOL) hasLastSecretGiftCollectTime;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -670,6 +673,7 @@
 @property (readonly) int64_t lastMiniJobSpawnedTime;
 @property (readonly) int64_t lastFreeBoosterPackTime;
 @property (readonly) int32_t numClanHelps;
+@property (readonly) int64_t lastSecretGiftCollectTime;
 @property (readonly, strong) NSString* udidForHistory;
 @property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -859,6 +863,11 @@
 - (int32_t) numClanHelps;
 - (FullUserProto_Builder*) setNumClanHelps:(int32_t) value;
 - (FullUserProto_Builder*) clearNumClanHelps;
+
+- (BOOL) hasLastSecretGiftCollectTime;
+- (int64_t) lastSecretGiftCollectTime;
+- (FullUserProto_Builder*) setLastSecretGiftCollectTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastSecretGiftCollectTime;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

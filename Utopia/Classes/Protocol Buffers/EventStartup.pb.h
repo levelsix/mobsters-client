@@ -230,6 +230,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserItemProto;
 @class UserItemProto_Builder;
+@class UserItemSecretGiftProto;
+@class UserItemSecretGiftProto_Builder;
 @class UserItemUsageProto;
 @class UserItemUsageProto_Builder;
 @class UserMiniJobProto;
@@ -406,13 +408,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
   BOOL hasEnhancements_:1;
-  BOOL hasSender_:1;
   BOOL hasClanData_:1;
-  BOOL hasCurTask_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasCurTask_:1;
   BOOL hasCurRaidClanInfo_:1;
   BOOL hasStaticDataStuffProto_:1;
+  BOOL hasSender_:1;
   BOOL hasEvolution_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
@@ -423,35 +425,35 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
   UserEnhancementProto* enhancements;
-  FullUserProto* sender;
   ClanDataProto* clanData;
-  MinimumUserTaskProto* curTask;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupConstants* startupConstants;
+  MinimumUserTaskProto* curTask;
   PersistentClanEventClanInfoProto* curRaidClanInfo;
   StaticDataProto* staticDataStuffProto;
+  FullUserProto* sender;
   UserMonsterEvolutionProto* evolution;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   PBAppendableArray * mutableRedeemedQuestIdsList;
-  PBAppendableArray * mutableTaskIdForCurrentCityBossList;
   PBAppendableArray * mutableCompletedTaskIdsList;
+  PBAppendableArray * mutableTaskIdForCurrentCityBossList;
   NSMutableArray * mutableNoticesToPlayersList;
-  NSMutableArray * mutableClanChatsList;
-  NSMutableArray * mutablePcppList;
-  NSMutableArray * mutableUsersMonstersList;
   NSMutableArray * mutableMonstersHealingList;
   NSMutableArray * mutableUserQuestsList;
+  NSMutableArray * mutableUsersMonstersList;
   NSMutableArray * mutableRareBoosterPurchasesList;
-  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutablePcppList;
   NSMutableArray * mutableInvitesToMeForSlotsList;
   NSMutableArray * mutableInvitesFromMeForSlotsList;
-  NSMutableArray * mutableReferralNotificationsList;
+  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutableGlobalChatsList;
   NSMutableArray * mutableUserEventsList;
-  NSMutableArray * mutableAttackNotificationsList;
+  NSMutableArray * mutableReferralNotificationsList;
   NSMutableArray * mutableCurRaidClanUserInfoList;
   NSMutableArray * mutableRaidStageHistoryList;
   NSMutableArray * mutableRecentNbattlesList;
+  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableCurTaskStagesList;
   NSMutableArray * mutableUserAchievementsList;
   NSMutableArray * mutableUserMiniJobProtosList;
@@ -460,6 +462,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray * mutableClanInvitesList;
   NSMutableArray * mutableUserClanInfoList;
   NSMutableArray * mutableItemsInUseList;
+  NSMutableArray * mutableGiftsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -522,6 +525,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) NSArray * clanInvitesList;
 @property (readonly, strong) ClanDataProto* clanData;
 @property (readonly, strong) NSArray * itemsInUseList;
+@property (readonly, strong) NSArray * giftsList;
 - (FullUserQuestProto*)userQuestsAtIndex:(NSUInteger)index;
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
@@ -549,6 +553,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
 - (ClanInviteProto*)clanInvitesAtIndex:(NSUInteger)index;
 - (UserItemUsageProto*)itemsInUseAtIndex:(NSUInteger)index;
+- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -929,6 +934,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t maxCharLengthForClanDescription;
   int32_t maxCharLengthForClanTag;
   int32_t maxClanSize;
+  PBAppendableArray * mutableAchievementIdsForClanRewardsList;
 }
 - (BOOL) hasCoinPriceToCreateClan;
 - (BOOL) hasMaxCharLengthForClanName;
@@ -940,6 +946,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t maxCharLengthForClanDescription;
 @property (readonly) int32_t maxCharLengthForClanTag;
 @property (readonly) int32_t maxClanSize;
+@property (readonly, strong) PBArray * achievementIdsForClanRewardsList;
+- (int32_t)achievementIdsForClanRewardsAtIndex:(NSUInteger)index;
 
 + (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
@@ -1000,6 +1008,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) maxClanSize;
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxClanSize:(int32_t) value;
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxClanSize;
+
+- (PBAppendableArray *)achievementIdsForClanRewardsList;
+- (int32_t)achievementIdsForClanRewardsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)addAchievementIdsForClanRewards:(int32_t)value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)addAllAchievementIdsForClanRewards:(NSArray *)array;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)setAchievementIdsForClanRewardsValues:(const int32_t *)values count:(NSUInteger)count;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder *)clearAchievementIdsForClanRewards;
 @end
 
 @interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
@@ -2247,6 +2262,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addItemsInUse:(UserItemUsageProto*)value;
 - (StartupResponseProto_Builder *)addAllItemsInUse:(NSArray *)array;
 - (StartupResponseProto_Builder *)clearItemsInUse;
+
+- (NSMutableArray *)giftsList;
+- (UserItemSecretGiftProto*)giftsAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addGifts:(UserItemSecretGiftProto*)value;
+- (StartupResponseProto_Builder *)addAllGifts:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearGifts;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

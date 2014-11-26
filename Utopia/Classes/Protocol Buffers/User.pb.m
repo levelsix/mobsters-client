@@ -2284,6 +2284,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastMiniJobSpawnedTime;
 @property int64_t lastFreeBoosterPackTime;
 @property int32_t numClanHelps;
+@property int64_t lastSecretGiftCollectTime;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2509,6 +2510,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasNumClanHelps_ = !!value_;
 }
 @synthesize numClanHelps;
+- (BOOL) hasLastSecretGiftCollectTime {
+  return !!hasLastSecretGiftCollectTime_;
+}
+- (void) setHasLastSecretGiftCollectTime:(BOOL) value_ {
+  hasLastSecretGiftCollectTime_ = !!value_;
+}
+@synthesize lastSecretGiftCollectTime;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2614,6 +2622,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastMiniJobSpawnedTime = 0L;
     self.lastFreeBoosterPackTime = 0L;
     self.numClanHelps = 0;
+    self.lastSecretGiftCollectTime = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2757,6 +2766,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumClanHelps) {
     [output writeInt32:53 value:self.numClanHelps];
   }
+  if (self.hasLastSecretGiftCollectTime) {
+    [output writeInt64:54 value:self.lastSecretGiftCollectTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2879,6 +2891,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumClanHelps) {
     size_ += computeInt32Size(53, self.numClanHelps);
+  }
+  if (self.hasLastSecretGiftCollectTime) {
+    size_ += computeInt64Size(54, self.lastSecretGiftCollectTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3035,6 +3050,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumClanHelps) {
     [output appendFormat:@"%@%@: %@\n", indent, @"numClanHelps", [NSNumber numberWithInteger:self.numClanHelps]];
   }
+  if (self.hasLastSecretGiftCollectTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"lastSecretGiftCollectTime", [NSNumber numberWithLongLong:self.lastSecretGiftCollectTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3122,6 +3140,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasLastFreeBoosterPackTime || self.lastFreeBoosterPackTime == otherMessage.lastFreeBoosterPackTime) &&
       self.hasNumClanHelps == otherMessage.hasNumClanHelps &&
       (!self.hasNumClanHelps || self.numClanHelps == otherMessage.numClanHelps) &&
+      self.hasLastSecretGiftCollectTime == otherMessage.hasLastSecretGiftCollectTime &&
+      (!self.hasLastSecretGiftCollectTime || self.lastSecretGiftCollectTime == otherMessage.lastSecretGiftCollectTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3239,6 +3259,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumClanHelps) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numClanHelps] hash];
+  }
+  if (self.hasLastSecretGiftCollectTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.lastSecretGiftCollectTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3366,6 +3389,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumClanHelps) {
     [self setNumClanHelps:other.numClanHelps];
+  }
+  if (other.hasLastSecretGiftCollectTime) {
+    [self setLastSecretGiftCollectTime:other.lastSecretGiftCollectTime];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3578,6 +3604,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 424: {
         [self setNumClanHelps:[input readInt32]];
+        break;
+      }
+      case 432: {
+        [self setLastSecretGiftCollectTime:[input readInt64]];
         break;
       }
     }
@@ -4057,6 +4087,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumClanHelps {
   result.hasNumClanHelps = NO;
   result.numClanHelps = 0;
+  return self;
+}
+- (BOOL) hasLastSecretGiftCollectTime {
+  return result.hasLastSecretGiftCollectTime;
+}
+- (int64_t) lastSecretGiftCollectTime {
+  return result.lastSecretGiftCollectTime;
+}
+- (FullUserProto_Builder*) setLastSecretGiftCollectTime:(int64_t) value {
+  result.hasLastSecretGiftCollectTime = YES;
+  result.lastSecretGiftCollectTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastSecretGiftCollectTime {
+  result.hasLastSecretGiftCollectTime = NO;
+  result.lastSecretGiftCollectTime = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {

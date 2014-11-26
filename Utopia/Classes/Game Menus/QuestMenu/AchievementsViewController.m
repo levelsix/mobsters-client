@@ -96,10 +96,11 @@
       if (ap.prerequisiteId) {
         UserAchievement *pre = userAchievements[@(ap.prerequisiteId)];
         return pre.isRedeemed;
-      } else {
+      } else if (ap.priority) {
         return YES;
       }
     }
+    return NO;
   }];
   achievements = [achievements filteredArrayUsingPredicate:pred];
   achievements = [achievements sortedArrayUsingComparator:^NSComparisonResult(AchievementProto *obj1, AchievementProto *obj2) {

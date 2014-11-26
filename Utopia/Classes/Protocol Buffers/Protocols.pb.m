@@ -148,6 +148,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTradeItemForSpeedUpsEvent:
     case EventProtocolRequestCRemoveUserItemUsedEvent:
     case EventProtocolRequestCTradeItemForResourcesEvent:
+    case EventProtocolRequestCRedeemSecretGiftEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -243,6 +244,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTradeItemForSpeedUpsEvent:
     case EventProtocolResponseSRemoveUserItemUsedEvent:
     case EventProtocolResponseSTradeItemForResourcesEvent:
+    case EventProtocolResponseSRedeemSecretGiftEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

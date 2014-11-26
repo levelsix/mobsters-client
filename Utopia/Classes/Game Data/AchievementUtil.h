@@ -31,4 +31,8 @@
 + (void) checkLeagueJoined:(int)leagueId;
 + (void) checkCollectResource:(ResourceType)res amount:(int)amount;
 
++ (void) checkClanJoined;
++ (void) checkSolicitedClanHelp;
++ (void) checkGaveClanHelp:(int)clanHelp;
+
 @end

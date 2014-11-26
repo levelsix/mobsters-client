@@ -1240,5 +1240,343 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
 }
 @end
 
+@interface UserItemSecretGiftProto ()
+@property (strong) NSString* uisgUuid;
+@property (strong) NSString* userUuid;
+@property int32_t minsForCollection;
+@property int32_t itemId;
+@end
+
+@implementation UserItemSecretGiftProto
+
+- (BOOL) hasUisgUuid {
+  return !!hasUisgUuid_;
+}
+- (void) setHasUisgUuid:(BOOL) value_ {
+  hasUisgUuid_ = !!value_;
+}
+@synthesize uisgUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
+}
+- (void) setHasUserUuid:(BOOL) value_ {
+  hasUserUuid_ = !!value_;
+}
+@synthesize userUuid;
+- (BOOL) hasMinsForCollection {
+  return !!hasMinsForCollection_;
+}
+- (void) setHasMinsForCollection:(BOOL) value_ {
+  hasMinsForCollection_ = !!value_;
+}
+@synthesize minsForCollection;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value_ {
+  hasItemId_ = !!value_;
+}
+@synthesize itemId;
+- (id) init {
+  if ((self = [super init])) {
+    self.uisgUuid = @"";
+    self.userUuid = @"";
+    self.minsForCollection = 0;
+    self.itemId = 0;
+  }
+  return self;
+}
+static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserItemSecretGiftProto class]) {
+    defaultUserItemSecretGiftProtoInstance = [[UserItemSecretGiftProto alloc] init];
+  }
+}
++ (UserItemSecretGiftProto*) defaultInstance {
+  return defaultUserItemSecretGiftProtoInstance;
+}
+- (UserItemSecretGiftProto*) defaultInstance {
+  return defaultUserItemSecretGiftProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUisgUuid) {
+    [output writeString:1 value:self.uisgUuid];
+  }
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
+  }
+  if (self.hasMinsForCollection) {
+    [output writeInt32:3 value:self.minsForCollection];
+  }
+  if (self.hasItemId) {
+    [output writeInt32:4 value:self.itemId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasUisgUuid) {
+    size_ += computeStringSize(1, self.uisgUuid);
+  }
+  if (self.hasUserUuid) {
+    size_ += computeStringSize(2, self.userUuid);
+  }
+  if (self.hasMinsForCollection) {
+    size_ += computeInt32Size(3, self.minsForCollection);
+  }
+  if (self.hasItemId) {
+    size_ += computeInt32Size(4, self.itemId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UserItemSecretGiftProto*) parseFromData:(NSData*) data {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromData:data] build];
+}
++ (UserItemSecretGiftProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromInputStream:input] build];
+}
++ (UserItemSecretGiftProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserItemSecretGiftProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserItemSecretGiftProto*)[[[UserItemSecretGiftProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserItemSecretGiftProto_Builder*) builder {
+  return [[UserItemSecretGiftProto_Builder alloc] init];
+}
++ (UserItemSecretGiftProto_Builder*) builderWithPrototype:(UserItemSecretGiftProto*) prototype {
+  return [[UserItemSecretGiftProto builder] mergeFrom:prototype];
+}
+- (UserItemSecretGiftProto_Builder*) builder {
+  return [UserItemSecretGiftProto builder];
+}
+- (UserItemSecretGiftProto_Builder*) toBuilder {
+  return [UserItemSecretGiftProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasUisgUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"uisgUuid", self.uisgUuid];
+  }
+  if (self.hasUserUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
+  }
+  if (self.hasMinsForCollection) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minsForCollection", [NSNumber numberWithInteger:self.minsForCollection]];
+  }
+  if (self.hasItemId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UserItemSecretGiftProto class]]) {
+    return NO;
+  }
+  UserItemSecretGiftProto *otherMessage = other;
+  return
+      self.hasUisgUuid == otherMessage.hasUisgUuid &&
+      (!self.hasUisgUuid || [self.uisgUuid isEqual:otherMessage.uisgUuid]) &&
+      self.hasUserUuid == otherMessage.hasUserUuid &&
+      (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
+      self.hasMinsForCollection == otherMessage.hasMinsForCollection &&
+      (!self.hasMinsForCollection || self.minsForCollection == otherMessage.minsForCollection) &&
+      self.hasItemId == otherMessage.hasItemId &&
+      (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasUisgUuid) {
+    hashCode = hashCode * 31 + [self.uisgUuid hash];
+  }
+  if (self.hasUserUuid) {
+    hashCode = hashCode * 31 + [self.userUuid hash];
+  }
+  if (self.hasMinsForCollection) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minsForCollection] hash];
+  }
+  if (self.hasItemId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UserItemSecretGiftProto_Builder()
+@property (strong) UserItemSecretGiftProto* result;
+@end
+
+@implementation UserItemSecretGiftProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UserItemSecretGiftProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserItemSecretGiftProto_Builder*) clear {
+  self.result = [[UserItemSecretGiftProto alloc] init];
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clone {
+  return [UserItemSecretGiftProto builderWithPrototype:result];
+}
+- (UserItemSecretGiftProto*) defaultInstance {
+  return [UserItemSecretGiftProto defaultInstance];
+}
+- (UserItemSecretGiftProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserItemSecretGiftProto*) buildPartial {
+  UserItemSecretGiftProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UserItemSecretGiftProto_Builder*) mergeFrom:(UserItemSecretGiftProto*) other {
+  if (other == [UserItemSecretGiftProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUisgUuid) {
+    [self setUisgUuid:other.uisgUuid];
+  }
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
+  }
+  if (other.hasMinsForCollection) {
+    [self setMinsForCollection:other.minsForCollection];
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserItemSecretGiftProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setUisgUuid:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setUserUuid:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setMinsForCollection:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUisgUuid {
+  return result.hasUisgUuid;
+}
+- (NSString*) uisgUuid {
+  return result.uisgUuid;
+}
+- (UserItemSecretGiftProto_Builder*) setUisgUuid:(NSString*) value {
+  result.hasUisgUuid = YES;
+  result.uisgUuid = value;
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clearUisgUuid {
+  result.hasUisgUuid = NO;
+  result.uisgUuid = @"";
+  return self;
+}
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
+}
+- (NSString*) userUuid {
+  return result.userUuid;
+}
+- (UserItemSecretGiftProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
+  return self;
+}
+- (BOOL) hasMinsForCollection {
+  return result.hasMinsForCollection;
+}
+- (int32_t) minsForCollection {
+  return result.minsForCollection;
+}
+- (UserItemSecretGiftProto_Builder*) setMinsForCollection:(int32_t) value {
+  result.hasMinsForCollection = YES;
+  result.minsForCollection = value;
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clearMinsForCollection {
+  result.hasMinsForCollection = NO;
+  result.minsForCollection = 0;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (UserItemSecretGiftProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

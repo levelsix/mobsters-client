@@ -108,6 +108,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
   self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
   self.maxClanSize = constants.clanConstants.maxClanSize;
+  self.clanRewardAchievementIds = [constants.clanConstants.achievementIdsForClanRewardsList toNSArray];
   
   self.tournamentWinsWeight = constants.touramentConstants.winsWeight;
   self.tournamentLossesWeight = constants.touramentConstants.lossesWeight;

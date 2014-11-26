@@ -1614,6 +1614,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
   MSDate *spawnTime = [self.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
   if (spawnTime.timeIntervalSinceNow <= 0) {
+    // Must still do this even if numToSpawn == 0 because otherwise it won't update the timer
+    
     int numToSpawn = MAX(0, fsp.generatedJobLimit-(int)self.myMiniJobs.count);
     LNLog(@"Spawning %d mini jobs..", numToSpawn);
     [[OutgoingEventController sharedOutgoingEventController] spawnMiniJob:numToSpawn structId:fsp.structInfo.structId];

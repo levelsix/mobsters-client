@@ -65,10 +65,14 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *timerHeaderLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *freeGemsView;
+@property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;
+
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *shopBadge;
+@property (nonatomic, retain) IBOutlet BadgeIcon *freeGemsBadge;
 @property (nonatomic, retain) IBOutlet UIImageView *shopBadgeImage;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;

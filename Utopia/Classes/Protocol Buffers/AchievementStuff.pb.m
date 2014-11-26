@@ -453,6 +453,9 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
     case AchievementProto_AchievementTypeTakeDamage:
     case AchievementProto_AchievementTypeUpgradeBuilding:
     case AchievementProto_AchievementTypeWinPvpBattle:
+    case AchievementProto_AchievementTypeJoinClan:
+    case AchievementProto_AchievementTypeSolicitHelp:
+    case AchievementProto_AchievementTypeGiveHelp:
       return YES;
     default:
       return NO;

@@ -108,7 +108,7 @@
         self.freeLabel.hidden = NO;
         self.helpView.hidden = YES;
       }
-    } else {
+    } else if (self.speedupItemsFiller) {
       [self.itemSelectViewController closeClicked:nil];
     }
     
