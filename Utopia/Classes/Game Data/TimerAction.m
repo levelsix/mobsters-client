@@ -85,6 +85,8 @@
     }
     
     [Globals addAlertNotification:[NSString stringWithFormat:@"You must be in a squad to ask for help. %@", us ? @"Join one now!" : [NSString stringWithFormat:@"Build a %@ now!", structName]] ];
+    
+    self.hasAskedForClanHelp = YES;
   }
 }
 

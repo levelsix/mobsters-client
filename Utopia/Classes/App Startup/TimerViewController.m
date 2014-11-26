@@ -61,7 +61,7 @@
     self.gemsLabel.text = [Globals commafyNumber:gemCost];
     [Globals adjustViewForCentering:self.gemsLabel.superview withLabel:self.gemsLabel];
     
-    BOOL canGetHelp = [ta canGetHelp];
+    BOOL canGetHelp = [ta canGetHelp] && ![ta hasAskedForClanHelp];
     self.helpView.hidden = !canGetHelp;
     self.finishView.hidden = canGetHelp;
   } else {
@@ -229,7 +229,12 @@
   for (int i = 0; i < self.timerActionsArray.count; i++) {
     TimerAction *ta = self.timerActionsArray[i];
     if (![additions containsObject:[NSIndexPath indexPathForRow:i inSection:0]]) {
+      // These are the moved ones
       NSInteger oldIdx = [oldArray indexOfObject:ta];
+      
+      // Transfer hasAskedFroClanHelp value
+      TimerAction *oldTa = oldArray[oldIdx];
+      ta.hasAskedForClanHelp = oldTa.hasAskedForClanHelp;
       
       TimerCell *cell = oldCells[oldIdx];
       CGPoint newPos = [self positionForViewAtIndex:i cellSize:cell.size];

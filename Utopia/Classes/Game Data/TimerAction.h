@@ -26,6 +26,7 @@ typedef enum {
 - (TimerProgressBarColor) progressBarColor;
 
 - (BOOL) canGetHelp;
+- (BOOL) hasAskedForClanHelp;
 
 // Should return an array of dummy objects that will be retained
 - (NSArray *) speedupClicked;
@@ -40,6 +41,9 @@ typedef enum {
 @property (nonatomic, assign) int totalSeconds;
 @property (nonatomic, assign) BOOL allowsFreeSpeedup;
 @property (nonatomic, assign) TimerProgressBarColor normalProgressBarColor;
+
+// Used in case squad doesn't exist so button can go away
+@property (nonatomic, assign) BOOL hasAskedForClanHelp;
 
 - (NSString *) confirmActionString;
 - (NSArray *) performSpeedup;
