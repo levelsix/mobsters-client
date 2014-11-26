@@ -84,7 +84,7 @@ typedef enum
 
 + (BOOL) canCreateNewVc;
 
-- (void) anchorToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)preferredDirection;
+- (void) anchorToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;

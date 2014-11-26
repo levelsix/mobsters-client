@@ -1806,7 +1806,9 @@
         if ([self.currentViewController isKindOfClass:[UpgradeViewController class]])
         {
           UpgradeViewController* uvc = (UpgradeViewController*)self.currentViewController;
-          [svc anchorToInvokingView:uvc.upgradeView.oilButtonView withDirection:ViewAnchoringPreferTopPlacement];
+          [svc anchorToInvokingView:uvc.upgradeView.oilButton
+                      withDirection:ViewAnchoringPreferTopPlacement
+                  inkovingViewImage:uvc.upgradeView.oilButton.currentImage];
         }
       }
     } else {
