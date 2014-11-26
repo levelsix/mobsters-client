@@ -1234,7 +1234,11 @@ static const CGSize FIXED_SIZE = {568, 384};
     [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", (int)aps.count] isImmediate:NO];
   } else {
     AchievementProto *ap = [aps firstObject];
-    [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl] isImmediate:NO];
+    
+    // Make sure it isn't a clan reward quest
+    if (ap.prerequisiteId || ap.priority) {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl] isImmediate:NO];
+    }
   }
 }
 
