@@ -307,10 +307,12 @@ BOOL ItemTypeIsValidValue(ItemType value);
 
 @interface UserItemSecretGiftProto : PBGeneratedMessage {
 @private
+  BOOL hasCreateTime_:1;
   BOOL hasMinsForCollection_:1;
   BOOL hasItemId_:1;
   BOOL hasUisgUuid_:1;
   BOOL hasUserUuid_:1;
+  int64_t createTime;
   int32_t minsForCollection;
   int32_t itemId;
   NSString* uisgUuid;
@@ -320,10 +322,12 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (BOOL) hasUserUuid;
 - (BOOL) hasMinsForCollection;
 - (BOOL) hasItemId;
+- (BOOL) hasCreateTime;
 @property (readonly, strong) NSString* uisgUuid;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t minsForCollection;
 @property (readonly) int32_t itemId;
+@property (readonly) int64_t createTime;
 
 + (UserItemSecretGiftProto*) defaultInstance;
 - (UserItemSecretGiftProto*) defaultInstance;
@@ -379,6 +383,11 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (int32_t) itemId;
 - (UserItemSecretGiftProto_Builder*) setItemId:(int32_t) value;
 - (UserItemSecretGiftProto_Builder*) clearItemId;
+
+- (BOOL) hasCreateTime;
+- (int64_t) createTime;
+- (UserItemSecretGiftProto_Builder*) setCreateTime:(int64_t) value;
+- (UserItemSecretGiftProto_Builder*) clearCreateTime;
 @end
 
 

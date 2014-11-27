@@ -51,6 +51,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                 <color key="textColor" red="0.91764705882352937" green="0.37254901960784315" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="0.39607843139999999" green="0.39607843139999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <view contentMode="scaleToFill" id="buE-mR-Qgu" userLabel="Enter View">

@@ -105,6 +105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.gameCenterId = user.hasGameCenterId ? user.gameCenterId : nil;
   self.deviceToken = user.hasDeviceToken ? user.deviceToken : nil;
   self.lastFreeGachaSpin = user.hasLastFreeBoosterPackTime ? [MSDate dateWithTimeIntervalSince1970:user.lastFreeBoosterPackTime/1000.0] : nil;
+  self.lastSecretGiftCollectTime = user.hasLastSecretGiftCollectTime ? [MSDate dateWithTimeIntervalSince1970:user.lastSecretGiftCollectTime/1000.0] : nil;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -177,6 +178,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.facebookId = self.facebookId;
   fup.lastLoginTime = self.lastLoginTimeNum;
   fup.avatarMonsterId = self.avatarMonsterId;
+  fup.lastSecretGiftCollectTime = self.lastSecretGiftCollectTime.timeIntervalSince1970*1000.;
   
   return [fup build];
 }
@@ -1345,6 +1347,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   UserStruct *cs = [self myClanHouse];
   int level = cs.staticStruct.structInfo.level;
   return self.clan && (cs.isComplete || level > 1);
+}
+
+#pragma mark - Secret Gift
+
+- (UserItemSecretGiftProto *) nextSecretGift {
+  return [self.mySecretGifts firstObject];
+}
+
+- (MSDate *) nextSecretGiftOpenDate {
+  return [MSDate dateWithTimeIntervalSinceNow:-1];
+  UserItemSecretGiftProto *next = [self nextSecretGift];
+  
+  if (next && self.lastSecretGiftCollectTime) {
+    return [self.lastSecretGiftCollectTime dateByAddingTimeInterval:next.minsForCollection*60];
+  }
+  return nil;
 }
 
 #pragma mark -

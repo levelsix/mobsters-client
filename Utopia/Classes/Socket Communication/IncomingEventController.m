@@ -408,6 +408,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
     
     gs.itemUtil = [[ItemUtil alloc] initWithItemProtos:proto.userItemsList itemUsageProtos:proto.itemsInUseList];
+    gs.mySecretGifts = [proto.giftsList mutableCopy];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];

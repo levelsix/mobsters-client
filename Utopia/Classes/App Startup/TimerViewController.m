@@ -315,6 +315,9 @@
     // If not open, strive moreRows minimized num cells.
     if (self.isOpen && moreRows) {
       self.mainView.height = MIN(self.view.height, self.scrollView.height+heightDiff);
+      
+      self.scrollView.alpha = 1.f;
+      self.noTimersLabel.alpha = 0.f;
     } else {
       TimerCell *cell = nil;
       if (moreRows) {

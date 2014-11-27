@@ -68,6 +68,11 @@
 @property (nonatomic, retain) IBOutlet UIView *freeGemsView;
 @property (nonatomic, retain) IBOutlet UIView *freeGemsSpinner;
 
+@property (nonatomic, retain) IBOutlet UIView *secretGiftView;
+@property (nonatomic, retain) IBOutlet UIView *secretGiftTimerView;
+@property (nonatomic, retain) IBOutlet UIImageView *secretGiftIcon;
+@property (nonatomic, retain) IBOutlet UILabel *secretGiftLabel;
+
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;

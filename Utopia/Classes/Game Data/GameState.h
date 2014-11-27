@@ -48,6 +48,7 @@
 @property (nonatomic, retain) MSDate *lastMiniJobSpawnTime;
 @property (nonatomic, assign) int avatarMonsterId;
 @property (nonatomic, retain) MSDate *lastFreeGachaSpin;
+@property (nonatomic, retain) MSDate *lastSecretGiftCollectTime;
 
 @property (nonatomic, assign) int allowQuestSkipping;
 
@@ -88,6 +89,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 @property (nonatomic, retain) NSMutableDictionary *myAchievements;
 @property (nonatomic, retain) NSMutableArray *myMiniJobs;
+@property (nonatomic, retain) NSMutableArray *mySecretGifts;
 
 @property (nonatomic, retain) ItemUtil *itemUtil;
 
@@ -274,5 +276,8 @@
 - (int) lastLeagueShown;
 - (void) currentLeagueWasShown;
 - (BOOL) hasShownCurrentLeague;
+
+- (UserItemSecretGiftProto *) nextSecretGift;
+- (MSDate *) nextSecretGiftOpenDate;
 
 @end

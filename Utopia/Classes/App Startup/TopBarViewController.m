@@ -25,6 +25,7 @@
 #import "GenericPopupController.h"
 #import "OutgoingEventController.h"
 #import "ClanRewardsViewController.h"
+#import "SecretGiftViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -114,6 +115,8 @@
   [center addObserver:self selector:@selector(updateFreeGemsView) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
   [self updateQuestBadge];
   [self updateFreeGemsView];
+  
+  [self updateSecretGiftView];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
@@ -409,10 +412,11 @@
     }
   }
   
-  // Check if squad HQ can even be built yet
-  UserStruct *cs = [gs myClanHouse];
-  int level = cs.staticStruct.structInfo.level;
-  BOOL availBuilding = (cs.isComplete || level > 1);
+//  // Check if squad HQ can even be built yet
+//  UserStruct *cs = [gs myClanHouse];
+//  int level = cs.staticStruct.structInfo.level;
+//  BOOL availBuilding = (cs.isComplete || level > 1);
+  BOOL availBuilding = YES; // Should always show
   
   self.freeGemsBadge.badgeNum = badgeNum;
   self.freeGemsView.hidden = !availAchievement || !availBuilding;
@@ -425,6 +429,59 @@
     fullRotation.duration = 6.f;
     fullRotation.repeatCount = 50000;
     [self.freeGemsSpinner.layer addAnimation:fullRotation forKey:@"360"];
+  }
+}
+
+- (void) updateSecretGiftView {
+  GameState *gs = [GameState sharedGameState];
+  MSDate *nextOpenDate = [gs nextSecretGiftOpenDate];
+  
+  if (nextOpenDate) {
+    if (nextOpenDate.timeIntervalSinceNow > 0) {
+      [self.secretGiftIcon stopAnimating];
+      
+      self.secretGiftIcon.height = self.secretGiftTimerView.originY-self.secretGiftIcon.originY;
+      
+      self.secretGiftTimerView.hidden = NO;
+    } else {
+      [self setupSecretGiftAnimationImages];
+      if (!self.secretGiftIcon.isAnimating) {
+        [self.secretGiftIcon startAnimating];
+      }
+      
+      self.secretGiftIcon.height = self.secretGiftIcon.image.size.height;
+      
+      self.secretGiftTimerView.hidden = YES;
+    }
+    
+    self.secretGiftView.hidden = NO;
+  } else {
+    self.secretGiftView.hidden = YES;
+  }
+}
+
+- (void) setupSecretGiftAnimationImages {
+  if (!self.secretGiftIcon.animationImages.count) {
+    int numFrames = 16;
+    
+    self.secretGiftIcon.animationDuration = 1.f;
+    
+    NSMutableArray *frames = [NSMutableArray array];
+    for (int i = 1; i <= numFrames; i++) {
+      NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+      UIImage *img = [Globals imageNamed:imgName];
+      [frames addObject:img];
+    }
+    
+    // 30 frames per second
+    int numFramesForPause = self.secretGiftIcon.animationDuration*30-numFrames;
+    for (int i = 0; i < numFramesForPause; i++) {
+      NSString *imgName = [NSString stringWithFormat:@"1gbhud.png"];
+      UIImage *img = [Globals imageNamed:imgName];
+      [frames addObject:img];
+    }
+    
+    self.secretGiftIcon.animationImages = frames;
   }
 }
 
@@ -443,6 +500,9 @@
   GameState *gs = [GameState sharedGameState];
   int shieldTimeLeft = gs.shieldEndTime.timeIntervalSinceNow;
   self.shieldLabel.text = shieldTimeLeft > 0 ? [[Globals convertTimeToShortString:shieldTimeLeft] uppercaseString] : @"NONE";
+  
+  MSDate *secretGiftDate = [gs nextSecretGiftOpenDate];
+  self.secretGiftLabel.text = [[Globals convertTimeToShortString:secretGiftDate.timeIntervalSinceNow] uppercaseString];
 }
 
 #pragma mark - Bottom view methods
@@ -648,6 +708,23 @@
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
+}
+
+- (IBAction)secretGiftClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  MSDate *nextSecretGiftDate = [gs nextSecretGiftOpenDate];
+  
+  if (nextSecretGiftDate) {
+    if (nextSecretGiftDate.timeIntervalSinceNow > 0) {
+      [Globals addAlertNotification:@"Your Secret Gift is not yet available."];
+    } else {
+      GameViewController *gvc = (GameViewController *)self.parentViewController;
+      SecretGiftViewController *sgvc = [[SecretGiftViewController alloc] initWithSecretGift:[gs nextSecretGift]];
+      [gvc addChildViewController:sgvc];
+      sgvc.view.frame = gvc.view.bounds;
+      [gvc.view addSubview:sgvc.view];
+    }
+  }
 }
 
 #pragma mark - Updating HUD Stuff

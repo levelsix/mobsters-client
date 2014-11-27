@@ -358,6 +358,11 @@
     }
   }
   
+  MSDate *secretGiftDate = [gs nextSecretGiftOpenDate];
+  if (secretGiftDate && secretGiftDate.timeIntervalSinceNow > 0) {
+    [self scheduleNotificationWithText:@"Your Secret Gift just became available. Collect it now!" badge:1 date:secretGiftDate];
+  }
+  
   NSString *text = [NSString stringWithFormat:@"Hey %@, come back! Your %@s need a leader.", gs.name, MONSTER_NAME];
   MSDate *date = [MSDate dateWithTimeIntervalSinceNow:24*60*60];
   [self scheduleNotificationWithText:text badge:1 date:date];

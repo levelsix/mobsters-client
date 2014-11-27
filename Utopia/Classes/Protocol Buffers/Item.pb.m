@@ -1245,6 +1245,7 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
 @property (strong) NSString* userUuid;
 @property int32_t minsForCollection;
 @property int32_t itemId;
+@property int64_t createTime;
 @end
 
 @implementation UserItemSecretGiftProto
@@ -1277,12 +1278,20 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   hasItemId_ = !!value_;
 }
 @synthesize itemId;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value_ {
+  hasCreateTime_ = !!value_;
+}
+@synthesize createTime;
 - (id) init {
   if ((self = [super init])) {
     self.uisgUuid = @"";
     self.userUuid = @"";
     self.minsForCollection = 0;
     self.itemId = 0;
+    self.createTime = 0L;
   }
   return self;
 }
@@ -1314,6 +1323,9 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasItemId) {
     [output writeInt32:4 value:self.itemId];
   }
+  if (self.hasCreateTime) {
+    [output writeInt64:5 value:self.createTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1334,6 +1346,9 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   }
   if (self.hasItemId) {
     size_ += computeInt32Size(4, self.itemId);
+  }
+  if (self.hasCreateTime) {
+    size_ += computeInt64Size(5, self.createTime);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1382,6 +1397,9 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasItemId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
   }
+  if (self.hasCreateTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"createTime", [NSNumber numberWithLongLong:self.createTime]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1401,6 +1419,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
       (!self.hasMinsForCollection || self.minsForCollection == otherMessage.minsForCollection) &&
       self.hasItemId == otherMessage.hasItemId &&
       (!self.hasItemId || self.itemId == otherMessage.itemId) &&
+      self.hasCreateTime == otherMessage.hasCreateTime &&
+      (!self.hasCreateTime || self.createTime == otherMessage.createTime) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1416,6 +1436,9 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   }
   if (self.hasItemId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
+  }
+  if (self.hasCreateTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.createTime] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1472,6 +1495,9 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (other.hasItemId) {
     [self setItemId:other.itemId];
   }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1507,6 +1533,10 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
       }
       case 32: {
         [self setItemId:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setCreateTime:[input readInt64]];
         break;
       }
     }
@@ -1574,6 +1604,22 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
 - (UserItemSecretGiftProto_Builder*) clearItemId {
   result.hasItemId = NO;
   result.itemId = 0;
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int64_t) createTime {
+  return result.createTime;
+}
+- (UserItemSecretGiftProto_Builder*) setCreateTime:(int64_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (UserItemSecretGiftProto_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0L;
   return self;
 }
 @end
