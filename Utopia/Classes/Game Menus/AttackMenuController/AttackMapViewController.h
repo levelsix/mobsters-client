@@ -44,6 +44,8 @@
 
 @property (nonatomic, strong) IBOutlet UIView *myPositionView;
 
+@property (nonatomic, strong) IBOutlet UIButton* findMatchButton;
+
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;

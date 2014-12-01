@@ -1588,6 +1588,8 @@
           svc.view.frame = gvc.view.bounds;
           [gvc addChildViewController:svc];
           [gvc.view addSubview:svc.view];
+          
+          [svc showCenteredOnScreen];
         }
       } else {
         [self purchaseBuildingWithItemDict:nil allowGems:NO];
@@ -1683,7 +1685,7 @@
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     [self loadUpgradeViewControllerForIsHire:NO];
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
-    [self bigUpgradeClicked];
+    [self bigUpgradeClicked:sender];
   }
 }
 
@@ -1721,7 +1723,7 @@
   return 0;
 }
 
-- (void) bigUpgradeClicked {
+- (void) bigUpgradeClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1803,12 +1805,25 @@
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
         
-        if ([self.currentViewController isKindOfClass:[UpgradeViewController class]])
+        if (sender == nil)
         {
-          UpgradeViewController* uvc = (UpgradeViewController*)self.currentViewController;
-          [svc anchorToInvokingView:uvc.upgradeView.oilButton
-                      withDirection:ViewAnchoringPreferTopPlacement
-                  inkovingViewImage:uvc.upgradeView.oilButton.currentImage];
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if (self.currentViewController == nil &&
+              [sender isKindOfClass:[MapBotViewButton class]]) // Removing an obstacle
+          {
+            UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+          if (self.currentViewController != nil &&
+              [self.currentViewController isKindOfClass:[UpgradeViewController class]] &&
+              [sender isKindOfClass:[UIButton class]]) // Upgrading a building
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
         }
       }
     } else {
@@ -1915,6 +1930,19 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
+          {
+            UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+        }
       }
     }
   } else {
@@ -2048,7 +2076,7 @@
     if (_purchasing) {
       [self moveCheckClicked:nil];
     } else {
-      [self bigUpgradeClicked];
+      [self bigUpgradeClicked:nil];
     }
   }
 }

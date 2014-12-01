@@ -113,7 +113,9 @@ static BOOL _instanceOpened = NO;
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  // Hide view until either of the show methods are called
+  self.mainView.alpha = 0;
+  self.bgdView.alpha = 0;
   
   [self reloadData];
   
@@ -125,17 +127,27 @@ static BOOL _instanceOpened = NO;
   [self updateLabels];
 }
 
-- (void) anchorToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage
+- (void) showCenteredOnScreen
+{
+  _centeredOnScreen = YES;
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage
 {
   if (invokingView != nil)
   {
-    const CGPoint invokingViewAbsolutePosition = [invokingView convertPoint:invokingView.frame.origin toView:nil]; // Window coordinates
+    _centeredOnScreen = NO;
+    
+    const CGPoint invokingViewAbsolutePosition = [invokingView.superview convertPoint:invokingView.frame.origin toView:nil]; // Window coordinates
     const CGSize windowSize = [Globals screenSize];
     CGFloat viewTargetX = self.mainView.frame.origin.x;
     CGFloat viewTargetY = self.mainView.frame.origin.y;
     CGFloat viewScale = 1.f;
     CGFloat arrowTargetX = -1.f;
     CGFloat arrowTargetY = -1.f;
+    CGPoint viewAnchorPoint = CGPointMake(.5f, .5f);
     
     switch (direction)
     {
@@ -163,6 +175,8 @@ static BOOL _instanceOpened = NO;
         
         arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width * viewScale - invokingView.frame.size.width) * .5f - viewTargetX;
         arrowTargetY = self.mainView.frame.size.height - 9.f * viewScale; // This magic number is the bottom padding of the view, coming from the nib
+        
+        viewAnchorPoint = CGPointMake(.5f, 1.f);
       }
         break;
       case ViewAnchoringPreferBottomPlacement:
@@ -189,6 +203,8 @@ static BOOL _instanceOpened = NO;
         
         arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width * viewScale - invokingView.frame.size.width) * .5f - viewTargetX;
         arrowTargetY = 1.f * viewScale; // Adding a small offset so that the arrow blends with the view
+        
+        viewAnchorPoint = CGPointMake(.5f, 0.f);
       }
         break;
       case ViewAnchoringPreferLeftPlacement:
@@ -215,6 +231,8 @@ static BOOL _instanceOpened = NO;
         
         arrowTargetX = self.mainView.frame.size.width - 8.f * viewScale; // This magic number is the right padding of the view, coming from the nib
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height * viewScale - invokingView.frame.size.height) * .5f - viewTargetY;
+        
+        viewAnchorPoint = CGPointMake(1.f, .5f);
       }
         break;
       case ViewAnchoringPreferRightPlacement:
@@ -241,6 +259,8 @@ static BOOL _instanceOpened = NO;
         
         arrowTargetX = 1.f * viewScale; // Adding a small offset so that the arrow blends with the view
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height * viewScale - invokingView.frame.size.height) * .5f - viewTargetY;
+        
+        viewAnchorPoint = CGPointMake(0.f, .5f);
       }
         break;
         
@@ -249,6 +269,7 @@ static BOOL _instanceOpened = NO;
     }
     
     [self.mainView setFrame:CGRectMake(viewTargetX, viewTargetY, self.mainView.frame.size.width, self.mainView.frame.size.height)];
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView anchorPoint:viewAnchorPoint];
     
     if (arrowTargetX > 0 || arrowTargetY > 0)
     {
@@ -306,6 +327,10 @@ static BOOL _instanceOpened = NO;
 
       self.bgdView.layer.mask = maskLayer;
     }
+  }
+  else
+  {
+    [self showCenteredOnScreen];
   }
 }
 
@@ -399,11 +424,24 @@ static BOOL _instanceOpened = NO;
 - (IBAction)closeClicked:(id)sender {
   // Do the appearance transition so that viewWillDisappear gets called immediately
   [self beginAppearanceTransition:NO animated:YES];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-    [self endAppearanceTransition];
-  }];
+  
+  if (_centeredOnScreen)
+  {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+      [self endAppearanceTransition];
+    }];
+  }
+  else
+  {
+    // Will use the anchor point already set on the view's layer
+    [Globals shrinkView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+      [self endAppearanceTransition];
+    }];
+  }
   
   [self.delegate itemSelectClosed:self];
   self.delegate = nil;

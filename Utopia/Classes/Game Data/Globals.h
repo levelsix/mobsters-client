@@ -278,8 +278,10 @@
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
++ (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView anchorPoint:(CGPoint)anchorPoint;
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
++ (void) shrinkView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage *) snapShotView:(UIView *)view;
 + (UIImage *) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)image;

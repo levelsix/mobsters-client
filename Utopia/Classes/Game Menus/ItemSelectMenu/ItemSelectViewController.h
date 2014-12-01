@@ -60,6 +60,9 @@ typedef enum
 } ViewAnchoringDirection;
 
 @interface ItemSelectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+  BOOL _centeredOnScreen;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -84,7 +87,8 @@ typedef enum
 
 + (BOOL) canCreateNewVc;
 
-- (void) anchorToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
+- (void) showCenteredOnScreen;
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;

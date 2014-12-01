@@ -1886,6 +1886,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [self bounceView:view fadeInBgdView:bgdView completion:nil];
 }
 
++ (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView anchorPoint:(CGPoint)anchorPoint {
+  // Anchor point will affect the scale transform. Default is (.5, .5)
+  CGPoint position = view.layer.position;
+  position.x += (anchorPoint.x - view.layer.anchorPoint.x) * CGRectGetWidth(view.layer.bounds);
+  position.y += (anchorPoint.y - view.layer.anchorPoint.y) * CGRectGetHeight(view.layer.bounds);
+  view.layer.position = position;
+  view.layer.anchorPoint = anchorPoint;
+
+  [self bounceView:view fadeInBgdView:bgdView];
+}
+
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed {
   [UIView animateWithDuration:0.3 animations:^{
     view.alpha = 0.f;
@@ -1897,6 +1908,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       completed();
     }
   }];
+}
+
++ (void) shrinkView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed {
+  [UIView animateWithDuration:.25f animations:^{
+    view.alpha = 0;
+    bgdView.alpha = 0;
+  } completion:^(BOOL finished) {
+    if (completed) {
+      completed();
+    }
+  }];
+  [self bounceView:view fromScale:1.f toScale:.1f duration:.45f];
 }
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid {

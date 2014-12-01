@@ -75,7 +75,7 @@
 
 @protocol UpgradeViewControllerDelegate <NSObject>
 
-- (void) bigUpgradeClicked;
+- (void) bigUpgradeClicked:(id)sender;
 - (void) upgradeViewControllerClosed;
 
 @end

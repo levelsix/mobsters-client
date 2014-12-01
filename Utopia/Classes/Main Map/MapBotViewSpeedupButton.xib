@@ -51,6 +51,7 @@
             <connections>
                 <outlet property="actionIcon" destination="BBs-MH-xa7" id="uun-66-4qw"/>
                 <outlet property="actionLabel" destination="7Tk-c2-yPq" id="6cP-DL-cfa"/>
+                <outlet property="bgdButton" destination="l6T-Mg-mn9" id="TgR-iT-9Xf"/>
                 <outlet property="freeLabel" destination="c1Y-D3-AHH" id="Ku8-iC-yt2"/>
             </connections>
             <point key="canvasLocation" x="715" y="541"/>
