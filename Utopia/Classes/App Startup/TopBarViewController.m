@@ -116,6 +116,7 @@
   [self updateQuestBadge];
   [self updateFreeGemsView];
   
+  [center addObserver:self selector:@selector(updateSecretGiftView) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   [self updateSecretGiftView];
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
