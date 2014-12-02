@@ -43,13 +43,21 @@
     [v removeFromSuperview];
   }
   
+  BOOL hasItem = NO;
   for (int i = 0; i < rewards.count; i++) {
     [[NSBundle mainBundle] loadNibNamed:@"MiniJobsRewardView" owner:self options:nil];
-    [self.rewardView loadForReward:rewards[i]];
+    
+    Reward *r = rewards[i];
+    [self.rewardView loadForReward:r];
     self.rewardView.center = ccp((2*i+1-(int)rewards.count)/2.f*SPACING_PER_NODE+self.rewardsView.frame.size.width/2,
                                  self.rewardsView.frame.size.height/2);
     [self.rewardsView addSubview:self.rewardView];
+    
+    hasItem |= r.type == RewardTypeItem;
   }
+  
+  // If any of the rewards are items, hide the bgd
+  self.rewardsBgd.hidden = hasItem;
   
   self.arrowIcon.hidden = YES;
   self.totalTimeLabel.hidden = YES;
@@ -57,6 +65,7 @@
   self.getHelpView.hidden = YES;
   self.finishView.hidden = YES;
   self.selectionStyle = UITableViewCellSelectionStyleNone;
+  
   if (umj.timeCompleted) {
     self.completeView.hidden = NO;
   } else if (umj.timeStarted) {

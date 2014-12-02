@@ -31,6 +31,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t oilReward;
 @property int32_t gemReward;
 @property int32_t monsterIdReward;
+@property int32_t itemIdReward;
+@property int32_t itemRewardQuantity;
 @property Quality quality;
 @property int32_t maxNumMonstersAllowed;
 @property Float32 chanceToAppear;
@@ -93,6 +95,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasMonsterIdReward_ = !!value_;
 }
 @synthesize monsterIdReward;
+- (BOOL) hasItemIdReward {
+  return !!hasItemIdReward_;
+}
+- (void) setHasItemIdReward:(BOOL) value_ {
+  hasItemIdReward_ = !!value_;
+}
+@synthesize itemIdReward;
+- (BOOL) hasItemRewardQuantity {
+  return !!hasItemRewardQuantity_;
+}
+- (void) setHasItemRewardQuantity:(BOOL) value_ {
+  hasItemRewardQuantity_ = !!value_;
+}
+@synthesize itemRewardQuantity;
 - (BOOL) hasQuality {
   return !!hasQuality_;
 }
@@ -165,6 +181,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.oilReward = 0;
     self.gemReward = 0;
     self.monsterIdReward = 0;
+    self.itemIdReward = 0;
+    self.itemRewardQuantity = 0;
     self.quality = QualityNoQuality;
     self.maxNumMonstersAllowed = 0;
     self.chanceToAppear = 0;
@@ -241,6 +259,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasDurationMaxMinutes) {
     [output writeInt32:16 value:self.durationMaxMinutes];
   }
+  if (self.hasItemIdReward) {
+    [output writeInt32:17 value:self.itemIdReward];
+  }
+  if (self.hasItemRewardQuantity) {
+    [output writeInt32:18 value:self.itemRewardQuantity];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -297,6 +321,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   }
   if (self.hasDurationMaxMinutes) {
     size_ += computeInt32Size(16, self.durationMaxMinutes);
+  }
+  if (self.hasItemIdReward) {
+    size_ += computeInt32Size(17, self.itemIdReward);
+  }
+  if (self.hasItemRewardQuantity) {
+    size_ += computeInt32Size(18, self.itemRewardQuantity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -381,6 +411,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasDurationMaxMinutes) {
     [output appendFormat:@"%@%@: %@\n", indent, @"durationMaxMinutes", [NSNumber numberWithInteger:self.durationMaxMinutes]];
   }
+  if (self.hasItemIdReward) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemIdReward", [NSNumber numberWithInteger:self.itemIdReward]];
+  }
+  if (self.hasItemRewardQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"itemRewardQuantity", [NSNumber numberWithInteger:self.itemRewardQuantity]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -424,6 +460,10 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
       (!self.hasDurationMinMinutes || self.durationMinMinutes == otherMessage.durationMinMinutes) &&
       self.hasDurationMaxMinutes == otherMessage.hasDurationMaxMinutes &&
       (!self.hasDurationMaxMinutes || self.durationMaxMinutes == otherMessage.durationMaxMinutes) &&
+      self.hasItemIdReward == otherMessage.hasItemIdReward &&
+      (!self.hasItemIdReward || self.itemIdReward == otherMessage.itemIdReward) &&
+      self.hasItemRewardQuantity == otherMessage.hasItemRewardQuantity &&
+      (!self.hasItemRewardQuantity || self.itemRewardQuantity == otherMessage.itemRewardQuantity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -475,6 +515,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   }
   if (self.hasDurationMaxMinutes) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.durationMaxMinutes] hash];
+  }
+  if (self.hasItemIdReward) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemIdReward] hash];
+  }
+  if (self.hasItemRewardQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemRewardQuantity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -539,6 +585,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   }
   if (other.hasMonsterIdReward) {
     [self setMonsterIdReward:other.monsterIdReward];
+  }
+  if (other.hasItemIdReward) {
+    [self setItemIdReward:other.itemIdReward];
+  }
+  if (other.hasItemRewardQuantity) {
+    [self setItemRewardQuantity:other.itemRewardQuantity];
   }
   if (other.hasQuality) {
     [self setQuality:other.quality];
@@ -657,6 +709,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
         [self setDurationMaxMinutes:[input readInt32]];
         break;
       }
+      case 136: {
+        [self setItemIdReward:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setItemRewardQuantity:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -770,6 +830,38 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 - (MiniJobProto_Builder*) clearMonsterIdReward {
   result.hasMonsterIdReward = NO;
   result.monsterIdReward = 0;
+  return self;
+}
+- (BOOL) hasItemIdReward {
+  return result.hasItemIdReward;
+}
+- (int32_t) itemIdReward {
+  return result.itemIdReward;
+}
+- (MiniJobProto_Builder*) setItemIdReward:(int32_t) value {
+  result.hasItemIdReward = YES;
+  result.itemIdReward = value;
+  return self;
+}
+- (MiniJobProto_Builder*) clearItemIdReward {
+  result.hasItemIdReward = NO;
+  result.itemIdReward = 0;
+  return self;
+}
+- (BOOL) hasItemRewardQuantity {
+  return result.hasItemRewardQuantity;
+}
+- (int32_t) itemRewardQuantity {
+  return result.itemRewardQuantity;
+}
+- (MiniJobProto_Builder*) setItemRewardQuantity:(int32_t) value {
+  result.hasItemRewardQuantity = YES;
+  result.itemRewardQuantity = value;
+  return self;
+}
+- (MiniJobProto_Builder*) clearItemRewardQuantity {
+  result.hasItemRewardQuantity = NO;
+  result.itemRewardQuantity = 0;
   return self;
 }
 - (BOOL) hasQuality {

@@ -1243,7 +1243,7 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
 @interface UserItemSecretGiftProto ()
 @property (strong) NSString* uisgUuid;
 @property (strong) NSString* userUuid;
-@property int32_t minsForCollection;
+@property int32_t secsTillCollection;
 @property int32_t itemId;
 @property int64_t createTime;
 @end
@@ -1264,13 +1264,13 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   hasUserUuid_ = !!value_;
 }
 @synthesize userUuid;
-- (BOOL) hasMinsForCollection {
-  return !!hasMinsForCollection_;
+- (BOOL) hasSecsTillCollection {
+  return !!hasSecsTillCollection_;
 }
-- (void) setHasMinsForCollection:(BOOL) value_ {
-  hasMinsForCollection_ = !!value_;
+- (void) setHasSecsTillCollection:(BOOL) value_ {
+  hasSecsTillCollection_ = !!value_;
 }
-@synthesize minsForCollection;
+@synthesize secsTillCollection;
 - (BOOL) hasItemId {
   return !!hasItemId_;
 }
@@ -1289,7 +1289,7 @@ static UserItemUsageProto* defaultUserItemUsageProtoInstance = nil;
   if ((self = [super init])) {
     self.uisgUuid = @"";
     self.userUuid = @"";
-    self.minsForCollection = 0;
+    self.secsTillCollection = 0;
     self.itemId = 0;
     self.createTime = 0L;
   }
@@ -1317,8 +1317,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasUserUuid) {
     [output writeString:2 value:self.userUuid];
   }
-  if (self.hasMinsForCollection) {
-    [output writeInt32:3 value:self.minsForCollection];
+  if (self.hasSecsTillCollection) {
+    [output writeInt32:3 value:self.secsTillCollection];
   }
   if (self.hasItemId) {
     [output writeInt32:4 value:self.itemId];
@@ -1341,8 +1341,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasUserUuid) {
     size_ += computeStringSize(2, self.userUuid);
   }
-  if (self.hasMinsForCollection) {
-    size_ += computeInt32Size(3, self.minsForCollection);
+  if (self.hasSecsTillCollection) {
+    size_ += computeInt32Size(3, self.secsTillCollection);
   }
   if (self.hasItemId) {
     size_ += computeInt32Size(4, self.itemId);
@@ -1391,8 +1391,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasUserUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userUuid", self.userUuid];
   }
-  if (self.hasMinsForCollection) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"minsForCollection", [NSNumber numberWithInteger:self.minsForCollection]];
+  if (self.hasSecsTillCollection) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsTillCollection", [NSNumber numberWithInteger:self.secsTillCollection]];
   }
   if (self.hasItemId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"itemId", [NSNumber numberWithInteger:self.itemId]];
@@ -1415,8 +1415,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
       (!self.hasUisgUuid || [self.uisgUuid isEqual:otherMessage.uisgUuid]) &&
       self.hasUserUuid == otherMessage.hasUserUuid &&
       (!self.hasUserUuid || [self.userUuid isEqual:otherMessage.userUuid]) &&
-      self.hasMinsForCollection == otherMessage.hasMinsForCollection &&
-      (!self.hasMinsForCollection || self.minsForCollection == otherMessage.minsForCollection) &&
+      self.hasSecsTillCollection == otherMessage.hasSecsTillCollection &&
+      (!self.hasSecsTillCollection || self.secsTillCollection == otherMessage.secsTillCollection) &&
       self.hasItemId == otherMessage.hasItemId &&
       (!self.hasItemId || self.itemId == otherMessage.itemId) &&
       self.hasCreateTime == otherMessage.hasCreateTime &&
@@ -1431,8 +1431,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (self.hasUserUuid) {
     hashCode = hashCode * 31 + [self.userUuid hash];
   }
-  if (self.hasMinsForCollection) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minsForCollection] hash];
+  if (self.hasSecsTillCollection) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.secsTillCollection] hash];
   }
   if (self.hasItemId) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.itemId] hash];
@@ -1489,8 +1489,8 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   if (other.hasUserUuid) {
     [self setUserUuid:other.userUuid];
   }
-  if (other.hasMinsForCollection) {
-    [self setMinsForCollection:other.minsForCollection];
+  if (other.hasSecsTillCollection) {
+    [self setSecsTillCollection:other.secsTillCollection];
   }
   if (other.hasItemId) {
     [self setItemId:other.itemId];
@@ -1528,7 +1528,7 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setMinsForCollection:[input readInt32]];
+        [self setSecsTillCollection:[input readInt32]];
         break;
       }
       case 32: {
@@ -1574,20 +1574,20 @@ static UserItemSecretGiftProto* defaultUserItemSecretGiftProtoInstance = nil;
   result.userUuid = @"";
   return self;
 }
-- (BOOL) hasMinsForCollection {
-  return result.hasMinsForCollection;
+- (BOOL) hasSecsTillCollection {
+  return result.hasSecsTillCollection;
 }
-- (int32_t) minsForCollection {
-  return result.minsForCollection;
+- (int32_t) secsTillCollection {
+  return result.secsTillCollection;
 }
-- (UserItemSecretGiftProto_Builder*) setMinsForCollection:(int32_t) value {
-  result.hasMinsForCollection = YES;
-  result.minsForCollection = value;
+- (UserItemSecretGiftProto_Builder*) setSecsTillCollection:(int32_t) value {
+  result.hasSecsTillCollection = YES;
+  result.secsTillCollection = value;
   return self;
 }
-- (UserItemSecretGiftProto_Builder*) clearMinsForCollection {
-  result.hasMinsForCollection = NO;
-  result.minsForCollection = 0;
+- (UserItemSecretGiftProto_Builder*) clearSecsTillCollection {
+  result.hasSecsTillCollection = NO;
+  result.secsTillCollection = 0;
   return self;
 }
 - (BOOL) hasItemId {

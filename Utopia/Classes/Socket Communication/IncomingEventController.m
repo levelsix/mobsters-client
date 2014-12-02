@@ -309,6 +309,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSTradeItemForResourcesEvent:
       responseClass = [TradeItemForResourcesResponseProto class];
       break;
+    case EventProtocolResponseSRedeemSecretGiftEvent:
+      responseClass = [RedeemSecretGiftResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1385,6 +1388,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to trade item for resources."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRedeemSecretGiftResponseProto:(FullEvent *)fe {
+  RedeemSecretGiftResponseProto *proto = (RedeemSecretGiftResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Redeem secret gift response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemSecretGiftResponseProto_RedeemSecretGiftStatusSuccess) {
+    [gs.mySecretGifts addObjectsFromArray:proto.nuGiftsList];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem secret gift response."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

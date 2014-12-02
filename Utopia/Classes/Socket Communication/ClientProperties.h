@@ -48,7 +48,7 @@
 
 #else
 
-#define HOST_NAME @"amqpstagingmobsters.lvl6.com"
+#define HOST_NAME @"amqpdevmobsters.lvl6.com"
 #define HOST_PORT 5672
 #define USE_SSL 0
 #define MQ_USERNAME @"lvl6client"

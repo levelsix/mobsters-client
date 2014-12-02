@@ -18,15 +18,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Pzo-bx-mhD">
-                        <rect key="frame" x="0.0" y="0.0" width="723" height="154"/>
+                        <rect key="frame" x="0.0" y="0.0" width="964" height="205"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsquarebg.png" id="L1I-E6-joV">
                                 <rect key="frame" x="8" y="7" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupitemicon.png" id="6SK-ap-9ey">
-                                <rect key="frame" x="8" y="8" width="38" height="35"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupitemicon.png" id="6SK-ap-9ey" customClass="ShrinkOnlyImageView">
+                                <rect key="frame" x="8" y="7" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Owned: 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1lb-hZ-ubW" customClass="NiceFontLabel9">

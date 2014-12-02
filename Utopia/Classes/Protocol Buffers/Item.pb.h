@@ -308,24 +308,24 @@ BOOL ItemTypeIsValidValue(ItemType value);
 @interface UserItemSecretGiftProto : PBGeneratedMessage {
 @private
   BOOL hasCreateTime_:1;
-  BOOL hasMinsForCollection_:1;
+  BOOL hasSecsTillCollection_:1;
   BOOL hasItemId_:1;
   BOOL hasUisgUuid_:1;
   BOOL hasUserUuid_:1;
   int64_t createTime;
-  int32_t minsForCollection;
+  int32_t secsTillCollection;
   int32_t itemId;
   NSString* uisgUuid;
   NSString* userUuid;
 }
 - (BOOL) hasUisgUuid;
 - (BOOL) hasUserUuid;
-- (BOOL) hasMinsForCollection;
+- (BOOL) hasSecsTillCollection;
 - (BOOL) hasItemId;
 - (BOOL) hasCreateTime;
 @property (readonly, strong) NSString* uisgUuid;
 @property (readonly, strong) NSString* userUuid;
-@property (readonly) int32_t minsForCollection;
+@property (readonly) int32_t secsTillCollection;
 @property (readonly) int32_t itemId;
 @property (readonly) int64_t createTime;
 
@@ -374,10 +374,10 @@ BOOL ItemTypeIsValidValue(ItemType value);
 - (UserItemSecretGiftProto_Builder*) setUserUuid:(NSString*) value;
 - (UserItemSecretGiftProto_Builder*) clearUserUuid;
 
-- (BOOL) hasMinsForCollection;
-- (int32_t) minsForCollection;
-- (UserItemSecretGiftProto_Builder*) setMinsForCollection:(int32_t) value;
-- (UserItemSecretGiftProto_Builder*) clearMinsForCollection;
+- (BOOL) hasSecsTillCollection;
+- (int32_t) secsTillCollection;
+- (UserItemSecretGiftProto_Builder*) setSecsTillCollection:(int32_t) value;
+- (UserItemSecretGiftProto_Builder*) clearSecsTillCollection;
 
 - (BOOL) hasItemId;
 - (int32_t) itemId;

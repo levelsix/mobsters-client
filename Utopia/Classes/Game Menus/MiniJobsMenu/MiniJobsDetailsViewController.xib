@@ -479,6 +479,7 @@ before starting another.</string>
                 <outlet property="freeLabel" destination="xCo-g6-VfQ" id="Ygs-ec-NHl"/>
                 <outlet property="inProgressLabel" destination="I0V-Q5-hyj" id="21f-Kf-GAd"/>
                 <outlet property="nameLabel" destination="wvk-ep-MTW" id="zZD-w7-RoW"/>
+                <outlet property="speedupIcon" destination="8mH-8q-RNm" id="h9M-Mk-ALT"/>
                 <outlet property="timeLabel" destination="E1W-HT-KjH" id="URN-PD-Q22"/>
             </connections>
             <point key="canvasLocation" x="474" y="399.5"/>

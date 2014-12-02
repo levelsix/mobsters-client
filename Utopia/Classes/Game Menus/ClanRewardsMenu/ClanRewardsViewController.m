@@ -23,7 +23,6 @@
   
   [Globals imageNamed:ap.description withView:self.descriptionIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  
   self.progressView.hidden = YES;
   self.checkView.hidden = YES;
   self.completeView.hidden = YES;

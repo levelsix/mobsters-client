@@ -28,7 +28,7 @@
   
   [self.monsterView updateForMonsterId:um.monsterId];
   
-  self.nameLabel.text = mp.displayName;
+  self.nameLabel.text = mp.monsterName;
   self.levelLabel.text = [NSString stringWithFormat:@"LVL. %d", um.level];
   
   int curHealth = um.curHealth, curAtk = [gl calculateTotalDamageForMonster:um];

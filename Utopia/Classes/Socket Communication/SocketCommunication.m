@@ -343,7 +343,7 @@ static NSString *udid = nil;
 
 - (void) sendFullEvents:(NSArray *)events {
   if (events.count > 1) {
-    LNLog(@"Sending %d events at once.. %@", events.count, events);
+    LNLog(@"Sending %d events at once.. %@", (int)events.count, events);
   }
   
   NSMutableData *mutableData = [NSMutableData data];
@@ -1472,6 +1472,16 @@ static NSString *udid = nil;
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTradeItemForResourcesEvent queueUp:YES];
+}
+
+- (int) sendRedeemSecretGiftMessage:(NSArray *)uisgIds clientTime:(uint64_t)clientTime {
+  RedeemSecretGiftRequestProto *req = [[[[[RedeemSecretGiftRequestProto builder]
+                                          setSender:_sender]
+                                         setClientTime:clientTime]
+                                        addAllUisgUuid:uisgIds]
+                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemSecretGiftEvent];
 }
 
 #pragma mark - Batch/Flush events

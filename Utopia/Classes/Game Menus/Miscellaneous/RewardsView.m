@@ -10,13 +10,25 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#import "NibUtils.h"
+
 @implementation RewardView
+
+- (void) awakeFromNib {
+  self.iconLabel.strokeSize = 1.5f;
+  self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
+  
+  self.itemView.frame = self.mainView.frame;
+  [self.mainView.superview addSubview:self.itemView];
+}
 
 - (void) loadForReward:(Reward *)reward {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   NSString *labelName = nil;
   UIColor *color = nil;
+  BOOL useItemView = NO;
+  int quantity = 0;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
@@ -35,16 +47,33 @@
     labelName = [Globals commafyNumber:reward.goldAmount];
     color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
   } else if (reward.type == RewardTypeItem) {
-    ItemProto *item = [gs itemForId:reward.itemId];
-    imgName = item.imgName;
-    labelName = item.name;
-    color = [Globals creamColor];
+    useItemView = YES;
+    
+    UserItem *ui = [[UserItem alloc] init];
+    ui.itemId = reward.itemId;
+    
+    imgName = ui.iconImageName;
+    labelName = ui.iconText;
+    quantity = reward.itemQuantity;
   }
   
-  self.rewardIcon.image = [Globals imageNamed:imgName];
-  
-  self.rewardLabel.text = labelName;
-  self.rewardLabel.textColor = color;
+  if (useItemView) {
+    [Globals imageNamed:imgName withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    self.iconLabel.text = labelName;
+    self.itemQuantityLabel.text = [NSString stringWithFormat:@"%dx", quantity];
+    
+    self.itemView.hidden = NO;
+    self.mainView.hidden = YES;
+  } else {
+    [Globals imageNamed:imgName withView:self.rewardIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    self.rewardLabel.text = labelName;
+    self.rewardLabel.textColor = color;
+    
+    self.itemView.hidden = YES;
+    self.mainView.hidden = NO;
+  }
 }
 
 

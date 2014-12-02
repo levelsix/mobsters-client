@@ -145,4 +145,6 @@
 - (void) tradeItemIdsForResources:(NSDictionary *)itemIdsToQuantity;
 - (void) tradeItemForResources:(int)itemId;
 
+- (void) redeemSecretGift:(UserItemSecretGiftProto *)sg;
+
 @end

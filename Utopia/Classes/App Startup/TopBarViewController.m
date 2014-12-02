@@ -120,6 +120,7 @@
   
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_PURCHASED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateShopBadge) name:STRUCT_COMPLETE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateShopBadge) name:ITEMS_CHANGED_NOTIFICATION object:nil];
   // If updateShopBadge returns YES, we need to animate it in viewDidAppear so set it to visible or not based on that.
   if ([self updateShopBadge]) {
     self.shopBadge.alpha = 0.f; 
@@ -440,7 +441,7 @@
     if (nextOpenDate.timeIntervalSinceNow > 0) {
       [self.secretGiftIcon stopAnimating];
       
-      self.secretGiftIcon.height = self.secretGiftTimerView.originY-self.secretGiftIcon.originY;
+      self.secretGiftIcon.superview.height = self.secretGiftTimerView.originY;
       
       self.secretGiftTimerView.hidden = NO;
     } else {
@@ -449,7 +450,7 @@
         [self.secretGiftIcon startAnimating];
       }
       
-      self.secretGiftIcon.height = self.secretGiftIcon.image.size.height;
+      self.secretGiftIcon.superview.height = self.secretGiftIcon.image.size.height;
       
       self.secretGiftTimerView.hidden = YES;
     }
@@ -503,6 +504,11 @@
   
   MSDate *secretGiftDate = [gs nextSecretGiftOpenDate];
   self.secretGiftLabel.text = [[Globals convertTimeToShortString:secretGiftDate.timeIntervalSinceNow] uppercaseString];
+  
+  BOOL shouldDisplayTimer = secretGiftDate.timeIntervalSinceNow > 0;
+  if (self.secretGiftTimerView.hidden != (!shouldDisplayTimer)) {
+    [self updateSecretGiftView];
+  }
 }
 
 #pragma mark - Bottom view methods
@@ -841,7 +847,7 @@
 
 - (IBAction) resourceBarTapped:(UIView *)sender {
   GameState *gs = [GameState sharedGameState];
-  ResourceType resType = [sender tag];
+  ResourceType resType = (ResourceType)[sender tag];
   
   ItemSelectViewController *svc = [[ItemSelectViewController alloc] init];
   if (svc) {

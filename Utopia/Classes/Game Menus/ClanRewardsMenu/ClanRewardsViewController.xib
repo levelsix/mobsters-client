@@ -83,6 +83,14 @@
                                                         <outlet property="delegate" destination="-1" id="Lbe-Gr-HRn"/>
                                                     </connections>
                                                 </view>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="nyX-N2-eRD">
+                                                    <rect key="frame" x="146" y="19" width="1" height="198"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="ao0-tb-cOm">
+                                                    <rect key="frame" x="283" y="19" width="1" height="198"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -155,12 +163,13 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-            <point key="canvasLocation" x="51" y="590"/>
+            <point key="canvasLocation" x="347" y="660"/>
         </view>
     </objects>
     <resources>
         <image name="homemenutop.png" width="1" height="57"/>
         <image name="menuclosex.png" width="17" height="17"/>
+        <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="squadrewardsheaderbuilding.png" width="66" height="63"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

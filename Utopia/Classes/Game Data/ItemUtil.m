@@ -40,6 +40,8 @@
       [self.myItems addObject:ui];
     }
   }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:ITEMS_CHANGED_NOTIFICATION object:self];
 }
 
 - (void) addToMyItemUsages:(NSArray *)itemUsageProtos {
@@ -64,6 +66,24 @@
     }
   }
   return nil;
+}
+
+- (void) incrementItemId:(int)itemId quantity:(int)quantity {
+  UserItem *ui = [self getUserItemForItemId:itemId];
+  
+  if (!ui) {
+    GameState *gs = [GameState sharedGameState];
+    
+    ui = [[UserItem alloc] init];
+    ui.itemId = itemId;
+    ui.userUuid = gs.userUuid;
+    
+    [self.myItems addObject:ui];
+  }
+  
+  ui.quantity += quantity;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:ITEMS_CHANGED_NOTIFICATION object:self];
 }
 
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId {

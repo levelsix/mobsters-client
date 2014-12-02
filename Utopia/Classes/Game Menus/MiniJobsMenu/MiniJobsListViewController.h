@@ -20,6 +20,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *jobQualityTag;
 @property (nonatomic, retain) IBOutlet UIView *rewardsView;
 
+@property (nonatomic, retain) IBOutlet UIView *rewardsBgd;
 @property (nonatomic, strong) IBOutlet RewardView *rewardView;
 
 @property (nonatomic, retain) IBOutlet UIView *finishView;

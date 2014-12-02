@@ -52,28 +52,7 @@
   self.nameLabel.text = curSS.structInfo.name;
   self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToMediumString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
   
-  // We want to download the image and then adjust size accordingly (only shrink images that are too big. leave small ones alone).
-  // Put our own spinner in for now
-  UIActivityIndicatorView *iv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-  [iv startAnimating];
-  iv.center = self.structIcon.center;
-  [self.structIcon.superview addSubview:iv];
-  
-  NSString *imgName = nextSS.structInfo.imgName;
-  [Globals checkAndLoadFile:imgName useiPhone6Prefix:NO completion:^(BOOL success) {
-    if (success) {
-      self.structIcon.image = [Globals imageNamed:imgName];
-      
-      CGSize s = self.structIcon.image.size;
-      if (s.height < self.structIcon.height && s.width < self.structIcon.width) {
-        CGPoint center = self.structIcon.center;
-        self.structIcon.size = s;
-        self.structIcon.center = center;
-      }
-    }
-    
-    [iv removeFromSuperview];
-  }];
+  [Globals imageNamed:nextSS.structInfo.imgName withView:self.structIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   // Button view
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;

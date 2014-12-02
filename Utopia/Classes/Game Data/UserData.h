@@ -272,6 +272,7 @@ typedef enum {
 
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int itemId;
+@property (nonatomic, assign) int itemQuantity;
 @property (nonatomic, assign) BOOL isPuzzlePiece;
 @property (nonatomic, assign) int silverAmount;
 @property (nonatomic, assign) int oilAmount;
@@ -286,7 +287,7 @@ typedef enum {
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
-- (id) initWithItemId:(int)monsterId;
+- (id) initWithItemId:(int)itemId quantity:(int)quantity;
 - (id) initWithSilverAmount:(int)silverAmount;
 - (id) initWithOilAmount:(int)oilAmount;
 - (id) initWithGoldAmount:(int)goldAmount;

@@ -2693,20 +2693,20 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 @end
 
 @interface RedeemSecretGiftRequestProto ()
-@property (strong) MinimumUserProto* mup;
+@property (strong) MinimumUserProto* sender;
 @property int64_t clientTime;
 @property (strong) NSMutableArray * mutableUisgUuidList;
 @end
 
 @implementation RedeemSecretGiftRequestProto
 
-- (BOOL) hasMup {
-  return !!hasMup_;
+- (BOOL) hasSender {
+  return !!hasSender_;
 }
-- (void) setHasMup:(BOOL) value_ {
-  hasMup_ = !!value_;
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
 }
-@synthesize mup;
+@synthesize sender;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -2718,7 +2718,7 @@ BOOL TradeItemForResourcesResponseProto_TradeItemForResourcesStatusIsValidValue(
 @dynamic uisgUuidList;
 - (id) init {
   if ((self = [super init])) {
-    self.mup = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
   }
   return self;
@@ -2745,8 +2745,8 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasMup) {
-    [output writeMessage:1 value:self.mup];
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
   }
   if (self.hasClientTime) {
     [output writeInt64:2 value:self.clientTime];
@@ -2763,8 +2763,8 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
   }
 
   size_ = 0;
-  if (self.hasMup) {
-    size_ += computeMessageSize(1, self.mup);
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
   }
   if (self.hasClientTime) {
     size_ += computeInt64Size(2, self.clientTime);
@@ -2813,9 +2813,9 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
   return [RedeemSecretGiftRequestProto builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasMup) {
-    [output appendFormat:@"%@%@ {\n", indent, @"mup"];
-    [self.mup writeDescriptionTo:output
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -2836,8 +2836,8 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
   }
   RedeemSecretGiftRequestProto *otherMessage = other;
   return
-      self.hasMup == otherMessage.hasMup &&
-      (!self.hasMup || [self.mup isEqual:otherMessage.mup]) &&
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
       self.hasClientTime == otherMessage.hasClientTime &&
       (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
       [self.uisgUuidList isEqualToArray:otherMessage.uisgUuidList] &&
@@ -2845,8 +2845,8 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasMup) {
-    hashCode = hashCode * 31 + [self.mup hash];
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
   }
   if (self.hasClientTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
@@ -2897,8 +2897,8 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
   if (other == [RedeemSecretGiftRequestProto defaultInstance]) {
     return self;
   }
-  if (other.hasMup) {
-    [self mergeMup:other.mup];
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -2933,11 +2933,11 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
       }
       case 10: {
         MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasMup) {
-          [subBuilder mergeFrom:self.mup];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setMup:[subBuilder buildPartial]];
+        [self setSender:[subBuilder buildPartial]];
         break;
       }
       case 16: {
@@ -2951,34 +2951,34 @@ static RedeemSecretGiftRequestProto* defaultRedeemSecretGiftRequestProtoInstance
     }
   }
 }
-- (BOOL) hasMup {
-  return result.hasMup;
+- (BOOL) hasSender {
+  return result.hasSender;
 }
-- (MinimumUserProto*) mup {
-  return result.mup;
+- (MinimumUserProto*) sender {
+  return result.sender;
 }
-- (RedeemSecretGiftRequestProto_Builder*) setMup:(MinimumUserProto*) value {
-  result.hasMup = YES;
-  result.mup = value;
+- (RedeemSecretGiftRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
   return self;
 }
-- (RedeemSecretGiftRequestProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setMup:[builderForValue build]];
+- (RedeemSecretGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
 }
-- (RedeemSecretGiftRequestProto_Builder*) mergeMup:(MinimumUserProto*) value {
-  if (result.hasMup &&
-      result.mup != [MinimumUserProto defaultInstance]) {
-    result.mup =
-      [[[MinimumUserProto builderWithPrototype:result.mup] mergeFrom:value] buildPartial];
+- (RedeemSecretGiftRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
-    result.mup = value;
+    result.sender = value;
   }
-  result.hasMup = YES;
+  result.hasSender = YES;
   return self;
 }
-- (RedeemSecretGiftRequestProto_Builder*) clearMup {
-  result.hasMup = NO;
-  result.mup = [MinimumUserProto defaultInstance];
+- (RedeemSecretGiftRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasClientTime {

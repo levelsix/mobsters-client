@@ -11,6 +11,8 @@
 #import "Globals.h"
 #import "GameState.h"
 
+#import "OutgoingEventController.h"
+
 @implementation SecretGiftViewController
 
 - (id) initWithSecretGift:(UserItemSecretGiftProto *)sg {
@@ -35,7 +37,7 @@
   self.receivedLabel.strokeColor = [UIColor colorWithHexString:@"094984"];
   self.receivedLabel.strokeSize = 0.8f;
   
-  self.iconLabel.strokeSize = 2.1f;
+  self.iconLabel.strokeSize = 1.5f;
   self.iconLabel.strokeColor = [UIColor colorWithHexString:@"ebebeb"];
 }
 
@@ -48,19 +50,21 @@
 }
 
 - (void) reload {
-  GameState *gs = [GameState sharedGameState];
-  
-  // Create a UserItem so we can use ItemObject protocol
-  UserItem *ui = [[UserItem alloc] init];
-  ui.itemId = self.secretGift.itemId;
-  
-  self.itemNameLabel.text = [ui name];
-  self.iconLabel.text = [ui iconText];
-  
-  [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  if (self.secretGift) {
+    // Create a UserItem so we can use ItemObject protocol
+    UserItem *ui = [[UserItem alloc] init];
+    ui.itemId = self.secretGift.itemId;
+    
+    self.itemNameLabel.text = [[ui name] uppercaseString];
+    self.iconLabel.text = [ui iconText];
+    
+    [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  }
 }
 
 - (IBAction)collectClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] redeemSecretGift:self.secretGift];
+  
   [self close];
 }
 

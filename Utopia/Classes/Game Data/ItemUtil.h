@@ -24,6 +24,8 @@
 - (NSArray *) getItemsForType:(ItemType)type staticDataId:(int)staticDataId;
 - (int) getSpeedupMinutesForType:(GameActionType)type userDataUuid:(NSString *)userDataUuid earliestDate:(MSDate *)date;
 
+- (void) incrementItemId:(int)itemId quantity:(int)quantity;
+
 - (void) cleanupRogueItemUsages;
 
 @end

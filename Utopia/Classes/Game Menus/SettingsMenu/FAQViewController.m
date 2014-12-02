@@ -108,7 +108,8 @@
   [Globals checkAndLoadFile:faqFile useiPhone6Prefix:NO completion:^ (BOOL success) {
     if (success) {
       NSError *e;
-      NSString *fileContents = [NSString stringWithContentsOfFile:faqFile encoding:NSUTF8StringEncoding error:&e];
+      NSString *filePath = [Globals pathToFile:faqFile useiPhone6Prefix:NO];
+      NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&e];
       
       if (!fileContents) {
         LNLog(@"fileContents is nil! error = %@", e);

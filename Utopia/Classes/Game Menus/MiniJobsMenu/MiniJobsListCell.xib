@@ -152,6 +152,7 @@
                 <outlet property="getHelpView" destination="SOr-Pi-IOL" id="w46-GD-B6V"/>
                 <outlet property="jobQualityTag" destination="hnh-NZ-kk3" id="Nkd-Fo-mvD"/>
                 <outlet property="nameLabel" destination="dNr-1f-m4j" id="4a3-Uh-mjl"/>
+                <outlet property="rewardsBgd" destination="bY1-E0-zMD" id="4CC-lb-oat"/>
                 <outlet property="rewardsView" destination="ufj-A5-hf8" id="HMh-5G-hfU"/>
                 <outlet property="selectedBackgroundView" destination="e8t-Dd-qgq" id="yZz-H1-Enp"/>
                 <outlet property="speedupIcon" destination="l1N-zU-ycs" id="1Dw-pt-ONa"/>

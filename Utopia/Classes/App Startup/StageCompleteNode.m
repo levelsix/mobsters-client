@@ -31,7 +31,7 @@
 - (void) setSectionName:(NSString *)sectionName itemId:(int)itemId {
   self.stageNameLabel.string = [sectionName uppercaseString];
   
-  Reward *reward = [[Reward alloc] initWithItemId:itemId];
+  Reward *reward = [[Reward alloc] initWithItemId:itemId quantity:1];
   
   QuestRewardNode *node = [[QuestRewardNode alloc] initWithReward:reward];
   node.position = ccp(self.rewardsBox.contentSize.width/2, self.rewardsBox.contentSize.height/2);

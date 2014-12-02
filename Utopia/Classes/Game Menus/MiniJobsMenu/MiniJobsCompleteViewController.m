@@ -61,7 +61,7 @@
   if (rewards.count > 2) rewards = [rewards subarrayWithRange:NSMakeRange(0, 2)];
   
   for (int i = 0; i < rewards.count; i++) {
-    [[NSBundle mainBundle] loadNibNamed:@"QuestRewardView" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"MiniJobsRewardView" owner:self options:nil];
     [self.rewardView loadForReward:rewards[i]];
     self.rewardView.center = ccp((2*i+1-(int)rewards.count)/2.f*SPACING_PER_NODE+self.rewardsBox.frame.size.width/2,
                                  self.rewardsBox.frame.size.height/2);

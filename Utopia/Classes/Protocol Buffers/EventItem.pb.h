@@ -693,14 +693,14 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 @interface RedeemSecretGiftRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasMup_:1;
+  BOOL hasSender_:1;
   int64_t clientTime;
-  MinimumUserProto* mup;
+  MinimumUserProto* sender;
   NSMutableArray * mutableUisgUuidList;
 }
-- (BOOL) hasMup;
+- (BOOL) hasSender;
 - (BOOL) hasClientTime;
-@property (readonly, strong) MinimumUserProto* mup;
+@property (readonly, strong) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly, strong) NSArray * uisgUuidList;
 - (NSString*)uisgUuidAtIndex:(NSUInteger)index;
@@ -740,12 +740,12 @@ BOOL RedeemSecretGiftResponseProto_RedeemSecretGiftStatusIsValidValue(RedeemSecr
 - (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (RedeemSecretGiftRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasMup;
-- (MinimumUserProto*) mup;
-- (RedeemSecretGiftRequestProto_Builder*) setMup:(MinimumUserProto*) value;
-- (RedeemSecretGiftRequestProto_Builder*) setMup_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (RedeemSecretGiftRequestProto_Builder*) mergeMup:(MinimumUserProto*) value;
-- (RedeemSecretGiftRequestProto_Builder*) clearMup;
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RedeemSecretGiftRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RedeemSecretGiftRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (RedeemSecretGiftRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RedeemSecretGiftRequestProto_Builder*) clearSender;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;

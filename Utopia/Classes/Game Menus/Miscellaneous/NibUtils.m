@@ -1730,3 +1730,31 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 }
 
 @end
+
+@implementation ShrinkOnlyImageView
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  
+  _origFrame = self.frame;
+  
+  self.contentMode = UIViewContentModeScaleAspectFit;
+}
+
+- (void) setImage:(UIImage *)image {
+  [super setImage:image];
+  
+  self.frame = _origFrame;
+  
+  // Don't increase size of smaller images so need to shrink the view
+  if (self.image) {
+    CGSize s = self.image.size;
+    if (s.height < _origFrame.size.height && s.width < _origFrame.size.width) {
+      CGPoint center = self.center;
+      self.size = s;
+      self.center = center;
+    }
+  }
+}
+
+@end

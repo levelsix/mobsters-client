@@ -44,7 +44,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="requesthelp.png" id="BKy-23-ysD">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="requesthelp.png" id="BKy-23-ysD" customClass="ShrinkOnlyImageView">
                             <rect key="frame" x="5" y="4" width="75" height="75"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>

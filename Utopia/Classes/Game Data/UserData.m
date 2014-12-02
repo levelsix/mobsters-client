@@ -1103,7 +1103,7 @@
           Reward *r = [[Reward alloc] initWithMonsterId:tsm.puzzlePieceMonsterId isPuzzlePiece:tsm.puzzlePieceMonsterDropLvl == 0];
           [rewards addObject:r];
         } else if (tsm.hasItemId) {
-          Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
+          Reward *r = [[Reward alloc] initWithItemId:tsm.itemId quantity:1];
           [rewards addObject:r];
         }
       }
@@ -1186,6 +1186,11 @@
     [rewards addObject:r];
   }
   
+  if (miniJob.itemIdReward && miniJob.itemRewardQuantity) {
+    Reward *r = [[Reward alloc] initWithItemId:miniJob.itemIdReward quantity:miniJob.itemRewardQuantity];
+    [rewards addObject:r];
+  }
+  
   return rewards;
 }
 
@@ -1214,10 +1219,11 @@
   return self;
 }
 
-- (id) initWithItemId:(int)itemId {
+- (id) initWithItemId:(int)itemId quantity:(int)quantity {
   if ((self = [super init])) {
     self.type = RewardTypeItem;
     self.itemId = itemId;
+    self.itemQuantity = quantity;
   }
   return self;
 }

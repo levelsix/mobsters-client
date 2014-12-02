@@ -78,6 +78,7 @@
 
 #define ITEM_SELECT_OPENED_NOTIFICATION @"ItemSelectOpenedNotification"
 #define ITEM_SELECT_CLOSED_NOTIFICATION @"ItemSelectClosedNotification"
+#define ITEMS_CHANGED_NOTIFICATION @"ItemsChangedNotification"
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"

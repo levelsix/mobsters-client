@@ -576,3 +576,9 @@ typedef enum {
 @interface EmbeddedNibView : UIView
 
 @end
+
+@interface ShrinkOnlyImageView : UIImageView {
+  CGRect _origFrame;
+}
+
+@end

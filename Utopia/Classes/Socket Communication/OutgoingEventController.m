@@ -1642,6 +1642,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdates:cu, ou, nil];
 }
 
+#pragma mark - Secret Gift
+
+- (void) redeemSecretGift:(UserItemSecretGiftProto *)sg {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!sg) {
+    [Globals popupMessage:@"Trying to use invalid secret gift."];
+  } else {
+    uint64_t clientTime = [self getCurrentMilliseconds];
+    [[SocketCommunication sharedSocketCommunication] sendRedeemSecretGiftMessage:@[sg.uisgUuid] clientTime:clientTime];
+    
+    gs.lastSecretGiftCollectTime = [MSDate dateWithTimeIntervalSince1970:clientTime/1000.];
+    [gs.mySecretGifts removeObject:sg];
+    
+    [gs.itemUtil incrementItemId:sg.itemId quantity:1];
+  }
+}
+
 #pragma mark - Gacha
 
 - (void) purchaseBoosterPack:(int)boosterPackId isFree:(BOOL)free delegate:(id)delegate {
@@ -2910,6 +2928,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     GameState *gs = [GameState sharedGameState];
     [gs.myMiniJobs removeObject:userMiniJob];
+    
+    int itemId = userMiniJob.miniJob.itemIdReward;
+    int quantity = userMiniJob.miniJob.itemRewardQuantity;
+    if (itemId && quantity) {
+      [gs.itemUtil incrementItemId:itemId quantity:quantity];
+    }
     
     int cashChange = userMiniJob.miniJob.cashReward, gemChange = userMiniJob.miniJob.gemReward, oilChange = userMiniJob.miniJob.oilReward;
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:gemChange];
