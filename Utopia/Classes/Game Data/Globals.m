@@ -1834,7 +1834,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 #pragma mark - Bounce View
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration {
-  view.layer.transform = CATransform3DMakeScale(fScale, fScale, 1.0);
+  CATransform3D layerTransform = view.layer.transform;
+  view.layer.transform = CATransform3DConcat(layerTransform, CATransform3DMakeScale(fScale, fScale, 1.0));
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
   bounceAnimation.values = [NSArray arrayWithObjects:
@@ -1858,7 +1859,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   bounceAnimation.duration = duration;
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
-  view.layer.transform = CATransform3DMakeScale(tScale, tScale, 1.0);
+  view.layer.transform = CATransform3DConcat(layerTransform, CATransform3DMakeScale(tScale, tScale, 1.0));
 }
 
 + (void) bounceView:(UIView *)view {
@@ -1889,8 +1890,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView anchorPoint:(CGPoint)anchorPoint {
   // Anchor point will affect the scale transform. Default is (.5, .5)
   CGPoint position = view.layer.position;
-  position.x += (anchorPoint.x - view.layer.anchorPoint.x) * CGRectGetWidth(view.layer.bounds);
-  position.y += (anchorPoint.y - view.layer.anchorPoint.y) * CGRectGetHeight(view.layer.bounds);
+  CGPoint transformedOffset = CGPointApplyAffineTransform(CGPointMake(anchorPoint.x - view.layer.anchorPoint.x,
+                                                                      anchorPoint.y - view.layer.anchorPoint.y), view.transform);
+  position.x += transformedOffset.x * CGRectGetWidth(view.layer.bounds);
+  position.y += transformedOffset.y * CGRectGetHeight(view.layer.bounds);
   view.layer.position = position;
   view.layer.anchorPoint = anchorPoint;
 

@@ -53,6 +53,7 @@
 
 typedef enum
 {
+  ViewAnchoringDirectionNone = 0,
   ViewAnchoringPreferLeftPlacement,   // View will be anchored to the LEFT of the invoking view, if possible
   ViewAnchoringPreferRightPlacement,  // RIGHT
   ViewAnchoringPreferTopPlacement,    // TOP

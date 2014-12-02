@@ -22,8 +22,9 @@
 
 @end
 
-@interface HealViewController : PopupSubViewController <ListCollectionDelegate, SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate> {
+@interface HealViewController : PopupSubViewController <ListCollectionDelegate, SpeedupItemsFillerDelegate, ResourceItemsFillerDelegate, UIScrollViewDelegate> {
   UserMonster *_tempMonster;
+  UIImageView* _tempMonsterImageView;
   
   HealQueueFooterView *_footerView;
   

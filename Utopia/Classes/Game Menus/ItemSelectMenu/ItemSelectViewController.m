@@ -136,7 +136,7 @@ static BOOL _instanceOpened = NO;
 
 - (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage
 {
-  if (invokingView != nil)
+  if (invokingView != nil && direction != ViewAnchoringDirectionNone)
   {
     _centeredOnScreen = NO;
     
