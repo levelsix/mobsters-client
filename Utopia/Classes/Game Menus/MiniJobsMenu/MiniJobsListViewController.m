@@ -279,12 +279,13 @@
 }
 
 - (IBAction) finishClicked:(UIView *)sender {
+  UIView* invokingView = sender;
   while (sender && ![sender isKindOfClass:[MiniJobsListCell class]]) {
     sender = [sender superview];
   }
   
   MiniJobsListCell *cell = (MiniJobsListCell *)sender;
-  [self miniJobsListFinishClicked:cell];
+  [self miniJobsListFinishClicked:cell invokingView:invokingView popupDirection:ViewAnchoringPreferLeftPlacement];
 }
 
 - (IBAction) getHelpClicked:(UIView *)sender {
@@ -365,7 +366,7 @@
   }
 }
 
-- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell {
+- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell invokingView:(UIView*)sender popupDirection:(ViewAnchoringDirection)direction {
   if (!_selectedCell) {
     Globals *gl = [Globals sharedGlobals];
     
@@ -390,6 +391,21 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[UIButton class]]) // Speed up finishing mini job
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:direction
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+        }
       }
     }
   }
@@ -543,7 +559,7 @@
   }
 }
 
-- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob {
+- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob sender:(id)sender {
   NSUInteger idx = [self.miniJobsList indexOfObject:miniJob];
   if (idx != NSNotFound) {
     MiniJobsListCell *listCell = (MiniJobsListCell *)[self.listTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
@@ -551,7 +567,7 @@
       listCell = [[MiniJobsListCell alloc] init];
       listCell.userMiniJob = miniJob;
     }
-    [self miniJobsListFinishClicked:listCell];
+    [self miniJobsListFinishClicked:listCell invokingView:(UIView*)sender popupDirection:ViewAnchoringPreferTopPlacement];
   }
 }
 

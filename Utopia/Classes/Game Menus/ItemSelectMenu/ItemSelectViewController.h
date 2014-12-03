@@ -51,7 +51,19 @@
 
 @end
 
+typedef enum
+{
+  ViewAnchoringDirectionNone = 0,
+  ViewAnchoringPreferLeftPlacement,   // View will be anchored to the LEFT of the invoking view, if possible
+  ViewAnchoringPreferRightPlacement,  // RIGHT
+  ViewAnchoringPreferTopPlacement,    // TOP
+  ViewAnchoringPreferBottomPlacement, // BOTTOM
+} ViewAnchoringDirection;
+
 @interface ItemSelectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+  BOOL _centeredOnScreen;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -75,6 +87,9 @@
 @property (strong, nonatomic) NSTimer *updateTimer;
 
 + (BOOL) canCreateNewVc;
+
+- (void) showCenteredOnScreen;
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage;
 
 - (void) reloadDataAnimated:(BOOL)animated;
 - (void) reloadData;

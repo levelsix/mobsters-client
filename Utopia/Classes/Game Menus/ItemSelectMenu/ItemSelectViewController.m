@@ -113,7 +113,9 @@ static BOOL _instanceOpened = NO;
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  // Hide view until either of the show methods are called
+  self.mainView.alpha = 0;
+  self.bgdView.alpha = 0;
   
   [self reloadData];
   
@@ -123,6 +125,217 @@ static BOOL _instanceOpened = NO;
   self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+}
+
+- (void) showCenteredOnScreen
+{
+  _centeredOnScreen = YES;
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) showAnchoredToInvokingView:(UIView*)invokingView withDirection:(ViewAnchoringDirection)direction inkovingViewImage:(UIImage*)invokingViewImage
+{
+  if (invokingView != nil && direction != ViewAnchoringDirectionNone)
+  {
+    _centeredOnScreen = NO;
+    
+    const CGPoint invokingViewAbsolutePosition =
+      invokingView.superview
+      ? [invokingView.superview convertPoint:invokingView.frame.origin toView:nil] // Convert to window coordinates
+      : invokingView.frame.origin; // Already in screen space
+    const CGSize windowSize = [Globals screenSize];
+    CGFloat viewTargetX = self.mainView.frame.origin.x;
+    CGFloat viewTargetY = self.mainView.frame.origin.y;
+    CGFloat viewScale = 1.f;
+    CGFloat arrowTargetX = -1.f;
+    CGFloat arrowTargetY = -1.f;
+    CGPoint viewAnchorPoint = CGPointMake(.5f, .5f);
+    
+    switch (direction)
+    {
+      case ViewAnchoringPreferTopPlacement:
+      {
+        const CGFloat verticalClearance = invokingViewAbsolutePosition.y;
+        if (verticalClearance < self.mainView.frame.size.height) // Not enough room vertically; scale down the view
+        {
+          viewScale = verticalClearance / self.mainView.frame.size.height;
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        const CGFloat horizontalClearanceLeft = invokingViewAbsolutePosition.x + invokingView.frame.size.width * .5f;
+        const CGFloat horizontalClearanceRight = windowSize.width - horizontalClearanceLeft;
+        const CGFloat horizontalClearance = MIN(horizontalClearanceLeft, horizontalClearanceRight);
+        if (horizontalClearance < self.mainView.frame.size.width * .5f) // Not enough room horizontally; scale down the view even further
+        {
+          viewScale *= horizontalClearance / (self.mainView.frame.size.width * .5f);
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        
+        viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
+        viewTargetY = invokingViewAbsolutePosition.y - self.mainView.frame.size.height;
+        
+        [self.triangle setTransform:CGAffineTransformMakeRotation(M_PI_2)]; // Point arrow down
+        
+        arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width * viewScale - invokingView.frame.size.width) * .5f - viewTargetX;
+        arrowTargetY = self.mainView.frame.size.height - 9.f * viewScale; // This magic number is the bottom padding of the view, coming from the nib
+        
+        viewAnchorPoint = CGPointMake(.5f, 1.f);
+      }
+        break;
+      case ViewAnchoringPreferBottomPlacement:
+      {
+        const CGFloat verticalClearance = windowSize.height - (invokingViewAbsolutePosition.y + invokingView.frame.size.height);
+        if (verticalClearance < self.mainView.frame.size.height) // Not enough room vertically; scale down the view
+        {
+          viewScale = verticalClearance / self.mainView.frame.size.height;
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        const CGFloat horizontalClearanceLeft = invokingViewAbsolutePosition.x + invokingView.frame.size.width * .5f;
+        const CGFloat horizontalClearanceRight = windowSize.width - horizontalClearanceLeft;
+        const CGFloat horizontalClearance = MIN(horizontalClearanceLeft, horizontalClearanceRight);
+        if (horizontalClearance < self.mainView.frame.size.width * .5f) // Not enough room horizontally; scale down the view even further
+        {
+          viewScale *= horizontalClearance / (self.mainView.frame.size.width * .5f);
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        
+        viewTargetX = invokingViewAbsolutePosition.x - (self.mainView.frame.size.width - invokingView.frame.size.width) * .5f;
+        viewTargetY = invokingViewAbsolutePosition.y + invokingView.frame.size.height;
+        
+        [self.triangle setTransform:CGAffineTransformMakeRotation(-M_PI_2)]; // Point arrow up
+        
+        arrowTargetX = invokingViewAbsolutePosition.x - (self.triangle.frame.size.width * viewScale - invokingView.frame.size.width) * .5f - viewTargetX;
+        arrowTargetY = 1.f * viewScale; // Adding a small offset so that the arrow blends with the view
+        
+        viewAnchorPoint = CGPointMake(.5f, 0.f);
+      }
+        break;
+      case ViewAnchoringPreferLeftPlacement:
+      {
+        const CGFloat horizontalClearance = invokingViewAbsolutePosition.x;
+        if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
+        {
+          viewScale = horizontalClearance / self.mainView.frame.size.width;
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        const CGFloat verticalClearanceTop = invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f;;
+        const CGFloat verticalClearanceBottom = windowSize.height - verticalClearanceTop;
+        const CGFloat verticalClearance = MIN(verticalClearanceTop, verticalClearanceBottom);
+        if (verticalClearance < self.mainView.frame.size.height * .5f) // Not enough room vertically; scale down the view even further
+        {
+          viewScale *= verticalClearance / (self.mainView.frame.size.height * .5f);
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        
+        viewTargetX = invokingViewAbsolutePosition.x - self.mainView.frame.size.width;
+        viewTargetY = invokingViewAbsolutePosition.y - (self.mainView.frame.size.height - invokingView.frame.size.height) * .5f;
+        
+        // Arrow is initially pointing to the right
+        
+        arrowTargetX = self.mainView.frame.size.width - 8.f * viewScale; // This magic number is the right padding of the view, coming from the nib
+        arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height * viewScale - invokingView.frame.size.height) * .5f - viewTargetY;
+        
+        viewAnchorPoint = CGPointMake(1.f, .5f);
+      }
+        break;
+      case ViewAnchoringPreferRightPlacement:
+      {
+        const CGFloat horizontalClearance = windowSize.width - (invokingViewAbsolutePosition.x + invokingView.frame.size.width);
+        if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
+        {
+          viewScale = horizontalClearance / self.mainView.frame.size.width;
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        const CGFloat verticalClearanceTop = invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f;;
+        const CGFloat verticalClearanceBottom = windowSize.height - verticalClearanceTop;
+        const CGFloat verticalClearance = MIN(verticalClearanceTop, verticalClearanceBottom);
+        if (verticalClearance < self.mainView.frame.size.height * .5f) // Not enough room vertically; scale down the view even further
+        {
+          viewScale *= verticalClearance / (self.mainView.frame.size.height * .5f);
+          [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
+        }
+        
+        viewTargetX = invokingViewAbsolutePosition.x + invokingView.frame.size.width;
+        viewTargetY = invokingViewAbsolutePosition.y - (self.mainView.frame.size.height - invokingView.frame.size.height) * .5f;
+        
+        [self.triangle setTransform:CGAffineTransformMakeRotation(M_PI)]; // Point arrow to the left
+        
+        arrowTargetX = 1.f * viewScale; // Adding a small offset so that the arrow blends with the view
+        arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height * viewScale - invokingView.frame.size.height) * .5f - viewTargetY;
+        
+        viewAnchorPoint = CGPointMake(0.f, .5f);
+      }
+        break;
+        
+      default:
+        break;
+    }
+    
+    [self.mainView setFrame:CGRectMake(viewTargetX, viewTargetY, self.mainView.frame.size.width, self.mainView.frame.size.height)];
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView anchorPoint:viewAnchorPoint];
+    
+    if (arrowTargetX > 0 || arrowTargetY > 0)
+    {
+      // Place arrow relative to its parent view
+      [self.triangle setFrame:CGRectMake(arrowTargetX / viewScale, arrowTargetY / viewScale, self.triangle.size.width, self.triangle.size.height)];
+      [self.triangle setHidden:NO];
+    }
+
+    // Use masking layers to darken behind the dialog but have the invokingViewImage show through
+    if (invokingViewImage != nil)
+    {
+      const CGSize imageSize = invokingViewImage.size;
+      
+      CALayer* maskLayer = [CALayer layer];
+      CALayer* maskTopLayer = [CALayer layer];
+      {
+        [maskTopLayer setFrame:CGRectMake(0, 0, CGRectGetWidth(self.bgdView.frame), invokingViewAbsolutePosition.y)];
+        [maskTopLayer setBackgroundColor:[UIColor blackColor].CGColor];
+        [maskLayer addSublayer:maskTopLayer];
+      }
+      CALayer* maskBottomLayer = [CALayer layer];
+      {
+        [maskBottomLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y + imageSize.height,
+                                             CGRectGetWidth(self.bgdView.frame), windowSize.height - (invokingViewAbsolutePosition.y + imageSize.height))];
+        [maskBottomLayer setBackgroundColor:[UIColor blackColor].CGColor];
+        [maskLayer addSublayer:maskBottomLayer];
+      }
+      CALayer* maskLeftLayer = [CALayer layer];
+      {
+        [maskLeftLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y, invokingViewAbsolutePosition.x, imageSize.height)];
+        [maskLeftLayer setBackgroundColor:[UIColor blackColor].CGColor];
+        [maskLayer addSublayer:maskLeftLayer];
+      }
+      CALayer* maskRightLayer = [CALayer layer];
+      {
+        [maskRightLayer setFrame:CGRectMake(invokingViewAbsolutePosition.x + imageSize.width, invokingViewAbsolutePosition.y,
+                                            windowSize.width - (invokingViewAbsolutePosition.x + imageSize.width), imageSize.height)];
+        [maskRightLayer setBackgroundColor:[UIColor blackColor].CGColor];
+        [maskLayer addSublayer:maskRightLayer];
+      }
+      
+      CALayer* maskImageLayer = [CALayer layer];
+      CGImageRef invokingViewImageRef = invokingViewImage.CGImage;
+      CGImageRef invokingViewMaskImageRef = CGImageMaskCreate(CGImageGetWidth(invokingViewImageRef),
+                                                              CGImageGetHeight(invokingViewImageRef),
+                                                              CGImageGetBitsPerComponent(invokingViewImageRef),
+                                                              CGImageGetBitsPerPixel(invokingViewImageRef),
+                                                              CGImageGetBytesPerRow(invokingViewImageRef),
+                                                              CGImageGetDataProvider(invokingViewImageRef), NULL, false);
+      CGRect invokingViewAbsoluteFrame = { invokingViewAbsolutePosition, imageSize };
+      [maskImageLayer setFrame:invokingViewAbsoluteFrame];
+      [maskImageLayer setContents:(__bridge id)(invokingViewMaskImageRef)];
+      [maskLayer addSublayer:maskImageLayer];
+      
+      CGImageRelease(invokingViewMaskImageRef);
+
+      self.bgdView.layer.mask = maskLayer;
+    }
+  }
+  else
+  {
+    [self showCenteredOnScreen];
+  }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -215,11 +428,24 @@ static BOOL _instanceOpened = NO;
 - (IBAction)closeClicked:(id)sender {
   // Do the appearance transition so that viewWillDisappear gets called immediately
   [self beginAppearanceTransition:NO animated:YES];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-    [self endAppearanceTransition];
-  }];
+  
+  if (_centeredOnScreen)
+  {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+      [self endAppearanceTransition];
+    }];
+  }
+  else
+  {
+    // Will use the anchor point already set on the view's layer
+    [Globals shrinkView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+      [self endAppearanceTransition];
+    }];
+  }
   
   [self.delegate itemSelectClosed:self];
   self.delegate = nil;

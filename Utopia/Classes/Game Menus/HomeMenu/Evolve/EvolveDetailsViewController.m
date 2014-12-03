@@ -209,6 +209,19 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[UIButton class]]) // Evolve mobster
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+        }
       }
     } else {
       [self beginEvoWithItemsDict:nil useGems:NO];
@@ -293,6 +306,21 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[UIButton class]]) // Speed up evolving mobster
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+        }
       }
     }
   }

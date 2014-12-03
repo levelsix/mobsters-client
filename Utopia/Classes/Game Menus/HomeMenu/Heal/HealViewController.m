@@ -354,10 +354,10 @@ static BOOL isAnimating = NO;
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  [self addMonsterToHealQueue:um];
+  [self addMonsterToHealQueue:um indexPath:indexPath];
 }
 
-- (void) addMonsterToHealQueue:(UserMonster *)um {
+- (void) addMonsterToHealQueue:(UserMonster *)um indexPath:(NSIndexPath*)indexPath {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (![um isAvailable]) {
@@ -388,11 +388,55 @@ static BOOL isAnimating = NO;
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        _tempMonsterImageView = nil;
+        MonsterListCell* mlc = (MonsterListCell*)[self.listView.collectionView cellForItemAtIndexPath:indexPath];
+        if (mlc != nil && [mlc isKindOfClass:[MonsterListCell class]])
+          _tempMonsterImageView = mlc.cardContainer.monsterCardView.cardBgdView;
+        
+        if (_tempMonsterImageView == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([_tempMonsterImageView isKindOfClass:[UIImageView class]]) // Heal mobster
+          {
+            // I apologize in advance for the following block of code :|
+            const CGFloat contentOffsetY = self.listView.collectionView.contentOffset.y;
+            const CGFloat contentSizeHeight = self.listView.collectionView.contentSize.height;
+            const CGFloat collectionViewHeight = self.listView.collectionView.bounds.size.height;
+            const CGFloat midY = [_tempMonsterImageView.superview convertPoint:_tempMonsterImageView.frame.origin toView:nil].y + _tempMonsterImageView.bounds.size.height * .5f;
+            const CGFloat refY = [self.listView convertPoint:self.listView.collectionView.frame.origin toView:nil].y + collectionViewHeight * .5f;
+            if ((contentOffsetY < 1.f && midY < refY) ||                                            // Content at the top and cell in first row picked
+                (contentOffsetY > contentSizeHeight - collectionViewHeight - 1.f && midY > refY) || // Content at the bottom and cell in last row picked
+                (midY > refY - 10.f && midY < refY + 10.f))                                         // Cell roughly centered vertically in container
+            {
+              // UICollectionView will not scroll; force the callback
+              [self scrollViewDidEndScrollingAnimation:nil];
+            }
+            else
+            {
+              // Align the picked cell vertically in the container, then pop up the ItemSelectViewController
+              [(UIScrollView*)self.listView.collectionView setDelegate:self];
+              [self.listView.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+            }
+          }
+        }
       }
     } else {
       [self sendHeal:um itemsDict:nil allowGems:NO];
     }
   }
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView
+{
+  const CGPoint invokingViewAbsolutePosition = [_tempMonsterImageView.superview convertPoint:_tempMonsterImageView.frame.origin toView:nil]; // Window coordinates
+  ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
+  [self.itemSelectViewController showAnchoredToInvokingView:_tempMonsterImageView withDirection:popupDirection inkovingViewImage:_tempMonsterImageView.image];
+  
+  [scrollView setDelegate:nil];
 }
 
 - (void) healWithItemsDict:(NSDictionary *)itemIdsToQuantity {
@@ -412,6 +456,7 @@ static BOOL isAnimating = NO;
   } else if (allowGems || cost <= curAmount) {
     [self sendHeal:_tempMonster itemsDict:itemIdsToQuantity allowGems:allowGems];
     _tempMonster = nil;
+    _tempMonsterImageView = nil;
   }
 }
 
@@ -520,6 +565,21 @@ static BOOL isAnimating = NO;
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[UIButton class]]) // Speed up evolving mobster
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+        }
       }
     }
   }

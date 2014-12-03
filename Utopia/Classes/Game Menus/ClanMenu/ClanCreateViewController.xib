@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanCreateViewController">
             <connections>
+                <outlet property="bottomButton" destination="4l8-AR-94f" id="kZ0-pd-FLi"/>
                 <outlet property="costLabel" destination="hTc-BG-4Sn" id="3wk-pl-vMX"/>
                 <outlet property="createButtonView" destination="Vv5-CC-tg9" id="iwE-eD-T1b"/>
                 <outlet property="descriptionField" destination="42" id="52"/>
