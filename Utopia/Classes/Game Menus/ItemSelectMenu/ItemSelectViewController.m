@@ -140,7 +140,10 @@ static BOOL _instanceOpened = NO;
   {
     _centeredOnScreen = NO;
     
-    const CGPoint invokingViewAbsolutePosition = [invokingView.superview convertPoint:invokingView.frame.origin toView:nil]; // Window coordinates
+    const CGPoint invokingViewAbsolutePosition =
+      invokingView.superview
+      ? [invokingView.superview convertPoint:invokingView.frame.origin toView:nil] // Convert to window coordinates
+      : invokingView.frame.origin; // Already in screen space
     const CGSize windowSize = [Globals screenSize];
     CGFloat viewTargetX = self.mainView.frame.origin.x;
     CGFloat viewTargetY = self.mainView.frame.origin.y;
@@ -278,36 +281,35 @@ static BOOL _instanceOpened = NO;
       [self.triangle setHidden:NO];
     }
 
-    // Use masking layers to darken behind the dialog
-    // but have the invokingViewImage show through
+    // Use masking layers to darken behind the dialog but have the invokingViewImage show through
     if (invokingViewImage != nil)
     {
+      const CGSize imageSize = invokingViewImage.size;
+      
       CALayer* maskLayer = [CALayer layer];
       CALayer* maskTopLayer = [CALayer layer];
       {
-        [maskTopLayer setFrame:CGRectMake(0, 0,
-                                          CGRectGetWidth(self.bgdView.frame), invokingViewAbsolutePosition.y)];
+        [maskTopLayer setFrame:CGRectMake(0, 0, CGRectGetWidth(self.bgdView.frame), invokingViewAbsolutePosition.y)];
         [maskTopLayer setBackgroundColor:[UIColor blackColor].CGColor];
         [maskLayer addSublayer:maskTopLayer];
       }
       CALayer* maskBottomLayer = [CALayer layer];
       {
-        [maskBottomLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y + CGRectGetHeight(invokingView.frame),
-                                             CGRectGetWidth(self.bgdView.frame), windowSize.height - (invokingViewAbsolutePosition.y + CGRectGetHeight(invokingView.frame)))];
+        [maskBottomLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y + imageSize.height,
+                                             CGRectGetWidth(self.bgdView.frame), windowSize.height - (invokingViewAbsolutePosition.y + imageSize.height))];
         [maskBottomLayer setBackgroundColor:[UIColor blackColor].CGColor];
         [maskLayer addSublayer:maskBottomLayer];
       }
       CALayer* maskLeftLayer = [CALayer layer];
       {
-        [maskLeftLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y,
-                                           invokingViewAbsolutePosition.x, CGRectGetHeight(invokingView.frame))];
+        [maskLeftLayer setFrame:CGRectMake(0, invokingViewAbsolutePosition.y, invokingViewAbsolutePosition.x, imageSize.height)];
         [maskLeftLayer setBackgroundColor:[UIColor blackColor].CGColor];
         [maskLayer addSublayer:maskLeftLayer];
       }
       CALayer* maskRightLayer = [CALayer layer];
       {
-        [maskRightLayer setFrame:CGRectMake(invokingViewAbsolutePosition.x + CGRectGetWidth(invokingView.frame), invokingViewAbsolutePosition.y,
-                                            windowSize.width - (invokingViewAbsolutePosition.x + CGRectGetWidth(invokingView.frame)), CGRectGetHeight(invokingView.frame))];
+        [maskRightLayer setFrame:CGRectMake(invokingViewAbsolutePosition.x + imageSize.width, invokingViewAbsolutePosition.y,
+                                            windowSize.width - (invokingViewAbsolutePosition.x + imageSize.width), imageSize.height)];
         [maskRightLayer setBackgroundColor:[UIColor blackColor].CGColor];
         [maskLayer addSublayer:maskRightLayer];
       }
@@ -320,10 +322,12 @@ static BOOL _instanceOpened = NO;
                                                               CGImageGetBitsPerPixel(invokingViewImageRef),
                                                               CGImageGetBytesPerRow(invokingViewImageRef),
                                                               CGImageGetDataProvider(invokingViewImageRef), NULL, false);
-      CGRect invokingViewAbsoluteFrame = { invokingViewAbsolutePosition, invokingView.frame.size };
+      CGRect invokingViewAbsoluteFrame = { invokingViewAbsolutePosition, imageSize };
       [maskImageLayer setFrame:invokingViewAbsoluteFrame];
       [maskImageLayer setContents:(__bridge id)(invokingViewMaskImageRef)];
       [maskLayer addSublayer:maskImageLayer];
+      
+      CGImageRelease(invokingViewMaskImageRef);
 
       self.bgdView.layer.mask = maskLayer;
     }

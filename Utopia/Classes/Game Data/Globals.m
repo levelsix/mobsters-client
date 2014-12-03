@@ -877,6 +877,62 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return theImage;
 }
 
++ (UIImage*)maskImage:(UIImage*)image withAlphaCutoff:(CGFloat)alphaCutoff adjustForScreenContentScale:(BOOL)adjust
+{
+  CGImageRef imageRef = image.CGImage;
+  NSUInteger width = CGImageGetWidth(imageRef);
+  NSUInteger height = CGImageGetHeight(imageRef);
+  if (adjust) { const CGFloat contentScale = [[UIScreen mainScreen] scale]; width /= contentScale; height /= contentScale; }
+  const CGRect rect = CGRectMake(0, 0, width, height);
+  const CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  unsigned char* rawData = malloc(height * width * 4);
+  const NSUInteger bytesPerPixel = 4;
+  const NSUInteger bytesPerRow = bytesPerPixel * width;
+  const NSUInteger bitsPerComponent = 8;
+  CGContextRef context = CGBitmapContextCreate(rawData, width, height, bitsPerComponent, bytesPerRow, colorSpace,
+                                               kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+  CGContextClearRect(context, rect);
+  CGColorSpaceRelease(colorSpace);
+  CGContextDrawImage(context, rect, imageRef);
+  CGContextRelease(context);
+  
+  const char alpha = (char)(255 * alphaCutoff);
+  const char rgb = 255;
+  
+  int byteIndex = 0;
+  for (int i = 0; i < width * height; ++i)
+  {
+    if (rawData[byteIndex + 3] > alpha) // Alpha
+    {
+      rawData[byteIndex + 0] = rgb; // R
+      rawData[byteIndex + 1] = rgb; // G
+      rawData[byteIndex + 2] = rgb; // B
+    }
+    byteIndex += 4;
+  }
+  
+  context = CGBitmapContextCreate(rawData, width, height, bitsPerComponent, bytesPerRow, colorSpace,
+                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+  imageRef = CGBitmapContextCreateImage(context);
+  UIImage* adjustedImage = [UIImage imageWithCGImage:imageRef];
+  
+  CGContextRelease(context);
+  free(rawData);
+  
+  return adjustedImage;
+}
+
++ (UIImage*)maskImageFromView:(UIView*)view withAlphaCutoff:(CGFloat)alphaCutoff
+{
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1.f);
+  CGContextClearRect(UIGraphicsGetCurrentContext(), view.bounds);
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage* viewImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  return [Globals maskImage:viewImage withAlphaCutoff:alphaCutoff adjustForScreenContentScale:NO];
+}
+
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset {
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
   // Divide by 2 to account for autoreversing

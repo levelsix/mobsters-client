@@ -219,6 +219,32 @@
       svc.view.frame = gvc.view.bounds;
       [gvc addChildViewController:svc];
       [gvc.view addSubview:svc.view];
+      
+      CCNode* invokingButton = nil;
+      for (CCNode* child in self.queueNode.nextButtonNode.children)
+      {
+        if ([child isKindOfClass:[CCButton class]])
+        {
+          invokingButton = child;
+          break;
+        }
+      }
+      
+      if (invokingButton == nil)
+      {
+        [svc showCenteredOnScreen];
+      }
+      else
+      {
+        CGPoint worldSpacePosition = [invokingButton.parent convertToWorldSpace:invokingButton.boundingBox.origin];
+        CGRect worldSpaceFrame = CGRectMake(worldSpacePosition.x, [Globals screenSize].height - (worldSpacePosition.y + invokingButton.boundingBox.size.height),
+                                            invokingButton.boundingBox.size.width, invokingButton.boundingBox.size.height);
+        UIView* floatingView = [[UIView alloc] initWithFrame:worldSpaceFrame];
+        
+        if (_nextMatchButtonImage == nil)
+          _nextMatchButtonImage = [Globals maskImage:[UIImage imageNamed:@"battledonegreen.png"] withAlphaCutoff:.2f adjustForScreenContentScale:YES];
+        [svc showAnchoredToInvokingView:floatingView withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:_nextMatchButtonImage];
+      }
     }
   } else {
     [self nextMatchWithItemsDict:nil useGems:NO];

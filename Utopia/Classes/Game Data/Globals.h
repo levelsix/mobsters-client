@@ -284,6 +284,8 @@
 + (void) shrinkView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage *) snapShotView:(UIView *)view;
 + (UIImage *) maskImage:(UIImage *)image withColor:(UIColor *)color;
++ (UIImage *) maskImage:(UIImage *)image withAlphaCutoff:(CGFloat)alphaCutoff adjustForScreenContentScale:(BOOL)adjust;
++ (UIImage *) maskImageFromView:(UIView *)view withAlphaCutoff:(CGFloat)alphaCutoff;
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)image;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
