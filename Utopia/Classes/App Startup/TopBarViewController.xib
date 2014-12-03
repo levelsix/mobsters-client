@@ -499,7 +499,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="GWd-LO-bKJ">
-                                    <rect key="frame" x="0.0" y="43" width="45" height="15"/>
+                                    <rect key="frame" x="1" y="43" width="45" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="secretgiftcounter.png" id="vEo-nd-hex">
