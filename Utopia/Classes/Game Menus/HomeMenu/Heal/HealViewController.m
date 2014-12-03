@@ -24,6 +24,13 @@
 
 @implementation HealViewController
 
+- (id) initWithUserStructUuid:(NSString *)userStructUuid {
+  if ((self = [super init])) {
+    _initHospUserStructUuid = userStructUuid;
+  }
+  return self;
+}
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
@@ -42,6 +49,20 @@
   self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to heal.", MONSTER_NAME];
   
   self.buttonSpinner.hidden = YES;
+  
+  GameState *gs = [GameState sharedGameState];
+  self.hospitals = [gs myValidHospitals];
+  
+  // Try to prioritize hospitals that are active
+  _curHospitalIndex = 0;
+  for (UserStruct *hosp in self.hospitals) {
+    HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:hosp.userStructUuid];
+    if ((_initHospUserStructUuid && [hosp.userStructUuid isEqualToString:_initHospUserStructUuid]) ||
+        (!_initHospUserStructUuid &&hq.healingItems)) {
+      _curHospitalIndex = (int)[self.hospitals indexOfObject:hosp];
+      break;
+    }
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -73,7 +94,6 @@
 
 - (void) updateLabels {
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
-  int hospitalCount = self.numValidHospitals;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -89,36 +109,31 @@
     }
   }
   
-  if (hospitalCount > 0) {
-    if (timeLeft > 0) {
-      self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
-      
-      if (speedupCost > 0) {
-        self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
-        [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
-        
-        self.helpView.hidden = !canHelp;
-        
-        self.speedupCostLabel.superview.hidden = NO;
-        self.speedupIcon.hidden = NO;
-        self.freeLabel.hidden = YES;
-      } else {
-        self.speedupCostLabel.superview.hidden = YES;
-        self.speedupIcon.hidden = YES;
-        self.freeLabel.hidden = NO;
-        self.helpView.hidden = YES;
-      }
-    } else if (self.speedupItemsFiller) {
-      [self.itemSelectViewController closeClicked:nil];
-    }
+  if (timeLeft > 0) {
+    self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
-    for (int i = 0; i < hospitalCount && i < self.monsterHealingQueue.count; i++) {
-      MonsterQueueCell *cell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-      [self updateCellForTime:cell index:i];
+    if (speedupCost > 0) {
+      self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
+      [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
+      
+      self.helpView.hidden = !canHelp;
+      
+      self.speedupCostLabel.superview.hidden = NO;
+      self.speedupIcon.hidden = NO;
+      self.freeLabel.hidden = YES;
+    } else {
+      self.speedupCostLabel.superview.hidden = YES;
+      self.speedupIcon.hidden = YES;
+      self.freeLabel.hidden = NO;
+      self.helpView.hidden = YES;
     }
-  } else {
-    self.timeLabel.text = @"N/A";
-    self.speedupCostLabel.text = @"N/A";
+  } else if (self.speedupItemsFiller) {
+    [self.itemSelectViewController closeClicked:nil];
+  }
+  
+  if (self.monsterHealingQueue.count) {
+    MonsterQueueCell *cell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [self updateCellForTime:cell index:0];
   }
   
   [self updateOpenSlotsView];
@@ -149,9 +164,22 @@
 
 #pragma mark - Potentially rewritable methods
 
-- (NSMutableArray *) monsterHealingQueue {
+- (HospitalQueue *) hospitalQueue {
+  if (self.fakeHospitalQueue) {
+    return self.fakeHospitalQueue;
+  }
+  
   GameState *gs = [GameState sharedGameState];
-  return gs.monsterHealingQueue;
+  UserStruct *us = [self currentHospital];
+  return [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
+}
+
+- (UserStruct *) currentHospital {
+  return self.hospitals[_curHospitalIndex];
+}
+
+- (NSMutableArray *) monsterHealingQueue {
+  return [self hospitalQueue].healingItems;
 }
 
 - (NSArray *) monsterList {
@@ -160,23 +188,16 @@
 }
 
 - (MSDate *) monsterHealingQueueEndTime {
-  GameState *gs = [GameState sharedGameState];
-  return gs.monsterHealingQueueEndTime;
+  return [self hospitalQueue].queueEndTime;
 }
 
 - (int) totalTimeForHealQueue {
-  GameState *gs = [GameState sharedGameState];
-  return gs.totalTimeForHealQueue;
+  return [self hospitalQueue].totalTimeForHealQueue;
 }
 
 - (int) maxQueueSize {
-  GameState *gs = [GameState sharedGameState];
-  return gs.maxHospitalQueueSize;
-}
-
-- (int) numValidHospitals {
-  GameState *gs = [GameState sharedGameState];
-  return (int)gs.myValidHospitals.count;
+  HospitalProto *hp = (HospitalProto *)[self currentHospital].staticStruct;
+  return hp.queueSize;
 }
 
 - (BOOL) userMonsterIsAvailable:(UserMonster *)um {
@@ -186,12 +207,12 @@
 
 - (BOOL) addMonsterToHealingQueue:(NSString *)umUuid itemsDict:(NSDictionary *)itemsDict useGems:(BOOL)useGems {
   [[OutgoingEventController sharedOutgoingEventController] tradeItemIdsForResources:itemsDict];
-  return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umUuid useGems:useGems];
+  return [[OutgoingEventController sharedOutgoingEventController] addMonster:umUuid toHealingQueue:[self hospitalQueue].userHospitalStructUuid useGems:useGems];
 }
 
 - (BOOL) sendSpeedupHealingQueue {
   int queueSize = (int)self.monsterHealingQueue.count;
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue:self];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue:[self hospitalQueue] delegate:self];
   if (success) {
     [AchievementUtil checkMonstersHealed:queueSize];
   }
@@ -241,7 +262,7 @@
     UserMonster *um = self.monsterList[[self.monsterList indexOfObject:listObject]];
     [cell updateForListObject:um];
     
-    if (indexPath.row < self.numValidHospitals) {
+    if (indexPath.row == 0) {
       [self updateCellForTime:(MonsterQueueCell *)cell index:(int)indexPath.row];
     }
   }
@@ -432,9 +453,7 @@
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
-  if ([self numValidHospitals] == 0) {
-    [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
-  } else if (gs.gems < goldCost) {
+  if (gs.gems < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
     BOOL success = [self sendSpeedupHealingQueue];
@@ -445,7 +464,7 @@
       
       _waitingForResponse = YES;
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:self];
     }
   }
 }
@@ -469,7 +488,7 @@
     ItemProto *ip = [gs itemForId:ui.itemId];
     
     if (ip.itemType == ItemTypeSpeedUp) {
-      [[OutgoingEventController sharedOutgoingEventController] tradeItemForHealSpeedup:ui.itemId];
+      [[OutgoingEventController sharedOutgoingEventController] tradeItemForSpeedup:ui.itemId healingQueue:[self hospitalQueue]];
       
       [self updateLabels];
     }
@@ -503,7 +522,7 @@
 #pragma mark - Get Help
 
 - (IBAction) getHelpClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] solicitHealHelp];
+  [[OutgoingEventController sharedOutgoingEventController] solicitHealHelp:[self hospitalQueue]];
   [self updateLabels];
 }
 
@@ -515,7 +534,7 @@
   [self reloadQueueViewAnimated:YES];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:self];
   
   _waitingForResponse = NO;
 }

@@ -360,7 +360,7 @@
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:3.f position:finalPos],
       [CCActionRemove action], nil]];
-      
+    
     [self.delegate enemyTeamWalkedOut];
   }
 }
@@ -520,7 +520,8 @@
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
   SelectableSprite *ss = [super selectableForPt:pt];
-  if ([ss.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
+  if ([ss.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)] ||
+      [ss.name isEqualToString:PURCH_STRUCT_TAG]) {
     [ss removeArrowAnimated:YES];
     return ss;
   }
@@ -528,9 +529,12 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (self.selected != selected && [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
+  // This will prevent unclicking the selected building.
+  if (self.selected != selected &&
+      [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
     return;
   }
+  
   [super setSelected:selected];
   
   if (selected != _purchBuilding) {
@@ -569,6 +573,10 @@
   HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
   int cashCost = 0, oilCost = 0;
   StructureInfoProto *fsp = hb.userStruct.staticStruct.structInfo;
+  
+  // Set the name back to struct tag since we basically are faking a response
+  hb.name = STRUCT_TAG(hb.userStruct.userStructUuid);
+  
   if (fsp.buildResourceType == ResourceTypeCash) {
     cashCost = fsp.buildCost;
   } else if (fsp.buildResourceType == ResourceTypeOil) {
@@ -599,7 +607,8 @@
 }
 
 - (void) reselectCurrentSelection {
-  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)]) {
+  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructUuid)] ||
+      [self.selected.name isEqualToString:PURCH_STRUCT_TAG]) {
     [super reselectCurrentSelection];
   } else {
     self.selected = nil;

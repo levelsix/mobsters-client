@@ -37,7 +37,7 @@
     gs.gems = _gems = constants.gemsInit;
     [gs.myMonsters removeAllObjects];
     [gs.myMiniJobs removeAllObjects];
-    [gs.monsterHealingQueue removeAllObjects];
+    [gs.monsterHealingQueues removeAllObjects];
     [gs.myStructs removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
@@ -204,8 +204,8 @@
   self.homeMap = homeMap;
   self.gameViewController.currentMap = homeMap;
   
-  HospitalProto *hp = (HospitalProto *)homeMap.hospital.userStruct.staticStruct;
-  _hospitalHealSpeed = hp.healthPerSecond;
+  // Make it take 67 seconds
+  _hospitalHealSpeed = _damageDealtToFriend/67.f;
   
   GameState *gs = [GameState sharedGameState];
   gs.myStructs = homeMap.myStructs;

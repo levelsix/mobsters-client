@@ -1879,6 +1879,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 @property (strong) StructureInfoProto* structInfo;
 @property int32_t queueSize;
 @property Float32 healthPerSecond;
+@property Float32 secsToFullyHealMultiplier;
 @end
 
 @implementation HospitalProto
@@ -1904,11 +1905,19 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
   hasHealthPerSecond_ = !!value_;
 }
 @synthesize healthPerSecond;
+- (BOOL) hasSecsToFullyHealMultiplier {
+  return !!hasSecsToFullyHealMultiplier_;
+}
+- (void) setHasSecsToFullyHealMultiplier:(BOOL) value_ {
+  hasSecsToFullyHealMultiplier_ = !!value_;
+}
+@synthesize secsToFullyHealMultiplier;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
     self.queueSize = 0;
     self.healthPerSecond = 0;
+    self.secsToFullyHealMultiplier = 0;
   }
   return self;
 }
@@ -1937,6 +1946,9 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if (self.hasHealthPerSecond) {
     [output writeFloat:3 value:self.healthPerSecond];
   }
+  if (self.hasSecsToFullyHealMultiplier) {
+    [output writeFloat:4 value:self.secsToFullyHealMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1954,6 +1966,9 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   }
   if (self.hasHealthPerSecond) {
     size_ += computeFloatSize(3, self.healthPerSecond);
+  }
+  if (self.hasSecsToFullyHealMultiplier) {
+    size_ += computeFloatSize(4, self.secsToFullyHealMultiplier);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2002,6 +2017,9 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if (self.hasHealthPerSecond) {
     [output appendFormat:@"%@%@: %@\n", indent, @"healthPerSecond", [NSNumber numberWithFloat:self.healthPerSecond]];
   }
+  if (self.hasSecsToFullyHealMultiplier) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsToFullyHealMultiplier", [NSNumber numberWithFloat:self.secsToFullyHealMultiplier]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2019,6 +2037,8 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
       (!self.hasQueueSize || self.queueSize == otherMessage.queueSize) &&
       self.hasHealthPerSecond == otherMessage.hasHealthPerSecond &&
       (!self.hasHealthPerSecond || self.healthPerSecond == otherMessage.healthPerSecond) &&
+      self.hasSecsToFullyHealMultiplier == otherMessage.hasSecsToFullyHealMultiplier &&
+      (!self.hasSecsToFullyHealMultiplier || self.secsToFullyHealMultiplier == otherMessage.secsToFullyHealMultiplier) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2031,6 +2051,9 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   }
   if (self.hasHealthPerSecond) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.healthPerSecond] hash];
+  }
+  if (self.hasSecsToFullyHealMultiplier) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secsToFullyHealMultiplier] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2084,6 +2107,9 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
   if (other.hasHealthPerSecond) {
     [self setHealthPerSecond:other.healthPerSecond];
   }
+  if (other.hasSecsToFullyHealMultiplier) {
+    [self setSecsToFullyHealMultiplier:other.secsToFullyHealMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2120,6 +2146,10 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
       }
       case 29: {
         [self setHealthPerSecond:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setSecsToFullyHealMultiplier:[input readFloat]];
         break;
       }
     }
@@ -2185,6 +2215,22 @@ static HospitalProto* defaultHospitalProtoInstance = nil;
 - (HospitalProto_Builder*) clearHealthPerSecond {
   result.hasHealthPerSecond = NO;
   result.healthPerSecond = 0;
+  return self;
+}
+- (BOOL) hasSecsToFullyHealMultiplier {
+  return result.hasSecsToFullyHealMultiplier;
+}
+- (Float32) secsToFullyHealMultiplier {
+  return result.secsToFullyHealMultiplier;
+}
+- (HospitalProto_Builder*) setSecsToFullyHealMultiplier:(Float32) value {
+  result.hasSecsToFullyHealMultiplier = YES;
+  result.secsToFullyHealMultiplier = value;
+  return self;
+}
+- (HospitalProto_Builder*) clearSecsToFullyHealMultiplier {
+  result.hasSecsToFullyHealMultiplier = NO;
+  result.secsToFullyHealMultiplier = 0;
   return self;
 }
 @end

@@ -69,7 +69,9 @@ typedef enum {
 
 @interface HealingTimerAction : TimerAction
 
-- (id) initWithHealingEndTime:(MSDate *)endTime totalSeconds:(int)totalSeconds;
+@property (nonatomic, retain) HospitalQueue *hospitalQueue;
+
+- (id) initWithHospitalQueue:(HospitalQueue *)hq;
 
 @end
 

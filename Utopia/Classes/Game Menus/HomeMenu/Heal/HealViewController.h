@@ -27,6 +27,9 @@
   
   HealQueueFooterView *_footerView;
   
+  NSString *_initHospUserStructUuid;
+  int _curHospitalIndex;
+  
   BOOL _waitingForResponse;
 }
 
@@ -52,10 +55,16 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *buttonSpinner;
 
 @property (nonatomic, retain) NSArray *userMonsters;
+@property (nonatomic, retain) NSArray *hospitals;
 
 @property (nonatomic, retain) ItemSelectViewController *itemSelectViewController;
 @property (nonatomic, retain) SpeedupItemsFiller *speedupItemsFiller;
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
+
+// Used by tutorial and healing timer action
+@property (nonatomic, retain) HospitalQueue *fakeHospitalQueue;
+
+- (id) initWithUserStructUuid:(NSString *)userStructUuid;
 
 - (void) updateLabels;
 - (IBAction) speedupButtonClicked:(id)sender;

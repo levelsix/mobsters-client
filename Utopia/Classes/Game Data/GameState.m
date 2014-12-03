@@ -53,10 +53,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
-    _monsterHealingQueue = [[NSMutableArray alloc] init];
-    _recentlyHealedMonsterIds = [[NSMutableSet alloc] init];
     _fbAcceptedRequestsFromMe = [[NSMutableSet alloc] init];
     _fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
+    _monsterHealingQueues = [[NSMutableDictionary alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -70,6 +69,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSpeedupNotification:) name:SPEEDUP_USED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginHealingTimer) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   }
   return self;
 }
@@ -639,120 +639,41 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 #pragma mark - Healing
 
-- (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
-  // Save the last guy's health progress so we get elapsed time as well.
-  [self saveHealthProgressesFromIndex:self.monsterHealingQueue.count-1];
-  
-  UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
-  item.priority = prevItem.priority+1;
-  item.queueTime = [MSDate date];
-  item.elapsedTime = prevItem.elapsedTime;
-  
-  [self.monsterHealingQueue addObject:item];
-  [self readjustAllMonsterHealingProtos];
-  
-  self.hasShownFreeHealingQueueSpeedup = NO;
-  
-  [QuestUtil checkAllDonateQuests];
-}
-
-- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
-  NSInteger index = [self.monsterHealingQueue indexOfObject:item];
-  [self saveHealthProgressesFromIndex:index];
-  
-  [self.monsterHealingQueue removeObject:item];
-  
-  [self readjustAllMonsterHealingProtos];
-  
-  [QuestUtil checkAllDonateQuests];
-}
-
 - (void) addAllMonsterHealingProtos:(NSArray *)items {
-  [self.monsterHealingQueue removeAllObjects];
-  
-  for (UserMonsterHealingProto *proto in items) {
-    [self.monsterHealingQueue addObject:[UserMonsterHealingItem userMonsterHealingItemWithProto:proto]];
+  // Need to get all the unique struct uuids
+  NSMutableSet *set = [NSMutableSet set];
+  for (UserMonsterHealingProto *hp in items) {
+    [set addObject:hp.userHospitalStructUuid];
   }
   
-  [self.monsterHealingQueue sortUsingComparator:^NSComparisonResult(UserMonsterHealingItem *obj1, UserMonsterHealingItem *obj2) {
-    return [@(obj1.priority) compare:@(obj2.priority)];
-  }];
-  
-  [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
-  
-  [self readjustAllMonsterHealingProtos];
-  
-  self.hasShownFreeHealingQueueSpeedup = NO;
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
-  
-  [QuestUtil checkAllDonateQuests];
-}
-
-- (void) saveHealthProgressesFromIndex:(NSInteger)index {
-  [self saveHealthProgressesFromIndex:index withDate:[MSDate date]];
-}
-
-- (void) saveHealthProgressesFromIndex:(NSInteger)index withDate:(MSDate *)date {
-  NSMutableArray *allHospitals = [NSMutableArray array];
-  for (UserStruct *us in self.myStructs) {
-    if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
-      [allHospitals addObject:us];
-    }
-  }
-  
-  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
-  [sim simulateUntilDate:date];
-  
-  for (NSInteger i = index; i < sim.healingItems.count; i++) {
-    HealingItemSim *hi = sim.healingItems[i];
-    UserMonsterHealingItem *item = nil;
-    for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
-      if (!item || [hi.userMonsterUuid isEqualToString:i.userMonsterUuid]) {
-        item = i;
-      }
-    }
-    item.healthProgress = [item.endTime compare:date] == NSOrderedAscending ? hi.totalHealthToHeal : hi.healthProgress;
-    item.elapsedTime += -[item.queueTime timeIntervalSinceDate:date];
-    
-    // Essentially, we use this method to allow us to skip forward in time, i.e. using a speedup
-    // What will happen is that we save healthProgress as if we are at date, but set queue time to right now
-    item.queueTime = [MSDate date];//date;
+  for (NSString *uuid in set) {
+    HospitalQueue *hq = [self hospitalQueueForUserHospitalStructUuid:uuid];
+    // This will make sure that it only gets its own items
+    [hq addAllMonsterHealingProtos:items];
   }
 }
 
-- (void) readjustAllMonsterHealingProtos {
-  NSArray *allHospitals = [self allHospitals];
+- (HospitalQueue *) hospitalQueueForUserHospitalStructUuid:(NSString *)userStructUuid {
+  HospitalQueue *hq = self.monsterHealingQueues[userStructUuid];
   
-  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
-  [sim simulate];
-  
-  MSDate *lastDate = nil;
-  float totalTime = 0;
-  for (HealingItemSim *hi in sim.healingItems) {
-    UserMonsterHealingItem *item = nil;
-    for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
-      if (!item || [hi.userMonsterUuid isEqualToString:i.userMonsterUuid]) {
-        item = i;
-      }
-    }
-    item.timeDistribution = hi.timeDistribution;
-    item.totalSeconds = hi.totalSeconds;
-    item.endTime = hi.endTime;
+  if (!hq) {
+    hq = [[HospitalQueue alloc] init];
+    hq.userHospitalStructUuid = userStructUuid;
     
-    if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
-      lastDate = hi.endTime;
-    }
-    
-    totalTime = MAX(totalTime, item.totalSeconds+item.elapsedTime+hi.waitingSeconds);
+    self.monsterHealingQueues[userStructUuid] = hq;
   }
-  self.monsterHealingQueueEndTime = lastDate;
-  self.totalTimeForHealQueue = totalTime;
   
-  [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:0 gemCost:0];
+  return hq;
+}
+
+- (NSMutableArray *) allMonsterHealingItems {
+  NSMutableArray *arr = [NSMutableArray array];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
-  [self beginHealingTimer];
+  for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
+    [arr addObjectsFromArray:hq.healingItems];
+  }
+  
+  return arr;
 }
 
 #pragma mark -
@@ -921,7 +842,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [arr sortUsingComparator:^NSComparisonResult(UserStruct *obj1, UserStruct *obj2) {
     HospitalProto *hosp1 = (HospitalProto *)obj1.staticStruct;
     HospitalProto *hosp2 = (HospitalProto *)obj2.staticStruct;
-    return [@(hosp2.healthPerSecond) compare:@(hosp1.healthPerSecond)];
+    
+    if (hosp2.secsToFullyHealMultiplier != hosp1.secsToFullyHealMultiplier) {
+      return [@(hosp2.secsToFullyHealMultiplier) compare:@(hosp1.secsToFullyHealMultiplier)];
+    }
+    return [obj1.userStructUuid compare:obj2.userStructUuid];
   }];
   return arr;
 }
@@ -1376,14 +1301,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   BOOL healWait = NO;
   MSDate *earliest = nil;
-  for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
-    MSDate *endTime = item.endTime;
-    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
-      healWait = YES;
-      break;
-    } else {
-      if (!earliest || [earliest compare:item.endTime] == NSOrderedDescending) {
-        earliest = item.endTime;
+  for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
+    for (UserMonsterHealingItem *item in hq.healingItems) {
+      MSDate *endTime = item.endTime;
+      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+        healWait = YES;
+        break;
+      } else {
+        if (!earliest || [earliest compare:item.endTime] == NSOrderedDescending) {
+          earliest = item.endTime;
+        }
       }
     }
   }
@@ -1398,17 +1325,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) healingWaitTimeComplete {
   NSMutableArray *arr = [NSMutableArray array];
-  for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
-    MSDate *endTime = item.endTime;
-    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
-      [arr addObject:item];
+  NSMutableSet *changedHqs = [NSMutableSet set];
+  for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
+    for (UserMonsterHealingItem *item in hq.healingItems) {
+      MSDate *endTime = item.endTime;
+      if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+        [arr addObject:item];
+        [changedHqs addObject:hq];
+      }
     }
   }
   
   if (arr.count > 0) {
     [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
-    [self saveHealthProgressesFromIndex:0];
-    [self readjustAllMonsterHealingProtos];
+    
+    for (HospitalQueue *hq in changedHqs) {
+      [hq saveHealthProgressesFromIndex:0];
+      [hq readjustAllMonsterHealingProtos];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -1713,7 +1648,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   ClanHelp *ch = [notif userInfo][CLAN_HELP_NOTIFICATION_KEY];
   
   if (ch.helpType == GameActionTypeHeal) {
-    [self readjustAllMonsterHealingProtos];
+    for (HospitalQueue *hq in self.monsterHealingQueues) {
+      for (UserMonsterHealingItem *hi in hq.healingItems) {
+        if ([hi.userMonsterUuid isEqualToString:ch.userDataUuid]) {
+          [hq readjustAllMonsterHealingProtos];
+        }
+      }
+    }
   } else if (ch.helpType == GameActionTypeEvolve) {
     [self beginEvolutionTimer];
   } else if (ch.helpType == GameActionTypeMiniJob) {
@@ -1728,7 +1669,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   // Disabled healing since speedups will happen immediately
   if (false && ch.actionType == GameActionTypeHeal) {
-    [self readjustAllMonsterHealingProtos];
+    //[self readjustAllMonsterHealingProtos];
   } else if (ch.actionType == GameActionTypeEvolve) {
     [self beginEvolutionTimer];
   } else if (ch.actionType == GameActionTypeMiniJob) {

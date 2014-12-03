@@ -1376,14 +1376,15 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (BOOL) canProceedWithFacebookUser:(NSDictionary<FBGraphUser> *)fbUser {
   GameState *gs = [GameState sharedGameState];
+  BOOL returnVal = NO;
   if (_shouldRejectFacebook) {
     _shouldRejectFacebook = NO;
     [Globals popupMessage:@"Unable to login to Facebook. Please try again!"];
     [FacebookDelegate logout];
   } else if ((!_isFromFacebook && !gs.connected) || gs.isTutorial) {
-    return YES;
+    returnVal = YES;
   } else if ([gs.facebookId isEqualToString:fbUser[@"id"]]) {
-    return YES;
+    returnVal = YES;
   } else if (!gs.facebookId.length) {
     [[OutgoingEventController sharedOutgoingEventController] setFacebookId:fbUser[@"id"] email:fbUser[@"email"] otherFbInfo:fbUser delegate:self];
   } else {
@@ -1391,7 +1392,9 @@ static const CGSize FIXED_SIZE = {568, 384};
     NSString *desc = [NSString stringWithFormat:@"This Facebook account is different from the one linked to this player. Would you like to reload the game?"];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Set" okayButton:@"Reload" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   }
-  return NO;
+  
+  _isFromFacebook = NO;
+  return returnVal;
 }
 
 - (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {

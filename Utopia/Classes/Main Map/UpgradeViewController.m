@@ -281,13 +281,11 @@
     maxStat1 = max.queueSize;
     statName1 = @"Queue Size:";
     
-    curStat2 = cur.healthPerSecond;
-    newStat2 = next.healthPerSecond;
-    maxStat2 = max.healthPerSecond;
-    statName2 = @"Rate:";
-    suffix2 = @" Health Per Sec";
-    
-    usePow2 = YES;
+    curStat2 = roundf(cur.secsToFullyHealMultiplier*100);
+    newStat2 = roundf(next.secsToFullyHealMultiplier*100);
+    maxStat2 = roundf(max.secsToFullyHealMultiplier*100);
+    statName2 = @"Heal Speed:";
+    suffix2 = @"%";
   } else if (structType == StructureInfoProto_StructTypeLab) {
     LabProto *cur = (LabProto *)curSS;
     LabProto *next = (LabProto *)nextSS;

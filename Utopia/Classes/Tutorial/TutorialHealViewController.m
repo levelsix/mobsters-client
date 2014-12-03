@@ -75,10 +75,6 @@
   [self.delegate healClosed];
 }
 
-- (NSMutableSet *) recentlyHealedMonsterIds {
-  return nil;
-}
-
 - (NSMutableArray *) monsterHealingQueue {
   return self.healingQueue;
 }

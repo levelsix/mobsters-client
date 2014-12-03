@@ -471,18 +471,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @interface HospitalProto : PBGeneratedMessage {
 @private
   BOOL hasHealthPerSecond_:1;
+  BOOL hasSecsToFullyHealMultiplier_:1;
   BOOL hasQueueSize_:1;
   BOOL hasStructInfo_:1;
   Float32 healthPerSecond;
+  Float32 secsToFullyHealMultiplier;
   int32_t queueSize;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
 - (BOOL) hasQueueSize;
 - (BOOL) hasHealthPerSecond;
+- (BOOL) hasSecsToFullyHealMultiplier;
 @property (readonly, strong) StructureInfoProto* structInfo;
 @property (readonly) int32_t queueSize;
 @property (readonly) Float32 healthPerSecond;
+@property (readonly) Float32 secsToFullyHealMultiplier;
 
 + (HospitalProto*) defaultInstance;
 - (HospitalProto*) defaultInstance;
@@ -535,6 +539,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) healthPerSecond;
 - (HospitalProto_Builder*) setHealthPerSecond:(Float32) value;
 - (HospitalProto_Builder*) clearHealthPerSecond;
+
+- (BOOL) hasSecsToFullyHealMultiplier;
+- (Float32) secsToFullyHealMultiplier;
+- (HospitalProto_Builder*) setSecsToFullyHealMultiplier:(Float32) value;
+- (HospitalProto_Builder*) clearSecsToFullyHealMultiplier;
 @end
 
 @interface LabProto : PBGeneratedMessage {

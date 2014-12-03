@@ -694,7 +694,8 @@
     // Check the entire healing queue to see if it can be sped up for free
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+    HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:self.userStruct.userStructUuid];
+    int timeLeft = hq.queueEndTime.timeIntervalSinceNow;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     return gemCost == 0;
   }

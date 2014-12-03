@@ -397,6 +397,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasSpeed_:1;
   BOOL hasSellAmount_:1;
   BOOL hasTeamCost_:1;
+  BOOL hasCostToFullyHeal_:1;
+  BOOL hasSecsToFullyHeal_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -414,6 +416,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t speed;
   int32_t sellAmount;
   int32_t teamCost;
+  int32_t costToFullyHeal;
+  int32_t secsToFullyHeal;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -438,6 +442,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasExpLvlExponent;
 - (BOOL) hasSellAmount;
 - (BOOL) hasTeamCost;
+- (BOOL) hasCostToFullyHeal;
+- (BOOL) hasSecsToFullyHeal;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -455,6 +461,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) Float32 expLvlExponent;
 @property (readonly) int32_t sellAmount;
 @property (readonly) int32_t teamCost;
+@property (readonly) int32_t costToFullyHeal;
+@property (readonly) int32_t secsToFullyHeal;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -575,6 +583,16 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) teamCost;
 - (MonsterLevelInfoProto_Builder*) setTeamCost:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearTeamCost;
+
+- (BOOL) hasCostToFullyHeal;
+- (int32_t) costToFullyHeal;
+- (MonsterLevelInfoProto_Builder*) setCostToFullyHeal:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearCostToFullyHeal;
+
+- (BOOL) hasSecsToFullyHeal;
+- (int32_t) secsToFullyHeal;
+- (MonsterLevelInfoProto_Builder*) setSecsToFullyHeal:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearSecsToFullyHeal;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -800,22 +818,26 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasPriority_:1;
   BOOL hasUserUuid_:1;
   BOOL hasUserMonsterUuid_:1;
+  BOOL hasUserHospitalStructUuid_:1;
   Float32 healthProgress;
   Float32 elapsedSeconds;
   int64_t queuedTimeMillis;
   int32_t priority;
   NSString* userUuid;
   NSString* userMonsterUuid;
+  NSString* userHospitalStructUuid;
 }
 - (BOOL) hasUserUuid;
 - (BOOL) hasUserMonsterUuid;
 - (BOOL) hasQueuedTimeMillis;
+- (BOOL) hasUserHospitalStructUuid;
 - (BOOL) hasHealthProgress;
 - (BOOL) hasPriority;
 - (BOOL) hasElapsedSeconds;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly, strong) NSString* userMonsterUuid;
 @property (readonly) int64_t queuedTimeMillis;
+@property (readonly, strong) NSString* userHospitalStructUuid;
 @property (readonly) Float32 healthProgress;
 @property (readonly) int32_t priority;
 @property (readonly) Float32 elapsedSeconds;
@@ -869,6 +891,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int64_t) queuedTimeMillis;
 - (UserMonsterHealingProto_Builder*) setQueuedTimeMillis:(int64_t) value;
 - (UserMonsterHealingProto_Builder*) clearQueuedTimeMillis;
+
+- (BOOL) hasUserHospitalStructUuid;
+- (NSString*) userHospitalStructUuid;
+- (UserMonsterHealingProto_Builder*) setUserHospitalStructUuid:(NSString*) value;
+- (UserMonsterHealingProto_Builder*) clearUserHospitalStructUuid;
 
 - (BOOL) hasHealthProgress;
 - (Float32) healthProgress;

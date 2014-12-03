@@ -93,11 +93,7 @@
 
 @property (nonatomic, retain) ItemUtil *itemUtil;
 
-@property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
-@property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
-@property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
-@property (nonatomic, assign) BOOL hasShownFreeHealingQueueSpeedup;
-@property (nonatomic, assign) float totalTimeForHealQueue;
+@property (nonatomic, retain) NSMutableDictionary *monsterHealingQueues;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -196,12 +192,9 @@
 - (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level;
 - (NSSet *) facebookIdsAlreadyUsed;
 
-- (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
-- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
 - (void) addAllMonsterHealingProtos:(NSArray *)items;
-- (void) saveHealthProgressesFromIndex:(NSInteger)index;
-- (void) saveHealthProgressesFromIndex:(NSInteger)index withDate:(MSDate *)date;
-- (void) readjustAllMonsterHealingProtos;
+- (HospitalQueue *) hospitalQueueForUserHospitalStructUuid:(NSString *)userStructUuid;
+- (NSMutableArray *) allMonsterHealingItems;
 
 - (void) addEnhancementProto:(UserEnhancementProto *)proto;
 

@@ -186,9 +186,11 @@
     [arr addObject:ta];
   }
   
-  if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
-    TimerAction *ta = [[HealingTimerAction alloc] initWithHealingEndTime:gs.monsterHealingQueueEndTime totalSeconds:gs.totalTimeForHealQueue];
-    [arr addObject:ta];
+  for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+    if (hq.healingItems.count) {
+      TimerAction *ta = [[HealingTimerAction alloc] initWithHospitalQueue:hq];
+      [arr addObject:ta];
+    }
   }
   
   [arr sortUsingSelector:@selector(compare:)];

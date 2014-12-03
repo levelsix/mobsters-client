@@ -77,9 +77,11 @@
 
 - (BOOL) isHealing {
   GameState *gs = [GameState sharedGameState];
-  for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
-    if ([item.userMonsterUuid isEqualToString:self.userMonsterUuid]) {
-      return YES;
+  for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+    for (UserMonsterHealingItem *item in hq.healingItems) {
+      if ([item.userMonsterUuid isEqualToString:self.userMonsterUuid]) {
+        return YES;
+      }
     }
   }
   return NO;
@@ -325,106 +327,6 @@
   bldr.monsterId = self.monsterId;
   bldr.monsterLvl = self.level;
   return bldr.build;
-}
-
-@end
-
-@implementation UserMonsterHealingItem
-
-- (id) initWithHealingProto:(UserMonsterHealingProto *)proto {
-  if ((self = [super init])){
-    self.userUuid = proto.userUuid;
-    self.userMonsterUuid = proto.userMonsterUuid;
-    self.queueTime = proto.hasQueuedTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
-    self.healthProgress = proto.healthProgress;
-    self.priority = proto.priority;
-    self.elapsedTime = proto.elapsedSeconds;
-  }
-  return self;
-}
-
-+ (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto {
-  return [[self alloc] initWithHealingProto:proto];
-}
-
-- (UserMonster *) userMonster {
-  GameState *gs = [GameState sharedGameState];
-  return [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
-}
-
-- (UserMonsterHealingProto *) convertToProto {
-  UserMonsterHealingProto_Builder *bldr = [[[[[[UserMonsterHealingProto builder]
-                                               setUserUuid:self.userUuid]
-                                              setUserMonsterUuid:self.userMonsterUuid]
-                                             setHealthProgress:self.healthProgress]
-                                            setPriority:self.priority]
-                                           setElapsedSeconds:self.elapsedTime];
-  
-  [bldr setQueuedTimeMillis:self.queueTime.timeIntervalSince1970*1000];
-  return [bldr build];
-}
-
-- (float) totalSeconds {
-  float secs = 0;
-  for (int i = 0; i < self.timeDistribution.count; i += 2) {
-    secs += [self.timeDistribution[i] floatValue];
-  }
-  return secs;
-}
-
-- (float) currentPercentage {
-  float totalSecs = [self totalSeconds];
-  float timeLeft = [self.endTime timeIntervalSinceNow];
-  float timeCompleted = MAX(totalSecs-timeLeft, 0);
-  
-  float healthToHeal = 0;
-  for (int i = 1; i < self.timeDistribution.count; i += 2) {
-    healthToHeal += [self.timeDistribution[i] intValue];
-  }
-  float totalHealth = self.healthProgress+healthToHeal;
-  
-  float basePerc = self.healthProgress/totalHealth;
-  float percentage = basePerc;
-  for (int i = 0; i < self.timeDistribution.count; i += 2) {
-    float secs = [self.timeDistribution[i] floatValue];
-    float health = [self.timeDistribution[i+1] floatValue];
-    
-    if (timeCompleted > secs) {
-      timeCompleted -= secs;
-      percentage += health/healthToHeal;
-    } else {
-      percentage += health/healthToHeal*timeCompleted/secs*(1-basePerc);
-      break;
-    }
-  }
-  
-  return percentage;
-}
-
-- (id) copy {
-  UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
-  item.userUuid = self.userUuid;
-  item.userMonsterUuid = self.userMonsterUuid;
-  item.queueTime = [self.queueTime copy];
-  item.healthProgress = self.healthProgress;
-  item.priority = self.priority;
-  item.elapsedTime = self.elapsedTime;
-  return item;
-}
-
-- (BOOL) isEqual:(UserMonsterHealingItem *)object {
-  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
-    return NO;
-  }
-  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
-}
-
-- (NSUInteger) hash {
-  return self.userMonsterUuid.hash;
-}
-
-- (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %@, QT: %@, H: %f, TS: %f, ET: %f", self, self.userMonsterUuid, self.queueTime, self.healthProgress, self.totalSeconds, self.elapsedTime];
 }
 
 @end

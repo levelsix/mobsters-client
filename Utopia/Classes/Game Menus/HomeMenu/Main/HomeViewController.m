@@ -30,9 +30,10 @@
   return self;
 }
 
-- (id) initWithHeal {
+- (id) initWithHeal:(NSString *)hospitalUserStructUuid {
   if ((self = [super init])) {
     _initViewControllerClass = [HealViewController class];
+    _initHospitalUserStructUuid = hospitalUserStructUuid;
   }
   return self;
 }
@@ -92,14 +93,15 @@
 
 - (void) loadMainViewControllers {
   SellViewController *sell = [[SellViewController alloc] init];
-  HealViewController *heal = [[HealViewController alloc] init];
+  HealViewController *heal = [[HealViewController alloc] initWithUserStructUuid:_initHospitalUserStructUuid];
   TeamViewController *team = [[TeamViewController alloc] init];
   EvolveChooserViewController *evo = [[EvolveChooserViewController alloc] init];
   EnhanceChooserViewController *enhance = [[EnhanceChooserViewController alloc] init];
   MiniJobsListViewController *miniJobs = [[MiniJobsListViewController alloc] init];
   
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [@[heal, team, sell] mutableCopy];
+  NSMutableArray *arr = [@[team, sell] mutableCopy];
+  if (gs.myValidHospitals.count) [arr insertObject:heal atIndex:0];
   if (gs.myLaboratory.isComplete && gs.myLaboratory.staticStruct.structInfo.level > 0) [arr addObject:enhance];
   if (gs.myEvoChamber.isComplete) [arr addObject:evo];
   if (gs.myMiniJobCenter.isComplete && gs.myMiniJobCenter.staticStruct.structInfo.level > 0) [arr addObject:miniJobs];

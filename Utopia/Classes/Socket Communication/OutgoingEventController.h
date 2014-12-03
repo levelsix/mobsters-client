@@ -70,7 +70,7 @@
 - (void) solicitMiniJobHelp:(UserMiniJob *)mj;
 - (void) solicitEvolveHelp:(UserEvolution *)ue;
 - (void) solicitEnhanceHelp:(UserEnhancement *)ue;
-- (void) solicitHealHelp;
+- (void) solicitHealHelp:(HospitalQueue *)hq;
 - (void) giveClanHelp:(NSArray *)clanHelpUuids;
 - (void) endClanHelp:(NSArray *)clanHelpUuids;
 
@@ -106,10 +106,12 @@
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate;
 - (void) combineMonsters:(NSArray *)userMonsterUuids;
 - (BOOL) combineMonsterWithSpeedup:(NSString *)userMonsterUuid;
-- (BOOL) addMonsterToHealingQueue:(NSString *)userMonsterUuid useGems:(BOOL)useGems;
+
+- (BOOL) addMonster:(NSString *)userMonsterUuid toHealingQueue:(NSString *)userStructUuid useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
-- (BOOL) speedupHealingQueue:(id)delegate;
+- (BOOL) speedupHealingQueue:(HospitalQueue *)hq delegate:(id)delegate;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
+
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids;
 
 - (BOOL) submitEnhancement:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
@@ -138,7 +140,7 @@
 - (void) tradeItemForSpeedup:(int)itemId userMiniJob:(UserMiniJob *)umj;
 - (void) tradeItemForSpeedup:(int)itemId userEnhancement:(UserEnhancement *)ue;
 - (void) tradeItemForSpeedup:(int)itemId userEvolution:(UserEvolution *)ue;
-- (void) tradeItemForHealSpeedup:(int)itemId;
+- (void) tradeItemForSpeedup:(int)itemId healingQueue:(HospitalQueue *)hq;
 - (void) tradeItemForSpeedup:(int)itemId combineUserMonster:(UserMonster *)um;
 - (void) removeUserItemUsed:(NSArray *)usageUuids;
 

@@ -204,9 +204,11 @@
         isValid = !!umj.timeStarted;
       } else if (ch.helpType == GameActionTypeHeal) {
         UserMonsterHealingItem *hi = nil;
-        for (UserMonsterHealingItem *u in gs.monsterHealingQueue) {
-          if ([u.userMonsterUuid isEqualToString:ch.userDataUuid]) {
-            hi = u;
+        for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+          for (UserMonsterHealingItem *u in hq.healingItems) {
+            if ([u.userMonsterUuid isEqualToString:ch.userDataUuid]) {
+              hi = u;
+            }
           }
         }
         

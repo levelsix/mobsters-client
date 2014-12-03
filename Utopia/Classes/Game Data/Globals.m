@@ -1549,7 +1549,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
-  return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
+  // Old formula
+  //return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
+  
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  float costToFullyHeal = min.costToFullyHeal+(max.costToFullyHeal-min.costToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
+  int maxHealth = [self calculateMaxHealthForMonster:um];
+  float baseSecs = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
+  return baseSecs;
+}
+
+- (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  float secsToFullyHeal = min.secsToFullyHeal+(max.secsToFullyHeal-min.secsToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
+  int maxHealth = [self calculateMaxHealthForMonster:um];
+  float baseSecs = secsToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
+  return baseSecs;
 }
 
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {

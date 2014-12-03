@@ -1660,6 +1660,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property Float32 expLvlExponent;
 @property int32_t sellAmount;
 @property int32_t teamCost;
+@property int32_t costToFullyHeal;
+@property int32_t secsToFullyHeal;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1783,6 +1785,20 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasTeamCost_ = !!value_;
 }
 @synthesize teamCost;
+- (BOOL) hasCostToFullyHeal {
+  return !!hasCostToFullyHeal_;
+}
+- (void) setHasCostToFullyHeal:(BOOL) value_ {
+  hasCostToFullyHeal_ = !!value_;
+}
+@synthesize costToFullyHeal;
+- (BOOL) hasSecsToFullyHeal {
+  return !!hasSecsToFullyHeal_;
+}
+- (void) setHasSecsToFullyHeal:(BOOL) value_ {
+  hasSecsToFullyHeal_ = !!value_;
+}
+@synthesize secsToFullyHeal;
 - (id) init {
   if ((self = [super init])) {
     self.lvl = 0;
@@ -1802,6 +1818,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.expLvlExponent = 0;
     self.sellAmount = 0;
     self.teamCost = 0;
+    self.costToFullyHeal = 0;
+    self.secsToFullyHeal = 0;
   }
   return self;
 }
@@ -1872,6 +1890,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasTeamCost) {
     [output writeInt32:17 value:self.teamCost];
   }
+  if (self.hasCostToFullyHeal) {
+    [output writeInt32:18 value:self.costToFullyHeal];
+  }
+  if (self.hasSecsToFullyHeal) {
+    [output writeInt32:19 value:self.secsToFullyHeal];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1931,6 +1955,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasTeamCost) {
     size_ += computeInt32Size(17, self.teamCost);
+  }
+  if (self.hasCostToFullyHeal) {
+    size_ += computeInt32Size(18, self.costToFullyHeal);
+  }
+  if (self.hasSecsToFullyHeal) {
+    size_ += computeInt32Size(19, self.secsToFullyHeal);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2018,6 +2048,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasTeamCost) {
     [output appendFormat:@"%@%@: %@\n", indent, @"teamCost", [NSNumber numberWithInteger:self.teamCost]];
   }
+  if (self.hasCostToFullyHeal) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"costToFullyHeal", [NSNumber numberWithInteger:self.costToFullyHeal]];
+  }
+  if (self.hasSecsToFullyHeal) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsToFullyHeal", [NSNumber numberWithInteger:self.secsToFullyHeal]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2063,6 +2099,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       (!self.hasSellAmount || self.sellAmount == otherMessage.sellAmount) &&
       self.hasTeamCost == otherMessage.hasTeamCost &&
       (!self.hasTeamCost || self.teamCost == otherMessage.teamCost) &&
+      self.hasCostToFullyHeal == otherMessage.hasCostToFullyHeal &&
+      (!self.hasCostToFullyHeal || self.costToFullyHeal == otherMessage.costToFullyHeal) &&
+      self.hasSecsToFullyHeal == otherMessage.hasSecsToFullyHeal &&
+      (!self.hasSecsToFullyHeal || self.secsToFullyHeal == otherMessage.secsToFullyHeal) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2117,6 +2157,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasTeamCost) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.teamCost] hash];
+  }
+  if (self.hasCostToFullyHeal) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.costToFullyHeal] hash];
+  }
+  if (self.hasSecsToFullyHeal) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.secsToFullyHeal] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2212,6 +2258,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasTeamCost) {
     [self setTeamCost:other.teamCost];
   }
+  if (other.hasCostToFullyHeal) {
+    [self setCostToFullyHeal:other.costToFullyHeal];
+  }
+  if (other.hasSecsToFullyHeal) {
+    [self setSecsToFullyHeal:other.secsToFullyHeal];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2299,6 +2351,14 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 136: {
         [self setTeamCost:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setCostToFullyHeal:[input readInt32]];
+        break;
+      }
+      case 152: {
+        [self setSecsToFullyHeal:[input readInt32]];
         break;
       }
     }
@@ -2574,6 +2634,38 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearTeamCost {
   result.hasTeamCost = NO;
   result.teamCost = 0;
+  return self;
+}
+- (BOOL) hasCostToFullyHeal {
+  return result.hasCostToFullyHeal;
+}
+- (int32_t) costToFullyHeal {
+  return result.costToFullyHeal;
+}
+- (MonsterLevelInfoProto_Builder*) setCostToFullyHeal:(int32_t) value {
+  result.hasCostToFullyHeal = YES;
+  result.costToFullyHeal = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearCostToFullyHeal {
+  result.hasCostToFullyHeal = NO;
+  result.costToFullyHeal = 0;
+  return self;
+}
+- (BOOL) hasSecsToFullyHeal {
+  return result.hasSecsToFullyHeal;
+}
+- (int32_t) secsToFullyHeal {
+  return result.secsToFullyHeal;
+}
+- (MonsterLevelInfoProto_Builder*) setSecsToFullyHeal:(int32_t) value {
+  result.hasSecsToFullyHeal = YES;
+  result.secsToFullyHeal = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearSecsToFullyHeal {
+  result.hasSecsToFullyHeal = NO;
+  result.secsToFullyHeal = 0;
   return self;
 }
 @end
@@ -3590,6 +3682,7 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
 @property (strong) NSString* userUuid;
 @property (strong) NSString* userMonsterUuid;
 @property int64_t queuedTimeMillis;
+@property (strong) NSString* userHospitalStructUuid;
 @property Float32 healthProgress;
 @property int32_t priority;
 @property Float32 elapsedSeconds;
@@ -3618,6 +3711,13 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
   hasQueuedTimeMillis_ = !!value_;
 }
 @synthesize queuedTimeMillis;
+- (BOOL) hasUserHospitalStructUuid {
+  return !!hasUserHospitalStructUuid_;
+}
+- (void) setHasUserHospitalStructUuid:(BOOL) value_ {
+  hasUserHospitalStructUuid_ = !!value_;
+}
+@synthesize userHospitalStructUuid;
 - (BOOL) hasHealthProgress {
   return !!hasHealthProgress_;
 }
@@ -3644,6 +3744,7 @@ static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
     self.userUuid = @"";
     self.userMonsterUuid = @"";
     self.queuedTimeMillis = 0L;
+    self.userHospitalStructUuid = @"";
     self.healthProgress = 0;
     self.priority = 0;
     self.elapsedSeconds = 0;
@@ -3675,6 +3776,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasQueuedTimeMillis) {
     [output writeInt64:3 value:self.queuedTimeMillis];
   }
+  if (self.hasUserHospitalStructUuid) {
+    [output writeString:4 value:self.userHospitalStructUuid];
+  }
   if (self.hasHealthProgress) {
     [output writeFloat:5 value:self.healthProgress];
   }
@@ -3701,6 +3805,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
   if (self.hasQueuedTimeMillis) {
     size_ += computeInt64Size(3, self.queuedTimeMillis);
+  }
+  if (self.hasUserHospitalStructUuid) {
+    size_ += computeStringSize(4, self.userHospitalStructUuid);
   }
   if (self.hasHealthProgress) {
     size_ += computeFloatSize(5, self.healthProgress);
@@ -3755,6 +3862,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasQueuedTimeMillis) {
     [output appendFormat:@"%@%@: %@\n", indent, @"queuedTimeMillis", [NSNumber numberWithLongLong:self.queuedTimeMillis]];
   }
+  if (self.hasUserHospitalStructUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userHospitalStructUuid", self.userHospitalStructUuid];
+  }
   if (self.hasHealthProgress) {
     [output appendFormat:@"%@%@: %@\n", indent, @"healthProgress", [NSNumber numberWithFloat:self.healthProgress]];
   }
@@ -3781,6 +3891,8 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
       (!self.hasUserMonsterUuid || [self.userMonsterUuid isEqual:otherMessage.userMonsterUuid]) &&
       self.hasQueuedTimeMillis == otherMessage.hasQueuedTimeMillis &&
       (!self.hasQueuedTimeMillis || self.queuedTimeMillis == otherMessage.queuedTimeMillis) &&
+      self.hasUserHospitalStructUuid == otherMessage.hasUserHospitalStructUuid &&
+      (!self.hasUserHospitalStructUuid || [self.userHospitalStructUuid isEqual:otherMessage.userHospitalStructUuid]) &&
       self.hasHealthProgress == otherMessage.hasHealthProgress &&
       (!self.hasHealthProgress || self.healthProgress == otherMessage.healthProgress) &&
       self.hasPriority == otherMessage.hasPriority &&
@@ -3799,6 +3911,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   }
   if (self.hasQueuedTimeMillis) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.queuedTimeMillis] hash];
+  }
+  if (self.hasUserHospitalStructUuid) {
+    hashCode = hashCode * 31 + [self.userHospitalStructUuid hash];
   }
   if (self.hasHealthProgress) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.healthProgress] hash];
@@ -3861,6 +3976,9 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (other.hasQueuedTimeMillis) {
     [self setQueuedTimeMillis:other.queuedTimeMillis];
   }
+  if (other.hasUserHospitalStructUuid) {
+    [self setUserHospitalStructUuid:other.userHospitalStructUuid];
+  }
   if (other.hasHealthProgress) {
     [self setHealthProgress:other.healthProgress];
   }
@@ -3901,6 +4019,10 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
       }
       case 24: {
         [self setQueuedTimeMillis:[input readInt64]];
+        break;
+      }
+      case 34: {
+        [self setUserHospitalStructUuid:[input readString]];
         break;
       }
       case 45: {
@@ -3964,6 +4086,22 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
 - (UserMonsterHealingProto_Builder*) clearQueuedTimeMillis {
   result.hasQueuedTimeMillis = NO;
   result.queuedTimeMillis = 0L;
+  return self;
+}
+- (BOOL) hasUserHospitalStructUuid {
+  return result.hasUserHospitalStructUuid;
+}
+- (NSString*) userHospitalStructUuid {
+  return result.userHospitalStructUuid;
+}
+- (UserMonsterHealingProto_Builder*) setUserHospitalStructUuid:(NSString*) value {
+  result.hasUserHospitalStructUuid = YES;
+  result.userHospitalStructUuid = value;
+  return self;
+}
+- (UserMonsterHealingProto_Builder*) clearUserHospitalStructUuid {
+  result.hasUserHospitalStructUuid = NO;
+  result.userHospitalStructUuid = @"";
   return self;
 }
 - (BOOL) hasHealthProgress {

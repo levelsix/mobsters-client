@@ -191,20 +191,21 @@
 
 @implementation HealingTimerAction
 
-- (id) initWithHealingEndTime:(MSDate *)endTime totalSeconds:(int)totalSeconds {
+- (id) initWithHospitalQueue:(HospitalQueue *)hq {
   if ((self = [super init])) {
     self.title = [NSString stringWithFormat:@"Healing %@s", MONSTER_NAME];
     self.normalProgressBarColor = TimerProgressBarColorGreen;
     self.allowsFreeSpeedup = YES;
-    self.completionDate = endTime;
-    self.totalSeconds = totalSeconds;
+    self.completionDate = hq.queueEndTime;
+    self.totalSeconds = hq.totalTimeForHealQueue;
+    self.hospitalQueue = hq;
   }
   return self;
 }
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
+  for (UserMonsterHealingItem *hi in self.hospitalQueue.healingItems) {
     if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
       return YES;
     }
@@ -218,6 +219,7 @@
 
 - (NSArray *) performSpeedup {
   HealViewController *hvc = [[HealViewController alloc] init];
+  hvc.fakeHospitalQueue = self.hospitalQueue;
   [hvc speedupButtonClicked:nil];
   
   return @[hvc];
@@ -225,16 +227,16 @@
 
 - (void) performHelp {
   HealViewController *hvc = [[HealViewController alloc] init];
+  hvc.fakeHospitalQueue = self.hospitalQueue;
   [hvc getHelpClicked:nil];
 }
 
 - (BOOL) isEqual:(id)object {
-  // There should only ever be one healing timer action
-  return [self class] == [object class];
+  return [self class] == [object class] && [self.hospitalQueue.userHospitalStructUuid isEqualToString:[object hospitalQueue].userHospitalStructUuid];
 }
 
 - (NSUInteger) hash {
-  return 3747823;
+  return self.hospitalQueue.userHospitalStructUuid.hash;
 }
 
 @end

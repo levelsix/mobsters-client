@@ -26,8 +26,28 @@
   [super viewWillAppear:animated];
   
   [self reloadListView];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
   
-  self.listView.collectionView.contentOffset = ccp(0,0);
+  [self adjustSizeOfView];
+}
+
+- (void) adjustSizeOfView {
+  CGSize cs = self.listView.collectionView.contentSize;
+  CGRect f = self.view.frame;
+  CGSize ss = self.view.superview.frame.size;
+  if (cs.width < ss.width) {
+    self.listView.collectionView.scrollEnabled = NO;
+    
+    f.size = cs;
+    f.origin.x = ss.width/2-f.size.width/2;
+    self.view.frame = f;
+  } else {
+    self.listView.collectionView.contentOffset = ccp(0,0);
+    self.listView.collectionView.scrollEnabled = YES;
+  }
 }
 
 #pragma mark - Reloading list view
@@ -35,6 +55,8 @@
 - (void) reloadListView {
   [self reloadPackagesArray];
   [self.listView reloadTableAnimated:NO listObjects:self.packages];
+  
+  [self adjustSizeOfView];
 }
 
 - (void) reloadPackagesArray {

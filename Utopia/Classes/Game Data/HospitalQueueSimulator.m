@@ -15,7 +15,7 @@
 
 - (id) initWithHospital:(UserStruct *)hospital {
   if ((self = [super init])) {
-    self.healthPerSecond = ((HospitalProto *)hospital.staticStruct).healthPerSecond;
+    self.secsToFullyHealMultiplier = ((HospitalProto *)hospital.staticStruct).secsToFullyHealMultiplier;
     self.upgradeCompleteDate = !hospital.isComplete ? hospital.buildCompleteDate : nil;
     self.userStructUuid = hospital.userStructUuid;
   }
@@ -23,7 +23,7 @@
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"Hospital: %@, %@, %f", self.userStructUuid, self.upgradeCompleteDate, self.healthPerSecond];
+  return [NSString stringWithFormat:@"Hospital: %@, %@, %f", self.userStructUuid, self.upgradeCompleteDate, self.secsToFullyHealMultiplier];
 }
 
 @end
@@ -40,6 +40,7 @@
     Globals *gl = [Globals sharedGlobals];
     UserMonster *um = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
     self.totalHealthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
+    self.baseHealthPerSecond = self.totalHealthToHeal/[gl calculateBaseSecondsToHealMonster:um];
     
     // Subtract additional hp for clan helps
     int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:self.userMonsterUuid];
@@ -186,7 +187,7 @@
       }
       
       if (!item.isFinished) {
-        float healthPerSecond = hs.healthPerSecond;
+        float healthPerSecond = item.baseHealthPerSecond/hs.secsToFullyHealMultiplier;
         
         item.healthProgress += healthPerSecond * seconds;
         item.totalSeconds += seconds;
@@ -217,7 +218,7 @@
     }
   }
   [validHospitals sortUsingComparator:^NSComparisonResult(HospitalSim *obj1, HospitalSim *obj2) {
-    return [@(obj2.healthPerSecond) compare:@(obj1.healthPerSecond)];
+    return [@(obj2.secsToFullyHealMultiplier) compare:@(obj1.secsToFullyHealMultiplier)];
   }];
   
   NSMutableArray *validItems = [NSMutableArray array];
@@ -233,7 +234,9 @@
     
     hi.userStructUuid = us.userStructUuid;
     hi.startTime = [date compare:hi.queueTime] == NSOrderedDescending ? date : hi.queueTime;
-    hi.endTime = [hi.startTime dateByAddingTimeInterval:(hi.totalHealthToHeal-hi.healthProgress)/us.healthPerSecond];
+    
+    float healthPerSecond = hi.baseHealthPerSecond/us.secsToFullyHealMultiplier;
+    hi.endTime = [hi.startTime dateByAddingTimeInterval:(hi.totalHealthToHeal-hi.healthProgress)/healthPerSecond];
   }
 }
 

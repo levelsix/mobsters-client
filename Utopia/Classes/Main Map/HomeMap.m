@@ -470,16 +470,11 @@
     }
   }
   
-  NSArray *hosps = [gs myValidHospitals];
   for (CCSprite *spr in [self childrenOfClassType:[HospitalBuilding class]]) {
     HospitalBuilding *hosp = (HospitalBuilding *)spr;
     UserStruct *s = hosp.userStruct;
-    NSInteger index = [hosps indexOfObject:s];
-    UserMonsterHealingItem *hi = nil;
-    
-    if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
-      hi = gs.monsterHealingQueue[index];
-    }
+    HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:s.userStructUuid];
+    UserMonsterHealingItem *hi = [hq.healingItems firstObject];
     
     if (hi) {
       [hosp beginAnimatingWithHealingItem:hi];
@@ -1223,7 +1218,7 @@
 - (void) updateTimerForHealingJustQueuedUp:(BOOL)justQueuedUp {
   NSMutableArray *oldTimers = [NSMutableArray array];
   for (NSTimer *t in _timers) {
-    if ([t.userInfo isEqual:@"Healing"]) {
+    if ([t.userInfo isKindOfClass:[HospitalQueue class]]) {
       [oldTimers addObject:t];
     }
   }
@@ -1236,12 +1231,12 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (gs.monsterHealingQueue.count) {
-    MSDate *date = gs.monsterHealingQueueEndTime;
+  for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+    MSDate *date = hq.queueEndTime;
     NSTimeInterval timeLeft = date.timeIntervalSinceNow;
     
     if (timeLeft > 0 && ((justQueuedUp && timeLeft/60.f > gl.maxMinutesForFreeSpeedUp) || !justQueuedUp)) {
-      NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(healingSpeedupBecameFree:) userInfo:@"Healing" repeats:NO];
+      NSTimer *newTimer = [NSTimer timerWithTimeInterval:timeLeft-gl.maxMinutesForFreeSpeedUp*60 target:self selector:@selector(healingSpeedupBecameFree:) userInfo:hq repeats:NO];
       [_timers addObject:newTimer];
       [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
     }
@@ -1422,15 +1417,15 @@
 }
 
 - (void) healingSpeedupBecameFree:(NSTimer *)timer {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  NSTimeInterval timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  HospitalQueue *hq = timer.userInfo;
+  NSTimeInterval timeLeft = hq.queueEndTime.timeIntervalSinceNow;
   
-  if (!gs.hasShownFreeHealingQueueSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
+  if (!hq.hasShownFreeHealingQueueSpeedup && timeLeft > 0 && timeLeft/60.f < gl.maxMinutesForFreeSpeedUp) {
     NSString *desc = [NSString stringWithFormat:@"Healing time is below %d minutes. Free speedup available!", gl.maxMinutesForFreeSpeedUp];
     [Globals addPurpleAlertNotification:desc];
     
-    gs.hasShownFreeHealingQueueSpeedup = YES;
+    hq.hasShownFreeHealingQueueSpeedup = YES;
   }
   
   [_timers removeObject:timer];
@@ -1483,7 +1478,7 @@
   
   switch (fsp.structType) {
     case StructureInfoProto_StructTypeHospital:
-      hvc = [[HomeViewController alloc] initWithHeal];
+      hvc = [[HomeViewController alloc] initWithHeal:us.userStructUuid];
       break;
       
     case StructureInfoProto_StructTypeLab:
@@ -1749,6 +1744,13 @@
       
       if (activeQuest) {
         [Globals addAlertNotification:@"You have a currently active mini job. Complete it before upgrading."];
+        return;
+      }
+    } else if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
+      HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
+      int count = (int)hq.healingItems.count;
+      if (count) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently healing %d %@%@ at this %@. Complete it before upgrading.", count, count == 1 ? @"" : @"s", MONSTER_NAME, nextFsp.name]];
         return;
       }
     } else if (nextFsp.structType == StructureInfoProto_StructTypeLab) {

@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "StaticStructure.h"
 #import "ItemObject.h"
+#import "HospitalQueue.h"
 
 @class ForgeAttempt;
 @class MSDate;
@@ -66,28 +67,6 @@
 - (MinimumUserMonsterProto *) convertToMinimumProto;
 
 - (NSComparisonResult) compare:(UserMonster *)um;
-
-@end
-
-@interface UserMonsterHealingItem : NSObject
-
-@property (nonatomic, retain) NSString *userMonsterUuid;
-@property (nonatomic, retain) NSString *userUuid;
-@property (nonatomic, retain) MSDate *queueTime;
-@property (nonatomic, retain) MSDate *endTime;
-
-@property (nonatomic, assign) float healthProgress;
-@property (nonatomic, assign) int priority;
-@property (nonatomic, assign) float totalSeconds;
-@property (nonatomic, assign) float elapsedTime;
-@property (nonatomic, retain) NSArray *timeDistribution;
-
-+ (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
-
-- (UserMonster *)userMonster;
-- (UserMonsterHealingProto *) convertToProto;
-
-- (float) currentPercentage;
 
 @end
 

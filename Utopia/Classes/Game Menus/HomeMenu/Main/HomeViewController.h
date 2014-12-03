@@ -24,6 +24,7 @@
 
 @interface HomeViewController : PopupNavViewController {
   Class _initViewControllerClass;
+  NSString *_initHospitalUserStructUuid;
   int _currentIndex;
 }
 
@@ -36,7 +37,7 @@
 @property (nonatomic, retain) id<HomeViewControllerDelegate> delegate;
 
 - (id) initWithSell;
-- (id) initWithHeal;
+- (id) initWithHeal:(NSString *)hospitalUserStructUuid;
 - (id) initWithTeam;
 - (id) initWithEnhance;
 - (id) initWithEvolve;

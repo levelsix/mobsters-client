@@ -1583,13 +1583,13 @@ static NSString *udid = nil;
 
 - (void) reloadHealQueueSnapshot {
   GameState *gs = [GameState sharedGameState];
-  self.healingQueueSnapshot = [gs.monsterHealingQueue clone];
+  self.healingQueueSnapshot = [gs.allMonsterHealingItems clone];
 }
 
 - (int) sendHealMonsterMessage {
   GameState *gs = [GameState sharedGameState];
   NSMutableSet *old = [NSMutableSet setWithArray:self.healingQueueSnapshot];
-  NSMutableSet *cur = [NSMutableSet setWithArray:gs.monsterHealingQueue];
+  NSMutableSet *cur = [NSMutableSet setWithArray:gs.allMonsterHealingItems];
   
   NSMutableSet *added = cur.mutableCopy;
   [added minusSet:old];

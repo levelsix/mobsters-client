@@ -340,8 +340,18 @@
     [self scheduleNotificationWithText:text badge:1 date:cashFullDate];
   }
   
-  if (gs.monsterHealingQueue.count && gs.monsterHealingQueueEndTime) {
-    [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME] badge:1 date:gs.monsterHealingQueueEndTime];
+  if (gs.monsterHealingQueues.count) {
+    MSDate *date = nil;
+    
+    for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+      if (hq.queueEndTime && (!date || [date compare:hq.queueEndTime] == NSOrderedAscending)) {
+        date = hq.queueEndTime;
+      }
+    }
+    
+    if (date) {
+      [self scheduleNotificationWithText:[NSString stringWithFormat:@"Your %@s have finished healing.", MONSTER_NAME] badge:1 date:date];
+    }
   }
   
   if (gs.userEvolution) {

@@ -147,11 +147,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-cost gemCost:gemCost];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
-    BOOL recalcHealing = fsp.structType == StructureInfoProto_StructTypeHospital;
-    if (recalcHealing) {
-      [gs saveHealthProgressesFromIndex:0];
-    }
-    
     // UserStructId will come in the response
     us.userUuid = [[GameState sharedGameState] userUuid];
     us.isComplete = NO;
@@ -164,10 +159,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
-    
-    if (recalcHealing) {
-      [gs readjustAllMonsterHealingProtos];
-    }
     
     int cashChange = isOilBuilding ? 0 : -cost;
     int oilChange = isOilBuilding ? -cost : 0;
@@ -219,11 +210,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructUuid time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
       [sc setDelegate:delegate forTag:tag];
       
-      BOOL recalcHealing = nextFsp.structType == StructureInfoProto_StructTypeHospital;
-      if (recalcHealing) {
-        [gs saveHealthProgressesFromIndex:0];
-      }
-      
       userStruct.isComplete = NO;
       userStruct.purchaseTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
       userStruct.structId = nextFsp.structId;
@@ -232,16 +218,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [CashUpdate class]) updateWithTag:tag change:-cost];
       GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
-      
-      if (recalcHealing) {
-        if (gs.myValidHospitals.count) {
-          [gs readjustAllMonsterHealingProtos];
-        } else {
-          for (UserMonsterHealingItem *hi in gs.monsterHealingQueue.copy) {
-            [self removeMonsterFromHealingQueue:hi];
-          }
-        }
-      }
       
       int cashChange = isOilBuilding ? 0 : -cost;
       int oilChange = isOilBuilding ? -cost : 0;
@@ -324,20 +300,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructUuid gemCost:gemCost time:[self getCurrentMilliseconds] queueUp:queueUp];
     [sc setDelegate:delegate forTag:tag];
     
-    BOOL recalcHealing = userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeHospital;
-    if (recalcHealing) {
-      [gs saveHealthProgressesFromIndex:0];
-    }
-    
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gemCost]];
-    
-    if (recalcHealing) {
-      [gs readjustAllMonsterHealingProtos];
-    }
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
     [gs.itemUtil cleanupRogueItemUsages];
@@ -1009,7 +976,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           }
         } // Skill stuff ends
         
-        if (quantity) {
+        if (req && quantity) {
           [[OutgoingEventController sharedOutgoingEventController] devRequest:req staticDataId:staticDataId quantity:quantity];
         } else if (req) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
@@ -1316,12 +1283,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) solicitHealHelp {
+- (void) solicitHealHelp:(HospitalQueue *)hq {
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *arr = [NSMutableArray array];
   
-  for (UserMonsterHealingItem *hi in gs.monsterHealingQueue) {
+  for (UserMonsterHealingItem *hi in hq.healingItems) {
     ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
     notice.helpType = GameActionTypeHeal;
     notice.userDataUuid = hi.userMonsterUuid;
@@ -1515,12 +1482,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) tradeItemForHealSpeedup:(int)itemId {
+- (void) tradeItemForSpeedup:(int)itemId healingQueue:(HospitalQueue *)hq {
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *arr = [NSMutableArray array];
   
-  UserMonsterHealingItem *hi = [gs.monsterHealingQueue firstObject];
+  UserMonsterHealingItem *hi = [hq.healingItems firstObject];
   
   UserItemUsageProto_Builder *bldr = [UserItemUsageProto builder];
   bldr.userUuid = gs.userUuid;
@@ -1537,8 +1504,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     ItemProto *ip = [gs itemForId:itemId];
     if (ip.itemType == ItemTypeSpeedUp) {
       int speedupMins = ip.amount;
-      [gs saveHealthProgressesFromIndex:0 withDate:[MSDate dateWithTimeIntervalSinceNow:speedupMins*60]];
-      [gs readjustAllMonsterHealingProtos];
+      [hq saveHealthProgressesFromIndex:0 withDate:[MSDate dateWithTimeIntervalSinceNow:speedupMins*60]];
+      [hq readjustAllMonsterHealingProtos];
     }
   }
 }
@@ -2160,7 +2127,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 #pragma mark - Healing
 
-- (BOOL) addMonsterToHealingQueue:(NSString *)userMonsterUuid useGems:(BOOL)useGems {
+- (BOOL) addMonster:(NSString *)userMonsterUuid toHealingQueue:(NSString *)userStructUuid useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
@@ -2181,7 +2148,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
     item.userMonsterUuid = userMonsterUuid;
     item.userUuid = gs.userUuid;
-    [gs addUserMonsterHealingItemToEndOfQueue:item];
+    item.userHospitalStructUuid = userStructUuid;
+    
+    HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:userStructUuid];
+    [hq addUserMonsterHealingItemToEndOfQueue:item];
     
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:gemCost];
     CashUpdate *su = [CashUpdate updateWithTag:tag change:-silverCost];
@@ -2200,11 +2170,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
   
+  HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:item.userHospitalStructUuid];
   int silverCost = [gl calculateCostToHealMonster:um];
-  if (![gs.monsterHealingQueue containsObject:item]) {
+  if (![hq.healingItems containsObject:item]) {
     [Globals popupMessage:@"This item is not in the healing queue."];
   } else {
-    [gs removeUserMonsterHealingItem:item];
+    [hq removeUserMonsterHealingItem:item];
     
     silverCost = MIN(silverCost, MAX(0, gs.maxCash-gs.cash));
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
@@ -2220,18 +2191,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) speedupHealingQueue:(id)delegate {
+- (BOOL) speedupHealingQueue:(HospitalQueue *)hq delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int timeLeft = hq.queueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   
   if (gs.gems < goldCost) {
     [Globals popupMessage:@"Trying to speedup heal queue without enough gold"];
   } else {
     NSMutableArray *arr = [NSMutableArray array];
-    for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
+    for (UserMonsterHealingItem *item in hq.healingItems) {
       UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       
@@ -2239,8 +2210,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       monsterHealth.userMonsterUuid = um.userMonsterUuid;
       monsterHealth.currentHealth = um.curHealth;
       [arr addObject:monsterHealth.build];
-      
-      [gs.recentlyHealedMonsterIds addObject:um.userMonsterUuid];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
@@ -2248,8 +2217,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-goldCost]];
     
     // Remove after to let the queue update to not be affected
-    [gs.monsterHealingQueue removeAllObjects];
-    gs.monsterHealingQueueEndTime = nil;
+    [hq.healingItems removeAllObjects];
+    hq.queueEndTime = nil;
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     [gs stopHealingTimer];
     
@@ -2279,21 +2248,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       monsterHealth.userMonsterUuid = um.userMonsterUuid;
       monsterHealth.currentHealth = um.curHealth;
       [arr addObject:monsterHealth.build];
-      
-      [gs.recentlyHealedMonsterIds addObject:um.userMonsterUuid];
     }
   }
   
   [[SocketCommunication sharedSocketCommunication] sendHealQueueWaitTimeComplete:arr];
   
   // Remove after to let the queue update to not be affected
-  [gs.monsterHealingQueue removeObjectsInArray:healingItems];
+  for (UserMonsterHealingItem *item in healingItems) {
+    HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:item.userHospitalStructUuid];
+    [hq.healingItems removeObject:item];
+  }
+  
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   [gs beginHealingTimer];
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
   [gs.itemUtil cleanupRogueItemUsages];
 }
+
+#pragma mark - Selling monsters
 
 - (void) sellUserMonsters:(NSArray *)userMonsterUuids {
   GameState *gs = [GameState sharedGameState];

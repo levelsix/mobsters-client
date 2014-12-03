@@ -388,9 +388,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
-    [gs.monsterHealingQueue removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
-    [gs addAllMonsterHealingProtos:proto.monstersHealingList];;
+    
+    [gs.monsterHealingQueues removeAllObjects];
+    [gs addAllMonsterHealingProtos:proto.monstersHealingList];
     
     if (proto.hasEnhancements) {
       [gs addEnhancementProto:proto.enhancements];
@@ -720,7 +721,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.myObstacles removeAllObjects];
       [gs addToMyObstacles:proto.obstaclesList];
       
-      [gs readjustAllMonsterHealingProtos];
+      for (HospitalQueue *hq in gs.monsterHealingQueues.allValues) {
+        [hq readjustAllMonsterHealingProtos];
+      }
+      
       [gs beginHealingTimer];
       [gs beginMiniJobTimerShowFreeSpeedupImmediately:YES];
       [gs beginEnhanceTimer];
