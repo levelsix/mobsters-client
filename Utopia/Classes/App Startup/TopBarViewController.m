@@ -439,12 +439,16 @@
   MSDate *nextOpenDate = [gs nextSecretGiftOpenDate];
   
   if (nextOpenDate) {
+    self.secretGiftView.hidden = NO;
+    
     if (nextOpenDate.timeIntervalSinceNow > 0) {
       [self.secretGiftIcon stopAnimating];
       
       self.secretGiftIcon.superview.height = self.secretGiftTimerView.originY;
       
       self.secretGiftTimerView.hidden = NO;
+      
+      [self updateLabels];
     } else {
       [self setupSecretGiftAnimationImages];
       if (!self.secretGiftIcon.isAnimating) {
@@ -455,8 +459,6 @@
       
       self.secretGiftTimerView.hidden = YES;
     }
-    
-    self.secretGiftView.hidden = NO;
   } else {
     self.secretGiftView.hidden = YES;
   }
