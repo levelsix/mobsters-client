@@ -427,7 +427,7 @@
 
 - (IBAction) upgradeClicked:(id)sender {
   if ([self.userStruct satisfiesAllPrerequisites]) {
-    [self.delegate bigUpgradeClicked];
+    [self.delegate bigUpgradeClicked:self.upgradeView.oilButton];
   } else {
     [Globals addAlertNotification:@"You have not yet met the requirements to upgrade."];
   }

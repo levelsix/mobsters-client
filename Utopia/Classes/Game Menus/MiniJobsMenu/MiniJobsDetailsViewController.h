@@ -64,7 +64,7 @@
 @protocol MiniJobsDetailsDelegate <NSObject>
 
 - (void) beginMiniJob:(UserMiniJob *)miniJob withUserMonsters:(NSArray *)userMonsters;
-- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob;
+- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob sender:(id)sender;
 - (void) activeMiniJobCompleted:(UserMiniJob *)miniJob;
 
 @end

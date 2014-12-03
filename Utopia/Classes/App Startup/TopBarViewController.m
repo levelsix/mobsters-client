@@ -863,6 +863,20 @@
     svc.view.frame = gvc.view.bounds;
     [gvc addChildViewController:svc];
     [gvc.view addSubview:svc.view];
+    
+    if (sender == nil)
+    {
+      [svc showCenteredOnScreen];
+    }
+    else
+    {
+      if ([sender isKindOfClass:[UIButton class]]) // Tapped on oil/cash view
+      {
+        UIButton* invokingButton = (UIButton*)sender;
+        UIImage* invokingViewImage = [Globals maskImageFromView:invokingButton.superview withAlphaCutoff:.2f]; // Render the container view to a UIImage to be used as a mask
+        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:invokingViewImage];
+      }
+    }
   }
 }
 

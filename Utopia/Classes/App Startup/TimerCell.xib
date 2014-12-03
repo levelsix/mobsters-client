@@ -66,7 +66,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupicon.png" id="aSK-ue-BGk">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="speedupicon.png" id="aSK-ue-BGk">
                             <rect key="frame" x="13" y="5" width="15" height="12"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>

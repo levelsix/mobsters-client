@@ -268,6 +268,8 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        [svc showAnchoredToInvokingView:self.bottomButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:self.bottomButton.currentImage];
       }
     } else {
       [self createWithItemsDict:nil useGems:NO];

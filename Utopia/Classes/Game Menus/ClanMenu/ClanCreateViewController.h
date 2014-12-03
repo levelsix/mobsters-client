@@ -48,6 +48,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *placeholderLabel;
 
 @property (nonatomic, assign) IBOutlet UIButton *iconButton;
+@property (nonatomic, assign) IBOutlet UIButton* bottomButton;
 
 @property (nonatomic, assign) IBOutlet UIView *nameBgd;
 @property (nonatomic, assign) IBOutlet UIView *tagBgd;
