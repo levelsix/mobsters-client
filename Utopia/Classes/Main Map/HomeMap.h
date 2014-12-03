@@ -44,6 +44,8 @@
   
   Building *_arrowBuilding;
   MapBotViewButtonConfig _arrowButtonConfig;
+  
+  id _buttonSender;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;

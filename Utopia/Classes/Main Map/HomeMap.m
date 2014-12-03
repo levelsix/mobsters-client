@@ -1565,6 +1565,7 @@
       BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
       
+      _buttonSender = sender;
       if (gemCost) {
         NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
         [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
@@ -1785,6 +1786,7 @@
     BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
     
+    _buttonSender = sender;
     if (gemCost) {
       NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
       [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
@@ -1968,7 +1970,9 @@
   if (!_constrBuilding) return NO;
   
   // Close the speedup popup
-  [self closeCurrentViewController];
+  if (_constrBuilding == self.selected) {
+    [self closeCurrentViewController];
+  }
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -2074,10 +2078,11 @@
 - (void) speedupBuildingAndUpgradeOrPurchase {
   if ([self speedUpBuildingQueueUp:YES]) {
     if (_purchasing) {
-      [self moveCheckClicked:nil];
+      [self moveCheckClicked:_buttonSender];
     } else {
-      [self bigUpgradeClicked:nil];
+      [self bigUpgradeClicked:_buttonSender];
     }
+    _buttonSender = nil;
   }
 }
 
