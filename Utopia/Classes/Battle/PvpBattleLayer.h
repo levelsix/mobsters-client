@@ -25,6 +25,8 @@
   uint64_t _prevBattleStartTime;
   
   BOOL _didRunaway;
+  
+  UIImage* _nextMatchButtonImage;
 }
 
 @property (nonatomic, retain) NSArray *defendersList;

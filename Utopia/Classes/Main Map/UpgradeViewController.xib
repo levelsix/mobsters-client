@@ -105,7 +105,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" id="whZ-PU-EHu" userLabel="View For Greyscale">
-                                                    <rect key="frame" x="275" y="11" width="84" height="40"/>
+                                                    <rect key="frame" x="277" y="11" width="84" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" id="vei-JO-UJp">
@@ -113,7 +113,7 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="m54-R8-eLK" customClass="UpgradeButton">
-                                                                    <rect key="frame" x="2" y="0.0" width="80" height="40"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                     <state key="normal" image="greenmenuoption.png">
@@ -155,7 +155,7 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="B17-4X-ajw" customClass="UpgradeButton">
-                                                                    <rect key="frame" x="2" y="0.0" width="80" height="40"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <state key="normal" image="yellowmenuoption.png">

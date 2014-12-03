@@ -258,7 +258,7 @@
 }
 
 - (IBAction) finishClicked:(id)sender {
-  [self.delegate activeMiniJobSpedUp:self.activeMiniJob];
+  [self.delegate activeMiniJobSpedUp:self.activeMiniJob sender:sender];
 }
 
 - (IBAction) collectClicked:(id)sender {

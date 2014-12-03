@@ -1565,6 +1565,7 @@
       BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
       
+      _buttonSender = sender;
       if (gemCost) {
         NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
         [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
@@ -1588,6 +1589,8 @@
           svc.view.frame = gvc.view.bounds;
           [gvc addChildViewController:svc];
           [gvc.view addSubview:svc.view];
+          
+          [svc showCenteredOnScreen];
         }
       } else {
         [self purchaseBuildingWithItemDict:nil allowGems:NO];
@@ -1683,7 +1686,7 @@
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
     [self loadUpgradeViewControllerForIsHire:NO];
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
-    [self bigUpgradeClicked];
+    [self bigUpgradeClicked:sender];
   }
 }
 
@@ -1721,7 +1724,7 @@
   return 0;
 }
 
-- (void) bigUpgradeClicked {
+- (void) bigUpgradeClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
@@ -1783,6 +1786,7 @@
     BOOL allowFreeSpeedup = [_constrBuilding isKindOfClass:[HomeBuilding class]];
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:allowFreeSpeedup];
     
+    _buttonSender = sender;
     if (gemCost) {
       NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
       [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Busy Builder" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
@@ -1802,6 +1806,27 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if (self.currentViewController == nil &&
+              [sender isKindOfClass:[MapBotViewButton class]]) // Removing an obstacle
+          {
+            UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+          if (self.currentViewController != nil &&
+              [self.currentViewController isKindOfClass:[UpgradeViewController class]] &&
+              [sender isKindOfClass:[UIButton class]]) // Upgrading a building
+          {
+            UIButton* invokingButton = (UIButton*)sender;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+        }
       }
     } else {
       [self sendUpgradeWithItemDict:nil allowGems:NO];
@@ -1907,6 +1932,19 @@
         svc.view.frame = gvc.view.bounds;
         [gvc addChildViewController:svc];
         [gvc.view addSubview:svc.view];
+        
+        if (sender == nil)
+        {
+          [svc showCenteredOnScreen];
+        }
+        else
+        {
+          if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
+          {
+            UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          }
+        }
       }
     }
   } else {
@@ -1932,7 +1970,9 @@
   if (!_constrBuilding) return NO;
   
   // Close the speedup popup
-  [self closeCurrentViewController];
+  if (_constrBuilding == self.selected) {
+    [self closeCurrentViewController];
+  }
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -2038,10 +2078,11 @@
 - (void) speedupBuildingAndUpgradeOrPurchase {
   if ([self speedUpBuildingQueueUp:YES]) {
     if (_purchasing) {
-      [self moveCheckClicked:nil];
+      [self moveCheckClicked:_buttonSender];
     } else {
-      [self bigUpgradeClicked];
+      [self bigUpgradeClicked:_buttonSender];
     }
+    _buttonSender = nil;
   }
 }
 

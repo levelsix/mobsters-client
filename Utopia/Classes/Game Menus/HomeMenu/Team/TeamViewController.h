@@ -42,8 +42,9 @@
 
 @end
 
-@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate, SpeedupItemsFillerDelegate> {
+@interface TeamViewController : PopupSubViewController <ListCollectionDelegate, TeamSlotDelegate, SpeedupItemsFillerDelegate, UIScrollViewDelegate> {
   UserMonster *_combineMonster;
+  UIImageView* _combineMonsterImageView;
 }
 
 @property (nonatomic, retain) IBOutlet ListCollectionView *listView;
@@ -62,6 +63,6 @@
 
 - (UserMonster *) monsterForSlot:(NSInteger)slot;
 
-- (void) speedupClicked:(UserMonster *)um;
+- (void) speedupClicked:(UserMonster *)um indexPath:(NSIndexPath*)indexPath;
 
 @end

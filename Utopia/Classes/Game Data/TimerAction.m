@@ -315,7 +315,7 @@
   MiniJobsListViewController *lvc = [[MiniJobsListViewController alloc] init];
   MiniJobsListCell *cell = [[MiniJobsListCell alloc] init];
   cell.userMiniJob = self.miniJob;
-  [lvc miniJobsListFinishClicked:cell];
+  [lvc miniJobsListFinishClicked:cell invokingView:nil popupDirection:ViewAnchoringDirectionNone];
   
   return @[lvc];
 }
@@ -410,7 +410,7 @@
 
 - (NSArray *) performSpeedup {
   TeamViewController *tvc = [[TeamViewController alloc] init];
-  [tvc speedupClicked:self.userMonster];
+  [tvc speedupClicked:self.userMonster indexPath:nil];
   
   return @[tvc];
 }

@@ -80,7 +80,7 @@
 
 - (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell;
 - (void) miniJobsListCollectClicked:(MiniJobsListCell *)listCell;
-- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell;
+- (void) miniJobsListFinishClicked:(MiniJobsListCell *)listCell invokingView:(UIView*)sender popupDirection:(ViewAnchoringDirection)direction;
 - (void) miniJobsListHelpClicked:(MiniJobsListCell *)listCell;
 
 @end
