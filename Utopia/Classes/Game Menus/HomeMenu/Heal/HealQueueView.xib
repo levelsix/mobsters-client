@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HealViewController">
+            <connections>
+                <outlet property="buttonLabelsView" destination="kJX-df-6TX" id="mc9-74-p5M"/>
+                <outlet property="buttonSpinner" destination="MCy-2g-3Wb" id="pRI-Gv-hxv"/>
+                <outlet property="freeLabel" destination="vQJ-vG-SGL" id="3ty-pw-RDp"/>
+                <outlet property="helpView" destination="kJX-Lj-nG1" id="dKC-kV-9EO"/>
+                <outlet property="hospitalIcon" destination="ODf-aq-D4t" id="paq-hm-RIm"/>
+                <outlet property="hospitalLevelLabel" destination="jdr-zJ-ojq" id="Srp-zF-wN0"/>
+                <outlet property="queueArrow" destination="sQt-UJ-nAM" id="9NC-YS-v65"/>
+                <outlet property="queueEmptyLabel" destination="lrK-AL-FxU" id="8Of-fb-P8b"/>
+                <outlet property="queueView" destination="47O-aY-Ys8" id="rp6-HJ-3JD"/>
+                <outlet property="speedupIcon" destination="gm1-Xm-RjT" id="EPp-oY-Lw8"/>
+                <outlet property="timeLabel" destination="4aR-IJ-b6I" id="L4t-Z8-SrE"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="47O-aY-Ys8" customClass="ListCollectionView">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="53"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellbarbg.png" id="E7t-ZD-69Z">
+                    <rect key="frame" x="3" y="0.0" width="424" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="17M-7t-zXj">
+                    <rect key="frame" x="3" y="0.0" width="424" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellcapn.png" id="zqX-qK-oBc">
+                            <rect key="frame" x="12" y="-4" width="81" height="54"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to heal." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lrK-AL-FxU" customClass="NiceFontLabel12">
+                            <rect key="frame" x="45" y="6" width="334" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="4Yu-BE-Wl2">
+                    <rect key="frame" x="3" y="0.0" width="424" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TIME:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ctj-aC-Yr2" customClass="NiceFontLabel10">
+                            <rect key="frame" x="268" y="6" width="61" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="0.46666669849999998" green="0.46666669849999998" blue="0.46666669849999998" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2H 10M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4aR-IJ-b6I" customClass="NiceFontLabel8">
+                            <rect key="frame" x="269" y="21" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.20000001789999999" green="0.20000001789999999" blue="0.20000001789999999" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitalopenarrow.png" highlightedImage="fullhospitalarrow.png" id="sQt-UJ-nAM">
+                            <rect key="frame" x="86" y="5" width="185" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="cpD-Eb-mRd" customClass="CancellableCollectionView">
+                            <rect key="frame" x="86" y="0.0" width="161" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="1" minimumInteritemSpacing="3" id="hj0-i3-wPx">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="50" height="50"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="47O-aY-Ys8" id="VFr-lY-HHn"/>
+                                <outlet property="delegate" destination="47O-aY-Ys8" id="umC-C9-iKg"/>
+                            </connections>
+                        </collectionView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="gCL-Yj-snu" customClass="FlipImageView">
+                            <rect key="frame" x="85" y="1" width="1" height="48"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="pR8-vV-nn1" userLabel="Finish View">
+                            <rect key="frame" x="329" y="5" width="80" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="322-oK-7iP" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" backgroundImage="purplemenuoption.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="speedupButtonClicked:" destination="-1" eventType="touchUpInside" id="oef-6r-mLB"/>
+                                    </connections>
+                                </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" id="MCy-2g-3Wb">
+                                    <rect key="frame" x="30" y="8" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="kJX-df-6TX">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speedupbigicon.png" id="gm1-Xm-RjT">
+                                            <rect key="frame" x="29" y="10" width="23" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="vQJ-vG-SGL" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="15" y="5" width="50" height="27"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="kJX-Lj-nG1" userLabel="Help View">
+                            <rect key="frame" x="329" y="5" width="80" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UfJ-un-uIs" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="orangemenuoption.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="getHelpClicked:" destination="-1" eventType="touchUpInside" id="xOw-or-EO3"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Help!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Nf0-11-MLM" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="7" y="7" width="67" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" red="0.75686274509999996" green="0.14901960780000001" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.98039215690000003" green="0.78039215689999997" blue="0.28235294119999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="D6s-gt-FQd" customClass="HomeTitleView">
+                            <rect key="frame" x="0.0" y="0.0" width="86" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="QueueHealingCenterT1.png" id="ODf-aq-D4t">
+                                    <rect key="frame" x="-22" y="-30" width="131" height="67"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LEVEL 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="jdr-zJ-ojq" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="-4" y="30" width="95" height="23"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" red="0.31764706970000001" green="0.31764706970000001" blue="0.31764706970000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="titleImageView" destination="ODf-aq-D4t" id="NPa-Vn-fLr"/>
+                                <outlet property="titleLabel" destination="jdr-zJ-ojq" id="ljp-f0-aRk"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="collectionView" destination="cpD-Eb-mRd" id="lMW-Nz-V99"/>
+                <outlet property="delegate" destination="-1" id="6SW-qM-YnB"/>
+                <outlet property="emptyListView" destination="17M-7t-zXj" id="p2H-is-UxW"/>
+                <outlet property="notEmptyListView" destination="4Yu-BE-Wl2" id="FxZ-Gj-mGi"/>
+            </connections>
+            <point key="canvasLocation" x="218" y="55.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="QueueHealingCenterT1.png" width="35" height="54"/>
+        <image name="fullhospitalarrow.png" width="185" height="39"/>
+        <image name="hospitalopenarrow.png" width="185" height="39"/>
+        <image name="orangemenuoption.png" width="80" height="40"/>
+        <image name="popuplinevertical.png" width="1" height="1"/>
+        <image name="purplemenuoption.png" width="80" height="40"/>
+        <image name="sellbarbg.png" width="424" height="50"/>
+        <image name="sellcapn.png" width="81" height="54"/>
+        <image name="speedupbigicon.png" width="23" height="18"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

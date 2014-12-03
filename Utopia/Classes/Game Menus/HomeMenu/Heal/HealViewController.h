@@ -46,6 +46,12 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *noMobstersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *queueEmptyLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *hospitalIcon;
+@property (nonatomic, retain) IBOutlet UILabel *hospitalLevelLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *hospitalSwitcherView;
+@property (nonatomic, retain) IBOutlet UIButton *hospitalLeftArrow;
+@property (nonatomic, retain) IBOutlet UIButton *hospitalRightArrow;
 
 @property (nonatomic, retain) IBOutlet UIView *helpView;
 

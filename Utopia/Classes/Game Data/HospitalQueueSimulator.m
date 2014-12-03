@@ -187,7 +187,7 @@
       }
       
       if (!item.isFinished) {
-        float healthPerSecond = item.baseHealthPerSecond/hs.secsToFullyHealMultiplier;
+        float healthPerSecond = item.baseHealthPerSecond*hs.secsToFullyHealMultiplier;
         
         item.healthProgress += healthPerSecond * seconds;
         item.totalSeconds += seconds;
@@ -235,7 +235,7 @@
     hi.userStructUuid = us.userStructUuid;
     hi.startTime = [date compare:hi.queueTime] == NSOrderedDescending ? date : hi.queueTime;
     
-    float healthPerSecond = hi.baseHealthPerSecond/us.secsToFullyHealMultiplier;
+    float healthPerSecond = hi.baseHealthPerSecond*us.secsToFullyHealMultiplier;
     hi.endTime = [hi.startTime dateByAddingTimeInterval:(hi.totalHealthToHeal-hi.healthProgress)/healthPerSecond];
   }
 }

@@ -34,21 +34,19 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
+  [self loadNewQueueView];
+  [self.view addSubview:self.queueView];
+  self.queueView.originY = self.view.height-self.queueView.height;
+  
   self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"HealCardCell" owner:self options:nil][0];
   self.queueCell = [[NSBundle mainBundle] loadNibNamed:@"MonsterQueueCell" owner:self options:nil][0];
   
-  self.queueView.isFlipped = YES;
-  self.queueView.cellClassName = @"MonsterQueueCell";
-  self.queueView.footerClassName = @"HealQueueFooterView";
   self.listView.cellClassName = @"HealCardCell";
   
   self.title = [NSString stringWithFormat:@"HEAL %@S", MONSTER_NAME.uppercaseString];
   self.titleImageName = @"hospitalmenuheader.png";
   
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no injured %@s.", MONSTER_NAME];
-  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to heal.", MONSTER_NAME];
-  
-  self.buttonSpinner.hidden = YES;
   
   GameState *gs = [GameState sharedGameState];
   self.hospitals = [gs myValidHospitals];
@@ -63,6 +61,20 @@
       break;
     }
   }
+  
+  [self reloadQueueViewFromRight:YES animated:NO];
+}
+
+- (void) loadNewQueueView {
+  [[NSBundle mainBundle] loadNibNamed:@"HealQueueView" owner:self options:nil];
+  
+  self.queueView.isFlipped = YES;
+  self.queueView.cellClassName = @"MonsterQueueCell";
+  self.queueView.footerClassName = @"HealQueueFooterView";
+  
+  self.queueEmptyLabel.text = [NSString stringWithFormat:@"Select a %@ to heal.", MONSTER_NAME];
+  
+  self.buttonSpinner.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -78,12 +90,24 @@
   [self updateLabels];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  // Move the hospital switcher view to the parent view
+  UIView *parentView = self.parentViewController.mainView;
+  UIView *switcher = self.hospitalSwitcherView;
+  if (switcher.superview) switcher.frame = [parentView convertRect:switcher.frame fromView:switcher.superview];
+  [parentView addSubview:switcher];
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   
   [[SocketCommunication sharedSocketCommunication] flush];
   
   [self.itemSelectViewController closeClicked:nil];
+  
+  [self.hospitalSwitcherView removeFromSuperview];
 }
 
 - (void) waitTimeComplete {
@@ -160,6 +184,61 @@
     _footerView.openSlotsBorder.hidden = YES;
     _footerView.queueFullLabel.hidden = NO;
   }
+}
+
+#pragma mark - Queue View movement
+
+- (IBAction)leftArrowClicked:(id)sender {
+  _curHospitalIndex = MAX(0, _curHospitalIndex-1);
+  [self reloadQueueViewFromRight:NO animated:YES];
+}
+
+- (IBAction)rightArrowClicked:(id)sender {
+  _curHospitalIndex = MIN((int)self.hospitals.count-1, _curHospitalIndex+1);
+  [self reloadQueueViewFromRight:YES animated:YES];
+}
+
+static BOOL isAnimating = NO;
+- (void) reloadQueueViewFromRight:(BOOL)fromRight animated:(BOOL)animated {
+  if (animated) {
+    if (isAnimating) {
+      return;
+    }
+    
+    isAnimating = YES;
+    
+    UIView *oldView = self.queueView;
+    
+    [self loadNewQueueView];
+    [self.view addSubview:self.queueView];
+    
+    UIView *newView = self.queueView;
+    float movementFactor = oldView.width*(fromRight?1:-1);
+    newView.center = ccpAdd(oldView.center, ccp(movementFactor, 0));
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      newView.center = oldView.center;
+      oldView.center = ccpAdd(oldView.center, ccp(-movementFactor, 0));
+    } completion:^(BOOL finished) {
+      isAnimating = NO;
+      [oldView removeFromSuperview];
+    }];
+  }
+  
+  // Never animate this call since this method will always require the queue view to be statically updated
+  [self reloadQueueViewAnimated:NO];
+  
+  UserStruct *hosp = [self currentHospital];
+  StructureInfoProto *sip = hosp.staticStruct.structInfo;
+  
+  NSString *imgName = [@"Queue" stringByAppendingString:sip.imgName];
+  [Globals imageNamed:imgName withView:self.hospitalIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.hospitalLevelLabel.text = [NSString stringWithFormat:@"LEVEL %d", sip.level];
+  
+  // Update arrows
+  self.hospitalLeftArrow.hidden = _curHospitalIndex <= 0;
+  self.hospitalRightArrow.hidden = _curHospitalIndex >= self.hospitals.count-1;
 }
 
 #pragma mark - Potentially rewritable methods

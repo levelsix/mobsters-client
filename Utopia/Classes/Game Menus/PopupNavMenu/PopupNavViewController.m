@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "PopupSubViewController.h"
 
-#define ANIMATION_TIME 0.3f
+#define ANIMATION_TIME .3f
 
 @implementation PopupNavViewController
 
@@ -125,7 +125,6 @@
     // Unload the rest so that the stack looks proper when this method exits
     [self unloadAllControllers];
     [self.viewControllers addObject:topVc];
-    [self setNewTopViewController:topVc];
     
     if (removeVc.isBeingPresented || removeVc.isBeingDismissed) {
       [removeVc endAppearanceTransition];
@@ -168,7 +167,6 @@
     [self unloadAllControllers];
     
     [self.viewControllers addObject:viewController];
-    [self setNewTopViewController:viewController];
     
     viewController.view.frame = self.containerView.bounds;
     
@@ -180,6 +178,7 @@
   
   [self loadNextTitleSelectionFromRight:fromRight animated:animated];
   [self loadNextLeftCornerViewAnimated:animated];
+  [self setNewTopViewController:viewController];
 }
 
 - (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
@@ -192,7 +191,6 @@
   // This is in place for enhance views (check HomeViewController for reloading)
   if (curVc != topVc) {
     [self.viewControllers addObject:topVc];
-    [self setNewTopViewController:topVc];
     
     topVc.view.frame = self.containerView.bounds;
     
@@ -232,6 +230,7 @@
   
   [self loadNextTitleSelectionFromRight:YES animated:animated];
   [self loadNextLeftCornerViewAnimated:animated];
+  [self setNewTopViewController:topVc];
 }
 
 - (UIViewController *) popViewControllerAnimated:(BOOL)animated {
@@ -242,7 +241,6 @@
   PopupSubViewController *removeVc = [self.viewControllers lastObject];
   [self.viewControllers removeObject:removeVc];
   PopupSubViewController *topVc = [self.viewControllers lastObject];
-  [self setNewTopViewController:topVc];
   
   topVc.view.frame = self.containerView.bounds;
   
@@ -281,6 +279,7 @@
   
   [self loadNextTitleSelectionFromRight:NO animated:animated];
   [self loadNextLeftCornerViewAnimated:animated];
+  [self setNewTopViewController:topVc];
   
   return removeVc;
 }

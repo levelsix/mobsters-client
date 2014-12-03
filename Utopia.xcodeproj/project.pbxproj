@@ -171,6 +171,9 @@
 		2982A16A1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16B1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
 		2982A16C1A1973B700CEB283 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 2982A1691A1973B700CEB283 /* cacert.pem */; };
+		2985E59C1A2F24C80041ABF4 /* HealQueueView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E59B1A2F24C80041ABF4 /* HealQueueView.xib */; };
+		2985E59D1A2F24C80041ABF4 /* HealQueueView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E59B1A2F24C80041ABF4 /* HealQueueView.xib */; };
+		2985E59E1A2F24C80041ABF4 /* HealQueueView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E59B1A2F24C80041ABF4 /* HealQueueView.xib */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
@@ -6397,6 +6400,7 @@
 		2980512C1A2ECB1A00806253 /* HospitalQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HospitalQueue.h; sourceTree = "<group>"; };
 		2980512D1A2ECB1A00806253 /* HospitalQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HospitalQueue.m; sourceTree = "<group>"; };
 		2982A1691A1973B700CEB283 /* cacert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cacert.pem; sourceTree = "<group>"; };
+		2985E59B1A2F24C80041ABF4 /* HealQueueView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HealQueueView.xib; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -14931,6 +14935,7 @@
 				CFF646C2195CD1D300C43641 /* HealViewController.m */,
 				CFF646C3195CD1D300C43641 /* HealViewController.xib */,
 				CFF646C8195CDD8300C43641 /* HealCardCell.xib */,
+				2985E59B1A2F24C80041ABF4 /* HealQueueView.xib */,
 				CFF646E0195CF9A000C43641 /* HealQueueFooterView.xib */,
 			);
 			path = Heal;
@@ -16707,6 +16712,7 @@
 				CF0CF282196F452900ECD301 /* EnhanceSmallCardCell.xib in Resources */,
 				CF0CF285196F452900ECD301 /* Scientist2Turn10@2x.png in Resources */,
 				2982A16B1A1973B700CEB283 /* cacert.pem in Resources */,
+				2985E59D1A2F24C80041ABF4 /* HealQueueView.xib in Resources */,
 				CF0CF286196F452900ECD301 /* mus_mobsquad_battle.mp3 in Resources */,
 				CF0CF287196F452900ECD301 /* profteaminactive@2x.png in Resources */,
 				CF0CF288196F452900ECD301 /* popupactivetab@2x.png in Resources */,
@@ -18456,6 +18462,7 @@
 				CFF646BB195A7CD100C43641 /* EnhanceSmallCardCell.xib in Resources */,
 				CFFBDF7918ACA3D90090CA9A /* Scientist2Turn10@2x.png in Resources */,
 				CFC4D27918D7BD03004681FD /* mus_mobsquad_battle.mp3 in Resources */,
+				2985E59C1A2F24C80041ABF4 /* HealQueueView.xib in Resources */,
 				CFF5DBFC194F90720019EB2B /* profteaminactive@2x.png in Resources */,
 				CF2A4ACA1901B8F500B2D7D7 /* popupactivetab@2x.png in Resources */,
 				CFF390E31829C74A0010A3BE /* lightorb@2x.png in Resources */,
@@ -20633,6 +20640,7 @@
 				CF48219919F7217F00041486 /* attackbarmiddlemj@2x.png in Resources */,
 				CF48219C19F7217F00041486 /* redmenuoption@2x.png in Resources */,
 				CF48219F19F7217F00041486 /* Zark1T1AttackNF@2x.plist in Resources */,
+				2985E59E1A2F24C80041ABF4 /* HealQueueView.xib in Resources */,
 				CF4821A619F7217F00041486 /* Scientist1Turn06@2x.png in Resources */,
 				CF4821A719F7217F00041486 /* Scientist5Breath09@2x.png in Resources */,
 				CF4821A819F7217F00041486 /* achievementsiconinactive@2x.png in Resources */,
