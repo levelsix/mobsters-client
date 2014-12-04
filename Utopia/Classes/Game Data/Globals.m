@@ -1654,8 +1654,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   float costToFullyHeal = min.costToFullyHeal+(max.costToFullyHeal-min.costToFullyHeal)*powf((um.level-1)/(float)(max.lvl-1), max.hpExponentBase);
   int maxHealth = [self calculateMaxHealthForMonster:um];
-  float baseSecs = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
-  return baseSecs;
+  float baseCost = costToFullyHeal * (maxHealth-um.curHealth)/maxHealth;
+  return baseCost;
 }
 
 - (float) calculateBaseSecondsToHealMonster:(UserMonster *)um {
