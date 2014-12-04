@@ -434,7 +434,7 @@
       [gvc addChildViewController:svc];
       [gvc.view addSubview:svc.view];
       
-      [svc showAnchoredToInvokingView:self.findMatchButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:self.findMatchButton.currentImage];
+      [svc showAnchoredToInvokingView:self.findMatchButton withDirection:ViewAnchoringPreferRightPlacement inkovingViewImage:self.findMatchButton.currentImage];
     }
   } else {
     [self nextMatchWithItemsDict:nil];

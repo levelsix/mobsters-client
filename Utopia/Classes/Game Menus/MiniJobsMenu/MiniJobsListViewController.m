@@ -398,7 +398,15 @@
         }
         else
         {
-          if ([sender isKindOfClass:[UIButton class]]) // Speed up finishing mini job
+          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+          {
+            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+          else if ([sender isKindOfClass:[UIButton class]]) // Speed up finishing mini job
           {
             UIButton* invokingButton = (UIButton*)sender;
             [svc showAnchoredToInvokingView:invokingButton

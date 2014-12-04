@@ -406,8 +406,10 @@ static BOOL isAnimating = NO;
             const CGFloat contentOffsetY = self.listView.collectionView.contentOffset.y;
             const CGFloat contentSizeHeight = self.listView.collectionView.contentSize.height;
             const CGFloat collectionViewHeight = self.listView.collectionView.bounds.size.height;
-            const CGFloat midY = [_tempMonsterImageView.superview convertPoint:_tempMonsterImageView.frame.origin toView:nil].y + _tempMonsterImageView.bounds.size.height * .5f;
-            const CGFloat refY = [self.listView convertPoint:self.listView.collectionView.frame.origin toView:nil].y + collectionViewHeight * .5f;
+            const CGFloat midY = [Globals convertPointToWindowCoordinates:_tempMonsterImageView.frame.origin
+                                                      fromViewCoordinates:_tempMonsterImageView.superview].y + _tempMonsterImageView.bounds.size.height * .5f;
+            const CGFloat refY = [Globals convertPointToWindowCoordinates:self.listView.collectionView.frame.origin
+                                                      fromViewCoordinates:self.listView].y + collectionViewHeight * .5f;
             if ((contentOffsetY < 1.f && midY < refY) ||                                            // Content at the top and cell in first row picked
                 (contentOffsetY > contentSizeHeight - collectionViewHeight - 1.f && midY > refY) || // Content at the bottom and cell in last row picked
                 (midY > refY - 10.f && midY < refY + 10.f))                                         // Cell roughly centered vertically in container
@@ -432,7 +434,7 @@ static BOOL isAnimating = NO;
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView
 {
-  const CGPoint invokingViewAbsolutePosition = [_tempMonsterImageView.superview convertPoint:_tempMonsterImageView.frame.origin toView:nil]; // Window coordinates
+  const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:_tempMonsterImageView.frame.origin fromViewCoordinates:_tempMonsterImageView.superview];
   ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
   [self.itemSelectViewController showAnchoredToInvokingView:_tempMonsterImageView withDirection:popupDirection inkovingViewImage:_tempMonsterImageView.image];
   
@@ -572,7 +574,15 @@ static BOOL isAnimating = NO;
         }
         else
         {
-          if ([sender isKindOfClass:[UIButton class]]) // Speed up evolving mobster
+          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+          {
+            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+          else if ([sender isKindOfClass:[UIButton class]]) // Speed up evolving mobster
           {
             UIButton* invokingButton = (UIButton*)sender;
             [svc showAnchoredToInvokingView:invokingButton

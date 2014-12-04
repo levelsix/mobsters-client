@@ -966,6 +966,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [sv addSubview:view];
 }
 
++ (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view
+{
+  // Not using toView:nil as it produces unexpected results in iOS < 8
+  return [view convertPoint:point toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+}
+
 #pragma mark - Downloading
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
