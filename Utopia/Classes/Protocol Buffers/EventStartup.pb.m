@@ -2490,6 +2490,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxMinutesForFreeSpeedUp;
 @property (strong) NSMutableArray * mutableClanHelpConstantsList;
 @property (strong) StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
+@property (strong) NSMutableArray * mutableSucpList;
+@property (strong) NSMutableArray * mutableRccpList;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -2715,6 +2717,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPvpConstant_ = !!value_;
 }
 @synthesize pvpConstant;
+@synthesize mutableSucpList;
+@dynamic sucpList;
+@synthesize mutableRccpList;
+@dynamic rccpList;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -2779,6 +2785,18 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index {
   return [mutableClanHelpConstantsList objectAtIndex:index];
+}
+- (NSArray *)sucpList {
+  return mutableSucpList;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)sucpAtIndex:(NSUInteger)index {
+  return [mutableSucpList objectAtIndex:index];
+}
+- (NSArray *)rccpList {
+  return mutableRccpList;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)rccpAtIndex:(NSUInteger)index {
+  return [mutableRccpList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2883,6 +2901,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPvpConstant) {
     [output writeMessage:33 value:self.pvpConstant];
   }
+  [self.sucpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_SpeedUpConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:34 value:element];
+  }];
+  [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:35 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2991,6 +3015,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPvpConstant) {
     size_ += computeMessageSize(33, self.pvpConstant);
   }
+  [self.sucpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_SpeedUpConstantProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(34, element);
+  }];
+  [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(35, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3161,6 +3191,18 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  [self.sucpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_SpeedUpConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sucp"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"rccp"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3235,6 +3277,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       [self.clanHelpConstantsList isEqualToArray:otherMessage.clanHelpConstantsList] &&
       self.hasPvpConstant == otherMessage.hasPvpConstant &&
       (!self.hasPvpConstant || [self.pvpConstant isEqual:otherMessage.pvpConstant]) &&
+      [self.sucpList isEqualToArray:otherMessage.sucpList] &&
+      [self.rccpList isEqualToArray:otherMessage.rccpList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3338,6 +3382,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPvpConstant) {
     hashCode = hashCode * 31 + [self.pvpConstant hash];
   }
+  [self.sucpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_SpeedUpConstantProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -6592,6 +6642,549 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_SpeedUpConstantProto ()
+@property int32_t seconds;
+@property int32_t numGems;
+@end
+
+@implementation StartupResponseProto_StartupConstants_SpeedUpConstantProto
+
+- (BOOL) hasSeconds {
+  return !!hasSeconds_;
+}
+- (void) setHasSeconds:(BOOL) value_ {
+  hasSeconds_ = !!value_;
+}
+@synthesize seconds;
+- (BOOL) hasNumGems {
+  return !!hasNumGems_;
+}
+- (void) setHasNumGems:(BOOL) value_ {
+  hasNumGems_ = !!value_;
+}
+@synthesize numGems;
+- (id) init {
+  if ((self = [super init])) {
+    self.seconds = 0;
+    self.numGems = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_SpeedUpConstantProto* defaultStartupResponseProto_StartupConstants_SpeedUpConstantProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_SpeedUpConstantProto class]) {
+    defaultStartupResponseProto_StartupConstants_SpeedUpConstantProtoInstance = [[StartupResponseProto_StartupConstants_SpeedUpConstantProto alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_SpeedUpConstantProtoInstance;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_SpeedUpConstantProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSeconds) {
+    [output writeInt32:1 value:self.seconds];
+  }
+  if (self.hasNumGems) {
+    [output writeInt32:2 value:self.numGems];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSeconds) {
+    size_ += computeInt32Size(1, self.seconds);
+  }
+  if (self.hasNumGems) {
+    size_ += computeInt32Size(2, self.numGems);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)[[[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_SpeedUpConstantProto*) prototype {
+  return [[StartupResponseProto_StartupConstants_SpeedUpConstantProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_SpeedUpConstantProto builder];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_SpeedUpConstantProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSeconds) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"seconds", [NSNumber numberWithInteger:self.seconds]];
+  }
+  if (self.hasNumGems) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numGems", [NSNumber numberWithInteger:self.numGems]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_SpeedUpConstantProto class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_SpeedUpConstantProto *otherMessage = other;
+  return
+      self.hasSeconds == otherMessage.hasSeconds &&
+      (!self.hasSeconds || self.seconds == otherMessage.seconds) &&
+      self.hasNumGems == otherMessage.hasNumGems &&
+      (!self.hasNumGems || self.numGems == otherMessage.numGems) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSeconds) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.seconds] hash];
+  }
+  if (self.hasNumGems) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numGems] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder()
+@property (strong) StartupResponseProto_StartupConstants_SpeedUpConstantProto* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_SpeedUpConstantProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_SpeedUpConstantProto alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_SpeedUpConstantProto builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_SpeedUpConstantProto defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*) buildPartial {
+  StartupResponseProto_StartupConstants_SpeedUpConstantProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_SpeedUpConstantProto*) other {
+  if (other == [StartupResponseProto_StartupConstants_SpeedUpConstantProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSeconds) {
+    [self setSeconds:other.seconds];
+  }
+  if (other.hasNumGems) {
+    [self setNumGems:other.numGems];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSeconds:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setNumGems:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSeconds {
+  return result.hasSeconds;
+}
+- (int32_t) seconds {
+  return result.seconds;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) setSeconds:(int32_t) value {
+  result.hasSeconds = YES;
+  result.seconds = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) clearSeconds {
+  result.hasSeconds = NO;
+  result.seconds = 0;
+  return self;
+}
+- (BOOL) hasNumGems {
+  return result.hasNumGems;
+}
+- (int32_t) numGems {
+  return result.numGems;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) setNumGems:(int32_t) value {
+  result.hasNumGems = YES;
+  result.numGems = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder*) clearNumGems {
+  result.hasNumGems = NO;
+  result.numGems = 0;
+  return self;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ResourceConversionConstantProto ()
+@property ResourceType resourceType;
+@property int32_t resourceAmt;
+@property int32_t numGems;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ResourceConversionConstantProto
+
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value_ {
+  hasResourceType_ = !!value_;
+}
+@synthesize resourceType;
+- (BOOL) hasResourceAmt {
+  return !!hasResourceAmt_;
+}
+- (void) setHasResourceAmt:(BOOL) value_ {
+  hasResourceAmt_ = !!value_;
+}
+@synthesize resourceAmt;
+- (BOOL) hasNumGems {
+  return !!hasNumGems_;
+}
+- (void) setHasNumGems:(BOOL) value_ {
+  hasNumGems_ = !!value_;
+}
+@synthesize numGems;
+- (id) init {
+  if ((self = [super init])) {
+    self.resourceType = ResourceTypeNoResource;
+    self.resourceAmt = 0;
+    self.numGems = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* defaultStartupResponseProto_StartupConstants_ResourceConversionConstantProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_ResourceConversionConstantProto class]) {
+    defaultStartupResponseProto_StartupConstants_ResourceConversionConstantProtoInstance = [[StartupResponseProto_StartupConstants_ResourceConversionConstantProto alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ResourceConversionConstantProtoInstance;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ResourceConversionConstantProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasResourceType) {
+    [output writeEnum:1 value:self.resourceType];
+  }
+  if (self.hasResourceAmt) {
+    [output writeInt32:2 value:self.resourceAmt];
+  }
+  if (self.hasNumGems) {
+    [output writeInt32:3 value:self.numGems];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasResourceType) {
+    size_ += computeEnumSize(1, self.resourceType);
+  }
+  if (self.hasResourceAmt) {
+    size_ += computeInt32Size(2, self.resourceAmt);
+  }
+  if (self.hasNumGems) {
+    size_ += computeInt32Size(3, self.numGems);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)[[[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) builder {
+  return [[StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder alloc] init];
+}
++ (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) prototype {
+  return [[StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) toBuilder {
+  return [StartupResponseProto_StartupConstants_ResourceConversionConstantProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasResourceType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceType", [NSNumber numberWithInteger:self.resourceType]];
+  }
+  if (self.hasResourceAmt) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"resourceAmt", [NSNumber numberWithInteger:self.resourceAmt]];
+  }
+  if (self.hasNumGems) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"numGems", [NSNumber numberWithInteger:self.numGems]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupResponseProto_StartupConstants_ResourceConversionConstantProto class]]) {
+    return NO;
+  }
+  StartupResponseProto_StartupConstants_ResourceConversionConstantProto *otherMessage = other;
+  return
+      self.hasResourceType == otherMessage.hasResourceType &&
+      (!self.hasResourceType || self.resourceType == otherMessage.resourceType) &&
+      self.hasResourceAmt == otherMessage.hasResourceAmt &&
+      (!self.hasResourceAmt || self.resourceAmt == otherMessage.resourceAmt) &&
+      self.hasNumGems == otherMessage.hasNumGems &&
+      (!self.hasNumGems || self.numGems == otherMessage.numGems) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasResourceType) {
+    hashCode = hashCode * 31 + self.resourceType;
+  }
+  if (self.hasResourceAmt) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.resourceAmt] hash];
+  }
+  if (self.hasNumGems) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.numGems] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder()
+@property (strong) StartupResponseProto_StartupConstants_ResourceConversionConstantProto* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupResponseProto_StartupConstants_ResourceConversionConstantProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clear {
+  self.result = [[StartupResponseProto_StartupConstants_ResourceConversionConstantProto alloc] init];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_ResourceConversionConstantProto builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_ResourceConversionConstantProto defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) buildPartial {
+  StartupResponseProto_StartupConstants_ResourceConversionConstantProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ResourceConversionConstantProto*) other {
+  if (other == [StartupResponseProto_StartupConstants_ResourceConversionConstantProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasResourceAmt) {
+    [self setResourceAmt:other.resourceAmt];
+  }
+  if (other.hasNumGems) {
+    [self setNumGems:other.numGems];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        ResourceType value = (ResourceType)[input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 16: {
+        [self setResourceAmt:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setNumGems:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeNoResource;
+  return self;
+}
+- (BOOL) hasResourceAmt {
+  return result.hasResourceAmt;
+}
+- (int32_t) resourceAmt {
+  return result.resourceAmt;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setResourceAmt:(int32_t) value {
+  result.hasResourceAmt = YES;
+  result.resourceAmt = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceAmt {
+  result.hasResourceAmt = NO;
+  result.resourceAmt = 0;
+  return self;
+}
+- (BOOL) hasNumGems {
+  return result.hasNumGems;
+}
+- (int32_t) numGems {
+  return result.numGems;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setNumGems:(int32_t) value {
+  result.hasNumGems = YES;
+  result.numGems = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearNumGems {
+  result.hasNumGems = NO;
+  result.numGems = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (strong) StartupResponseProto_StartupConstants* result;
 @end
@@ -6740,6 +7333,20 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   }
   if (other.hasPvpConstant) {
     [self mergePvpConstant:other.pvpConstant];
+  }
+  if (other.mutableSucpList.count > 0) {
+    if (result.mutableSucpList == nil) {
+      result.mutableSucpList = [[NSMutableArray alloc] initWithArray:other.mutableSucpList];
+    } else {
+      [result.mutableSucpList addObjectsFromArray:other.mutableSucpList];
+    }
+  }
+  if (other.mutableRccpList.count > 0) {
+    if (result.mutableRccpList == nil) {
+      result.mutableRccpList = [[NSMutableArray alloc] initWithArray:other.mutableRccpList];
+    } else {
+      [result.mutableRccpList addObjectsFromArray:other.mutableRccpList];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6943,6 +7550,18 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPvpConstant:[subBuilder buildPartial]];
+        break;
+      }
+      case 274: {
+        StartupResponseProto_StartupConstants_SpeedUpConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_SpeedUpConstantProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSucp:[subBuilder buildPartial]];
+        break;
+      }
+      case 282: {
+        StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRccp:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7624,6 +8243,54 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
 - (StartupResponseProto_StartupConstants_Builder*) clearPvpConstant {
   result.hasPvpConstant = NO;
   result.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
+  return self;
+}
+- (NSMutableArray *)sucpList {
+  return result.mutableSucpList;
+}
+- (StartupResponseProto_StartupConstants_SpeedUpConstantProto*)sucpAtIndex:(NSUInteger)index {
+  return [result sucpAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder *)addSucp:(StartupResponseProto_StartupConstants_SpeedUpConstantProto*)value {
+  if (result.mutableSucpList == nil) {
+    result.mutableSucpList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableSucpList addObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)addAllSucp:(NSArray *)array {
+  if (result.mutableSucpList == nil) {
+    result.mutableSucpList = [NSMutableArray array];
+  }
+  [result.mutableSucpList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)clearSucp {
+  result.mutableSucpList = nil;
+  return self;
+}
+- (NSMutableArray *)rccpList {
+  return result.mutableRccpList;
+}
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)rccpAtIndex:(NSUInteger)index {
+  return [result rccpAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder *)addRccp:(StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)value {
+  if (result.mutableRccpList == nil) {
+    result.mutableRccpList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableRccpList addObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)addAllRccp:(NSArray *)array {
+  if (result.mutableRccpList == nil) {
+    result.mutableRccpList = [NSMutableArray array];
+  }
+  [result.mutableRccpList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder *)clearRccp {
+  result.mutableRccpList = nil;
   return self;
 }
 @end

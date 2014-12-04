@@ -143,6 +143,9 @@
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
+@property (nonatomic, retain) NSArray *speedupConstants;
+@property (nonatomic, retain) NSArray *resourceConversionConstants;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;

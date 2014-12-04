@@ -467,22 +467,32 @@
 - (void) setupSecretGiftAnimationImages {
   if (!self.secretGiftIcon.animationImages.count) {
     int numFrames = 16;
+    int numTimesToLoop = 3;
     
-    self.secretGiftIcon.animationDuration = 1.f;
+    int numFramesShortPause = 3;
+    int numFramesLongPause = 14;
+    
+    self.secretGiftIcon.animationDuration = ((numFrames+numFramesShortPause)*numTimesToLoop+numFramesLongPause)/30.f;
+    
+    NSString *staticImgName = [NSString stringWithFormat:@"1gbhud.png"];
+    UIImage *staticImg = [Globals imageNamed:staticImgName];
     
     NSMutableArray *frames = [NSMutableArray array];
-    for (int i = 1; i <= numFrames; i++) {
-      NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
-      UIImage *img = [Globals imageNamed:imgName];
-      [frames addObject:img];
+    for (int a = 0; a < numTimesToLoop; a++) {
+      for (int i = 1; i <= numFrames; i++) {
+        NSString *imgName = [NSString stringWithFormat:@"%dgbhud.png", i];
+        UIImage *img = [Globals imageNamed:imgName];
+        [frames addObject:img];
+      }
+      
+      for (int i = 0; i < numFramesShortPause; i++) {
+        [frames addObject:staticImg];
+      }
     }
     
     // 30 frames per second
-    int numFramesForPause = self.secretGiftIcon.animationDuration*30-numFrames;
-    for (int i = 0; i < numFramesForPause; i++) {
-      NSString *imgName = [NSString stringWithFormat:@"1gbhud.png"];
-      UIImage *img = [Globals imageNamed:imgName];
-      [frames addObject:img];
+    for (int i = 0; i < numFramesLongPause; i++) {
+      [frames addObject:staticImg];
     }
     
     self.secretGiftIcon.animationImages = frames;
@@ -874,9 +884,21 @@
     {
       if ([sender isKindOfClass:[UIButton class]]) // Tapped on oil/cash view
       {
+//        UIButton* invokingButton = (UIButton*)sender;
+//        UIImage* invokingViewImage = [Globals maskImageFromView:invokingButton.superview withAlphaCutoff:.2f]; // Render the container view to a UIImage to be used as a mask
+//        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:invokingViewImage];
+        
         UIButton* invokingButton = (UIButton*)sender;
-        UIImage* invokingViewImage = [Globals maskImageFromView:invokingButton.superview withAlphaCutoff:.2f]; // Render the container view to a UIImage to be used as a mask
-        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:invokingViewImage];
+        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil];
+        
+        // Manually add the bgd view under the coin bars
+        UIView *coinBar = resType == ResourceTypeCash ? self.cashView : self.oilView;
+        
+        // Transform bgd view's frame for coinbar's superiew
+        svc.bgdView.frame = [coinBar.superview convertRect:svc.bgdView.frame fromView:svc.bgdView.superview];
+        
+        [coinBar.superview addSubview:svc.bgdView];
+        [coinBar.superview bringSubviewToFront:coinBar];
       }
     }
   }
@@ -929,6 +951,9 @@
 - (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.resourceItemsFiller = nil;
+  
+  // Remove the bgdView manually since it is no longer in the item select view hierarchy
+  [[viewController bgdView] removeFromSuperview];
 }
 
 @end

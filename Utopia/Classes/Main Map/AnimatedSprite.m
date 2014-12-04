@@ -65,10 +65,6 @@
     s.position = ccp(self.contentSize.width/2, 0);
     
     [self walk];
-    
-    if ([self.prefix rangeOfString:@"Tribal"].length > 0) {
-      self.sprite.scale = 1.2;
-    }
   }
   return self;
 }

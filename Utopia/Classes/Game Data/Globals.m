@@ -115,6 +115,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.tournamentFleesWeight = constants.touramentConstants.fleesWeight;
   self.tournamentNumHrsToDisplayAfterEnd = constants.touramentConstants.numHoursToShowAfterEventEnd;
   
+  self.speedupConstants = constants.sucpList;
+  self.resourceConversionConstants = constants.rccpList;
+  
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;
@@ -1351,14 +1354,52 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (free && timeLeft < self.maxMinutesForFreeSpeedUp*60) {
     return 0;
   }
-  return MAX(1.f, ceilf(timeLeft/60.f/self.minutesPerGem));
+  
+  StartupResponseProto_StartupConstants_SpeedUpConstantProto *lower = nil;
+  StartupResponseProto_StartupConstants_SpeedUpConstantProto *upper = nil;
+  
+  // Find the lower and upper
+  for (StartupResponseProto_StartupConstants_SpeedUpConstantProto *sp in self.speedupConstants) {
+    if (sp.seconds < timeLeft && (!lower || sp.seconds > lower.seconds)) {
+      lower = sp;
+    } else if (sp.seconds > timeLeft && (!upper || sp.seconds < upper.seconds)) {
+      upper = sp;
+    }
+  }
+  
+  float val = 1.f;
+  if (!lower || !upper) {
+    // Old Formula
+    val = timeLeft/60.f/self.minutesPerGem;
+  } else {
+    val = lower.numGems + (upper.numGems-lower.numGems)*(timeLeft-lower.seconds)/(float)(upper.seconds-lower.seconds);
+  }
+  return MAX(1.f, ceilf(val));
 }
 
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount {
-  if (type == ResourceTypeCash || type == ResourceTypeOil) {
-    return MAX(1, roundf(amount*self.gemsPerResource));
+  StartupResponseProto_StartupConstants_ResourceConversionConstantProto *lower = nil;
+  StartupResponseProto_StartupConstants_ResourceConversionConstantProto *upper = nil;
+  
+  // Find the lower and upper
+  for (StartupResponseProto_StartupConstants_ResourceConversionConstantProto *sp in self.resourceConversionConstants) {
+    if (sp.resourceType == type) {
+      if (sp.resourceAmt < amount && (!lower || sp.resourceAmt > lower.resourceAmt)) {
+        lower = sp;
+      } else if (sp.resourceAmt > amount && (!upper || sp.resourceAmt < upper.resourceAmt)) {
+        upper = sp;
+      }
+    }
   }
-  return amount;
+  
+  float val = 1.f;
+  if (!lower || !upper) {
+    // Old Formula
+    val = amount*self.gemsPerResource;
+  } else {
+    val = lower.numGems + (upper.numGems-lower.numGems)*(amount-lower.resourceAmt)/(float)(upper.resourceAmt-lower.resourceAmt);
+  }
+  return MAX(1.f, round(val));
 }
 
 - (int) calculateTotalResourcesForResourceType:(ResourceType)type itemIdsToQuantity:(NSDictionary *)itemIdsToQuantity {
