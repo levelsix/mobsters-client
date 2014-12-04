@@ -319,13 +319,9 @@
     self.dungeonInfo = proto;
     
     _isDownloading = YES;
-    
-    NSLog(@"Downloading.");
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10.f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-      [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
-        _isDownloading = NO;
-      }];
-    });
+    [Globals downloadAllFilesForSpritePrefixes:set.allObjects completion:^{
+      _isDownloading = NO;
+    }];
   } else {
     [self performSelector:@selector(exitFinal) withObject:nil afterDelay:2.f];
   }
