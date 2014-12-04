@@ -195,7 +195,7 @@
 }
 
 #define FADE_DURATION 0.2f
-#define DELAY_DURATION 5.f
+#define DELAY_DURATION 6.f
 
 - (void) initiateSpeechBubbleWithText:(NSString *)text {
   [self initiateSpeechBubbleWithText:text completion:nil];
@@ -214,7 +214,7 @@
   BattleSpeechBubble *speech = [BattleSpeechBubble speechBubbleWithText:text];
   
   // Add it to the parent's parent
-  [self.parent.parent addChild:speech z:7];
+  [self.parent.parent addChild:speech z:self.parent.zOrder];
   CGPoint pt = ccp(self.contentSize.width/2, self.contentSize.height-3);
   pt = [speech.parent convertToNodeSpace:[self convertToWorldSpace:pt]];
   speech.position = pt;

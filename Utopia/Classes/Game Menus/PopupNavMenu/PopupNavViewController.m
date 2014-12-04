@@ -73,16 +73,18 @@
 }
 
 - (void) close {
-  [self beginAppearanceTransition:NO animated:YES];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    // Do this so appearance methods are forwarded
-    [self unloadAllControllers];
-    
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-    
-    [self endAppearanceTransition];
-  }];
+  if (!self.mainView.layer.animationKeys.count) {
+    [self beginAppearanceTransition:NO animated:YES];
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      // Do this so appearance methods are forwarded
+      [self unloadAllControllers];
+      
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+      
+      [self endAppearanceTransition];
+    }];
+  }
 }
 
 - (BOOL) shouldAutomaticallyForwardAppearanceMethods {

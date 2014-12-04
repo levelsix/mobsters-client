@@ -170,7 +170,7 @@
 
 - (IBAction)closeClicked:(id)sender {
   // Check if we are editing
-  if (_isEditing) {
+  if (sender && _isEditing) {
     [self.view endEditing:YES];
     [self.popoverView close];
   } else if (!self.mainView.layer.animationKeys.count) {
@@ -302,11 +302,13 @@
   
   NSArray *chatViews = @[self.globalChatView, self.clanChatView, self.privateChatView];
   for (ChatView *cv in chatViews) {
-    cv.originalBottomViewRect = cv.bottomView.frame;
+    if (!_isEditing) {
+      cv.originalBottomViewRect = cv.bottomView.frame;
+    }
     
     CGRect relFrame = [cv convertRect:keyboardFrame fromView:nil];
     CGFloat keyboardTop = relFrame.origin.y;
-    cv.bottomView.center = ccp(cv.bottomView.center.x, keyboardTop-cv.bottomView.frame.size.height/2);
+    cv.bottomView.center = ccp(cv.bottomView.center.x, MIN(CGRectGetMidY(cv.originalBottomViewRect), keyboardTop-cv.bottomView.frame.size.height/2));
     
     CGRect r = cv.chatTable.frame;
     r.origin.y = cv.bottomView.frame.origin.y-MIN(cv.chatTable.contentSize.height+cv.chatTable.contentInset.top, r.size.height);

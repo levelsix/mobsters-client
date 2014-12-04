@@ -427,8 +427,6 @@
 - (void) moveToNextEnemy {
   [self.hudView removeButtons];
   
-  [self.myPlayer initiateSpeechBubbleWithText:@"hello, my name is bob"];
-  
   if (_lootSprite) {
     [self pickUpLoot];
   }

@@ -50,7 +50,7 @@
 - (void) updateLabelText:(NSString *)newText {
   self.label.string = newText;
   
-  self.midBubble.scaleX = MAX(1, self.label.contentSize.width-self.contentSize.width+self.label.position.x*2-self.rightBubble.contentSize.width);
+  self.midBubble.scaleX = MAX(1, self.label.contentSize.width-self.contentSize.width+self.label.position.x*2-self.rightBubble.contentSize.width+1);
   self.midBubble.position = ccp(self.contentSize.width, 0);
   self.rightBubble.position = ccp(self.contentSize.width+self.midBubble.contentSize.width*self.midBubble.scaleX, 0);
 }

@@ -888,11 +888,11 @@
 //        UIImage* invokingViewImage = [Globals maskImageFromView:invokingButton.superview withAlphaCutoff:.2f]; // Render the container view to a UIImage to be used as a mask
 //        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:invokingViewImage];
         
-        UIButton* invokingButton = (UIButton*)sender;
-        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil];
-        
         // Manually add the bgd view under the coin bars
         UIView *coinBar = resType == ResourceTypeCash ? self.cashView : self.oilView;
+        UIView *coinBgd = resType == ResourceTypeCash ? self.cashBgd : self.oilBgd;
+        
+        [svc showAnchoredToInvokingView:coinBgd withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:nil];
         
         // Transform bgd view's frame for coinbar's superiew
         svc.bgdView.frame = [coinBar.superview convertRect:svc.bgdView.frame fromView:svc.bgdView.superview];

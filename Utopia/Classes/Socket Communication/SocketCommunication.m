@@ -238,6 +238,11 @@ static NSString *udid = nil;
 - (void) connectedToHost {
   LNLog(@"Connected to host \"%@\" on port %d", HOST_NAME, HOST_PORT);
   
+  if (self.popupController) {
+    [self.popupController close:nil];
+    self.popupController = nil;
+  }
+  
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = YES;
   
@@ -300,7 +305,10 @@ static NSString *udid = nil;
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
       LNLog(@"Asking to reconnect..");
-      self.popupController = [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      
+      if (!self.popupController) {
+        self.popupController = [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      }
       _numDisconnects = 0;
     } else {
       LNLog(@"Silently reconnecting..");
