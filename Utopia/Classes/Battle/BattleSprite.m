@@ -30,6 +30,13 @@
     self.animationType = animationType;
     
     self.sprite = [CCSprite node];
+    
+    
+    if ([self.prefix rangeOfString:@"Tribal"].length > 0) {
+      self.sprite.scale = 1.15;
+      verticalOffset += 7;
+    }
+    
     [self addChild:_sprite z:5];
     self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3+verticalOffset);
     
