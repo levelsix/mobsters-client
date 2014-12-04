@@ -390,6 +390,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasDmgExponentBase_:1;
   BOOL hasExpLvlDivisor_:1;
   BOOL hasExpLvlExponent_:1;
+  BOOL hasEnhanceCostExponent_:1;
+  BOOL hasEnhanceExpPerSecond_:1;
+  BOOL hasEnhanceExpPerSecondExponent_:1;
   BOOL hasLvl_:1;
   BOOL hasHp_:1;
   BOOL hasCurLvlRequiredExp_:1;
@@ -399,6 +402,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasTeamCost_:1;
   BOOL hasCostToFullyHeal_:1;
   BOOL hasSecsToFullyHeal_:1;
+  BOOL hasEnhanceCostPerFeeder_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -409,6 +413,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   Float32 dmgExponentBase;
   Float32 expLvlDivisor;
   Float32 expLvlExponent;
+  Float32 enhanceCostExponent;
+  Float32 enhanceExpPerSecond;
+  Float32 enhanceExpPerSecondExponent;
   int32_t lvl;
   int32_t hp;
   int32_t curLvlRequiredExp;
@@ -418,6 +425,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t teamCost;
   int32_t costToFullyHeal;
   int32_t secsToFullyHeal;
+  int32_t enhanceCostPerFeeder;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -444,6 +452,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasTeamCost;
 - (BOOL) hasCostToFullyHeal;
 - (BOOL) hasSecsToFullyHeal;
+- (BOOL) hasEnhanceCostPerFeeder;
+- (BOOL) hasEnhanceCostExponent;
+- (BOOL) hasEnhanceExpPerSecond;
+- (BOOL) hasEnhanceExpPerSecondExponent;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -463,6 +475,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t teamCost;
 @property (readonly) int32_t costToFullyHeal;
 @property (readonly) int32_t secsToFullyHeal;
+@property (readonly) int32_t enhanceCostPerFeeder;
+@property (readonly) Float32 enhanceCostExponent;
+@property (readonly) Float32 enhanceExpPerSecond;
+@property (readonly) Float32 enhanceExpPerSecondExponent;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -593,6 +609,26 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) secsToFullyHeal;
 - (MonsterLevelInfoProto_Builder*) setSecsToFullyHeal:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearSecsToFullyHeal;
+
+- (BOOL) hasEnhanceCostPerFeeder;
+- (int32_t) enhanceCostPerFeeder;
+- (MonsterLevelInfoProto_Builder*) setEnhanceCostPerFeeder:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearEnhanceCostPerFeeder;
+
+- (BOOL) hasEnhanceCostExponent;
+- (Float32) enhanceCostExponent;
+- (MonsterLevelInfoProto_Builder*) setEnhanceCostExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearEnhanceCostExponent;
+
+- (BOOL) hasEnhanceExpPerSecond;
+- (Float32) enhanceExpPerSecond;
+- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecond:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecond;
+
+- (BOOL) hasEnhanceExpPerSecondExponent;
+- (Float32) enhanceExpPerSecondExponent;
+- (MonsterLevelInfoProto_Builder*) setEnhanceExpPerSecondExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearEnhanceExpPerSecondExponent;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {

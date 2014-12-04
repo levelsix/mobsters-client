@@ -101,7 +101,7 @@
 - (void) reload {
   [self.clanList removeAllObjects];
   [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
-  _reachedEnd = YES;//NO;
+  _reachedEnd = NO;
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
@@ -115,7 +115,7 @@
 - (void) loadClans:(NSArray *)clans isForSearch:(BOOL)search {
   if (search) {self.shouldReload = NO; isSearching = NO; _reachedEnd = YES;}
   else if (clans.count < 10) {self.shouldReload = NO; _reachedEnd = YES;}
-  else self.shouldReload = YES;
+  else {self.shouldReload = YES; _reachedEnd = YES;}
   
   if (!self.clanList) self.clanList = [NSMutableArray array];
   

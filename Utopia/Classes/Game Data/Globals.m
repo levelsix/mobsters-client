@@ -1369,7 +1369,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float val = 1.f;
   if (!lower || !upper) {
-    // Old Formula
+    // Old Formula.. Only for backup
     val = timeLeft/60.f/self.minutesPerGem;
   } else {
     val = lower.numGems + (upper.numGems-lower.numGems)*(timeLeft-lower.seconds)/(float)(upper.seconds-lower.seconds);
@@ -1394,7 +1394,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float val = 1.f;
   if (!lower || !upper) {
-    // Old Formula
+    // Old Formula.. Only for backup
     val = amount*self.gemsPerResource;
   } else {
     val = lower.numGems + (upper.numGems-lower.numGems)*(amount-lower.resourceAmt)/(float)(upper.resourceAmt-lower.resourceAmt);
@@ -1670,7 +1670,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateOilCostForNewMonsterWithEnhancement:(UserEnhancement *)ue feeder:(EnhancementItem *)feeder {
   int additionalLevel = [ue currentPercentageOfLevel];
-  return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
+  
+  UserMonster *um = ue.baseMonster.userMonster;
+  int curLevel = um.level+additionalLevel;
+  
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  float oilCost = min.enhanceCostPerFeeder+(max.enhanceCostPerFeeder-min.enhanceCostPerFeeder)*powf((curLevel-1)/(float)(max.lvl-1), max.enhanceCostExponent);
+  
+  return oilCost;
+  
+  // Old Formula..
+  //return self.oilPerMonsterLevel*(ue.baseMonster.userMonster.level+additionalLevel);
 }
 
 - (int) calculateTotalOilCostForEnhancement:(UserEnhancement *)ue {
@@ -1682,11 +1694,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  GameState *gs = [GameState sharedGameState];
-  LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
+  UserMonster *um = baseMonster.userMonster;
   
-  int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
-  return (int)ceilf(expGain/lab.pointsPerSecond);
+  MonsterProto *mp = um.staticMonster;
+  MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
+  MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
+  float expPerSecond = min.enhanceExpPerSecond+(max.enhanceExpPerSecond-min.enhanceExpPerSecond)*powf((um.level-1)/(float)(max.lvl-1), max.enhanceExpPerSecondExponent);
+  
+  // Use base feeder exp instead so that time isn't affected by multipliers
+  //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
+  int expGain = feeder.userMonster.feederExp;
+  return (int)ceilf(expGain/expPerSecond);
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {

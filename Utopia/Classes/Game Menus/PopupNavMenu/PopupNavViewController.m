@@ -374,7 +374,8 @@
   self.leftCornerView.userInteractionEnabled = NO;
   self.backView.userInteractionEnabled = NO;
   
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+  float animTime = animated ? ANIMATION_TIME : 0.f;
+  [UIView animateWithDuration:animTime animations:^{
     oldLeftCorner.alpha = 0.f;
     self.leftCornerView.alpha = 1.f;
     self.backView.alpha = shouldDisplayBackButton;

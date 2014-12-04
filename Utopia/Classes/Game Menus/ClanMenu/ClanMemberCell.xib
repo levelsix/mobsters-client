@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanInfoViewController">
@@ -18,15 +19,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="5BF-EE-noV">
-                        <rect key="frame" x="0.0" y="0.0" width="454" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="454" height="45"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="366-tA-WDD">
-                                <rect key="frame" x="0.0" y="43" width="454" height="1"/>
+                                <rect key="frame" x="0.0" y="44" width="454" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="Nd6-fk-9EK" customClass="CircleMonsterView">
-                                <rect key="frame" x="14" y="7" width="30" height="30"/>
+                                <rect key="frame" x="14" y="8" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="vGk-Kn-Twa">
@@ -44,8 +45,8 @@
                                     <outlet property="monsterIcon" destination="rsC-xd-lTb" id="LPx-RJ-dFO"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meepert" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Gc5-xg-AUW" customClass="NiceFontLabel12">
-                                <rect key="frame" x="60" y="5" width="99" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meepert" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gc5-xg-AUW" customClass="NiceFontLabel12">
+                                <rect key="frame" x="60" y="5" width="107" height="22"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.67450982329999998" blue="0.8980392814" alpha="1" colorSpace="deviceRGB"/>
@@ -64,7 +65,7 @@
                                 <rect key="frame" x="175" y="1" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="43L-BG-kFJ">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="43L-BG-kFJ">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -83,7 +84,7 @@
                                 <rect key="frame" x="206" y="1" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="BHg-hd-VDf">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="BHg-hd-VDf">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -102,7 +103,7 @@
                                 <rect key="frame" x="237" y="1" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="QCi-Is-5ML">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="QCi-Is-5ML">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -210,7 +211,6 @@
     <resources>
         <image name="bluesmallbutton.png" width="68" height="30"/>
         <image name="clanmembersettings.png" width="30" height="30"/>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="nightavatar.png" width="30" height="30"/>
         <image name="popupline.png" width="1" height="1"/>
     </resources>

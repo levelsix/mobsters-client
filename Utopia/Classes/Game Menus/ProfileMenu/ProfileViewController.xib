@@ -55,7 +55,7 @@
                             <rect key="frame" x="0.0" y="25" width="329" height="240"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" id="r04-el-88N">
+                                <view contentMode="scaleToFill" id="r04-el-88N">
                                     <rect key="frame" x="0.0" y="0.0" width="329" height="240"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>

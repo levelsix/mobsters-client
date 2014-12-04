@@ -48,6 +48,9 @@
 // Used for clan battle sprites
 @property (nonatomic, assign) BOOL cameFromTop;
 
+- (void) initiateSpeechBubbleWithText:(NSString *)text;
+- (void) initiateSpeechBubbleWithText:(NSString *)text completion:(void (^)(void))completion;
+
 - (void) beginWalking;
 - (void) stopWalking;
 
