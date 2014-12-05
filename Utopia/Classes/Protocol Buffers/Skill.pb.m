@@ -31,6 +31,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypePoison:
     case SkillTypeRoidRage:
     case SkillTypeMomentum:
+    case SkillTypeThickSkin:
       return YES;
     default:
       return NO;
