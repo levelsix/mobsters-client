@@ -1824,7 +1824,7 @@
               [sender isKindOfClass:[UIButton class]]) // Upgrading a building
           {
             UIButton* invokingButton = (UIButton*)sender;
-            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+            [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
           }
         }
       }
