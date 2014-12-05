@@ -29,7 +29,7 @@ typedef enum {
 - (BOOL) hasAskedForClanHelp;
 
 // Should return an array of dummy objects that will be retained
-- (NSArray *) speedupClicked;
+- (NSArray *) speedupClicked:(UIView *)sender;
 - (void) helpClicked;
 
 @end
@@ -46,7 +46,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL hasAskedForClanHelp;
 
 - (NSString *) confirmActionString;
-- (NSArray *) performSpeedup;
+- (NSArray *) performSpeedup:(UIView *)sender;
 - (void) performHelp;
 
 @end

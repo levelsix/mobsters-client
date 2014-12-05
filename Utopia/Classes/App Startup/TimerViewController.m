@@ -366,7 +366,7 @@
     NSInteger idx = [self.timerCells indexOfObject:sender];
     if (idx < self.timerActionsArray.count) {
       TimerAction *ta = self.timerActionsArray[idx];
-      [_dummyObjects addObjectsFromArray:[ta speedupClicked]];
+      [_dummyObjects addObjectsFromArray:[ta speedupClicked:sender]];
     }
   }
 }

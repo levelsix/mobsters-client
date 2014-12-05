@@ -26,7 +26,7 @@
   
   BOOL _didRunaway;
   
-  UIImage* _nextMatchButtonImage;
+  UIImage* _nextMatchButtonMask;
 }
 
 @property (nonatomic, retain) NSArray *defendersList;

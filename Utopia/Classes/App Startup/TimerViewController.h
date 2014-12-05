@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *gemsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *freeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *speedupIcon;
+@property (weak, nonatomic) IBOutlet UIButton* speedupButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 

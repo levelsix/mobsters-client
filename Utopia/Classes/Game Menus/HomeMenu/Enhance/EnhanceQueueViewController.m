@@ -596,7 +596,7 @@
         if ([sender isKindOfClass:[UIButton class]]) // Enhance mobster
         {
           UIButton* invokingButton = (UIButton*)sender;
-          [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];
+          [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:invokingButton.currentImage];
         }
       }
     }
@@ -690,7 +690,15 @@
         }
         else
         {
-          if ([sender isKindOfClass:[UIButton class]]) // Speed up enhancing mobster
+          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+          {
+            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+          else if ([sender isKindOfClass:[UIButton class]]) // Speed up enhancing mobster
           {
             UIButton* invokingButton = (UIButton*)sender;
             [svc showAnchoredToInvokingView:invokingButton

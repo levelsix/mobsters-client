@@ -241,9 +241,8 @@
                                             invokingButton.boundingBox.size.width, invokingButton.boundingBox.size.height);
         UIView* floatingView = [[UIView alloc] initWithFrame:worldSpaceFrame];
         
-        if (_nextMatchButtonImage == nil)
-          _nextMatchButtonImage = [Globals maskImage:[UIImage imageNamed:@"battledonegreen.png"] withAlphaCutoff:.2f adjustForScreenContentScale:YES];
-        [svc showAnchoredToInvokingView:floatingView withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:_nextMatchButtonImage];
+        if (_nextMatchButtonMask == nil) _nextMatchButtonMask = [UIImage imageNamed:@"nextmatchmask.png"];
+        [svc showAnchoredToInvokingView:floatingView withDirection:ViewAnchoringPreferLeftPlacement inkovingViewImage:_nextMatchButtonMask];
       }
     }
   } else {

@@ -1939,7 +1939,15 @@
         }
         else
         {
-          if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
+          if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
+          {
+            UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+            const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+            [svc showAnchoredToInvokingView:invokingButton
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                          inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+          }
+          else if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
           {
             UIButton* invokingButton = ((MapBotViewButton*)sender).bgdButton;
             [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferTopPlacement inkovingViewImage:invokingButton.currentImage];

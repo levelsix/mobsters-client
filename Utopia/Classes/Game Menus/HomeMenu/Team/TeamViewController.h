@@ -63,6 +63,6 @@
 
 - (UserMonster *) monsterForSlot:(NSInteger)slot;
 
-- (void) speedupClicked:(UserMonster *)um indexPath:(NSIndexPath*)indexPath;
+- (void) speedupClicked:(UserMonster *)um invokingView:(UIView*)sender indexPath:(NSIndexPath*)indexPath;
 
 @end

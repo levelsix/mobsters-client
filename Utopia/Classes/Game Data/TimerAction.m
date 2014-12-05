@@ -38,7 +38,7 @@
   }
 }
 
-- (NSArray *) speedupClicked {
+- (NSArray *) speedupClicked:(UIView *)sender {
   GameState *gs = [GameState sharedGameState];
   int gemCost = [self gemCost];
   NSString *confirm = [self confirmActionString];
@@ -47,10 +47,10 @@
     [GenericPopupController displayNotEnoughGemsView];
   }
   else if (false && gemCost && confirm) {
-    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup)];
+    [GenericPopupController displayGemConfirmViewWithDescription:confirm title:@"Speedup?" gemCost:gemCost target:self selector:@selector(performSpeedup:)];
   }
   else {
-    return [self performSpeedup];
+    return [self performSpeedup:sender];
   }
   return nil;
 }
@@ -63,7 +63,7 @@
   return NO;
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   // We can assume we have enough gems at this point
   return nil;
 }
@@ -127,12 +127,12 @@
   return [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeUpgradeStruct userDataUuid:self.userStruct.userStructUuid] < 0;
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   // Somewhat hacky, but super easy. Just let the home map deal with it
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
-    [hm finishNowClicked:nil];
+    [hm finishNowClicked:sender];
   }
   return nil;
 }
@@ -170,11 +170,11 @@
   return self;
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   GameViewController *gvc = [GameViewController baseController];
   HomeMap *hm = (HomeMap *)gvc.currentMap;
   if ([hm isKindOfClass:[HomeMap class]]) {
-    [hm finishNowClicked:nil];
+    [hm finishNowClicked:sender];
   }
   return nil;
 }
@@ -217,10 +217,10 @@
   return [NSString stringWithFormat:@"Would you like to speedup your hospital queue for %d gem%@?" , [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   HealViewController *hvc = [[HealViewController alloc] init];
   hvc.fakeHospitalQueue = self.hospitalQueue;
-  [hvc speedupButtonClicked:nil];
+  [hvc speedupButtonClicked:sender];
   
   return @[hvc];
 }
@@ -265,9 +265,9 @@
   return [NSString stringWithFormat:@"Would you like to speedup %@'s enhancement for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   EnhanceQueueViewController *evc = [[EnhanceQueueViewController alloc] initWithCurrentEnhancement];
-  [evc finishClicked:nil];
+  [evc finishClicked:sender];
   
   return @[evc];
 }
@@ -311,11 +311,11 @@
   return [NSString stringWithFormat:@"Would you like to speedup your %@ for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   MiniJobsListViewController *lvc = [[MiniJobsListViewController alloc] init];
   MiniJobsListCell *cell = [[MiniJobsListCell alloc] init];
   cell.userMiniJob = self.miniJob;
-  [lvc miniJobsListFinishClicked:cell invokingView:nil popupDirection:ViewAnchoringDirectionNone];
+  [lvc miniJobsListFinishClicked:cell invokingView:sender popupDirection:ViewAnchoringDirectionNone];
   
   return @[lvc];
 }
@@ -362,9 +362,9 @@
   return [NSString stringWithFormat:@"Would you like to speedup %@'s evolution for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   EvolveDetailsViewController *evc = [[EvolveDetailsViewController alloc] initWithCurrentEvolution];
-  [evc speedupClicked:nil];
+  [evc speedupClicked:sender];
   
   return @[evc];
 }
@@ -408,9 +408,9 @@
   return [NSString stringWithFormat:@"Would you like to speedup combining %@'s for %d gem%@?" , self.title, [self gemCost], [self gemCost] == 1 ? @"" : @"s"];
 }
 
-- (NSArray *) performSpeedup {
+- (NSArray *) performSpeedup:(UIView *)sender {
   TeamViewController *tvc = [[TeamViewController alloc] init];
-  [tvc speedupClicked:self.userMonster indexPath:nil];
+  [tvc speedupClicked:self.userMonster invokingView:sender indexPath:nil];
   
   return @[tvc];
 }

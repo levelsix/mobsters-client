@@ -341,12 +341,17 @@
 
 - (void) listView:(ListCollectionView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
   UserMonster *um = self.userMonsters[indexPath.row];
-  [self speedupClicked:um indexPath:indexPath];
+  UIView* invokingView = nil;
+  MonsterListCell* mlc = (MonsterListCell*)[self.listView.collectionView cellForItemAtIndexPath:indexPath];
+  if (mlc != nil && [mlc isKindOfClass:[MonsterListCell class]])
+    invokingView = mlc.cardContainer.monsterCardView.cardBgdView;
+  [self speedupClicked:um invokingView:invokingView indexPath:indexPath];
 }
 
-- (void) speedupClicked:(UserMonster *)um indexPath:(NSIndexPath*)indexPath {
+- (void) speedupClicked:(UserMonster *)um invokingView:(UIView*)sender indexPath:(NSIndexPath*)indexPath {
   Globals *gl = [Globals sharedGlobals];
   _combineMonster = um;
+  _combineMonsterImageView = nil;
   
   int timeLeft = um.timeLeftForCombining;
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
@@ -367,25 +372,32 @@
       [gvc addChildViewController:svc];
       [gvc.view addSubview:svc.view];
       
-      _combineMonsterImageView = nil;
-      MonsterListCell* mlc = (MonsterListCell*)[self.listView.collectionView cellForItemAtIndexPath:indexPath];
-      if (mlc != nil && [mlc isKindOfClass:[MonsterListCell class]])
-        _combineMonsterImageView = mlc.cardContainer.monsterCardView.cardBgdView;
-      
-      if (_combineMonsterImageView == nil)
+      if (sender == nil)
       {
         [svc showCenteredOnScreen];
       }
       else
       {
-        if ([_combineMonsterImageView isKindOfClass:[UIImageView class]]) // Heal mobster
+        if ([sender isKindOfClass:[TimerCell class]]) // Invoked from TimerAction
         {
+          UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
+          const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
+          [svc showAnchoredToInvokingView:invokingButton
+                            withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                        inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
+        }
+        else if ([sender isKindOfClass:[UIImageView class]]) // Heal mobster
+        {
+          _combineMonsterImageView = (UIImageView*)sender;
+          
           // I apologize in advance for the following block of code :|
           const CGFloat contentOffsetY = self.listView.collectionView.contentOffset.y;
           const CGFloat contentSizeHeight = self.listView.collectionView.contentSize.height;
           const CGFloat collectionViewHeight = self.listView.collectionView.bounds.size.height;
-          const CGFloat midY = [_combineMonsterImageView.superview convertPoint:_combineMonsterImageView.frame.origin toView:nil].y + _combineMonsterImageView.bounds.size.height * .5f;
-          const CGFloat refY = [self.listView convertPoint:self.listView.collectionView.frame.origin toView:nil].y + collectionViewHeight * .5f;
+          const CGFloat midY = [Globals convertPointToWindowCoordinates:_combineMonsterImageView.frame.origin
+                                                    fromViewCoordinates:_combineMonsterImageView.superview].y + _combineMonsterImageView.bounds.size.height * .5f;
+          const CGFloat refY = [Globals convertPointToWindowCoordinates:self.listView.collectionView.frame.origin
+                                                    fromViewCoordinates:self.listView].y + collectionViewHeight * .5f;
           if ((contentOffsetY < 1.f && midY < refY) ||                                            // Content at the top and cell in first row picked
               (contentOffsetY > contentSizeHeight - collectionViewHeight - 1.f && midY > refY) || // Content at the bottom and cell in last row picked
               (midY > refY - 10.f && midY < refY + 10.f))                                         // Cell roughly centered vertically in container
@@ -407,7 +419,7 @@
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView*)scrollView
 {
-  const CGPoint invokingViewAbsolutePosition = [_combineMonsterImageView.superview convertPoint:_combineMonsterImageView.frame.origin toView:nil]; // Window coordinates
+  const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:_combineMonsterImageView.frame.origin fromViewCoordinates:_combineMonsterImageView.superview];
   ViewAnchoringDirection popupDirection = invokingViewAbsolutePosition.x < [Globals screenSize].width * .5f ? ViewAnchoringPreferRightPlacement : ViewAnchoringPreferLeftPlacement;
   [self.itemSelectViewController showAnchoredToInvokingView:_combineMonsterImageView withDirection:popupDirection inkovingViewImage:_combineMonsterImageView.image];
   

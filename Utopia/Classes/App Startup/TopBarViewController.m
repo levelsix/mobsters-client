@@ -884,10 +884,6 @@
     {
       if ([sender isKindOfClass:[UIButton class]]) // Tapped on oil/cash view
       {
-//        UIButton* invokingButton = (UIButton*)sender;
-//        UIImage* invokingViewImage = [Globals maskImageFromView:invokingButton.superview withAlphaCutoff:.2f]; // Render the container view to a UIImage to be used as a mask
-//        [svc showAnchoredToInvokingView:invokingButton withDirection:ViewAnchoringPreferBottomPlacement inkovingViewImage:invokingViewImage];
-        
         // Manually add the bgd view under the coin bars
         UIView *coinBar = resType == ResourceTypeCash ? self.cashView : self.oilView;
         UIView *coinBgd = resType == ResourceTypeCash ? self.cashBgd : self.oilBgd;
