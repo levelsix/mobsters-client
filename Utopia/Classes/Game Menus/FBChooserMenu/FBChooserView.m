@@ -59,25 +59,21 @@
   self.spinner.hidden = NO;
   [FacebookDelegate getAppFacebookFriendsWithLoginUI:openLoginUI callback:^(NSArray *fbFriends) {
     if (openLoginUI || fbFriends) {
-      _retrievedFriends = YES;
+      NSArray *appFriends = fbFriends;
       
-      if (fbFriends) {
-        [self organizeData:fbFriends isAppUser:YES];
+      [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
+        _retrievedFriends = YES;
         
-        [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
-          if (openLoginUI || fbFriends.count) {
-            [self organizeData:fbFriends isAppUser:NO];
-          }
-          self.spinner.hidden = YES;
-          [self.chooserTable reloadData];
-        }];
-      } else {
+        [self organizeData:fbFriends isAppUser:NO];
+        [self organizeData:appFriends isAppUser:YES];
+        
         self.spinner.hidden = YES;
-      }
+        [self.chooserTable reloadData];
+      }];
     } else {
       self.spinner.hidden = YES;
+      [self.chooserTable reloadData];
     }
-    [self.chooserTable reloadData];
   }];
 }
 
@@ -117,9 +113,7 @@
 }
 
 - (void) organizeData:(NSArray *)data isAppUser:(BOOL)appUser {
-  NSMutableArray *arr = [data mutableCopy];
-  
-  for (FBGraphObject *fbObj in arr) {
+  for (FBGraphObject *fbObj in data) {
     [self addFbUser:fbObj toList:self.allFriendsData];
     
     if (appUser) {

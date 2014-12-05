@@ -245,7 +245,7 @@
                                                                     <rect key="frame" x="7" y="7" width="25" height="25"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <subviews>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="fireteam.png" id="KRI-dh-HY5">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="KRI-dh-HY5">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -303,7 +303,7 @@
                                                                     <rect key="frame" x="7" y="7" width="25" height="25"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <subviews>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="fireteam.png" id="UfL-sH-A4j">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="UfL-sH-A4j">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -361,7 +361,7 @@
                                                                     <rect key="frame" x="7" y="7" width="25" height="25"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <subviews>
-                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="fireteam.png" id="s7I-kC-JRn">
+                                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="s7I-kC-JRn">
                                                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </imageView>
@@ -802,7 +802,6 @@
         <image name="championprofribbon.png" width="171" height="51"/>
         <image name="detailshadow.png" width="66" height="31"/>
         <image name="earthbigavatar.png" width="40" height="40"/>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="menuclosex.png" width="17" height="17"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="popuplinevertical.png" width="1" height="1"/>

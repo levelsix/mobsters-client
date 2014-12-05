@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="CsU-A7-Vym">
-                        <rect key="frame" x="0.0" y="0.0" width="364" height="54"/>
+                        <rect key="frame" x="0.0" y="0.0" width="364" height="55"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
                     </view>
@@ -55,7 +55,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="NKg-7a-rFP">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NKg-7a-rFP">
                                                 <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
@@ -181,7 +181,6 @@
     <resources>
         <image name="attackbarcapmj.png" width="3" height="8"/>
         <image name="attackbarmiddlemj.png" width="1" height="8"/>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="hpbarcapmj.png" width="3" height="8"/>
         <image name="hpbarmiddlemj.png" width="1" height="8"/>
         <image name="mjadditionalbg.png" width="87" height="8"/>

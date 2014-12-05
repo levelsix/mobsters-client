@@ -266,6 +266,21 @@
   }];
 }
 
+/* Helper method */
+- (NSDictionary*)parseURLParams:(NSString *)query {
+  NSArray *pairs = [query componentsSeparatedByString:@"&"];
+  NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+  for (NSString *pair in pairs) {
+    NSArray *kv = [pair componentsSeparatedByString:@"="];
+    NSString *val =
+    [[kv objectAtIndex:1]
+     stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [params setObject:val forKey:[kv objectAtIndex:0]];
+  }
+  return params;
+}
+
 - (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion {
   if (fbIds.count == 0) return;
   
@@ -276,37 +291,47 @@
         [str appendFormat:@", %@", fbIds[i]];
       }
       
+      id handler = ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+        BOOL success = NO;
+        NSMutableArray *ids = [NSMutableArray array];
+        if (error) {
+          // Case A: Error launching the dialog or sending request.
+          LNLog(@"Error sending request.");
+        } else {
+          if (result == FBWebDialogResultDialogNotCompleted) {
+            // Case B: User clicked the "x" icon
+            LNLog(@"User closed request.");
+          } else {
+            NSDictionary *urlParams = [self parseURLParams:resultURL.query];
+            if (![urlParams valueForKey:@"request"]) {
+              // User clicked the Cancel button
+              LNLog(@"User canceled request.");
+            } else {
+              // Completed
+              LNLog(@"User sent request.");
+              success = YES;
+              
+              // Create ids list
+              for (NSString *str in urlParams) {
+                if ([str rangeOfString:@"to"].length > 0) {
+                  [ids addObject:urlParams[str]];
+                }
+              }
+            }
+          }
+        }
+        
+        if (completion) {
+          completion(success, ids);
+        }
+      };
+      
       NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:str, @"to", nil];
       [FBWebDialogs presentRequestsDialogModallyWithSession:nil
                                                     message:message
                                                       title:nil
                                                  parameters:params
-                                                    handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                      BOOL success = NO;
-                                                      if (error) {
-                                                        // Case A: Error launching the dialog or sending request.
-                                                        LNLog(@"Error sending request.");
-                                                      } else {
-                                                        if (result == FBWebDialogResultDialogNotCompleted) {
-                                                          // Case B: User clicked the "x" icon
-                                                          LNLog(@"User closed request.");
-                                                        } else {
-                                                          NSString *urlParams = resultURL.query;
-                                                          if (!urlParams || [urlParams rangeOfString:@"request"].location == NSNotFound) {
-                                                            // User clicked the Cancel button
-                                                            LNLog(@"User canceled request.");
-                                                          } else {
-                                                            // Completed
-                                                            LNLog(@"User sent request.");
-                                                            success = YES;
-                                                          }
-                                                        }
-                                                      }
-                                                      
-                                                      if (completion) {
-                                                        completion(success, fbIds);
-                                                      }
-                                                    }
+                                                    handler:handler
                                                 friendCache:self.friendCache];
     } else if (completion) {
       completion(NO, nil);

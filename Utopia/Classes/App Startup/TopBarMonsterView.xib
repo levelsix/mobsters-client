@@ -19,7 +19,7 @@
                     <rect key="frame" x="-6" y="-4" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="duj-Ym-TjZ">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="duj-Ym-TjZ">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -103,7 +103,6 @@
         </view>
     </objects>
     <resources>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="teamhealthbarbg.png" width="44" height="8"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>
         <image name="teamhealthbarmiddle.png" width="1" height="8"/>

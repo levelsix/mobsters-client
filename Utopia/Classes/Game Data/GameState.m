@@ -490,26 +490,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addInventorySlotsRequests:(NSArray *)invites {
-  BOOL newFbInvite = NO, fbInviteAccepted = NO;
+  int newFbInvites = 0, fbInvitesAccepted = 0;
   for (UserFacebookInviteForSlotProto *invite in invites) {
     RequestFromFriend *req = [RequestFromFriend requestForInventorySlotsWithInvite:invite];
     if (!invite.timeAccepted && [invite.recipientFacebookId isEqualToString:self.facebookId]) {
       [self.fbUnacceptedRequestsFromFriends addObject:req];
-      newFbInvite = YES;
+      newFbInvites++;
     } else if (invite.timeAccepted && [invite.inviter.facebookId isEqualToString:self.facebookId]) {
       [self.fbAcceptedRequestsFromMe addObject:req];
-      fbInviteAccepted = YES;
+      fbInvitesAccepted++;
     }
   }
   
   // Check all residences
-  if (fbInviteAccepted) {
+  if (fbInvitesAccepted) {
     [self checkResidencesForFbCompletion];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_ACCEPTED_NOTIFICATION object:nil];
   }
   
-  if (newFbInvite) {
+  if (newFbInvites) {
     [[NSNotificationCenter defaultCenter] postNotificationName:NEW_FB_INVITE_NOTIFICATION object:nil];
   }
 }
@@ -956,7 +956,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (SkillProto* skillProto in proto.skillsList)
     [self.staticSkills setObject:skillProto forKey:[NSNumber numberWithInteger:skillProto.skillId]];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
+  if (self.connected) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:STATIC_DATA_UPDATED_NOTIFICATION object:nil];
+  }
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {

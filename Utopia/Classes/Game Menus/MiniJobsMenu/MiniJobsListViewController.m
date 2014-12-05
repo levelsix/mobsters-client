@@ -240,9 +240,9 @@
 
 #pragma mark - UITableView delegate/dataSource
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  return self.headerView;
-}
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//  return self.headerView;
+//}
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   int ct = (int)self.miniJobsList.count;

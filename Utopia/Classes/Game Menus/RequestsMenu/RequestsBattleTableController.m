@@ -122,7 +122,9 @@
   }
   
   GameViewController *gvc = [GameViewController baseController];
-  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:cell.battleHistory.attacker andCurrentTeam:monsters];
+  
+  FullUserProto *user = [[[FullUserProto builderWithPrototype:cell.battleHistory.attacker] setPvpLeagueInfo:cell.battleHistory.attackerAfter] build];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:user andCurrentTeam:monsters];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];

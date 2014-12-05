@@ -130,7 +130,6 @@
   
   [self removeLocalNotifications];
   
-  //[[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   [[CCDirector sharedDirector] pause];
   return YES;
 }

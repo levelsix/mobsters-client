@@ -46,7 +46,7 @@
                     <rect key="frame" x="6" y="10" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="uEr-1n-vEW">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="uEr-1n-vEW">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -172,7 +172,6 @@
         </view>
     </objects>
     <resources>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
         <image name="popupline.png" width="1" height="1"/>
         <image name="rewardsbg.png" width="111" height="63"/>

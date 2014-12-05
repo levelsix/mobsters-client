@@ -327,7 +327,7 @@
             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="709-3E-pXy">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="709-3E-pXy">
                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -493,7 +493,6 @@ before starting another.</string>
         <image name="engagegrayarrow.png" width="6" height="10"/>
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="finishminitask.png" width="65" height="29"/>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
         <image name="hospitalopenarrow.png" width="185" height="39"/>
         <image name="hpbarcapmj.png" width="3" height="8"/>

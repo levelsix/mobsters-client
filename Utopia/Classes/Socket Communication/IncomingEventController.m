@@ -346,8 +346,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     return;
   }
   
-  gs.connected = YES;
-  
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
     [GenericPopupController displayNotificationViewWithText:@"We've added a slew of new features! Update now to check them out." title:@"Update Now" okayButton:@"Update" target:gl selector:@selector(openAppStoreLink)];
     return;
@@ -361,6 +359,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [gl updateConstants:proto.startupConstants];
   [gs updateStaticData:proto.staticDataStuffProto];
+  
+  gs.connected = YES;
+  
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (!proto.sender.hasUserUuid || proto.sender.userUuid.length == 0) {
       LNLog(@"Received user id 0..");

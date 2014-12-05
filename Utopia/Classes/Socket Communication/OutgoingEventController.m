@@ -2027,7 +2027,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         return;
       }
       
-      NSArray *realReqs = [reqs subarrayWithRange:NSMakeRange(0, fbRes.numAcceptedFbInvites)];
+      // make real reqs the whole array since server doesn't want it to be truncated
+      NSArray *realReqs = reqs;
       NSArray *rejectedReqs = [reqs subarrayWithRange:NSMakeRange(fbRes.numAcceptedFbInvites, reqs.count-fbRes.numAcceptedFbInvites)];
       
       uint64_t date = [self getCurrentMilliseconds];
