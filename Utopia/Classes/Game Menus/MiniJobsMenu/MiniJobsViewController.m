@@ -247,7 +247,7 @@
   }
 }
 
-- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob {
+- (void) activeMiniJobSpedUp:(UserMiniJob *)miniJob sender:(id)sender {
   NSUInteger idx = [self.listViewController.miniJobsList indexOfObject:miniJob];
   if (idx != NSNotFound) {
     MiniJobsListCell *listCell = (MiniJobsListCell *)[self.listViewController.listTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];

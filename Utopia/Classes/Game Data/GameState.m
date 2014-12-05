@@ -1648,7 +1648,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   ClanHelp *ch = [notif userInfo][CLAN_HELP_NOTIFICATION_KEY];
   
   if (ch.helpType == GameActionTypeHeal) {
-    for (HospitalQueue *hq in self.monsterHealingQueues) {
+    for (HospitalQueue *hq in self.monsterHealingQueues.allValues) {
       for (UserMonsterHealingItem *hi in hq.healingItems) {
         if ([hi.userMonsterUuid isEqualToString:ch.userDataUuid]) {
           [hq readjustAllMonsterHealingProtos];

@@ -131,10 +131,6 @@ static Class amplitudeClass = nil;
   }
 }
 
-+ (void) logRevenue:(NSNumber *)num {
-  [amplitudeClass logRevenue:num];
-}
-
 #pragma mark - Tutorial stuff
 
 + (void) equipTutorialStep:(int)tutorialStep {
@@ -329,7 +325,11 @@ static NSDate *timeSinceLastTutStep = nil;
   
   [self event:@"iap_purchased" withArgs:dict];
   
-  [self logRevenue:@(amountUS)];
+  if (product && transaction) {
+    [amplitudeClass logRevenue:product.productIdentifier quantity:1 price:@(amountUS) receipt:transaction.transactionReceipt];
+  } else {
+    [amplitudeClass logRevenue:@(amountUS)];
+  }
   
   [titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
   
