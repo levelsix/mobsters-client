@@ -16,6 +16,7 @@
 #import "SkillPoison.h"
 #import "SkillRoidRage.h"
 #import "SkillMomentum.h"
+#import "SkillThickSkin.h"
 
 @implementation SkillController
 
@@ -31,6 +32,7 @@
     case SkillTypePoison: return [[SkillPoison alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeRoidRage: return [[SkillRoidRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeThickSkin: return [[SkillThickSkin alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
