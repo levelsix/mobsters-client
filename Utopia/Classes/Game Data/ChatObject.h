@@ -10,16 +10,25 @@
 
 #import "Protocols.pb.h"
 #import "MSDate.h"
-#import "ChatCell.h"
+
+#import "UserData.h"
+
+@class ChatCell;
 
 @protocol ChatObject <NSObject>
 
 - (MinimumUserProto *)sender;
 - (NSString *)message;
 - (MSDate *)date;
-- (UIColor *)textColor;
+
+
+- (UIColor *)bottomViewTextColor;
 
 - (BOOL) isRead;
+
+@optional
+- (MinimumUserProto *)otherUser;
+- (void) markAsRead;
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag;
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell;
@@ -36,5 +45,13 @@
 @property (nonatomic, assign) BOOL isRead;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
+
+@end
+
+@interface RequestFromFriend (ChatObject) <ChatObject>
+
+@end
+
+@interface PrivateChatPostProto (ChatObject) <ChatObject>
 
 @end

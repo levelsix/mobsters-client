@@ -138,7 +138,9 @@
     
     [self removeViewOverChatView];
     
+    // Prioritize private, then clan if in a clan, then global..
     ChatScope scope = gs.clan ? ChatScopeClan : ChatScopeGlobal;
+    if ([self shouldShowNotificationDotForScope:ChatScopePrivate]) scope = ChatScopePrivate;
     [self.chatBottomView switchToScope:scope animated:NO];
     
     // Put this here so it only happens once
@@ -155,6 +157,8 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
@@ -585,7 +589,7 @@
   } else if (scope == ChatScopeClan) {
     return (int)gs.allClanChatObjects.count;
   } else if (scope == ChatScopePrivate) {
-    return (int)gs.privateChats.count;
+    return (int)gs.allPrivateChats.count;
   }
   return 0;
 }
@@ -606,7 +610,7 @@
   return nil;
 }
 
-- (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
+- (id <ChatObject>) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopeGlobal) {
     return gs.globalChatMessages[gs.globalChatMessages.count-lineNum-1];
@@ -614,14 +618,7 @@
     NSArray *arr = [gs allClanChatObjects];
     return arr[arr.count-lineNum-1];
   } else if (scope == ChatScopePrivate) {
-    PrivateChatPostProto *post = gs.privateChats[lineNum];
-    
-    ChatMessage *cm = [[ChatMessage alloc] init];
-    cm.sender = post.otherUserWithLevel.minUserProto;
-    cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
-    cm.message = post.content;
-    
-    return cm;
+    return gs.allPrivateChats[lineNum];
   }
   return nil;
 }
@@ -629,8 +626,8 @@
 - (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopePrivate) {
-    PrivateChatPostProto *post = gs.privateChats[lineNum];
-    return [post isUnread];
+    id<ChatObject> post = gs.allPrivateChats[lineNum];
+    return !post.isRead;
   }
   return NO;
 }
@@ -638,8 +635,8 @@
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopePrivate) {
-    for (PrivateChatPostProto *p in gs.privateChats) {
-      if (p.isUnread) {
+    for (id<ChatObject> p in gs.allPrivateChats) {
+      if (!p.isRead) {
         return YES;
       }
     }

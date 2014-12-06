@@ -185,6 +185,7 @@
 - (void) addToExpansionCosts:(NSArray *)costs;
 - (void) addToEventCooldownTimes:(NSArray *)arr;
 
+- (NSArray *) allPrivateChats;
 - (NSArray *) allClanChatObjects;
 - (void) updateClanData:(ClanDataProto *)clanData;
 

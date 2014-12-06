@@ -33,10 +33,6 @@
                     <rect key="frame" x="3" y="0.0" width="424" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sellcapn.png" id="zqX-qK-oBc">
-                            <rect key="frame" x="12" y="-4" width="81" height="54"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a mobster to heal." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lrK-AL-FxU" customClass="NiceFontLabel12">
                             <rect key="frame" x="45" y="6" width="334" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -88,10 +84,6 @@
                                 <outlet property="delegate" destination="47O-aY-Ys8" id="umC-C9-iKg"/>
                             </connections>
                         </collectionView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="gCL-Yj-snu" customClass="FlipImageView">
-                            <rect key="frame" x="85" y="1" width="1" height="48"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                         <view contentMode="scaleToFill" id="pR8-vV-nn1" userLabel="Finish View">
                             <rect key="frame" x="329" y="5" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -159,31 +151,35 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="D6s-gt-FQd" customClass="HomeTitleView">
-                            <rect key="frame" x="0.0" y="0.0" width="86" height="50"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="QueueHealingCenterT1.png" id="ODf-aq-D4t">
-                                    <rect key="frame" x="-22" y="-30" width="131" height="67"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LEVEL 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jdr-zJ-ojq" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="-4" y="30" width="95" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                    <color key="textColor" red="0.31764706970000001" green="0.31764706970000001" blue="0.31764706970000001" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="titleImageView" destination="ODf-aq-D4t" id="NPa-Vn-fLr"/>
-                                <outlet property="titleLabel" destination="jdr-zJ-ojq" id="ljp-f0-aRk"/>
-                            </connections>
-                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="D6s-gt-FQd" customClass="HomeTitleView">
+                    <rect key="frame" x="3" y="0.0" width="86" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottom" image="QueueHealingCenterT1.png" id="ODf-aq-D4t">
+                            <rect key="frame" x="-22" y="-30" width="131" height="67"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LEVEL 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jdr-zJ-ojq" customClass="NiceFontLabel12">
+                            <rect key="frame" x="-4" y="30" width="95" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.31764706970000001" green="0.31764706970000001" blue="0.31764706970000001" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="gCL-Yj-snu" customClass="FlipImageView">
+                            <rect key="frame" x="85" y="1" width="1" height="48"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="titleImageView" destination="ODf-aq-D4t" id="NPa-Vn-fLr"/>
+                        <outlet property="titleLabel" destination="jdr-zJ-ojq" id="ljp-f0-aRk"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -195,7 +191,7 @@
                 <outlet property="emptyListView" destination="17M-7t-zXj" id="p2H-is-UxW"/>
                 <outlet property="notEmptyListView" destination="4Yu-BE-Wl2" id="FxZ-Gj-mGi"/>
             </connections>
-            <point key="canvasLocation" x="218" y="55.5"/>
+            <point key="canvasLocation" x="38" y="149.5"/>
         </view>
     </objects>
     <resources>
@@ -206,7 +202,6 @@
         <image name="popuplinevertical.png" width="1" height="1"/>
         <image name="purplemenuoption.png" width="80" height="40"/>
         <image name="sellbarbg.png" width="424" height="50"/>
-        <image name="sellcapn.png" width="81" height="54"/>
         <image name="speedupbigicon.png" width="23" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

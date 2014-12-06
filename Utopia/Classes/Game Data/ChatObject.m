@@ -7,8 +7,15 @@
 //
 
 #import "ChatObject.h"
+#import "ChatCell.h"
 
 #import "NibUtils.h"
+
+#import "Globals.h"
+#import "GameState.h"
+
+#import "OutgoingEventController.h"
+#import "UnreadNotifications.h"
 
 @implementation ChatMessage
 
@@ -28,7 +35,7 @@
   return self;
 }
 
-- (UIColor *)textColor {
+- (UIColor *)bottomViewTextColor {
   return [UIColor whiteColor];
 }
 
@@ -44,6 +51,131 @@
   CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
   float height = size.height+frame.origin.y+14.f;
   return height;
+}
+
+@end
+
+@implementation RequestFromFriend (ChatObject)
+
+- (ResidenceProto *) staticStruct {
+  GameState *gs = [GameState sharedGameState];
+  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+    if (ss.structInfo.structType == StructureInfoProto_StructTypeResidence &&
+        ss.structInfo.level == self.invite.structFbLvl) {
+      ResidenceProto *rp = (ResidenceProto *)ss;
+      return rp;
+    }
+  }
+  
+  return nil;
+}
+
+- (MinimumUserProto *) sender {
+  return self.invite.inviter.minUserProto;
+}
+
+- (MinimumUserProto *) otherUser {
+  return [self sender];
+}
+
+- (NSString *) message {
+  ResidenceProto *rp = [self staticStruct];
+  return [NSString stringWithFormat:@"Please help me increase my %@ size by being my %@.", rp.structInfo.name, rp.occupationName];
+}
+
+- (MSDate *) date {
+  return [MSDate dateWithTimeIntervalSince1970:self.invite.timeOfInvite/1000.];
+}
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (BOOL) isRead {
+  return NO;
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  NSString *nibName = @"ChatBonusSlotRequestView";
+  ChatBonusSlotRequestView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForRequest:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  UIFont *font = chatCell.msgLabel.font;
+  CGRect frame = chatCell.msgLabel.frame;
+  
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  
+  NSString *msg = [self message];
+  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+frame.origin.y+14.f;
+  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
+  
+  return height;
+}
+
+- (PrivateChatPostProto *) privateChat {
+  ResidenceProto *rp = [self staticStruct];
+  NSString *posName = [NSString stringWithFormat:@"Happy to help! I am now your %@. 😉", rp.occupationName];
+  
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
+  bldr.content = posName;
+  bldr.poster = [gs minUserWithLevel];
+  bldr.recipient = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
+  bldr.timeOfPost = [[MSDate date] timeIntervalSince1970]*1000.;
+  PrivateChatPostProto *pcpp = [bldr build];
+  return pcpp;
+}
+
+- (IBAction)helpClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptUuids:@[self.invite.inviteUuid] rejectUuids:nil];
+  
+  PrivateChatPostProto *pcpp = [self privateChat];
+  
+  // Send a private message as if you just accepted the hire
+  [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.invite.inviter.minUserProto.userUuid content:pcpp.content];
+  
+  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, pcpp.recipient.minUserProto.userUuid];
+  [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:self userInfo:@{key : pcpp}];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+}
+
+- (void) markAsRead {
+  [[self privateChat] markAsRead];
+}
+
+@end
+
+@implementation PrivateChatPostProto (ChatObject)
+
+- (MinimumUserProto *) sender {
+  return self.poster.minUserProto;
+}
+
+- (NSString *) message {
+  return self.content;
+}
+
+- (MSDate *) date {
+  return [MSDate dateWithTimeIntervalSince1970:self.timeOfPost/1000.];
+}
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor whiteColor];
+}
+
+- (BOOL) isRead {
+  return !self.isUnread;
 }
 
 @end

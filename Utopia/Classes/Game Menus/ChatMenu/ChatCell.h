@@ -10,6 +10,7 @@
 #import "UserData.h"
 #import "MonsterCardView.h"
 #import "NibUtils.h"
+#import "ChatObject.h"
 
 @interface ChatCell : UITableViewCell
 
@@ -42,9 +43,9 @@
 
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 
-@property (nonatomic, strong) PrivateChatPostProto *privateChat;
+@property (nonatomic, strong) id<ChatObject> privateChat;
 
-- (void) updateForPrivateChat:(PrivateChatPostProto *)privateChat;
+- (void) updateForPrivateChat:(id<ChatObject>)privateChat;
 
 @end
 
@@ -61,5 +62,13 @@
 
 - (void) flip;
 - (void) unflip;
+
+@end
+
+@interface ChatBonusSlotRequestView : UIView
+
+@property (nonatomic, assign) IBOutlet UIButton *helpButton;
+
+- (void) updateForRequest:(RequestFromFriend *)req;
 
 @end

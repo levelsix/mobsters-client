@@ -1311,7 +1311,7 @@
 }
 
 - (BOOL) isEqual:(RequestFromFriend *)object {
-  return [self.invite.inviteUuid isEqualToString:object.invite.inviteUuid];
+  return [self class] == [object class] && [self.invite.inviteUuid isEqualToString:object.invite.inviteUuid];
 }
 
 - (NSUInteger) hash {

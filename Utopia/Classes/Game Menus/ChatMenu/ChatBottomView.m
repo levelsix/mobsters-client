@@ -24,7 +24,7 @@
   self.msgLabel.text = cm.message;
   self.dotIcon.hidden = !showDot;
   
-  self.msgLabel.textColor = [cm textColor];
+  self.msgLabel.textColor = [cm bottomViewTextColor];
   
   CGSize s = [self.nameLabel.text getSizeWithFont:self.nameLabel.font constrainedToSize:self.nameLabel.frame.size];
   CGRect r = self.msgLabel.frame;

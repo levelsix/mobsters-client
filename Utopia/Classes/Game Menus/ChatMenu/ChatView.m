@@ -83,7 +83,9 @@
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
   NSArray *oldArray = self.chats;
-  self.chats = [chats copy];
+  self.chats = [chats sortedArrayUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
+    return [[obj1 date] compare:[obj2 date]];
+  }];
   
   BOOL shouldScrollToBottom = NO;
   if (animated) {
@@ -311,6 +313,8 @@
   [super awakeFromNib];
   self.backView.alpha = 0.f;
   [self.backView.superview bringSubviewToFront:self.backView];
+  
+  self.unrespondedChatMessages = [NSMutableArray array];
 }
 
 - (void) updateForPrivateChatList:(NSArray *)privateChats {
@@ -404,26 +408,58 @@
       GroupChatMessageProto_Builder *p = [GroupChatMessageProto builder];
       p.sender = [[[MinimumUserProtoWithLevel builder] setMinUserProto:gl.adminChatUser] build];
       p.content = @"Hey there! I'll be with you shortly. What can I help you with today?";
-      p.timeOfChat = [[NSDate date] timeIntervalSince1970]*1000;
+      p.timeOfChat = [[MSDate date] timeIntervalSince1970]*1000;
       [arr addObject:[[ChatMessage alloc] initWithProto:p.build]];
     }
     
-    [self updateForChats:[arr reversedArray] animated:NO];
+    self.baseChats = arr;
+    [self updateForChats:arr animated:NO];
   }
 }
 
 - (void) addPrivateChat:(PrivateChatPostProto *)post {
   [post markAsRead];
   
-  ChatMessage *cm = [[ChatMessage alloc] init];
-  cm.sender = post.poster.minUserProto;
-  cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
-  cm.message = post.content;
-  [self addChatMessage:cm];
+  // Check unresponded messages for this
+  id<ChatObject> unresponded = nil;
+  for (id<ChatObject> cm in self.unrespondedChatMessages) {
+    if ([cm.sender.userUuid isEqualToString:post.poster.minUserProto.userUuid] &&
+        [cm.message isEqualToString:post.content]) {
+      unresponded = cm;
+    }
+  }
+  
+  if (unresponded) {
+    [self.unrespondedChatMessages removeObject:unresponded];
+  } else {
+    ChatMessage *cm = [[ChatMessage alloc] init];
+    cm.sender = post.poster.minUserProto;
+    cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
+    cm.message = post.content;
+    [self addChatMessage:cm];
+    
+    if (!post.hasPrivateChatPostUuid) {
+      [self.unrespondedChatMessages addObject:cm];
+    }
+  }
 }
 
 - (void) addChatMessage:(ChatMessage *)cm {
-  [self updateForChats:[self.chats arrayByAddingObject:cm] animated:YES];
+  [self.baseChats addObject:cm];
+  [self updateForChats:self.baseChats animated:YES];
+}
+
+- (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
+  NSMutableArray *arr = [chats mutableCopy];
+  
+  GameState *gs = [GameState sharedGameState];
+  for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
+    if ([req.invite.inviter.minUserProto.userUuid isEqualToString:self.curUserUuid]) {
+      [arr addObject:req];
+    }
+  }
+  
+  [super updateForChats:arr animated:animated];
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -432,14 +468,15 @@
     if (msg.length > 0) {
       [[OutgoingEventController sharedOutgoingEventController] privateChatPost:self.curUserUuid content:msg];
       
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        GameState *gs = [GameState sharedGameState];
-        ChatMessage *cm = [ChatMessage new];
-        cm.date = [MSDate date];
-        cm.message = msg;
-        cm.sender = gs.minUserWithLevel.minUserProto;
-        [self addChatMessage:cm];
-      });
+      GameState *gs = [GameState sharedGameState];
+      ChatMessage *cm = [ChatMessage new];
+      cm.date = [MSDate date];
+      cm.message = msg;
+      cm.sender = gs.minUserWithLevel.minUserProto;
+      
+      [self.unrespondedChatMessages addObject:cm];
+      
+      [self addChatMessage:cm];
     }
     [super sendChatClicked:sender];
   } else {

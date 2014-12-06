@@ -142,13 +142,13 @@ static float buttonInitialWidth = 159.f;
 
 @implementation PrivateChatListCell
 
-- (void) updateForPrivateChat:(PrivateChatPostProto *)pcpp {
+- (void) updateForPrivateChat:(id<ChatObject>)pcpp {
   self.privateChat = pcpp;
   
-  self.msgLabel.text = pcpp.content;
-  self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
+  self.msgLabel.text = [pcpp message];
+  self.timeLabel.text = [Globals stringForTimeSinceNow:[pcpp date] shortened:NO];
   self.nameLabel.text = pcpp.otherUser.name;
-  self.unreadIcon.hidden = ![pcpp isUnread];
+  self.unreadIcon.hidden = [pcpp isRead];
   [self.monsterView updateForMonsterId:pcpp.otherUser.avatarMonsterId];
 }
 
@@ -182,6 +182,15 @@ static float buttonInitialWidth = 159.f;
 
 - (void) unflip {
   self.progressBar.superview.transform = CGAffineTransformIdentity;
+}
+
+@end
+
+@implementation ChatBonusSlotRequestView
+
+- (void) updateForRequest:(RequestFromFriend *)req {
+  [self.helpButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.helpButton addTarget:req action:@selector(helpClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end

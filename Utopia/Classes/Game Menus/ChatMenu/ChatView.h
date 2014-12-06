@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ChatObject.h"
+#import "ChatCell.h"
 
 @protocol ChatPopoverDelegate <NSObject>
 
@@ -102,6 +103,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) NSArray *privateChatList;
+@property (nonatomic, retain) NSMutableArray *baseChats;
+
+@property (nonatomic, retain) NSMutableArray *unrespondedChatMessages;
 
 - (void) addPrivateChat:(PrivateChatPostProto *)pcpp;
 - (void) updateForPrivateChatList:(NSArray *)privateChats;

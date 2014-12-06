@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatView">
@@ -18,11 +19,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="ywR-nY-n23">
-                        <rect key="frame" x="-1" y="2" width="300" height="110"/>
+                        <rect key="frame" x="-1" y="2" width="300" height="111"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="bEN-XI-Mut">
-                                <rect key="frame" x="36" y="0.0" width="264" height="110"/>
+                                <rect key="frame" x="36" y="0.0" width="264" height="111"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Id7-yc-NNV" userLabel="Bubble Align View">
@@ -35,7 +36,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bluechattail.png" highlightedImage="greychattail.png" id="ufD-iI-swV">
-                                        <rect key="frame" x="0.0" y="93" width="23" height="17"/>
+                                        <rect key="frame" x="0.0" y="94" width="23" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bluechatcorner.png" highlightedImage="greychatcorner.png" id="gUn-o7-hxZ" customClass="FlipImageView">
@@ -43,15 +44,15 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bluechatcorner.png" highlightedImage="greychatcorner.png" id="hhB-74-daK" customClass="DoubleFlipImageView">
-                                        <rect key="frame" x="247" y="93" width="17" height="17"/>
+                                        <rect key="frame" x="247" y="94" width="17" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="bluechatmiddle.png" highlightedImage="greychatmiddle.png" id="ckM-6J-ggg">
-                                        <rect key="frame" x="6" y="16" width="258" height="78"/>
+                                        <rect key="frame" x="6" y="16" width="258" height="79"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="bluechatmiddle.png" highlightedImage="greychatmiddle.png" id="oZ3-Bz-feD">
-                                        <rect key="frame" x="22" y="0.0" width="226" height="110"/>
+                                        <rect key="frame" x="22" y="0.0" width="226" height="111"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
@@ -84,7 +85,7 @@
                                 <color key="highlightedColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <view contentMode="scaleToFill" id="cEb-kl-dui" customClass="CircleMonsterView">
-                                <rect key="frame" x="7" y="80" width="30" height="30"/>
+                                <rect key="frame" x="7" y="81" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="Jzt-zQ-wnd">

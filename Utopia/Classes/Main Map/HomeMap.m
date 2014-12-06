@@ -693,21 +693,23 @@
 #pragma mark - Moving
 
 - (BOOL) moveToStruct:(int)structId quantity:(int)quantity animated:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   int baseStructId = [gl baseStructIdForStructId:structId];
+  StructureInfoProto *sip = [[gs structWithId:structId] structInfo];
   
   NSMutableArray *validStructs = [NSMutableArray array];
   for (UserStruct *us in self.myStructsList) {
-    int trueStructId = us.staticStructForCurrentConstructionLevel.structInfo.structId;
-    if (us.baseStructId == baseStructId && trueStructId < structId) {
+    StructureInfoProto *sip2 = us.staticStructForCurrentConstructionLevel.structInfo;
+    if (us.baseStructId == baseStructId && sip2.level < sip.level) {
       [validStructs addObject:us];
     }
   }
   
   // Descending order
   [validStructs sortUsingComparator:^NSComparisonResult(UserStruct *obj1, UserStruct *obj2) {
-    return [@(obj2.structId) compare:@(obj1.structId)];
+    return [@(obj2.staticStruct.structInfo.level) compare:@(obj1.staticStruct.structInfo.level)];
   }];
   
   // Get the lowest level one that is within quantity

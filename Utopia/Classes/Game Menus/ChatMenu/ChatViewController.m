@@ -49,6 +49,9 @@
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   
+  //[center addObserver:self selector:@selector(reloadTables:) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+  
   [center addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
   
@@ -107,8 +110,8 @@
 - (void) updateBadges {
   GameState *gs = [GameState sharedGameState];
   int privBadge = 0;
-  for (PrivateChatPostProto *p in gs.privateChats) {
-    if (p.isUnread) {
+  for (id<ChatObject> p in gs.allPrivateChats) {
+    if (!p.isRead) {
       privBadge++;
     }
   }
@@ -135,13 +138,15 @@
 }
 
 - (void) reloadTables:(NSNotification *)notification {
-  GameState *gs = [GameState sharedGameState];
   [self reloadTablesAnimated:YES];
   
   // Only add a private chat if it is from the other user
   PrivateChatPostProto *pcpp = [notification.userInfo objectForKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.privateChatView.curUserUuid]];
-  if ([pcpp.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] && [pcpp.poster.minUserProto.userUuid isEqualToString:self.privateChatView.curUserUuid]) {
+  if ([pcpp.otherUser.userUuid isEqualToString:self.privateChatView.curUserUuid]) {
     [self.privateChatView addPrivateChat:pcpp];
+  } else if ([notification.name isEqualToString:NEW_FB_INVITE_NOTIFICATION]) {
+    // Reload with baseChats so that the new fb invite gets potentially added.. if possible
+    [self.privateChatView updateForChats:self.privateChatView.baseChats animated:YES];
   }
 }
 
@@ -149,7 +154,7 @@
   GameState *gs = [GameState sharedGameState];
   [self.globalChatView updateForChats:gs.globalChatMessages animated:animated];
   [self.clanChatView updateForChats:gs.allClanChatObjects andClan:gs.clan animated:animated];
-  [self.privateChatView updateForPrivateChatList:gs.privateChats];
+  [self.privateChatView updateForPrivateChatList:gs.allPrivateChats];
   
   [self updateBadges];
 }

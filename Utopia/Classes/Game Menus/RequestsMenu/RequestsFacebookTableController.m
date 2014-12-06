@@ -136,6 +136,9 @@
 - (void) sendInviteResponses {
   [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptUuids:self.acceptedRequestUuids rejectUuids:self.rejectedRequestUuids];
   
+  [self.acceptedRequestUuids removeAllObjects];
+  [self.rejectedRequestUuids removeAllObjects];
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
 }
 

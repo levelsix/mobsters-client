@@ -7,6 +7,7 @@
 //
 
 #import "ClanHelp.h"
+#import "ChatCell.h"
 
 #import "GameState.h"
 #import "Globals.h"
@@ -160,7 +161,7 @@
   return [self helpString];
 }
 
-- (UIColor *) textColor {
+- (UIColor *) bottomViewTextColor {
   return [UIColor colorWithHexString:@"ffe400"];
 }
 
@@ -386,7 +387,7 @@
   return ![self canHelpForUserUuid:gs.userUuid];
 }
 
-- (UIColor *) textColor {
+- (UIColor *) bottomViewTextColor {
   return [UIColor colorWithHexString:@"ffe400"];
 }
 

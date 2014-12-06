@@ -599,6 +599,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (NSArray *) allPrivateChats {
+  NSMutableArray *arr = [self.privateChats mutableCopy];
+  
+  for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
+    PrivateChatPostProto *toReplace = nil;
+    for (PrivateChatPostProto *pcpp in self.privateChats) {
+      if ([req.otherUser.userUuid isEqualToString:pcpp.otherUser.userUuid]) {
+        toReplace = pcpp;
+      }
+    }
+    
+    if (toReplace) {
+      [arr replaceObjectAtIndex:[arr indexOfObject:toReplace] withObject:req];
+    } else {
+      [arr addObject:req];
+    }
+  }
+  
+  [arr sortUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
+    return [[obj1 date] compare:[obj2 date]];
+  }];
+  
+  return arr;
+}
+
 - (NSArray *) allClanChatObjects {
   NSMutableArray *arr = [self.clanChatMessages mutableCopy];
   

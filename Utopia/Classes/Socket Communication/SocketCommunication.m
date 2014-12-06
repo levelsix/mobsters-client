@@ -172,6 +172,8 @@ static NSString *udid = nil;
   if (![oldClanUuid isEqualToString:_sender.clan.clanUuid]) {
     [self reloadClanMessageQueue];
   }
+  
+  LNLog (@"Rebuilt sender: %@", _sender);
 }
 
 - (MinimumUserProtoWithMaxResources *) senderWithMaxResources {
@@ -210,6 +212,7 @@ static NSString *udid = nil;
   
   // Need to do this so clan queue gets recreated on clicking home button
   _sender = nil;
+  LNLog (@"Nulled out sender..");
   
   _canSendRegularEvents = NO;
   _canSendPreDbEvents = NO;
