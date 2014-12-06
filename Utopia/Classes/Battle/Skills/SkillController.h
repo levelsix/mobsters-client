@@ -13,7 +13,7 @@
 #import "BattleSprite.h"
 #import "SkillPopupOverlay.h"
 
-typedef void(^SkillControllerBlock)(BOOL triggered);
+typedef void(^SkillControllerBlock)(BOOL triggered, id params);
 
 @class NewBattleLayer;
 
@@ -43,6 +43,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @interface SkillController : NSObject
 {
   SkillControllerBlock  _callbackBlock;
+  NSDictionary*         _callbackParams;
   SkillPopupBlock       _callbackBlockForPopup;
   UIImageView*          _characterImage;
   SkillPopupOverlay*    _popupOverlay;

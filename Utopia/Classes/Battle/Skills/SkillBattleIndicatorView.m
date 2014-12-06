@@ -125,7 +125,7 @@
 {
   if (_skillButtonEnabled && [_skillController skillIsReady])
   {
-    [_skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered) {
+    [_skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered, id params) {
       [self update];
     }];
   }

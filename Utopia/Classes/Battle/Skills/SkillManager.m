@@ -208,7 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   //return;
   
   // Wrapping indicators update into the block
-  SkillControllerBlock newBlock = ^(BOOL triggered) {
+  SkillControllerBlock newBlock = ^(BOOL triggered, id params) {
     
     // Update indicators
     if (_skillIndicatorPlayer)
@@ -217,7 +217,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       [_skillIndicatorEnemy update];
     
     // Execute the completion block
-    completion(triggered);
+    completion(triggered, params);
     
     // Count turns
     if (trigger == SkillTriggerPointStartOfEnemyTurn || trigger == SkillTriggerPointStartOfPlayerTurn)
@@ -227,7 +227,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Update specials if needed and only then trigger skill
   if (trigger == SkillTriggerPointEndOfPlayerMove)
   {
-    [self updateSpecialsWithCompletion:^(BOOL triggered) {
+    [self updateSpecialsWithCompletion:^(BOOL triggered, id params) {
       [self triggerSkillsInternal:trigger withCompletion:newBlock];
     }];
   }
@@ -279,7 +279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
   
   // Sequencing player and enemy skills in case both should be triggered
-  SkillControllerBlock sequenceBlock = ^(BOOL triggered) {
+  SkillControllerBlock sequenceBlock = ^(BOOL triggered, id params) {
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Call if still alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
@@ -289,7 +289,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
       }
     
     if (!enemySkillTriggered)
-      completion(triggered);
+      completion(triggered, params);
   };
   
   // Triggering the player's skill with a sequence block or (if no player skill) the enemy's skill with a simple completion
@@ -298,7 +298,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   else if (_enemySkillController && shouldTriggerEnemySkill)
     [_enemySkillController triggerSkill:trigger withCompletion:completion];
   else
-    completion(NO);
+    completion(NO, nil);
 }
 
 #pragma mark - UI

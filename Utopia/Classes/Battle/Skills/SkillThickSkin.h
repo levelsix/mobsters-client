@@ -12,6 +12,12 @@
 {
   // Properties
   float _bonusResistance;
+  
+  // Counters
+  NSInteger _damageAbsorbed;
+  
+  // Temp
+  BOOL  _logoShown;
 }
 
 @end

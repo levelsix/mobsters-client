@@ -470,7 +470,7 @@
     self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
     
     SkillLogStart(@"TRIGGER STARTED: enemy initialized");
-    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered) {
+    [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
       SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
       [self createScheduleWithSwap:NO];
     }];
@@ -606,7 +606,7 @@
       if (_firstTurn) {
         // Trigger skills when new enemy joins the battle
         SkillLogStart(@"TRIGGER STARTED: enemy appeared");
-        [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
+        [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
           SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
           [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
         }];
@@ -648,7 +648,7 @@
   
   // Skills trigger for enemy turn started
   SkillLogStart(@"TRIGGER STARTED: beginning of player turn");
-  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered) {
+  [skillManager triggerSkills:SkillTriggerPointStartOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Beginning of player turn ENDED");
     [self.orbLayer.bgdLayer turnTheLightsOn];
@@ -680,7 +680,7 @@
   [self performAfterDelay:delay block:^{
     
     SkillLogStart(@"TRIGGER STARTED: beginning of enemy turn");
-    [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered) {
+    [skillManager triggerSkills:SkillTriggerPointStartOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  Beginning of enemy turn ENDED");
       if (_enemyPlayerObject) // can be set to nil during the skill execution - Cake Drop does that and starts different sequence
@@ -761,13 +761,19 @@
 - (void) dealMyDamage {
   
   SkillLogStart(@"TRIGGER STARTED: deal damage by player");
-  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered) {
+  [skillManager triggerSkills:SkillTriggerPointPlayerDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by player trigger ENDED");
     
     _enemyShouldAttack = YES;
     
-    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:NO withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
+    BOOL usingAbility = NO;
+    if (params && [params isKindOfClass:[NSDictionary class]] &&
+        [ params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] &&
+        [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] isKindOfClass:[NSNumber class]])
+      usingAbility = [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] boolValue];
+    
+    [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:usingAbility withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
     
     float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
     if (perc < PULSE_CONT_THRESH) {
@@ -782,13 +788,19 @@
 - (void) dealEnemyDamage {
   
   SkillLogStart(@"TRIGGER STARTED: deal damage by enemy");
-  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered) {
+  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
     
     _totalDamageTaken += _enemyDamageDealt;
     
-    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:NO withTarget:self withSelector:@selector(checkMyHealth)];
+    BOOL usingAbility = NO;
+    if (params && [params isKindOfClass:[NSDictionary class]] &&
+        [ params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] &&
+        [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] isKindOfClass:[NSNumber class]])
+      usingAbility = [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] boolValue];
+    
+    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:usingAbility withTarget:self withSelector:@selector(checkMyHealth)];
     
     float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
     if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -946,7 +958,7 @@
     
     // Trigger skills for move made by the player
     SkillLogStart(@"TRIGGER STARTED: enemy defeated");
-    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered) {
+    [skillManager triggerSkills:SkillTriggerPointEnemyDefeated withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  Enemy defeated trigger ENDED");
       
@@ -1015,7 +1027,7 @@
   
   if ([self playerMobstersLeft] > 0) {
     SkillLogStart(@"TRIGGER STARTED: mob defeated");
-    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered) {
+    [skillManager triggerSkills:SkillTriggerPointPlayerMobDefeated withCompletion:^(BOOL triggered, id params) {
       SkillLogEnd(triggered, @"  Mob defeated trigger ENDED");
       [self displayDeployViewAndIsCancellable:NO];
     }];
@@ -1707,7 +1719,7 @@
   
   // Trigger skills for move made by the player
   SkillLogStart(@"TRIGGER STARTED: end of player move");
-  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered) {
+  [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  End of player move ENDED");
     BOOL enemyIsKilled = [self checkEnemyHealth];
@@ -1893,7 +1905,7 @@
     
     // Skills trigger for player appeared
     SkillLogStart(@"TRIGGER STARTED: player initialized");
-    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered) {
+    [skillManager triggerSkills:SkillTriggerPointPlayerInitialized withCompletion:^(BOOL triggered, id params) {
       
       SkillLogEnd(triggered, @"  Player initialized trigger ENDED");
       

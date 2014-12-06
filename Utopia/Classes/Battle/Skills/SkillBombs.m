@@ -234,12 +234,12 @@ static const NSInteger bombsMaxSearchIterations = 5000;
         [battleLayer.orbLayer.bgdLayer turnTheLightsOn];
         [battleLayer.orbLayer allowInput];
         
-        completion(YES);
+        completion(YES, nil);
       }];
     }];
   }
   else
-    completion(NO);
+    completion(NO, nil);
 }
 
 // Copy-paste with minor improvements from airplane animation

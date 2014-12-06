@@ -280,6 +280,15 @@
 		9B2389D61A314B8400FA3743 /* SkillThickSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2389D51A314B8400FA3743 /* SkillThickSkin.m */; };
 		9B2389D71A314B8400FA3743 /* SkillThickSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2389D51A314B8400FA3743 /* SkillThickSkin.m */; };
 		9B2389D81A314B8400FA3743 /* SkillThickSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2389D51A314B8400FA3743 /* SkillThickSkin.m */; };
+		9B2389E41A32540900FA3743 /* thickskinminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389E31A32540800FA3743 /* thickskinminilogo@2x.png */; };
+		9B2389E51A32540900FA3743 /* thickskinminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389E31A32540800FA3743 /* thickskinminilogo@2x.png */; };
+		9B2389E61A32540900FA3743 /* thickskinminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389E31A32540800FA3743 /* thickskinminilogo@2x.png */; };
+		9B2389EB1A32543600FA3743 /* thickskinlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */; };
+		9B2389EC1A32543600FA3743 /* thickskinlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */; };
+		9B2389ED1A32543600FA3743 /* thickskinlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */; };
+		9B2389EF1A32548A00FA3743 /* thickskinicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */; };
+		9B2389F01A32548A00FA3743 /* thickskinicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */; };
+		9B2389F11A32548A00FA3743 /* thickskinicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6544,6 +6553,9 @@
 		9B2389C71A310BAC00FA3743 /* nextmatchmask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextmatchmask@2x.png"; sourceTree = "<group>"; };
 		9B2389D41A314B8400FA3743 /* SkillThickSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillThickSkin.h; sourceTree = "<group>"; };
 		9B2389D51A314B8400FA3743 /* SkillThickSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillThickSkin.m; sourceTree = "<group>"; };
+		9B2389E31A32540800FA3743 /* thickskinminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thickskinminilogo@2x.png"; sourceTree = "<group>"; };
+		9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thickskinlogo@2x.png"; sourceTree = "<group>"; };
+		9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thickskinicon@2x.png"; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -7594,7 +7606,7 @@
 		CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobsViewController.m; sourceTree = "<group>"; };
 		CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsViewController.xib; sourceTree = "<group>"; };
 		CF688FF51912E5B200FF1F71 /* MiniJobsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobsListViewController.h; sourceTree = "<group>"; };
-		CF688FF61912E5B200FF1F71 /* MiniJobsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobsListViewController.m; sourceTree = "<group>"; };
+		CF688FF61912E5B200FF1F71 /* MiniJobsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MiniJobsListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF688FF71912E5B200FF1F71 /* MiniJobsListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsListViewController.xib; sourceTree = "<group>"; };
 		CF688FFA1912E5D000FF1F71 /* MiniJobsDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobsDetailsViewController.h; sourceTree = "<group>"; };
 		CF688FFB1912E5D000FF1F71 /* MiniJobsDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobsDetailsViewController.m; sourceTree = "<group>"; };
@@ -9252,7 +9264,7 @@
 		CFF64649195A578700C43641 /* ListCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCollectionView.m; sourceTree = "<group>"; };
 		CFF6464B195A684200C43641 /* EnhanceCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceCardCell.xib; sourceTree = "<group>"; };
 		CFF6464D195A69A300C43641 /* EnhanceQueueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhanceQueueViewController.h; sourceTree = "<group>"; };
-		CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhanceQueueViewController.m; sourceTree = "<group>"; };
+		CFF6464E195A69A300C43641 /* EnhanceQueueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EnhanceQueueViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF6464F195A69A300C43641 /* EnhanceQueueViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceQueueViewController.xib; sourceTree = "<group>"; };
 		CFF64654195A6A0B00C43641 /* enhancebottompressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = enhancebottompressed.png; path = Enhance/enhancebottompressed.png; sourceTree = "<group>"; };
 		CFF64655195A6A0B00C43641 /* enhancebottompressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enhancebottompressed@2x.png"; sourceTree = "<group>"; };
@@ -9277,7 +9289,7 @@
 		CFF646BA195A7CD100C43641 /* EnhanceSmallCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnhanceSmallCardCell.xib; sourceTree = "<group>"; };
 		CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "BugSense-iOS.framework"; sourceTree = "<group>"; };
 		CFF646C1195CD1D300C43641 /* HealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealViewController.h; sourceTree = "<group>"; };
-		CFF646C2195CD1D300C43641 /* HealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealViewController.m; sourceTree = "<group>"; };
+		CFF646C2195CD1D300C43641 /* HealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HealViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF646C3195CD1D300C43641 /* HealViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HealViewController.xib; sourceTree = "<group>"; };
 		CFF646C6195CD51000C43641 /* MonsterQueueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterQueueCell.xib; sourceTree = "<group>"; };
 		CFF646C8195CDD8300C43641 /* HealCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HealCardCell.xib; sourceTree = "<group>"; };
@@ -9289,7 +9301,7 @@
 		CFF646DA195CDE4800C43641 /* teamemptyslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "teamemptyslot@2x.png"; sourceTree = "<group>"; };
 		CFF646E0195CF9A000C43641 /* HealQueueFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HealQueueFooterView.xib; sourceTree = "<group>"; };
 		CFF646E8195D229400C43641 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamViewController.h; sourceTree = "<group>"; };
-		CFF646E9195D229400C43641 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamViewController.m; sourceTree = "<group>"; };
+		CFF646E9195D229400C43641 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TeamViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF646EA195D229400C43641 /* TeamViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamViewController.xib; sourceTree = "<group>"; };
 		CFF646ED195D252800C43641 /* TeamCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamCardCell.xib; sourceTree = "<group>"; };
 		CFF646EF195D2B6200C43641 /* TeamSlotView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamSlotView.xib; sourceTree = "<group>"; };
@@ -9307,7 +9319,7 @@
 		CFF64708195E1DEE00C43641 /* EvolveChooserViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveChooserViews.h; sourceTree = "<group>"; };
 		CFF64709195E1DEE00C43641 /* EvolveChooserViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveChooserViews.m; sourceTree = "<group>"; };
 		CFF6470C195E356700C43641 /* EvolveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveDetailsViewController.h; sourceTree = "<group>"; };
-		CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveDetailsViewController.m; sourceTree = "<group>"; };
+		CFF6470D195E356700C43641 /* EvolveDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EvolveDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CFF6470E195E356700C43641 /* EvolveDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvolveDetailsViewController.xib; sourceTree = "<group>"; };
 		CFF64711195E368800C43641 /* EvolveDetailsViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvolveDetailsViews.h; sourceTree = "<group>"; };
 		CFF64712195E368800C43641 /* EvolveDetailsViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvolveDetailsViews.m; sourceTree = "<group>"; };
@@ -11312,6 +11324,7 @@
 				4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */,
 				4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */,
 				DA5E401B19D10504001F28CE /* roidrageicon@2x.png */,
+				9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */,
 			);
 			path = "Skill Icons";
 			sourceTree = "<group>";
@@ -11327,6 +11340,14 @@
 				C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9B2389E21A32540800FA3743 /* Thick Skin */ = {
+			isa = PBXGroup;
+			children = (
+				9B2389E31A32540800FA3743 /* thickskinminilogo@2x.png */,
+			);
+			path = "Thick Skin";
 			sourceTree = "<group>";
 		};
 		CF012B3C18D400DD004C6825 /* Effectiveness */ = {
@@ -15835,6 +15856,7 @@
 				4C16FECF19CE03A200F9FC1E /* Poison */,
 				DA5E400319D104E7001F28CE /* Roid Rage */,
 				DA5E400019D104E7001F28CE /* Momentum */,
+				9B2389E21A32540800FA3743 /* Thick Skin */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -15970,6 +15992,7 @@
 				DA173A7C19CBAF2A005236C0 /* poisonlogo@2x.png */,
 				DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */,
 				DA5E401119D104FC001F28CE /* roidragelogo@2x.png */,
+				9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */,
 			);
 			path = "Skill Intro";
 			sourceTree = "<group>";
@@ -16374,6 +16397,7 @@
 				CF0CEF67196F452900ECD301 /* splashguyswide@2x.png in Resources */,
 				CF0CEF68196F452900ECD301 /* spinnerbg@2x.png in Resources */,
 				CF0CEF69196F452900ECD301 /* Scientist3Turn00@2x.png in Resources */,
+				9B2389E51A32540900FA3743 /* thickskinminilogo@2x.png in Resources */,
 				CF0CEF6A196F452900ECD301 /* buildingbar@2x.png in Resources */,
 				CF0CDE7319E4FC20006A5ECB /* buildingsquad@2x.png in Resources */,
 				CF0CEF6C196F452900ECD301 /* emptyachievementstar@2x.png in Resources */,
@@ -16507,6 +16531,7 @@
 				CFA728AC1A0B037900FF6031 /* lighteventbigbg@2x.png in Resources */,
 				CF0CF049196F452900ECD301 /* 4x4dark@2x.png in Resources */,
 				CF0CF04A196F452900ECD301 /* ultradot@2x.png in Resources */,
+				9B2389F01A32548A00FA3743 /* thickskinicon@2x.png in Resources */,
 				CF0CF04E196F452900ECD301 /* loststickerhead@2x.png in Resources */,
 				CF0CF04F196F452900ECD301 /* questnameribbonmask@2x.png in Resources */,
 				CF0CF050196F452900ECD301 /* emptybar@2x.png in Resources */,
@@ -17254,6 +17279,7 @@
 				CF0CF491196F452900ECD301 /* orbball@2x.png in Resources */,
 				CF0CF493196F452900ECD301 /* mjrequiredbg@2x.png in Resources */,
 				CF0CF495196F452900ECD301 /* Scientist4Turn11@2x.png in Resources */,
+				9B2389EC1A32543600FA3743 /* thickskinlogo@2x.png in Resources */,
 				CF0CF497196F452900ECD301 /* diamondprofribbon@2x.png in Resources */,
 				DA173A3619CA4230005236C0 /* forcefieldback@2x.png in Resources */,
 				CF0CF49C196F452900ECD301 /* sfx_firework_02.mp3 in Resources */,
@@ -18146,6 +18172,7 @@
 				CFFBDF9A18ACA3D90090CA9A /* Scientist3Turn00@2x.png in Resources */,
 				CFE7CD241819FC3300930847 /* buildingbar@2x.png in Resources */,
 				CF2A4AF21901B8F500B2D7D7 /* emptyachievementstar@2x.png in Resources */,
+				9B2389E41A32540900FA3743 /* thickskinminilogo@2x.png in Resources */,
 				CF1908B718D9221A00D6F0E4 /* buildingupgraded@2x.png in Resources */,
 				CF37377619E36B1D00CB16E3 /* youlostyou@2x.png in Resources */,
 				DA173A5E19CBAF00005236C0 /* shieldfont.fnt in Resources */,
@@ -18279,6 +18306,7 @@
 				CFF5DB98194BD8320019EB2B /* greysquirrel@2x.png in Resources */,
 				CFF2C90B193FB51000F28D9E /* Whitney-Black.otf in Resources */,
 				CF29EA721965418F00B40DA4 /* inaclanbutton@2x.png in Resources */,
+				9B2389EF1A32548A00FA3743 /* thickskinicon@2x.png in Resources */,
 				CFBB36E118EE3AF400FD6C8C /* oilmiddle@2x.png in Resources */,
 				CF134A4F18A5E4B500D7D700 /* FatBoy1Move00@2x.png in Resources */,
 				CFF73FDD18160760009DE4A4 /* AxeHandel.ttf in Resources */,
@@ -19026,6 +19054,7 @@
 				CFBB379318F4837C00FD6C8C /* questnameribbon@2x.png in Resources */,
 				CF134A7618A5E4B500D7D700 /* FatBoy4Move00@2x.png in Resources */,
 				CF0CE17C196E552500ECD301 /* 3splashbg@2x.png in Resources */,
+				9B2389EB1A32543600FA3743 /* thickskinlogo@2x.png in Resources */,
 				CFF2A5B019709C4800269084 /* Kim1T1RunNF@2x.pvr.ccz in Resources */,
 				CFFBDF5C18ACA3D90090CA9A /* Scientist2Blink07@2x.png in Resources */,
 				CFEC99251946BD0300BD893E /* gachaspinbutton@2x.png in Resources */,
@@ -20601,6 +20630,7 @@
 				CF481FFA19F7217F00041486 /* myteambg@2x.png in Resources */,
 				CF481FFD19F7217F00041486 /* Scientist1Turn14@2x.png in Resources */,
 				CF481FFE19F7217F00041486 /* Scientist4Blink02@2x.png in Resources */,
+				9B2389ED1A32543600FA3743 /* thickskinlogo@2x.png in Resources */,
 				CF48200019F7217F00041486 /* bluenotificationbubble@2x.png in Resources */,
 				CF48200119F7217F00041486 /* nameinput@2x.png in Resources */,
 				29804F2C1A1DA91200806253 /* speedupicon@2x.png in Resources */,
@@ -20624,6 +20654,7 @@
 				CF48202019F7217F00041486 /* bottomcardoverlay@2x.png in Resources */,
 				CF48202119F7217F00041486 /* chatprivateactive@2x.png in Resources */,
 				CF48202319F7217F00041486 /* cashcollected.fnt in Resources */,
+				9B2389F11A32548A00FA3743 /* thickskinicon@2x.png in Resources */,
 				CF48202419F7217F00041486 /* healingicon@2x.png in Resources */,
 				CF48202519F7217F00041486 /* winlosegradient@2x.png in Resources */,
 				CF48202719F7217F00041486 /* speechbubbleshortname@2x.png in Resources */,
@@ -21221,6 +21252,7 @@
 				CF4823CC19F7217F00041486 /* platinumicon@2x.png in Resources */,
 				CFA728D11A0B037900FF6031 /* charactercircle@2x.png in Resources */,
 				CF4823D319F7217F00041486 /* EvolveDetailsViewController.xib in Resources */,
+				9B2389E61A32540900FA3743 /* thickskinminilogo@2x.png in Resources */,
 				CF4823D419F7217F00041486 /* arrow@2x.png in Resources */,
 				CF4823D519F7217F00041486 /* manageteammenuheader@2x.png in Resources */,
 				CF4823D619F7217F00041486 /* rankupspinner@2x.png in Resources */,
