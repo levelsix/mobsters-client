@@ -51,6 +51,10 @@
 @class QueueUpRequestProto_Builder;
 @class QueueUpResponseProto;
 @class QueueUpResponseProto_Builder;
+@class SetDefendingMsgRequestProto;
+@class SetDefendingMsgRequestProto_Builder;
+@class SetDefendingMsgResponseProto;
+@class SetDefendingMsgResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -107,6 +111,13 @@ typedef NS_ENUM(SInt32, EndPvpBattleResponseProto_EndPvpBattleStatus) {
 };
 
 BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value);
+
+typedef NS_ENUM(SInt32, SetDefendingMsgResponseProto_SetDefendingMsgStatus) {
+  SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess = 1,
+  SetDefendingMsgResponseProto_SetDefendingMsgStatusFailOther = 2,
+};
+
+BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefendingMsgResponseProto_SetDefendingMsgStatus value);
 
 
 @interface EventPvpRoot : NSObject {
@@ -638,6 +649,126 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
 - (EndPvpBattleResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
 - (EndPvpBattleResponseProto_Builder *)clearUpdatedOrNew;
+@end
+
+@interface SetDefendingMsgRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasMsg_:1;
+  BOOL hasSender_:1;
+  NSString* msg;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasMsg;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSString* msg;
+
++ (SetDefendingMsgRequestProto*) defaultInstance;
+- (SetDefendingMsgRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetDefendingMsgRequestProto_Builder*) builder;
++ (SetDefendingMsgRequestProto_Builder*) builder;
++ (SetDefendingMsgRequestProto_Builder*) builderWithPrototype:(SetDefendingMsgRequestProto*) prototype;
+- (SetDefendingMsgRequestProto_Builder*) toBuilder;
+
++ (SetDefendingMsgRequestProto*) parseFromData:(NSData*) data;
++ (SetDefendingMsgRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetDefendingMsgRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetDefendingMsgRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetDefendingMsgRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetDefendingMsgRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetDefendingMsgRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SetDefendingMsgRequestProto* result;
+}
+
+- (SetDefendingMsgRequestProto*) defaultInstance;
+
+- (SetDefendingMsgRequestProto_Builder*) clear;
+- (SetDefendingMsgRequestProto_Builder*) clone;
+
+- (SetDefendingMsgRequestProto*) build;
+- (SetDefendingMsgRequestProto*) buildPartial;
+
+- (SetDefendingMsgRequestProto_Builder*) mergeFrom:(SetDefendingMsgRequestProto*) other;
+- (SetDefendingMsgRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetDefendingMsgRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetDefendingMsgRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetDefendingMsgRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SetDefendingMsgRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetDefendingMsgRequestProto_Builder*) clearSender;
+
+- (BOOL) hasMsg;
+- (NSString*) msg;
+- (SetDefendingMsgRequestProto_Builder*) setMsg:(NSString*) value;
+- (SetDefendingMsgRequestProto_Builder*) clearMsg;
+@end
+
+@interface SetDefendingMsgResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly) SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+
++ (SetDefendingMsgResponseProto*) defaultInstance;
+- (SetDefendingMsgResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetDefendingMsgResponseProto_Builder*) builder;
++ (SetDefendingMsgResponseProto_Builder*) builder;
++ (SetDefendingMsgResponseProto_Builder*) builderWithPrototype:(SetDefendingMsgResponseProto*) prototype;
+- (SetDefendingMsgResponseProto_Builder*) toBuilder;
+
++ (SetDefendingMsgResponseProto*) parseFromData:(NSData*) data;
++ (SetDefendingMsgResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetDefendingMsgResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetDefendingMsgResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetDefendingMsgResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetDefendingMsgResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetDefendingMsgResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  SetDefendingMsgResponseProto* result;
+}
+
+- (SetDefendingMsgResponseProto*) defaultInstance;
+
+- (SetDefendingMsgResponseProto_Builder*) clear;
+- (SetDefendingMsgResponseProto_Builder*) clone;
+
+- (SetDefendingMsgResponseProto*) build;
+- (SetDefendingMsgResponseProto*) buildPartial;
+
+- (SetDefendingMsgResponseProto_Builder*) mergeFrom:(SetDefendingMsgResponseProto*) other;
+- (SetDefendingMsgResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetDefendingMsgResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetDefendingMsgResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetDefendingMsgResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (SetDefendingMsgResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetDefendingMsgResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status;
+- (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value;
+- (SetDefendingMsgResponseProto_Builder*) clearStatus;
 @end
 
 

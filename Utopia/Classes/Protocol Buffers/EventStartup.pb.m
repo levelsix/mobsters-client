@@ -6337,6 +6337,7 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
 @property Float32 minPvpDmgDelta;
 @property Float32 maxPvpDmgDelta;
 @property int32_t pvpRequiredMinLvl;
+@property int32_t defendingMsgCharLimit;
 @end
 
 @implementation StartupResponseProto_StartupConstants_PvpConstants
@@ -6369,12 +6370,20 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
   hasPvpRequiredMinLvl_ = !!value_;
 }
 @synthesize pvpRequiredMinLvl;
+- (BOOL) hasDefendingMsgCharLimit {
+  return !!hasDefendingMsgCharLimit_;
+}
+- (void) setHasDefendingMsgCharLimit:(BOOL) value_ {
+  hasDefendingMsgCharLimit_ = !!value_;
+}
+@synthesize defendingMsgCharLimit;
 - (id) init {
   if ((self = [super init])) {
     self.pvpDmgsWindowSize = 0;
     self.minPvpDmgDelta = 0;
     self.maxPvpDmgDelta = 0;
     self.pvpRequiredMinLvl = 0;
+    self.defendingMsgCharLimit = 0;
   }
   return self;
 }
@@ -6406,6 +6415,9 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (self.hasPvpRequiredMinLvl) {
     [output writeInt32:4 value:self.pvpRequiredMinLvl];
   }
+  if (self.hasDefendingMsgCharLimit) {
+    [output writeInt32:5 value:self.defendingMsgCharLimit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -6426,6 +6438,9 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   }
   if (self.hasPvpRequiredMinLvl) {
     size_ += computeInt32Size(4, self.pvpRequiredMinLvl);
+  }
+  if (self.hasDefendingMsgCharLimit) {
+    size_ += computeInt32Size(5, self.defendingMsgCharLimit);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6474,6 +6489,9 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (self.hasPvpRequiredMinLvl) {
     [output appendFormat:@"%@%@: %@\n", indent, @"pvpRequiredMinLvl", [NSNumber numberWithInteger:self.pvpRequiredMinLvl]];
   }
+  if (self.hasDefendingMsgCharLimit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defendingMsgCharLimit", [NSNumber numberWithInteger:self.defendingMsgCharLimit]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -6493,6 +6511,8 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
       (!self.hasMaxPvpDmgDelta || self.maxPvpDmgDelta == otherMessage.maxPvpDmgDelta) &&
       self.hasPvpRequiredMinLvl == otherMessage.hasPvpRequiredMinLvl &&
       (!self.hasPvpRequiredMinLvl || self.pvpRequiredMinLvl == otherMessage.pvpRequiredMinLvl) &&
+      self.hasDefendingMsgCharLimit == otherMessage.hasDefendingMsgCharLimit &&
+      (!self.hasDefendingMsgCharLimit || self.defendingMsgCharLimit == otherMessage.defendingMsgCharLimit) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6508,6 +6528,9 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   }
   if (self.hasPvpRequiredMinLvl) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.pvpRequiredMinLvl] hash];
+  }
+  if (self.hasDefendingMsgCharLimit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defendingMsgCharLimit] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6564,6 +6587,9 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (other.hasPvpRequiredMinLvl) {
     [self setPvpRequiredMinLvl:other.pvpRequiredMinLvl];
   }
+  if (other.hasDefendingMsgCharLimit) {
+    [self setDefendingMsgCharLimit:other.defendingMsgCharLimit];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6599,6 +6625,10 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
       }
       case 32: {
         [self setPvpRequiredMinLvl:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setDefendingMsgCharLimit:[input readInt32]];
         break;
       }
     }
@@ -6666,6 +6696,22 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpRequiredMinLvl {
   result.hasPvpRequiredMinLvl = NO;
   result.pvpRequiredMinLvl = 0;
+  return self;
+}
+- (BOOL) hasDefendingMsgCharLimit {
+  return result.hasDefendingMsgCharLimit;
+}
+- (int32_t) defendingMsgCharLimit {
+  return result.defendingMsgCharLimit;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setDefendingMsgCharLimit:(int32_t) value {
+  result.hasDefendingMsgCharLimit = YES;
+  result.defendingMsgCharLimit = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearDefendingMsgCharLimit {
+  result.hasDefendingMsgCharLimit = NO;
+  result.defendingMsgCharLimit = 0;
   return self;
 }
 @end

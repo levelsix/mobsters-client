@@ -355,6 +355,8 @@
   tf.size = CGSizeMake(bgd.contentSize.width-14, bgd.contentSize.height);
   [Globals displayUIView:tf];
   tf.center = ccp(self.contentSizeInPoints.width/2+bgd.positionInPoints.x, tf.superview.height-bgd.parent.positionInPoints.y-1);
+  tf.autocorrectionType = UITextAutocorrectionTypeNo;
+  tf.autocapitalizationType = UITextAutocapitalizationTypeNone;
   tf.delegate = self;
   self.msgTextField = tf;
   

@@ -38,6 +38,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
 @property int32_t prospectiveCashWinnings;
 @property int32_t prospectiveOilWinnings;
 @property (strong) UserPvpLeagueProto* pvpLeagueStats;
+@property (strong) NSString* defenderMsg;
 @end
 
 @implementation PvpProto
@@ -72,12 +73,20 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   hasPvpLeagueStats_ = !!value_;
 }
 @synthesize pvpLeagueStats;
+- (BOOL) hasDefenderMsg {
+  return !!hasDefenderMsg_;
+}
+- (void) setHasDefenderMsg:(BOOL) value_ {
+  hasDefenderMsg_ = !!value_;
+}
+@synthesize defenderMsg;
 - (id) init {
   if ((self = [super init])) {
     self.defender = [MinimumUserProtoWithLevel defaultInstance];
     self.prospectiveCashWinnings = 0;
     self.prospectiveOilWinnings = 0;
     self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
+    self.defenderMsg = @"";
   }
   return self;
 }
@@ -118,6 +127,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasPvpLeagueStats) {
     [output writeMessage:6 value:self.pvpLeagueStats];
   }
+  if (self.hasDefenderMsg) {
+    [output writeString:7 value:self.defenderMsg];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -141,6 +153,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasPvpLeagueStats) {
     size_ += computeMessageSize(6, self.pvpLeagueStats);
+  }
+  if (self.hasDefenderMsg) {
+    size_ += computeStringSize(7, self.defenderMsg);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -201,6 +216,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasDefenderMsg) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defenderMsg", self.defenderMsg];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -221,6 +239,8 @@ static PvpProto* defaultPvpProtoInstance = nil;
       (!self.hasProspectiveOilWinnings || self.prospectiveOilWinnings == otherMessage.prospectiveOilWinnings) &&
       self.hasPvpLeagueStats == otherMessage.hasPvpLeagueStats &&
       (!self.hasPvpLeagueStats || [self.pvpLeagueStats isEqual:otherMessage.pvpLeagueStats]) &&
+      self.hasDefenderMsg == otherMessage.hasDefenderMsg &&
+      (!self.hasDefenderMsg || [self.defenderMsg isEqual:otherMessage.defenderMsg]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -239,6 +259,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasPvpLeagueStats) {
     hashCode = hashCode * 31 + [self.pvpLeagueStats hash];
+  }
+  if (self.hasDefenderMsg) {
+    hashCode = hashCode * 31 + [self.defenderMsg hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -302,6 +325,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (other.hasPvpLeagueStats) {
     [self mergePvpLeagueStats:other.pvpLeagueStats];
   }
+  if (other.hasDefenderMsg) {
+    [self setDefenderMsg:other.defenderMsg];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -353,6 +379,10 @@ static PvpProto* defaultPvpProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPvpLeagueStats:[subBuilder buildPartial]];
+        break;
+      }
+      case 58: {
+        [self setDefenderMsg:[input readString]];
         break;
       }
     }
@@ -472,6 +502,22 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (PvpProto_Builder*) clearPvpLeagueStats {
   result.hasPvpLeagueStats = NO;
   result.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDefenderMsg {
+  return result.hasDefenderMsg;
+}
+- (NSString*) defenderMsg {
+  return result.defenderMsg;
+}
+- (PvpProto_Builder*) setDefenderMsg:(NSString*) value {
+  result.hasDefenderMsg = YES;
+  result.defenderMsg = value;
+  return self;
+}
+- (PvpProto_Builder*) clearDefenderMsg {
+  result.hasDefenderMsg = NO;
+  result.defenderMsg = @"";
   return self;
 }
 @end

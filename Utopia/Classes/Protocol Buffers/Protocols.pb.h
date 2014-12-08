@@ -492,6 +492,10 @@
 @class SetAvatarMonsterRequestProto_Builder;
 @class SetAvatarMonsterResponseProto;
 @class SetAvatarMonsterResponseProto_Builder;
+@class SetDefendingMsgRequestProto;
+@class SetDefendingMsgRequestProto_Builder;
+@class SetDefendingMsgResponseProto;
+@class SetDefendingMsgResponseProto_Builder;
 @class SetFacebookIdRequestProto;
 @class SetFacebookIdRequestProto_Builder;
 @class SetFacebookIdResponseProto;
@@ -752,6 +756,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCRemoveUserItemUsedEvent = 86,
   EventProtocolRequestCTradeItemForResourcesEvent = 87,
   EventProtocolRequestCRedeemSecretGiftEvent = 88,
+  EventProtocolRequestCSetDefendingMsgEvent = 89,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -846,6 +851,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSRemoveUserItemUsedEvent = 86,
   EventProtocolResponseSTradeItemForResourcesEvent = 87,
   EventProtocolResponseSRedeemSecretGiftEvent = 88,
+  EventProtocolResponseSSetDefendingMsgEvent = 89,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

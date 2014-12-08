@@ -89,10 +89,12 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @private
   BOOL hasProspectiveCashWinnings_:1;
   BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasDefenderMsg_:1;
   BOOL hasDefender_:1;
   BOOL hasPvpLeagueStats_:1;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
+  NSString* defenderMsg;
   MinimumUserProtoWithLevel* defender;
   UserPvpLeagueProto* pvpLeagueStats;
   NSMutableArray * mutableDefenderMonstersList;
@@ -101,11 +103,13 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasProspectiveCashWinnings;
 - (BOOL) hasProspectiveOilWinnings;
 - (BOOL) hasPvpLeagueStats;
+- (BOOL) hasDefenderMsg;
 @property (readonly, strong) MinimumUserProtoWithLevel* defender;
 @property (readonly, strong) NSArray * defenderMonstersList;
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
+@property (readonly, strong) NSString* defenderMsg;
 - (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
@@ -172,6 +176,11 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setPvpLeagueStats_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
 - (PvpProto_Builder*) mergePvpLeagueStats:(UserPvpLeagueProto*) value;
 - (PvpProto_Builder*) clearPvpLeagueStats;
+
+- (BOOL) hasDefenderMsg;
+- (NSString*) defenderMsg;
+- (PvpProto_Builder*) setDefenderMsg:(NSString*) value;
+- (PvpProto_Builder*) clearDefenderMsg;
 @end
 
 @interface PvpMonsterProto : PBGeneratedMessage {

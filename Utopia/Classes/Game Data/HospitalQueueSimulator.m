@@ -45,7 +45,8 @@
     // Subtract additional hp for clan helps
     int numHelps = [gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:self.userMonsterUuid];
     if (numHelps > 0) {
-      int healthToDockPerHelp = MAX(gl.healClanHelpConstants.amountRemovedPerHelp, roundf(self.totalHealthToHeal*gl.healClanHelpConstants.percentRemovedPerHelp));
+      // Take base hp/min * mins removed per help as the minimum help amount. the percent factor will be healthToHeal * percent. Use higher val.
+      int healthToDockPerHelp = MAX(self.baseHealthPerSecond*60*gl.healClanHelpConstants.amountRemovedPerHelp, roundf(self.totalHealthToHeal*gl.healClanHelpConstants.percentRemovedPerHelp));
       self.totalHealthToHeal -= numHelps*healthToDockPerHelp;
     }
     

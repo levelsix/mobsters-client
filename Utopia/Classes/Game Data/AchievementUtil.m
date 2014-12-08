@@ -173,7 +173,23 @@
 }
 
 + (NSSet *) upgradeBuilding:(int)buildingId {
-  return [self incrementAllAchievementsWithType:AchievementProto_AchievementTypeUpgradeBuilding staticDataId:buildingId byAmount:1];
+  NSMutableSet *set = [NSMutableSet set];
+  
+  // Go through all prereqs
+  GameState *gs = [GameState sharedGameState];
+  
+  id<StaticStructure> ss = [gs structWithId:buildingId];
+  
+  while (ss) {
+    [set unionSet:[self incrementAllAchievementsWithType:AchievementProto_AchievementTypeUpgradeBuilding staticDataId:ss.structInfo.structId byAmount:1]];
+    
+    if (ss.structInfo.predecessorStructId) {
+      ss = [gs structWithId:ss.structInfo.predecessorStructId];
+    } else {
+      ss = nil;
+    }
+  }
+  return set;
 }
 
 + (NSSet *) obstacleRemoved {

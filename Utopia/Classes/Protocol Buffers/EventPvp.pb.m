@@ -2627,5 +2627,555 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 }
 @end
 
+@interface SetDefendingMsgRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSString* msg;
+@end
+
+@implementation SetDefendingMsgRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasMsg {
+  return !!hasMsg_;
+}
+- (void) setHasMsg:(BOOL) value_ {
+  hasMsg_ = !!value_;
+}
+@synthesize msg;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.msg = @"";
+  }
+  return self;
+}
+static SetDefendingMsgRequestProto* defaultSetDefendingMsgRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetDefendingMsgRequestProto class]) {
+    defaultSetDefendingMsgRequestProtoInstance = [[SetDefendingMsgRequestProto alloc] init];
+  }
+}
++ (SetDefendingMsgRequestProto*) defaultInstance {
+  return defaultSetDefendingMsgRequestProtoInstance;
+}
+- (SetDefendingMsgRequestProto*) defaultInstance {
+  return defaultSetDefendingMsgRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasMsg) {
+    [output writeString:2 value:self.msg];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasMsg) {
+    size_ += computeStringSize(2, self.msg);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (SetDefendingMsgRequestProto*) parseFromData:(NSData*) data {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromData:data] build];
+}
++ (SetDefendingMsgRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SetDefendingMsgRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetDefendingMsgRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgRequestProto*)[[[SetDefendingMsgRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgRequestProto_Builder*) builder {
+  return [[SetDefendingMsgRequestProto_Builder alloc] init];
+}
++ (SetDefendingMsgRequestProto_Builder*) builderWithPrototype:(SetDefendingMsgRequestProto*) prototype {
+  return [[SetDefendingMsgRequestProto builder] mergeFrom:prototype];
+}
+- (SetDefendingMsgRequestProto_Builder*) builder {
+  return [SetDefendingMsgRequestProto builder];
+}
+- (SetDefendingMsgRequestProto_Builder*) toBuilder {
+  return [SetDefendingMsgRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasMsg) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"msg", self.msg];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[SetDefendingMsgRequestProto class]]) {
+    return NO;
+  }
+  SetDefendingMsgRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasMsg == otherMessage.hasMsg &&
+      (!self.hasMsg || [self.msg isEqual:otherMessage.msg]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasMsg) {
+    hashCode = hashCode * 31 + [self.msg hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface SetDefendingMsgRequestProto_Builder()
+@property (strong) SetDefendingMsgRequestProto* result;
+@end
+
+@implementation SetDefendingMsgRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[SetDefendingMsgRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetDefendingMsgRequestProto_Builder*) clear {
+  self.result = [[SetDefendingMsgRequestProto alloc] init];
+  return self;
+}
+- (SetDefendingMsgRequestProto_Builder*) clone {
+  return [SetDefendingMsgRequestProto builderWithPrototype:result];
+}
+- (SetDefendingMsgRequestProto*) defaultInstance {
+  return [SetDefendingMsgRequestProto defaultInstance];
+}
+- (SetDefendingMsgRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetDefendingMsgRequestProto*) buildPartial {
+  SetDefendingMsgRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (SetDefendingMsgRequestProto_Builder*) mergeFrom:(SetDefendingMsgRequestProto*) other {
+  if (other == [SetDefendingMsgRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasMsg) {
+    [self setMsg:other.msg];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetDefendingMsgRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetDefendingMsgRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setMsg:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetDefendingMsgRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetDefendingMsgRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetDefendingMsgRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetDefendingMsgRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMsg {
+  return result.hasMsg;
+}
+- (NSString*) msg {
+  return result.msg;
+}
+- (SetDefendingMsgRequestProto_Builder*) setMsg:(NSString*) value {
+  result.hasMsg = YES;
+  result.msg = value;
+  return self;
+}
+- (SetDefendingMsgRequestProto_Builder*) clearMsg {
+  result.hasMsg = NO;
+  result.msg = @"";
+  return self;
+}
+@end
+
+@interface SetDefendingMsgResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property SetDefendingMsgResponseProto_SetDefendingMsgStatus status;
+@end
+
+@implementation SetDefendingMsgResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
+  }
+  return self;
+}
+static SetDefendingMsgResponseProto* defaultSetDefendingMsgResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetDefendingMsgResponseProto class]) {
+    defaultSetDefendingMsgResponseProtoInstance = [[SetDefendingMsgResponseProto alloc] init];
+  }
+}
++ (SetDefendingMsgResponseProto*) defaultInstance {
+  return defaultSetDefendingMsgResponseProtoInstance;
+}
+- (SetDefendingMsgResponseProto*) defaultInstance {
+  return defaultSetDefendingMsgResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(2, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (SetDefendingMsgResponseProto*) parseFromData:(NSData*) data {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromData:data] build];
+}
++ (SetDefendingMsgResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SetDefendingMsgResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetDefendingMsgResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetDefendingMsgResponseProto*)[[[SetDefendingMsgResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetDefendingMsgResponseProto_Builder*) builder {
+  return [[SetDefendingMsgResponseProto_Builder alloc] init];
+}
++ (SetDefendingMsgResponseProto_Builder*) builderWithPrototype:(SetDefendingMsgResponseProto*) prototype {
+  return [[SetDefendingMsgResponseProto builder] mergeFrom:prototype];
+}
+- (SetDefendingMsgResponseProto_Builder*) builder {
+  return [SetDefendingMsgResponseProto builder];
+}
+- (SetDefendingMsgResponseProto_Builder*) toBuilder {
+  return [SetDefendingMsgResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[SetDefendingMsgResponseProto class]]) {
+    return NO;
+  }
+  SetDefendingMsgResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefendingMsgResponseProto_SetDefendingMsgStatus value) {
+  switch (value) {
+    case SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess:
+    case SetDefendingMsgResponseProto_SetDefendingMsgStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SetDefendingMsgResponseProto_Builder()
+@property (strong) SetDefendingMsgResponseProto* result;
+@end
+
+@implementation SetDefendingMsgResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[SetDefendingMsgResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetDefendingMsgResponseProto_Builder*) clear {
+  self.result = [[SetDefendingMsgResponseProto alloc] init];
+  return self;
+}
+- (SetDefendingMsgResponseProto_Builder*) clone {
+  return [SetDefendingMsgResponseProto builderWithPrototype:result];
+}
+- (SetDefendingMsgResponseProto*) defaultInstance {
+  return [SetDefendingMsgResponseProto defaultInstance];
+}
+- (SetDefendingMsgResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetDefendingMsgResponseProto*) buildPartial {
+  SetDefendingMsgResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (SetDefendingMsgResponseProto_Builder*) mergeFrom:(SetDefendingMsgResponseProto*) other {
+  if (other == [SetDefendingMsgResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetDefendingMsgResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetDefendingMsgResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        SetDefendingMsgResponseProto_SetDefendingMsgStatus value = (SetDefendingMsgResponseProto_SetDefendingMsgStatus)[input readEnum];
+        if (SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetDefendingMsgResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetDefendingMsgResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetDefendingMsgResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetDefendingMsgResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SetDefendingMsgResponseProto_SetDefendingMsgStatus) status {
+  return result.status;
+}
+- (SetDefendingMsgResponseProto_Builder*) setStatus:(SetDefendingMsgResponseProto_SetDefendingMsgStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SetDefendingMsgResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

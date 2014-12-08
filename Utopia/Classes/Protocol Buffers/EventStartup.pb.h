@@ -1535,19 +1535,23 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMaxPvpDmgDelta_:1;
   BOOL hasPvpDmgsWindowSize_:1;
   BOOL hasPvpRequiredMinLvl_:1;
+  BOOL hasDefendingMsgCharLimit_:1;
   Float32 minPvpDmgDelta;
   Float32 maxPvpDmgDelta;
   int32_t pvpDmgsWindowSize;
   int32_t pvpRequiredMinLvl;
+  int32_t defendingMsgCharLimit;
 }
 - (BOOL) hasPvpDmgsWindowSize;
 - (BOOL) hasMinPvpDmgDelta;
 - (BOOL) hasMaxPvpDmgDelta;
 - (BOOL) hasPvpRequiredMinLvl;
+- (BOOL) hasDefendingMsgCharLimit;
 @property (readonly) int32_t pvpDmgsWindowSize;
 @property (readonly) Float32 minPvpDmgDelta;
 @property (readonly) Float32 maxPvpDmgDelta;
 @property (readonly) int32_t pvpRequiredMinLvl;
+@property (readonly) int32_t defendingMsgCharLimit;
 
 + (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
@@ -1603,6 +1607,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) pvpRequiredMinLvl;
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setPvpRequiredMinLvl:(int32_t) value;
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearPvpRequiredMinLvl;
+
+- (BOOL) hasDefendingMsgCharLimit;
+- (int32_t) defendingMsgCharLimit;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setDefendingMsgCharLimit:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearDefendingMsgCharLimit;
 @end
 
 @interface StartupResponseProto_StartupConstants_SpeedUpConstantProto : PBGeneratedMessage {
