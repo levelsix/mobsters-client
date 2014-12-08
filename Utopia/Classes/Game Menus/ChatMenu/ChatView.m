@@ -453,8 +453,18 @@
   NSMutableArray *arr = [chats mutableCopy];
   
   GameState *gs = [GameState sharedGameState];
+  
+  // Check for battle history
+  for (PvpHistoryProto *pvp in gs.battleHistory) {
+    if ([pvp.otherUser.userUuid isEqualToString:self.curUserUuid]) {
+      [arr addObject:pvp];
+    }
+  }
+  
+  
+  // Check for fb requests
   for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
-    if ([req.invite.inviter.minUserProto.userUuid isEqualToString:self.curUserUuid]) {
+    if ([req.otherUser.userUuid isEqualToString:self.curUserUuid]) {
       [arr addObject:req];
     }
   }
@@ -541,7 +551,7 @@
   if (tableView == self.listTable) {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    PrivateChatPostProto *post = self.privateChatList[indexPath.row];
+    id<ChatObject> post = self.privateChatList[indexPath.row];
     [self openConversationWithUserUuid:post.otherUser.userUuid name:post.otherUser.name animated:YES];
     [post markAsRead];
     

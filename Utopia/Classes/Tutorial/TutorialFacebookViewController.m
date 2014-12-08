@@ -49,7 +49,7 @@
   [Analytics tutorialFbPopupConnectSkip];
   
   Globals *gl = [Globals sharedGlobals];
-  if (gl.addAllFbFriends) {
+  if (gl.facebookSecondPopup) {
     NSString *desc = @"This is a once in a lifetime oppurtunity that you'll tell your grandchildren about. Please reconsider!";
     [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"You Don't Like Free Stuff?" okayButton:@"Connect" cancelButton:@"Skip" okTarget:self okSelector:@selector(rejectionRejected) cancelTarget:self cancelSelector:@selector(rejectionConfirmed)];
   } else {

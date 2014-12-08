@@ -599,26 +599,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (NSArray *) allPrivateChats {
-  NSMutableArray *arr = [self.privateChats mutableCopy];
-  
-  for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
-    PrivateChatPostProto *toReplace = nil;
-    for (PrivateChatPostProto *pcpp in self.privateChats) {
-      if ([req.otherUser.userUuid isEqualToString:pcpp.otherUser.userUuid]) {
-        toReplace = pcpp;
-      }
-    }
-    
-    if (toReplace) {
-      [arr replaceObjectAtIndex:[arr indexOfObject:toReplace] withObject:req];
-    } else {
-      [arr addObject:req];
+- (void) overwriteChatObjectInArray:(NSMutableArray *)arr chatObject:(id<ChatObject>)pcpp {
+  id<ChatObject> toReplace = nil;
+  for (id<ChatObject> p in arr) {
+    if ([p.otherUser.userUuid isEqualToString:pcpp.otherUser.userUuid]) {
+      toReplace = p;
     }
   }
   
+  if (toReplace) {
+    if (pcpp.isRead < toReplace.isRead || (pcpp.isRead == toReplace.isRead && [pcpp.date compare:toReplace.date] == NSOrderedDescending)) {
+      [arr replaceObjectAtIndex:[arr indexOfObject:toReplace] withObject:pcpp];
+    }
+  } else {
+    [arr addObject:pcpp];
+  }
+}
+
+- (NSArray *) allPrivateChats {
+  NSMutableArray *arr = [self.privateChats mutableCopy];
+  
+  // Overwrite battle history first since fb requests will never be considered "read"
+  for (PvpHistoryProto *php in self.battleHistory) {
+    [self overwriteChatObjectInArray:arr chatObject:php];
+  }
+  
+  for (RequestFromFriend *req in self.fbUnacceptedRequestsFromFriends) {
+    [self overwriteChatObjectInArray:arr chatObject:req];
+  }
+  
   [arr sortUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
-    return [[obj1 date] compare:[obj2 date]];
+    return [[obj2 date] compare:[obj1 date]];
   }];
   
   return arr;

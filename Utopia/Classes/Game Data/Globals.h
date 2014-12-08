@@ -132,6 +132,7 @@
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
 
 @property (nonatomic, assign) BOOL addAllFbFriends;
+@property (nonatomic, assign) BOOL facebookSecondPopup;
 
 @property (nonatomic, assign) int maxObstacles;
 @property (nonatomic, assign) int minutesPerObstacle;

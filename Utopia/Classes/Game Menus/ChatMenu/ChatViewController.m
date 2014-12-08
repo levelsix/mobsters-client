@@ -290,6 +290,9 @@
 - (void) viewedPrivateChat {
   [self updateBadges];
   
+  GameState *gs = [GameState sharedGameState];
+  [self.privateChatView updateForPrivateChatList:[gs allPrivateChats]];
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
 }
 

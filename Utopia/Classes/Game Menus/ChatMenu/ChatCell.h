@@ -12,7 +12,10 @@
 #import "NibUtils.h"
 #import "ChatObject.h"
 
-@interface ChatCell : UITableViewCell
+@interface ChatCell : UITableViewCell {
+  BOOL _bubbleColorChanged;
+  UIColor *_initLabelColor;
+}
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
@@ -29,7 +32,10 @@
 @property (nonatomic, retain) NSMutableDictionary *chatSubviews;
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag;
-- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag chatSubview:(UIView *)view identifier:(NSString *)identifier;
+- (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag allowHighlight:(BOOL)allowHighlight chatSubview:(UIView *)view identifier:(NSString *)identifier;
+
+- (void) updateBubbleImagesWithPrefix:(NSString *)prefix;
+
 - (id) dequeueChatSubview:(NSString *)identifier;
 
 @end
@@ -70,5 +76,36 @@
 @property (nonatomic, assign) IBOutlet UIButton *helpButton;
 
 - (void) updateForRequest:(RequestFromFriend *)req;
+
+@end
+
+@interface ChatMonsterView : EmbeddedNibView
+
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rarityTag;
+
+@end
+
+@interface ChatBattleHistoryView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *topDivider;
+@property (nonatomic, retain) IBOutlet UIImageView *botDivider;
+@property (nonatomic, retain) IBOutlet UIButton *avengeButton;
+@property (nonatomic, retain) IBOutlet UIButton *revengeButton;
+
+@property (nonatomic, retain) IBOutlet UIView *cashView;
+@property (nonatomic, retain) IBOutlet UIView *oilView;
+@property (nonatomic, retain) IBOutlet UIView *rankView;
+
+@property (nonatomic, retain) IBOutlet UILabel *cashLabel;
+@property (nonatomic, retain) IBOutlet UILabel *oilLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rankLabel;
+@property (nonatomic, retain) IBOutlet UILabel *noChangeLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rankIcon;
+
+@property (nonatomic, retain) IBOutletCollection(ChatMonsterView) NSArray *monsterViews;
+
+- (void) updateForPvpHistoryProto:(PvpHistoryProto *)pvp;
 
 @end

@@ -17,6 +17,8 @@
 #import "OutgoingEventController.h"
 #import "UnreadNotifications.h"
 
+#import "GameViewController.h"
+
 @implementation ChatMessage
 
 @synthesize message, sender, date, isAdmin;
@@ -105,7 +107,7 @@
   
   [v updateForRequest:self];
   
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
@@ -176,6 +178,97 @@
 
 - (BOOL) isRead {
   return !self.isUnread;
+}
+
+@end
+
+@implementation PvpHistoryProto (ChatObject)
+
+- (MinimumUserProto *) sender {
+  FullUserProto *fup = self.attacker;
+  MinimumUserProto_Builder *bldr = [MinimumUserProto builder];
+  bldr.name = fup.name;
+  bldr.userUuid = fup.userUuid;
+  bldr.avatarMonsterId = fup.avatarMonsterId;
+  
+  if (fup.hasClan) {
+    bldr.clan = fup.clan;
+  }
+  
+  return bldr.build;
+}
+
+- (MinimumUserProto *) otherUser {
+  return [self sender];
+}
+
+- (NSString *) message {
+  if (self.attackerWon) {
+    return @"Defeated you in battle";
+  } else {
+    return @"Lost to you in battle";
+  }
+}
+
+- (MSDate *) date {
+  return [MSDate dateWithTimeIntervalSince1970:self.battleEndTime/1000.];
+}
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (BOOL) isRead {
+  return [[self privateChat] isRead];
+}
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  NSString *nibName = @"ChatBattleHistoryView";
+  ChatBattleHistoryView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:NO chatSubview:v identifier:nibName];
+  [chatCell updateBubbleImagesWithPrefix:self.attackerWon ? @"pink" : @"green"];
+  
+  [v updateForPvpHistoryProto:self];
+  
+  chatCell.msgLabel.textColor = self.attackerWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  UIFont *font = chatCell.msgLabel.font;
+  CGRect frame = chatCell.msgLabel.frame;
+  
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  
+  NSString *msg = [self message];
+  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+frame.origin.y+14.f;
+  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
+  
+  return height;
+}
+
+- (PrivateChatPostProto *) privateChat {
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
+  bldr.poster = [[[MinimumUserProtoWithLevel builder] setMinUserProto:[self sender]] build];
+  bldr.recipient = [gs minUserWithLevel];
+  bldr.timeOfPost = [[self date] timeIntervalSince1970]*1000.;
+  PrivateChatPostProto *pcpp = [bldr build];
+  return pcpp;
+}
+
+- (void) markAsRead {
+  [[self privateChat] markAsRead];
+}
+
+- (IBAction)revengeClicked:(id)sender {
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc beginPvpMatch:self];
 }
 
 @end

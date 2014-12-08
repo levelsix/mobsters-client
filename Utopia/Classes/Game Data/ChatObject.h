@@ -15,6 +15,12 @@
 
 @class ChatCell;
 
+typedef enum {
+  ChatBubbleColorGrey = 1,
+  ChatBubbleColorGreen,
+  ChatBubbleColorRed
+} ChatBubbleColor;
+
 @protocol ChatObject <NSObject>
 
 - (MinimumUserProto *)sender;
@@ -53,5 +59,11 @@
 @end
 
 @interface PrivateChatPostProto (ChatObject) <ChatObject>
+
+@end
+
+@interface PvpHistoryProto (ChatObject) <ChatObject>
+
+- (IBAction)revengeClicked:(id)sender;
 
 @end

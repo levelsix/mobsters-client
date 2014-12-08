@@ -2285,6 +2285,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastFreeBoosterPackTime;
 @property int32_t numClanHelps;
 @property int64_t lastSecretGiftCollectTime;
+@property (strong) NSString* pvpDefendingMessage;
 @property (strong) NSString* udidForHistory;
 @property (strong) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2517,6 +2518,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastSecretGiftCollectTime_ = !!value_;
 }
 @synthesize lastSecretGiftCollectTime;
+- (BOOL) hasPvpDefendingMessage {
+  return !!hasPvpDefendingMessage_;
+}
+- (void) setHasPvpDefendingMessage:(BOOL) value_ {
+  hasPvpDefendingMessage_ = !!value_;
+}
+@synthesize pvpDefendingMessage;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2623,6 +2631,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastFreeBoosterPackTime = 0L;
     self.numClanHelps = 0;
     self.lastSecretGiftCollectTime = 0L;
+    self.pvpDefendingMessage = @"";
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2769,6 +2778,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastSecretGiftCollectTime) {
     [output writeInt64:54 value:self.lastSecretGiftCollectTime];
   }
+  if (self.hasPvpDefendingMessage) {
+    [output writeString:56 value:self.pvpDefendingMessage];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2894,6 +2906,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastSecretGiftCollectTime) {
     size_ += computeInt64Size(54, self.lastSecretGiftCollectTime);
+  }
+  if (self.hasPvpDefendingMessage) {
+    size_ += computeStringSize(56, self.pvpDefendingMessage);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3053,6 +3068,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastSecretGiftCollectTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"lastSecretGiftCollectTime", [NSNumber numberWithLongLong:self.lastSecretGiftCollectTime]];
   }
+  if (self.hasPvpDefendingMessage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"pvpDefendingMessage", self.pvpDefendingMessage];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3142,6 +3160,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       (!self.hasNumClanHelps || self.numClanHelps == otherMessage.numClanHelps) &&
       self.hasLastSecretGiftCollectTime == otherMessage.hasLastSecretGiftCollectTime &&
       (!self.hasLastSecretGiftCollectTime || self.lastSecretGiftCollectTime == otherMessage.lastSecretGiftCollectTime) &&
+      self.hasPvpDefendingMessage == otherMessage.hasPvpDefendingMessage &&
+      (!self.hasPvpDefendingMessage || [self.pvpDefendingMessage isEqual:otherMessage.pvpDefendingMessage]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3262,6 +3282,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastSecretGiftCollectTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.lastSecretGiftCollectTime] hash];
+  }
+  if (self.hasPvpDefendingMessage) {
+    hashCode = hashCode * 31 + [self.pvpDefendingMessage hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -3392,6 +3415,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastSecretGiftCollectTime) {
     [self setLastSecretGiftCollectTime:other.lastSecretGiftCollectTime];
+  }
+  if (other.hasPvpDefendingMessage) {
+    [self setPvpDefendingMessage:other.pvpDefendingMessage];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3608,6 +3634,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 432: {
         [self setLastSecretGiftCollectTime:[input readInt64]];
+        break;
+      }
+      case 450: {
+        [self setPvpDefendingMessage:[input readString]];
         break;
       }
     }
@@ -4103,6 +4133,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastSecretGiftCollectTime {
   result.hasLastSecretGiftCollectTime = NO;
   result.lastSecretGiftCollectTime = 0L;
+  return self;
+}
+- (BOOL) hasPvpDefendingMessage {
+  return result.hasPvpDefendingMessage;
+}
+- (NSString*) pvpDefendingMessage {
+  return result.pvpDefendingMessage;
+}
+- (FullUserProto_Builder*) setPvpDefendingMessage:(NSString*) value {
+  result.hasPvpDefendingMessage = YES;
+  result.pvpDefendingMessage = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearPvpDefendingMessage {
+  result.hasPvpDefendingMessage = NO;
+  result.pvpDefendingMessage = @"";
   return self;
 }
 - (BOOL) hasUdidForHistory {

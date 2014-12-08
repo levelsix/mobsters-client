@@ -555,10 +555,11 @@
   BOOL hasNumObstaclesRemoved_:1;
   BOOL hasAvatarMonsterId_:1;
   BOOL hasNumClanHelps_:1;
-  BOOL hasFacebookId_:1;
+  BOOL hasGameCenterId_:1;
+  BOOL hasPvpDefendingMessage_:1;
   BOOL hasUdidForHistory_:1;
   BOOL hasDeviceToken_:1;
-  BOOL hasGameCenterId_:1;
+  BOOL hasFacebookId_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
   BOOL hasKabamNaid_:1;
@@ -594,10 +595,11 @@
   int32_t numObstaclesRemoved;
   int32_t avatarMonsterId;
   int32_t numClanHelps;
-  NSString* facebookId;
+  NSString* gameCenterId;
+  NSString* pvpDefendingMessage;
   NSString* udidForHistory;
   NSString* deviceToken;
-  NSString* gameCenterId;
+  NSString* facebookId;
   NSString* referralCode;
   NSString* name;
   NSString* kabamNaid;
@@ -635,6 +637,7 @@
 - (BOOL) hasLastFreeBoosterPackTime;
 - (BOOL) hasNumClanHelps;
 - (BOOL) hasLastSecretGiftCollectTime;
+- (BOOL) hasPvpDefendingMessage;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -674,6 +677,7 @@
 @property (readonly) int64_t lastFreeBoosterPackTime;
 @property (readonly) int32_t numClanHelps;
 @property (readonly) int64_t lastSecretGiftCollectTime;
+@property (readonly, strong) NSString* pvpDefendingMessage;
 @property (readonly, strong) NSString* udidForHistory;
 @property (readonly, strong) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -868,6 +872,11 @@
 - (int64_t) lastSecretGiftCollectTime;
 - (FullUserProto_Builder*) setLastSecretGiftCollectTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastSecretGiftCollectTime;
+
+- (BOOL) hasPvpDefendingMessage;
+- (NSString*) pvpDefendingMessage;
+- (FullUserProto_Builder*) setPvpDefendingMessage:(NSString*) value;
+- (FullUserProto_Builder*) clearPvpDefendingMessage;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

@@ -23,6 +23,6 @@
 @interface PvpHistoryProto (UnreadStatus)
 
 - (BOOL) isUnread;
-- (void) markAsRead;
+//- (void) markAsRead;
 
 @end

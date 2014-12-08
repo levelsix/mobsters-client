@@ -181,7 +181,7 @@
   
   [v updateForClanHelp:self];
   
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
@@ -401,7 +401,7 @@
   
   [v updateForClanHelp:self];
   
-  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag chatSubview:v identifier:nibName];
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {

@@ -2483,6 +2483,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float32 battleRunAwayBasePercent;
 @property Float32 battleRunAwayIncrement;
 @property BOOL addAllFbFriends;
+@property BOOL facebookPopUp;
 @property (strong) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @property int32_t maxObstacles;
 @property int32_t minutesPerObstacle;
@@ -2673,6 +2674,18 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 - (void) setAddAllFbFriends:(BOOL) value_ {
   addAllFbFriends_ = !!value_;
 }
+- (BOOL) hasFacebookPopUp {
+  return !!hasFacebookPopUp_;
+}
+- (void) setHasFacebookPopUp:(BOOL) value_ {
+  hasFacebookPopUp_ = !!value_;
+}
+- (BOOL) facebookPopUp {
+  return !!facebookPopUp_;
+}
+- (void) setFacebookPopUp:(BOOL) value_ {
+  facebookPopUp_ = !!value_;
+}
 - (BOOL) hasMiniTuts {
   return !!hasMiniTuts_;
 }
@@ -2747,6 +2760,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.battleRunAwayBasePercent = 0;
     self.battleRunAwayIncrement = 0;
     self.addAllFbFriends = NO;
+    self.facebookPopUp = NO;
     self.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
     self.maxObstacles = 0;
     self.minutesPerObstacle = 0;
@@ -2907,6 +2921,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:35 value:element];
   }];
+  if (self.hasFacebookPopUp) {
+    [output writeBool:36 value:self.facebookPopUp];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3021,6 +3038,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(35, element);
   }];
+  if (self.hasFacebookPopUp) {
+    size_ += computeBoolSize(36, self.facebookPopUp);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -3203,6 +3223,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasFacebookPopUp) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"facebookPopUp", [NSNumber numberWithBool:self.facebookPopUp]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3279,6 +3302,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasPvpConstant || [self.pvpConstant isEqual:otherMessage.pvpConstant]) &&
       [self.sucpList isEqualToArray:otherMessage.sucpList] &&
       [self.rccpList isEqualToArray:otherMessage.rccpList] &&
+      self.hasFacebookPopUp == otherMessage.hasFacebookPopUp &&
+      (!self.hasFacebookPopUp || self.facebookPopUp == otherMessage.facebookPopUp) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3388,6 +3413,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [self.rccpList enumerateObjectsUsingBlock:^(StartupResponseProto_StartupConstants_ResourceConversionConstantProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasFacebookPopUp) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.facebookPopUp] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -7309,6 +7337,9 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   if (other.hasAddAllFbFriends) {
     [self setAddAllFbFriends:other.addAllFbFriends];
   }
+  if (other.hasFacebookPopUp) {
+    [self setFacebookPopUp:other.facebookPopUp];
+  }
   if (other.hasMiniTuts) {
     [self mergeMiniTuts:other.miniTuts];
   }
@@ -7562,6 +7593,10 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
         StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_ResourceConversionConstantProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRccp:[subBuilder buildPartial]];
+        break;
+      }
+      case 288: {
+        [self setFacebookPopUp:[input readBool]];
         break;
       }
     }
@@ -8081,6 +8116,22 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (StartupResponseProto_StartupConstants_Builder*) clearAddAllFbFriends {
   result.hasAddAllFbFriends = NO;
   result.addAllFbFriends = NO;
+  return self;
+}
+- (BOOL) hasFacebookPopUp {
+  return result.hasFacebookPopUp;
+}
+- (BOOL) facebookPopUp {
+  return result.facebookPopUp;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setFacebookPopUp:(BOOL) value {
+  result.hasFacebookPopUp = YES;
+  result.facebookPopUp = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearFacebookPopUp {
+  result.hasFacebookPopUp = NO;
+  result.facebookPopUp = NO;
   return self;
 }
 - (BOOL) hasMiniTuts {

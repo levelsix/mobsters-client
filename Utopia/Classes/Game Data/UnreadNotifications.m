@@ -41,10 +41,12 @@
   if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
-    uint64_t curTime = [[ud objectForKey:key] longLongValue];
+    uint64_t maxTime = [[ud objectForKey:key] longLongValue];
     
-    if (curTime < self.timeOfPost) {
-      [ud setObject:@(self.timeOfPost) forKey:key];
+    uint64_t curTime = [[MSDate date] timeIntervalSince1970]*1000.;
+    curTime = curTime > self.timeOfPost ? curTime : self.timeOfPost;
+    if (maxTime < curTime) {
+      [ud setObject:@(curTime) forKey:key];
     }
   }
 }
@@ -60,14 +62,14 @@
   return lastReadTime < thisTime;
 }
 
-- (void) markAsRead {
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  int64_t lastReadTime = [[ud objectForKey:PVP_HISTORY_DEFAULTS_KEY] longLongValue];
-  int64_t thisTime = self.battleEndTime;
-  
-  if (lastReadTime < thisTime) {
-    [ud setObject:[NSNumber numberWithLongLong:thisTime] forKey:PVP_HISTORY_DEFAULTS_KEY];
-  }
-}
+//- (void) markAsRead {
+//  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//  int64_t lastReadTime = [[ud objectForKey:PVP_HISTORY_DEFAULTS_KEY] longLongValue];
+//  int64_t thisTime = self.battleEndTime;
+//  
+//  if (lastReadTime < thisTime) {
+//    [ud setObject:[NSNumber numberWithLongLong:thisTime] forKey:PVP_HISTORY_DEFAULTS_KEY];
+//  }
+//}
 
 @end

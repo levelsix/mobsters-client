@@ -265,7 +265,7 @@ static NSString *udid = nil;
   NSMutableArray *toRemove = [NSMutableArray array];
   for (FullEvent *fe in self.queuedMessages) {
     if ([self isPreDbEventType:fe.requestType]) {
-      NSLog(@"1: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      LNLog(@"1: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
       [toRemove addObject:fe];
     }
   }
@@ -287,7 +287,7 @@ static NSString *udid = nil;
   
   if (_canSendPreDbEvents) {
     for (FullEvent *fe in self.queuedMessages) {
-      NSLog(@"2: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      LNLog(@"2: Sending queued event of type %@.", NSStringFromClass(fe.event.class));
     }
     NSArray *msgs = [self.queuedMessages copy];
     [self.queuedMessages removeAllObjects];
