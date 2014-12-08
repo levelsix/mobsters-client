@@ -306,6 +306,8 @@
      [CCActionSequence actions:
       [CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos],
       [CCActionCallFunc actionWithTarget:bs selector:@selector(removeFromParent)], nil]];
+    
+    _numTimesNotResponded = 0;
   }
   
   _spawnedNewTeam = NO;
@@ -404,8 +406,6 @@
     self.defendersList = nil;
     
     _isRevenge = NO;
-    
-    _numTimesNotResponded = 0;
   } else {
     NSMutableSet *set = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
