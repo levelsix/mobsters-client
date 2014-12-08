@@ -137,6 +137,8 @@
 @property (nonatomic, assign) int enemyDamageDealt; // used by skillManager to set damage dealt by skills like Cake Drop
 
 @property (nonatomic, assign) BOOL shouldShowContinueButton;
+@property (nonatomic, assign) BOOL shouldShowChatLine;
+
 @property (nonatomic, assign) int movesLeft;
 @property (nonatomic, assign) BOOL shouldDisplayNewSchedule;
 

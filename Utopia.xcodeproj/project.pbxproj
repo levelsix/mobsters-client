@@ -231,6 +231,12 @@
 		29AA139F1A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A01A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A11A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
+		29AA13B51A35916E004A9F22 /* battleinputmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */; };
+		29AA13B61A35916E004A9F22 /* battleinputmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */; };
+		29AA13B71A35916E004A9F22 /* battleinputmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */; };
+		29AA13BB1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
+		29AA13BC1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
+		29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
@@ -6488,6 +6494,8 @@
 		2985E5F41A330DB00041ABF4 /* pinkchattail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinkchattail@2x.png"; sourceTree = "<group>"; };
 		2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBattleHistoryView.xib; sourceTree = "<group>"; };
 		29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMonsterView.xib; sourceTree = "<group>"; };
+		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
+		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -11258,6 +11266,15 @@
 			path = "Chat requests";
 			sourceTree = "<group>";
 		};
+		29AA13AB1A35916E004A9F22 /* PVP Won:Lost Message */ = {
+			isa = PBXGroup;
+			children = (
+				29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */,
+				29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */,
+			);
+			path = "PVP Won:Lost Message";
+			sourceTree = "<group>";
+		};
 		4562FCDC158A8BC2005206E5 /* Pulsing Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -11841,6 +11858,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				29AA13AB1A35916E004A9F22 /* PVP Won:Lost Message */,
 				2985E5E41A330DB00041ABF4 /* Chat requests */,
 				29804FF81A265EE800806253 /* Gift Box */,
 				29804F431A241F4A00806253 /* Squad rewards */,
@@ -16180,6 +16198,7 @@
 				CFA793A81A0C63ED00DF3407 /* watercakeeventlive@2x.png in Resources */,
 				CF0CEE6C196F452900ECD301 /* Scientist3Breath12@2x.png in Resources */,
 				CF0CEE6D196F452900ECD301 /* Scientist2Breath09@2x.png in Resources */,
+				29AA13BC1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
 				CF0CEE6E196F452900ECD301 /* Scientist3Blink06@2x.png in Resources */,
 				CF0CEE6F196F452900ECD301 /* FatBoy1Move12@2x.png in Resources */,
 				CF0CEE70196F452900ECD301 /* hpbarmiddlemj@2x.png in Resources */,
@@ -16410,6 +16429,7 @@
 				CF0CEFDD196F452900ECD301 /* buildingfix@2x.png in Resources */,
 				CF0CEFDE196F452900ECD301 /* Scientist3Blink12@2x.png in Resources */,
 				CF0CEFDF196F452900ECD301 /* sfx_piece_fall_01.mp3 in Resources */,
+				29AA13B61A35916E004A9F22 /* battleinputmessage@2x.png in Resources */,
 				CFA793531A0C33BF00DF3407 /* rockeventbg@2x.png in Resources */,
 				CF0CEFE1196F452900ECD301 /* upgradeborder@2x.png in Resources */,
 				CF0CEFE2196F452900ECD301 /* lighttimermobster@2x.png in Resources */,
@@ -17950,6 +17970,7 @@
 				CFFBDF9918ACA3D90090CA9A /* Scientist3Breath12@2x.png in Resources */,
 				CFFBDF6B18ACA3D90090CA9A /* Scientist2Breath09@2x.png in Resources */,
 				CFFBDF8618ACA3D90090CA9A /* Scientist3Blink06@2x.png in Resources */,
+				29AA13BB1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
 				CF134A5B18A5E4B500D7D700 /* FatBoy1Move12@2x.png in Resources */,
 				CF6890361912E7B500FF1F71 /* hpbarmiddlemj@2x.png in Resources */,
 				CF134A8F18A5E4B500D7D700 /* FatBoy5Move12@2x.png in Resources */,
@@ -18180,6 +18201,7 @@
 				CF6A64E919D24F030002E05D /* 6rockorb@2x.png in Resources */,
 				CF3764FE182DD6BD00D0A77E /* ChatViewController.xib in Resources */,
 				CFF2A5DC19709C4800269084 /* MenuEvolutionLabT1@2x.png in Resources */,
+				29AA13B51A35916E004A9F22 /* battleinputmessage@2x.png in Resources */,
 				CF9520571939690800A98290 /* multiplayerworldbg@2x.png in Resources */,
 				CF746140196A25F5002D6AE6 /* doneusername@2x.png in Resources */,
 				CF6890401912E7B500FF1F71 /* engagebutton@2x.png in Resources */,
@@ -19915,6 +19937,7 @@
 				CF481B8819F7217F00041486 /* enhancetime@2x.png in Resources */,
 				2980511A1A2EAC0100806253 /* gooniegrabitem@2x.png in Resources */,
 				CF481B8A19F7217F00041486 /* sfx_swap_mobster_window_slide_in.mp3 in Resources */,
+				29AA13B71A35916E004A9F22 /* battleinputmessage@2x.png in Resources */,
 				CF481B8C19F7217F00041486 /* HealQueueFooterView.xib in Resources */,
 				CF481B8D19F7217F00041486 /* UpgradeViewController.xib in Resources */,
 				CF481B9019F7217F00041486 /* BattleEndView.ccbi in Resources */,
@@ -20239,6 +20262,7 @@
 				CF481DC019F7217F00041486 /* 1timeoffer@2x.png in Resources */,
 				CF481DC119F7217F00041486 /* Scientist4Turn05@2x.png in Resources */,
 				CF481DC219F7217F00041486 /* fireorb@2x.png in Resources */,
+				29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
 				CF481DC619F7217F00041486 /* lightsideways@2x.png in Resources */,
 				CF481DC719F7217F00041486 /* healredbubble5@2x.png in Resources */,
 				CF481DC819F7217F00041486 /* Scientist5Breath08@2x.png in Resources */,

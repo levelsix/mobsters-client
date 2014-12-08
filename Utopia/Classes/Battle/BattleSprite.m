@@ -195,7 +195,7 @@
 }
 
 #define FADE_DURATION 0.2f
-#define DELAY_DURATION 6.f
+#define DELAY_DURATION 5.f
 
 - (void) initiateSpeechBubbleWithText:(NSString *)text {
   [self initiateSpeechBubbleWithText:text completion:nil];

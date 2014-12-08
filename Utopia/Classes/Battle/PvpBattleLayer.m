@@ -21,6 +21,13 @@
 
 @implementation PvpBattleLayer
 
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
+  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
+    self.shouldShowChatLine = YES;
+  }
+  return self;
+}
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
   if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
     PvpProto_Builder *pvp = [PvpProto builder];
@@ -169,6 +176,17 @@
   
   NSString *outcome = _wonBattle ? @"Win" : _didRunaway ? @"Flee" : @"Lose";
   [Analytics pvpMatchEnd:_wonBattle numEnemiesDefeated:_curStage mobsterIdsUsed:mobsterIdsUsed totalRounds:(int)self.enemyTeam.count elo:gs.elo oppElo:pvp.pvpLeagueStats.elo oppId:pvp.defender.minUserProto.userUuid outcome:outcome league:league.leagueName];
+}
+
+- (void) sendButtonClicked:(id)sender {
+  UITextField *tf = self.endView.msgTextField;
+  if (tf.text.length) {
+    PvpProto *pvp = self.defendersList[_curQueueNum];
+    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text];
+    
+    tf.text = nil;
+    [tf resignFirstResponder];
+  }
 }
 
 #pragma mark - Queue Node Methods
@@ -469,8 +487,8 @@
 }
 
 - (void) reachedNextScene {
+  _numTimesNotResponded++;
   if (!self.defendersList) {
-    _numTimesNotResponded++;
     if (_numTimesNotResponded < 5) {
       [self.myPlayer beginWalking];
       [self.bgdLayer scrollToNewScene];
@@ -492,6 +510,11 @@
           [self spawnNextEnemyTeam];
           _spawnedNewTeam = YES;
         }
+        
+        if (_waitingForDownload && _numTimesNotResponded % 4 == 0) {
+          [self.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
+        }
+        
       } else {
         [self.myPlayer stopWalking];
       }

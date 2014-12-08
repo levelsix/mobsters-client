@@ -191,6 +191,7 @@
     _canPlayNextGemPop = YES;
     
     self.shouldShowContinueButton = NO;
+    self.shouldShowChatLine = NO;
     self.droplessStageNums = [NSMutableArray array];
     
     [self loadHudView];
@@ -602,12 +603,16 @@
     // To allow the schedule cards to refresh before the bump of the last
     [self performAfterDelay:delay2 block:^{
       
-      // Trigger skills when new enemy joins the battle
-      SkillLogStart(@"TRIGGER STARTED: enemy appeared");
-      [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
-        SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
-        [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
-      }];
+      if (_firstTurn) {
+        // Trigger skills when new enemy joins the battle
+        SkillLogStart(@"TRIGGER STARTED: enemy appeared");
+        [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered) {
+          SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
+          [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
+        }];
+      } else {
+        [self processNextTurn: delay];
+      }
 
     }];
   }
@@ -1439,6 +1444,7 @@
   [CCBReader load:@"BattleEndView" owner:self];
   
   // Set endView's parent so that the position normalization doesn't get screwed up
+  // since we're only adding it to the parent once orb layer gets removed
   self.endView.parent = self;
   
   _wonBattle = won;
@@ -1449,6 +1455,10 @@
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     [SoundEngine puzzleWinLoseUI];
+    
+    if ([self shouldShowChatLine]) {
+      [self.endView showTextFieldWithTarget:self selector:@selector(sendButtonClicked:)];
+    }
     
     self.endView.parent = nil;
     [self addChild:self.endView z:10000];
@@ -1968,6 +1978,10 @@
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
+}
+
+- (IBAction)sendButtonClicked:(id)sender {
+  // Do nothing
 }
 
 @end

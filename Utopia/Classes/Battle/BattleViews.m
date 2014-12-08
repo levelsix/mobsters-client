@@ -10,8 +10,23 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "CAKeyframeAnimation+AHEasing.h"
+#import <cocos2d-ui/CCControlSubclass.h>
 
 #define REWARDSVIEW_OFFSET 0
+
+@implementation CancellableTextField
+
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  if (self.isFirstResponder) {
+    if (![super pointInside:point withEvent:event]) {
+      [self resignFirstResponder];
+    }
+    return YES;
+  }
+  return [super pointInside:point withEvent:event];
+}
+
+@end
 
 @implementation BattleEndView
 
@@ -22,6 +37,11 @@
   
   self.tipLabel.fontName = @"Whitney-Semibold";
   self.tipLabel.string = [@"Tip: " stringByAppendingString:[Globals getRandomTipFromFile:@"tips"]];
+  
+  // Move the bgd node to the main hierarchy
+  self.mainNode = self.bgdNode.parent;
+  [self.bgdNode removeFromParent];
+  [self addChild:self.bgdNode z:-1];
 }
 
 - (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin {
@@ -104,6 +124,7 @@
 - (void) onExitTransitionDidStart {
   [self.rewardsScrollView removeFromSuperview];
   [self.loadingSpinner removeFromSuperview];
+  [self.msgTextField removeFromSuperview];
   
   //  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   //  clip.stencil = nil;
@@ -123,6 +144,7 @@
   
   float eighthDur = 0.15f; // ribbon fade
   float ninthDur = 0.3f; // rewards coming down
+  float tenthDur = 0.2f; // chat view fading in
   
   self.bgdNode.opacity = 0.f;
   self.bgdNode.scale = MAX(self.parent.contentSize.height/self.bgdNode.contentSize.height,
@@ -208,6 +230,26 @@
   }
   
   float time = firstDur+secondDur+eighthDur+ninthDur+thirdDur-0.1;
+  
+  if (self.sendButton) {
+    [self.sendButton.parent recursivelyApplyOpacity:0.f];
+    CCActionSequence *seq = [CCActionSequence actions:
+                             [CCActionDelay actionWithDuration:time],
+                             [CCActionCallBlock actionWithBlock:
+                              ^{
+                                [self createTextField];
+                                self.msgTextField.alpha = 0.f;
+                                [UIView animateWithDuration:tenthDur animations:^{
+                                  self.msgTextField.alpha = 1.f;
+                                }];
+                              }],
+                             [RecursiveFadeTo actionWithDuration:tenthDur opacity:1.f], nil];
+    
+    [self.sendButton.parent runAction:seq];
+    
+    time += tenthDur;
+  }
+  
   CCActionSequence *seq = [CCActionSequence actions:
                            [CCActionDelay actionWithDuration:time],
                            [CCActionEaseBackOut actionWithAction:[CCActionScaleTo actionWithDuration:fifthDur scale:1.f]], nil];
@@ -262,6 +304,138 @@
 - (void) spinnerOnDone {
   self.doneButton.title = @"";
   [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
+}
+
+#pragma mark - TextField delegate methods
+
+- (void) showTextFieldWithTarget:(id)target selector:(SEL)selector {
+  self.tipLabel.visible = NO;
+  self.doneButton.parent.position = ccp(0.5f, 0.1f);
+  self.rewardsBgd.parent.parent.position = ccpAdd(self.rewardsBgd.parent.parent.position, ccp(0, 0.03));
+  self.headerView.position = ccpAdd(self.headerView.position, ccp(0, 0.03));
+  self.spinner.position = ccpAdd(self.spinner.position, ccp(0, 0.03));
+  
+  CCNode *msgNode = [CCNode node];
+  [self.mainNode addChild:msgNode];
+  
+  msgNode.position = ccp(0.5f, 0.23f);
+  msgNode.positionType = CCPositionTypeNormalized;
+  
+  
+  CCSprite *bgd = [CCSprite spriteWithImageNamed:@"battleinputmessage.png"];
+  [msgNode addChild:bgd];
+  bgd.position = ccp(bgd.contentSize.width/2-self.rewardsBgd.contentSize.width/2, 0);
+  self.textBox = bgd;
+  
+  CCButton *sendButton = [CCButton buttonWithTitle:@"SEND" spriteFrame:[CCSpriteFrame frameWithImageNamed:@"battlesendmessage.png"]];
+  sendButton.label.fontName = @"Ziggurat-HTF-Black";
+  sendButton.label.fontSize = 10.f;
+  [sendButton setTarget:target selector:selector];
+  
+  CCColor *c = [CCColor colorWithRed:0/255.f green:85/255.f blue:141/255.f];
+  [sendButton setLabelColor:c forState:CCControlStateNormal];
+  [sendButton setLabelColor:c forState:CCControlStateHighlighted];
+  [sendButton.label setShadowColor:[CCColor colorWithRed:200/255.f green:251/255.f blue:1.f alpha:0.4f]];
+  [sendButton.label setShadowBlurRadius:2.f];
+  [sendButton.label setShadowOffset:ccp(0, -1)];
+  [msgNode addChild:sendButton];
+  sendButton.position = ccp(self.rewardsBgd.contentSize.width/2-sendButton.contentSize.width/2+2, 0);
+  self.sendButton = sendButton;
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void) createTextField {
+  CCNode *bgd = self.textBox;
+  
+  CancellableTextField *tf = [[CancellableTextField alloc] init];
+  tf.font = [UIFont fontWithName:@"Whitney-SemiboldItalic" size:12.f];
+  tf.placeholder = @"Send a message";
+  tf.size = CGSizeMake(bgd.contentSize.width-14, bgd.contentSize.height);
+  [Globals displayUIView:tf];
+  tf.center = ccp(self.contentSizeInPoints.width/2+bgd.positionInPoints.x, tf.superview.height-bgd.parent.positionInPoints.y-1);
+  tf.delegate = self;
+  self.msgTextField = tf;
+  
+  _initTextFieldPos = tf.center;
+}
+
+- (void) update:(CCTime)delta {
+  self.msgTextField.centerY = _initTextFieldPos.y-self.mainNode.positionInPoints.y;
+}
+
+- (void) keyboardWillShow:(NSNotification *)n {
+  NSDictionary *userInfo = [n userInfo];
+  CGRect keyboardFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+  NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+  UIViewAnimationCurve curve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+  
+  CGRect relFrame = [self.msgTextField.superview convertRect:keyboardFrame fromView:nil];
+  
+  CCActionInterval *action = [CCActionMoveTo actionWithDuration:animationDuration position:ccp(0, relFrame.size.height)];
+  
+  switch (curve) {
+    case UIViewAnimationCurveEaseInOut:
+      action = [CCActionEaseSineInOut actionWithAction:action];
+      break;
+      
+    case UIViewAnimationCurveEaseIn:
+      action = [CCActionEaseSineIn actionWithAction:action];
+      break;
+      
+    case UIViewAnimationCurveEaseOut:
+      action = [CCActionEaseOut actionWithAction:action];
+      break;
+      
+    default:
+      break;
+  }
+  
+  [self.mainNode stopAllActions];
+  [self.mainNode runAction:action];
+}
+
+- (void) keyboardWillHide:(NSNotification *)n {
+  NSDictionary *userInfo = [n userInfo];
+  NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+  UIViewAnimationCurve curve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+  
+  CCActionInterval *action = [CCActionMoveTo actionWithDuration:animationDuration position:ccp(0, 0)];
+  
+  switch (curve) {
+    case UIViewAnimationCurveEaseInOut:
+      action = [CCActionEaseSineInOut actionWithAction:action];
+      break;
+      
+    case UIViewAnimationCurveEaseIn:
+      action = [CCActionEaseSineIn actionWithAction:action];
+      break;
+      
+    case UIViewAnimationCurveEaseOut:
+      action = [CCActionEaseOut actionWithAction:action];
+      break;
+      
+    default:
+      break;
+  }
+  
+  [self.mainNode stopAllActions];
+  [self.mainNode runAction:action];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [self.sendButton triggerAction];
+  return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if ([str length] > gl.maxLengthOfChatString) {
+    return NO;
+  }
+  return YES;
 }
 
 @end

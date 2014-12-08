@@ -532,7 +532,7 @@
     if (!self.enemyTeam.count || _isDownloading) {
       _numTimesNotResponded++;
       if (_isDownloading || _numTimesNotResponded < 10) {
-        if (_isDownloading && _numTimesNotResponded % 3 == 0) {
+        if (_isDownloading && _numTimesNotResponded % 4 == 0) {
           [self.myPlayer initiateSpeechBubbleWithText:@"Hmm.. Enemies are calibrating."];
         }
         

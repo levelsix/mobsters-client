@@ -1707,6 +1707,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   MonsterLevelInfoProto *min = [mp.lvlInfoList firstObject];
   MonsterLevelInfoProto *max = [mp.lvlInfoList lastObject];
   float expPerSecond = min.enhanceExpPerSecond+(max.enhanceExpPerSecond-min.enhanceExpPerSecond)*powf((um.level-1)/(float)(max.lvl-1), max.enhanceExpPerSecondExponent);
+  expPerSecond = MAX(0.001, expPerSecond);
   
   // Use base feeder exp instead so that time isn't affected by multipliers
   //int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];

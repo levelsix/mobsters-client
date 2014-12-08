@@ -15,9 +15,16 @@
 #import <cocos2d.h>
 #import <cocos2d-ui.h>
 
-@interface BattleEndView : CCNode <UIScrollViewDelegate>
+@interface CancellableTextField : UITextField
+
+@end
+
+@interface BattleEndView : CCNode <UIScrollViewDelegate, UITextFieldDelegate> {
+  CGPoint _initTextFieldPos;
+}
 
 @property (nonatomic, retain) CCNode *bgdNode;
+@property (nonatomic, retain) CCNode *mainNode; // assigned in file
 
 @property (nonatomic, retain) CCNode *headerView;
 @property (nonatomic, retain) CCSprite *topLabelHeader;
@@ -39,7 +46,12 @@
 @property (nonatomic, retain) UIScrollView *rewardsScrollView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
 
+@property (nonatomic, retain) CCSprite *textBox;
+@property (nonatomic, retain) CCButton *sendButton;
+@property (nonatomic, retain) UITextField *msgTextField;
+
 - (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin;
+- (void) showTextFieldWithTarget:(id)target selector:(SEL)selector;
 
 - (void) spinnerOnDone;
 
