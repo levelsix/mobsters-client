@@ -139,6 +139,8 @@
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
 @class PvpLeagueProto_Builder;
+@class PvpMonsterProto;
+@class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QuestJobProto;

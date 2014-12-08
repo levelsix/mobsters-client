@@ -84,12 +84,6 @@
   [def setInteger:numOpens forKey:APP_OPEN_KEY];
   LNLog(@"Registering num opens: %d", numOpens);
   [Analytics appOpen:numOpens];
-  
-  // If it is past the first app open and we are not stuck in tutorial, register for notifications
-  GameState *gs = [GameState sharedGameState];
-  if (numOpens > 1 && !gs.isTutorial) {
-    [self registerForPushNotifications];
-  }
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -132,17 +126,6 @@
   
   [[CCDirector sharedDirector] pause];
   return YES;
-}
-
-- (void) registerForPushNotifications {
-  // Let the device know we want to receive push notifications
-  if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-    [[UIApplication sharedApplication] registerUserNotificationSettings:
-     [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
-  } else {
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-  }
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application {
@@ -237,6 +220,25 @@
   
   GameViewController *gvc = [GameViewController baseController];
   [gvc handleSignificantTimeChange];
+}
+
+#pragma mark - Push notifications
+
+- (void) registerForPushNotifications {
+  UIApplication *app = [UIApplication sharedApplication];
+  
+  // Let the device know we want to receive push notifications
+  if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+    [app registerUserNotificationSettings:
+     [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+    
+    if (![app isRegisteredForRemoteNotifications]) {
+      [app registerForRemoteNotifications];
+    }
+  } else {
+    [app registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+  }
 }
 
 - (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {

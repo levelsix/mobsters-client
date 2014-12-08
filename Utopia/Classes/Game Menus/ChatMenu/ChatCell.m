@@ -260,7 +260,8 @@ static float buttonInitialWidth = 159.f;
   NSArray *monsters = pvp.attackersMonstersList;
   
   for (int i = 0; i < self.monsterViews.count; i++) {
-    MinimumUserMonsterProto *um = i < monsters.count ? monsters[i] : nil;
+    PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
+    MinimumUserMonsterProto *um = pm.defenderMonster;
     ChatMonsterView *cmv = self.monsterViews[i];
     
     [cmv updateForMinMonster:um];

@@ -563,9 +563,9 @@
   
   int avatarId = pvp.defender.minUserProto.avatarMonsterId;
   if (!avatarId) {
-    MinimumUserMonsterProto *ump = [pvp.defenderMonstersList firstObject];
+    PvpMonsterProto *ump = [pvp.defenderMonstersList firstObject];
     
-    MonsterProto *mp = [gs monsterWithId:ump.monsterId];
+    MonsterProto *mp = [gs monsterWithId:ump.defenderMonster.monsterId];
     if (mp.imagePrefix.length) {
       avatarId = mp.monsterId;
     }

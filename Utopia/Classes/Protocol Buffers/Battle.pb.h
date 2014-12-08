@@ -34,6 +34,8 @@
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
 @class PvpLeagueProto_Builder;
+@class PvpMonsterProto;
+@class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -104,7 +106,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly) int32_t prospectiveCashWinnings;
 @property (readonly) int32_t prospectiveOilWinnings;
 @property (readonly, strong) UserPvpLeagueProto* pvpLeagueStats;
-- (MinimumUserMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
+- (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
 
 + (PvpProto*) defaultInstance;
 - (PvpProto*) defaultInstance;
@@ -149,8 +151,8 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) clearDefender;
 
 - (NSMutableArray *)defenderMonstersList;
-- (MinimumUserMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
-- (PvpProto_Builder *)addDefenderMonsters:(MinimumUserMonsterProto*)value;
+- (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index;
+- (PvpProto_Builder *)addDefenderMonsters:(PvpMonsterProto*)value;
 - (PvpProto_Builder *)addAllDefenderMonsters:(NSArray *)array;
 - (PvpProto_Builder *)clearDefenderMonsters;
 
@@ -170,6 +172,66 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpProto_Builder*) setPvpLeagueStats_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
 - (PvpProto_Builder*) mergePvpLeagueStats:(UserPvpLeagueProto*) value;
 - (PvpProto_Builder*) clearPvpLeagueStats;
+@end
+
+@interface PvpMonsterProto : PBGeneratedMessage {
+@private
+  BOOL hasMonsterIdDropped_:1;
+  BOOL hasDefenderMonster_:1;
+  int32_t monsterIdDropped;
+  MinimumUserMonsterProto* defenderMonster;
+}
+- (BOOL) hasDefenderMonster;
+- (BOOL) hasMonsterIdDropped;
+@property (readonly, strong) MinimumUserMonsterProto* defenderMonster;
+@property (readonly) int32_t monsterIdDropped;
+
++ (PvpMonsterProto*) defaultInstance;
+- (PvpMonsterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpMonsterProto_Builder*) builder;
++ (PvpMonsterProto_Builder*) builder;
++ (PvpMonsterProto_Builder*) builderWithPrototype:(PvpMonsterProto*) prototype;
+- (PvpMonsterProto_Builder*) toBuilder;
+
++ (PvpMonsterProto*) parseFromData:(NSData*) data;
++ (PvpMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpMonsterProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpMonsterProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PvpMonsterProto* result;
+}
+
+- (PvpMonsterProto*) defaultInstance;
+
+- (PvpMonsterProto_Builder*) clear;
+- (PvpMonsterProto_Builder*) clone;
+
+- (PvpMonsterProto*) build;
+- (PvpMonsterProto*) buildPartial;
+
+- (PvpMonsterProto_Builder*) mergeFrom:(PvpMonsterProto*) other;
+- (PvpMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDefenderMonster;
+- (MinimumUserMonsterProto*) defenderMonster;
+- (PvpMonsterProto_Builder*) setDefenderMonster:(MinimumUserMonsterProto*) value;
+- (PvpMonsterProto_Builder*) setDefenderMonster_Builder:(MinimumUserMonsterProto_Builder*) builderForValue;
+- (PvpMonsterProto_Builder*) mergeDefenderMonster:(MinimumUserMonsterProto*) value;
+- (PvpMonsterProto_Builder*) clearDefenderMonster;
+
+- (BOOL) hasMonsterIdDropped;
+- (int32_t) monsterIdDropped;
+- (PvpMonsterProto_Builder*) setMonsterIdDropped:(int32_t) value;
+- (PvpMonsterProto_Builder*) clearMonsterIdDropped;
 @end
 
 @interface PvpHistoryProto : PBGeneratedMessage {
@@ -225,7 +287,7 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly, strong) UserPvpLeagueProto* attackerAfter;
 @property (readonly, strong) UserPvpLeagueProto* defenderBefore;
 @property (readonly, strong) UserPvpLeagueProto* defenderAfter;
-- (MinimumUserMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
+- (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
 
 + (PvpHistoryProto*) defaultInstance;
 - (PvpHistoryProto*) defaultInstance;
@@ -275,8 +337,8 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpHistoryProto_Builder*) clearAttacker;
 
 - (NSMutableArray *)attackersMonstersList;
-- (MinimumUserMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
-- (PvpHistoryProto_Builder *)addAttackersMonsters:(MinimumUserMonsterProto*)value;
+- (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
+- (PvpHistoryProto_Builder *)addAttackersMonsters:(PvpMonsterProto*)value;
 - (PvpHistoryProto_Builder *)addAllAttackersMonsters:(NSArray *)array;
 - (PvpHistoryProto_Builder *)clearAttackersMonsters;
 

@@ -56,9 +56,9 @@
   self.timeLabel.frame = r;
   
   for (int i = 0; i < self.monsterViews.count; i++) {
-    FullUserMonsterProto *um = i < history.attackersMonstersList.count ? history.attackersMonstersList[i] : nil;
+    PvpMonsterProto *um = i < history.attackersMonstersList.count ? history.attackersMonstersList[i] : nil;
     MiniMonsterView *mv = self.monsterViews[i];
-    [mv updateForMonsterId:um.monsterId];
+    [mv updateForMonsterId:um.defenderMonster.monsterId];
   }
   
   self.revengeButtonView.hidden = history.exactedRevenge;
@@ -115,8 +115,8 @@
   RequestsBattleCell *cell = (RequestsBattleCell *)sender;
   
   NSMutableArray *monsters = [NSMutableArray array];
-  for (MinimumUserMonsterProto *mon in cell.battleHistory.attackersMonstersList) {
-    UserMonster *um = [UserMonster userMonsterWithMinProto:mon];
+  for (PvpMonsterProto *mon in cell.battleHistory.attackersMonstersList) {
+    UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster];
     um.teamSlot = (int)[cell.battleHistory.attackersMonstersList indexOfObject:mon]+1;
     [monsters addObject:um];
   }

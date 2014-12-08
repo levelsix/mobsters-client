@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "Battle.pb.h"
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
@@ -42,6 +43,8 @@
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
 @class PvpLeagueProto_Builder;
+@class PvpMonsterProto;
+@class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QueueUpRequestProto;
@@ -435,6 +438,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   int32_t cashChange;
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
+  PBAppendableArray * mutableMonsterDropIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasDefenderUuid;
@@ -452,6 +456,8 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 @property (readonly) int32_t oilChange;
 @property (readonly) int32_t cashChange;
 @property (readonly) Float32 nuPvpDmgMultiplier;
+@property (readonly, strong) PBArray * monsterDropIdsList;
+- (int32_t)monsterDropIdsAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleRequestProto*) defaultInstance;
 - (EndPvpBattleRequestProto*) defaultInstance;
@@ -529,6 +535,13 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (Float32) nuPvpDmgMultiplier;
 - (EndPvpBattleRequestProto_Builder*) setNuPvpDmgMultiplier:(Float32) value;
 - (EndPvpBattleRequestProto_Builder*) clearNuPvpDmgMultiplier;
+
+- (PBAppendableArray *)monsterDropIdsList;
+- (int32_t)monsterDropIdsAtIndex:(NSUInteger)index;
+- (EndPvpBattleRequestProto_Builder *)addMonsterDropIds:(int32_t)value;
+- (EndPvpBattleRequestProto_Builder *)addAllMonsterDropIds:(NSArray *)array;
+- (EndPvpBattleRequestProto_Builder *)setMonsterDropIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (EndPvpBattleRequestProto_Builder *)clearMonsterDropIds;
 @end
 
 @interface EndPvpBattleResponseProto : PBGeneratedMessage {
@@ -543,6 +556,7 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
   EndPvpBattleResponseProto_EndPvpBattleStatus status;
+  NSMutableArray * mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasDefenderUuid;
@@ -554,6 +568,8 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) attackerAttacked;
 - (BOOL) attackerWon;
 @property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
+@property (readonly, strong) NSArray * updatedOrNewList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleResponseProto*) defaultInstance;
 - (EndPvpBattleResponseProto*) defaultInstance;
@@ -616,6 +632,12 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_EndPvpBattleStatus) status;
 - (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value;
 - (EndPvpBattleResponseProto_Builder*) clearStatus;
+
+- (NSMutableArray *)updatedOrNewList;
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
+- (EndPvpBattleResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
+- (EndPvpBattleResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
+- (EndPvpBattleResponseProto_Builder *)clearUpdatedOrNew;
 @end
 
 

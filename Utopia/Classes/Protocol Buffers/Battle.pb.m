@@ -96,7 +96,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (NSArray *)defenderMonstersList {
   return mutableDefenderMonstersList;
 }
-- (MinimumUserMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index {
+- (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index {
   return [mutableDefenderMonstersList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
@@ -106,7 +106,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefender) {
     [output writeMessage:1 value:self.defender];
   }
-  [self.defenderMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:3 value:element];
   }];
   if (self.hasProspectiveCashWinnings) {
@@ -130,7 +130,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefender) {
     size_ += computeMessageSize(1, self.defender);
   }
-  [self.defenderMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(3, element);
   }];
   if (self.hasProspectiveCashWinnings) {
@@ -183,7 +183,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.defenderMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"defenderMonsters"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -228,7 +228,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefender) {
     hashCode = hashCode * 31 + [self.defender hash];
   }
-  [self.defenderMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.defenderMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasProspectiveCashWinnings) {
@@ -333,7 +333,7 @@ static PvpProto* defaultPvpProtoInstance = nil;
         break;
       }
       case 26: {
-        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        PvpMonsterProto_Builder* subBuilder = [PvpMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addDefenderMonsters:[subBuilder buildPartial]];
         break;
@@ -391,10 +391,10 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (NSMutableArray *)defenderMonstersList {
   return result.mutableDefenderMonstersList;
 }
-- (MinimumUserMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index {
+- (PvpMonsterProto*)defenderMonstersAtIndex:(NSUInteger)index {
   return [result defenderMonstersAtIndex:index];
 }
-- (PvpProto_Builder *)addDefenderMonsters:(MinimumUserMonsterProto*)value {
+- (PvpProto_Builder *)addDefenderMonsters:(PvpMonsterProto*)value {
   if (result.mutableDefenderMonstersList == nil) {
     result.mutableDefenderMonstersList = [[NSMutableArray alloc]init];
   }
@@ -472,6 +472,274 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (PvpProto_Builder*) clearPvpLeagueStats {
   result.hasPvpLeagueStats = NO;
   result.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+@end
+
+@interface PvpMonsterProto ()
+@property (strong) MinimumUserMonsterProto* defenderMonster;
+@property int32_t monsterIdDropped;
+@end
+
+@implementation PvpMonsterProto
+
+- (BOOL) hasDefenderMonster {
+  return !!hasDefenderMonster_;
+}
+- (void) setHasDefenderMonster:(BOOL) value_ {
+  hasDefenderMonster_ = !!value_;
+}
+@synthesize defenderMonster;
+- (BOOL) hasMonsterIdDropped {
+  return !!hasMonsterIdDropped_;
+}
+- (void) setHasMonsterIdDropped:(BOOL) value_ {
+  hasMonsterIdDropped_ = !!value_;
+}
+@synthesize monsterIdDropped;
+- (id) init {
+  if ((self = [super init])) {
+    self.defenderMonster = [MinimumUserMonsterProto defaultInstance];
+    self.monsterIdDropped = 0;
+  }
+  return self;
+}
+static PvpMonsterProto* defaultPvpMonsterProtoInstance = nil;
++ (void) initialize {
+  if (self == [PvpMonsterProto class]) {
+    defaultPvpMonsterProtoInstance = [[PvpMonsterProto alloc] init];
+  }
+}
++ (PvpMonsterProto*) defaultInstance {
+  return defaultPvpMonsterProtoInstance;
+}
+- (PvpMonsterProto*) defaultInstance {
+  return defaultPvpMonsterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasDefenderMonster) {
+    [output writeMessage:1 value:self.defenderMonster];
+  }
+  if (self.hasMonsterIdDropped) {
+    [output writeInt32:2 value:self.monsterIdDropped];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasDefenderMonster) {
+    size_ += computeMessageSize(1, self.defenderMonster);
+  }
+  if (self.hasMonsterIdDropped) {
+    size_ += computeInt32Size(2, self.monsterIdDropped);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (PvpMonsterProto*) parseFromData:(NSData*) data {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromData:data] build];
+}
++ (PvpMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PvpMonsterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromInputStream:input] build];
+}
++ (PvpMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PvpMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpMonsterProto*)[[[PvpMonsterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpMonsterProto_Builder*) builder {
+  return [[PvpMonsterProto_Builder alloc] init];
+}
++ (PvpMonsterProto_Builder*) builderWithPrototype:(PvpMonsterProto*) prototype {
+  return [[PvpMonsterProto builder] mergeFrom:prototype];
+}
+- (PvpMonsterProto_Builder*) builder {
+  return [PvpMonsterProto builder];
+}
+- (PvpMonsterProto_Builder*) toBuilder {
+  return [PvpMonsterProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasDefenderMonster) {
+    [output appendFormat:@"%@%@ {\n", indent, @"defenderMonster"];
+    [self.defenderMonster writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasMonsterIdDropped) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterIdDropped", [NSNumber numberWithInteger:self.monsterIdDropped]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[PvpMonsterProto class]]) {
+    return NO;
+  }
+  PvpMonsterProto *otherMessage = other;
+  return
+      self.hasDefenderMonster == otherMessage.hasDefenderMonster &&
+      (!self.hasDefenderMonster || [self.defenderMonster isEqual:otherMessage.defenderMonster]) &&
+      self.hasMonsterIdDropped == otherMessage.hasMonsterIdDropped &&
+      (!self.hasMonsterIdDropped || self.monsterIdDropped == otherMessage.monsterIdDropped) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasDefenderMonster) {
+    hashCode = hashCode * 31 + [self.defenderMonster hash];
+  }
+  if (self.hasMonsterIdDropped) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.monsterIdDropped] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface PvpMonsterProto_Builder()
+@property (strong) PvpMonsterProto* result;
+@end
+
+@implementation PvpMonsterProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[PvpMonsterProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PvpMonsterProto_Builder*) clear {
+  self.result = [[PvpMonsterProto alloc] init];
+  return self;
+}
+- (PvpMonsterProto_Builder*) clone {
+  return [PvpMonsterProto builderWithPrototype:result];
+}
+- (PvpMonsterProto*) defaultInstance {
+  return [PvpMonsterProto defaultInstance];
+}
+- (PvpMonsterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PvpMonsterProto*) buildPartial {
+  PvpMonsterProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (PvpMonsterProto_Builder*) mergeFrom:(PvpMonsterProto*) other {
+  if (other == [PvpMonsterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasDefenderMonster) {
+    [self mergeDefenderMonster:other.defenderMonster];
+  }
+  if (other.hasMonsterIdDropped) {
+    [self setMonsterIdDropped:other.monsterIdDropped];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PvpMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PvpMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        if (self.hasDefenderMonster) {
+          [subBuilder mergeFrom:self.defenderMonster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefenderMonster:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setMonsterIdDropped:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasDefenderMonster {
+  return result.hasDefenderMonster;
+}
+- (MinimumUserMonsterProto*) defenderMonster {
+  return result.defenderMonster;
+}
+- (PvpMonsterProto_Builder*) setDefenderMonster:(MinimumUserMonsterProto*) value {
+  result.hasDefenderMonster = YES;
+  result.defenderMonster = value;
+  return self;
+}
+- (PvpMonsterProto_Builder*) setDefenderMonster_Builder:(MinimumUserMonsterProto_Builder*) builderForValue {
+  return [self setDefenderMonster:[builderForValue build]];
+}
+- (PvpMonsterProto_Builder*) mergeDefenderMonster:(MinimumUserMonsterProto*) value {
+  if (result.hasDefenderMonster &&
+      result.defenderMonster != [MinimumUserMonsterProto defaultInstance]) {
+    result.defenderMonster =
+      [[[MinimumUserMonsterProto builderWithPrototype:result.defenderMonster] mergeFrom:value] buildPartial];
+  } else {
+    result.defenderMonster = value;
+  }
+  result.hasDefenderMonster = YES;
+  return self;
+}
+- (PvpMonsterProto_Builder*) clearDefenderMonster {
+  result.hasDefenderMonster = NO;
+  result.defenderMonster = [MinimumUserMonsterProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMonsterIdDropped {
+  return result.hasMonsterIdDropped;
+}
+- (int32_t) monsterIdDropped {
+  return result.monsterIdDropped;
+}
+- (PvpMonsterProto_Builder*) setMonsterIdDropped:(int32_t) value {
+  result.hasMonsterIdDropped = YES;
+  result.monsterIdDropped = value;
+  return self;
+}
+- (PvpMonsterProto_Builder*) clearMonsterIdDropped {
+  result.hasMonsterIdDropped = NO;
+  result.monsterIdDropped = 0;
   return self;
 }
 @end
@@ -622,7 +890,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 - (NSArray *)attackersMonstersList {
   return mutableAttackersMonstersList;
 }
-- (MinimumUserMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index {
+- (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index {
   return [mutableAttackersMonstersList objectAtIndex:index];
 }
 - (BOOL) isInitialized {
@@ -632,7 +900,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasAttacker) {
     [output writeMessage:1 value:self.attacker];
   }
-  [self.attackersMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.attackersMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
   if (self.hasAttackerWon) {
@@ -680,7 +948,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasAttacker) {
     size_ += computeMessageSize(1, self.attacker);
   }
-  [self.attackersMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.attackersMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
   if (self.hasAttackerWon) {
@@ -757,7 +1025,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
-  [self.attackersMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.attackersMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"attackersMonsters"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
@@ -851,7 +1119,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasAttacker) {
     hashCode = hashCode * 31 + [self.attacker hash];
   }
-  [self.attackersMonstersList enumerateObjectsUsingBlock:^(MinimumUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+  [self.attackersMonstersList enumerateObjectsUsingBlock:^(PvpMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasAttackerWon) {
@@ -1004,7 +1272,7 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
         break;
       }
       case 18: {
-        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        PvpMonsterProto_Builder* subBuilder = [PvpMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAttackersMonsters:[subBuilder buildPartial]];
         break;
@@ -1125,10 +1393,10 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 - (NSMutableArray *)attackersMonstersList {
   return result.mutableAttackersMonstersList;
 }
-- (MinimumUserMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index {
+- (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index {
   return [result attackersMonstersAtIndex:index];
 }
-- (PvpHistoryProto_Builder *)addAttackersMonsters:(MinimumUserMonsterProto*)value {
+- (PvpHistoryProto_Builder *)addAttackersMonsters:(PvpMonsterProto*)value {
   if (result.mutableAttackersMonstersList == nil) {
     result.mutableAttackersMonstersList = [[NSMutableArray alloc]init];
   }

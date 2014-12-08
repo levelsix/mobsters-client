@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
@@ -1516,6 +1517,7 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
 @property int32_t oilChange;
 @property int32_t cashChange;
 @property Float32 nuPvpDmgMultiplier;
+@property (strong) PBAppendableArray * mutableMonsterDropIdsList;
 @end
 
 @implementation EndPvpBattleRequestProto
@@ -1586,6 +1588,8 @@ BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattle
   hasNuPvpDmgMultiplier_ = !!value_;
 }
 @synthesize nuPvpDmgMultiplier;
+@synthesize mutableMonsterDropIdsList;
+@dynamic monsterDropIdsList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -1610,6 +1614,12 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 }
 - (EndPvpBattleRequestProto*) defaultInstance {
   return defaultEndPvpBattleRequestProtoInstance;
+}
+- (PBArray *)monsterDropIdsList {
+  return mutableMonsterDropIdsList;
+}
+- (int32_t)monsterDropIdsAtIndex:(NSUInteger)index {
+  return [mutableMonsterDropIdsList int32AtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1638,6 +1648,13 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   }
   if (self.hasNuPvpDmgMultiplier) {
     [output writeFloat:8 value:self.nuPvpDmgMultiplier];
+  }
+  const NSUInteger monsterDropIdsListCount = self.monsterDropIdsList.count;
+  if (monsterDropIdsListCount > 0) {
+    const int32_t *values = (const int32_t *)self.monsterDropIdsList.data;
+    for (NSUInteger i = 0; i < monsterDropIdsListCount; ++i) {
+      [output writeInt32:9 value:values[i]];
+    }
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1671,6 +1688,16 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   }
   if (self.hasNuPvpDmgMultiplier) {
     size_ += computeFloatSize(8, self.nuPvpDmgMultiplier);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.monsterDropIdsList.count;
+    const int32_t *values = (const int32_t *)self.monsterDropIdsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt32SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1734,6 +1761,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasNuPvpDmgMultiplier) {
     [output appendFormat:@"%@%@: %@\n", indent, @"nuPvpDmgMultiplier", [NSNumber numberWithFloat:self.nuPvpDmgMultiplier]];
   }
+  [self.monsterDropIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterDropIds", obj];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1761,6 +1791,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       (!self.hasCashChange || self.cashChange == otherMessage.cashChange) &&
       self.hasNuPvpDmgMultiplier == otherMessage.hasNuPvpDmgMultiplier &&
       (!self.hasNuPvpDmgMultiplier || self.nuPvpDmgMultiplier == otherMessage.nuPvpDmgMultiplier) &&
+      [self.monsterDropIdsList isEqualToArray:otherMessage.monsterDropIdsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1789,6 +1820,9 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (self.hasNuPvpDmgMultiplier) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.nuPvpDmgMultiplier] hash];
   }
+  [self.monsterDropIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -1856,6 +1890,13 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   if (other.hasNuPvpDmgMultiplier) {
     [self setNuPvpDmgMultiplier:other.nuPvpDmgMultiplier];
   }
+  if (other.mutableMonsterDropIdsList.count > 0) {
+    if (result.mutableMonsterDropIdsList == nil) {
+      result.mutableMonsterDropIdsList = [other.mutableMonsterDropIdsList copy];
+    } else {
+      [result.mutableMonsterDropIdsList appendArray:other.mutableMonsterDropIdsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1912,6 +1953,10 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
       }
       case 69: {
         [self setNuPvpDmgMultiplier:[input readFloat]];
+        break;
+      }
+      case 72: {
+        [self addMonsterDropIds:[input readInt32]];
         break;
       }
     }
@@ -2059,6 +2104,34 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   result.nuPvpDmgMultiplier = 0;
   return self;
 }
+- (PBAppendableArray *)monsterDropIdsList {
+  return result.mutableMonsterDropIdsList;
+}
+- (int32_t)monsterDropIdsAtIndex:(NSUInteger)index {
+  return [result monsterDropIdsAtIndex:index];
+}
+- (EndPvpBattleRequestProto_Builder *)addMonsterDropIds:(int32_t)value {
+  if (result.mutableMonsterDropIdsList == nil) {
+    result.mutableMonsterDropIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableMonsterDropIdsList addInt32:value];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder *)addAllMonsterDropIds:(NSArray *)array {
+  if (result.mutableMonsterDropIdsList == nil) {
+    result.mutableMonsterDropIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableMonsterDropIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder *)setMonsterDropIdsValues:(const int32_t *)values count:(NSUInteger)count {
+  result.mutableMonsterDropIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder *)clearMonsterDropIds {
+  result.mutableMonsterDropIdsList = nil;
+  return self;
+}
 @end
 
 @interface EndPvpBattleResponseProto ()
@@ -2067,6 +2140,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 @property BOOL attackerAttacked;
 @property BOOL attackerWon;
 @property EndPvpBattleResponseProto_EndPvpBattleStatus status;
+@property (strong) NSMutableArray * mutableUpdatedOrNewList;
 @end
 
 @implementation EndPvpBattleResponseProto
@@ -2116,6 +2190,8 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
   hasStatus_ = !!value_;
 }
 @synthesize status;
+@synthesize mutableUpdatedOrNewList;
+@dynamic updatedOrNewList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -2138,6 +2214,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
 - (EndPvpBattleResponseProto*) defaultInstance {
   return defaultEndPvpBattleResponseProtoInstance;
 }
+- (NSArray *)updatedOrNewList {
+  return mutableUpdatedOrNewList;
+}
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
+  return [mutableUpdatedOrNewList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -2157,6 +2239,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatus) {
     [output writeEnum:9 value:self.status];
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:10 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2181,6 +2266,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatus) {
     size_ += computeEnumSize(9, self.status);
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(10, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2234,6 +2322,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatus) {
     [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"updatedOrNew"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2255,6 +2349,7 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
       (!self.hasAttackerWon || self.attackerWon == otherMessage.attackerWon) &&
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
+      [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2274,6 +2369,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   if (self.hasStatus) {
     hashCode = hashCode * 31 + self.status;
   }
+  [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2342,6 +2440,13 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.mutableUpdatedOrNewList.count > 0) {
+    if (result.mutableUpdatedOrNewList == nil) {
+      result.mutableUpdatedOrNewList = [[NSMutableArray alloc] initWithArray:other.mutableUpdatedOrNewList];
+    } else {
+      [result.mutableUpdatedOrNewList addObjectsFromArray:other.mutableUpdatedOrNewList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2391,6 +2496,12 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
         } else {
           [unknownFields mergeVarintField:9 value:value];
         }
+        break;
+      }
+      case 82: {
+        FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedOrNew:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2488,6 +2599,30 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (EndPvpBattleResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
+  return self;
+}
+- (NSMutableArray *)updatedOrNewList {
+  return result.mutableUpdatedOrNewList;
+}
+- (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index {
+  return [result updatedOrNewAtIndex:index];
+}
+- (EndPvpBattleResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableUpdatedOrNewList addObject:value];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedOrNewList addObjectsFromArray:array];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder *)clearUpdatedOrNew {
+  result.mutableUpdatedOrNewList = nil;
   return self;
 }
 @end

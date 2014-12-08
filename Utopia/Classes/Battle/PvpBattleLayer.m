@@ -57,6 +57,22 @@
   return self;
 }
 
+- (CCSprite *) getCurrentEnemyLoot {
+  GameState *gs = [GameState sharedGameState];
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  PvpMonsterProto *pm = pvp.defenderMonstersList[_curQueueNum];
+  
+  CCSprite *ed = nil;
+  if (pm.hasMonsterIdDropped && pm.monsterIdDropped > 0) {
+    BOOL isComplete = NO;
+    
+    MonsterProto *mp = [gs monsterWithId:pm.monsterIdDropped];
+    NSString *fileName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:(isComplete ? @"ball.png" : @"piece.png")]];
+    ed = [CCSprite spriteWithImageNamed:fileName];
+  }
+  return ed;
+}
+
 - (void) moveBegan {
   [super moveBegan];
   _userAttacked = YES;
@@ -411,8 +427,8 @@
     NSMutableArray *enemyTeam = [NSMutableArray array];
     
     PvpProto *enemy = self.defendersList[_curQueueNum];
-    for (MinimumUserMonsterProto *mon in enemy.defenderMonstersList) {
-      UserMonster *um = [UserMonster userMonsterWithMinProto:mon];
+    for (PvpMonsterProto *mon in enemy.defenderMonstersList) {
+      UserMonster *um = [UserMonster userMonsterWithMinProto:mon.defenderMonster];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
       
