@@ -431,7 +431,7 @@
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
   
   ResidenceProto *rp = self.bonusView.staticStructs[indexPath.row];
-  if (rp.structInfo.level == self.userStruct.fbInviteStructLvl+1) {
+  if (rp.structInfo.level == self.userStruct.fbInviteStructLvl+1 && rp.structInfo.level <= self.userStruct.staticStruct.structInfo.level) {
     [self loadAddSlotsView];
   } else if (rp.structInfo.level < self.userStruct.fbInviteStructLvl+1) {
     [self loadAlreadyHiredViewForResidence:rp];

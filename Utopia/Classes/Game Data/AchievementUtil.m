@@ -175,7 +175,7 @@
 + (NSSet *) upgradeBuilding:(int)buildingId {
   NSMutableSet *set = [NSMutableSet set];
   
-  // Go through all prereqs
+  // Go through all predecessors
   GameState *gs = [GameState sharedGameState];
   
   id<StaticStructure> ss = [gs structWithId:buildingId];
