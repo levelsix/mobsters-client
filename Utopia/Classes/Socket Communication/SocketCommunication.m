@@ -1134,8 +1134,8 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
 }
 
-- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime {
-  EndPvpBattleRequestProto *req = [[[[[[[[[EndPvpBattleRequestProto builder]
+- (int) sendEndPvpBattleMessage:(NSString *)defenderUuid userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime monsterDropIds:(NSArray *)monsterDropIds {
+  EndPvpBattleRequestProto *req = [[[[[[[[[[EndPvpBattleRequestProto builder]
                                           setSender:[self senderWithMaxResources]]
                                          setDefenderUuid:defenderUuid]
                                         setUserAttacked:userAttacked]
@@ -1143,6 +1143,7 @@ static NSString *udid = nil;
                                       setOilChange:oilChange]
                                      setCashChange:cashChange]
                                     setClientTime:clientTime]
+                                    addAllMonsterDropIds:monsterDropIds]
                                    build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEndPvpBattleEvent];

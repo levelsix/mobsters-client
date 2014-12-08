@@ -105,7 +105,7 @@
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp] isWin:YES];
-  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
 }
 
 - (void) youLost {
@@ -113,7 +113,7 @@
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:nil isWin:NO];
-  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
 }
 
 - (IBAction)forfeitClicked:(id)sender {

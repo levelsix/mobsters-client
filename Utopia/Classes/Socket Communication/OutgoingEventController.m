@@ -1893,11 +1893,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon delegate:(id)delegate {
+- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   int oilGained = userWon ? proto.prospectiveOilWinnings : 0;
   int cashGained = userWon ? proto.prospectiveCashWinnings : 0;
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds]];
+  
+  NSMutableArray *monsterDropIds = [NSMutableArray array];
+  if (userWon) {
+    for (int i = 0; i < proto.defenderMonstersList.count; i++) {
+      PvpMonsterProto *mon = proto.defenderMonstersList[i];
+      
+      if (mon.monsterIdDropped && ![droplessStageNums containsObject:@(i)]) {
+        [monsterDropIds addObject:@(mon.monsterIdDropped)];
+      }
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userUuid userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds] monsterDropIds:monsterDropIds];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [CashUpdate updateWithTag:tag change:cashGained], nil];
   
