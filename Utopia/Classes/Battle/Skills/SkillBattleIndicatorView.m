@@ -43,12 +43,9 @@
   _skillButtonEnabled = NO;
   
   GameState* gs = [GameState sharedGameState];
-  SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
+  _skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
   
-  _skillName = playerSkillProto.name;
-  _skillDescription = playerSkillProto.desc;
-  
-  [self setSkillIcon:playerSkillProto.iconImgName];
+  [self setSkillIcon:_skillProto.iconImgName];
   
   [self setSkillLabel];
   
@@ -264,6 +261,12 @@
 
 - (void) popupOrbCounter
 {
+  CGPoint orbCounterPosition = [self.parent convertToWorldSpace:ccpAdd(self.position, ccp(0.f, self.contentSize.height - 5.f))];
+  orbCounterPosition = ccp(orbCounterPosition.x, [Globals screenSize].height - orbCounterPosition.y);
+  
+  [skillManager displaySkillCounterPopupForController:_skillController withProto:_skillProto atPosition:orbCounterPosition];
+  
+  /*
   if (_orbCounter && _orbCounter.parent)
     return;
   
@@ -331,7 +334,6 @@
     [orbsCountLabel setString:[NSString stringWithFormat:@"Passive"]];
   }
 
-  /*
   [self.parent addChild:_orbCounter];
   [_orbCounter runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.0],
                  [CCActionDelay actionWithDuration:2.0],
@@ -339,20 +341,6 @@
                  [CCActionRemove action],
                  nil]];
    */
-  
-  // Render _orbCounter to a UIImage so it can be added to BattleHudView as the top-most layer
-  CGPoint orbCounterPosition = [self.parent convertToWorldSpace:_orbCounter.boundingBox.origin];
-  orbCounterPosition = ccp(orbCounterPosition.x, [Globals screenSize].height - (orbCounterPosition.y + _orbCounter.boundingBox.size.height));
-  CCRenderTexture* renderer = [CCRenderTexture renderTextureWithWidth:_orbCounter.contentSize.width height:_orbCounter.contentSize.height];
-  {
-    _orbCounter.anchorPoint = CGPointZero;
-    _orbCounter.position = CGPointZero;
-    _orbCounter.opacity = 1.f;
-    [renderer begin];
-      [_orbCounter visit];
-    [renderer end];
-  }
-  [skillManager updateBattleHudWithSkillPopup:[renderer getUIImage] atPosition:orbCounterPosition];
 }
 
 @end

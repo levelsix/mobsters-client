@@ -25,8 +25,7 @@
   
   CCSprite*   _orbCounter;
   
-  NSString*   _skillName;
-  NSString*   _skillDescription;
+  SkillProto* _skillProto;
 }
 
 @property (nonatomic, readonly) float percentage;

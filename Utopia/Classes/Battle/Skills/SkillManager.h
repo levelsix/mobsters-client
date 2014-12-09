@@ -71,6 +71,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (BOOL) willPlayerSkillTrigger:(SkillTriggerPoint)trigger;
 - (void) enableSkillButton:(BOOL)enable;
 - (BOOL) cakeKidSchedule;
-- (void) updateBattleHudWithSkillPopup:(UIImage*)popupImage atPosition:(CGPoint)position;
+- (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos;
 
 @end

@@ -396,16 +396,70 @@
                         <outletCollection property="cardViews" destination="ys4-HV-hPN" id="Ryz-G4-OxO"/>
                     </connections>
                 </view>
-                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Sr5-hm-vG3">
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pKL-OX-wJm">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="removeSkillPopupImageView:" destination="iN0-l3-epB" eventType="touchUpInside" id="0uA-b2-pXJ"/>
+                        <action selector="hideSkillPopup:" destination="iN0-l3-epB" eventType="touchUpInside" id="uU7-pV-Re4"/>
                     </connections>
                 </button>
+                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="aFa-S4-vV7" customClass="BattleSkillCounterPopupView">
+                    <rect key="frame" x="174" y="95" width="220" height="129"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthskilldescription.png" id="0Dg-oo-PSH" userLabel="Popup Background Image">
+                            <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cgH-8O-r5a" userLabel="Skill Name Label" customClass="NiceFontLabel18">
+                            <rect key="frame" x="8" y="0.0" width="204" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skilldescriptionline.png" id="1XA-k1-UXW" userLabel="Separator Line">
+                            <rect key="frame" x="16" y="29" width="187" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EaS-X5-IaB" userLabel="Skill Description Label" customClass="NiceFontLabel2">
+                            <rect key="frame" x="8" y="29" width="204" height="64"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="MgT-rj-xP9" userLabel="Orb Icon">
+                            <rect key="frame" x="85" y="94" width="14" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djo-aa-UCm" userLabel="Orbs Counter Label" customClass="NiceFontLabel18">
+                            <rect key="frame" x="105" y="96" width="55" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="background" destination="0Dg-oo-PSH" id="Gea-N8-hfC"/>
+                        <outlet property="descLabel" destination="EaS-X5-IaB" id="bV5-07-jxO"/>
+                        <outlet property="nameLabel" destination="cgH-8O-r5a" id="uOB-LG-7s5"/>
+                        <outlet property="orbCounterLabel" destination="djo-aa-UCm" id="gym-O6-Oiz"/>
+                        <outlet property="orbIcon" destination="MgT-rj-xP9" id="1EJ-Km-fqO"/>
+                        <outlet property="parentHudView" destination="iN0-l3-epB" id="BVJ-DP-XnO"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -413,11 +467,12 @@
             <connections>
                 <outlet property="battleScheduleView" destination="gM6-4S-27Q" id="9CP-vj-g41"/>
                 <outlet property="bottomView" destination="MRM-zP-qe8" id="X5r-Nw-4V5"/>
-                <outlet property="closeButton" destination="Sr5-hm-vG3" id="PcO-RP-u39"/>
                 <outlet property="deployView" destination="zMQ-pc-wO7" id="pam-1a-pfD"/>
                 <outlet property="elementButton" destination="2kS-qV-7b6" id="H06-P8-4sH"/>
                 <outlet property="elementView" destination="Qgz-Lk-NDV" id="Epa-eU-LmG"/>
                 <outlet property="forfeitButtonView" destination="BNm-Sv-afd" id="ZlG-ba-rmi"/>
+                <outlet property="skillPopupCloseButton" destination="pKL-OX-wJm" id="g9g-8H-yTJ"/>
+                <outlet property="skillPopupView" destination="aFa-S4-vV7" id="FQb-PG-Bae"/>
                 <outlet property="swapLabel" destination="MBM-Xk-jdF" id="ewJ-3t-yWE"/>
                 <outlet property="swapView" destination="9tG-Yt-5ot" id="B0x-y1-nYq"/>
                 <outlet property="waveNumLabel" destination="lh2-01-Mam" id="wzS-sS-7f9"/>
@@ -428,14 +483,17 @@
         <image name="currentborder.png" width="43" height="43"/>
         <image name="deploybg.png" width="157" height="93"/>
         <image name="dottedsmallsquare.png" width="42" height="42"/>
+        <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
+        <image name="fireorb.png" width="27" height="34"/>
         <image name="firesmallsquare.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>
         <image name="movesqueuebgwide.png" width="234" height="62"/>
         <image name="runawaybgwide.png" width="84" height="21"/>
         <image name="runawaybgwidepressed.png" width="75" height="21"/>
+        <image name="skilldescriptionline.png" width="186" height="1"/>
         <image name="swapbutton.png" width="50" height="46"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

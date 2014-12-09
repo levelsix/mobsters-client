@@ -11,6 +11,7 @@
 #import "NewBattleLayer.h"
 #import "SkillCakeDrop.h"
 #import "SkillBombs.h"
+#import "SkillControllerActive.h"
 
 @implementation SkillManager
 
@@ -29,8 +30,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
 #ifdef DEBUG
   // Change it to override current skills for debug purposes
-  _cheatEnemySkillType = SkillTypeQuickAttack;
-  _cheatPlayerSkillType = SkillTypeMomentum;
+  //_cheatEnemySkillType = SkillTypeQuickAttack;
+  //_cheatPlayerSkillType = SkillTypeQuickAttack;
 #endif
   
   return self;
@@ -424,11 +425,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   [_skillIndicatorPlayer enableSkillButton:enable];
 }
 
-- (void) updateBattleHudWithSkillPopup:(UIImage*)popupImage atPosition:(CGPoint)position
+- (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos
 {
-  UIImageView* popupImageView = [[UIImageView alloc] initWithImage:popupImage];
-  [popupImageView setOrigin:position];
-  [_battleLayer.hudView displaySkillPopupImageView:popupImageView];
+  NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"skilldescription"]];
+  NSString *orbName = nil, *orbCount = @"Passive";
+  
+  if ([controller isKindOfClass:[SkillControllerActive class]])
+  {
+    SkillControllerActive* activeController = (SkillControllerActive*)controller;
+    orbCount = [NSString stringWithFormat:@"%d/%d", (int)(activeController.orbRequirement - activeController.orbCounter), (int)activeController.orbRequirement];
+    orbName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"orb"]];
+  }
+  
+  [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
+                                                description:proto.desc
+                                               counterLabel:orbCount
+                                            backgroundImage:bgName
+                                                   orbImage:orbName
+                                                 atPosition:pos];
 }
 
 #pragma mark - Specials
