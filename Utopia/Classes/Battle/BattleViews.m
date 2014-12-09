@@ -544,7 +544,7 @@
   [stencil addChild:spr];
   spr.position = ccp(spr.contentSize.width/2, spr.contentSize.height/2);
   clip.stencil = stencil;
-  clip.alphaThreshold = 0.f;
+  clip.alphaThreshold = 0.5f;
   clip.contentSize = self.monsterBgd.contentSize;
   self.monsterIcon = [CCSprite spriteWithImageNamed:@"Zark1T1Card.png"];
   self.monsterIcon.scale = clip.contentSize.height/self.monsterIcon.contentSize.height;
@@ -552,6 +552,32 @@
   [clip addChild:self.monsterIcon];
   [self.monsterBgd addChild:clip];
   
+  
+  // Create fake main node and move everything in here except the gradient so we can move it up and down for dialogue
+  self.mainNode = [CCNode node];
+  self.mainNode.contentSize = CGSizeMake(1, 1);
+  self.mainNode.contentSizeType = CCSizeTypeNormalized;
+  
+  for (CCNode *n in self.children.copy) {
+    if (n != self.gradientNode) {
+      [n removeFromParent];
+      [self.mainNode addChild:n];
+    }
+  }
+  
+  [self addChild:self.mainNode];
+  self.mainNode.anchorPoint = ccp(1, 0.5);
+  self.mainNode.position = ccp(self.contentSize.width, self.contentSize.height/2);
+  
+  self.bubbleNode = [CCSprite spriteWithImageNamed:@"attackpvpbubble.png"];
+  [self.mainNode addChild:self.bubbleNode];
+  
+  self.defendingMsgLabel = [CCLabelTTF labelWithString:@"Come at me, bruh..." fontName:@"Whitney-SemiboldItalic" fontSize:11.f dimensions:CGSizeMake(self.bubbleNode.contentSize.width-15.f, self.bubbleNode.contentSize.height-8.f)];
+  self.defendingMsgLabel.color = [CCColor colorWithCcColor3b:ccc3(38, 38, 38)];
+  self.defendingMsgLabel.horizontalAlignment = CCTextAlignmentCenter;
+  self.defendingMsgLabel.verticalAlignment = CCVerticalTextAlignmentCenter;
+  [self.bubbleNode addChild:self.defendingMsgLabel];
+  self.defendingMsgLabel.position = ccp(self.bubbleNode.contentSize.width/2, self.bubbleNode.contentSize.height/2+4.f);
 }
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
@@ -593,6 +619,23 @@
     self.rankQualifierLabel.position = ccp(leftSide+5, self.rankQualifierLabel.position.y);
     self.placeLabel.position = ccp(leftSide+5, self.placeLabel.position.y);
   }
+  
+  NSString *defMsg = pvp.defenderMsg;
+  if (defMsg.length > 0) {
+    self.bubbleNode.position = ccpAdd(self.monsterBgd.parent.position, ccp(0, self.monsterBgd.contentSize.height/2+self.bubbleNode.contentSize.height/2+8));
+    self.defendingMsgLabel.string = defMsg;
+    
+    if (self.parent.contentSize.height < 321) {
+      self.mainNode.scale = 0.95f;
+    }
+    
+    self.mainNode.position = ccp(self.contentSize.width, self.contentSize.height/2-(self.bubbleNode.contentSize.height/2+5.f)*self.mainNode.scale);
+  } else {
+    // move the bubble node off screen
+    self.bubbleNode.position = ccp(self.contentSize.width*2, 0);
+    self.mainNode.position = ccp(self.contentSize.width, self.contentSize.height/2);
+    self.mainNode.scale = 1.f;
+  }
 }
 
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {
@@ -605,7 +648,8 @@
     self.attackButtonNode.position = ccp(left+(right-left)/2, self.attackButtonNode.position.y);
   }
   
-  NSArray *nodes = @[self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
+  NSArray *nodes = @[self.bubbleNode, self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
+  
   for (int i = 0; i < nodes.count; i++) {
     CCNode *node = nodes[i];
     
@@ -636,7 +680,7 @@
 - (void) fadeOutAnimation {
   float dur = 0.2f;
   
-  NSArray *nodes = @[self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
+  NSArray *nodes = @[self.bubbleNode, self.monsterBgd.parent, self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
   for (int i = 0; i < nodes.count; i++) {
     CCNode *node = nodes[nodes.count-i-1];
     

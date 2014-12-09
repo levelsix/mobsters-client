@@ -1671,6 +1671,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    [gs addToMyMonsters:proto.updatedOrNewList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

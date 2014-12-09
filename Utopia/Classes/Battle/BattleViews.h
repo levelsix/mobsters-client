@@ -78,6 +78,7 @@
 @property (nonatomic, retain) IBOutlet CCNode *nextButtonNode;
 @property (nonatomic, retain) IBOutlet CCNode *attackButtonNode;
 @property (nonatomic, retain) IBOutlet CCNode *gradientNode;
+@property (nonatomic, retain) IBOutlet CCNode *mainNode; // will be filled in file
 
 @property (nonatomic, retain) IBOutlet CCSprite *leagueBgd;
 @property (nonatomic, retain) IBOutlet CCSprite *leagueIcon;
@@ -88,6 +89,9 @@
 
 @property (nonatomic, retain) IBOutlet CCSprite *monsterBgd;
 @property (nonatomic, retain) IBOutlet CCSprite *monsterIcon;
+
+@property (nonatomic, retain) IBOutlet CCNode *bubbleNode;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *defendingMsgLabel;
 
 - (void) updateForPvpProto:(PvpProto *)pvp;
 - (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge;

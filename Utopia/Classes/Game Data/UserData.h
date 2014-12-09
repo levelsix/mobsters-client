@@ -263,7 +263,7 @@ typedef enum {
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
-+ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp;
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
 - (id) initWithItemId:(int)itemId quantity:(int)quantity;

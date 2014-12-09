@@ -1096,8 +1096,18 @@
   return rewards;
 }
 
-+ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp {
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums {
   NSMutableArray *rewards = [NSMutableArray array];
+  
+  for (int i = 0; i < pvp.defenderMonstersList.count; i++) {
+    if (![droplessStageNums containsObject:@(i)]) {
+      PvpMonsterProto *mon = pvp.defenderMonstersList[i];
+      if (mon.monsterIdDropped) {
+        Reward *r = [[Reward alloc] initWithMonsterId:mon.monsterIdDropped isPuzzlePiece:YES];
+        [rewards addObject:r];
+      }
+    }
+  }
   
   if (pvp.prospectiveCashWinnings) {
     Reward *r = [[Reward alloc] initWithSilverAmount:pvp.prospectiveCashWinnings];

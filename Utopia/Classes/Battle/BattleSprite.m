@@ -71,7 +71,7 @@
     self.nameLabel = [CCLabelTTF labelWithString:@"" fontName:@"GothamNarrow-Ultra" fontSize:12];
     self.nameLabel.attributedString = name;
     [self addChild:self.nameLabel];
-    self.nameLabel.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y+self.healthBgd.contentSize.height/2+28);
+    self.nameLabel.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y-self.healthBgd.contentSize.height/2+28);
     self.nameLabel.color = [CCColor whiteColor];
     self.nameLabel.shadowOffset = ccp(0, -1);
     self.nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
@@ -124,7 +124,7 @@
       [CCActionFadeTo actionWithDuration:0.3 opacity:0.f],
       nil]];
     
-    self.rarityTag.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y+self.healthBgd.contentSize.height/2+28);
+    self.rarityTag.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y-self.healthBgd.contentSize.height/2+28);
   }
 }
 
@@ -141,7 +141,7 @@
     [self.nameLabel runAction:seq.copy];
     [self.rarityTag runAction:seq.copy];
     
-    self.rarityTag.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y+self.healthBgd.contentSize.height/2+43);
+    self.rarityTag.position = ccp(self.healthBgd.position.x, self.healthBgd.position.y-self.healthBgd.contentSize.height/2+43);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_SPRITE_INFO_DISPLAYED_NOTIFICATION object:self];
   }

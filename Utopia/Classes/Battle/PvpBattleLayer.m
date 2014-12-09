@@ -47,6 +47,7 @@
     pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
     pvp.pvpLeagueStats = hist.attackerAfter;
     [pvp addAllDefenderMonsters:hist.attackersMonstersList];
+    pvp.defenderMsg = hist.attacker.pvpDefendingMessage;
     
     self.defendersList = @[pvp.build];
     _curQueueNum = -1;
@@ -60,7 +61,7 @@
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  PvpMonsterProto *pm = pvp.defenderMonstersList[_curQueueNum];
+  PvpMonsterProto *pm = pvp.defenderMonstersList[_curStage];
   
   CCSprite *ed = nil;
   if (pm.hasMonsterIdDropped && pm.monsterIdDropped > 0) {
@@ -104,7 +105,7 @@
   [super youWon];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp] isWin:YES];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums] isWin:YES];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
 }
 
@@ -347,7 +348,7 @@
   [self removeQueueNode];
   [self runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionDelay actionWithDuration:0.7f],
     [CCActionCallFunc actionWithTarget:self selector:@selector(displayOrbLayer)], nil]];
   
   self.currentEnemy = self.enemyTeamSprites[0];

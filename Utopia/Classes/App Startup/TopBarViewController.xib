@@ -651,7 +651,7 @@
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="cashmiddle.png" id="u2n-BB-4QW">
                                                     <rect key="frame" x="4" y="0.0" width="111" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="cashcap.png" id="L9E-bs-0Nc">
                                                     <rect key="frame" x="0.0" y="0.0" width="5" height="18"/>

@@ -803,6 +803,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) setDefendingMessage:(NSString *)defendingMessage {
   GameState *gs = [GameState sharedGameState];
   if (![gs.pvpDefendingMessage isEqualToString:defendingMessage]) {
+    defendingMessage = [defendingMessage stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
     [[SocketCommunication sharedSocketCommunication] sendSetDefendingMsgMessage:defendingMessage];
     
     gs.pvpDefendingMessage = defendingMessage;
