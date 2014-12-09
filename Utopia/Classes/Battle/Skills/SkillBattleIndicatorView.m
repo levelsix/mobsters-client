@@ -13,6 +13,7 @@
 #import "SkillBattleIndicatorView.h"
 #import "SkillControllerActive.h"
 #import "SkillControllerPassive.h"
+#import "SkillManager.h"
 
 @interface SkillBattleIndicatorView()
 
@@ -42,9 +43,9 @@
   _skillButtonEnabled = NO;
   
   GameState* gs = [GameState sharedGameState];
-  SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
+  _skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
   
-  [self setSkillIcon:playerSkillProto.iconImgName];
+  [self setSkillIcon:_skillProto.iconImgName];
   
   [self setSkillLabel];
   
@@ -125,7 +126,7 @@
 {
   if (_skillButtonEnabled && [_skillController skillIsReady])
   {
-    [_skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered) {
+    [_skillController triggerSkill:SkillTriggerPointManualActivation withCompletion:^(BOOL triggered, id params) {
       [self update];
     }];
   }
@@ -260,23 +261,56 @@
 
 - (void) popupOrbCounter
 {
+  CGPoint orbCounterPosition = [self.parent convertToWorldSpace:ccpAdd(self.position, ccp(0.f, self.contentSize.height - 5.f))];
+  orbCounterPosition = ccp(orbCounterPosition.x, [Globals screenSize].height - orbCounterPosition.y);
+  
+  [skillManager displaySkillCounterPopupForController:_skillController withProto:_skillProto atPosition:orbCounterPosition];
+  
+  /*
   if (_orbCounter && _orbCounter.parent)
     return;
   
   // BG
-  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"counter"] ];
+  NSString* bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"skilldescription"] ];
   _orbCounter = [CCSprite spriteWithImageNamed:bgName];
-  _orbCounter.position = ccpAdd(self.position, ccp(0, self.contentSize.height + 5));
+  _orbCounter.position = ccpAdd(self.position, ccp(0.f, self.contentSize.height + _orbCounter.contentSize.height * .5f - 5.f));
   _orbCounter.opacity = 0.0;
   
+  // Skill name label
+  CCLabelTTF* nameLabel = [CCLabelTTF labelWithString:_skillName fontName:@"GothamNarrow-Ultra" fontSize:16.f];
+  nameLabel.color = [CCColor whiteColor];
+  nameLabel.shadowOffset = ccp(0.f, -1.f);
+  nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.3f];
+  nameLabel.shadowBlurRadius = 1.f;
+  nameLabel.horizontalAlignment = CCTextAlignmentCenter;
+  nameLabel.position = CGPointMake(_orbCounter.contentSize.width * .5f, _orbCounter.contentSize.height - 20.f);
+  [_orbCounter addChild:nameLabel];
+  
+  // Separator line
+  CCSprite* lineSprite = [CCSprite spriteWithImageNamed:@"skilldescriptionline.png"];
+  lineSprite.position = ccpSub(nameLabel.position, ccp(0.f, nameLabel.contentSize.height * .5f + 5.f));
+  [_orbCounter addChild:lineSprite];
+  
+  // Skill description label
+  CCLabelTTF* descLabel = [CCLabelTTF labelWithString:_skillDescription fontName:@"Gotham-Medium" fontSize:10.f
+                                           dimensions:CGSizeMake(_orbCounter.contentSize.width * .9f, _orbCounter.contentSize.height * .5f)];
+  descLabel.color = [CCColor whiteColor];
+  descLabel.shadowOffset = ccp(0.f, -1.f);
+  descLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.3f];
+  descLabel.shadowBlurRadius = 1.f;
+  descLabel.horizontalAlignment = CCTextAlignmentCenter;
+  descLabel.verticalAlignment = CCVerticalTextAlignmentCenter;
+  descLabel.position = CGPointMake(_orbCounter.contentSize.width * .5f, _orbCounter.contentSize.height * .5f);
+  [_orbCounter addChild:descLabel];
+  
   // Counter label
-  CCLabelTTF* orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-Ultra" fontSize:12];
+  CCLabelTTF* orbsCountLabel = [CCLabelTTF labelWithString:@"0" fontName:@"GothamNarrow-Ultra" fontSize:14.f];
   orbsCountLabel.color = [CCColor whiteColor];
   orbsCountLabel.shadowOffset = ccp(0,-1);
   orbsCountLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
   orbsCountLabel.shadowBlurRadius = 1.f;
   orbsCountLabel.horizontalAlignment = CCTextAlignmentCenter;
-  orbsCountLabel.position = CGPointMake(_orbCounter.contentSize.width/2, _orbCounter.contentSize.height/2 + 4);
+  orbsCountLabel.position = CGPointMake(_orbCounter.contentSize.width * .5f, 25.f);
   [_orbCounter addChild:orbsCountLabel];
   
   if ([_skillController isKindOfClass:[SkillControllerActive class]])
@@ -286,7 +320,7 @@
     // Orb icon
     NSString* orbName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)_skillController.orbColor suffix:@"orb"] ];
     CCSprite* orb = [CCSprite spriteWithImageNamed:orbName];
-    orb.position = CGPointMake(orbsCountLabel.position.x - 12, orbsCountLabel.position.y);
+    orb.position = CGPointMake(orbsCountLabel.position.x - 15.f, orbsCountLabel.position.y + 3.f);
     orb.scale = 0.5;
     [_orbCounter addChild:orb];
     
@@ -299,13 +333,14 @@
     // Text
     [orbsCountLabel setString:[NSString stringWithFormat:@"Passive"]];
   }
-  
+
   [self.parent addChild:_orbCounter];
   [_orbCounter runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:0.3 opacity:1.0],
                  [CCActionDelay actionWithDuration:2.0],
                  [RecursiveFadeTo actionWithDuration:0.3 opacity:0.0],
                  [CCActionRemove action],
                  nil]];
+   */
 }
 
 @end

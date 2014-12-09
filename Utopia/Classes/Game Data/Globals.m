@@ -2011,6 +2011,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView anchorPoint:(CGPoint)anchorPoint {
+  [self bounceView:view fadeInBgdView:bgdView anchorPoint:anchorPoint completion:nil];
+}
+
++ (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView anchorPoint:(CGPoint)anchorPoint completion:(void (^)(BOOL finished))completed {
   // Anchor point will affect the scale transform. Default is (.5, .5)
   CGPoint position = view.layer.position;
   CGPoint transformedOffset = CGPointApplyAffineTransform(CGPointMake(anchorPoint.x - view.layer.anchorPoint.x,
@@ -2020,7 +2024,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.layer.position = position;
   view.layer.anchorPoint = anchorPoint;
 
-  [self bounceView:view fadeInBgdView:bgdView];
+  [self bounceView:view fadeInBgdView:bgdView completion:completed];
 }
 
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed {

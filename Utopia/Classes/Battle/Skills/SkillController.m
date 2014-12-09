@@ -16,6 +16,7 @@
 #import "SkillPoison.h"
 #import "SkillRoidRage.h"
 #import "SkillMomentum.h"
+#import "SkillThickSkin.h"
 
 @implementation SkillController
 
@@ -31,6 +32,7 @@
     case SkillTypePoison: return [[SkillPoison alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeRoidRage: return [[SkillRoidRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeThickSkin: return [[SkillThickSkin alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -81,9 +83,10 @@
 {
   // Try to trigger the skill and use callback right away if it's not responding
   _callbackBlock = completion;
+  _callbackParams = nil;
   BOOL triggered = [self skillCalledWithTrigger:trigger execute:YES];
   if (! triggered)
-    _callbackBlock(NO);
+    _callbackBlock(NO, _callbackParams);
   return triggered;
 }
 
@@ -121,7 +124,7 @@
     _popupOverlay = nil;
   }
   else
-    _callbackBlock(YES);
+    _callbackBlock(YES, _callbackParams);
 }
 
 - (void) setDefaultValues
@@ -192,7 +195,7 @@
       }];
     }
     
-    _callbackBlock(YES);
+    _callbackBlock(YES, _callbackParams);
   };
   
   // Hide overlay

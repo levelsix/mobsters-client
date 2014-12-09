@@ -77,6 +77,58 @@
 
 @end
 
+@implementation BattleSkillCounterPopupView
+
+- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter
+              backgroundImage:(NSString*)bgImage orbImage:(NSString*)orbImage atPosition:(CGPoint)pos
+{
+  if (!self.hidden)
+    return;
+  
+  [self.nameLabel setText:name];
+  [self.orbCounterLabel setText:counter];
+  [self.orbCounterLabel sizeToFit];
+  
+  NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragrahStyle setLineSpacing:5.f];
+  [paragrahStyle setAlignment:NSTextAlignmentCenter];
+  [self.descLabel setAttributedText:[[NSAttributedString alloc] initWithString:desc attributes:@{ NSParagraphStyleAttributeName: paragrahStyle }]];
+  
+  [self.background setImage:[UIImage imageNamed:bgImage]];
+  
+  if (orbImage != nil)
+  {
+    [self.orbIcon setImage:[UIImage imageNamed:orbImage]];
+    [self.orbIcon setHidden:NO];
+    [self.orbCounterLabel setOriginX:self.orbIcon.origin.x + 20];
+  }
+  else
+  {
+    [self.orbIcon setHidden:YES];
+    [self.orbCounterLabel setOriginX:(self.bounds.size.width - self.orbCounterLabel.bounds.size.width) * .5f];
+  }
+  
+  [self setOrigin:ccp(pos.x - self.bounds.size.width * .5f, MAX(pos.y - self.bounds.size.height, 5.f))];
+  [self setHidden:NO];
+  
+  [Globals bounceView:self fadeInBgdView:nil anchorPoint:CGPointMake(.5f, 1.f) completion:^(BOOL finished) {
+    [self.parentHudView skillPopupDisplayed];
+  }];
+}
+
+- (void) hide
+{
+  if (self.hidden)
+    return;
+  
+  [Globals shrinkView:self fadeOutBgdView:nil completion:^{
+    [self setHidden:YES];
+    [self.layer setTransform:CATransform3DIdentity];
+  }];
+}
+
+@end
+
 @implementation BattleHudView
 
 - (void) awakeFromNib {
@@ -193,6 +245,17 @@
       self.battleScheduleView.hidden = YES;
     }
   }];
+}
+
+- (void) skillPopupDisplayed
+{
+  [self.skillPopupCloseButton setUserInteractionEnabled:YES];
+}
+
+- (IBAction) hideSkillPopup:(id)sender
+{
+  [self.skillPopupView hide];
+  [self.skillPopupCloseButton setUserInteractionEnabled:NO];
 }
 
 @end

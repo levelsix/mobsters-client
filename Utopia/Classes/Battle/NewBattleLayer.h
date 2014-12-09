@@ -38,6 +38,8 @@
 
 #define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
 
+#define SKILL_CONTROLLER_USING_ABILITY_KEY @"UsingAbility"
+
 @protocol BattleBgdLayerDelegate <NSObject>
 
 - (void) reachedNextScene;

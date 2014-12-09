@@ -37,6 +37,24 @@
 
 @end
 
+@class BattleHudView;
+
+@interface BattleSkillCounterPopupView : UIView
+
+@property (nonatomic, assign) IBOutlet BattleHudView* parentHudView;
+
+@property (nonatomic, retain) IBOutlet UIImageView* background;
+@property (nonatomic, retain) IBOutlet UILabel* nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel* descLabel;
+@property (nonatomic, retain) IBOutlet UIImageView* orbIcon;
+@property (nonatomic, retain) IBOutlet UILabel* orbCounterLabel;
+
+- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter
+              backgroundImage:(NSString*)bgImage orbImage:(NSString*)orbImage atPosition:(CGPoint)pos;
+- (void) hide;
+
+@end
+
 @interface BattleHudView : TouchableSubviewsView
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
@@ -50,6 +68,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *elementButton;
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
 @property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
+@property (nonatomic, retain) IBOutlet BattleSkillCounterPopupView* skillPopupView;
+@property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
 
 @property (nonatomic, assign) CGPoint schedulePosition;
 
@@ -62,5 +82,8 @@
 
 - (void) removeButtons;
 - (void) prepareForMyTurn;
+
+- (void) skillPopupDisplayed;
+- (IBAction) hideSkillPopup:(id)sender;
 
 @end

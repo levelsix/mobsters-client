@@ -24,6 +24,8 @@
   BOOL        _skillButtonEnabled;
   
   CCSprite*   _orbCounter;
+  
+  SkillProto* _skillProto;
 }
 
 @property (nonatomic, readonly) float percentage;
