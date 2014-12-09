@@ -1946,7 +1946,7 @@
             UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
             const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
             [svc showAnchoredToInvokingView:invokingButton
-                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .5f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferTopPlacement
+                              withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
                           inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
           }
           else if ([sender isKindOfClass:[MapBotViewButton class]]) // Speeding up building upgrade or obstacle removal
