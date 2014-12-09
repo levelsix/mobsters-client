@@ -965,6 +965,7 @@
       self.currentEnemy = nil;
       
       [self.hudView removeBattleScheduleView];
+      [self.hudView removeSkillPopupImageView:nil];
       
       // Send server updated values here because monster just died
       // But make sure that I actually did damage..
@@ -1463,6 +1464,7 @@
   
   [self.hudView removeButtons];
   [self.hudView removeBattleScheduleView];
+  [self.hudView removeSkillPopupImageView:nil];
   self.hudView.bottomView.hidden = YES;
   
   [self removeOrbLayerAnimated:YES withBlock:^{

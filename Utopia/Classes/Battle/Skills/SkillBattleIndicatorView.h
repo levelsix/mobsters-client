@@ -24,6 +24,9 @@
   BOOL        _skillButtonEnabled;
   
   CCSprite*   _orbCounter;
+  
+  NSString*   _skillName;
+  NSString*   _skillDescription;
 }
 
 @property (nonatomic, readonly) float percentage;

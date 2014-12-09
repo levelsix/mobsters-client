@@ -94,6 +94,8 @@
   self.waveNumLabel.alpha = 0.f;
   
   self.swapLabel.text = [NSString stringWithFormat:@"Select a %@ to Deploy:", MONSTER_NAME];
+  
+  _skillPopupImageView = nil;
 }
 
 - (void) removeButtons {
@@ -193,6 +195,39 @@
       self.battleScheduleView.hidden = YES;
     }
   }];
+}
+
+- (void) displaySkillPopupImageView:(UIImageView*)imageView
+{
+  if (_skillPopupImageView == nil && imageView != nil)
+  {
+    _skillPopupImageView = imageView;
+    _skillPopupImageView.alpha = 0.f;
+//  _skillPopupImageView.userInteractionEnabled = YES;
+    
+    [self addSubview:_skillPopupImageView];
+    
+    [UIView animateWithDuration:.3f animations:^{
+      _skillPopupImageView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      [self.closeButton setUserInteractionEnabled:YES];
+    }];
+  }
+}
+
+- (IBAction) removeSkillPopupImageView:(id)sender
+{
+  if (_skillPopupImageView != nil)
+  {
+    [self.closeButton setUserInteractionEnabled:NO];
+    
+    [UIView animateWithDuration:.3f animations:^{
+      _skillPopupImageView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [_skillPopupImageView removeFromSuperview];
+      _skillPopupImageView = nil;
+    }];
+  }
 }
 
 @end

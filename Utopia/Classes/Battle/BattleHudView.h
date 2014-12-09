@@ -38,6 +38,9 @@
 @end
 
 @interface BattleHudView : TouchableSubviewsView
+{
+  UIImageView* _skillPopupImageView;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet UILabel *swapLabel;
@@ -51,6 +54,8 @@
 @property (nonatomic, retain) IBOutlet BattleElementView *elementView;
 @property (nonatomic, retain) IBOutlet BattleScheduleView *battleScheduleView;
 
+@property (nonatomic, retain) IBOutlet UIButton* closeButton;
+
 @property (nonatomic, assign) CGPoint schedulePosition;
 
 - (void) displaySwapButton;
@@ -62,5 +67,8 @@
 
 - (void) removeButtons;
 - (void) prepareForMyTurn;
+
+- (void) displaySkillPopupImageView:(UIImageView*)imageView;
+- (IBAction) removeSkillPopupImageView:(id)sender;
 
 @end

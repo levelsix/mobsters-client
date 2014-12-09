@@ -29,8 +29,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
 #ifdef DEBUG
   // Change it to override current skills for debug purposes
-  //_cheatEnemySkillType = SkillTypeQuickAttack;
-  //_cheatPlayerSkillType = SkillTypeQuickAttack;
+  _cheatEnemySkillType = SkillTypeQuickAttack;
+  _cheatPlayerSkillType = SkillTypeMomentum;
 #endif
   
   return self;
@@ -422,6 +422,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) enableSkillButton:(BOOL)enable
 {
   [_skillIndicatorPlayer enableSkillButton:enable];
+}
+
+- (void) updateBattleHudWithSkillPopup:(UIImage*)popupImage atPosition:(CGPoint)position
+{
+  UIImageView* popupImageView = [[UIImageView alloc] initWithImage:popupImage];
+  [popupImageView setOrigin:position];
+  [_battleLayer.hudView displaySkillPopupImageView:popupImageView];
 }
 
 #pragma mark - Specials
