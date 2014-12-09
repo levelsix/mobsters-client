@@ -126,7 +126,9 @@
   BOOL canHelp = [gs canAskForClanHelp];
   if (canHelp) {
     canHelp = NO;
-    for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
+//    for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
+    if (self.monsterHealingQueue.count) {
+      UserMonsterHealingItem *hi = self.monsterHealingQueue[0];
       if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
         canHelp = YES;
       }

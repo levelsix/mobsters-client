@@ -130,6 +130,7 @@
 @property (nonatomic, assign) int pvpRequiredMinLvl;
 @property (nonatomic, assign) float gemsPerResource;
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
+@property (nonatomic, assign) int defendingMsgCharLimit;
 
 @property (nonatomic, assign) BOOL addAllFbFriends;
 @property (nonatomic, assign) BOOL facebookSecondPopup;

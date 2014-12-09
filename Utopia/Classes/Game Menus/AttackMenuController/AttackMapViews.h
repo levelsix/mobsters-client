@@ -100,7 +100,7 @@
 
 @end
 
-@interface MultiplayerView : UIView
+@interface MultiplayerView : UIView <UITextViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UILabel *multiplayerUnlockLabel;
 @property (nonatomic, strong) IBOutlet UILabel *cashCostLabel;
@@ -116,6 +116,10 @@
 @property (nonatomic, strong) IBOutlet LeagueListView *leagueListView;
 @property (nonatomic, strong) IBOutlet UIButton *leagueListButton;
 @property (nonatomic, strong) IBOutlet UIView *multiplayerHeaderView;
+
+@property (nonatomic, strong) IBOutlet UIImageView *pvpGuysIcon;
+@property (nonatomic, strong) IBOutlet UILabel *placeholderLabel;
+@property (nonatomic, strong) IBOutlet UITextView *defendingStatusTextView;
 
 //@property (nonatomic, strong) IBOutletCollection(LeagueDescriptionView) NSArray *leagueDescriptionViews;
 

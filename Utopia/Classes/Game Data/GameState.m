@@ -69,7 +69,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedClanHelpNotification:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSpeedupNotification:) name:SPEEDUP_USED_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginHealingTimer) name:HEAL_QUEUE_CHANGED_NOTIFICATION object:nil];
   }
   return self;
 }
@@ -106,6 +105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.deviceToken = user.hasDeviceToken ? user.deviceToken : nil;
   self.lastFreeGachaSpin = user.hasLastFreeBoosterPackTime ? [MSDate dateWithTimeIntervalSince1970:user.lastFreeBoosterPackTime/1000.0] : nil;
   self.lastSecretGiftCollectTime = user.hasLastSecretGiftCollectTime ? [MSDate dateWithTimeIntervalSince1970:user.lastSecretGiftCollectTime/1000.0] : nil;
+  self.pvpDefendingMessage = user.pvpDefendingMessage;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
@@ -179,6 +179,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.lastLoginTime = self.lastLoginTimeNum;
   fup.avatarMonsterId = self.avatarMonsterId;
   fup.lastSecretGiftCollectTime = self.lastSecretGiftCollectTime.timeIntervalSince1970*1000.;
+  fup.pvpDefendingMessage = self.pvpDefendingMessage;
   
   return [fup build];
 }
@@ -1375,10 +1376,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (arr.count > 0) {
+    for (HospitalQueue *hq in changedHqs) {
+      [hq saveHealthProgressesFromIndex:0];
+    }
+    
     [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
     
     for (HospitalQueue *hq in changedHqs) {
-      [hq saveHealthProgressesFromIndex:0];
       [hq readjustAllMonsterHealingProtos];
     }
     
@@ -1693,6 +1697,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         }
       }
     }
+    [self beginHealingTimer];
   } else if (ch.helpType == GameActionTypeEvolve) {
     [self beginEvolutionTimer];
   } else if (ch.helpType == GameActionTypeMiniJob) {

@@ -85,6 +85,7 @@
 - (void) retrievePrivateChatPosts:(NSString *)otherUserUuid delegate:(id)delegate;
 
 - (void) setAvatarMonster:(int)avatarMonsterId;
+- (void) setDefendingMessage:(NSString *)defendingMessage;
 - (void) protectUserMonster:(NSString *)userMonsterUuid;
 - (void) unprotectUserMonster:(NSString *)userMonsterUuid;
 

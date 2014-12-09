@@ -76,6 +76,9 @@
   }
   
   [self loadInitialMapSegments];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -102,6 +105,9 @@
   [self.timer invalidate];
   
   [self.itemSelectViewController closeClicked:nil];
+  
+  [self.view endEditing:YES];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)close:(id)sender {
@@ -111,6 +117,7 @@
 }
 
 - (void) close {
+  [self.view endEditing:YES];
   [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width*2/3, self.multiplayerView.center.y);
     self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width*2/3, self.pveView.center.y);
@@ -546,6 +553,48 @@
 - (void) itemSelectClosed:(id)viewController {
   self.itemSelectViewController = nil;
   self.resourceItemsFiller = nil;
+}
+
+#pragma mark - Keyboard Notifications
+
+- (void) keyboardWillShow:(NSNotification *)n {
+  NSDictionary *userInfo = [n userInfo];
+  CGRect keyboardFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+  NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+  UIViewAnimationCurve curve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+  
+  CGRect relFrame = [self.view convertRect:keyboardFrame fromView:nil];
+  
+  // Use the superview since that will be the darkened box around it
+  UIView *textView = self.multiplayerView.defendingStatusTextView.superview;
+  CGRect textViewFrame = [self.view convertRect:textView.frame fromView:textView.superview];
+  
+  if (CGRectGetMaxY(textViewFrame) > relFrame.origin.y) {
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:curve];
+    [UIView setAnimationDuration:animationDuration];
+    
+    self.view.centerY += relFrame.origin.y - CGRectGetMaxY(textViewFrame);
+    
+    [UIView commitAnimations];
+  }
+}
+
+- (void) keyboardWillHide:(NSNotification *)n {
+  NSDictionary *userInfo = [n userInfo];
+  NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+  UIViewAnimationCurve curve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+  
+  if (self.view.originY != 0) {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:curve];
+    [UIView setAnimationDuration:animationDuration];
+    
+    self.view.originY = 0;
+    
+    [UIView commitAnimations];
+  }
 }
 
 @end

@@ -79,6 +79,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.pvpRequiredMinLvl = constants.pvpRequiredMinLvl;
   self.gemsPerResource = constants.gemsPerResource;
   self.continueBattleGemCostMultiplier = constants.continueBattleGemCostMultiplier;
+  self.defendingMsgCharLimit = constants.pvpConstant.defendingMsgCharLimit;
   self.addAllFbFriends = constants.addAllFbFriends;
   self.facebookSecondPopup = constants.facebookPopUp;
   self.maxObstacles = constants.maxObstacles;

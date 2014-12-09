@@ -237,6 +237,18 @@
 		29AA13BB1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
 		29AA13BC1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
 		29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */; };
+		29FFD94A1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
+		29FFD94B1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
+		29FFD94C1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
+		29FFD94D1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */; };
+		29FFD94E1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */; };
+		29FFD94F1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */; };
+		29FFD9591A36E2BD0063C17C /* setstatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9481A36E2BD0063C17C /* setstatus@2x.png */; };
+		29FFD95A1A36E2BD0063C17C /* setstatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9481A36E2BD0063C17C /* setstatus@2x.png */; };
+		29FFD95B1A36E2BD0063C17C /* setstatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9481A36E2BD0063C17C /* setstatus@2x.png */; };
+		29FFD95C1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
+		29FFD95D1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
+		29FFD95E1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
@@ -6526,6 +6538,10 @@
 		29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMonsterView.xib; sourceTree = "<group>"; };
 		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
 		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
+		29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4pvpguys@2x.png"; sourceTree = "<group>"; };
+		29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackpvpbubble@2x.png"; sourceTree = "<group>"; };
+		29FFD9481A36E2BD0063C17C /* setstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatus@2x.png"; sourceTree = "<group>"; };
+		29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatusbg@2x.png"; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -11316,6 +11332,17 @@
 			path = "PVP Won:Lost Message";
 			sourceTree = "<group>";
 		};
+		29FFD9421A36E2BD0063C17C /* defensive status */ = {
+			isa = PBXGroup;
+			children = (
+				29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */,
+				29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */,
+				29FFD9481A36E2BD0063C17C /* setstatus@2x.png */,
+				29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */,
+			);
+			path = "defensive status";
+			sourceTree = "<group>";
+		};
 		4562FCDC158A8BC2005206E5 /* Pulsing Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -11908,6 +11935,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				29FFD9421A36E2BD0063C17C /* defensive status */,
 				29AA13AB1A35916E004A9F22 /* PVP Won:Lost Message */,
 				2985E5E41A330DB00041ABF4 /* Chat requests */,
 				29804FF81A265EE800806253 /* Gift Box */,
@@ -17197,6 +17225,7 @@
 				CF0CF3E8196F452900ECD301 /* FatBoy4Move06@2x.png in Resources */,
 				CF0CF3E9196F452900ECD301 /* searchclansbar@2x.png in Resources */,
 				CFF2A5D919709C4800269084 /* MenuCashStorageT1@2x.png in Resources */,
+				29FFD95A1A36E2BD0063C17C /* setstatus@2x.png in Resources */,
 				CF0CF3EA196F452900ECD301 /* addteam@2x.png in Resources */,
 				CF0CF3ED196F452900ECD301 /* epicjob@2x.png in Resources */,
 				CF0CF3EF196F452900ECD301 /* gachalegendball@2x.png in Resources */,
@@ -17238,6 +17267,7 @@
 				CF0CF41F196F452900ECD301 /* menusquareactive@2x.png in Resources */,
 				CF0CF420196F452900ECD301 /* silverbig@2x.png in Resources */,
 				CF0CF421196F452900ECD301 /* moneystack@2x.png in Resources */,
+				29FFD94B1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */,
 				CF0CF423196F452900ECD301 /* championribbon@2x.png in Resources */,
 				CF0CF424196F452900ECD301 /* fireavatar@2x.png in Resources */,
 				CF0CF427196F452900ECD301 /* Ziggurat-HTF-Black.otf in Resources */,
@@ -17588,6 +17618,7 @@
 				CF0CF61B196F452900ECD301 /* purplesmallbutton@2x.png in Resources */,
 				CFFC50D619C2D4BA00BDAA62 /* homemapleft@2x.jpg in Resources */,
 				CF0CF61E196F452900ECD301 /* earthsideways@2x.png in Resources */,
+				29FFD95D1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */,
 				CF0CF621196F452900ECD301 /* splashloadingbar@2x.png in Resources */,
 				2980507F1A265EE800806253 /* 5gbhud@2x.png in Resources */,
 				CF0CF623196F452900ECD301 /* unlockbuildingbg@2x.png in Resources */,
@@ -17734,6 +17765,7 @@
 				CF0CF6DE196F452900ECD301 /* teamhealthbarcap@2x.png in Resources */,
 				CFA728F41A0B037900FF6031 /* fireeventtimer@2x.png in Resources */,
 				CF0CDEA219E5050E006A5ECB /* timerstopbg@2x.png in Resources */,
+				29FFD94E1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
 				CF0CF6E1196F452900ECD301 /* FatBoy3Move11@2x.png in Resources */,
 				CF0CF6E3196F452900ECD301 /* buildinginfobg@2x.png in Resources */,
 				CF0CF6E5196F452900ECD301 /* revenge@2x.png in Resources */,
@@ -18978,6 +19010,7 @@
 				CF06B602193699FC008BF892 /* addteam@2x.png in Resources */,
 				CFF2A5D819709C4800269084 /* MenuCashStorageT1@2x.png in Resources */,
 				CF0CDE9919E5050E006A5ECB /* timersbottommorebg@2x.png in Resources */,
+				29FFD9591A36E2BD0063C17C /* setstatus@2x.png in Resources */,
 				CF6890461912E7B500FF1F71 /* epicjob@2x.png in Resources */,
 				CFE9D347194A714F00BD930E /* gachalegendball@2x.png in Resources */,
 				CF4F780F19B950FC001B7B7C /* instantmiddle@2x.png in Resources */,
@@ -19019,6 +19052,7 @@
 				CFEE89ED18EC388000047CA4 /* silverbig@2x.png in Resources */,
 				CFE7CD9C1819FC3300930847 /* moneystack@2x.png in Resources */,
 				CF6A64D919D24F030002E05D /* 6lightorb@2x.png in Resources */,
+				29FFD94A1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */,
 				CF9520611939690800A98290 /* championribbon@2x.png in Resources */,
 				CF864DA2193E7C5C00DE0D7A /* fireavatar@2x.png in Resources */,
 				CF6574401908A49200ABF1F4 /* Ziggurat-HTF-Black.otf in Resources */,
@@ -19369,6 +19403,7 @@
 				CFF5DBE4194F90720019EB2B /* earthbigavatar@2x.png in Resources */,
 				CFCD0EBF1953F07400EDC233 /* enhanceheaderimage@2x.png in Resources */,
 				CFA8B22719F4D1EB00CF6BFD /* 1scene@2x.png in Resources */,
+				29FFD95C1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */,
 				CFE7CD8C1819FC3300930847 /* menuicon@2x.png in Resources */,
 				CF023C961992E2BB0082FE61 /* movesbg@2x.png in Resources */,
 				CF29EA1F1964BD0500B40DA4 /* teambubble3@2x.png in Resources */,
@@ -19515,6 +19550,7 @@
 				DA86923D19C7C64500320A74 /* noskillcircle@2x.png in Resources */,
 				CFF5DC23194FDD390019EB2B /* platinumprofribbon@2x.png in Resources */,
 				CF6A650319D252D00002E05D /* 6earthgrenade@2x.png in Resources */,
+				29FFD94D1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
 				CF9F993E19E48734006B0119 /* helpredbubble3@2x.png in Resources */,
 				CF134A7118A5E4B500D7D700 /* FatBoy3Move08@2x.png in Resources */,
 				CFBB36DB18EE3AF400FD6C8C /* teamhealthbarcap@2x.png in Resources */,
@@ -20496,6 +20532,7 @@
 				2985E5CB1A30044E0041ABF4 /* bubbleright@2x.png in Resources */,
 				CF481ECB19F7217F00041486 /* mus_mobsquad_battle.mp3 in Resources */,
 				CF481ECC19F7217F00041486 /* profteaminactive@2x.png in Resources */,
+				29FFD95B1A36E2BD0063C17C /* setstatus@2x.png in Resources */,
 				CF481ECD19F7217F00041486 /* popupactivetab@2x.png in Resources */,
 				CF481ECE19F7217F00041486 /* lightorb@2x.png in Resources */,
 				CF481ECF19F7217F00041486 /* lightsquare@2x.png in Resources */,
@@ -20737,6 +20774,7 @@
 				CF48205719F7217F00041486 /* createclanbox3@2x.png in Resources */,
 				CF48205819F7217F00041486 /* healingmiddle@2x.png in Resources */,
 				CF48205A19F7217F00041486 /* facebookmenuoption@2x.png in Resources */,
+				29FFD95E1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */,
 				CF48205D19F7217F00041486 /* Scientist1Breath07@2x.png in Resources */,
 				CF48205F19F7217F00041486 /* baggems@2x.png in Resources */,
 				CF48206019F7217F00041486 /* mjadditionalbg@2x.png in Resources */,
@@ -21401,6 +21439,7 @@
 				CF48246D19F7217F00041486 /* CashStorageT1@2x.plist in Resources */,
 				CF48246F19F7217F00041486 /* 1mapsection1@2x.png in Resources */,
 				CF48247119F7217F00041486 /* platinumbig@2x.png in Resources */,
+				29FFD94F1A36E2BD0063C17C /* attackpvpbubble@2x.png in Resources */,
 				CF48247419F7217F00041486 /* bomb@2x.png in Resources */,
 				CF48247819F7217F00041486 /* 6nightorb@2x.png in Resources */,
 				CF48247A19F7217F00041486 /* helpredbubble2@2x.png in Resources */,
@@ -21506,6 +21545,7 @@
 				CF48251E19F7217F00041486 /* connectonbubblebubble@2x.png in Resources */,
 				CF48252119F7217F00041486 /* power_up.aif in Resources */,
 				CF48252419F7217F00041486 /* 6rockorb@2x.png in Resources */,
+				29FFD94C1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */,
 				CF48252619F7217F00041486 /* overbuildingbar@2x.png in Resources */,
 				CF48252719F7217F00041486 /* gem_blows_up.mp3 in Resources */,
 				CF48252A19F7217F00041486 /* Goonie1T1TutBig@2x.png in Resources */,

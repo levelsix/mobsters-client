@@ -190,6 +190,7 @@
 - (int) sendRedeemMiniJobMessage:(NSString *)userMiniJobUuid clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths;
 
 - (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId;
+- (int) sendSetDefendingMsgMessage:(NSString *)newMsg;
 - (int) sendRestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 - (int) sendUnrestrictUserMonsterMessage:(NSArray *)userMonsterUuids;
 

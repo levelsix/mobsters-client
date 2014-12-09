@@ -800,6 +800,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) setDefendingMessage:(NSString *)defendingMessage {
+  GameState *gs = [GameState sharedGameState];
+  if (![gs.pvpDefendingMessage isEqualToString:defendingMessage]) {
+    [[SocketCommunication sharedSocketCommunication] sendSetDefendingMsgMessage:defendingMessage];
+    
+    gs.pvpDefendingMessage = defendingMessage;
+  }
+}
+
 - (void) protectUserMonster:(NSString *)userMonsterUuid {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterUuid:userMonsterUuid];
@@ -1288,7 +1297,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   
-  for (UserMonsterHealingItem *hi in hq.healingItems) {
+//  for (UserMonsterHealingItem *hi in hq.healingItems) {
+  if (hq.healingItems.count) {
+    UserMonsterHealingItem *hi = hq.healingItems[0];
+    
     ClanHelpNoticeProto_Builder *notice = [ClanHelpNoticeProto builder];
     notice.helpType = GameActionTypeHeal;
     notice.userDataUuid = hi.userMonsterUuid;
@@ -1506,6 +1518,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       int speedupMins = ip.amount;
       [hq saveHealthProgressesFromIndex:0 withDate:[MSDate dateWithTimeIntervalSinceNow:speedupMins*60]];
       [hq readjustAllMonsterHealingProtos];
+      [gs beginHealingTimer];
     }
   }
 }
@@ -2273,7 +2286,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
-  [gs beginHealingTimer];
+  //[gs beginHealingTimer];
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
   [gs.itemUtil cleanupRogueItemUsages];
@@ -2429,7 +2442,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSMutableArray *arr = [NSMutableArray array];
   EnhancementItem *base = gs.userEnhancement.baseMonster;
   UserMonster *baseUm = base.userMonster;
-  float perc = baseUm.curHealth/[gl calculateMaxHealthForMonster:baseUm];
+  float perc = baseUm.curHealth/(float)[gl calculateMaxHealthForMonster:baseUm];
   for (EnhancementItem *item in gs.userEnhancement.feeders) {
     UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
     baseUm.experience += [gl calculateExperienceIncrease:base feeder:item];

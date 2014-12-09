@@ -49,6 +49,7 @@
 @property (nonatomic, assign) int avatarMonsterId;
 @property (nonatomic, retain) MSDate *lastFreeGachaSpin;
 @property (nonatomic, retain) MSDate *lastSecretGiftCollectTime;
+@property (nonatomic, retain) NSString *pvpDefendingMessage;
 
 @property (nonatomic, assign) int allowQuestSkipping;
 

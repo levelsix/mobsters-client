@@ -205,7 +205,9 @@
 
 - (BOOL) canGetHelp {
   GameState *gs = [GameState sharedGameState];
-  for (UserMonsterHealingItem *hi in self.hospitalQueue.healingItems) {
+  //  for (UserMonsterHealingItem *hi in self.hospitalQueue.healingItems) {
+  if (self.hospitalQueue.healingItems.count) {
+    UserMonsterHealingItem *hi = self.hospitalQueue.healingItems[0];
     if ([gs.clanHelpUtil getNumClanHelpsForType:GameActionTypeHeal userDataUuid:hi.userMonsterUuid] < 0) {
       return YES;
     }

@@ -1496,6 +1496,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemSecretGiftEvent];
 }
 
+- (int) sendSetDefendingMsgMessage:(NSString *)newMsg {
+  SetDefendingMsgRequestProto *req = [[[[SetDefendingMsgRequestProto builder]
+                                        setSender:_sender]
+                                       setMsg:newMsg]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSetDefendingMsgEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

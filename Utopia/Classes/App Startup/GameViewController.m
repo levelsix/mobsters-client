@@ -1337,7 +1337,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   if ([CCDirector sharedDirector].runningScene) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    if (!gs.isTutorial && gs.level < gl.maxLevelForUser && gs.level > 0 && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
+    if (gs.connected && !gs.isTutorial && gs.level < gl.maxLevelForUser && gs.level > 0 && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
       int prevLevel = gs.level;
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
       [self spawnLevelUp];

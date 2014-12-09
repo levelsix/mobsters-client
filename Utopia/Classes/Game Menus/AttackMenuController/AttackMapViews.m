@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "PersistentEventProto+Time.h"
 #import "CAKeyframeAnimation+AHEasing.h"
+#import "OutgoingEventController.h"
 
 @implementation AttackMapIconView
 
@@ -375,6 +376,12 @@ static int numLeagues = 6;
   self.backButton.alpha = 0.f;
   self.titleLabel.text = @"Multiplayer";
   
+  self.defendingStatusTextView.textContainer.maximumNumberOfLines = 3;
+  
+  if ([Globals screenSize].height > 321) {
+    self.pvpGuysIcon.image = [Globals imageNamed:@"pvpguys.png"];
+  }
+  
   //  for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
   //    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
   //    [dv updateForLeague:pvp];
@@ -384,6 +391,9 @@ static int numLeagues = 6;
 - (void) updateForLeague {
   GameState *gs = [GameState sharedGameState];
   [self.leagueView updateForUserLeague:gs.pvpLeague ribbonSuffix:@"ribbon.png"];
+  
+  self.defendingStatusTextView.text = gs.pvpDefendingMessage;
+  self.placeholderLabel.hidden = gs.pvpDefendingMessage.length > 0;
 }
 
 - (IBAction)leagueSelected:(id)sender {
@@ -416,7 +426,7 @@ static int numLeagues = 6;
 
 - (void) showHideLeagueList
 {
-  self.userInteractionEnabled = NO;
+  //self.userInteractionEnabled = NO;
   
   if ( self.leagueListView.hidden )
   {
@@ -429,7 +439,7 @@ static int numLeagues = 6;
       self.leagueListButton.height = self.leagueView.height + self.leagueListView.height;
       self.leagueListButton.originY = 0;
     } completion:^(BOOL finished) {
-      self.userInteractionEnabled = YES;
+      //self.userInteractionEnabled = YES;
     }];
   }
   else
@@ -438,12 +448,91 @@ static int numLeagues = 6;
       self.leagueView.originY += self.multiplayerHeaderView.height;
       self.leagueListView.originY = self.leagueView.originY + self.leagueView.height - self.leagueListView.height;
       self.leagueListButton.height = self.leagueView.height;
-      self.leagueListButton.originY = self.multiplayerHeaderView.height;
+      self.leagueListButton.originY = 0;
     } completion:^(BOOL finished) {
-      self.userInteractionEnabled = YES;
+      //self.userInteractionEnabled = YES;
       self.leagueListView.hidden = YES;
     }];
   }
+}
+
+#pragma mark - TextView methods
+
+- (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+  //  Globals *gl = [Globals sharedGlobals];
+  //  NSString *str = [t.text stringByReplacingCharactersInRange:range withString:text];
+  //
+  //#warning change back
+  //  gl.defendingMsgCharLimit = 100;
+  //  if (str.length > gl.defendingMsgCharLimit && text.length > 0) {
+  //    return NO;
+  //  }
+  //  return YES;
+  int maxNumLines = 3;
+  
+  NSMutableString *t = [NSMutableString stringWithString:textView.text];
+  [t replaceCharactersInRange:range withString:text];
+  
+  // First check for standard '\n' (newline) type characters.
+  NSUInteger numberOfLines = 0;
+  for (NSUInteger i = 0; i < t.length; i++) {
+    if ([[NSCharacterSet newlineCharacterSet] characterIsMember: [t characterAtIndex: i]]) {
+      numberOfLines++;
+    }
+  }
+  
+  if (numberOfLines >= maxNumLines)
+    return NO;
+  
+  
+  // Now check for word wrapping onto newline.
+  NSAttributedString *t2 = [[NSAttributedString alloc]
+                            initWithString:[NSMutableString stringWithString:t] attributes:@{NSFontAttributeName:textView.font}];
+  
+  __block NSInteger lineCount = 0;
+  
+  CGFloat maxWidth   = textView.frame.size.width;
+  
+  NSTextContainer *tc = [[NSTextContainer alloc] initWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)];
+  NSLayoutManager *lm = [[NSLayoutManager alloc] init];
+  NSTextStorage   *ts = [[NSTextStorage alloc] initWithAttributedString:t2];
+  [ts addLayoutManager:lm];
+  [lm addTextContainer:tc];
+  [lm enumerateLineFragmentsForGlyphRange:NSMakeRange(0,lm.numberOfGlyphs)
+                               usingBlock:^(CGRect rect,
+                                            CGRect usedRect,
+                                            NSTextContainer *textContainer,
+                                            NSRange glyphRange,
+                                            BOOL *stop)
+   {
+     lineCount++;
+   }];
+  
+  //    NSLog(@"%d", lineCount);
+  
+  return (lineCount <= maxNumLines);
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView {
+  self.placeholderLabel.hidden = YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+  if (![textView hasText]) {
+    self.placeholderLabel.hidden = NO;
+  }
+  [[OutgoingEventController sharedOutgoingEventController] setDefendingMessage:textView.text];
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+  if (self.defendingStatusTextView.isFirstResponder) {
+    if (![self.defendingStatusTextView pointInside:[self.defendingStatusTextView convertPoint:point fromView:self] withEvent:event]) {
+      [self.defendingStatusTextView resignFirstResponder];
+    }
+    return self.defendingStatusTextView;
+  }
+  return [super hitTest:point withEvent:event];
 }
 
 @end

@@ -170,6 +170,11 @@
   return YES;
 }
 
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [textField resignFirstResponder];
+  return YES;
+}
+
 - (BOOL) textView:(UITextView *)t shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
   Globals *gl = [Globals sharedGlobals];
   NSString *str = [t.text stringByReplacingCharactersInRange:range withString:text];
@@ -177,11 +182,6 @@
   if (str.length > gl.maxCharLengthForClanDescription && text.length > 0) {
     return NO;
   }
-  return YES;
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-  [textField resignFirstResponder];
   return YES;
 }
 

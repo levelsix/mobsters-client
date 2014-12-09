@@ -39,6 +39,7 @@
     [gs.myMiniJobs removeAllObjects];
     [gs.monsterHealingQueues removeAllObjects];
     [gs.myStructs removeAllObjects];
+    [gs.completedTasks removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
     for (NSNumber *structId in constants.structureIdsToBeBuilltList.toNSArray) {

@@ -312,6 +312,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRedeemSecretGiftEvent:
       responseClass = [RedeemSecretGiftResponseProto class];
       break;
+    case EventProtocolResponseSSetDefendingMsgEvent:
+      responseClass = [SetDefendingMsgResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -931,6 +934,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to set avatar monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleSetDefendingMsgResponseProto:(FullEvent *)fe {
+  SetDefendingMsgResponseProto *proto = (SetDefendingMsgResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Set defending message response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SetDefendingMsgResponseProto_SetDefendingMsgStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to set defending message."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
