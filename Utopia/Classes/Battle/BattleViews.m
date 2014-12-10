@@ -129,6 +129,8 @@
   //  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   //  clip.stencil = nil;
   
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
   [super onExitTransitionDidStart];
 }
 
@@ -620,7 +622,7 @@
     self.placeLabel.position = ccp(leftSide+5, self.placeLabel.position.y);
   }
   
-  NSString *defMsg = pvp.defenderMsg;
+  NSString *defMsg = arc4random() % 2 ?  pvp.defenderMsg : gs.pvpDefendingMessage;
   if (defMsg.length > 0) {
     self.bubbleNode.position = ccpAdd(self.monsterBgd.parent.position, ccp(0, self.monsterBgd.contentSize.height/2+self.bubbleNode.contentSize.height/2+8));
     self.defendingMsgLabel.string = defMsg;

@@ -1634,9 +1634,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to use invalid secret gift."];
   } else {
     uint64_t clientTime = [self getCurrentMilliseconds];
-    [[SocketCommunication sharedSocketCommunication] sendRedeemSecretGiftMessage:@[sg.uisgUuid] clientTime:clientTime];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemSecretGiftMessage:@[sg.uisgUuid] clientTime:clientTime];
     
-    gs.lastSecretGiftCollectTime = [MSDate dateWithTimeIntervalSince1970:clientTime/1000.];
+    LastSecretGiftUpdate *gu = [LastSecretGiftUpdate updateWithTag:tag change:clientTime/1000.-gs.lastSecretGiftCollectTime.timeIntervalSince1970];
+    [gs addUnrespondedUpdate:gu];
+    
     [gs.mySecretGifts removeObject:sg];
     
     [gs.itemUtil incrementItemId:sg.itemId quantity:1];
@@ -2182,6 +2184,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:userStructUuid];
     [hq addUserMonsterHealingItemToEndOfQueue:item];
     
+    [gs beginHealingTimer];
+    
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:gemCost];
     CashUpdate *su = [CashUpdate updateWithTag:tag change:-silverCost];
     GemsUpdate *gu = [GemsUpdate updateWithTag:tag change:-gemCost];
@@ -2205,6 +2209,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This item is not in the healing queue."];
   } else {
     [hq removeUserMonsterHealingItem:item];
+    
+    [gs beginHealingTimer];
     
     silverCost = MIN(silverCost, MAX(0, gs.maxCash-gs.cash));
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
@@ -2249,7 +2255,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [hq.healingItems removeAllObjects];
     hq.queueEndTime = nil;
     [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
-    [gs stopHealingTimer];
+    [gs beginHealingTimer];
     
     [gs.clanHelpUtil cleanupRogueClanHelps];
     [gs.itemUtil cleanupRogueItemUsages];

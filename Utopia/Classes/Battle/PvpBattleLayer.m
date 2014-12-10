@@ -150,7 +150,7 @@
     if (!_receivedEndPvpResponse) {
       _waitingForEndPvpResponse = YES;
       
-        [self.endView spinnerOnDone];
+      [self.endView spinnerOnDone];
     } else {
       [self exitFinal];
     }
@@ -433,11 +433,15 @@
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
       
-      [set addObject:bp.spritePrefix];
+      if (bp.spritePrefix) {
+        [set addObject:bp.spritePrefix];
+      }
     }
     
     for (BattlePlayer *bp in self.myTeam) {
-      [set addObject:bp.spritePrefix];
+      if (bp.spritePrefix) {
+        [set addObject:bp.spritePrefix];
+      }
     }
     
     _waitingForDownload = YES;

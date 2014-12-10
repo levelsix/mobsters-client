@@ -39,3 +39,6 @@
 
 @interface ExperienceUpdate : FullUserUpdate
 @end
+
+@interface LastSecretGiftUpdate : FullUserUpdate
+@end

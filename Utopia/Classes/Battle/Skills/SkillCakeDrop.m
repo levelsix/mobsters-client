@@ -251,8 +251,10 @@
   // Checking player's health (it will effectively call moveToNextEnemy when no enemy is found)
   if ([self.battleLayer stagesLeft] == 0)
   {
-    if ([self.battleLayer playerMobstersLeft] > 0)
+    // You only get the win if you beat at least one stage in the match
+    if ([self.battleLayer playerMobstersLeft] > 0) {
       [self.battleLayer youWon];
+    }
     else
     {
       self.battleLayer.shouldShowContinueButton = NO;

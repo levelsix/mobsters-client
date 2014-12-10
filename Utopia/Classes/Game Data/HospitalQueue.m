@@ -147,7 +147,7 @@
   
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   
-  [self readjustAllMonsterHealingProtos];
+  [self readjustAllMonsterHealingProtos]; 
   
   self.hasShownFreeHealingQueueSpeedup = NO;
   
@@ -168,7 +168,10 @@
   [self.healingItems addObject:item];
   [self readjustAllMonsterHealingProtos];
   
-  self.hasShownFreeHealingQueueSpeedup = NO;
+  Globals *gl = [Globals sharedGlobals];
+  if (self.queueEndTime.timeIntervalSinceNow > gl.maxMinutesForFreeSpeedUp*60) {
+    self.hasShownFreeHealingQueueSpeedup = NO;
+  }
   
   [QuestUtil checkAllDonateQuests];
 }
@@ -180,6 +183,11 @@
   [self.healingItems removeObject:item];
   
   [self readjustAllMonsterHealingProtos];
+  
+  Globals *gl = [Globals sharedGlobals];
+  if (self.queueEndTime.timeIntervalSinceNow < gl.maxMinutesForFreeSpeedUp*60) {
+    self.hasShownFreeHealingQueueSpeedup = YES;
+  }
   
   [QuestUtil checkAllDonateQuests];
 }

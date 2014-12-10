@@ -522,7 +522,11 @@ static int numLeagues = 6;
   if (![textView hasText]) {
     self.placeholderLabel.hidden = NO;
   }
-  [[OutgoingEventController sharedOutgoingEventController] setDefendingMessage:textView.text];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.connected) {
+    [[OutgoingEventController sharedOutgoingEventController] setDefendingMessage:textView.text];
+  }
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {

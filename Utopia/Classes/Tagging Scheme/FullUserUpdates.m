@@ -137,3 +137,19 @@
 }
 
 @end
+
+@implementation LastSecretGiftUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastSecretGiftCollectTime = [gs.lastSecretGiftCollectTime dateByAddingTimeInterval:_change];
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastSecretGiftCollectTime = [gs.lastSecretGiftCollectTime dateByAddingTimeInterval:-_change];
+  
+  [super undo];
+}
+
+@end
