@@ -13,11 +13,9 @@
   // Properties
   float _bonusResistance;
   
-  // Counters
-  NSInteger _damageAbsorbed;
-  
   // Temp
-  BOOL  _logoShown;
+  BOOL _logoShown;
+  NSInteger _damageAbsorbed;
 }
 
 @end

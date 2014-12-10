@@ -660,6 +660,11 @@
                               times:numTimes]];
 }
 
+- (void) jumpLeftAndBack:(BOOL)left duration:(float)duration distance:(float)distance height:(float)height withCompletion:(SEL)completion
+{
+  // TODO
+}
+
 - (void) setScale:(float)scale
 {
   [super setScale:scale];

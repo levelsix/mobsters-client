@@ -31,8 +31,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 #ifdef DEBUG
   // Change it to override current skills for debug purposes
   //_cheatEnemySkillType = SkillTypeQuickAttack;
+  //_cheatEnemySkillId = -1;
   //_cheatPlayerSkillType = SkillTypeQuickAttack;
+  //_cheatPlayerSkillId = -1;
 #endif
+  
+  _playerUsedAbility = NO;
+  _enemyUsedAbility = NO;
   
   return self;
 }

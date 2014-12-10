@@ -34,7 +34,11 @@ typedef enum {
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"tskin"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade"};
+
+static NSString* const kSkillIconImageNameSuffix = @"icon.png";
+static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
+static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface
@@ -55,6 +59,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @property (readonly) SkillType            skillType;
 @property (readonly) SkillActivationType  activationType;
 @property (readonly) NSInteger            skillId;
+@property (readonly) NSString*            skillImageNamePrefix;
 
 @property (weak, nonatomic) NewBattleLayer  *battleLayer;
 @property (weak, nonatomic) BattlePlayer    *player;
@@ -87,6 +92,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
+- (void) makeSkillOwnerJumpLeftAndBack:(BOOL)left withCompletion:(SEL)completion;
 
 // Serialization
 - (NSDictionary*) serialize;

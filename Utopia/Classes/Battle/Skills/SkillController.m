@@ -17,6 +17,7 @@
 #import "SkillRoidRage.h"
 #import "SkillMomentum.h"
 #import "SkillThickSkin.h"
+#import "SkillCritAndEvade.h"
 
 @implementation SkillController
 
@@ -33,6 +34,7 @@
     case SkillTypeRoidRage: return [[SkillRoidRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeThickSkin: return [[SkillThickSkin alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeCritAndEvade: return [[SkillCritAndEvade alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -47,6 +49,7 @@
   _skillId = proto.skillId;
   _skillType = proto.type;
   _activationType = proto.activationType;
+  _skillImageNamePrefix = proto.iconImgName;
   _executedInitialAction = NO;
   
   // Properties
@@ -218,6 +221,11 @@
     [_playerSprite jumpNumTimes:2 completionTarget:target selector:completion];
   else
     [_enemySprite jumpNumTimes:2 completionTarget:target selector:completion];
+}
+
+- (void) makeSkillOwnerJumpLeftAndBack:(BOOL)left withCompletion:(SEL)completion
+{
+  // TODO
 }
 
 #pragma mark - Serialization
