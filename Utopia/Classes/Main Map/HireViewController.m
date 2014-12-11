@@ -131,7 +131,15 @@
 
 - (void) updateAddSlotsViewForResidence:(ResidenceProto *)res {
   self.gemCostLabel.text = [Globals commafyNumber:res.numGemsRequired];
-  self.numSlotsLabel.text = [NSString stringWithFormat:@"Add %d slot%@ to your team reserves by hiring %@!", res.numBonusMonsterSlots, res.numBonusMonsterSlots == 1 ? @"" : @"s", res.occupationName];
+  self.inviteLabel.text = [NSString stringWithFormat:@"Hire %d Facebook Friend%@ to Earn %d %@ Slot%@", res.numAcceptedFbInvites, res.numAcceptedFbInvites == 1 ? @"" : @"s", res.numBonusMonsterSlots, res.structInfo.name, res.numBonusMonsterSlots == 1 ? @"" : @"s"];
+  
+  NSString *imgName = @"123slot.png";
+  if (res.numAcceptedFbInvites == 1) {
+    imgName = @"1slot.png";
+  } else if (res.numAcceptedFbInvites == 2) {
+    imgName = @"12slot.png";
+  }
+  self.slotsIcon.image = [Globals imageNamed:imgName];
   
   GameState *gs = [GameState sharedGameState];
   self.chooserView.blacklistFriendIds = [gs facebookIdsAlreadyUsed];

@@ -38,6 +38,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *numSlotsLabel;
 @property (nonatomic, retain) IBOutlet FBChooserView *chooserView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *slotsIcon;
+@property (nonatomic, retain) IBOutlet UILabel *inviteLabel;
+
 @property (nonatomic, retain) IBOutlet UIView *gemView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *gemSpinner;
 
