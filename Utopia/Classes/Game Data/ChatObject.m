@@ -341,8 +341,7 @@
 - (BOOL) isValid {
   Globals *gl = [Globals sharedGlobals];
   
-#warning fix
-  int mins = 1;//gl.beginAvengingTimeLimitMins
+  int mins = gl.beginAvengingTimeLimitMins;
   return [self.avengeRequestTime dateByAddingTimeInterval:mins*60].timeIntervalSinceNow > 0;
 }
 

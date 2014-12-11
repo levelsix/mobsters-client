@@ -366,8 +366,7 @@ static float buttonInitialWidth = 159.f;
 
 - (void) updateTimeForPvpHistoryProto:(PvpHistoryProto *)pvp {
   Globals *gl = [Globals sharedGlobals];
-#warning fix
-  int mins = 10000;//gl.beginAvengingTimeLimitMins;
+  int mins = gl.beginAvengingTimeLimitMins;
   float secs = pvp.battleEndTime/1000.+mins*60;
   
   if (secs > 0) {
@@ -405,8 +404,7 @@ static float buttonInitialWidth = 159.f;
 
 - (void) updateTimeForClanAvenging:(PvpClanAvenging *)ca {
   Globals *gl = [Globals sharedGlobals];
-#warning fix
-  int mins = 1;//gl.beginAvengingTimeLimitMins;
+  int mins = gl.beginAvengingTimeLimitMins;
   self.timeLabel.text = [[Globals convertTimeToShortString:ca.avengeRequestTime.timeIntervalSinceNow+mins*60] uppercaseString];
 }
 
