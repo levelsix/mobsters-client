@@ -383,7 +383,7 @@
           UIButton* invokingButton = ((TimerCell*)sender).speedupButton;
           const CGPoint invokingViewAbsolutePosition = [Globals convertPointToWindowCoordinates:invokingButton.frame.origin fromViewCoordinates:invokingButton.superview];
           [svc showAnchoredToInvokingView:invokingButton
-                            withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .3f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
+                            withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
                         inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
         }
         else if ([sender isKindOfClass:[UIImageView class]]) // Heal mobster
