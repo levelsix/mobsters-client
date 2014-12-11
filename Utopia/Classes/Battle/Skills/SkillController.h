@@ -79,6 +79,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
+- (BOOL) skillOwnerWillEvade;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (void) restoreVisualsIfNeeded;
 
@@ -92,7 +93,6 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;
 - (void) makeSkillOwnerJumpWithTarget:(id)target selector:(SEL)completion;
-- (void) makeSkillOwnerJumpLeftAndBack:(BOOL)left withCompletion:(SEL)completion;
 
 // Serialization
 - (NSDictionary*) serialize;

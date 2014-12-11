@@ -691,7 +691,12 @@
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
-            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:(_enemyDamageDealt>0) target:self selector:@selector(dealEnemyDamage)];
+            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
+                                                      shouldReturn:YES
+                                                       shouldEvade:[skillManager playerWillEvade:YES]
+                                                      shouldFlinch:(_enemyDamageDealt>0)
+                                                            target:self
+                                                          selector:@selector(dealEnemyDamage)];
           }];
         }
       }
@@ -749,7 +754,11 @@
     }
     
     float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
-    [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
+    [self.myPlayer performFarAttackAnimationWithStrength:strength
+                                             shouldEvade:[skillManager playerWillEvade:NO]
+                                                   enemy:self.currentEnemy
+                                                  target:self
+                                                selector:@selector(dealMyDamage)];
   } else {
     [self beginNextTurn];
   }

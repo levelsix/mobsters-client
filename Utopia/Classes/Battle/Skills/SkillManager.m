@@ -208,6 +208,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return result;
 }
 
+- (BOOL) playerWillEvade:(BOOL)player
+{
+  if (player && _playerSkillController)
+    return [_playerSkillController skillOwnerWillEvade];
+  if (!player && _enemySkillController)
+    return [_enemySkillController skillOwnerWillEvade];
+  
+  return NO;
+}
+
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion
 {
   //completion(NO); // Uncomment these lines to totally disable skills.

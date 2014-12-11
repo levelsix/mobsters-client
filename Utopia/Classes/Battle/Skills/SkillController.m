@@ -115,6 +115,11 @@
   return damage;
 }
 
+- (BOOL) skillOwnerWillEvade
+{
+  return NO;
+}
+
 - (void) skillTriggerFinished
 {
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
@@ -221,11 +226,6 @@
     [_playerSprite jumpNumTimes:2 completionTarget:target selector:completion];
   else
     [_enemySprite jumpNumTimes:2 completionTarget:target selector:completion];
-}
-
-- (void) makeSkillOwnerJumpLeftAndBack:(BOOL)left withCompletion:(SEL)completion
-{
-  // TODO
 }
 
 #pragma mark - Serialization

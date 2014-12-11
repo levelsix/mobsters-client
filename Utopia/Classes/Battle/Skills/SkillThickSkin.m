@@ -37,7 +37,10 @@
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if (player != self.belongsToPlayer)
-    SkillLogStart(@"Thick Skin -- Skill invoked with damage %ld", (long)damage);
+    SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
+                  self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                  player ? @"PLAYER" : @"ENEMY",
+                  (long)damage);
   
   _damageAbsorbed = 0;
   
@@ -102,10 +105,12 @@
 
 -(void)showDamageAbsorbed
 {
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   

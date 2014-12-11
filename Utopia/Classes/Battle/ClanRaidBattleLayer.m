@@ -275,7 +275,7 @@
          [clanBs faceFarWithoutUpdate];
        }
        clanBs.sprite.flipX = YES;
-       [clanBs performFarAttackAnimationWithStrength:0.f enemy:self.currentEnemy target:self selector:@selector(clanMemberAttacked)];
+       [clanBs performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.currentEnemy target:self selector:@selector(clanMemberAttacked)];
      }],
     nil]];
   

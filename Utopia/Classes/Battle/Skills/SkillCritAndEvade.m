@@ -44,16 +44,24 @@
 
 #pragma mark - Overrides
 
+-(BOOL)skillOwnerWillEvade
+{
+  // Last time defending an attack led to an evasion
+  return _evaded;
+}
+
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
-  SkillLogStart(@"Crit and Evade -- Skill invoked with damage %ld", (long)damage);
-  
-  _criticalHit = NO;
-  _evaded = NO;
-  _missed = NO;
+  SkillLogStart(@"Crit and Evade -- %@ skill invoked from %@ with damage %ld",
+                self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                player ? @"PLAYER" : @"ENEMY",
+                (long)damage);
   
   if (player == self.belongsToPlayer) // The character attacking has the skill
   {
+    _criticalHit = NO;
+    _missed = NO;
+    
     // Chance of missing
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < _missChance)
@@ -70,12 +78,22 @@
       {
         damage *= _critMultiplier;
         _criticalHit = YES;
+        
+        /*
+        [self addEnrageAnimationForCriticalHit];
+        [self performAfterDelay:2.f block:^{
+          [self removeEnrageAnimation];
+        }];
+         */
+        
         SkillLogStart(@"Crit and Evade -- Skill caused a critical hit, increasing damage to %ld", (long)damage);
       }
     }
   }
   else // The character defending has the skill
   {
+    _evaded = NO;
+    
     // Chance of evading
     float rand = (float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX;
     if (rand < _evadeChance)
@@ -164,10 +182,12 @@
 
 -(void)showCriticalHit
 {
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
@@ -200,10 +220,12 @@
 
 -(void)showDodged
 {
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
   CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
@@ -232,6 +254,30 @@
     [self.battleLayer.orbLayer allowInput];
     [self skillTriggerFinished];
   }];
+}
+
+-(void)addEnrageAnimationForCriticalHit
+{
+  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  
+  // Size player and make him blue
+  [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.25f]]]];
+  [owner.sprite stopActionByTag:2864];
+  CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                                                                           [CCActionTintTo actionWithDuration:.5f color:[CCColor cyanColor]],
+                                                                           [CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]],
+                                                                           nil]];
+  [action setTag:2864];
+  [owner.sprite runAction:action];
+}
+
+-(void)removeEnrageAnimation
+{
+  BattleSprite* owner = self.belongsToPlayer ? self.playerSprite : self.enemySprite;
+  
+  [owner runAction:[CCActionEaseBounceIn actionWithAction:[CCActionEaseBounceOut actionWithAction:[CCActionScaleTo actionWithDuration:.5f scale:1.f]]]];
+  [owner.sprite stopActionByTag:2864];
+  [owner.sprite runAction:[CCActionTintTo actionWithDuration:.5f color:[CCColor whiteColor]]];
 }
 
 @end

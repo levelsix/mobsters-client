@@ -51,6 +51,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 @property (assign, nonatomic) NSInteger cheatEnemySkillId;    // If more or equal to zero, overrides skills from protos
 @property (assign, nonatomic) NSInteger cheatPlayerSkillId;
 
+// Used for skills that display visuals which would take precedence over attack effectiveness
 @property (assign, nonatomic) BOOL playerUsedAbility;
 @property (assign, nonatomic) BOOL enemyUsedAbility;
 
@@ -59,6 +60,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
+- (BOOL) playerWillEvade:(BOOL)player;
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 
 // Serialization

@@ -61,8 +61,8 @@
 - (void) faceNearWithoutUpdate;
 - (void) faceFarWithoutUpdate;
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector;
-- (void) performFarAttackAnimationWithStrength:(float)strength enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector;
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
 
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
 - (void) performFarFlinchAnimationWithDelay:(float)delay;
@@ -74,6 +74,6 @@
 
 - (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion;
 - (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur height:(float)height completionTarget:(id)target selector:(SEL)completion;
-- (void) jumpLeftAndBack:(BOOL)left duration:(float)duration distance:(float)distance height:(float)height withCompletion:(SEL)completion;
+- (void) jumpLeftAndBack:(BOOL)left delay:(float)delay duration:(float)duration distance:(float)distance height:(float)height;
 
 @end
