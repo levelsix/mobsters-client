@@ -702,7 +702,7 @@
           {
             UIButton* invokingButton = (UIButton*)sender;
             [svc showAnchoredToInvokingView:invokingButton
-                              withDirection:ViewAnchoringPreferTopPlacement
+                              withDirection:ViewAnchoringPreferLeftPlacement
                           inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
           }
         }

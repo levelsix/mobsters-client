@@ -426,7 +426,7 @@
   //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector {
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationN.copy;
   anim = anim ?: [CCAnimation animation];
   
@@ -440,7 +440,10 @@
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ if (flinch) [enemy performFarFlinchAnimationWithDelay:0.5];}],
+            [CCActionCallBlock actionWithBlock:^{
+             if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.5];
+            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -463,7 +466,10 @@
       seq = [CCActionSequence actions:seqAttack,
              [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
              [CCActionSpawn actions:
-              [CCActionCallBlock actionWithBlock:^{ if (flinch) [enemy performFarFlinchAnimationWithDelay:0.3]; }],
+              [CCActionCallBlock actionWithBlock:^{
+               if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+               else if (flinch) [enemy performFarFlinchAnimationWithDelay:0.3];
+              }],
               [CCSoundAnimate actionWithAnimation:anim],
               nil],
              [CCActionCallFunc actionWithTarget:target selector:selector],
@@ -482,7 +488,7 @@
   [self runAction:seq];
 }
 
-- (void) performFarAttackAnimationWithStrength:(float)strength enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
   CCAnimation *anim = self.attackAnimationF.copy;
   anim = anim ?: [CCAnimation animation];
   
@@ -499,7 +505,10 @@
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ if(strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];}],
+            [CCActionCallBlock actionWithBlock:^{
+             if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if(strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.5];
+            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
@@ -521,7 +530,10 @@
            [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            [CCActionSpawn actions:
-            [CCActionCallBlock actionWithBlock:^{ if (strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
+            [CCActionCallBlock actionWithBlock:^{
+             if (evade) [enemy jumpLeftAndBack:NO delay:.4f duration:1.f distance:25.f height:25.f];
+             else if (strength >= 0) [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];
+            }],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:target selector:selector],
@@ -658,6 +670,48 @@
      [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f],
      nil]
                               times:numTimes]];
+}
+
+- (void) jumpLeftAndBack:(BOOL)left delay:(float)delay duration:(float)duration distance:(float)distance height:(float)height
+{
+  if (left) distance = -distance;
+  CGPoint movement = ccp(distance, -distance * SLOPE_OF_ROAD);
+  CGPoint movementBack = ccp(-distance, distance * SLOPE_OF_ROAD);
+  
+  CCActionFiniteTime* delayAction = [CCActionDelay actionWithDuration:delay];
+  CCActionFiniteTime* pauseAction = [CCActionDelay actionWithDuration:duration * .6f];
+  CCActionFiniteTime* jumpSoundAction = [CCActionCallBlock actionWithBlock:^{ [SoundEngine spriteJump]; }];
+  
+  CCActionFiniteTime* jumpAndMoveAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movement height:height jumps:1];
+  CCActionFiniteTime* jumpAndMoveBackAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movementBack height:height jumps:1];
+  [self.sprite runAction:[CCActionSequence actions:
+                          delayAction,
+                          jumpAndMoveAction,
+                          pauseAction,
+                          jumpAndMoveBackAction,
+                          nil]];
+  
+  CCSprite* shadow = (CCSprite*)[self getChildByName:SHADOW_TAG recursively:NO];
+  [shadow runAction:[CCActionSequence actions:
+                     delayAction,
+                     jumpSoundAction,
+                     [CCActionSpawn actions:
+                      [CCActionMoveBy actionWithDuration:duration * .2f position:movement],
+                      [CCActionSequence actions:
+                       [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
+                       [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
+                       nil], // CCActionSequence
+                      nil],  // CCActionSpawn
+                     pauseAction,
+                     jumpSoundAction,
+                     [CCActionSpawn actions:
+                      [CCActionMoveBy actionWithDuration:duration * .2f position:movementBack],
+                      [CCActionSequence actions:
+                       [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
+                       [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
+                       nil], // CCActionSequence
+                      nil],  // CCActionSpawn
+                     nil]];  // CCActionSequence
 }
 
 - (void) setScale:(float)scale

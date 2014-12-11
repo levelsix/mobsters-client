@@ -10,6 +10,7 @@
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "SkillController.h"
 
 @implementation SkillPopupOverlay
 
@@ -34,7 +35,7 @@
   // Skill image
   GameState* gs = [GameState sharedGameState];
   SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-  NSString* logoName = playerSkillProto.logoImgName;
+  NSString* logoName = [playerSkillProto.iconImgName stringByAppendingString:kSkillLogoImageNameSuffix];
   [Globals imageNamed:logoName withView:skillImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   skillImage.alpha = 0.0;
   skillImage.transform = CGAffineTransformMakeScale(10.0, 10.0);

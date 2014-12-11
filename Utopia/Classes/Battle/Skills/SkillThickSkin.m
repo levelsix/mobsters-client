@@ -9,6 +9,7 @@
 #import "SkillThickSkin.h"
 #import "NewBattleLayer.h"
 #import "Globals.h"
+#import "SkillManager.h"
 
 @implementation SkillThickSkin
 
@@ -18,7 +19,7 @@
 {
   [super setDefaultValues];
   
-  _bonusResistance = .15f;
+  _bonusResistance = 0.f;
   _damageAbsorbed = 0;
   _logoShown = NO;
 }
@@ -36,7 +37,10 @@
 -(NSInteger)modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   if (player != self.belongsToPlayer)
-    LNLog(@"Thick Skin -- Skill invoked with damage %ld", (long)damage);
+    SkillLogStart(@"Thick Skin -- %@ skill invoked from %@ with damage %ld",
+                  self.belongsToPlayer ? @"PLAYER" : @"ENEMY",
+                  player ? @"PLAYER" : @"ENEMY",
+                  (long)damage);
   
   _damageAbsorbed = 0;
   
@@ -45,7 +49,7 @@
   {
     _damageAbsorbed = damage * _bonusResistance;
     damage = MAX(damage - _damageAbsorbed, 0);
-    LNLog(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
+    SkillLogStart(@"Thick Skin -- Skill reduced damage to %ld", (long)damage);
   }
   
   return damage;
@@ -80,9 +84,13 @@
       {
         [self.battleLayer.orbLayer.bgdLayer turnTheLightsOff];
         [self.battleLayer.orbLayer disallowInput];
-        [self showDamageAbsorbed];
         
-        _callbackParams = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:SKILL_CONTROLLER_USING_ABILITY_KEY];
+        if (self.belongsToPlayer)
+          [skillManager setPlayerUsedAbility:YES];
+        else
+          [skillManager setEnemyUsedAbility:YES];
+        
+        [self showDamageAbsorbed];
       }
       else
         [self skillTriggerFinished];
@@ -97,19 +105,24 @@
 
 -(void)showDamageAbsorbed
 {
+  const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
+  
   // Display logo
-  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:@"thickskinminilogo.png"];
+  CCSprite* logoSprite = [CCSprite spriteWithImageNamed:[self.skillImageNamePrefix stringByAppendingString:kSkillMiniLogoImageNameSuffix]];
   logoSprite.position = CGPointMake((self.enemySprite.position.x + self.playerSprite.position.x) * .5f + self.playerSprite.contentSize.width * .5f - 10.f,
-                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f);
+                                    (self.playerSprite.position.y + self.enemySprite.position.y) * .5f + self.playerSprite.contentSize.height * .5f + yOffset);
   logoSprite.scale = 0.f;
   [self.playerSprite.parent addChild:logoSprite z:50];
   
   // Display damage absorbed label
-  CCLabelTTF* damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%ld DAMAGE BLOCKED", (long)_damageAbsorbed] fontName:@"GothamNarrow-Ultra" fontSize:12];
-  damageLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
-  damageLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:232.f / 225.f blue:174.f / 225.f];
-  damageLabel.outlineColor = [CCColor colorWithRed:148.f / 225.f green:46.f / 225.f blue:11.f / 225.f];
-  [logoSprite addChild:damageLabel];
+  CCLabelTTF* floatingLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%ld DAMAGE BLOCKED", (long)_damageAbsorbed] fontName:@"GothamNarrow-Ultra" fontSize:12];
+  floatingLabel.position = ccp(logoSprite.spriteFrame.rect.size.width * .5f, -13.f);
+  floatingLabel.fontColor = [CCColor colorWithRed:255.f / 225.f green:232.f / 225.f blue:174.f / 225.f];
+  floatingLabel.outlineColor = [CCColor colorWithRed:148.f / 225.f green:46.f / 225.f blue:11.f / 225.f];
+  floatingLabel.shadowOffset = ccp(0.f, -1.f);
+  floatingLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:.75f];
+  floatingLabel.shadowBlurRadius = 2.f;
+  [logoSprite addChild:floatingLabel];
   
   // Animate both
   [logoSprite runAction:[CCActionSequence actions:

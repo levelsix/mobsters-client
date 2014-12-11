@@ -31,8 +31,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 #ifdef DEBUG
   // Change it to override current skills for debug purposes
   //_cheatEnemySkillType = SkillTypeQuickAttack;
+  //_cheatEnemySkillId = -1;
   //_cheatPlayerSkillType = SkillTypeQuickAttack;
+  //_cheatPlayerSkillId = -1;
 #endif
+  
+  _playerUsedAbility = NO;
+  _enemyUsedAbility = NO;
   
   return self;
 }
@@ -201,6 +206,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     result = [_enemySkillController modifyDamage:result forPlayer:player];
   
   return result;
+}
+
+- (BOOL) playerWillEvade:(BOOL)player
+{
+  if (player && _playerSkillController)
+    return [_playerSkillController skillOwnerWillEvade];
+  if (!player && _enemySkillController)
+    return [_enemySkillController skillOwnerWillEvade];
+  
+  return NO;
 }
 
 - (void) triggerSkills:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion

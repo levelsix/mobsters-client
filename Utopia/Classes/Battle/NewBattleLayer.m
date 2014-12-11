@@ -38,9 +38,6 @@
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
-#define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
-#define SkillLogEnd(triggered, ...) //if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
-
 @implementation BattleBgdLayer
 
 - (id) initWithPrefix:(NSString *)prefix {
@@ -694,7 +691,12 @@
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
-            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer shouldReturn:YES shouldFlinch:(_enemyDamageDealt>0) target:self selector:@selector(dealEnemyDamage)];
+            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
+                                                      shouldReturn:YES
+                                                       shouldEvade:[skillManager playerWillEvade:YES]
+                                                      shouldFlinch:(_enemyDamageDealt>0)
+                                                            target:self
+                                                          selector:@selector(dealEnemyDamage)];
           }];
         }
       }
@@ -752,7 +754,11 @@
     }
     
     float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
-    [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
+    [self.myPlayer performFarAttackAnimationWithStrength:strength
+                                             shouldEvade:[skillManager playerWillEvade:NO]
+                                                   enemy:self.currentEnemy
+                                                  target:self
+                                                selector:@selector(dealMyDamage)];
   } else {
     [self beginNextTurn];
   }
@@ -767,11 +773,12 @@
     
     _enemyShouldAttack = YES;
     
-    BOOL usingAbility = NO;
-    if (params && [params isKindOfClass:[NSDictionary class]] &&
-        [ params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] &&
-        [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] isKindOfClass:[NSNumber class]])
-      usingAbility = [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] boolValue];
+    // The block invocation that will lead to this method being called is quite convoluted
+    // and can take a few different paths. Ideally we would use 'params' to send along any
+    // arguments needed, but for the sake of my sanity I'm resorting to doing the following
+    const BOOL usingAbility = skillManager.playerUsedAbility || skillManager.enemyUsedAbility;
+    skillManager.playerUsedAbility = NO;
+    skillManager.enemyUsedAbility = NO;
     
     [self dealDamage:_myDamageDealt enemyIsAttacker:NO usingAbility:usingAbility withTarget:self withSelector:@selector(checkEnemyHealthAndStartNewTurn)];
     
@@ -794,11 +801,12 @@
     
     _totalDamageTaken += _enemyDamageDealt;
     
-    BOOL usingAbility = NO;
-    if (params && [params isKindOfClass:[NSDictionary class]] &&
-        [ params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] &&
-        [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] isKindOfClass:[NSNumber class]])
-      usingAbility = [[params objectForKey:SKILL_CONTROLLER_USING_ABILITY_KEY] boolValue];
+    // The block invocation that will lead to this method being called is quite convoluted
+    // and can take a few different paths. Ideally we would use 'params' to send along any
+    // arguments needed, but for the sake of my sanity I'm resorting to doing the following
+    const BOOL usingAbility = skillManager.playerUsedAbility || skillManager.enemyUsedAbility;
+    skillManager.playerUsedAbility = NO;
+    skillManager.enemyUsedAbility = NO;
     
     [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:usingAbility withTarget:self withSelector:@selector(checkMyHealth)];
     
