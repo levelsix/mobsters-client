@@ -253,11 +253,32 @@ static float buttonInitialWidth = 159.f;
 
 @implementation ChatBattleHistoryView
 
+- (void) awakeFromNib {
+  _initAvengeFrame = self.avengeButton.superview.frame;
+}
+
 - (void) updateForPvpHistoryProto:(PvpHistoryProto *)pvp {
-  self.topDivider.highlighted = pvp.attackerWon;
-  self.botDivider.highlighted = pvp.attackerWon;
+  self.topDivider.highlighted = !pvp.userWon;
+  self.botDivider.highlighted = !pvp.userWon;
   
-  NSArray *monsters = pvp.attackersMonstersList;
+  NSArray *monsters;
+  
+  if ([pvp userIsAttacker]) {
+    NSMutableArray *arr = [NSMutableArray array];
+    GameState *gs = [GameState sharedGameState];
+    for (UserMonster *um in gs.allMonstersOnMyTeam) {
+      MinimumUserMonsterProto *mup = [[[[MinimumUserMonsterProto builder]
+                                       setMonsterId:um.monsterId]
+                                      setMonsterLvl:um.level]
+                                      build];
+      PvpMonsterProto *mon = [[[PvpMonsterProto builder] setDefenderMonster:mup] build];
+      
+      [arr addObject:mon];
+    }
+    monsters = arr;
+  } else {
+    monsters = pvp.attackersMonstersList;
+  }
   
   for (int i = 0; i < self.monsterViews.count; i++) {
     PvpMonsterProto *pm = i < monsters.count ? monsters[i] : nil;
@@ -267,11 +288,20 @@ static float buttonInitialWidth = 159.f;
     [cmv updateForMinMonster:um];
   }
   
-  self.avengeButton.superview.hidden = YES;
-  self.revengeButton.superview.hidden = pvp.exactedRevenge;
+  self.avengeButton.superview.hidden = [pvp userIsAttacker];// && pvp.clanAvenged;
+  self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
+  
+  if (!self.avengeButton.superview.hidden && self.revengeButton.superview.hidden) {
+    self.avengeButton.superview.frame = self.revengeButton.superview.frame;
+  } else {
+    self.avengeButton.superview.frame = _initAvengeFrame;
+  }
   
   [self.revengeButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [self.revengeButton addTarget:pvp action:@selector(revengeClicked:) forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.avengeButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.avengeButton addTarget:pvp action:@selector(avengeClicked:) forControlEvents:UIControlEventTouchUpInside];
   
   int curX = 0;
   
@@ -281,8 +311,13 @@ static float buttonInitialWidth = 159.f;
     
     self.rankLabel.highlighted = YES;
     
-    self.cashLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderCashChange)]];
-    self.oilLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderOilChange)]];
+    if ([pvp userIsAttacker]) {
+      self.cashLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:ABS(pvp.attackerCashChange)]];
+      self.oilLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:ABS(pvp.attackerOilChange)]];
+    } else {
+      self.cashLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderCashChange)]];
+      self.oilLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:ABS(pvp.defenderOilChange)]];
+    }
     
     UILabel *label = self.cashLabel;
     CGSize size = [label.text getSizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
@@ -328,3 +363,9 @@ static float buttonInitialWidth = 159.f;
 }
 
 @end
+
+//@implementation ChatClanAvengeView
+//
+//- (void) updateFor
+//
+//@end

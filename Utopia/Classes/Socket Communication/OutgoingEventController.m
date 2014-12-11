@@ -1329,6 +1329,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendEndClanHelpMessage:clanHelpIds];
 }
 
+#pragma mark Clan Avenge
+
+- (void) beginClanAvenge:(PvpHistoryProto *)pvp {
+  if (pvp.clanAvenged) {
+    [Globals popupMessage:@"Trying to clan avenge invalid battle."];
+  } else {
+    uint64_t ms = [self getCurrentMilliseconds];
+    [[SocketCommunication sharedSocketCommunication] sendBeginClanAvengingMessage:@[pvp] clientTime:ms];
+    
+    GameState *gs = [GameState sharedGameState];
+    PvpClanAvenging *ca = [[PvpClanAvenging alloc] init];
+    ca.attacker = [[[[[[MinimumUserProto builder] setName:pvp.attacker.name] setAvatarMonsterId:pvp.attacker.avatarMonsterId] setUserUuid:pvp.attacker.userUuid] setClan:pvp.attacker.clan] build];
+    ca.defender = [gs minUser];
+    ca.battleEndTime = [MSDate dateWithTimeIntervalSince1970:pvp.battleEndTime/1000.];
+    ca.avengeRequestTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+    ca.avengedUserUuids = [NSMutableArray array];
+    
+    [gs.clanAvengings addObject:ca];
+  }
+}
+
+- (void) endClanAvengings:(NSArray *)clanAvengings {
+  [[SocketCommunication sharedSocketCommunication] sendEndClanAvengingMessage:clanAvengings];
+}
+
 #pragma mark Clan Raids
 
 - (void) beginClanRaid:(PersistentClanEventProto *)event delegate:(id)delegate {
@@ -2439,13 +2464,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (void) collectEnhancementWithDelegate:(id)delegate {
+- (BOOL) collectEnhancementWithDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   if (!gs.userEnhancement.isComplete) {
     [Globals popupMessage:@"Trying to collect incomplete enhancement"];
-    return;
+    return NO;
   }
   
   NSMutableArray *arr = [NSMutableArray array];
@@ -2475,6 +2500,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   [gs.clanHelpUtil cleanupRogueClanHelps];
   [gs.itemUtil cleanupRogueItemUsages];
+  
+  return YES;
 }
 
 //- (BOOL) enhanceMonster:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate {

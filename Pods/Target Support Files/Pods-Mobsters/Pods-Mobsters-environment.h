@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 4
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// Adjust
+#define COCOAPODS_POD_AVAILABLE_Adjust
+#define COCOAPODS_VERSION_MAJOR_Adjust 4
+#define COCOAPODS_VERSION_MINOR_Adjust 0
+#define COCOAPODS_VERSION_PATCH_Adjust 2
+
 // Amplitude-iOS
 #define COCOAPODS_POD_AVAILABLE_Amplitude_iOS
 #define COCOAPODS_VERSION_MAJOR_Amplitude_iOS 2

@@ -170,6 +170,10 @@
   return ![self canHelpForUserUuid:gs.userUuid];
 }
 
+- (void) markAsRead {
+  // Do nothing
+}
+
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
   
   NSString *nibName = @"ChatClanHelpView";
@@ -385,6 +389,10 @@
 - (BOOL) isRead {
   GameState *gs = [GameState sharedGameState];
   return ![self canHelpForUserUuid:gs.userUuid];
+}
+
+- (void) markAsRead {
+  // Do nothing
 }
 
 - (UIColor *) bottomViewTextColor {

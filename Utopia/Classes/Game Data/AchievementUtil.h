@@ -27,6 +27,7 @@
 + (void) checkBuildingUpgrade:(int)buildingId;
 + (void) checkObstacleRemoved;
 + (void) checkMonstersHealed:(int)monstersHealed;
++ (void) checkEnhancedPoints:(int)pointsEnhanced;
 + (void) checkSellMonsters:(int)numSold;
 + (void) checkLeagueJoined:(int)leagueId;
 + (void) checkCollectResource:(ResourceType)res amount:(int)amount;

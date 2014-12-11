@@ -120,6 +120,7 @@
 @property (nonatomic, retain) NSMutableArray *requestedClans;
 @property (nonatomic, assign) UserClanStatus myClanStatus;
 @property (nonatomic, retain) ClanHelpUtil *clanHelpUtil;
+@property (nonatomic, retain) NSMutableArray *clanAvengings;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;

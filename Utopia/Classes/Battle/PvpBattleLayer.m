@@ -199,7 +199,10 @@
   UITextField *tf = self.endView.msgTextField;
   if (tf.text.length) {
     PvpProto *pvp = self.defendersList[_curQueueNum];
-    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text];
+    
+    if (pvp.defender.minUserProto.hasUserUuid && pvp.defender.minUserProto.userUuid.length > 0) {
+      [[OutgoingEventController sharedOutgoingEventController] privateChatPost:pvp.defender.minUserProto.userUuid content:tf.text];
+    }
     
     tf.text = nil;
     [tf resignFirstResponder];

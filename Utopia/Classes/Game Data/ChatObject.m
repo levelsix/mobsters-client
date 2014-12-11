@@ -55,6 +55,10 @@
   return height;
 }
 
+- (void) markAsRead {
+  self.isRead = YES;
+}
+
 @end
 
 @implementation RequestFromFriend (ChatObject)
@@ -185,7 +189,16 @@
 @implementation PvpHistoryProto (ChatObject)
 
 - (MinimumUserProto *) sender {
-  FullUserProto *fup = self.attacker;
+  if ([self userIsAttacker]) {
+    GameState *gs = [GameState sharedGameState];
+    return [gs minUser];
+  } else {
+    return [self otherUser];
+  }
+}
+
+- (MinimumUserProto *) otherUser {
+  FullUserProto *fup = [self userIsAttacker] ? self.defender : self.attacker;
   MinimumUserProto_Builder *bldr = [MinimumUserProto builder];
   bldr.name = fup.name;
   bldr.userUuid = fup.userUuid;
@@ -198,8 +211,13 @@
   return bldr.build;
 }
 
-- (MinimumUserProto *) otherUser {
-  return [self sender];
+- (BOOL) userIsAttacker {
+  GameState *gs = [GameState sharedGameState];
+  return [self.attacker.userUuid isEqualToString:gs.userUuid];
+}
+
+- (BOOL) userWon {
+  return self.userIsAttacker ? self.attackerWon : !self.attackerWon;
 }
 
 - (NSString *) message {
@@ -231,11 +249,11 @@
   }
   
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:NO chatSubview:v identifier:nibName];
-  [chatCell updateBubbleImagesWithPrefix:self.attackerWon ? @"pink" : @"green"];
+  [chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"pink" : @"green"];
   
   [v updateForPvpHistoryProto:self];
   
-  chatCell.msgLabel.textColor = self.attackerWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
+  chatCell.msgLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
 }
 
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
@@ -269,6 +287,71 @@
 - (IBAction)revengeClicked:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
   [gvc beginPvpMatch:self];
+}
+
+- (IBAction) avengeClicked:(id)sender {
+  // Check gamestate if there are any avengings by me
+  GameState *gs = [GameState sharedGameState];
+  
+  BOOL found = NO;
+  for (PvpClanAvenging *ca in gs.clanAvengings) {
+    if ([ca isValid] && [ca.defender.userUuid isEqualToString:gs.userUuid]) {
+      found = YES;
+    }
+  }
+  
+  if (!found) {
+    [[OutgoingEventController sharedOutgoingEventController] beginClanAvenge:self];
+    clanAvenged_ = YES;
+  } else {
+    [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
+  }
+}
+
+@end
+     
+@implementation PvpClanAvenging
+
+- (id) initWithClanAvengeProto:(PvpClanAvengeProto *)proto {
+  if ((self = [super init])) {
+    self.clanAvengeUuid = proto.clanAvengeUuid;
+    self.attacker = proto.attacker;
+    self.defender = proto.defender;
+    self.clanUuid = proto.clanUuid;
+    self.battleEndTime = [MSDate dateWithTimeIntervalSince1970:proto.battleEndTime/1000.];
+    self.avengeRequestTime = [MSDate dateWithTimeIntervalSince1970:proto.avengeRequestTime/1000.];
+    
+    self.avengedUserUuids = [NSMutableArray array];
+    for (PvpUserClanAvengeProto *p in proto.usersAvengingList) {
+      [self.avengedUserUuids addObject:p.userUuid];
+    }
+  }
+  return self;
+}
+
+- (BOOL) isValid {
+  Globals *gl = [Globals sharedGlobals];
+  return [self.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60].timeIntervalSinceNow > 0;
+}
+
+- (MinimumUserProto *) sender {
+  return self.defender;
+}
+
+- (NSString *) message {
+  return [NSString stringWithFormat:@"Avenge me by attacking %@", self.attacker.userUuid];
+}
+
+- (MSDate *) date {
+  return self.avengeRequestTime;
+}
+
+- (UIColor *) bottomViewTextColor {
+  return [UIColor colorWithHexString:@"ffe400"];
+}
+
+- (void) markAsRead {
+  self.isRead = YES;
 }
 
 @end

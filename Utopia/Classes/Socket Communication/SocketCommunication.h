@@ -203,6 +203,8 @@
 - (int) sendTradeItemForResourcesMessage:(NSArray *)itemIdsUsed updatedUserItems:(NSArray *)updatedUserItems clientTime:(uint64_t)clientTime;
 - (int) tradeItemForResources:(int)itemId updatedUserItem:(UserItemProto *)uip clientTime:(uint64_t)clientTime;
 
+- (int) sendBeginClanAvengingMessage:(NSArray *)pvpHistories clientTime:(uint64_t)clientTime;
+- (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids;
 
 - (void) flush;
 

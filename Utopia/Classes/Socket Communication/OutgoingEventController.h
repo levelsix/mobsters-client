@@ -102,6 +102,9 @@
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime;
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
 
+- (void) beginClanAvenge:(PvpHistoryProto *)pvp;
+- (void) endClanAvengings:(NSArray *)clanAvengings;
+
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid;
 - (BOOL) addMonsterToTeam:(NSString *)userMonsterUuid;
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate;
@@ -117,7 +120,7 @@
 
 - (BOOL) submitEnhancement:(UserEnhancement *)enhancement useGems:(BOOL)useGems delegate:(id)delegate;
 - (BOOL) enhanceWaitComplete:(BOOL)useGems delegate:(id)delegate;
-- (void) collectEnhancementWithDelegate:(id)delegate;
+- (BOOL) collectEnhancementWithDelegate:(id)delegate;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids;

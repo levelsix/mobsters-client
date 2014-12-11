@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Battle.pb.h"
 #import "Chat.pb.h"
 #import "MonsterStuff.pb.h"
 #import "SharedEnumConfig.pb.h"
@@ -95,6 +96,18 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
+@class PvpMonsterProto;
+@class PvpMonsterProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -1810,11 +1823,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @private
   NSMutableArray * mutableClanChatsList;
   NSMutableArray * mutableClanHelpingsList;
+  NSMutableArray * mutableClanAvengingsList;
 }
 @property (readonly, strong) NSArray * clanChatsList;
 @property (readonly, strong) NSArray * clanHelpingsList;
+@property (readonly, strong) NSArray * clanAvengingsList;
 - (GroupChatMessageProto*)clanChatsAtIndex:(NSUInteger)index;
 - (ClanHelpProto*)clanHelpingsAtIndex:(NSUInteger)index;
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
 
 + (ClanDataProto*) defaultInstance;
 - (ClanDataProto*) defaultInstance;
@@ -1862,6 +1878,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (ClanDataProto_Builder *)addClanHelpings:(ClanHelpProto*)value;
 - (ClanDataProto_Builder *)addAllClanHelpings:(NSArray *)array;
 - (ClanDataProto_Builder *)clearClanHelpings;
+
+- (NSMutableArray *)clanAvengingsList;
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
+- (ClanDataProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value;
+- (ClanDataProto_Builder *)addAllClanAvengings:(NSArray *)array;
+- (ClanDataProto_Builder *)clearClanAvengings;
 @end
 
 

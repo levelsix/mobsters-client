@@ -86,6 +86,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.minutesPerObstacle = constants.minutesPerObstacle;
   self.maxMinutesForFreeSpeedUp = constants.maxMinutesForFreeSpeedUp;
   
+  self.beginAvengingTimeLimitMins = constants.pvpConstant.beginAvengingTimeLimitMins;
+  self.requestClanToAvengeTimeLimitMins = constants.pvpConstant.requestClanToAvengeTimeLimitMins;
+  
   self.battleRunAwayBasePercent = constants.battleRunAwayBasePercent;
   self.battleRunAwayIncrement = constants.battleRunAwayIncrement;
   

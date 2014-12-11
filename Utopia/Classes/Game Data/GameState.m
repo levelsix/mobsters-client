@@ -56,6 +56,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _fbAcceptedRequestsFromMe = [[NSMutableSet alloc] init];
     _fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
     _monsterHealingQueues = [[NSMutableDictionary alloc] init];
+    _clanAvengings = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -608,12 +609,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   
+  BOOL senderIsUser = [pcpp.sender.userUuid isEqualToString:self.userUuid];
   if (toReplace) {
-    if (pcpp.isRead < toReplace.isRead || (pcpp.isRead == toReplace.isRead && [pcpp.date compare:toReplace.date] == NSOrderedDescending)) {
+    // Replace if chat object is not read or if both are read but not sent by me.
+    if (pcpp.isRead < toReplace.isRead || (pcpp.isRead == toReplace.isRead && [pcpp.date compare:toReplace.date] == NSOrderedDescending && !senderIsUser)) {
       [arr replaceObjectAtIndex:[arr indexOfObject:toReplace] withObject:pcpp];
     }
   } else {
-    [arr addObject:pcpp];
+    if (!senderIsUser) {
+      [arr addObject:pcpp];
+    }
   }
 }
 
@@ -666,8 +671,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
   
+  [self.clanAvengings removeAllObjects];
+  [self.clanAvengings addObjectsFromArray:clanData.clanAvengingsList];
+  for (PvpClanAvengeProto *p in clanData.clanAvengingsList) {
+    PvpClanAvenging *ca = [[PvpClanAvenging alloc] initWithClanAvengeProto:p];
+    [self.clanAvengings addObject:ca];
+  }
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {

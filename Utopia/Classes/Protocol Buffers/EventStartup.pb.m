@@ -6338,6 +6338,8 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
 @property Float32 maxPvpDmgDelta;
 @property int32_t pvpRequiredMinLvl;
 @property int32_t defendingMsgCharLimit;
+@property int32_t beginAvengingTimeLimitMins;
+@property int32_t requestClanToAvengeTimeLimitMins;
 @end
 
 @implementation StartupResponseProto_StartupConstants_PvpConstants
@@ -6377,6 +6379,20 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
   hasDefendingMsgCharLimit_ = !!value_;
 }
 @synthesize defendingMsgCharLimit;
+- (BOOL) hasBeginAvengingTimeLimitMins {
+  return !!hasBeginAvengingTimeLimitMins_;
+}
+- (void) setHasBeginAvengingTimeLimitMins:(BOOL) value_ {
+  hasBeginAvengingTimeLimitMins_ = !!value_;
+}
+@synthesize beginAvengingTimeLimitMins;
+- (BOOL) hasRequestClanToAvengeTimeLimitMins {
+  return !!hasRequestClanToAvengeTimeLimitMins_;
+}
+- (void) setHasRequestClanToAvengeTimeLimitMins:(BOOL) value_ {
+  hasRequestClanToAvengeTimeLimitMins_ = !!value_;
+}
+@synthesize requestClanToAvengeTimeLimitMins;
 - (id) init {
   if ((self = [super init])) {
     self.pvpDmgsWindowSize = 0;
@@ -6384,6 +6400,8 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
     self.maxPvpDmgDelta = 0;
     self.pvpRequiredMinLvl = 0;
     self.defendingMsgCharLimit = 0;
+    self.beginAvengingTimeLimitMins = 0;
+    self.requestClanToAvengeTimeLimitMins = 0;
   }
   return self;
 }
@@ -6418,6 +6436,12 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (self.hasDefendingMsgCharLimit) {
     [output writeInt32:5 value:self.defendingMsgCharLimit];
   }
+  if (self.hasBeginAvengingTimeLimitMins) {
+    [output writeInt32:6 value:self.beginAvengingTimeLimitMins];
+  }
+  if (self.hasRequestClanToAvengeTimeLimitMins) {
+    [output writeInt32:7 value:self.requestClanToAvengeTimeLimitMins];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -6441,6 +6465,12 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   }
   if (self.hasDefendingMsgCharLimit) {
     size_ += computeInt32Size(5, self.defendingMsgCharLimit);
+  }
+  if (self.hasBeginAvengingTimeLimitMins) {
+    size_ += computeInt32Size(6, self.beginAvengingTimeLimitMins);
+  }
+  if (self.hasRequestClanToAvengeTimeLimitMins) {
+    size_ += computeInt32Size(7, self.requestClanToAvengeTimeLimitMins);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -6492,6 +6522,12 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (self.hasDefendingMsgCharLimit) {
     [output appendFormat:@"%@%@: %@\n", indent, @"defendingMsgCharLimit", [NSNumber numberWithInteger:self.defendingMsgCharLimit]];
   }
+  if (self.hasBeginAvengingTimeLimitMins) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"beginAvengingTimeLimitMins", [NSNumber numberWithInteger:self.beginAvengingTimeLimitMins]];
+  }
+  if (self.hasRequestClanToAvengeTimeLimitMins) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"requestClanToAvengeTimeLimitMins", [NSNumber numberWithInteger:self.requestClanToAvengeTimeLimitMins]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -6513,6 +6549,10 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
       (!self.hasPvpRequiredMinLvl || self.pvpRequiredMinLvl == otherMessage.pvpRequiredMinLvl) &&
       self.hasDefendingMsgCharLimit == otherMessage.hasDefendingMsgCharLimit &&
       (!self.hasDefendingMsgCharLimit || self.defendingMsgCharLimit == otherMessage.defendingMsgCharLimit) &&
+      self.hasBeginAvengingTimeLimitMins == otherMessage.hasBeginAvengingTimeLimitMins &&
+      (!self.hasBeginAvengingTimeLimitMins || self.beginAvengingTimeLimitMins == otherMessage.beginAvengingTimeLimitMins) &&
+      self.hasRequestClanToAvengeTimeLimitMins == otherMessage.hasRequestClanToAvengeTimeLimitMins &&
+      (!self.hasRequestClanToAvengeTimeLimitMins || self.requestClanToAvengeTimeLimitMins == otherMessage.requestClanToAvengeTimeLimitMins) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -6531,6 +6571,12 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   }
   if (self.hasDefendingMsgCharLimit) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.defendingMsgCharLimit] hash];
+  }
+  if (self.hasBeginAvengingTimeLimitMins) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.beginAvengingTimeLimitMins] hash];
+  }
+  if (self.hasRequestClanToAvengeTimeLimitMins) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.requestClanToAvengeTimeLimitMins] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -6590,6 +6636,12 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
   if (other.hasDefendingMsgCharLimit) {
     [self setDefendingMsgCharLimit:other.defendingMsgCharLimit];
   }
+  if (other.hasBeginAvengingTimeLimitMins) {
+    [self setBeginAvengingTimeLimitMins:other.beginAvengingTimeLimitMins];
+  }
+  if (other.hasRequestClanToAvengeTimeLimitMins) {
+    [self setRequestClanToAvengeTimeLimitMins:other.requestClanToAvengeTimeLimitMins];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6629,6 +6681,14 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
       }
       case 40: {
         [self setDefendingMsgCharLimit:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setBeginAvengingTimeLimitMins:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setRequestClanToAvengeTimeLimitMins:[input readInt32]];
         break;
       }
     }
@@ -6712,6 +6772,38 @@ static StartupResponseProto_StartupConstants_PvpConstants* defaultStartupRespons
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearDefendingMsgCharLimit {
   result.hasDefendingMsgCharLimit = NO;
   result.defendingMsgCharLimit = 0;
+  return self;
+}
+- (BOOL) hasBeginAvengingTimeLimitMins {
+  return result.hasBeginAvengingTimeLimitMins;
+}
+- (int32_t) beginAvengingTimeLimitMins {
+  return result.beginAvengingTimeLimitMins;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setBeginAvengingTimeLimitMins:(int32_t) value {
+  result.hasBeginAvengingTimeLimitMins = YES;
+  result.beginAvengingTimeLimitMins = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearBeginAvengingTimeLimitMins {
+  result.hasBeginAvengingTimeLimitMins = NO;
+  result.beginAvengingTimeLimitMins = 0;
+  return self;
+}
+- (BOOL) hasRequestClanToAvengeTimeLimitMins {
+  return result.hasRequestClanToAvengeTimeLimitMins;
+}
+- (int32_t) requestClanToAvengeTimeLimitMins {
+  return result.requestClanToAvengeTimeLimitMins;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setRequestClanToAvengeTimeLimitMins:(int32_t) value {
+  result.hasRequestClanToAvengeTimeLimitMins = YES;
+  result.requestClanToAvengeTimeLimitMins = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearRequestClanToAvengeTimeLimitMins {
+  result.hasRequestClanToAvengeTimeLimitMins = NO;
+  result.requestClanToAvengeTimeLimitMins = 0;
   return self;
 }
 @end

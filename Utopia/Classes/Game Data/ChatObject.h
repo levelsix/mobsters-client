@@ -15,12 +15,6 @@
 
 @class ChatCell;
 
-typedef enum {
-  ChatBubbleColorGrey = 1,
-  ChatBubbleColorGreen,
-  ChatBubbleColorRed
-} ChatBubbleColor;
-
 @protocol ChatObject <NSObject>
 
 - (MinimumUserProto *)sender;
@@ -31,10 +25,10 @@ typedef enum {
 - (UIColor *)bottomViewTextColor;
 
 - (BOOL) isRead;
+- (void) markAsRead;
 
 @optional
 - (MinimumUserProto *)otherUser;
-- (void) markAsRead;
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag;
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell;
@@ -64,6 +58,27 @@ typedef enum {
 
 @interface PvpHistoryProto (ChatObject) <ChatObject>
 
+- (BOOL) userIsAttacker;
+- (BOOL) userWon;
 - (IBAction)revengeClicked:(id)sender;
+- (IBAction) avengeClicked:(id)sender;
+
+@end
+
+@interface PvpClanAvenging : NSObject  <ChatObject>
+
+@property (nonatomic, retain) NSString *clanAvengeUuid;
+@property (nonatomic, retain) NSString *clanUuid;
+@property (nonatomic, retain) MinimumUserProto *attacker;
+@property (nonatomic, retain) MinimumUserProto *defender;
+@property (nonatomic, retain) MSDate *battleEndTime;
+@property (nonatomic, retain) MSDate *avengeRequestTime;
+@property (nonatomic, retain) NSMutableArray *avengedUserUuids;
+
+@property (nonatomic, assign) BOOL isRead;
+
+- (id) initWithClanAvengeProto:(PvpClanAvengeProto *)proto;
+
+- (BOOL) isValid;
 
 @end

@@ -39,6 +39,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
@@ -47,6 +49,8 @@
 @class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class QueueUpRequestProto;
 @class QueueUpRequestProto_Builder;
 @class QueueUpResponseProto;

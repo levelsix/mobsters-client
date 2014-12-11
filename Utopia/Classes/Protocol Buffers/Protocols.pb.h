@@ -76,6 +76,10 @@
 @class AttackClanRaidMonsterResponseProto_Builder;
 @class AwardClanRaidStageRewardResponseProto;
 @class AwardClanRaidStageRewardResponseProto_Builder;
+@class BeginClanAvengingRequestProto;
+@class BeginClanAvengingRequestProto_Builder;
+@class BeginClanAvengingResponseProto;
+@class BeginClanAvengingResponseProto_Builder;
 @class BeginClanRaidRequestProto;
 @class BeginClanRaidRequestProto_Builder;
 @class BeginClanRaidResponseProto;
@@ -170,6 +174,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EndClanAvengingRequestProto;
+@class EndClanAvengingRequestProto_Builder;
+@class EndClanAvengingResponseProto;
+@class EndClanAvengingResponseProto_Builder;
 @class EndClanHelpRequestProto;
 @class EndClanHelpRequestProto_Builder;
 @class EndClanHelpResponseProto;
@@ -378,6 +386,8 @@
 @class PurchaseNormStructureResponseProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
@@ -386,6 +396,8 @@
 @class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
@@ -757,6 +769,8 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCTradeItemForResourcesEvent = 87,
   EventProtocolRequestCRedeemSecretGiftEvent = 88,
   EventProtocolRequestCSetDefendingMsgEvent = 89,
+  EventProtocolRequestCBeginClanAvengingEvent = 90,
+  EventProtocolRequestCEndClanAvengingEvent = 91,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -852,6 +866,8 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSTradeItemForResourcesEvent = 87,
   EventProtocolResponseSRedeemSecretGiftEvent = 88,
   EventProtocolResponseSSetDefendingMsgEvent = 89,
+  EventProtocolResponseSBeginClanAvengingEvent = 90,
+  EventProtocolResponseSEndClanAvengingEvent = 91,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

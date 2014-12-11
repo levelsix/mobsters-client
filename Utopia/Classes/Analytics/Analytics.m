@@ -17,9 +17,11 @@
 
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <Adjust.h>
-#import "ScopelyAttributionWrapper.h"
-#import <WithBuddiesAnalytics/WithBuddiesAnalytics.h>
+//#import "ScopelyAttributionWrapper.h"
+//#import <WithBuddiesAnalytics/WithBuddiesAnalytics.h>
 #import <AdSupport/AdSupport.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 
 #define MAT_ADVERTISER_ID    @"21754"
 #define MAT_APP_KEY          @"f2f5c8b9c43496e4e0f988fa9f8827f4"
@@ -33,6 +35,7 @@
 #define ADJUST_APP_TOKEN     @"stfgmupd2vmn"
 #define ADJUST_TRACKED_PROPS @"AdjustTrackedProps"
 #define AMPLITUDE_KEY        @"8e54e30d4126a84a784328c4117bf72c"
+#define ADJUST_REV_TOKEN     nil
 
 #else
 
@@ -40,9 +43,15 @@
 #define TITAN_API_KEY nil
 #define ADJUST_APP_TOKEN     @"7t35a4nm9x7f"
 #define AMPLITUDE_KEY        @"4a7dcc75209c734285e4eae85142936b"
+#define ADJUST_REV_TOKEN     @"unalrt"
 
 #endif
+
+#ifdef DEBUG
+#define AMPLITUDE_CLASS nil
+#else
 #define AMPLITUDE_CLASS [Amplitude class]
+#endif
 
 #define S(a) [@(a) stringValue]
 
@@ -53,8 +62,8 @@ static Class amplitudeClass = nil;
 
 + (void) setUpMobileAppTracker {
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
-  [ScopelyAttributionWrapper mat_startSession];
+//  [ScopelyAttributionWrapper mat_initWithIFAEnabled:YES];
+//  [ScopelyAttributionWrapper mat_startSession];
 #else
   [MobileAppTracker initializeWithMATAdvertiserId:MAT_ADVERTISER_ID
                                  MATConversionKey:MAT_APP_KEY];
@@ -66,35 +75,61 @@ static Class amplitudeClass = nil;
 #endif
 }
 
-+ (void) setUpAdjust {
-#ifdef DEBUG
+static NSString* urlEncodeString(NSString* nonEncodedString) {
+  return [nonEncodedString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+}
+
++ (BOOL) isSandbox {
+#ifndef APPSTORE
   BOOL sandbox = YES;
 #else
   BOOL sandbox = NO;
 #endif
-  
-#ifdef MOBSTERS
-  [ScopelyAttributionWrapper adjust_initWithApptoken:ADJUST_APP_TOKEN usingSandboxMode:sandbox];
-  
-  CFStringRef ver = CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey);
-  [ScopelyAttributionWrapper adjust_customVersion:(__bridge NSString *)ver];
-  
-  [ScopelyAttributionWrapper adjust_trackEvent:@"jqrk7y"];
-#else
-  setAdjustAttributes(sandbox);
-  [Adjust appDidLaunch:ADJUST_APP_TOKEN];
-  [Adjust setLogLevel:AILogLevelInfo];
-  [Adjust setEnvironment:sandbox ? AIEnvironmentSandbox : AIEnvironmentProduction];
-#endif
+  return sandbox;
+}
+
++ (void) setUpAdjust {
+  [Adjust appDidLaunch:[ADJConfig configWithAppToken:ADJUST_APP_TOKEN environment:[self isSandbox] ? ADJEnvironmentSandbox : ADJEnvironmentProduction]];
 }
 
 + (void) setupAmplitude {
   [amplitudeClass initializeApiKey:AMPLITUDE_KEY];
-  [amplitudeClass setUserProperties:[ScopelyAttributionWrapper adjustEventParams]];
+  
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  
+  //app_version - we go ahead and set this, but this can be changed if a cutom version is set with adjust_customVersion()
+  [dict setObject:urlEncodeString([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]) forKey:@"app_version"];
+  
+  //device_brand
+  [dict setObject:@"apple" forKey:@"device_brand"];
+  
+  //device_carrier
+  CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+  NSString* carrierName = urlEncodeString([[netinfo subscriberCellularProvider] carrierName]);
+  if(carrierName != nil) {
+    [dict setObject:urlEncodeString(carrierName) forKey:@"device_carrier"];
+  }
+  else {
+    NSLog(@"device carrier not found");
+  }
+  
+  //device_model
+  [dict setObject:urlEncodeString([[UIDevice currentDevice] systemName]) forKey:@"device_model"];
+  
+  //os
+  [dict setObject:@"ios" forKey:@"os"];
+  
+  //package_name
+  [dict setObject:urlEncodeString([[NSBundle mainBundle] bundleIdentifier]) forKey:@"package_name"];
+  
+  //sandbox
+  [dict setObject:[self isSandbox] ? @"True" : @"False" forKey:@"sandbox"];
+  
+  [amplitudeClass setUserProperties:dict];
 }
 
 + (void) setupTitan {
-  [titanClass initializeWithApplicationKey:TITAN_API_KEY];
+  //[titanClass initializeWithApplicationKey:TITAN_API_KEY];
 }
 
 + (void) initAnalytics {
@@ -127,7 +162,7 @@ static Class amplitudeClass = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:args];
     [dict setObject:event forKey:@"event"];
     
-    [titanClass trackEvent:event type:WBAnalyticEventTypeGame parameters:args];
+    //[titanClass trackEvent:event type:WBAnalyticEventTypeGame parameters:args];
   }
 }
 
@@ -179,7 +214,7 @@ static Class amplitudeClass = nil;
 
 + (void) tutorialComplete {
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_tutorialComplete];
+//  [ScopelyAttributionWrapper mat_tutorialComplete];
 #endif
   [self event:@"tut_complete"];
 }
@@ -189,9 +224,9 @@ static Class amplitudeClass = nil;
 + (void) setUserUuid:(NSString *)userUuid name:(NSString *)name email:(NSString *)email {
   NSString *uid = userUuid;
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
-  [ScopelyAttributionWrapper adjust_setUserId:uid];
-  [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
+//  [ScopelyAttributionWrapper mat_setUserInfoForUserId:uid withNameUser:name withEmail:email];
+//  [ScopelyAttributionWrapper adjust_setUserId:uid];
+//  [ScopelyAttributionWrapper adjust_trackEvent:@"w0uwrh"];
 #endif
   
   [amplitudeClass setUserId:uid];
@@ -199,23 +234,23 @@ static Class amplitudeClass = nil;
 
 + (void) newAccountCreated {
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_newAccountCreated];
+//  [ScopelyAttributionWrapper mat_newAccountCreated];
 #endif
 }
 
 + (void) appOpen:(int)numTimesOpened {
 #ifdef MOBSTERS
-  if (numTimesOpened == 2) {
-    [ScopelyAttributionWrapper mat_appOpen_002];
-  } else if (numTimesOpened == 20) {
-    [ScopelyAttributionWrapper mat_appOpen_020];
-  }
+//  if (numTimesOpened == 2) {
+//    [ScopelyAttributionWrapper mat_appOpen_002];
+//  } else if (numTimesOpened == 20) {
+//    [ScopelyAttributionWrapper mat_appOpen_020];
+//  }
 #endif
 }
 
 + (void) connectedToServerWithLevel:(int)level gems:(int)gems cash:(int)cash oil:(int)oil {
   NSDictionary *dict = @{@"gems_balance": @(gems), @"cash_balance": @(cash), @"oil_balance": @(oil)};
-  [titanClass trackAppOpenWithLevel:S(level) extraParameters:dict];
+//  [titanClass trackAppOpenWithLevel:S(level) extraParameters:dict];
   
   NSMutableDictionary *d2 = [dict mutableCopy];
   d2[@"level"] = @(level);
@@ -232,7 +267,7 @@ static NSString *installTimeDefaultsKey = @"InstallTimeKey";
   
   if (!installTime) {
     [self event:@"install"];
-    [titanClass trackEvent:@"install" type:WBAnalyticEventTypeGame parameters:nil];
+//    [titanClass trackEvent:@"install" type:WBAnalyticEventTypeGame parameters:nil];
     [def setObject:[NSDate date] forKey:installTimeDefaultsKey];
   }
 }
@@ -250,14 +285,14 @@ static NSDate *timeSinceLastTutStep = nil;
                                           @"duration": @(duration),
                                           @"is_complete": @(isComplete)}];
   
-  [titanClass trackFteFlow:tutorialStep isComplete:isComplete skip:NO duration:duration extraParams:nil];
+  //[titanClass trackFteFlow:tutorialStep isComplete:isComplete skip:NO duration:duration extraParams:nil];
 }
 
 + (void) levelUpWithPrevLevel:(int)prevLevel curLevel:(int)curLevel {
   [self event:@"level_up" withArgs:@{@"prev_level": @(prevLevel),
                                           @"cur_level": @(curLevel)}];
   
-  [titanClass trackLevelUp:S(prevLevel) newLevel:S(curLevel) extraParams:nil];
+  //[titanClass trackLevelUp:S(prevLevel) newLevel:S(curLevel) extraParams:nil];
 }
 
 + (void) connectedToFacebookWithData:(NSDictionary *)fbData {
@@ -270,19 +305,19 @@ static NSDate *timeSinceLastTutStep = nil;
   
   if (fbId) dict[@"id"] = fbId;
   
-  WBAnalyticGender gen = WBAnalyticGenderUnknown;
-  char f = [gender characterAtIndex:0];
-  if (f == 'm') {
-    gen = WBAnalyticGenderMale;
-  } else if (f == 'f') {
-    gen = WBAnalyticGenderFemale;
-  }
+//  WBAnalyticGender gen = WBAnalyticGenderUnknown;
+//  char f = [gender characterAtIndex:0];
+//  if (f == 'm') {
+//    gen = WBAnalyticGenderMale;
+//  } else if (f == 'f') {
+//    gen = WBAnalyticGenderFemale;
+//  }
   
-  NSDateFormatter *df = [[NSDateFormatter alloc] init];
-  [df setDateFormat:@"MM/dd/yyyy"];
-  NSDate *date = birthday ? [df dateFromString:birthday] : nil;
+//  NSDateFormatter *df = [[NSDateFormatter alloc] init];
+//  [df setDateFormat:@"MM/dd/yyyy"];
+//  NSDate *date = birthday ? [df dateFromString:birthday] : nil;
   
-  [titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName gender:gen birthDate:date extraParams:dict];
+  //[titanClass trackSocialConnect:@"Facebook" firstName:firstName lastName:lastName gender:gen birthDate:date extraParams:dict];
   
   if (firstName) dict[@"first_name"] = firstName;
   if (lastName) dict[@"last_name"] = lastName;
@@ -295,24 +330,24 @@ static NSDate *timeSinceLastTutStep = nil;
 + (void) inviteFacebook {
   
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_inviteFacebook];
+//  [ScopelyAttributionWrapper mat_inviteFacebook];
 #endif
   
   [self event:@"fb_invite"];
   
-  [titanClass trackViral:@"FacebookInvite" extraParams:nil];
+  //[titanClass trackViral:@"FacebookInvite" extraParams:nil];
 }
 
 + (void) redeemedAchievement:(int)achievementId {
   [self event:@"achievement" withArgs:@{@"achievement_id": @(achievementId)}];
   
-  [titanClass trackAchievement:S(achievementId) extraParams:nil];
+  //[titanClass trackAchievement:S(achievementId) extraParams:nil];
 }
 
 + (void) iapWithSKProduct:(SKProduct *)product forTransacton:(SKPaymentTransaction *)transaction amountUS:(float)amountUS {
   if (!product) return;
 #ifdef MOBSTERS
-  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
+//  [ScopelyAttributionWrapper mat_iapWithSKProduct:product forTransacton:transaction];
 #endif
   
   NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
@@ -331,9 +366,13 @@ static NSDate *timeSinceLastTutStep = nil;
     [amplitudeClass logRevenue:@(amountUS)];
   }
   
-  [titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
+  //[titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
   
-  [Adjust trackRevenue:roundf(amountUS*100) forEvent:@"unalrt" withParameters:@{@"productName": product.productIdentifier}];
+  ADJEvent *event = [ADJEvent eventWithEventToken:ADJUST_REV_TOKEN];
+  [event setRevenue:@(roundf(amountUS*100))];
+  [event setTransactionId:transaction.transactionIdentifier];
+  [event setPartnerParameters:@{@"productName": product.productIdentifier}.mutableCopy];
+  [Adjust trackEvent:event];
 }
 
 + (void) iapFailedWithSKProduct:(SKProduct *)product error:(NSString *)error {
@@ -341,10 +380,10 @@ static NSDate *timeSinceLastTutStep = nil;
   
   [self event:@"iap_failed" withArgs:@{@"reason": error, @"store_sku": product.productIdentifier}];
   
-  NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
-  float unitPrice = [product.price floatValue];
-  
-  [titanClass trackPayment:NO error:error amountLocal:@(unitPrice) amountUS:@0 localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
+  //NSString* currencyCode = [product.priceLocale objectForKey:NSLocaleCurrencyCode];
+  //float unitPrice = [product.price floatValue];
+  //
+  //[titanClass trackPayment:NO error:error amountLocal:@(unitPrice) amountUS:@0 localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
 }
 
 #pragma mark - Titan Game Specific Logs
@@ -443,7 +482,7 @@ static NSDate *timeSinceLastTutStep = nil;
   
   [self event:@"game_transaction" withArgs:params];
   
-  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
+//  [titanClass trackGameTransactions:itemIds quantities:itemChanges itemBalances:itemBalances transactionType:transactionType context:context extraParams:extraParams];
 }
 
 + (void) gameTransactionWithTransactionType:(NSString *)transactionType context:(NSString *)context cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance gemChange:(int)gemChange gemBalance:(int)gemBalance extraParams:(NSDictionary *)extraParams {

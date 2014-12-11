@@ -249,6 +249,9 @@
 		29FFD95C1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
 		29FFD95D1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
 		29FFD95E1A36E2BD0063C17C /* setstatusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */; };
+		29FFD9631A37E5100063C17C /* ChatClanAvengeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */; };
+		29FFD9641A37E5100063C17C /* ChatClanAvengeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */; };
+		29FFD9651A37E5100063C17C /* ChatClanAvengeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
@@ -2680,7 +2683,6 @@
 		CF4819D219F7217F00041486 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF4819D319F7217F00041486 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF4819D419F7217F00041486 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
-		CF4819D519F7217F00041486 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CF4819D619F7217F00041486 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B014266D6444DCA5AD786C /* libPods.a */; };
 		CF4819D819F7217F00041486 /* FatBoy4Move02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF134A3618A5E4B500D7D700 /* FatBoy4Move02@2x.png */; };
 		CF4819DA19F7217F00041486 /* popuplinevertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2A4A671901B8F400B2D7D7 /* popuplinevertical@2x.png */; };
@@ -4648,9 +4650,6 @@
 		CF7461AB196C0CBE002D6AE6 /* minijobsredbubble5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF74619F196C0CBE002D6AE6 /* minijobsredbubble5@2x.png */; };
 		CF7461AD196C1475002D6AE6 /* RunawayMiddleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7461AC196C1475002D6AE6 /* RunawayMiddleView.xib */; };
 		CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2217DC19C7862C00BFD2FF /* GLKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		CF79F57319C79E5B0092B1F3 /* WithBuddiesAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503D198055F700D82D7C /* WithBuddiesAnalytics.framework */; };
-		CF79F57419C79E5B0092B1F3 /* WithBuddiesBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86503E198055F700D82D7C /* WithBuddiesBase.framework */; };
-		CF79F57719C79E740092B1F3 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
 		CF7CFE2119A55A68009338A2 /* BattleChain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1719A55A68009338A2 /* BattleChain.m */; };
 		CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7CFE1919A55A68009338A2 /* BattleOrb.m */; };
@@ -5655,7 +5654,6 @@
 		CFF2A6611974997A00269084 /* pvpresourcesbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6471974997A00269084 /* pvpresourcesbar@2x.png */; };
 		CFF2A6641974997A00269084 /* pvpsilverribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6491974997A00269084 /* pvpsilverribbon@2x.png */; };
 		CFF2A6651974997A00269084 /* pvpsilverribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A6491974997A00269084 /* pvpsilverribbon@2x.png */; };
-		CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */; };
 		CFF2C8F0193E9C8500F28D9E /* bluechatmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8EE193E9C8500F28D9E /* bluechatmiddle@2x.png */; };
 		CFF2C8F4193E9CC700F28D9E /* greychatmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C8F2193E9CC700F28D9E /* greychatmiddle@2x.png */; };
 		CFF2C90B193FB51000F28D9E /* Whitney-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF2C909193FB51000F28D9E /* Whitney-Black.otf */; };
@@ -6352,20 +6350,6 @@
 			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
 		};
-		CF48189B19F7217F00041486 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A966D1A81940B5B40071E519;
-			remoteInfo = ScopelyAttributionWrapper;
-		};
-		CF79F57519C79E6D0092B1F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A966D1A81940B5B40071E519;
-			remoteInfo = ScopelyAttributionWrapper;
-		};
 		CFAF0D8519C7DFE200C0AB5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */;
@@ -6386,27 +6370,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5018F24D0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
-		};
-		CFF2A6731975DA2900269084 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A966D1A91940B5B40071E519;
-			remoteInfo = ScopelyAttributionWrapper;
-		};
-		CFF2A6751975DA2900269084 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A966D1B91940B5B50071E519;
-			remoteInfo = ScopelyAttributionWrapperTests;
-		};
-		CFF2A6791975FE9E00269084 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A966D1A81940B5B40071E519;
-			remoteInfo = ScopelyAttributionWrapper;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -6542,6 +6505,7 @@
 		29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackpvpbubble@2x.png"; sourceTree = "<group>"; };
 		29FFD9481A36E2BD0063C17C /* setstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatus@2x.png"; sourceTree = "<group>"; };
 		29FFD9491A36E2BD0063C17C /* setstatusbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatusbg@2x.png"; sourceTree = "<group>"; };
+		29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatClanAvengeView.xib; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -8023,8 +7987,6 @@
 		CF864E01193E8F3000DE0D7A /* selectclanbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selectclanbox@2x.png"; sourceTree = "<group>"; };
 		CF864E02193E8F3000DE0D7A /* selectclanboxgreyforpopup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = selectclanboxgreyforpopup.png; path = "New Clans/selectclanboxgreyforpopup.png"; sourceTree = "<group>"; };
 		CF864E03193E8F3000DE0D7A /* selectclanboxgreyforpopup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selectclanboxgreyforpopup@2x.png"; sourceTree = "<group>"; };
-		CF86503D198055F700D82D7C /* WithBuddiesAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WithBuddiesAnalytics.framework; sourceTree = "<group>"; };
-		CF86503E198055F700D82D7C /* WithBuddiesBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WithBuddiesBase.framework; sourceTree = "<group>"; };
 		CF8BA21E18CDA9DD003277D1 /* TutorialTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialTouchView.h; sourceTree = "<group>"; };
 		CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialTouchView.m; sourceTree = "<group>"; };
 		CF8BA22118CE7C40003277D1 /* speechbubblename.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speechbubblename.png; path = Tutorial/speechbubblename.png; sourceTree = "<group>"; };
@@ -9086,7 +9048,6 @@
 		CFF2A6471974997A00269084 /* pvpresourcesbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pvpresourcesbar@2x.png"; sourceTree = "<group>"; };
 		CFF2A6481974997A00269084 /* pvpsilverribbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pvpsilverribbon.png; path = PVP/pvpsilverribbon.png; sourceTree = "<group>"; };
 		CFF2A6491974997A00269084 /* pvpsilverribbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pvpsilverribbon@2x.png"; sourceTree = "<group>"; };
-		CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ScopelyAttributionWrapper.xcodeproj; path = ScopelyAttributionWrapper/ScopelyAttributionWrapper.xcodeproj; sourceTree = "<group>"; };
 		CFF2C8ED193E9C8500F28D9E /* bluechatmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bluechatmiddle.png; path = "New Chat/Bubbles/bluechatmiddle.png"; sourceTree = "<group>"; };
 		CFF2C8EE193E9C8500F28D9E /* bluechatmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluechatmiddle@2x.png"; sourceTree = "<group>"; };
 		CFF2C8F1193E9CC700F28D9E /* greychatmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = greychatmiddle.png; path = "New Chat/Bubbles/greychatmiddle.png"; sourceTree = "<group>"; };
@@ -9996,7 +9957,6 @@
 				CF0CEE18196F452900ECD301 /* UIKit.framework in Frameworks */,
 				CF0CEE19196F452900ECD301 /* Foundation.framework in Frameworks */,
 				CF0CEE1A196F452900ECD301 /* CoreGraphics.framework in Frameworks */,
-				CFF2A67B1975FF3B00269084 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF0CEE1B196F452900ECD301 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10006,13 +9966,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAF0D7F19C7DFCE00C0AB5B /* libcocos2d.a in Frameworks */,
-				CF79F57719C79E740092B1F3 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF79F57219C79D680092B1F3 /* GLKit.framework in Frameworks */,
 				CF42537E19AD746B00964547 /* CoreData.framework in Frameworks */,
 				CF2217F119C787E700BFD2FF /* Crashlytics.framework in Frameworks */,
 				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
 				CF0CE154196E2B1200ECD301 /* iAd.framework in Frameworks */,
-				CF79F57419C79E5B0092B1F3 /* WithBuddiesBase.framework in Frameworks */,
 				CF0CE152196E2A4000ECD301 /* MobileAppTracker.framework in Frameworks */,
 				CFEF25DD18CAB8B200FB867A /* GameKit.framework in Frameworks */,
 				CFEF25C018C9ADC300FB867A /* FacebookSDK.framework in Frameworks */,
@@ -10044,7 +10002,6 @@
 				CF1273C81538B7F700E0C1AD /* OpenAL.framework in Frameworks */,
 				CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */,
 				CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */,
-				CF79F57319C79E5B0092B1F3 /* WithBuddiesAnalytics.framework in Frameworks */,
 				CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */,
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
@@ -10097,7 +10054,6 @@
 				CF4819D219F7217F00041486 /* UIKit.framework in Frameworks */,
 				CF4819D319F7217F00041486 /* Foundation.framework in Frameworks */,
 				CF4819D419F7217F00041486 /* CoreGraphics.framework in Frameworks */,
-				CF4819D519F7217F00041486 /* libScopelyAttributionWrapper.a in Frameworks */,
 				CF4819D619F7217F00041486 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -11343,6 +11299,34 @@
 			path = "defensive status";
 			sourceTree = "<group>";
 		};
+		29FFD9661A37E5160063C17C /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				CF3765A4182F06BA00D0A77E /* ChatCell.h */,
+				CF3765A5182F06BA00D0A77E /* ChatCell.m */,
+				CF3765A1182F03B400D0A77E /* ChatCell.xib */,
+				CF3765BE1831BBE900D0A77E /* PrivateChatListCell.xib */,
+				CFA8B1AF19EB8C2F00CF6BFD /* ChatClanHelpView.xib */,
+				2985E5E01A32BA1C0041ABF4 /* ChatBonusSlotRequestView.xib */,
+				2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */,
+				29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */,
+				29FFD9621A37E5100063C17C /* ChatClanAvengeView.xib */,
+			);
+			name = ChatCell;
+			sourceTree = "<group>";
+		};
+		29FFD9671A37E5200063C17C /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				CF3765A8183175DE00D0A77E /* ChatView.h */,
+				CF3765A9183175DE00D0A77E /* ChatView.m */,
+				CF3764F9182DD6BD00D0A77E /* ChatViewController.h */,
+				CF3764FA182DD6BD00D0A77E /* ChatViewController.m */,
+				CF3764FB182DD6BD00D0A77E /* ChatViewController.xib */,
+			);
+			name = ChatView;
+			sourceTree = "<group>";
+		};
 		4562FCDC158A8BC2005206E5 /* Pulsing Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -11868,7 +11852,6 @@
 				CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */,
 				CF2217F019C787E700BFD2FF /* Crashlytics.framework */,
 				CF42536D19AD72F100964547 /* Chartboost */,
-				CF86503C198055E500D82D7C /* Scopely */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
 				CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */,
 				CF864DCC193E802300DE0D7A /* MessageComposerView */,
@@ -13636,16 +13619,6 @@
 			path = Nav;
 			sourceTree = "<group>";
 		};
-		CF86503C198055E500D82D7C /* Scopely */ = {
-			isa = PBXGroup;
-			children = (
-				CF86503D198055F700D82D7C /* WithBuddiesAnalytics.framework */,
-				CF86503E198055F700D82D7C /* WithBuddiesBase.framework */,
-				CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */,
-			);
-			name = Scopely;
-			sourceTree = "<group>";
-		};
 		CF8C7ADD157C1C36003A6AFE /* Tagging Scheme */ = {
 			isa = PBXGroup;
 			children = (
@@ -14906,15 +14879,6 @@
 			path = Obstacles;
 			sourceTree = "<group>";
 		};
-		CFF2A66E1975DA2800269084 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */,
-				CFF2A6761975DA2900269084 /* ScopelyAttributionWrapperTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		CFF2C8F5193ECF5500F28D9E /* Chat input bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -14929,19 +14893,8 @@
 		CFF2C907193FA28B00F28D9E /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
-				CF3765A8183175DE00D0A77E /* ChatView.h */,
-				CF3765A9183175DE00D0A77E /* ChatView.m */,
-				CF3764F9182DD6BD00D0A77E /* ChatViewController.h */,
-				CF3764FA182DD6BD00D0A77E /* ChatViewController.m */,
-				CF3764FB182DD6BD00D0A77E /* ChatViewController.xib */,
-				CF3765A4182F06BA00D0A77E /* ChatCell.h */,
-				CF3765A5182F06BA00D0A77E /* ChatCell.m */,
-				CF3765A1182F03B400D0A77E /* ChatCell.xib */,
-				CF3765BE1831BBE900D0A77E /* PrivateChatListCell.xib */,
-				CFA8B1AF19EB8C2F00CF6BFD /* ChatClanHelpView.xib */,
-				2985E5E01A32BA1C0041ABF4 /* ChatBonusSlotRequestView.xib */,
-				2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */,
-				29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */,
+				29FFD9671A37E5200063C17C /* ChatView */,
+				29FFD9661A37E5160063C17C /* ChatCell */,
 			);
 			name = FullScreen;
 			sourceTree = "<group>";
@@ -16097,7 +16050,6 @@
 			);
 			dependencies = (
 				CFAF0D8619C7DFE200C0AB5B /* PBXTargetDependency */,
-				CFF2A67A1975FE9E00269084 /* PBXTargetDependency */,
 			);
 			name = ToonSquad;
 			productName = Utopia;
@@ -16119,7 +16071,6 @@
 			);
 			dependencies = (
 				CFAF0D8819C7DFEE00C0AB5B /* PBXTargetDependency */,
-				CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */,
 			);
 			name = Mobsters;
 			productName = Utopia;
@@ -16142,7 +16093,6 @@
 			);
 			dependencies = (
 				CF48189819F7217F00041486 /* PBXTargetDependency */,
-				CF48189A19F7217F00041486 /* PBXTargetDependency */,
 			);
 			name = TangoToonSquad;
 			productName = Utopia;
@@ -16187,10 +16137,6 @@
 					ProductGroup = CFBE9F3719C7DA6800E5520C /* Products */;
 					ProjectRef = CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */;
 				},
-				{
-					ProductGroup = CFF2A66E1975DA2800269084 /* Products */;
-					ProjectRef = CFF2A66D1975DA2800269084 /* ScopelyAttributionWrapper.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -16207,20 +16153,6 @@
 			fileType = archive.ar;
 			path = libcocos2d.a;
 			remoteRef = CFBE9F3C19C7DA6A00E5520C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CFF2A6741975DA2900269084 /* libScopelyAttributionWrapper.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libScopelyAttributionWrapper.a;
-			remoteRef = CFF2A6731975DA2900269084 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CFF2A6761975DA2900269084 /* ScopelyAttributionWrapperTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ScopelyAttributionWrapperTests.xctest;
-			remoteRef = CFF2A6751975DA2900269084 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -17183,6 +17115,7 @@
 				4C16FEE119CE03A200F9FC1E /* earthpoison@2x.png in Resources */,
 				CF0CF3AD196F452900ECD301 /* clanbrowseinactiveicon2@2x.png in Resources */,
 				CF0CF3AE196F452900ECD301 /* diamondleaguebg@2x.png in Resources */,
+				29FFD9641A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
 				DAAD3E0919C8D7F400557698 /* bombsawaylogo@2x.png in Resources */,
 				CF0CDEAF19E50B94006A5ECB /* TimerCell.xib in Resources */,
 				CF0CF3B0196F452900ECD301 /* 6splashbg@2x.png in Resources */,
@@ -18968,6 +18901,7 @@
 				CFE9D362194A984500BD930E /* clanbrowseinactiveicon2@2x.png in Resources */,
 				CF40D02618DFCC6C0034A721 /* diamondleaguebg@2x.png in Resources */,
 				CF0CE182196E552500ECD301 /* 6splashbg@2x.png in Resources */,
+				29FFD9631A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
 				CF29EA0D1964BD0500B40DA4 /* sellbubble5@2x.png in Resources */,
 				CF6F1A1E181521BE00CFF2B9 /* QuestListViewController.xib in Resources */,
 				4C16FEE419CE03A200F9FC1E /* firepoison@2x.png in Resources */,
@@ -21126,6 +21060,7 @@
 				CF48229019F7217F00041486 /* SellCardCell.xib in Resources */,
 				CF48229319F7217F00041486 /* streak.png in Resources */,
 				CF48229519F7217F00041486 /* upgradebarnewmiddle@2x.png in Resources */,
+				29FFD9651A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
 				CF48229619F7217F00041486 /* close1.png in Resources */,
 				CF48229719F7217F00041486 /* menuclosex@2x.png in Resources */,
 				CF48229819F7217F00041486 /* close1@2x.png in Resources */,
@@ -22604,16 +22539,6 @@
 			name = cocos2d;
 			targetProxy = CF48189919F7217F00041486 /* PBXContainerItemProxy */;
 		};
-		CF48189A19F7217F00041486 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ScopelyAttributionWrapper;
-			targetProxy = CF48189B19F7217F00041486 /* PBXContainerItemProxy */;
-		};
-		CF79F57619C79E6D0092B1F3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ScopelyAttributionWrapper;
-			targetProxy = CF79F57519C79E6D0092B1F3 /* PBXContainerItemProxy */;
-		};
 		CFAF0D8619C7DFE200C0AB5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = cocos2d;
@@ -22623,11 +22548,6 @@
 			isa = PBXTargetDependency;
 			name = cocos2d;
 			targetProxy = CFAF0D8719C7DFEE00C0AB5B /* PBXContainerItemProxy */;
-		};
-		CFF2A67A1975FE9E00269084 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ScopelyAttributionWrapper;
-			targetProxy = CFF2A6791975FE9E00269084 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -22702,7 +22622,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"Utopia/libs/**",
-					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";
@@ -23089,7 +23008,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"Utopia/libs/**",
-					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -23157,7 +23075,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"Utopia/libs/**",
-					Utopia/libs/ScopelyAttributionWrapper/ScopelyAttributionWrapper,
 				);
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				INSTALL_OWNER = "$(USER)";

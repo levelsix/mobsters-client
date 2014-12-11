@@ -1,11 +1,12 @@
 PODS:
+  - Adjust (4.0.2)
   - AFNetworking (2.4.1):
-    - AFNetworking/NSURLConnection
-    - AFNetworking/NSURLSession
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-    - AFNetworking/UIKit
+    - AFNetworking/NSURLConnection (= 2.4.1)
+    - AFNetworking/NSURLSession (= 2.4.1)
+    - AFNetworking/Reachability (= 2.4.1)
+    - AFNetworking/Security (= 2.4.1)
+    - AFNetworking/Serialization (= 2.4.1)
+    - AFNetworking/UIKit (= 2.4.1)
   - AFNetworking/NSURLConnection (2.4.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
@@ -28,6 +29,7 @@ PODS:
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
+  - Adjust (from `git://github.com/adjust/ios_sdk.git`, tag `v4.0.2`)
   - AFNetworking (~> 2.0)
   - Amplitude-iOS (~> 2.1)
   - GPUImage
@@ -36,7 +38,18 @@ DEPENDENCIES:
   - ProtocolBuffers (= 1.9.2)
   - UIImage+BlurredFrame
 
+EXTERNAL SOURCES:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.0.2
+
+CHECKOUT OPTIONS:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.0.2
+
 SPEC CHECKSUMS:
+  Adjust: c7337fc450d35b0024072066d9278ff5e99cde67
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   Amplitude-iOS: 826033d01dee9383131d1237a1911e7170a8e0c1
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
@@ -45,4 +58,4 @@ SPEC CHECKSUMS:
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228
   UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.35.0

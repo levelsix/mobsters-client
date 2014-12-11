@@ -379,7 +379,7 @@
 }
 
 - (void) sendServerDungeonProgress {
-  if (_curStage < self.enemyTeam.count) {
+  if (_hasStarted && _curStage < self.enemyTeam.count) {
     [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage dropless:([self.droplessStageNums containsObject:@(_curStage-1)])];
     [self saveCurrentState];
   }

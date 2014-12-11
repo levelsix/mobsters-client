@@ -121,8 +121,8 @@
 - (void) updateClanBadge {
   GameState *gs = [GameState sharedGameState];
   if (!self.clanChatView.hidden) {
-    for (ChatMessage *cm in gs.clanChatMessages) {
-      cm.isRead = YES;
+    for (id <ChatObject> cm in gs.allClanChatObjects) {
+      [cm markAsRead];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];

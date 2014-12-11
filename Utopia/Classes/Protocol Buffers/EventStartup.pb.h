@@ -146,6 +146,8 @@
 @class PrereqProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
@@ -154,6 +156,8 @@
 @class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class QuestJobProto;
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
@@ -1536,22 +1540,30 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPvpDmgsWindowSize_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasDefendingMsgCharLimit_:1;
+  BOOL hasBeginAvengingTimeLimitMins_:1;
+  BOOL hasRequestClanToAvengeTimeLimitMins_:1;
   Float32 minPvpDmgDelta;
   Float32 maxPvpDmgDelta;
   int32_t pvpDmgsWindowSize;
   int32_t pvpRequiredMinLvl;
   int32_t defendingMsgCharLimit;
+  int32_t beginAvengingTimeLimitMins;
+  int32_t requestClanToAvengeTimeLimitMins;
 }
 - (BOOL) hasPvpDmgsWindowSize;
 - (BOOL) hasMinPvpDmgDelta;
 - (BOOL) hasMaxPvpDmgDelta;
 - (BOOL) hasPvpRequiredMinLvl;
 - (BOOL) hasDefendingMsgCharLimit;
+- (BOOL) hasBeginAvengingTimeLimitMins;
+- (BOOL) hasRequestClanToAvengeTimeLimitMins;
 @property (readonly) int32_t pvpDmgsWindowSize;
 @property (readonly) Float32 minPvpDmgDelta;
 @property (readonly) Float32 maxPvpDmgDelta;
 @property (readonly) int32_t pvpRequiredMinLvl;
 @property (readonly) int32_t defendingMsgCharLimit;
+@property (readonly) int32_t beginAvengingTimeLimitMins;
+@property (readonly) int32_t requestClanToAvengeTimeLimitMins;
 
 + (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_PvpConstants*) defaultInstance;
@@ -1612,6 +1624,16 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) defendingMsgCharLimit;
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setDefendingMsgCharLimit:(int32_t) value;
 - (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearDefendingMsgCharLimit;
+
+- (BOOL) hasBeginAvengingTimeLimitMins;
+- (int32_t) beginAvengingTimeLimitMins;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setBeginAvengingTimeLimitMins:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearBeginAvengingTimeLimitMins;
+
+- (BOOL) hasRequestClanToAvengeTimeLimitMins;
+- (int32_t) requestClanToAvengeTimeLimitMins;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) setRequestClanToAvengeTimeLimitMins:(int32_t) value;
+- (StartupResponseProto_StartupConstants_PvpConstants_Builder*) clearRequestClanToAvengeTimeLimitMins;
 @end
 
 @interface StartupResponseProto_StartupConstants_SpeedUpConstantProto : PBGeneratedMessage {

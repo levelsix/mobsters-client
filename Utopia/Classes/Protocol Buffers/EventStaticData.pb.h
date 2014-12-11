@@ -125,6 +125,8 @@
 @class PrivateChatPostProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
@@ -133,6 +135,8 @@
 @class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class QuestJobProto;
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;

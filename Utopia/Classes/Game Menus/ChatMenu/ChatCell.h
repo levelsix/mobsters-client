@@ -87,7 +87,9 @@
 
 @end
 
-@interface ChatBattleHistoryView : UIView
+@interface ChatBattleHistoryView : UIView {
+  CGRect _initAvengeFrame;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *topDivider;
 @property (nonatomic, retain) IBOutlet UIImageView *botDivider;
@@ -107,5 +109,16 @@
 @property (nonatomic, retain) IBOutletCollection(ChatMonsterView) NSArray *monsterViews;
 
 - (void) updateForPvpHistoryProto:(PvpHistoryProto *)pvp;
+
+@end
+
+@interface ChatClanAvengeView : UIView
+
+@property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, assign) IBOutlet UIButton *attackButton;
+
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 
 @end

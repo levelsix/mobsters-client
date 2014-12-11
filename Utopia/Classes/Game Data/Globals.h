@@ -53,6 +53,7 @@
 #define RECEIVED_CLAN_HELP_NOTIFICATION @"ReceivedClanHelpNotification"
 #define CLAN_HELPS_CHANGED_NOTIFICATION @"ClanHelpsChangedNotification"
 #define CLAN_HELP_NOTIFICATION_KEY @"ClanHelpNotificationKey"
+#define CLAN_AVENGINGS_CHANGED_NOTIFICATION @"ClanAvengingsChangedNotification"
 
 #define SPEEDUP_USED_NOTIFICATION @"SpeedupUsedNotification"
 #define SPEEDUP_NOTIFICATION_KEY @"SpeedupNotificationKey"
@@ -130,6 +131,9 @@
 @property (nonatomic, assign) int pvpRequiredMinLvl;
 @property (nonatomic, assign) float gemsPerResource;
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
+
+@property (nonatomic, assign) int beginAvengingTimeLimitMins;
+@property (nonatomic, assign) int requestClanToAvengeTimeLimitMins;
 @property (nonatomic, assign) int defendingMsgCharLimit;
 
 @property (nonatomic, assign) BOOL addAllFbFriends;

@@ -1505,6 +1505,25 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSetDefendingMsgEvent];
 }
 
+- (int) sendBeginClanAvengingMessage:(NSArray *)pvpHistories clientTime:(uint64_t)clientTime {
+  BeginClanAvengingRequestProto *req = [[[[[BeginClanAvengingRequestProto builder]
+                                          setSender:_sender]
+                                         addAllRecentNbattles:pvpHistories]
+                                        setClientTime:clientTime]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginClanAvengingEvent];
+}
+
+- (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids {
+  EndClanAvengingRequestProto *req = [[[[EndClanAvengingRequestProto builder]
+                                        setSender:_sender]
+                                       addAllClanAvengeUuids:avengeUuids]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEndClanAvengingEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

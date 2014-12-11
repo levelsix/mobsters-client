@@ -810,21 +810,29 @@
   if (!_waitingForResponse && self.currentEnhancement.isComplete) {
     // We must set the enhancement item's user monster to fake monsters so that they can be animated
     UserEnhancement *ue = self.currentEnhancement;
+    
+    Globals *gl = [Globals sharedGlobals];
+    int pointsEnhanced = [gl calculateExperienceIncrease:ue];
+    
     UserMonster *baseUm = ue.baseMonster.userMonster.copy;
     for (EnhancementItem *ei in ue.feeders) {
       [ei setFakedUserMonster:ei.userMonster.copy];
     }
     
-    [[OutgoingEventController sharedOutgoingEventController] collectEnhancementWithDelegate:self];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] collectEnhancementWithDelegate:self];
     
-    // Must do this after so that OutgoingEventController edits the actual user monster and not our fake one
-    // For the enhancement items it doesn't matter so much since those will be removed from the array based on userMonsterId.
-    [ue.baseMonster setFakedUserMonster:baseUm];
-    
-    self.collectLabelsView.hidden = YES;
-    self.buttonSpinner.hidden = NO;
-    
-    _waitingForResponse = YES;
+    if (success) {
+      [AchievementUtil checkEnhancedPoints:pointsEnhanced];
+      
+      // Must do this after so that OutgoingEventController edits the actual user monster and not our fake one
+      // For the enhancement items it doesn't matter so much since those will be removed from the array based on userMonsterId.
+      [ue.baseMonster setFakedUserMonster:baseUm];
+      
+      self.collectLabelsView.hidden = YES;
+      self.buttonSpinner.hidden = NO;
+      
+      _waitingForResponse = YES;
+    }
   }
 }
 

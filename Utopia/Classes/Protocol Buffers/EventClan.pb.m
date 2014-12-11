@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventClanRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
@@ -14756,6 +14757,1310 @@ static RetrieveClanDataResponseProto* defaultRetrieveClanDataResponseProtoInstan
 - (RetrieveClanDataResponseProto_Builder*) clearClanData {
   result.hasClanData = NO;
   result.clanData = [ClanDataProto defaultInstance];
+  return self;
+}
+@end
+
+@interface BeginClanAvengingRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableRecentNbattlesList;
+@property int64_t clientTime;
+@end
+
+@implementation BeginClanAvengingRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableRecentNbattlesList;
+@dynamic recentNbattlesList;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static BeginClanAvengingRequestProto* defaultBeginClanAvengingRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginClanAvengingRequestProto class]) {
+    defaultBeginClanAvengingRequestProtoInstance = [[BeginClanAvengingRequestProto alloc] init];
+  }
+}
++ (BeginClanAvengingRequestProto*) defaultInstance {
+  return defaultBeginClanAvengingRequestProtoInstance;
+}
+- (BeginClanAvengingRequestProto*) defaultInstance {
+  return defaultBeginClanAvengingRequestProtoInstance;
+}
+- (NSArray *)recentNbattlesList {
+  return mutableRecentNbattlesList;
+}
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index {
+  return [mutableRecentNbattlesList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.recentNbattlesList enumerateObjectsUsingBlock:^(PvpHistoryProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.recentNbattlesList enumerateObjectsUsingBlock:^(PvpHistoryProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (BeginClanAvengingRequestProto*) parseFromData:(NSData*) data {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromData:data] build];
+}
++ (BeginClanAvengingRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BeginClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingRequestProto*)[[[BeginClanAvengingRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingRequestProto_Builder*) builder {
+  return [[BeginClanAvengingRequestProto_Builder alloc] init];
+}
++ (BeginClanAvengingRequestProto_Builder*) builderWithPrototype:(BeginClanAvengingRequestProto*) prototype {
+  return [[BeginClanAvengingRequestProto builder] mergeFrom:prototype];
+}
+- (BeginClanAvengingRequestProto_Builder*) builder {
+  return [BeginClanAvengingRequestProto builder];
+}
+- (BeginClanAvengingRequestProto_Builder*) toBuilder {
+  return [BeginClanAvengingRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.recentNbattlesList enumerateObjectsUsingBlock:^(PvpHistoryProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"recentNbattles"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[BeginClanAvengingRequestProto class]]) {
+    return NO;
+  }
+  BeginClanAvengingRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.recentNbattlesList isEqualToArray:otherMessage.recentNbattlesList] &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.recentNbattlesList enumerateObjectsUsingBlock:^(PvpHistoryProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface BeginClanAvengingRequestProto_Builder()
+@property (strong) BeginClanAvengingRequestProto* result;
+@end
+
+@implementation BeginClanAvengingRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[BeginClanAvengingRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginClanAvengingRequestProto_Builder*) clear {
+  self.result = [[BeginClanAvengingRequestProto alloc] init];
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder*) clone {
+  return [BeginClanAvengingRequestProto builderWithPrototype:result];
+}
+- (BeginClanAvengingRequestProto*) defaultInstance {
+  return [BeginClanAvengingRequestProto defaultInstance];
+}
+- (BeginClanAvengingRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginClanAvengingRequestProto*) buildPartial {
+  BeginClanAvengingRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (BeginClanAvengingRequestProto_Builder*) mergeFrom:(BeginClanAvengingRequestProto*) other {
+  if (other == [BeginClanAvengingRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableRecentNbattlesList.count > 0) {
+    if (result.mutableRecentNbattlesList == nil) {
+      result.mutableRecentNbattlesList = [[NSMutableArray alloc] initWithArray:other.mutableRecentNbattlesList];
+    } else {
+      [result.mutableRecentNbattlesList addObjectsFromArray:other.mutableRecentNbattlesList];
+    }
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRecentNbattles:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginClanAvengingRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginClanAvengingRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)recentNbattlesList {
+  return result.mutableRecentNbattlesList;
+}
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index {
+  return [result recentNbattlesAtIndex:index];
+}
+- (BeginClanAvengingRequestProto_Builder *)addRecentNbattles:(PvpHistoryProto*)value {
+  if (result.mutableRecentNbattlesList == nil) {
+    result.mutableRecentNbattlesList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableRecentNbattlesList addObject:value];
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder *)addAllRecentNbattles:(NSArray *)array {
+  if (result.mutableRecentNbattlesList == nil) {
+    result.mutableRecentNbattlesList = [NSMutableArray array];
+  }
+  [result.mutableRecentNbattlesList addObjectsFromArray:array];
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder *)clearRecentNbattles {
+  result.mutableRecentNbattlesList = nil;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (BeginClanAvengingRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (BeginClanAvengingRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface BeginClanAvengingResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableClanAvengingsList;
+@property BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+@end
+
+@implementation BeginClanAvengingResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableClanAvengingsList;
+@dynamic clanAvengingsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
+  }
+  return self;
+}
+static BeginClanAvengingResponseProto* defaultBeginClanAvengingResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginClanAvengingResponseProto class]) {
+    defaultBeginClanAvengingResponseProtoInstance = [[BeginClanAvengingResponseProto alloc] init];
+  }
+}
++ (BeginClanAvengingResponseProto*) defaultInstance {
+  return defaultBeginClanAvengingResponseProtoInstance;
+}
+- (BeginClanAvengingResponseProto*) defaultInstance {
+  return defaultBeginClanAvengingResponseProtoInstance;
+}
+- (NSArray *)clanAvengingsList {
+  return mutableClanAvengingsList;
+}
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index {
+  return [mutableClanAvengingsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:2 value:element];
+  }];
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(2, element);
+  }];
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (BeginClanAvengingResponseProto*) parseFromData:(NSData*) data {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromData:data] build];
+}
++ (BeginClanAvengingResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BeginClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginClanAvengingResponseProto*)[[[BeginClanAvengingResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginClanAvengingResponseProto_Builder*) builder {
+  return [[BeginClanAvengingResponseProto_Builder alloc] init];
+}
++ (BeginClanAvengingResponseProto_Builder*) builderWithPrototype:(BeginClanAvengingResponseProto*) prototype {
+  return [[BeginClanAvengingResponseProto builder] mergeFrom:prototype];
+}
+- (BeginClanAvengingResponseProto_Builder*) builder {
+  return [BeginClanAvengingResponseProto builder];
+}
+- (BeginClanAvengingResponseProto_Builder*) toBuilder {
+  return [BeginClanAvengingResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanAvengings"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[BeginClanAvengingResponseProto class]]) {
+    return NO;
+  }
+  BeginClanAvengingResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.clanAvengingsList isEqualToArray:otherMessage.clanAvengingsList] &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.clanAvengingsList enumerateObjectsUsingBlock:^(PvpClanAvengeProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginClanAvengingResponseProto_BeginClanAvengingStatus value) {
+  switch (value) {
+    case BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess:
+    case BeginClanAvengingResponseProto_BeginClanAvengingStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BeginClanAvengingResponseProto_Builder()
+@property (strong) BeginClanAvengingResponseProto* result;
+@end
+
+@implementation BeginClanAvengingResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[BeginClanAvengingResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginClanAvengingResponseProto_Builder*) clear {
+  self.result = [[BeginClanAvengingResponseProto alloc] init];
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder*) clone {
+  return [BeginClanAvengingResponseProto builderWithPrototype:result];
+}
+- (BeginClanAvengingResponseProto*) defaultInstance {
+  return [BeginClanAvengingResponseProto defaultInstance];
+}
+- (BeginClanAvengingResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginClanAvengingResponseProto*) buildPartial {
+  BeginClanAvengingResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (BeginClanAvengingResponseProto_Builder*) mergeFrom:(BeginClanAvengingResponseProto*) other {
+  if (other == [BeginClanAvengingResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableClanAvengingsList.count > 0) {
+    if (result.mutableClanAvengingsList == nil) {
+      result.mutableClanAvengingsList = [[NSMutableArray alloc] initWithArray:other.mutableClanAvengingsList];
+    } else {
+      [result.mutableClanAvengingsList addObjectsFromArray:other.mutableClanAvengingsList];
+    }
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        PvpClanAvengeProto_Builder* subBuilder = [PvpClanAvengeProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanAvengings:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        BeginClanAvengingResponseProto_BeginClanAvengingStatus value = (BeginClanAvengingResponseProto_BeginClanAvengingStatus)[input readEnum];
+        if (BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginClanAvengingResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginClanAvengingResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)clanAvengingsList {
+  return result.mutableClanAvengingsList;
+}
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index {
+  return [result clanAvengingsAtIndex:index];
+}
+- (BeginClanAvengingResponseProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value {
+  if (result.mutableClanAvengingsList == nil) {
+    result.mutableClanAvengingsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanAvengingsList addObject:value];
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder *)addAllClanAvengings:(NSArray *)array {
+  if (result.mutableClanAvengingsList == nil) {
+    result.mutableClanAvengingsList = [NSMutableArray array];
+  }
+  [result.mutableClanAvengingsList addObjectsFromArray:array];
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder *)clearClanAvengings {
+  result.mutableClanAvengingsList = nil;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status {
+  return result.status;
+}
+- (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BeginClanAvengingResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess;
+  return self;
+}
+@end
+
+@interface EndClanAvengingRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableClanAvengeUuidsList;
+@end
+
+@implementation EndClanAvengingRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableClanAvengeUuidsList;
+@dynamic clanAvengeUuidsList;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static EndClanAvengingRequestProto* defaultEndClanAvengingRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EndClanAvengingRequestProto class]) {
+    defaultEndClanAvengingRequestProtoInstance = [[EndClanAvengingRequestProto alloc] init];
+  }
+}
++ (EndClanAvengingRequestProto*) defaultInstance {
+  return defaultEndClanAvengingRequestProtoInstance;
+}
+- (EndClanAvengingRequestProto*) defaultInstance {
+  return defaultEndClanAvengingRequestProtoInstance;
+}
+- (NSArray *)clanAvengeUuidsList {
+  return mutableClanAvengeUuidsList;
+}
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index {
+  return [mutableClanAvengeUuidsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.clanAvengeUuidsList.count;
+    [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (EndClanAvengingRequestProto*) parseFromData:(NSData*) data {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromData:data] build];
+}
++ (EndClanAvengingRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EndClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EndClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingRequestProto*)[[[EndClanAvengingRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingRequestProto_Builder*) builder {
+  return [[EndClanAvengingRequestProto_Builder alloc] init];
+}
++ (EndClanAvengingRequestProto_Builder*) builderWithPrototype:(EndClanAvengingRequestProto*) prototype {
+  return [[EndClanAvengingRequestProto builder] mergeFrom:prototype];
+}
+- (EndClanAvengingRequestProto_Builder*) builder {
+  return [EndClanAvengingRequestProto builder];
+}
+- (EndClanAvengingRequestProto_Builder*) toBuilder {
+  return [EndClanAvengingRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanAvengeUuids", obj];
+  }];
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[EndClanAvengingRequestProto class]]) {
+    return NO;
+  }
+  EndClanAvengingRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.clanAvengeUuidsList isEqualToArray:otherMessage.clanAvengeUuidsList] &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface EndClanAvengingRequestProto_Builder()
+@property (strong) EndClanAvengingRequestProto* result;
+@end
+
+@implementation EndClanAvengingRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[EndClanAvengingRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EndClanAvengingRequestProto_Builder*) clear {
+  self.result = [[EndClanAvengingRequestProto alloc] init];
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder*) clone {
+  return [EndClanAvengingRequestProto builderWithPrototype:result];
+}
+- (EndClanAvengingRequestProto*) defaultInstance {
+  return [EndClanAvengingRequestProto defaultInstance];
+}
+- (EndClanAvengingRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EndClanAvengingRequestProto*) buildPartial {
+  EndClanAvengingRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (EndClanAvengingRequestProto_Builder*) mergeFrom:(EndClanAvengingRequestProto*) other {
+  if (other == [EndClanAvengingRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableClanAvengeUuidsList.count > 0) {
+    if (result.mutableClanAvengeUuidsList == nil) {
+      result.mutableClanAvengeUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableClanAvengeUuidsList];
+    } else {
+      [result.mutableClanAvengeUuidsList addObjectsFromArray:other.mutableClanAvengeUuidsList];
+    }
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EndClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addClanAvengeUuids:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EndClanAvengingRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EndClanAvengingRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)clanAvengeUuidsList {
+  return result.mutableClanAvengeUuidsList;
+}
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index {
+  return [result clanAvengeUuidsAtIndex:index];
+}
+- (EndClanAvengingRequestProto_Builder *)addClanAvengeUuids:(NSString*)value {
+  if (result.mutableClanAvengeUuidsList == nil) {
+    result.mutableClanAvengeUuidsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanAvengeUuidsList addObject:value];
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder *)addAllClanAvengeUuids:(NSArray *)array {
+  if (result.mutableClanAvengeUuidsList == nil) {
+    result.mutableClanAvengeUuidsList = [NSMutableArray array];
+  }
+  [result.mutableClanAvengeUuidsList addObjectsFromArray:array];
+  return self;
+}
+- (EndClanAvengingRequestProto_Builder *)clearClanAvengeUuids {
+  result.mutableClanAvengeUuidsList = nil;
+  return self;
+}
+@end
+
+@interface EndClanAvengingResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSMutableArray * mutableClanAvengeUuidsList;
+@property EndClanAvengingResponseProto_EndClanAvengingStatus status;
+@end
+
+@implementation EndClanAvengingResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+@synthesize mutableClanAvengeUuidsList;
+@dynamic clanAvengeUuidsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
+  }
+  return self;
+}
+static EndClanAvengingResponseProto* defaultEndClanAvengingResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EndClanAvengingResponseProto class]) {
+    defaultEndClanAvengingResponseProtoInstance = [[EndClanAvengingResponseProto alloc] init];
+  }
+}
++ (EndClanAvengingResponseProto*) defaultInstance {
+  return defaultEndClanAvengingResponseProtoInstance;
+}
+- (EndClanAvengingResponseProto*) defaultInstance {
+  return defaultEndClanAvengingResponseProtoInstance;
+}
+- (NSArray *)clanAvengeUuidsList {
+  return mutableClanAvengeUuidsList;
+}
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index {
+  return [mutableClanAvengeUuidsList objectAtIndex:index];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:2 value:element];
+  }];
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.clanAvengeUuidsList.count;
+    [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (EndClanAvengingResponseProto*) parseFromData:(NSData*) data {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromData:data] build];
+}
++ (EndClanAvengingResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EndClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EndClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndClanAvengingResponseProto*)[[[EndClanAvengingResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndClanAvengingResponseProto_Builder*) builder {
+  return [[EndClanAvengingResponseProto_Builder alloc] init];
+}
++ (EndClanAvengingResponseProto_Builder*) builderWithPrototype:(EndClanAvengingResponseProto*) prototype {
+  return [[EndClanAvengingResponseProto builder] mergeFrom:prototype];
+}
+- (EndClanAvengingResponseProto_Builder*) builder {
+  return [EndClanAvengingResponseProto builder];
+}
+- (EndClanAvengingResponseProto_Builder*) toBuilder {
+  return [EndClanAvengingResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clanAvengeUuids", obj];
+  }];
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[EndClanAvengingResponseProto class]]) {
+    return NO;
+  }
+  EndClanAvengingResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      [self.clanAvengeUuidsList isEqualToArray:otherMessage.clanAvengeUuidsList] &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  [self.clanAvengeUuidsList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAvengingResponseProto_EndClanAvengingStatus value) {
+  switch (value) {
+    case EndClanAvengingResponseProto_EndClanAvengingStatusSuccess:
+    case EndClanAvengingResponseProto_EndClanAvengingStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EndClanAvengingResponseProto_Builder()
+@property (strong) EndClanAvengingResponseProto* result;
+@end
+
+@implementation EndClanAvengingResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[EndClanAvengingResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EndClanAvengingResponseProto_Builder*) clear {
+  self.result = [[EndClanAvengingResponseProto alloc] init];
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder*) clone {
+  return [EndClanAvengingResponseProto builderWithPrototype:result];
+}
+- (EndClanAvengingResponseProto*) defaultInstance {
+  return [EndClanAvengingResponseProto defaultInstance];
+}
+- (EndClanAvengingResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EndClanAvengingResponseProto*) buildPartial {
+  EndClanAvengingResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (EndClanAvengingResponseProto_Builder*) mergeFrom:(EndClanAvengingResponseProto*) other {
+  if (other == [EndClanAvengingResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableClanAvengeUuidsList.count > 0) {
+    if (result.mutableClanAvengeUuidsList == nil) {
+      result.mutableClanAvengeUuidsList = [[NSMutableArray alloc] initWithArray:other.mutableClanAvengeUuidsList];
+    } else {
+      [result.mutableClanAvengeUuidsList addObjectsFromArray:other.mutableClanAvengeUuidsList];
+    }
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EndClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addClanAvengeUuids:[input readString]];
+        break;
+      }
+      case 24: {
+        EndClanAvengingResponseProto_EndClanAvengingStatus value = (EndClanAvengingResponseProto_EndClanAvengingStatus)[input readEnum];
+        if (EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EndClanAvengingResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EndClanAvengingResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSMutableArray *)clanAvengeUuidsList {
+  return result.mutableClanAvengeUuidsList;
+}
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index {
+  return [result clanAvengeUuidsAtIndex:index];
+}
+- (EndClanAvengingResponseProto_Builder *)addClanAvengeUuids:(NSString*)value {
+  if (result.mutableClanAvengeUuidsList == nil) {
+    result.mutableClanAvengeUuidsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableClanAvengeUuidsList addObject:value];
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder *)addAllClanAvengeUuids:(NSArray *)array {
+  if (result.mutableClanAvengeUuidsList == nil) {
+    result.mutableClanAvengeUuidsList = [NSMutableArray array];
+  }
+  [result.mutableClanAvengeUuidsList addObjectsFromArray:array];
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder *)clearClanAvengeUuids {
+  result.mutableClanAvengeUuidsList = nil;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EndClanAvengingResponseProto_EndClanAvengingStatus) status {
+  return result.status;
+}
+- (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EndClanAvengingResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EndClanAvengingResponseProto_EndClanAvengingStatusSuccess;
   return self;
 }
 @end

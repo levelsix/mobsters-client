@@ -150,6 +150,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTradeItemForResourcesEvent:
     case EventProtocolRequestCRedeemSecretGiftEvent:
     case EventProtocolRequestCSetDefendingMsgEvent:
+    case EventProtocolRequestCBeginClanAvengingEvent:
+    case EventProtocolRequestCEndClanAvengingEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -247,6 +249,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTradeItemForResourcesEvent:
     case EventProtocolResponseSRedeemSecretGiftEvent:
     case EventProtocolResponseSSetDefendingMsgEvent:
+    case EventProtocolResponseSBeginClanAvengingEvent:
+    case EventProtocolResponseSEndClanAvengingEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

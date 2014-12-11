@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Battle.pb.h"
 #import "Clan.pb.h"
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
@@ -21,6 +22,10 @@
 @class AttackClanRaidMonsterResponseProto_Builder;
 @class AwardClanRaidStageRewardResponseProto;
 @class AwardClanRaidStageRewardResponseProto_Builder;
+@class BeginClanAvengingRequestProto;
+@class BeginClanAvengingRequestProto_Builder;
+@class BeginClanAvengingResponseProto;
+@class BeginClanAvengingResponseProto_Builder;
 @class BeginClanRaidRequestProto;
 @class BeginClanRaidRequestProto_Builder;
 @class BeginClanRaidResponseProto;
@@ -61,6 +66,10 @@
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
 @class CreateClanResponseProto_Builder;
+@class EndClanAvengingRequestProto;
+@class EndClanAvengingRequestProto_Builder;
+@class EndClanAvengingResponseProto;
+@class EndClanAvengingResponseProto_Builder;
 @class EndClanHelpRequestProto;
 @class EndClanHelpRequestProto_Builder;
 @class EndClanHelpResponseProto;
@@ -143,6 +152,18 @@
 @class PromoteDemoteClanMemberRequestProto_Builder;
 @class PromoteDemoteClanMemberResponseProto;
 @class PromoteDemoteClanMemberResponseProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
+@class PvpMonsterProto;
+@class PvpMonsterProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class RecordClanRaidStatsRequestProto;
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
@@ -388,6 +409,20 @@ typedef NS_ENUM(SInt32, AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClan
 };
 
 BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValidValue(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus value);
+
+typedef NS_ENUM(SInt32, BeginClanAvengingResponseProto_BeginClanAvengingStatus) {
+  BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess = 1,
+  BeginClanAvengingResponseProto_BeginClanAvengingStatusFailOther = 2,
+};
+
+BOOL BeginClanAvengingResponseProto_BeginClanAvengingStatusIsValidValue(BeginClanAvengingResponseProto_BeginClanAvengingStatus value);
+
+typedef NS_ENUM(SInt32, EndClanAvengingResponseProto_EndClanAvengingStatus) {
+  EndClanAvengingResponseProto_EndClanAvengingStatusSuccess = 1,
+  EndClanAvengingResponseProto_EndClanAvengingStatusFailOther = 2,
+};
+
+BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAvengingResponseProto_EndClanAvengingStatus value);
 
 
 @interface EventClanRoot : NSObject {
@@ -3383,6 +3418,273 @@ BOOL AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatusIsValid
 - (RetrieveClanDataResponseProto_Builder*) setClanData_Builder:(ClanDataProto_Builder*) builderForValue;
 - (RetrieveClanDataResponseProto_Builder*) mergeClanData:(ClanDataProto*) value;
 - (RetrieveClanDataResponseProto_Builder*) clearClanData;
+@end
+
+@interface BeginClanAvengingRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableRecentNbattlesList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClientTime;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * recentNbattlesList;
+@property (readonly) int64_t clientTime;
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index;
+
++ (BeginClanAvengingRequestProto*) defaultInstance;
+- (BeginClanAvengingRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanAvengingRequestProto_Builder*) builder;
++ (BeginClanAvengingRequestProto_Builder*) builder;
++ (BeginClanAvengingRequestProto_Builder*) builderWithPrototype:(BeginClanAvengingRequestProto*) prototype;
+- (BeginClanAvengingRequestProto_Builder*) toBuilder;
+
++ (BeginClanAvengingRequestProto*) parseFromData:(NSData*) data;
++ (BeginClanAvengingRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanAvengingRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  BeginClanAvengingRequestProto* result;
+}
+
+- (BeginClanAvengingRequestProto*) defaultInstance;
+
+- (BeginClanAvengingRequestProto_Builder*) clear;
+- (BeginClanAvengingRequestProto_Builder*) clone;
+
+- (BeginClanAvengingRequestProto*) build;
+- (BeginClanAvengingRequestProto*) buildPartial;
+
+- (BeginClanAvengingRequestProto_Builder*) mergeFrom:(BeginClanAvengingRequestProto*) other;
+- (BeginClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanAvengingRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanAvengingRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanAvengingRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanAvengingRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)recentNbattlesList;
+- (PvpHistoryProto*)recentNbattlesAtIndex:(NSUInteger)index;
+- (BeginClanAvengingRequestProto_Builder *)addRecentNbattles:(PvpHistoryProto*)value;
+- (BeginClanAvengingRequestProto_Builder *)addAllRecentNbattles:(NSArray *)array;
+- (BeginClanAvengingRequestProto_Builder *)clearRecentNbattles;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (BeginClanAvengingRequestProto_Builder*) setClientTime:(int64_t) value;
+- (BeginClanAvengingRequestProto_Builder*) clearClientTime;
+@end
+
+@interface BeginClanAvengingResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+  NSMutableArray * mutableClanAvengingsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * clanAvengingsList;
+@property (readonly) BeginClanAvengingResponseProto_BeginClanAvengingStatus status;
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
+
++ (BeginClanAvengingResponseProto*) defaultInstance;
+- (BeginClanAvengingResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanAvengingResponseProto_Builder*) builder;
++ (BeginClanAvengingResponseProto_Builder*) builder;
++ (BeginClanAvengingResponseProto_Builder*) builderWithPrototype:(BeginClanAvengingResponseProto*) prototype;
+- (BeginClanAvengingResponseProto_Builder*) toBuilder;
+
++ (BeginClanAvengingResponseProto*) parseFromData:(NSData*) data;
++ (BeginClanAvengingResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanAvengingResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  BeginClanAvengingResponseProto* result;
+}
+
+- (BeginClanAvengingResponseProto*) defaultInstance;
+
+- (BeginClanAvengingResponseProto_Builder*) clear;
+- (BeginClanAvengingResponseProto_Builder*) clone;
+
+- (BeginClanAvengingResponseProto*) build;
+- (BeginClanAvengingResponseProto*) buildPartial;
+
+- (BeginClanAvengingResponseProto_Builder*) mergeFrom:(BeginClanAvengingResponseProto*) other;
+- (BeginClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanAvengingResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanAvengingResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanAvengingResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanAvengingResponseProto_Builder*) clearSender;
+
+- (NSMutableArray *)clanAvengingsList;
+- (PvpClanAvengeProto*)clanAvengingsAtIndex:(NSUInteger)index;
+- (BeginClanAvengingResponseProto_Builder *)addClanAvengings:(PvpClanAvengeProto*)value;
+- (BeginClanAvengingResponseProto_Builder *)addAllClanAvengings:(NSArray *)array;
+- (BeginClanAvengingResponseProto_Builder *)clearClanAvengings;
+
+- (BOOL) hasStatus;
+- (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status;
+- (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value;
+- (BeginClanAvengingResponseProto_Builder*) clearStatus;
+@end
+
+@interface EndClanAvengingRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray * mutableClanAvengeUuidsList;
+}
+- (BOOL) hasSender;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * clanAvengeUuidsList;
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index;
+
++ (EndClanAvengingRequestProto*) defaultInstance;
+- (EndClanAvengingRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndClanAvengingRequestProto_Builder*) builder;
++ (EndClanAvengingRequestProto_Builder*) builder;
++ (EndClanAvengingRequestProto_Builder*) builderWithPrototype:(EndClanAvengingRequestProto*) prototype;
+- (EndClanAvengingRequestProto_Builder*) toBuilder;
+
++ (EndClanAvengingRequestProto*) parseFromData:(NSData*) data;
++ (EndClanAvengingRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndClanAvengingRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndClanAvengingRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndClanAvengingRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  EndClanAvengingRequestProto* result;
+}
+
+- (EndClanAvengingRequestProto*) defaultInstance;
+
+- (EndClanAvengingRequestProto_Builder*) clear;
+- (EndClanAvengingRequestProto_Builder*) clone;
+
+- (EndClanAvengingRequestProto*) build;
+- (EndClanAvengingRequestProto*) buildPartial;
+
+- (EndClanAvengingRequestProto_Builder*) mergeFrom:(EndClanAvengingRequestProto*) other;
+- (EndClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndClanAvengingRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EndClanAvengingRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EndClanAvengingRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (EndClanAvengingRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EndClanAvengingRequestProto_Builder*) clearSender;
+
+- (NSMutableArray *)clanAvengeUuidsList;
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index;
+- (EndClanAvengingRequestProto_Builder *)addClanAvengeUuids:(NSString*)value;
+- (EndClanAvengingRequestProto_Builder *)addAllClanAvengeUuids:(NSArray *)array;
+- (EndClanAvengingRequestProto_Builder *)clearClanAvengeUuids;
+@end
+
+@interface EndClanAvengingResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EndClanAvengingResponseProto_EndClanAvengingStatus status;
+  NSMutableArray * mutableClanAvengeUuidsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSArray * clanAvengeUuidsList;
+@property (readonly) EndClanAvengingResponseProto_EndClanAvengingStatus status;
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index;
+
++ (EndClanAvengingResponseProto*) defaultInstance;
+- (EndClanAvengingResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndClanAvengingResponseProto_Builder*) builder;
++ (EndClanAvengingResponseProto_Builder*) builder;
++ (EndClanAvengingResponseProto_Builder*) builderWithPrototype:(EndClanAvengingResponseProto*) prototype;
+- (EndClanAvengingResponseProto_Builder*) toBuilder;
+
++ (EndClanAvengingResponseProto*) parseFromData:(NSData*) data;
++ (EndClanAvengingResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndClanAvengingResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndClanAvengingResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndClanAvengingResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  EndClanAvengingResponseProto* result;
+}
+
+- (EndClanAvengingResponseProto*) defaultInstance;
+
+- (EndClanAvengingResponseProto_Builder*) clear;
+- (EndClanAvengingResponseProto_Builder*) clone;
+
+- (EndClanAvengingResponseProto*) build;
+- (EndClanAvengingResponseProto*) buildPartial;
+
+- (EndClanAvengingResponseProto_Builder*) mergeFrom:(EndClanAvengingResponseProto*) other;
+- (EndClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndClanAvengingResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EndClanAvengingResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EndClanAvengingResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (EndClanAvengingResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EndClanAvengingResponseProto_Builder*) clearSender;
+
+- (NSMutableArray *)clanAvengeUuidsList;
+- (NSString*)clanAvengeUuidsAtIndex:(NSUInteger)index;
+- (EndClanAvengingResponseProto_Builder *)addClanAvengeUuids:(NSString*)value;
+- (EndClanAvengingResponseProto_Builder *)addAllClanAvengeUuids:(NSArray *)array;
+- (EndClanAvengingResponseProto_Builder *)clearClanAvengeUuids;
+
+- (BOOL) hasStatus;
+- (EndClanAvengingResponseProto_EndClanAvengingStatus) status;
+- (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value;
+- (EndClanAvengingResponseProto_Builder*) clearStatus;
 @end
 
 

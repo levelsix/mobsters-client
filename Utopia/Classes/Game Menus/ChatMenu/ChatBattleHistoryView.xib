@@ -20,7 +20,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="KY5-ql-Xdt" userLabel="Avenge View">
-                    <rect key="frame" x="201" y="73" width="68" height="30"/>
+                    <rect key="frame" x="201" y="75" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bR9-Ag-bqj" customClass="GeneralButton">
@@ -48,7 +48,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="4to-t3-EJa" userLabel="Revenge View">
-                    <rect key="frame" x="277" y="73" width="68" height="30"/>
+                    <rect key="frame" x="277" y="75" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FHk-NR-2qx" customClass="GeneralButton">

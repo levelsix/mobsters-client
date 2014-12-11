@@ -30,6 +30,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PvpClanAvengeProto;
+@class PvpClanAvengeProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
 @class PvpLeagueProto;
@@ -38,6 +40,8 @@
 @class PvpMonsterProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class PvpUserClanAvengeProto;
+@class PvpUserClanAvengeProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -247,26 +251,34 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @private
   BOOL hasAttackerWon_:1;
   BOOL hasExactedRevenge_:1;
+  BOOL hasClanAvenged_:1;
   BOOL hasBattleEndTime_:1;
   BOOL hasProspectiveCashWinnings_:1;
   BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasAttackerCashChange_:1;
+  BOOL hasAttackerOilChange_:1;
   BOOL hasAttacker_:1;
   BOOL hasAttackerBefore_:1;
   BOOL hasAttackerAfter_:1;
   BOOL hasDefenderBefore_:1;
   BOOL hasDefenderAfter_:1;
+  BOOL hasDefender_:1;
   BOOL hasDefenderCashChange_:1;
   BOOL hasDefenderOilChange_:1;
   BOOL attackerWon_:1;
   BOOL exactedRevenge_:1;
+  BOOL clanAvenged_:1;
   int64_t battleEndTime;
   int32_t prospectiveCashWinnings;
   int32_t prospectiveOilWinnings;
+  int32_t attackerCashChange;
+  int32_t attackerOilChange;
   FullUserProto* attacker;
   UserPvpLeagueProto* attackerBefore;
   UserPvpLeagueProto* attackerAfter;
   UserPvpLeagueProto* defenderBefore;
   UserPvpLeagueProto* defenderAfter;
+  FullUserProto* defender;
   int32_t defenderCashChange;
   int32_t defenderOilChange;
   NSMutableArray * mutableAttackersMonstersList;
@@ -283,6 +295,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasAttackerAfter;
 - (BOOL) hasDefenderBefore;
 - (BOOL) hasDefenderAfter;
+- (BOOL) hasDefender;
+- (BOOL) hasAttackerCashChange;
+- (BOOL) hasAttackerOilChange;
+- (BOOL) hasClanAvenged;
 @property (readonly) int64_t battleEndTime;
 @property (readonly, strong) FullUserProto* attacker;
 @property (readonly, strong) NSArray * attackersMonstersList;
@@ -296,6 +312,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 @property (readonly, strong) UserPvpLeagueProto* attackerAfter;
 @property (readonly, strong) UserPvpLeagueProto* defenderBefore;
 @property (readonly, strong) UserPvpLeagueProto* defenderAfter;
+@property (readonly, strong) FullUserProto* defender;
+@property (readonly) int32_t attackerCashChange;
+@property (readonly) int32_t attackerOilChange;
+- (BOOL) clanAvenged;
 - (PvpMonsterProto*)attackersMonstersAtIndex:(NSUInteger)index;
 
 + (PvpHistoryProto*) defaultInstance;
@@ -408,6 +428,28 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpHistoryProto_Builder*) setDefenderAfter_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
 - (PvpHistoryProto_Builder*) mergeDefenderAfter:(UserPvpLeagueProto*) value;
 - (PvpHistoryProto_Builder*) clearDefenderAfter;
+
+- (BOOL) hasDefender;
+- (FullUserProto*) defender;
+- (PvpHistoryProto_Builder*) setDefender:(FullUserProto*) value;
+- (PvpHistoryProto_Builder*) setDefender_Builder:(FullUserProto_Builder*) builderForValue;
+- (PvpHistoryProto_Builder*) mergeDefender:(FullUserProto*) value;
+- (PvpHistoryProto_Builder*) clearDefender;
+
+- (BOOL) hasAttackerCashChange;
+- (int32_t) attackerCashChange;
+- (PvpHistoryProto_Builder*) setAttackerCashChange:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearAttackerCashChange;
+
+- (BOOL) hasAttackerOilChange;
+- (int32_t) attackerOilChange;
+- (PvpHistoryProto_Builder*) setAttackerOilChange:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearAttackerOilChange;
+
+- (BOOL) hasClanAvenged;
+- (BOOL) clanAvenged;
+- (PvpHistoryProto_Builder*) setClanAvenged:(BOOL) value;
+- (PvpHistoryProto_Builder*) clearClanAvenged;
 @end
 
 @interface PvpLeagueProto : PBGeneratedMessage {
@@ -484,6 +526,189 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (NSString*) description;
 - (PvpLeagueProto_Builder*) setDescription:(NSString*) value;
 - (PvpLeagueProto_Builder*) clearDescription;
+@end
+
+@interface PvpClanAvengeProto : PBGeneratedMessage {
+@private
+  BOOL hasBattleEndTime_:1;
+  BOOL hasAvengeRequestTime_:1;
+  BOOL hasClanAvengeUuid_:1;
+  BOOL hasClanUuid_:1;
+  BOOL hasAttacker_:1;
+  BOOL hasDefender_:1;
+  int64_t battleEndTime;
+  int64_t avengeRequestTime;
+  NSString* clanAvengeUuid;
+  NSString* clanUuid;
+  MinimumUserProto* attacker;
+  MinimumUserProto* defender;
+  NSMutableArray * mutableUsersAvengingList;
+}
+- (BOOL) hasClanAvengeUuid;
+- (BOOL) hasAttacker;
+- (BOOL) hasDefender;
+- (BOOL) hasBattleEndTime;
+- (BOOL) hasAvengeRequestTime;
+- (BOOL) hasClanUuid;
+@property (readonly, strong) NSString* clanAvengeUuid;
+@property (readonly, strong) NSArray * usersAvengingList;
+@property (readonly, strong) MinimumUserProto* attacker;
+@property (readonly, strong) MinimumUserProto* defender;
+@property (readonly) int64_t battleEndTime;
+@property (readonly) int64_t avengeRequestTime;
+@property (readonly, strong) NSString* clanUuid;
+- (PvpUserClanAvengeProto*)usersAvengingAtIndex:(NSUInteger)index;
+
++ (PvpClanAvengeProto*) defaultInstance;
+- (PvpClanAvengeProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpClanAvengeProto_Builder*) builder;
++ (PvpClanAvengeProto_Builder*) builder;
++ (PvpClanAvengeProto_Builder*) builderWithPrototype:(PvpClanAvengeProto*) prototype;
+- (PvpClanAvengeProto_Builder*) toBuilder;
+
++ (PvpClanAvengeProto*) parseFromData:(NSData*) data;
++ (PvpClanAvengeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpClanAvengeProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpClanAvengeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpClanAvengeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpClanAvengeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpClanAvengeProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PvpClanAvengeProto* result;
+}
+
+- (PvpClanAvengeProto*) defaultInstance;
+
+- (PvpClanAvengeProto_Builder*) clear;
+- (PvpClanAvengeProto_Builder*) clone;
+
+- (PvpClanAvengeProto*) build;
+- (PvpClanAvengeProto*) buildPartial;
+
+- (PvpClanAvengeProto_Builder*) mergeFrom:(PvpClanAvengeProto*) other;
+- (PvpClanAvengeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpClanAvengeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanAvengeUuid;
+- (NSString*) clanAvengeUuid;
+- (PvpClanAvengeProto_Builder*) setClanAvengeUuid:(NSString*) value;
+- (PvpClanAvengeProto_Builder*) clearClanAvengeUuid;
+
+- (NSMutableArray *)usersAvengingList;
+- (PvpUserClanAvengeProto*)usersAvengingAtIndex:(NSUInteger)index;
+- (PvpClanAvengeProto_Builder *)addUsersAvenging:(PvpUserClanAvengeProto*)value;
+- (PvpClanAvengeProto_Builder *)addAllUsersAvenging:(NSArray *)array;
+- (PvpClanAvengeProto_Builder *)clearUsersAvenging;
+
+- (BOOL) hasAttacker;
+- (MinimumUserProto*) attacker;
+- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProto*) value;
+- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
+- (PvpClanAvengeProto_Builder*) clearAttacker;
+
+- (BOOL) hasDefender;
+- (MinimumUserProto*) defender;
+- (PvpClanAvengeProto_Builder*) setDefender:(MinimumUserProto*) value;
+- (PvpClanAvengeProto_Builder*) setDefender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (PvpClanAvengeProto_Builder*) mergeDefender:(MinimumUserProto*) value;
+- (PvpClanAvengeProto_Builder*) clearDefender;
+
+- (BOOL) hasBattleEndTime;
+- (int64_t) battleEndTime;
+- (PvpClanAvengeProto_Builder*) setBattleEndTime:(int64_t) value;
+- (PvpClanAvengeProto_Builder*) clearBattleEndTime;
+
+- (BOOL) hasAvengeRequestTime;
+- (int64_t) avengeRequestTime;
+- (PvpClanAvengeProto_Builder*) setAvengeRequestTime:(int64_t) value;
+- (PvpClanAvengeProto_Builder*) clearAvengeRequestTime;
+
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (PvpClanAvengeProto_Builder*) setClanUuid:(NSString*) value;
+- (PvpClanAvengeProto_Builder*) clearClanUuid;
+@end
+
+@interface PvpUserClanAvengeProto : PBGeneratedMessage {
+@private
+  BOOL hasAvengeTime_:1;
+  BOOL hasUserUuid_:1;
+  BOOL hasClanUuid_:1;
+  BOOL hasClanAvengeUuid_:1;
+  int64_t avengeTime;
+  NSString* userUuid;
+  NSString* clanUuid;
+  NSString* clanAvengeUuid;
+}
+- (BOOL) hasUserUuid;
+- (BOOL) hasClanUuid;
+- (BOOL) hasClanAvengeUuid;
+- (BOOL) hasAvengeTime;
+@property (readonly, strong) NSString* userUuid;
+@property (readonly, strong) NSString* clanUuid;
+@property (readonly, strong) NSString* clanAvengeUuid;
+@property (readonly) int64_t avengeTime;
+
++ (PvpUserClanAvengeProto*) defaultInstance;
+- (PvpUserClanAvengeProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpUserClanAvengeProto_Builder*) builder;
++ (PvpUserClanAvengeProto_Builder*) builder;
++ (PvpUserClanAvengeProto_Builder*) builderWithPrototype:(PvpUserClanAvengeProto*) prototype;
+- (PvpUserClanAvengeProto_Builder*) toBuilder;
+
++ (PvpUserClanAvengeProto*) parseFromData:(NSData*) data;
++ (PvpUserClanAvengeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpUserClanAvengeProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpUserClanAvengeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpUserClanAvengeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpUserClanAvengeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpUserClanAvengeProto_Builder : PBGeneratedMessageBuilder {
+@private
+  PvpUserClanAvengeProto* result;
+}
+
+- (PvpUserClanAvengeProto*) defaultInstance;
+
+- (PvpUserClanAvengeProto_Builder*) clear;
+- (PvpUserClanAvengeProto_Builder*) clone;
+
+- (PvpUserClanAvengeProto*) build;
+- (PvpUserClanAvengeProto*) buildPartial;
+
+- (PvpUserClanAvengeProto_Builder*) mergeFrom:(PvpUserClanAvengeProto*) other;
+- (PvpUserClanAvengeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpUserClanAvengeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (PvpUserClanAvengeProto_Builder*) setUserUuid:(NSString*) value;
+- (PvpUserClanAvengeProto_Builder*) clearUserUuid;
+
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (PvpUserClanAvengeProto_Builder*) setClanUuid:(NSString*) value;
+- (PvpUserClanAvengeProto_Builder*) clearClanUuid;
+
+- (BOOL) hasClanAvengeUuid;
+- (NSString*) clanAvengeUuid;
+- (PvpUserClanAvengeProto_Builder*) setClanAvengeUuid:(NSString*) value;
+- (PvpUserClanAvengeProto_Builder*) clearClanAvengeUuid;
+
+- (BOOL) hasAvengeTime;
+- (int64_t) avengeTime;
+- (PvpUserClanAvengeProto_Builder*) setAvengeTime:(int64_t) value;
+- (PvpUserClanAvengeProto_Builder*) clearAvengeTime;
 @end
 
 

@@ -258,6 +258,10 @@
   [self sendAchievements:[self healMonsters:monstersHealed]];
 }
 
++ (void) checkEnhancedPoints:(int)pointsEnhanced {
+  [self sendAchievements:[self enhancePoints:pointsEnhanced]];
+}
+
 + (void) checkSellMonsters:(int)numSold {
   [self sendAchievements:[self sellMonsters:numSold]];
 }
