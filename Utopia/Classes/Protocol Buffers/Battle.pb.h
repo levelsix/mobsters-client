@@ -533,14 +533,14 @@ BOOL BattleResultIsValidValue(BattleResult value);
   BOOL hasBattleEndTime_:1;
   BOOL hasAvengeRequestTime_:1;
   BOOL hasClanAvengeUuid_:1;
-  BOOL hasClanUuid_:1;
+  BOOL hasDefenderClanUuid_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   int64_t battleEndTime;
   int64_t avengeRequestTime;
   NSString* clanAvengeUuid;
-  NSString* clanUuid;
-  MinimumUserProto* attacker;
+  NSString* defenderClanUuid;
+  MinimumUserProtoWithLevel* attacker;
   MinimumUserProto* defender;
   NSMutableArray * mutableUsersAvengingList;
 }
@@ -549,14 +549,14 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (BOOL) hasDefender;
 - (BOOL) hasBattleEndTime;
 - (BOOL) hasAvengeRequestTime;
-- (BOOL) hasClanUuid;
+- (BOOL) hasDefenderClanUuid;
 @property (readonly, strong) NSString* clanAvengeUuid;
 @property (readonly, strong) NSArray * usersAvengingList;
-@property (readonly, strong) MinimumUserProto* attacker;
+@property (readonly, strong) MinimumUserProtoWithLevel* attacker;
 @property (readonly, strong) MinimumUserProto* defender;
 @property (readonly) int64_t battleEndTime;
 @property (readonly) int64_t avengeRequestTime;
-@property (readonly, strong) NSString* clanUuid;
+@property (readonly, strong) NSString* defenderClanUuid;
 - (PvpUserClanAvengeProto*)usersAvengingAtIndex:(NSUInteger)index;
 
 + (PvpClanAvengeProto*) defaultInstance;
@@ -606,10 +606,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpClanAvengeProto_Builder *)clearUsersAvenging;
 
 - (BOOL) hasAttacker;
-- (MinimumUserProto*) attacker;
-- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProto*) value;
-- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue;
-- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) attacker;
+- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProtoWithLevel*) value;
+- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProtoWithLevel*) value;
 - (PvpClanAvengeProto_Builder*) clearAttacker;
 
 - (BOOL) hasDefender;
@@ -629,10 +629,10 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (PvpClanAvengeProto_Builder*) setAvengeRequestTime:(int64_t) value;
 - (PvpClanAvengeProto_Builder*) clearAvengeRequestTime;
 
-- (BOOL) hasClanUuid;
-- (NSString*) clanUuid;
-- (PvpClanAvengeProto_Builder*) setClanUuid:(NSString*) value;
-- (PvpClanAvengeProto_Builder*) clearClanUuid;
+- (BOOL) hasDefenderClanUuid;
+- (NSString*) defenderClanUuid;
+- (PvpClanAvengeProto_Builder*) setDefenderClanUuid:(NSString*) value;
+- (PvpClanAvengeProto_Builder*) clearDefenderClanUuid;
 @end
 
 @interface PvpUserClanAvengeProto : PBGeneratedMessage {

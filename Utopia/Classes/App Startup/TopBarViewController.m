@@ -159,10 +159,9 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:NEW_FB_INVITE_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
-  [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
   // Arrow to residence

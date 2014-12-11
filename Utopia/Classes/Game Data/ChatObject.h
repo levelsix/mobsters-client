@@ -31,6 +31,9 @@
 - (MinimumUserProto *)otherUser;
 
 - (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag;
+
+// If true, requests reload of entire view.. for when it runs out of time
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell;
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell;
 
 @end
@@ -69,7 +72,7 @@
 
 @property (nonatomic, retain) NSString *clanAvengeUuid;
 @property (nonatomic, retain) NSString *clanUuid;
-@property (nonatomic, retain) MinimumUserProto *attacker;
+@property (nonatomic, retain) MinimumUserProtoWithLevel *attacker;
 @property (nonatomic, retain) MinimumUserProto *defender;
 @property (nonatomic, retain) MSDate *battleEndTime;
 @property (nonatomic, retain) MSDate *avengeRequestTime;
@@ -79,6 +82,10 @@
 
 - (id) initWithClanAvengeProto:(PvpClanAvengeProto *)proto;
 
+- (IBAction)attackClicked:(id)sender;
+- (IBAction)profileClicked:(id)sender;
+
 - (BOOL) isValid;
+- (BOOL) canAttack;
 
 @end

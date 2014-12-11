@@ -156,7 +156,7 @@
     
     if ([Globals checkEnteringDungeon]) {
       GameViewController *gvc = [GameViewController baseController];
-      [gvc beginPvpMatch:_curClickedCell.battleHistory];
+      [gvc beginPvpMatchForRevenge:_curClickedCell.battleHistory];
     }
   }
 }

@@ -18,6 +18,7 @@
 #import "UnreadNotifications.h"
 
 #import "GameViewController.h"
+#import "ProfileViewController.h"
 
 @implementation ChatMessage
 
@@ -256,6 +257,12 @@
   chatCell.msgLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
 }
 
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
+  ChatBattleHistoryView *v = (ChatBattleHistoryView *)chatCell.currentChatSubview;
+  [v updateForPvpHistoryProto:self];
+  return NO;
+}
+
 - (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
   UIFont *font = chatCell.msgLabel.font;
   CGRect frame = chatCell.msgLabel.frame;
@@ -286,10 +293,10 @@
 
 - (IBAction)revengeClicked:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
-  [gvc beginPvpMatch:self];
+  [gvc beginPvpMatchForRevenge:self];
 }
 
-- (IBAction) avengeClicked:(id)sender {
+- (IBAction) avengeClicked:(UIButton *)sender {
   // Check gamestate if there are any avengings by me
   GameState *gs = [GameState sharedGameState];
   
@@ -303,6 +310,8 @@
   if (!found) {
     [[OutgoingEventController sharedOutgoingEventController] beginClanAvenge:self];
     clanAvenged_ = YES;
+    
+    [sender.superview setHidden:YES];
   } else {
     [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
   }
@@ -317,7 +326,7 @@
     self.clanAvengeUuid = proto.clanAvengeUuid;
     self.attacker = proto.attacker;
     self.defender = proto.defender;
-    self.clanUuid = proto.clanUuid;
+    self.clanUuid = proto.defenderClanUuid;
     self.battleEndTime = [MSDate dateWithTimeIntervalSince1970:proto.battleEndTime/1000.];
     self.avengeRequestTime = [MSDate dateWithTimeIntervalSince1970:proto.avengeRequestTime/1000.];
     
@@ -331,7 +340,19 @@
 
 - (BOOL) isValid {
   Globals *gl = [Globals sharedGlobals];
-  return [self.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60].timeIntervalSinceNow > 0;
+  
+#warning fix
+  int mins = 1;//gl.beginAvengingTimeLimitMins
+  return [self.avengeRequestTime dateByAddingTimeInterval:mins*60].timeIntervalSinceNow > 0;
+}
+
+- (BOOL) canAttack {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *invalidIds = [self.avengedUserUuids mutableCopy];
+  [invalidIds addObject:self.attacker.minUserProto.userUuid];
+  [invalidIds addObject:self.defender.userUuid];
+  
+  return ![invalidIds containsObject:gs.userUuid];
 }
 
 - (MinimumUserProto *) sender {
@@ -339,7 +360,7 @@
 }
 
 - (NSString *) message {
-  return [NSString stringWithFormat:@"Avenge me by attacking %@", self.attacker.userUuid];
+  return [NSString stringWithFormat:@"Avenge me by attacking %@", self.attacker.minUserProto.name];
 }
 
 - (MSDate *) date {
@@ -350,8 +371,59 @@
   return [UIColor colorWithHexString:@"ffe400"];
 }
 
+- (BOOL) isRead {
+  return _isRead || ![self canAttack];
+}
+
 - (void) markAsRead {
   self.isRead = YES;
+}
+
+
+- (void) updateInChatCell:(ChatCell *)chatCell showsClanTag:(BOOL)showsClanTag {
+  NSString *nibName = @"ChatClanAvengeView";
+  ChatClanAvengeView *v = [chatCell dequeueChatSubview:nibName];
+  
+  if (!v) {
+    v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+  }
+  
+  [v updateForClanAvenging:self];
+  
+  [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
+}
+
+- (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
+  ChatClanAvengeView *v = (ChatClanAvengeView *)chatCell.currentChatSubview;
+  [v updateTimeForClanAvenging:self];
+  return ![self isValid];
+}
+
+- (CGFloat) heightWithTestChatCell:(ChatCell *)chatCell {
+  UIFont *font = chatCell.msgLabel.font;
+  CGRect frame = chatCell.msgLabel.frame;
+  
+  [self updateInChatCell:chatCell showsClanTag:YES];
+  
+  NSString *msg = [self message];
+  CGSize size = [msg getSizeWithFont:font constrainedToSize:CGSizeMake(frame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
+  float height = size.height+frame.origin.y+14.f;
+  height = MAX(height, CGRectGetMaxY(chatCell.currentChatSubview.frame)+14.f);
+  
+  return height;
+}
+
+- (IBAction)attackClicked:(id)sender {
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc beginPvpMatchForAvenge:self];
+}
+
+- (IBAction)profileClicked:(id)sender {
+  UIViewController *gvc = [GameViewController baseController];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:self.attacker.minUserProto.userUuid];
+  [gvc addChildViewController:pvc];
+  pvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:pvc.view];
 }
 
 @end

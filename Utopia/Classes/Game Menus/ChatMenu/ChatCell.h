@@ -96,6 +96,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *avengeButton;
 @property (nonatomic, retain) IBOutlet UIButton *revengeButton;
 
+@property (nonatomic, retain) IBOutlet UILabel *avengeTimeLabel;
+
 @property (nonatomic, retain) IBOutlet UIView *cashView;
 @property (nonatomic, retain) IBOutlet UIView *oilView;
 @property (nonatomic, retain) IBOutlet UIView *rankView;
@@ -118,7 +120,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet UIButton *attackButton;
+@property (nonatomic, assign) IBOutlet UIButton *profileButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+
+- (void) updateForClanAvenging:(PvpClanAvenging *)ca;
+- (void) updateTimeForClanAvenging:(PvpClanAvenging *)ca;
 
 @end

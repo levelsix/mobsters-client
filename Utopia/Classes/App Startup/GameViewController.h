@@ -97,6 +97,9 @@
 - (void) questComplete:(FullQuestProto *)fqp;
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
 
+- (void) beginPvpMatchForRevenge:(PvpHistoryProto *)history;
+- (void) beginPvpMatchForAvenge:(PvpClanAvenging *)ca;
+
 - (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl;
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl;
 

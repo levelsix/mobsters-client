@@ -46,8 +46,10 @@
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:RECEIVED_CLAN_HELP_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadTables:) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateClanBadge) name:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   
   //[center addObserver:self selector:@selector(reloadTables:) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(reloadTables:) name:NEW_FB_INVITE_NOTIFICATION object:nil];
@@ -81,6 +83,11 @@
   self.popoverView.hidden = YES;
   
   [self reloadTablesAnimated:NO];
+  
+  
+  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+  [self updateLabels];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -105,6 +112,29 @@
   [super viewDidDisappear:animated];
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [self.updateTimer invalidate];
+  self.updateTimer = nil;
+}
+
+- (void) updateLabels {
+  // Go through the chat views and see if any need to update time
+  BOOL reloadEverything = NO;
+  
+  for (ChatView *cv in @[self.clanChatView, self.privateChatView]) {
+    for (ChatCell *cell in cv.chatTable.visibleCells) {
+      NSIndexPath *ip = [cv.chatTable indexPathForCell:cell];
+      id<ChatObject> co = cv.chats[ip.row];
+      
+      if ([co respondsToSelector:@selector(updateForTimeInChatCell:)]) {
+        reloadEverything |= [co updateForTimeInChatCell:cell];
+      }
+    }
+  }
+  
+  if (reloadEverything) {
+    [self reloadTablesAnimated:YES];
+  }
 }
 
 - (void) updateBadges {

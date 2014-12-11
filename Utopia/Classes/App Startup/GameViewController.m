@@ -1039,7 +1039,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   [self blackFadeIntoBattleLayer:bl];
 }
 
-- (void) beginPvpMatch:(PvpHistoryProto *)history {
+- (void) beginPvpMatchForRevenge:(PvpHistoryProto *)history {
   if (_isInBattle) {
     [self removeAllViewControllers];
     return;
@@ -1047,6 +1047,19 @@ static const CGSize FIXED_SIZE = {568, 384};
   
   GameState *gs = [GameState sharedGameState];
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) pvpHistoryForRevenge:history];
+  bl.delegate = self;
+  
+  [self crossFadeIntoBattleLayer:bl];
+}
+
+- (void) beginPvpMatchForAvenge:(PvpClanAvenging *)ca {
+  if (_isInBattle) {
+    [self removeAllViewControllers];
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
   bl.delegate = self;
   
   [self crossFadeIntoBattleLayer:bl];

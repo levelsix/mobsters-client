@@ -1340,13 +1340,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     GameState *gs = [GameState sharedGameState];
     PvpClanAvenging *ca = [[PvpClanAvenging alloc] init];
-    ca.attacker = [[[[[[MinimumUserProto builder] setName:pvp.attacker.name] setAvatarMonsterId:pvp.attacker.avatarMonsterId] setUserUuid:pvp.attacker.userUuid] setClan:pvp.attacker.clan] build];
+    MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:pvp.attacker.name] setAvatarMonsterId:pvp.attacker.avatarMonsterId] setUserUuid:pvp.attacker.userUuid] setClan:pvp.attacker.clan] build];
+    ca.attacker = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:mup] setLevel:pvp.attacker.level] build];
     ca.defender = [gs minUser];
     ca.battleEndTime = [MSDate dateWithTimeIntervalSince1970:pvp.battleEndTime/1000.];
     ca.avengeRequestTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
     ca.avengedUserUuids = [NSMutableArray array];
     
     [gs.clanAvengings addObject:ca];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   }
 }
 

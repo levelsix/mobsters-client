@@ -47,6 +47,8 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
 
+@property (nonatomic, retain) NSTimer *updateTimer;
+
 @property (nonatomic, assign) id<ChatViewControllerDelegate> delegate;
 
 - (void) openWithConversationForUserUuid:(NSString *)userUuid name:(NSString *)name;

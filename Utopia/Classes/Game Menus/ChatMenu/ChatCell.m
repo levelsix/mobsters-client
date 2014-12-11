@@ -288,7 +288,7 @@ static float buttonInitialWidth = 159.f;
     [cmv updateForMinMonster:um];
   }
   
-  self.avengeButton.superview.hidden = [pvp userIsAttacker];// && pvp.clanAvenged;
+  self.avengeButton.superview.hidden = [pvp userIsAttacker] || pvp.clanAvenged;
   self.revengeButton.superview.hidden = [pvp userIsAttacker] || pvp.exactedRevenge;
   
   if (!self.avengeButton.superview.hidden && self.revengeButton.superview.hidden) {
@@ -360,12 +360,54 @@ static float buttonInitialWidth = 159.f;
   PvpLeagueProto *league = [gs leagueForId:pvpAfter.leagueId];
   NSString *icon = [league.imgPrefix stringByAppendingString:@"icon.png"];
   [Globals imageNamed:icon withView:self.rankIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  [self updateTimeForPvpHistoryProto:pvp];
+}
+
+- (void) updateTimeForPvpHistoryProto:(PvpHistoryProto *)pvp {
+  Globals *gl = [Globals sharedGlobals];
+#warning fix
+  int mins = 10000;//gl.beginAvengingTimeLimitMins;
+  float secs = pvp.battleEndTime/1000.+mins*60;
+  
+  if (secs > 0) {
+    self.avengeTimeLabel.text = [[Globals convertTimeToShortString:secs] uppercaseString];
+  } else {
+    self.avengeTimeLabel.superview.hidden = YES;
+  }
 }
 
 @end
 
-//@implementation ChatClanAvengeView
-//
-//- (void) updateFor
-//
-//@end
+@implementation ChatClanAvengeView
+
+- (void) updateForClanAvenging:(PvpClanAvenging *)ca {
+  [self.monsterView updateForMonsterId:ca.attacker.minUserProto.avatarMonsterId];
+  self.nameLabel.text = ca.attacker.minUserProto.name;
+  self.levelLabel.text = [NSString stringWithFormat:@"Level %d", ca.attacker.level];
+  
+  self.attackButton.superview.hidden = ![ca canAttack];
+  
+  if ([ca canAttack]) {
+    self.width = CGRectGetMaxX(self.attackButton.superview.frame);
+  } else {
+    self.width = CGRectGetMaxX(self.timeLabel.superview.frame);
+  }
+  
+  [self.attackButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.attackButton addTarget:ca action:@selector(attackClicked:) forControlEvents:UIControlEventTouchUpInside];
+  
+  [self.profileButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [self.profileButton addTarget:ca action:@selector(profileClicked:) forControlEvents:UIControlEventTouchUpInside];
+  
+  [self updateTimeForClanAvenging:ca];
+}
+
+- (void) updateTimeForClanAvenging:(PvpClanAvenging *)ca {
+  Globals *gl = [Globals sharedGlobals];
+#warning fix
+  int mins = 1;//gl.beginAvengingTimeLimitMins;
+  self.timeLabel.text = [[Globals convertTimeToShortString:ca.avengeRequestTime.timeIntervalSinceNow+mins*60] uppercaseString];
+}
+
+@end

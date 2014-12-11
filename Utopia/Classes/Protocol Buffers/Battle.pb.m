@@ -2230,11 +2230,11 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
 @interface PvpClanAvengeProto ()
 @property (strong) NSString* clanAvengeUuid;
 @property (strong) NSMutableArray * mutableUsersAvengingList;
-@property (strong) MinimumUserProto* attacker;
+@property (strong) MinimumUserProtoWithLevel* attacker;
 @property (strong) MinimumUserProto* defender;
 @property int64_t battleEndTime;
 @property int64_t avengeRequestTime;
-@property (strong) NSString* clanUuid;
+@property (strong) NSString* defenderClanUuid;
 @end
 
 @implementation PvpClanAvengeProto
@@ -2276,21 +2276,21 @@ static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
   hasAvengeRequestTime_ = !!value_;
 }
 @synthesize avengeRequestTime;
-- (BOOL) hasClanUuid {
-  return !!hasClanUuid_;
+- (BOOL) hasDefenderClanUuid {
+  return !!hasDefenderClanUuid_;
 }
-- (void) setHasClanUuid:(BOOL) value_ {
-  hasClanUuid_ = !!value_;
+- (void) setHasDefenderClanUuid:(BOOL) value_ {
+  hasDefenderClanUuid_ = !!value_;
 }
-@synthesize clanUuid;
+@synthesize defenderClanUuid;
 - (id) init {
   if ((self = [super init])) {
     self.clanAvengeUuid = @"";
-    self.attacker = [MinimumUserProto defaultInstance];
+    self.attacker = [MinimumUserProtoWithLevel defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
     self.battleEndTime = 0L;
     self.avengeRequestTime = 0L;
-    self.clanUuid = @"";
+    self.defenderClanUuid = @"";
   }
   return self;
 }
@@ -2334,8 +2334,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   if (self.hasAvengeRequestTime) {
     [output writeInt64:6 value:self.avengeRequestTime];
   }
-  if (self.hasClanUuid) {
-    [output writeString:7 value:self.clanUuid];
+  if (self.hasDefenderClanUuid) {
+    [output writeString:7 value:self.defenderClanUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2364,8 +2364,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   if (self.hasAvengeRequestTime) {
     size_ += computeInt64Size(6, self.avengeRequestTime);
   }
-  if (self.hasClanUuid) {
-    size_ += computeStringSize(7, self.clanUuid);
+  if (self.hasDefenderClanUuid) {
+    size_ += computeStringSize(7, self.defenderClanUuid);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2429,8 +2429,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   if (self.hasAvengeRequestTime) {
     [output appendFormat:@"%@%@: %@\n", indent, @"avengeRequestTime", [NSNumber numberWithLongLong:self.avengeRequestTime]];
   }
-  if (self.hasClanUuid) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"clanUuid", self.clanUuid];
+  if (self.hasDefenderClanUuid) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"defenderClanUuid", self.defenderClanUuid];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -2454,8 +2454,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
       (!self.hasBattleEndTime || self.battleEndTime == otherMessage.battleEndTime) &&
       self.hasAvengeRequestTime == otherMessage.hasAvengeRequestTime &&
       (!self.hasAvengeRequestTime || self.avengeRequestTime == otherMessage.avengeRequestTime) &&
-      self.hasClanUuid == otherMessage.hasClanUuid &&
-      (!self.hasClanUuid || [self.clanUuid isEqual:otherMessage.clanUuid]) &&
+      self.hasDefenderClanUuid == otherMessage.hasDefenderClanUuid &&
+      (!self.hasDefenderClanUuid || [self.defenderClanUuid isEqual:otherMessage.defenderClanUuid]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2478,8 +2478,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   if (self.hasAvengeRequestTime) {
     hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.avengeRequestTime] hash];
   }
-  if (self.hasClanUuid) {
-    hashCode = hashCode * 31 + [self.clanUuid hash];
+  if (self.hasDefenderClanUuid) {
+    hashCode = hashCode * 31 + [self.defenderClanUuid hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2546,8 +2546,8 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   if (other.hasAvengeRequestTime) {
     [self setAvengeRequestTime:other.avengeRequestTime];
   }
-  if (other.hasClanUuid) {
-    [self setClanUuid:other.clanUuid];
+  if (other.hasDefenderClanUuid) {
+    [self setDefenderClanUuid:other.defenderClanUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2581,7 +2581,7 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
         break;
       }
       case 26: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
         if (self.hasAttacker) {
           [subBuilder mergeFrom:self.attacker];
         }
@@ -2607,7 +2607,7 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
         break;
       }
       case 58: {
-        [self setClanUuid:[input readString]];
+        [self setDefenderClanUuid:[input readString]];
         break;
       }
     }
@@ -2656,22 +2656,22 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
 - (BOOL) hasAttacker {
   return result.hasAttacker;
 }
-- (MinimumUserProto*) attacker {
+- (MinimumUserProtoWithLevel*) attacker {
   return result.attacker;
 }
-- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProto*) value {
+- (PvpClanAvengeProto_Builder*) setAttacker:(MinimumUserProtoWithLevel*) value {
   result.hasAttacker = YES;
   result.attacker = value;
   return self;
 }
-- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProto_Builder*) builderForValue {
+- (PvpClanAvengeProto_Builder*) setAttacker_Builder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
   return [self setAttacker:[builderForValue build]];
 }
-- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProto*) value {
+- (PvpClanAvengeProto_Builder*) mergeAttacker:(MinimumUserProtoWithLevel*) value {
   if (result.hasAttacker &&
-      result.attacker != [MinimumUserProto defaultInstance]) {
+      result.attacker != [MinimumUserProtoWithLevel defaultInstance]) {
     result.attacker =
-      [[[MinimumUserProto builderWithPrototype:result.attacker] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.attacker] mergeFrom:value] buildPartial];
   } else {
     result.attacker = value;
   }
@@ -2680,7 +2680,7 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
 }
 - (PvpClanAvengeProto_Builder*) clearAttacker {
   result.hasAttacker = NO;
-  result.attacker = [MinimumUserProto defaultInstance];
+  result.attacker = [MinimumUserProtoWithLevel defaultInstance];
   return self;
 }
 - (BOOL) hasDefender {
@@ -2745,20 +2745,20 @@ static PvpClanAvengeProto* defaultPvpClanAvengeProtoInstance = nil;
   result.avengeRequestTime = 0L;
   return self;
 }
-- (BOOL) hasClanUuid {
-  return result.hasClanUuid;
+- (BOOL) hasDefenderClanUuid {
+  return result.hasDefenderClanUuid;
 }
-- (NSString*) clanUuid {
-  return result.clanUuid;
+- (NSString*) defenderClanUuid {
+  return result.defenderClanUuid;
 }
-- (PvpClanAvengeProto_Builder*) setClanUuid:(NSString*) value {
-  result.hasClanUuid = YES;
-  result.clanUuid = value;
+- (PvpClanAvengeProto_Builder*) setDefenderClanUuid:(NSString*) value {
+  result.hasDefenderClanUuid = YES;
+  result.defenderClanUuid = value;
   return self;
 }
-- (PvpClanAvengeProto_Builder*) clearClanUuid {
-  result.hasClanUuid = NO;
-  result.clanUuid = @"";
+- (PvpClanAvengeProto_Builder*) clearDefenderClanUuid {
+  result.hasDefenderClanUuid = NO;
+  result.defenderClanUuid = @"";
   return self;
 }
 @end

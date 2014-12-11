@@ -19,7 +19,6 @@
 - (void) visitCityClicked:(int)cityId attackMapViewController:(id)vc;
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems;
 - (void) findPvpMatchWithItemsDict:(NSDictionary *)itemsDict;
-- (void) beginPvpMatch:(PvpHistoryProto *)history;
 
 @end
 

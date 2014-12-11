@@ -36,9 +36,18 @@
                             </state>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="5iQ-ud-H2Q" customClass="NiceFontLabel12B">
-                            <rect key="frame" x="5" y="3" width="58" height="21"/>
+                            <rect key="frame" x="5" y="8" width="58" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12H 13M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NlH-VD-Gt1" customClass="NiceFontLabel12B">
+                            <rect key="frame" x="5" y="-2" width="58" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <color key="textColor" red="0.090196078430000007" green="0.47058823529999999" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="shadowColor" red="0.96470588239999999" green="1" blue="0.51372549020000002" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
@@ -161,6 +170,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avengeButton" destination="bR9-Ag-bqj" id="t2Q-of-oeF"/>
+                <outlet property="avengeTimeLabel" destination="NlH-VD-Gt1" id="NFq-Mm-JNh"/>
                 <outlet property="botDivider" destination="d3e-E9-rVN" id="6Ec-pY-wBA"/>
                 <outlet property="cashLabel" destination="d7a-et-bAz" id="Pr7-SQ-Rtc"/>
                 <outlet property="cashView" destination="Uke-dC-Udi" id="dYz-MQ-ZxV"/>
