@@ -17,6 +17,7 @@
 #import "SkillRoidRage.h"
 #import "SkillMomentum.h"
 #import "SkillThickSkin.h"
+#import "SkillCritAndEvade.h"
 
 @implementation SkillController
 
@@ -33,6 +34,7 @@
     case SkillTypeRoidRage: return [[SkillRoidRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeThickSkin: return [[SkillThickSkin alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeCritAndEvade: return [[SkillCritAndEvade alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -47,6 +49,7 @@
   _skillId = proto.skillId;
   _skillType = proto.type;
   _activationType = proto.activationType;
+  _skillImageNamePrefix = proto.iconImgName;
   _executedInitialAction = NO;
   
   // Properties
@@ -110,6 +113,11 @@
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player
 {
   return damage;
+}
+
+- (BOOL) skillOwnerWillEvade
+{
+  return NO;
 }
 
 - (void) skillTriggerFinished

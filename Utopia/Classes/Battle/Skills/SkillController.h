@@ -34,7 +34,11 @@ typedef enum {
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
-static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"tskin"};
+static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade"};
+
+static NSString* const kSkillIconImageNameSuffix = @"icon.png";
+static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
+static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 ///////////////////////////////////////////////////////////////////////////
 // SkillController interface
@@ -55,6 +59,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 @property (readonly) SkillType            skillType;
 @property (readonly) SkillActivationType  activationType;
 @property (readonly) NSInteger            skillId;
+@property (readonly) NSString*            skillImageNamePrefix;
 
 @property (weak, nonatomic) NewBattleLayer  *battleLayer;
 @property (weak, nonatomic) BattlePlayer    *player;
@@ -74,6 +79,7 @@ static NSString* const cheatCodesForSkills[] = {@"", @"reset", @"cake", @"goo", 
 - (void) orbDestroyed:(OrbColor)color special:(SpecialOrbType)type;
 - (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 - (NSInteger) modifyDamage:(NSInteger)damage forPlayer:(BOOL)player;
+- (BOOL) skillOwnerWillEvade;
 - (BOOL) triggerSkill:(SkillTriggerPoint)trigger withCompletion:(SkillControllerBlock)completion;
 - (void) restoreVisualsIfNeeded;
 
