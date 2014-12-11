@@ -315,6 +315,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSetDefendingMsgEvent:
       responseClass = [SetDefendingMsgResponseProto class];
       break;
+    case EventProtocolResponseSBeginClanAvengingEvent:
+      responseClass = [BeginClanAvengingResponseProto class];
+      break;
+    case EventProtocolResponseSEndClanAvengingEvent:
+      responseClass = [EndClanAvengingResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1362,6 +1368,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.clanHelpUtil removeClanHelpUuids:proto.clanHelpUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan help."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+#pragma mark - Clan Avenge
+
+- (void) handleBeginClanAvengingResponseProto:(FullEvent *)fe {
+  BeginClanAvengingResponseProto *proto = (BeginClanAvengingResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Begin clan avenge response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server failed to begin clan avenge."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEndClanAvengingResponseProto:(FullEvent *)fe {
+  EndClanAvengingResponseProto *proto = (EndClanAvengingResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"End clan avenge response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EndClanAvengingResponseProto_EndClanAvengingStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server failed to end clan avenge."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

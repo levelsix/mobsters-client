@@ -653,6 +653,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   
+  for (PvpClanAvenging *ca in self.clanAvengings) {
+    if (ca.isValid) {
+      [arr addObject:ca];
+    }
+  }
+  
   
   [arr sortUsingComparator:^NSComparisonResult(id<ChatObject> obj1, id<ChatObject> obj2) {
     return [[obj1 date] compare:[obj2 date]];
