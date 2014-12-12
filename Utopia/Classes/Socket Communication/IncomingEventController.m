@@ -321,6 +321,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEndClanAvengingEvent:
       responseClass = [EndClanAvengingResponseProto class];
       break;
+    case EventProtocolResponseSAvengeClanMateEvent:
+      responseClass = [AvengeClanMateResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1381,8 +1384,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess) {
     [gs addClanAvengings:proto.clanAvengingsList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin clan avenge."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAvengeClanMateResponseProto:(FullEvent *)fe {
+  AvengeClanMateResponseProto *proto = (AvengeClanMateResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Avenge clan mate response received with status %d.", (int)proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AvengeClanMateResponseProto_AvengeClanMateStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to avenge clan mate."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1396,6 +1416,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanAvengingResponseProto_EndClanAvengingStatusSuccess) {
     [gs removeClanAvengings:proto.clanAvengeUuidsList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to end clan avenge."];
     

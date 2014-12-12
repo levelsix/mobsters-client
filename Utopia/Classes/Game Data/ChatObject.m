@@ -292,8 +292,10 @@
 }
 
 - (IBAction)revengeClicked:(id)sender {
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc beginPvpMatchForRevenge:self];
+  if ([Globals checkEnteringDungeon]) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc beginPvpMatchForRevenge:self];
+  }
 }
 
 - (IBAction) avengeClicked:(UIButton *)sender {
@@ -336,6 +338,18 @@
     }
   }
   return self;
+}
+
+- (PvpClanAvengeProto *) convertToProto {
+  PvpClanAvengeProto_Builder *bldr = [PvpClanAvengeProto builder];
+  bldr.clanAvengeUuid = self.clanAvengeUuid;
+  bldr.attacker = self.attacker;
+  bldr.defender = self.defender;
+  bldr.defenderClanUuid = self.clanUuid;
+  bldr.battleEndTime = self.battleEndTime.timeIntervalSince1970*1000.;
+  bldr.avengeRequestTime = self.avengeRequestTime.timeIntervalSince1970*1000.;
+  
+  return bldr.build;
 }
 
 - (BOOL) isValid {
@@ -413,8 +427,10 @@
 }
 
 - (IBAction)attackClicked:(id)sender {
-  GameViewController *gvc = [GameViewController baseController];
-  [gvc beginPvpMatchForAvenge:self];
+  if ([Globals checkEnteringDungeon]) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc beginPvpMatchForAvenge:self];
+  }
 }
 
 - (IBAction)profileClicked:(id)sender {
@@ -428,9 +444,9 @@
 - (BOOL) isEqual:(PvpClanAvenging *)object {
   return [self class] == [object class] &&
   ( (self.clanAvengeUuid && [object clanAvengeUuid] && [self.clanAvengeUuid isEqualToString:[object clanAvengeUuid]]) ||
-    ( (!self.clanAvengeUuid || ![object clanAvengeUuid]) &&
-     [self.attacker.minUserProto.userUuid isEqualToString:[object attacker].minUserProto.userUuid] &&
-     [self.defender.userUuid isEqualToString:[object defender].userUuid]));
+   ( (!self.clanAvengeUuid || ![object clanAvengeUuid]) &&
+    [self.attacker.minUserProto.userUuid isEqualToString:[object attacker].minUserProto.userUuid] &&
+    [self.defender.userUuid isEqualToString:[object defender].userUuid]));
 }
 
 @end

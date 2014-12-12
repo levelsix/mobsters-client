@@ -10,6 +10,8 @@
 
 #import "ResourceItemsFiller.h"
 
+#import "ChatObject.h"
+
 @interface PvpBattleLayer : NewBattleLayer <ResourceItemsFillerDelegate> {
   BOOL _receivedEndPvpResponse;
   BOOL _waitingForEndPvpResponse;
@@ -27,6 +29,7 @@
   BOOL _didRunaway;
   
   UIImage* _nextMatchButtonMask;
+  PvpClanAvenging *_clanAvenging;
 }
 
 @property (nonatomic, retain) NSArray *defendersList;
@@ -45,5 +48,7 @@
 @property (nonatomic, retain) ResourceItemsFiller *resourceItemsFiller;
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist;
+
+- (void) setClanAvenging:(PvpClanAvenging *)ca;
 
 @end

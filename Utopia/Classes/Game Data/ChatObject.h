@@ -82,6 +82,8 @@
 
 - (id) initWithClanAvengeProto:(PvpClanAvengeProto *)proto;
 
+- (PvpClanAvengeProto *) convertToProto;
+
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)profileClicked:(id)sender;
 

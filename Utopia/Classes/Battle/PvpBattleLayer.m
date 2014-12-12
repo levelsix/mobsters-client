@@ -58,6 +58,10 @@
   return self;
 }
 
+- (void) setClanAvenging:(PvpClanAvenging *)ca {
+  _clanAvenging = ca;
+}
+
 - (CCSprite *) getCurrentEnemyLoot {
   GameState *gs = [GameState sharedGameState];
   PvpProto *pvp = self.defendersList[_curQueueNum];
@@ -107,6 +111,12 @@
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums] isWin:YES];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
+  
+  // Send a private chat if avenge
+  if (_clanAvenging) {
+    NSString *msg = [NSString stringWithFormat:@"Avenged you by attacking %@ and won.", _clanAvenging.attacker.minUserProto.name];
+    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg];
+  }
 }
 
 - (void) youLost {
@@ -228,7 +238,7 @@
     self.queueNode.visible = YES;
     self.queueNode.position = ccp(self.contentSize.width-self.queueNode.contentSize.width, self.contentSize.height/2-self.queueNode.contentSize.height/2);
     self.queueNode.gradientNode.scaleY = self.contentSize.height/self.queueNode.gradientNode.contentSize.height;
-    [self.queueNode fadeInAnimationForIsRevenge:_isRevenge];
+    [self.queueNode fadeInAnimationForIsRevenge:_isRevenge || _clanAvenging];
     
     [SoundEngine puzzlePvpQueueUISlideIn];
   }
@@ -400,7 +410,18 @@
     _curQueueNum = -1;
     self.defendersList = proto.defenderInfoListList;
   } else {
-    [self performSelector:@selector(exitFinal) withObject:nil afterDelay:2.f];
+    [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to find any enemies for you at the moment. Try again later." title:@"No Enemies Found!" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
+  }
+}
+
+- (void) handleAvengeClanMateResponseProto:(FullEvent *)fe {
+  AvengeClanMateResponseProto *proto = (AvengeClanMateResponseProto *)fe.event;
+  
+  if (proto.status == AvengeClanMateResponseProto_AvengeClanMateStatusSuccess) {
+    _curQueueNum = -1;
+    self.defendersList = @[proto.victim];
+  } else {
+    [GenericPopupController displayNotificationViewWithText:@"Sorry, we were unable to load this enemy." title:@"Enemy Not Found" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
   }
 }
 

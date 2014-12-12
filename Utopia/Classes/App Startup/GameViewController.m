@@ -1061,6 +1061,9 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8)];
   bl.delegate = self;
+  [bl setClanAvenging:ca];
+  
+  [[OutgoingEventController sharedOutgoingEventController] queueUpForClanAvenge:ca delegate:bl];
   
   [self crossFadeIntoBattleLayer:bl];
 }

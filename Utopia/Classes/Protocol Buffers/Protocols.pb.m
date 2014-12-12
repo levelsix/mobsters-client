@@ -152,6 +152,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSetDefendingMsgEvent:
     case EventProtocolRequestCBeginClanAvengingEvent:
     case EventProtocolRequestCEndClanAvengingEvent:
+    case EventProtocolRequestCAvengeClanMateEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestCDevEvent:
       return YES;
@@ -251,6 +252,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSetDefendingMsgEvent:
     case EventProtocolResponseSBeginClanAvengingEvent:
     case EventProtocolResponseSEndClanAvengingEvent:
+    case EventProtocolResponseSAvengeClanMateEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

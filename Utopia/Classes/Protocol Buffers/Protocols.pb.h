@@ -74,6 +74,10 @@
 @class AttackClanRaidMonsterRequestProto_Builder;
 @class AttackClanRaidMonsterResponseProto;
 @class AttackClanRaidMonsterResponseProto_Builder;
+@class AvengeClanMateRequestProto;
+@class AvengeClanMateRequestProto_Builder;
+@class AvengeClanMateResponseProto;
+@class AvengeClanMateResponseProto_Builder;
 @class AwardClanRaidStageRewardResponseProto;
 @class AwardClanRaidStageRewardResponseProto_Builder;
 @class BeginClanAvengingRequestProto;
@@ -771,6 +775,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCSetDefendingMsgEvent = 89,
   EventProtocolRequestCBeginClanAvengingEvent = 90,
   EventProtocolRequestCEndClanAvengingEvent = 91,
+  EventProtocolRequestCAvengeClanMateEvent = 92,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -868,6 +873,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSSetDefendingMsgEvent = 89,
   EventProtocolResponseSBeginClanAvengingEvent = 90,
   EventProtocolResponseSEndClanAvengingEvent = 91,
+  EventProtocolResponseSAvengeClanMateEvent = 92,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

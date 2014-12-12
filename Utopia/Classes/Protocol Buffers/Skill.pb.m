@@ -34,6 +34,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeThickSkin:
     case SkillTypeCritAndEvade:
     case SkillTypeShuffle:
+    case SkillTypeHeadshot:
       return YES;
     default:
       return NO;

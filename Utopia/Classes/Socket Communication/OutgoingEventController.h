@@ -12,6 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "StoreKit/StoreKit.h"
 #import "BattlePlayer.h"
+#import "ChatObject.h"
 
 @interface OutgoingEventController : NSObject
 
@@ -103,6 +104,7 @@
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
 
 - (void) beginClanAvenge:(PvpHistoryProto *)pvp;
+- (void) queueUpForClanAvenge:(PvpClanAvenging *)ca delegate:(id)delegate;
 - (void) endClanAvengings:(NSArray *)clanAvengings;
 
 - (BOOL) removeMonsterFromTeam:(NSString *)userMonsterUuid;

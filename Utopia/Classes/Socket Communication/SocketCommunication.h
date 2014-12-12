@@ -205,6 +205,7 @@
 
 - (int) sendBeginClanAvengingMessage:(NSArray *)pvpHistories clientTime:(uint64_t)clientTime;
 - (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids;
+- (int) sendAvengeClanMateMessage:(PvpClanAvengeProto *)ca clientTime:(uint64_t)clientTime;
 
 - (void) flush;
 

@@ -1515,6 +1515,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginClanAvengingEvent];
 }
 
+- (int) sendAvengeClanMateMessage:(PvpClanAvengeProto *)ca clientTime:(uint64_t)clientTime {
+  AvengeClanMateRequestProto *req = [[[[[AvengeClanMateRequestProto builder]
+                                       setSender:_sender]
+                                      setClanAvenge:ca]
+                                     setClientTime:clientTime]
+                                     build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCAvengeClanMateEvent];
+}
+
 - (int) sendEndClanAvengingMessage:(NSArray *)avengeUuids {
   EndClanAvengingRequestProto *req = [[[[EndClanAvengingRequestProto builder]
                                         setSender:_sender]

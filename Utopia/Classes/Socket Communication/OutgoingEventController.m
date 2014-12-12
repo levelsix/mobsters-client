@@ -1355,8 +1355,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) queueUpForClanAvenge:(PvpClanAvenging *)ca {
+- (void) queueUpForClanAvenge:(PvpClanAvenging *)ca delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendAvengeClanMateMessage:[ca convertToProto] clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
+  GameState *gs = [GameState sharedGameState];
+  [ca.avengedUserUuids addObject:gs.userUuid];
 }
 
 - (void) endClanAvengings:(NSArray *)clanAvengings {

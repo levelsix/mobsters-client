@@ -16065,5 +16065,691 @@ BOOL EndClanAvengingResponseProto_EndClanAvengingStatusIsValidValue(EndClanAveng
 }
 @end
 
+@interface AvengeClanMateRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) PvpClanAvengeProto* clanAvenge;
+@property int64_t clientTime;
+@end
+
+@implementation AvengeClanMateRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasClanAvenge {
+  return !!hasClanAvenge_;
+}
+- (void) setHasClanAvenge:(BOOL) value_ {
+  hasClanAvenge_ = !!value_;
+}
+@synthesize clanAvenge;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value_ {
+  hasClientTime_ = !!value_;
+}
+@synthesize clientTime;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.clanAvenge = [PvpClanAvengeProto defaultInstance];
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static AvengeClanMateRequestProto* defaultAvengeClanMateRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [AvengeClanMateRequestProto class]) {
+    defaultAvengeClanMateRequestProtoInstance = [[AvengeClanMateRequestProto alloc] init];
+  }
+}
++ (AvengeClanMateRequestProto*) defaultInstance {
+  return defaultAvengeClanMateRequestProtoInstance;
+}
+- (AvengeClanMateRequestProto*) defaultInstance {
+  return defaultAvengeClanMateRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasClanAvenge) {
+    [output writeMessage:2 value:self.clanAvenge];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClanAvenge) {
+    size_ += computeMessageSize(2, self.clanAvenge);
+  }
+  if (self.hasClientTime) {
+    size_ += computeInt64Size(3, self.clientTime);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (AvengeClanMateRequestProto*) parseFromData:(NSData*) data {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromData:data] build];
+}
++ (AvengeClanMateRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromInputStream:input] build];
+}
++ (AvengeClanMateRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AvengeClanMateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateRequestProto*)[[[AvengeClanMateRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateRequestProto_Builder*) builder {
+  return [[AvengeClanMateRequestProto_Builder alloc] init];
+}
++ (AvengeClanMateRequestProto_Builder*) builderWithPrototype:(AvengeClanMateRequestProto*) prototype {
+  return [[AvengeClanMateRequestProto builder] mergeFrom:prototype];
+}
+- (AvengeClanMateRequestProto_Builder*) builder {
+  return [AvengeClanMateRequestProto builder];
+}
+- (AvengeClanMateRequestProto_Builder*) toBuilder {
+  return [AvengeClanMateRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClanAvenge) {
+    [output appendFormat:@"%@%@ {\n", indent, @"clanAvenge"];
+    [self.clanAvenge writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasClientTime) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientTime", [NSNumber numberWithLongLong:self.clientTime]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[AvengeClanMateRequestProto class]]) {
+    return NO;
+  }
+  AvengeClanMateRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasClanAvenge == otherMessage.hasClanAvenge &&
+      (!self.hasClanAvenge || [self.clanAvenge isEqual:otherMessage.clanAvenge]) &&
+      self.hasClientTime == otherMessage.hasClientTime &&
+      (!self.hasClientTime || self.clientTime == otherMessage.clientTime) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasClanAvenge) {
+    hashCode = hashCode * 31 + [self.clanAvenge hash];
+  }
+  if (self.hasClientTime) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithLongLong:self.clientTime] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface AvengeClanMateRequestProto_Builder()
+@property (strong) AvengeClanMateRequestProto* result;
+@end
+
+@implementation AvengeClanMateRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[AvengeClanMateRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AvengeClanMateRequestProto_Builder*) clear {
+  self.result = [[AvengeClanMateRequestProto alloc] init];
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) clone {
+  return [AvengeClanMateRequestProto builderWithPrototype:result];
+}
+- (AvengeClanMateRequestProto*) defaultInstance {
+  return [AvengeClanMateRequestProto defaultInstance];
+}
+- (AvengeClanMateRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AvengeClanMateRequestProto*) buildPartial {
+  AvengeClanMateRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (AvengeClanMateRequestProto_Builder*) mergeFrom:(AvengeClanMateRequestProto*) other {
+  if (other == [AvengeClanMateRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasClanAvenge) {
+    [self mergeClanAvenge:other.clanAvenge];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AvengeClanMateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        PvpClanAvengeProto_Builder* subBuilder = [PvpClanAvengeProto builder];
+        if (self.hasClanAvenge) {
+          [subBuilder mergeFrom:self.clanAvenge];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setClanAvenge:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AvengeClanMateRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AvengeClanMateRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClanAvenge {
+  return result.hasClanAvenge;
+}
+- (PvpClanAvengeProto*) clanAvenge {
+  return result.clanAvenge;
+}
+- (AvengeClanMateRequestProto_Builder*) setClanAvenge:(PvpClanAvengeProto*) value {
+  result.hasClanAvenge = YES;
+  result.clanAvenge = value;
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) setClanAvenge_Builder:(PvpClanAvengeProto_Builder*) builderForValue {
+  return [self setClanAvenge:[builderForValue build]];
+}
+- (AvengeClanMateRequestProto_Builder*) mergeClanAvenge:(PvpClanAvengeProto*) value {
+  if (result.hasClanAvenge &&
+      result.clanAvenge != [PvpClanAvengeProto defaultInstance]) {
+    result.clanAvenge =
+      [[[PvpClanAvengeProto builderWithPrototype:result.clanAvenge] mergeFrom:value] buildPartial];
+  } else {
+    result.clanAvenge = value;
+  }
+  result.hasClanAvenge = YES;
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) clearClanAvenge {
+  result.hasClanAvenge = NO;
+  result.clanAvenge = [PvpClanAvengeProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (AvengeClanMateRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (AvengeClanMateRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface AvengeClanMateResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) PvpProto* victim;
+@property AvengeClanMateResponseProto_AvengeClanMateStatus status;
+@end
+
+@implementation AvengeClanMateResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasVictim {
+  return !!hasVictim_;
+}
+- (void) setHasVictim:(BOOL) value_ {
+  hasVictim_ = !!value_;
+}
+@synthesize victim;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.victim = [PvpProto defaultInstance];
+    self.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
+  }
+  return self;
+}
+static AvengeClanMateResponseProto* defaultAvengeClanMateResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [AvengeClanMateResponseProto class]) {
+    defaultAvengeClanMateResponseProtoInstance = [[AvengeClanMateResponseProto alloc] init];
+  }
+}
++ (AvengeClanMateResponseProto*) defaultInstance {
+  return defaultAvengeClanMateResponseProtoInstance;
+}
+- (AvengeClanMateResponseProto*) defaultInstance {
+  return defaultAvengeClanMateResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasVictim) {
+    [output writeMessage:2 value:self.victim];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasVictim) {
+    size_ += computeMessageSize(2, self.victim);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (AvengeClanMateResponseProto*) parseFromData:(NSData*) data {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromData:data] build];
+}
++ (AvengeClanMateResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromInputStream:input] build];
+}
++ (AvengeClanMateResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AvengeClanMateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AvengeClanMateResponseProto*)[[[AvengeClanMateResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AvengeClanMateResponseProto_Builder*) builder {
+  return [[AvengeClanMateResponseProto_Builder alloc] init];
+}
++ (AvengeClanMateResponseProto_Builder*) builderWithPrototype:(AvengeClanMateResponseProto*) prototype {
+  return [[AvengeClanMateResponseProto builder] mergeFrom:prototype];
+}
+- (AvengeClanMateResponseProto_Builder*) builder {
+  return [AvengeClanMateResponseProto builder];
+}
+- (AvengeClanMateResponseProto_Builder*) toBuilder {
+  return [AvengeClanMateResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasVictim) {
+    [output appendFormat:@"%@%@ {\n", indent, @"victim"];
+    [self.victim writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[AvengeClanMateResponseProto class]]) {
+    return NO;
+  }
+  AvengeClanMateResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasVictim == otherMessage.hasVictim &&
+      (!self.hasVictim || [self.victim isEqual:otherMessage.victim]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasVictim) {
+    hashCode = hashCode * 31 + [self.victim hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMateResponseProto_AvengeClanMateStatus value) {
+  switch (value) {
+    case AvengeClanMateResponseProto_AvengeClanMateStatusSuccess:
+    case AvengeClanMateResponseProto_AvengeClanMateStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface AvengeClanMateResponseProto_Builder()
+@property (strong) AvengeClanMateResponseProto* result;
+@end
+
+@implementation AvengeClanMateResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[AvengeClanMateResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AvengeClanMateResponseProto_Builder*) clear {
+  self.result = [[AvengeClanMateResponseProto alloc] init];
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) clone {
+  return [AvengeClanMateResponseProto builderWithPrototype:result];
+}
+- (AvengeClanMateResponseProto*) defaultInstance {
+  return [AvengeClanMateResponseProto defaultInstance];
+}
+- (AvengeClanMateResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AvengeClanMateResponseProto*) buildPartial {
+  AvengeClanMateResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (AvengeClanMateResponseProto_Builder*) mergeFrom:(AvengeClanMateResponseProto*) other {
+  if (other == [AvengeClanMateResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasVictim) {
+    [self mergeVictim:other.victim];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AvengeClanMateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        PvpProto_Builder* subBuilder = [PvpProto builder];
+        if (self.hasVictim) {
+          [subBuilder mergeFrom:self.victim];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setVictim:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        AvengeClanMateResponseProto_AvengeClanMateStatus value = (AvengeClanMateResponseProto_AvengeClanMateStatus)[input readEnum];
+        if (AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AvengeClanMateResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AvengeClanMateResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasVictim {
+  return result.hasVictim;
+}
+- (PvpProto*) victim {
+  return result.victim;
+}
+- (AvengeClanMateResponseProto_Builder*) setVictim:(PvpProto*) value {
+  result.hasVictim = YES;
+  result.victim = value;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) setVictim_Builder:(PvpProto_Builder*) builderForValue {
+  return [self setVictim:[builderForValue build]];
+}
+- (AvengeClanMateResponseProto_Builder*) mergeVictim:(PvpProto*) value {
+  if (result.hasVictim &&
+      result.victim != [PvpProto defaultInstance]) {
+    result.victim =
+      [[[PvpProto builderWithPrototype:result.victim] mergeFrom:value] buildPartial];
+  } else {
+    result.victim = value;
+  }
+  result.hasVictim = YES;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) clearVictim {
+  result.hasVictim = NO;
+  result.victim = [PvpProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (AvengeClanMateResponseProto_AvengeClanMateStatus) status {
+  return result.status;
+}
+- (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (AvengeClanMateResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = AvengeClanMateResponseProto_AvengeClanMateStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)
