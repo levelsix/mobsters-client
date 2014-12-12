@@ -281,11 +281,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [_enemySkillController restoreVisualsIfNeeded];
   }
   
+  /*
+   * 11/12/14 - BN - All triggers should be sent to skills and skill controllers
+   * should be responsible for implementing logic around various triggers
+   *
   // Skip first skill attack for both player and enemy if it's right after enemy appearance
   if (trigger == SkillTriggerPointStartOfEnemyTurn && _turnsCounter == 0)
     shouldTriggerEnemySkill = NO;
   if (trigger == SkillTriggerPointStartOfPlayerTurn && _turnsCounter == 0)
     shouldTriggerPlayerSkill = NO;
+   */
   
   // Skipp EnemyAppeared trigger except for the first time
   if (trigger == SkillTriggerPointEnemyAppeared && _turnsCounter != 0)

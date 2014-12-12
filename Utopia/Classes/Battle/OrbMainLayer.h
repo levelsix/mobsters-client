@@ -20,7 +20,7 @@
 - (void) orbKilled:(BattleOrb *)orb;
 - (void) powerupCreated:(BattleOrb *)orb;
 - (void) moveComplete;
-- (void) reshuffle;
+- (void) reshuffleWithPrompt:(NSString*)prompt;
 
 @end
 
@@ -45,6 +45,7 @@
 - (void) schedulePulse;
 - (void) allowInput;
 - (void) disallowInput;
+- (void) shuffleWithCompletion:(void(^)())completion;
 
 - (id) serialize;
 - (void) deserialize:(NSArray *)arr;
