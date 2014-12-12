@@ -191,6 +191,8 @@
     self.shouldShowChatLine = NO;
     self.droplessStageNums = [NSMutableArray array];
     
+    _enemyCounter = 0;
+    
     [self loadHudView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
@@ -603,6 +605,7 @@
       if (_firstTurn) {
         // Trigger skills when new enemy joins the battle
         SkillLogStart(@"TRIGGER STARTED: enemy appeared");
+        ++_enemyCounter;
         [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
           SkillLogEnd(triggered, @"  Enemy appeared trigger ENDED");
           [self processNextTurn: triggered ? 0.3 : delay]; // Don't wait if we're in the middle of enemy turn (ie skill was triggered and now is his turn)
@@ -624,6 +627,11 @@
   } else {
     [self beginEnemyTurn:delay];
   }
+}
+
+- (BOOL) isFirstEnemy
+{
+  return (_enemyCounter <= 1);
 }
 
 - (void) beginMyTurn {
@@ -1746,8 +1754,8 @@
   _comboCount = 0;
 }
 
-- (void) reshuffle {
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"No more moves!\nShuffling..." fontName:@"GothamBlack" fontSize:20];
+- (void) reshuffleWithPrompt:(NSString*)prompt {
+  CCLabelTTF *label = [CCLabelTTF labelWithString:prompt fontName:@"GothamBlack" fontSize:15];
   label.horizontalAlignment = CCTextAlignmentCenter;
   label.verticalAlignment = CCVerticalTextAlignmentCenter;
   label.position = ccp(self.orbLayer.contentSize.width/2, self.orbLayer.contentSize.height/2);

@@ -102,6 +102,8 @@
   BOOL _displayedWaveNumber;
   BOOL _reachedNextScene;
   BOOL _firstTurn;
+  
+  int _enemyCounter;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -222,5 +224,7 @@
 - (NSInteger) playerMobstersLeft;
 
 - (void) processNextTurn:(float)delay;
+
+- (BOOL) isFirstEnemy;
 
 @end

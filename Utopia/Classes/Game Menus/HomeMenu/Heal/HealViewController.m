@@ -584,11 +584,11 @@ static BOOL isAnimating = NO;
                               withDirection:invokingViewAbsolutePosition.y < [Globals screenSize].height * .25f ? ViewAnchoringPreferBottomPlacement : ViewAnchoringPreferLeftPlacement
                           inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
           }
-          else if ([sender isKindOfClass:[UIButton class]]) // Speed up evolving mobster
+          else if ([sender isKindOfClass:[UIButton class]]) // Speed up healing mobster
           {
             UIButton* invokingButton = (UIButton*)sender;
             [svc showAnchoredToInvokingView:invokingButton
-                              withDirection:ViewAnchoringPreferTopPlacement
+                              withDirection:ViewAnchoringPreferLeftPlacement
                           inkovingViewImage:[invokingButton backgroundImageForState:invokingButton.state]];
           }
         }

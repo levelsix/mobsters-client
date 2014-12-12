@@ -8,7 +8,6 @@
 
 #import "SkillCritAndEvade.h"
 #import "NewBattleLayer.h"
-#import "Globals.h"
 #import "SkillManager.h"
 
 @implementation SkillCritAndEvade
@@ -25,6 +24,7 @@
   _missChance = 0.f;
   _criticalHit = NO;
   _evaded = NO;
+  _missed = NO;
   _logoShown = NO;
 }
 

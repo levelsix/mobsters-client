@@ -365,6 +365,15 @@
 		9BDA8B3E1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B3F1A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
 		9BDA8B401A3945F600C7AC27 /* evasionminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */; };
+		9BDA8B481A3A481300C7AC27 /* SkillShuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */; };
+		9BDA8B491A3A481300C7AC27 /* SkillShuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */; };
+		9BDA8B4A1A3A481300C7AC27 /* SkillShuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */; };
+		9BDA8B531A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */; };
+		9BDA8B541A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */; };
+		9BDA8B551A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */; };
+		9BDA8B581A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */; };
+		9BDA8B591A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */; };
+		9BDA8B5A1A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6614,6 +6623,10 @@
 		9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionicon@2x.png"; sourceTree = "<group>"; };
 		9BDA8B391A3945DB00C7AC27 /* evasionlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionlogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
+		9BDA8B461A3A481300C7AC27 /* SkillShuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillShuffle.h; sourceTree = "<group>"; };
+		9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillShuffle.m; sourceTree = "<group>"; };
+		9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shufflelogo@2x.png"; sourceTree = "<group>"; };
+		9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffleicon@2x.png"; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -11416,6 +11429,7 @@
 				4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */,
 				9B8CA6301A37DD2F0060BE8F /* momentumicon@2x.png */,
 				DA5E401B19D10504001F28CE /* roidrageicon@2x.png */,
+				9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */,
 				9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */,
 			);
 			path = "Skill Icons";
@@ -16006,6 +16020,8 @@
 				9B2389D51A314B8400FA3743 /* SkillThickSkin.m */,
 				9B8CA60F1A3798C00060BE8F /* SkillCritAndEvade.h */,
 				9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */,
+				9BDA8B461A3A481300C7AC27 /* SkillShuffle.h */,
+				9BDA8B471A3A481300C7AC27 /* SkillShuffle.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -16078,6 +16094,7 @@
 				DA173A7C19CBAF2A005236C0 /* poisonlogo@2x.png */,
 				DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */,
 				DA5E401119D104FC001F28CE /* roidragelogo@2x.png */,
+				9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */,
 				9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */,
 			);
 			path = "Skill Intro";
@@ -16250,6 +16267,7 @@
 				CF0CEE2F196F452900ECD301 /* battlesupertag@2x.png in Resources */,
 				CF0CEE30196F452900ECD301 /* scievobox@2x.png in Resources */,
 				CF0CEE31196F452900ECD301 /* profstatsactive@2x.png in Resources */,
+				9BDA8B541A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */,
 				CF37377F19E36B1D00CB16E3 /* youwonwon@2x.png in Resources */,
 				CF812EFD19E67D4E00D91157 /* clanshelpinactive@2x.png in Resources */,
 				4C16FF0A19CE03AE00F9FC1E /* bombicon@2x.png in Resources */,
@@ -17550,6 +17568,7 @@
 				DA88EB4219B93553005EE827 /* SkillPopupOverlay.xib in Resources */,
 				CF0CF5A1196F452900ECD301 /* Scientist4Blink06@2x.png in Resources */,
 				CF0CDE8819E5050E006A5ECB /* moretimerarrow@2x.png in Resources */,
+				9BDA8B591A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */,
 				CF0CF5A3196F452900ECD301 /* questiconactive@2x.png in Resources */,
 				CFF2A65D1974997A00269084 /* pvpplatinumribbon@2x.png in Resources */,
 				CF0CF5A5196F452900ECD301 /* stagecomplete@2x.png in Resources */,
@@ -18048,6 +18067,7 @@
 				298050601A265EE800806253 /* 16gbhud@2x.png in Resources */,
 				CF1279A5181F5F1600211623 /* upgrade@2x.png in Resources */,
 				CFF64719195E3EFF00C43641 /* evolveequals.png in Resources */,
+				9BDA8B531A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */,
 				CFA793771A0C63ED00DF3407 /* earthcakeeventlive@2x.png in Resources */,
 				CF29E99E1962C9E900B40DA4 /* battlesupertag@2x.png in Resources */,
 				CFF64728195E586900C43641 /* scievobox@2x.png in Resources */,
@@ -19348,6 +19368,7 @@
 				CFC45C0B1942955600BBA4A6 /* 3starmachineinactive@2x.png in Resources */,
 				CFF0B4B618AEC5BE00C13A27 /* speechbubble@2x.png in Resources */,
 				CFF7873118E28FE200413E78 /* newnumber@2x.png in Resources */,
+				9BDA8B581A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */,
 				CFEE896F18EA0ED200047CA4 /* itemfoundbg@2x.png in Resources */,
 				CFFBDF4018ACA3D90090CA9A /* Scientist1Breath09@2x.png in Resources */,
 				CFF6468D195A6A0B00C43641 /* commondot@2x.png in Resources */,
@@ -20804,6 +20825,7 @@
 				CF48204619F7217F00041486 /* diamondbig@2x.png in Resources */,
 				CF48204719F7217F00041486 /* minitimebg@2x.png in Resources */,
 				CF48204819F7217F00041486 /* firebomb@2x.png in Resources */,
+				9BDA8B551A3A4CDC00C7AC27 /* shufflelogo@2x.png in Resources */,
 				CF48204919F7217F00041486 /* topbarbg@2x.png in Resources */,
 				CF48204D19F7217F00041486 /* obtimerbg@2x.png in Resources */,
 				CF48204F19F7217F00041486 /* menumobstersactive@2x.png in Resources */,
@@ -21169,6 +21191,7 @@
 				CF48229519F7217F00041486 /* upgradebarnewmiddle@2x.png in Resources */,
 				29FFD9651A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
 				CF48229619F7217F00041486 /* close1.png in Resources */,
+				9BDA8B5A1A3A4D0600C7AC27 /* shuffleicon@2x.png in Resources */,
 				CF48229719F7217F00041486 /* menuclosex@2x.png in Resources */,
 				CF48229819F7217F00041486 /* close1@2x.png in Resources */,
 				CF48229A19F7217F00041486 /* UpgradeBonusCell.xib in Resources */,
@@ -22020,6 +22043,7 @@
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */,
 				CF812F0919E73E1900D91157 /* ClanHelp.m in Sources */,
+				9BDA8B491A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF0CEDDE196F452900ECD301 /* BattlePlayer.m in Sources */,
 				CF0CEDDF196F452900ECD301 /* EventInAppPurchase.pb.m in Sources */,
 				CF4F783219BE4932001B7B7C /* HudNotificationController.m in Sources */,
@@ -22209,6 +22233,7 @@
 				CFFB3B7219820E8F005D7AF5 /* Dev.pb.m in Sources */,
 				CFE11F771A141C040094F797 /* amqp_framing.c in Sources */,
 				CF7063FD183F5110005B30A1 /* HomeBuilding.m in Sources */,
+				9BDA8B481A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF32EAF3195FFA6400A4AEE3 /* ShopViewController.m in Sources */,
 				CF62E70715FEC6D500DF850F /* ClanViewController.m in Sources */,
 				CF30279218C0176B009D2D25 /* ClanRaidViewController.m in Sources */,
@@ -22609,6 +22634,7 @@
 				CF48198E19F7217F00041486 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF48198F19F7217F00041486 /* TimerAction.m in Sources */,
 				CF48199019F7217F00041486 /* ClanHelp.m in Sources */,
+				9BDA8B4A1A3A481300C7AC27 /* SkillShuffle.m in Sources */,
 				CF48199119F7217F00041486 /* BattlePlayer.m in Sources */,
 				CF48199219F7217F00041486 /* EventInAppPurchase.pb.m in Sources */,
 				CF48199319F7217F00041486 /* HudNotificationController.m in Sources */,

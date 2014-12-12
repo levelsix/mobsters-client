@@ -18,6 +18,7 @@
 #import "SkillMomentum.h"
 #import "SkillThickSkin.h"
 #import "SkillCritAndEvade.h"
+#import "SkillShuffle.h"
 
 @implementation SkillController
 
@@ -35,6 +36,7 @@
     case SkillTypeMomentum: return [[SkillMomentum alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeThickSkin: return [[SkillThickSkin alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeCritAndEvade: return [[SkillCritAndEvade alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeShuffle: return [[SkillShuffle alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

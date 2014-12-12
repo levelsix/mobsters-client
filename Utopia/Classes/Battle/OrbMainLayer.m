@@ -133,7 +133,7 @@
           [self.delegate moveComplete];
         }];
         
-        [self.delegate reshuffle];
+        [self.delegate reshuffleWithPrompt:@"No more moves!\nShuffling..."];
       } else {
         [self.delegate moveComplete];
       }
@@ -244,6 +244,12 @@
       [self handleMatches:nil];
     }];
   }];
+}
+
+- (void) shuffleWithCompletion:(void(^)())completion
+{
+  [self.swipeLayer animateShuffle:[self.layout shuffle] completion:completion];
+  [self.delegate reshuffleWithPrompt:@"Shuffling..."];
 }
 
 #pragma mark - Allowing input
