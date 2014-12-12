@@ -667,6 +667,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (void) addClanAvengings:(NSArray *)protos {
+  for (PvpClanAvengeProto *proto  in protos) {
+    PvpClanAvenging *ca = [[PvpClanAvenging alloc] initWithClanAvengeProto:proto];
+    
+    NSInteger i = [self.clanAvengings indexOfObject:ca];
+    
+    if (i != NSNotFound) {
+      [self.clanAvengings replaceObjectAtIndex:i withObject:ca];
+    } else {
+      [self.clanAvengings addObject:ca];
+    }
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
+}
+
+- (void) removeClanAvengings:(NSArray *)avengeIds {
+  for (PvpClanAvenging *ca in [self.clanAvengings copy]) {
+    if ([avengeIds containsObject:ca.clanAvengeUuid]) {
+      [self.clanAvengings removeObject:ca];
+    }
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
+}
+
 - (void) updateClanData:(ClanDataProto *)clanData {
   [self.clanChatMessages removeAllObjects];
   
@@ -675,14 +701,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self addChatMessage:cm scope:GroupChatScopeClan];
   }
   
-  self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
+  self.clanHelpUtil = nil;
+  if (clanData) {
+    self.clanHelpUtil = [[ClanHelpUtil alloc] initWithUserUuid:self.userUuid clanUuid:self.clan.clanUuid clanHelpProtos:clanData.clanHelpingsList];
+  }
   
   [self.clanAvengings removeAllObjects];
-  [self.clanAvengings addObjectsFromArray:clanData.clanAvengingsList];
   for (PvpClanAvengeProto *p in clanData.clanAvengingsList) {
     PvpClanAvenging *ca = [[PvpClanAvenging alloc] initWithClanAvengeProto:p];
     [self.clanAvengings addObject:ca];
   }
+  [self beginAvengeTimer];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_HELPS_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
@@ -1657,6 +1686,63 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (_miniJobTimer) {
     [_miniJobTimer invalidate];
     _miniJobTimer = nil;
+  }
+}
+
+#pragma mark Avenge Timer
+
+- (void) beginAvengeTimer {
+  [self stopAvengeTimer];
+  
+  Globals *gl = [Globals sharedGlobals];
+  NSTimeInterval lowestTimeLeft = 0;
+  for (PvpClanAvenging *ca in self.clanAvengings) {
+    if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
+      MSDate *date = [ca.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60];
+      
+      if (date.timeIntervalSinceNow <= 0) {
+        [self avengeWaitTimeComplete];
+        return;
+      } else {
+        if (lowestTimeLeft == 0 || date.timeIntervalSinceNow < lowestTimeLeft) {
+          lowestTimeLeft = date.timeIntervalSinceNow;
+        }
+      }
+    }
+  }
+  _avengeTimer = [NSTimer timerWithTimeInterval:lowestTimeLeft target:self selector:@selector(avengeWaitTimeComplete) userInfo:nil repeats:NO];
+  [[NSRunLoop mainRunLoop] addTimer:_avengeTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void) avengeWaitTimeComplete {
+  Globals *gl = [Globals sharedGlobals];
+
+  NSMutableArray *expired = [NSMutableArray array];
+  for (PvpClanAvenging *ca in self.clanAvengings.copy) {
+    if ([ca.defender.userUuid isEqualToString:self.userUuid]) {
+      MSDate *date = [ca.avengeRequestTime dateByAddingTimeInterval:gl.beginAvengingTimeLimitMins*60];
+      
+      if (date.timeIntervalSinceNow <= 0) {
+        [expired addObject:ca.clanAvengeUuid];
+        [self.clanAvengings removeObject:ca];
+      }
+    }
+  }
+  
+  if (expired.count) {
+    [[OutgoingEventController sharedOutgoingEventController] endClanAvengings:expired];
+    
+    [self beginAvengeTimer];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
+  }
+
+}
+
+- (void) stopAvengeTimer {
+  if (_avengeTimer) {
+    [_avengeTimer invalidate];
+    _avengeTimer = nil;
   }
 }
 

@@ -111,6 +111,7 @@
 @property (nonatomic, retain) IBOutletCollection(ChatMonsterView) NSArray *monsterViews;
 
 - (void) updateForPvpHistoryProto:(PvpHistoryProto *)pvp;
+- (void) updateTimeForPvpHistoryProto:(PvpHistoryProto *)pvp;
 
 @end
 

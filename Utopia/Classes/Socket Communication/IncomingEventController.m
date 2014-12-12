@@ -1264,8 +1264,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
       
-      [gs.clanChatMessages removeAllObjects];
-      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+      [gs updateClanData:nil];
     } else {
       [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your squad.", proto.sender.name] isImmediate:NO];
       
@@ -1295,8 +1294,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
       
-      [gs.clanChatMessages removeAllObjects];
-      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+      [gs updateClanData:nil];
       
       if (clanName) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been booted from %@.", clanName] isImmediate:NO];
@@ -1382,7 +1380,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginClanAvengingResponseProto_BeginClanAvengingStatusSuccess) {
-    
+    [gs addClanAvengings:proto.clanAvengingsList];
   } else {
     [Globals popupMessage:@"Server failed to begin clan avenge."];
     
@@ -1397,7 +1395,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndClanAvengingResponseProto_EndClanAvengingStatusSuccess) {
-    
+    [gs removeClanAvengings:proto.clanAvengeUuidsList];
   } else {
     [Globals popupMessage:@"Server failed to end clan avenge."];
     

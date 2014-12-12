@@ -366,8 +366,9 @@ static float buttonInitialWidth = 159.f;
 
 - (void) updateTimeForPvpHistoryProto:(PvpHistoryProto *)pvp {
   Globals *gl = [Globals sharedGlobals];
-  int mins = gl.beginAvengingTimeLimitMins;
+  int mins = gl.requestClanToAvengeTimeLimitMins;
   float secs = pvp.battleEndTime/1000.+mins*60;
+  secs = [MSDate dateWithTimeIntervalSince1970:secs].timeIntervalSinceNow;
   
   if (secs > 0) {
     self.avengeTimeLabel.text = [[Globals convertTimeToShortString:secs] uppercaseString];

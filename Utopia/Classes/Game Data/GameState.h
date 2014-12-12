@@ -21,6 +21,7 @@
   NSTimer *_healingTimer;
   NSTimer *_combineTimer;
   NSTimer *_miniJobTimer;
+  NSTimer *_avengeTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -190,6 +191,8 @@
 - (NSArray *) allPrivateChats;
 - (NSArray *) allClanChatObjects;
 - (void) updateClanData:(ClanDataProto *)clanData;
+- (void) addClanAvengings:(NSArray *)protos;
+- (void) removeClanAvengings:(NSArray *)avengeIds;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (NSArray *) acceptedFbRequestsForUserStructUuid:(NSString *)userStructUuid fbStructLevel:(int)level;
@@ -258,6 +261,9 @@
 
 - (void) beginMiniJobTimerShowFreeSpeedupImmediately:(BOOL)freeSpeedup;
 - (void) stopMiniJobTimer;
+
+- (void) beginAvengeTimer;
+- (void) stopAvengeTimer;
 
 - (void) addToRequestedClans:(NSArray *)arr;
 

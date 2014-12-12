@@ -1349,8 +1349,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs.clanAvengings addObject:ca];
     
+    [gs beginAvengeTimer];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_AVENGINGS_CHANGED_NOTIFICATION object:nil];
   }
+}
+
+- (void) queueUpForClanAvenge:(PvpClanAvenging *)ca {
+  
 }
 
 - (void) endClanAvengings:(NSArray *)clanAvengings {

@@ -259,7 +259,7 @@
 
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
   ChatBattleHistoryView *v = (ChatBattleHistoryView *)chatCell.currentChatSubview;
-  [v updateForPvpHistoryProto:self];
+  [v updateTimeForPvpHistoryProto:self];
   return NO;
 }
 
@@ -318,7 +318,7 @@
 }
 
 @end
-     
+
 @implementation PvpClanAvenging
 
 - (id) initWithClanAvengeProto:(PvpClanAvengeProto *)proto {
@@ -423,6 +423,14 @@
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];
+}
+
+- (BOOL) isEqual:(PvpClanAvenging *)object {
+  return [self class] == [object class] &&
+  ( (self.clanAvengeUuid && [object clanAvengeUuid] && [self.clanAvengeUuid isEqualToString:[object clanAvengeUuid]]) ||
+    ( (!self.clanAvengeUuid || ![object clanAvengeUuid]) &&
+     [self.attacker.minUserProto.userUuid isEqualToString:[object attacker].minUserProto.userUuid] &&
+     [self.defender.userUuid isEqualToString:[object defender].userUuid]));
 }
 
 @end
