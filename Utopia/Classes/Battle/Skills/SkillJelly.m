@@ -64,7 +64,7 @@
   if (trigger == SkillTriggerPointStartOfEnemyTurn)
   {
     // Check for the turn
-    if (_turnCounter < _spawnTurns - 1)
+    if (_turnCounter == 0 || _turnCounter < _spawnTurns - 1)
     {
       if (execute)
         _turnCounter++;

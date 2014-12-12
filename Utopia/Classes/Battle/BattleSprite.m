@@ -680,7 +680,6 @@
   
   CCActionFiniteTime* delayAction = [CCActionDelay actionWithDuration:delay];
   CCActionFiniteTime* pauseAction = [CCActionDelay actionWithDuration:duration * .6f];
-  CCActionFiniteTime* jumpSoundAction = [CCActionCallBlock actionWithBlock:^{ [SoundEngine spriteJump]; }];
   
   CCActionFiniteTime* jumpAndMoveAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movement height:height jumps:1];
   CCActionFiniteTime* jumpAndMoveBackAction = [CCActionJumpBy actionWithDuration:duration * .2f position:movementBack height:height jumps:1];
@@ -691,27 +690,24 @@
                           jumpAndMoveBackAction,
                           nil]];
   
+  CCActionFiniteTime* jumpSoundAction = [CCActionCallBlock actionWithBlock:^{ [SoundEngine spriteJump]; }];
+  CCActionFiniteTime* shadowScaleAction = [CCActionSpawn actions:
+                                           [CCActionMoveBy actionWithDuration:duration * .2f position:movement],
+                                           [CCActionSequence actions:
+                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
+                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
+                                            nil],
+                                           nil];
+  
   CCSprite* shadow = (CCSprite*)[self getChildByName:SHADOW_TAG recursively:NO];
   [shadow runAction:[CCActionSequence actions:
                      delayAction,
                      jumpSoundAction,
-                     [CCActionSpawn actions:
-                      [CCActionMoveBy actionWithDuration:duration * .2f position:movement],
-                      [CCActionSequence actions:
-                       [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
-                       [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
-                       nil], // CCActionSequence
-                      nil],  // CCActionSpawn
+                     shadowScaleAction,
                      pauseAction,
                      jumpSoundAction,
-                     [CCActionSpawn actions:
-                      [CCActionMoveBy actionWithDuration:duration * .2f position:movementBack],
-                      [CCActionSequence actions:
-                       [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
-                       [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
-                       nil], // CCActionSequence
-                      nil],  // CCActionSpawn
-                     nil]];  // CCActionSequence
+                     shadowScaleAction,
+                     nil]];
 }
 
 - (void) setScale:(float)scale
