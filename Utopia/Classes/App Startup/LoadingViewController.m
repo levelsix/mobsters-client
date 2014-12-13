@@ -57,7 +57,7 @@
 }
 
 - (void) progressToPercentage:(float)percentage {
-  if (percentage > 0.1) {
+  if (percentage > 0.01) {
     [UIView animateWithDuration:SECONDS_PER_PART animations:^{
       self.loadingBar.percentage = percentage;
     }];

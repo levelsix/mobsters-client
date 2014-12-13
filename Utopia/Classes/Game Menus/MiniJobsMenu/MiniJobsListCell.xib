@@ -19,16 +19,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="e8t-Dd-qgq">
-                        <rect key="frame" x="0.0" y="0.0" width="364" height="61"/>
+                        <rect key="frame" x="0.0" y="0.0" width="364" height="62"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <view contentMode="scaleToFill" id="PbH-d4-fa7">
-                        <rect key="frame" x="0.0" y="0.0" width="364" height="60"/>
+                        <rect key="frame" x="0.0" y="0.0" width="364" height="61"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="UXi-fy-sWM">
-                                <rect key="frame" x="8" y="8" width="85" height="45"/>
+                                <rect key="frame" x="8" y="9" width="85" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Quest At Sea" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="dNr-1f-m4j" customClass="NiceFontLabel12">
@@ -47,7 +47,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="K5i-Vq-5oN">
-                                <rect key="frame" x="126" y="9" width="113" height="43"/>
+                                <rect key="frame" x="126" y="10" width="113" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="minijobsrewardbg.png" id="bY1-E0-zMD">
@@ -63,7 +63,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="Mhe-jN-xjy" customClass="VerticalFlipImageView">
-                                <rect key="frame" x="0.0" y="59" width="364" height="1"/>
+                                <rect key="frame" x="0.0" y="60" width="364" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="o0c-gu-eua">

@@ -29,7 +29,7 @@
 }
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize pvpHistoryForRevenge:(PvpHistoryProto *)hist {
-  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
+  if ((self = [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize])) {
     PvpProto_Builder *pvp = [PvpProto builder];
     
     MinimumUserProto *mup = [[[[[[MinimumUserProto builder] setName:hist.attacker.name]
@@ -114,7 +114,7 @@
   
   // Send a private chat if avenge
   if (_clanAvenging) {
-    NSString *msg = [NSString stringWithFormat:@"Avenged you by attacking %@ and won.", _clanAvenging.attacker.minUserProto.name];
+    NSString *msg = [NSString stringWithFormat:@"I have successfully avenged you and defeated %@.", _clanAvenging.attacker.minUserProto.name];
     [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg];
   }
 }
@@ -125,6 +125,12 @@
   PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.endView updateForRewards:nil isWin:NO];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
+  
+  // Send a private chat if avenge
+  if (_clanAvenging) {
+    NSString *msg = [NSString stringWithFormat:@"I have attacked %@ but was unable to avenge you.", _clanAvenging.attacker.minUserProto.name];
+    [[OutgoingEventController sharedOutgoingEventController] privateChatPost:_clanAvenging.defender.userUuid content:msg];
+  }
 }
 
 - (IBAction)forfeitClicked:(id)sender {
@@ -216,6 +222,8 @@
     
     tf.text = nil;
     [tf resignFirstResponder];
+    
+    [self.endView replaceTextFieldWithMessageSentLabel];
   }
 }
 

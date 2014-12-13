@@ -2141,6 +2141,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 @property BOOL attackerWon;
 @property EndPvpBattleResponseProto_EndPvpBattleStatus status;
 @property (strong) NSMutableArray * mutableUpdatedOrNewList;
+@property (strong) PvpHistoryProto* battleThatJustEnded;
 @end
 
 @implementation EndPvpBattleResponseProto
@@ -2192,6 +2193,13 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
 @synthesize status;
 @synthesize mutableUpdatedOrNewList;
 @dynamic updatedOrNewList;
+- (BOOL) hasBattleThatJustEnded {
+  return !!hasBattleThatJustEnded_;
+}
+- (void) setHasBattleThatJustEnded:(BOOL) value_ {
+  hasBattleThatJustEnded_ = !!value_;
+}
+@synthesize battleThatJustEnded;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -2199,6 +2207,7 @@ static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
     self.attackerAttacked = NO;
     self.attackerWon = NO;
     self.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
+    self.battleThatJustEnded = [PvpHistoryProto defaultInstance];
   }
   return self;
 }
@@ -2242,6 +2251,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:10 value:element];
   }];
+  if (self.hasBattleThatJustEnded) {
+    [output writeMessage:11 value:self.battleThatJustEnded];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2269,6 +2281,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(10, element);
   }];
+  if (self.hasBattleThatJustEnded) {
+    size_ += computeMessageSize(11, self.battleThatJustEnded);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -2328,6 +2343,12 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasBattleThatJustEnded) {
+    [output appendFormat:@"%@%@ {\n", indent, @"battleThatJustEnded"];
+    [self.battleThatJustEnded writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2350,6 +2371,8 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
       self.hasStatus == otherMessage.hasStatus &&
       (!self.hasStatus || self.status == otherMessage.status) &&
       [self.updatedOrNewList isEqualToArray:otherMessage.updatedOrNewList] &&
+      self.hasBattleThatJustEnded == otherMessage.hasBattleThatJustEnded &&
+      (!self.hasBattleThatJustEnded || [self.battleThatJustEnded isEqual:otherMessage.battleThatJustEnded]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2372,6 +2395,9 @@ static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil
   [self.updatedOrNewList enumerateObjectsUsingBlock:^(FullUserMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasBattleThatJustEnded) {
+    hashCode = hashCode * 31 + [self.battleThatJustEnded hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -2447,6 +2473,9 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
       [result.mutableUpdatedOrNewList addObjectsFromArray:other.mutableUpdatedOrNewList];
     }
   }
+  if (other.hasBattleThatJustEnded) {
+    [self mergeBattleThatJustEnded:other.battleThatJustEnded];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2502,6 +2531,15 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUpdatedOrNew:[subBuilder buildPartial]];
+        break;
+      }
+      case 90: {
+        PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
+        if (self.hasBattleThatJustEnded) {
+          [subBuilder mergeFrom:self.battleThatJustEnded];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBattleThatJustEnded:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2623,6 +2661,36 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 }
 - (EndPvpBattleResponseProto_Builder *)clearUpdatedOrNew {
   result.mutableUpdatedOrNewList = nil;
+  return self;
+}
+- (BOOL) hasBattleThatJustEnded {
+  return result.hasBattleThatJustEnded;
+}
+- (PvpHistoryProto*) battleThatJustEnded {
+  return result.battleThatJustEnded;
+}
+- (EndPvpBattleResponseProto_Builder*) setBattleThatJustEnded:(PvpHistoryProto*) value {
+  result.hasBattleThatJustEnded = YES;
+  result.battleThatJustEnded = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) setBattleThatJustEnded_Builder:(PvpHistoryProto_Builder*) builderForValue {
+  return [self setBattleThatJustEnded:[builderForValue build]];
+}
+- (EndPvpBattleResponseProto_Builder*) mergeBattleThatJustEnded:(PvpHistoryProto*) value {
+  if (result.hasBattleThatJustEnded &&
+      result.battleThatJustEnded != [PvpHistoryProto defaultInstance]) {
+    result.battleThatJustEnded =
+      [[[PvpHistoryProto builderWithPrototype:result.battleThatJustEnded] mergeFrom:value] buildPartial];
+  } else {
+    result.battleThatJustEnded = value;
+  }
+  result.hasBattleThatJustEnded = YES;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearBattleThatJustEnded {
+  result.hasBattleThatJustEnded = NO;
+  result.battleThatJustEnded = [PvpHistoryProto defaultInstance];
   return self;
 }
 @end

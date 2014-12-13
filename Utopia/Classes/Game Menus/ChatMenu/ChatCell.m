@@ -383,7 +383,7 @@ static float buttonInitialWidth = 159.f;
 
 - (void) updateForClanAvenging:(PvpClanAvenging *)ca {
   [self.monsterView updateForMonsterId:ca.attacker.minUserProto.avatarMonsterId];
-  self.nameLabel.text = ca.attacker.minUserProto.name;
+  self.nameLabel.text = [Globals fullNameWithName:ca.attacker.minUserProto.name clanTag:ca.attacker.minUserProto.clan.tag];
   self.levelLabel.text = [NSString stringWithFormat:@"Level %d", ca.attacker.level];
   
   self.attackButton.superview.hidden = ![ca canAttack];

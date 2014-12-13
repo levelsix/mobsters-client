@@ -8,19 +8,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="rWR-pE-kjn" customClass="ChatBattleHistoryView">
-            <rect key="frame" x="0.0" y="0.0" width="345" height="105"/>
+            <rect key="frame" x="0.0" y="0.0" width="345" height="43"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greenchatdivider.png" highlightedImage="pinkchatdivider.png" id="xtV-bY-KxB">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" highlightedImage="bluewhite.png" id="xtV-bY-KxB">
                     <rect key="frame" x="0.0" y="3" width="345" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greenchatdivider.png" highlightedImage="pinkchatdivider.png" id="d3e-E9-rVN">
-                    <rect key="frame" x="0.0" y="68" width="345" height="2"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="KY5-ql-Xdt" userLabel="Avenge View">
-                    <rect key="frame" x="201" y="75" width="68" height="30"/>
+                    <rect key="frame" x="201" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bR9-Ag-bqj" customClass="GeneralButton">
@@ -57,7 +53,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="4to-t3-EJa" userLabel="Revenge View">
-                    <rect key="frame" x="277" y="75" width="68" height="30"/>
+                    <rect key="frame" x="277" y="12" width="68" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FHk-NR-2qx" customClass="GeneralButton">
@@ -84,26 +80,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="5U8-zp-ap2" customClass="ChatMonsterView">
-                    <rect key="frame" x="0.0" y="9" width="115" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="0.13" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" id="o65-jA-Cpk" customClass="ChatMonsterView">
-                    <rect key="frame" x="115" y="8" width="115" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="0.13" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" id="5mi-qV-cFV" customClass="ChatMonsterView">
-                    <rect key="frame" x="230" y="8" width="115" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="0.13" colorSpace="calibratedRGB"/>
-                </view>
                 <view contentMode="scaleToFill" id="Uke-dC-Udi" userLabel="Cash View">
-                    <rect key="frame" x="0.0" y="78" width="66" height="23"/>
+                    <rect key="frame" x="0.0" y="15" width="66" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="d7a-et-bAz" customClass="NiceFontLabel10">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="d7a-et-bAz" customClass="NiceFontLabel14">
                             <rect key="frame" x="23" y="0.0" width="54" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -119,10 +100,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="C62-ET-lqh" userLabel="Oil View">
-                    <rect key="frame" x="68" y="78" width="68" height="24"/>
+                    <rect key="frame" x="68" y="15" width="68" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Tin-vG-Od4" customClass="NiceFontLabel10">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Tin-vG-Od4" customClass="NiceFontLabel14">
                             <rect key="frame" x="22" y="1" width="54" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -138,27 +119,27 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="V9j-QE-URj" userLabel="Rank View">
-                    <rect key="frame" x="130" y="78" width="66" height="24"/>
+                    <rect key="frame" x="130" y="15" width="66" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="V49-3s-coW" customClass="NiceFontLabel10">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="V49-3s-coW" customClass="NiceFontLabel14">
                             <rect key="frame" x="25" y="2" width="41" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="deviceRGB"/>
-                            <color key="highlightedColor" red="0.92941182850000004" green="0.0078431377190000002" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="bronzeicon.png" id="dsO-OW-Yp8">
                             <rect key="frame" x="0.0" y="0.0" width="19" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No Change" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bM6-G6-LnO" customClass="NiceFontLabel10">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No Change" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bM6-G6-LnO" customClass="NiceFontLabel14">
                             <rect key="frame" x="25" y="2" width="53" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="deviceRGB"/>
-                            <color key="highlightedColor" red="0.92941182850000004" green="0.0078431377190000002" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
                     </subviews>
@@ -171,7 +152,6 @@
             <connections>
                 <outlet property="avengeButton" destination="bR9-Ag-bqj" id="t2Q-of-oeF"/>
                 <outlet property="avengeTimeLabel" destination="NlH-VD-Gt1" id="NFq-Mm-JNh"/>
-                <outlet property="botDivider" destination="d3e-E9-rVN" id="6Ec-pY-wBA"/>
                 <outlet property="cashLabel" destination="d7a-et-bAz" id="Pr7-SQ-Rtc"/>
                 <outlet property="cashView" destination="Uke-dC-Udi" id="dYz-MQ-ZxV"/>
                 <outlet property="noChangeLabel" destination="bM6-G6-LnO" id="ido-68-ppX"/>
@@ -181,21 +161,17 @@
                 <outlet property="rankLabel" destination="V49-3s-coW" id="2n1-0v-ZsZ"/>
                 <outlet property="rankView" destination="V9j-QE-URj" id="c51-Pg-hy2"/>
                 <outlet property="revengeButton" destination="FHk-NR-2qx" id="GNK-vH-RVg"/>
-                <outlet property="topDivider" destination="xtV-bY-KxB" id="bvJ-22-Eyg"/>
-                <outletCollection property="monsterViews" destination="5U8-zp-ap2" id="70c-Vq-Md6"/>
-                <outletCollection property="monsterViews" destination="o65-jA-Cpk" id="N6s-4h-uL8"/>
-                <outletCollection property="monsterViews" destination="5mi-qV-cFV" id="Gkr-73-ekW"/>
             </connections>
-            <point key="canvasLocation" x="780.5" y="255.5"/>
+            <point key="canvasLocation" x="780.5" y="224.5"/>
         </view>
     </objects>
     <resources>
+        <image name="bluewhite.png" width="1" height="2"/>
         <image name="bronzeicon.png" width="37" height="42"/>
-        <image name="greenchatdivider.png" width="1" height="2"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
+        <image name="greywhite1.png" width="2" height="2"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
-        <image name="pinkchatdivider.png" width="1" height="2"/>
         <image name="redsmallbutton.png" width="68" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -55,7 +55,7 @@
     UserItem *ui = [[UserItem alloc] init];
     ui.itemId = self.secretGift.itemId;
     
-    self.itemNameLabel.text = [[ui name] uppercaseString];
+    self.itemNameLabel.text = [NSString stringWithFormat:@"1 x %@", [[ui name] uppercaseString]];
     self.iconLabel.text = [ui iconText];
     
     [Globals imageNamed:[ui iconImageName] withView:self.itemIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];

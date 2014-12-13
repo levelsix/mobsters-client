@@ -565,11 +565,13 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
   BOOL hasAttackerWon_:1;
   BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
+  BOOL hasBattleThatJustEnded_:1;
   BOOL hasStatus_:1;
   BOOL attackerAttacked_:1;
   BOOL attackerWon_:1;
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
+  PvpHistoryProto* battleThatJustEnded;
   EndPvpBattleResponseProto_EndPvpBattleStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
 }
@@ -578,12 +580,14 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasAttackerAttacked;
 - (BOOL) hasAttackerWon;
 - (BOOL) hasStatus;
+- (BOOL) hasBattleThatJustEnded;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSString* defenderUuid;
 - (BOOL) attackerAttacked;
 - (BOOL) attackerWon;
 @property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
+@property (readonly, strong) PvpHistoryProto* battleThatJustEnded;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleResponseProto*) defaultInstance;
@@ -653,6 +657,13 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (EndPvpBattleResponseProto_Builder *)addUpdatedOrNew:(FullUserMonsterProto*)value;
 - (EndPvpBattleResponseProto_Builder *)addAllUpdatedOrNew:(NSArray *)array;
 - (EndPvpBattleResponseProto_Builder *)clearUpdatedOrNew;
+
+- (BOOL) hasBattleThatJustEnded;
+- (PvpHistoryProto*) battleThatJustEnded;
+- (EndPvpBattleResponseProto_Builder*) setBattleThatJustEnded:(PvpHistoryProto*) value;
+- (EndPvpBattleResponseProto_Builder*) setBattleThatJustEnded_Builder:(PvpHistoryProto_Builder*) builderForValue;
+- (EndPvpBattleResponseProto_Builder*) mergeBattleThatJustEnded:(PvpHistoryProto*) value;
+- (EndPvpBattleResponseProto_Builder*) clearBattleThatJustEnded;
 @end
 
 @interface SetDefendingMsgRequestProto : PBGeneratedMessage {

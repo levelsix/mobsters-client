@@ -344,7 +344,12 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
   [self fadeToLoadingScreenAnimated:animated];
-  [self progressTo:percentage animated:NO];
+  
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.2f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    if (self.loadingViewController.loadingBar.percentage < percentage) {
+      [self progressTo:percentage animated:animated];
+    }
+  });
 }
 
 - (void) dismissLoadingScreenAnimated:(BOOL)animated completion:(dispatch_block_t)completion {
@@ -376,7 +381,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected && !gs.isTutorial && !_isFromFacebook) {
     // App delegate will have already initialized network connection
-    [self fadeToLoadingScreenPercentage:0 animated:YES];
+    [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
     _isFreshRestart = YES;
   } else if (!gs.isTutorial) {
     [self beginAllTimers];
@@ -398,7 +403,7 @@ static const CGSize FIXED_SIZE = {568, 384};
 
 - (void) doFreshRestart {
   _isFreshRestart = YES;
-  [self fadeToLoadingScreenPercentage:0 animated:YES];
+  [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self];
 }
 
@@ -1431,7 +1436,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   _isFreshRestart = YES;
   _isFromFacebook = NO;
   self.currentMap = nil;
-  [self fadeToLoadingScreenPercentage:0.f animated:YES];
+  [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
   [self progressTo:PART_1_PERCENT animated:YES];
   [self handleConnectedToHost];
 }

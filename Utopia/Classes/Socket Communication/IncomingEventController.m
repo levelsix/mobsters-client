@@ -1729,7 +1729,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
-    [gs addToMyMonsters:proto.updatedOrNewList];
+    if ([proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
+      [gs addToMyMonsters:proto.updatedOrNewList];
+    }
+    
+    [gs.battleHistory addObject:proto.battleThatJustEnded];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

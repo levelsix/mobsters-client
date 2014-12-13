@@ -320,7 +320,7 @@
   CCNode *msgNode = [CCNode node];
   [self.mainNode addChild:msgNode];
   
-  msgNode.position = ccp(0.5f, 0.23f);
+  msgNode.position = ccp(0.5f, 0.24f);
   msgNode.positionType = CCPositionTypeNormalized;
   
   
@@ -337,9 +337,9 @@
   CCColor *c = [CCColor colorWithRed:0/255.f green:85/255.f blue:141/255.f];
   [sendButton setLabelColor:c forState:CCControlStateNormal];
   [sendButton setLabelColor:c forState:CCControlStateHighlighted];
-  [sendButton.label setShadowColor:[CCColor colorWithRed:200/255.f green:251/255.f blue:1.f alpha:0.4f]];
-  [sendButton.label setShadowBlurRadius:2.f];
-  [sendButton.label setShadowOffset:ccp(0, -1)];
+//  [sendButton.label setShadowColor:[CCColor colorWithRed:1.f green:1.f blue:1.f alpha:0.8f]];
+//  [sendButton.label setShadowBlurRadius:2.f];
+//  [sendButton.label setShadowOffset:ccp(0, -1)];
   [msgNode addChild:sendButton];
   sendButton.position = ccp(self.rewardsBgd.contentSize.width/2-sendButton.contentSize.width/2+2, 0);
   self.sendButton = sendButton;
@@ -354,7 +354,7 @@
   CancellableTextField *tf = [[CancellableTextField alloc] init];
   tf.font = [UIFont fontWithName:@"Whitney-SemiboldItalic" size:12.f];
   tf.placeholder = @"Send a message";
-  tf.size = CGSizeMake(bgd.contentSize.width-14, bgd.contentSize.height);
+  tf.size = CGSizeMake(bgd.contentSize.width-18, bgd.contentSize.height);
   [Globals displayUIView:tf];
   tf.center = ccp(self.contentSizeInPoints.width/2+bgd.positionInPoints.x, tf.superview.height-bgd.parent.positionInPoints.y-1);
   tf.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -363,6 +363,30 @@
   self.msgTextField = tf;
   
   _initTextFieldPos = tf.center;
+}
+
+- (void) replaceTextFieldWithMessageSentLabel {
+  CCLabelTTF *label = [[CCLabelTTF alloc] initWithString:@"Message Sent!" fontName:@"Whitney-Black" fontSize:14.f];
+  label.position = self.sendButton.parent.position;
+  label.positionType = self.sendButton.parent.positionType;
+  label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
+  label.shadowBlurRadius = 1.6f;
+  label.shadowOffset = ccp(0, -1);
+  [self.mainNode addChild:label];
+  
+  [self.sendButton.parent removeFromParent];
+  [self.msgTextField removeFromSuperview];
+  
+  float dur = 1.f;
+  [self.sendButton.parent runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:dur opacity:0.f], [CCActionRemove action], nil]];
+  
+  [UIView animateWithDuration:dur animations:^{
+    self.msgTextField.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.msgTextField removeFromSuperview];
+  }];
+  
+  [label runAction:[CCActionFadeIn actionWithDuration:dur]];
 }
 
 - (void) update:(CCTime)delta {
@@ -583,7 +607,7 @@
 }
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
-  self.nameLabel.string = pvp.defender.minUserProto.name;
+  self.nameLabel.string = [Globals fullNameWithName:pvp.defender.minUserProto.name clanTag:pvp.defender.minUserProto.clan.tag];
   self.cashLabel.string = [Globals cashStringForNumber:pvp.prospectiveCashWinnings];
   self.oilLabel.string = [Globals commafyNumber:pvp.prospectiveOilWinnings];
   
@@ -622,7 +646,7 @@
     self.placeLabel.position = ccp(leftSide+5, self.placeLabel.position.y);
   }
   
-  NSString *defMsg = arc4random() % 2 ?  pvp.defenderMsg : gs.pvpDefendingMessage;
+  NSString *defMsg = pvp.defenderMsg;
   if (defMsg.length > 0) {
     self.bubbleNode.position = ccpAdd(self.monsterBgd.parent.position, ccp(0, self.monsterBgd.contentSize.height/2+self.bubbleNode.contentSize.height/2+8));
     self.defendingMsgLabel.string = defMsg;

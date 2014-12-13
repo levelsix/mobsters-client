@@ -52,6 +52,7 @@
 
 - (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin;
 - (void) showTextFieldWithTarget:(id)target selector:(SEL)selector;
+- (void) replaceTextFieldWithMessageSentLabel;
 
 - (void) spinnerOnDone;
 

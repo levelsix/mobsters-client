@@ -147,7 +147,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="wwM-37-tra" userLabel="Mail">
+                        <view hidden="YES" contentMode="scaleToFill" id="wwM-37-tra" userLabel="Mail">
                             <rect key="frame" x="1" y="91" width="52" height="51"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
