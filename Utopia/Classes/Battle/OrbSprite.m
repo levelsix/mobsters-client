@@ -43,9 +43,11 @@
   
   // Handle specials
   _bombCounter = nil;
+  _headshotCounter = nil;
   switch (_orb.specialOrbType)
   {
     case SpecialOrbTypeBomb: [self loadBombElements]; break;
+    case SpecialOrbTypeHeadshot: if (_orb.headshotCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
 }
@@ -101,6 +103,51 @@
   }
 }
 
+- (void) loadHeadshotElements
+{
+  // Counter background
+  CCSprite* counterBg = [CCSprite spriteWithImageNamed:@"headshotcounter.png"];
+  counterBg.position = CGPointMake(9.f / 33.f, 9.5f / 34.f);
+  counterBg.positionType = CCPositionTypeNormalized;
+  [_orbSprite addChild:counterBg];
+  
+  // Counter label
+  _headshotCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10.f];
+  _headshotCounter.position = CGPointMake(9.f / 33.f, 9.5f / 34.f);
+  _headshotCounter.positionType = CCPositionTypeNormalized;
+  _headshotCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
+  _headshotCounter.horizontalAlignment = CCTextAlignmentCenter;
+  [_orbSprite addChild:_headshotCounter];
+  
+  [self updateHeadshotCounter:NO];
+}
+
+- (void) updateHeadshotCounter:(BOOL)animated
+{
+  if (_headshotCounter)
+  {
+    if (animated)
+      [_orbSprite runAction:[CCActionSequence actions:
+                             [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:.8f]],
+                             [CCActionCallBlock actionWithBlock:^{ _headshotCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.headshotCounter]; }],
+                             [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
+                             nil]];
+    else
+      _headshotCounter.string = [NSString stringWithFormat:@"%d", (int)_orb.headshotCounter];
+    
+    if (_orb.headshotCounter <= 2 && _orb.headshotCounter > 0)
+    {
+      [_headshotCounter stopActionByTag:1620];
+      CCAction* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
+                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.headshotCounter color:[CCColor redColor]],
+                                                                  [RecursiveTintTo actionWithDuration:.4f * _orb.headshotCounter color:[CCColor clearColor]],
+                                                                  nil]];
+      [action setTag:1620];
+      [_headshotCounter runAction:action];
+    }
+  }
+}
+
 #pragma mark - Helpers
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb {
@@ -121,12 +168,18 @@
       return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
       break;
       
-      case SpecialOrbTypePoison:
-          if (orbColor == OrbColorNone)
-              return nil;
-          if (orb.powerupType == PowerupTypeNone)
-            return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
-          break;
+    case SpecialOrbTypeHeadshot:
+      if (orbColor == OrbColorNone)
+        return nil;
+      return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"] ];
+      break;
+      
+    case SpecialOrbTypePoison:
+      if (orbColor == OrbColorNone)
+        return nil;
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+      break;
       
     default:
       break;
