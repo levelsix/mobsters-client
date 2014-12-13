@@ -25,6 +25,9 @@
   AMQPConsumer *_chatConsumer;
   AMQPConsumer *_clanConsumer;
   
+  // We must use this to keep the wwan connection open apparently.
+  CFWriteStreamRef _writeStream;
+  
   BOOL _shouldStop;
 }
 

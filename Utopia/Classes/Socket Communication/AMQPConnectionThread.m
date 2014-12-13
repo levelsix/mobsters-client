@@ -35,6 +35,13 @@ static int sessionId;
     sessionId = arc4random();
     [self endConnection];
     
+    if (_writeStream) {
+      CFWriteStreamClose(_writeStream);
+      CFRelease(_writeStream);
+    }
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)HOST_NAME, HOST_PORT, NULL, &_writeStream);
+    CFWriteStreamOpen(_writeStream);
+    
     _connection = [[AMQPConnection alloc] init];
     [_connection connectToHost:HOST_NAME onPort:HOST_PORT useSSL:USE_SSL];
     [_connection loginAsUser:MQ_USERNAME withPassword:MQ_PASSWORD onVHost:MQ_VHOST];
@@ -180,10 +187,25 @@ static int sessionId;
 - (void)main
 {
   [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(readData) userInfo:nil repeats:YES];
-	while(!_shouldStop)
-	{
+	
+  int i = 0;
+  while(!_shouldStop)
+  {
+    i++;
     @try {
       [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
+      
+      if (i % 10 == 0 && _writeStream) {
+        UInt8 t = 0;
+        Boolean canWrite = CFWriteStreamCanAcceptBytes(_writeStream);
+        if (canWrite) {
+          CFIndex x = CFWriteStreamWrite(_writeStream, &t, 1);
+          if (x < 0) {
+            CFStreamError err = CFWriteStreamGetError(_writeStream);
+            LNLog(@"Error: %ld:%d", err.domain, err.error);
+          }
+        }
+      }
     } @catch (NSException *exception) {
       NSLog(@"Exception in AMQP thread: %@", exception);
     }

@@ -55,6 +55,7 @@
 {
   // Initalize CFHost for WWAN issue:
   // http://stackoverflow.com/questions/1238934/getaddrinfo-in-iphone
+  // http://stackoverflow.com/questions/3330007/sending-udp-packets-on-iphone-fails-over-a-fresh-new-3g-connection-but-works-ot
   
   CFStreamError error;
   
@@ -71,6 +72,13 @@
   if (!resolved || !hasBeenResolved) {
     [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, error.error];
   }
+  
+  // Doing this method as well.. just in case?
+  
+  CFWriteStreamRef write;
+  UInt8 t = 0;
+  CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)host, port, NULL, &write);
+  CFIndex i = CFWriteStreamWrite(write, &t, 1);
   
   amqp_socket_t *socket;
   
