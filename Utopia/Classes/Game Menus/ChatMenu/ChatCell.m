@@ -25,6 +25,7 @@ static float buttonInitialWidth = 159.f;
   self.backgroundView.backgroundColor = [UIColor clearColor];
   
   _initLabelColor = self.msgLabel.textColor;
+  _initLabelHighlightedColor = self.msgLabel.highlightedTextColor;
 }
 
 - (void) updateForMessage:(NSString *)message sender:(MinimumUserProto *)sender date:(MSDate *)date showsClanTag:(BOOL)showsClanTag {
@@ -36,6 +37,7 @@ static float buttonInitialWidth = 159.f;
   
   self.msgLabel.text = message;
   self.msgLabel.textColor = _initLabelColor;
+  self.msgLabel.highlightedTextColor = _initLabelHighlightedColor;
   
   self.timeLabel.text = [Globals stringForTimeSinceNow:date shortened:NO];
   
@@ -340,8 +342,16 @@ static float buttonInitialWidth = 159.f;
   self.rankView.originX = curX;
   
   GameState *gs = [GameState sharedGameState];
-  UserPvpLeagueProto *pvpBefore = pvp.defenderBefore;
-  UserPvpLeagueProto *pvpAfter = pvp.defenderAfter;
+  UserPvpLeagueProto *pvpBefore;
+  UserPvpLeagueProto *pvpAfter;
+  
+  if ([pvp userIsAttacker]) {
+    pvpBefore = pvp.attackerBefore;
+    pvpAfter = pvp.attackerAfter;
+  } else {
+    pvpBefore = pvp.defenderBefore;
+    pvpAfter = pvp.defenderAfter;
+  }
   
   self.rankLabel.hidden = NO;
   self.noChangeLabel.hidden = YES;

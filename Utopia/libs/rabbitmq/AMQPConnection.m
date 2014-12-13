@@ -53,6 +53,25 @@
 
 - (void)connectToHost:(NSString*)host onPort:(int)port useSSL:(BOOL)useSSL
 {
+  // Initalize CFHost for WWAN issue:
+  // http://stackoverflow.com/questions/1238934/getaddrinfo-in-iphone
+  
+  CFStreamError error;
+  
+  CFHostRef hostref = CFHostCreateWithName(NULL, (CFStringRef)host);
+  BOOL resolved = CFHostStartInfoResolution(hostref, kCFHostReachability, &error);
+  
+  Boolean hasBeenResolved;
+  CFDataRef data = CFHostGetReachability(hostref, &hasBeenResolved);
+  
+  CFRelease(hostref);
+  
+  NSLog(@"Reachability status: %@", (NSData *)data);
+  
+  if (!resolved || !hasBeenResolved) {
+    [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, error.error];
+  }
+  
   amqp_socket_t *socket;
   
   if (useSSL) {
@@ -73,7 +92,7 @@
     if(socketFD < 0)
     {
       amqp_set_socket(connection, NULL);
-      [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d", host, port];
+      [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. socketFD = %d", host, port, socketFD];
     }
   } else {
     [NSException raise:@"AMQPConnectionException" format:@"Unable to create socket"];

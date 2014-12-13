@@ -85,7 +85,7 @@
 
 - (void) facebookIdIsValid {
   // Will be called by game view controller
-  LNLog(@"Facebook id verified.. Calling handler.");
+  LNLog(@"Facebook id verified.. Calling handlers.");
   [self respondToCompletionHandlersWithSuccess:YES];
 }
 
@@ -105,6 +105,8 @@
         if ([[GameViewController baseController] canProceedWithFacebookUser:facebookUser]) {
           [self facebookIdIsValid];
         }
+      } else {
+        [self respondToCompletionHandlersWithSuccess:NO];
       }
     }];
   } else {

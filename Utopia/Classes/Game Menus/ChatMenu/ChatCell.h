@@ -15,6 +15,7 @@
 @interface ChatCell : UITableViewCell {
   BOOL _bubbleColorChanged;
   UIColor *_initLabelColor;
+  UIColor *_initLabelHighlightedColor;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;

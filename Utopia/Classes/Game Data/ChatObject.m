@@ -249,12 +249,13 @@
     v = [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
   }
   
-  [v updateForPvpHistoryProto:self];
-  
   [chatCell updateForMessage:self.message sender:self.sender date:self.date showsClanTag:showsClanTag allowHighlight:YES chatSubview:v identifier:nibName];
   //[chatCell updateBubbleImagesWithPrefix:!self.userWon ? @"pink" : @"green"];
   
+  [v updateForPvpHistoryProto:self];
+  
   chatCell.msgLabel.textColor = !self.userWon ? [UIColor colorWithHexString:@"BA0010"] : [UIColor colorWithHexString:@"3E7D16"];
+  chatCell.msgLabel.highlightedTextColor = chatCell.msgLabel.textColor;
 }
 
 - (BOOL) updateForTimeInChatCell:(ChatCell *)chatCell {
@@ -302,20 +303,24 @@
   // Check gamestate if there are any avengings by me
   GameState *gs = [GameState sharedGameState];
   
-  BOOL found = NO;
-  for (PvpClanAvenging *ca in gs.clanAvengings) {
-    if ([ca isValid] && [ca.defender.userUuid isEqualToString:gs.userUuid]) {
-      found = YES;
-    }
-  }
-  
-  if (!found) {
-    [[OutgoingEventController sharedOutgoingEventController] beginClanAvenge:self];
-    clanAvenged_ = YES;
-    
-    [sender.superview setHidden:YES];
+  if (!gs.clan) {
+    [Globals addAlertNotification:@"You must be in a clan to request avenging. Join one now!"];
   } else {
-    [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
+    BOOL found = NO;
+    for (PvpClanAvenging *ca in gs.clanAvengings) {
+      if ([ca isValid] && [ca.defender.userUuid isEqualToString:gs.userUuid]) {
+        found = YES;
+      }
+    }
+    
+    if (!found) {
+      [[OutgoingEventController sharedOutgoingEventController] beginClanAvenge:self];
+      clanAvenged_ = YES;
+      
+      [sender.superview setHidden:YES];
+    } else {
+      [Globals addAlertNotification:@"You already have a valid clan avenge request. Try again later."];
+    }
   }
 }
 
