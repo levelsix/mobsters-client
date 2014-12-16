@@ -83,6 +83,11 @@
   _userAttacked = YES;
 }
 
+- (void) beginEnemyTurn:(float)delay {
+  [super beginEnemyTurn:delay];
+  _userAttacked = YES;
+}
+
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   [self removeCloseButton];

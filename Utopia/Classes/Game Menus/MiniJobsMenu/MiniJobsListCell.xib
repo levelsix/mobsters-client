@@ -63,7 +63,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="Mhe-jN-xjy" customClass="VerticalFlipImageView">
-                                <rect key="frame" x="0.0" y="60" width="364" height="1"/>
+                                <rect key="frame" x="0.0" y="58" width="364" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="o0c-gu-eua">

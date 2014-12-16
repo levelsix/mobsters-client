@@ -15,8 +15,8 @@
 
 - (id) initWithHospital:(UserStruct *)hospital {
   if ((self = [super init])) {
-    self.secsToFullyHealMultiplier = ((HospitalProto *)hospital.staticStruct).secsToFullyHealMultiplier;
-    self.upgradeCompleteDate = !hospital.isComplete ? hospital.buildCompleteDate : nil;
+    self.secsToFullyHealMultiplier = ((HospitalProto *)hospital.staticStructForCurrentConstructionLevel).secsToFullyHealMultiplier;
+    //self.upgradeCompleteDate = !hospital.isComplete ? hospital.buildCompleteDate : nil;
     self.userStructUuid = hospital.userStructUuid;
   }
   return self;

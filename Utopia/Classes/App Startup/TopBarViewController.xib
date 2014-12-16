@@ -409,7 +409,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="n8C-LZ-oVM" userLabel="Secret Gift View">
-                            <rect key="frame" x="12" y="188" width="45" height="58"/>
+                            <rect key="frame" x="13" y="188" width="45" height="58"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="JO3-iS-hWK">

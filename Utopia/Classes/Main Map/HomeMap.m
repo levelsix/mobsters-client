@@ -847,6 +847,8 @@
     [_purchBuilding removeFromParent];
   }
   
+  self.selected = nil;
+  
   UserStruct *us = [[UserStruct alloc] init];
   us.structId = structId;
   us.isComplete = YES;
@@ -859,7 +861,7 @@
   [self addChild:_purchBuilding];
   [_purchBuilding placeBlock:YES];
   
-  _canMove = YES;
+  _canMove = YES; 
   _purchasing = YES;
   _purchStructId = structId;
   self.selected = _purchBuilding;
@@ -996,6 +998,8 @@
         }
       } else if (fsp.structType == StructureInfoProto_StructTypeTeamCenter) {
         [buttonViews addObject:[MapBotViewButton teamButton]];
+      } else if (fsp.structType == StructureInfoProto_StructTypeHospital) {
+        [buttonViews addObject:[MapBotViewButton healButton]];
       }
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
@@ -1751,13 +1755,13 @@
         [Globals addAlertNotification:@"You have a currently active mini job. Complete it before upgrading."];
         return;
       }
-    } else if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
-      HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
-      int count = (int)hq.healingItems.count;
-      if (count) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently healing %d %@%@ at this %@. Complete it before upgrading.", count, count == 1 ? @"" : @"s", MONSTER_NAME, nextFsp.name]];
-        return;
-      }
+//    } else if (nextFsp.structType == StructureInfoProto_StructTypeHospital) {
+//      HospitalQueue *hq = [gs hospitalQueueForUserHospitalStructUuid:us.userStructUuid];
+//      int count = (int)hq.healingItems.count;
+//      if (count) {
+//        [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently healing %d %@%@ at this %@. Complete it before upgrading.", count, count == 1 ? @"" : @"s", MONSTER_NAME, nextFsp.name]];
+//        return;
+//      }
     } else if (nextFsp.structType == StructureInfoProto_StructTypeLab) {
       if (gs.userEnhancement) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"You are currently enhancing a %@. Complete it before upgrading.", MONSTER_NAME]];

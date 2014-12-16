@@ -378,6 +378,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   [self checkResidencesForFbCompletion];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:STRUCT_PURCHASED_NOTIFICATION object:nil];
 }
 
 - (void) addToMyObstacles:(NSArray *)obstacles {

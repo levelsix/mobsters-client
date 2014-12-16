@@ -663,8 +663,14 @@
     }];
     
     [self displayProgressBar];
-    
-    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:hi.userMonster.monsterId];
+  }
+}
+
+- (void) displayProgressBar {
+  [super displayProgressBar];
+  
+  if (_healingItem) {
+    MiniMonsterViewSprite *spr = [MiniMonsterViewSprite spriteWIthMonsterId:_healingItem.userMonster.monsterId];
     [self.progressBar addChild:spr];
     spr.position = ccp(-spr.contentSize.width/2-4.f, self.progressBar.contentSize.height/2+1.f);
   }
@@ -688,9 +694,7 @@
 }
 
 - (BOOL) isFreeSpeedup {
-  if (self.isConstructing) {
-    return [super isFreeSpeedup];
-  } else {
+  if (_healingItem) {
     // Check the entire healing queue to see if it can be sped up for free
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
@@ -698,25 +702,25 @@
     int timeLeft = hq.queueEndTime.timeIntervalSinceNow;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
     return gemCost == 0;
+  } else {
+    return [super isFreeSpeedup];
   }
 }
 
 - (NSString *) progressBarPrefix {
-  if (self.isConstructing) {
-    return [super progressBarPrefix];
-  } else {
+  if (_healingItem) {
     if (![self isFreeSpeedup]) {
       return @"obtimergreen";
     } else {
       return @"obtimerpurple";
     }
+  } else {
+    return [super progressBarPrefix];
   }
 }
 
 - (void) updateProgressBar {
-  if (self.isConstructing) {
-    [super updateProgressBar];
-  } else {
+  if (_healingItem) {
     UpgradeProgressBar *bar = self.progressBar;
     
     // Check the prefix
@@ -732,6 +736,8 @@
     } else {
       [self displayProgressBar];
     }
+  } else {
+    [super updateProgressBar];
   }
 }
 

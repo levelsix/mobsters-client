@@ -49,7 +49,7 @@
   self.noMobstersLabel.text = [NSString stringWithFormat:@"You have no injured %@s.", MONSTER_NAME];
   
   GameState *gs = [GameState sharedGameState];
-  self.hospitals = [gs myValidHospitals];
+  self.hospitals = [gs allHospitals];
   
   // Try to prioritize hospitals that are active
   _curHospitalIndex = 0;
@@ -231,7 +231,7 @@ static BOOL isAnimating = NO;
   [self reloadQueueViewAnimated:NO];
   
   UserStruct *hosp = [self currentHospital];
-  StructureInfoProto *sip = hosp.staticStruct.structInfo;
+  StructureInfoProto *sip = hosp.staticStructForCurrentConstructionLevel.structInfo;
   
   NSString *imgName = [@"Queue" stringByAppendingString:sip.imgName];
   [Globals imageNamed:imgName withView:self.hospitalIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

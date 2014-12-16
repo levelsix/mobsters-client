@@ -73,13 +73,6 @@
     [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, error.error];
   }
   
-  // Doing this method as well.. just in case?
-  
-  CFWriteStreamRef write;
-  UInt8 t = 0;
-  CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)host, port, NULL, &write);
-  CFIndex i = CFWriteStreamWrite(write, &t, 1);
-  
   amqp_socket_t *socket;
   
   if (useSSL) {

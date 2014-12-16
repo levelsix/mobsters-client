@@ -383,7 +383,12 @@ static BOOL _instanceOpened = NO;
     self.progressBar.tag = color;
   }
   
-  [self.progressBar setPercentage:[self.delegate progressBarPercent]];
+  float perc = [self.delegate progressBarPercent];
+  if (perc < 1.f) {
+    [self.progressBar setPercentage:[self.delegate progressBarPercent]];
+  } else {
+    [self closeClicked:nil];
+  }
 }
 
 - (IBAction)closeClicked:(id)sender {
