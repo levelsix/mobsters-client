@@ -88,4 +88,7 @@
 
 + (void) redeemMiniJob:(int)miniJobId cashChange:(int)cashChange cashBalance:(int)cashBalance oilChange:(int)oilChange oilBalance:(int)oilBalance;
 
++ (void) connectedToHost;
++ (void) receivedStartup;
+
 @end

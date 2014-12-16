@@ -383,6 +383,15 @@ static const CGSize FIXED_SIZE = {568, 384};
     // App delegate will have already initialized network connection
     [self fadeToLoadingScreenPercentage:PART_1_PERCENT animated:YES];
     _isFreshRestart = YES;
+    
+    CCDirector *dir = [CCDirector sharedDirector];
+    if (dir.runningScene) {
+      [dir popToRootScene];
+      
+      if (dir.isPaused) {
+        [dir resume];
+      }
+    }
   } else if (!gs.isTutorial) {
     [self beginAllTimers];
   }
@@ -445,20 +454,13 @@ static const CGSize FIXED_SIZE = {568, 384};
     [self progressTo:PART_2_PERCENT animated:YES];
     
     if (_isFreshRestart) {
-      CCDirector *dir = [CCDirector sharedDirector];
       [self showTopBarDuration:0.f completion:nil];
       
       if (self.miniTutController) {
         [self.miniTutController stop];
         self.miniTutController = nil;
       }
-      if (dir.runningScene) {
-        [dir popToRootScene];
-        
-        if (dir.isPaused) {
-          [dir resume];
-        }
-      }
+      
       self.questCompleteLayer = nil;
       _isInBattle = NO;
       
@@ -474,6 +476,8 @@ static const CGSize FIXED_SIZE = {568, 384};
       [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
       _isFreshRestart = NO;
     }];
+    
+    [Analytics connectedToHost];
   } else if (_isFromFacebook) {
     gs.connected = YES;
     
@@ -512,6 +516,7 @@ static const CGSize FIXED_SIZE = {568, 384};
       NSString *email = [[FacebookDelegate sharedFacebookDelegate] myFacebookUser][@"email"];
       [Analytics setUserUuid:gs.userUuid name:gs.name email:email];
       [Analytics connectedToServerWithLevel:gs.level gems:gs.gems cash:gs.cash oil:gs.oil];
+      [Analytics receivedStartup];
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {

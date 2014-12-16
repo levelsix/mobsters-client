@@ -618,6 +618,10 @@
 @class UnrestrictUserMonsterRequestProto_Builder;
 @class UnrestrictUserMonsterResponseProto;
 @class UnrestrictUserMonsterResponseProto_Builder;
+@class UpdateClientTaskStateRequestProto;
+@class UpdateClientTaskStateRequestProto_Builder;
+@class UpdateClientTaskStateResponseProto;
+@class UpdateClientTaskStateResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpdateMonsterHealthRequestProto;
@@ -776,6 +780,7 @@ typedef NS_ENUM(SInt32, EventProtocolRequest) {
   EventProtocolRequestCBeginClanAvengingEvent = 90,
   EventProtocolRequestCEndClanAvengingEvent = 91,
   EventProtocolRequestCAvengeClanMateEvent = 92,
+  EventProtocolRequestCUpdateClientTaskStateEvent = 93,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestCDevEvent = 200,
 };
@@ -874,6 +879,7 @@ typedef NS_ENUM(SInt32, EventProtocolResponse) {
   EventProtocolResponseSBeginClanAvengingEvent = 90,
   EventProtocolResponseSEndClanAvengingEvent = 91,
   EventProtocolResponseSAvengeClanMateEvent = 92,
+  EventProtocolResponseSUpdateClientTaskStateEvent = 93,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

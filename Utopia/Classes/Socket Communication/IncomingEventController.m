@@ -324,6 +324,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSAvengeClanMateEvent:
       responseClass = [AvengeClanMateResponseProto class];
       break;
+    case EventProtocolResponseSUpdateClientTaskStateEvent:
+      responseClass = [UpdateClientTaskStateResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1687,6 +1690,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to revive in dungeon."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleUpdateClientTaskStateResponseProto:(FullEvent *)fe {
+  UpdateClientTaskStateResponseProto *proto = (UpdateClientTaskStateResponseProto *)fe.event;
+  LNLog(@"Update client task state received with status %d.", (int)proto.status);
 }
 
 #pragma mark - PVP

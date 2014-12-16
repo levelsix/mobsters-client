@@ -18,6 +18,8 @@
 #import "SkillManager.h"
 #import "ChartboostDelegate.h"
 
+#import <zlib.h>
+
 @implementation DungeonBattleLayer
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix
@@ -352,7 +354,20 @@
   }
   self.lootLabel.string = [Globals commafyNumber:_lootCount];
   
-  [self attemptToResumeState];
+  @try {
+    NSError *error = nil;
+    
+    NSData *jsonDataUnzipped = [self gzipInflate:task.clientState];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonDataUnzipped options:NSJSONReadingMutableContainers error:&error];
+    
+    if (!error) {
+      [self attemptToResumeState:dict];
+    } else {
+      LNLog(@"Unable to deserialize JSON. error: %@", error);
+    }
+  } @catch (NSException *e) {
+    LNLog(@"Exception in de-serialize battle state. %@", e);
+  }
 }
 
 - (void) moveToNextEnemy {
@@ -478,7 +493,6 @@
 
 - (void) processNextTurn:(float)delay{
   [super processNextTurn:delay];
-  [self saveCurrentState];
   _isResumingState = NO;
 }
 
@@ -522,6 +536,7 @@
     self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   } else {
     [super beginMyTurn];
+    [self saveCurrentState];
   }
   
   _damageWasDealt = NO;
@@ -575,13 +590,30 @@
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
 
 - (void) saveCurrentState {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:[self serializeState] forKey:DUNGEON_DEFAULT_KEY];
+  NSDictionary *state = [self serializeState];
+  
+  //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  //[defaults setObject:state forKey:DUNGEON_DEFAULT_KEY];
+  
+  NSError *error = nil;
+  
+  @try {
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:state options:0 error:&error];
+    NSData *jsonDataZipped = [self gzipDeflate:jsonData];
+    
+    if (!error) {
+      [[OutgoingEventController sharedOutgoingEventController] updateClientState:jsonDataZipped];
+    } else {
+      LNLog(@"Unable to save client state. Error: %@", error);
+    }
+  } @catch (NSException *e) {
+    LNLog(@"Exception in serialize battle state. %@", e);
+  }
 }
 
-- (void) attemptToResumeState {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDictionary *dict = [defaults objectForKey:DUNGEON_DEFAULT_KEY];
+- (void) attemptToResumeState:(NSDictionary *)dict {
+//  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//  NSDictionary *dict = [defaults objectForKey:DUNGEON_DEFAULT_KEY];
   
   if (dict) {
     NSString *userTaskUuid = [dict objectForKey:USER_TASK_KEY];
@@ -590,7 +622,7 @@
       [self deserializeAndResumeState:dict];
       _isResumingState = YES;
     } else {
-      [defaults removeObjectForKey:DUNGEON_DEFAULT_KEY];
+      //[defaults removeObjectForKey:DUNGEON_DEFAULT_KEY];
     }
   }
 }
@@ -627,10 +659,12 @@
   [dict setObject:@(_totalComboCount) forKey:TOTAL_COMBO_COUNT_KEY];
   
   NSData *orbCounts = [NSData dataWithBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
-  [dict setObject:orbCounts forKey:ORB_COUNTS_KEY];
+  NSString *orbCountsStr = [[NSString alloc] initWithData:orbCounts encoding:NSUTF8StringEncoding];
+  [dict setObject:orbCountsStr forKey:ORB_COUNTS_KEY];
   
   NSData *powerupCounts = [NSData dataWithBytes:_powerupCounts length:sizeof(_powerupCounts)];
-  [dict setObject:powerupCounts forKey:POWERUP_COUNTS_KEY];
+  NSString *powerupCountsStr = [[NSString alloc] initWithData:powerupCounts encoding:NSUTF8StringEncoding];
+  [dict setObject:powerupCountsStr forKey:POWERUP_COUNTS_KEY];
   
   [dict setObject:skillManager.serialize forKey:SKILL_MANAGER_KEY];
   
@@ -661,10 +695,13 @@
   [self.droplessStageNums addObjectsFromArray:[stateDict objectForKey:DROPLESS_STAGES_KEY]];
   
   // Use the c array's length as opposed to the NSData's in case the c array is shorter
-  NSData *orbCounts = [stateDict objectForKey:ORB_COUNTS_KEY];
+  // Check that we are not using the legacy nsdata vs nsstring.
+  id orbCountsStr = [stateDict objectForKey:ORB_COUNTS_KEY];
+  NSData *orbCounts = [orbCountsStr isKindOfClass:[NSData class]] ? orbCountsStr : [orbCountsStr dataUsingEncoding:NSUTF8StringEncoding];
   [orbCounts getBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
   
-  NSData *powerupCounts = [stateDict objectForKey:POWERUP_COUNTS_KEY];
+  id powerupCountsStr = [stateDict objectForKey:POWERUP_COUNTS_KEY];
+  NSData *powerupCounts = [powerupCountsStr isKindOfClass:[NSData class]] ? powerupCountsStr : [powerupCountsStr dataUsingEncoding:NSUTF8StringEncoding];
   [powerupCounts getBytes:_powerupCounts length:sizeof(_powerupCounts)];
   
   NSArray *schedule = [stateDict objectForKey:SCHEDULE_KEY];
@@ -675,6 +712,92 @@
   _resumedUserMonsterUuid = [stateDict objectForKey:MY_USER_MONSTER_ID_KEY];
   
   [skillManager deserialize:[stateDict objectForKey:SKILL_MANAGER_KEY]];
+}
+
+#pragma mark - Gzip
+
+- (NSData *)gzipInflate:(NSData*)data
+{
+  if ([data length] == 0) return data;
+  
+  unsigned full_length = (uInt)[data length];
+  unsigned half_length = (uInt)[data length] / 2;
+  
+  NSMutableData *decompressed = [NSMutableData dataWithLength: full_length + half_length];
+  BOOL done = NO;
+  int status;
+  
+  z_stream strm;
+  strm.next_in = (Bytef *)[data bytes];
+  strm.avail_in = (uInt)[data length];
+  strm.total_out = 0;
+  strm.zalloc = Z_NULL;
+  strm.zfree = Z_NULL;
+  
+  if (inflateInit2(&strm, (15+32)) != Z_OK) return nil;
+  while (!done)
+  {
+    // Make sure we have enough room and reset the lengths.
+    if (strm.total_out >= [decompressed length])
+      [decompressed increaseLengthBy: half_length];
+    strm.next_out = [decompressed mutableBytes] + strm.total_out;
+    strm.avail_out = (uInt)([decompressed length] - strm.total_out);
+    
+    // Inflate another chunk.
+    status = inflate (&strm, Z_SYNC_FLUSH);
+    if (status == Z_STREAM_END) done = YES;
+    else if (status != Z_OK) break;
+  }
+  if (inflateEnd (&strm) != Z_OK) return nil;
+  
+  // Set real length.
+  if (done)
+  {
+    [decompressed setLength: strm.total_out];
+    return [NSData dataWithData: decompressed];
+  }
+  else return nil;
+}
+
+- (NSData *)gzipDeflate:(NSData*)data
+{
+  if ([data length] == 0) return data;
+  
+  z_stream strm;
+  
+  strm.zalloc = Z_NULL;
+  strm.zfree = Z_NULL;
+  strm.opaque = Z_NULL;
+  strm.total_out = 0;
+  strm.next_in=(Bytef *)[data bytes];
+  strm.avail_in = (uInt)[data length];
+  
+  // Compresssion Levels:
+  //   Z_NO_COMPRESSION
+  //   Z_BEST_SPEED
+  //   Z_BEST_COMPRESSION
+  //   Z_DEFAULT_COMPRESSION
+  
+  if (deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY) != Z_OK) return nil;
+  
+  NSMutableData *compressed = [NSMutableData dataWithLength:16384];  // 16K chunks for expansion
+  
+  do {
+    
+    if (strm.total_out >= [compressed length])
+      [compressed increaseLengthBy: 16384];
+    
+    strm.next_out = [compressed mutableBytes] + strm.total_out;
+    strm.avail_out = (uInt)([compressed length] - strm.total_out);
+    
+    deflate(&strm, Z_FINISH);
+    
+  } while (strm.avail_out == 0);
+  
+  deflateEnd(&strm);
+  
+  [compressed setLength: strm.total_out];
+  return [NSData dataWithData:compressed];
 }
 
 @end

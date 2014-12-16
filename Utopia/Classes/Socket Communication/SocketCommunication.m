@@ -1534,6 +1534,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanAvengingEvent];
 }
 
+- (int) sendUpdateClientTaskStateMessage:(NSData *)bytes {
+  UpdateClientTaskStateRequestProto *req = [[[[UpdateClientTaskStateRequestProto builder]
+                                              setSender:_sender]
+                                             setTaskState:bytes]
+                                            build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {

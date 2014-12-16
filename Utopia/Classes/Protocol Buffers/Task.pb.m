@@ -972,6 +972,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 @property int32_t taskId;
 @property int32_t curTaskStageId;
 @property (strong) NSString* userTaskUuid;
+@property (strong) NSData* clientState;
 @end
 
 @implementation MinimumUserTaskProto
@@ -1004,12 +1005,20 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   hasUserTaskUuid_ = !!value_;
 }
 @synthesize userTaskUuid;
+- (BOOL) hasClientState {
+  return !!hasClientState_;
+}
+- (void) setHasClientState:(BOOL) value_ {
+  hasClientState_ = !!value_;
+}
+@synthesize clientState;
 - (id) init {
   if ((self = [super init])) {
     self.userUuid = @"";
     self.taskId = 0;
     self.curTaskStageId = 0;
     self.userTaskUuid = @"";
+    self.clientState = [NSData data];
   }
   return self;
 }
@@ -1041,6 +1050,9 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasUserTaskUuid) {
     [output writeString:4 value:self.userTaskUuid];
   }
+  if (self.hasClientState) {
+    [output writeData:5 value:self.clientState];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1061,6 +1073,9 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   }
   if (self.hasUserTaskUuid) {
     size_ += computeStringSize(4, self.userTaskUuid);
+  }
+  if (self.hasClientState) {
+    size_ += computeDataSize(5, self.clientState);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1109,6 +1124,9 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasUserTaskUuid) {
     [output appendFormat:@"%@%@: %@\n", indent, @"userTaskUuid", self.userTaskUuid];
   }
+  if (self.hasClientState) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"clientState", self.clientState];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1128,6 +1146,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
       (!self.hasCurTaskStageId || self.curTaskStageId == otherMessage.curTaskStageId) &&
       self.hasUserTaskUuid == otherMessage.hasUserTaskUuid &&
       (!self.hasUserTaskUuid || [self.userTaskUuid isEqual:otherMessage.userTaskUuid]) &&
+      self.hasClientState == otherMessage.hasClientState &&
+      (!self.hasClientState || [self.clientState isEqual:otherMessage.clientState]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1143,6 +1163,9 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   }
   if (self.hasUserTaskUuid) {
     hashCode = hashCode * 31 + [self.userTaskUuid hash];
+  }
+  if (self.hasClientState) {
+    hashCode = hashCode * 31 + [self.clientState hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -1199,6 +1222,9 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other.hasUserTaskUuid) {
     [self setUserTaskUuid:other.userTaskUuid];
   }
+  if (other.hasClientState) {
+    [self setClientState:other.clientState];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1234,6 +1260,10 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
       }
       case 34: {
         [self setUserTaskUuid:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setClientState:[input readData]];
         break;
       }
     }
@@ -1301,6 +1331,22 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 - (MinimumUserTaskProto_Builder*) clearUserTaskUuid {
   result.hasUserTaskUuid = NO;
   result.userTaskUuid = @"";
+  return self;
+}
+- (BOOL) hasClientState {
+  return result.hasClientState;
+}
+- (NSData*) clientState {
+  return result.clientState;
+}
+- (MinimumUserTaskProto_Builder*) setClientState:(NSData*) value {
+  result.hasClientState = YES;
+  result.clientState = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearClientState {
+  result.hasClientState = NO;
+  result.clientState = [NSData data];
   return self;
 }
 @end

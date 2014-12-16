@@ -1791,6 +1791,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) updateClientState:(NSData *)data {
+  [[SocketCommunication sharedSocketCommunication] sendUpdateClientTaskStateMessage:data];
+}
+
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless {
   NSMutableArray *arr = [NSMutableArray array];
   for (BattlePlayer *bp in curHealths) {

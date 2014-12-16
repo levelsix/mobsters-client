@@ -102,6 +102,7 @@
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime;
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon droplessStageNums:(NSArray *)droplessStageNums delegate:(id)delegate;
+- (void) updateClientState:(NSData *)data;
 
 - (void) beginClanAvenge:(PvpHistoryProto *)pvp;
 - (void) queueUpForClanAvenge:(PvpClanAvenging *)ca delegate:(id)delegate;

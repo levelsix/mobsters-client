@@ -648,4 +648,14 @@ static NSDate *timeSinceLastTutStep = nil;
   [self gameTransactionWithTransactionType:@"redeem_mini_job" context:nil cashChange:cashChange cashBalance:cashBalance oilChange:oilChange oilBalance:oilBalance gemChange:0 gemBalance:0 extraParams:@{@"id": @(miniJobId)}];
 }
 
+#pragma mark - connection
+
++ (void) connectedToHost {
+  [self event:@"connected_to_host"];
+}
+
++ (void) receivedStartup {
+  [self event:@"received_startup"];
+}
+
 @end

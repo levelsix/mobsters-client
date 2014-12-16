@@ -356,19 +356,23 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasCurTaskStageId_:1;
   BOOL hasUserUuid_:1;
   BOOL hasUserTaskUuid_:1;
+  BOOL hasClientState_:1;
   int32_t taskId;
   int32_t curTaskStageId;
   NSString* userUuid;
   NSString* userTaskUuid;
+  NSData* clientState;
 }
 - (BOOL) hasUserUuid;
 - (BOOL) hasTaskId;
 - (BOOL) hasCurTaskStageId;
 - (BOOL) hasUserTaskUuid;
+- (BOOL) hasClientState;
 @property (readonly, strong) NSString* userUuid;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t curTaskStageId;
 @property (readonly, strong) NSString* userTaskUuid;
+@property (readonly, strong) NSData* clientState;
 
 + (MinimumUserTaskProto*) defaultInstance;
 - (MinimumUserTaskProto*) defaultInstance;
@@ -424,6 +428,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (NSString*) userTaskUuid;
 - (MinimumUserTaskProto_Builder*) setUserTaskUuid:(NSString*) value;
 - (MinimumUserTaskProto_Builder*) clearUserTaskUuid;
+
+- (BOOL) hasClientState;
+- (NSData*) clientState;
+- (MinimumUserTaskProto_Builder*) setClientState:(NSData*) value;
+- (MinimumUserTaskProto_Builder*) clearClientState;
 @end
 
 @interface TaskStageMonsterProto : PBGeneratedMessage {
