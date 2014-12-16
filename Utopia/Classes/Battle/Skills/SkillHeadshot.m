@@ -55,9 +55,9 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
   {
     if (execute)
     {
+      _logoShown = YES;
       // Jumping, showing overlay and spawning initial set
       [self showSkillPopupOverlay:YES withCompletion:^{
-        _logoShown = YES;
         if (_orbsSpawned == 0)
         {
           [self performAfterDelay:.5f block:^{
@@ -72,17 +72,15 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
   }
   
   // New enemy appeared
-  if (trigger == SkillTriggerPointEnemyAppeared)
+  if (trigger == SkillTriggerPointEnemyAppeared && self.belongsToPlayer)
   {
     if (execute)
     {
       if (_orbsSpawned == 0)
       {
         // Spawn some more orbs if all have been matched and removed
-        [self showSkillPopupOverlay:YES withCompletion:^{
-          [self performAfterDelay:.5f block:^{
-            [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
-          }];
+        [self performAfterDelay:.5f block:^{
+          [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
         }];
       }
       else
@@ -99,7 +97,7 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
       if (_orbsSpawned > 0 && [self updateHeadshotOrbs])
       {
         // If any orbs have reached zero turns left, perform headshot
-        [self beginHeadshot];
+        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginHeadshot)];
       }
       else
         [self skillTriggerFinished];
@@ -126,7 +124,8 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
     return YES;
   }
   
-  if (trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer)
+  if ((trigger == SkillTriggerPointEnemyDefeated && !self.belongsToPlayer) ||
+      (trigger == SkillTriggerPointPlayerMobDefeated && self.belongsToPlayer))
   {
     if (execute)
     {
@@ -190,11 +189,19 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
   [self showLogo];
   
   // Perform attack animation
-  [self.playerSprite performFarAttackAnimationWithStrength:0.f
-                                               shouldEvade:NO
-                                                     enemy:self.belongsToPlayer ? self.enemySprite : self.playerSprite
-                                                    target:self
-                                                  selector:@selector(dealDamage)];
+  if (self.belongsToPlayer)
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f
+                                                 shouldEvade:NO
+                                                       enemy:self.enemySprite
+                                                      target:self
+                                                    selector:@selector(dealDamage)];
+  else
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
+                                             shouldReturn:YES
+                                              shouldEvade:NO
+                                             shouldFlinch:YES
+                                                   target:self
+                                                 selector:@selector(dealDamage)];
 }
 
 - (void) dealDamage
@@ -205,7 +212,6 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
                     withTarget:self
                   withSelector:@selector(endHeadshot)];
   
-  // TODO - Is this required?
   if (!self.belongsToPlayer)
   {
     [self.battleLayer setEnemyDamageDealt:(int)_fixedDamageReceived];
@@ -215,16 +221,13 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
 
 - (void) endHeadshot
 {
-  
   [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
   [self.battleLayer.orbLayer allowInput];
   
   if (self.belongsToPlayer && self.enemy.curHealth != 0.f)
   {
-    [self showSkillPopupOverlay:YES withCompletion:^{
-      [self performAfterDelay:.5f block:^{
-        [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
-      }];
+    [self performAfterDelay:.5f block:^{
+      [self spawnHeadshotOrbs:_numOrbsToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
     }];
   }
   else
@@ -311,7 +314,7 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
     BattleTile* tile = [layout tileAtColumn:column row:row];
-    [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count-1) ? target : nil andCallback:selector];
+    [bgdLayer updateTile:tile keepLit:NO withTarget:(n == count - 1) ? target : nil andCallback:selector];
     
     // Update orb
     [self performAfterDelay:.5f block:^{

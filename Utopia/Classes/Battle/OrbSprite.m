@@ -107,13 +107,13 @@
 {
   // Counter background
   CCSprite* counterBg = [CCSprite spriteWithImageNamed:@"headshotcounter.png"];
-  counterBg.position = CGPointMake(9.f / 33.f, 9.5f / 34.f);
+  counterBg.position = CGPointMake(6.f / 33.f, 6.5f / 34.f);
   counterBg.positionType = CCPositionTypeNormalized;
   [_orbSprite addChild:counterBg];
   
   // Counter label
-  _headshotCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:10.f];
-  _headshotCounter.position = CGPointMake(9.f / 33.f, 9.5f / 34.f);
+  _headshotCounter = [CCLabelTTF labelWithString:@"0" fontName:@"Gotham-Ultra" fontSize:8.f];
+  _headshotCounter.position = CGPointMake(6.f / 33.f, 5.5f / 34.f);
   _headshotCounter.positionType = CCPositionTypeNormalized;
   _headshotCounter.color = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"414141"]];
   _headshotCounter.horizontalAlignment = CCTextAlignmentCenter;

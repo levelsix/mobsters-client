@@ -58,8 +58,8 @@
   {
     if (execute)
     {
+      _logoShown = YES;
       [self showSkillPopupOverlay:YES withCompletion:^(){
-        _logoShown = YES;
         [self skillTriggerFinished];
       }];
     }

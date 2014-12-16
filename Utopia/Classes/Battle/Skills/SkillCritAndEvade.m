@@ -9,6 +9,7 @@
 #import "SkillCritAndEvade.h"
 #import "NewBattleLayer.h"
 #import "SkillManager.h"
+#import "Globals.h"
 
 @implementation SkillCritAndEvade
 
@@ -117,8 +118,8 @@
   {
     if (execute)
     {
+      _logoShown = YES;
       [self showSkillPopupOverlay:YES withCompletion:^(){
-        _logoShown = YES;
         [self performAfterDelay:.5f block:^{
           [self skillTriggerFinished];
         }];

@@ -691,22 +691,21 @@
                           nil]];
   
   CCActionFiniteTime* jumpSoundAction = [CCActionCallBlock actionWithBlock:^{ [SoundEngine spriteJump]; }];
-  CCActionFiniteTime* shadowScaleAction = [CCActionSpawn actions:
-                                           [CCActionMoveBy actionWithDuration:duration * .2f position:movement],
-                                           [CCActionSequence actions:
-                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
-                                            [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
-                                            nil],
+  CCActionFiniteTime* shadowScaleAction = [CCActionSequence actions:
+                                           [CCActionScaleTo actionWithDuration:duration * .1f scale:.7f],
+                                           [CCActionScaleTo actionWithDuration:duration * .1f scale:1.f],
                                            nil];
+  CCActionFiniteTime* shadowScaleAndMoveAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movement], shadowScaleAction, nil];
+  CCActionFiniteTime* shadowScaleAndMoveBackAction = [CCActionSpawn actions:[CCActionMoveBy actionWithDuration:duration * .2f position:movementBack], shadowScaleAction, nil];
   
   CCSprite* shadow = (CCSprite*)[self getChildByName:SHADOW_TAG recursively:NO];
   [shadow runAction:[CCActionSequence actions:
                      delayAction,
                      jumpSoundAction,
-                     shadowScaleAction,
+                     shadowScaleAndMoveAction,
                      pauseAction,
                      jumpSoundAction,
-                     shadowScaleAction,
+                     shadowScaleAndMoveBackAction,
                      nil]];
 }
 
