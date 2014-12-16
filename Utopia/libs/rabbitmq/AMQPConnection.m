@@ -70,7 +70,7 @@
   NSLog(@"Reachability status: %@", (NSData *)data);
   
   if (!resolved || !hasBeenResolved) {
-    [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, error.error];
+    [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, (int)error.error];
   }
   
   amqp_socket_t *socket;

@@ -202,7 +202,7 @@ static int sessionId;
           CFIndex x = CFWriteStreamWrite(_writeStream, &t, 1);
           if (x < 0) {
             CFStreamError err = CFWriteStreamGetError(_writeStream);
-            LNLog(@"Error: %ld:%d", err.domain, err.error);
+            LNLog(@"Error: %ld:%d", err.domain, (int)err.error);
           }
         }
       }

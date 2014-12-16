@@ -222,10 +222,18 @@
 }
 
 - (NSString *) message {
-  if (self.attackerWon) {
-    return @"Defeated you in battle";
+  if ([self userIsAttacker]) {
+    if (self.attackerWon) {
+      return @"I won =)";
+    } else {
+      return @"I lost =(";
+    }
   } else {
-    return @"Lost to you in battle";
+    if (self.attackerWon) {
+      return @"Defeated you in battle";
+    } else {
+      return @"Lost to you in battle";
+    }
   }
 }
 
