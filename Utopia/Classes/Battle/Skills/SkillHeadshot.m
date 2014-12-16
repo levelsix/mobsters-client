@@ -147,7 +147,10 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
 {
   BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   OrbSwipeLayer* layer = self.battleLayer.orbLayer.swipeLayer;
+  OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
+  
   NSInteger usedUpOrbCount = 0;
+  NSMutableSet* clonedOrbs = [NSMutableSet set];
   
   for (NSInteger column = 0; column < layout.numColumns; ++column)
   {
@@ -163,6 +166,12 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
         OrbSprite* sprite = [layer spriteForOrb:orb];
         if (orb.headshotCounter <= 0) // Use up the headshot orb
         {
+          // Clone the orb sprite to be used in the visual effect
+          CCSprite* clonedSprite = [CCSprite spriteWithTexture:sprite.orbSprite.texture rect:sprite.orbSprite.textureRect];
+          clonedSprite.position = [bgdLayer convertToNodeSpace:[sprite.orbSprite convertToWorldSpaceAR:sprite.orbSprite.position]];
+          clonedSprite.zOrder = sprite.orbSprite.zOrder + 100;
+          [clonedOrbs addObject:clonedSprite];
+          
           // Change sprite type
           orb.specialOrbType = SpecialOrbTypeNone;
           
@@ -176,6 +185,23 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
           [sprite updateHeadshotCounter:YES];
       }
     }
+  }
+  
+  for (CCSprite* clonedSprite in clonedOrbs)
+  {
+    [self.battleLayer.orbLayer.bgdLayer addChild:clonedSprite];
+    [clonedSprite runAction:[CCActionSequence actions:
+                             [CCActionEaseOut actionWithAction:
+                              [CCActionMoveTo actionWithDuration:.25f position:ccp(bgdLayer.contentSize.width * .5f, bgdLayer.contentSize.height * .5f)]],
+                             [CCActionDelay actionWithDuration:.25f],
+                             [CCActionSpawn actions:
+                              [CCActionEaseIn actionWithAction:
+                               [CCActionScaleBy actionWithDuration:.35f scale:10.f]],
+                              [CCActionEaseIn actionWithAction:
+                               [CCActionFadeOut actionWithDuration:.35f]],
+                              nil],
+                             [CCActionRemove action],
+                             nil]];
   }
   
   return (usedUpOrbCount > 0);
@@ -279,12 +305,28 @@ static const NSInteger kHeadshotOrbsMaxSearchIterations = 256;
             orb.orbColor != self.orbColor) &&
            counter < kHeadshotOrbsMaxSearchIterations);
     
+    // Fuck it; spawn at the edge of the board if we have to
+    if (counter == kHeadshotOrbsMaxSearchIterations)
+    {
+      counter = 0;
+      do {
+        column = rand() % layout.numColumns;
+        row = rand() % layout.numRows;
+        orb = [layout orbAtColumn:column row:row];
+        ++counter;
+      }
+      while ((orb.specialOrbType != SpecialOrbTypeNone ||
+              orb.powerupType != PowerupTypeNone ||
+              orb.orbColor != self.orbColor) &&
+             counter < kHeadshotOrbsMaxSearchIterations);
+    }
+    
     // Another loop if we haven't found the orb of the same color (avoiding chain)
     if (counter == kHeadshotOrbsMaxSearchIterations)
     {
       counter = 0;
       do {
-        column = rand() % layout.numColumns; // Fuck it; spawn at the edge of the board if we have to
+        column = rand() % layout.numColumns;
         row = rand() % layout.numRows;
         orb = [layout orbAtColumn:column row:row];
         ++counter;
