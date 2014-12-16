@@ -5285,5 +5285,601 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 }
 @end
 
+@interface UpdateClientTaskStateRequestProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSData* taskState;
+@end
+
+@implementation UpdateClientTaskStateRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasTaskState {
+  return !!hasTaskState_;
+}
+- (void) setHasTaskState:(BOOL) value_ {
+  hasTaskState_ = !!value_;
+}
+@synthesize taskState;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.taskState = [NSData data];
+  }
+  return self;
+}
+static UpdateClientTaskStateRequestProto* defaultUpdateClientTaskStateRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateClientTaskStateRequestProto class]) {
+    defaultUpdateClientTaskStateRequestProtoInstance = [[UpdateClientTaskStateRequestProto alloc] init];
+  }
+}
++ (UpdateClientTaskStateRequestProto*) defaultInstance {
+  return defaultUpdateClientTaskStateRequestProtoInstance;
+}
+- (UpdateClientTaskStateRequestProto*) defaultInstance {
+  return defaultUpdateClientTaskStateRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasTaskState) {
+    [output writeData:2 value:self.taskState];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasTaskState) {
+    size_ += computeDataSize(2, self.taskState);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UpdateClientTaskStateRequestProto*) parseFromData:(NSData*) data {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromData:data] build];
+}
++ (UpdateClientTaskStateRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateClientTaskStateRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateClientTaskStateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateRequestProto*)[[[UpdateClientTaskStateRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateRequestProto_Builder*) builder {
+  return [[UpdateClientTaskStateRequestProto_Builder alloc] init];
+}
++ (UpdateClientTaskStateRequestProto_Builder*) builderWithPrototype:(UpdateClientTaskStateRequestProto*) prototype {
+  return [[UpdateClientTaskStateRequestProto builder] mergeFrom:prototype];
+}
+- (UpdateClientTaskStateRequestProto_Builder*) builder {
+  return [UpdateClientTaskStateRequestProto builder];
+}
+- (UpdateClientTaskStateRequestProto_Builder*) toBuilder {
+  return [UpdateClientTaskStateRequestProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasTaskState) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"taskState", self.taskState];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UpdateClientTaskStateRequestProto class]]) {
+    return NO;
+  }
+  UpdateClientTaskStateRequestProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasTaskState == otherMessage.hasTaskState &&
+      (!self.hasTaskState || [self.taskState isEqual:otherMessage.taskState]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasTaskState) {
+    hashCode = hashCode * 31 + [self.taskState hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UpdateClientTaskStateRequestProto_Builder()
+@property (strong) UpdateClientTaskStateRequestProto* result;
+@end
+
+@implementation UpdateClientTaskStateRequestProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UpdateClientTaskStateRequestProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) clear {
+  self.result = [[UpdateClientTaskStateRequestProto alloc] init];
+  return self;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) clone {
+  return [UpdateClientTaskStateRequestProto builderWithPrototype:result];
+}
+- (UpdateClientTaskStateRequestProto*) defaultInstance {
+  return [UpdateClientTaskStateRequestProto defaultInstance];
+}
+- (UpdateClientTaskStateRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateClientTaskStateRequestProto*) buildPartial {
+  UpdateClientTaskStateRequestProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFrom:(UpdateClientTaskStateRequestProto*) other {
+  if (other == [UpdateClientTaskStateRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasTaskState) {
+    [self setTaskState:other.taskState];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setTaskState:[input readData]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateClientTaskStateRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTaskState {
+  return result.hasTaskState;
+}
+- (NSData*) taskState {
+  return result.taskState;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) setTaskState:(NSData*) value {
+  result.hasTaskState = YES;
+  result.taskState = value;
+  return self;
+}
+- (UpdateClientTaskStateRequestProto_Builder*) clearTaskState {
+  result.hasTaskState = NO;
+  result.taskState = [NSData data];
+  return self;
+}
+@end
+
+@interface UpdateClientTaskStateResponseProto ()
+@property (strong) MinimumUserProto* sender;
+@property (strong) NSData* taskState;
+@property UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+@end
+
+@implementation UpdateClientTaskStateResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value_ {
+  hasSender_ = !!value_;
+}
+@synthesize sender;
+- (BOOL) hasTaskState {
+  return !!hasTaskState_;
+}
+- (void) setHasTaskState:(BOOL) value_ {
+  hasTaskState_ = !!value_;
+}
+@synthesize taskState;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value_ {
+  hasStatus_ = !!value_;
+}
+@synthesize status;
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.taskState = [NSData data];
+    self.status = UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess;
+  }
+  return self;
+}
+static UpdateClientTaskStateResponseProto* defaultUpdateClientTaskStateResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateClientTaskStateResponseProto class]) {
+    defaultUpdateClientTaskStateResponseProtoInstance = [[UpdateClientTaskStateResponseProto alloc] init];
+  }
+}
++ (UpdateClientTaskStateResponseProto*) defaultInstance {
+  return defaultUpdateClientTaskStateResponseProtoInstance;
+}
+- (UpdateClientTaskStateResponseProto*) defaultInstance {
+  return defaultUpdateClientTaskStateResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasTaskState) {
+    [output writeData:2 value:self.taskState];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSender) {
+    size_ += computeMessageSize(1, self.sender);
+  }
+  if (self.hasTaskState) {
+    size_ += computeDataSize(2, self.taskState);
+  }
+  if (self.hasStatus) {
+    size_ += computeEnumSize(3, self.status);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UpdateClientTaskStateResponseProto*) parseFromData:(NSData*) data {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromData:data] build];
+}
++ (UpdateClientTaskStateResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateClientTaskStateResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateClientTaskStateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateClientTaskStateResponseProto*)[[[UpdateClientTaskStateResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateClientTaskStateResponseProto_Builder*) builder {
+  return [[UpdateClientTaskStateResponseProto_Builder alloc] init];
+}
++ (UpdateClientTaskStateResponseProto_Builder*) builderWithPrototype:(UpdateClientTaskStateResponseProto*) prototype {
+  return [[UpdateClientTaskStateResponseProto builder] mergeFrom:prototype];
+}
+- (UpdateClientTaskStateResponseProto_Builder*) builder {
+  return [UpdateClientTaskStateResponseProto builder];
+}
+- (UpdateClientTaskStateResponseProto_Builder*) toBuilder {
+  return [UpdateClientTaskStateResponseProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSender) {
+    [output appendFormat:@"%@%@ {\n", indent, @"sender"];
+    [self.sender writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasTaskState) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"taskState", self.taskState];
+  }
+  if (self.hasStatus) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"status", [NSNumber numberWithInteger:self.status]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UpdateClientTaskStateResponseProto class]]) {
+    return NO;
+  }
+  UpdateClientTaskStateResponseProto *otherMessage = other;
+  return
+      self.hasSender == otherMessage.hasSender &&
+      (!self.hasSender || [self.sender isEqual:otherMessage.sender]) &&
+      self.hasTaskState == otherMessage.hasTaskState &&
+      (!self.hasTaskState || [self.taskState isEqual:otherMessage.taskState]) &&
+      self.hasStatus == otherMessage.hasStatus &&
+      (!self.hasStatus || self.status == otherMessage.status) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSender) {
+    hashCode = hashCode * 31 + [self.sender hash];
+  }
+  if (self.hasTaskState) {
+    hashCode = hashCode * 31 + [self.taskState hash];
+  }
+  if (self.hasStatus) {
+    hashCode = hashCode * 31 + self.status;
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value) {
+  switch (value) {
+    case UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess:
+    case UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UpdateClientTaskStateResponseProto_Builder()
+@property (strong) UpdateClientTaskStateResponseProto* result;
+@end
+
+@implementation UpdateClientTaskStateResponseProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UpdateClientTaskStateResponseProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) clear {
+  self.result = [[UpdateClientTaskStateResponseProto alloc] init];
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) clone {
+  return [UpdateClientTaskStateResponseProto builderWithPrototype:result];
+}
+- (UpdateClientTaskStateResponseProto*) defaultInstance {
+  return [UpdateClientTaskStateResponseProto defaultInstance];
+}
+- (UpdateClientTaskStateResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateClientTaskStateResponseProto*) buildPartial {
+  UpdateClientTaskStateResponseProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFrom:(UpdateClientTaskStateResponseProto*) other {
+  if (other == [UpdateClientTaskStateResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasTaskState) {
+    [self setTaskState:other.taskState];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setTaskState:[input readData]];
+        break;
+      }
+      case 24: {
+        UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value = (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus)[input readEnum];
+        if (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateClientTaskStateResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasTaskState {
+  return result.hasTaskState;
+}
+- (NSData*) taskState {
+  return result.taskState;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) setTaskState:(NSData*) value {
+  result.hasTaskState = YES;
+  result.taskState = value;
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) clearTaskState {
+  result.hasTaskState = NO;
+  result.taskState = [NSData data];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status {
+  return result.status;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UpdateClientTaskStateResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess;
+  return self;
+}
+@end
+
 
 // @@protoc_insertion_point(global_scope)

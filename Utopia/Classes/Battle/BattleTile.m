@@ -30,14 +30,14 @@
 
 - (BOOL) allowsDamage
 {
-  if (_typeBottom == TileTypeJelly)
+  if (_typeBottom == TileTypeJelly || _typeBottom == TileTypeMud)
     return NO;
   return YES;
 }
 
 - (void) orbRemoved
 {
-  if (_typeBottom == TileTypeJelly)
+  if (_typeBottom == TileTypeJelly || _typeBottom == TileTypeMud)
     _typeBottom = TileTypeNormal;
 }
 

@@ -1427,13 +1427,18 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.25f+xScale/600.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.4f+xScale/600.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
     {
       // Tail for an orb flying to skill indicator
-      dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
+//    dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
+      
+      CCSprite *orbSprite = [self.orbLayer.swipeLayer spriteForOrb:orb].orbSprite;
+      dg = [CCSprite spriteWithTexture:orbSprite.texture rect:orbSprite.textureRect];
+      move = [CCActionSpawn actions:move, [CCActionScaleTo actionWithDuration:move.duration scale:.3f], nil];
+
       stayDelay = 0.0;
     }
     else
@@ -1448,7 +1453,10 @@
     [self.orbLayer addChild:dg z:10];
     dg.position = initPoint;
     [dg runAction:[CCActionSequence actions:move,
-                   [CCActionFadeOut actionWithDuration:0.5f],
+                   [CCActionSpawn actions:
+                    [CCActionScaleTo actionWithDuration:.5f scale:.1f],
+                    [CCActionFadeOut actionWithDuration:.5f],
+                    nil],
                    [CCActionDelay actionWithDuration:stayDelay],
                    [CCActionCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
   }
@@ -1645,9 +1653,10 @@
   // Update tile
   BattleTile* tile = [self.orbLayer.layout tileAtColumn:orb.column row:orb.row];
   
-  // Increment damage, create label and ribbon
-  if (tile.allowsDamage)
+  BOOL mudOnBoard = [SkillController specialTilesOnBoardCount:TileTypeMud layout:self.orbLayer.layout] > 0; // All mud tiles have to be removed before any damage can be done
+  if (tile.allowsDamage && !mudOnBoard) // Certain tiles (e.g. jelly) do not allow damage
   {
+    // Increment damage, create label and ribbon
     int dmg = [self.myPlayerObject damageForColor:color];
     _myDamageDealt += dmg;
     _myDamageForThisTurn += dmg;
@@ -1715,10 +1724,16 @@
 }
 
 - (void) moveComplete {
+  /*
+   * 12/16/14 - BN - This check means if a turn results in no damage (e.g. because of
+   * jelly or mud), it will not count as a turn. It can lead to unlimited turns and
+   * combos. Why is it here? Whyeeeeeeeee?
+   *
   if (_myDamageForThisTurn == 0) {
     [self.orbLayer allowInput];
     return;
   }
+   */
   
   _soundComboCount = 0;
   

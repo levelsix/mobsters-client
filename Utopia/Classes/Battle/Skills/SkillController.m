@@ -20,6 +20,7 @@
 #import "SkillCritAndEvade.h"
 #import "SkillShuffle.h"
 #import "SkillHeadshot.h"
+#import "SkillMud.h"
 
 @implementation SkillController
 
@@ -39,6 +40,7 @@
     case SkillTypeCritAndEvade: return [[SkillCritAndEvade alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeShuffle: return [[SkillShuffle alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHeadshot: return [[SkillHeadshot alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeMud: return  [[SkillMud alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -270,10 +272,9 @@
   srand(seed);
 }
 
-- (NSInteger) specialsOnBoardCount:(SpecialOrbType)type
++ (NSInteger) specialsOnBoardCount:(SpecialOrbType)type layout:(BattleOrbLayout*)layout
 {
   NSInteger result = 0;
-  BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
   for (NSInteger column = 0; column < layout.numColumns; column++)
     for (NSInteger row = 0; row < layout.numRows; row++)
     {
@@ -282,6 +283,29 @@
         result++;
     }
   return result;
+}
+
++ (NSInteger) specialTilesOnBoardCount:(TileType)type layout:(BattleOrbLayout*)layout
+{
+  NSInteger result = 0;
+  for (NSInteger column = 0; column < layout.numColumns; column++)
+    for (NSInteger row = 0; row < layout.numRows; row++)
+    {
+      BattleTile* tile = [layout tileAtColumn:column row:row];
+      if (tile.typeBottom == type)
+        result++;
+    }
+  return result;
+}
+
+- (NSInteger) specialsOnBoardCount:(SpecialOrbType)type
+{
+  return [SkillController specialsOnBoardCount:type layout:self.battleLayer.orbLayer.layout];
+}
+
+- (NSInteger) specialTilesOnBoardCount:(TileType)type
+{
+  return [SkillController specialTilesOnBoardCount:type layout:self.battleLayer.orbLayer.layout];
 }
 
 @end

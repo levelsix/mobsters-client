@@ -282,7 +282,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   }
   
   /*
-   * 11/12/14 - BN - All triggers should be sent to skills and skill controllers
+   * 12/11/14 - BN - All triggers should be sent to skills and skill controllers
    * should be responsible for implementing logic around various triggers
    *
   // Skip first skill attack for both player and enemy if it's right after enemy appearance

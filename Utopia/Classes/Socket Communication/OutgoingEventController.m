@@ -937,6 +937,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
               if (number)
               {
                 NSInteger integer = [number integerValue];
+                SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:integer]];
+                if (skillProto != nil)
+                {
+                  skillId = integer;
+                  skillName = skillProto.name;
+                  found = YES;
+                }                
+                /*
                 if (integer < gs.staticSkills.count)
                 {
                   skillId = integer;
@@ -944,6 +952,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                   skillName = skillProto.name;
                   found = YES;
                 }
+                 */
               }
             }
             

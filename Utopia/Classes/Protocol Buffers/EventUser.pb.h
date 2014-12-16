@@ -87,6 +87,10 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UpdateClientTaskStateRequestProto;
+@class UpdateClientTaskStateRequestProto_Builder;
+@class UpdateClientTaskStateResponseProto;
+@class UpdateClientTaskStateResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpdateUserCurrencyRequestProto;
@@ -179,6 +183,13 @@ typedef NS_ENUM(SInt32, SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) {
 };
 
 BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value);
+
+typedef NS_ENUM(SInt32, UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) {
+  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusSuccess = 1,
+  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusFailOther = 2,
+};
+
+BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -1305,6 +1316,135 @@ BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarM
 - (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) status;
 - (SetAvatarMonsterResponseProto_Builder*) setStatus:(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) value;
 - (SetAvatarMonsterResponseProto_Builder*) clearStatus;
+@end
+
+@interface UpdateClientTaskStateRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasTaskState_:1;
+  MinimumUserProto* sender;
+  NSData* taskState;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTaskState;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSData* taskState;
+
++ (UpdateClientTaskStateRequestProto*) defaultInstance;
+- (UpdateClientTaskStateRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateClientTaskStateRequestProto_Builder*) builder;
++ (UpdateClientTaskStateRequestProto_Builder*) builder;
++ (UpdateClientTaskStateRequestProto_Builder*) builderWithPrototype:(UpdateClientTaskStateRequestProto*) prototype;
+- (UpdateClientTaskStateRequestProto_Builder*) toBuilder;
+
++ (UpdateClientTaskStateRequestProto*) parseFromData:(NSData*) data;
++ (UpdateClientTaskStateRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateClientTaskStateRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateClientTaskStateRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateClientTaskStateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateClientTaskStateRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateClientTaskStateRequestProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UpdateClientTaskStateRequestProto* result;
+}
+
+- (UpdateClientTaskStateRequestProto*) defaultInstance;
+
+- (UpdateClientTaskStateRequestProto_Builder*) clear;
+- (UpdateClientTaskStateRequestProto_Builder*) clone;
+
+- (UpdateClientTaskStateRequestProto*) build;
+- (UpdateClientTaskStateRequestProto*) buildPartial;
+
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFrom:(UpdateClientTaskStateRequestProto*) other;
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateClientTaskStateRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateClientTaskStateRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateClientTaskStateRequestProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateClientTaskStateRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateClientTaskStateRequestProto_Builder*) clearSender;
+
+- (BOOL) hasTaskState;
+- (NSData*) taskState;
+- (UpdateClientTaskStateRequestProto_Builder*) setTaskState:(NSData*) value;
+- (UpdateClientTaskStateRequestProto_Builder*) clearTaskState;
+@end
+
+@interface UpdateClientTaskStateResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasTaskState_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  NSData* taskState;
+  UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasTaskState;
+- (BOOL) hasStatus;
+@property (readonly, strong) MinimumUserProto* sender;
+@property (readonly, strong) NSData* taskState;
+@property (readonly) UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus status;
+
++ (UpdateClientTaskStateResponseProto*) defaultInstance;
+- (UpdateClientTaskStateResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateClientTaskStateResponseProto_Builder*) builder;
++ (UpdateClientTaskStateResponseProto_Builder*) builder;
++ (UpdateClientTaskStateResponseProto_Builder*) builderWithPrototype:(UpdateClientTaskStateResponseProto*) prototype;
+- (UpdateClientTaskStateResponseProto_Builder*) toBuilder;
+
++ (UpdateClientTaskStateResponseProto*) parseFromData:(NSData*) data;
++ (UpdateClientTaskStateResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateClientTaskStateResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateClientTaskStateResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateClientTaskStateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateClientTaskStateResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateClientTaskStateResponseProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UpdateClientTaskStateResponseProto* result;
+}
+
+- (UpdateClientTaskStateResponseProto*) defaultInstance;
+
+- (UpdateClientTaskStateResponseProto_Builder*) clear;
+- (UpdateClientTaskStateResponseProto_Builder*) clone;
+
+- (UpdateClientTaskStateResponseProto*) build;
+- (UpdateClientTaskStateResponseProto*) buildPartial;
+
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFrom:(UpdateClientTaskStateResponseProto*) other;
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateClientTaskStateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateClientTaskStateResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateClientTaskStateResponseProto_Builder*) setSender_Builder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateClientTaskStateResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateClientTaskStateResponseProto_Builder*) clearSender;
+
+- (BOOL) hasTaskState;
+- (NSData*) taskState;
+- (UpdateClientTaskStateResponseProto_Builder*) setTaskState:(NSData*) value;
+- (UpdateClientTaskStateResponseProto_Builder*) clearTaskState;
+
+- (BOOL) hasStatus;
+- (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status;
+- (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value;
+- (UpdateClientTaskStateResponseProto_Builder*) clearStatus;
 @end
 
 

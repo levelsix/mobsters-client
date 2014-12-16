@@ -56,6 +56,9 @@
     case TileTypeJelly:
       imageName = @"boardgoo.png";
       break;
+    case TileTypeMud:
+      imageName = @"boardmud.png";
+      break;
       
     default: break;
   }
