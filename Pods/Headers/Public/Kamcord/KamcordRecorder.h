@@ -1,0 +1,1 @@
+../../../Kamcord/Kamcord.embeddedframework/Kamcord.framework/Headers/KamcordRecorder.h

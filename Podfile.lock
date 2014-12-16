@@ -23,6 +23,7 @@ PODS:
     - AFNetworking/NSURLSession
   - Amplitude-iOS (2.2.0)
   - GPUImage (0.1.6)
+  - Kamcord (1.8.8)
   - NRTouchPoints (0.1.0)
   - OpenSSL (1.0.109)
   - ProtocolBuffers (1.9.2)
@@ -33,6 +34,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - Amplitude-iOS (~> 2.1)
   - GPUImage
+  - Kamcord
   - NRTouchPoints
   - OpenSSL
   - ProtocolBuffers (= 1.9.2)
@@ -53,6 +55,7 @@ SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   Amplitude-iOS: 826033d01dee9383131d1237a1911e7170a8e0c1
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
+  Kamcord: 25e536123c58574e2de6c4190ef5308f4f0e2a5e
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
   OpenSSL: 4810adf5c99b0e2cd20670a11a987c805e8a521c
   ProtocolBuffers: a834d6fe4ae0cc94d081b864e4948bdd483ad228

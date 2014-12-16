@@ -1,0 +1,1 @@
+../../../Kamcord/Kamcord.embeddedframework/Kamcord.framework/Headers/KamcordProtocols.h
