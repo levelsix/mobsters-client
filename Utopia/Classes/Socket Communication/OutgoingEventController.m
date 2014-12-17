@@ -1791,8 +1791,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) updateClientState:(NSData *)data {
-  [[SocketCommunication sharedSocketCommunication] sendUpdateClientTaskStateMessage:data];
+- (void) updateClientState:(NSData *)data shouldFlush:(BOOL)shouldFlush {
+  [[SocketCommunication sharedSocketCommunication] updateClientTaskStateMessage:data];
+  
+  if (shouldFlush) {
+    [[SocketCommunication sharedSocketCommunication] flush];
+  }
 }
 
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum dropless:(BOOL)dropless {

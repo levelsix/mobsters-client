@@ -41,6 +41,8 @@
   NSMutableArray *_resourceUpdatedUserItems;
   
   NSDate *_lastFlushedTime;
+  
+  NSData *_latestTaskClientState;
 }
 
 @property (nonatomic, retain) GenericPopupController *popupController;
@@ -150,7 +152,7 @@
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskUuid:(NSString *)userTaskUuid taskStageId:(int)taskStageId droplessTsfuUuid:(NSString *)droplessTsfuUuid;
 - (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted droplessTsfuUuids:(NSArray *)droplessTsfuUuids time:(uint64_t)time;
 - (int) sendReviveInDungeonMessage:(NSString *)userTaskUuid clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems;
-- (int) sendUpdateClientTaskStateMessage:(NSData *)bytes;
+- (int) updateClientTaskStateMessage:(NSData *)data;
 
 - (int) sendQueueUpMessage:(NSArray *)seenUserUuids clientTime:(uint64_t)clientTime;
 - (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason;

@@ -87,4 +87,8 @@
   [self.delegate itemSelectClosed:viewController];
 }
 
+- (BOOL) canCloseOnFullBar {
+  return YES;
+}
+
 @end

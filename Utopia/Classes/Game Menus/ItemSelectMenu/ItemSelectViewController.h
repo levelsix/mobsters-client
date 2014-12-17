@@ -49,6 +49,10 @@
 - (NSString *) progressBarText;
 - (float) progressBarPercent;
 
+// So that speedups will auto close when its at the end
+// But the resource bar won't
+- (BOOL) canCloseOnFullBar;
+
 @end
 
 typedef enum

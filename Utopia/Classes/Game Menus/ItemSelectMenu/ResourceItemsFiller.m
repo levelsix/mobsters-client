@@ -140,4 +140,8 @@
   [self.delegate itemSelectClosed:viewController];
 }
 
+- (BOOL) canCloseOnFullBar {
+  return _accumulate;
+}
+
 @end

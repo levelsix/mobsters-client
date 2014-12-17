@@ -63,11 +63,9 @@
   BOOL resolved = CFHostStartInfoResolution(hostref, kCFHostReachability, &error);
   
   Boolean hasBeenResolved;
-  CFDataRef data = CFHostGetReachability(hostref, &hasBeenResolved);
+  CFHostGetReachability(hostref, &hasBeenResolved);
   
   CFRelease(hostref);
-  
-  NSLog(@"Reachability status: %@", (NSData *)data);
   
   if (!resolved || !hasBeenResolved) {
     [NSException raise:@"AMQPConnectionException" format:@"Unable to open socket to host %@ on port %d. domain=%ld, error=%d", host, port, error.domain, (int)error.error];

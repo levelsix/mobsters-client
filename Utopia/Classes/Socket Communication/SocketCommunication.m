@@ -101,7 +101,7 @@ static NSString *udid = nil;
   if (errorFlag != NULL)
   {
     free(msgBuffer);
-    NSLog(@"Error: %@", errorFlag);
+    LNLog(@"Error: %@", errorFlag);
     return errorFlag;
   }
   
@@ -1534,15 +1534,6 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEndClanAvengingEvent];
 }
 
-- (int) sendUpdateClientTaskStateMessage:(NSData *)bytes {
-  UpdateClientTaskStateRequestProto *req = [[[[UpdateClientTaskStateRequestProto builder]
-                                              setSender:_sender]
-                                             setTaskState:bytes]
-                                            build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent];
-}
-
 #pragma mark - Batch/Flush events
 
 - (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time amountCollected:(int)amountCollected {
@@ -1688,13 +1679,32 @@ static NSString *udid = nil;
     [bldr setCashChange:_healingQueueCashChange];
     [bldr setGemCostForHealing:_healingQueueGemCost];
     
-    NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
-    NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
+    LNLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
+    LNLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO queueUp:YES];
   } else {
     return 0;
   }
+}
+
+- (int) updateClientTaskStateMessage:(NSData *)data {
+  [self flushAllExceptEventType:EventProtocolRequestCUpdateClientTaskStateEvent];
+  
+  _latestTaskClientState = data;
+  
+  return _currentTagNum;
+}
+
+- (int) sendUpdateClientTaskStateMessage {
+  UpdateClientTaskStateRequestProto *req = [[[[UpdateClientTaskStateRequestProto builder]
+                                              setSender:_sender]
+                                             setTaskState:_latestTaskClientState]
+                                            build];
+  
+  LNLog(@"Sending latest client state.");
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateClientTaskStateEvent flush:NO queueUp:YES];
 }
 
 
@@ -1768,6 +1778,15 @@ static NSString *udid = nil;
       [_resourceItemIdsUsed removeAllObjects];
       [_resourceUpdatedUserItems removeAllObjects];
       
+      found = YES;
+    }
+  }
+  
+  if (type != EventProtocolResponseSUpdateClientTaskStateEvent) {
+    if (_latestTaskClientState) {
+      [self sendUpdateClientTaskStateMessage];
+      
+      _latestTaskClientState = nil;
       found = YES;
     }
   }

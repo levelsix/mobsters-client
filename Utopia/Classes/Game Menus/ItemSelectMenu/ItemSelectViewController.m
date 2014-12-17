@@ -117,10 +117,10 @@ static BOOL _instanceOpened = NO;
   self.mainView.alpha = 0;
   self.bgdView.alpha = 0;
   
-  [self reloadData];
-  
   _instanceOpened = YES;
   [[NSNotificationCenter defaultCenter] postNotificationName:ITEM_SELECT_OPENED_NOTIFICATION object:self];
+  
+  [self reloadData];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:0.2f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
@@ -387,7 +387,12 @@ static BOOL _instanceOpened = NO;
   if (perc < 1.f) {
     [self.progressBar setPercentage:[self.delegate progressBarPercent]];
   } else {
-    [self closeClicked:nil];
+    // This is mostly just a precaution
+    if ([self.delegate canCloseOnFullBar]) {
+      [self closeClicked:nil];
+    } else {
+      self.progressBar.percentage = 1.f;
+    }
   }
 }
 
@@ -411,6 +416,13 @@ static BOOL _instanceOpened = NO;
       [self removeFromParentViewController];
       [self endAppearanceTransition];
     }];
+  }
+  
+  // Clear all the delegates
+  for (id io in self.items) {
+    if ([io respondsToSelector:@selector(setDelegate:)]) {
+      [io setDelegate:nil];
+    }
   }
   
   [self.delegate itemSelectClosed:self];

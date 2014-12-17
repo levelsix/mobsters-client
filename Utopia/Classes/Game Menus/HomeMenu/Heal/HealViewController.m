@@ -601,6 +601,10 @@ static BOOL isAnimating = NO;
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  if (self.speedupItemsFiller) {
+    [self.itemSelectViewController closeClicked:nil];
+  }
+  
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft allowFreeSpeedup:YES];
   

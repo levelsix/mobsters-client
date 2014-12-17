@@ -57,14 +57,14 @@
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES droplessStageNums:self.droplessStageNums delegate:self];
   [self makeGoCarrotCalls];
   
-  [self saveCurrentState];
+  [self saveCurrentStateWithForceFlush:YES];
 }
 
 - (void) youLost {
   [super youLost];
   [self.endView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1 droplessStageNums:self.droplessStageNums] isWin:NO];
   
-  [self saveCurrentState];
+  [self saveCurrentStateWithForceFlush:YES];
 }
 
 - (void) makeGoCarrotCalls {
@@ -189,7 +189,7 @@
       _movesLeft = 0;
       _myDamageDealt = 0;
       _numAttemptedRunaways++;
-      [self saveCurrentState];
+      [self saveCurrentStateWithForceFlush:YES];
       
       [self runawayFailed];
     }
@@ -396,7 +396,7 @@
 - (void) sendServerDungeonProgress {
   if (_hasStarted && _curStage < self.enemyTeam.count) {
     [[OutgoingEventController sharedOutgoingEventController] progressDungeon:self.myTeam dungeonInfo:self.dungeonInfo newStageNum:_curStage dropless:([self.droplessStageNums containsObject:@(_curStage-1)])];
-    [self saveCurrentState];
+    [self saveCurrentStateWithForceFlush:YES];
   }
 }
 
@@ -407,13 +407,13 @@
  }*/
 
 - (BOOL) checkEnemyHealth {
-  [self saveCurrentState];
+  [self saveCurrentStateWithForceFlush:NO];
   return [super checkEnemyHealth];
 }
 
 - (void) checkMyHealth {
   [super checkMyHealth];
-  [self saveCurrentState];
+  [self saveCurrentStateWithForceFlush:NO];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector
@@ -424,7 +424,7 @@
     if (! usingAbility) {
       _damageWasDealt = YES;
     }
-    [self saveCurrentState];
+    [self saveCurrentStateWithForceFlush:NO];
   }
   
   // Record analytics
@@ -536,7 +536,7 @@
     self.movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   } else {
     [super beginMyTurn];
-    [self saveCurrentState];
+    [self saveCurrentStateWithForceFlush:YES];
   }
   
   _damageWasDealt = NO;
@@ -589,7 +589,7 @@
 
 #define SKILL_MANAGER_KEY @"BattleSkillManager"
 
-- (void) saveCurrentState {
+- (void) saveCurrentStateWithForceFlush:(BOOL)forceFlush {
   NSDictionary *state = [self serializeState];
   
   //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -602,7 +602,7 @@
     NSData *jsonDataZipped = [self gzipDeflate:jsonData];
     
     if (!error) {
-      [[OutgoingEventController sharedOutgoingEventController] updateClientState:jsonDataZipped];
+      [[OutgoingEventController sharedOutgoingEventController] updateClientState:jsonDataZipped shouldFlush:forceFlush];
     } else {
       LNLog(@"Unable to save client state. Error: %@", error);
     }
