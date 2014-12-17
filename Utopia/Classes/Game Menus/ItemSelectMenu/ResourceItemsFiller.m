@@ -62,10 +62,17 @@
   
   [userItems sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     if ([obj1 isKindOfClass:[UserItem class]] && [obj2 isKindOfClass:[UserItem class]]) {
-      ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
-      ItemProto *ip2 = [gs itemForId:[obj2 itemId]];
+      BOOL anyOwned1 = [obj1 numOwned] > 0;
+      BOOL anyOwned2 = [obj2 numOwned] > 0;
       
-      return [@(ip1.amount) compare:@(ip2.amount)];
+      if (anyOwned1 != anyOwned2) {
+        return [@(anyOwned2) compare:@(anyOwned1)];
+      } else {
+        ItemProto *ip1 = [gs itemForId:[obj1 itemId]];
+        ItemProto *ip2 = [gs itemForId:[obj2 itemId]];
+        
+        return [@(ip1.amount) compare:@(ip2.amount)];
+      }
     } else if ([obj1 class] != [obj2 class]) {
       // Prioritize gems
       return [obj1 isKindOfClass:[GemsItemObject class]] ? NSOrderedAscending : NSOrderedDescending;
