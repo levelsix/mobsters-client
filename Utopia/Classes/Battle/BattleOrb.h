@@ -22,7 +22,8 @@ typedef enum {
   SpecialOrbTypeNone = 0,
   SpecialOrbTypeCake = 1,
   SpecialOrbTypeBomb = 2,
-  SpecialOrbTypePoison = 3
+  SpecialOrbTypePoison = 3,
+  SpecialOrbTypeHeadshot = 4
 } SpecialOrbType;
 
 typedef enum {
@@ -45,6 +46,7 @@ typedef enum {
 // Special orb variables
 @property (assign, nonatomic) NSInteger bombCounter;
 @property (assign, nonatomic) NSInteger bombDamage;
+@property (assign, nonatomic) NSInteger headshotCounter;
 
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dic;

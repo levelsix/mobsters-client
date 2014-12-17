@@ -11,7 +11,8 @@
 typedef enum {
   
   TileTypeNormal  = 0,
-  TileTypeJelly   = 1
+  TileTypeJelly   = 1,
+  TileTypeMud     = 2
   
 } TileType;
 

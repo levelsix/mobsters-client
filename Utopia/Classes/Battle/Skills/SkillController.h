@@ -35,7 +35,7 @@ typedef enum {
 
 // Cheat codes (indices are taken from SkillType enum)
 static NSString* const cheatCodesForSkills[] = {
-  @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade", @"shuffle"};
+  @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade", @"shuffle", @"headshot", @"mud"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
@@ -101,6 +101,9 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 
 // Helpers
 - (void) preseedRandomization;
++ (NSInteger) specialsOnBoardCount:(SpecialOrbType)type layout:(BattleOrbLayout*)layout;
++ (NSInteger) specialTilesOnBoardCount:(TileType)type layout:(BattleOrbLayout*)layout;
 - (NSInteger) specialsOnBoardCount:(SpecialOrbType)type;
+- (NSInteger) specialTilesOnBoardCount:(TileType)type;
 
 @end

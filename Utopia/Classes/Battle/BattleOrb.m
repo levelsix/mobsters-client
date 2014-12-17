@@ -18,6 +18,8 @@
   cp.specialOrbType = self.specialOrbType;
   cp.powerupType = self.powerupType;
   cp.bombCounter = self.bombCounter;
+  cp.bombDamage = self.bombDamage;
+  cp.headshotCounter = self.headshotCounter;
   return cp;
 }
 
@@ -30,6 +32,7 @@
 #define SPECIAL_TYPE_KEY  @"SpecialTypeKey"
 #define BOMB_COUNTER      @"BombCounter"
 #define BOMB_DAMAGE       @"BombDamage"
+#define HEADSHOT_COUNTER  @"HeadshotCounter"
 
 - (NSDictionary*) serialize
 {
@@ -39,6 +42,7 @@
   [info setObject:@(_specialOrbType) forKey:SPECIAL_TYPE_KEY];
   [info setObject:@(_bombCounter) forKey:BOMB_COUNTER];
   [info setObject:@(_bombDamage) forKey:BOMB_DAMAGE];
+  [info setObject:@(_headshotCounter) forKey:HEADSHOT_COUNTER];
   return info;
 }
 
@@ -49,6 +53,7 @@
   NSNumber* specialOrbType = [dic objectForKey:SPECIAL_TYPE_KEY];
   NSNumber* bombCounter = [dic objectForKey:BOMB_COUNTER];
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
+  NSNumber* headshotCounter = [dic objectForKey:HEADSHOT_COUNTER];
   
   if (powerupType)
     _powerupType = (PowerupType)[powerupType integerValue];
@@ -60,6 +65,8 @@
     _bombCounter = [bombCounter integerValue];
   if (bombDamage)
     _bombDamage = [bombDamage integerValue];
+  if (headshotCounter)
+    _headshotCounter = [headshotCounter integerValue];
 }
 
 @end
