@@ -16,7 +16,11 @@
   NSInteger _initialBombs;
   NSInteger _bombCounter;
   NSInteger _bombDamage;
-  float     _bombChance;
+  NSInteger _bombTurnCounter;
+  float     _bombSpawnChance;
+  
+  // Counters
+  NSInteger _turnCounter;
 }
 
 + (void) updateBombs:(NewBattleLayer*)battleLayer withCompletion:(SkillControllerBlock)completion;
