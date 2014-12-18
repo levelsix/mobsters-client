@@ -546,6 +546,24 @@
 		9BDA8BC61A40DFC900C7AC27 /* 6boardmud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BC51A40DFC900C7AC27 /* 6boardmud@2x.png */; };
 		9BDA8BC71A40DFC900C7AC27 /* 6boardmud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BC51A40DFC900C7AC27 /* 6boardmud@2x.png */; };
 		9BDA8BC81A40DFC900C7AC27 /* 6boardmud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BC51A40DFC900C7AC27 /* 6boardmud@2x.png */; };
+		9BDA8BDC1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD31A43837D00C7AC27 /* NewGachaFeaturedView.xib */; };
+		9BDA8BDD1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD31A43837D00C7AC27 /* NewGachaFeaturedView.xib */; };
+		9BDA8BDE1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD31A43837D00C7AC27 /* NewGachaFeaturedView.xib */; };
+		9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD51A43837D00C7AC27 /* NewGachaFocusScrollView.m */; };
+		9BDA8BE01A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD51A43837D00C7AC27 /* NewGachaFocusScrollView.m */; };
+		9BDA8BE11A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD51A43837D00C7AC27 /* NewGachaFocusScrollView.m */; };
+		9BDA8BE21A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD61A43837D00C7AC27 /* NewGachaItemCell.xib */; };
+		9BDA8BE31A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD61A43837D00C7AC27 /* NewGachaItemCell.xib */; };
+		9BDA8BE41A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD61A43837D00C7AC27 /* NewGachaItemCell.xib */; };
+		9BDA8BE51A43837D00C7AC27 /* NewGachaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD81A43837D00C7AC27 /* NewGachaViewController.m */; };
+		9BDA8BE61A43837D00C7AC27 /* NewGachaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD81A43837D00C7AC27 /* NewGachaViewController.m */; };
+		9BDA8BE71A43837D00C7AC27 /* NewGachaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD81A43837D00C7AC27 /* NewGachaViewController.m */; };
+		9BDA8BE81A43837D00C7AC27 /* NewGachaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */; };
+		9BDA8BE91A43837D00C7AC27 /* NewGachaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */; };
+		9BDA8BEA1A43837D00C7AC27 /* NewGachaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */; };
+		9BDA8BEB1A43837D00C7AC27 /* NewGachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */; };
+		9BDA8BEC1A43837D00C7AC27 /* NewGachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */; };
+		9BDA8BED1A43837D00C7AC27 /* NewGachaViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6852,6 +6870,15 @@
 		9BDA8BC01A40D98E00C7AC27 /* SkillMud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillMud.h; sourceTree = "<group>"; };
 		9BDA8BC11A40D98F00C7AC27 /* SkillMud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillMud.m; sourceTree = "<group>"; };
 		9BDA8BC51A40DFC900C7AC27 /* 6boardmud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6boardmud@2x.png"; sourceTree = "<group>"; };
+		9BDA8BD31A43837D00C7AC27 /* NewGachaFeaturedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGachaFeaturedView.xib; sourceTree = "<group>"; };
+		9BDA8BD41A43837D00C7AC27 /* NewGachaFocusScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGachaFocusScrollView.h; sourceTree = "<group>"; };
+		9BDA8BD51A43837D00C7AC27 /* NewGachaFocusScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGachaFocusScrollView.m; sourceTree = "<group>"; };
+		9BDA8BD61A43837D00C7AC27 /* NewGachaItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGachaItemCell.xib; sourceTree = "<group>"; };
+		9BDA8BD71A43837D00C7AC27 /* NewGachaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGachaViewController.h; sourceTree = "<group>"; };
+		9BDA8BD81A43837D00C7AC27 /* NewGachaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGachaViewController.m; sourceTree = "<group>"; };
+		9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGachaViewController.xib; sourceTree = "<group>"; };
+		9BDA8BDA1A43837D00C7AC27 /* NewGachaViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGachaViews.h; sourceTree = "<group>"; };
+		9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGachaViews.m; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -11739,6 +11766,22 @@
 			path = Mud;
 			sourceTree = "<group>";
 		};
+		9BDA8BD21A43837D00C7AC27 /* NewGachaMenu */ = {
+			isa = PBXGroup;
+			children = (
+				9BDA8BD31A43837D00C7AC27 /* NewGachaFeaturedView.xib */,
+				9BDA8BD41A43837D00C7AC27 /* NewGachaFocusScrollView.h */,
+				9BDA8BD51A43837D00C7AC27 /* NewGachaFocusScrollView.m */,
+				9BDA8BD61A43837D00C7AC27 /* NewGachaItemCell.xib */,
+				9BDA8BD71A43837D00C7AC27 /* NewGachaViewController.h */,
+				9BDA8BD81A43837D00C7AC27 /* NewGachaViewController.m */,
+				9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */,
+				9BDA8BDA1A43837D00C7AC27 /* NewGachaViews.h */,
+				9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */,
+			);
+			path = NewGachaMenu;
+			sourceTree = "<group>";
+		};
 		CF012B3C18D400DD004C6825 /* Effectiveness */ = {
 			isa = PBXGroup;
 			children = (
@@ -12115,6 +12158,7 @@
 				CFCD0E6A1953EF7E00EDC233 /* PopupNavMenu */,
 				CF1265871538ACC400E0C1AD /* Miscellaneous */,
 				CFE02CBB182359EA0016C1E2 /* GachaponMenu */,
+				9BDA8BD21A43837D00C7AC27 /* NewGachaMenu */,
 				CF3764F8182DD6AC00D0A77E /* ChatMenu */,
 				CF6F197A1815154600CFF2B9 /* QuestMenu */,
 				CFCE57121813BC0600494F8C /* ProfileMenu */,
@@ -17492,6 +17536,7 @@
 				CF0CF393196F452900ECD301 /* shopbutton@2x.png in Resources */,
 				CF0CF395196F452900ECD301 /* sfx_defeated_character_disappear.mp3 in Resources */,
 				CFF2A53919709C4800269084 /* Gangster3T1P2@2x.png in Resources */,
+				9BDA8BE91A43837D00C7AC27 /* NewGachaViewController.xib in Resources */,
 				CF0CF396196F452900ECD301 /* greysmallsquare@2x.png in Resources */,
 				CF0CF398196F452900ECD301 /* TeamViewController.xib in Resources */,
 				CF0CF399196F452900ECD301 /* FatBoy2Move03@2x.png in Resources */,
@@ -17609,6 +17654,7 @@
 				CF0CF424196F452900ECD301 /* fireavatar@2x.png in Resources */,
 				CF0CF427196F452900ECD301 /* Ziggurat-HTF-Black.otf in Resources */,
 				CF0CF428196F452900ECD301 /* FatBoy4Move03@2x.png in Resources */,
+				9BDA8BDD1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */,
 				CF0CF42F196F452900ECD301 /* championbig@2x.png in Resources */,
 				CFF412B219BFE76E002672D4 /* Item.proto in Resources */,
 				CF0CF430196F452900ECD301 /* openquestarrow@2x.png in Resources */,
@@ -18195,6 +18241,7 @@
 				CF0CF741196F452900ECD301 /* Scientist3Breath03@2x.png in Resources */,
 				29804FC71A241F4A00806253 /* squadrewardsprogress@2x.png in Resources */,
 				DA5E403E19D25B60001F28CE /* nightcounter@2x.png in Resources */,
+				9BDA8BE31A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */,
 				CF0CF743196F452900ECD301 /* FatBoy1Move07@2x.png in Resources */,
 				CFA729061A0B037900FF6031 /* lighteventtimer@2x.png in Resources */,
 				CF0CF748196F452900ECD301 /* characterdie.plist in Resources */,
@@ -19335,6 +19382,7 @@
 				CF29E9641962236600B40DA4 /* shopbutton@2x.png in Resources */,
 				CFC4D2A518D7BD04004681FD /* sfx_defeated_character_disappear.mp3 in Resources */,
 				CF32EA90195F70A000A4AEE3 /* greysmallsquare@2x.png in Resources */,
+				9BDA8BE81A43837D00C7AC27 /* NewGachaViewController.xib in Resources */,
 				CFF2A53819709C4800269084 /* Gangster3T1P2@2x.png in Resources */,
 				CFF646EC195D229400C43641 /* TeamViewController.xib in Resources */,
 				CF134A5F18A5E4B500D7D700 /* FatBoy2Move03@2x.png in Resources */,
@@ -19451,6 +19499,7 @@
 				CF864DA2193E7C5C00DE0D7A /* fireavatar@2x.png in Resources */,
 				CF6574401908A49200ABF1F4 /* Ziggurat-HTF-Black.otf in Resources */,
 				CF134A7918A5E4B500D7D700 /* FatBoy4Move03@2x.png in Resources */,
+				9BDA8BDC1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */,
 				CF37379D19E3767600CB16E3 /* obtimerbg@2x.png in Resources */,
 				CFFC510519C4C57700BDAA62 /* notmiddlegreen@2x.png in Resources */,
 				CFA728C31A0B037900FF6031 /* watereventbigbg@2x.png in Resources */,
@@ -20037,6 +20086,7 @@
 				CFCD0EF51953F07400EDC233 /* ultraband@2x.png in Resources */,
 				CFCD0EF11953F07400EDC233 /* watersmallsquare@2x.png in Resources */,
 				CF1908BA18D9221A00D6F0E4 /* spinnertest@2x.png in Resources */,
+				9BDA8BE21A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */,
 				CFFBDF9018ACA3D90090CA9A /* Scientist3Breath03@2x.png in Resources */,
 				CFA728C91A0B037900FF6031 /* watereventbigbgcap@2x.png in Resources */,
 				CF6A651819D25DA50002E05D /* 6boardgoo@2x.png in Resources */,
@@ -20289,6 +20339,7 @@
 				CF481A4719F7217F00041486 /* Scientist4Turn04@2x.png in Resources */,
 				CF481A4919F7217F00041486 /* sellbubble9@2x.png in Resources */,
 				CF481A4C19F7217F00041486 /* nightsmallsquare@2x.png in Resources */,
+				9BDA8BEA1A43837D00C7AC27 /* NewGachaViewController.xib in Resources */,
 				298051231A2EAE0500806253 /* QueueHealingCenterT2@2x.png in Resources */,
 				CF481A5119F7217F00041486 /* TutorialFacebookViewController.xib in Resources */,
 				CF481A5319F7217F00041486 /* 1mapsection2@2x.png in Resources */,
@@ -20969,6 +21020,7 @@
 				2985E5CB1A30044E0041ABF4 /* bubbleright@2x.png in Resources */,
 				CF481ECB19F7217F00041486 /* mus_mobsquad_battle.mp3 in Resources */,
 				CF481ECC19F7217F00041486 /* profteaminactive@2x.png in Resources */,
+				9BDA8BE41A43837D00C7AC27 /* NewGachaItemCell.xib in Resources */,
 				29FFD95B1A36E2BD0063C17C /* setstatus@2x.png in Resources */,
 				29AD76611A39316100430F0E /* 123slot@2x.png in Resources */,
 				CF481ECD19F7217F00041486 /* popupactivetab@2x.png in Resources */,
@@ -21788,6 +21840,7 @@
 				CF4823B719F7217F00041486 /* evolvebubble@2x.png in Resources */,
 				CF4823B919F7217F00041486 /* cashready@2x.png in Resources */,
 				CF4823BF19F7217F00041486 /* Scientist5Breath02@2x.png in Resources */,
+				9BDA8BDE1A43837D00C7AC27 /* NewGachaFeaturedView.xib in Resources */,
 				2985E5C21A30044E0041ABF4 /* bubblemiddle.png in Resources */,
 				CF4823C019F7217F00041486 /* platinumprofribbon@2x.png in Resources */,
 				9B2389FF1A363EE800FA3743 /* fireskilldescription@2x.png in Resources */,
@@ -22296,6 +22349,7 @@
 				CFE11F7E1A141C040094F797 /* amqp_hostcheck.c in Sources */,
 				CF0CED50196F452900ECD301 /* MonsterTeamSlotView.m in Sources */,
 				CF0CED52196F452900ECD301 /* MSWindow.m in Sources */,
+				9BDA8BEC1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF0CED53196F452900ECD301 /* AttackMapViewController.m in Sources */,
 				CF0CED54196F452900ECD301 /* TutorialOrbLayer.m in Sources */,
 				CF0CED56196F452900ECD301 /* EventQuest.pb.m in Sources */,
@@ -22383,6 +22437,7 @@
 				CF0CED9C196F452900ECD301 /* TopBarViewController.m in Sources */,
 				CF0CED9E196F452900ECD301 /* ProfileViewController.m in Sources */,
 				CF0CEDA0196F452900ECD301 /* TutorialBattleLayer.m in Sources */,
+				9BDA8BE01A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF0CEDA1196F452900ECD301 /* AMQPQueue.m in Sources */,
 				CF9F41A219A6FF2C002EBF03 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				DA07606119B129EC00E43E5A /* SkillManager.m in Sources */,
@@ -22445,6 +22500,7 @@
 				CF0CEDDA196F452900ECD301 /* TutorialNameViewController.m in Sources */,
 				CF0CEDDC196F452900ECD301 /* BattleSprite.m in Sources */,
 				CFE11F6F1A141C040094F797 /* amqp_connection.c in Sources */,
+				9BDA8BE61A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CF0CEDDD196F452900ECD301 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF0CDEB319E5103C006A5ECB /* TimerAction.m in Sources */,
 				CF812F0919E73E1900D91157 /* ClanHelp.m in Sources */,
@@ -22563,6 +22619,7 @@
 				CFC4D24018D6DEFE004681FD /* RequestsFacebookTableController.m in Sources */,
 				CFEF25DB18CAB86500FB867A /* GameCenterDelegate.m in Sources */,
 				CF8BA25118D09C89003277D1 /* TutorialQuestLogViewController.m in Sources */,
+				9BDA8BEB1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
@@ -22628,6 +22685,7 @@
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
 				CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */,
 				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
+				9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */,
 				CFA8B1AD19EB789F00CF6BFD /* ChatObject.m in Sources */,
 				CF746131196A0D04002D6AE6 /* TutorialShopViewController.m in Sources */,
@@ -22757,6 +22815,7 @@
 				CF81C97119A67224002682A2 /* OrbMainLayer.m in Sources */,
 				CFF1D7C517E2636500874339 /* BattleSprite.m in Sources */,
 				CFF1D7C917E2646000874339 /* CCAnimation+SpriteLoading.m in Sources */,
+				9BDA8BE51A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CFE0E6B817E3C060002ECA84 /* BattlePlayer.m in Sources */,
 				CF6574B31909CAF200ABF1F4 /* EventInAppPurchase.pb.m in Sources */,
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
@@ -22893,6 +22952,7 @@
 				CFE11F7F1A141C040094F797 /* amqp_hostcheck.c in Sources */,
 				CF4818F619F7217F00041486 /* MonsterTeamSlotView.m in Sources */,
 				CF4818F719F7217F00041486 /* MSWindow.m in Sources */,
+				9BDA8BED1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF4818F819F7217F00041486 /* AttackMapViewController.m in Sources */,
 				CF4818F919F7217F00041486 /* TutorialOrbLayer.m in Sources */,
 				CF4818FA19F7217F00041486 /* EventQuest.pb.m in Sources */,
@@ -22980,6 +23040,7 @@
 				CF48194A19F7217F00041486 /* TopBarViewController.m in Sources */,
 				CF48194B19F7217F00041486 /* ProfileViewController.m in Sources */,
 				CF48194C19F7217F00041486 /* TutorialBattleLayer.m in Sources */,
+				9BDA8BE11A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF48194D19F7217F00041486 /* AMQPQueue.m in Sources */,
 				CF48194E19F7217F00041486 /* OrbSwipeLayer+PowerupAnimations.m in Sources */,
 				CF48194F19F7217F00041486 /* SkillManager.m in Sources */,
@@ -23042,6 +23103,7 @@
 				CF48198C19F7217F00041486 /* TutorialNameViewController.m in Sources */,
 				CF48198D19F7217F00041486 /* BattleSprite.m in Sources */,
 				CFE11F701A141C040094F797 /* amqp_connection.c in Sources */,
+				9BDA8BE71A43837D00C7AC27 /* NewGachaViewController.m in Sources */,
 				CF48198E19F7217F00041486 /* CCAnimation+SpriteLoading.m in Sources */,
 				CF48198F19F7217F00041486 /* TimerAction.m in Sources */,
 				CF48199019F7217F00041486 /* ClanHelp.m in Sources */,

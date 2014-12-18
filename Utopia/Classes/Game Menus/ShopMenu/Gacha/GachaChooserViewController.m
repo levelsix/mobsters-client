@@ -12,7 +12,7 @@
 #import "Globals.h"
 
 #import "GameViewController.h"
-#import "GachaponViewController.h"
+#import "NewGachaViewController.h"
 #import "MenuNavigationController.h"
 
 #import "GachaViews.h"
@@ -82,7 +82,7 @@
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
   GameViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
-  GachaponViewController *gach = [[GachaponViewController alloc] initWithBoosterPack:self.boosterPacks[indexPath.row]];
+  NewGachaViewController *gach = [[NewGachaViewController alloc] initWithBoosterPack:self.boosterPacks[indexPath.row]];
   [m pushViewController:gach animated:NO];
   
   [self.parentViewController close];
