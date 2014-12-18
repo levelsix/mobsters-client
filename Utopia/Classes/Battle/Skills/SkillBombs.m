@@ -18,20 +18,22 @@
 
 - (void) setDefaultValues
 {
-  // Properties
   [super setDefaultValues];
   
-  _minBombs = 1;
-  _maxBombs = 1;
-  _initialBombs = 1;
-  _bombCounter = 1;
-  _bombDamage = 1;
-  _bombChance = 0.2;
+  // Properties
+  _minBombs = 0;
+  _maxBombs = 0;
+  _initialBombs = 0;
+  _bombCounter = 0;
+  _bombDamage = 0;
+  _bombTurnCounter = 0;
+  _bombSpawnChance = 0.f;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
 {
   [super setValue:value forProperty:property];
+  
   if ( [property isEqualToString:@"MIN_BOMBS"] )
     _minBombs = value;
   else if ( [property isEqualToString:@"MAX_BOMBS"] )
@@ -42,28 +44,24 @@
     _bombCounter = value;
   else if ( [property isEqualToString:@"BOMB_DAMAGE"] )
     _bombDamage = value;
-  else if ( [property isEqualToString:@"BOMB_CHANCE"] )
-    _bombChance = value;
+  else if ( [property isEqualToString:@"BOMB_TURN_COUNTER"] )
+    _bombTurnCounter = value;
+  else if ( [property isEqualToString:@"BOMB_SPAWN_CHANCE"] )
+    _bombSpawnChance = value;
+}
+
+- (id) initWithProto:(SkillProto*)proto andMobsterColor:(OrbColor)color
+{
+  self = [super initWithProto:proto andMobsterColor:color];
+  if ( ! self )
+    return nil;
+  
+  _turnCounter = 0;
+  
+  return self;
 }
 
 #pragma mark - Overrides
-
-- (BOOL) generateSpecialOrb:(BattleOrb*)orb atColumn:(int)column row:(int)row
-{
-  if (orb.orbColor != self.orbColor)
-    return NO;
-  
-  NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
-  float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
-  if ((rand < _bombChance && bombsOnBoard < _maxBombs) || bombsOnBoard < _minBombs)
-  {
-    [self makeBomb:orb];
-    orb.bombCounter++;  // because it will be decreased right after the spawn by nextMove
-    return YES;
-  }
-  
-  return NO;
-}
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
@@ -74,7 +72,55 @@
   if (trigger == SkillTriggerPointEnemyAppeared)
   {
     if (execute)
-      [self initialSequence];
+    {
+      // Jumping, showing overlay and spawning initial set
+      [self showSkillPopupOverlay:YES withCompletion:^{
+        [self performAfterDelay:0.5 block:^{
+          SkillLogStart(@"Bombs -- Skill spawned initial %ld bombs", (long)_initialBombs);
+          [self spawnBombs:_initialBombs withTarget:self andSelector:@selector(skillTriggerFinished)];
+        }];
+      }];
+    }
+    return YES;
+  }
+  
+  // Additional bomb spawn on enemy's turn
+  if (trigger == SkillTriggerPointStartOfEnemyTurn)
+  {
+    if (execute)
+    {
+      ++_turnCounter;
+      
+      NSInteger bombsOnBoard = [self specialsOnBoardCount:SpecialOrbTypeBomb];
+      NSInteger countToSpawn = 0;
+      
+      if (bombsOnBoard < _maxBombs)
+      {
+        if (_turnCounter > _bombTurnCounter)
+        {
+          NSInteger possibleSpawnCount = _maxBombs - MAX(_minBombs, bombsOnBoard);
+          for (int i = 0; i < possibleSpawnCount; ++i)
+            if ((float)arc4random_uniform((u_int32_t)RAND_MAX) / (float)RAND_MAX < _bombSpawnChance)
+              ++countToSpawn;
+          if (countToSpawn > 0)
+            _turnCounter = 0;
+        }
+        if (bombsOnBoard < _minBombs)
+          countToSpawn += _minBombs - bombsOnBoard;
+      }
+
+      if (countToSpawn > 0)
+      {
+        // Spawn new bombs on board
+        [self makeSkillOwnerJumpWithTarget:nil selector:nil];
+        [self performAfterDelay:0.5 block:^{
+          SkillLogStart(@"Bombs -- Skill spawned additional %ld bombs", (long)countToSpawn);
+          [self spawnBombs:countToSpawn withTarget:self andSelector:@selector(skillTriggerFinished)];
+        }];
+      }
+      else
+        return NO;
+    }
     return YES;
   }
   
@@ -83,26 +129,7 @@
 
 #pragma mark - Skill logic
 
-- (void) makeBomb:(BattleOrb*)orb
-{
-  if (orb.orbColor != OrbColorRock) {
-    orb.specialOrbType = SpecialOrbTypeBomb;
-    orb.bombCounter = _bombCounter;
-    orb.bombDamage = _bombDamage;
-  }
-}
-
-// Jumping, showing overlay and spawning initial set
-- (void) initialSequence
-{
-  [self showSkillPopupOverlay:YES withCompletion:^{
-    [self performAfterDelay:0.5 block:^{
-      [self spawnBombs:_initialBombs withTarget:self andSelector:@selector(skillTriggerFinished)];
-    }];
-  }];
-}
-
-static const NSInteger bombsMaxSearchIterations = 5000;
+static const NSInteger bombsMaxSearchIterations = 256;
 
 // Adding bombs
 - (void) spawnBombs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
@@ -123,20 +150,41 @@ static const NSInteger bombsMaxSearchIterations = 5000;
       orb = [layout orbAtColumn:column row:row];
       counter++;
     }
-    while ((orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone || orb.orbColor != self.orbColor) && counter < bombsMaxSearchIterations);
+    while ((orb.specialOrbType != SpecialOrbTypeNone ||
+            orb.powerupType != PowerupTypeNone ||
+            orb.orbColor != self.orbColor) &&
+           counter < bombsMaxSearchIterations);
     
-//    // Another loop if we haven't found the orb of the same color (avoiding chain)
-//    if (counter == bombsMaxSearchIterations)
-//    {
-//      counter = 0;
-//      do {
-//        column = rand() % (layout.numColumns-2) + 1;  // So we'll never spawn at the edge of the board
-//        row = rand() % (layout.numRows-2) + 1;
-//        orb = [layout orbAtColumn:column row:row];
-//        counter++;
-//      } while (([self.battleLayer.orbLayer.layout hasChainAtColumn:column row:row] || orb.specialOrbType != SpecialOrbTypeNone || orb.powerupType != PowerupTypeNone) &&
-//               counter < bombsMaxSearchIterations);
-//    }
+    // Spawn at the edge of the board if we have to
+    if (counter == bombsMaxSearchIterations)
+    {
+      counter = 0;
+      do {
+        column = rand() % layout.numColumns;
+        row = rand() % layout.numRows;
+        orb = [layout orbAtColumn:column row:row];
+        counter++;
+      }
+      while ((orb.specialOrbType != SpecialOrbTypeNone ||
+              orb.powerupType != PowerupTypeNone ||
+              orb.orbColor != self.orbColor) &&
+             counter < bombsMaxSearchIterations);
+    }
+    
+    // Another loop if we haven't found the orb of the same color (avoiding chain)
+    if (counter == bombsMaxSearchIterations)
+    {
+      counter = 0;
+      do {
+        column = rand() % layout.numColumns;
+        row = rand() % layout.numRows;
+        orb = [layout orbAtColumn:column row:row];
+        counter++;
+      } while (([self.battleLayer.orbLayer.layout hasChainAtColumn:column row:row] ||
+                orb.specialOrbType != SpecialOrbTypeNone ||
+                orb.powerupType != PowerupTypeNone) &&
+               counter < bombsMaxSearchIterations);
+    }
     
     // Nothing found (just in case), continue and perform selector if the last bomb
     if (counter == bombsMaxSearchIterations)
@@ -149,7 +197,11 @@ static const NSInteger bombsMaxSearchIterations = 5000;
     }
     
     // Update data
-    [self makeBomb:orb];
+    if (orb.orbColor != OrbColorRock) {
+      orb.specialOrbType = SpecialOrbTypeBomb;
+      orb.bombCounter = _bombCounter;
+      orb.bombDamage = _bombDamage;
+    }
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
@@ -163,6 +215,29 @@ static const NSInteger bombsMaxSearchIterations = 5000;
     }];
   }
 }
+
+#pragma mark - Serialization
+
+- (NSDictionary*) serialize
+{
+  NSMutableDictionary* result = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+  [result setObject:@(_turnCounter) forKey:@"turnCounter"];
+  return result;
+}
+
+- (BOOL) deserialize:(NSDictionary*)dict
+{
+  if (! [super deserialize:dict])
+    return NO;
+  
+  NSNumber* turnCounter = [dict objectForKey:@"turnCounter"];
+  if (turnCounter)
+    _turnCounter = [turnCounter integerValue];
+  
+  return YES;
+}
+
+#pragma mark - Class methods
 
 // This part is class methods because bombs can overlast the skill controller. It's called from SkillManager updateSpecials
 
