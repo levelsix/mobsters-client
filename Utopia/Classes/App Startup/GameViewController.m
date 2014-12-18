@@ -345,6 +345,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
   [self fadeToLoadingScreenAnimated:animated];
   
+  [self progressTo:0.f animated:animated];
+  
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.2f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
     if (self.loadingViewController.loadingBar.percentage < percentage) {
       [self progressTo:percentage animated:animated];
