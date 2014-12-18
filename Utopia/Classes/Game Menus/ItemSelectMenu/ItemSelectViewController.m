@@ -146,6 +146,7 @@ static BOOL _instanceOpened = NO;
     const CGSize windowSize = [Globals screenSize];
     CGFloat viewTargetX = self.mainView.frame.origin.x;
     CGFloat viewTargetY = self.mainView.frame.origin.y;
+    CGFloat viewScale = 1.f;
     CGFloat viewTargetHeight = self.mainView.frame.size.height;
     CGFloat arrowTargetX = -1.f;
     CGFloat arrowTargetY = -1.f;
@@ -207,6 +208,14 @@ static BOOL _instanceOpened = NO;
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height - invokingView.frame.size.height) * .5f - viewTargetY;
 
         CGFloat offCenterY = windowSize.height * .5f - (invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f);
+        const CGFloat horizontalClearance = invokingViewAbsolutePosition.x;
+        if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
+        {
+          viewScale = horizontalClearance / self.mainView.frame.size.width;
+          viewTargetX += self.mainView.frame.size.width * (1.f - viewScale) * .5f;
+          viewTargetY -= offCenterY * (1.f - viewScale);
+        }
+        
         viewAnchorPoint = CGPointMake(1.f, .5f - (offCenterY / viewTargetHeight));
       }
         break;
@@ -223,6 +232,14 @@ static BOOL _instanceOpened = NO;
         arrowTargetY = invokingViewAbsolutePosition.y - (self.triangle.frame.size.height - invokingView.frame.size.height) * .5f - viewTargetY;
         
         CGFloat offCenterY = windowSize.height * .5f - (invokingViewAbsolutePosition.y + invokingView.frame.size.height * .5f);
+        const CGFloat horizontalClearance = windowSize.width - (invokingViewAbsolutePosition.x + invokingView.frame.size.width);
+        if (horizontalClearance < self.mainView.frame.size.width) // Not enough room horizontally; scale down the view
+        {
+          viewScale = horizontalClearance / self.mainView.frame.size.width;
+          viewTargetX -= self.mainView.frame.size.width * (1.f - viewScale) * .5f;
+          viewTargetY -= offCenterY * (1.f - viewScale);
+        }
+        
         viewAnchorPoint = CGPointMake(0.f, .5f - (offCenterY / viewTargetHeight));
       }
         break;
@@ -232,6 +249,7 @@ static BOOL _instanceOpened = NO;
     }
     
     [self.mainView setFrame:CGRectMake(viewTargetX, viewTargetY, self.mainView.frame.size.width, viewTargetHeight)];
+    if (viewScale < 1.f) [self.mainView setTransform:CGAffineTransformMakeScale(viewScale, viewScale)];
     [Globals bounceView:self.mainView fadeInBgdView:self.bgdView anchorPoint:viewAnchorPoint];
     
     if (arrowTargetX > 0 || arrowTargetY > 0)
