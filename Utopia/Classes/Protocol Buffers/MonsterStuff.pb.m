@@ -1661,7 +1661,9 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property int32_t sellAmount;
 @property int32_t teamCost;
 @property int32_t costToFullyHeal;
+@property Float32 costToFullyHealExponent;
 @property int32_t secsToFullyHeal;
+@property Float32 secsToFullyHealExponent;
 @property int32_t enhanceCostPerFeeder;
 @property Float32 enhanceCostExponent;
 @property Float32 enhanceExpPerSecond;
@@ -1796,6 +1798,13 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasCostToFullyHeal_ = !!value_;
 }
 @synthesize costToFullyHeal;
+- (BOOL) hasCostToFullyHealExponent {
+  return !!hasCostToFullyHealExponent_;
+}
+- (void) setHasCostToFullyHealExponent:(BOOL) value_ {
+  hasCostToFullyHealExponent_ = !!value_;
+}
+@synthesize costToFullyHealExponent;
 - (BOOL) hasSecsToFullyHeal {
   return !!hasSecsToFullyHeal_;
 }
@@ -1803,6 +1812,13 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasSecsToFullyHeal_ = !!value_;
 }
 @synthesize secsToFullyHeal;
+- (BOOL) hasSecsToFullyHealExponent {
+  return !!hasSecsToFullyHealExponent_;
+}
+- (void) setHasSecsToFullyHealExponent:(BOOL) value_ {
+  hasSecsToFullyHealExponent_ = !!value_;
+}
+@synthesize secsToFullyHealExponent;
 - (BOOL) hasEnhanceCostPerFeeder {
   return !!hasEnhanceCostPerFeeder_;
 }
@@ -1851,7 +1867,9 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.sellAmount = 0;
     self.teamCost = 0;
     self.costToFullyHeal = 0;
+    self.costToFullyHealExponent = 0;
     self.secsToFullyHeal = 0;
+    self.secsToFullyHealExponent = 0;
     self.enhanceCostPerFeeder = 0;
     self.enhanceCostExponent = 0;
     self.enhanceExpPerSecond = 0;
@@ -1944,6 +1962,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceExpPerSecondExponent) {
     [output writeFloat:23 value:self.enhanceExpPerSecondExponent];
   }
+  if (self.hasCostToFullyHealExponent) {
+    [output writeFloat:24 value:self.costToFullyHealExponent];
+  }
+  if (self.hasSecsToFullyHealExponent) {
+    [output writeFloat:25 value:self.secsToFullyHealExponent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -2021,6 +2045,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasEnhanceExpPerSecondExponent) {
     size_ += computeFloatSize(23, self.enhanceExpPerSecondExponent);
+  }
+  if (self.hasCostToFullyHealExponent) {
+    size_ += computeFloatSize(24, self.costToFullyHealExponent);
+  }
+  if (self.hasSecsToFullyHealExponent) {
+    size_ += computeFloatSize(25, self.secsToFullyHealExponent);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -2126,6 +2156,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasEnhanceExpPerSecondExponent) {
     [output appendFormat:@"%@%@: %@\n", indent, @"enhanceExpPerSecondExponent", [NSNumber numberWithFloat:self.enhanceExpPerSecondExponent]];
   }
+  if (self.hasCostToFullyHealExponent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"costToFullyHealExponent", [NSNumber numberWithFloat:self.costToFullyHealExponent]];
+  }
+  if (self.hasSecsToFullyHealExponent) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"secsToFullyHealExponent", [NSNumber numberWithFloat:self.secsToFullyHealExponent]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2183,6 +2219,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       (!self.hasEnhanceExpPerSecond || self.enhanceExpPerSecond == otherMessage.enhanceExpPerSecond) &&
       self.hasEnhanceExpPerSecondExponent == otherMessage.hasEnhanceExpPerSecondExponent &&
       (!self.hasEnhanceExpPerSecondExponent || self.enhanceExpPerSecondExponent == otherMessage.enhanceExpPerSecondExponent) &&
+      self.hasCostToFullyHealExponent == otherMessage.hasCostToFullyHealExponent &&
+      (!self.hasCostToFullyHealExponent || self.costToFullyHealExponent == otherMessage.costToFullyHealExponent) &&
+      self.hasSecsToFullyHealExponent == otherMessage.hasSecsToFullyHealExponent &&
+      (!self.hasSecsToFullyHealExponent || self.secsToFullyHealExponent == otherMessage.secsToFullyHealExponent) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2255,6 +2295,12 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasEnhanceExpPerSecondExponent) {
     hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.enhanceExpPerSecondExponent] hash];
+  }
+  if (self.hasCostToFullyHealExponent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.costToFullyHealExponent] hash];
+  }
+  if (self.hasSecsToFullyHealExponent) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithFloat:self.secsToFullyHealExponent] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2353,8 +2399,14 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasCostToFullyHeal) {
     [self setCostToFullyHeal:other.costToFullyHeal];
   }
+  if (other.hasCostToFullyHealExponent) {
+    [self setCostToFullyHealExponent:other.costToFullyHealExponent];
+  }
   if (other.hasSecsToFullyHeal) {
     [self setSecsToFullyHeal:other.secsToFullyHeal];
+  }
+  if (other.hasSecsToFullyHealExponent) {
+    [self setSecsToFullyHealExponent:other.secsToFullyHealExponent];
   }
   if (other.hasEnhanceCostPerFeeder) {
     [self setEnhanceCostPerFeeder:other.enhanceCostPerFeeder];
@@ -2479,6 +2531,14 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 189: {
         [self setEnhanceExpPerSecondExponent:[input readFloat]];
+        break;
+      }
+      case 197: {
+        [self setCostToFullyHealExponent:[input readFloat]];
+        break;
+      }
+      case 205: {
+        [self setSecsToFullyHealExponent:[input readFloat]];
         break;
       }
     }
@@ -2772,6 +2832,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   result.costToFullyHeal = 0;
   return self;
 }
+- (BOOL) hasCostToFullyHealExponent {
+  return result.hasCostToFullyHealExponent;
+}
+- (Float32) costToFullyHealExponent {
+  return result.costToFullyHealExponent;
+}
+- (MonsterLevelInfoProto_Builder*) setCostToFullyHealExponent:(Float32) value {
+  result.hasCostToFullyHealExponent = YES;
+  result.costToFullyHealExponent = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearCostToFullyHealExponent {
+  result.hasCostToFullyHealExponent = NO;
+  result.costToFullyHealExponent = 0;
+  return self;
+}
 - (BOOL) hasSecsToFullyHeal {
   return result.hasSecsToFullyHeal;
 }
@@ -2786,6 +2862,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearSecsToFullyHeal {
   result.hasSecsToFullyHeal = NO;
   result.secsToFullyHeal = 0;
+  return self;
+}
+- (BOOL) hasSecsToFullyHealExponent {
+  return result.hasSecsToFullyHealExponent;
+}
+- (Float32) secsToFullyHealExponent {
+  return result.secsToFullyHealExponent;
+}
+- (MonsterLevelInfoProto_Builder*) setSecsToFullyHealExponent:(Float32) value {
+  result.hasSecsToFullyHealExponent = YES;
+  result.secsToFullyHealExponent = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearSecsToFullyHealExponent {
+  result.hasSecsToFullyHealExponent = NO;
+  result.secsToFullyHealExponent = 0;
   return self;
 }
 - (BOOL) hasEnhanceCostPerFeeder {

@@ -548,12 +548,25 @@ static NSString *udid = nil;
 - (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime {
   NSString *advertiserId = [self getIFA];
   NSString *mac = [self getMacAddress];
+  
+  NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+  NSScanner *scan = [NSScanner scannerWithString:build];
+  scan.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"."];
+  
+  int supermajor, major, minor;
+  
+  [scan scanInt:&supermajor];
+  [scan scanInt:&major];
+  [scan scanInt:&minor];
+  
+  StartupRequestProto_VersionNumberProto *version = [[[[[StartupRequestProto_VersionNumberProto builder] setSuperNum:supermajor] setMajorNum:major] setMinorNum:minor] build];
+  
   StartupRequestProto_Builder *bldr = [[[[[[[StartupRequestProto builder]
                                             setUdid:udid]
                                            setFbId:facebookId]
                                           setIsForceTutorial:[SocketCommunication isForcedTutorial]]
                                          setIsFreshRestart:isFreshRestart]
-                                        setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                                        setVersionNumberProto:version]
                                        setMacAddress:mac];
   
   if (advertiserId) {

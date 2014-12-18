@@ -538,6 +538,8 @@
 @class SpawnObstacleResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
+@class StartupRequestProto_VersionNumberProto;
+@class StartupRequestProto_VersionNumberProto_Builder;
 @class StartupResponseProto;
 @class StartupResponseProto_AttackedNotificationProto;
 @class StartupResponseProto_AttackedNotificationProto_Builder;

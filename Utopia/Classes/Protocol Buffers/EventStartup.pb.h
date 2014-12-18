@@ -174,6 +174,8 @@
 @class SkillProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
+@class StartupRequestProto_VersionNumberProto;
+@class StartupRequestProto_VersionNumberProto_Builder;
 @class StartupResponseProto;
 @class StartupResponseProto_AttackedNotificationProto;
 @class StartupResponseProto_AttackedNotificationProto_Builder;
@@ -307,6 +309,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMacAddress_:1;
   BOOL hasAdvertiserId_:1;
   BOOL hasFbId_:1;
+  BOOL hasVersionNumberProto_:1;
   BOOL isForceTutorial_:1;
   BOOL isFreshRestart_:1;
   Float32 versionNum;
@@ -315,6 +318,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* macAddress;
   NSString* advertiserId;
   NSString* fbId;
+  StartupRequestProto_VersionNumberProto* versionNumberProto;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
@@ -324,6 +328,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasIsForceTutorial;
 - (BOOL) hasFbId;
 - (BOOL) hasIsFreshRestart;
+- (BOOL) hasVersionNumberProto;
 @property (readonly, strong) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, strong) NSString* apsalarId;
@@ -332,6 +337,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isForceTutorial;
 @property (readonly, strong) NSString* fbId;
 - (BOOL) isFreshRestart;
+@property (readonly, strong) StartupRequestProto_VersionNumberProto* versionNumberProto;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -349,6 +355,73 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupRequestProto_VersionNumberProto : PBGeneratedMessage {
+@private
+  BOOL hasSuperNum_:1;
+  BOOL hasMajorNum_:1;
+  BOOL hasMinorNum_:1;
+  int32_t superNum;
+  int32_t majorNum;
+  int32_t minorNum;
+}
+- (BOOL) hasSuperNum;
+- (BOOL) hasMajorNum;
+- (BOOL) hasMinorNum;
+@property (readonly) int32_t superNum;
+@property (readonly) int32_t majorNum;
+@property (readonly) int32_t minorNum;
+
++ (StartupRequestProto_VersionNumberProto*) defaultInstance;
+- (StartupRequestProto_VersionNumberProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupRequestProto_VersionNumberProto_Builder*) builder;
++ (StartupRequestProto_VersionNumberProto_Builder*) builder;
++ (StartupRequestProto_VersionNumberProto_Builder*) builderWithPrototype:(StartupRequestProto_VersionNumberProto*) prototype;
+- (StartupRequestProto_VersionNumberProto_Builder*) toBuilder;
+
++ (StartupRequestProto_VersionNumberProto*) parseFromData:(NSData*) data;
++ (StartupRequestProto_VersionNumberProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupRequestProto_VersionNumberProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupRequestProto_VersionNumberProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupRequestProto_VersionNumberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupRequestProto_VersionNumberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupRequestProto_VersionNumberProto_Builder : PBGeneratedMessageBuilder {
+@private
+  StartupRequestProto_VersionNumberProto* result;
+}
+
+- (StartupRequestProto_VersionNumberProto*) defaultInstance;
+
+- (StartupRequestProto_VersionNumberProto_Builder*) clear;
+- (StartupRequestProto_VersionNumberProto_Builder*) clone;
+
+- (StartupRequestProto_VersionNumberProto*) build;
+- (StartupRequestProto_VersionNumberProto*) buildPartial;
+
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFrom:(StartupRequestProto_VersionNumberProto*) other;
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSuperNum;
+- (int32_t) superNum;
+- (StartupRequestProto_VersionNumberProto_Builder*) setSuperNum:(int32_t) value;
+- (StartupRequestProto_VersionNumberProto_Builder*) clearSuperNum;
+
+- (BOOL) hasMajorNum;
+- (int32_t) majorNum;
+- (StartupRequestProto_VersionNumberProto_Builder*) setMajorNum:(int32_t) value;
+- (StartupRequestProto_VersionNumberProto_Builder*) clearMajorNum;
+
+- (BOOL) hasMinorNum;
+- (int32_t) minorNum;
+- (StartupRequestProto_VersionNumberProto_Builder*) setMinorNum:(int32_t) value;
+- (StartupRequestProto_VersionNumberProto_Builder*) clearMinorNum;
 @end
 
 @interface StartupRequestProto_Builder : PBGeneratedMessageBuilder {
@@ -407,6 +480,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isFreshRestart;
 - (StartupRequestProto_Builder*) setIsFreshRestart:(BOOL) value;
 - (StartupRequestProto_Builder*) clearIsFreshRestart;
+
+- (BOOL) hasVersionNumberProto;
+- (StartupRequestProto_VersionNumberProto*) versionNumberProto;
+- (StartupRequestProto_Builder*) setVersionNumberProto:(StartupRequestProto_VersionNumberProto*) value;
+- (StartupRequestProto_Builder*) setVersionNumberProto_Builder:(StartupRequestProto_VersionNumberProto_Builder*) builderForValue;
+- (StartupRequestProto_Builder*) mergeVersionNumberProto:(StartupRequestProto_VersionNumberProto*) value;
+- (StartupRequestProto_Builder*) clearVersionNumberProto;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {

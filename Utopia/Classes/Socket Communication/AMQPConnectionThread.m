@@ -46,6 +46,7 @@ static int sessionId;
     [_connection connectToHost:HOST_NAME onPort:HOST_PORT useSSL:USE_SSL];
     [_connection loginAsUser:MQ_USERNAME withPassword:MQ_PASSWORD onVHost:MQ_VHOST];
     AMQPChannel *channel = [_connection openChannel];
+    
     _directExchange = [[AMQPExchange alloc] initDirectExchangeWithName:@"gamemessages" onChannel:channel isPassive:NO isDurable:YES];
     
     _topicExchange = [[AMQPExchange alloc] initTopicExchangeWithName:@"chatmessages" onChannel:channel isPassive:NO isDurable:YES];
@@ -132,9 +133,18 @@ static int sessionId;
   [self postDataToExchange:timer.userInfo];
 }
 
+static NSString *routingKey;
+
 - (void) postDataToExchange:(NSData *)data {
   @try {
-    [_directExchange publishMessageWithData:data usingRoutingKey:@"messagesFromPlayers"];
+    if (!routingKey) {
+      NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+      NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
+      routingKey = [NSString stringWithFormat:@"messagesFromPlayers%@", version];
+      
+      LNLog(@"Routing key set to %@.", routingKey);
+    }
+    [_directExchange publishMessageWithData:data usingRoutingKey:routingKey];
   } @catch (NSException *exception) {
     NSLog(@"Failed to publish data");
   }

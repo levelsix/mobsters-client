@@ -45,6 +45,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property BOOL isForceTutorial;
 @property (strong) NSString* fbId;
 @property BOOL isFreshRestart;
+@property (strong) StartupRequestProto_VersionNumberProto* versionNumberProto;
 @end
 
 @implementation StartupRequestProto
@@ -115,6 +116,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setIsFreshRestart:(BOOL) value_ {
   isFreshRestart_ = !!value_;
 }
+- (BOOL) hasVersionNumberProto {
+  return !!hasVersionNumberProto_;
+}
+- (void) setHasVersionNumberProto:(BOOL) value_ {
+  hasVersionNumberProto_ = !!value_;
+}
+@synthesize versionNumberProto;
 - (id) init {
   if ((self = [super init])) {
     self.udid = @"";
@@ -125,6 +133,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.isForceTutorial = NO;
     self.fbId = @"";
     self.isFreshRestart = NO;
+    self.versionNumberProto = [StartupRequestProto_VersionNumberProto defaultInstance];
   }
   return self;
 }
@@ -168,6 +177,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasIsFreshRestart) {
     [output writeBool:8 value:self.isFreshRestart];
   }
+  if (self.hasVersionNumberProto) {
+    [output writeMessage:9 value:self.versionNumberProto];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -200,6 +212,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasIsFreshRestart) {
     size_ += computeBoolSize(8, self.isFreshRestart);
+  }
+  if (self.hasVersionNumberProto) {
+    size_ += computeMessageSize(9, self.versionNumberProto);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -260,6 +275,12 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasIsFreshRestart) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isFreshRestart", [NSNumber numberWithBool:self.isFreshRestart]];
   }
+  if (self.hasVersionNumberProto) {
+    [output appendFormat:@"%@%@ {\n", indent, @"versionNumberProto"];
+    [self.versionNumberProto writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -287,6 +308,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       (!self.hasFbId || [self.fbId isEqual:otherMessage.fbId]) &&
       self.hasIsFreshRestart == otherMessage.hasIsFreshRestart &&
       (!self.hasIsFreshRestart || self.isFreshRestart == otherMessage.isFreshRestart) &&
+      self.hasVersionNumberProto == otherMessage.hasVersionNumberProto &&
+      (!self.hasVersionNumberProto || [self.versionNumberProto isEqual:otherMessage.versionNumberProto]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -315,8 +338,303 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasIsFreshRestart) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isFreshRestart] hash];
   }
+  if (self.hasVersionNumberProto) {
+    hashCode = hashCode * 31 + [self.versionNumberProto hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
+}
+@end
+
+@interface StartupRequestProto_VersionNumberProto ()
+@property int32_t superNum;
+@property int32_t majorNum;
+@property int32_t minorNum;
+@end
+
+@implementation StartupRequestProto_VersionNumberProto
+
+- (BOOL) hasSuperNum {
+  return !!hasSuperNum_;
+}
+- (void) setHasSuperNum:(BOOL) value_ {
+  hasSuperNum_ = !!value_;
+}
+@synthesize superNum;
+- (BOOL) hasMajorNum {
+  return !!hasMajorNum_;
+}
+- (void) setHasMajorNum:(BOOL) value_ {
+  hasMajorNum_ = !!value_;
+}
+@synthesize majorNum;
+- (BOOL) hasMinorNum {
+  return !!hasMinorNum_;
+}
+- (void) setHasMinorNum:(BOOL) value_ {
+  hasMinorNum_ = !!value_;
+}
+@synthesize minorNum;
+- (id) init {
+  if ((self = [super init])) {
+    self.superNum = 0;
+    self.majorNum = 0;
+    self.minorNum = 0;
+  }
+  return self;
+}
+static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_VersionNumberProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupRequestProto_VersionNumberProto class]) {
+    defaultStartupRequestProto_VersionNumberProtoInstance = [[StartupRequestProto_VersionNumberProto alloc] init];
+  }
+}
++ (StartupRequestProto_VersionNumberProto*) defaultInstance {
+  return defaultStartupRequestProto_VersionNumberProtoInstance;
+}
+- (StartupRequestProto_VersionNumberProto*) defaultInstance {
+  return defaultStartupRequestProto_VersionNumberProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSuperNum) {
+    [output writeInt32:1 value:self.superNum];
+  }
+  if (self.hasMajorNum) {
+    [output writeInt32:2 value:self.majorNum];
+  }
+  if (self.hasMinorNum) {
+    [output writeInt32:3 value:self.minorNum];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasSuperNum) {
+    size_ += computeInt32Size(1, self.superNum);
+  }
+  if (self.hasMajorNum) {
+    size_ += computeInt32Size(2, self.majorNum);
+  }
+  if (self.hasMinorNum) {
+    size_ += computeInt32Size(3, self.minorNum);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromData:(NSData*) data {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromData:data] build];
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromInputStream:input] build];
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupRequestProto_VersionNumberProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupRequestProto_VersionNumberProto*)[[[StartupRequestProto_VersionNumberProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupRequestProto_VersionNumberProto_Builder*) builder {
+  return [[StartupRequestProto_VersionNumberProto_Builder alloc] init];
+}
++ (StartupRequestProto_VersionNumberProto_Builder*) builderWithPrototype:(StartupRequestProto_VersionNumberProto*) prototype {
+  return [[StartupRequestProto_VersionNumberProto builder] mergeFrom:prototype];
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) builder {
+  return [StartupRequestProto_VersionNumberProto builder];
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) toBuilder {
+  return [StartupRequestProto_VersionNumberProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasSuperNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"superNum", [NSNumber numberWithInteger:self.superNum]];
+  }
+  if (self.hasMajorNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"majorNum", [NSNumber numberWithInteger:self.majorNum]];
+  }
+  if (self.hasMinorNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"minorNum", [NSNumber numberWithInteger:self.minorNum]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[StartupRequestProto_VersionNumberProto class]]) {
+    return NO;
+  }
+  StartupRequestProto_VersionNumberProto *otherMessage = other;
+  return
+      self.hasSuperNum == otherMessage.hasSuperNum &&
+      (!self.hasSuperNum || self.superNum == otherMessage.superNum) &&
+      self.hasMajorNum == otherMessage.hasMajorNum &&
+      (!self.hasMajorNum || self.majorNum == otherMessage.majorNum) &&
+      self.hasMinorNum == otherMessage.hasMinorNum &&
+      (!self.hasMinorNum || self.minorNum == otherMessage.minorNum) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasSuperNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.superNum] hash];
+  }
+  if (self.hasMajorNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.majorNum] hash];
+  }
+  if (self.hasMinorNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.minorNum] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface StartupRequestProto_VersionNumberProto_Builder()
+@property (strong) StartupRequestProto_VersionNumberProto* result;
+@end
+
+@implementation StartupRequestProto_VersionNumberProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[StartupRequestProto_VersionNumberProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) clear {
+  self.result = [[StartupRequestProto_VersionNumberProto alloc] init];
+  return self;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) clone {
+  return [StartupRequestProto_VersionNumberProto builderWithPrototype:result];
+}
+- (StartupRequestProto_VersionNumberProto*) defaultInstance {
+  return [StartupRequestProto_VersionNumberProto defaultInstance];
+}
+- (StartupRequestProto_VersionNumberProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupRequestProto_VersionNumberProto*) buildPartial {
+  StartupRequestProto_VersionNumberProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFrom:(StartupRequestProto_VersionNumberProto*) other {
+  if (other == [StartupRequestProto_VersionNumberProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSuperNum) {
+    [self setSuperNum:other.superNum];
+  }
+  if (other.hasMajorNum) {
+    [self setMajorNum:other.majorNum];
+  }
+  if (other.hasMinorNum) {
+    [self setMinorNum:other.minorNum];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSuperNum:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMajorNum:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMinorNum:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSuperNum {
+  return result.hasSuperNum;
+}
+- (int32_t) superNum {
+  return result.superNum;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) setSuperNum:(int32_t) value {
+  result.hasSuperNum = YES;
+  result.superNum = value;
+  return self;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) clearSuperNum {
+  result.hasSuperNum = NO;
+  result.superNum = 0;
+  return self;
+}
+- (BOOL) hasMajorNum {
+  return result.hasMajorNum;
+}
+- (int32_t) majorNum {
+  return result.majorNum;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) setMajorNum:(int32_t) value {
+  result.hasMajorNum = YES;
+  result.majorNum = value;
+  return self;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) clearMajorNum {
+  result.hasMajorNum = NO;
+  result.majorNum = 0;
+  return self;
+}
+- (BOOL) hasMinorNum {
+  return result.hasMinorNum;
+}
+- (int32_t) minorNum {
+  return result.minorNum;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) setMinorNum:(int32_t) value {
+  result.hasMinorNum = YES;
+  result.minorNum = value;
+  return self;
+}
+- (StartupRequestProto_VersionNumberProto_Builder*) clearMinorNum {
+  result.hasMinorNum = NO;
+  result.minorNum = 0;
+  return self;
 }
 @end
 
@@ -382,6 +700,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasIsFreshRestart) {
     [self setIsFreshRestart:other.isFreshRestart];
   }
+  if (other.hasVersionNumberProto) {
+    [self mergeVersionNumberProto:other.versionNumberProto];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -433,6 +754,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 64: {
         [self setIsFreshRestart:[input readBool]];
+        break;
+      }
+      case 74: {
+        StartupRequestProto_VersionNumberProto_Builder* subBuilder = [StartupRequestProto_VersionNumberProto builder];
+        if (self.hasVersionNumberProto) {
+          [subBuilder mergeFrom:self.versionNumberProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setVersionNumberProto:[subBuilder buildPartial]];
         break;
       }
     }
@@ -564,6 +894,36 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearIsFreshRestart {
   result.hasIsFreshRestart = NO;
   result.isFreshRestart = NO;
+  return self;
+}
+- (BOOL) hasVersionNumberProto {
+  return result.hasVersionNumberProto;
+}
+- (StartupRequestProto_VersionNumberProto*) versionNumberProto {
+  return result.versionNumberProto;
+}
+- (StartupRequestProto_Builder*) setVersionNumberProto:(StartupRequestProto_VersionNumberProto*) value {
+  result.hasVersionNumberProto = YES;
+  result.versionNumberProto = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) setVersionNumberProto_Builder:(StartupRequestProto_VersionNumberProto_Builder*) builderForValue {
+  return [self setVersionNumberProto:[builderForValue build]];
+}
+- (StartupRequestProto_Builder*) mergeVersionNumberProto:(StartupRequestProto_VersionNumberProto*) value {
+  if (result.hasVersionNumberProto &&
+      result.versionNumberProto != [StartupRequestProto_VersionNumberProto defaultInstance]) {
+    result.versionNumberProto =
+      [[[StartupRequestProto_VersionNumberProto builderWithPrototype:result.versionNumberProto] mergeFrom:value] buildPartial];
+  } else {
+    result.versionNumberProto = value;
+  }
+  result.hasVersionNumberProto = YES;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearVersionNumberProto {
+  result.hasVersionNumberProto = NO;
+  result.versionNumberProto = [StartupRequestProto_VersionNumberProto defaultInstance];
   return self;
 }
 @end

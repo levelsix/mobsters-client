@@ -390,6 +390,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasDmgExponentBase_:1;
   BOOL hasExpLvlDivisor_:1;
   BOOL hasExpLvlExponent_:1;
+  BOOL hasCostToFullyHealExponent_:1;
+  BOOL hasSecsToFullyHealExponent_:1;
   BOOL hasEnhanceCostExponent_:1;
   BOOL hasEnhanceExpPerSecond_:1;
   BOOL hasEnhanceExpPerSecondExponent_:1;
@@ -413,6 +415,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   Float32 dmgExponentBase;
   Float32 expLvlDivisor;
   Float32 expLvlExponent;
+  Float32 costToFullyHealExponent;
+  Float32 secsToFullyHealExponent;
   Float32 enhanceCostExponent;
   Float32 enhanceExpPerSecond;
   Float32 enhanceExpPerSecondExponent;
@@ -451,7 +455,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasSellAmount;
 - (BOOL) hasTeamCost;
 - (BOOL) hasCostToFullyHeal;
+- (BOOL) hasCostToFullyHealExponent;
 - (BOOL) hasSecsToFullyHeal;
+- (BOOL) hasSecsToFullyHealExponent;
 - (BOOL) hasEnhanceCostPerFeeder;
 - (BOOL) hasEnhanceCostExponent;
 - (BOOL) hasEnhanceExpPerSecond;
@@ -474,7 +480,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t sellAmount;
 @property (readonly) int32_t teamCost;
 @property (readonly) int32_t costToFullyHeal;
+@property (readonly) Float32 costToFullyHealExponent;
 @property (readonly) int32_t secsToFullyHeal;
+@property (readonly) Float32 secsToFullyHealExponent;
 @property (readonly) int32_t enhanceCostPerFeeder;
 @property (readonly) Float32 enhanceCostExponent;
 @property (readonly) Float32 enhanceExpPerSecond;
@@ -605,10 +613,20 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterLevelInfoProto_Builder*) setCostToFullyHeal:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearCostToFullyHeal;
 
+- (BOOL) hasCostToFullyHealExponent;
+- (Float32) costToFullyHealExponent;
+- (MonsterLevelInfoProto_Builder*) setCostToFullyHealExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearCostToFullyHealExponent;
+
 - (BOOL) hasSecsToFullyHeal;
 - (int32_t) secsToFullyHeal;
 - (MonsterLevelInfoProto_Builder*) setSecsToFullyHeal:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearSecsToFullyHeal;
+
+- (BOOL) hasSecsToFullyHealExponent;
+- (Float32) secsToFullyHealExponent;
+- (MonsterLevelInfoProto_Builder*) setSecsToFullyHealExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearSecsToFullyHealExponent;
 
 - (BOOL) hasEnhanceCostPerFeeder;
 - (int32_t) enhanceCostPerFeeder;
