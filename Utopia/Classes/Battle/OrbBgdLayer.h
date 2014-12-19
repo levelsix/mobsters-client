@@ -15,6 +15,7 @@ static const float darknessForTilesAnimDuration = 0.3f;
 @interface OrbBgdLayer : CCNode
 {
   __weak BattleOrbLayout* _layout;
+  CGSize _gridSize;
   
   CCNode* _tilesLayerBottom;
   CCNode* _tilesLayerTop;

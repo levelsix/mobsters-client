@@ -39,7 +39,7 @@
       _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
       
       for (int j = 0; j < _numRows; j++) {
-        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal];
+        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal isHole:arc4random()%2 canPassThrough:NO];
       }
     }
 	}
@@ -164,7 +164,8 @@
       for (int column = 0; column < _numColumns; column++) {
         
         // Only make a new orb if there is a tile at this spot.
-        if ([self tileAtColumn:column row:row] != nil) {
+        BattleTile *tile = [self tileAtColumn:column row:row];
+        if (!tile.isHole) {
           
           // Pick the orb type at random, and make sure that this never
           // creates a chain of 3 or more. We want there to be 0 matches in
@@ -1018,7 +1019,7 @@
     for (NSInteger row = 0; row < _numRows; row++) {
       
       // If there is a tile at this position but no orb, then there's a hole.
-      if ([self tileAtColumn:column row:row] != nil && [self orbAtColumn:column row:row] == nil) {
+      if (![self tileAtColumn:column row:row].isHole && [self orbAtColumn:column row:row] == nil) {
         
         // Scan upward to find a orb.
         for (NSInteger lookup = row + 1; lookup < _numRows; lookup++) {
@@ -1062,7 +1063,7 @@
     for (NSInteger row = 0; row < _numRows; row++) {
       
       // Found a hole?
-      if ([self tileAtColumn:column row:row] != nil && [self orbAtColumn:column row:row] == nil) {
+      if (![self tileAtColumn:column row:row].isHole && [self orbAtColumn:column row:row] == nil) {
         
         // Create a new orb.
         BattleOrb *orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
