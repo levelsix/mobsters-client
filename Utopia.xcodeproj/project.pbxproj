@@ -253,6 +253,9 @@
 		29AF1C691A43AB1100E8E457 /* borderroundedlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */; };
 		29AF1C6A1A43AB1100E8E457 /* borderroundedlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */; };
 		29AF1C6B1A43AB1100E8E457 /* borderroundedlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */; };
+		29AF1C6F1A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
+		29AF1C701A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
+		29AF1C711A443A2A00E8E457 /* BattleOrbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */; };
 		29FFD94A1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
 		29FFD94B1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
 		29FFD94C1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
@@ -6629,6 +6632,8 @@
 		29AD76581A39316100430F0E /* 123slot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123slot@2x.png"; sourceTree = "<group>"; };
 		29AF1C641A43AB1100E8E457 /* borderroundeddark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundeddark@2x.png"; sourceTree = "<group>"; };
 		29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundedlight@2x.png"; sourceTree = "<group>"; };
+		29AF1C6D1A443A2A00E8E457 /* BattleOrbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleOrbPath.h; sourceTree = "<group>"; };
+		29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrbPath.m; sourceTree = "<group>"; };
 		29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4pvpguys@2x.png"; sourceTree = "<group>"; };
 		29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackpvpbubble@2x.png"; sourceTree = "<group>"; };
 		29FFD9481A36E2BD0063C17C /* setstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatus@2x.png"; sourceTree = "<group>"; };
@@ -15911,6 +15916,8 @@
 				CF7CFE1719A55A68009338A2 /* BattleChain.m */,
 				CF7CFE1819A55A68009338A2 /* BattleOrb.h */,
 				CF7CFE1919A55A68009338A2 /* BattleOrb.m */,
+				29AF1C6D1A443A2A00E8E457 /* BattleOrbPath.h */,
+				29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */,
 				CF7CFE1C19A55A68009338A2 /* BattleSwap.h */,
 				CF7CFE1D19A55A68009338A2 /* BattleSwap.m */,
 				CF7CFE1E19A55A68009338A2 /* BattleTile.h */,
@@ -22004,6 +22011,7 @@
 			files = (
 				CF0CDEAA19E50675006A5ECB /* TimerViewController.m in Sources */,
 				CF0CECF9196F452900ECD301 /* OrbBgdLayer.m in Sources */,
+				29AF1C701A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
 				CF0CECFB196F452900ECD301 /* Analytics.m in Sources */,
 				CF0CECFC196F452900ECD301 /* EventClan.pb.m in Sources */,
 				CFA9F77B1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,
@@ -22376,6 +22384,7 @@
 				CF8BA25118D09C89003277D1 /* TutorialQuestLogViewController.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
+				29AF1C6F1A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
 				CFB97D7E19C14173003ABA66 /* EventItem.pb.m in Sources */,
 				DA173A5A19CBACCD005236C0 /* SkillPoison.m in Sources */,
@@ -22599,6 +22608,7 @@
 			files = (
 				CF48189E19F7217F00041486 /* TimerViewController.m in Sources */,
 				CF48189F19F7217F00041486 /* OrbBgdLayer.m in Sources */,
+				29AF1C711A443A2A00E8E457 /* BattleOrbPath.m in Sources */,
 				CF4818A019F7217F00041486 /* Analytics.m in Sources */,
 				CF4818A119F7217F00041486 /* EventClan.pb.m in Sources */,
 				CFA9F77C1A0D8D8900EBE77D /* ItemSelectViewController.m in Sources */,

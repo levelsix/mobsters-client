@@ -39,7 +39,7 @@
       _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
       
       for (int j = 0; j < _numRows; j++) {
-        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal isHole:arc4random()%2 canPassThrough:NO];
+        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal isHole:(arc4random()%4 == 0) canPassThrough:NO];
       }
     }
 	}
@@ -91,11 +91,14 @@
         
         // Check if this is a special orb
         BattleOrb* orb = [self orbAtColumn:i row:j];
-        if (orb.specialOrbType != SpecialOrbTypeNone)
-          continue;
         
-        [array addObject:orb];
-        [self setOrb:nil column:i row:j];
+        if (orb) {
+          if (orb.specialOrbType != SpecialOrbTypeNone)
+            continue;
+          
+          [array addObject:orb];
+          [self setOrb:nil column:i row:j];
+        }
       }
     }
     
@@ -112,18 +115,19 @@
         if (orb && orb.specialOrbType != SpecialOrbTypeNone)
           continue;
         
-        orb = array[counter];
-        [self setOrb:orb column:i row:j];
-        orb.column = i;
-        orb.row = j;
-        
-        counter++;
-        
-        [set addObject:orb];
+        if (![self tileAtColumn:i row:j].isHole) {
+          orb = array[counter];
+          [self setOrb:orb column:i row:j];
+          orb.column = i;
+          orb.row = j;
+          
+          counter++;
+          
+          [set addObject:orb];
+        }
         
         if ([self hasChainAtColumn:i row:j] || (j == 0 && [self orbIsBottomFeeder:orb])) {
           foundMatch = YES;
-          continue;
         }
       }
     }
@@ -160,6 +164,8 @@
   // Loop through the rows and columns of the 2D array. Note that column 0,
   // row 0 is in the bottom-left corner of the array.
   do {
+    [set removeAllObjects];
+    
     for (int row = 0; row < _numRows; row++) {
       for (int column = 0; column < _numColumns; column++) {
         
@@ -336,7 +342,7 @@
 - (BOOL)hasChainAtColumn:(NSInteger)column row:(NSInteger)row {
   NSUInteger orbColor = [self orbAtColumn:column row:row].orbColor;
   
-  if (orbColor != OrbColorNone) {
+  if (orbColor && orbColor != OrbColorNone) {
     NSUInteger horzLength = 1;
     for (NSInteger i = column - 1; i >= 0 && [self orbAtColumn:i row:row].orbColor == orbColor; i--, horzLength++) ;
     for (NSInteger i = column + 1; i < _numColumns && [self orbAtColumn:i row:row].orbColor == orbColor; i++, horzLength++) ;
@@ -1023,6 +1029,13 @@
         
         // Scan upward to find a orb.
         for (NSInteger lookup = row + 1; lookup < _numRows; lookup++) {
+          BattleTile *tile = [self tileAtColumn:column row:lookup];
+          
+          if (tile.isHole && !tile.canPassThrough) {
+            // This tile is a blocker. Need to rely on diagonal falling orbs.
+            break;
+          }
+          
           BattleOrb *orb = [self orbAtColumn:column row:lookup];
           if (orb != nil) {
             // Swap that orb with the hole.
@@ -1044,6 +1057,39 @@
     }
   }
   return columns;
+}
+
+- (NSDictionary *) diagonallyFillHoles {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  
+  for (NSInteger column = 0; column < _numColumns; column++) {
+    
+    for (NSInteger row = 0; row < _numRows; row++) {
+      
+      // If there is a tile at this position but no orb, then there's a hole.
+      if (![self tileAtColumn:column row:row].isHole && [self orbAtColumn:column row:row] == nil) {
+        
+        // The two possible places for the orb to come from is from the top right or top left.
+        BattleOrb *topRightOrb = [self orbAtColumn:column+1 row:row+1];
+        BattleOrb *topLeftOrb = [self orbAtColumn:column-1 row:row+1];
+        
+        BattleOrb *chosen = nil;
+        if (topRightOrb && topLeftOrb) {
+          chosen = arc4random() % 2 ? topRightOrb : topLeftOrb;
+        } else {
+          chosen = topRightOrb ?: topLeftOrb;
+        }
+        
+        if (chosen) {
+          [self setOrb:chosen column:column row:row];
+          chosen.column = column;
+          chosen.row = row;
+        }
+      }
+    }
+  }
+  
+  return dict;
 }
 
 - (NSArray *)topUpOrbs {
@@ -1077,7 +1123,6 @@
         [self generateRandomOrbData:orb atColumn:(int)column row:(int)row];
         //} while (newOrbColor == orbColor && special == newSpecial);
         
-        // Add them in reverse order so they go bottom up
         [array addObject:orb];
       }
     }

@@ -420,14 +420,7 @@
   }
   
   // Now, consolidate newOrbs and fallingOrbs and run same animations
-  NSMutableArray *allOrbs = [NSMutableArray array];
-  for (NSArray *arr in @[fallingOrbColumns, newOrbColumns]) {
-    for (NSArray *subarr in arr) {
-      for (BattleOrb *orb in subarr) {
-        [allOrbs addObject:orb];
-      }
-    }
-  }
+  NSMutableArray *allOrbs = [[fallingOrbColumns arrayByAddingObjectsFromArray:newOrbColumns] mutableCopy];
   
   for (BattleOrb *orb in allOrbs) {
     if (![bottomFeeders containsObject:orb]) {
@@ -435,9 +428,9 @@
       CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
       
       int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
-      float duration = 0.4+0.1*numSquares;
+      float duration = (0.4+0.1*numSquares)/2; // If using bounce, use 0.4+0.1*numSquares.
       CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-      [orbLayer runAction:[CCActionEaseBounceOut actionWithAction:moveTo]];
+      [orbLayer runAction:[CCActionEaseSineOut actionWithAction:moveTo]];
       
       longestDuration = MAX(longestDuration, duration);
     }
