@@ -1833,7 +1833,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     heal.userMonsterUuid = bp.userMonsterUuid;
     [fakeQueue addObject:heal];
   }
-  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
+  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:nil healingItems:fakeQueue];
+  
+  // Create a fake hospital sim with multiplier 1.. so basically just using the monster's base healing per sec
+  HospitalSim *hsim = [[HospitalSim alloc] init];
+  hsim.secsToFullyHealMultiplier = 1;
+  hsim.userStructUuid = @"1";
+  
+  sim.hospitals = @[hsim];
+  
   [sim simulate];
   
   MSDate *lastDate = nil;
