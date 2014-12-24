@@ -18,6 +18,8 @@
 
 #import <CCTextureCache.h>
 
+#import "BattleOrbPath.h"
+
 #define ORB_NAME_TAG(d) [NSString stringWithFormat:@"%p", d]
 
 #define ORB_ANIMATION_OFFSET 10
@@ -405,34 +407,72 @@
 
 #pragma mark -
 
-- (void)animateFallingOrbs:(NSArray *)fallingOrbColumns newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion {
+- (void)animateFallingOrbs:(NSArray *)orbPaths newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion {
   NSTimeInterval longestDuration = 0;
   
   // First, place the new orbs above the board
   for (NSArray *array in newOrbColumns) {
     for (int i = 0; i < array.count; i++) {
       BattleOrb *orb = array[i];
-      OrbSprite *orbLayer = [self createOrbSpriteForOrb:orb];
+      [self createOrbSpriteForOrb:orb];
       
-      // Orbs are given in top down order so we must subtract i from count
-      orbLayer.position = [self pointForColumn:orb.column row:_numRows+i];
+      BattleOrbPath *orbPath = [_layout orbPathForOrb:orb withOrbPaths:orbPaths];
+      CGPoint pt = [[orbPath.path firstObject] CGPointValue];
+      [orbPath.path replaceObjectAtIndex:0 withObject:[NSValue valueWithCGPoint:ccp(pt.x, pt.y+1)]];
+      
+      // commenting out.. delay should be adjusted by the orb layout
+//      int delay = 0;
+//      for (int j = 0; j < i; j++) {
+//        BattleOrb *temp = array[j];
+//        BattleOrbPath *path = [_layout orbPathForOrb:temp withOrbPaths:orbPaths];
+//        
+//        for (NSValue *val in path.path) {
+//          if ([val CGPointValue].y == pt.y+1) {
+//            delay++;
+//          }
+//        }
+//      }
+//      
+//      if (delay > 0) {
+//        [orbPath.path insertObject:[NSNumber numberWithInt:delay] atIndex:0];
+//      }
     }
   }
   
-  // Now, consolidate newOrbs and fallingOrbs and run same animations
-  NSMutableArray *allOrbs = [[fallingOrbColumns arrayByAddingObjectsFromArray:newOrbColumns] mutableCopy];
-  
-  for (BattleOrb *orb in allOrbs) {
+  for (BattleOrbPath *orbPath in orbPaths) {
+    BattleOrb *orb = orbPath.orb;
+    
     if (![bottomFeeders containsObject:orb]) {
       OrbSprite *orbLayer = [self spriteForOrb:orb];
-      CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
       
-      int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
-      float duration = (0.4+0.1*numSquares)/2; // If using bounce, use 0.4+0.1*numSquares.
-      CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-      [orbLayer runAction:[CCActionEaseSineOut actionWithAction:moveTo]];
+      NSMutableArray *moveTos = [NSMutableArray array];
+      CGPoint prevPoint = CGPointZero;
       
-      longestDuration = MAX(longestDuration, duration);
+      float durPerSquare = 0.8;
+      
+      for (id val in orbPath.path) {
+        if ([val isKindOfClass:[NSNumber class]]) {
+          [moveTos addObject:[CCActionDelay actionWithDuration:[val intValue]*durPerSquare]];
+        } else if ([val isKindOfClass:[NSValue class]]) {
+          CGPoint nextPoint = [val CGPointValue];
+          if (CGPointEqualToPoint(prevPoint, CGPointZero)) {
+            orbLayer.position = [self pointForColumn:nextPoint.x row:nextPoint.y];
+          } else {
+            int numSquares = MAX(1, (prevPoint.y-nextPoint.y));
+            float duration = durPerSquare*numSquares;
+            CCActionMoveTo *moveTo = [CCActionMoveTo actionWithDuration:duration position:[self pointForColumn:nextPoint.x row:nextPoint.y]];
+            [moveTos addObject:moveTo];
+          }
+          prevPoint = nextPoint;
+        }
+      }
+      
+      CCActionSequence *seq = [CCActionSequence actionWithArray:moveTos];
+      [orbLayer runAction:seq];
+      
+      orbLayer.zOrder = orbLayer.zOrder;
+      
+      longestDuration = MAX(longestDuration, seq.duration);
     }
   }
   

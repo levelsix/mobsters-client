@@ -9,6 +9,7 @@
 #import "BattleTile.h"
 #import "BattleSwap.h"
 #import "BattleChain.h"
+#import "BattleOrbPath.h"
 
 @interface BattleOrbLayout : NSObject {
   int _numColumns;
@@ -54,6 +55,9 @@
 // Can be called to rearrange the current board
 - (NSSet *)shuffle;
 
+- (BattleOrbPath *) orbPathForOrb:(BattleOrb *)orb withOrbPaths:(NSArray *)orbPaths;
+- (void) addPoint:(CGPoint)pt forOrb:(BattleOrb *)orb withOrbPaths:(NSMutableArray *)orbPaths;
+
 // Returns the orb at the specified column and row, or nil when there is none.
 - (BattleOrb *)orbAtColumn:(NSInteger)column row:(NSInteger)row;
 
@@ -98,13 +102,14 @@
 // Returns an array that contains a sub-array for each column that had holes,
 // with the BattleOrb objects that have shifted. Those orbs are already
 // moved to their new position. The objects are ordered from the bottom up.
-- (NSArray *)fillHoles;
+- (BOOL) fillHoles:(NSMutableArray *)orbPaths;
+- (BOOL) diagonallyFillHoles:(NSMutableArray *)orbPaths;
 
 // Where necessary, adds new orbs to fill up the holes at the top of the
 // columns.
 // Returns an array that contains a sub-array for each column that had holes,
 // with the new BattleOrb objects. Orbs are ordered from the top down.
-- (NSArray *)topUpOrbs;
+- (NSArray *)topUpOrbs:(NSMutableArray *)orbPaths;
 
 // This will detect if any specials like cake are at the bottom so that they can be
 // deleted. This will probably be followed by another set of calls to fillHoles and topUpOrbs.

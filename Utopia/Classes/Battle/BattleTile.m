@@ -44,4 +44,8 @@
     _typeBottom = TileTypeNormal;
 }
 
+- (BOOL) isBlocked {
+  return self.isHole && !self.canPassThrough;
+}
+
 @end

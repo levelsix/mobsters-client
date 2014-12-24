@@ -35,4 +35,6 @@ typedef enum {
 // Actions
 - (void) orbRemoved;
 
+- (BOOL) isBlocked;
+
 @end

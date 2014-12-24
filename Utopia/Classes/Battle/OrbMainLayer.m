@@ -164,77 +164,49 @@
   // First, remove any matches...
   [self.swipeLayer animateMatchedOrbs:chains powerupCreations:powerupOrbs completion:^{
     
-    NSArray *fallingColumns = [self.layout fillHoles];
+    NSMutableArray *orbPaths = [NSMutableArray array];
     
-    OrbLog(@"Filling holes %@", fallingColumns);
-    OrbLog(@"Layout: %@", self.layout);
+    NSMutableArray *newColumns = [NSMutableArray array];
+    NSSet *bottomFeeders;
     
-    NSArray *newColumns = [self.layout topUpOrbs];
+    BOOL foundChange;
     
-    OrbLog(@"Topping up orbs %@", newColumns);
-    OrbLog(@"Layout: %@", self.layout);
-    
-    NSSet *bottomFeeders = [NSSet set];
-    NSSet *newBottomFeeders;
-    
-    while ((newBottomFeeders = [self.layout detectBottomFeeders]).count) {
-      // Redo calls to fallingColumns and newColumns and add to our current arrays
+    int iteration = 0;
+    do {
+      foundChange = NO;
       
-      OrbLog(@"Detected bottom feeders: %@", newBottomFeeders);
-      OrbLog(@"Layout: %@", self.layout);
+      BOOL fillHoles = [self.layout fillHoles:orbPaths];
       
-      // Don't need to do any consolidation of arrays with this because all orbs will be updated
-      // in the arrays.
-      NSArray *newFallingColumns = [self.layout fillHoles];
+      NSArray *moreNewColumns = [self.layout topUpOrbs:orbPaths];
+      BOOL foundNewColumns = NO;
       
-      OrbLog(@"Filling holes %@", newFallingColumns);
-      OrbLog(@"Layout: %@", self.layout);
-      
-      // Must consolidate in case initial fallingColumns did not have movers
-      for (int i = 0; i < newColumns.count; i++) {
-        NSMutableArray *origArr = fallingColumns[i];
-        NSMutableArray *newArr = newFallingColumns[i];
+      for (int i = 0; i < newColumns.count || i < moreNewColumns.count; i++) {
+        NSMutableArray *firstArr;
         
-        for (BattleOrb *orb in newArr) {
-          
-          // Make sure orb is not in the topped up orbs
-          BOOL isToppedUp = NO;
-          for (NSArray *arr in newColumns) {
-            if ([arr containsObject:orb]) {
-              isToppedUp = YES;
-            }
-          }
-          
-          // Only add if it is not already in the list
-          if (!isToppedUp && ![origArr containsObject:orb]) {
-            [origArr addObject:orb];
-          }
+        if (i < newColumns.count) {
+          firstArr = newColumns[i];
+        } else {
+          firstArr = [NSMutableArray array];
+          [newColumns addObject:firstArr];
         }
-      }
-      
-      // Must consolidate this with the initial newColumns so that newOrbs get added
-      NSArray *moreNewColumns = [self.layout topUpOrbs];
-      
-      OrbLog(@"Topping up orbs %@", moreNewColumns);
-      OrbLog(@"Layout: %@", self.layout);
-      
-      for (int i = 0; i < newColumns.count; i++) {
-        NSMutableArray *firstArr = newColumns[i];
+        
         NSArray *secondArr = moreNewColumns[i];
         
+        foundNewColumns = foundNewColumns || secondArr.count > 0;
         [firstArr addObjectsFromArray:secondArr];
       }
       
+      BOOL diagFillHoles = [self.layout diagonallyFillHoles:orbPaths];
+      
+      NSSet *newBottomFeeders = [self.layout detectBottomFeeders];
       bottomFeeders = [bottomFeeders setByAddingObjectsFromSet:newBottomFeeders];
-    }
+      
+      foundChange = fillHoles || diagFillHoles || foundNewColumns || newBottomFeeders.count;
+      
+      iteration++; 
+    } while (foundChange);
     
-    OrbLog(@"Calling animate falling orbs.");
-    OrbLog(@"Falling columns: %@", fallingColumns);
-    OrbLog(@"New columns: %@", newColumns);
-    OrbLog(@"Bottom feeders: %@", bottomFeeders);
-    OrbLog(@"Layout: %@", self.layout);
-    
-    [self.swipeLayer animateFallingOrbs:fallingColumns newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
+    [self.swipeLayer animateFallingOrbs:orbPaths newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
       
       OrbLog(@"Re-running cycle.");
       OrbLog(@"Layout: %@", self.layout);

@@ -543,7 +543,7 @@
   // Do nothing
 }
 
-- (void) saveCurrentState {
+- (void) saveCurrentStateWithForceFlush:(BOOL) flush {
   // Do nothing
 }
 

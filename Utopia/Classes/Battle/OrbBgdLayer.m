@@ -131,10 +131,11 @@
       // b) cur is not hole: left, top left, and top are all holes, use inner curve without color.
       // c) cur and top left are same, left and top are same. use some variation of a double sprite with color.
       // default) make the lines longer if they exist
-      BOOL lCorner = lHole != tlHole && lHole != mHole;
-      BOOL tlCorner = tlHole != lHole && tlHole != tHole;
-      BOOL tCorner = tHole != tlHole && tHole != mHole;
-      BOOL mCorner = mHole != lHole && mHole != tHole;
+      BOOL lCorner = lHole != tlHole && lHole != mHole && (lHole != tHole || lHole);
+      BOOL tlCorner = tlHole != lHole && tlHole != tHole && (tlHole != mHole || tlHole);
+      BOOL tCorner = tHole
+      != tlHole && tHole != mHole && (tHole != lHole || tHole);
+      BOOL mCorner = mHole != lHole && mHole != tHole && (mHole != tlHole || mHole);
       
       // If no corners, then we can stretch out the lines longer
       BOOL noCorners = !lCorner && !tlCorner && !tCorner && !mCorner;
@@ -177,7 +178,7 @@
       // Now draw the corners
       if (lCorner) {
         BOOL isColor = lHole;
-        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i y:j useColor:isColor]];
+        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i-1 y:j useColor:isColor]];
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(BORDER_WIDTH, BORDER_WIDTH));
         corner.flipX = YES;
@@ -200,7 +201,7 @@
       
       if (tCorner) {
         BOOL isColor = tHole;
-        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i y:j useColor:isColor]];
+        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i y:j+1 useColor:isColor]];
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(-BORDER_WIDTH, -BORDER_WIDTH));
         corner.anchorPoint = ccp(0, 0);
@@ -210,7 +211,7 @@
       
       if (tlCorner) {
         BOOL isColor = tlHole;
-        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i y:j useColor:isColor]];
+        CCSprite *corner = [CCSprite spriteWithImageNamed:[self cornerImageNameForX:i-1 y:j+1 useColor:isColor]];
         
         corner.position = isColor ? cornerPos : ccpAdd(cornerPos, ccp(BORDER_WIDTH, -BORDER_WIDTH));
         corner.flipX = YES;
@@ -224,7 +225,7 @@
 
 - (NSString *)cornerImageNameForX:(int)x y:(int)y useColor:(BOOL)color {
   if (color) {
-    return (x+y)%2==0 ? @"borderroundedlight.png" : @"borderroundeddark.png";
+    return (x+y)%2==1 ? @"borderroundedlight.png" : @"borderroundeddark.png";
   } else {
     return @"borderrounded.png";
   }

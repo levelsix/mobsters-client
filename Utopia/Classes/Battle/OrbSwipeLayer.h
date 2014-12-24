@@ -54,7 +54,7 @@
 - (void)animateSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion;
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion;
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion;
-- (void)animateFallingOrbs:(NSArray *)fallingOrbColumns newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion;
+- (void)animateFallingOrbs:(NSArray *)orbPaths newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion;
 - (void)animateShuffle:(NSSet *)orbs completion:(dispatch_block_t)completion;
 
 // Pulsing

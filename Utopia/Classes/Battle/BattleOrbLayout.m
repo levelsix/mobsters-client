@@ -9,10 +9,11 @@
 #import "BattleOrbLayout.h"
 #import "SkillManager.h"
 #import "Globals.h"
+#import "BattleOrbPath.h"
 
 // Make this 1 to allow user to swap wherever they want
 #ifdef DEBUG
-#define FREE_BATTLE_MOVEMENT 0
+#define FREE_BATTLE_MOVEMENT 1
 #endif
 
 @interface BattleOrbLayout ()
@@ -97,7 +98,6 @@
             continue;
           
           [array addObject:orb];
-          [self setOrb:nil column:i row:j];
         }
       }
     }
@@ -115,7 +115,7 @@
         if (orb && orb.specialOrbType != SpecialOrbTypeNone)
           continue;
         
-        if (![self tileAtColumn:i row:j].isHole) {
+        if (orb) {
           orb = array[counter];
           [self setOrb:orb column:i row:j];
           orb.column = i;
@@ -483,6 +483,13 @@
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
   return orb.specialOrbType == SpecialOrbTypeCake;
+}
+
+- (BOOL) tileCanSpawnOrbs:(BattleTile *)tile {
+  if (tile.row == _numRows-1) {
+    return YES;
+  }
+  return NO;
 }
 
 #pragma mark - Powerup Matches
@@ -1010,17 +1017,69 @@
 
 #pragma mark - Detecting Holes
 
-- (NSArray *)fillHoles {
-  NSMutableArray *columns = [NSMutableArray array];
+- (BattleOrbPath *) orbPathForOrb:(BattleOrb *)orb withOrbPaths:(NSArray *)orbPaths {
+  BattleOrbPath *path = nil;
+  
+  for (BattleOrbPath *op in orbPaths) {
+    if (op.orb == orb) {
+      path = op;
+    }
+  }
+  
+  return path;
+}
+
+- (void) addPoint:(CGPoint)pt forOrb:(BattleOrb *)orb withOrbPaths:(NSMutableArray *)orbPaths {
+  BattleOrbPath *path = [self orbPathForOrb:orb withOrbPaths:orbPaths];
+  
+  if (!path) {
+    path = [[BattleOrbPath alloc] init];
+    path.orb = orb;
+    path.path = [NSMutableArray array];
+    [path.path addObject:[NSValue valueWithCGPoint:ccp(orb.column, orb.row)]];
+    
+    [orbPaths addObject:path];
+  }
+  
+  [path.path addObject:[NSValue valueWithCGPoint:pt]];
+  
+  [self setOrb:nil column:orb.column row:orb.row];
+  [self setOrb:orb column:pt.x row:pt.y];
+  orb.column = pt.x;
+  orb.row = pt.y;
+  
+  // Need to delay by path length up till orb right underneath.
+  if (orb.row > 0) {
+    BattleOrb *botOrb = [self orbAtColumn:orb.column row:orb.row-1];
+    
+    if (botOrb) {
+      BattleOrbPath *botPath = [self orbPathForOrb:botOrb withOrbPaths:orbPaths];
+      BattleOrbPath *curPath = [self orbPathForOrb:orb withOrbPaths:orbPaths];
+      
+      int diff = [botPath pathLength]-[curPath pathLength]-1;
+      if (diff > 0) {
+        NSLog(@"Added delay of %d", diff);
+        NSLog(@"Cur Orb: %@", orb);
+        NSLog(@"Bot Orb: %@", botOrb);
+        NSLog(@"Cur Path: %@", curPath);
+        NSLog(@"Bot Path: %@",  botPath);
+        
+        //[self addDelay:diff forOrb:chosen withOrbPaths:orbPaths];
+        [curPath.path insertObject:[NSNumber numberWithInt:diff] atIndex:curPath.path.count-1];
+      }
+    }
+  }
+}
+
+// Send in an array of orbPaths that will be modified
+- (BOOL) fillHoles:(NSMutableArray *)orbPaths iteration:(int)iteration {
+  BOOL madeChange = NO;
   
   // Loop through the rows, from bottom to top. It's handy that our row 0 is
   // at the bottom already. Because we're scanning from bottom to top, this
   // automatically causes an entire stack to fall down to fill up a hole.
   // We scan one column at a time.
   for (NSInteger column = 0; column < _numColumns; column++) {
-    
-    NSMutableArray *array = [NSMutableArray array];
-    [columns addObject:array];
     
     for (NSInteger row = 0; row < _numRows; row++) {
       
@@ -1031,23 +1090,18 @@
         for (NSInteger lookup = row + 1; lookup < _numRows; lookup++) {
           BattleTile *tile = [self tileAtColumn:column row:lookup];
           
-          if (tile.isHole && !tile.canPassThrough) {
+          if ([tile isBlocked]) {
             // This tile is a blocker. Need to rely on diagonal falling orbs.
             break;
           }
           
-          BattleOrb *orb = [self orbAtColumn:column row:lookup];
-          if (orb != nil) {
-            // Swap that orb with the hole.
-            [self setOrb:nil column:column row:lookup];
-            [self setOrb:orb column:column row:row];
-            orb.row = row;
-            
-            // For each column, we return an array with the orbs that have
-            // fallen down. Orbs that are lower on the screen are first in
-            // the array. We need an array to keep this order intact, so the
-            // animation code can apply the correct kind of delay.
-            [array addObject:orb];
+          if (!tile.isHole) {
+            BattleOrb *orb = [self orbAtColumn:column row:lookup];
+            if (orb != nil) {
+              [self addPoint:ccp(column, row) forOrb:orb withOrbPaths:orbPaths];
+              
+              madeChange = YES;
+            }
             
             // Don't need to scan up any further.
             break;
@@ -1056,11 +1110,14 @@
       }
     }
   }
-  return columns;
+  
+  return madeChange;
 }
 
-- (NSDictionary *) diagonallyFillHoles {
-  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+// Send in an array of orbPaths that will be modified
+- (BOOL) diagonallyFillHoles:(NSMutableArray *)orbPaths iteration:(int)iteration {
+  
+  BOOL madeChange = NO;
   
   for (NSInteger column = 0; column < _numColumns; column++) {
     
@@ -1069,30 +1126,66 @@
       // If there is a tile at this position but no orb, then there's a hole.
       if (![self tileAtColumn:column row:row].isHole && [self orbAtColumn:column row:row] == nil) {
         
-        // The two possible places for the orb to come from is from the top right or top left.
-        BattleOrb *topRightOrb = [self orbAtColumn:column+1 row:row+1];
-        BattleOrb *topLeftOrb = [self orbAtColumn:column-1 row:row+1];
-        
-        BattleOrb *chosen = nil;
-        if (topRightOrb && topLeftOrb) {
-          chosen = arc4random() % 2 ? topRightOrb : topLeftOrb;
-        } else {
-          chosen = topRightOrb ?: topLeftOrb;
-        }
-        
-        if (chosen) {
-          [self setOrb:chosen column:column row:row];
-          chosen.column = column;
-          chosen.row = row;
+        if (row+1 < _numRows) {
+          
+          // The two possible places for the orb to come from is from the top right or top left.
+          BattleOrb *topRightOrb = column+1 < _numColumns ? [self orbAtColumn:column+1 row:row+1] : nil;
+          BattleOrb *topLeftOrb = column-1 >= 0 ? [self orbAtColumn:column-1 row:row+1] : nil;
+          
+          BattleOrb *chosen = nil;
+          if (topRightOrb && topLeftOrb) {
+            int trPathLength = [[self orbPathForOrb:topRightOrb withOrbPaths:orbPaths] pathLength];
+            int tlPathLength = [[self orbPathForOrb:topLeftOrb withOrbPaths:orbPaths] pathLength];
+            
+            // Choose orb with shorter path, otherwise randomize
+            if (trPathLength !=  tlPathLength) {
+              chosen = trPathLength > tlPathLength ? topRightOrb : topLeftOrb;
+            } else {
+              chosen = arc4random() % 2 ? topRightOrb : topLeftOrb;
+            }
+          } else {
+            chosen = topRightOrb ?: topLeftOrb;
+          }
+          
+          if (chosen) {
+            [self addPoint:ccp(column, row) forOrb:chosen withOrbPaths:orbPaths];
+            
+//            // Need to delay by path length up till orb right underneath.
+//            if (row > 0) {
+//              BattleOrb *botOrb = [self orbAtColumn:column row:row-1];
+//              
+//              if (botOrb) {
+//                BattleOrbPath *botPath = [self orbPathForOrb:botOrb withOrbPaths:orbPaths];
+//                BattleOrbPath *curPath = [self orbPathForOrb:chosen withOrbPaths:orbPaths];
+//                
+//                int diff = [botPath pathLength]-[curPath pathLength];
+//                if (diff > 0) {
+//                  NSLog(@"Added delay of %d", diff);
+//                  NSLog(@"Chosen: %@", chosen);
+//                  NSLog(@"Bot Orb: %@", botOrb);
+//                  NSLog(@"Cur Path: %@", curPath);
+//                  NSLog(@"Bot Path: %@",  botPath);
+//                  
+//                  //[self addDelay:diff forOrb:chosen withOrbPaths:orbPaths];
+//                  [curPath.path insertObject:[NSNumber numberWithInt:diff] atIndex:curPath.path.count-1];
+//                }
+//              }
+//            }
+            
+            // Return after 1, so we can re-vertical fill holes.
+            return YES;
+          }
         }
       }
     }
   }
   
-  return dict;
+  return madeChange;
 }
 
-- (NSArray *)topUpOrbs {
+// Send in an array of orbPaths that will be modified
+- (NSArray *)topUpOrbs:(NSMutableArray *)orbPaths iteration:(int)iteration {
+  
   NSMutableArray *columns = [NSMutableArray array];
   
   // Detect where we have to add the new orbs. If a column has X holes,
@@ -1101,8 +1194,6 @@
   // a little trickier.
   for (NSInteger column = 0; column < _numColumns; column++) {
     
-    // This time scan from top to bottom. We can end when we've found the
-    // first orb.
     NSMutableArray *array = [NSMutableArray array];
     [columns addObject:array];
     
@@ -1111,19 +1202,47 @@
       // Found a hole?
       if (![self tileAtColumn:column row:row].isHole && [self orbAtColumn:column row:row] == nil) {
         
-        // Create a new orb.
-        BattleOrb *orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
-        
-        // Randomly create a new orb type. The only restriction is that
-        // it cannot be equal to the previous type. This prevents too many
-        // "freebie" matches.
-        
-        // Commented out while loop because it screws up tutorial..
-        //do {
-        [self generateRandomOrbData:orb atColumn:(int)column row:(int)row];
-        //} while (newOrbColor == orbColor && special == newSpecial);
-        
-        [array addObject:orb];
+        // Scan upward to find a spawner tile.
+        for (NSInteger lookup = row; lookup < _numRows; lookup++) {
+          BattleTile *tile = [self tileAtColumn:column row:lookup];
+          
+          if ([tile isBlocked]) {
+            // This tile is a blocker. Need to rely on diagonal falling orbs.
+            break;
+          }
+          
+          BattleOrb *orb = [self orbAtColumn:column row:lookup];
+          
+          if (orb) {
+            
+            // Orb exists above this point.. Abort
+            break;
+          }
+          
+          if ([self tileCanSpawnOrbs:tile]) {
+            // Create a new orb.
+            BattleOrb *orb = [self createOrbAtColumn:tile.column row:tile.row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
+            
+            // Randomly create a new orb type. The only restriction is that
+            // it cannot be equal to the previous type. This prevents too many
+            // "freebie" matches.
+            
+            // Commented out while loop because it screws up tutorial..
+            //do {
+            [self generateRandomOrbData:orb atColumn:(int)tile.column row:(int)tile.row];
+            //} while (newOrbColor == orbColor && special == newSpecial);
+            
+            [array addObject:orb];
+            
+            [self addPoint:ccp(column, row) forOrb:orb withOrbPaths:orbPaths];
+            
+            // Add an extra delay since it is new
+//            BattleOrbPath *orbPath = [self orbPathForOrb:orb withOrbPaths:orbPaths];
+//            [orbPath.path insertObject:@1 atIndex:orbPath.path.count-1];
+            
+            break;
+          }
+        }
       }
     }
   }

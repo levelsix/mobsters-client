@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BattleOrb.h"
+
 @interface BattleOrbPath : NSObject
+
+@property (nonatomic, retain) BattleOrb *orb;
+@property (nonatomic, retain) NSMutableArray *path;
+
+- (int) pathLength;
 
 @end
