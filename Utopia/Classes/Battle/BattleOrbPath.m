@@ -34,6 +34,36 @@
   return pathLength;
 }
 
+- (int) pathLengthToPoint:(CGPoint)pt {
+  NSValue *prev = nil;
+  int pathLength = 0;
+  for (id val in self.path) {
+    if ([val isKindOfClass:[NSNumber class]]) {
+      pathLength += [val intValue];
+    } else {
+      if (!prev) {
+        prev = val;
+        continue;
+      }
+      
+      CGPoint prevPt = [prev CGPointValue];
+      CGPoint valPt = [val CGPointValue];
+      
+      if (valPt.x == pt.x && valPt.y <= pt.y && prevPt.y >= pt.y) {
+        pathLength += prevPt.y-pt.y;
+        NSLog(@"%@, pl to %@: %d", self, NSStringFromCGPoint(pt), pathLength);
+        return pathLength;
+      } else {
+        pathLength += MAX(1, prevPt.y-valPt.y);
+      }
+      
+      prev = val;
+    }
+  }
+  
+  return 0;
+}
+
 - (NSString *)description {
   NSMutableString *s = [NSMutableString stringWithFormat:@"path length=%d\n", [self pathLength]];
   for (id val in self.path) {

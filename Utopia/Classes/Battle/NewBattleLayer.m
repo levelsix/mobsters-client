@@ -212,7 +212,7 @@
   [self begin];
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbLayer.bgdLayer addChild:clip z:self.orbLayer.swipeLayer.zOrder];
+  [self.orbLayer.bgdLayer addChild:clip z:100];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
   clip.position = ccp(self.orbLayer.swipeLayer.position.x+self.orbLayer.swipeLayer.contentSize.width, 54);

@@ -143,8 +143,6 @@
       int tileSize = [self tileSize];
       CGPoint basePt = ccp(i*tileSize, j*tileSize);
       
-      NSLog(@"(%d, %d): lc:%d, tlc:%d, tc:%d, mc:%d, lh:%d, mh:%d, tlh:%d, th:%d", i, j, lCorner, tlCorner, tCorner, mCorner, lHole, mHole, tlHole, tHole);
-      
       int z = 1;
       
       // Draw the lines

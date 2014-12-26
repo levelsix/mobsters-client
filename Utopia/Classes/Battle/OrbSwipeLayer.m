@@ -416,9 +416,9 @@
       BattleOrb *orb = array[i];
       [self createOrbSpriteForOrb:orb];
       
-      BattleOrbPath *orbPath = [_layout orbPathForOrb:orb withOrbPaths:orbPaths];
-      CGPoint pt = [[orbPath.path firstObject] CGPointValue];
-      [orbPath.path replaceObjectAtIndex:0 withObject:[NSValue valueWithCGPoint:ccp(pt.x, pt.y+1)]];
+//      BattleOrbPath *orbPath = [_layout orbPathForOrb:orb withOrbPaths:orbPaths];
+//      CGPoint pt = [[orbPath.path firstObject] CGPointValue];
+//      [orbPath.path replaceObjectAtIndex:0 withObject:[NSValue valueWithCGPoint:ccp(pt.x, pt.y+1)]];
       
       // commenting out.. delay should be adjusted by the orb layout
 //      int delay = 0;

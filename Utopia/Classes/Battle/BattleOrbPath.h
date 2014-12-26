@@ -16,5 +16,6 @@
 @property (nonatomic, retain) NSMutableArray *path;
 
 - (int) pathLength;
+- (int) pathLengthToPoint:(CGPoint)pt;
 
 @end

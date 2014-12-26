@@ -26,7 +26,13 @@
     self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
     self.swipeLayer = [[OrbSwipeLayer alloc] initWithContentSize:self.bgdLayer.contentSize layout:layout];
     [self addChild:self.bgdLayer];
-    [self.bgdLayer addChild:self.swipeLayer z:2];
+    
+    // Add the swipe layer in a clipping node
+    OrbBgdLayer *stencil = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
+    CCClippingNode *clip = [[CCClippingNode alloc] initWithStencil:stencil];
+    stencil.anchorPoint = ccp(0, 0);
+    [self.bgdLayer addChild:clip z:2];
+    [clip addChild:self.swipeLayer];
     
     self.contentSize = self.bgdLayer.contentSize;
     self.bgdLayer.position = ccp(self.bgdLayer.contentSize.width/2, self.bgdLayer.contentSize.height/2);
