@@ -11,9 +11,11 @@
 #import "Globals.h"
 #import "BattleOrbPath.h"
 
+#import "BoardLayoutProto+Properties.h"
+
 // Make this 1 to allow user to swap wherever they want
 #ifdef DEBUG
-#define FREE_BATTLE_MOVEMENT 1
+//#define FREE_BATTLE_MOVEMENT 1
 #endif
 
 @interface BattleOrbLayout ()
@@ -28,10 +30,65 @@
 @implementation BattleOrbLayout
 
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors {
+  BoardLayoutProto_Builder *bldr = [BoardLayoutProto builder];
+  bldr.width = gridSize.width;
+  bldr.height = gridSize.height;
+  
+  BoardPropertyProto_Builder *prop;
+  
+  prop = [BoardPropertyProto builder];
+  prop.posX = 4;
+  prop.posY = 4;
+  prop.name = @"PASSABLE_HOLE";
+  [bldr addProperties:prop.build];
+  
+  prop = [BoardPropertyProto builder];
+  prop.posX = 4;
+  prop.posY = 7;
+  prop.name = @"NOT_SPAWN_TILE";
+  [bldr addProperties:prop.build];
+  
+  for (int i = 0; i < gridSize.width; i++) {
+    prop = [BoardPropertyProto builder];
+    prop.posX = i;
+    prop.posY = 2;
+    prop.name = @"ORB_SPECIAL";
+    prop.value = 5;
+    [bldr addProperties:prop.build];
+  }
+  
+  for (int i = 0; i < gridSize.width; i++) {
+    prop = [BoardPropertyProto builder];
+    prop.posX = i;
+    prop.posY = 1;
+    prop.name = @"ORB_EMPTY";
+    prop.value = 5;
+    [bldr addProperties:prop.build];
+    
+    prop = [BoardPropertyProto builder];
+    prop.posX = i;
+    prop.posY = 0;
+    prop.name = @"ORB_EMPTY";
+    prop.value = 5;
+    [bldr addProperties:prop.build];
+  }
+  
+  prop = [BoardPropertyProto builder];
+  prop.posX = 1;
+  prop.posY = 0;
+  prop.name = @"TILE_TYPE";
+  prop.value = 1;
+  [bldr addProperties:prop.build];
+  
+  return [self initWithBoardLayout:bldr.build];
+}
+
+- (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto {
   if ((self = [super init])) {
-    _numColumns = gridSize.width;
-    _numRows = gridSize.height;
-    _numColors = numColors;
+    _numColumns = proto.width;
+    _numRows = proto.height;
+    _numColors = 6;//proto.orbElements;
+    _layoutProto = proto;
     
     _tiles = (__strong id **)calloc(sizeof(id *), _numColumns);
     _orbs = (__strong id **)calloc(sizeof(id *), _numColumns);
@@ -40,12 +97,40 @@
       _orbs[i] = (__strong id *)calloc(sizeof(id *), _numRows);
       
       for (int j = 0; j < _numRows; j++) {
-        _tiles[i][j] = [[BattleTile alloc] initWithColumn:i row:j typeTop:TileTypeNormal typeBottom:TileTypeNormal isHole:(arc4random()%4 == 0) canPassThrough:NO];
+        [self createTileAtColumn:i row:j boardLayout:proto];
       }
     }
   }
   
   return self;
+}
+
+- (void) createTileAtColumn:(int)column row:(int)row boardLayout:(BoardLayoutProto *)proto {
+  NSArray *properties = [proto propertiesForColumn:column row:row];
+  
+  BOOL isHole = NO;
+  BOOL canPassThrough = YES;
+  BOOL canSpawnOrbs = row == _numRows-1;
+  TileType typeTop = TileTypeNormal;
+  TileType typeBottom = TileTypeNormal;
+  
+  for (BoardPropertyProto *prop in properties) {
+    if ([prop.name isEqualToString:@"SPAWN_TILE"]) {
+      canSpawnOrbs = YES;
+    } else if ([prop.name isEqualToString:@"NOT_SPAWN_TILE"]) {
+      canSpawnOrbs = NO;
+    } else if ([prop.name isEqualToString:@"HOLE"]) {
+      isHole = YES;
+      canPassThrough = NO;
+    } else if ([prop.name isEqualToString:@"PASSABLE_HOLE"]) {
+      isHole = YES;
+      canPassThrough = YES;
+    } else if ([prop.name isEqualToString:@"TILE_TYPE"]) {
+      typeBottom = prop.value;
+    }
+  }
+  
+  _tiles[column][row] = [[BattleTile alloc] initWithColumn:column row:row typeTop:typeTop typeBottom:typeBottom isHole:isHole canPassThrough:canPassThrough canSpawnOrbs:canSpawnOrbs];
 }
 
 - (void) dealloc {
@@ -168,6 +253,17 @@
     
     for (int row = 0; row < _numRows; row++) {
       for (int column = 0; column < _numColumns; column++) {
+        BattleOrb *orb = [self createInitialOrbAtColumn:row row:column layout:_layoutProto];
+        
+        if (orb) {
+          [set addObject:orb];
+        }
+      }
+    }
+    
+    
+    for (int row = 0; row < _numRows; row++) {
+      for (int column = 0; column < _numColumns; column++) {
         
         // Only make a new orb if there is a tile at this spot.
         BattleTile *tile = [self tileAtColumn:column row:row];
@@ -176,18 +272,29 @@
           // Pick the orb type at random, and make sure that this never
           // creates a chain of 3 or more. We want there to be 0 matches in
           // the initial state.
-          BattleOrb *orb;
-          do {
-            // Create a new orb and add it to the 2D array.
-            orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
-            
-            [self generateRandomOrbData:orb atColumn:column row:row];
-          }
-          // Can't afford to have a chain in initial set
-          while ([self hasChainAtColumn:column row:row]);
+          BattleOrb *orb = [self orbAtColumn:column row:row];
           
-          // Also add the orb to the set so we can tell our caller about it.
-          [set addObject:orb];
+          if (!orb) {
+            do {
+              // Create a new orb and add it to the 2D array.
+              orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
+              
+              [self generateRandomOrbData:orb atColumn:column row:row];
+            }
+            // Can't afford to have a chain in initial set
+            while ([self hasChainAtColumn:column row:row]);
+            
+            // Also add the orb to the set so we can tell our caller about it.
+            [set addObject:orb];
+            
+          } else {
+            // Empty tile
+            if (orb.orbColor == OrbColorNone && orb.powerupType == PowerupTypeNone && orb.specialOrbType == SpecialOrbTypeNone) {
+              [self setOrb:nil column:column row:row];
+              
+              [set removeObject:orb];
+            }
+          }
         }
       }
     }
@@ -195,6 +302,44 @@
   while (![self detectPossibleSwaps].count);
   
   return set;
+}
+
+// Will return YES if something should be randomly generated
+- (BattleOrb *) createInitialOrbAtColumn:(int)column row:(int)row layout:(BoardLayoutProto *)proto {
+  
+  NSArray *properties = [proto propertiesForColumn:column row:row];
+  
+  BattleOrb *orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
+  
+  [self generateRandomOrbData:orb atColumn:column row:row];
+  
+  BOOL shouldCreate = NO;
+  for (BoardPropertyProto *prop in properties) {
+    if ([prop.name isEqualToString:@"ORB_COLOR"]) {
+      orb.orbColor = prop.value;
+      shouldCreate = YES;
+    } else if ([prop.name isEqualToString:@"ORB_POWERUP"]) {
+      orb.powerupType = prop.value;
+      shouldCreate = YES;
+    } else if ([prop.name isEqualToString:@"ORB_SPECIAL"]) {
+      orb.specialOrbType = prop.value;
+      shouldCreate = YES;
+    } else if ([prop.name isEqualToString:@"ORB_EMPTY"]) {
+      orb.orbColor = OrbColorNone;
+      orb.powerupType = PowerupTypeNone;
+      orb.specialOrbType = SpecialOrbTypeNone;
+      shouldCreate = YES;
+    }
+  }
+  
+  if (!shouldCreate) {
+    [self setOrb:nil column:column row:row];
+    orb = nil;
+  }
+  
+  NSLog(@"%@", orb);
+  
+  return orb;
 }
 
 - (BattleOrb *)createOrbAtColumn:(NSInteger)column row:(NSInteger)row type:(OrbColor)orbColor powerup:(PowerupType)powerup special:(SpecialOrbType)special {
@@ -218,7 +363,7 @@
     for (NSInteger column = 0; column < _numColumns; column++) {
       
       BattleOrb *orb = [self orbAtColumn:column row:row];
-      if (orb != nil) {
+      if ([orb isMovable]) {
         
         // Is it possible to swap this orb with the one on the right?
         // Note: don't need to check the last column.
@@ -226,7 +371,7 @@
           
           // Have a orb in this spot? If there is no tile, there is no orb.
           BattleOrb *other = [self orbAtColumn:column+1 row:row];
-          if (other != nil) {
+          if ([other isMovable]) {
             // Two powerups automatically count as a match
             if (
 #ifdef FREE_BATTLE_MOVEMENT
@@ -265,7 +410,7 @@
           
           // Have a orb in this spot? If there is no tile, there is no orb.
           BattleOrb *other = [self orbAtColumn:column row:row+1];
-          if (other != nil) {
+          if ([other isMovable]) {
             if (
 #ifdef FREE_BATTLE_MOVEMENT
                 FREE_BATTLE_MOVEMENT ||
@@ -483,13 +628,6 @@
 
 - (BOOL) orbIsBottomFeeder:(BattleOrb *)orb {
   return orb.specialOrbType == SpecialOrbTypeCake;
-}
-
-- (BOOL) tileCanSpawnOrbs:(BattleTile *)tile {
-  if (tile.row == _numRows-1) {
-    return YES;
-  }
-  return NO;
 }
 
 #pragma mark - Powerup Matches
@@ -890,6 +1028,42 @@
   }
 }
 
+- (NSSet *) detectAdjacentChainsWithMatchAndPowerupChains:(NSSet *)chains {
+  NSMutableSet *adjacentChains = [NSMutableSet set];
+  
+  for (BattleChain *chain in chains) {
+    for (BattleOrb *orb in chain.orbs) {
+      // Check orbs around for clouds
+      BattleOrb *left = orb.column > 0 ? [self orbAtColumn:orb.column-1 row:orb.row] : nil;
+      BattleOrb *top = orb.row < _numRows-1 ? [self orbAtColumn:orb.column row:orb.row+1] : nil;
+      BattleOrb *right = orb.column < _numColumns-1 ? [self orbAtColumn:orb.column+1 row:orb.row] : nil;
+      BattleOrb *below = orb.row > 0 ? [self orbAtColumn:orb.column row:orb.row-1] : nil;
+      
+      BattleChain *chain = [[BattleChain alloc] init];
+      chain.chainType = ChainTypeAdjacent;
+      chain.prerequisiteOrb = orb;
+      
+      if (left.specialOrbType == SpecialOrbTypeCloud) {
+        [chain addOrb:left];
+      } if (right.specialOrbType == SpecialOrbTypeCloud) {
+        [chain addOrb:right];
+      } if (top.specialOrbType == SpecialOrbTypeCloud) {
+        [chain addOrb:top];
+      } if (below.specialOrbType == SpecialOrbTypeCloud) {
+        [chain addOrb:below];
+      }
+      
+      if (chain.orbs.count > 0) {
+        [adjacentChains addObject:chain];
+      }
+    }
+  }
+  
+  [self removeOrbs:adjacentChains];
+  
+  return adjacentChains;
+}
+
 - (NSSet *) detectPowerupChainsWithMatchChains:(NSSet *)chains {
   NSMutableSet *powerupChains = [NSMutableSet set];
   
@@ -1098,13 +1272,12 @@
         // Scan upward to find a orb.
         for (NSInteger lookup = row + 1; lookup < _numRows; lookup++) {
           BattleTile *tile = [self tileAtColumn:column row:lookup];
+          BattleOrb *orb = [self orbAtColumn:column row:lookup];
           
-          if ([tile isBlocked]) {
+          if ([tile isBlocked] || (orb && ![orb isMovable])) {
             // This tile is a blocker. Need to rely on diagonal falling orbs.
             break;
           }
-          
-          BattleOrb *orb = [self orbAtColumn:column row:lookup];
           if (orb != nil) {
             [self addPoint:ccp(column, row) forOrb:orb withOrbPaths:orbPaths];
             
@@ -1140,7 +1313,7 @@
           BattleOrb *topLeftOrb = column-1 >= 0 ? [self orbAtColumn:column-1 row:row+1] : nil;
           
           BattleOrb *chosen = nil;
-          if (topRightOrb && topLeftOrb) {
+          if ([topRightOrb isMovable] && [topLeftOrb isMovable]) {
             int trPathLength = [[self orbPathForOrb:topRightOrb withOrbPaths:orbPaths] pathLength];
             int tlPathLength = [[self orbPathForOrb:topLeftOrb withOrbPaths:orbPaths] pathLength];
             
@@ -1151,7 +1324,7 @@
               chosen = arc4random() % 2 ? topRightOrb : topLeftOrb;
             }
           } else {
-            chosen = topRightOrb ?: topLeftOrb;
+            chosen = [topRightOrb isMovable] ? topRightOrb : [topLeftOrb isMovable] ? topLeftOrb : nil;
           }
           
           if (chosen) {
@@ -1190,13 +1363,14 @@
         // Scan upward to find a spawner tile.
         for (NSInteger lookup = row; lookup < _numRows; lookup++) {
           BattleTile *tile = [self tileAtColumn:column row:lookup];
+          BattleOrb *orb = [self orbAtColumn:column row:lookup];
           
-          if ([tile isBlocked]) {
+          if ([tile isBlocked] || orb != nil) {
             // This tile is a blocker. Need to rely on diagonal falling orbs.
             break;
           }
           
-          if ([self tileCanSpawnOrbs:tile]) {
+          if (tile.canSpawnOrbs) {
             // Create a new orb.
             BattleOrb *orb = [self createOrbAtColumn:tile.column row:tile.row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
             

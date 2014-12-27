@@ -27,7 +27,9 @@ typedef enum {
 @property (assign, nonatomic) BOOL isHole;
 @property (assign, nonatomic) BOOL canPassThrough;
 
--(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough;
+@property (assign, nonatomic) BOOL canSpawnOrbs;
+
+-(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs;
 
 // Checks
 - (BOOL) allowsDamage;

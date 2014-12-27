@@ -161,6 +161,10 @@
     case SpecialOrbTypeCake:
       return [resPrefix stringByAppendingString:@"cakeorb.png"];
       break;
+      
+    case SpecialOrbTypeCloud:
+      return [resPrefix stringByAppendingString:@"cakeorb.png"];
+      break;
     
     case SpecialOrbTypeBomb:
       if (orbColor == OrbColorRock || orbColor == OrbColorNone)

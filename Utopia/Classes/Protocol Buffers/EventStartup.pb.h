@@ -22,6 +22,10 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;

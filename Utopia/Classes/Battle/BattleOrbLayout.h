@@ -11,6 +11,8 @@
 #import "BattleChain.h"
 #import "BattleOrbPath.h"
 
+#import "Board.pb.h"
+
 @interface BattleOrbLayout : NSObject {
   int _numColumns;
   int _numRows;
@@ -23,6 +25,8 @@
   // The 2D array that keeps track of where the BattleOrbs are.
   // Will contain BattleOrb objects
   __strong id **_orbs;
+  
+  BoardLayoutProto *_layoutProto;
 }
 
 @property (nonatomic, readonly) int numColumns;
@@ -31,6 +35,7 @@
 
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
+- (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto;
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 
 // Can be overwritten to provide harder combos and what not
@@ -93,6 +98,8 @@
 // Look in the match chains and see if any of the destroyed orbs were powerups,
 // If they are, then fire them off and return chains representing destroyed orbs.
 - (NSSet *) detectPowerupChainsWithMatchChains:(NSSet *)chains;
+
+- (NSSet *) detectAdjacentChainsWithMatchAndPowerupChains:(NSSet *)chains;
 
 // Detect if there are any chains for this position (used by skillManager
 - (BOOL)hasChainAtColumn:(NSInteger)column row:(NSInteger)row;

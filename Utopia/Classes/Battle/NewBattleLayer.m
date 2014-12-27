@@ -566,11 +566,12 @@
 - (void) beginNextTurn {
   
   // Enemy could be reset during Cake Drop explosion
-  if (! _currentEnemy)
-  {
-    [self moveToNextEnemy];
-    return;
-  }
+#warning change back
+//  if (! _currentEnemy)
+//  {
+//    [self moveToNextEnemy];
+//    return;
+//  }
   
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
@@ -1704,7 +1705,7 @@
     }
   }
   
-  // Update tile
+  // Update all tiles
   [tile orbRemoved];
   [self.orbLayer.bgdLayer updateTile:tile];
   
@@ -1755,15 +1756,17 @@
   [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  End of player move ENDED");
-    BOOL enemyIsKilled = [self checkEnemyHealth];
-    if (! enemyIsKilled)
-    {
-      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
-      if (playerIsKilled)
-        [self checkMyHealth];
-      else
-        [self checkIfAnyMovesLeft];
-    }
+//    BOOL enemyIsKilled = [self checkEnemyHealth];
+//    if (! enemyIsKilled)
+//    {
+//      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+//      if (playerIsKilled)
+//        [self checkMyHealth];
+//      else
+//        [self checkIfAnyMovesLeft];
+//    }
+#warning change back
+    [self checkIfAnyMovesLeft];
   }];
   
   _comboCount = 0;

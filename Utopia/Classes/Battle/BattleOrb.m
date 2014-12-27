@@ -24,7 +24,24 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"%@: type - %ld powerup - %ld square - (%ld,%ld)", [super description], (long)self.orbColor, (long)self.powerupType, (long)self.column, (long)self.row];
+  return [NSString stringWithFormat:@"%@: color - %ld powerup - %ld special - %ld square - (%ld,%ld)", [super description], (long)self.orbColor, (long)self.powerupType, (long)self.specialOrbType, (long)self.column, (long)self.row];
+}
+
+- (BOOL) isMovable {
+  return self.specialOrbType != SpecialOrbTypeCloud;
+}
+
+- (void) setSpecialOrbType:(SpecialOrbType)specialOrbType {
+  _specialOrbType = specialOrbType;
+  
+  if (self.specialOrbType != SpecialOrbTypeNone) {
+    _powerupType = PowerupTypeNone;
+  }
+  
+  if (self.specialOrbType == SpecialOrbTypeCake ||
+      self.specialOrbType == SpecialOrbTypeCloud) {
+    self.orbColor = OrbColorNone;
+  }
 }
 
 #define POWERUP_KEY       @"PowerupKey"

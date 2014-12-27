@@ -388,6 +388,15 @@
         [self spawnDoubleRainbowWithChain:chain otherChains:chains];
       }
       
+      else if (chain.chainType == ChainTypeAdjacent) {
+        for (BattleOrb *orb in chain.orbs) {
+          OrbSprite *orbLayer = [self spriteForOrb:orb];
+          if (orbLayer != nil) {
+            [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+          }
+        }
+      }
+      
       // Tell the delegate that a chain fired
       if (self.chainFiredHandler) {
         self.chainFiredHandler(chain);
@@ -448,7 +457,7 @@
       NSMutableArray *moveTos = [NSMutableArray array];
       CGPoint prevPoint = CGPointZero;
       
-      float durPerSquare = 0.8;
+      float durPerSquare = 0.32;
       
       for (id val in orbPath.path) {
         if ([val isKindOfClass:[NSNumber class]]) {
@@ -460,7 +469,8 @@
           } else {
             int numSquares = MAX(1, (prevPoint.y-nextPoint.y));
             float duration = durPerSquare*numSquares;
-            CCActionMoveTo *moveTo = [CCActionMoveTo actionWithDuration:duration position:[self pointForColumn:nextPoint.x row:nextPoint.y]];
+            CCActionMoveTo *moveTo = [CCActionEaseIn actionWithAction:
+                                      [CCActionMoveTo actionWithDuration:duration position:[self pointForColumn:nextPoint.x row:nextPoint.y]] rate:1.3];
             [moveTos addObject:moveTo];
           }
           prevPoint = nextPoint;

@@ -274,6 +274,16 @@ static const CGSize FIXED_SIZE = {568, 384};
   //[self questComplete:arr[0]];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  
+#warning remove
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:nil puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) bgdPrefix:@"1"];
+  bl.delegate = self;
+  [self beginBattleLayer:bl];
+  
+  [self dismissLoadingScreenAnimated:NO completion:nil];
+}
+
 - (void) removeAllViewControllers {
   [self removeAllViewControllersWithExceptions:nil];
 }
@@ -315,6 +325,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) fadeToLoadingScreenAnimated:(BOOL)animated {
+#warning put back
+  return;
   LoadingViewController *lvc = self.loadingViewController;
   if (!lvc && !self.tutController) {
     [self removeAllViewControllers];

@@ -478,11 +478,14 @@
 - (void) begin {
   [super begin];
   
-  if (self.myPlayerObject) {
+//  if (self.myPlayerObject) {
     [self displayOrbLayer];
-  } else {
-    [self youLost];
-  }
+  
+#warning change back
+  [self beginMyTurn];
+//  } else {
+//    [self youLost];
+//  }
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap {

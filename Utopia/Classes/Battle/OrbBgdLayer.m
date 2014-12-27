@@ -54,8 +54,6 @@
   
   self.anchorPoint = ccp(0.5, 0.5);
   
-  [self assembleBorder];
-  
   // Setup bottom, top and darkness tile layers
   _tilesLayerBottom = [CCNode node];
   _tilesLayerTop = [CCNode node];

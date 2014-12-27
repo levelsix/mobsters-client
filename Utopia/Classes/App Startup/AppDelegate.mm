@@ -143,7 +143,8 @@
   GameState *gs = [GameState sharedGameState];
   if (!gs.connected) {
     GameViewController *gvc = [GameViewController baseController];
-    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+#warning put back
+    //[[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   }
   
   // This will restart loading screen

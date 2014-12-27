@@ -49,9 +49,14 @@
       CGPoint prevPt = [prev CGPointValue];
       CGPoint valPt = [val CGPointValue];
       
-      if (valPt.x == pt.x && valPt.y <= pt.y && prevPt.y >= pt.y) {
+      if (prevPt.x == pt.x && prevPt.y == pt.y) {
+        // Special case for when we start off with the right number, but there are delays after
+        return pathLength;
+      }
+      
+      // Used < instead of <= so that delays after this will still be processed
+      else if (valPt.x == pt.x && valPt.y < pt.y && prevPt.y >= pt.y) {
         pathLength += prevPt.y-pt.y;
-        NSLog(@"%@, pl to %@: %d", self, NSStringFromCGPoint(pt), pathLength);
         return pathLength;
       } else {
         pathLength += MAX(1, prevPt.y-valPt.y);

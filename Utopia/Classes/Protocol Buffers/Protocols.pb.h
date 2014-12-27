@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
+#import "Board.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
 #import "City.pb.h"
@@ -104,6 +105,10 @@
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
 @class BeginPvpBattleResponseProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;

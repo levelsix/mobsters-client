@@ -10,7 +10,7 @@
 
 @implementation BattleTile
 
--(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough
+-(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs
 {
   self = [super init];
   if (! self)
@@ -23,6 +23,8 @@
   
   _isHole = isHole;
   _canPassThrough = canPassThrough;
+  
+  _canSpawnOrbs = canSpawnOrbs;
   
   return self;
 }

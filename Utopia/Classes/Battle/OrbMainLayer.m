@@ -24,6 +24,7 @@
     self.layout = layout;
     
     self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
+    [self.bgdLayer assembleBorder];
     self.swipeLayer = [[OrbSwipeLayer alloc] initWithContentSize:self.bgdLayer.contentSize layout:layout];
     [self addChild:self.bgdLayer];
     
@@ -92,10 +93,12 @@
       [self handleMatches:swap];
     }];
     
-  } else {
+  } else if ([swap.orbA isMovable] && [swap.orbB isMovable]) {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
       [self allowInput];
     }];
+  } else {
+    [self allowInput];
   }
 }
 
@@ -166,6 +169,9 @@
   
   OrbLog(@"Detecting powerup chains %@", powerupChains);
   OrbLog(@"Layout: %@", self.layout);
+  
+  NSSet *adjacentChains = [self.layout detectAdjacentChainsWithMatchAndPowerupChains:chains];
+  chains = [chains setByAddingObjectsFromSet:adjacentChains];
   
   // First, remove any matches...
   [self.swipeLayer animateMatchedOrbs:chains powerupCreations:powerupOrbs completion:^{

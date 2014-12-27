@@ -23,15 +23,16 @@ typedef enum {
   SpecialOrbTypeCake = 1,
   SpecialOrbTypeBomb = 2,
   SpecialOrbTypePoison = 3,
-  SpecialOrbTypeHeadshot = 4
+  SpecialOrbTypeHeadshot = 4,
+  SpecialOrbTypeCloud = 5,
 } SpecialOrbType;
 
 typedef enum {
   PowerupTypeNone = 0,
-  PowerupTypeHorizontalLine,
-  PowerupTypeVerticalLine,
-  PowerupTypeExplosion,
-  PowerupTypeAllOfOneColor,
+  PowerupTypeHorizontalLine = 1,
+  PowerupTypeVerticalLine = 2,
+  PowerupTypeExplosion = 3,
+  PowerupTypeAllOfOneColor = 4,
   PowerupTypeEnd = 20
 } PowerupType;
 
@@ -47,6 +48,8 @@ typedef enum {
 @property (assign, nonatomic) NSInteger bombCounter;
 @property (assign, nonatomic) NSInteger bombDamage;
 @property (assign, nonatomic) NSInteger headshotCounter;
+
+- (BOOL) isMovable;
 
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dic;

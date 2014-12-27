@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
+#import "Board.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
@@ -19,6 +20,10 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -267,6 +272,7 @@
   NSMutableArray * mutableAchievementsList;
   NSMutableArray * mutableSkillsList;
   NSMutableArray * mutablePrereqsList;
+  NSMutableArray * mutableBoardsList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
@@ -301,6 +307,7 @@
 @property (readonly, strong) NSArray * achievementsList;
 @property (readonly, strong) NSArray * skillsList;
 @property (readonly, strong) NSArray * prereqsList;
+@property (readonly, strong) NSArray * boardsList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -332,6 +339,7 @@
 - (AchievementProto*)achievementsAtIndex:(NSUInteger)index;
 - (SkillProto*)skillsAtIndex:(NSUInteger)index;
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
+- (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -560,6 +568,12 @@
 - (StaticDataProto_Builder *)addPrereqs:(PrereqProto*)value;
 - (StaticDataProto_Builder *)addAllPrereqs:(NSArray *)array;
 - (StaticDataProto_Builder *)clearPrereqs;
+
+- (NSMutableArray *)boardsList;
+- (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addBoards:(BoardLayoutProto*)value;
+- (StaticDataProto_Builder *)addAllBoards:(NSArray *)array;
+- (StaticDataProto_Builder *)clearBoards;
 @end
 
 
