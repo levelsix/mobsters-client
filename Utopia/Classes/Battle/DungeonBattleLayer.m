@@ -22,9 +22,9 @@
 
 @implementation DungeonBattleLayer
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto
 {
-  self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix];
+  self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix layoutProto:layoutProto];
   if (! self)
     return nil;
   
@@ -361,7 +361,7 @@
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonDataUnzipped options:NSJSONReadingMutableContainers error:&error];
     
     if (!error) {
-      //[self attemptToResumeState:dict];
+      [self attemptToResumeState:dict];
     } else {
       LNLog(@"Unable to deserialize JSON. error: %@", error);
     }
@@ -478,14 +478,11 @@
 - (void) begin {
   [super begin];
   
-//  if (self.myPlayerObject) {
+  if (self.myPlayerObject) {
     [self displayOrbLayer];
-  
-#warning change back
-  [self beginMyTurn];
-//  } else {
-//    [self youLost];
-//  }
+  } else {
+    [self youLost];
+  }
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap {

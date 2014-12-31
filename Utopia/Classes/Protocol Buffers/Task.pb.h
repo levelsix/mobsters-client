@@ -218,6 +218,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasPrerequisiteQuestId_:1;
   BOOL hasBoardWidth_:1;
   BOOL hasBoardHeight_:1;
+  BOOL hasBoardId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasGroundImgPrefix_:1;
@@ -229,6 +230,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t prerequisiteQuestId;
   int32_t boardWidth;
   int32_t boardHeight;
+  int32_t boardId;
   NSString* name;
   NSString* description;
   NSString* groundImgPrefix;
@@ -245,6 +247,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasBoardHeight;
 - (BOOL) hasGroundImgPrefix;
 - (BOOL) hasInitialDefeatedDialogue;
+- (BOOL) hasBoardId;
 @property (readonly) int32_t taskId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* description;
@@ -256,6 +259,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t boardHeight;
 @property (readonly, strong) NSString* groundImgPrefix;
 @property (readonly, strong) DialogueProto* initialDefeatedDialogue;
+@property (readonly) int32_t boardId;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -348,6 +352,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (FullTaskProto_Builder*) setInitialDefeatedDialogue_Builder:(DialogueProto_Builder*) builderForValue;
 - (FullTaskProto_Builder*) mergeInitialDefeatedDialogue:(DialogueProto*) value;
 - (FullTaskProto_Builder*) clearInitialDefeatedDialogue;
+
+- (BOOL) hasBoardId;
+- (int32_t) boardId;
+- (FullTaskProto_Builder*) setBoardId:(int32_t) value;
+- (FullTaskProto_Builder*) clearBoardId;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {

@@ -25,7 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t boardId;
 @property int32_t height;
 @property int32_t width;
-@property Element orbElements;
+@property int32_t orbElements;
 @property (strong) NSMutableArray * mutablePropertiesList;
 @end
 
@@ -66,7 +66,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.boardId = 0;
     self.height = 0;
     self.width = 0;
-    self.orbElements = ElementFire;
+    self.orbElements = 0;
   }
   return self;
 }
@@ -102,7 +102,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
     [output writeInt32:3 value:self.width];
   }
   if (self.hasOrbElements) {
-    [output writeEnum:4 value:self.orbElements];
+    [output writeInt32:4 value:self.orbElements];
   }
   [self.propertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:5 value:element];
@@ -126,7 +126,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
     size_ += computeInt32Size(3, self.width);
   }
   if (self.hasOrbElements) {
-    size_ += computeEnumSize(4, self.orbElements);
+    size_ += computeInt32Size(4, self.orbElements);
   }
   [self.propertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(5, element);
@@ -218,7 +218,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.width] hash];
   }
   if (self.hasOrbElements) {
-    hashCode = hashCode * 31 + self.orbElements;
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.orbElements] hash];
   }
   [self.propertiesList enumerateObjectsUsingBlock:^(BoardPropertyProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -319,12 +319,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
         break;
       }
       case 32: {
-        Element value = (Element)[input readEnum];
-        if (ElementIsValidValue(value)) {
-          [self setOrbElements:value];
-        } else {
-          [unknownFields mergeVarintField:4 value:value];
-        }
+        [self setOrbElements:[input readInt32]];
         break;
       }
       case 42: {
@@ -387,17 +382,17 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
 - (BOOL) hasOrbElements {
   return result.hasOrbElements;
 }
-- (Element) orbElements {
+- (int32_t) orbElements {
   return result.orbElements;
 }
-- (BoardLayoutProto_Builder*) setOrbElements:(Element) value {
+- (BoardLayoutProto_Builder*) setOrbElements:(int32_t) value {
   result.hasOrbElements = YES;
   result.orbElements = value;
   return self;
 }
 - (BoardLayoutProto_Builder*) clearOrbElements {
   result.hasOrbElements = NO;
-  result.orbElements = ElementFire;
+  result.orbElements = 0;
   return self;
 }
 - (NSMutableArray *)propertiesList {

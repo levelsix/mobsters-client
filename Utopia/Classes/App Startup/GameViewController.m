@@ -274,16 +274,6 @@ static const CGSize FIXED_SIZE = {568, 384};
   //[self questComplete:arr[0]];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  
-#warning remove
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:nil puzzleIsOnLeft:NO gridSize:CGSizeMake(8, 8) bgdPrefix:@"1"];
-  bl.delegate = self;
-  [self beginBattleLayer:bl];
-  
-  [self dismissLoadingScreenAnimated:NO completion:nil];
-}
-
 - (void) removeAllViewControllers {
   [self removeAllViewControllersWithExceptions:nil];
 }
@@ -325,8 +315,6 @@ static const CGSize FIXED_SIZE = {568, 384};
 }
 
 - (void) fadeToLoadingScreenAnimated:(BOOL)animated {
-#warning put back
-  return;
   LoadingViewController *lvc = self.loadingViewController;
   if (!lvc && !self.tutController) {
     [self removeAllViewControllers];
@@ -555,7 +543,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
@@ -917,7 +905,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
-    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
     bl.dungeonType = task.description;
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
@@ -954,7 +942,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 //                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
   [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+      
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       bl.delegate = self;
       

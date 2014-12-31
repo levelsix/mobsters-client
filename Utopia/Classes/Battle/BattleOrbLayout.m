@@ -34,51 +34,51 @@
   bldr.width = gridSize.width;
   bldr.height = gridSize.height;
   
-  BoardPropertyProto_Builder *prop;
-  
-  prop = [BoardPropertyProto builder];
-  prop.posX = 4;
-  prop.posY = 4;
-  prop.name = @"PASSABLE_HOLE";
-  [bldr addProperties:prop.build];
-  
-  prop = [BoardPropertyProto builder];
-  prop.posX = 4;
-  prop.posY = 7;
-  prop.name = @"NOT_SPAWN_TILE";
-  [bldr addProperties:prop.build];
-  
-  for (int i = 0; i < gridSize.width; i++) {
-    prop = [BoardPropertyProto builder];
-    prop.posX = i;
-    prop.posY = 2;
-    prop.name = @"ORB_SPECIAL";
-    prop.value = 5;
-    [bldr addProperties:prop.build];
-  }
-  
-  for (int i = 0; i < gridSize.width; i++) {
-    prop = [BoardPropertyProto builder];
-    prop.posX = i;
-    prop.posY = 1;
-    prop.name = @"ORB_EMPTY";
-    prop.value = 5;
-    [bldr addProperties:prop.build];
-    
-    prop = [BoardPropertyProto builder];
-    prop.posX = i;
-    prop.posY = 0;
-    prop.name = @"ORB_EMPTY";
-    prop.value = 5;
-    [bldr addProperties:prop.build];
-  }
-  
-  prop = [BoardPropertyProto builder];
-  prop.posX = 1;
-  prop.posY = 0;
-  prop.name = @"TILE_TYPE";
-  prop.value = 1;
-  [bldr addProperties:prop.build];
+//  BoardPropertyProto_Builder *prop;
+//  
+//  prop = [BoardPropertyProto builder];
+//  prop.posX = 4;
+//  prop.posY = 4;
+//  prop.name = @"PASSABLE_HOLE";
+//  [bldr addProperties:prop.build];
+//  
+//  prop = [BoardPropertyProto builder];
+//  prop.posX = 4;
+//  prop.posY = 7;
+//  prop.name = @"NOT_SPAWN_TILE";
+//  [bldr addProperties:prop.build];
+//  
+//  for (int i = 0; i < gridSize.width; i++) {
+//    prop = [BoardPropertyProto builder];
+//    prop.posX = i;
+//    prop.posY = 2;
+//    prop.name = @"ORB_SPECIAL";
+//    prop.value = 5;
+//    [bldr addProperties:prop.build];
+//  }
+//  
+//  for (int i = 0; i < gridSize.width; i++) {
+//    prop = [BoardPropertyProto builder];
+//    prop.posX = i;
+//    prop.posY = 1;
+//    prop.name = @"ORB_EMPTY";
+//    prop.value = 5;
+//    [bldr addProperties:prop.build];
+//    
+//    prop = [BoardPropertyProto builder];
+//    prop.posX = i;
+//    prop.posY = 0;
+//    prop.name = @"ORB_EMPTY";
+//    prop.value = 5;
+//    [bldr addProperties:prop.build];
+//  }
+//  
+//  prop = [BoardPropertyProto builder];
+//  prop.posX = 1;
+//  prop.posY = 0;
+//  prop.name = @"TILE_TYPE";
+//  prop.value = 1;
+//  [bldr addProperties:prop.build];
   
   return [self initWithBoardLayout:bldr.build];
 }
@@ -336,8 +336,6 @@
     [self setOrb:nil column:column row:row];
     orb = nil;
   }
-  
-  NSLog(@"%@", orb);
   
   return orb;
 }
@@ -1244,12 +1242,6 @@
   }
   
   if (maxDiff > 0) {
-    NSLog(@"Added delay of %d", maxDiff);
-    NSLog(@"Cur Orb: %@", orb);
-    NSLog(@"Cur Path: %@", curPath);
-    NSLog(@"Longest Path: %@", longestPath);
-    
-    //[self addDelay:diff forOrb:chosen withOrbPaths:orbPaths];
     [curPath.path insertObject:[NSNumber numberWithInt:maxDiff] atIndex:curPath.path.count-1];
   }
 }

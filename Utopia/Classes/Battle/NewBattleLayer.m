@@ -136,13 +136,23 @@
 #pragma mark - Setup
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
-  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1"];
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1" layoutProto:nil];
 }
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix {
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix layoutProto:nil];
+}
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
-    _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    
+    if (layoutProto) {
+      _layoutProto = layoutProto;
+      _gridSize = CGSizeMake(layoutProto.width, layoutProto.height);
+    } else {
+      _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    }
     
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonster *um in monsters) {
@@ -200,7 +210,14 @@
 }
 
 - (void) initOrbLayer {
-  OrbMainLayer *ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  OrbMainLayer *ol;
+  
+  if (_layoutProto) {
+    ol = [[OrbMainLayer alloc] initWithLayoutProto:_layoutProto];
+  } else {
+    ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  }
+  
   [self addChild:ol z:2];
   ol.delegate = self;
   self.orbLayer = ol;
@@ -566,12 +583,11 @@
 - (void) beginNextTurn {
   
   // Enemy could be reset during Cake Drop explosion
-#warning change back
-//  if (! _currentEnemy)
-//  {
-//    [self moveToNextEnemy];
-//    return;
-//  }
+  if (! _currentEnemy)
+  {
+    [self moveToNextEnemy];
+    return;
+  }
   
   // There are two methods calling this method in a race condition (reachedNextScene and displayWaveNumber)
   // These two flags are used to call beginNextTurn only once, upon the last call of the two
@@ -1756,17 +1772,15 @@
   [skillManager triggerSkills:SkillTriggerPointEndOfPlayerMove withCompletion:^(BOOL triggered, id params) {
     
     SkillLogEnd(triggered, @"  End of player move ENDED");
-//    BOOL enemyIsKilled = [self checkEnemyHealth];
-//    if (! enemyIsKilled)
-//    {
-//      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
-//      if (playerIsKilled)
-//        [self checkMyHealth];
-//      else
-//        [self checkIfAnyMovesLeft];
-//    }
-#warning change back
-    [self checkIfAnyMovesLeft];
+    BOOL enemyIsKilled = [self checkEnemyHealth];
+    if (! enemyIsKilled)
+    {
+      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+      if (playerIsKilled)
+        [self checkMyHealth];
+      else
+        [self checkIfAnyMovesLeft];
+    }
   }];
   
   _comboCount = 0;

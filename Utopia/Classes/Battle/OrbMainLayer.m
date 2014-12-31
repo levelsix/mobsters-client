@@ -9,10 +9,16 @@
 #import "OrbMainLayer.h"
 
 #import "Globals.h"
+#import "Protocols.pb.h"
 
 #define OrbLog(...) //LNLog(__VA_ARGS__)
 
 @implementation OrbMainLayer
+
+- (id) initWithLayoutProto:(BoardLayoutProto *)proto {
+  BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithBoardLayout:proto];
+  return [self initWithGridSize:CGSizeMake(layout.numColumns, layout.numRows) numColors:layout.numColors layout:layout];
+}
 
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors {
   BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithGridSize:gridSize numColors:numColors];

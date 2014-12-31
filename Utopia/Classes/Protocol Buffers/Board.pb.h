@@ -37,7 +37,7 @@
   int32_t boardId;
   int32_t height;
   int32_t width;
-  Element orbElements;
+  int32_t orbElements;
   NSMutableArray * mutablePropertiesList;
 }
 - (BOOL) hasBoardId;
@@ -47,7 +47,7 @@
 @property (readonly) int32_t boardId;
 @property (readonly) int32_t height;
 @property (readonly) int32_t width;
-@property (readonly) Element orbElements;
+@property (readonly) int32_t orbElements;
 @property (readonly, strong) NSArray * propertiesList;
 - (BoardPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
@@ -102,8 +102,8 @@
 - (BoardLayoutProto_Builder*) clearWidth;
 
 - (BOOL) hasOrbElements;
-- (Element) orbElements;
-- (BoardLayoutProto_Builder*) setOrbElements:(Element) value;
+- (int32_t) orbElements;
+- (BoardLayoutProto_Builder*) setOrbElements:(int32_t) value;
 - (BoardLayoutProto_Builder*) clearOrbElements;
 
 - (NSMutableArray *)propertiesList;

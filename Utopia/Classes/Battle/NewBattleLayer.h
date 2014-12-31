@@ -104,6 +104,8 @@
   BOOL _firstTurn;
   
   int _enemyCounter;
+  
+  BoardLayoutProto *_layoutProto;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -152,6 +154,7 @@
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto;
 - (void) initOrbLayer;
 
 - (void) begin;

@@ -42,6 +42,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticObstacles = [[NSMutableDictionary alloc] init];
     _staticAchievements = [[NSMutableDictionary alloc] init];
     _staticPrerequisites = [[NSMutableDictionary alloc] init];
+    _staticBoards = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -290,6 +291,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticItems withId:itemId];
+}
+
+- (BoardLayoutProto *) boardWithId:(int)boardId {
+  return [self getStaticDataFrom:_staticBoards withId:boardId];
 }
 
 - (ObstacleProto *) obstacleWithId:(int)obstacleId {
@@ -1030,6 +1035,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.staticPrerequisites removeAllObjects];
   [self addToStaticPrerequisites:proto.prereqsList];
   
+  [self.staticBoards removeAllObjects];
+  [self addToStaticBoards:proto.boardsList];
+  
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
   
@@ -1074,6 +1082,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticObstacles:(NSArray *)arr {
   for (ObstacleProto *p in arr) {
     [self.staticObstacles setObject:p forKey:@(p.obstacleId)];
+  }
+}
+
+- (void) addToStaticBoards:(NSArray *)arr {
+  for (BoardLayoutProto *p in arr) {
+    [self.staticBoards setObject:p forKey:@(p.boardId)];
   }
 }
 

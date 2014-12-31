@@ -297,6 +297,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property int32_t boardHeight;
 @property (strong) NSString* groundImgPrefix;
 @property (strong) DialogueProto* initialDefeatedDialogue;
+@property int32_t boardId;
 @end
 
 @implementation FullTaskProto
@@ -378,6 +379,13 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasInitialDefeatedDialogue_ = !!value_;
 }
 @synthesize initialDefeatedDialogue;
+- (BOOL) hasBoardId {
+  return !!hasBoardId_;
+}
+- (void) setHasBoardId:(BOOL) value_ {
+  hasBoardId_ = !!value_;
+}
+@synthesize boardId;
 - (id) init {
   if ((self = [super init])) {
     self.taskId = 0;
@@ -391,6 +399,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.boardHeight = 0;
     self.groundImgPrefix = @"";
     self.initialDefeatedDialogue = [DialogueProto defaultInstance];
+    self.boardId = 0;
   }
   return self;
 }
@@ -443,6 +452,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasInitialDefeatedDialogue) {
     [output writeMessage:11 value:self.initialDefeatedDialogue];
   }
+  if (self.hasBoardId) {
+    [output writeInt32:12 value:self.boardId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -484,6 +496,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasInitialDefeatedDialogue) {
     size_ += computeMessageSize(11, self.initialDefeatedDialogue);
+  }
+  if (self.hasBoardId) {
+    size_ += computeInt32Size(12, self.boardId);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -556,6 +571,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasBoardId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"boardId", [NSNumber numberWithInteger:self.boardId]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -589,6 +607,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
       self.hasInitialDefeatedDialogue == otherMessage.hasInitialDefeatedDialogue &&
       (!self.hasInitialDefeatedDialogue || [self.initialDefeatedDialogue isEqual:otherMessage.initialDefeatedDialogue]) &&
+      self.hasBoardId == otherMessage.hasBoardId &&
+      (!self.hasBoardId || self.boardId == otherMessage.boardId) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -625,6 +645,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasInitialDefeatedDialogue) {
     hashCode = hashCode * 31 + [self.initialDefeatedDialogue hash];
+  }
+  if (self.hasBoardId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boardId] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -702,6 +725,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasInitialDefeatedDialogue) {
     [self mergeInitialDefeatedDialogue:other.initialDefeatedDialogue];
   }
+  if (other.hasBoardId) {
+    [self setBoardId:other.boardId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -770,6 +796,10 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setInitialDefeatedDialogue:[subBuilder buildPartial]];
+        break;
+      }
+      case 96: {
+        [self setBoardId:[input readInt32]];
         break;
       }
     }
@@ -963,6 +993,22 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearInitialDefeatedDialogue {
   result.hasInitialDefeatedDialogue = NO;
   result.initialDefeatedDialogue = [DialogueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBoardId {
+  return result.hasBoardId;
+}
+- (int32_t) boardId {
+  return result.boardId;
+}
+- (FullTaskProto_Builder*) setBoardId:(int32_t) value {
+  result.hasBoardId = YES;
+  result.boardId = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearBoardId {
+  result.hasBoardId = NO;
+  result.boardId = 0;
   return self;
 }
 @end
