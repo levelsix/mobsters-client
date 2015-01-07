@@ -14,6 +14,14 @@
 
 @end
 
+@interface NewGachaNavBar : UINavigationBar
+
+@end
+
 @interface MenuNavigationController : UINavigationController
+
+@end
+
+@interface NewGachaNavigationController : UINavigationController
 
 @end

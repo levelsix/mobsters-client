@@ -79,7 +79,7 @@
 }
 
 - (void) listView:(ListCollectionView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  NewGachaNavigationController *m = [[NewGachaNavigationController alloc] init];
   GameViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
   NewGachaViewController *gach = [[NewGachaViewController alloc] initWithBoosterPack:self.boosterPacks[indexPath.row]];
