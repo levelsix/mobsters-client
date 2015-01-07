@@ -1324,6 +1324,85 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
 
 @end
 
+@implementation NewGachaTabBar
+
+- (void) awakeFromNib {
+  if (!_inactiveTextColors && !_activeTextColors) {
+    _inactiveTextColors = [NSArray arrayWithObjects:[UIColor whiteColor], [UIColor whiteColor], [UIColor whiteColor], nil];
+    _activeTextColors = [NSArray arrayWithObjects:
+                         [UIColor colorWithRed:35.f/255.f green:139.f/255.f blue:255.f/255.f alpha:1.f],
+                         [UIColor colorWithRed:255.f/255.f green:0.f/255.f blue:138.f/255.f alpha:1.f],
+                         [UIColor whiteColor], nil];
+    self.inactiveShadowColor = [UIColor blackColor];
+    self.activeShadowColor = nil;
+  }
+  
+  self.rightTabShadow.transform = CGAffineTransformMakeScale(-1.f, 1.f);
+  
+  [self clickButton:1];
+}
+
+- (void) clickButton:(int)button {
+  UIImageView* icon = nil;
+  UILabel* label = nil;
+  switch (button) {
+    case 1:
+      icon = self.icon1;
+      label = self.label1;
+      break;
+    case 2:
+      icon = self.icon2;
+      label = self.label2;
+      break;
+    case 3:
+      icon = self.icon3;
+      label = self.label3;
+      break;
+      
+    default:
+      return;
+  }
+  
+  self.label1.textColor = _inactiveTextColors[0];
+  self.label1.shadowColor = self.inactiveShadowColor;
+  self.label2.textColor = _inactiveTextColors[1];
+  self.label2.shadowColor = self.inactiveShadowColor;
+  self.label3.textColor = _inactiveTextColors[2];
+  self.label3.shadowColor = self.inactiveShadowColor;
+  
+  self.icon1.highlighted = NO;
+  self.icon2.highlighted = NO;
+  self.icon3.highlighted = NO;
+  
+  icon.highlighted = YES;
+  label.textColor = _activeTextColors[button - 1];
+  label.shadowColor = self.activeShadowColor;
+  for (int i = 1; i <= 3; ++i) {
+    UIButton* b = (UIButton*)[self viewWithTag:i];
+    if (b) b.enabled = (i != button);
+  }
+}
+
+- (void) button:(int)button shouldBeHidden:(BOOL)hidden {
+  switch (button) {
+    case 1:
+      self.tab1.hidden = hidden;
+      break;
+    case 2:
+      self.tab2.hidden = hidden;
+      break;
+    case 3:
+      self.tab3.hidden = hidden;
+      if (hidden) self.rightTabShadow.originX = self.tab3.originX;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+@end
+
 @implementation NumTransitionLabel
 
 - (void) instaMoveToNum:(int)num {

@@ -45,7 +45,7 @@
 @property (nonatomic, retain) IBOutlet NewGachaFeaturedView *featuredView;
 @property (nonatomic, retain) IBOutlet NewGachaPrizeView *prizeView;
 
-@property (nonatomic, retain) IBOutlet ButtonTabBar *navBar;
+@property (nonatomic, retain) IBOutlet NewGachaTabBar *navBar;
 @property (nonatomic, retain) IBOutlet BadgeIcon *badBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *goodBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *eventBadge;
