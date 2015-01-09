@@ -43,6 +43,7 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *clanBadgeIcon;
 @property (nonatomic, retain) IBOutlet BadgeIcon *privateBadgeIcon;
 
+@property (nonatomic, retain) IBOutlet UIView *topLiveHelpView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;

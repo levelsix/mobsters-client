@@ -296,6 +296,7 @@
 		4C16FF1A19CE03AE00F9FC1E /* goosplashicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */; };
 		4C16FF1D19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
 		4C16FF1E19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
+		63808B9F1A5F7142008DA8AC /* livehelpgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */; };
 		9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C41A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C51A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
@@ -6664,6 +6665,7 @@
 		4C16FF0519CE03AE00F9FC1E /* poisonicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poisonicon.png; path = "Skills Images/Skill Icons/poisonicon.png"; sourceTree = "<group>"; };
 		4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonicon@2x.png"; sourceTree = "<group>"; };
 		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "livehelpgirl@2x.png"; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemssidearrow@2x.png"; sourceTree = "<group>"; };
@@ -13916,6 +13918,7 @@
 			children = (
 				CFA727FF1A0AD0CC00FF6031 /* adminbutton@2x.png */,
 				CFA728011A0AD0CC00FF6031 /* adminchatbar@2x.png */,
+				63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */,
 			);
 			path = "Admin chat";
 			sourceTree = "<group>";
@@ -19196,6 +19199,7 @@
 				CFB6F7E719DA162900A53935 /* wonstickerhead@2x.png in Resources */,
 				CFF5DBE2194F90720019EB2B /* bigavatarbg@2x.png in Resources */,
 				CFEE89E718EC388000047CA4 /* diamondbig@2x.png in Resources */,
+				63808B9F1A5F7142008DA8AC /* livehelpgirl@2x.png in Resources */,
 				CF20F1AE180FCABC005551B5 /* minitimebg@2x.png in Resources */,
 				CFE7CDB61819FC3300930847 /* topbarbg@2x.png in Resources */,
 				CF29E978196228FA00B40DA4 /* menumobstersactive@2x.png in Resources */,
