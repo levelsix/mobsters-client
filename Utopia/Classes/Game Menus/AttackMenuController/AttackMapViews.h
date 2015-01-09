@@ -49,6 +49,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
 @property (nonatomic, strong) IBOutlet UILabel *oilLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *doneCheckImage;
 
 @property (nonatomic, assign) int taskId;
 

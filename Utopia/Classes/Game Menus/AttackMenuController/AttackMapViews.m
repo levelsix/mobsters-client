@@ -123,6 +123,7 @@
     [self.enterButtonView addSubview:self.greyscaleView];
   }
   
+  self.doneCheckImage.hidden = !isCompleted;
   if (!isCompleted) {
     self.cashLabel.text = [Globals commafyNumber:cash];
     self.oilLabel.text = [Globals commafyNumber:oil];

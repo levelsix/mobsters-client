@@ -109,6 +109,29 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="vOQ-zV-Amq">
+                            <rect key="frame" x="8" y="-10" width="250" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="maptaskdonebg.png" id="Mfc-C5-k3r">
+                                    <rect key="frame" x="0.0" y="18" width="15" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="maptaskdonecheck.png" id="gpI-k0-rEr">
+                                    <rect key="frame" x="-2" y="16" width="20" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepleville City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sBg-k7-B4U" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="23" y="12" width="375" height="27"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -135,15 +158,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepleville City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sBg-k7-B4U" customClass="NiceFontLabel12B">
-                    <rect key="frame" x="29" y="58" width="375" height="27"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="bottom" id="rDy-TE-ddp">
                     <rect key="frame" x="202" y="-7" width="250" height="222"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -157,6 +171,7 @@
                 <outlet property="bgdImage" destination="A8A-DY-nwH" id="9cL-Et-XzQ"/>
                 <outlet property="cashLabel" destination="Pyv-R4-AW9" id="3ru-mB-dXB"/>
                 <outlet property="characterIcon" destination="rDy-TE-ddp" id="RGD-c2-wki"/>
+                <outlet property="doneCheckImage" destination="gpI-k0-rEr" id="awg-7J-wmf"/>
                 <outlet property="enterButtonView" destination="XQ5-Mv-49W" id="zkf-9e-cdV"/>
                 <outlet property="oilLabel" destination="JFe-9k-xic" id="SA6-M3-Qyf"/>
                 <outlet property="sideLabel" destination="l8K-mQ-mdl" id="s2D-HH-bt5"/>
@@ -170,6 +185,8 @@
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
+        <image name="maptaskdonebg.png" width="15" height="15"/>
+        <image name="maptaskdonecheck.png" width="20" height="18"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="oilicon.png" width="25" height="30"/>
     </resources>
