@@ -10,10 +10,10 @@
 #import "GenViewController.h"
 #import "EasyTableView.h"
 #import "Protocols.pb.h"
-#import "FocusScrollView.h"
+#import "NewGachaFocusScrollView.h"
 #import "NewGachaViews.h"
 
-@interface NewGachaViewController : GenViewController <EasyTableViewDelegate, FocusScrollViewDelegate, TabBarDelegate> {
+@interface NewGachaViewController : GenViewController <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate> {
   BOOL _isSpinning;
   
   NSInteger _curPage;
@@ -32,12 +32,15 @@
 
 @property (nonatomic, retain) EasyTableView *gachaTable;
 @property (nonatomic, retain) IBOutlet UIView *tableContainerView;
-@property (nonatomic, retain) IBOutlet FocusScrollView *focusScrollView;
+@property (nonatomic, retain) IBOutlet NewGachaFocusScrollView *focusScrollView;
 @property (nonatomic, retain) IBOutlet UIImageView *machineImage;
+@property (nonatomic, retain) IBOutlet UIImageView *logoImage;
+@property (nonatomic, retain) IBOutlet UIImageView *logoSeparatorImage;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UIView *gemCostView;
 @property (nonatomic, retain) IBOutlet UIView *spinView;
-@property (nonatomic, retain) IBOutlet UILabel *spinCountLabel;
+@property (nonatomic, retain) IBOutlet UIButton *spinButton;
 @property (weak, nonatomic) IBOutlet UILabel *spinActionLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 

@@ -591,6 +591,36 @@
 		9BDA8C141A5C9A8E00C7AC27 /* gachatabshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */; };
 		9BDA8C151A5C9A8E00C7AC27 /* gachatabshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */; };
 		9BDA8C161A5C9A8E00C7AC27 /* gachatabshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */; };
+		9BDA8C1A1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */; };
+		9BDA8C1B1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */; };
+		9BDA8C1C1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */; };
+		9BDA8C1F1A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */; };
+		9BDA8C201A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */; };
+		9BDA8C211A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */; };
+		9BDA8C231A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */; };
+		9BDA8C241A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */; };
+		9BDA8C251A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */; };
+		9BDA8C271A5DEA9900C7AC27 /* gachabg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */; };
+		9BDA8C281A5DEA9900C7AC27 /* gachabg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */; };
+		9BDA8C291A5DEA9900C7AC27 /* gachabg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */; };
+		9BDA8C351A5DF58500C7AC27 /* spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C341A5DF58500C7AC27 /* spinbutton@2x.png */; };
+		9BDA8C361A5DF58500C7AC27 /* spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C341A5DF58500C7AC27 /* spinbutton@2x.png */; };
+		9BDA8C371A5DF58500C7AC27 /* spinbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C341A5DF58500C7AC27 /* spinbutton@2x.png */; };
+		9BDA8C3A1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */; };
+		9BDA8C3B1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */; };
+		9BDA8C3C1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */; };
+		9BDA8C3E1A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C3D1A5DFB3900C7AC27 /* gooniegrablogo@2x.png */; };
+		9BDA8C3F1A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C3D1A5DFB3900C7AC27 /* gooniegrablogo@2x.png */; };
+		9BDA8C401A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C3D1A5DFB3900C7AC27 /* gooniegrablogo@2x.png */; };
+		9BDA8C421A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */; };
+		9BDA8C431A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */; };
+		9BDA8C441A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */; };
+		9BDA8C481A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */; };
+		9BDA8C491A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */; };
+		9BDA8C4A1A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */; };
+		9BDA8C4D1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */; };
+		9BDA8C4E1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */; };
+		9BDA8C4F1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6915,6 +6945,16 @@
 		9BDA8C0B1A5C806D00C7AC27 /* gachaheaderbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaheaderbg@2x.png"; sourceTree = "<group>"; };
 		9BDA8C0F1A5C9A8E00C7AC27 /* gachanavsep@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachanavsep@2x.png"; sourceTree = "<group>"; };
 		9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachatabshadow@2x.png"; sourceTree = "<group>"; };
+		9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basicmachine@2x.png"; sourceTree = "<group>"; };
+		9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaswirls@2x.png"; sourceTree = "<group>"; };
+		9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gooniegrabmachine@2x.png"; sourceTree = "<group>"; };
+		9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachabg@2x.png"; sourceTree = "<group>"; };
+		9BDA8C341A5DF58500C7AC27 /* spinbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinbutton@2x.png"; sourceTree = "<group>"; };
+		9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basicgrablogo@2x.png"; sourceTree = "<group>"; };
+		9BDA8C3D1A5DFB3900C7AC27 /* gooniegrablogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gooniegrablogo@2x.png"; sourceTree = "<group>"; };
+		9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachagradientsep@2x.png"; sourceTree = "<group>"; };
+		9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachabottomslot@2x.png"; sourceTree = "<group>"; };
+		9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grabgemslabel@2x.png"; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -11823,13 +11863,23 @@
 			children = (
 				9BDA8BF21A5B432900C7AC27 /* basicgrabgachatabactive@2x.png */,
 				9BDA8BF31A5B432900C7AC27 /* basicgrabinactivetab@2x.png */,
+				9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */,
 				9BDA8C031A5C7BB200C7AC27 /* basicgrabnavicon@2x.png */,
+				9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */,
+				9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */,
+				9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */,
+				9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */,
 				9BDA8C0B1A5C806D00C7AC27 /* gachaheaderbg@2x.png */,
 				9BDA8C0F1A5C9A8E00C7AC27 /* gachanavsep@2x.png */,
+				9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */,
 				9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */,
 				9BDA8BF41A5B432900C7AC27 /* gooniegrabgachatabactive@2x.png */,
 				9BDA8BF51A5B432900C7AC27 /* gooniegrabinactivetab@2x.png */,
+				9BDA8C3D1A5DFB3900C7AC27 /* gooniegrablogo@2x.png */,
+				9BDA8C221A5DE92500C7AC27 /* gooniegrabmachine@2x.png */,
 				9BDA8C071A5C7BB700C7AC27 /* gooniegrabnavicon@2x.png */,
+				9BDA8C4C1A5F6DAB00C7AC27 /* grabgemslabel@2x.png */,
+				9BDA8C341A5DF58500C7AC27 /* spinbutton@2x.png */,
 			);
 			path = "New Gacha";
 			sourceTree = "<group>";
@@ -16688,6 +16738,7 @@
 				CF0CEE51196F452900ECD301 /* greychatcorner@2x.png in Resources */,
 				CF0CEE53196F452900ECD301 /* MapBotViewSpeedupButton.xib in Resources */,
 				CF0CEE55196F452900ECD301 /* gachasuperpiece@2x.png in Resources */,
+				9BDA8C431A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */,
 				CF0CEE56196F452900ECD301 /* SellViewController.xib in Resources */,
 				CF0CEE59196F452900ECD301 /* AttackMapIconView.xib in Resources */,
 				CF0CEE60196F452900ECD301 /* activeheart@2x.png in Resources */,
@@ -16843,6 +16894,7 @@
 				CF0CEF38196F452900ECD301 /* questcomplete@2x.png in Resources */,
 				CF0CEF3B196F452900ECD301 /* Scientist3Blink02@2x.png in Resources */,
 				CF0CEF3C196F452900ECD301 /* gachasuperball@2x.png in Resources */,
+				9BDA8C491A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */,
 				9B238A011A363EE800FA3743 /* lightskilldescription@2x.png in Resources */,
 				CF0CEF3D196F452900ECD301 /* questcompletecomplete@2x.png in Resources */,
 				CF0CEF40196F452900ECD301 /* 1splashbg@2x.png in Resources */,
@@ -17006,12 +17058,14 @@
 				CF0CF035196F452900ECD301 /* Whitney-Black.otf in Resources */,
 				CF6A64D619D24F030002E05D /* 6firesideways@2x.png in Resources */,
 				29804F3D1A241C1800806253 /* ClanRewardsViewController.xib in Resources */,
+				9BDA8C3B1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */,
 				CF0CF039196F452900ECD301 /* inaclanbutton@2x.png in Resources */,
 				CF0CF040196F452900ECD301 /* oilmiddle@2x.png in Resources */,
 				CF6F910119CBD32400F7297E /* Brute1T1RunNF@2x.plist in Resources */,
 				CF0CF043196F452900ECD301 /* FatBoy1Move00@2x.png in Resources */,
 				CF0CF044196F452900ECD301 /* AxeHandel.ttf in Resources */,
 				CF0CF046196F452900ECD301 /* bluesmallbutton@2x.png in Resources */,
+				9BDA8C4E1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */,
 				CF0CF047196F452900ECD301 /* legenddot@2x.png in Resources */,
 				CFA728AC1A0B037900FF6031 /* lighteventbigbg@2x.png in Resources */,
 				CF0CF049196F452900ECD301 /* 4x4dark@2x.png in Resources */,
@@ -17219,6 +17273,7 @@
 				CF0CF174196F452900ECD301 /* minijobsrewardbg@2x.png in Resources */,
 				CF0CF176196F452900ECD301 /* singleplayerheader@2x.png in Resources */,
 				CF0CF179196F452900ECD301 /* Scientist1Turn02@2x.png in Resources */,
+				9BDA8C1B1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */,
 				CF0CF17B196F452900ECD301 /* Scientist2Breath05@2x.png in Resources */,
 				CF0CF17E196F452900ECD301 /* RequestsBattleCell.xib in Resources */,
 				CF0CF180196F452900ECD301 /* lightdailylab@2x.png in Resources */,
@@ -17359,6 +17414,7 @@
 				CF37377719E36B1D00CB16E3 /* youlostyou@2x.png in Resources */,
 				CF9F993F19E48734006B0119 /* helpredbubble3@2x.png in Resources */,
 				CF0CF23C196F452900ECD301 /* sfx_confirm_selection.mp3 in Resources */,
+				9BDA8C201A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */,
 				CF6F90FD19CBD32400F7297E /* Brute1T1AttackNF@2x.plist in Resources */,
 				CF0CF241196F452900ECD301 /* sellbubble3@2x.png in Resources */,
 				DA88EB0919B7CF3E005EE827 /* fireyourskill@2x.png in Resources */,
@@ -17549,6 +17605,7 @@
 				CF65ECCA19A2B1CC00ABBC77 /* chatmiddle@2x.png in Resources */,
 				CF0CF34A196F452900ECD301 /* sfx_chat_slide_out.mp3 in Resources */,
 				CF0CF34B196F452900ECD301 /* buildingbonusslots@2x.png in Resources */,
+				9BDA8C361A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				CF0CF34C196F452900ECD301 /* healredbubble6@2x.png in Resources */,
 				CF0CF350196F452900ECD301 /* sfx_building_drop.mp3 in Resources */,
 				63C57EA31A66282700ED406E /* gradientlightdailylab@2x.png in Resources */,
@@ -17777,6 +17834,7 @@
 				CF0CF476196F452900ECD301 /* bigsquareempty@2x.png in Resources */,
 				CF0CF477196F452900ECD301 /* EvolveHeaderView.xib in Resources */,
 				CF0CF479196F452900ECD301 /* fullfriendmask@2x.png in Resources */,
+				9BDA8C241A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
 				CF0CF47C196F452900ECD301 /* activedividerline@2x.png in Resources */,
 				CF0CF47F196F452900ECD301 /* minihpbar@2x.png in Resources */,
 				CF0CF481196F452900ECD301 /* menuteamhealthbar@2x.png in Resources */,
@@ -18092,6 +18150,7 @@
 				CF0CF624196F452900ECD301 /* chatpressedside@2x.png in Resources */,
 				CF0CF629196F452900ECD301 /* minitimebar@2x.png in Resources */,
 				2985E5D81A30045D0041ABF4 /* mini7@2x.png in Resources */,
+				9BDA8C3F1A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */,
 				CF0CF62A196F452900ECD301 /* CustomNavBarButtons.xib in Resources */,
 				CF0CF62D196F452900ECD301 /* Scientist5Turn13@2x.png in Resources */,
 				CFF9DD8119B861F200CA9A8E /* waterenhancebg@2x.png in Resources */,
@@ -18222,6 +18281,7 @@
 				CF0CF6C8196F452900ECD301 /* TutorialNameViewController.xib in Resources */,
 				CF0CF6CB196F452900ECD301 /* Scientist2Blink01@2x.png in Resources */,
 				CF0CF6CC196F452900ECD301 /* sellgrey@2x.png in Resources */,
+				9BDA8C281A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CF0CF6CE196F452900ECD301 /* Scientist2Breath04@2x.png in Resources */,
 				CF0CF6D1196F452900ECD301 /* sellbubble7@2x.png in Resources */,
 				CFA7292A1A0B037900FF6031 /* watereventtimer@2x.png in Resources */,
@@ -18539,6 +18599,7 @@
 				CFA7934C1A0C33BF00DF3407 /* rockcakekid@2x.png in Resources */,
 				CFCD0E671953C93E00EDC233 /* gachasuperpiece@2x.png in Resources */,
 				CFF6463B195A3A3B00C43641 /* SellViewController.xib in Resources */,
+				9BDA8C421A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */,
 				298050AB1A265EE800806253 /* secretgiftcounter@2x.png in Resources */,
 				CF20F049180E142B005551B5 /* AttackMapIconView.xib in Resources */,
 				CFA8FF3F19F899B200F9908C /* requirementgo@2x.png in Resources */,
@@ -18694,6 +18755,7 @@
 				2980506C1A265EE800806253 /* 2gbhud@2x.png in Resources */,
 				CFE7CD441819FC3300930847 /* diamondbarbg@2x.png in Resources */,
 				CFFBDF3918ACA3D90090CA9A /* Scientist1Breath02@2x.png in Resources */,
+				9BDA8C481A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */,
 				9B238A001A363EE800FA3743 /* lightskilldescription@2x.png in Resources */,
 				CFBB378D18F4837C00FD6C8C /* questcomplete@2x.png in Resources */,
 				CFFBDF8218ACA3D90090CA9A /* Scientist3Blink02@2x.png in Resources */,
@@ -18859,12 +18921,14 @@
 				CFC04D96188FE8D400F2DB59 /* expfound@2x.png in Resources */,
 				CFDEA539199C34D800445F3C /* avatarinactive@2x.png in Resources */,
 				DA88EB0819B7CF3E005EE827 /* fireyourskill@2x.png in Resources */,
+				9BDA8C3A1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */,
 				29804F961A241F4A00806253 /* requesthelp@2x.png in Resources */,
 				CF29E9841962779300B40DA4 /* MapBotViewButton.xib in Resources */,
 				CFFBDFA918ACA3D90090CA9A /* Scientist3Turn15@2x.png in Resources */,
 				DA5E404119D25B60001F28CE /* watercounter@2x.png in Resources */,
 				CF6574421908BDFE00ABF1F4 /* QuestDetailsCell.xib in Resources */,
 				CFFBDF3A18ACA3D90090CA9A /* Scientist1Breath03@2x.png in Resources */,
+				9BDA8C4D1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */,
 				CF29E92A196151CD00B40DA4 /* GachaChooserViewController.xib in Resources */,
 				CFF5DB98194BD8320019EB2B /* greysquirrel@2x.png in Resources */,
 				CFF2C90B193FB51000F28D9E /* Whitney-Black.otf in Resources */,
@@ -19073,6 +19137,7 @@
 				CFC4D28418D7BD04004681FD /* sfx_building_complete.mp3 in Resources */,
 				CFFBDF4718ACA3D90090CA9A /* Scientist1Turn03@2x.png in Resources */,
 				CF9520471939690800A98290 /* waterfeederevent@2x.png in Resources */,
+				9BDA8C1A1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */,
 				CFFBDFBA18ACA3D90090CA9A /* Scientist4Breath02@2x.png in Resources */,
 				CFF2C90F193FB52F00F28D9E /* Whitney-Bold.otf in Resources */,
 				CFFA31FA18B3F055008B81B9 /* ClanRaidDetailsViewController.xib in Resources */,
@@ -19213,6 +19278,7 @@
 				CFFA326E18BC7D81008B81B9 /* Boat@2x.plist in Resources */,
 				CFA8FF3319F899B200F9908C /* readyforupgradebigcheck@2x.png in Resources */,
 				CFF5DBFA194F90720019EB2B /* profteamactive@2x.png in Resources */,
+				9BDA8C1F1A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */,
 				CF7064B91845A340005B30A1 /* upgradebg@2x.png in Resources */,
 				CFFF9A5518BEB67D0036EEC3 /* timerbgrightcap@2x.png in Resources */,
 				CFC4D28D18D7BD04004681FD /* sfx_confirm_selection.mp3 in Resources */,
@@ -19406,6 +19472,7 @@
 				CF29E9FB1964BD0500B40DA4 /* healredbubble6@2x.png in Resources */,
 				CFC4D28518D7BD04004681FD /* sfx_building_drop.mp3 in Resources */,
 				CFCD0F101959051000EDC233 /* sellbarbg@2x.png in Resources */,
+				9BDA8C351A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				CF6F19EF181518C900CFF2B9 /* questarrow@2x.png in Resources */,
 				CFF5DBB9194D18F20019EB2B /* youwon@2x.png in Resources */,
 				CF37378219E36B1D00CB16E3 /* youwonyou@2x.png in Resources */,
@@ -19633,6 +19700,7 @@
 				CFFBDFD618ACA3D90090CA9A /* Scientist5Blink00@2x.png in Resources */,
 				CFC4D28A18D7BD04004681FD /* sfx_collect_money_doober.mp3 in Resources */,
 				CF29E9561962236600B40DA4 /* attackbutton@2x.png in Resources */,
+				9BDA8C231A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
 				CFE7CD5C1819FC3300930847 /* firebar@2x.png in Resources */,
 				CFFBDFE118ACA3D90090CA9A /* Scientist5Blink11@2x.png in Resources */,
 				CF06B5E2193699FC008BF892 /* prizebg@2x.png in Resources */,
@@ -19948,6 +20016,7 @@
 				CFF646FC195D3B4500C43641 /* purplesmallbutton@2x.png in Resources */,
 				2985E5D71A30045D0041ABF4 /* mini7@2x.png in Resources */,
 				CFF390CF1829C74A0010A3BE /* earthsideways@2x.png in Resources */,
+				9BDA8C3E1A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */,
 				CF0CE187196F1F6200ECD301 /* splashloadingbar@2x.png in Resources */,
 				CFF7873518E28FE200413E78 /* unlockbuildingbg@2x.png in Resources */,
 				CFF2C92C193FD4C000F28D9E /* chatpressedside@2x.png in Resources */,
@@ -20077,6 +20146,7 @@
 				CF29EA411964F38E00B40DA4 /* faqinactive@2x.png in Resources */,
 				CF4DB8F61807DA1F00062258 /* WelcomeView.xib in Resources */,
 				29804F3C1A241C1800806253 /* ClanRewardsViewController.xib in Resources */,
+				9BDA8C271A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CFA7502418CAD30000AC66FC /* TutorialNameViewController.xib in Resources */,
 				CFFBDF5618ACA3D90090CA9A /* Scientist2Blink01@2x.png in Resources */,
 				CF06B61F193699FC008BF892 /* sellgrey@2x.png in Resources */,
@@ -20676,6 +20746,7 @@
 				CF481BFB19F7217F00041486 /* Squirrel1T1RunNF@2x.pvr.ccz in Resources */,
 				9B2389FC1A363EE800FA3743 /* earthskilldescription@2x.png in Resources */,
 				CF481BFC19F7217F00041486 /* buildinginfo@2x.png in Resources */,
+				9BDA8C251A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
 				CF481BFE19F7217F00041486 /* Scientist3Turn08@2x.png in Resources */,
 				CF481BFF19F7217F00041486 /* healredbubble3@2x.png in Resources */,
 				CF481C0019F7217F00041486 /* earthyourskill@2x.png in Resources */,
@@ -20689,6 +20760,7 @@
 				2980504A1A265EE800806253 /* 12gbhud@2x.png in Resources */,
 				CF481C0C19F7217F00041486 /* FatBoy1Move02@2x.png in Resources */,
 				CF481C0D19F7217F00041486 /* Scientist4Turn01@2x.png in Resources */,
+				9BDA8C3C1A5DFB2F00C7AC27 /* basicgrablogo@2x.png in Resources */,
 				CF481C0F19F7217F00041486 /* pveshadow@2x.png in Resources */,
 				CF481C1019F7217F00041486 /* 5x5dark@2x.png in Resources */,
 				CF481C1219F7217F00041486 /* bronzerankbg@2x.png in Resources */,
@@ -20949,6 +21021,7 @@
 				29AA13BD1A35916E004A9F22 /* battlesendmessage@2x.png in Resources */,
 				CF481DC619F7217F00041486 /* lightsideways@2x.png in Resources */,
 				CF481DC719F7217F00041486 /* healredbubble5@2x.png in Resources */,
+				9BDA8C371A5DF58500C7AC27 /* spinbutton@2x.png in Resources */,
 				CF481DC819F7217F00041486 /* Scientist5Breath08@2x.png in Resources */,
 				CF481DCE19F7217F00041486 /* earthpointsfont@2x.png in Resources */,
 				CF481DCF19F7217F00041486 /* FatBoy1Move06@2x.png in Resources */,
@@ -21040,7 +21113,9 @@
 				CF481E5B19F7217F00041486 /* splashloadingbarbg@2x.png in Resources */,
 				CF481E5D19F7217F00041486 /* Scientist4Breath03@2x.png in Resources */,
 				CF481E5F19F7217F00041486 /* stageprogresstext@2x.png in Resources */,
+				9BDA8C4F1A5F6DAB00C7AC27 /* grabgemslabel@2x.png in Resources */,
 				CFA7290D1A0B037900FF6031 /* nighteventbg@2x.png in Resources */,
+				9BDA8C441A5DFBDE00C7AC27 /* gachagradientsep@2x.png in Resources */,
 				CF481E6019F7217F00041486 /* nightmediumsquare@2x.png in Resources */,
 				CF481E6119F7217F00041486 /* Scientist5Breath01@2x.png in Resources */,
 				CF481E6219F7217F00041486 /* bluewhite@2x.png in Resources */,
@@ -21199,6 +21274,7 @@
 				CF481F5F19F7217F00041486 /* sharecheckboxbg@2x.png in Resources */,
 				CFA728401A0AE62A00FF6031 /* buildinggethelpbutton@2x.png in Resources */,
 				CF481F6719F7217F00041486 /* timersbottombg@2x.png in Resources */,
+				9BDA8C211A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */,
 				CF481F6819F7217F00041486 /* Chicken1T1RunNF@2x.pvr.ccz in Resources */,
 				CF481F6919F7217F00041486 /* firesideways@2x.png in Resources */,
 				CF481F6A19F7217F00041486 /* GachaChooserCardCell.xib in Resources */,
@@ -21443,6 +21519,7 @@
 				CF4820DC19F7217F00041486 /* Scientist2Turn03@2x.png in Resources */,
 				CF4820DE19F7217F00041486 /* Goonie4T1TutBig@2x.png in Resources */,
 				CF4820DF19F7217F00041486 /* FatBoy3Move10@2x.png in Resources */,
+				9BDA8C4A1A5F502900C7AC27 /* gachabottomslot@2x.png in Resources */,
 				CF4820E219F7217F00041486 /* sortbuttonsmall@2x.png in Resources */,
 				CF4820E419F7217F00041486 /* championrankbg@2x.png in Resources */,
 				CF4820E819F7217F00041486 /* teamslotmask@2x.png in Resources */,
@@ -21535,6 +21612,7 @@
 				CF48216E19F7217F00041486 /* sellbubble4@2x.png in Resources */,
 				CF48217019F7217F00041486 /* FundsViewController.xib in Resources */,
 				CF48217219F7217F00041486 /* pier_2@2x.png in Resources */,
+				9BDA8C401A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */,
 				CFA728D71A0B037900FF6031 /* eartheventbg@2x.png in Resources */,
 				CF48217619F7217F00041486 /* earthdailylab@2x.png in Resources */,
 				CF48217819F7217F00041486 /* GachaponItemCell.xib in Resources */,
@@ -21641,6 +21719,7 @@
 				CF48221019F7217F00041486 /* Scientist1Turn15@2x.png in Resources */,
 				CF48221119F7217F00041486 /* makeitrain.plist in Resources */,
 				CF48221219F7217F00041486 /* 5dollar@2x.png in Resources */,
+				9BDA8C291A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CF48221419F7217F00041486 /* earthsmallsquare@2x.png in Resources */,
 				CF48221519F7217F00041486 /* battledoneorange@2x.png in Resources */,
 				CF48221719F7217F00041486 /* Scientist5Blink08@2x.png in Resources */,
@@ -21799,6 +21878,7 @@
 				CF48230A19F7217F00041486 /* profstatsinactive@2x.png in Resources */,
 				CF48230D19F7217F00041486 /* Scientist3Turn10@2x.png in Resources */,
 				CF48230F19F7217F00041486 /* claimed@2x.png in Resources */,
+				9BDA8C1C1A5DE91100C7AC27 /* basicmachine@2x.png in Resources */,
 				CF48231019F7217F00041486 /* openwater@2x.png in Resources */,
 				CF48231119F7217F00041486 /* zarkunderline@2x.png in Resources */,
 				CF48231219F7217F00041486 /* BattleQueueNode.ccbi in Resources */,

@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="prizebg.png" id="Z4k-JD-5Qd">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gachabottomslot.png" id="Z4k-JD-5Qd">
                     <rect key="frame" x="3" y="3" width="50" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -48,8 +48,8 @@
     </objects>
     <resources>
         <image name="diamond.png" width="29" height="27"/>
+        <image name="gachabottomslot.png" width="50" height="50"/>
         <image name="gachaepicball.png" width="30" height="30"/>
-        <image name="prizebg.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

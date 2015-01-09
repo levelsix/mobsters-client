@@ -72,9 +72,23 @@
   
   [self setupGachaTable];
   
-  // Put a fake image we know we have so size can be calculated
-  self.machineImage.image = [Globals imageNamed:@"thegooniegrab2.png" useiPhone6Prefix:YES];
   [self layoutViews];
+  
+  THLabel* spinLabel = (THLabel*)self.spinActionLabel; {
+    spinLabel.strokePosition = THLabelStrokePositionOutside;
+    spinLabel.strokeSize = 1.f;
+    spinLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
+    spinLabel.gradientStartColor = [UIColor whiteColor];
+    spinLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
+  }
+  
+  THLabel* gemLabel = (THLabel*)self.gemCostLabel; {
+    gemLabel.strokePosition = THLabelStrokePositionOutside;
+    gemLabel.strokeSize = 1.f;
+    gemLabel.strokeColor = [UIColor colorWithRed:59.f / 255.f green:4.f / 255.f blue:134.f / 255.f alpha:1.f];
+    gemLabel.gradientStartColor = [UIColor whiteColor];
+    gemLabel.gradientEndColor = [UIColor colorWithRed:248.f / 255.f green:191.f / 255.f blue:255.f / 255.f alpha:1.f];
+  }
   
   if (self.boosterPack.boosterPackId == self.badBoosterPack.boosterPackId) {
     [self button1Clicked:nil];
@@ -90,6 +104,7 @@
 }
 
 - (void) layoutViews {
+  /*
   // Account for nav bar
   float navHeight = self.navigationController.navigationBar.height;
   
@@ -120,6 +135,31 @@
   if ([Globals isSmallestiPhone]) {
     featuredContainer.originX -= 20.f;
   }
+   */
+  
+  if ([Globals isSmallestiPhone])
+  {
+    self.logoImage.hidden = YES;
+    self.logoSeparatorImage.hidden = YES;
+    
+    UIView *featuredContainer = self.focusScrollView.superview;
+    CGFloat moveBy = featuredContainer.originX - self.logoImage.originX;
+    featuredContainer.originX -= moveBy;
+    featuredContainer.width += moveBy;
+
+    CGPoint oldCenter = self.spinButton.center;
+    CGSize  newSize = self.spinButton.imageView.image.size;
+    CGFloat widthRatio = newSize.width / self.spinButton.width;
+    CGFloat heightRatio = newSize.height / self.spinButton.height;
+    self.spinButton.size = newSize;
+    self.spinButton.center = oldCenter;
+    
+    self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
+    self.spinView.center = self.spinButton.center;
+  }
+
+  self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
+  self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
 }
 
 - (void) loadBoosterPacks {
@@ -141,11 +181,14 @@
   
   self.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
   self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
-  [Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
+//[Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
   
-  [Globals imageNamedWithiPhone6Prefix:bpp.machineImgName withView:self.machineImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.machineImgName withView:self.machineImage greyscale:NO
+            indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  [Globals imageNamed:bpp.navBarImgName withView:self.logoImage greyscale:NO
+            indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 - (void) updateFreeGachasCounter
@@ -158,22 +201,27 @@
   if (_cachedDailySpin && firstPageSelected)
   {
     self.gemCostLabel.superview.hidden = YES;
-    self.spinActionLabel.hidden = NO;
-    self.spinActionLabel.text = @"Spin";
-    self.spinCountLabel.text = @"Daily Free";
+    self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.spinActionLabel.text = @"DAILY SPIN!";
+    self.spinActionLabel.originX = 0;
   }
   else if (numFreeSpins)
   {
     self.gemCostLabel.superview.hidden = YES;
-    self.spinActionLabel.hidden = NO;
-    self.spinActionLabel.text = [NSString stringWithFormat:@"Spin%@", numFreeSpins > 1 ? @"s" : @""];
-    self.spinCountLabel.text = [NSString stringWithFormat:@"%d Free", numFreeSpins];
+    self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.spinActionLabel.text = [NSString stringWithFormat:@"%d FREE SPIN%@!", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
+    self.spinActionLabel.originX = 0;
   }
   else
   {
     self.gemCostLabel.superview.hidden = NO;
-    self.spinActionLabel.hidden = YES;
-    self.spinCountLabel.text = @"1 Spin";
+    self.spinActionLabel.textAlignment = NSTextAlignmentLeft;
+    self.spinActionLabel.text = @"SPIN!";
+    
+    CGFloat labelTextWidth = [self.spinActionLabel.text getSizeWithFont:self.spinActionLabel.font
+                                                      constrainedToSize:self.spinActionLabel.frame.size
+                                                          lineBreakMode:self.spinActionLabel.lineBreakMode].width;
+    self.spinActionLabel.originX = (self.spinView.centerX - self.spinView.originX) - labelTextWidth - 5;
   }
   
   int badSpins = [gs numberOfFreeSpinsForBoosterPack:self.badBoosterPack.boosterPackId];

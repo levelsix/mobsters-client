@@ -1392,12 +1392,17 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
       self.tab2.hidden = hidden;
       break;
     case 3:
+      // We really just expect the third tab to be hidden or not...
       self.tab3.hidden = hidden;
-      if (hidden) self.rightTabShadow.originX = self.tab3.originX;
+      if (hidden) {
+        self.rightTabShadow.originX = self.tab3.originX;
+        self.width = CGRectGetMaxX(self.rightTabShadow.frame);
+      }
+      self.originX = (self.superview.width - self.width) * .5f;
       break;
       
     default:
-      break;
+      return;
   }
 }
 
