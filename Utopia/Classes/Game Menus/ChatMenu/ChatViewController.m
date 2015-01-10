@@ -76,6 +76,7 @@
   // Make private chat's width 2x size
   self.privateChatView.frame = self.globalChatView.frame;
   self.privateChatView.width *= 2;
+  self.privateChatView.topLiveHelpView = self.topLiveHelpView;
   [self.globalChatView.superview addSubview:self.privateChatView];
   
   [self updateClanBadge];
@@ -206,13 +207,15 @@
 }
 
 - (IBAction)topLiveHelpClicked:(id)sender {
-  //go to private chat
+  //click the private chat button
   [self button3Clicked:sender];
   //click the admin button
   Globals *gl = [Globals sharedGlobals];
   MinimumUserProto *mup = gl.adminChatUser;
   [self.privateChatView openConversationWithUserUuid:mup.userUuid name:mup.name animated:YES];
-  NSLog(@"hurray!!!");
+  [UIView animateWithDuration:0.3 animations:^{
+    self.topLiveHelpView.alpha = 0.f;
+  }];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -243,9 +246,6 @@
 #pragma mark - ChatTopBar delegate
 
 - (void) button1Clicked:(id)sender {
-  [UIView animateWithDuration:0.3 animations:^{
-    self.topLiveHelpView.alpha = 1.f;
-  }];
   self.globalChatView.hidden = NO;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = YES;
@@ -260,9 +260,6 @@
 }
 
 - (void) button2Clicked:(id)sender {
-  [UIView animateWithDuration:0.3 animations:^{
-    self.topLiveHelpView.alpha = 1.f;
-  }];
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = NO;
   self.privateChatView.hidden = YES;
@@ -279,9 +276,6 @@
 }
 
 - (void) button3Clicked:(id)sender {
-  [UIView animateWithDuration:0.3 animations:^{
-    self.topLiveHelpView.alpha = 0.f;
-  }];
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
