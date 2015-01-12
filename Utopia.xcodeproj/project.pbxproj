@@ -2785,7 +2785,6 @@
 		CF4819C019F7217F00041486 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857340157D3B6A0086F70C /* MobileCoreServices.framework */; };
 		CF4819C119F7217F00041486 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CF4819C219F7217F00041486 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C31538B7ED00E0C1AD /* QuartzCore.framework */; };
-		CF4819C319F7217F00041486 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF72455A19D62B6800FCD271 /* Chartboost.framework */; };
 		CF4819C419F7217F00041486 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6248156709F9004EB7E9 /* MediaPlayer.framework */; };
 		CF4819C519F7217F00041486 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		CF4819C619F7217F00041486 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273AD1538AD4C00E0C1AD /* Security.framework */; };
@@ -4732,8 +4731,6 @@
 		CF70652D18470051005B30A1 /* levelxpbglong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7064FA18470051005B30A1 /* levelxpbglong@2x.png */; };
 		CF70654518470051005B30A1 /* xpcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650618470051005B30A1 /* xpcap@2x.png */; };
 		CF70654918470051005B30A1 /* xpmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650818470051005B30A1 /* xpmiddle@2x.png */; };
-		CF72455B19D62B6800FCD271 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF72455A19D62B6800FCD271 /* Chartboost.framework */; };
-		CF72455C19D62B6900FCD271 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF72455A19D62B6800FCD271 /* Chartboost.framework */; };
 		CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */; };
 		CF74610F19661B22002D6AE6 /* makeitrain.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF74610D19661B22002D6AE6 /* makeitrain.plist */; };
 		CF74611019661B22002D6AE6 /* makeitrain.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF74610E19661B22002D6AE6 /* makeitrain.pvr.ccz */; };
@@ -7961,7 +7958,6 @@
 		CF70650618470051005B30A1 /* xpcap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpcap@2x.png"; sourceTree = "<group>"; };
 		CF70650718470051005B30A1 /* xpmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = xpmiddle.png; path = "New Top bar/xpmiddle.png"; sourceTree = "<group>"; };
 		CF70650818470051005B30A1 /* xpmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpmiddle@2x.png"; sourceTree = "<group>"; };
-		CF72455A19D62B6800FCD271 /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
 		CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialAttackMapViewController.h; sourceTree = "<group>"; };
 		CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialAttackMapViewController.m; sourceTree = "<group>"; };
 		CF74610D19661B22002D6AE6 /* makeitrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = makeitrain.plist; sourceTree = "<group>"; };
@@ -10099,7 +10095,6 @@
 				CF0CEE04196F452900ECD301 /* MobileCoreServices.framework in Frameworks */,
 				CF0CEE05196F452900ECD301 /* Twitter.framework in Frameworks */,
 				CF0CEE07196F452900ECD301 /* QuartzCore.framework in Frameworks */,
-				CF72455C19D62B6900FCD271 /* Chartboost.framework in Frameworks */,
 				CF0CEE08196F452900ECD301 /* MediaPlayer.framework in Frameworks */,
 				CF0CEE0A196F452900ECD301 /* CoreVideo.framework in Frameworks */,
 				CF0CEE0B196F452900ECD301 /* Security.framework in Frameworks */,
@@ -10153,7 +10148,6 @@
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
 				CFF646BF195BAC7D00C43641 /* BugSense-iOS.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,
-				CF72455B19D62B6800FCD271 /* Chartboost.framework in Frameworks */,
 				CF1273C21538B7AF00E0C1AD /* CoreLocation.framework in Frameworks */,
 				CF1273B81538AD8B00E0C1AD /* CFNetwork.framework in Frameworks */,
 				CF1273B61538AD7E00E0C1AD /* StoreKit.framework in Frameworks */,
@@ -10196,7 +10190,6 @@
 				CF4819C019F7217F00041486 /* MobileCoreServices.framework in Frameworks */,
 				CF4819C119F7217F00041486 /* Twitter.framework in Frameworks */,
 				CF4819C219F7217F00041486 /* QuartzCore.framework in Frameworks */,
-				CF4819C319F7217F00041486 /* Chartboost.framework in Frameworks */,
 				CF4819C419F7217F00041486 /* MediaPlayer.framework in Frameworks */,
 				CF4819C519F7217F00041486 /* CoreVideo.framework in Frameworks */,
 				CF4819C619F7217F00041486 /* Security.framework in Frameworks */,
@@ -12051,7 +12044,6 @@
 			children = (
 				CFBE9F3619C7DA6800E5520C /* cocos2d-ios.xcodeproj */,
 				CF2217F019C787E700BFD2FF /* Crashlytics.framework */,
-				CF42536D19AD72F100964547 /* Chartboost */,
 				CF0CE151196E2A4000ECD301 /* MobileAppTracker.framework */,
 				CFF646BE195BAC7D00C43641 /* BugSense-iOS.framework */,
 				CF864DCC193E802300DE0D7A /* MessageComposerView */,
@@ -12988,14 +12980,6 @@
 				CF41D194158BFAE900A4DBC3 /* OpenUDID.m */,
 			);
 			path = OpenUDID;
-			sourceTree = "<group>";
-		};
-		CF42536D19AD72F100964547 /* Chartboost */ = {
-			isa = PBXGroup;
-			children = (
-				CF72455A19D62B6800FCD271 /* Chartboost.framework */,
-			);
-			path = Chartboost;
 			sourceTree = "<group>";
 		};
 		CF48259219F729D000041486 /* Gacha Stars Particle Test */ = {
