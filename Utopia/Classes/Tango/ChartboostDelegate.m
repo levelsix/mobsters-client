@@ -11,8 +11,11 @@
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
 
-#define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"
-#define CHARTBOOST_APP_SIG   @"91b5231f8da2a3f7698c29e2692b4addf8102a12"
+//#define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"
+//#define CHARTBOOST_APP_SIG   @"91b5231f8da2a3f7698c29e2692b4addf8102a12"
+
+#define CHARTBOOST_APP_ID    @"500674d49c890d7455000005"
+#define CHARTBOOST_APP_SIG   @"061147e1537ade60161207c29179ec95bece5f9c"
 
 @implementation ChartboostDelegate
 
