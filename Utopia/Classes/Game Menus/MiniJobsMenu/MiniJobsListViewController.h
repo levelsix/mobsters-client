@@ -55,6 +55,8 @@
   MiniJobsListCell *_selectedCell;
   BOOL _itemSelectClosedProgrammatically;
   BOOL _isBeginningJob;
+  
+  BOOL _beganSomeJob;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;

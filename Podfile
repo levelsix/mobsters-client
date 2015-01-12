@@ -10,6 +10,7 @@ pod 'ProtocolBuffers', '1.9.2'
 #pod 'Reachability'
 pod 'Adjust', :git => 'git://github.com/adjust/ios_sdk.git', :tag => 'v4.0.2'
 pod 'Kamcord'
+pod 'ChartboostSDK'
 
 #pod 'Lookback', :configurations => ['Debug', 'Release']
 #pod 'LookbackSafe', :configurations => ['App Store']
