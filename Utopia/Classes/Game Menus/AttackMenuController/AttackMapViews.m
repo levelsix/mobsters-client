@@ -123,23 +123,24 @@
     [self.enterButtonView addSubview:self.greyscaleView];
   }
   
+  [[self.dropScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+  int nextX = 0;
   self.doneCheckImage.hidden = !isCompleted;
   if (!isCompleted) {
-    self.cashLabel.text = [Globals commafyNumber:cash];
-    self.oilLabel.text = [Globals commafyNumber:oil];
     
-    CGSize s = [self.cashLabel.text getSizeWithFont:self.cashLabel.font];
-    CGRect r = self.oilLabel.superview.frame;
-    r.origin.x = self.cashLabel.superview.frame.origin.x + self.cashLabel.frame.origin.x + s.width + 5;
-    self.oilLabel.superview.frame = r;
+    nextX = [self addReward:@"moneystack.png" labelText:[Globals commafyNumber:cash] xPos:nextX];
+    nextX = [self addReward:@"oilicon.png" labelText:[Globals commafyNumber:oil] xPos:nextX];
+    
   } else {
-    self.cashLabel.superview.hidden = YES;
-    self.oilLabel.superview.hidden = YES;
-    self.availableLabel.hidden = NO;
+    //Remainder resources
     
-    self.availableLabel.text = @"COMPLETED";
-    self.availableLabel.font = self.cashLabel.font;
-    self.availableLabel.textColor = [UIColor whiteColor];
+  }
+  
+  Quality qual;
+  for (int i = 0; i < task.raritiesList.count; i++) {
+    qual = (Quality)task.raritiesList[i];
+    NSString *qualName = [Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"capsule" : @"piece")];
+    nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
   }
   
   
@@ -152,6 +153,33 @@
   }
   
   self.taskId = taskId;
+}
+
+- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
+  UINib *nib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
+  PossibleDropView *drop = [nib instantiateWithOwner:self options:nil][0];
+  [drop updateForReward:imageName labelText:labelText];
+  
+  [self.dropScrollView addSubview:drop];
+  
+  CGRect r = drop.frame;
+  r.origin.x = xPos;
+  drop.frame = r;
+  
+  return drop.frame.origin.x + drop.label.frame.origin.x + [drop.label.text getSizeWithFont:drop.label.font].width + 5;
+}
+
+@end
+
+@implementation PossibleDropView
+
+- (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText{
+  self.label.text = labelText;
+  [self.iconImage setImage:[Globals imageNamed:imageName]];
+}
+
+- (void) updateForToon:(int)toonId{
+  
 }
 
 @end

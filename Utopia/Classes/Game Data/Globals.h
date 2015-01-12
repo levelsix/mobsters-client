@@ -152,6 +152,8 @@
 @property (nonatomic, retain) NSArray *speedupConstants;
 @property (nonatomic, retain) NSArray *resourceConversionConstants;
 
+@property (nonatomic, assign) BOOL displayRarity;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;

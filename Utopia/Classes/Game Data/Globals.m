@@ -123,6 +123,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.speedupConstants = constants.sucpList;
   self.resourceConversionConstants = constants.rccpList;
   
+  self.displayRarity = constants.displayRarity;
+  
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;

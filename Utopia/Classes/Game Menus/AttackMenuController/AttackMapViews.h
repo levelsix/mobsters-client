@@ -46,14 +46,28 @@
 @property (nonatomic, retain) IBOutlet UIView *greyscaleView;
 
 @property (nonatomic, strong) IBOutlet UILabel *availableLabel;
+
+@property (nonatomic, retain) IBOutlet UIScrollView *dropScrollView;
+
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
 @property (nonatomic, strong) IBOutlet UILabel *oilLabel;
+
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *doneCheckImage;
 
 @property (nonatomic, assign) int taskId;
 
 - (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash charImgName:(NSString *)charImgName;
+
+@end
+
+@interface PossibleDropView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *iconImage;
+@property (nonatomic, strong) IBOutlet UILabel *label;
+
+- (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText;
+- (void) updateForToon:(int)toonId;
 
 @end
 
