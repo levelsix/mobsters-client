@@ -20,7 +20,6 @@
 #import "CCAnimation+SpriteLoading.h"
 #import "CCSoundAnimation.h"
 #import "AchievementUtil.h"
-#import "MiniJobsViewController.h"
 #import "HireViewController.h"
 #import "HomeViewController.h"
 #import "PersistentEventProto+Time.h"
@@ -1548,14 +1547,14 @@
   }
 }
 
-- (void) loadMiniJobsView {
-  // LEGACY
-  GameViewController *gvc = [GameViewController baseController];
-  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
-  [gvc addChildViewController:rvc];
-  rvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:rvc.view];
-}
+//- (void) loadMiniJobsView {
+//  // LEGACY
+//  GameViewController *gvc = [GameViewController baseController];
+//  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
+//  [gvc addChildViewController:rvc];
+//  rvc.view.frame = gvc.view.bounds;
+//  [gvc.view addSubview:rvc.view];
+//}
 
 #pragma mark - Purchase
 
