@@ -218,6 +218,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasPrerequisiteQuestId_:1;
   BOOL hasBoardWidth_:1;
   BOOL hasBoardHeight_:1;
+  BOOL hasBoardId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasGroundImgPrefix_:1;
@@ -229,10 +230,13 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t prerequisiteQuestId;
   int32_t boardWidth;
   int32_t boardHeight;
+  int32_t boardId;
   NSString* name;
   NSString* description;
   NSString* groundImgPrefix;
   DialogueProto* initialDefeatedDialogue;
+  PBAppendableArray * mutableMonsterIdsList;
+  PBAppendableArray * mutableRaritiesList;
 }
 - (BOOL) hasTaskId;
 - (BOOL) hasName;
@@ -245,6 +249,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasBoardHeight;
 - (BOOL) hasGroundImgPrefix;
 - (BOOL) hasInitialDefeatedDialogue;
+- (BOOL) hasBoardId;
 @property (readonly) int32_t taskId;
 @property (readonly, strong) NSString* name;
 @property (readonly, strong) NSString* description;
@@ -256,6 +261,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t boardHeight;
 @property (readonly, strong) NSString* groundImgPrefix;
 @property (readonly, strong) DialogueProto* initialDefeatedDialogue;
+@property (readonly) int32_t boardId;
+@property (readonly, strong) PBArray * raritiesList;
+@property (readonly, strong) PBArray * monsterIdsList;
+- (Quality)raritiesAtIndex:(NSUInteger)index;
+- (int32_t)monsterIdsAtIndex:(NSUInteger)index;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -348,6 +358,25 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (FullTaskProto_Builder*) setInitialDefeatedDialogue_Builder:(DialogueProto_Builder*) builderForValue;
 - (FullTaskProto_Builder*) mergeInitialDefeatedDialogue:(DialogueProto*) value;
 - (FullTaskProto_Builder*) clearInitialDefeatedDialogue;
+
+- (BOOL) hasBoardId;
+- (int32_t) boardId;
+- (FullTaskProto_Builder*) setBoardId:(int32_t) value;
+- (FullTaskProto_Builder*) clearBoardId;
+
+- (PBAppendableArray *)raritiesList;
+- (Quality)raritiesAtIndex:(NSUInteger)index;
+- (FullTaskProto_Builder *)addRarities:(Quality)value;
+- (FullTaskProto_Builder *)addAllRarities:(NSArray *)array;
+- (FullTaskProto_Builder *)setRaritiesValues:(const Quality *)values count:(NSUInteger)count;
+- (FullTaskProto_Builder *)clearRaritiesList;
+
+- (PBAppendableArray *)monsterIdsList;
+- (int32_t)monsterIdsAtIndex:(NSUInteger)index;
+- (FullTaskProto_Builder *)addMonsterIds:(int32_t)value;
+- (FullTaskProto_Builder *)addAllMonsterIds:(NSArray *)array;
+- (FullTaskProto_Builder *)setMonsterIdsValues:(const int32_t *)values count:(NSUInteger)count;
+- (FullTaskProto_Builder *)clearMonsterIds;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {

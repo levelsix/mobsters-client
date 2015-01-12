@@ -62,8 +62,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   BOOL hasSucId_:1;
   BOOL hasName_:1;
   BOOL hasDesc_:1;
-  BOOL hasIconImgName_:1;
-  BOOL hasLogoImgName_:1;
+  BOOL hasImgNamePrefix_:1;
   BOOL hasType_:1;
   BOOL hasActivationType_:1;
   int32_t skillId;
@@ -72,8 +71,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
   int32_t sucId;
   NSString* name;
   NSString* desc;
-  NSString* iconImgName;
-  NSString* logoImgName;
+  NSString* imgNamePrefix;
   SkillType type;
   SkillActivationType activationType;
   NSMutableArray * mutablePropertiesList;
@@ -86,8 +84,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (BOOL) hasPredecId;
 - (BOOL) hasSucId;
 - (BOOL) hasDesc;
-- (BOOL) hasIconImgName;
-- (BOOL) hasLogoImgName;
+- (BOOL) hasImgNamePrefix;
 @property (readonly) int32_t skillId;
 @property (readonly, strong) NSString* name;
 @property (readonly) int32_t orbCost;
@@ -97,8 +94,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 @property (readonly) int32_t sucId;
 @property (readonly, strong) NSArray * propertiesList;
 @property (readonly, strong) NSString* desc;
-@property (readonly, strong) NSString* iconImgName;
-@property (readonly, strong) NSString* logoImgName;
+@property (readonly, strong) NSString* imgNamePrefix;
 - (SkillPropertyProto*)propertiesAtIndex:(NSUInteger)index;
 
 + (SkillProto*) defaultInstance;
@@ -182,15 +178,10 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value);
 - (SkillProto_Builder*) setDesc:(NSString*) value;
 - (SkillProto_Builder*) clearDesc;
 
-- (BOOL) hasIconImgName;
-- (NSString*) iconImgName;
-- (SkillProto_Builder*) setIconImgName:(NSString*) value;
-- (SkillProto_Builder*) clearIconImgName;
-
-- (BOOL) hasLogoImgName;
-- (NSString*) logoImgName;
-- (SkillProto_Builder*) setLogoImgName:(NSString*) value;
-- (SkillProto_Builder*) clearLogoImgName;
+- (BOOL) hasImgNamePrefix;
+- (NSString*) imgNamePrefix;
+- (SkillProto_Builder*) setImgNamePrefix:(NSString*) value;
+- (SkillProto_Builder*) clearImgNamePrefix;
 @end
 
 @interface SkillPropertyProto : PBGeneratedMessage {

@@ -2,6 +2,7 @@
 
 import "AchievementStuff.proto";
 import "Battle.proto";
+import "Board.proto";
 import "BoosterPackStuff.proto";
 import "Chat.proto";
 import "City.proto";
@@ -33,6 +34,7 @@ import "MiniJobConfig.proto";
 import "MonsterStuff.proto";
 import "Prerequisite.proto";
 import "Quest.proto";
+import "Research.proto";
 import "SharedEnumConfig.proto";
 import "Skill.proto";
 import "StaticData.proto";

@@ -297,6 +297,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property int32_t boardHeight;
 @property (strong) NSString* groundImgPrefix;
 @property (strong) DialogueProto* initialDefeatedDialogue;
+@property int32_t boardId;
+@property (strong) PBAppendableArray * mutableRaritiesList;
+@property (strong) PBAppendableArray * mutableMonsterIdsList;
 @end
 
 @implementation FullTaskProto
@@ -378,6 +381,17 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasInitialDefeatedDialogue_ = !!value_;
 }
 @synthesize initialDefeatedDialogue;
+- (BOOL) hasBoardId {
+  return !!hasBoardId_;
+}
+- (void) setHasBoardId:(BOOL) value_ {
+  hasBoardId_ = !!value_;
+}
+@synthesize boardId;
+@synthesize mutableRaritiesList;
+@dynamic raritiesList;
+@synthesize mutableMonsterIdsList;
+@dynamic monsterIdsList;
 - (id) init {
   if ((self = [super init])) {
     self.taskId = 0;
@@ -391,6 +405,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.boardHeight = 0;
     self.groundImgPrefix = @"";
     self.initialDefeatedDialogue = [DialogueProto defaultInstance];
+    self.boardId = 0;
   }
   return self;
 }
@@ -405,6 +420,18 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 }
 - (FullTaskProto*) defaultInstance {
   return defaultFullTaskProtoInstance;
+}
+- (PBArray *)raritiesList {
+  return mutableRaritiesList;
+}
+- (Quality)raritiesAtIndex:(NSUInteger)index {
+  return (Quality)[mutableRaritiesList enumAtIndex:index];
+}
+- (PBArray *)monsterIdsList {
+  return mutableMonsterIdsList;
+}
+- (int32_t)monsterIdsAtIndex:(NSUInteger)index {
+  return [mutableMonsterIdsList int32AtIndex:index];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -442,6 +469,21 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasInitialDefeatedDialogue) {
     [output writeMessage:11 value:self.initialDefeatedDialogue];
+  }
+  if (self.hasBoardId) {
+    [output writeInt32:12 value:self.boardId];
+  }
+  const NSUInteger raritiesListCount = self.raritiesList.count;
+  const Quality *raritiesListValues = (const Quality *)self.raritiesList.data;
+  for (NSUInteger i = 0; i < raritiesListCount; ++i) {
+    [output writeEnum:13 value:raritiesListValues[i]];
+  }
+  const NSUInteger monsterIdsListCount = self.monsterIdsList.count;
+  if (monsterIdsListCount > 0) {
+    const int32_t *values = (const int32_t *)self.monsterIdsList.data;
+    for (NSUInteger i = 0; i < monsterIdsListCount; ++i) {
+      [output writeInt32:14 value:values[i]];
+    }
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -484,6 +526,29 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasInitialDefeatedDialogue) {
     size_ += computeMessageSize(11, self.initialDefeatedDialogue);
+  }
+  if (self.hasBoardId) {
+    size_ += computeInt32Size(12, self.boardId);
+  }
+  {
+    SInt32 dataSize = 0;
+    const NSUInteger count = self.raritiesList.count;
+    const Quality *values = (const Quality *)self.raritiesList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeEnumSizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.monsterIdsList.count;
+    const int32_t *values = (const int32_t *)self.monsterIdsList.data;
+    for (NSUInteger i = 0; i < count; ++i) {
+      dataSize += computeInt32SizeNoTag(values[i]);
+    }
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -556,6 +621,15 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasBoardId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"boardId", [NSNumber numberWithInteger:self.boardId]];
+  }
+  [self.raritiesList enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"rarities", element];
+  }];
+  [self.monsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"monsterIds", obj];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -589,6 +663,10 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       (!self.hasGroundImgPrefix || [self.groundImgPrefix isEqual:otherMessage.groundImgPrefix]) &&
       self.hasInitialDefeatedDialogue == otherMessage.hasInitialDefeatedDialogue &&
       (!self.hasInitialDefeatedDialogue || [self.initialDefeatedDialogue isEqual:otherMessage.initialDefeatedDialogue]) &&
+      self.hasBoardId == otherMessage.hasBoardId &&
+      (!self.hasBoardId || self.boardId == otherMessage.boardId) &&
+      [self.raritiesList isEqualToArray:otherMessage.raritiesList] &&
+      [self.monsterIdsList isEqualToArray:otherMessage.monsterIdsList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -626,6 +704,15 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasInitialDefeatedDialogue) {
     hashCode = hashCode * 31 + [self.initialDefeatedDialogue hash];
   }
+  if (self.hasBoardId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.boardId] hash];
+  }
+  [self.raritiesList enumerateObjectsUsingBlock:^(NSNumber* element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + element.longValue;
+  }];
+  [self.monsterIdsList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [obj longValue];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -702,6 +789,23 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasInitialDefeatedDialogue) {
     [self mergeInitialDefeatedDialogue:other.initialDefeatedDialogue];
   }
+  if (other.hasBoardId) {
+    [self setBoardId:other.boardId];
+  }
+  if (other.mutableRaritiesList.count > 0) {
+    if (result.mutableRaritiesList == nil) {
+      result.mutableRaritiesList = [other.mutableRaritiesList copy];
+    } else {
+      [result.mutableRaritiesList appendArray:other.mutableRaritiesList];
+    }
+  }
+  if (other.mutableMonsterIdsList.count > 0) {
+    if (result.mutableMonsterIdsList == nil) {
+      result.mutableMonsterIdsList = [other.mutableMonsterIdsList copy];
+    } else {
+      [result.mutableMonsterIdsList appendArray:other.mutableMonsterIdsList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -770,6 +874,23 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setInitialDefeatedDialogue:[subBuilder buildPartial]];
+        break;
+      }
+      case 96: {
+        [self setBoardId:[input readInt32]];
+        break;
+      }
+      case 104: {
+        Quality value = (Quality)[input readEnum];
+        if (QualityIsValidValue(value)) {
+          [self addRarities:value];
+        } else {
+          [unknownFields mergeVarintField:13 value:value];
+        }
+        break;
+      }
+      case 112: {
+        [self addMonsterIds:[input readInt32]];
         break;
       }
     }
@@ -963,6 +1084,78 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearInitialDefeatedDialogue {
   result.hasInitialDefeatedDialogue = NO;
   result.initialDefeatedDialogue = [DialogueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBoardId {
+  return result.hasBoardId;
+}
+- (int32_t) boardId {
+  return result.boardId;
+}
+- (FullTaskProto_Builder*) setBoardId:(int32_t) value {
+  result.hasBoardId = YES;
+  result.boardId = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearBoardId {
+  result.hasBoardId = NO;
+  result.boardId = 0;
+  return self;
+}
+- (PBAppendableArray *)raritiesList {
+  return result.mutableRaritiesList;
+}
+- (Quality)raritiesAtIndex:(NSUInteger)index {
+  return [result raritiesAtIndex:index];
+}
+- (FullTaskProto_Builder *)addRarities:(Quality)value {
+  if (result.mutableRaritiesList == nil) {
+    result.mutableRaritiesList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableRaritiesList addEnum:value];
+  return self;
+}
+- (FullTaskProto_Builder *)addAllRarities:(NSArray *)array {
+  if (result.mutableRaritiesList == nil) {
+    result.mutableRaritiesList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableRaritiesList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (FullTaskProto_Builder *)setRaritiesValues:(const Quality *)values count:(NSUInteger)count {
+  result.mutableRaritiesList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (FullTaskProto_Builder *)clearRarities {
+  result.mutableRaritiesList = nil;
+  return self;
+}
+- (PBAppendableArray *)monsterIdsList {
+  return result.mutableMonsterIdsList;
+}
+- (int32_t)monsterIdsAtIndex:(NSUInteger)index {
+  return [result monsterIdsAtIndex:index];
+}
+- (FullTaskProto_Builder *)addMonsterIds:(int32_t)value {
+  if (result.mutableMonsterIdsList == nil) {
+    result.mutableMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableMonsterIdsList addInt32:value];
+  return self;
+}
+- (FullTaskProto_Builder *)addAllMonsterIds:(NSArray *)array {
+  if (result.mutableMonsterIdsList == nil) {
+    result.mutableMonsterIdsList = [PBAppendableArray arrayWithValueType:PBArrayValueTypeInt32];
+  }
+  [result.mutableMonsterIdsList appendArray:[PBArray arrayWithArray:array valueType:PBArrayValueTypeInt32]];
+  return self;
+}
+- (FullTaskProto_Builder *)setMonsterIdsValues:(const int32_t *)values count:(NSUInteger)count {
+  result.mutableMonsterIdsList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
+  return self;
+}
+- (FullTaskProto_Builder *)clearMonsterIds {
+  result.mutableMonsterIdsList = nil;
   return self;
 }
 @end
@@ -3325,7 +3518,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.taskId = 0;
     self.xPos = 0;
     self.yPos = 0;
-    self.element = ElementFire;
+    self.element = ElementNoElement;
     self.boss = NO;
     self.bossImgName = @"";
     self.itemDropId = 0;
@@ -3878,7 +4071,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 }
 - (TaskMapElementProto_Builder*) clearElement {
   result.hasElement = NO;
-  result.element = ElementFire;
+  result.element = ElementNoElement;
   return self;
 }
 - (BOOL) hasBoss {

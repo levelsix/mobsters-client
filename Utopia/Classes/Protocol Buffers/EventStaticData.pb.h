@@ -7,6 +7,10 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -141,6 +145,10 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
