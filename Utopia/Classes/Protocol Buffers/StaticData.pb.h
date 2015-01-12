@@ -12,6 +12,7 @@
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
+#import "Research.pb.h"
 #import "Skill.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -156,6 +157,10 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -273,6 +278,7 @@
   NSMutableArray * mutableSkillsList;
   NSMutableArray * mutablePrereqsList;
   NSMutableArray * mutableBoardsList;
+  NSMutableArray * mutableResearchList;
 }
 - (BOOL) hasSender;
 @property (readonly, strong) MinimumUserProto* sender;
@@ -308,6 +314,7 @@
 @property (readonly, strong) NSArray * skillsList;
 @property (readonly, strong) NSArray * prereqsList;
 @property (readonly, strong) NSArray * boardsList;
+@property (readonly, strong) NSArray * researchList;
 - (CityExpansionCostProto*)expansionCostsAtIndex:(NSUInteger)index;
 - (FullCityProto*)allCitiesAtIndex:(NSUInteger)index;
 - (FullTaskProto*)allTasksAtIndex:(NSUInteger)index;
@@ -340,6 +347,7 @@
 - (SkillProto*)skillsAtIndex:(NSUInteger)index;
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index;
 - (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index;
+- (ResearchProto*)researchAtIndex:(NSUInteger)index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -574,6 +582,12 @@
 - (StaticDataProto_Builder *)addBoards:(BoardLayoutProto*)value;
 - (StaticDataProto_Builder *)addAllBoards:(NSArray *)array;
 - (StaticDataProto_Builder *)clearBoards;
+
+- (NSMutableArray *)researchList;
+- (ResearchProto*)researchAtIndex:(NSUInteger)index;
+- (StaticDataProto_Builder *)addResearch:(ResearchProto*)value;
+- (StaticDataProto_Builder *)addAllResearch:(NSArray *)array;
+- (StaticDataProto_Builder *)clearResearch;
 @end
 
 

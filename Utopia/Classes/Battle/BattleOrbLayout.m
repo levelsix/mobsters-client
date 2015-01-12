@@ -253,7 +253,7 @@
     
     for (int row = 0; row < _numRows; row++) {
       for (int column = 0; column < _numColumns; column++) {
-        BattleOrb *orb = [self createInitialOrbAtColumn:row row:column layout:_layoutProto];
+        BattleOrb *orb = [self createInitialOrbAtColumn:column row:row layout:_layoutProto];
         
         if (orb) {
           [set addObject:orb];

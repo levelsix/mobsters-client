@@ -36,6 +36,7 @@
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
+#import "Research.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
 #import "StaticData.pb.h"
@@ -457,6 +458,10 @@
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;

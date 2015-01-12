@@ -145,6 +145,10 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;

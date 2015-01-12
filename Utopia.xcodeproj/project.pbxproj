@@ -232,6 +232,8 @@
 		29A2FC5B1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FC5A1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m */; };
 		29A2FC5C1A4EB8D000FF93B6 /* BoardLayoutProto+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FC5A1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m */; };
 		29A2FC5D1A4EB8D000FF93B6 /* BoardLayoutProto+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FC5A1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m */; };
+		29A2FC631A53C0E800FF93B6 /* Board.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FC4F1A4E36AA00FF93B6 /* Board.pb.m */; };
+		29A2FC641A53C0E900FF93B6 /* Board.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FC4F1A4E36AA00FF93B6 /* Board.pb.m */; };
 		29AA139F1A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A01A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A11A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
@@ -22086,6 +22088,7 @@
 				DA173A5B19CBACCD005236C0 /* SkillPoison.m in Sources */,
 				CF0CED3D196F452900ECD301 /* EventCity.pb.m in Sources */,
 				CF0CED3E196F452900ECD301 /* OtherUpdates.m in Sources */,
+				29A2FC631A53C0E800FF93B6 /* Board.pb.m in Sources */,
 				CF0CED3F196F452900ECD301 /* RequestsBattleTableController.m in Sources */,
 				CF0CED40196F452900ECD301 /* EventTournament.pb.m in Sources */,
 				CF0CED41196F452900ECD301 /* MiniTutorialBattleLayer.m in Sources */,
@@ -22686,6 +22689,7 @@
 				CF4818E319F7217F00041486 /* SkillPoison.m in Sources */,
 				CF4818E419F7217F00041486 /* EventCity.pb.m in Sources */,
 				CF4818E519F7217F00041486 /* OtherUpdates.m in Sources */,
+				29A2FC641A53C0E900FF93B6 /* Board.pb.m in Sources */,
 				CF4818E619F7217F00041486 /* RequestsBattleTableController.m in Sources */,
 				CF4818E719F7217F00041486 /* EventTournament.pb.m in Sources */,
 				CF4818E819F7217F00041486 /* MiniTutorialBattleLayer.m in Sources */,

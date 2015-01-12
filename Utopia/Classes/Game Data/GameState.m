@@ -294,7 +294,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (BoardLayoutProto *) boardWithId:(int)boardId {
-  return [self getStaticDataFrom:_staticBoards withId:boardId];
+  if (boardId != 0) {
+    return [self getStaticDataFrom:_staticBoards withId:boardId];
+  }
+  return nil;
 }
 
 - (ObstacleProto *) obstacleWithId:(int)obstacleId {
