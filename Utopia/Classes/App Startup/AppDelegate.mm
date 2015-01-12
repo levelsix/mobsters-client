@@ -89,8 +89,6 @@
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   //Init the window
   window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  
-  [ChartboostDelegate setUpChartboost];
   [self forcePurgeCache];
   
   GameViewController *gvc = [[GameViewController alloc] init];
@@ -125,6 +123,9 @@
   [self removeLocalNotifications];
   
   [[CCDirector sharedDirector] pause];
+  
+    [ChartboostDelegate setUpChartboost];
+  
   return YES;
 }
 
