@@ -1126,7 +1126,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   result.mutableRaritiesList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
   return self;
 }
-- (FullTaskProto_Builder *)clearRarities {
+- (FullTaskProto_Builder *)clearRaritiesList {
   result.mutableRaritiesList = nil;
   return self;
 }
@@ -1540,6 +1540,344 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 - (MinimumUserTaskProto_Builder*) clearClientState {
   result.hasClientState = NO;
   result.clientState = [NSData data];
+  return self;
+}
+@end
+
+@interface UserTaskCompletedProto ()
+@property int32_t taskId;
+@property int32_t unclaimedCash;
+@property int32_t unclaimedOil;
+@property (strong) NSString* userId;
+@end
+
+@implementation UserTaskCompletedProto
+
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
+}
+- (void) setHasTaskId:(BOOL) value_ {
+  hasTaskId_ = !!value_;
+}
+@synthesize taskId;
+- (BOOL) hasUnclaimedCash {
+  return !!hasUnclaimedCash_;
+}
+- (void) setHasUnclaimedCash:(BOOL) value_ {
+  hasUnclaimedCash_ = !!value_;
+}
+@synthesize unclaimedCash;
+- (BOOL) hasUnclaimedOil {
+  return !!hasUnclaimedOil_;
+}
+- (void) setHasUnclaimedOil:(BOOL) value_ {
+  hasUnclaimedOil_ = !!value_;
+}
+@synthesize unclaimedOil;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value_ {
+  hasUserId_ = !!value_;
+}
+@synthesize userId;
+- (id) init {
+  if ((self = [super init])) {
+    self.taskId = 0;
+    self.unclaimedCash = 0;
+    self.unclaimedOil = 0;
+    self.userId = @"";
+  }
+  return self;
+}
+static UserTaskCompletedProto* defaultUserTaskCompletedProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserTaskCompletedProto class]) {
+    defaultUserTaskCompletedProtoInstance = [[UserTaskCompletedProto alloc] init];
+  }
+}
++ (UserTaskCompletedProto*) defaultInstance {
+  return defaultUserTaskCompletedProtoInstance;
+}
+- (UserTaskCompletedProto*) defaultInstance {
+  return defaultUserTaskCompletedProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasTaskId) {
+    [output writeInt32:1 value:self.taskId];
+  }
+  if (self.hasUnclaimedCash) {
+    [output writeInt32:2 value:self.unclaimedCash];
+  }
+  if (self.hasUnclaimedOil) {
+    [output writeInt32:3 value:self.unclaimedOil];
+  }
+  if (self.hasUserId) {
+    [output writeString:4 value:self.userId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasTaskId) {
+    size_ += computeInt32Size(1, self.taskId);
+  }
+  if (self.hasUnclaimedCash) {
+    size_ += computeInt32Size(2, self.unclaimedCash);
+  }
+  if (self.hasUnclaimedOil) {
+    size_ += computeInt32Size(3, self.unclaimedOil);
+  }
+  if (self.hasUserId) {
+    size_ += computeStringSize(4, self.userId);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (UserTaskCompletedProto*) parseFromData:(NSData*) data {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromData:data] build];
+}
++ (UserTaskCompletedProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserTaskCompletedProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromInputStream:input] build];
+}
++ (UserTaskCompletedProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserTaskCompletedProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserTaskCompletedProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserTaskCompletedProto*)[[[UserTaskCompletedProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserTaskCompletedProto_Builder*) builder {
+  return [[UserTaskCompletedProto_Builder alloc] init];
+}
++ (UserTaskCompletedProto_Builder*) builderWithPrototype:(UserTaskCompletedProto*) prototype {
+  return [[UserTaskCompletedProto builder] mergeFrom:prototype];
+}
+- (UserTaskCompletedProto_Builder*) builder {
+  return [UserTaskCompletedProto builder];
+}
+- (UserTaskCompletedProto_Builder*) toBuilder {
+  return [UserTaskCompletedProto builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasTaskId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"taskId", [NSNumber numberWithInteger:self.taskId]];
+  }
+  if (self.hasUnclaimedCash) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"unclaimedCash", [NSNumber numberWithInteger:self.unclaimedCash]];
+  }
+  if (self.hasUnclaimedOil) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"unclaimedOil", [NSNumber numberWithInteger:self.unclaimedOil]];
+  }
+  if (self.hasUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"userId", self.userId];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[UserTaskCompletedProto class]]) {
+    return NO;
+  }
+  UserTaskCompletedProto *otherMessage = other;
+  return
+      self.hasTaskId == otherMessage.hasTaskId &&
+      (!self.hasTaskId || self.taskId == otherMessage.taskId) &&
+      self.hasUnclaimedCash == otherMessage.hasUnclaimedCash &&
+      (!self.hasUnclaimedCash || self.unclaimedCash == otherMessage.unclaimedCash) &&
+      self.hasUnclaimedOil == otherMessage.hasUnclaimedOil &&
+      (!self.hasUnclaimedOil || self.unclaimedOil == otherMessage.unclaimedOil) &&
+      self.hasUserId == otherMessage.hasUserId &&
+      (!self.hasUserId || [self.userId isEqual:otherMessage.userId]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasTaskId) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskId] hash];
+  }
+  if (self.hasUnclaimedCash) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.unclaimedCash] hash];
+  }
+  if (self.hasUnclaimedOil) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.unclaimedOil] hash];
+  }
+  if (self.hasUserId) {
+    hashCode = hashCode * 31 + [self.userId hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface UserTaskCompletedProto_Builder()
+@property (strong) UserTaskCompletedProto* result;
+@end
+
+@implementation UserTaskCompletedProto_Builder
+@synthesize result;
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[UserTaskCompletedProto alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserTaskCompletedProto_Builder*) clear {
+  self.result = [[UserTaskCompletedProto alloc] init];
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) clone {
+  return [UserTaskCompletedProto builderWithPrototype:result];
+}
+- (UserTaskCompletedProto*) defaultInstance {
+  return [UserTaskCompletedProto defaultInstance];
+}
+- (UserTaskCompletedProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserTaskCompletedProto*) buildPartial {
+  UserTaskCompletedProto* returnMe = result;
+  self.result = nil;
+  return returnMe;
+}
+- (UserTaskCompletedProto_Builder*) mergeFrom:(UserTaskCompletedProto*) other {
+  if (other == [UserTaskCompletedProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
+  }
+  if (other.hasUnclaimedCash) {
+    [self setUnclaimedCash:other.unclaimedCash];
+  }
+  if (other.hasUnclaimedOil) {
+    [self setUnclaimedOil:other.unclaimedOil];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserTaskCompletedProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setTaskId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setUnclaimedCash:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setUnclaimedOil:[input readInt32]];
+        break;
+      }
+      case 34: {
+        [self setUserId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
+}
+- (int32_t) taskId {
+  return result.taskId;
+}
+- (UserTaskCompletedProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
+  return self;
+}
+- (BOOL) hasUnclaimedCash {
+  return result.hasUnclaimedCash;
+}
+- (int32_t) unclaimedCash {
+  return result.unclaimedCash;
+}
+- (UserTaskCompletedProto_Builder*) setUnclaimedCash:(int32_t) value {
+  result.hasUnclaimedCash = YES;
+  result.unclaimedCash = value;
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) clearUnclaimedCash {
+  result.hasUnclaimedCash = NO;
+  result.unclaimedCash = 0;
+  return self;
+}
+- (BOOL) hasUnclaimedOil {
+  return result.hasUnclaimedOil;
+}
+- (int32_t) unclaimedOil {
+  return result.unclaimedOil;
+}
+- (UserTaskCompletedProto_Builder*) setUnclaimedOil:(int32_t) value {
+  result.hasUnclaimedOil = YES;
+  result.unclaimedOil = value;
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) clearUnclaimedOil {
+  result.hasUnclaimedOil = NO;
+  result.unclaimedOil = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (NSString*) userId {
+  return result.userId;
+}
+- (UserTaskCompletedProto_Builder*) setUserId:(NSString*) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserTaskCompletedProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = @"";
   return self;
 }
 @end
@@ -2301,7 +2639,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   result.monsterType = value;
   return self;
 }
-- (TaskStageMonsterProto_Builder*) clearMonsterType {
+- (TaskStageMonsterProto_Builder*) clearMonsterTypeList {
   result.hasMonsterType = NO;
   result.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
   return self;
@@ -2987,7 +3325,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.dayOfWeek = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearDayOfWeek {
+- (PersistentEventProto_Builder*) clearDayOfWeekList {
   result.hasDayOfWeek = NO;
   result.dayOfWeek = DayOfWeekMonday;
   return self;
@@ -3067,7 +3405,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.type = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearType {
+- (PersistentEventProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = PersistentEventProto_EventTypeEnhance;
   return self;
@@ -3083,7 +3421,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.monsterElement = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearMonsterElement {
+- (PersistentEventProto_Builder*) clearMonsterElementList {
   result.hasMonsterElement = NO;
   result.monsterElement = ElementNoElement;
   return self;
@@ -4069,7 +4407,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   result.element = value;
   return self;
 }
-- (TaskMapElementProto_Builder*) clearElement {
+- (TaskMapElementProto_Builder*) clearElementList {
   result.hasElement = NO;
   result.element = ElementFire;
   return self;

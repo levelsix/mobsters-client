@@ -939,6 +939,7 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @property (strong) PBAppendableArray * mutableRedeemedQuestIdsList;
 @property (strong) NSMutableArray * mutableUserClanInfoList;
 @property (strong) PBAppendableArray * mutableCompletedTaskIdsList;
+@property (strong) NSMutableArray * mutableCompletedTasksList;
 @property (strong) NSString* appStoreUrl;
 @property (strong) NSString* reviewPageUrl;
 @property (strong) NSString* reviewPageConfirmationMessage;
@@ -1028,6 +1029,8 @@ static StartupRequestProto_VersionNumberProto* defaultStartupRequestProto_Versio
 @dynamic userClanInfoList;
 @synthesize mutableCompletedTaskIdsList;
 @dynamic completedTaskIdsList;
+@synthesize mutableCompletedTasksList;
+@dynamic completedTasksList;
 - (BOOL) hasAppStoreUrl {
   return !!hasAppStoreUrl_;
 }
@@ -1215,6 +1218,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (int32_t)completedTaskIdsAtIndex:(NSUInteger)index {
   return [mutableCompletedTaskIdsList int32AtIndex:index];
+}
+- (NSArray *)completedTasksList {
+  return mutableCompletedTasksList;
+}
+- (UserTaskCompletedProto*)completedTasksAtIndex:(NSUInteger)index {
+  return [mutableCompletedTasksList objectAtIndex:index];
 }
 - (NSArray *)attackNotificationsList {
   return mutableAttackNotificationsList;
@@ -1511,6 +1520,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:45 value:element];
   }];
+  [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:46 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1681,6 +1693,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }];
   [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(45, element);
+  }];
+  [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(46, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1951,6 +1966,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"completedTasks"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -2024,6 +2045,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       (!self.hasClanData || [self.clanData isEqual:otherMessage.clanData]) &&
       [self.itemsInUseList isEqualToArray:otherMessage.itemsInUseList] &&
       [self.giftsList isEqualToArray:otherMessage.giftsList] &&
+      [self.completedTasksList isEqualToArray:otherMessage.completedTasksList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -2161,6 +2183,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.giftsList enumerateObjectsUsingBlock:^(UserItemSecretGiftProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.completedTasksList enumerateObjectsUsingBlock:^(UserTaskCompletedProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -6681,7 +6706,7 @@ static StartupResponseProto_StartupConstants_ClanHelpConstants* defaultStartupRe
   result.helpType = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType {
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpTypeList {
   result.hasHelpType = NO;
   result.helpType = GameActionTypeNoHelp;
   return self;
@@ -7700,7 +7725,7 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   result.resourceType = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType {
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeNoResource;
   return self;
@@ -9943,6 +9968,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       [result.mutableCompletedTaskIdsList appendArray:other.mutableCompletedTaskIdsList];
     }
   }
+  if (other.mutableCompletedTasksList.count > 0) {
+    if (result.mutableCompletedTasksList == nil) {
+      result.mutableCompletedTasksList = [[NSMutableArray alloc] initWithArray:other.mutableCompletedTasksList];
+    } else {
+      [result.mutableCompletedTasksList addObjectsFromArray:other.mutableCompletedTasksList];
+    }
+  }
   if (other.hasAppStoreUrl) {
     [self setAppStoreUrl:other.appStoreUrl];
   }
@@ -10448,6 +10480,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         [self addGifts:[subBuilder buildPartial]];
         break;
       }
+      case 370: {
+        UserTaskCompletedProto_Builder* subBuilder = [UserTaskCompletedProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCompletedTasks:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -10508,7 +10546,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.startupStatus = value;
   return self;
 }
-- (StartupResponseProto_Builder*) clearStartupStatus {
+- (StartupResponseProto_Builder*) clearStartupStatusList {
   result.hasStartupStatus = NO;
   result.startupStatus = StartupResponseProto_StartupStatusUserInDb;
   return self;
@@ -10524,7 +10562,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.updateStatus = value;
   return self;
 }
-- (StartupResponseProto_Builder*) clearUpdateStatus {
+- (StartupResponseProto_Builder*) clearUpdateStatusList {
   result.hasUpdateStatus = NO;
   result.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
   return self;
@@ -10691,6 +10729,30 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_Builder *)clearCompletedTaskIds {
   result.mutableCompletedTaskIdsList = nil;
+  return self;
+}
+- (NSMutableArray *)completedTasksList {
+  return result.mutableCompletedTasksList;
+}
+- (UserTaskCompletedProto*)completedTasksAtIndex:(NSUInteger)index {
+  return [result completedTasksAtIndex:index];
+}
+- (StartupResponseProto_Builder *)addCompletedTasks:(UserTaskCompletedProto*)value {
+  if (result.mutableCompletedTasksList == nil) {
+    result.mutableCompletedTasksList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableCompletedTasksList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder *)addAllCompletedTasks:(NSArray *)array {
+  if (result.mutableCompletedTasksList == nil) {
+    result.mutableCompletedTasksList = [NSMutableArray array];
+  }
+  [result.mutableCompletedTasksList addObjectsFromArray:array];
+  return self;
+}
+- (StartupResponseProto_Builder *)clearCompletedTasks {
+  result.mutableCompletedTasksList = nil;
   return self;
 }
 - (BOOL) hasAppStoreUrl {

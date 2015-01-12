@@ -719,7 +719,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   result.elem = value;
   return self;
 }
-- (BeginDungeonRequestProto_Builder*) clearElem {
+- (BeginDungeonRequestProto_Builder*) clearElemList {
   result.hasElem = NO;
   result.elem = ElementNoElement;
   return self;
@@ -1187,7 +1187,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   result.status = value;
   return self;
 }
-- (BeginDungeonResponseProto_Builder*) clearStatus {
+- (BeginDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
   return self;
@@ -1732,6 +1732,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @property BOOL userWon;
 @property (strong) UserItemProto* userItem;
 @property (strong) NSString* taskMapSectionName;
+@property (strong) UserTaskCompletedProto* utcp;
 @end
 
 @implementation EndDungeonResponseProto
@@ -1785,6 +1786,13 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   hasTaskMapSectionName_ = !!value_;
 }
 @synthesize taskMapSectionName;
+- (BOOL) hasUtcp {
+  return !!hasUtcp_;
+}
+- (void) setHasUtcp:(BOOL) value_ {
+  hasUtcp_ = !!value_;
+}
+@synthesize utcp;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
@@ -1793,6 +1801,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
     self.userWon = NO;
     self.userItem = [UserItemProto defaultInstance];
     self.taskMapSectionName = @"";
+    self.utcp = [UserTaskCompletedProto defaultInstance];
   }
   return self;
 }
@@ -1839,6 +1848,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasTaskMapSectionName) {
     [output writeString:7 value:self.taskMapSectionName];
   }
+  if (self.hasUtcp) {
+    [output writeMessage:8 value:self.utcp];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -1868,6 +1880,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasTaskMapSectionName) {
     size_ += computeStringSize(7, self.taskMapSectionName);
+  }
+  if (self.hasUtcp) {
+    size_ += computeMessageSize(8, self.utcp);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -1934,6 +1949,12 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasTaskMapSectionName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"taskMapSectionName", self.taskMapSectionName];
   }
+  if (self.hasUtcp) {
+    [output appendFormat:@"%@%@ {\n", indent, @"utcp"];
+    [self.utcp writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -1958,6 +1979,8 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
       (!self.hasUserItem || [self.userItem isEqual:otherMessage.userItem]) &&
       self.hasTaskMapSectionName == otherMessage.hasTaskMapSectionName &&
       (!self.hasTaskMapSectionName || [self.taskMapSectionName isEqual:otherMessage.taskMapSectionName]) &&
+      self.hasUtcp == otherMessage.hasUtcp &&
+      (!self.hasUtcp || [self.utcp isEqual:otherMessage.utcp]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -1982,6 +2005,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasTaskMapSectionName) {
     hashCode = hashCode * 31 + [self.taskMapSectionName hash];
+  }
+  if (self.hasUtcp) {
+    hashCode = hashCode * 31 + [self.utcp hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -2060,6 +2086,9 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   if (other.hasTaskMapSectionName) {
     [self setTaskMapSectionName:other.taskMapSectionName];
   }
+  if (other.hasUtcp) {
+    [self mergeUtcp:other.utcp];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2126,6 +2155,15 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
         [self setTaskMapSectionName:[input readString]];
         break;
       }
+      case 66: {
+        UserTaskCompletedProto_Builder* subBuilder = [UserTaskCompletedProto builder];
+        if (self.hasUtcp) {
+          [subBuilder mergeFrom:self.utcp];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUtcp:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -2170,7 +2208,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   result.status = value;
   return self;
 }
-- (EndDungeonResponseProto_Builder*) clearStatus {
+- (EndDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
   return self;
@@ -2275,6 +2313,36 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (EndDungeonResponseProto_Builder*) clearTaskMapSectionName {
   result.hasTaskMapSectionName = NO;
   result.taskMapSectionName = @"";
+  return self;
+}
+- (BOOL) hasUtcp {
+  return result.hasUtcp;
+}
+- (UserTaskCompletedProto*) utcp {
+  return result.utcp;
+}
+- (EndDungeonResponseProto_Builder*) setUtcp:(UserTaskCompletedProto*) value {
+  result.hasUtcp = YES;
+  result.utcp = value;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) setUtcp_Builder:(UserTaskCompletedProto_Builder*) builderForValue {
+  return [self setUtcp:[builderForValue build]];
+}
+- (EndDungeonResponseProto_Builder*) mergeUtcp:(UserTaskCompletedProto*) value {
+  if (result.hasUtcp &&
+      result.utcp != [UserTaskCompletedProto defaultInstance]) {
+    result.utcp =
+      [[[UserTaskCompletedProto builderWithPrototype:result.utcp] mergeFrom:value] buildPartial];
+  } else {
+    result.utcp = value;
+  }
+  result.hasUtcp = YES;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) clearUtcp {
+  result.hasUtcp = NO;
+  result.utcp = [UserTaskCompletedProto defaultInstance];
   return self;
 }
 @end
@@ -2977,7 +3045,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   result.status = value;
   return self;
 }
-- (ReviveInDungeonResponseProto_Builder*) clearStatus {
+- (ReviveInDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess;
   return self;

@@ -272,6 +272,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+@class UserTaskCompletedProto;
+@class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -506,13 +508,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
   BOOL hasEnhancements_:1;
+  BOOL hasSender_:1;
   BOOL hasClanData_:1;
-  BOOL hasTutorialConstants_:1;
-  BOOL hasStartupConstants_:1;
   BOOL hasCurTask_:1;
   BOOL hasCurRaidClanInfo_:1;
+  BOOL hasTutorialConstants_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasStaticDataStuffProto_:1;
-  BOOL hasSender_:1;
   BOOL hasEvolution_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
@@ -523,35 +525,36 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
   UserEnhancementProto* enhancements;
+  FullUserProto* sender;
   ClanDataProto* clanData;
-  StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupConstants* startupConstants;
   MinimumUserTaskProto* curTask;
   PersistentClanEventClanInfoProto* curRaidClanInfo;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
+  StartupResponseProto_StartupConstants* startupConstants;
   StaticDataProto* staticDataStuffProto;
-  FullUserProto* sender;
   UserMonsterEvolutionProto* evolution;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
   PBAppendableArray * mutableRedeemedQuestIdsList;
-  PBAppendableArray * mutableCompletedTaskIdsList;
   PBAppendableArray * mutableTaskIdForCurrentCityBossList;
+  PBAppendableArray * mutableCompletedTaskIdsList;
   NSMutableArray * mutableNoticesToPlayersList;
+  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutableClanChatsList;
+  NSMutableArray * mutablePcppList;
+  NSMutableArray * mutableUsersMonstersList;
   NSMutableArray * mutableMonstersHealingList;
   NSMutableArray * mutableUserQuestsList;
-  NSMutableArray * mutableUsersMonstersList;
+  NSMutableArray * mutableReferralNotificationsList;
   NSMutableArray * mutableRareBoosterPurchasesList;
-  NSMutableArray * mutablePcppList;
   NSMutableArray * mutableInvitesToMeForSlotsList;
   NSMutableArray * mutableInvitesFromMeForSlotsList;
-  NSMutableArray * mutableClanChatsList;
-  NSMutableArray * mutableGlobalChatsList;
+  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableUserEventsList;
-  NSMutableArray * mutableReferralNotificationsList;
+  NSMutableArray * mutableCompletedTasksList;
   NSMutableArray * mutableCurRaidClanUserInfoList;
   NSMutableArray * mutableRaidStageHistoryList;
   NSMutableArray * mutableRecentNbattlesList;
-  NSMutableArray * mutableAttackNotificationsList;
   NSMutableArray * mutableCurTaskStagesList;
   NSMutableArray * mutableUserAchievementsList;
   NSMutableArray * mutableUserMiniJobProtosList;
@@ -589,6 +592,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) PBArray * redeemedQuestIdsList;
 @property (readonly, strong) NSArray * userClanInfoList;
 @property (readonly, strong) PBArray * completedTaskIdsList;
+@property (readonly, strong) NSArray * completedTasksList;
 @property (readonly, strong) NSString* appStoreUrl;
 @property (readonly, strong) NSString* reviewPageUrl;
 @property (readonly, strong) NSString* reviewPageConfirmationMessage;
@@ -628,6 +632,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t)redeemedQuestIdsAtIndex:(NSUInteger)index;
 - (FullUserClanProto*)userClanInfoAtIndex:(NSUInteger)index;
 - (int32_t)completedTaskIdsAtIndex:(NSUInteger)index;
+- (UserTaskCompletedProto*)completedTasksAtIndex:(NSUInteger)index;
 - (StartupResponseProto_AttackedNotificationProto*)attackNotificationsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_ReferralNotificationProto*)referralNotificationsAtIndex:(NSUInteger)index;
 - (NSString*)noticesToPlayersAtIndex:(NSUInteger)index;
@@ -1612,7 +1617,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasHelpType;
 - (GameActionType) helpType;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) setHelpType:(GameActionType) value;
-- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpType;
+- (StartupResponseProto_StartupConstants_ClanHelpConstants_Builder*) clearHelpTypeList;
 
 - (BOOL) hasAmountRemovedPerHelp;
 - (int32_t) amountRemovedPerHelp;
@@ -1840,7 +1845,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) setResourceType:(ResourceType) value;
-- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceType;
+- (StartupResponseProto_StartupConstants_ResourceConversionConstantProto_Builder*) clearResourceTypeList;
 
 - (BOOL) hasResourceAmt;
 - (int32_t) resourceAmt;
@@ -2296,12 +2301,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasStartupStatus;
 - (StartupResponseProto_StartupStatus) startupStatus;
 - (StartupResponseProto_Builder*) setStartupStatus:(StartupResponseProto_StartupStatus) value;
-- (StartupResponseProto_Builder*) clearStartupStatus;
+- (StartupResponseProto_Builder*) clearStartupStatusList;
 
 - (BOOL) hasUpdateStatus;
 - (StartupResponseProto_UpdateStatus) updateStatus;
 - (StartupResponseProto_Builder*) setUpdateStatus:(StartupResponseProto_UpdateStatus) value;
-- (StartupResponseProto_Builder*) clearUpdateStatus;
+- (StartupResponseProto_Builder*) clearUpdateStatusList;
 
 - (BOOL) hasStartupConstants;
 - (StartupResponseProto_StartupConstants*) startupConstants;
@@ -2342,6 +2347,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder *)addAllCompletedTaskIds:(NSArray *)array;
 - (StartupResponseProto_Builder *)setCompletedTaskIdsValues:(const int32_t *)values count:(NSUInteger)count;
 - (StartupResponseProto_Builder *)clearCompletedTaskIds;
+
+- (NSMutableArray *)completedTasksList;
+- (UserTaskCompletedProto*)completedTasksAtIndex:(NSUInteger)index;
+- (StartupResponseProto_Builder *)addCompletedTasks:(UserTaskCompletedProto*)value;
+- (StartupResponseProto_Builder *)addAllCompletedTasks:(NSArray *)array;
+- (StartupResponseProto_Builder *)clearCompletedTasks;
 
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;

@@ -208,7 +208,7 @@
 - (BOOL) hasElem;
 - (Element) elem;
 - (BoardPropertyProto_Builder*) setElem:(Element) value;
-- (BoardPropertyProto_Builder*) clearElem;
+- (BoardPropertyProto_Builder*) clearElemList;
 
 - (BOOL) hasValue;
 - (int32_t) value;

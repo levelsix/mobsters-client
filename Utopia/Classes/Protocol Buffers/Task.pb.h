@@ -117,6 +117,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+@class UserTaskCompletedProto;
+@class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -464,6 +466,82 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (MinimumUserTaskProto_Builder*) clearClientState;
 @end
 
+@interface UserTaskCompletedProto : PBGeneratedMessage {
+@private
+  BOOL hasTaskId_:1;
+  BOOL hasUnclaimedCash_:1;
+  BOOL hasUnclaimedOil_:1;
+  BOOL hasUserId_:1;
+  int32_t taskId;
+  int32_t unclaimedCash;
+  int32_t unclaimedOil;
+  NSString* userId;
+}
+- (BOOL) hasTaskId;
+- (BOOL) hasUnclaimedCash;
+- (BOOL) hasUnclaimedOil;
+- (BOOL) hasUserId;
+@property (readonly) int32_t taskId;
+@property (readonly) int32_t unclaimedCash;
+@property (readonly) int32_t unclaimedOil;
+@property (readonly, strong) NSString* userId;
+
++ (UserTaskCompletedProto*) defaultInstance;
+- (UserTaskCompletedProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserTaskCompletedProto_Builder*) builder;
++ (UserTaskCompletedProto_Builder*) builder;
++ (UserTaskCompletedProto_Builder*) builderWithPrototype:(UserTaskCompletedProto*) prototype;
+- (UserTaskCompletedProto_Builder*) toBuilder;
+
++ (UserTaskCompletedProto*) parseFromData:(NSData*) data;
++ (UserTaskCompletedProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserTaskCompletedProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserTaskCompletedProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserTaskCompletedProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserTaskCompletedProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserTaskCompletedProto_Builder : PBGeneratedMessageBuilder {
+@private
+  UserTaskCompletedProto* result;
+}
+
+- (UserTaskCompletedProto*) defaultInstance;
+
+- (UserTaskCompletedProto_Builder*) clear;
+- (UserTaskCompletedProto_Builder*) clone;
+
+- (UserTaskCompletedProto*) build;
+- (UserTaskCompletedProto*) buildPartial;
+
+- (UserTaskCompletedProto_Builder*) mergeFrom:(UserTaskCompletedProto*) other;
+- (UserTaskCompletedProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserTaskCompletedProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (UserTaskCompletedProto_Builder*) setTaskId:(int32_t) value;
+- (UserTaskCompletedProto_Builder*) clearTaskId;
+
+- (BOOL) hasUnclaimedCash;
+- (int32_t) unclaimedCash;
+- (UserTaskCompletedProto_Builder*) setUnclaimedCash:(int32_t) value;
+- (UserTaskCompletedProto_Builder*) clearUnclaimedCash;
+
+- (BOOL) hasUnclaimedOil;
+- (int32_t) unclaimedOil;
+- (UserTaskCompletedProto_Builder*) setUnclaimedOil:(int32_t) value;
+- (UserTaskCompletedProto_Builder*) clearUnclaimedOil;
+
+- (BOOL) hasUserId;
+- (NSString*) userId;
+- (UserTaskCompletedProto_Builder*) setUserId:(NSString*) value;
+- (UserTaskCompletedProto_Builder*) clearUserId;
+@end
+
 @interface TaskStageMonsterProto : PBGeneratedMessage {
 @private
   BOOL hasPuzzlePieceDropped_:1;
@@ -589,7 +667,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasMonsterType;
 - (TaskStageMonsterProto_MonsterType) monsterType;
 - (TaskStageMonsterProto_Builder*) setMonsterType:(TaskStageMonsterProto_MonsterType) value;
-- (TaskStageMonsterProto_Builder*) clearMonsterType;
+- (TaskStageMonsterProto_Builder*) clearMonsterTypeList;
 
 - (BOOL) hasLevel;
 - (int32_t) level;
@@ -740,7 +818,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasDayOfWeek;
 - (DayOfWeek) dayOfWeek;
 - (PersistentEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
-- (PersistentEventProto_Builder*) clearDayOfWeek;
+- (PersistentEventProto_Builder*) clearDayOfWeekList;
 
 - (BOOL) hasStartHour;
 - (int32_t) startHour;
@@ -765,12 +843,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasType;
 - (PersistentEventProto_EventType) type;
 - (PersistentEventProto_Builder*) setType:(PersistentEventProto_EventType) value;
-- (PersistentEventProto_Builder*) clearType;
+- (PersistentEventProto_Builder*) clearTypeList;
 
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (PersistentEventProto_Builder*) setMonsterElement:(Element) value;
-- (PersistentEventProto_Builder*) clearMonsterElement;
+- (PersistentEventProto_Builder*) clearMonsterElementList;
 @end
 
 @interface UserPersistentEventProto : PBGeneratedMessage {
@@ -962,7 +1040,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasElement;
 - (Element) element;
 - (TaskMapElementProto_Builder*) setElement:(Element) value;
-- (TaskMapElementProto_Builder*) clearElement;
+- (TaskMapElementProto_Builder*) clearElementList;
 
 - (BOOL) hasBoss;
 - (BOOL) boss;

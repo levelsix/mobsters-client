@@ -740,7 +740,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
   result.status = value;
   return self;
 }
-- (PurchaseBoosterPackResponseProto_Builder*) clearStatus {
+- (PurchaseBoosterPackResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess;
   return self;
