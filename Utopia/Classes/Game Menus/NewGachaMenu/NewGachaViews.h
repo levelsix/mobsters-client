@@ -32,20 +32,46 @@
 
 @end
 
+@protocol NewGachaFeaturedViewCallbackDelegate <NSObject>
+
+- (void) skillTapped:(SkillProto*)skill element:(Element)element position:(CGPoint)pos;
+
+@end
+
 @interface NewGachaFeaturedView : UIView {
   int _curMonsterId;
+  Element _curMonsterElement;
+  
+  CGPoint _leftSkillViewOrigin;
+  CGPoint _rightSkillViewOrigin;
 }
+
+@property (nonatomic, retain) IBOutlet UIView* imageContainerView;
+@property (nonatomic, retain) IBOutlet UIView* statsContainerView;
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *rarityIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *elementIcon;
-@property (nonatomic, retain) IBOutlet UILabel *elementLabel;
 @property (nonatomic, retain) IBOutlet UILabel *hpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *speedLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *coverGradient;
+
+@property (weak, nonatomic) IBOutlet UIView *offensiveSkillView;
+@property (weak, nonatomic) IBOutlet UIView *defensiveSkillView;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillBg;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillBg;
+@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillIcon;
+
+@property (strong, nonatomic) SkillProto* offensiveSkill;
+@property (strong, nonatomic) SkillProto* defensiveSkill;
+
+@property (weak, nonatomic) id<NewGachaFeaturedViewCallbackDelegate> delegate;
+
+- (IBAction) offensiveSkillTapped:(id)sender;
+- (IBAction) defensiveSkillTapped:(id)sender;
 
 - (void) updateForMonsterId:(int)monsterId;
 

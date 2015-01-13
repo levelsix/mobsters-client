@@ -633,6 +633,15 @@
 		9BDA8C741A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
 		9BDA8C751A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
 		9BDA8C761A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
+		9BDA8C541A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C531A60B4A500C7AC27 /* CustomIndicatorPageControl.m */; };
+		9BDA8C551A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C531A60B4A500C7AC27 /* CustomIndicatorPageControl.m */; };
+		9BDA8C561A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C531A60B4A500C7AC27 /* CustomIndicatorPageControl.m */; };
+		9BDA8C591A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */; };
+		9BDA8C5A1A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */; };
+		9BDA8C5B1A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */; };
+		9BDA8C5D1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
+		9BDA8C5E1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
+		9BDA8C5F1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6973,6 +6982,10 @@
 		9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.pb.m; sourceTree = "<group>"; };
 		9BDA8C6F1A6366ED00C7AC27 /* Research.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Research.pb.h; sourceTree = "<group>"; };
 		9BDA8C701A6366ED00C7AC27 /* Research.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Research.pb.m; sourceTree = "<group>"; };
+		9BDA8C521A60B4A500C7AC27 /* CustomIndicatorPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIndicatorPageControl.h; sourceTree = "<group>"; };
+		9BDA8C531A60B4A500C7AC27 /* CustomIndicatorPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIndicatorPageControl.m; sourceTree = "<group>"; };
+		9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaactivedot@2x.png"; sourceTree = "<group>"; };
+		9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachainactivedot@2x.png"; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -11872,6 +11885,8 @@
 				9BDA8BD91A43837D00C7AC27 /* NewGachaViewController.xib */,
 				9BDA8BDA1A43837D00C7AC27 /* NewGachaViews.h */,
 				9BDA8BDB1A43837D00C7AC27 /* NewGachaViews.m */,
+				9BDA8C521A60B4A500C7AC27 /* CustomIndicatorPageControl.h */,
+				9BDA8C531A60B4A500C7AC27 /* CustomIndicatorPageControl.m */,
 			);
 			path = NewGachaMenu;
 			sourceTree = "<group>";
@@ -11884,10 +11899,12 @@
 				9BDA8C391A5DFB2F00C7AC27 /* basicgrablogo@2x.png */,
 				9BDA8C031A5C7BB200C7AC27 /* basicgrabnavicon@2x.png */,
 				9BDA8C191A5DE91100C7AC27 /* basicmachine@2x.png */,
+				9BDA8C581A60B5FB00C7AC27 /* gachaactivedot@2x.png */,
 				9BDA8C261A5DEA9900C7AC27 /* gachabg@2x.png */,
 				9BDA8C471A5F502900C7AC27 /* gachabottomslot@2x.png */,
 				9BDA8C411A5DFBDE00C7AC27 /* gachagradientsep@2x.png */,
 				9BDA8C0B1A5C806D00C7AC27 /* gachaheaderbg@2x.png */,
+				9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */,
 				9BDA8C0F1A5C9A8E00C7AC27 /* gachanavsep@2x.png */,
 				9BDA8C1E1A5DE91900C7AC27 /* gachaswirls@2x.png */,
 				9BDA8C101A5C9A8E00C7AC27 /* gachatabshadow@2x.png */,
@@ -17006,6 +17023,7 @@
 				CF9F995719E48734006B0119 /* helpredbubble9@2x.png in Resources */,
 				CF0CEFC4196F452900ECD301 /* Whitney-SemiboldItalic.otf in Resources */,
 				CF6A64D419D24F030002E05D /* 6firepoison@2x.png in Resources */,
+				9BDA8C5E1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */,
 				CF0CEFC8196F452900ECD301 /* FatBoy2Move04@2x.png in Resources */,
 				CF0CEFCA196F452900ECD301 /* ChatViewController.xib in Resources */,
 				CFF2A5DD19709C4800269084 /* MenuEvolutionLabT1@2x.png in Resources */,
@@ -18402,6 +18420,7 @@
 				CF0CF743196F452900ECD301 /* FatBoy1Move07@2x.png in Resources */,
 				CFA729061A0B037900FF6031 /* lighteventtimer@2x.png in Resources */,
 				CF0CF748196F452900ECD301 /* characterdie.plist in Resources */,
+				9BDA8C5A1A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */,
 				CF6F90FF19CBD32400F7297E /* Brute1T1AttackNF@2x.pvr.ccz in Resources */,
 				CFA7288E1A0B037900FF6031 /* behindcharacterglow@2x.png in Resources */,
 				CF0CF74C196F452900ECD301 /* clannewsactive@2x.png in Resources */,
@@ -18869,6 +18888,7 @@
 				CF6F19C1181518C900CFF2B9 /* newbg@2x.png in Resources */,
 				CFEE89CB18EC00C100047CA4 /* buildingmiddle@2x.png in Resources */,
 				CF48259D19F729D000041486 /* untitled.plist in Resources */,
+				9BDA8C5D1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */,
 				CF29EA171964BD0500B40DA4 /* sellbubbleexclamation@2x.png in Resources */,
 				CFF2A51619709C4800269084 /* CashStorageT1@2x.pvr.ccz in Resources */,
 				CFBB37D118FC7C7400FD6C8C /* questcompleteball@2x.plist in Resources */,
@@ -20268,6 +20288,7 @@
 				CFFBDF9018ACA3D90090CA9A /* Scientist3Breath03@2x.png in Resources */,
 				CFA728C91A0B037900FF6031 /* watereventbigbgcap@2x.png in Resources */,
 				CF6A651819D25DA50002E05D /* 6boardgoo@2x.png in Resources */,
+				9BDA8C591A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */,
 				CFDA7906198C303C0014A8CD /* profilecircle@2x.png in Resources */,
 				CF134A5618A5E4B500D7D700 /* FatBoy1Move07@2x.png in Resources */,
 				CF9F995619E48734006B0119 /* helpredbubble9@2x.png in Resources */,
@@ -20594,6 +20615,7 @@
 				CF481AC919F7217F00041486 /* Scientist4Turn03@2x.png in Resources */,
 				CF481ACE19F7217F00041486 /* FatBoy5Move00@2x.png in Resources */,
 				CF481ACF19F7217F00041486 /* Scientist1Blink04@2x.png in Resources */,
+				9BDA8C5B1A60B5FB00C7AC27 /* gachaactivedot@2x.png in Resources */,
 				CF481AD019F7217F00041486 /* FatBoy1Move10@2x.png in Resources */,
 				CF4825A919F72A3900041486 /* notendcapblue@2x.png in Resources */,
 				CF481AD219F7217F00041486 /* firegrenade@2x.png in Resources */,
@@ -21751,6 +21773,7 @@
 				CF48221219F7217F00041486 /* 5dollar@2x.png in Resources */,
 				9BDA8C291A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CF48221419F7217F00041486 /* earthsmallsquare@2x.png in Resources */,
+				9BDA8C5F1A60B60200C7AC27 /* gachainactivedot@2x.png in Resources */,
 				CF48221519F7217F00041486 /* battledoneorange@2x.png in Resources */,
 				CF48221719F7217F00041486 /* Scientist5Blink08@2x.png in Resources */,
 				2980503E1A265EE800806253 /* 10gbhud@2x.png in Resources */,
@@ -22586,6 +22609,7 @@
 				CF023CBE19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
 				CF0CED74196F452900ECD301 /* THLabel.m in Sources */,
 				CF0CED76196F452900ECD301 /* City.pb.m in Sources */,
+				9BDA8C551A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF0CED77196F452900ECD301 /* GameViewController.m in Sources */,
 				CFE11F901A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */,
@@ -22820,6 +22844,7 @@
 				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
 				CFC4D24018D6DEFE004681FD /* RequestsFacebookTableController.m in Sources */,
 				CFEF25DB18CAB86500FB867A /* GameCenterDelegate.m in Sources */,
+				9BDA8C541A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF8BA25118D09C89003277D1 /* TutorialQuestLogViewController.m in Sources */,
 				9BDA8BEB1A43837D00C7AC27 /* NewGachaViews.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
@@ -23193,6 +23218,7 @@
 				CF48191A19F7217F00041486 /* BattleScheduleView.m in Sources */,
 				CF48191B19F7217F00041486 /* THLabel.m in Sources */,
 				CF48191C19F7217F00041486 /* City.pb.m in Sources */,
+				9BDA8C561A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF48191D19F7217F00041486 /* GameViewController.m in Sources */,
 				CFE11F911A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CF48191E19F7217F00041486 /* Dev.pb.m in Sources */,
