@@ -35,7 +35,7 @@
 
 @end
 
-@interface AttackMapStatusView : TouchableSubviewsView
+@interface AttackMapStatusView : TouchableSubviewsView <UIScrollViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
@@ -47,13 +47,13 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *availableLabel;
 
+@property (nonatomic, retain) IBOutlet UIScrollView *taskNameScrollView;
 @property (nonatomic, retain) IBOutlet UIScrollView *dropScrollView;
-
-@property (nonatomic, strong) IBOutlet UILabel *cashLabel;
-@property (nonatomic, strong) IBOutlet UILabel *oilLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *doneCheckImage;
+@property (nonatomic, retain) IBOutlet UIImageView *rightGradient;
+@property (nonatomic, retain) IBOutlet UIImageView *leftGradient;
 
 @property (nonatomic, assign) int taskId;
 

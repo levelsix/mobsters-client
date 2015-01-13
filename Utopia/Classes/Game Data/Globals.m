@@ -2066,6 +2066,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
 }
 
++ (BOOL) isiPhone5orSmaller {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width <= 650.0);
+}
+
 + (BOOL) isiPhone6 {
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 667.0);
 }

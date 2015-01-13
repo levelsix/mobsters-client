@@ -309,6 +309,7 @@
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
 
 + (BOOL) isSmallestiPhone;
++ (BOOL) isiPhone5orSmaller;
 + (BOOL) isiPhone6;
 + (BOOL) isiPhone6Plus;
 
