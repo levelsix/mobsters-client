@@ -61,6 +61,9 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self.topBar];
   
   [self.navBar button:3 shouldBeHidden:YES];
+  
+  [self.skillPopup setHidden:YES];
+  [self.view addSubview:self.skillPopup];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -137,12 +140,15 @@
   }
    */
   
+  UIView *featuredContainer = self.focusScrollView.superview;
+  featuredContainer.originY += self.topBar.height;
+  featuredContainer.height -= self.topBar.height;
+  
   if ([Globals isSmallestiPhone])
   {
     self.logoImage.hidden = YES;
     self.logoSeparatorImage.hidden = YES;
     
-    UIView *featuredContainer = self.focusScrollView.superview;
     CGFloat moveBy = featuredContainer.originX - self.logoImage.originX;
     featuredContainer.originX -= moveBy;
     featuredContainer.width += moveBy;
@@ -495,10 +501,8 @@
 }
 
 - (CGFloat) widthPerItem {
-  return roundf(self.focusScrollView.width*0.36);
+  return self.focusScrollView.scrollView.width;
 }
-
-static float heightPerc = 0.871;
 
 - (UIView *) viewForItemNum:(int)itemNum reusableView:(NewGachaFeaturedView *)view {
   if (!view) {
@@ -506,8 +510,11 @@ static float heightPerc = 0.871;
     view = self.featuredView;
     
     float aspRatio = view.width/view.height;
-    view.height = roundf(self.focusScrollView.height*heightPerc);
-    view.width = view.height*aspRatio;
+    view.width = self.focusScrollView.scrollView.width;
+    view.height = view.width / aspRatio;
+    if ([Globals isSmallestiPhone]) view.height *= .8f;
+    
+    view.delegate = self;
   }
   BoosterItemProto *item = self.boosterPack.specialItemsList[itemNum];
   [view updateForMonsterId:item.monsterId];
@@ -520,6 +527,41 @@ static float heightPerc = 0.871;
 
 - (BOOL) shouldLoopItems {
   return YES;
+}
+
+#pragma mark - Featured View
+
+- (void) skillTapped:(SkillProto*)skill element:(Element)element position:(CGPoint)pos
+{
+  NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"skilldescription"]];
+  NSString *orbImage = nil, *orbDesc = nil;
+  
+  if (skill.activationType == SkillActivationTypePassive)
+    orbDesc = @"PASSIVE";
+  else
+  {
+    orbDesc = [NSString stringWithFormat:@"BREAK %d %@ ORBS TO ACTIVATE", skill.orbCost, [[Globals stringForElement:element] uppercaseString]];
+    orbImage = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:element suffix:@"orb"]];
+  }
+  
+  [self.skillPopup displayWithSkillName:skill.name
+                            description:skill.desc
+                           counterLabel:nil
+                         orbDescription:orbDesc
+                        backgroundImage:bgName
+                               orbImage:orbImage
+                             atPosition:pos];
+}
+
+- (void) skillPopupDisplayed
+{
+  [self.skillPopupCloseButton setUserInteractionEnabled:YES];
+}
+
+- (void) hideSkillPopup:(id)sender
+{
+  [self.skillPopup hide];
+  [self.skillPopupCloseButton setUserInteractionEnabled:NO];
 }
 
 @end

@@ -43,9 +43,11 @@
     if (!shouldLoop) {
       self.scrollView.contentSize = CGSizeMake(width*_numItems, self.scrollView.frame.size.height);
       self.scrollView.contentOffset = ccp(0, 0);
+      self.pageControl.numberOfPages = _numItems;
     } else {
       self.scrollView.contentSize = CGSizeMake(NUM_REPEATED_FOR_LOOPING*width*_numItems, self.scrollView.frame.size.height);
       self.scrollView.contentOffset = ccp(NUM_REPEATED_FOR_LOOPING*_numItems/2*width, 0);
+      self.pageControl.numberOfPages = NUM_REPEATED_FOR_LOOPING * _numItems;
     }
     
     [self scrollViewDidScroll:self.scrollView];
@@ -57,6 +59,8 @@
   float curIdx = (self.scrollView.contentOffset.x+self.scrollView.frame.size.width/2)/width;
   int leftIdx = floorf(curIdx-self.frame.size.width/width/2);
   int rightIdx = floorf(curIdx+self.frame.size.width/width/2);
+  
+  self.pageControl.currentPage = floorf(curIdx);
   
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *v in self.innerViews) {
@@ -96,6 +100,7 @@
         [self.innerViews addObject:blurView];
         [self.reusableViews removeObject:blurView];
         
+        /*
         if (![blurView viewWithTag:GRADIENT_TAG]) {
           UIImageView *grad = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"covergradient.png"]];
           [blurView addSubview:grad];
@@ -104,6 +109,7 @@
           grad.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin;
           grad.tag = GRADIENT_TAG;
         }
+         */
       }
     }
   }
@@ -126,7 +132,7 @@
     
     float alphaBase = focusCenter.x > curCenter ? 0.f : 0.6f;
     focus.alpha = alphaBase+(1-alphaBase)*(1-distFactor);
-    [[focus viewWithTag:GRADIENT_TAG] setAlpha:distFactor];
+//  [[focus viewWithTag:GRADIENT_TAG] setAlpha:distFactor];
     
     float scale = scaleFactorForOutOfFocus+(1-scaleFactorForOutOfFocus)*(1-distFactor);
     focus.transform = CGAffineTransformMakeScale(scale, scale);

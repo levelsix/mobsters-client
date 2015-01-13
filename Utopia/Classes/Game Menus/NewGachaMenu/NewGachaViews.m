@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "IAPHelper.h"
 #import "CAKeyframeAnimation+AHEasing.h"
+#import "SkillController.h"
 
 @implementation NewGachaPrizeView
 
@@ -132,12 +133,54 @@
 - (void) awakeFromNib {
   self.coverGradient.alpha = 0.f;
   
+  /*
   UIView *container = self.monsterIcon.superview;
   container.centerX = self.hpLabel.superview.originX/2+10;
   
   if ([Globals isiPhone6Plus]) {
     container.transform = CGAffineTransformMakeScale(1.2, 1.2);
     container.centerY -= 20.f;
+  }
+   */
+  
+  self.offensiveSkill = nil;
+  self.defensiveSkill = nil;
+}
+
+-(void)layoutSubviews
+{
+  [super layoutSubviews];
+  
+  self.offensiveSkillView.origin = CGPointMake(self.nameLabel.originX, self.attackLabel.originY + self.attackLabel.height + 5);
+  self.defensiveSkillView.origin = self.offensiveSkillView.origin;
+  
+  _leftSkillViewOrigin = self.offensiveSkillView.origin;
+  _rightSkillViewOrigin = self.defensiveSkillView.origin;
+}
+
+-(void)offensiveSkillTapped:(id)sender
+{
+  if (self.delegate && self.offensiveSkill)
+  {
+    UIView* parent = [self.delegate isKindOfClass:[UIViewController class]]
+      ? ((UIViewController*)self.delegate).view
+      : [UIApplication sharedApplication].keyWindow.rootViewController.view;
+    [self.delegate skillTapped:self.offensiveSkill
+                       element:_curMonsterElement
+                      position:[self.offensiveSkillView.superview convertPoint:CGPointMake(self.offensiveSkillView.centerX, self.offensiveSkillView.originY) toView:parent]];
+  }
+}
+
+-(void)defensiveSkillTapped:(id)sender
+{
+  if (self.delegate && self.defensiveSkill)
+  {
+    UIView* parent = [self.delegate isKindOfClass:[UIViewController class]]
+      ? ((UIViewController*)self.delegate).view
+      : [UIApplication sharedApplication].keyWindow.rootViewController.view;
+    [self.delegate skillTapped:self.defensiveSkill
+                       element:_curMonsterElement
+                      position:[self.defensiveSkillView.superview convertPoint:CGPointMake(self.defensiveSkillView.centerX, self.defensiveSkillView.originY) toView:parent]];
   }
 }
 
@@ -160,22 +203,65 @@
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  
   self.rarityIcon.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
   
-  self.elementLabel.text = [Globals stringForElement:proto.monsterElement];
-  self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
+  _curMonsterElement = proto.monsterElement;
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamedWithiPhone6Prefix:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
-  [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = monsterId;
   um.level = proto.maxLevel;
+  um.offensiveSkillId = proto.baseOffensiveSkillId;
+  um.defensiveSkillId = proto.baseDefensiveSkillId;
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:um]];
   self.hpLabel.text = [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]];
   self.speedLabel.text = [Globals commafyNumber:um.speed];
+  
+  [self updateSkillsForMonster:um];
+}
+
+- (void) updateSkillsForMonster:(UserMonster*)monster
+{
+  GameState *gs = [GameState sharedGameState];
+  
+  self.offensiveSkill = nil;
+  self.defensiveSkill = nil;
+  
+  if (monster.offensiveSkillId == 0)
+  {
+    self.offensiveSkillView.hidden = YES;
+    self.defensiveSkillView.origin = _leftSkillViewOrigin;
+  }
+  else
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.offensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                 withView:self.offensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      self.offensiveSkillView.hidden = NO;
+      self.defensiveSkillView.origin = _rightSkillViewOrigin;
+      self.offensiveSkill = skillProto;
+    }
+  }
+  
+  if (monster.defensiveSkillId == 0)
+  {
+    self.defensiveSkillView.hidden = YES;
+  }
+  else
+  {
+    SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:monster.defensiveSkillId]];
+    if (skillProto)
+    {
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
+                 withView:self.defensiveSkillIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+      self.defensiveSkillView.hidden = NO;
+      self.defensiveSkill = skillProto;
+    }
+  }
 }
 
 @end
@@ -183,8 +269,10 @@
 @implementation NewGachaItemCell
 
 - (void) awakeFromNib {
+  /*
   self.icon.layer.anchorPoint = ccp(0.5, 0.75);
   self.icon.center = ccpAdd(self.icon.center, ccp(0, self.icon.frame.size.height*(self.icon.layer.anchorPoint.y-0.5)));
+   */
 }
 
 - (void) updateForGachaDisplayItem:(BoosterDisplayItemProto *)item {

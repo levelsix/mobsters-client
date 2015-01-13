@@ -12,8 +12,10 @@
 #import "Protocols.pb.h"
 #import "NewGachaFocusScrollView.h"
 #import "NewGachaViews.h"
+#import "BattleHudView.h"
 
-@interface NewGachaViewController : GenViewController <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate> {
+@interface NewGachaViewController : GenViewController
+<EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate, NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate> {
   BOOL _isSpinning;
   
   NSInteger _curPage;
@@ -53,6 +55,11 @@
 @property (nonatomic, retain) IBOutlet BadgeIcon *goodBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *eventBadge;
 
+@property (nonatomic, retain) IBOutlet BattleSkillCounterPopupView* skillPopup;
+@property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
+
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp;
+
+- (IBAction) hideSkillPopup:(id)sender;
 
 @end
