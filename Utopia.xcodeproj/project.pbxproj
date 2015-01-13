@@ -228,6 +228,9 @@
 		2985E6361A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
 		2985E6371A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
 		2985E6381A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */; };
+		29A2FCDB1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
+		29A2FCDC1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
+		29A2FCDD1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
 		29AA139F1A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A01A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A11A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
@@ -701,7 +704,6 @@
 		CF0CED5A196F452900ECD301 /* EvolveChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF64702195E14D500C43641 /* EvolveChooserViewController.m */; };
 		CF0CED5B196F452900ECD301 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */; };
 		CF0CED5C196F452900ECD301 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8B01807DA1E00062258 /* Building.m */; };
-		CF0CED5D196F452900ECD301 /* MiniJobsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */; };
 		CF0CED5E196F452900ECD301 /* AttackMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */; };
 		CF0CED5F196F452900ECD301 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; };
 		CF0CED60196F452900ECD301 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1015C3B89400F2E50E /* NSString+SBJSON.m */; };
@@ -1340,7 +1342,6 @@
 		CF0CF205196F452900ECD301 /* buildingenhance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF746159196B9A5E002D6AE6 /* buildingenhance@2x.png */; };
 		CF0CF208196F452900ECD301 /* championprofribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DC11194FDD390019EB2B /* championprofribbon@2x.png */; };
 		CF0CF20A196F452900ECD301 /* progressquest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF127992181F5F1600211623 /* progressquest@2x.png */; };
-		CF0CF20C196F452900ECD301 /* MiniJobsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */; };
 		CF0CF213196F452900ECD301 /* battleepictag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2160118FDC7660057B5CE /* battleepictag@2x.png */; };
 		CF0CF214196F452900ECD301 /* Scientist2Blink04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDE7418ACA3D80090CA9A /* Scientist2Blink04@2x.png */; };
 		CF0CF218196F452900ECD301 /* Scientist4Breath00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDEDC18ACA3D80090CA9A /* Scientist4Breath00@2x.png */; };
@@ -2658,7 +2659,6 @@
 		CF4818FF19F7217F00041486 /* ClanHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF812EDE19E676E200D91157 /* ClanHelpViewController.m */; };
 		CF48190019F7217F00041486 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */; };
 		CF48190119F7217F00041486 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4DB8B01807DA1E00062258 /* Building.m */; };
-		CF48190219F7217F00041486 /* MiniJobsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */; };
 		CF48190319F7217F00041486 /* AttackMapViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB36C118EE2B9400FD6C8C /* AttackMapViews.m */; };
 		CF48190419F7217F00041486 /* EventBoosterPack.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6574561909CAF100ABF1F4 /* EventBoosterPack.pb.m */; };
 		CF48190519F7217F00041486 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1015C3B89400F2E50E /* NSString+SBJSON.m */; };
@@ -3455,7 +3455,6 @@
 		CF481E4019F7217F00041486 /* championprofribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DC11194FDD390019EB2B /* championprofribbon@2x.png */; };
 		CF481E4219F7217F00041486 /* stagecompletecomplete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF4127F19BFC223002672D4 /* stagecompletecomplete@2x.png */; };
 		CF481E4319F7217F00041486 /* progressquest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF127992181F5F1600211623 /* progressquest@2x.png */; };
-		CF481E4519F7217F00041486 /* MiniJobsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */; };
 		CF481E4C19F7217F00041486 /* battledonepurple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2A61F1970C81200269084 /* battledonepurple@2x.png */; };
 		CF481E4D19F7217F00041486 /* battleepictag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2160118FDC7660057B5CE /* battleepictag@2x.png */; };
 		CF481E4F19F7217F00041486 /* Scientist2Blink04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFBDE7418ACA3D80090CA9A /* Scientist2Blink04@2x.png */; };
@@ -4628,8 +4627,6 @@
 		CF65ECCE19A2B1CC00ABBC77 /* inactivechatline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF65ECBC19A2B1CC00ABBC77 /* inactivechatline@2x.png */; };
 		CF65ECD119A2B1CC00ABBC77 /* newchatline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF65ECBE19A2B1CC00ABBC77 /* newchatline@2x.png */; };
 		CF65ECD219A2B1CC00ABBC77 /* newchatline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF65ECBE19A2B1CC00ABBC77 /* newchatline@2x.png */; };
-		CF688FF31912E4D800FF1F71 /* MiniJobsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */; };
-		CF688FF41912E4D800FF1F71 /* MiniJobsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */; };
 		CF688FF81912E5B200FF1F71 /* MiniJobsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FF61912E5B200FF1F71 /* MiniJobsListViewController.m */; };
 		CF688FF91912E5B200FF1F71 /* MiniJobsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF688FF71912E5B200FF1F71 /* MiniJobsListViewController.xib */; };
 		CF688FFD1912E5D000FF1F71 /* MiniJobsDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF688FFB1912E5D000FF1F71 /* MiniJobsDetailsViewController.m */; };
@@ -6669,6 +6666,7 @@
 		2985E5F31A330DB00041ABF4 /* pinkchattail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pinkchattail.png; path = "Chat requests/pinkchattail.png"; sourceTree = "<group>"; };
 		2985E5F41A330DB00041ABF4 /* pinkchattail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinkchattail@2x.png"; sourceTree = "<group>"; };
 		2985E6351A3313340041ABF4 /* ChatBattleHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBattleHistoryView.xib; sourceTree = "<group>"; };
+		29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
 		29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMonsterView.xib; sourceTree = "<group>"; };
 		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
 		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
@@ -7842,9 +7840,6 @@
 		CF65ECBC19A2B1CC00ABBC77 /* inactivechatline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inactivechatline@2x.png"; sourceTree = "<group>"; };
 		CF65ECBD19A2B1CC00ABBC77 /* newchatline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newchatline.png; path = "New Chat/newchatline.png"; sourceTree = "<group>"; };
 		CF65ECBE19A2B1CC00ABBC77 /* newchatline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newchatline@2x.png"; sourceTree = "<group>"; };
-		CF688FF01912E4D800FF1F71 /* MiniJobsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobsViewController.h; sourceTree = "<group>"; };
-		CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobsViewController.m; sourceTree = "<group>"; };
-		CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsViewController.xib; sourceTree = "<group>"; };
 		CF688FF51912E5B200FF1F71 /* MiniJobsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobsListViewController.h; sourceTree = "<group>"; };
 		CF688FF61912E5B200FF1F71 /* MiniJobsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MiniJobsListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CF688FF71912E5B200FF1F71 /* MiniJobsListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsListViewController.xib; sourceTree = "<group>"; };
@@ -10151,6 +10146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A2FCDC1A645AE500FF93B6 /* Chartboost.framework in Frameworks */,
 				CFAF0D8419C7DFD900C0AB5B /* libcocos2d.a in Frameworks */,
 				CF2217DD19C7862C00BFD2FF /* GLKit.framework in Frameworks */,
 				CF0CEE09196F452900ECD301 /* CoreMedia.framework in Frameworks */,
@@ -10219,6 +10215,7 @@
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
+				29A2FCDB1A645AE500FF93B6 /* Chartboost.framework in Frameworks */,
 				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
 				454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */,
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
@@ -10246,6 +10243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A2FCDD1A645AE500FF93B6 /* Chartboost.framework in Frameworks */,
 				CF4819AD19F7217F00041486 /* libcocos2d.a in Frameworks */,
 				CF4819AE19F7217F00041486 /* GLKit.framework in Frameworks */,
 				CF4819AF19F7217F00041486 /* CoreMedia.framework in Frameworks */,
@@ -11510,6 +11508,14 @@
 			path = "Chat requests";
 			sourceTree = "<group>";
 		};
+		29A2FCD91A645AE500FF93B6 /* Chartboost */ = {
+			isa = PBXGroup;
+			children = (
+				29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */,
+			);
+			path = Chartboost;
+			sourceTree = "<group>";
+		};
 		29AA13AB1A35916E004A9F22 /* PVP Won:Lost Message */ = {
 			isa = PBXGroup;
 			children = (
@@ -12147,6 +12153,7 @@
 				CF864DCC193E802300DE0D7A /* MessageComposerView */,
 				CF09301C193849DA0008D97F /* TestFlightSDK3.0.2 */,
 				CF19088018D822C000D6F0E4 /* Kamcord */,
+				29A2FCD91A645AE500FF93B6 /* Chartboost */,
 				CFB2508D18587BF200BE0C05 /* THLabel */,
 				CFFEB1731834C2FD007C4BA3 /* AHEasing */,
 				CFF39139182A10CD0010A3BE /* DBFBProfilePictureView */,
@@ -13404,7 +13411,6 @@
 		CF688FEF1912E3CB00FF1F71 /* MiniJob */ = {
 			isa = PBXGroup;
 			children = (
-				CFA8B1BF19F08B6900CF6BFD /* Legacy Nav */,
 				CF68905D1912E84200FF1F71 /* List */,
 				CF68905E1912E84900FF1F71 /* Details */,
 				CFF5DB9C194BD84A0019EB2B /* Complete */,
@@ -14102,16 +14108,6 @@
 				CFA8B1AC19EB789F00CF6BFD /* ChatObject.m */,
 			);
 			name = Chat;
-			sourceTree = "<group>";
-		};
-		CFA8B1BF19F08B6900CF6BFD /* Legacy Nav */ = {
-			isa = PBXGroup;
-			children = (
-				CF688FF01912E4D800FF1F71 /* MiniJobsViewController.h */,
-				CF688FF11912E4D800FF1F71 /* MiniJobsViewController.m */,
-				CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */,
-			);
-			name = "Legacy Nav";
 			sourceTree = "<group>";
 		};
 		CFA8FF1D19F899B200F9908C /* Upgrade Requirements */ = {
@@ -17160,7 +17156,6 @@
 				CFF4128F19BFC223002672D4 /* stagecompletecomplete@2x.png in Resources */,
 				29AD76601A39316100430F0E /* 123slot@2x.png in Resources */,
 				CF0CF20A196F452900ECD301 /* progressquest@2x.png in Resources */,
-				CF0CF20C196F452900ECD301 /* MiniJobsViewController.xib in Resources */,
 				CFA9F77E1A0D8D8900EBE77D /* ItemSelectViewController.xib in Resources */,
 				CFF2A62F1970C81200269084 /* battledonepurple@2x.png in Resources */,
 				CF0CF213196F452900ECD301 /* battleepictag@2x.png in Resources */,
@@ -19007,7 +19002,6 @@
 				CF746176196B9A5F002D6AE6 /* buildingenhance@2x.png in Resources */,
 				CFF5DC1D194FDD390019EB2B /* championprofribbon@2x.png in Resources */,
 				CF12799D181F5F1600211623 /* progressquest@2x.png in Resources */,
-				CF688FF41912E4D800FF1F71 /* MiniJobsViewController.xib in Resources */,
 				CFF2160D18FDC7660057B5CE /* battleepictag@2x.png in Resources */,
 				CFF2A62E1970C81200269084 /* battledonepurple@2x.png in Resources */,
 				CFFBDF5918ACA3D90090CA9A /* Scientist2Blink04@2x.png in Resources */,
@@ -20832,7 +20826,6 @@
 				CF481E4019F7217F00041486 /* championprofribbon@2x.png in Resources */,
 				CF481E4219F7217F00041486 /* stagecompletecomplete@2x.png in Resources */,
 				CF481E4319F7217F00041486 /* progressquest@2x.png in Resources */,
-				CF481E4519F7217F00041486 /* MiniJobsViewController.xib in Resources */,
 				CFA9F77F1A0D8D8900EBE77D /* ItemSelectViewController.xib in Resources */,
 				CF481E4C19F7217F00041486 /* battledonepurple@2x.png in Resources */,
 				CF481E4D19F7217F00041486 /* battleepictag@2x.png in Resources */,
@@ -22245,7 +22238,6 @@
 				CF812EE119E676E200D91157 /* ClanHelpViewController.m in Sources */,
 				CF0CED5B196F452900ECD301 /* NSObject+SBJSON.m in Sources */,
 				CF0CED5C196F452900ECD301 /* Building.m in Sources */,
-				CF0CED5D196F452900ECD301 /* MiniJobsViewController.m in Sources */,
 				CF0CED5E196F452900ECD301 /* AttackMapViews.m in Sources */,
 				CF0CED5F196F452900ECD301 /* EventBoosterPack.pb.m in Sources */,
 				CF0CED60196F452900ECD301 /* NSString+SBJSON.m in Sources */,
@@ -22556,7 +22548,6 @@
 				CF0CDEA919E50675006A5ECB /* TimerViewController.m in Sources */,
 				DA173A5019CA4A1F005236C0 /* SkillShield.m in Sources */,
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
-				CF688FF31912E4D800FF1F71 /* MiniJobsViewController.m in Sources */,
 				CFBB36C218EE2B9400FD6C8C /* AttackMapViews.m in Sources */,
 				CF6574AE1909CAF200ABF1F4 /* EventBoosterPack.pb.m in Sources */,
 				CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */,
@@ -22844,7 +22835,6 @@
 				CF4818FF19F7217F00041486 /* ClanHelpViewController.m in Sources */,
 				CF48190019F7217F00041486 /* NSObject+SBJSON.m in Sources */,
 				CF48190119F7217F00041486 /* Building.m in Sources */,
-				CF48190219F7217F00041486 /* MiniJobsViewController.m in Sources */,
 				CF48190319F7217F00041486 /* AttackMapViews.m in Sources */,
 				CF48190419F7217F00041486 /* EventBoosterPack.pb.m in Sources */,
 				CF48190519F7217F00041486 /* NSString+SBJSON.m in Sources */,

@@ -80,6 +80,7 @@
     } completion:nil];
     
     [Globals bounceView:self fromScale:0.85f toScale:1.f duration:0.35f];
+    self.layer.transform = CATransform3DIdentity;
   }
 }
 

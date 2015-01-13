@@ -11,6 +11,7 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "GameViewController.h"
+#import "ChartboostDelegate.h"
 
 #define SPACING_PER_NODE 46.f
 
@@ -164,6 +165,11 @@
   [self.updateTimer invalidate];
   
   [self.itemSelectViewController closeClicked:nil];
+  
+    if (_beganSomeJob) {
+      [ChartboostDelegate fireMiniJobSent];
+      _beganSomeJob = NO;
+    }
 }
 
 - (void) updateLabels {
@@ -549,6 +555,7 @@
     if (totalHp >= reqHp && totalAtk >= reqAtk) {
       [[OutgoingEventController sharedOutgoingEventController] beginMiniJob:miniJob userMonsterUuids:arr delegate:self];
       _isBeginningJob = YES;
+      _beganSomeJob = YES;
       
       [self.detailsViewController beginEngageSpinning];
     } else {

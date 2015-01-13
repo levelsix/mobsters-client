@@ -14,6 +14,7 @@
 //#define CHARTBOOST_APP_ID    @"53fd3148c26ee4751b3a354e"
 //#define CHARTBOOST_APP_SIG   @"91b5231f8da2a3f7698c29e2692b4addf8102a12"
 
+// Aoc Test app
 #define CHARTBOOST_APP_ID    @"500674d49c890d7455000005"
 #define CHARTBOOST_APP_SIG   @"061147e1537ade60161207c29179ec95bece5f9c"
 
@@ -30,6 +31,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(ChartboostDelegate);
 //#endif
 }
 
+static NSString *showInterstitial = nil;
+
 + (void) showInterstitial:(NSString *)str {
 //#ifdef TOONSQUAD
 //#ifndef DEBUG
@@ -37,7 +40,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(ChartboostDelegate);
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
   if (!gs.playerHasBoughtInAppPurchase && numOpens > 5) {
-    [Chartboost showInterstitial:str];
+    if ([Chartboost hasInterstitial:str]) {
+      [Chartboost showInterstitial:str];
+    } else {
+      [Chartboost cacheInterstitial:str];
+      showInterstitial = str;
+    }
   }
 //#endif
 //#endif
@@ -67,6 +75,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(ChartboostDelegate);
 - (BOOL)shouldDisplayInterstitial:(CBLocation)location {
   LNLog(@"should display interstitial");
   return YES;
+}
+
+- (void) didCacheInterstitial:(CBLocation)location {
+  LNLog(@"did cache interstitial: %@", location);
+  
+  if ([location isEqualToString:showInterstitial]) {
+    [Chartboost showInterstitial:location];
+    showInterstitial = nil;
+  }
 }
 
 - (void)didDisplayInterstitial:(CBLocation)location {
