@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AttackMapViewController">
@@ -12,23 +12,67 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="O8j-jY-JIV" customClass="AttackMapStatusView">
-            <rect key="frame" x="0.0" y="4" width="500" height="104"/>
+            <rect key="frame" x="0.0" y="0.0" width="427" height="104"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="earthdailylab.png" id="A8A-DY-nwH">
-                    <rect key="frame" x="0.0" y="54" width="500" height="50"/>
+                    <rect key="frame" x="0.0" y="54" width="427" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="c3K-Fq-PQp">
-                    <rect key="frame" x="20" y="54" width="480" height="50"/>
+                    <rect key="frame" x="20" y="54" width="407" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="bcb-g2-cT2">
-                            <rect key="frame" x="9" y="27" width="202" height="18"/>
+                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" id="LmQ-pb-B1H" userLabel="Drops">
+                            <rect key="frame" x="68" y="27" width="80" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <gestureRecognizers/>
+                            <connections>
+                                <outlet property="delegate" destination="O8j-jY-JIV" id="xn8-vJ-kj1"/>
+                            </connections>
+                        </scrollView>
+                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="tfe-pB-dJe" userLabel="NameScroll">
+                            <rect key="frame" x="27" y="7" width="116" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepleville City" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sBg-k7-B4U" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="0.0" y="-5" width="200" height="27"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <connections>
+                                <outlet property="delegate" destination="O8j-jY-JIV" id="dZ0-Og-3KU"/>
+                            </connections>
+                        </scrollView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="gradientearthdailylab.png" highlighted="YES" id="ffi-AE-CeF" userLabel="RightGradient">
+                            <rect key="frame" x="118" y="0.0" width="20" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="vOQ-zV-Amq" userLabel="DoneCheck">
+                            <rect key="frame" x="8" y="-10" width="250" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="maptaskdonebg.png" id="Mfc-C5-k3r">
+                                    <rect key="frame" x="0.0" y="19" width="15" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="maptaskdonecheck.png" id="gpI-k0-rEr">
+                                    <rect key="frame" x="-2" y="17" width="20" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                        </view>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="bcb-g2-cT2" userLabel="AvailLabel">
+                            <rect key="frame" x="8" y="26" width="52" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AVAILABLE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="rvh-ir-DGf" customClass="NiceFontLabel9B">
-                                    <rect key="frame" x="0.0" y="0.0" width="60" height="16"/>
+                                    <rect key="frame" x="0.0" y="1" width="60" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="deviceRGB"/>
@@ -36,51 +80,11 @@
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <view contentMode="scaleToFill" id="GNs-Lt-9BD">
-                                    <rect key="frame" x="59" y="-1" width="70" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="awI-57-5tr">
-                                            <rect key="frame" x="1" y="3" width="14" height="13"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Pyv-R4-AW9" customClass="NiceFontLabel8B">
-                                            <rect key="frame" x="18" y="1" width="53" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <view contentMode="scaleToFill" id="1g1-sw-emS">
-                                    <rect key="frame" x="132" y="-1" width="70" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="p34-9d-90v">
-                                            <rect key="frame" x="1" y="3" width="14" height="13"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="JFe-9k-xic" customClass="NiceFontLabel8B">
-                                            <rect key="frame" x="17" y="1" width="53" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="XQ5-Mv-49W">
-                            <rect key="frame" x="391" y="5" width="80" height="40"/>
+                        <view contentMode="scaleToFill" id="XQ5-Mv-49W" userLabel="EnterButton">
+                            <rect key="frame" x="318" y="5" width="80" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4tW-Z2-cUv">
@@ -135,17 +139,8 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepleville City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sBg-k7-B4U" customClass="NiceFontLabel12B">
-                    <rect key="frame" x="29" y="58" width="375" height="27"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="bottom" id="rDy-TE-ddp">
-                    <rect key="frame" x="202" y="-7" width="250" height="222"/>
+                    <rect key="frame" x="143" y="-7" width="250" height="222"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
             </subviews>
@@ -155,11 +150,13 @@
             <connections>
                 <outlet property="availableLabel" destination="rvh-ir-DGf" id="9Mt-Ag-yli"/>
                 <outlet property="bgdImage" destination="A8A-DY-nwH" id="9cL-Et-XzQ"/>
-                <outlet property="cashLabel" destination="Pyv-R4-AW9" id="3ru-mB-dXB"/>
                 <outlet property="characterIcon" destination="rDy-TE-ddp" id="RGD-c2-wki"/>
+                <outlet property="doneCheckImage" destination="gpI-k0-rEr" id="awg-7J-wmf"/>
+                <outlet property="dropScrollView" destination="LmQ-pb-B1H" id="UJ4-kt-JJg"/>
                 <outlet property="enterButtonView" destination="XQ5-Mv-49W" id="zkf-9e-cdV"/>
-                <outlet property="oilLabel" destination="JFe-9k-xic" id="SA6-M3-Qyf"/>
+                <outlet property="rightGradient" destination="ffi-AE-CeF" id="xj7-hg-PCY"/>
                 <outlet property="sideLabel" destination="l8K-mQ-mdl" id="s2D-HH-bt5"/>
+                <outlet property="taskNameScrollView" destination="tfe-pB-dJe" id="JHn-eE-DTK"/>
                 <outlet property="topLabel" destination="sBg-k7-B4U" id="zVW-Ru-sQZ"/>
             </connections>
             <point key="canvasLocation" x="98" y="177"/>
@@ -169,9 +166,10 @@
         <image name="earthdailylab.png" width="1" height="50"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>
+        <image name="gradientearthdailylab.png" width="11" height="50"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
-        <image name="moneystack.png" width="31" height="30"/>
-        <image name="oilicon.png" width="25" height="30"/>
+        <image name="maptaskdonebg.png" width="15" height="15"/>
+        <image name="maptaskdonecheck.png" width="20" height="18"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -45,7 +45,7 @@
   GameState* gs = [GameState sharedGameState];
   _skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillController.skillId]];
   
-  [self setSkillIcon:[_skillProto.iconImgName stringByAppendingString:kSkillIconImageNameSuffix]];
+  [self setSkillIcon:[_skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]];
   
   [self setSkillLabel];
   

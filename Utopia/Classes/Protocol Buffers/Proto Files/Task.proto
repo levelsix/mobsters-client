@@ -30,6 +30,12 @@ message FullTaskProto {
 	optional int32 boardHeight = 9;
 	optional string groundImgPrefix = 10;
 	optional DialogueProto initialDefeatedDialogue = 11;
+	
+	optional int32 boardId = 12;
+	
+	//either this or the next one will be displayed, based on a toggle.
+	repeated Quality rarities = 13;
+	repeated int32 monsterIds = 14;
 }
 
 //------------------------------------------------------------------------------------------
@@ -124,7 +130,7 @@ message TaskMapElementProto {
 	optional int32 taskId = 2;
 	optional int32 xPos = 3;
 	optional int32 yPos = 4;
-	optional Element element = 5;
+	optional Element element = 5 [default = NO_ELEMENT];
 	optional bool boss = 6;
 	optional string bossImgName = 7;
 	optional int32 itemDropId = 8;

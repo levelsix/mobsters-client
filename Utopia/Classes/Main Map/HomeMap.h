@@ -71,6 +71,7 @@
 - (void) pointArrowOnManageTeam;
 - (void) pointArrowOnSellMobsters;
 - (void) pointArrowOnUpgradeResidence;
+- (void) pointArrowOnHospital;
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config;
 
 - (BOOL) speedUpBuildingQueueUp:(BOOL)queueUp;

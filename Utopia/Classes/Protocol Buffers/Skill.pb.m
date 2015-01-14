@@ -61,8 +61,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
 @property int32_t sucId;
 @property (strong) NSMutableArray * mutablePropertiesList;
 @property (strong) NSString* desc;
-@property (strong) NSString* iconImgName;
-@property (strong) NSString* logoImgName;
+@property (strong) NSString* imgNamePrefix;
 @end
 
 @implementation SkillProto
@@ -125,20 +124,13 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
   hasDesc_ = !!value_;
 }
 @synthesize desc;
-- (BOOL) hasIconImgName {
-  return !!hasIconImgName_;
+- (BOOL) hasImgNamePrefix {
+  return !!hasImgNamePrefix_;
 }
-- (void) setHasIconImgName:(BOOL) value_ {
-  hasIconImgName_ = !!value_;
+- (void) setHasImgNamePrefix:(BOOL) value_ {
+  hasImgNamePrefix_ = !!value_;
 }
-@synthesize iconImgName;
-- (BOOL) hasLogoImgName {
-  return !!hasLogoImgName_;
-}
-- (void) setHasLogoImgName:(BOOL) value_ {
-  hasLogoImgName_ = !!value_;
-}
-@synthesize logoImgName;
+@synthesize imgNamePrefix;
 - (id) init {
   if ((self = [super init])) {
     self.skillId = 0;
@@ -149,8 +141,7 @@ BOOL SkillActivationTypeIsValidValue(SkillActivationType value) {
     self.predecId = 0;
     self.sucId = 0;
     self.desc = @"";
-    self.iconImgName = @"";
-    self.logoImgName = @"";
+    self.imgNamePrefix = @"";
   }
   return self;
 }
@@ -203,11 +194,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasDesc) {
     [output writeString:9 value:self.desc];
   }
-  if (self.hasIconImgName) {
-    [output writeString:10 value:self.iconImgName];
-  }
-  if (self.hasLogoImgName) {
-    [output writeString:11 value:self.logoImgName];
+  if (self.hasImgNamePrefix) {
+    [output writeString:12 value:self.imgNamePrefix];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -245,11 +233,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasDesc) {
     size_ += computeStringSize(9, self.desc);
   }
-  if (self.hasIconImgName) {
-    size_ += computeStringSize(10, self.iconImgName);
-  }
-  if (self.hasLogoImgName) {
-    size_ += computeStringSize(11, self.logoImgName);
+  if (self.hasImgNamePrefix) {
+    size_ += computeStringSize(12, self.imgNamePrefix);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -316,11 +301,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasDesc) {
     [output appendFormat:@"%@%@: %@\n", indent, @"desc", self.desc];
   }
-  if (self.hasIconImgName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"iconImgName", self.iconImgName];
-  }
-  if (self.hasLogoImgName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"logoImgName", self.logoImgName];
+  if (self.hasImgNamePrefix) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"imgNamePrefix", self.imgNamePrefix];
   }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
@@ -350,10 +332,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
       [self.propertiesList isEqualToArray:otherMessage.propertiesList] &&
       self.hasDesc == otherMessage.hasDesc &&
       (!self.hasDesc || [self.desc isEqual:otherMessage.desc]) &&
-      self.hasIconImgName == otherMessage.hasIconImgName &&
-      (!self.hasIconImgName || [self.iconImgName isEqual:otherMessage.iconImgName]) &&
-      self.hasLogoImgName == otherMessage.hasLogoImgName &&
-      (!self.hasLogoImgName || [self.logoImgName isEqual:otherMessage.logoImgName]) &&
+      self.hasImgNamePrefix == otherMessage.hasImgNamePrefix &&
+      (!self.hasImgNamePrefix || [self.imgNamePrefix isEqual:otherMessage.imgNamePrefix]) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -385,11 +365,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (self.hasDesc) {
     hashCode = hashCode * 31 + [self.desc hash];
   }
-  if (self.hasIconImgName) {
-    hashCode = hashCode * 31 + [self.iconImgName hash];
-  }
-  if (self.hasLogoImgName) {
-    hashCode = hashCode * 31 + [self.logoImgName hash];
+  if (self.hasImgNamePrefix) {
+    hashCode = hashCode * 31 + [self.imgNamePrefix hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -465,11 +442,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
   if (other.hasDesc) {
     [self setDesc:other.desc];
   }
-  if (other.hasIconImgName) {
-    [self setIconImgName:other.iconImgName];
-  }
-  if (other.hasLogoImgName) {
-    [self setLogoImgName:other.logoImgName];
+  if (other.hasImgNamePrefix) {
+    [self setImgNamePrefix:other.imgNamePrefix];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -540,12 +514,8 @@ static SkillProto* defaultSkillProtoInstance = nil;
         [self setDesc:[input readString]];
         break;
       }
-      case 82: {
-        [self setIconImgName:[input readString]];
-        break;
-      }
-      case 90: {
-        [self setLogoImgName:[input readString]];
+      case 98: {
+        [self setImgNamePrefix:[input readString]];
         break;
       }
     }
@@ -703,36 +673,20 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.desc = @"";
   return self;
 }
-- (BOOL) hasIconImgName {
-  return result.hasIconImgName;
+- (BOOL) hasImgNamePrefix {
+  return result.hasImgNamePrefix;
 }
-- (NSString*) iconImgName {
-  return result.iconImgName;
+- (NSString*) imgNamePrefix {
+  return result.imgNamePrefix;
 }
-- (SkillProto_Builder*) setIconImgName:(NSString*) value {
-  result.hasIconImgName = YES;
-  result.iconImgName = value;
+- (SkillProto_Builder*) setImgNamePrefix:(NSString*) value {
+  result.hasImgNamePrefix = YES;
+  result.imgNamePrefix = value;
   return self;
 }
-- (SkillProto_Builder*) clearIconImgName {
-  result.hasIconImgName = NO;
-  result.iconImgName = @"";
-  return self;
-}
-- (BOOL) hasLogoImgName {
-  return result.hasLogoImgName;
-}
-- (NSString*) logoImgName {
-  return result.logoImgName;
-}
-- (SkillProto_Builder*) setLogoImgName:(NSString*) value {
-  result.hasLogoImgName = YES;
-  result.logoImgName = value;
-  return self;
-}
-- (SkillProto_Builder*) clearLogoImgName {
-  result.hasLogoImgName = NO;
-  result.logoImgName = @"";
+- (SkillProto_Builder*) clearImgNamePrefix {
+  result.hasImgNamePrefix = NO;
+  result.imgNamePrefix = @"";
   return self;
 }
 @end

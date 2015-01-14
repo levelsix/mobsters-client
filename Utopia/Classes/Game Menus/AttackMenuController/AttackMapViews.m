@@ -80,6 +80,7 @@
     } completion:nil];
     
     [Globals bounceView:self fromScale:0.85f toScale:1.f duration:0.35f];
+    self.layer.transform = CATransform3DIdentity;
   }
 }
 
@@ -97,12 +98,22 @@
 @implementation AttackMapStatusView
 
 - (void) awakeFromNib {
-  if ([Globals isSmallestiPhone]) {
-    // Remove available label for small iphone
-    self.cashLabel.superview.originX = self.availableLabel.originX;
-    
-    self.availableLabel.hidden = YES;
+  
+  if ([Globals isiPhone5orSmaller])
+  {
+    [self hideCharacterIcon];
+    if ([Globals isSmallestiPhone])
+    {
+      self.dropScrollView.originX = self.availableLabel.superview.originX;
+      self.availableLabel.superview.hidden = YES;
+    }
   }
+  
+}
+
+- (void) hideCharacterIcon {
+  [self.characterIcon removeFromSuperview];
+  self.characterIcon = nil;
 }
 
 - (void) updateForTaskId:(int)taskId element:(Element)elem level:(int)level isLocked:(BOOL)isLocked isCompleted:(BOOL)isCompleted oilAmount:(int)oil cashAmount:(int)cash charImgName:(NSString *)charImgName {
@@ -113,6 +124,8 @@
   self.bgdImage.image = [Globals imageNamed:file];
   
   self.topLabel.text = task.name;
+  self.taskNameScrollView.contentSize = [self.topLabel.text sizeWithFont:self.topLabel.font];
+  
   self.sideLabel.text = [NSString stringWithFormat:@"LEVEL %d", level];
   
   [self.greyscaleView removeFromSuperview];
@@ -122,35 +135,78 @@
     self.greyscaleView.userInteractionEnabled = YES;
     [self.enterButtonView addSubview:self.greyscaleView];
   }
+
+  //Clear previous available rewards
+  [[self.dropScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   
+  //Reset X value
+  int nextX = 0;
+  
+  //Set check
+  self.doneCheckImage.hidden = !isCompleted;
+  
+  //Determine scroll view width
+  self.dropScrollView.width = (self.characterIcon ? self.characterIcon.originX + 28 : self.enterButtonView.originX) - self.dropScrollView.originX - 5;
+  self.taskNameScrollView.width = self.dropScrollView.width + (self.availableLabel.superview.hidden ? -25 : 35);
+  
+  NSLog(@"Drop scroll width: %f, task name width: %f, Self origin: %f, view width: %f", self.dropScrollView.width, self.taskNameScrollView.width, self.dropScrollView.originX, self.width);
+  
+  //Add money rewards
   if (!isCompleted) {
-    self.cashLabel.text = [Globals commafyNumber:cash];
-    self.oilLabel.text = [Globals commafyNumber:oil];
     
-    CGSize s = [self.cashLabel.text getSizeWithFont:self.cashLabel.font];
-    CGRect r = self.oilLabel.superview.frame;
-    r.origin.x = self.cashLabel.superview.frame.origin.x + self.cashLabel.frame.origin.x + s.width + 5;
-    self.oilLabel.superview.frame = r;
+    nextX = [self addReward:@"moneystack.png" labelText:[Globals commafyNumber:cash] xPos:nextX];
+    nextX = [self addReward:@"oilicon.png" labelText:[Globals commafyNumber:oil] xPos:nextX];
+    
   } else {
-    self.cashLabel.superview.hidden = YES;
-    self.oilLabel.superview.hidden = YES;
-    self.availableLabel.hidden = NO;
+    //Remainder resources
     
-    self.availableLabel.text = @"COMPLETED";
-    self.availableLabel.font = self.cashLabel.font;
-    self.availableLabel.textColor = [UIColor whiteColor];
   }
   
+  Quality qual;
+  for (int i = 0; i < task.raritiesList.count; i++) {
+    qual = [[task.raritiesList objectAtIndexedSubscript:i] intValue];
+    NSString *qualName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"ball.png" : @"piece.png")]];
+    nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
+  }
   
-  // Disable for non-iphone 6
-  if (self.width < 329) {
-    [self.characterIcon removeFromSuperview];
-    self.characterIcon = nil;
-  } else {
+  self.dropScrollView.contentSize = CGSizeMake(nextX, self.dropScrollView.height);
+  
+  UIImage *gradientImage = [Globals imageNamed:(!isLocked ? [@"gradient" stringByAppendingString:[Globals imageNameForElement:elem suffix:@"dailylab.png"]] : @"gradientlockeddailylab.png")];
+  [self.rightGradient setImage:gradientImage];
+  self.rightGradient.originX = self.dropScrollView.originX + self.dropScrollView.width - 17;
+  
+  if (self.characterIcon) {
     [Globals imageNamedWithiPhone6Prefix:charImgName withView:self.characterIcon greyscale:isLocked indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
   
   self.taskId = taskId;
+}
+
+- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
+  UINib *nib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
+  PossibleDropView *drop = [nib instantiateWithOwner:self options:nil][0];
+  [drop updateForReward:imageName labelText:labelText];
+  
+  [self.dropScrollView addSubview:drop];
+  
+  CGRect r = drop.frame;
+  r.origin.x = xPos;
+  drop.frame = r;
+  
+  return drop.frame.origin.x + drop.label.frame.origin.x + [drop.label.text getSizeWithFont:drop.label.font].width + 5;
+}
+
+@end
+
+@implementation PossibleDropView
+
+- (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText{
+  self.label.text = labelText;
+  [self.iconImage setImage:[Globals imageNamed:imageName]];
+}
+
+- (void) updateForToon:(int)toonId{
+  
 }
 
 @end

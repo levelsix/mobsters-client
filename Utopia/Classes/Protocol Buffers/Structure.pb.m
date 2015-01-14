@@ -6860,7 +6860,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
-    self.qualityUnlocked = QualityNoQuality;
+    self.qualityUnlocked = QualityCommon;
     self.evoTierUnlocked = 0;
   }
   return self;
@@ -7126,7 +7126,7 @@ static EvoChamberProto* defaultEvoChamberProtoInstance = nil;
 }
 - (EvoChamberProto_Builder*) clearQualityUnlocked {
   result.hasQualityUnlocked = NO;
-  result.qualityUnlocked = QualityNoQuality;
+  result.qualityUnlocked = QualityCommon;
   return self;
 }
 - (BOOL) hasEvoTierUnlocked {
