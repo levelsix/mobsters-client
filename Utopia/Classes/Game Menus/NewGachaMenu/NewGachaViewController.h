@@ -39,6 +39,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView *logoImage;
 @property (nonatomic, retain) IBOutlet UIImageView *logoSeparatorImage;
 
+@property (nonatomic, retain) IBOutlet UIImageView* gachaBgTopLeft;
+@property (nonatomic, retain) IBOutlet UIImageView* gachaBgBottomRight;
+
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UIView *gemCostView;
 @property (nonatomic, retain) IBOutlet UIView *spinView;

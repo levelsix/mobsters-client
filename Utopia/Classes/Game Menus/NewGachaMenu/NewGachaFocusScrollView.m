@@ -18,6 +18,9 @@
 
 - (void) awakeFromNib {
   self.reusableViews = [NSMutableArray array];
+  
+  self.pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:51.f / 255.f green:51.f / 255.f blue:51.f / 255.f alpha:1.f];
+  self.pageControl.pageIndicatorTintColor = [UIColor colorWithRed:107.f / 255.f green:107.f / 255.f blue:107.f / 255.f alpha:.3f];
 }
 
 - (void) reloadData {
@@ -128,7 +131,7 @@
     CGPoint focusCenter = focus.center;
     float distFactor = MIN(1.f, ABS(focusCenter.x-curCenter)/width);
     // Allow close to the center values to be completely unblurred
-    distFactor = MAX(0.f, (distFactor-0.2)/0.8);
+//  distFactor = MAX(0.f, (distFactor-0.2)/0.8);
     
     float alphaBase = focusCenter.x > curCenter ? 0.f : 0.6f;
     focus.alpha = alphaBase+(1-alphaBase)*(1-distFactor);

@@ -133,6 +133,11 @@
 - (void) awakeFromNib {
   self.coverGradient.alpha = 0.f;
   
+  if ([Globals isiPhone6Plus]) {
+    self.imageContainerView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
+    self.imageContainerView.centerX += 20.f;
+  }
+  
   /*
   UIView *container = self.monsterIcon.superview;
   container.centerX = self.hpLabel.superview.originX/2+10;
@@ -156,6 +161,8 @@
   
   _leftSkillViewOrigin = self.offensiveSkillView.origin;
   _rightSkillViewOrigin = self.defensiveSkillView.origin;
+  
+  [Globals alignSubviewsToPixelsBoundaries:self.statsContainerView];
 }
 
 -(void)offensiveSkillTapped:(id)sender

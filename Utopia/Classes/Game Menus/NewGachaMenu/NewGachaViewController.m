@@ -140,9 +140,30 @@
   }
    */
   
+  const CGFloat navBarHeight = self.topBar.height;
+  
+  self.gachaBgTopLeft.originY += navBarHeight;
+  self.gachaBgTopLeft.height -= navBarHeight;
+  self.gachaBgBottomRight.originY += navBarHeight;
+  self.gachaBgBottomRight.height -= navBarHeight;
+  
   UIView *featuredContainer = self.focusScrollView.superview;
-  featuredContainer.originY += self.topBar.height;
-  featuredContainer.height -= self.topBar.height;
+  featuredContainer.originY += navBarHeight;
+  featuredContainer.height -= navBarHeight;
+
+  CGPoint oldCenter = self.spinButton.center;
+  {
+    [Globals imageNamedWithiPhone6Prefix:@"spinbutton.png" withView:self.spinButton greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+
+    CGSize newSize = self.spinButton.imageView.image.size;
+    CGFloat widthRatio = newSize.width / self.spinButton.width;
+    CGFloat heightRatio = newSize.height / self.spinButton.height;
+    self.spinButton.size = newSize;
+    self.spinButton.center = oldCenter;
+    
+    self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
+    self.spinView.center = self.spinButton.center;
+  }
   
   if ([Globals isSmallestiPhone])
   {
@@ -152,20 +173,16 @@
     CGFloat moveBy = featuredContainer.originX - self.logoImage.originX;
     featuredContainer.originX -= moveBy;
     featuredContainer.width += moveBy;
-
-    CGPoint oldCenter = self.spinButton.center;
-    CGSize  newSize = self.spinButton.imageView.image.size;
-    CGFloat widthRatio = newSize.width / self.spinButton.width;
-    CGFloat heightRatio = newSize.height / self.spinButton.height;
-    self.spinButton.size = newSize;
-    self.spinButton.center = oldCenter;
-    
-    self.spinView.size = CGSizeMake(self.spinView.width * widthRatio, self.spinView.height * heightRatio);
-    self.spinView.center = self.spinButton.center;
+    featuredContainer.originY -= 15.f;
+    featuredContainer.height += 15.f;
   }
 
   self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
   self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
+  
+  self.topBar.gemIcon.transform = CGAffineTransformMakeScale(-1.f, 1.f);
+  
+  [Globals alignSubviewsToPixelsBoundaries:self.spinButton.superview];
 }
 
 - (void) loadBoosterPacks {
@@ -185,7 +202,7 @@
   
   self.title = self.boosterPack.boosterPackName;
   
-  self.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
+  self.gemCostLabel.text = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice]];
   self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
 //[Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   
@@ -195,6 +212,19 @@
             indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   [Globals imageNamed:bpp.navBarImgName withView:self.logoImage greyscale:NO
             indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  CGFloat deviceScale = MIN([Globals screenSize].height / 375.f, 1.1f); // These images are designed for iPhone 6
+  {
+    const CGPoint oldCenter = self.logoImage.center;
+    self.logoImage.size = CGSizeMake(self.logoImage.image.size.width * deviceScale, self.logoImage.image.size.height * deviceScale);
+    self.logoImage.center = oldCenter;
+  }
+  if (deviceScale < 1.f) deviceScale *= deviceScale; // Scale down a bit further on smaller screens
+  {
+    const CGPoint oldCenter = self.machineImage.center;
+    self.machineImage.size = CGSizeMake(self.machineImage.image.size.width * deviceScale, self.machineImage.image.size.height * deviceScale);
+    self.machineImage.center = oldCenter;
+  }
 }
 
 - (void) updateFreeGachasCounter
@@ -208,21 +238,21 @@
   {
     self.gemCostLabel.superview.hidden = YES;
     self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
-    self.spinActionLabel.text = @"DAILY SPIN!";
+    self.spinActionLabel.text = @" DAILY SPIN! ";
     self.spinActionLabel.originX = 0;
   }
   else if (numFreeSpins)
   {
     self.gemCostLabel.superview.hidden = YES;
     self.spinActionLabel.textAlignment = NSTextAlignmentCenter;
-    self.spinActionLabel.text = [NSString stringWithFormat:@"%d FREE SPIN%@!", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
+    self.spinActionLabel.text = [NSString stringWithFormat:@" %d FREE SPIN%@! ", numFreeSpins, numFreeSpins > 1 ? @"S" : @""];
     self.spinActionLabel.originX = 0;
   }
   else
   {
     self.gemCostLabel.superview.hidden = NO;
     self.spinActionLabel.textAlignment = NSTextAlignmentLeft;
-    self.spinActionLabel.text = @"SPIN!";
+    self.spinActionLabel.text = @" SPIN! ";
     
     CGFloat labelTextWidth = [self.spinActionLabel.text getSizeWithFont:self.spinActionLabel.font
                                                       constrainedToSize:self.spinActionLabel.frame.size
@@ -522,7 +552,7 @@
 }
 
 - (CGFloat) scaleForOutOfFocusView {
-  return 0.75;
+  return 0.5f;
 }
 
 - (BOOL) shouldLoopItems {
