@@ -1333,7 +1333,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
                          [UIColor colorWithRed:35.f/255.f green:139.f/255.f blue:255.f/255.f alpha:1.f],
                          [UIColor colorWithRed:255.f/255.f green:0.f/255.f blue:138.f/255.f alpha:1.f],
                          [UIColor whiteColor], nil];
-    self.inactiveShadowColor = [UIColor blackColor];
+    self.inactiveShadowColor = [UIColor colorWithWhite:0.f alpha:.5f];
     self.activeShadowColor = nil;
   }
   

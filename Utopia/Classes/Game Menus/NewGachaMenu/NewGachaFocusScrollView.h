@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "GPUImage.h"
-#import "CustomIndicatorPageControl.h"
 
 @protocol NewGachaFocusScrollViewDelegate
 
@@ -25,7 +24,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet CustomIndicatorPageControl* pageControl;
+@property (nonatomic, retain) IBOutlet UIPageControl* pageControl;
 
 @property (nonatomic, retain) NSMutableArray *reusableViews;
 @property (nonatomic, retain) NSMutableArray *innerViews;
