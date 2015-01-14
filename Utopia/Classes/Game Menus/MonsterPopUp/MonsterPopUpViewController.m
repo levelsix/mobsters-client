@@ -147,7 +147,7 @@
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.offensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:[skillProto.iconImgName stringByAppendingString:kSkillIconImageNameSuffix]
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
                  withView:self.offensiveSkillIcon greyscale:!offensive indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       self.offensiveSkillIcon.hidden = NO;
       self.offensiveSkillName.text = skillProto.name;
@@ -178,7 +178,7 @@
     SkillProto* skillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:self.monster.defensiveSkillId]];
     if (skillProto)
     {
-      [Globals imageNamed:[skillProto.iconImgName stringByAppendingString:kSkillIconImageNameSuffix]
+      [Globals imageNamed:[skillProto.imgNamePrefix stringByAppendingString:kSkillIconImageNameSuffix]
                  withView:self.defensiveSkillIcon greyscale:offensive indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
       self.defensiveSkillIcon.hidden = NO;
       self.defensiveSkillName.text = skillProto.name;

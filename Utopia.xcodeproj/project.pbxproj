@@ -237,6 +237,12 @@
 		29A2FCDB1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
 		29A2FCDC1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
 		29A2FCDD1A645AE500FF93B6 /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */; };
+		29A2FCEB1A647C6200FF93B6 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCEA1A647C6200FF93B6 /* Research.pb.m */; };
+		29A2FCEC1A647C6200FF93B6 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCEA1A647C6200FF93B6 /* Research.pb.m */; };
+		29A2FCED1A647C6200FF93B6 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCEA1A647C6200FF93B6 /* Research.pb.m */; };
+		29A2FCF11A647EEB00FF93B6 /* OrbFallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCF01A647EEB00FF93B6 /* OrbFallAction.m */; };
+		29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCF01A647EEB00FF93B6 /* OrbFallAction.m */; };
+		29A2FCF31A647EEB00FF93B6 /* OrbFallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A2FCF01A647EEB00FF93B6 /* OrbFallAction.m */; };
 		29AA139F1A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A01A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
 		29AA13A11A33214A004A9F22 /* ChatMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */; };
@@ -6620,6 +6626,10 @@
 		29A2FC591A4EB67B00FF93B6 /* BoardLayoutProto+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BoardLayoutProto+Properties.h"; sourceTree = "<group>"; };
 		29A2FC5A1A4EB67B00FF93B6 /* BoardLayoutProto+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardLayoutProto+Properties.m"; sourceTree = "<group>"; };
 		29A2FCDA1A645AE500FF93B6 /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
+		29A2FCE91A647C6200FF93B6 /* Research.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Research.pb.h; sourceTree = "<group>"; };
+		29A2FCEA1A647C6200FF93B6 /* Research.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Research.pb.m; sourceTree = "<group>"; };
+		29A2FCEF1A647EEB00FF93B6 /* OrbFallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrbFallAction.h; sourceTree = "<group>"; };
+		29A2FCF01A647EEB00FF93B6 /* OrbFallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrbFallAction.m; sourceTree = "<group>"; };
 		29AA139E1A33214A004A9F22 /* ChatMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMonsterView.xib; sourceTree = "<group>"; };
 		29AA13AD1A35916E004A9F22 /* battleinputmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battleinputmessage@2x.png"; sourceTree = "<group>"; };
 		29AA13AF1A35916E004A9F22 /* battlesendmessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesendmessage@2x.png"; sourceTree = "<group>"; };
@@ -13028,6 +13038,8 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				29A2FCE91A647C6200FF93B6 /* Research.pb.h */,
+				29A2FCEA1A647C6200FF93B6 /* Research.pb.m */,
 				29A2FC4E1A4E36AA00FF93B6 /* Board.pb.h */,
 				29A2FC4F1A4E36AA00FF93B6 /* Board.pb.m */,
 				CF4825B019F7549300041486 /* Prerequisite.pb.h */,
@@ -13709,6 +13721,8 @@
 				DA0FC57119B64E6800393BF4 /* OrbSprite.m */,
 				DA0FC58919B688A500393BF4 /* TileSprite.h */,
 				DA0FC58A19B688A500393BF4 /* TileSprite.m */,
+				29A2FCEF1A647EEB00FF93B6 /* OrbFallAction.h */,
+				29A2FCF01A647EEB00FF93B6 /* OrbFallAction.m */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -22041,6 +22055,7 @@
 				CF0CED29196F452900ECD301 /* SocketCommunication.m in Sources */,
 				9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF0CED2A196F452900ECD301 /* AnimatedSprite.m in Sources */,
+				29A2FCEC1A647C6200FF93B6 /* Research.pb.m in Sources */,
 				DA0FC58719B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				CF0CED2B196F452900ECD301 /* ChatViewController.m in Sources */,
 				CF0CED2C196F452900ECD301 /* PullRefreshTableViewController.m in Sources */,
@@ -22192,6 +22207,7 @@
 				CF0CEDB2196F452900ECD301 /* RewardsView.m in Sources */,
 				CF0CEDB3196F452900ECD301 /* EnhanceQueueViewController.m in Sources */,
 				CF0CEDB4196F452900ECD301 /* AMQPConnectionThread.m in Sources */,
+				29A2FCF21A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF0CEDB5196F452900ECD301 /* EventStructure.pb.m in Sources */,
 				DA0FC58319B65B0200393BF4 /* SkillControllerPassive.m in Sources */,
 				CF0CEDB6196F452900ECD301 /* EventDungeon.pb.m in Sources */,
@@ -22306,6 +22322,7 @@
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
 				CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */,
 				CF4DB8E81807DA1F00062258 /* HomeMap.m in Sources */,
+				29A2FCF11A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF9AE70E180CA78C0013DD44 /* LoadingViewController.m in Sources */,
 				CF126D361538ACCA00E0C1AD /* Globals.m in Sources */,
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
@@ -22369,6 +22386,7 @@
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
 				CF6574AC1909CAF200ABF1F4 /* EventAchievement.pb.m in Sources */,
+				29A2FCEB1A647C6200FF93B6 /* Research.pb.m in Sources */,
 				CFE9D35A194A833600BD930E /* ClanInfoViews.m in Sources */,
 				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
 				CF6574B01909CAF200ABF1F4 /* EventCity.pb.m in Sources */,
@@ -22640,6 +22658,7 @@
 				CF4818CE19F7217F00041486 /* SocketCommunication.m in Sources */,
 				9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */,
 				CF4818CF19F7217F00041486 /* AnimatedSprite.m in Sources */,
+				29A2FCED1A647C6200FF93B6 /* Research.pb.m in Sources */,
 				CF4818D019F7217F00041486 /* SkillJelly.m in Sources */,
 				CF4818D119F7217F00041486 /* ChatViewController.m in Sources */,
 				CF4818D219F7217F00041486 /* PullRefreshTableViewController.m in Sources */,
@@ -22791,6 +22810,7 @@
 				CF48196119F7217F00041486 /* RewardsView.m in Sources */,
 				CF48196219F7217F00041486 /* EnhanceQueueViewController.m in Sources */,
 				CF48196319F7217F00041486 /* AMQPConnectionThread.m in Sources */,
+				29A2FCF31A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF48196419F7217F00041486 /* EventStructure.pb.m in Sources */,
 				CF48196519F7217F00041486 /* SkillControllerPassive.m in Sources */,
 				CF48196619F7217F00041486 /* EventDungeon.pb.m in Sources */,

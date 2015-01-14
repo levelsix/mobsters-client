@@ -132,6 +132,8 @@
 - (void) applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
   
+  [[CCDirector sharedDirector] pause];
+  
   [[SocketCommunication sharedSocketCommunication] flush];
 }
 

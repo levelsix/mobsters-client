@@ -19,6 +19,7 @@
 #import <CCTextureCache.h>
 
 #import "BattleOrbPath.h"
+#import "OrbFallAction.h"
 
 #define ORB_NAME_TAG(d) [NSString stringWithFormat:@"%p", d]
 
@@ -450,59 +451,24 @@
   
   for (BattleOrbPath *orbPath in orbPaths) {
     BattleOrb *orb = orbPath.orb;
+    OrbSprite *orbLayer = [self spriteForOrb:orb];
+    
+    CCActionInterval *action;
     
     if (![bottomFeeders containsObject:orb]) {
-      OrbSprite *orbLayer = [self spriteForOrb:orb];
-      
-      NSMutableArray *moveTos = [NSMutableArray array];
-      CGPoint prevPoint = CGPointZero;
-      
-      float durPerSquare = 0.32;
-      
-      for (id val in orbPath.path) {
-        if ([val isKindOfClass:[NSNumber class]]) {
-          [moveTos addObject:[CCActionDelay actionWithDuration:[val intValue]*durPerSquare]];
-        } else if ([val isKindOfClass:[NSValue class]]) {
-          CGPoint nextPoint = [val CGPointValue];
-          if (CGPointEqualToPoint(prevPoint, CGPointZero)) {
-            orbLayer.position = [self pointForColumn:nextPoint.x row:nextPoint.y];
-          } else {
-            int numSquares = MAX(1, (prevPoint.y-nextPoint.y));
-            float duration = durPerSquare*numSquares;
-            CCActionMoveTo *moveTo = [CCActionEaseIn actionWithAction:
-                                      [CCActionMoveTo actionWithDuration:duration position:[self pointForColumn:nextPoint.x row:nextPoint.y]] rate:1.3];
-            [moveTos addObject:moveTo];
-          }
-          prevPoint = nextPoint;
-        }
-      }
-      
-      CCActionSequence *seq = [CCActionSequence actionWithArray:moveTos];
-      [orbLayer runAction:seq];
-      
-      orbLayer.zOrder = orbLayer.zOrder;
-      
-      longestDuration = MAX(longestDuration, seq.duration);
+      action = [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self];
+    } else {
+      action =
+       [CCActionSequence actions:
+        [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self],
+        [CCActionCallBlock actionWithBlock:
+         ^{
+           [self destroyOrb:orb chains:nil fromPowerup:PowerupTypeNone];
+         }], nil];
     }
-  }
-  
-  // Make the bottomFeeders just go to the bottom
-  for (BattleOrb *orb in bottomFeeders) {
-    OrbSprite *orbLayer = [self spriteForOrb:orb];
-    CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
     
-    int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
-    float duration = 0.05+0.05*numSquares;
-    CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-    [orbLayer runAction:
-     [CCActionSequence actions:
-      [CCActionEaseSineOut actionWithAction:moveTo],
-      [CCActionCallBlock actionWithBlock:
-       ^{
-         [self destroyOrb:orb chains:nil fromPowerup:PowerupTypeNone];
-       }], nil]];
-    
-    longestDuration = MAX(longestDuration, duration);
+    [orbLayer runAction:action];
+    longestDuration = MAX(longestDuration, action.duration);
   }
   
   // Wait until all the orbs have fallen down before we continue.

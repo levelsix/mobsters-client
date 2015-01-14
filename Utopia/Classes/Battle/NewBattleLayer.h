@@ -25,7 +25,11 @@
 #define HEALTH_BAR_SPEED 40
 #define MY_WALKING_SPEED 250.f
 
+#ifdef DEBUG
 #define NUM_MOVES_PER_TURN 50
+#else
+#define NUM_MOVES_PER_TURN 3
+#endif
 
 #define PULSE_ONCE_THRESH 0.5
 #define PULSE_CONT_THRESH 0.3

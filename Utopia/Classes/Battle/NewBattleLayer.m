@@ -1444,7 +1444,7 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.4f+xScale/600.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)

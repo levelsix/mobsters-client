@@ -18,7 +18,6 @@
 #import "RequestsViewController.h"
 #import "DialogueViewController.h"
 #import "UnreadNotifications.h"
-#import "MiniJobsViewController.h"
 #import "ClanViewController.h"
 #import "HomeViewController.h"
 #import "ShopViewController.h"
