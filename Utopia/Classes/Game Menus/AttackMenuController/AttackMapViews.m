@@ -149,6 +149,8 @@
   self.dropScrollView.width = (self.characterIcon ? self.characterIcon.originX + 28 : self.enterButtonView.originX) - self.dropScrollView.originX - 5;
   self.taskNameScrollView.width = self.dropScrollView.width + (self.availableLabel.superview.hidden ? -25 : 35);
   
+  
+  
   NSLog(@"Drop scroll width: %f, task name width: %f, Self origin: %f, view width: %f", self.dropScrollView.width, self.taskNameScrollView.width, self.dropScrollView.originX, self.width);
   
   //Add money rewards
@@ -171,6 +173,11 @@
   
   self.dropScrollView.contentSize = CGSizeMake(nextX, self.dropScrollView.height);
   
+  //If we have more content than we can fit, set up the timer to auto-scroll
+  if (self.dropScrollView.contentSize.width > self.dropScrollView.width){
+    [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:SCROLL_DISPLAY_TIME target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
+  }
+  
   UIImage *gradientImage = [Globals imageNamed:(!isLocked ? [@"gradient" stringByAppendingString:[Globals imageNameForElement:elem suffix:@"dailylab.png"]] : @"gradientlockeddailylab.png")];
   [self.rightGradient setImage:gradientImage];
   self.rightGradient.originX = self.dropScrollView.originX + self.dropScrollView.width - 17;
@@ -180,6 +187,36 @@
   }
   
   self.taskId = taskId;
+}
+
+- (void) scrollRewardsForward:(NSTimer *)timer{
+  //Destermine destination and duration
+  float distance = self.dropScrollView.contentSize.width - self.dropScrollView.width;
+  CGPoint destination = CGPointMake(distance, 0);
+  float duration = distance / SCROLL_SPEED_PX_PER_SEC;
+  
+  //Run the animation
+  [UIView animateWithDuration:duration animations:^ {
+    [self.dropScrollView setContentOffset:destination animated:NO];
+  }];
+  
+  //Start the timer to scroll us back
+  [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:(duration+SCROLL_DISPLAY_TIME) target:self selector:@selector(scrollRewardsBack:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
+}
+
+- (void) scrollRewardsBack:(NSTimer *)timer{
+  //Determine destination and duration
+  float distance = self.dropScrollView.contentOffset.x;
+  CGPoint destination = CGPointMake(0, 0);
+  float duration = distance / SCROLL_SPEED_PX_PER_SEC;
+
+  //Run the animation
+  [UIView animateWithDuration:(distance/SCROLL_SPEED_PX_PER_SEC) animations:^ {
+    [self.dropScrollView setContentOffset:destination animated:NO];
+  }];
+  
+  //Restart the timer to scroll forwards again
+  [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:(duration+SCROLL_DISPLAY_TIME) target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
 }
 
 - (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
