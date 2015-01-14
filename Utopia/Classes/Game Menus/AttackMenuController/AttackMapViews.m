@@ -161,6 +161,14 @@
     
   } else {
     //Remainder resources
+    UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(taskId)];
+    
+    if (taskCompleteData.unclaimedCash){
+      nextX = [self addReward:@"moneystack.png" labelText:[Globals commafyNumber:taskCompleteData.unclaimedCash] xPos:nextX];
+    }
+    if (taskCompleteData.unclaimedOil){
+      nextX = [self addReward:@"oilicon.png" labelText:[Globals commafyNumber:taskCompleteData.unclaimedOil] xPos:nextX];
+    }
     
   }
   
