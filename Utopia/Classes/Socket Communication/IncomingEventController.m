@@ -423,6 +423,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList.toNSArray];
+    [gs addToCompleteTasks:proto.completedTasksList];
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList isNew:NO];
@@ -1665,6 +1666,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.userWon) {
       [gs.completedTasks addObject:@(proto.taskId)];
+      [gs.completedTaskData setObject:proto.utcp forKey:@(proto.taskId)];
     }
     
     if (proto.hasUserItem) {

@@ -297,7 +297,7 @@
   if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
     NSMutableSet *set = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
-    _isFirstTime = ![gs.completedTasks containsObject:@(proto.taskId)];
+    _isFirstTime = ![gs isTaskCompleted:proto.taskId];
     for (TaskStageProto *tsp in proto.tspList) {
       TaskStageMonsterProto *tsm = [tsp.stageMonstersList objectAtIndex:0];
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
