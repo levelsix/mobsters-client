@@ -1026,9 +1026,13 @@
       oilAmount += elem.oilReward;
     }
   }
-  else //If there are leftover resources
+  else
   {
+    //Remainder resources
+    UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(proto.taskId)];
     
+    silverAmount += taskCompleteData.unclaimedCash;
+    oilAmount += taskCompleteData.unclaimedOil;
   }
   
   if (silverAmount) {
