@@ -1013,7 +1013,7 @@
   }
   
   // Check if this is the first time they are completing this task, and if there is a map element associated with it
-  if (![gs.completedTasks containsObject:@(proto.taskId)]) {
+  if (![gs isTaskCompleted:proto.taskId]) {
     TaskMapElementProto *elem = nil;
     for (TaskMapElementProto *e in gs.staticMapElements) {
       if (e.taskId == proto.taskId) {
