@@ -1026,6 +1026,10 @@
       oilAmount += elem.oilReward;
     }
   }
+  else //If there are leftover resources
+  {
+    
+  }
   
   if (silverAmount) {
     Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
