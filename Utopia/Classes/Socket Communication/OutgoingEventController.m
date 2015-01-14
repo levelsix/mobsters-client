@@ -1871,6 +1871,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         oilAmount += elem.oilReward;
       }
     }
+    else
+    {
+      //Remainder resources
+      UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(dungeonInfo.taskId)];
+      
+      silverAmount += taskCompleteData.unclaimedCash;
+      oilAmount += taskCompleteData.unclaimedOil;
+    }
     
     CashUpdate *su = [CashUpdate updateWithTag:tag change:silverAmount];
     OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilAmount];
