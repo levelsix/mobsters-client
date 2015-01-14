@@ -1830,4 +1830,32 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+//Figures out whether the player is still within the first world
+//Used for some helper UI which should only happen early on
+- (BOOL) hasBeatFirstBoss {
+  
+  //If we've already run this and it's true, just short it here w/o doing a search
+  if (_hasBeatenFirstBoss){
+    return YES;
+  }
+  
+  //If we haven't figured out the first boss task id, figure it out.
+  //We only need to do this once, if at all
+  if (_firstBossTaskId == 0){
+    //We're going to iterate through all the tasks to find the task _after_ the first boss,
+    //Which will be the lowest pair
+    for (FullTaskProto *task in self.staticTasks.allValues) {
+      //First boss will always have a prereq
+      if (task.prerequisiteTaskId == 0) continue;
+      
+      FullTaskProto *prereq = [self getStaticDataFrom:_staticTasks withId:task.prerequisiteTaskId];
+      if ((![task.groundImgPrefix isEqualToString:prereq.groundImgPrefix]) && (_firstBossTaskId == 0 || prereq.taskId < _firstBossTaskId)) {
+        _firstBossTaskId = prereq.taskId;
+      }
+    }
+  }
+  
+  return [self isTaskCompleted:_firstBossTaskId];
+}
+
 @end

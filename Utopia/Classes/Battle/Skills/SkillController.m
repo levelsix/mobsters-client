@@ -55,7 +55,7 @@
   _skillId = proto.skillId;
   _skillType = proto.type;
   _activationType = proto.activationType;
-  _skillImageNamePrefix = proto.iconImgName;
+  _skillImageNamePrefix = proto.imgNamePrefix;
   _executedInitialAction = NO;
   
   // Properties

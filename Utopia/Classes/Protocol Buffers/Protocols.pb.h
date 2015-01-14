@@ -4,6 +4,7 @@
 
 #import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
+#import "Board.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
 #import "City.pb.h"
@@ -35,6 +36,7 @@
 #import "MonsterStuff.pb.h"
 #import "Prerequisite.pb.h"
 #import "Quest.pb.h"
+#import "Research.pb.h"
 #import "SharedEnumConfig.pb.h"
 #import "Skill.pb.h"
 #import "StaticData.pb.h"
@@ -104,6 +106,10 @@
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
 @class BeginPvpBattleResponseProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -452,6 +458,10 @@
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;

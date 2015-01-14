@@ -152,6 +152,8 @@
 @property (nonatomic, retain) NSArray *speedupConstants;
 @property (nonatomic, retain) NSArray *resourceConversionConstants;
 
+@property (nonatomic, assign) BOOL displayRarity;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
@@ -307,6 +309,7 @@
 + (BOOL) checkEnteringDungeonWithTarget:(id)target noTeamSelector:(SEL)noTeamSelector inventoryFullSelector:(SEL)inventoryFullSelector;
 
 + (BOOL) isSmallestiPhone;
++ (BOOL) isiPhone5orSmaller;
 + (BOOL) isiPhone6;
 + (BOOL) isiPhone6Plus;
 

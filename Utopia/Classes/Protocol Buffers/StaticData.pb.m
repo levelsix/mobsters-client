@@ -15,6 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [AchievementStuffRoot registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
+    [BoardRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
@@ -22,6 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [MonsterStuffRoot registerAllExtensions:registry];
     [PrerequisiteRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [ResearchRoot registerAllExtensions:registry];
     [SkillRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -66,6 +68,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * mutableAchievementsList;
 @property (strong) NSMutableArray * mutableSkillsList;
 @property (strong) NSMutableArray * mutablePrereqsList;
+@property (strong) NSMutableArray * mutableBoardsList;
+@property (strong) NSMutableArray * mutableResearchList;
 @end
 
 @implementation StaticDataProto
@@ -139,6 +143,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @dynamic skillsList;
 @synthesize mutablePrereqsList;
 @dynamic prereqsList;
+@synthesize mutableBoardsList;
+@dynamic boardsList;
+@synthesize mutableResearchList;
+@dynamic researchList;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
@@ -343,6 +351,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (PrereqProto*)prereqsAtIndex:(NSUInteger)index {
   return [mutablePrereqsList objectAtIndex:index];
 }
+- (NSArray *)boardsList {
+  return mutableBoardsList;
+}
+- (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index {
+  return [mutableBoardsList objectAtIndex:index];
+}
+- (NSArray *)researchList {
+  return mutableResearchList;
+}
+- (ResearchProto*)researchAtIndex:(NSUInteger)index {
+  return [mutableResearchList objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -442,6 +462,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:33 value:element];
+  }];
+  [self.boardsList enumerateObjectsUsingBlock:^(BoardLayoutProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:34 value:element];
+  }];
+  [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:35 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -547,6 +573,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }];
   [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(33, element);
+  }];
+  [self.boardsList enumerateObjectsUsingBlock:^(BoardLayoutProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(34, element);
+  }];
+  [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(35, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -775,6 +807,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  [self.boardsList enumerateObjectsUsingBlock:^(BoardLayoutProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"boards"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"research"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -819,6 +863,8 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [self.skillsList isEqualToArray:otherMessage.skillsList] &&
       [self.allClanHousesList isEqualToArray:otherMessage.allClanHousesList] &&
       [self.prereqsList isEqualToArray:otherMessage.prereqsList] &&
+      [self.boardsList isEqualToArray:otherMessage.boardsList] &&
+      [self.researchList isEqualToArray:otherMessage.researchList] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -917,6 +963,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.prereqsList enumerateObjectsUsingBlock:^(PrereqProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.boardsList enumerateObjectsUsingBlock:^(BoardLayoutProto *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.researchList enumerateObjectsUsingBlock:^(ResearchProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -1182,6 +1234,20 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       [result.mutablePrereqsList addObjectsFromArray:other.mutablePrereqsList];
     }
   }
+  if (other.mutableBoardsList.count > 0) {
+    if (result.mutableBoardsList == nil) {
+      result.mutableBoardsList = [[NSMutableArray alloc] initWithArray:other.mutableBoardsList];
+    } else {
+      [result.mutableBoardsList addObjectsFromArray:other.mutableBoardsList];
+    }
+  }
+  if (other.mutableResearchList.count > 0) {
+    if (result.mutableResearchList == nil) {
+      result.mutableResearchList = [[NSMutableArray alloc] initWithArray:other.mutableResearchList];
+    } else {
+      [result.mutableResearchList addObjectsFromArray:other.mutableResearchList];
+    }
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1396,6 +1462,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         PrereqProto_Builder* subBuilder = [PrereqProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPrereqs:[subBuilder buildPartial]];
+        break;
+      }
+      case 274: {
+        BoardLayoutProto_Builder* subBuilder = [BoardLayoutProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBoards:[subBuilder buildPartial]];
+        break;
+      }
+      case 282: {
+        ResearchProto_Builder* subBuilder = [ResearchProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addResearch:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2173,6 +2251,54 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (StaticDataProto_Builder *)clearPrereqs {
   result.mutablePrereqsList = nil;
+  return self;
+}
+- (NSMutableArray *)boardsList {
+  return result.mutableBoardsList;
+}
+- (BoardLayoutProto*)boardsAtIndex:(NSUInteger)index {
+  return [result boardsAtIndex:index];
+}
+- (StaticDataProto_Builder *)addBoards:(BoardLayoutProto*)value {
+  if (result.mutableBoardsList == nil) {
+    result.mutableBoardsList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableBoardsList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllBoards:(NSArray *)array {
+  if (result.mutableBoardsList == nil) {
+    result.mutableBoardsList = [NSMutableArray array];
+  }
+  [result.mutableBoardsList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearBoards {
+  result.mutableBoardsList = nil;
+  return self;
+}
+- (NSMutableArray *)researchList {
+  return result.mutableResearchList;
+}
+- (ResearchProto*)researchAtIndex:(NSUInteger)index {
+  return [result researchAtIndex:index];
+}
+- (StaticDataProto_Builder *)addResearch:(ResearchProto*)value {
+  if (result.mutableResearchList == nil) {
+    result.mutableResearchList = [[NSMutableArray alloc]init];
+  }
+  [result.mutableResearchList addObject:value];
+  return self;
+}
+- (StaticDataProto_Builder *)addAllResearch:(NSArray *)array {
+  if (result.mutableResearchList == nil) {
+    result.mutableResearchList = [NSMutableArray array];
+  }
+  [result.mutableResearchList addObjectsFromArray:array];
+  return self;
+}
+- (StaticDataProto_Builder *)clearResearch {
+  result.mutableResearchList = nil;
   return self;
 }
 @end

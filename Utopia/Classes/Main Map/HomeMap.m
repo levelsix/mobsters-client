@@ -20,7 +20,6 @@
 #import "CCAnimation+SpriteLoading.h"
 #import "CCSoundAnimation.h"
 #import "AchievementUtil.h"
-#import "MiniJobsViewController.h"
 #import "HireViewController.h"
 #import "HomeViewController.h"
 #import "PersistentEventProto+Time.h"
@@ -763,6 +762,22 @@
   
   if (b) {
     [self pointArrowOnBuilding:b config:MapBotViewButtonUpgrade];
+  }
+}
+
+- (void) pointArrowOnHospital {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[HospitalBuilding class]];
+  for (HomeBuilding *x in arr) {
+    // Try to prioritize complete residences but if you don't have one then use the upgrading one
+    if (!b || (x.userStruct.isComplete > b.userStruct.isComplete) ||
+        (x.userStruct.isComplete == b.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level < b.userStruct.staticStruct.structInfo.level)) {
+      b = x;
+    }
+  }
+  
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonHeal];
   }
 }
 
@@ -1548,14 +1563,14 @@
   }
 }
 
-- (void) loadMiniJobsView {
-  // LEGACY
-  GameViewController *gvc = [GameViewController baseController];
-  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
-  [gvc addChildViewController:rvc];
-  rvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:rvc.view];
-}
+//- (void) loadMiniJobsView {
+//  // LEGACY
+//  GameViewController *gvc = [GameViewController baseController];
+//  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
+//  [gvc addChildViewController:rvc];
+//  rvc.view.frame = gvc.view.bounds;
+//  [gvc.view addSubview:rvc.view];
+//}
 
 #pragma mark - Purchase
 

@@ -22,6 +22,10 @@
 
 @class AchievementProto;
 @class AchievementProto_Builder;
+@class BoardLayoutProto;
+@class BoardLayoutProto_Builder;
+@class BoardPropertyProto;
+@class BoardPropertyProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -162,6 +166,10 @@
 @class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResearchPropertyProto;
+@class ResearchPropertyProto_Builder;
+@class ResearchProto;
+@class ResearchProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -803,6 +811,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
+  BOOL hasDisplayRarity_:1;
   BOOL hasFacebookPopUp_:1;
   BOOL hasAddAllFbFriends_:1;
   BOOL hasMinutesPerGem_:1;
@@ -811,11 +820,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasMonsterDmgMultiplier_:1;
   BOOL hasGemsPerResource_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasMaxMinutesForFreeSpeedUp_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasMaxNameLength_:1;
@@ -824,16 +832,18 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxObstacles_:1;
   BOOL hasMinutesPerObstacle_:1;
+  BOOL hasMaxMinutesForFreeSpeedUp_:1;
   BOOL hasFaqFileName_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasAdminChatUserProto_:1;
-  BOOL hasDownloadableNibConstants_:1;
   BOOL hasUserMonsterConstants_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
-  BOOL hasPvpConstant_:1;
   BOOL hasMiniTuts_:1;
   BOOL hasTaskMapConstants_:1;
+  BOOL hasPvpConstant_:1;
+  BOOL displayRarity_:1;
   BOOL facebookPopUp_:1;
   BOOL addAllFbFriends_:1;
   Float32 minutesPerGem;
@@ -842,11 +852,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   Float32 continueBattleGemCostMultiplier;
   Float32 monsterDmgMultiplier;
   Float32 gemsPerResource;
-  int32_t numBeginnerSalesAllowed;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
   int32_t fbConnectRewardDiamonds;
-  int32_t maxMinutesForFreeSpeedUp;
+  int32_t numBeginnerSalesAllowed;
   int32_t pvpRequiredMinLvl;
   int32_t maxLengthOfChatString;
   int32_t maxNameLength;
@@ -855,21 +864,22 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t maxLevelForUser;
   int32_t maxObstacles;
   int32_t minutesPerObstacle;
+  int32_t maxMinutesForFreeSpeedUp;
   NSString* faqFileName;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
   StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   StartupResponseProto_StartupConstants_TaskMapConstants* taskMapConstants;
-  NSMutableArray * mutableInAppPurchasePackagesList;
-  NSMutableArray * mutableClanHelpConstantsList;
+  StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
   NSMutableArray * mutableAnimatedSpriteOffsetsList;
+  NSMutableArray * mutableClanHelpConstantsList;
   NSMutableArray * mutableSucpList;
   NSMutableArray * mutableRccpList;
+  NSMutableArray * mutableInAppPurchasePackagesList;
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
@@ -902,6 +912,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasTaskMapConstants;
 - (BOOL) hasMaxMinutesForFreeSpeedUp;
 - (BOOL) hasPvpConstant;
+- (BOOL) hasDisplayRarity;
 @property (readonly, strong) NSArray * inAppPurchasePackagesList;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
@@ -938,6 +949,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, strong) StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
 @property (readonly, strong) NSArray * sucpList;
 @property (readonly, strong) NSArray * rccpList;
+- (BOOL) displayRarity;
 - (InAppPurchasePackageProto*)inAppPurchasePackagesAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)animatedSpriteOffsetsAtIndex:(NSUInteger)index;
 - (StartupResponseProto_StartupConstants_ClanHelpConstants*)clanHelpConstantsAtIndex:(NSUInteger)index;
@@ -2060,6 +2072,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder *)addRccp:(StartupResponseProto_StartupConstants_ResourceConversionConstantProto*)value;
 - (StartupResponseProto_StartupConstants_Builder *)addAllRccp:(NSArray *)array;
 - (StartupResponseProto_StartupConstants_Builder *)clearRccp;
+
+- (BOOL) hasDisplayRarity;
+- (BOOL) displayRarity;
+- (StartupResponseProto_StartupConstants_Builder*) setDisplayRarity:(BOOL) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDisplayRarity;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

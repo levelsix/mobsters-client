@@ -35,7 +35,7 @@
   // Skill image
   GameState* gs = [GameState sharedGameState];
   SkillProto* playerSkillProto = [gs.staticSkills objectForKey:[NSNumber numberWithInteger:skillId]];
-  NSString* logoName = [playerSkillProto.iconImgName stringByAppendingString:kSkillLogoImageNameSuffix];
+  NSString* logoName = [playerSkillProto.imgNamePrefix stringByAppendingString:kSkillLogoImageNameSuffix];
   [Globals imageNamed:logoName withView:skillImage greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   skillImage.alpha = 0.0;
   skillImage.transform = CGAffineTransformMakeScale(10.0, 10.0);

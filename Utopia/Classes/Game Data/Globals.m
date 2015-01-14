@@ -123,6 +123,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.speedupConstants = constants.sucpList;
   self.resourceConversionConstants = constants.rccpList;
   
+  self.displayRarity = constants.displayRarity;
+  
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;
@@ -2062,6 +2064,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (BOOL) isSmallestiPhone {
   return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width == 480.0);
+}
+
++ (BOOL) isiPhone5orSmaller {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [self screenSize].width <= 650.0);
 }
 
 + (BOOL) isiPhone6 {

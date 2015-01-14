@@ -2853,6 +2853,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) StartupResponseProto_StartupConstants_PvpConstants* pvpConstant;
 @property (strong) NSMutableArray * mutableSucpList;
 @property (strong) NSMutableArray * mutableRccpList;
+@property BOOL displayRarity;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3094,6 +3095,18 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @dynamic sucpList;
 @synthesize mutableRccpList;
 @dynamic rccpList;
+- (BOOL) hasDisplayRarity {
+  return !!hasDisplayRarity_;
+}
+- (void) setHasDisplayRarity:(BOOL) value_ {
+  hasDisplayRarity_ = !!value_;
+}
+- (BOOL) displayRarity {
+  return !!displayRarity_;
+}
+- (void) setDisplayRarity:(BOOL) value_ {
+  displayRarity_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3127,6 +3140,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.taskMapConstants = [StartupResponseProto_StartupConstants_TaskMapConstants defaultInstance];
     self.maxMinutesForFreeSpeedUp = 0;
     self.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
+    self.displayRarity = NO;
   }
   return self;
 }
@@ -3284,6 +3298,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasFacebookPopUp) {
     [output writeBool:36 value:self.facebookPopUp];
   }
+  if (self.hasDisplayRarity) {
+    [output writeBool:37 value:self.displayRarity];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3400,6 +3417,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasFacebookPopUp) {
     size_ += computeBoolSize(36, self.facebookPopUp);
+  }
+  if (self.hasDisplayRarity) {
+    size_ += computeBoolSize(37, self.displayRarity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3586,6 +3606,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasFacebookPopUp) {
     [output appendFormat:@"%@%@: %@\n", indent, @"facebookPopUp", [NSNumber numberWithBool:self.facebookPopUp]];
   }
+  if (self.hasDisplayRarity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"displayRarity", [NSNumber numberWithBool:self.displayRarity]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3664,6 +3687,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       [self.rccpList isEqualToArray:otherMessage.rccpList] &&
       self.hasFacebookPopUp == otherMessage.hasFacebookPopUp &&
       (!self.hasFacebookPopUp || self.facebookPopUp == otherMessage.facebookPopUp) &&
+      self.hasDisplayRarity == otherMessage.hasDisplayRarity &&
+      (!self.hasDisplayRarity || self.displayRarity == otherMessage.displayRarity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3775,6 +3800,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }];
   if (self.hasFacebookPopUp) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.facebookPopUp] hash];
+  }
+  if (self.hasDisplayRarity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.displayRarity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7877,6 +7905,9 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
       [result.mutableRccpList addObjectsFromArray:other.mutableRccpList];
     }
   }
+  if (other.hasDisplayRarity) {
+    [self setDisplayRarity:other.displayRarity];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8095,6 +8126,10 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
       }
       case 288: {
         [self setFacebookPopUp:[input readBool]];
+        break;
+      }
+      case 296: {
+        [self setDisplayRarity:[input readBool]];
         break;
       }
     }
@@ -8840,6 +8875,22 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 }
 - (StartupResponseProto_StartupConstants_Builder *)clearRccp {
   result.mutableRccpList = nil;
+  return self;
+}
+- (BOOL) hasDisplayRarity {
+  return result.hasDisplayRarity;
+}
+- (BOOL) displayRarity {
+  return result.displayRarity;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDisplayRarity:(BOOL) value {
+  result.hasDisplayRarity = YES;
+  result.displayRarity = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDisplayRarity {
+  result.hasDisplayRarity = NO;
+  result.displayRarity = NO;
   return self;
 }
 @end
