@@ -180,9 +180,9 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  [self beginGuideGreetingPhase];
+  //[self beginGuideGreetingPhase];
   //[self beginEnterBattlePhase];
-  //[self beginPostBattleConfrontation];
+  [self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];
   //[self beginFacebookRejectedNamingPhase];
@@ -243,6 +243,8 @@
   self.homeViewController = [[TutorialHomeViewController alloc] initWithSubViewController:self.healViewController];
   [self.homeViewController displayInParentViewController:self.gameViewController];
   [self.gameViewController.view bringSubviewToFront:self.dialogueViewController.view];
+  
+  self.homeViewController.mainView.centerY = self.homeViewController.view.height/2;
 }
 
 - (void) initBuildingViewController:(int)structId {

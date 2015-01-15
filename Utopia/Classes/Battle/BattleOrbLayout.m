@@ -269,6 +269,7 @@
   do {
     [set removeAllObjects];
     
+    // This will only add to the set if there are properties defined for inital colors/powerups
     for (int row = 0; row < _numRows; row++) {
       for (int column = 0; column < _numColumns; column++) {
         BattleOrb *orb = [self createInitialOrbAtColumn:column row:row layout:_layoutProto];
@@ -329,23 +330,25 @@
   
   BattleOrb *orb = [self createOrbAtColumn:column row:row type:OrbColorRock powerup:PowerupTypeNone special:SpecialOrbTypeNone];
   
-  [self generateRandomOrbData:orb atColumn:column row:row];
+  OrbColor color = 0;
+  PowerupType powerup = 0;
+  SpecialOrbType special = 0;
   
   BOOL shouldCreate = NO;
   for (BoardPropertyProto *prop in properties) {
     if ([prop.name isEqualToString:@"ORB_COLOR"]) {
-      orb.orbColor = prop.value;
+      color = prop.value;
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:@"ORB_POWERUP"]) {
-      orb.powerupType = prop.value;
+      powerup = prop.value;
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:@"ORB_SPECIAL"]) {
-      orb.specialOrbType = prop.value;
+      special = prop.value;
       shouldCreate = YES;
     } else if ([prop.name isEqualToString:@"ORB_EMPTY"]) {
-      orb.orbColor = OrbColorNone;
-      orb.powerupType = PowerupTypeNone;
-      orb.specialOrbType = SpecialOrbTypeNone;
+      color = OrbColorNone;
+      powerup = PowerupTypeNone;
+      special = SpecialOrbTypeNone;
       shouldCreate = YES;
     }
   }
@@ -353,6 +356,18 @@
   if (!shouldCreate) {
     [self setOrb:nil column:column row:row];
     orb = nil;
+  } else {
+    [self generateRandomOrbData:orb atColumn:column row:row];
+    
+    if (color) {
+      orb.orbColor = color;
+    }
+    if (powerup) {
+      orb.powerupType = powerup;
+    }
+    if (special) {
+      orb.specialOrbType = special;
+    }
   }
   
   return orb;
