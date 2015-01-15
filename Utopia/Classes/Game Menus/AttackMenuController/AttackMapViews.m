@@ -99,6 +99,8 @@
 
 - (void) awakeFromNib {
   
+  dropNib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
+  
   if ([Globals isiPhone5orSmaller])
   {
     [self hideCharacterIcon];
@@ -172,11 +174,18 @@
     
   }
   
-  Quality qual;
-  for (int i = 0; i < task.raritiesList.count; i++) {
-    qual = [[task.raritiesList objectAtIndexedSubscript:i] intValue];
-    NSString *qualName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"ball.png" : @"piece.png")]];
-    nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
+  if ([Globals sharedGlobals].displayRarity){
+    Quality qual;
+    for (int i = 0; i < task.raritiesList.count; i++) {
+      qual = [[task.raritiesList objectAtIndexedSubscript:i] intValue];
+      NSString *qualName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"ball.png" : @"piece.png")]];
+      nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
+    }
+  } else {
+    for (int i = 0; i < task.monsterIdsList.count; i++){
+      nextX = [self addMobsterReward:[task.monsterIdsList int32AtIndex:i] xPos:nextX];
+    }
+    
   }
   
   self.dropScrollView.contentSize = CGSizeMake(nextX, self.dropScrollView.height);
@@ -227,11 +236,7 @@
   [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:(duration+SCROLL_DISPLAY_TIME) target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
 }
 
-- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
-  UINib *nib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
-  PossibleDropView *drop = [nib instantiateWithOwner:self options:nil][0];
-  [drop updateForReward:imageName labelText:labelText];
-  
+- (int) addDrop:(PossibleDropView *)drop xPos:(int)xPos {
   [self.dropScrollView addSubview:drop];
   
   CGRect r = drop.frame;
@@ -241,6 +246,19 @@
   return drop.frame.origin.x + drop.label.frame.origin.x + [drop.label.text getSizeWithFont:drop.label.font].width + 5;
 }
 
+- (int) addMobsterReward:(int)mobsterId xPos:(int)xPos{
+  NSLog(@"Monster: %i", mobsterId);
+  PossibleDropView *drop = [dropNib instantiateWithOwner:self options:nil][0];
+  [drop updateForToon:mobsterId];
+  return [self addDrop:drop xPos:xPos];
+}
+
+- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
+  PossibleDropView *drop = [dropNib instantiateWithOwner:self options:nil][0];
+  [drop updateForReward:imageName labelText:labelText];
+  return [self addDrop:drop xPos:xPos];
+}
+
 @end
 
 @implementation PossibleDropView
@@ -248,10 +266,15 @@
 - (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText{
   self.label.text = labelText;
   [self.iconImage setImage:[Globals imageNamed:imageName]];
+  self.circleMonsterView.hidden = YES;
 }
 
 - (void) updateForToon:(int)toonId{
-  
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *monster = [gs monsterWithId:toonId];
+  [self updateForReward:([Globals imageNameForElement:monster.monsterElement suffix:@"avatar.png"]) labelText:monster.displayName];
+  self.circleMonsterView.hidden = NO;
+  [self.circleMonsterView updateForMonsterId:toonId];
 }
 
 @end

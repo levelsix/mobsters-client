@@ -38,7 +38,9 @@
 
 @end
 
-@interface AttackMapStatusView : TouchableSubviewsView <UIScrollViewDelegate>
+@interface AttackMapStatusView : TouchableSubviewsView <UIScrollViewDelegate> {
+  UINib *dropNib;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
@@ -54,6 +56,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *dropScrollView;
 
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
+
 @property (nonatomic, retain) IBOutlet UIImageView *doneCheckImage;
 @property (nonatomic, retain) IBOutlet UIImageView *rightGradient;
 @property (nonatomic, retain) IBOutlet UIImageView *leftGradient;
@@ -67,6 +70,7 @@
 @interface PossibleDropView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *iconImage;
+@property (nonatomic, retain) IBOutlet CircleMonsterView *circleMonsterView;
 @property (nonatomic, strong) IBOutlet UILabel *label;
 
 - (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText;
