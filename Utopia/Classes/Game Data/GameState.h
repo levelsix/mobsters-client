@@ -52,6 +52,9 @@
 @property (nonatomic, retain) MSDate *lastSecretGiftCollectTime;
 @property (nonatomic, retain) NSString *pvpDefendingMessage;
 
+@property (nonatomic, assign) BOOL hasBeatenFirstBoss;
+@property (nonatomic, assign) int firstBossTaskId;
+
 @property (nonatomic, assign) int allowQuestSkipping;
 
 @property (nonatomic, retain) UserPvpLeagueProto *pvpLeague;
@@ -284,5 +287,7 @@
 
 - (UserItemSecretGiftProto *) nextSecretGift;
 - (MSDate *) nextSecretGiftOpenDate;
+
+- (BOOL) hasBeatFirstBoss;
 
 @end

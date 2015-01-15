@@ -1072,6 +1072,21 @@ static const CGSize FIXED_SIZE = {568, 384};
     [(HomeMap *)self.currentMap refresh];
   }
   
+  //If there are hurt toons on the team, and the player hasn't beaten the first boss
+  //We want to put an arrow over the hospital to tell the player to head there
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (![gs hasBeatFirstBoss])
+  {
+    for (UserMonster *um in gs.allMonstersOnMyTeam) {
+      if (um.curHealth < [gl calculateMaxHealthForMonster:um])
+      {
+        [(HomeMap *)self.currentMap pointArrowOnHospital];
+        break;
+      }
+    }
+  }
+  
   _isInBattle = NO;
   
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];

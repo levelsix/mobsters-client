@@ -489,7 +489,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
     self.name = @"";
     self.posX = 0;
     self.posY = 0;
-    self.elem = ElementFire;
+    self.elem = ElementNoElement;
     self.value = 0;
   }
   return self;
@@ -881,7 +881,7 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
 }
 - (BoardPropertyProto_Builder*) clearElemList {
   result.hasElem = NO;
-  result.elem = ElementFire;
+  result.elem = ElementNoElement;
   return self;
 }
 - (BOOL) hasValue {

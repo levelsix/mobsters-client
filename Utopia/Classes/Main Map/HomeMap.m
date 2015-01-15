@@ -765,6 +765,22 @@
   }
 }
 
+- (void) pointArrowOnHospital {
+  HomeBuilding *b = nil;
+  NSArray *arr = [self childrenOfClassType:[HospitalBuilding class]];
+  for (HomeBuilding *x in arr) {
+    // Try to prioritize complete residences but if you don't have one then use the upgrading one
+    if (!b || (x.userStruct.isComplete > b.userStruct.isComplete) ||
+        (x.userStruct.isComplete == b.userStruct.isComplete && x.userStruct.staticStruct.structInfo.level < b.userStruct.staticStruct.structInfo.level)) {
+      b = x;
+    }
+  }
+  
+  if (b) {
+    [self pointArrowOnBuilding:b config:MapBotViewButtonHeal];
+  }
+}
+
 - (void) pointArrowOnBuilding:(HomeBuilding *)b config:(MapBotViewButtonConfig)config {
   [_arrowBuilding removeArrowAnimated:YES];
   

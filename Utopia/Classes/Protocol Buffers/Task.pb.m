@@ -3856,7 +3856,7 @@ static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
     self.taskId = 0;
     self.xPos = 0;
     self.yPos = 0;
-    self.element = ElementFire;
+    self.element = ElementNoElement;
     self.boss = NO;
     self.bossImgName = @"";
     self.itemDropId = 0;
@@ -4409,7 +4409,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
 }
 - (TaskMapElementProto_Builder*) clearElementList {
   result.hasElement = NO;
-  result.element = ElementFire;
+  result.element = ElementNoElement;
   return self;
 }
 - (BOOL) hasBoss {
