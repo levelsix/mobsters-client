@@ -39,7 +39,7 @@
 //  
 //  prop = [BoardPropertyProto builder];
 //  prop.posX = 4;
-//  prop.posY = 4;
+//  prop.posY = 4
 //  prop.name = @"PASSABLE_HOLE";
 //  [bldr addProperties:prop.build];
 //  
