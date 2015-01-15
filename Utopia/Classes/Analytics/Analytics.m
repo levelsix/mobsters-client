@@ -369,7 +369,7 @@ static NSDate *timeSinceLastTutStep = nil;
   //[titanClass trackPayment:YES error:nil amountLocal:@(unitPrice) amountUS:@(amountUS) localCurrencyName:currencyCode special:nil specialId:nil storeSku:product.productIdentifier gameSku:nil extraParams:nil];
   
   ADJEvent *event = [ADJEvent eventWithEventToken:ADJUST_REV_TOKEN];
-  [event setRevenue:roundf(amountUS*100)/100.f currency:@"USD"];
+  [event setRevenue:round(amountUS*100)/100. currency:@"USD"];
   [event setTransactionId:transaction.transactionIdentifier];
   [event setCallbackParameters:@{@"productName": product.productIdentifier}.mutableCopy];
   [Adjust trackEvent:event];
