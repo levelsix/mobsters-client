@@ -33,6 +33,7 @@
   BoardLayoutProto_Builder *bldr = [BoardLayoutProto builder];
   bldr.width = gridSize.width;
   bldr.height = gridSize.height;
+  bldr.orbElements = 111111;
   
 //  BoardPropertyProto_Builder *prop;
 //  
@@ -87,7 +88,18 @@
   if ((self = [super init])) {
     _numColumns = proto.width;
     _numRows = proto.height;
-    _numColors = 6;//proto.orbElements;
+    
+    // orbElements will be an int with the mask. i.e. 111000 means only fire, earth, water orbs
+    NSString *str = [NSString stringWithFormat:@"%d", proto.orbElements];
+    for (int i = OrbColorFire; i <= OrbColorNone && str.length > 0; i++) {
+      NSString *cur = [str substringToIndex:1];
+      int val = [cur intValue];
+      
+      _numColors |= val << i;
+      
+      str = [str substringFromIndex:1];
+    }
+    
     _layoutProto = proto;
     
     _tiles = (__strong id **)calloc(sizeof(id *), _numColumns);
@@ -234,8 +246,14 @@
 }
 
 - (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row {
+  // Get a random color based on the available colors
   
-  orb.orbColor = arc4random_uniform(_numColors) + OrbColorFire;
+  int rand;
+  
+  // Get a rand that is valid
+  while (!(1 << (rand = arc4random_uniform(OrbColorNone)) & _numColors));
+  
+  orb.orbColor = rand;
   orb.specialOrbType = SpecialOrbTypeNone;
   
   // Allow skill manager to override this info
