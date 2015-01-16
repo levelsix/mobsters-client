@@ -34,5 +34,6 @@
 - (void) appear:(BOOL)instantly;
 - (void) update;
 - (void) enableSkillButton:(BOOL)active;
+- (void) popupOrbCounter;
 
 @end
