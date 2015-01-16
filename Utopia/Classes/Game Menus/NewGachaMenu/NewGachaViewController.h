@@ -13,6 +13,7 @@
 #import "NewGachaFocusScrollView.h"
 #import "NewGachaViews.h"
 #import "BattleHudView.h"
+#import "NewGachaTicker.h"
 
 @interface NewGachaViewController : GenViewController
 <EasyTableViewDelegate, NewGachaFocusScrollViewDelegate, TabBarDelegate, NewGachaFeaturedViewCallbackDelegate, BattleSkillCounterPopupCallbackDelegate> {
@@ -24,6 +25,8 @@
   
   NSInteger _cachedDailySpin;
   BOOL      _lastSpinWasFree;
+  
+  NewGachaTicker* _tickerController;
 }
 
 @property (nonatomic, retain) BoosterPackProto *boosterPack;
@@ -60,6 +63,8 @@
 
 @property (nonatomic, retain) IBOutlet BattleSkillCounterPopupView* skillPopup;
 @property (nonatomic, retain) IBOutlet UIButton* skillPopupCloseButton;
+
+@property (nonatomic, retain) IBOutlet UIImageView* ticker;
 
 - (id) initWithBoosterPack:(BoosterPackProto *)bpp;
 

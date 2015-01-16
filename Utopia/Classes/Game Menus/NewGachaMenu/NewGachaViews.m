@@ -135,7 +135,7 @@
   
   if ([Globals isiPhone6Plus]) {
     self.imageContainerView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
-    self.imageContainerView.centerX += 20.f;
+    self.imageContainerView.centerX -= 10.f;
   }
   
   /*

@@ -1337,6 +1337,11 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
     self.activeShadowColor = nil;
   }
   
+  if      ([Globals isSmallestiPhone])  self.icon1.highlightedImage = [UIImage imageNamed:@"4basicgrabgachatabactive.png"];
+  else if ([Globals isiPhone6])         self.icon1.highlightedImage = [UIImage imageNamed:@"6basicgrabgachatabactive.png"];
+  else if ([Globals isiPhone6Plus])     self.icon1.highlightedImage = [UIImage imageNamed:@"6plusbasicgrabgachatabactive.png"];
+  else                                  self.icon1.highlightedImage = [UIImage imageNamed:@"5basicgrabgachatabactive.png"];
+  
   self.rightTabShadow.transform = CGAffineTransformMakeScale(-1.f, 1.f);
   
   [self clickButton:1];
@@ -1377,6 +1382,7 @@ void undoDelayOnScrollViewHierarchy(UIView *v) {
   icon.highlighted = YES;
   label.textColor = _activeTextColors[button - 1];
   label.shadowColor = self.activeShadowColor;
+  
   for (int i = 1; i <= 3; ++i) {
     UIButton* b = (UIButton*)[self viewWithTag:i];
     if (b) b.enabled = (i != button);

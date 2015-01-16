@@ -64,6 +64,10 @@
   
   [self.skillPopup setHidden:YES];
   [self.view addSubview:self.skillPopup];
+  
+  _tickerController = [[NewGachaTicker alloc] initWithImageView:self.ticker
+                                                      cellWidth:TABLE_CELL_WIDTH
+                                                    anchorPoint:CGPointMake(.5f, 12.f / 50.f)];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -104,6 +108,9 @@
   [super viewWillDisappear:animated];
   
   self.focusScrollView.delegate = nil;
+  
+  [_tickerController performCleanUp];
+  _tickerController = nil;
 }
 
 - (void) layoutViews {
@@ -141,11 +148,20 @@
    */
   
   const CGFloat navBarHeight = self.topBar.height;
+  const CGFloat deviceScale = [Globals screenSize].width / 667.f;
   
-  self.gachaBgTopLeft.originY += navBarHeight;
-  self.gachaBgTopLeft.height -= navBarHeight;
-  self.gachaBgBottomRight.originY += navBarHeight;
-  self.gachaBgBottomRight.height -= navBarHeight;
+  const CGSize bgTopLeftScaledSize = CGSizeMake(self.gachaBgTopLeft.image.size.width * deviceScale, self.gachaBgTopLeft.image.size.height * deviceScale);
+  [self.gachaBgTopLeft setFrame:CGRectMake(0.f,
+                                           navBarHeight,
+                                           bgTopLeftScaledSize.width,
+                                           bgTopLeftScaledSize.height)];
+  [self.gachaBgTopLeft setContentMode:UIViewContentModeScaleToFill];
+  const CGSize bgBottomRightScaledSize = CGSizeMake(self.gachaBgBottomRight.image.size.width * deviceScale, self.gachaBgBottomRight.image.size.height * deviceScale);
+  [self.gachaBgBottomRight setFrame:CGRectMake(self.view.width - bgBottomRightScaledSize.width,
+                                              self.view.height - bgBottomRightScaledSize.height,
+                                              bgBottomRightScaledSize.width,
+                                               bgBottomRightScaledSize.height)];
+  [self.gachaBgBottomRight setContentMode:UIViewContentModeScaleToFill];
   
   UIView *featuredContainer = self.focusScrollView.superview;
   featuredContainer.originY += navBarHeight;
@@ -170,19 +186,32 @@
     self.logoImage.hidden = YES;
     self.logoSeparatorImage.hidden = YES;
     
-    CGFloat moveBy = featuredContainer.originX - self.logoImage.originX;
+    CGFloat moveBy = featuredContainer.originX;
     featuredContainer.originX -= moveBy;
-    featuredContainer.width += moveBy;
+    featuredContainer.width += moveBy + 50.f;
     featuredContainer.originY -= 15.f;
     featuredContainer.height += 15.f;
+  }
+  else
+  {
+    UIImageView* leftGradient = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gachagradientbarleft.png"]];
+    {
+      [leftGradient setFrame:CGRectMake(172.f * deviceScale,
+                                        navBarHeight,
+                                        leftGradient.image.size.width * deviceScale,
+                                        leftGradient.image.size.height * deviceScale)];
+      [leftGradient setContentMode:UIViewContentModeScaleToFill];
+      [self.view insertSubview:leftGradient aboveSubview:featuredContainer];
+    }
+    
+    featuredContainer.originX = leftGradient.originX;
+    featuredContainer.width = (542.f * deviceScale) - featuredContainer.originX;
   }
 
   self.gemCostView.originX = (self.spinView.centerX - self.spinView.originX) + 5;
   self.gemCostView.originY = (self.spinView.height - self.gemCostView.height) * .5f - 5;
   
   self.topBar.gemIcon.transform = CGAffineTransformMakeScale(-1.f, 1.f);
-  
-  [Globals alignSubviewsToPixelsBoundaries:self.spinButton.superview];
 }
 
 - (void) loadBoosterPacks {
@@ -199,6 +228,8 @@
   [self setupItems];
   [self.gachaTable reloadData];
   [self.focusScrollView reloadData];
+  
+  [_tickerController resetState];
   
   self.title = self.boosterPack.boosterPackName;
   
@@ -225,6 +256,8 @@
     self.machineImage.size = CGSizeMake(self.machineImage.image.size.width * deviceScale, self.machineImage.image.size.height * deviceScale);
     self.machineImage.center = oldCenter;
   }
+  
+  [Globals alignSubviewsToPixelsBoundaries:self.machineImage.superview];
 }
 
 - (void) updateFreeGachasCounter
@@ -373,8 +406,8 @@
     TimingFunctionTableView *table = self.gachaTable.tableView;
     CGPoint pt = table.contentOffset;
     pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:prize];
-    float time = rand()/(float)RAND_MAX*3.5+3.5;
-    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:.23 :.9 :.28 :.95] duration:time];
+    float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
+    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.f :1.f :.5f :1.f] duration:time];
     
     self.prize = prize;
     
@@ -522,6 +555,13 @@
   } else {
     [self.prizeView animateWithGems:self.prize.gemReward];
   }
+}
+
+- (void) easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset
+{
+  TimingFunctionTableView *table = self.gachaTable.tableView;
+  if (_isSpinning || table.isTracking || table.dragging || table.decelerating)
+    [_tickerController updateWithContentOffset:contentOffset.x];
 }
 
 #pragma mark - Focus Scroll View
