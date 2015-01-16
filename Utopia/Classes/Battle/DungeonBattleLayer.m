@@ -511,6 +511,18 @@
   }
 }
 
+- (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
+  if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX) {
+    //check to see if this is the first skill
+    if ([self dungeonInfo].taskId == 6) {
+      [self forceSkillClickOver:dvc];
+    }
+    
+  }
+}
+
+
+
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
   [self beginNextTurn];
 }

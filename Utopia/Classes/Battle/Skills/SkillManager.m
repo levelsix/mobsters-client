@@ -416,6 +416,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return NO;
 }
 
+- (SkillController *) enemySkillControler {
+  return _enemySkillController;
+}
+- (SkillController *) playerSkillControler {
+  return _playerSkillController;
+}
+
+- (SkillBattleIndicatorView *) enemySkillIndicatorView
+{
+  return _skillIndicatorEnemy;
+}
+
+- (SkillBattleIndicatorView *) playerSkillIndicatorView
+{
+  return _skillIndicatorPlayer;
+}
+
 - (CGPoint) playerSkillIndicatorPosition
 {
   return ccpAdd(_skillIndicatorPlayer.position, ccp(0, _skillIndicatorPlayer.contentSize.height/2));
