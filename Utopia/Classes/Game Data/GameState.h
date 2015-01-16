@@ -85,6 +85,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticRaids;
 
 @property (nonatomic, retain) NSMutableSet *completedTasks;
+@property (nonatomic, retain) NSMutableDictionary *completedTaskData;
 
 @property (nonatomic, retain) NSArray *boosterPacks;
 
@@ -190,6 +191,7 @@
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
 - (void) addToExpansionCosts:(NSArray *)costs;
 - (void) addToEventCooldownTimes:(NSArray *)arr;
+- (void) addToCompleteTasks:(NSArray *)tasks;
 
 - (NSArray *) allPrivateChats;
 - (NSArray *) allClanChatObjects;

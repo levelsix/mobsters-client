@@ -139,6 +139,8 @@
 @class UserPvpLeagueProto_Builder;
 @class UserQuestJobProto;
 @class UserQuestJobProto_Builder;
+@class UserTaskCompletedProto;
+@class UserTaskCompletedProto_Builder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -521,12 +523,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasTaskMapSectionName_:1;
   BOOL hasSender_:1;
   BOOL hasUserItem_:1;
+  BOOL hasUtcp_:1;
   BOOL hasStatus_:1;
   BOOL userWon_:1;
   int32_t taskId;
   NSString* taskMapSectionName;
   MinimumUserProtoWithMaxResources* sender;
   UserItemProto* userItem;
+  UserTaskCompletedProto* utcp;
   EndDungeonResponseProto_EndDungeonStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
 }
@@ -536,6 +540,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasUserWon;
 - (BOOL) hasUserItem;
 - (BOOL) hasTaskMapSectionName;
+- (BOOL) hasUtcp;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
@@ -543,6 +548,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) userWon;
 @property (readonly, strong) UserItemProto* userItem;
 @property (readonly, strong) NSString* taskMapSectionName;
+@property (readonly, strong) UserTaskCompletedProto* utcp;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (EndDungeonResponseProto*) defaultInstance;
@@ -619,6 +625,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (NSString*) taskMapSectionName;
 - (EndDungeonResponseProto_Builder*) setTaskMapSectionName:(NSString*) value;
 - (EndDungeonResponseProto_Builder*) clearTaskMapSectionName;
+
+- (BOOL) hasUtcp;
+- (UserTaskCompletedProto*) utcp;
+- (EndDungeonResponseProto_Builder*) setUtcp:(UserTaskCompletedProto*) value;
+- (EndDungeonResponseProto_Builder*) setUtcp_Builder:(UserTaskCompletedProto_Builder*) builderForValue;
+- (EndDungeonResponseProto_Builder*) mergeUtcp:(UserTaskCompletedProto*) value;
+- (EndDungeonResponseProto_Builder*) clearUtcp;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {
