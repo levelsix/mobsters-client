@@ -244,17 +244,23 @@
   }
   return bp;
 }
-
 - (void) createScheduleWithSwap:(BOOL)swap {
+  [self createScheduleWithSwap:swap forcePlayerAttackFirst:NO];
+}
+
+- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
   if (self.myPlayerObject && self.enemyPlayerObject) {
-    
-    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    ScheduleFirstTurn order;
+    if(swap) {
+      order = ScheduleFirstTurnEnemy;
+    } else {
+      order = playerFirst ? ScheduleFirstTurnPlayer : ScheduleFirstTurnRandom;
+    }
     
     // Cake kid mechanics handling and creating schedule
     if ([skillManager cakeKidSchedule])
       order = ScheduleFirstTurnPlayer;
     if (! swap || ! [skillManager cakeKidSchedule]) // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
-      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order];
     
     _shouldDisplayNewSchedule = YES;
   } else {

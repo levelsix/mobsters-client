@@ -234,7 +234,7 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (BOOL) hasStatus;
 - (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status;
 - (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
-- (PurchaseBoosterPackResponseProto_Builder*) clearStatus;
+- (PurchaseBoosterPackResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)updatedOrNewList;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
