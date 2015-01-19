@@ -487,8 +487,8 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (!_isResumingState || !self.battleSchedule.schedule) {
-    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
-    [super createScheduleWithSwap:swap forcePlayerAttackFirst:stage.hasAttackerAlwaysHitsFirst];
+//    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+    [super createScheduleWithSwap:swap];
   }
 }
 
