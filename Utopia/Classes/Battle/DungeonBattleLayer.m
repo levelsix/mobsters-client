@@ -487,7 +487,8 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (!_isResumingState || !self.battleSchedule.schedule) {
-    [super createScheduleWithSwap:swap];
+    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+    [super createScheduleWithSwap:swap forcePlayerAttackFirst:stage.hasAttackerAlwaysHitsFirst];
   }
 }
 
@@ -513,8 +514,8 @@
 
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
   if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX) {
-    //check to see if this is the first skill
-    if ([self dungeonInfo].taskId == 6) {
+    Globals *gl = [Globals sharedGlobals];
+    if ([self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
       [self forceSkillClickOver:dvc];
     }
     

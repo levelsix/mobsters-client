@@ -175,6 +175,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) createScheduleWithSwap:(BOOL)swap;
+- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
@@ -236,6 +237,5 @@
 - (BOOL) isFirstEnemy;
 
 - (void) forceSkillClickOver:(DialogueViewController *)dvc;
-- (void) positionInnerFocedClickViewOver:(SkillBattleIndicatorView *)skillIndicator;
 
 @end
