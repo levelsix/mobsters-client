@@ -403,16 +403,12 @@
 
 - (void) responseReceivedWithSuccess:(BOOL)success prize:(BoosterItemProto *)prize monsters:(NSArray *)monsters {
   if (success) {
-    TimingFunctionTableView *table = self.gachaTable.tableView;
-    CGPoint pt = table.contentOffset;
-    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:prize];
-    float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
-    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.f :1.f :.5f :1.f] duration:time];
-    
     self.prize = prize;
     
     GameState *gs = [GameState sharedGameState];
     if (self.prize.monsterId) {
+      [self.prizeView preloadWithMonsterId:self.prize.monsterId];
+      
       MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
       NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
       [Globals imageNamedWithiPhone6Prefix:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
@@ -427,6 +423,12 @@
         _numPuzzlePieces = 0;
       }
     }
+    
+    TimingFunctionTableView *table = self.gachaTable.tableView;
+    CGPoint pt = table.contentOffset;
+    pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+2000) withBoosterItem:prize];
+    float time = (rand() / (float)RAND_MAX) * 2.f + 6.f;
+    [table setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.f :1.f :.5f :1.f] duration:time];
     
     int gemChange = self.prize.gemReward-self.boosterPack.gemPrice;
     [Analytics buyGacha:self.boosterPack.boosterPackId monsterId:self.prize.monsterId isPiece:!self.prize.isComplete gemChange:gemChange gemBalance:gs.gems];

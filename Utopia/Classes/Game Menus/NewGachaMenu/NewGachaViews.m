@@ -12,6 +12,7 @@
 #import "IAPHelper.h"
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "SkillController.h"
+#import "UIEffectDesignerView.h"
 
 static const CGFloat kRevealAnimDuration = 1.f; // Seconds
 static const CGFloat kRevealAnimFrames = 20.f;  // Frames
@@ -19,7 +20,10 @@ static const CGFloat kRevealAnimFrames = 20.f;  // Frames
 static const CGFloat kStatsScaleAnimStartingScale = 8.f;
 static const CGFloat kStatsScaleAnimDuration = .4f;   // Seconds
 static const CGFloat kScreenShakeAnimDuration = .4f;  // Seconds
-static const int kScreenShakeAnimOffsetRange = 24.f;  // Pixels
+static const int kScreenShakeAnimOffsetRange = 15.f;  // Pixels
+
+static const CGFloat kPFXFadeInAnimDuration = 1.f;    // Seconds
+static const CGFloat kLightPulseAnimDuration = 1.f;   // Seconds
 
 #define REVEAL_KEYFRAME_ANIMATION(__anim__, __key__) \
   CAKeyframeAnimation *__anim__ = [CAKeyframeAnimation animationWithKeyPath:__key__]; { \
@@ -50,12 +54,34 @@ typedef void (^RevealAnimCompletionBlock)(void);
   }
   else
     self.statsContainerView.originX += 30.f;
+  
+  self.statsContainerView.layer.anchorPoint = CGPointMake(.25f, .5f);
+  self.statsContainerView.originX -= self.statsContainerView.width * .25f;
+  
+  /*
+  // Preload element-specific images
+  for (Element element = ElementFire; element < ElementRock; ++element)
+  {
+    const NSString* elementStr = [[Globals stringForElement:element] lowercaseString];
+    [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
+    [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
+    [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
+    [Globals imageNamed:[elementStr stringByAppendingString:@"grlightsflashlow1.png"]];
+  }
+   */
+  
+  const CGFloat deviceScale = [Globals screenSize].width / 667.f;
+  UIEffectDesignerView* effectView = [UIEffectDesignerView effectWithFile:@"NewGachaSmoke.ped"];
+  [effectView setFrame:CGRectMake(140.f * deviceScale, 250.f * deviceScale, 100.f * deviceScale, 20.f * deviceScale)];
+  [effectView.emitter setEmitterSize:CGSizeMake(effectView.width, effectView.height)];
+  [effectView.emitter setEmitterPosition:CGPointMake(effectView.emitter.emitterPosition.x - effectView.width * .5f, effectView.emitter.emitterPosition.y)];
+  [self insertSubview:effectView belowSubview:self.closeButton];
+  _particleEffectView = effectView;
 }
 
-- (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces
+- (void) preloadWithMonsterId:(int)monsterId
 {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   [Globals imageNamedWithiPhone6Prefix:[proto.imagePrefix stringByAppendingString:@"Character.png"]
@@ -64,8 +90,24 @@ typedef void (^RevealAnimCompletionBlock)(void);
                              indicator:UIActivityIndicatorViewStyleWhite
               clearImageDuringDownload:YES];
   
+  const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
+  {
+    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
+    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
+    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
+    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grlightsflashlow1.png"]];
+  }
+}
+
+- (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces
+{
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  MonsterProto *proto = [gs monsterWithId:monsterId];
+  
   self.statsContainerView.hidden = YES;
   self.closeButton.hidden = YES;
+  _particleEffectView.hidden = YES;
   
   self.nameLabel.text = proto.displayName;
   self.rarityIcon.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
@@ -96,14 +138,6 @@ typedef void (^RevealAnimCompletionBlock)(void);
       
     default:
       break;
-  }
-  
-  const NSString* elementStr = [[Globals stringForElement:proto.monsterElement] lowercaseString];
-  {
-    self.background.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbackground.png"]];
-    self.elementbigFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grbigflash1.png"]];
-    self.elementGlow.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grglow2glowblend.png"]];
-    self.elementLightsFlash.image = [Globals imageNamed:[elementStr stringByAppendingString:@"grlightsflashlow1.png"]];
   }
   
   CGFloat offset = self.rarityIcon.width - self.rarityIcon.image.size.width;
@@ -336,9 +370,21 @@ typedef void (^RevealAnimCompletionBlock)(void);
     self.statsContainerView.alpha = 1.f;
     self.statsContainerView.transform = CGAffineTransformMakeScale(1.f, 1.f);
   } completion:^(BOOL finished) {
-    [self shakeView:self.statsContainerView withKey:@"StatsContainerViewShakeAnimation" completion:nil];
-    [self shakeView:self.animationContainerView withKey:@"AnimationContainerViewShakeAnimation" completion:^{
+    [self shakeViews:@[ self.statsContainerView, self.animationContainerView ] withKey:@"ContainerViewsShakeAnimation" completion:^{
       self.closeButton.hidden = NO;
+      
+      _particleEffectView.hidden = NO;
+      _particleEffectView.alpha = 0.f;
+      [UIView animateWithDuration:kPFXFadeInAnimDuration delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+        _particleEffectView.alpha = 1.f;
+      } completion:nil];
+       
+      [UIView animateWithDuration:kLightPulseAnimDuration
+                            delay:0.f
+                          options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                       animations:^{
+                         self.lightCircle.alpha = 0.f;
+                       } completion:nil];
     }];
   }];
 }
@@ -371,6 +417,42 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [anim setValue:completion forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
   }
   [view.layer addAnimation:anim forKey:key];
+}
+
+- (void) shakeViews:(NSArray*)views withKey:(NSString*)key completion:(RevealAnimCompletionBlock)completion
+{
+  NSMutableArray *keyTimes = [NSMutableArray array];
+  NSMutableArray *baseValues = [NSMutableArray array];
+  const int numFrames = 60.f * kScreenShakeAnimDuration;
+  for (int i = 0; i < numFrames; ++i)
+  {
+    [keyTimes addObject:@((float)i / (float)numFrames)];
+    [baseValues addObject:[NSValue valueWithCGPoint:CGPointMake((CGFloat)arc4random_uniform(kScreenShakeAnimOffsetRange) - kScreenShakeAnimOffsetRange * .5f,
+                                                                (CGFloat)arc4random_uniform(kScreenShakeAnimOffsetRange) - kScreenShakeAnimOffsetRange * .5f)]];
+  }
+  
+  BOOL completionBlockSet = NO;
+  for (UIView* view in views)
+  {
+    NSMutableArray *values = [NSMutableArray array];
+    const CGPoint pos = view.layer.position;
+    for (NSValue* baseValue in baseValues)
+      [values addObject:[NSValue valueWithCGPoint:CGPointMake(pos.x + [baseValue CGPointValue].x, pos.y + [baseValue CGPointValue].y)]];
+    
+    CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    [anim setDuration:kScreenShakeAnimDuration];
+    [anim setCalculationMode:kCAAnimationLinear];
+    [anim setKeyTimes:keyTimes];
+    [anim setValues:values];
+    
+    if (completion && !completionBlockSet) {
+      [anim setDelegate:self];
+      [anim setValue:completion forKey:REVEAL_ANIM_COMPLETION_BLOCK_KEY];
+      completionBlockSet = YES;
+    }
+    
+    [view.layer addAnimation:anim forKey:key];
+  }
 }
 
 - (void) updateSkillsForMonster:(UserMonster*)monster
@@ -435,6 +517,8 @@ typedef void (^RevealAnimCompletionBlock)(void);
     [_lightCircleDuplicate removeFromSuperview]; _lightCircleDuplicate = nil;
     [_whiteLightCircleDuplicate removeFromSuperview]; _whiteLightCircleDuplicate = nil;
     [_characterWhite removeFromSuperview]; _characterWhite = nil;
+    
+    [self.lightCircle.layer removeAllAnimations];
     
     self.alpha = 1.f;
   }];
