@@ -107,6 +107,8 @@
   int _enemyCounter;
   
   DialogueViewController *_forcedSkillDialogueViewController;
+  
+  BOOL _dungeonPlayerHitsFirst;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -175,7 +177,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) createScheduleWithSwap:(BOOL)swap;
-- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst;
+- (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
@@ -189,6 +191,7 @@
 - (void) dropLoot:(CCSprite *)ed;
 - (void) pickUpLoot;
 - (void) moveToNextEnemy;
+- (void) moveToNextEnemyWithPlayerFirst:(BOOL)playerHitsFirst;
 - (void) youWon;
 - (void) youLost;
 - (void) youForfeited;

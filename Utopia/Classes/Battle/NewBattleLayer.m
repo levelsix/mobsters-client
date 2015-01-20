@@ -245,10 +245,10 @@
   return bp;
 }
 - (void) createScheduleWithSwap:(BOOL)swap {
-  [self createScheduleWithSwap:swap forcePlayerAttackFirst:NO];
+  [self createScheduleWithSwap:swap playerHitsFirst:NO];
 }
 
-- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
+- (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
   if (self.myPlayerObject && self.enemyPlayerObject) {
     ScheduleFirstTurn order;
     if(swap) {
@@ -260,7 +260,9 @@
     // Cake kid mechanics handling and creating schedule
     if ([skillManager cakeKidSchedule])
       order = ScheduleFirstTurnPlayer;
-    if (! swap || ! [skillManager cakeKidSchedule]) // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
+    if (! swap || ! [skillManager cakeKidSchedule]) { // update schedule for all cases except if swap && cakeKidSchedule (for that we just remove one turn)
+      self.battleSchedule = [[BattleSchedule alloc] initWithPlayerA:self.myPlayerObject.speed playerB:self.enemyPlayerObject.speed andOrder:order];
+    }
     
     _shouldDisplayNewSchedule = YES;
   } else {
@@ -431,6 +433,11 @@
 }
 
 - (void) moveToNextEnemy {
+  [self moveToNextEnemyWithPlayerFirst:NO];
+}
+
+- (void) moveToNextEnemyWithPlayerFirst:(BOOL)playerHitsFirst {
+  _dungeonPlayerHitsFirst = playerHitsFirst;
   [self.hudView removeButtons];
   
   if (_lootSprite) {
@@ -477,7 +484,7 @@
     SkillLogStart(@"TRIGGER STARTED: enemy initialized");
     [skillManager triggerSkills:SkillTriggerPointEnemyInitialized withCompletion:^(BOOL triggered, id params) {
       SkillLogEnd(triggered, @"  Enemy initialized trigger ENDED");
-      [self createScheduleWithSwap:NO];
+      [self createScheduleWithSwap:NO playerHitsFirst:_dungeonPlayerHitsFirst];
     }];
   }
   
