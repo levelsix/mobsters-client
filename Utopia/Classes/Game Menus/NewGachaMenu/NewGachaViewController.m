@@ -234,7 +234,7 @@
   self.title = self.boosterPack.boosterPackName;
   
   self.gemCostLabel.text = [NSString stringWithFormat:@" %@ ", [Globals commafyNumber:self.boosterPack.gemPrice]];
-  self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
+//self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
 //[Globals adjustViewForCentering:self.gemCostLabel.superview withLabel:self.gemCostLabel];
   
   [self.gachaTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_COLS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
@@ -506,6 +506,8 @@
 
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
   if (_isSpinning) {
+    [self displayWhiteFlash];
+    /*
     if (self.prize.monsterId) {
       [self displayWhiteFlash];
     } else {
@@ -513,6 +515,7 @@
       self.gachaTable.userInteractionEnabled = YES;
       _isSpinning = NO;
     }
+     */
   }
 }
 
@@ -534,6 +537,7 @@
       view.alpha = 0.f;
     } completion:^(BOOL finished) {
       [view removeFromSuperview];
+      [self.prizeView beginAnimation];
     }];
   }];
   
@@ -546,6 +550,7 @@
   self.prizeView.frame = parent.bounds;
   [parent addSubview:self.prizeView];
   
+  /*
   if (self.prize.monsterId) {
     if (_numPuzzlePieces > 0) {
       [self.prizeView animateWithMonsterId:self.prize.monsterId numPuzzlePieces:_numPuzzlePieces];
@@ -554,6 +559,11 @@
     }
   } else {
     [self.prizeView animateWithGems:self.prize.gemReward];
+  }
+   */
+  
+  if (self.prize.monsterId) {
+    [self.prizeView initializeWithMonsterId:self.prize.monsterId numPuzzlePieces:(int)_numPuzzlePieces];
   }
 }
 
