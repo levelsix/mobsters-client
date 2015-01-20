@@ -62,7 +62,7 @@
 - (void) stopValidMovePulsing;
 
 // For the category
-- (void) destroyOrb:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup;
+- (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup;
 - (void) animateChainedChainsFromBattleOrb:(BattleOrb *)orb chains:(NSSet *)chains;
 - (void) checkIfAllOrbsAndPowerupsAreDone;
 

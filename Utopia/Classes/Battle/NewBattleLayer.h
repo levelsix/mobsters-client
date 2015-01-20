@@ -26,8 +26,9 @@
 #define MY_WALKING_SPEED 250.f
 
 #ifdef DEBUG
-#define NUM_MOVES_PER_TURN 3
+#define NUM_MOVES_PER_TURN 20
 #else
+// Don't edit this one
 #define NUM_MOVES_PER_TURN 3
 #endif
 

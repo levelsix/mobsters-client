@@ -72,6 +72,8 @@
 // Swaps the positions of the two orbs from the BattleSwap object.
 - (void)performSwap:(BattleSwap *)swap;
 
+- (void) resetOrbChangeTypes;
+
 // Determines whether the suggested swap is a valid one, i.e. it results in at
 // least one new chain of 3 or more orbs of the same type.
 - (BOOL)isPossibleSwap:(BattleSwap *)swap;

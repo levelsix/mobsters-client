@@ -20,6 +20,7 @@
   cp.bombCounter = self.bombCounter;
   cp.bombDamage = self.bombDamage;
   cp.headshotCounter = self.headshotCounter;
+  cp.cloudCounter = self.cloudCounter;
   return cp;
 }
 
@@ -28,7 +29,7 @@
 }
 
 - (BOOL) isMovable {
-  return self.specialOrbType != SpecialOrbTypeCloud;
+  return self.specialOrbType != SpecialOrbTypeCloud && !self.isLocked;
 }
 
 - (void) setSpecialOrbType:(SpecialOrbType)specialOrbType {
@@ -50,6 +51,8 @@
 #define BOMB_COUNTER      @"BombCounter"
 #define BOMB_DAMAGE       @"BombDamage"
 #define HEADSHOT_COUNTER  @"HeadshotCounter"
+#define CLOUD_COUNTER     @"CloudCounter"
+#define LOCKED_KEY        @"LockedKey"
 
 - (NSDictionary*) serialize
 {
@@ -60,6 +63,8 @@
   [info setObject:@(_bombCounter) forKey:BOMB_COUNTER];
   [info setObject:@(_bombDamage) forKey:BOMB_DAMAGE];
   [info setObject:@(_headshotCounter) forKey:HEADSHOT_COUNTER];
+  [info setObject:@(_cloudCounter) forKey:CLOUD_COUNTER];
+  [info setObject:@(_isLocked) forKey:LOCKED_KEY];
   return info;
 }
 
@@ -71,6 +76,8 @@
   NSNumber* bombCounter = [dic objectForKey:BOMB_COUNTER];
   NSNumber* bombDamage = [dic objectForKey:BOMB_DAMAGE];
   NSNumber* headshotCounter = [dic objectForKey:HEADSHOT_COUNTER];
+  NSNumber* cloudCounter = [dic objectForKey:CLOUD_COUNTER];
+  NSNumber* isLocked = [dic objectForKey:LOCKED_KEY];
   
   if (powerupType)
     _powerupType = (PowerupType)[powerupType integerValue];
@@ -84,6 +91,10 @@
     _bombDamage = [bombDamage integerValue];
   if (headshotCounter)
     _headshotCounter = [headshotCounter integerValue];
+  if (cloudCounter)
+    _cloudCounter = [cloudCounter integerValue];
+  if (isLocked)
+    _isLocked = [isLocked boolValue];
 }
 
 @end

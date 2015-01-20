@@ -15,7 +15,7 @@
 
 // Make this 1 to allow user to swap wherever they want
 #ifdef DEBUG
-//#define FREE_BATTLE_MOVEMENT 1
+#define FREE_BATTLE_MOVEMENT 1
 #endif
 
 @interface BattleOrbLayout ()
@@ -35,51 +35,58 @@
   bldr.height = gridSize.height;
   bldr.orbElements = 111111;
   
-//  BoardPropertyProto_Builder *prop;
-//  
-//  prop = [BoardPropertyProto builder];
-//  prop.posX = 4;
-//  prop.posY = 4
-//  prop.name = @"PASSABLE_HOLE";
-//  [bldr addProperties:prop.build];
-//  
-//  prop = [BoardPropertyProto builder];
-//  prop.posX = 4;
-//  prop.posY = 7;
-//  prop.name = @"NOT_SPAWN_TILE";
-//  [bldr addProperties:prop.build];
-//  
-//  for (int i = 0; i < gridSize.width; i++) {
-//    prop = [BoardPropertyProto builder];
-//    prop.posX = i;
-//    prop.posY = 2;
-//    prop.name = @"ORB_SPECIAL";
-//    prop.value = 5;
-//    [bldr addProperties:prop.build];
-//  }
-//  
-//  for (int i = 0; i < gridSize.width; i++) {
-//    prop = [BoardPropertyProto builder];
-//    prop.posX = i;
-//    prop.posY = 1;
-//    prop.name = @"ORB_EMPTY";
-//    prop.value = 5;
-//    [bldr addProperties:prop.build];
-//    
-//    prop = [BoardPropertyProto builder];
-//    prop.posX = i;
-//    prop.posY = 0;
-//    prop.name = @"ORB_EMPTY";
-//    prop.value = 5;
-//    [bldr addProperties:prop.build];
-//  }
-//  
-//  prop = [BoardPropertyProto builder];
-//  prop.posX = 1;
-//  prop.posY = 0;
-//  prop.name = @"TILE_TYPE";
-//  prop.value = 1;
-//  [bldr addProperties:prop.build];
+  BoardPropertyProto_Builder *prop;
+  //
+  //  prop = [BoardPropertyProto builder];
+  //  prop.posX = 4;
+  //  prop.posY = 4
+  //  prop.name = @"PASSABLE_HOLE";
+  //  [bldr addProperties:prop.build];
+  //
+  //  prop = [BoardPropertyProto builder];
+  //  prop.posX = 4;
+  //  prop.posY = 7;
+  //  prop.name = @"NOT_SPAWN_TILE";
+  //  [bldr addProperties:prop.build];
+  //
+  for (int i = 0; i < gridSize.width; i++) {
+    prop = [BoardPropertyProto builder];
+    prop.posX = i;
+    prop.posY = 2;
+    prop.name = @"ORB_LOCKED";
+    prop.value = 5;
+    [bldr addProperties:prop.build];
+    
+    prop = [BoardPropertyProto builder];
+    prop.posX = i;
+    prop.posY = 2;
+    prop.name = @"ORB_POWERUP";
+    prop.value = PowerupTypeVerticalLine;
+    [bldr addProperties:prop.build];
+  }
+  //
+  //  for (int i = 0; i < gridSize.width; i++) {
+  //    prop = [BoardPropertyProto builder];
+  //    prop.posX = i;
+  //    prop.posY = 1;
+  //    prop.name = @"ORB_EMPTY";
+  //    prop.value = 5;
+  //    [bldr addProperties:prop.build];
+  //
+  //    prop = [BoardPropertyProto builder];
+  //    prop.posX = i;
+  //    prop.posY = 0;
+  //    prop.name = @"ORB_EMPTY";
+  //    prop.value = 5;
+  //    [bldr addProperties:prop.build];
+  //  }
+  //
+  //  prop = [BoardPropertyProto builder];
+  //  prop.posX = 1;
+  //  prop.posY = 0;
+  //  prop.name = @"TILE_TYPE";
+  //  prop.value = 1;
+  //  [bldr addProperties:prop.build];
   
   return [self initWithBoardLayout:bldr.build];
 }
@@ -266,6 +273,9 @@
   
   // Loop through the rows and columns of the 2D array. Note that column 0,
   // row 0 is in the bottom-left corner of the array.
+  
+  BOOL redo = NO;
+  
   do {
     [set removeAllObjects];
     
@@ -313,12 +323,18 @@
               
               [set removeObject:orb];
             }
+            
+            // Make sure there are no chains
+            if ([self hasChainAtColumn:column row:row]) {
+              NSLog(@"AAAAAAAAAAAAAAAA");
+              redo = YES;
+            }
           }
         }
       }
     }
   }
-  while (![self detectPossibleSwaps].count);
+  while (redo || ![self detectPossibleSwaps].count);
   
   return set;
 }
@@ -349,6 +365,9 @@
       color = OrbColorNone;
       powerup = PowerupTypeNone;
       special = SpecialOrbTypeNone;
+      shouldCreate = YES;
+    } else if ([prop.name isEqualToString:@"ORB_LOCKED"]) {
+      orb.isLocked = YES;
       shouldCreate = YES;
     }
   }
@@ -552,6 +571,15 @@
   swap.orbA.row = rowB;
 }
 
+- (void) resetOrbChangeTypes {
+  for (NSInteger row = 0; row < _numRows; row++) {
+    for (NSInteger col = 0; col < _numColumns; col++) {
+      BattleOrb *orb = [self orbAtColumn:col row:row];
+      orb.changeType = OrbChangeTypeNone;
+    }
+  }
+}
+
 #pragma mark - Detecting Matches
 
 - (NSSet *) removeMatches {
@@ -648,7 +676,17 @@
 - (void)removeOrbs:(NSSet *)chains {
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
-      [self setOrb:nil column:orb.column row:orb.row];
+      // Orbs can only undergo one change per turn
+      
+      if (!orb.changeType) {
+        if (orb.isLocked) {
+          orb.isLocked = NO;
+          orb.changeType = OrbChangeTypeLockRemoved;
+        } else {
+          [self setOrb:nil column:orb.column row:orb.row];
+          orb.changeType = OrbChangeTypeDestroyed;
+        }
+      }
     }
   }
 }
@@ -981,16 +1019,32 @@
     // If this chain is the result of a powerup, it is impossible to create a new powerup orb
     if (!mainChain.powerupInitiatorOrb) {
       
+      // Make a list of orbs that can be substituted for the powerup since we can't spawn on orbs that still exist
+      NSMutableArray *replacableOrbs = [NSMutableArray array];
+      for (BattleOrb *orb in mainChain.orbs) {
+        if (![self orbAtColumn:orb.column row:orb.row]) {
+          [replacableOrbs addObject:orb];
+        }
+      }
+      
       // We know the non-powerup chains are in a straight line, but we still must look for L or T shapes
       // Priority: rainbow, grenade, rocket
       NSUInteger chainLength = mainChain.orbs.count;
+      NSUInteger replacableOrbsLength = replacableOrbs.count;
       
       if (chainLength >= 5) {
         
-        // Get the middle orb, or randomize if it is 6 orbs for example
-        NSUInteger idx = chainLength % 2 == 1 ? (chainLength-1)/2 : (chainLength-1)/2.f+arc4random_uniform(2)-0.5f;
+        BattleOrb *replacedOrb = nil;
+        if ([mainChain.orbs containsObject:swap.orbA]) {
+          replacedOrb = swap.orbA;
+        } else if ([mainChain.orbs containsObject:swap.orbB]) {
+          replacedOrb = swap.orbB;
+        } else {
+          // Get the middle orb, or randomize if it is 6 orbs for example
+          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+arc4random_uniform(2)-0.5f;
+          replacedOrb = replacableOrbs[idx];
+        }
         
-        BattleOrb *replacedOrb = mainChain.orbs[idx];
         BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:OrbColorNone powerup:PowerupTypeAllOfOneColor special:SpecialOrbTypeNone];
         [newOrbs addObject:newOrb];
         
@@ -1006,6 +1060,11 @@
           replacedOrb = [self findIntersectingOrbForChainA:chainSequence[0] chainB:chainSequence[1]];
         } while (!replacedOrb);
         
+        // Check that the replaced orb has been removed, otherwise use any orb
+        if ([self orbAtColumn:replacedOrb.column row:replacedOrb.row]) {
+          replacedOrb = [replacableOrbs firstObject];
+        }
+        
         BattleOrb *newOrb = [self createOrbAtColumn:replacedOrb.column row:replacedOrb.row type:replacedOrb.orbColor powerup:PowerupTypeExplosion special:SpecialOrbTypeNone];
         [newOrbs addObject:newOrb];
       }
@@ -1020,8 +1079,8 @@
           replacedOrb = swap.orbB;
         } else {
           // Get one of the middle orbs
-          NSUInteger idx = chainLength % 2 == 1 ? (chainLength-1)/2 : (chainLength-1)/2.f+arc4random_uniform(2)-0.5f;
-          replacedOrb = mainChain.orbs[idx];
+          NSUInteger idx = replacableOrbsLength % 2 == 1 ? (replacableOrbsLength-1)/2 : (replacableOrbsLength-1)/2.f+arc4random_uniform(2)-0.5f;
+          replacedOrb = replacableOrbs[idx];
         }
         
         BattleOrb *firstOrb = mainChain.orbs[0];
@@ -1038,6 +1097,12 @@
     // Remove all chains from this group
     [chainsArr removeObjectsInArray:chainSequence];
   }
+  
+  // Set the new orbs' change type to powerup creation so they don't explode this cycle
+  for (BattleOrb *newOrb in newOrbs) {
+    newOrb.changeType = OrbChangeTypePowerupCreated;
+  }
+  
   return newOrbs;
 }
 
@@ -1107,7 +1172,7 @@
   NSMutableArray *powerupOrbs = [NSMutableArray array];
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
-      if (orb.powerupType) {
+      if (orb.changeType == OrbChangeTypeDestroyed && orb.powerupType) {
         if (chain.powerupInitiatorOrb) {
           [self changeOrb:orb fromPowerupInitiatorOrb:chain.powerupInitiatorOrb];
         }
@@ -1137,7 +1202,7 @@
     
     // Add any new powerups that were destroyed as long as they haven't been used before
     for (BattleOrb *orb in powerupChain.orbs) {
-      if (orb.powerupType && ![usedPowerupOrbs containsObject:orb]) {
+      if (orb.changeType == OrbChangeTypeDestroyed && orb.powerupType && ![usedPowerupOrbs containsObject:orb]) {
         [self changeOrb:orb fromPowerupInitiatorOrb:powerupChain.powerupInitiatorOrb];
         
         [powerupOrbs addObject:orb];

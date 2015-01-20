@@ -118,6 +118,8 @@
   OrbLog(@"Initial swap:\n%@", initialSwap);
   OrbLog(@"Initial layout: %@", self.layout);
   
+  [self.layout resetOrbChangeTypes];
+  
   NSSet *chains = nil;
   if (initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
     chains = [self.layout performPowerupMatchWithSwap:initialSwap];

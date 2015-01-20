@@ -120,6 +120,7 @@
   BOOL hasPosX_:1;
   BOOL hasPosY_:1;
   BOOL hasValue_:1;
+  BOOL hasQuantity_:1;
   BOOL hasName_:1;
   BOOL hasElem_:1;
   int32_t boardPropertyId;
@@ -127,6 +128,7 @@
   int32_t posX;
   int32_t posY;
   int32_t value;
+  int32_t quantity;
   NSString* name;
   Element elem;
 }
@@ -137,6 +139,7 @@
 - (BOOL) hasPosY;
 - (BOOL) hasElem;
 - (BOOL) hasValue;
+- (BOOL) hasQuantity;
 @property (readonly) int32_t boardPropertyId;
 @property (readonly) int32_t boardId;
 @property (readonly, strong) NSString* name;
@@ -144,6 +147,7 @@
 @property (readonly) int32_t posY;
 @property (readonly) Element elem;
 @property (readonly) int32_t value;
+@property (readonly) int32_t quantity;
 
 + (BoardPropertyProto*) defaultInstance;
 - (BoardPropertyProto*) defaultInstance;
@@ -214,6 +218,11 @@
 - (int32_t) value;
 - (BoardPropertyProto_Builder*) setValue:(int32_t) value;
 - (BoardPropertyProto_Builder*) clearValue;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (BoardPropertyProto_Builder*) setQuantity:(int32_t) value;
+- (BoardPropertyProto_Builder*) clearQuantity;
 @end
 
 

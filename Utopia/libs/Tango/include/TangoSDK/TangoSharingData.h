@@ -31,6 +31,11 @@
 + (id)dataForChatWithRecipients:(NSSet *)recipients linkText:(NSString *)linkText
                     captionText:(NSString *)captionText;
 
+/// Returns a TangoSharingData suitable for sending a message to the supplied group chats,
+/// using the given caption and link text. You may set other properties as required.
++ (id)dataForChatWithGroups:(NSSet *)groupIds linkText:(NSString *)linkText
+                captionText:(NSString *)captionText;
+
 #pragma mark - Properties
 
 /// Set the intended area you want your content to be displayed in Tango.
@@ -40,6 +45,15 @@
 /// Set the recipients you want to share the event with (for chat display target).
 /// Recipients are identified by their Tango account IDs (NSString).
 @property (nonatomic, copy) NSSet *recipients;
+
+/// Set the chat groups you want to share the event with (for chat display target).
+/// Groups are identified by their Tango group chat IDs (NSString). You may specify both
+/// individual recipients and groups in a single request.
+@property (nonatomic, copy) NSSet *groupIds;
+
+/// Set to YES if you want users to be able to forward or repost your content.
+/// Defaults to NO.
+@property (nonatomic, assign) BOOL forwardable;
 
 /// A short string describing the event, used in notifications and other parts of
 /// Tango that do not fully display the content (optional). Do not include the

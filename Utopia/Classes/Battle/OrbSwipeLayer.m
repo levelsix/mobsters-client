@@ -332,6 +332,23 @@
   }
 }
 
+- (void) destroyLock:(BattleOrb *)orb {
+  
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  if (orbLayer) {
+    [orbLayer removeLockElements];
+  }
+}
+
+- (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
+  if (orb.changeType == OrbChangeTypeDestroyed) {
+    [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+  } else if (orb.changeType == OrbChangeTypeLockRemoved) {
+    [self destroyLock:orb];
+  }
+}
+
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion {
   float duration = 0.2;
   
@@ -341,7 +358,7 @@
       for (BattleOrb *orb in chain.orbs) {
         OrbSprite *orbLayer = [self spriteForOrb:orb];
         if (orbLayer != nil) {
-          [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+          [self performOrbChange:orb chains:chains fromPowerup:PowerupTypeNone];
         }
       }
       
@@ -393,7 +410,7 @@
         for (BattleOrb *orb in chain.orbs) {
           OrbSprite *orbLayer = [self spriteForOrb:orb];
           if (orbLayer != nil) {
-            [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+            [self performOrbChange:orb chains:chains fromPowerup:PowerupTypeNone];
           }
         }
       }
@@ -463,7 +480,7 @@
         [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self],
         [CCActionCallBlock actionWithBlock:
          ^{
-           [self destroyOrb:orb chains:nil fromPowerup:PowerupTypeNone];
+           [self performOrbChange:orb chains:nil fromPowerup:PowerupTypeNone];
          }], nil];
     }
     
@@ -536,7 +553,7 @@
         [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
       [CCActionDelay actionWithDuration:delay], nil]];
     action.tag = PULSING_ANIMATION_TAG;
-    [orbLayer runAction:action];
+    [orbLayer.orbSprite runAction:action];
     
     [spr runAction:
      [CCActionRepeatForever actionWithAction:
@@ -551,12 +568,14 @@
 
 - (void) stopValidMovePulsing {
   // Stop the pulsing gems
-  for (CCNode *node in self.children) {
-    [node stopActionByTag:PULSING_ANIMATION_TAG];
-    node.scale = 1.f;
-    
-    CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
-    [n removeFromParent];
+  for (OrbSprite *node in self.children) {
+    if ([node isKindOfClass:[OrbSprite class]]) {
+      [node.orbSprite stopActionByTag:PULSING_ANIMATION_TAG];
+      node.orbSprite.scale = 1.f;
+      
+      CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
+      [n removeFromParent];
+    }
   }
   _isPulsing = NO;
 }

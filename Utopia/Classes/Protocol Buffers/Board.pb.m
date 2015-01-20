@@ -429,6 +429,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
 @property int32_t posY;
 @property Element elem;
 @property int32_t value;
+@property int32_t quantity;
 @end
 
 @implementation BoardPropertyProto
@@ -482,6 +483,13 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
   hasValue_ = !!value_;
 }
 @synthesize value;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value_ {
+  hasQuantity_ = !!value_;
+}
+@synthesize quantity;
 - (id) init {
   if ((self = [super init])) {
     self.boardPropertyId = 0;
@@ -491,6 +499,7 @@ static BoardLayoutProto* defaultBoardLayoutProtoInstance = nil;
     self.posY = 0;
     self.elem = ElementNoElement;
     self.value = 0;
+    self.quantity = 0;
   }
   return self;
 }
@@ -531,6 +540,9 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   if (self.hasValue) {
     [output writeInt32:7 value:self.value];
   }
+  if (self.hasQuantity) {
+    [output writeInt32:8 value:self.quantity];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -560,6 +572,9 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   }
   if (self.hasValue) {
     size_ += computeInt32Size(7, self.value);
+  }
+  if (self.hasQuantity) {
+    size_ += computeInt32Size(8, self.quantity);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -617,6 +632,9 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   if (self.hasValue) {
     [output appendFormat:@"%@%@: %@\n", indent, @"value", [NSNumber numberWithInteger:self.value]];
   }
+  if (self.hasQuantity) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"quantity", [NSNumber numberWithInteger:self.quantity]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -642,6 +660,8 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
       (!self.hasElem || self.elem == otherMessage.elem) &&
       self.hasValue == otherMessage.hasValue &&
       (!self.hasValue || self.value == otherMessage.value) &&
+      self.hasQuantity == otherMessage.hasQuantity &&
+      (!self.hasQuantity || self.quantity == otherMessage.quantity) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -666,6 +686,9 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   }
   if (self.hasValue) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.value] hash];
+  }
+  if (self.hasQuantity) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.quantity] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -731,6 +754,9 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   if (other.hasValue) {
     [self setValue:other.value];
   }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -783,6 +809,10 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
       }
       case 56: {
         [self setValue:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setQuantity:[input readInt32]];
         break;
       }
     }
@@ -898,6 +928,22 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
 - (BoardPropertyProto_Builder*) clearValue {
   result.hasValue = NO;
   result.value = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (BoardPropertyProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (BoardPropertyProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
   return self;
 }
 @end

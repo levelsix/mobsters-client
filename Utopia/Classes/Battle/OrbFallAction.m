@@ -85,8 +85,6 @@
       float timeAfterThisPoint = quad(curTimeSlot);
       
       [actions addObject:[CCActionDelay actionWithDuration:timeAfterThisPoint-timeTillThisPoint]];
-      
-      shouldBounce = NO;
     } else if ([val isKindOfClass:[NSValue class]]) {
       CGPoint nextPoint = [val CGPointValue];
       if (CGPointEqualToPoint(prevPoint, CGPointZero)) {
@@ -98,7 +96,7 @@
         CCActionMoveTo *moveTo = [CCActionMoveTo actionWithDuration:numSquares position:[swipeLayer pointForColumn:nextPoint.x row:nextPoint.y]];
         [moveTos addObject:moveTo];
         
-        shouldBounce = YES;
+        shouldBounce = prevPoint.x == nextPoint.x;
       }
       prevPoint = nextPoint;
     }

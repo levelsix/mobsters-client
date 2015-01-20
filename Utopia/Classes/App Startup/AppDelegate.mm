@@ -18,7 +18,6 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 #import "Downloader.h"
-#import "TestFlight.h"
 #import <Kamcord/Kamcord.h>
 #import "FacebookDelegate.h"
 #import "MSWindow.h"

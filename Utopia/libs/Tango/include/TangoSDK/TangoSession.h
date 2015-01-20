@@ -40,6 +40,10 @@ typedef enum {
   /// action. It's possible that you've received a URL that can only be understood by a newer
   /// version of the SDK. (You might ask the user to upgrade your app).
   TangoHandleURLResultTypeUnknownAction = 5,
+  /// Your app was launched to handle a general notification in Tango.
+  /// You should query the Tango server and present an appropriate UI for your user.
+  /// Ex: Call [TangoGifting fetchGifts...].
+  TangoHandleURLResultTypeNotificationReceived = 6,
 } TangoHandleURLResultType;
 
 // Keys to index into HandleURLResult.parameters:
