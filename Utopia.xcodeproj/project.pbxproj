@@ -274,42 +274,6 @@
 		3E1A0C1C1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
 		3E1A0C1D1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
 		3E1A0C1E1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
-		3E1A0C2E1A64A20A00DF00AD /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C221A64A20A00DF00AD /* gradientearthdailylab.png */; };
-		3E1A0C2F1A64A20A00DF00AD /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C221A64A20A00DF00AD /* gradientearthdailylab.png */; };
-		3E1A0C301A64A20B00DF00AD /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C221A64A20A00DF00AD /* gradientearthdailylab.png */; };
-		3E1A0C311A64A20B00DF00AD /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C231A64A20A00DF00AD /* gradientearthdailylab@2x.png */; };
-		3E1A0C321A64A20B00DF00AD /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C231A64A20A00DF00AD /* gradientearthdailylab@2x.png */; };
-		3E1A0C331A64A20B00DF00AD /* gradientearthdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C231A64A20A00DF00AD /* gradientearthdailylab@2x.png */; };
-		3E1A0C341A64A20B00DF00AD /* gradientfiredailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C241A64A20A00DF00AD /* gradientfiredailylab.png */; };
-		3E1A0C351A64A20B00DF00AD /* gradientfiredailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C241A64A20A00DF00AD /* gradientfiredailylab.png */; };
-		3E1A0C361A64A20B00DF00AD /* gradientfiredailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C241A64A20A00DF00AD /* gradientfiredailylab.png */; };
-		3E1A0C371A64A20B00DF00AD /* gradientfiredailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C251A64A20A00DF00AD /* gradientfiredailylab@2x.png */; };
-		3E1A0C381A64A20B00DF00AD /* gradientfiredailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C251A64A20A00DF00AD /* gradientfiredailylab@2x.png */; };
-		3E1A0C391A64A20B00DF00AD /* gradientfiredailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C251A64A20A00DF00AD /* gradientfiredailylab@2x.png */; };
-		3E1A0C3A1A64A20B00DF00AD /* gradientlightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C261A64A20A00DF00AD /* gradientlightdailylab.png */; };
-		3E1A0C3B1A64A20B00DF00AD /* gradientlightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C261A64A20A00DF00AD /* gradientlightdailylab.png */; };
-		3E1A0C3C1A64A20B00DF00AD /* gradientlightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C261A64A20A00DF00AD /* gradientlightdailylab.png */; };
-		3E1A0C3D1A64A20B00DF00AD /* gradientlightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C271A64A20A00DF00AD /* gradientlightdailylab@2x.png */; };
-		3E1A0C3E1A64A20B00DF00AD /* gradientlightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C271A64A20A00DF00AD /* gradientlightdailylab@2x.png */; };
-		3E1A0C3F1A64A20B00DF00AD /* gradientlightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C271A64A20A00DF00AD /* gradientlightdailylab@2x.png */; };
-		3E1A0C401A64A20B00DF00AD /* gradientlockeddailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C281A64A20A00DF00AD /* gradientlockeddailylab.png */; };
-		3E1A0C411A64A20B00DF00AD /* gradientlockeddailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C281A64A20A00DF00AD /* gradientlockeddailylab.png */; };
-		3E1A0C421A64A20B00DF00AD /* gradientlockeddailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C281A64A20A00DF00AD /* gradientlockeddailylab.png */; };
-		3E1A0C431A64A20B00DF00AD /* gradientlockeddailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C291A64A20A00DF00AD /* gradientlockeddailylab@2x.png */; };
-		3E1A0C441A64A20B00DF00AD /* gradientlockeddailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C291A64A20A00DF00AD /* gradientlockeddailylab@2x.png */; };
-		3E1A0C451A64A20B00DF00AD /* gradientlockeddailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C291A64A20A00DF00AD /* gradientlockeddailylab@2x.png */; };
-		3E1A0C461A64A20B00DF00AD /* gradientnightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2A1A64A20A00DF00AD /* gradientnightdailylab.png */; };
-		3E1A0C471A64A20B00DF00AD /* gradientnightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2A1A64A20A00DF00AD /* gradientnightdailylab.png */; };
-		3E1A0C481A64A20B00DF00AD /* gradientnightdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2A1A64A20A00DF00AD /* gradientnightdailylab.png */; };
-		3E1A0C491A64A20B00DF00AD /* gradientnightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2B1A64A20A00DF00AD /* gradientnightdailylab@2x.png */; };
-		3E1A0C4A1A64A20B00DF00AD /* gradientnightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2B1A64A20A00DF00AD /* gradientnightdailylab@2x.png */; };
-		3E1A0C4B1A64A20B00DF00AD /* gradientnightdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2B1A64A20A00DF00AD /* gradientnightdailylab@2x.png */; };
-		3E1A0C4C1A64A20B00DF00AD /* gradientwaterdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2C1A64A20A00DF00AD /* gradientwaterdailylab.png */; };
-		3E1A0C4D1A64A20B00DF00AD /* gradientwaterdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2C1A64A20A00DF00AD /* gradientwaterdailylab.png */; };
-		3E1A0C4E1A64A20B00DF00AD /* gradientwaterdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2C1A64A20A00DF00AD /* gradientwaterdailylab.png */; };
-		3E1A0C4F1A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
-		3E1A0C501A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
-		3E1A0C511A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
 		3E72FC791A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
 		3E72FC7A1A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
 		3E72FC7B1A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
@@ -783,12 +747,6 @@
 		9BDA8C691A6366DA00C7AC27 /* Research.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C651A6366DA00C7AC27 /* Research.proto */; };
 		9BDA8C6A1A6366DA00C7AC27 /* Research.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C651A6366DA00C7AC27 /* Research.proto */; };
 		9BDA8C6B1A6366DA00C7AC27 /* Research.proto in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8C651A6366DA00C7AC27 /* Research.proto */; };
-		9BDA8C711A6366ED00C7AC27 /* Board.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */; };
-		9BDA8C721A6366ED00C7AC27 /* Board.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */; };
-		9BDA8C731A6366ED00C7AC27 /* Board.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */; };
-		9BDA8C741A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
-		9BDA8C751A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
-		9BDA8C761A6366ED00C7AC27 /* Research.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA8C701A6366ED00C7AC27 /* Research.pb.m */; };
 		CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF00865D19CBAC02002F6149 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF00865B19CBAC02002F6149 /* NSString+Sizing.m */; };
 		CF010F2D19DDE5C400DAD527 /* chatinputbgcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF010F2419DDE5C400DAD527 /* chatinputbgcap@2x.png */; };
@@ -6969,18 +6927,6 @@
 		3E1A0C021A645B4B00DF00AD /* Research.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Research.pb.h; sourceTree = "<group>"; };
 		3E1A0C031A645B4B00DF00AD /* Research.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Research.pb.m; sourceTree = "<group>"; };
 		3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PossibleDropView.xib; sourceTree = "<group>"; };
-		3E1A0C221A64A20A00DF00AD /* gradientearthdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientearthdailylab.png; sourceTree = "<group>"; };
-		3E1A0C231A64A20A00DF00AD /* gradientearthdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientearthdailylab@2x.png"; sourceTree = "<group>"; };
-		3E1A0C241A64A20A00DF00AD /* gradientfiredailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientfiredailylab.png; sourceTree = "<group>"; };
-		3E1A0C251A64A20A00DF00AD /* gradientfiredailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientfiredailylab@2x.png"; sourceTree = "<group>"; };
-		3E1A0C261A64A20A00DF00AD /* gradientlightdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientlightdailylab.png; sourceTree = "<group>"; };
-		3E1A0C271A64A20A00DF00AD /* gradientlightdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientlightdailylab@2x.png"; sourceTree = "<group>"; };
-		3E1A0C281A64A20A00DF00AD /* gradientlockeddailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientlockeddailylab.png; sourceTree = "<group>"; };
-		3E1A0C291A64A20A00DF00AD /* gradientlockeddailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientlockeddailylab@2x.png"; sourceTree = "<group>"; };
-		3E1A0C2A1A64A20A00DF00AD /* gradientnightdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientnightdailylab.png; sourceTree = "<group>"; };
-		3E1A0C2B1A64A20A00DF00AD /* gradientnightdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientnightdailylab@2x.png"; sourceTree = "<group>"; };
-		3E1A0C2C1A64A20A00DF00AD /* gradientwaterdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientwaterdailylab.png; sourceTree = "<group>"; };
-		3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientwaterdailylab@2x.png"; sourceTree = "<group>"; };
 		3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonebg@2x.png"; sourceTree = "<group>"; };
 		3E72FC781A69A15E00CC04E8 /* maptaskdonecheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonecheck@2x.png"; sourceTree = "<group>"; };
 		3FA9D54DC0797642FB7F9343 /* Pods-Mobsters.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.release.xcconfig"; sourceTree = "<group>"; };
@@ -7181,10 +7127,6 @@
 		9BDA8C5C1A60B60200C7AC27 /* gachainactivedot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachainactivedot@2x.png"; sourceTree = "<group>"; };
 		9BDA8C641A6366DA00C7AC27 /* Board.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Board.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Board.proto"; sourceTree = SOURCE_ROOT; };
 		9BDA8C651A6366DA00C7AC27 /* Research.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Research.proto; path = "Utopia/Classes/Protocol Buffers/Proto Files/Research.proto"; sourceTree = SOURCE_ROOT; };
-		9BDA8C6D1A6366ED00C7AC27 /* Board.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.pb.h; sourceTree = "<group>"; };
-		9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.pb.m; sourceTree = "<group>"; };
-		9BDA8C6F1A6366ED00C7AC27 /* Research.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Research.pb.h; sourceTree = "<group>"; };
-		9BDA8C701A6366ED00C7AC27 /* Research.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Research.pb.m; sourceTree = "<group>"; };
 		C9FD33409B145AADA35D447A /* Pods-Mobsters.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobsters.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Mobsters/Pods-Mobsters.appstore.xcconfig"; sourceTree = "<group>"; };
 		CF00865A19CBAC02002F6149 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+Sizing.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CF00865B19CBAC02002F6149 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString+Sizing.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -12735,20 +12677,15 @@
 				CF37373819E35F3400CB16E3 /* Big timers */,
 				2985E5B11A30044E0041ABF4 /* bubble */,
 				CF29E9A31963B3DD00B40DA4 /* Bubbles */,
-				CF1908B018D9221A00D6F0E4 /* Building Upgraded */,
 				2985E5E41A330DB00041ABF4 /* Chat requests */,
 				CF812EE719E67D4E00D91157 /* Clan Help */,
 				CF023C7D1992E2BA0082FE61 /* Current Queue:Speed */,
 				29FFD9421A36E2BD0063C17C /* defensive status */,
 				CF37660E1832CE4400D0A77E /* Dialogue */,
 				CFFEB1991837042D007C4BA3 /* DIY Board */,
-				CF012B3C18D400DD004C6825 /* Effectiveness */,
-				CF012B4518D400E6004C6825 /* Element tree */,
 				CFCD0E701953F07200EDC233 /* Enhance */,
 				CF134A0818A5E4B400D7D700 /* FatBoy Menu */,
-				CFF513BB18C8DE3B004B0E56 /* FB Connect */,
 				CF12682B1538ACC500E0C1AD /* Fonts */,
-				CF3766271833022500D0A77E /* Gacha */,
 				CF48259219F729D000041486 /* Gacha Stars Particle Test */,
 				29804FF81A265EE800806253 /* Gift Box */,
 				CF12683C1538ACC500E0C1AD /* Gold Shoppe Images */,
@@ -12757,7 +12694,6 @@
 				CF12684F1538ACC500E0C1AD /* Home Building Images */,
 				CFE7CCA21819FC3300930847 /* Home screen */,
 				CFA9F7801A0D8F6300EBE77D /* Items */,
-				CFF786CF18E16C0000413E78 /* Level Up */,
 				CF2A4A4C1901B8F300B2D7D7 /* LIGHT POPUPS */,
 				CFB2506618585D6700BE0C05 /* Loading */,
 				CFEE022D17BDC75A00F3BB19 /* MainMenu Images */,
@@ -12766,7 +12702,6 @@
 				CF688FFF1912E7B400FF1F71 /* Mini Jobs:Dock */,
 				CFFBE00118ACA8160090CA9A /* moveswap */,
 				CF20F0BF180FCABA005551B5 /* My Goonies */,
-				CFC8B5FE18E53FC100CFD652 /* My Team:Enhance */,
 				CF864D6D193E7C5B00DE0D7A /* New Chat */,
 				CF864DD3193E8F2F00DE0D7A /* New Clans */,
 				CFA7284A1A0B037800FF6031 /* new enhance:evolve events */,
@@ -12785,13 +12720,11 @@
 				CF3766271833022500D0A77E /* Gacha */,
 				9BDA8BF11A5B432900C7AC27 /* New Gacha */,
 				CFC8B5FE18E53FC100CFD652 /* My Team:Enhance */,
-				CF7064991845A340005B30A1 /* Upgrade popup */,
 				CFF786CF18E16C0000413E78 /* Level Up */,
 				CF1908B018D9221A00D6F0E4 /* Building Upgraded */,
 				CF012B4518D400E6004C6825 /* Element tree */,
 				CF012B3C18D400DD004C6825 /* Effectiveness */,
 				CFF513BB18C8DE3B004B0E56 /* FB Connect */,
-				CF54942F18C5B955001E7D32 /* Tutorial */,
 				CFFF9A1E18BEB67D0036EEC3 /* Raid Puzzle */,
 				CF5BD66419C925EE006C4B4C /* Rank Up */,
 				CF40CFDF18DFCC6B0034A721 /* Ranks */,
@@ -13640,10 +13573,6 @@
 				3E1A0C011A645B4B00DF00AD /* Board.pb.m */,
 				3E1A0C021A645B4B00DF00AD /* Research.pb.h */,
 				3E1A0C031A645B4B00DF00AD /* Research.pb.m */,
-				9BDA8C6D1A6366ED00C7AC27 /* Board.pb.h */,
-				9BDA8C6E1A6366ED00C7AC27 /* Board.pb.m */,
-				9BDA8C6F1A6366ED00C7AC27 /* Research.pb.h */,
-				9BDA8C701A6366ED00C7AC27 /* Research.pb.m */,
 				CF4825B019F7549300041486 /* Prerequisite.pb.h */,
 				CF4825B119F7549300041486 /* Prerequisite.pb.m */,
 				CFB97D7C19C14173003ABA66 /* EventItem.pb.h */,
@@ -14471,7 +14400,6 @@
 				63C57E781A6627FE00ED406E /* maptaskdonecheck@2x.png */,
 				3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */,
 				3E72FC781A69A15E00CC04E8 /* maptaskdonecheck@2x.png */,
-				3E1A0C211A64A20A00DF00AD /* Gradient daily labs */,
 				CF6CA6A119DA2AA40075C98C /* findamatchbig@2x.png */,
 				CF6CA6A319DA2AA40075C98C /* findamatchbigpressed@2x.png */,
 				CF6CA6A519DA2AA40075C98C /* findamatchtext@2x.png */,
@@ -23062,7 +22990,6 @@
 				CF0CED92196F452900ECD301 /* AchievementsViewController.m in Sources */,
 				CF0CED93196F452900ECD301 /* EventApns.pb.m in Sources */,
 				CF7CFE2719A55A68009338A2 /* BattleSwap.m in Sources */,
-				9BDA8C751A6366ED00C7AC27 /* Research.pb.m in Sources */,
 				CF0CED94196F452900ECD301 /* TeamViewController.m in Sources */,
 				CF0CED95196F452900ECD301 /* InAppPurchaseData.m in Sources */,
 				CF0CED96196F452900ECD301 /* FullQuestProto+JobAccess.m in Sources */,
@@ -23153,7 +23080,6 @@
 				CF0CEDE4196F452900ECD301 /* CCSoundAnimation.m in Sources */,
 				9BB9494B1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				CF81C96E19A58515002682A2 /* BaseBattleLayer.m in Sources */,
-				9BDA8C721A6366ED00C7AC27 /* Board.pb.m in Sources */,
 				CFE11F811A141C040094F797 /* amqp_mem.c in Sources */,
 				CF0CEDE5196F452900ECD301 /* EventPvp.pb.m in Sources */,
 				CF0CEDE7196F452900ECD301 /* ChatView.m in Sources */,
@@ -23195,7 +23121,6 @@
 				CFFEB17A1834C2FD007C4BA3 /* easing.c in Sources */,
 				CF126D181538ACCA00E0C1AD /* AppDelegate.mm in Sources */,
 				CF7CFE2019A55A68009338A2 /* BattleChain.m in Sources */,
-				9BDA8C741A6366ED00C7AC27 /* Research.pb.m in Sources */,
 				CFE11F891A141C040094F797 /* amqp_socket.c in Sources */,
 				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFFCF55519AFAEC9007E316D /* BattleHudView.m in Sources */,
@@ -23271,7 +23196,6 @@
 				CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */,
 				CFFA31F918B3F055008B81B9 /* ClanRaidDetailsViewController.m in Sources */,
 				CF42519719ABDB7400964547 /* TutorialBattleLayout.m in Sources */,
-				9BDA8C711A6366ED00C7AC27 /* Board.pb.m in Sources */,
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
 				CF6574AC1909CAF200ABF1F4 /* EventAchievement.pb.m in Sources */,
@@ -23677,7 +23601,6 @@
 				CF48193E19F7217F00041486 /* AchievementsViewController.m in Sources */,
 				CF48193F19F7217F00041486 /* EventApns.pb.m in Sources */,
 				CF48194019F7217F00041486 /* BattleSwap.m in Sources */,
-				9BDA8C761A6366ED00C7AC27 /* Research.pb.m in Sources */,
 				CF48194119F7217F00041486 /* TeamViewController.m in Sources */,
 				CF48194219F7217F00041486 /* InAppPurchaseData.m in Sources */,
 				CF48194319F7217F00041486 /* FullQuestProto+JobAccess.m in Sources */,
@@ -23768,7 +23691,6 @@
 				CF48199719F7217F00041486 /* CCSoundAnimation.m in Sources */,
 				9BB9494C1A6EEC8C006EE920 /* NSData+Base64.m in Sources */,
 				CF48199819F7217F00041486 /* BaseBattleLayer.m in Sources */,
-				9BDA8C731A6366ED00C7AC27 /* Board.pb.m in Sources */,
 				CFE11F821A141C040094F797 /* amqp_mem.c in Sources */,
 				CF48199919F7217F00041486 /* EventPvp.pb.m in Sources */,
 				CF48199A19F7217F00041486 /* ChatView.m in Sources */,
