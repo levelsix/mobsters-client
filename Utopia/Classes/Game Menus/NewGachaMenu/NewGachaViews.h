@@ -10,25 +10,59 @@
 #import "Protocols.pb.h"
 
 @interface NewGachaPrizeView : UIView
+{
+  UIImageView *_lightCircleDuplicate;
+  UIImageView *_whiteLightCircleDuplicate;
+  UIImageView *_characterWhite;
+}
 
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UIView* animationContainerView;
+@property (nonatomic, retain) IBOutlet UIView* statsContainerView;
+
 @property (nonatomic, retain) IBOutlet UIImageView *rarityIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *monsterSpinner;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-
-@property (nonatomic, retain) IBOutlet UIView *infoView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-@property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *pieceIcon;
 @property (nonatomic, retain) IBOutlet UILabel *pieceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *pieceSeparator;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *hpLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *speedLabel;
+@property (nonatomic, retain) IBOutlet UILabel *powerLabel;
 
-@property (nonatomic, retain) IBOutletCollection(UIView) NSArray *animateViews;
+@property (weak, nonatomic) IBOutlet UIImageView* skillsSeparator;
+@property (weak, nonatomic) IBOutlet UIView *offensiveSkillView;
+@property (weak, nonatomic) IBOutlet UIView *defensiveSkillView;
+@property (weak, nonatomic) IBOutlet UIImageView *offensiveSkillIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *defensiveSkillIcon;
+@property (weak, nonatomic) IBOutlet UILabel *offensiveSkillName;
+@property (weak, nonatomic) IBOutlet UILabel *defensiveSkillName;
 
-- (void) animateWithMonsterId:(int)monsterId;
-- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(NSInteger)numPuzzlePieces;
-- (void) animateWithGems:(int)numGems;
-- (IBAction)closeClicked:(id)sender;
+@property (nonatomic, retain) IBOutlet UIImageView* background;
+@property (nonatomic, retain) IBOutlet UIImageView* characterShadow;
+@property (nonatomic, retain) IBOutlet UIImageView* character;
+@property (nonatomic, retain) IBOutlet UIImageView* elementbigFlash;
+@property (nonatomic, retain) IBOutlet UIImageView* lightCircle;
+@property (nonatomic, retain) IBOutlet UIImageView* whiteLightCircle;
+@property (nonatomic, retain) IBOutlet UIImageView* elementLightsFlash;
+@property (nonatomic, retain) IBOutlet UIImageView* lights;
+@property (nonatomic, retain) IBOutlet UIImageView* glow;
+@property (nonatomic, retain) IBOutlet UIImageView* elementGlow;
+@property (nonatomic, retain) IBOutlet UIImageView* crystalGlow;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt1;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt2;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt3;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt4;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt5;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt6;
+@property (nonatomic, retain) IBOutlet UIImageView* lightningBolt7;
+@property (nonatomic, retain) IBOutlet UIImageView* afterGlow;
+
+@property (nonatomic, retain) IBOutlet UIButton* closeButton;
+
+- (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
+- (void) beginAnimation;
+
+- (IBAction) closeClicked:(id)sender;
 
 @end
 
