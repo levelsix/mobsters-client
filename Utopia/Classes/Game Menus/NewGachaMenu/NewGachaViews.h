@@ -14,6 +14,8 @@
   UIImageView *_lightCircleDuplicate;
   UIImageView *_whiteLightCircleDuplicate;
   UIImageView *_characterWhite;
+  
+  UIView *_particleEffectView;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* animationContainerView;
@@ -59,6 +61,7 @@
 
 @property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
+- (void) preloadWithMonsterId:(int)monsterId;
 - (void) initializeWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
 - (void) beginAnimation;
 
