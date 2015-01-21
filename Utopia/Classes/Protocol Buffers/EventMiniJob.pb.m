@@ -720,7 +720,7 @@ BOOL SpawnMiniJobResponseProto_SpawnMiniJobStatusIsValidValue(SpawnMiniJobRespon
   result.status = value;
   return self;
 }
-- (SpawnMiniJobResponseProto_Builder*) clearStatusList {
+- (SpawnMiniJobResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess;
   return self;
@@ -1380,7 +1380,7 @@ BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobRespon
   result.status = value;
   return self;
 }
-- (BeginMiniJobResponseProto_Builder*) clearStatusList {
+- (BeginMiniJobResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BeginMiniJobResponseProto_BeginMiniJobStatusSuccess;
   return self;
@@ -2075,7 +2075,7 @@ BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMini
   result.status = value;
   return self;
 }
-- (CompleteMiniJobResponseProto_Builder*) clearStatusList {
+- (CompleteMiniJobResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess;
   return self;
@@ -2803,7 +2803,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   result.status = value;
   return self;
 }
-- (RedeemMiniJobResponseProto_Builder*) clearStatusList {
+- (RedeemMiniJobResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess;
   return self;

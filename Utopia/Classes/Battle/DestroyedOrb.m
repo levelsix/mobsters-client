@@ -79,3 +79,24 @@
 }
 
 @end
+
+@implementation LifeStealParticleEffect
+
+- (id)init
+{
+  if (self = [super initWithFile:@"LifeSteal.plist"])
+  {
+    self.particlePositionType = CCParticleSystemPositionTypeFree;
+  }
+  return self;
+}
+
+- (void) removeFromParent
+{
+  [self stopSystem];
+  [self performAfterDelay:2.f block:^{
+    [super removeFromParent];
+  }];
+}
+
+@end

@@ -684,7 +684,7 @@ BOOL EvolveMonsterResponseProto_EvolveMonsterStatusIsValidValue(EvolveMonsterRes
   result.status = value;
   return self;
 }
-- (EvolveMonsterResponseProto_Builder*) clearStatusList {
+- (EvolveMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EvolveMonsterResponseProto_EvolveMonsterStatusSuccess;
   return self;
@@ -1303,7 +1303,7 @@ BOOL EvolutionFinishedResponseProto_EvolutionFinishedStatusIsValidValue(Evolutio
   result.status = value;
   return self;
 }
-- (EvolutionFinishedResponseProto_Builder*) clearStatusList {
+- (EvolutionFinishedResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess;
   return self;
@@ -2087,7 +2087,7 @@ BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValid
   result.status = value;
   return self;
 }
-- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatusList {
+- (SubmitMonsterEnhancementResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess;
   return self;
@@ -2866,7 +2866,7 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
   result.status = value;
   return self;
 }
-- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatusList {
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess;
   return self;
@@ -3502,7 +3502,7 @@ BOOL CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusIsVal
   result.status = value;
   return self;
 }
-- (CollectMonsterEnhancementResponseProto_Builder*) clearStatusList {
+- (CollectMonsterEnhancementResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CollectMonsterEnhancementResponseProto_CollectMonsterEnhancementStatusSuccess;
   return self;
@@ -4236,7 +4236,7 @@ BOOL EnhanceMonsterResponseProto_EnhanceMonsterStatusIsValidValue(EnhanceMonster
   result.status = value;
   return self;
 }
-- (EnhanceMonsterResponseProto_Builder*) clearStatusList {
+- (EnhanceMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EnhanceMonsterResponseProto_EnhanceMonsterStatusSuccess;
   return self;
@@ -5135,7 +5135,7 @@ BOOL UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusIsValidValue(Upda
   result.status = value;
   return self;
 }
-- (UpdateMonsterHealthResponseProto_Builder*) clearStatusList {
+- (UpdateMonsterHealthResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess;
   return self;
@@ -6080,7 +6080,7 @@ BOOL HealMonsterResponseProto_HealMonsterStatusIsValidValue(HealMonsterResponseP
   result.status = value;
   return self;
 }
-- (HealMonsterResponseProto_Builder*) clearStatusList {
+- (HealMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = HealMonsterResponseProto_HealMonsterStatusSuccess;
   return self;
@@ -6676,7 +6676,7 @@ BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValu
   result.status = value;
   return self;
 }
-- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatusList {
+- (AddMonsterToBattleTeamResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess;
   return self;
@@ -7226,7 +7226,7 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
   result.status = value;
   return self;
 }
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatusList {
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess;
   return self;
@@ -7577,7 +7577,7 @@ BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(Incre
   result.increaseSlotType = value;
   return self;
 }
-- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotTypeList {
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType {
   result.hasIncreaseSlotType = NO;
   result.increaseSlotType = IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase;
   return self;
@@ -7903,7 +7903,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
   result.status = value;
   return self;
 }
-- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatusList {
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess;
   return self;
@@ -8799,7 +8799,7 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
   result.status = value;
   return self;
 }
-- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatusList {
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
   return self;
@@ -9493,7 +9493,7 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
   result.status = value;
   return self;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatusList {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
   return self;
@@ -10132,7 +10132,7 @@ BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValid
   result.status = value;
   return self;
 }
-- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatusList {
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess;
   return self;
@@ -10698,7 +10698,7 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
   result.status = value;
   return self;
 }
-- (SellUserMonsterResponseProto_Builder*) clearStatusList {
+- (SellUserMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SellUserMonsterResponseProto_SellUserMonsterStatusSuccess;
   return self;
@@ -11265,7 +11265,7 @@ BOOL RestrictUserMonsterResponseProto_RestrictUserMonsterStatusIsValidValue(Rest
   result.status = value;
   return self;
 }
-- (RestrictUserMonsterResponseProto_Builder*) clearStatusList {
+- (RestrictUserMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RestrictUserMonsterResponseProto_RestrictUserMonsterStatusSuccess;
   return self;
@@ -11832,7 +11832,7 @@ BOOL UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusIsValidValue(
   result.status = value;
   return self;
 }
-- (UnrestrictUserMonsterResponseProto_Builder*) clearStatusList {
+- (UnrestrictUserMonsterResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = UnrestrictUserMonsterResponseProto_UnrestrictUserMonsterStatusSuccess;
   return self;
