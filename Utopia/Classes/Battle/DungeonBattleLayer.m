@@ -361,7 +361,7 @@
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonDataUnzipped options:NSJSONReadingMutableContainers error:&error];
     
     if (!error) {
-      //[self attemptToResumeState:dict];
+      [self attemptToResumeState:dict];
     } else {
       LNLog(@"Unable to deserialize JSON. error: %@", error);
     }

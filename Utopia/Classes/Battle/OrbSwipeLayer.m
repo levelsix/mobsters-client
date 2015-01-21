@@ -342,11 +342,17 @@
 }
 
 - (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
+  OrbSprite *orbSprite = [self spriteForOrb:orb];
+  
   if (orb.changeType == OrbChangeTypeDestroyed) {
     [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
   } else if (orb.changeType == OrbChangeTypeLockRemoved) {
     [self destroyLock:orb];
+  } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
+    [orbSprite reloadSprite:YES];
   }
+  
+  // Set orb sprite
 }
 
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion {

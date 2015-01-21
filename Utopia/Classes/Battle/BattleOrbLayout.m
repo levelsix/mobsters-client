@@ -35,7 +35,7 @@
   bldr.height = gridSize.height;
   bldr.orbElements = 111111;
   
-  BoardPropertyProto_Builder *prop;
+  //  BoardPropertyProto_Builder *prop;
   //
   //  prop = [BoardPropertyProto builder];
   //  prop.posX = 4;
@@ -49,21 +49,22 @@
   //  prop.name = @"NOT_SPAWN_TILE";
   //  [bldr addProperties:prop.build];
   //
-  for (int i = 0; i < gridSize.width; i++) {
-    prop = [BoardPropertyProto builder];
-    prop.posX = i;
-    prop.posY = 2;
-    prop.name = @"ORB_LOCKED";
-    prop.value = 5;
-    [bldr addProperties:prop.build];
-    
-    prop = [BoardPropertyProto builder];
-    prop.posX = i;
-    prop.posY = 2;
-    prop.name = @"ORB_POWERUP";
-    prop.value = PowerupTypeVerticalLine;
-    [bldr addProperties:prop.build];
-  }
+  //  for (int i = 0; i < gridSize.width; i++) {
+  //    prop = [BoardPropertyProto builder];
+  //    prop.posX = i;
+  //    prop.posY = 2;
+  //    prop.name = @"ORB_SPECIAL";
+  //    prop.value = SpecialOrbTypeCloud;
+  //    prop.quantity = 2;
+  //    [bldr addProperties:prop.build];
+  //
+  //    prop = [BoardPropertyProto builder];
+  //    prop.posX = i;
+  //    prop.posY = 2;
+  //    prop.name = @"ORB_POWERUP";
+  //    prop.value = PowerupTypeVerticalLine;
+  //    [bldr addProperties:prop.build];
+  //  }
   //
   //  for (int i = 0; i < gridSize.width; i++) {
   //    prop = [BoardPropertyProto builder];
@@ -326,7 +327,6 @@
             
             // Make sure there are no chains
             if ([self hasChainAtColumn:column row:row]) {
-              NSLog(@"AAAAAAAAAAAAAAAA");
               redo = YES;
             }
           }
@@ -361,6 +361,10 @@
     } else if ([prop.name isEqualToString:@"ORB_SPECIAL"]) {
       special = prop.value;
       shouldCreate = YES;
+      
+      if (special == SpecialOrbTypeCloud) {
+        orb.cloudCounter = MAX(1, prop.quantity);
+      }
     } else if ([prop.name isEqualToString:@"ORB_EMPTY"]) {
       color = OrbColorNone;
       powerup = PowerupTypeNone;
@@ -682,6 +686,9 @@
         if (orb.isLocked) {
           orb.isLocked = NO;
           orb.changeType = OrbChangeTypeLockRemoved;
+        } else if (orb.specialOrbType == SpecialOrbTypeCloud && orb.cloudCounter > 1) {
+          orb.cloudCounter--;
+          orb.changeType = OrbChangeTypeCloudDecremented;
         } else {
           [self setOrb:nil column:orb.column row:orb.row];
           orb.changeType = OrbChangeTypeDestroyed;

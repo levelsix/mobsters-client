@@ -155,13 +155,17 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 
 @interface TaskStageProto : PBGeneratedMessage {
 @private
+  BOOL hasAttackerAlwaysHitsFirst_:1;
   BOOL hasStageId_:1;
+  BOOL attackerAlwaysHitsFirst_:1;
   int32_t stageId;
   NSMutableArray * mutableStageMonstersList;
 }
 - (BOOL) hasStageId;
+- (BOOL) hasAttackerAlwaysHitsFirst;
 @property (readonly) int32_t stageId;
 @property (readonly, strong) NSArray * stageMonstersList;
+- (BOOL) attackerAlwaysHitsFirst;
 - (TaskStageMonsterProto*)stageMonstersAtIndex:(NSUInteger)index;
 
 + (TaskStageProto*) defaultInstance;
@@ -209,6 +213,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (TaskStageProto_Builder *)addStageMonsters:(TaskStageMonsterProto*)value;
 - (TaskStageProto_Builder *)addAllStageMonsters:(NSArray *)array;
 - (TaskStageProto_Builder *)clearStageMonsters;
+
+- (BOOL) hasAttackerAlwaysHitsFirst;
+- (BOOL) attackerAlwaysHitsFirst;
+- (TaskStageProto_Builder*) setAttackerAlwaysHitsFirst:(BOOL) value;
+- (TaskStageProto_Builder*) clearAttackerAlwaysHitsFirst;
 @end
 
 @interface FullTaskProto : PBGeneratedMessage {
