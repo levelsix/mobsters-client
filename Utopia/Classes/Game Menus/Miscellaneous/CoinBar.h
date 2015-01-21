@@ -16,6 +16,10 @@
 @property (nonatomic, retain) IBOutlet NumTransitionLabel *oilLabel;
 @property (nonatomic, retain) IBOutlet NumTransitionLabel *gemsLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView* cashIcon;
+@property (nonatomic, retain) IBOutlet UIImageView* oilIcon;
+@property (nonatomic, retain) IBOutlet UIImageView* gemIcon;
+
 - (void) updateLabels;
 
 @end

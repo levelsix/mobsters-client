@@ -472,6 +472,21 @@ typedef enum {
 
 @end
 
+@interface NewGachaTabBar : ButtonTabBar
+{
+  NSArray* _inactiveTextColors;
+  NSArray* _activeTextColors;
+}
+
+@property (nonatomic, retain) IBOutlet UIView* tab1;
+@property (nonatomic, retain) IBOutlet UIView* tab2;
+@property (nonatomic, retain) IBOutlet UIView* tab3;
+
+@property (nonatomic, retain) IBOutlet UIImageView* leftTabShadow;
+@property (nonatomic, retain) IBOutlet UIImageView* rightTabShadow;
+
+@end
+
 @class NumTransitionLabel;
 
 @protocol NumTransitionLabelDelegate <NSObject>

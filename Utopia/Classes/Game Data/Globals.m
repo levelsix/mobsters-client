@@ -981,6 +981,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [view convertPoint:point toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
 }
 
++ (void) alignSubviewsToPixelsBoundaries:(UIView*)view
+{
+  view.frame = CGRectMake(floorf(view.frame.origin.x),
+                          floorf(view.frame.origin.y),
+                          floorf(view.frame.size.width),
+                          floorf(view.frame.size.height));
+  for (UIView* subview in view.subviews)
+    [Globals alignSubviewsToPixelsBoundaries:subview];
+}
+
 #pragma mark - Downloading
 
 + (NSString *) pathToFile:(NSString *)fileName useiPhone6Prefix:(BOOL)useiPhone6Prefix {
