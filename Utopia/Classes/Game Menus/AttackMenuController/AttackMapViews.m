@@ -126,7 +126,7 @@
   self.bgdImage.image = [Globals imageNamed:file];
   
   self.topLabel.text = task.name;
-  self.taskNameScrollView.contentSize = [self.topLabel.text sizeWithFont:self.topLabel.font];
+  self.taskNameScrollView.contentSize = [self.topLabel.text getSizeWithFont:self.topLabel.font];
   
   self.sideLabel.text = [NSString stringWithFormat:@"LEVEL %d", level];
   

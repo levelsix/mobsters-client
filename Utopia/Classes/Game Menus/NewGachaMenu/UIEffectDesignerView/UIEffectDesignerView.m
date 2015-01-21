@@ -112,7 +112,7 @@ static float kFileFormatVersionExpected = 0.1;
         //get the particles start color
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
         //source: http://stackoverflow.com/a/15242701/208205
-        NSUInteger red, green, blue;
+        unsigned int red, green, blue;
         sscanf([effect[@"color"] UTF8String], "#%02X%02X%02X", &red, &green, &blue);
         UIColor* color = [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:[effect[@"alpha"] floatValue]];
 #else
@@ -121,7 +121,7 @@ static float kFileFormatVersionExpected = 0.1;
         NSColor* color = [NSColor colorWithCalibratedRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:[effect[@"alpha"] floatValue]];
 #endif
         emitterCell.color = color.CGColor;
-        
+      
         //copy all the settings to the emitter cell
         emitterCell.birthRate = [effect[@"birthRate"] floatValue];
         emitterCell.lifetime = [effect[@"lifetime"] floatValue];
