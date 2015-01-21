@@ -17,8 +17,11 @@
 #define BATTLE_SECTION_NAME_KEY @"BattleSectionName"
 #define BATTLE_SECTION_ITEM_KEY @"BattleSectionItem"
 #define BATTLE_DEFEATED_DIALOGUE_KEY @"BattleDefeatedDialogue"
+static const int SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX = 1;
 
 @interface DungeonBattleLayer : NewBattleLayer <DialogueViewControllerDelegate> {
+  
+  
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
   

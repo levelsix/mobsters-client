@@ -37,25 +37,32 @@
 
 @end
 
+@protocol BattleSkillCounterPopupCallbackDelegate <NSObject>
+
+- (void) skillPopupDisplayed;
+
+@end
+
 @class BattleHudView;
 
 @interface BattleSkillCounterPopupView : UIView
 
-@property (nonatomic, assign) IBOutlet BattleHudView* parentHudView;
+@property (nonatomic, assign) IBOutlet id<BattleSkillCounterPopupCallbackDelegate> parentView;
 
 @property (nonatomic, retain) IBOutlet UIImageView* background;
 @property (nonatomic, retain) IBOutlet UILabel* nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel* descLabel;
 @property (nonatomic, retain) IBOutlet UIImageView* orbIcon;
 @property (nonatomic, retain) IBOutlet UILabel* orbCounterLabel;
+@property (nonatomic, retain) IBOutlet UILabel* orbDescriptionLabel;
 
-- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter
+- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter orbDescription:(NSString*)orbDesc
               backgroundImage:(NSString*)bgImage orbImage:(NSString*)orbImage atPosition:(CGPoint)pos;
 - (void) hide;
 
 @end
 
-@interface BattleHudView : TouchableSubviewsView
+@interface BattleHudView : TouchableSubviewsView <BattleSkillCounterPopupCallbackDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet UILabel *swapLabel;
@@ -83,7 +90,6 @@
 - (void) removeButtons;
 - (void) prepareForMyTurn;
 
-- (void) skillPopupDisplayed;
 - (IBAction) hideSkillPopup:(id)sender;
 
 @end

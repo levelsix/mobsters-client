@@ -1771,7 +1771,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  BOOL mini = taskId == gl.miniTutorialConstants.miniTutorialTaskId && [gs.completedTasks containsObject:@(taskId)];
+  BOOL mini = taskId == gl.miniTutorialConstants.miniTutorialTaskId && [gs isTaskCompleted:taskId];
   int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO alreadyCompletedMiniTutorialTask:mini questIds:nil];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GemsUpdate updateWithTag:tag change:-gems]];
@@ -1843,7 +1843,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
-  BOOL isFirstTime = ![gs.completedTasks containsObject:@(dungeonInfo.taskId)];
+  BOOL isFirstTime = ![gs isTaskCompleted:dungeonInfo.taskId];
   int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskUuid userWon:userWon isFirstTimeCompleted:isFirstTime droplessTsfuUuids:droplessTsfuUuids time:[self getCurrentMilliseconds]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
@@ -1870,6 +1870,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         silverAmount += elem.cashReward;
         oilAmount += elem.oilReward;
       }
+    }
+    else
+    {
+      //Remainder resources
+      UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(dungeonInfo.taskId)];
+      
+      silverAmount += taskCompleteData.unclaimedCash;
+      oilAmount += taskCompleteData.unclaimedOil;
     }
     
     CashUpdate *su = [CashUpdate updateWithTag:tag change:silverAmount];
