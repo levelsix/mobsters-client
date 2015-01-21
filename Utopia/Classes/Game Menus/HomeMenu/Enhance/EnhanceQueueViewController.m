@@ -37,6 +37,8 @@
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"mediumsquare.png"];
   [Globals imageNamed:bgdImgName withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
+  [self.evoBadge updateForToon:mp greyscale:greyscale];
+  
   if (listObject.isProtected) {
     self.enhancePercentLabel.text = @"Locked";
   } else {

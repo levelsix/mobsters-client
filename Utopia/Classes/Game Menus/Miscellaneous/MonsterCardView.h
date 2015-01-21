@@ -20,6 +20,18 @@
 
 @end
 
+@interface EvoBadge : UIView
+
+@property (nonatomic, strong) IBOutlet UILabel *evoLevel;
+@property (nonatomic, strong) IBOutlet UIImageView *bg;
+
+- (void) updateForToonId:(int)toonId;
+- (void) updateForToonId:(int)toonId greyscale:(BOOL)greyscale;
+- (void) updateForToon:(MonsterProto *)proto;
+- (void) updateForToon:(MonsterProto *)proto greyscale:(BOOL)greyscale;
+
+@end
+
 @interface MonsterCardView : UIView
 
 @property (nonatomic, assign) IBOutlet UIImageView *monsterIcon;
@@ -32,6 +44,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *noMonsterView;
+
+@property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
 @property (nonatomic, retain) UserMonster *monster;
 @property (nonatomic, assign) IBOutlet id<MonsterCardViewDelegate> delegate;
@@ -55,6 +69,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
+@property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
 @property (nonatomic, assign) int monsterId;
 

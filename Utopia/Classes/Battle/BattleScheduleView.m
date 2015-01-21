@@ -154,6 +154,7 @@
 - (MiniMonsterView *) monsterViewForMonsterId:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player {
   MiniMonsterView *mmv = [[NSBundle mainBundle] loadNibNamed:@"MiniMonsterView" owner:self options:nil][0];
   [mmv updateForMonsterId:monsterId];
+  mmv.evoBadge.hidden = YES;
   
   if (showEnemyBand) {
     UIImageView *iv = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"enemystripes.png"]];

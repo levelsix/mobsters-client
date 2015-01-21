@@ -310,6 +310,9 @@
 		3E1A0C4F1A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
 		3E1A0C501A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
 		3E1A0C511A64A20B00DF00AD /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */; };
+		3E6F09AA1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
+		3E6F09AB1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
+		3E6F09AC1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
 		3E72FC791A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
 		3E72FC7A1A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
 		3E72FC7B1A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */; };
@@ -6695,6 +6698,7 @@
 		3E1A0C2B1A64A20A00DF00AD /* gradientnightdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientnightdailylab@2x.png"; sourceTree = "<group>"; };
 		3E1A0C2C1A64A20A00DF00AD /* gradientwaterdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientwaterdailylab.png; sourceTree = "<group>"; };
 		3E1A0C2D1A64A20A00DF00AD /* gradientwaterdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientwaterdailylab@2x.png"; sourceTree = "<group>"; };
+		3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evobadge2@2x.png"; sourceTree = "<group>"; };
 		3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonebg@2x.png"; sourceTree = "<group>"; };
 		3E72FC781A69A15E00CC04E8 /* maptaskdonecheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonecheck@2x.png"; sourceTree = "<group>"; };
 		3E72FC7F1A69CC6A00CC04E8 /* chatsquadhelpbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatsquadhelpbg@2x.png"; sourceTree = "<group>"; };
@@ -12547,6 +12551,7 @@
 		CF20F0E8180FCABA005551B5 /* goonies */ = {
 			isa = PBXGroup;
 			children = (
+				3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */,
 				CF20F108180FCABB005551B5 /* minitimebar@2x.png */,
 				CF20F10A180FCABB005551B5 /* minitimebg@2x.png */,
 			);
@@ -16497,6 +16502,7 @@
 				4C16FF0A19CE03AE00F9FC1E /* bombicon@2x.png in Resources */,
 				CF0CEE35196F452900ECD301 /* upgradeinactivetab@2x.png in Resources */,
 				CFA728DC1A0B037900FF6031 /* eartheventtag@2x.png in Resources */,
+				3E6F09AB1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */,
 				CFF2A6611974997A00269084 /* pvpresourcesbar@2x.png in Resources */,
 				CF0CEE3B196F452900ECD301 /* currentamountbarmiddle@2x.png in Resources */,
 				CF023CA31992E2BB0082FE61 /* runawaybg@2x.png in Resources */,
@@ -18334,6 +18340,7 @@
 				CFF64728195E586900C43641 /* scievobox@2x.png in Resources */,
 				CFF5DBF6194F90720019EB2B /* profstatsactive@2x.png in Resources */,
 				CFF7876518E28FE200413E78 /* upgradeinactivetab@2x.png in Resources */,
+				3E6F09AA1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */,
 				CFF2A6601974997A00269084 /* pvpresourcesbar@2x.png in Resources */,
 				CFA8B19519EB63C400CF6BFD /* 6nightbomb@2x.png in Resources */,
 				CFF7875718E28FE200413E78 /* currentamountbarmiddle@2x.png in Resources */,
@@ -20979,6 +20986,7 @@
 				CF481F4719F7217F00041486 /* HomeViewController.xib in Resources */,
 				CF481F4A19F7217F00041486 /* mediumbubbleover@2x.png in Resources */,
 				CF481F4B19F7217F00041486 /* collect@2x.png in Resources */,
+				3E6F09AC1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */,
 				CF481F4F19F7217F00041486 /* teamhealthbarbg@2x.png in Resources */,
 				CF481F5119F7217F00041486 /* skillgradient@2x.png in Resources */,
 				CF481F5219F7217F00041486 /* ProfileViewController.xib in Resources */,

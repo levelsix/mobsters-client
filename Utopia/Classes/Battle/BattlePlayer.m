@@ -30,6 +30,7 @@
     self.curHealth = MIN(self.maxHealth, monster.curHealth);
     self.element = mp.monsterElement;
     self.level = monster.level;
+    self.evoLevel = mp.evolutionLevel;
     self.rarity = mp.quality;
     self.speed = [gl calculateSpeedForMonster:monster];
     self.fireDamage = [gl calculateElementalDamageForMonster:monster element:ElementFire];
@@ -82,6 +83,7 @@
     self.monsterId = monster.monsterId;
     self.userMonsterUuid = [NSString stringWithFormat:@"%d", monster.crsmId];
     self.verticalOffset = mp.verticalPixelOffset;
+    self.evoLevel = mp.evolutionLevel;
     
     // Need to get a speed value for this guy
   }
