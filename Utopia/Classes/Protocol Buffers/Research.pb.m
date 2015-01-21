@@ -733,7 +733,7 @@ static ResearchProto* defaultResearchProtoInstance = nil;
   result.costType = value;
   return self;
 }
-- (ResearchProto_Builder*) clearCostTypeList {
+- (ResearchProto_Builder*) clearCostType {
   result.hasCostType = NO;
   result.costType = ResourceTypeNoResource;
   return self;

@@ -812,6 +812,15 @@
 		9BB949611A6F1AFF006EE920 /* menugooniegrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9495D1A6F1AFF006EE920 /* menugooniegrab@2x.png */; };
 		9BB949621A6F1AFF006EE920 /* menugooniegrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9495D1A6F1AFF006EE920 /* menugooniegrab@2x.png */; };
 		9BB949631A6F1AFF006EE920 /* menugooniegrab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9495D1A6F1AFF006EE920 /* menugooniegrab@2x.png */; };
+		9BB949691A6F2354006EE920 /* SkillLifeSteal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB949681A6F2354006EE920 /* SkillLifeSteal.m */; };
+		9BB9496A1A6F2354006EE920 /* SkillLifeSteal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB949681A6F2354006EE920 /* SkillLifeSteal.m */; };
+		9BB9496B1A6F2354006EE920 /* SkillLifeSteal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB949681A6F2354006EE920 /* SkillLifeSteal.m */; };
+		9BB9496F1A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9496E1A6F42AD006EE920 /* poisonminilogo@2x.png */; };
+		9BB949701A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9496E1A6F42AD006EE920 /* poisonminilogo@2x.png */; };
+		9BB949711A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BB9496E1A6F42AD006EE920 /* poisonminilogo@2x.png */; };
+		9BB949751A70543A006EE920 /* LifeSteal.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BB949741A70543A006EE920 /* LifeSteal.plist */; };
+		9BB949761A70543A006EE920 /* LifeSteal.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BB949741A70543A006EE920 /* LifeSteal.plist */; };
+		9BB949771A70543A006EE920 /* LifeSteal.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BB949741A70543A006EE920 /* LifeSteal.plist */; };
 		9BDA8B331A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B341A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
 		9BDA8B351A3945B800C7AC27 /* evasionicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */; };
@@ -7235,6 +7244,10 @@
 		9BB949511A6EECDA006EE920 /* NewGachaSmoke.ped */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NewGachaSmoke.ped; sourceTree = "<group>"; };
 		9BB9495C1A6F1AFF006EE920 /* menubasicgrab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menubasicgrab@2x.png"; sourceTree = "<group>"; };
 		9BB9495D1A6F1AFF006EE920 /* menugooniegrab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menugooniegrab@2x.png"; sourceTree = "<group>"; };
+		9BB949671A6F2354006EE920 /* SkillLifeSteal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillLifeSteal.h; sourceTree = "<group>"; };
+		9BB949681A6F2354006EE920 /* SkillLifeSteal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillLifeSteal.m; sourceTree = "<group>"; };
+		9BB9496E1A6F42AD006EE920 /* poisonminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonminilogo@2x.png"; sourceTree = "<group>"; };
+		9BB949741A70543A006EE920 /* LifeSteal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LifeSteal.plist; sourceTree = "<group>"; };
 		9BDA8B321A3945B800C7AC27 /* evasionicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionicon@2x.png"; sourceTree = "<group>"; };
 		9BDA8B391A3945DB00C7AC27 /* evasionlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionlogo@2x.png"; sourceTree = "<group>"; };
 		9BDA8B3D1A3945F600C7AC27 /* evasionminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evasionminilogo@2x.png"; sourceTree = "<group>"; };
@@ -12226,6 +12239,13 @@
 				9BB949511A6EECDA006EE920 /* NewGachaSmoke.ped */,
 			);
 			path = UIEffectDesignerView;
+		9BB9496D1A6F42AD006EE920 /* Life Steal */ = {
+			isa = PBXGroup;
+			children = (
+				9BB9496E1A6F42AD006EE920 /* poisonminilogo@2x.png */,
+				9BB949741A70543A006EE920 /* LifeSteal.plist */,
+			);
+			path = "Life Steal";
 			sourceTree = "<group>";
 		};
 		9BDA8B7F1A3B8E1700C7AC27 /* Headshot */ = {
@@ -16757,6 +16777,7 @@
 				DA88EAE119B7CF3E005EE827 /* Skill Labels */,
 				DA88EB8B19BE6B80005EE827 /* Cake Drop */,
 				9BDA8B7F1A3B8E1700C7AC27 /* Headshot */,
+				9BB9496D1A6F42AD006EE920 /* Life Steal */,
 				DA0FC57919B6523200393BF4 /* Jelly */,
 				DAAD3DD919C8D7E700557698 /* Bombs */,
 				DA173A2A19CA4230005236C0 /* Force Field */,
@@ -16848,6 +16869,8 @@
 				9BDA8BC11A40D98F00C7AC27 /* SkillMud.m */,
 				3EEADB751A7005A90096A652 /* SkillCounterStrike.h */,
 				3EEADB761A7005C70096A652 /* SkillCounterStrike.m */,
+				9BB949671A6F2354006EE920 /* SkillLifeSteal.h */,
+				9BB949681A6F2354006EE920 /* SkillLifeSteal.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -17294,6 +17317,7 @@
 				CF0CEF46196F452900ECD301 /* 1starmachineinactive@2x.png in Resources */,
 				CF0CEF47196F452900ECD301 /* championicon@2x.png in Resources */,
 				CFA8B21E19F4C54A00CF6BFD /* attackbutton@3x.png in Resources */,
+				9BB949701A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */,
 				CF0CEF4A196F452900ECD301 /* rocksideways@2x.png in Resources */,
 				CF0CEF4B196F452900ECD301 /* Scientist3Breath02@2x.png in Resources */,
 				CFA8FF4619F899B200F9908C /* requirementmet@2x.png in Resources */,
@@ -18362,6 +18386,7 @@
 				CF0CF509196F452900ECD301 /* FatBoy5Move03@2x.png in Resources */,
 				CF0CF50B196F452900ECD301 /* minijobsredbubble5@2x.png in Resources */,
 				CF0CF50C196F452900ECD301 /* FatBoy1Move11@2x.png in Resources */,
+				9BB949761A70543A006EE920 /* LifeSteal.plist in Resources */,
 				CF0CF50D196F452900ECD301 /* mailbutton@2x.png in Resources */,
 				CF0CF50E196F452900ECD301 /* KamcordiPhone.storyboardc in Resources */,
 				29804FF61A258EC100806253 /* SecretGiftViewController.xib in Resources */,
@@ -19556,6 +19581,7 @@
 				CF6574EA1909CEBC00ABF1F4 /* AchievementsViewController.xib in Resources */,
 				CFCD0EEB1953F07400EDC233 /* lightsmallsquare@2x.png in Resources */,
 				CF134A8C18A5E4B500D7D700 /* FatBoy5Move09@2x.png in Resources */,
+				9BB949751A70543A006EE920 /* LifeSteal.plist in Resources */,
 				CFC97163182C5A8400FF1D83 /* orbball.png in Resources */,
 				CF29EA0F1964BD0500B40DA4 /* sellbubble6@2x.png in Resources */,
 				CF40D03E18DFCC6C0034A721 /* resourcelootedbg@2x.png in Resources */,
@@ -19784,6 +19810,7 @@
 				CF1279A818202DE900211623 /* TopBarMonsterView.xib in Resources */,
 				CF70652D18470051005B30A1 /* levelxpbglong@2x.png in Resources */,
 				DA6DBACC19C0F7E900BD7B7F /* skillgradient@2x.png in Resources */,
+				9BB9496F1A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */,
 				CF7461A5196C0CBE002D6AE6 /* minijobsredbubble2@2x.png in Resources */,
 				CFC97157182C419B00FF1D83 /* combobg@2x.png in Resources */,
 				2985E6361A3313340041ABF4 /* ChatBattleHistoryView.xib in Resources */,
@@ -21483,6 +21510,7 @@
 				CF481D4619F7217F00041486 /* tapchartofill@2x.png in Resources */,
 				CF481D4719F7217F00041486 /* FatBoy2Move11@2x.png in Resources */,
 				CF481D4A19F7217F00041486 /* Scientist4Breath04@2x.png in Resources */,
+				9BB949771A70543A006EE920 /* LifeSteal.plist in Resources */,
 				CF481D4B19F7217F00041486 /* attacksactiveicon@2x.png in Resources */,
 				CF481D4E19F7217F00041486 /* ClanRaidActiveCell.xib in Resources */,
 				CF481D4F19F7217F00041486 /* redsmallbutton@2x.png in Resources */,
@@ -21715,6 +21743,7 @@
 				CF481EB919F7217F00041486 /* jobbingicon@2x.png in Resources */,
 				CF481EBA19F7217F00041486 /* Scientist1Breath01@2x.png in Resources */,
 				CF481EBC19F7217F00041486 /* FatBoy5Move02@2x.png in Resources */,
+				9BB949711A6F42AD006EE920 /* poisonminilogo@2x.png in Resources */,
 				CF481EBD19F7217F00041486 /* sfx_tap_on_building.mp3 in Resources */,
 				29AE74101A69BD8600264070 /* lockedorb@2x.png in Resources */,
 				CF481EBE19F7217F00041486 /* instantcap@2x.png in Resources */,
@@ -23168,6 +23197,7 @@
 				CF0CED77196F452900ECD301 /* GameViewController.m in Sources */,
 				CFE11F901A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CFFB3B7319820E90005D7AF5 /* Dev.pb.m in Sources */,
+				9BB9496A1A6F2354006EE920 /* SkillLifeSteal.m in Sources */,
 				CF0CED78196F452900ECD301 /* MonsterPopUpViewController.m in Sources */,
 				9BB9494E1A6EEC8C006EE920 /* UIEffectDesignerView.m in Sources */,
 				CF0CED7A196F452900ECD301 /* EventChat.pb.m in Sources */,
@@ -23388,6 +23418,7 @@
 				CF126D5E1538ACCA00E0C1AD /* NibUtils.m in Sources */,
 				CF376713183305DD00D0A77E /* TimingFunctionTableView.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
+				9BB949691A6F2354006EE920 /* SkillLifeSteal.m in Sources */,
 				DA0FC58619B65F2A00393BF4 /* SkillJelly.m in Sources */,
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CFA9F7CC1A0DA0F900EBE77D /* ItemUtil.m in Sources */,
@@ -23789,6 +23820,7 @@
 				CF48191D19F7217F00041486 /* GameViewController.m in Sources */,
 				CFE11F911A141C040094F797 /* amqp_tcp_socket.c in Sources */,
 				CF48191E19F7217F00041486 /* Dev.pb.m in Sources */,
+				9BB9496B1A6F2354006EE920 /* SkillLifeSteal.m in Sources */,
 				CF48191F19F7217F00041486 /* MonsterPopUpViewController.m in Sources */,
 				9BB9494F1A6EEC8C006EE920 /* UIEffectDesignerView.m in Sources */,
 				CF48192019F7217F00041486 /* EventChat.pb.m in Sources */,

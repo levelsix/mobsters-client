@@ -568,7 +568,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   result.status = value;
   return self;
 }
-- (QuestAcceptResponseProto_Builder*) clearStatusList {
+- (QuestAcceptResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
   return self;
@@ -1299,7 +1299,7 @@ BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressRes
   result.status = value;
   return self;
 }
-- (QuestProgressResponseProto_Builder*) clearStatusList {
+- (QuestProgressResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestProgressResponseProto_QuestProgressStatusSuccess;
   return self;
@@ -1980,7 +1980,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   result.status = value;
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) clearStatusList {
+- (QuestRedeemResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
   return self;

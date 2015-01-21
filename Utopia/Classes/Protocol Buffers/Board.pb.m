@@ -909,7 +909,7 @@ static BoardPropertyProto* defaultBoardPropertyProtoInstance = nil;
   result.elem = value;
   return self;
 }
-- (BoardPropertyProto_Builder*) clearElemList {
+- (BoardPropertyProto_Builder*) clearElem {
   result.hasElem = NO;
   result.elem = ElementNoElement;
   return self;

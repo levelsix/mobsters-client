@@ -24,3 +24,7 @@
 - (id) initWithColor:(OrbColor)color;
 
 @end
+
+@interface LifeStealParticleEffect : CCParticleSystem
+
+@end

@@ -676,7 +676,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasMonsterType;
 - (TaskStageMonsterProto_MonsterType) monsterType;
 - (TaskStageMonsterProto_Builder*) setMonsterType:(TaskStageMonsterProto_MonsterType) value;
-- (TaskStageMonsterProto_Builder*) clearMonsterTypeList;
+- (TaskStageMonsterProto_Builder*) clearMonsterType;
 
 - (BOOL) hasLevel;
 - (int32_t) level;
@@ -827,7 +827,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasDayOfWeek;
 - (DayOfWeek) dayOfWeek;
 - (PersistentEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
-- (PersistentEventProto_Builder*) clearDayOfWeekList;
+- (PersistentEventProto_Builder*) clearDayOfWeek;
 
 - (BOOL) hasStartHour;
 - (int32_t) startHour;
@@ -852,12 +852,12 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasType;
 - (PersistentEventProto_EventType) type;
 - (PersistentEventProto_Builder*) setType:(PersistentEventProto_EventType) value;
-- (PersistentEventProto_Builder*) clearTypeList;
+- (PersistentEventProto_Builder*) clearType;
 
 - (BOOL) hasMonsterElement;
 - (Element) monsterElement;
 - (PersistentEventProto_Builder*) setMonsterElement:(Element) value;
-- (PersistentEventProto_Builder*) clearMonsterElementList;
+- (PersistentEventProto_Builder*) clearMonsterElement;
 @end
 
 @interface UserPersistentEventProto : PBGeneratedMessage {
@@ -1049,7 +1049,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasElement;
 - (Element) element;
 - (TaskMapElementProto_Builder*) setElement:(Element) value;
-- (TaskMapElementProto_Builder*) clearElementList;
+- (TaskMapElementProto_Builder*) clearElement;
 
 - (BOOL) hasBoss;
 - (BOOL) boss;

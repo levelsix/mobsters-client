@@ -22,6 +22,7 @@
 #import "SkillHeadshot.h"
 #import "SkillMud.h"
 #import "SkillCounterStrike.h"
+#import "SkillLifeSteal.h"
 
 @implementation SkillController
 
@@ -41,8 +42,9 @@
     case SkillTypeCritAndEvade: return [[SkillCritAndEvade alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeShuffle: return [[SkillShuffle alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHeadshot: return [[SkillHeadshot alloc] initWithProto:proto andMobsterColor:color];
-    case SkillTypeMud: return  [[SkillMud alloc] initWithProto:proto andMobsterColor:color];
-    case SkillTypeCounterStrike: return [[SkillCounterStrike alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeMud: return [[SkillMud alloc] initWithProto:proto andMobsterColor:color];
+	case SkillTypeCounterStrike: return [[SkillCounterStrike alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeLifeSteal: return [[SkillLifeSteal alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }

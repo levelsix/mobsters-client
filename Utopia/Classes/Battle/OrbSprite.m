@@ -193,7 +193,15 @@
     case SpecialOrbTypeHeadshot:
       if (orbColor == OrbColorNone)
         return nil;
-      return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"] ];
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"] ];
+      break;
+      
+    case SpecialOrbTypeLifeSteal:
+      if (orbColor == OrbColorNone)
+        return nil;
+      if (orb.powerupType == PowerupTypeNone)
+        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
       break;
       
     case SpecialOrbTypePoison:

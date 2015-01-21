@@ -1211,7 +1211,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   result.quality = value;
   return self;
 }
-- (MonsterProto_Builder*) clearQualityList {
+- (MonsterProto_Builder*) clearQuality {
   result.hasQuality = NO;
   result.quality = QualityNoQuality;
   return self;
@@ -1259,7 +1259,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   result.monsterElement = value;
   return self;
 }
-- (MonsterProto_Builder*) clearMonsterElementList {
+- (MonsterProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
   result.monsterElement = ElementNoElement;
   return self;
@@ -1507,7 +1507,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   result.attackAnimationType = value;
   return self;
 }
-- (MonsterProto_Builder*) clearAttackAnimationTypeList {
+- (MonsterProto_Builder*) clearAttackAnimationType {
   result.hasAttackAnimationType = NO;
   result.attackAnimationType = MonsterProto_AnimationTypeNoAnimation;
   return self;
@@ -6817,7 +6817,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   result.dialogueType = value;
   return self;
 }
-- (MonsterBattleDialogueProto_Builder*) clearDialogueTypeList {
+- (MonsterBattleDialogueProto_Builder*) clearDialogueType {
   result.hasDialogueType = NO;
   result.dialogueType = MonsterBattleDialogueProto_DialogueTypeNoDialogue;
   return self;

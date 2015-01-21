@@ -967,6 +967,69 @@
   def.curHealth = newHealth;
 }
 
+- (void) healForAmount:(int)heal enemyIsHealed:(BOOL)enemyIsHealed withTarget:(id)target andSelector:(SEL)selector {
+  BattlePlayer *bp;
+  BattleSprite *sprite;
+  CCLabelTTF *healthLabel;
+  CCProgressNode *healthBar;
+  if (enemyIsHealed) {
+    bp = self.enemyPlayerObject;
+    sprite = self.currentEnemy;
+    healthLabel = self.currentEnemy.healthLabel;
+    healthBar = self.currentEnemy.healthBar;
+  } else {
+    bp = self.myPlayerObject;
+    sprite = self.myPlayer;
+    healthLabel = self.myPlayer.healthLabel;
+    healthBar = self.myPlayer.healthBar;
+  }
+  
+  int curHealth = bp.curHealth;
+  int newHealth = MIN(bp.maxHealth, MAX(0, curHealth + heal));
+  float newPercent = ((float)newHealth) / bp.maxHealth * 100.f;
+  float percChange = ABS(healthBar.percentage - newPercent);
+  float duration = percChange / HEALTH_BAR_SPEED;
+  
+  [SoundEngine puzzleDamageTickStart];
+  [healthBar runAction:[CCActionSequence actions:
+                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           [healthLabel stopActionByTag:1827];
+                           [self updateHealthBars];
+                           [SoundEngine puzzleDamageTickStop];
+                           [target performSelector:selector];
+                         }],
+                        nil]];
+  
+  CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
+                       [CCActionSequence actions:
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           healthLabel.string = [NSString stringWithFormat:@"%@/%@",
+                                                 [Globals commafyNumber:(int)(healthBar.percentage / 100.f * bp.maxHealth)],
+                                                 [Globals commafyNumber:bp.maxHealth]];
+                         }],
+                        [CCActionDelay actionWithDuration:.03f],
+                        nil]];
+  [f setTag:1827];
+  [healthLabel runAction:f];
+  
+  NSString *str = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:heal]];
+  CCLabelBMFont *healLabel = [CCLabelBMFont labelWithString:str fntFile:@"earthpointsfont.fnt"];
+  [self.bgdContainer addChild:healLabel z:sprite.zOrder];
+  [healLabel setPosition:ccpAdd(sprite.position, ccp(0.f, sprite.contentSize.height - 15.f))];
+  [healLabel setScale:.01f];
+  [healLabel runAction:[CCActionSequence actions:
+                        [CCActionSpawn actions:
+                         [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1.1f]],
+                         [CCActionFadeOut actionWithDuration:1.5f],
+                         [CCActionMoveBy actionWithDuration:1.5f position:ccp(0.f, 25.f)], nil],
+                        [CCActionCallFunc actionWithTarget:healLabel selector:@selector(removeFromParent)], nil]];
+  
+  bp.curHealth = newHealth;
+}
+
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
   Globals *gl = [Globals sharedGlobals];
   float mult = [gl calculateDamageMultiplierForAttackElement:atkElement defenseElement:defElement];

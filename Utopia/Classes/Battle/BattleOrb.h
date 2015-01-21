@@ -25,6 +25,7 @@ typedef enum {
   SpecialOrbTypePoison = 3,
   SpecialOrbTypeHeadshot = 4,
   SpecialOrbTypeCloud = 5,
+  SpecialOrbTypeLifeSteal = 6
 } SpecialOrbType;
 
 typedef enum {
