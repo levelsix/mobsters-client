@@ -76,6 +76,7 @@
   // Make private chat's width 2x size
   self.privateChatView.frame = self.globalChatView.frame;
   self.privateChatView.width *= 2;
+  self.privateChatView.topLiveHelpView = self.topLiveHelpView;
   [self.globalChatView.superview addSubview:self.privateChatView];
   
   [self updateClanBadge];
@@ -205,6 +206,18 @@
   [self.privateChatView openConversationWithUserUuid:userUuid name:name animated:NO];
 }
 
+- (IBAction)topLiveHelpClicked:(id)sender {
+  //click the private chat button
+  [self button3Clicked:sender];
+  //click the admin button
+  Globals *gl = [Globals sharedGlobals];
+  MinimumUserProto *mup = gl.adminChatUser;
+  [self.privateChatView openConversationWithUserUuid:mup.userUuid name:mup.name animated:YES];
+  [UIView animateWithDuration:0.3 animations:^{
+    self.topLiveHelpView.alpha = 0.f;
+  }];
+}
+
 - (IBAction)closeClicked:(id)sender {
   // Check if we are editing
   if (sender && _isEditing) {
@@ -213,6 +226,7 @@
   } else if (!self.mainView.layer.animationKeys.count) {
     [self beginAppearanceTransition:NO animated:YES];
     [UIView animateWithDuration:0.18f animations:^{
+      self.topLiveHelpView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
       self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
       self.bgdView.alpha = 0.f;
     } completion:^(BOOL finished) {

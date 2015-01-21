@@ -1204,7 +1204,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   result.type = value;
   return self;
 }
-- (CityElementProto_Builder*) clearType {
+- (CityElementProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = CityElementProto_CityElemTypeBuilding;
   return self;
@@ -1298,7 +1298,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   result.orientation = value;
   return self;
 }
-- (CityElementProto_Builder*) clearOrientation {
+- (CityElementProto_Builder*) clearOrientationList {
   result.hasOrientation = NO;
   result.orientation = StructOrientationPosition1;
   return self;

@@ -26,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface TaskStageProto ()
 @property int32_t stageId;
 @property (strong) NSMutableArray * mutableStageMonstersList;
+@property BOOL attackerAlwaysHitsFirst;
 @end
 
 @implementation TaskStageProto
@@ -39,9 +40,22 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize stageId;
 @synthesize mutableStageMonstersList;
 @dynamic stageMonstersList;
+- (BOOL) hasAttackerAlwaysHitsFirst {
+  return !!hasAttackerAlwaysHitsFirst_;
+}
+- (void) setHasAttackerAlwaysHitsFirst:(BOOL) value_ {
+  hasAttackerAlwaysHitsFirst_ = !!value_;
+}
+- (BOOL) attackerAlwaysHitsFirst {
+  return !!attackerAlwaysHitsFirst_;
+}
+- (void) setAttackerAlwaysHitsFirst:(BOOL) value_ {
+  attackerAlwaysHitsFirst_ = !!value_;
+}
 - (id) init {
   if ((self = [super init])) {
     self.stageId = 0;
+    self.attackerAlwaysHitsFirst = NO;
   }
   return self;
 }
@@ -73,6 +87,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   [self.stageMonstersList enumerateObjectsUsingBlock:^(TaskStageMonsterProto *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:2 value:element];
   }];
+  if (self.hasAttackerAlwaysHitsFirst) {
+    [output writeBool:3 value:self.attackerAlwaysHitsFirst];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -88,6 +105,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   [self.stageMonstersList enumerateObjectsUsingBlock:^(TaskStageMonsterProto *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(2, element);
   }];
+  if (self.hasAttackerAlwaysHitsFirst) {
+    size_ += computeBoolSize(3, self.attackerAlwaysHitsFirst);
+  }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -132,6 +152,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasAttackerAlwaysHitsFirst) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"attackerAlwaysHitsFirst", [NSNumber numberWithBool:self.attackerAlwaysHitsFirst]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -146,6 +169,8 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
       self.hasStageId == otherMessage.hasStageId &&
       (!self.hasStageId || self.stageId == otherMessage.stageId) &&
       [self.stageMonstersList isEqualToArray:otherMessage.stageMonstersList] &&
+      self.hasAttackerAlwaysHitsFirst == otherMessage.hasAttackerAlwaysHitsFirst &&
+      (!self.hasAttackerAlwaysHitsFirst || self.attackerAlwaysHitsFirst == otherMessage.attackerAlwaysHitsFirst) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -156,6 +181,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   [self.stageMonstersList enumerateObjectsUsingBlock:^(TaskStageMonsterProto *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasAttackerAlwaysHitsFirst) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.attackerAlwaysHitsFirst] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -209,6 +237,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
       [result.mutableStageMonstersList addObjectsFromArray:other.mutableStageMonstersList];
     }
   }
+  if (other.hasAttackerAlwaysHitsFirst) {
+    [self setAttackerAlwaysHitsFirst:other.attackerAlwaysHitsFirst];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -238,6 +269,10 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
         TaskStageMonsterProto_Builder* subBuilder = [TaskStageMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStageMonsters:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setAttackerAlwaysHitsFirst:[input readBool]];
         break;
       }
     }
@@ -281,6 +316,22 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 }
 - (TaskStageProto_Builder *)clearStageMonsters {
   result.mutableStageMonstersList = nil;
+  return self;
+}
+- (BOOL) hasAttackerAlwaysHitsFirst {
+  return result.hasAttackerAlwaysHitsFirst;
+}
+- (BOOL) attackerAlwaysHitsFirst {
+  return result.attackerAlwaysHitsFirst;
+}
+- (TaskStageProto_Builder*) setAttackerAlwaysHitsFirst:(BOOL) value {
+  result.hasAttackerAlwaysHitsFirst = YES;
+  result.attackerAlwaysHitsFirst = value;
+  return self;
+}
+- (TaskStageProto_Builder*) clearAttackerAlwaysHitsFirst {
+  result.hasAttackerAlwaysHitsFirst = NO;
+  result.attackerAlwaysHitsFirst = NO;
   return self;
 }
 @end
@@ -1126,7 +1177,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   result.mutableRaritiesList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
   return self;
 }
-- (FullTaskProto_Builder *)clearRarities {
+- (FullTaskProto_Builder *)clearRaritiesList {
   result.mutableRaritiesList = nil;
   return self;
 }
@@ -2639,7 +2690,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   result.monsterType = value;
   return self;
 }
-- (TaskStageMonsterProto_Builder*) clearMonsterType {
+- (TaskStageMonsterProto_Builder*) clearMonsterTypeList {
   result.hasMonsterType = NO;
   result.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
   return self;
@@ -3325,7 +3376,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.dayOfWeek = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearDayOfWeek {
+- (PersistentEventProto_Builder*) clearDayOfWeekList {
   result.hasDayOfWeek = NO;
   result.dayOfWeek = DayOfWeekMonday;
   return self;
@@ -3405,7 +3456,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.type = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearType {
+- (PersistentEventProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = PersistentEventProto_EventTypeEnhance;
   return self;
@@ -3421,7 +3472,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.monsterElement = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearMonsterElement {
+- (PersistentEventProto_Builder*) clearMonsterElementList {
   result.hasMonsterElement = NO;
   result.monsterElement = ElementNoElement;
   return self;
@@ -4407,7 +4458,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   result.element = value;
   return self;
 }
-- (TaskMapElementProto_Builder*) clearElement {
+- (TaskMapElementProto_Builder*) clearElementList {
   result.hasElement = NO;
   result.element = ElementNoElement;
   return self;

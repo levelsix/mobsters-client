@@ -70,6 +70,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(SkillManager);
 // Misc external calls
 - (BOOL) shouldSpawnRibbonForPlayerSkill:(OrbColor)color;
 - (BOOL) shouldSpawnRibbonForEnemySkill:(OrbColor)color;
+- (SkillController *) enemySkillControler;
+- (SkillController *) playerSkillControler;
+- (SkillBattleIndicatorView *) enemySkillIndicatorView;
+- (SkillBattleIndicatorView *) playerSkillIndicatorView;
 - (CGPoint) playerSkillIndicatorPosition;
 - (CGPoint) enemySkillIndicatorPosition;
 - (BOOL) willEnemySkillTrigger:(SkillTriggerPoint)trigger;
