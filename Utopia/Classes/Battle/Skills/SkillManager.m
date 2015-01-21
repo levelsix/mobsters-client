@@ -416,6 +416,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   return NO;
 }
 
+- (SkillController *) enemySkillControler {
+  return _enemySkillController;
+}
+- (SkillController *) playerSkillControler {
+  return _playerSkillController;
+}
+
+- (SkillBattleIndicatorView *) enemySkillIndicatorView
+{
+  return _skillIndicatorEnemy;
+}
+
+- (SkillBattleIndicatorView *) playerSkillIndicatorView
+{
+  return _skillIndicatorPlayer;
+}
+
 - (CGPoint) playerSkillIndicatorPosition
 {
   return ccpAdd(_skillIndicatorPlayer.position, ccp(0, _skillIndicatorPlayer.contentSize.height/2));
@@ -448,20 +465,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 - (void) displaySkillCounterPopupForController:(SkillController*)controller withProto:(SkillProto*)proto atPosition:(CGPoint)pos
 {
   NSString *bgName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"skilldescription"]];
-  NSString *orbName = nil, *orbCount = @"Passive";
+  NSString *orbImage = nil, *orbCount = nil, *orbDesc = nil;
   
   if ([controller isKindOfClass:[SkillControllerActive class]])
   {
     SkillControllerActive* activeController = (SkillControllerActive*)controller;
     orbCount = [NSString stringWithFormat:@"%d/%d", (int)(activeController.orbRequirement - activeController.orbCounter), (int)activeController.orbRequirement];
-    orbName = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"orb"]];
+    orbImage = [NSString stringWithFormat:@"%@.png", [Globals imageNameForElement:(Element)controller.orbColor suffix:@"orb"]];
   }
+  else
+    orbDesc = @"PASSIVE";
   
   [_battleLayer.hudView.skillPopupView displayWithSkillName:proto.name
                                                 description:proto.desc
                                                counterLabel:orbCount
+                                             orbDescription:orbDesc
                                             backgroundImage:bgName
-                                                   orbImage:orbName
+                                                   orbImage:orbImage
                                                  atPosition:pos];
 }
 

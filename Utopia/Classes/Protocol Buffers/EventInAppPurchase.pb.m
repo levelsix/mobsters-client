@@ -901,7 +901,7 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   result.status = value;
   return self;
 }
-- (InAppPurchaseResponseProto_Builder*) clearStatus {
+- (InAppPurchaseResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
   return self;
@@ -1284,7 +1284,7 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   result.freeDiamondsType = value;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType {
+- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsTypeList {
   result.hasFreeDiamondsType = NO;
   result.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
   return self;
@@ -1619,7 +1619,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   result.status = value;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clearStatus {
+- (EarnFreeDiamondsResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
   return self;
@@ -1635,7 +1635,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   result.freeDiamondsType = value;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType {
+- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsTypeList {
   result.hasFreeDiamondsType = NO;
   result.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
   return self;
@@ -2030,7 +2030,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
   result.resourceType = value;
   return self;
 }
-- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceType {
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceTypeList {
   result.hasResourceType = NO;
   result.resourceType = ResourceTypeCash;
   return self;
@@ -2329,7 +2329,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   result.status = value;
   return self;
 }
-- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatus {
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
   return self;

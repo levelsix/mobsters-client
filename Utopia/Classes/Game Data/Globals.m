@@ -125,6 +125,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.displayRarity = constants.displayRarity;
   
+  self.taskIdOfFirstSkill = constants.taskIdOfFirstSkill;
+  
   for (StartupResponseProto_StartupConstants_ClanHelpConstants *c in constants.clanHelpConstantsList) {
     if (c.helpType == GameActionTypeHeal) {
       self.healClanHelpConstants = c;
@@ -977,6 +979,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 {
   // Not using toView:nil as it produces unexpected results in iOS < 8
   return [view convertPoint:point toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+}
+
++ (void) alignSubviewsToPixelsBoundaries:(UIView*)view
+{
+  view.frame = CGRectMake(floorf(view.frame.origin.x),
+                          floorf(view.frame.origin.y),
+                          floorf(view.frame.size.width),
+                          floorf(view.frame.size.height));
+  for (UIView* subview in view.subviews)
+    [Globals alignSubviewsToPixelsBoundaries:subview];
 }
 
 #pragma mark - Downloading
