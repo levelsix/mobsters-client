@@ -73,30 +73,37 @@
     switch (speaker) {
       case TutorialDialogueSpeakerGuide:
         monsterId = self.constants.guideMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerGuide2:
         monsterId = self.constants.guideMonsterId;
-        suffix = [@"P2" stringByAppendingString:suffix];
+        suffix = [@"P3" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerGuide3:
         monsterId = self.constants.guideMonsterId;
-        suffix = [@"P3" stringByAppendingString:suffix];
+        suffix = [@"P4" stringByAppendingString:suffix];
+        isLeftSide = YES;
+        break;
+      case TutorialDialogueSpeakerGuide4:
+        monsterId = self.constants.guideMonsterId;
+        suffix = [@"P5" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerFriend:
         monsterId = self.constants.startingMonsterId;
+        suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerFriend2:
         monsterId = self.constants.startingMonsterId;
-        suffix = [@"P2" stringByAppendingString:suffix];
+        suffix = [@"P3" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerFriend3:
         monsterId = self.constants.startingMonsterId;
-        suffix = [@"P3" stringByAppendingString:suffix];
+        suffix = [@"P4" stringByAppendingString:suffix];
         isLeftSide = YES;
         break;
       case TutorialDialogueSpeakerMark:
@@ -109,11 +116,27 @@
         break;
       case TutorialDialogueSpeakerEnemy2:
         monsterId = self.constants.enemyMonsterId;
-        //suffix = [@"P2" stringByAppendingString:suffix];
+        suffix = [@"P2" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyTwo:
         monsterId = self.constants.enemyMonsterIdTwo;
+        suffix = [@"P2" stringByAppendingString:suffix];
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemyTwo2:
+        monsterId = self.constants.enemyMonsterIdTwo;
+        suffix = [@"P3" stringByAppendingString:suffix];
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemyTwo3:
+        monsterId = self.constants.enemyMonsterId;
+        suffix = [@"P4" stringByAppendingString:suffix];
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerEnemyTwo4:
+        monsterId = self.constants.enemyMonsterId;
+        suffix = [@"P5" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyBoss:
@@ -435,7 +458,7 @@ static int timesCloseClicked = 0;
 #pragma mark - Tutorial Sequence
 
 - (void) beginGuideGreetingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Hey Boss! We’ve been expecting you!",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Hey Stranger! Welcome to our tiny town. Isn’t it great?",
                         @(TutorialDialogueSpeakerGuide2), @"An evil dictator named Lil’ Kim has taken over the world and it’s up to you to stop him!",
                         @(TutorialDialogueSpeakerGuide2), @"Hopefully they don’t find..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];

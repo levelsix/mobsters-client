@@ -123,7 +123,7 @@
   
   [[CCDirector sharedDirector] pause];
   
-    [ChartboostDelegate setUpChartboost];
+  [ChartboostDelegate setUpChartboost];
   
   return YES;
 }
@@ -234,9 +234,7 @@
     [app registerUserNotificationSettings:
      [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
     
-    if (![app isRegisteredForRemoteNotifications]) {
-      [app registerForRemoteNotifications];
-    }
+    [app registerForRemoteNotifications];
   } else {
     [app registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];

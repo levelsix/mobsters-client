@@ -217,7 +217,7 @@
         
         // Check if this a special orb
         BattleOrb* orb = [self orbAtColumn:i row:j];
-        if (orb && orb.specialOrbType != SpecialOrbTypeNone)
+        if (orb && ![orb isMovable])
           continue;
         
         if (orb) {
@@ -275,9 +275,11 @@
   // Loop through the rows and columns of the 2D array. Note that column 0,
   // row 0 is in the bottom-left corner of the array.
   
-  BOOL redo = NO;
+  BOOL redo;
   
   do {
+    redo = NO;
+    
     [set removeAllObjects];
     
     // This will only add to the set if there are properties defined for inital colors/powerups
@@ -909,7 +911,7 @@
   [chain addOrb:rainbowOrb];
   [set addObject:chain];
   
-  [self removeOrbs:[NSSet setWithObject:chain]];
+  [self removeOrbs:set];
   
   return set;
 }
@@ -946,6 +948,8 @@
   chain.chainType = ChainTypeMatch;
   [chain addOrb:rainbowOrb];
   [set addObject:chain];
+  
+  [self removeOrbs:set];
   
   return set;
 }

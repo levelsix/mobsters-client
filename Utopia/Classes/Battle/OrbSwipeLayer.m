@@ -352,7 +352,8 @@
     [orbSprite reloadSprite:YES];
   }
   
-  // Set orb sprite
+  // Set orb sprite's change type to none so it doesnt happen again
+  orb.changeType = OrbChangeTypeNone;
 }
 
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion {

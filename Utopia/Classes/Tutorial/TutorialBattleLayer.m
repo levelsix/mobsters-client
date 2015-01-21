@@ -62,6 +62,11 @@
     bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
     [self.bgdContainer addChild:bs z:-idx-2];
     
+    if (idx == ENEMY_INDEX) {
+      bs.sprite.scale = 0.95;
+      bs.sprite.position = ccpAdd(bs.sprite.position, ccp(0, 12));
+    }
+    
     bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
     bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
     

@@ -23,19 +23,19 @@
 LN_SYNTHESIZE_SINGLETON_FOR_CLASS(ChartboostDelegate);
 
 + (void) setUpChartboost {
-//#ifdef TOONSQUAD
-//#ifndef DEBUG
+#ifdef TOONSQUAD
+#ifndef DEBUG
   [Chartboost startWithAppId:CHARTBOOST_APP_ID appSignature:CHARTBOOST_APP_SIG delegate:[ChartboostDelegate sharedChartboostDelegate]];
   [self showInterstitial:@"toonsquad_bootup_ad"];
-//#endif
-//#endif
+#endif
+#endif
 }
 
 static NSString *showInterstitial = nil;
 
 + (void) showInterstitial:(NSString *)str {
-//#ifdef TOONSQUAD
-//#ifndef DEBUG
+#ifdef TOONSQUAD
+#ifndef DEBUG
   GameState *gs = [GameState sharedGameState];
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   int numOpens = (int)[def integerForKey:APP_OPEN_KEY];
@@ -47,8 +47,8 @@ static NSString *showInterstitial = nil;
       showInterstitial = str;
     }
   }
-//#endif
-//#endif
+#endif
+#endif
 }
 
 + (void) firePvpMatch {
