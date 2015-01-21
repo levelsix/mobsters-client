@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -509,6 +510,62 @@
                                 <outlet property="delegate" destination="eIq-PW-faH" id="0ku-pw-HoW"/>
                             </connections>
                         </tableView>
+                        <view contentMode="scaleToFill" id="7b4-tW-WYI">
+                            <rect key="frame" x="0.0" y="160" width="453" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatsquadhelpbg.png" id="P1c-e6-lCe">
+                                    <rect key="frame" x="0.0" y="0.0" width="453" height="45"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 Squad Mates Requested Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQs-7p-e9P" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="12" y="5" width="290" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="2"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click Help to speed up their timers." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Bx-E2-Nbs" customClass="NiceFontLabel2">
+                                    <rect key="frame" x="12" y="24" width="290" height="14"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" id="nse-nS-wNZ" userLabel="buttonView">
+                                    <rect key="frame" x="363" y="0.0" width="82" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chathelpallbutton.png" id="xLT-dB-jOl">
+                                            <rect key="frame" x="0.0" y="0.0" width="82" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Do9-Fk-Hee">
+                                            <rect key="frame" x="0.0" y="8" width="82" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="helpAllClicked:" destination="eIq-PW-faH" eventType="touchUpInside" id="kho-PT-rIY"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help All" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XLV-kD-Xkf" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="0.0" y="10" width="82" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="MCB-eO-nQa" userLabel="Bottom View">
                             <rect key="frame" x="0.0" y="205" width="453" height="43"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -680,6 +737,8 @@
                 <outlet property="bottomView" destination="MCB-eO-nQa" id="Nkh-MG-zsh"/>
                 <outlet property="chatTable" destination="Add-pv-JKk" id="Mkh-fx-fw3"/>
                 <outlet property="delegate" destination="-1" id="RV0-yo-ry1"/>
+                <outlet property="helpAllView" destination="7b4-tW-WYI" id="usH-WN-nLW"/>
+                <outlet property="helpCountLabel" destination="YQs-7p-e9P" id="865-Yv-brt"/>
                 <outlet property="joinClanButtonView" destination="tMw-xz-lnQ" id="5V5-fU-4IQ"/>
                 <outlet property="joinClanLabel" destination="iB9-pf-ak1" id="bbM-ci-U9h"/>
                 <outlet property="mainView" destination="taO-wK-A5I" id="d0n-iL-OT5"/>
@@ -1014,6 +1073,7 @@
         <image name="chatclaninactive.png" width="14" height="11"/>
         <image name="chatglobalactive.png" width="10" height="10"/>
         <image name="chatglobalinactive.png" width="10" height="10"/>
+        <image name="chathelpallbutton.png" width="82" height="29"/>
         <image name="chatinactivemiddle.png" width="83" height="28"/>
         <image name="chatinactiveside.png" width="83" height="28"/>
         <image name="chatinputbgcap.png" width="6" height="43"/>
@@ -1025,6 +1085,7 @@
         <image name="chatpressedside.png" width="83" height="28"/>
         <image name="chatprivateactive.png" width="10" height="10"/>
         <image name="chatprivateinactive.png" width="10" height="10"/>
+        <image name="chatsquadhelpbg.png" width="1" height="52"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="enhancesquirrel.png" width="94" height="72"/>
         <image name="greenmenuoption.png" width="80" height="40"/>

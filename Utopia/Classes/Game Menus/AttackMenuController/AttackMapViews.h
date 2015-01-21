@@ -10,8 +10,8 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-#define SCROLL_DISPLAY_TIME 2
-#define SCROLL_SPEED_PX_PER_SEC 20
+#define SCROLL_DISPLAY_TIME .4
+#define SCROLL_SPEED_PX_PER_SEC 25
 
 @interface AttackMapIconView : UIView {
   NSString *_name;
