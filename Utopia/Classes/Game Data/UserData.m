@@ -1013,7 +1013,7 @@
   }
   
   // Check if this is the first time they are completing this task, and if there is a map element associated with it
-  if (![gs.completedTasks containsObject:@(proto.taskId)]) {
+  if (![gs isTaskCompleted:proto.taskId]) {
     TaskMapElementProto *elem = nil;
     for (TaskMapElementProto *e in gs.staticMapElements) {
       if (e.taskId == proto.taskId) {
@@ -1025,6 +1025,24 @@
       silverAmount += elem.cashReward;
       oilAmount += elem.oilReward;
     }
+  }
+  else
+  {
+    //Remainder resources
+    UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(proto.taskId)];
+    
+    silverAmount += taskCompleteData.unclaimedCash;
+    oilAmount += taskCompleteData.unclaimedOil;
+  }
+  
+  if (gs.cash + silverAmount > gs.maxCash)
+  {
+    silverAmount = gs.maxCash - gs.cash;
+  }
+  
+  if (gs.oil + oilAmount > gs.maxOil)
+  {
+    oilAmount = gs.maxOil - gs.oil;
   }
   
   if (silverAmount) {

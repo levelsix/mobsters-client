@@ -23,7 +23,7 @@
                     <rect key="frame" x="20" y="54" width="407" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" id="LmQ-pb-B1H" userLabel="Drops">
+                        <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" id="LmQ-pb-B1H" userLabel="DropsScroll">
                             <rect key="frame" x="68" y="27" width="80" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>

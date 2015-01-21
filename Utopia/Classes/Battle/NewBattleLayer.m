@@ -261,11 +261,18 @@
   }
   return bp;
 }
-
 - (void) createScheduleWithSwap:(BOOL)swap {
+  [self createScheduleWithSwap:swap forcePlayerAttackFirst:NO];
+}
+
+- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
   if (self.myPlayerObject && self.enemyPlayerObject) {
-    
-    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    ScheduleFirstTurn order;
+    if(swap) {
+      order = ScheduleFirstTurnEnemy;
+    } else {
+      order = playerFirst ? ScheduleFirstTurnPlayer : ScheduleFirstTurnRandom;
+    }
     
     // Cake kid mechanics handling and creating schedule
     if ([skillManager cakeKidSchedule])
@@ -1109,6 +1116,26 @@
     [Globals imageNamed:fileName toReplaceSprite:inside completion:^(BOOL success) {
       inside.scale = bgdIcon.contentSize.height/inside.contentSize.height;
     }];
+    
+    if (self.enemyPlayerObject.evoLevel > 1)
+    {
+      CCSprite *evo = [CCSprite node];
+      [bgdIcon addChild:evo];
+      
+      [Globals imageNamed:@"evobadge2.png" toReplaceSprite:evo];
+      evo.position = ccp(evo.contentSize.width-1, evo.contentSize.height-1);
+      
+      CCLabelTTF *evoLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", self.enemyPlayerObject.evoLevel] fontName:@"Gotham-Ultra" fontSize:8];
+      [evo addChild:evoLabel];
+      evoLabel.horizontalAlignment = CCTextAlignmentCenter;
+      evoLabel.position = ccp(evo.contentSize.width/2, evo.contentSize.height/2-1);
+      evoLabel.color = [CCColor colorWithWhite:1.0f alpha:1.0f];
+      evoLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+      evoLabel.shadowOffset = ccp(0, -1);
+      evoLabel.shadowBlurRadius = .6;
+      
+    }
+    
   }
   
   CCSprite *border = [CCSprite spriteWithImageNamed:@"youwonitemborder.png"];
@@ -2040,6 +2067,45 @@
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
+}
+
+- (void) forceSkillClickOver:(DialogueViewController *)dvc {
+  _forcedSkillDialogueViewController = dvc;
+  
+  [self.forcedSkillView removeFromSuperview];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc.view addSubview:self.forcedSkillView];
+  
+  [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
+    SkillBattleIndicatorView *enemyIndicatorView = [skillManager enemySkillIndicatorView];
+    CGPoint enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
+    enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(-enemyIndicatorView.contentSize.width, 0));
+    CGPoint worldCCSpacePoint = [enemyIndicatorView.parent convertToWorldSpace:enemyIndicatorPos];
+    CGPoint worldUISpace = [[CCDirector sharedDirector] convertToUI:worldCCSpacePoint];
+    CGPoint localUISpace = [self.forcedSkillInnerView.superview convertPoint:worldUISpace fromView:[CCDirector sharedDirector].view];
+    [self.forcedSkillInnerView setCenter:localUISpace];
+    self.forcedSkillView.alpha = 0.f;
+    self.forcedSkillView.hidden = NO;
+    
+    [Globals createUIArrowForView:self.forcedSkillButton atAngle:M_PI * .5f];
+    
+    [UIView animateWithDuration:0.3f delay:0.6f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.forcedSkillView.alpha = 1.f;
+    } completion:nil];
+    
+  }];
+  
+}
+
+- (IBAction)skillClicked:(id)sender {
+  [[skillManager enemySkillIndicatorView] popupOrbCounter];
+  [_forcedSkillDialogueViewController animateNext];
+  [UIView animateWithDuration:0.3f animations:^{
+    self.forcedSkillView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.forcedSkillView.hidden = YES;
+    
+  }];
 }
 
 - (IBAction)sendButtonClicked:(id)sender {

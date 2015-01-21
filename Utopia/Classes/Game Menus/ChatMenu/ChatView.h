@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ChatObject.h"
 #import "ChatCell.h"
+#import "ClanHelp.h"
 
 @protocol ChatPopoverDelegate <NSObject>
 
@@ -80,9 +81,16 @@
 @property (nonatomic, retain) IBOutlet UILabel *joinClanLabel;
 @property (nonatomic, retain) IBOutlet UIView *joinClanButtonView;
 
+@property (nonatomic, retain) IBOutlet UIView *helpAllView;
+@property (nonatomic, retain) IBOutlet UILabel *helpCountLabel;
+
 @property (nonatomic, retain) MinimumClanProto *clan;
 
+@property (nonatomic, retain) NSMutableArray *helpsArray;
+
 - (void) updateForChats:(NSArray *)chats andClan:(MinimumClanProto *)clan animated:(BOOL)animated;
+
+- (IBAction) helpAllClicked:(id)sender;
 
 @end
 
@@ -99,6 +107,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *emptyListLabel;
 @property (nonatomic, retain) IBOutlet UILabel *noPostsLabel;
 
+@property (nonatomic, retain) UIView *topLiveHelpView;
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 

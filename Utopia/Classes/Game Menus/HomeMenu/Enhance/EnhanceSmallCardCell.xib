@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -80,6 +80,29 @@
                                     <outlet property="baseImage" destination="lmM-LX-zEo" id="C5u-W8-MtM"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" id="pgN-VF-Xoh" customClass="EvoBadge">
+                                <rect key="frame" x="34" y="20" width="12" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="H7I-MO-oyU">
+                                        <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eNh-Dh-rkB" customClass="NiceFontLabel8B">
+                                        <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                </subviews>
+                                <connections>
+                                    <outlet property="bg" destination="H7I-MO-oyU" id="oZu-RX-uCa"/>
+                                    <outlet property="evoLevel" destination="eNh-Dh-rkB" id="Q8i-ZQ-oAW"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <connections>
@@ -94,6 +117,7 @@
                 <outlet property="bgdIcon" destination="lmM-LX-zEo" id="lKc-4y-Twh"/>
                 <outlet property="cardView" destination="Jvz-ka-5Bc" id="Ndc-uI-HZg"/>
                 <outlet property="enhancePercentLabel" destination="Bxr-6u-khk" id="dYY-mI-9Wh"/>
+                <outlet property="evoBadge" destination="pgN-VF-Xoh" id="Lzn-1Q-B4f"/>
                 <outlet property="lockIcon" destination="fjE-tw-ryJ" id="VZ7-sK-wrI"/>
                 <outlet property="monsterIcon" destination="UB9-ih-Xho" id="aD2-Ss-5cs"/>
                 <outlet property="qualityBgdView" destination="X8t-4K-qPT" id="7lI-L6-HKr"/>
@@ -103,6 +127,7 @@
     </objects>
     <resources>
         <image name="earthmediumsquare.png" width="48" height="48"/>
+        <image name="evobadge2.png" width="12" height="12"/>
         <image name="lockedmobster.png" width="23" height="27"/>
         <image name="mediumsquarebottom.png" width="48" height="14"/>
         <image name="rareband.png" width="33" height="33"/>

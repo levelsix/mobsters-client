@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewGachaViewController">
+            <connections>
+                <outlet property="badBadge" destination="daC-ue-BHU" id="z7n-pG-ZeW"/>
+                <outlet property="eventBadge" destination="qhl-kg-6nw" id="PVm-S5-eDc"/>
+                <outlet property="focusScrollView" destination="EWj-RU-bBZ" id="aj8-94-hkl"/>
+                <outlet property="gachaBgBottomRight" destination="5dH-it-Tso" id="vdl-1C-5Fp"/>
+                <outlet property="gachaBgTopLeft" destination="ZaN-Q1-yTU" id="Bmb-ng-95D"/>
+                <outlet property="gemCostLabel" destination="X6C-RO-et1" id="imm-Wz-nuG"/>
+                <outlet property="gemCostView" destination="ogu-T6-vYN" id="HcY-8e-1AX"/>
+                <outlet property="goodBadge" destination="aY6-OZ-OmN" id="oXZ-FF-HrJ"/>
+                <outlet property="logoImage" destination="2Kq-lK-mrn" id="caC-I0-zX7"/>
+                <outlet property="logoSeparatorImage" destination="hGw-oe-RkP" id="ZEX-GS-9DW"/>
+                <outlet property="machineImage" destination="nTg-Vj-Jdh" id="afq-Lb-7qd"/>
+                <outlet property="navBar" destination="MHE-8y-pOB" id="Aik-Sw-32q"/>
+                <outlet property="prizeView" destination="Kon-Hh-eje" id="N4S-zK-wnS"/>
+                <outlet property="skillPopup" destination="R1D-O9-H9q" id="lS4-n7-cRN"/>
+                <outlet property="skillPopupCloseButton" destination="ANh-ac-PJh" id="i9L-sQ-jhf"/>
+                <outlet property="spinActionLabel" destination="s8w-A6-agC" id="xAT-6D-iV2"/>
+                <outlet property="spinButton" destination="YYO-db-KXt" id="28F-LT-BWq"/>
+                <outlet property="spinView" destination="V5u-wm-3RB" id="nmy-rV-Jwt"/>
+                <outlet property="spinner" destination="huN-Fb-DR1" id="a1C-jJ-l5F"/>
+                <outlet property="tableContainerView" destination="wEM-ra-GYV" id="FSb-4C-1o9"/>
+                <outlet property="ticker" destination="DJT-fB-FWb" id="7fI-7h-QQW"/>
+                <outlet property="topBar" destination="L2P-0l-ua5" id="qqR-r3-ldN"/>
+                <outlet property="view" destination="E9O-mL-cy5" id="OBf-NN-1B5"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="E9O-mL-cy5" userLabel="Main View">
+            <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachabg.png" id="5dH-it-Tso">
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachaswirls.png" id="ZaN-Q1-yTU">
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="Ml1-PT-6Nf">
+                    <rect key="frame" x="146" y="8" width="272" height="200"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="EWj-RU-bBZ" customClass="NewGachaFocusScrollView">
+                            <rect key="frame" x="61" y="0.0" width="150" height="200"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="0t2-10-6az"/>
+                                <outlet property="pageControl" destination="6V1-wM-tuZ" id="CL7-mD-RPi"/>
+                                <outlet property="scrollView" destination="QBE-XG-Vol" id="SSH-Rx-KJM"/>
+                            </connections>
+                        </view>
+                        <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="QBE-XG-Vol" userLabel="Putting this inside focus scroll view screws up a bunch of shit for some reason..">
+                            <rect key="frame" x="61" y="0.0" width="150" height="200"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="delegate" destination="EWj-RU-bBZ" id="EyD-MQ-XR0"/>
+                            </connections>
+                        </scrollView>
+                        <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="11" currentPage="5" id="6V1-wM-tuZ">
+                            <rect key="frame" x="8" y="173" width="256" height="37"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </pageControl>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="wEM-ra-GYV" userLabel="Table Container">
+                    <rect key="frame" x="-1" y="217" width="569" height="65"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" id="rYk-30-mzd">
+                            <rect key="frame" x="0.0" y="-1" width="568" height="2"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95686280729999995" green="0.95686280729999995" blue="0.95686280729999995" alpha="1" colorSpace="deviceRGB"/>
+                </view>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ticker_big.png" id="DJT-fB-FWb">
+                    <rect key="frame" x="273" y="206" width="22" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="xqx-Qc-N4C" userLabel="Spin Container">
+                    <rect key="frame" x="421" y="8" width="140" height="202"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="basicmachine.png" id="nTg-Vj-Jdh">
+                            <rect key="frame" x="-10" y="0.0" width="138" height="220"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="vIR-lU-z16">
+                            <rect key="frame" x="17" y="157" width="105" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYO-db-KXt" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="105" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <state key="normal" image="spinbutton.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="spinClicked:" destination="-1" eventType="touchUpInside" id="LQq-xt-cZe"/>
+                                    </connections>
+                                </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="huN-Fb-DR1">
+                                    <rect key="frame" x="42" y="10" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="V5u-wm-3RB" userLabel="Spin View">
+                                    <rect key="frame" x="8" y="8" width="89" height="28"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="ogu-T6-vYN">
+                                            <rect key="frame" x="45" y="2" width="44" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="Qbr-o4-1PT">
+                                                    <rect key="frame" x="0.0" y="5" width="17" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X6C-RO-et1" customClass="NiceFontLabel12S">
+                                                    <rect key="frame" x="20" y="3" width="24" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPIN!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s8w-A6-agC" customClass="NiceFontLabel12S">
+                                            <rect key="frame" x="0.0" y="2" width="89" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basicgrablogo.png" id="2Kq-lK-mrn">
+                    <rect key="frame" x="26" y="59" width="118" height="150"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachagradientsep.png" id="hGw-oe-RkP">
+                    <rect key="frame" x="167" y="59" width="1" height="150"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                </imageView>
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ANh-ac-PJh">
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="hideSkillPopup:" destination="-1" eventType="touchUpInside" id="Xj2-XD-bAq"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="633" y="577"/>
+        </view>
+        <view contentMode="scaleToFill" id="L2P-0l-ua5" customClass="CoinBar">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachaheaderbg.png" id="B9y-kh-f0C">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="MHE-8y-pOB" customClass="NewGachaTabBar">
+                    <rect key="frame" x="90" y="0.0" width="321" height="52"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachatabshadow.png" id="WKC-jz-Ytf">
+                            <rect key="frame" x="0.0" y="0.0" width="6" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" id="sXi-YN-S1M">
+                            <rect key="frame" x="6" y="0.0" width="103" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basicgrabinactivetab.png" id="5i4-bn-DQY">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iJf-Cx-Xx5" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="basicgrabinactivetabpressed.png"/>
+                                    <connections>
+                                        <action selector="buttonClicked:" destination="MHE-8y-pOB" eventType="touchUpInside" id="pM5-xY-HFH"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BASIC GRAB" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="vLT-O7-XaV" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="8" y="35" width="87" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="basicgrabnavicon.png" id="KUO-Xs-3QU">
+                                    <rect key="frame" x="33" y="0.0" width="37" height="37"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachanavsep.png" id="Ese-XP-Rss">
+                                    <rect key="frame" x="19" y="36" width="64" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="daC-ue-BHU" customClass="BadgeIcon">
+                                    <rect key="frame" x="82" y="3" width="18" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="nmI-U6-2jT">
+                                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9TG-wc-AbR" customClass="NiceFontLabel8S">
+                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="badgeLabel" destination="9TG-wc-AbR" id="TEe-cQ-A2Y"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="BdE-LE-bvo">
+                            <rect key="frame" x="109" y="0.0" width="103" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gooniegrabinactivetab.png" highlightedImage="gooniegrabgachatabactive.png" id="Pxy-oR-ox7">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7yf-gT-XMv" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="gooniegrabinactivetabpressed.png"/>
+                                    <connections>
+                                        <action selector="buttonClicked:" destination="MHE-8y-pOB" eventType="touchUpInside" id="agd-m2-PtZ"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GOONIE GRAB" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xmu-DX-oP2" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="8" y="35" width="87" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="gooniegrabnavicon.png" id="Xl1-UV-PVs">
+                                    <rect key="frame" x="33" y="0.0" width="37" height="37"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachanavsep.png" id="R2V-4C-0jA">
+                                    <rect key="frame" x="19" y="36" width="64" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="aY6-OZ-OmN" customClass="BadgeIcon">
+                                    <rect key="frame" x="82" y="3" width="18" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="O52-Aw-HCM">
+                                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="kGn-YE-qVf" customClass="NiceFontLabel8S">
+                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="badgeLabel" destination="kGn-YE-qVf" id="dfr-ao-xiV"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="KCh-SL-uCS">
+                            <rect key="frame" x="212" y="0.0" width="103" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BEy-ve-nOV">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RnJ-8b-9nP" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="103" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="buttonClicked:" destination="MHE-8y-pOB" eventType="touchUpInside" id="jQD-ON-HDv"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SQUAD GRAB" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9CY-wN-Z0v" customClass="NiceFontLabel12B">
+                                    <rect key="frame" x="8" y="35" width="87" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" id="LDP-gf-qFe">
+                                    <rect key="frame" x="33" y="0.0" width="37" height="37"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachanavsep.png" id="eFE-43-FtO">
+                                    <rect key="frame" x="19" y="36" width="64" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="qhl-kg-6nw" customClass="BadgeIcon">
+                                    <rect key="frame" x="82" y="3" width="18" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="ghZ-p5-IhO">
+                                            <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="KXe-Nq-Fae" customClass="NiceFontLabel8S">
+                                            <rect key="frame" x="1" y="-1" width="18" height="19"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="badgeLabel" destination="KXe-Nq-Fae" id="Y7O-tG-PlO"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachatabshadow.png" id="uzH-HV-7ms">
+                            <rect key="frame" x="315" y="0.0" width="6" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="iJe-x9-Qg8"/>
+                        <outlet property="icon1" destination="5i4-bn-DQY" id="Nb0-UD-mqD"/>
+                        <outlet property="icon2" destination="Pxy-oR-ox7" id="QQ9-iG-fON"/>
+                        <outlet property="icon3" destination="BEy-ve-nOV" id="ITc-JM-opC"/>
+                        <outlet property="label1" destination="vLT-O7-XaV" id="SSS-dD-NIH"/>
+                        <outlet property="label2" destination="xmu-DX-oP2" id="zNd-TV-WGB"/>
+                        <outlet property="label3" destination="9CY-wN-Z0v" id="ZPn-yy-mAt"/>
+                        <outlet property="leftTabShadow" destination="WKC-jz-Ytf" id="9Oy-Ao-Jdj"/>
+                        <outlet property="rightTabShadow" destination="uzH-HV-7ms" id="7M4-0s-eKS"/>
+                        <outlet property="tab1" destination="sXi-YN-S1M" id="RMN-TH-Ria"/>
+                        <outlet property="tab2" destination="BdE-LE-bvo" id="dQZ-QR-evo"/>
+                        <outlet property="tab3" destination="KCh-SL-uCS" id="0ed-PK-CLj"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="ZdA-3Y-FAr">
+                    <rect key="frame" x="450" y="10" width="78" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="grabgemslabel.png" id="Y3B-ka-AOZ">
+                            <rect key="frame" x="14" y="5" width="62" height="20"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3cg-gw-Y4B" customClass="NumTransitionLabel">
+                            <rect key="frame" x="30" y="1" width="42" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="uIx-mX-etS">
+                            <rect key="frame" x="0.0" y="1" width="27" height="27"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="gemIcon" destination="uIx-mX-etS" id="Awt-8a-sCk"/>
+                <outlet property="gemsLabel" destination="3cg-gw-Y4B" id="eHF-BK-65q"/>
+            </connections>
+            <point key="canvasLocation" x="633" y="797"/>
+        </view>
+        <view contentMode="scaleToFill" id="R1D-O9-H9q" customClass="BattleSkillCounterPopupView">
+            <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earthskilldescription.png" id="BT0-yH-eZH" userLabel="Popup Background Image">
+                    <rect key="frame" x="0.0" y="0.0" width="220" height="129"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="4bf-28-foV" userLabel="Skill Name Label" customClass="NiceFontLabel18B">
+                    <rect key="frame" x="8" y="0.0" width="204" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skilldescriptionline.png" id="1sk-d3-DaR" userLabel="Separator Line">
+                    <rect key="frame" x="16" y="29" width="187" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OdT-zW-9Qa" userLabel="Skill Description Label" customClass="NiceFontLabel2B">
+                    <rect key="frame" x="8" y="29" width="204" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="poa-Mq-dCK" userLabel="Orbs Description Label" customClass="NiceFontLabel2B">
+                    <rect key="frame" x="8" y="96" width="204" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="Vbd-SE-qCo" userLabel="Orb Icon">
+                    <rect key="frame" x="82" y="96" width="17" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UXO-Wx-Okv" userLabel="Orbs Counter Label" customClass="NiceFontLabel18B">
+                    <rect key="frame" x="105" y="96" width="55" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="background" destination="BT0-yH-eZH" id="uNZ-XY-EVZ"/>
+                <outlet property="descLabel" destination="OdT-zW-9Qa" id="U7P-km-DL7"/>
+                <outlet property="nameLabel" destination="4bf-28-foV" id="q9t-M5-tyT"/>
+                <outlet property="orbCounterLabel" destination="UXO-Wx-Okv" id="7nF-SZ-yKW"/>
+                <outlet property="orbDescriptionLabel" destination="poa-Mq-dCK" id="2E6-NS-sQ9"/>
+                <outlet property="orbIcon" destination="Vbd-SE-qCo" id="QaH-N7-A8F"/>
+                <outlet property="parentView" destination="-1" id="ybD-hE-kiO"/>
+            </connections>
+            <point key="canvasLocation" x="633" y="942.5"/>
+        </view>
+        <view contentMode="scaleToFill" id="Kon-Hh-eje" customClass="NewGachaPrizeView">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="rWm-mQ-HOW">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firegrbackground.png" id="Ktg-Kc-5nS">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grshadow.png" id="UHT-5V-yU1">
+                            <rect key="frame" x="88" y="217" width="206" height="80"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="yCm-lw-FrN" userLabel="Character">
+                            <rect key="frame" x="39" y="1" width="313" height="278"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firegrbigflash1.png" id="5sD-0O-mjs">
+                            <rect key="frame" x="0.0" y="0.0" width="613" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlightcircle1.png" id="d4v-iV-V6M">
+                            <rect key="frame" x="34" y="104" width="287" height="184"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whitegrlightcircle2.png" id="iIu-iy-lRu">
+                            <rect key="frame" x="67" y="150" width="263" height="205"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grdarkrim.png" id="JGh-sl-9S6">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firelightsflashlow1.png" id="WOr-oc-t3x">
+                            <rect key="frame" x="3" y="248" width="383" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lights.png" id="17H-aq-e2P">
+                            <rect key="frame" x="-6" y="6" width="634" height="280"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grglow2.png" id="eWo-Wb-kiQ">
+                            <rect key="frame" x="0.0" y="0.0" width="475" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firegrglow2glowblend.png" id="9jg-Qv-ser">
+                            <rect key="frame" x="0.0" y="0.0" width="468" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grcrystalglow.png" id="Cgl-AX-fM9">
+                            <rect key="frame" x="6" y="144" width="439" height="205"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb7.png" id="H2t-cl-Vfg">
+                            <rect key="frame" x="154" y="7" width="175" height="284"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb6.png" id="L00-AN-Wjd">
+                            <rect key="frame" x="153" y="3" width="183" height="288"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb5.png" id="6Ve-lf-u15">
+                            <rect key="frame" x="146" y="2" width="193" height="289"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb4.png" id="ogr-yW-sDJ">
+                            <rect key="frame" x="146" y="2" width="196" height="289"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb3.png" id="Jhk-eH-A55">
+                            <rect key="frame" x="152" y="2" width="188" height="289"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb2.png" id="dZp-Xb-ksW">
+                            <rect key="frame" x="222" y="2" width="119" height="207"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grlb1.png" id="FnT-0y-KUt">
+                            <rect key="frame" x="263" y="2" width="71" height="108"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grbigafterglow.png" id="gEH-nj-SiE">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="FCL-bi-3n8">
+                    <rect key="frame" x="390" y="50" width="216" height="276"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="battleepictag.png" id="Us8-pi-0tS">
+                            <rect key="frame" x="4" y="8" width="50" height="15"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="hIH-Zv-E2V" customClass="NiceFontLabel10B">
+                            <rect key="frame" x="60" y="1" width="10" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gachaepicpiece.png" id="bWv-e0-xq0">
+                            <rect key="frame" x="70" y="7" width="16" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 PIECE (1/3)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="401-s0-Cou" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="92" y="3" width="73" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fire Spice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="c53-Ro-XGY" customClass="NiceFontLabel12B">
+                            <rect key="frame" x="4" y="29" width="204" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MAX STATS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="0zQ-Kn-tuW" customClass="NiceFontLabel2B">
+                            <rect key="frame" x="4" y="56" width="121" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HP:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="qvO-Hl-NOF" customClass="NiceFontLabel2B">
+                            <rect key="frame" x="4" y="75" width="66" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="450" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="xlS-NG-fEz" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="65" y="75" width="48" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Attack:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="AN3-Xd-xFM" customClass="NiceFontLabel2B">
+                            <rect key="frame" x="4" y="94" width="65" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="38" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Yzb-OP-GIL" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="65" y="94" width="48" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Speed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="IZh-AS-slt" customClass="NiceFontLabel2B">
+                            <rect key="frame" x="4" y="113" width="65" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Gy8-hJ-tFs" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="65" y="113" width="48" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Power:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="0sU-BV-TeB" customClass="NiceFontLabel2B">
+                            <rect key="frame" x="4" y="132" width="65" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="kjw-N8-Cvi" customClass="NiceFontLabel9B">
+                            <rect key="frame" x="65" y="132" width="48" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="Z3N-Vh-e2N" userLabel="Offensive Skill">
+                            <rect key="frame" x="0.0" y="176" width="170" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="revealskillbg.png" id="g6d-th-n15">
+                                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cheapshoticon.png" id="Mzu-5F-CHg">
+                                    <rect key="frame" x="8" y="7" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="sdn-xb-upg" customClass="NiceFontLabel10B">
+                                    <rect key="frame" x="53" y="0.0" width="109" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="OFFENSIVE SKILL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qf9-v0-Srf" customClass="NiceFontLabel2B">
+                                    <rect key="frame" x="53" y="13" width="109" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="B8M-lT-NXd" userLabel="Defensive Skill">
+                            <rect key="frame" x="0.0" y="222" width="170" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="revealskillbg.png" id="EZs-Ii-x5f">
+                                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cakedropicon.png" id="1xc-I0-r2D">
+                                    <rect key="frame" x="8" y="7" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Skill Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="AHf-bC-6o7" customClass="NiceFontLabel10B">
+                                    <rect key="frame" x="53" y="0.0" width="109" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DEFENSIVE SKILL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E7L-0b-qDQ" customClass="NiceFontLabel2B">
+                                    <rect key="frame" x="53" y="13" width="109" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="revealsep.png" id="OvK-Qn-y6u">
+                            <rect key="frame" x="4" y="163" width="170" height="2"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BCO-Vq-WKh" userLabel="Close Button" customClass="CloseButton">
+                    <rect key="frame" x="622" y="0.0" width="45" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="gacharevealclosex.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="closeClicked:" destination="Kon-Hh-eje" eventType="touchUpInside" id="QaX-5z-jan"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="afterGlow" destination="gEH-nj-SiE" id="GVn-Wj-nzP"/>
+                <outlet property="animationContainerView" destination="rWm-mQ-HOW" id="Hc8-04-da0"/>
+                <outlet property="attackLabel" destination="Yzb-OP-GIL" id="fgH-is-g8G"/>
+                <outlet property="background" destination="Ktg-Kc-5nS" id="0OB-db-Fjc"/>
+                <outlet property="character" destination="yCm-lw-FrN" id="BF3-SR-t4b"/>
+                <outlet property="characterShadow" destination="UHT-5V-yU1" id="khd-yu-OjH"/>
+                <outlet property="closeButton" destination="BCO-Vq-WKh" id="Spp-yJ-Ws5"/>
+                <outlet property="crystalGlow" destination="Cgl-AX-fM9" id="4t6-tv-lrT"/>
+                <outlet property="defensiveSkillIcon" destination="1xc-I0-r2D" id="svP-p7-s2f"/>
+                <outlet property="defensiveSkillName" destination="AHf-bC-6o7" id="lBn-dd-rzd"/>
+                <outlet property="defensiveSkillView" destination="B8M-lT-NXd" id="XnO-kW-1Nk"/>
+                <outlet property="elementGlow" destination="9jg-Qv-ser" id="fFu-wS-ecR"/>
+                <outlet property="elementLightsFlash" destination="WOr-oc-t3x" id="JLt-nr-LL7"/>
+                <outlet property="elementbigFlash" destination="5sD-0O-mjs" id="Xyc-A8-fyx"/>
+                <outlet property="glow" destination="eWo-Wb-kiQ" id="ydg-ER-Wcc"/>
+                <outlet property="hpLabel" destination="xlS-NG-fEz" id="Iwv-Hf-II3"/>
+                <outlet property="lightCircle" destination="d4v-iV-V6M" id="1Um-f5-LVy"/>
+                <outlet property="lightningBolt1" destination="FnT-0y-KUt" id="GH6-qP-3pN"/>
+                <outlet property="lightningBolt2" destination="dZp-Xb-ksW" id="s1O-UC-RUx"/>
+                <outlet property="lightningBolt3" destination="Jhk-eH-A55" id="Ime-zG-3yP"/>
+                <outlet property="lightningBolt4" destination="ogr-yW-sDJ" id="eYm-zO-zQk"/>
+                <outlet property="lightningBolt5" destination="6Ve-lf-u15" id="6k7-On-qtG"/>
+                <outlet property="lightningBolt6" destination="L00-AN-Wjd" id="A9d-ei-7yP"/>
+                <outlet property="lightningBolt7" destination="H2t-cl-Vfg" id="Rta-cm-2bi"/>
+                <outlet property="lights" destination="17H-aq-e2P" id="zMy-Ep-rYy"/>
+                <outlet property="nameLabel" destination="c53-Ro-XGY" id="L1s-H5-XdS"/>
+                <outlet property="offensiveSkillIcon" destination="Mzu-5F-CHg" id="r24-Ex-1j8"/>
+                <outlet property="offensiveSkillName" destination="sdn-xb-upg" id="7vt-nf-HdZ"/>
+                <outlet property="offensiveSkillView" destination="Z3N-Vh-e2N" id="tvd-aN-7X1"/>
+                <outlet property="pieceIcon" destination="bWv-e0-xq0" id="CIx-Q2-GPx"/>
+                <outlet property="pieceLabel" destination="401-s0-Cou" id="EXX-ih-uRy"/>
+                <outlet property="pieceSeparator" destination="hIH-Zv-E2V" id="zL3-vZ-Mpw"/>
+                <outlet property="powerLabel" destination="kjw-N8-Cvi" id="uWu-Vx-gUU"/>
+                <outlet property="rarityIcon" destination="Us8-pi-0tS" id="ejb-su-0ep"/>
+                <outlet property="skillsSeparator" destination="OvK-Qn-y6u" id="8hC-oX-cXu"/>
+                <outlet property="speedLabel" destination="Gy8-hJ-tFs" id="GA1-m7-azv"/>
+                <outlet property="statsContainerView" destination="FCL-bi-3n8" id="NTH-yK-frz"/>
+                <outlet property="whiteLightCircle" destination="iIu-iy-lRu" id="IeH-0n-GxI"/>
+            </connections>
+            <point key="canvasLocation" x="633.5" y="189.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="badgeicon.png" width="18" height="18"/>
+        <image name="basicgrabinactivetab.png" width="103" height="52"/>
+        <image name="basicgrabinactivetabpressed.png" width="103" height="52"/>
+        <image name="basicgrablogo.png" width="139" height="166"/>
+        <image name="basicgrabnavicon.png" width="28" height="36"/>
+        <image name="basicmachine.png" width="161" height="190"/>
+        <image name="battleepictag.png" width="29" height="14"/>
+        <image name="cakedropicon.png" width="32" height="32"/>
+        <image name="cheapshoticon.png" width="34" height="30"/>
+        <image name="diamond.png" width="29" height="27"/>
+        <image name="earthskilldescription.png" width="219" height="129"/>
+        <image name="firegrbackground.png" width="668" height="375"/>
+        <image name="firegrbigflash1.png" width="613" height="375"/>
+        <image name="firegrglow2glowblend.png" width="468" height="375"/>
+        <image name="firelightsflashlow1.png" width="383" height="128"/>
+        <image name="fireorb.png" width="27" height="34"/>
+        <image name="gachabg.png" width="550" height="375"/>
+        <image name="gachaepicpiece.png" width="30" height="29"/>
+        <image name="gachagradientsep.png" width="1" height="209"/>
+        <image name="gachaheaderbg.png" width="1" height="52"/>
+        <image name="gachanavsep.png" width="64" height="1"/>
+        <image name="gacharevealclosex.png" width="16" height="17"/>
+        <image name="gachaswirls.png" width="403" height="363"/>
+        <image name="gachatabshadow.png" width="6" height="52"/>
+        <image name="gooniegrabgachatabactive.png" width="103" height="52"/>
+        <image name="gooniegrabinactivetab.png" width="103" height="52"/>
+        <image name="gooniegrabinactivetabpressed.png" width="103" height="52"/>
+        <image name="gooniegrabnavicon.png" width="36" height="37"/>
+        <image name="grabgemslabel.png" width="62" height="20"/>
+        <image name="grbigafterglow.png" width="668" height="375"/>
+        <image name="grcrystalglow.png" width="439" height="205"/>
+        <image name="grdarkrim.png" width="668" height="375"/>
+        <image name="greywhite1.png" width="2" height="2"/>
+        <image name="grglow2.png" width="475" height="375"/>
+        <image name="grlb1.png" width="71" height="108"/>
+        <image name="grlb2.png" width="119" height="207"/>
+        <image name="grlb3.png" width="188" height="289"/>
+        <image name="grlb4.png" width="196" height="289"/>
+        <image name="grlb5.png" width="193" height="289"/>
+        <image name="grlb6.png" width="183" height="288"/>
+        <image name="grlb7.png" width="175" height="284"/>
+        <image name="grlightcircle1.png" width="287" height="184"/>
+        <image name="grshadow.png" width="206" height="80"/>
+        <image name="lights.png" width="634" height="280"/>
+        <image name="revealsep.png" width="1" height="2"/>
+        <image name="revealskillbg.png" width="40" height="40"/>
+        <image name="skilldescriptionline.png" width="186" height="1"/>
+        <image name="spinbutton.png" width="86" height="31"/>
+        <image name="ticker_big.png" width="14" height="25"/>
+        <image name="whitegrlightcircle2.png" width="263" height="205"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

@@ -26,6 +26,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
 @property (nonatomic, retain) IBOutlet MonsterCardView *cardView;
 @property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
+@property (nonatomic, retain) IBOutlet EvoBadge *evoBadge;
 
 @end
 

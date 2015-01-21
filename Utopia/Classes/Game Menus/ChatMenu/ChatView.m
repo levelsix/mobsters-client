@@ -291,6 +291,11 @@
     } else {
       self.joinClanLabel.text = @"Join a squad to chat with them!";
     }
+  } else {
+    [self reloadHelpsArray];
+    if (self.helpsArray.count > 1){
+      
+    }
   }
 }
 
@@ -303,6 +308,44 @@
 
 - (BOOL) showsClanTag {
   return NO;
+}
+
+- (void) reloadHelpsArray {
+  // Don't want to delete any of the things in the array already.. so use a set.
+  GameState *gs = [GameState sharedGameState];
+  
+  NSArray *arr = [gs.clanHelpUtil getAllHelpableClanHelps];
+  NSMutableSet *newHelps = [NSMutableSet setWithArray:arr];
+  
+  for (id<ClanHelp> ch in self.helpsArray) {
+    if ([[ch clanUuid] isEqualToString:gs.clan.clanUuid]) {
+      [newHelps addObject:ch];
+    }
+  }
+  
+  NSArray *unionArr = newHelps.allObjects;
+  
+  NSPredicate *pred = [NSPredicate predicateWithBlock:^BOOL(id<ClanHelp> ch, NSDictionary *bindings) {
+    return [ch isOpen];
+  }];
+  unionArr = [unionArr filteredArrayUsingPredicate:pred];
+  
+  unionArr = [unionArr sortedArrayUsingComparator:^NSComparisonResult(id<ClanHelp> obj1, id<ClanHelp> obj2) {
+    return [[obj2 requestedTime] compare:[obj1 requestedTime]];
+  }];
+  
+  self.helpsArray = [NSMutableArray arrayWithArray:unionArr];
+  
+  self.helpCountLabel.text = [NSString stringWithFormat:@"%i Squad Mates Requested Help", (int)self.helpsArray.count];
+  self.helpAllView.hidden = self.helpsArray.count < 2;
+}
+
+- (IBAction)helpAllClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  [gs.clanHelpUtil giveClanHelps:self.helpsArray];
+  [self.helpsArray removeAllObjects];
+  
+  [self updateForChats:self.chats andClan:self.clan animated:NO];
 }
 
 @end
@@ -366,6 +409,9 @@
 
 - (IBAction)backClicked:(id)sender {
   [self loadListViewAnimated:YES];
+  [UIView animateWithDuration:0.3 animations:^{
+    self.topLiveHelpView.alpha = 1.f;
+  }];
 }
 
 - (IBAction)adminChatClicked:(id)sender {

@@ -99,6 +99,8 @@
 
 - (void) awakeFromNib {
   
+  dropNib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
+  
   if ([Globals isiPhone5orSmaller])
   {
     [self hideCharacterIcon];
@@ -149,6 +151,10 @@
   self.dropScrollView.width = (self.characterIcon ? self.characterIcon.originX + 28 : self.enterButtonView.originX) - self.dropScrollView.originX - 5;
   self.taskNameScrollView.width = self.dropScrollView.width + (self.availableLabel.superview.hidden ? -25 : 35);
   
+  
+  
+  NSLog(@"Drop scroll width: %f, task name width: %f, Self origin: %f, view width: %f", self.dropScrollView.width, self.taskNameScrollView.width, self.dropScrollView.originX, self.width);
+  
   //Add money rewards
   if (!isCompleted) {
     
@@ -157,17 +163,37 @@
     
   } else {
     //Remainder resources
+    UserTaskCompletedProto *taskCompleteData = [gs.completedTaskData objectForKey:@(taskId)];
+    
+    if (taskCompleteData.unclaimedCash){
+      nextX = [self addReward:@"moneystack.png" labelText:[Globals commafyNumber:taskCompleteData.unclaimedCash] xPos:nextX];
+    }
+    if (taskCompleteData.unclaimedOil){
+      nextX = [self addReward:@"oilicon.png" labelText:[Globals commafyNumber:taskCompleteData.unclaimedOil] xPos:nextX];
+    }
     
   }
   
-  Quality qual;
-  for (int i = 0; i < task.raritiesList.count; i++) {
-    qual = [[task.raritiesList objectAtIndexedSubscript:i] intValue];
-    NSString *qualName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"ball.png" : @"piece.png")]];
-    nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
+  if ([Globals sharedGlobals].displayRarity){
+    Quality qual;
+    for (int i = 0; i < task.raritiesList.count; i++) {
+      qual = [[task.raritiesList objectAtIndexedSubscript:i] intValue];
+      NSString *qualName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:qual suffix:(qual == QualityCommon ? @"ball.png" : @"piece.png")]];
+      nextX = [self addReward:qualName labelText:[Globals shortenedStringForRarity:qual] xPos:nextX];
+    }
+  } else {
+    for (int i = 0; i < task.monsterIdsList.count; i++){
+      nextX = [self addMobsterReward:[task.monsterIdsList int32AtIndex:i] xPos:nextX];
+    }
+    
   }
   
   self.dropScrollView.contentSize = CGSizeMake(nextX, self.dropScrollView.height);
+  
+  //If we have more content than we can fit, set up the timer to auto-scroll
+  if (self.dropScrollView.contentSize.width > self.dropScrollView.width){
+    [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:SCROLL_DISPLAY_TIME target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
+  }
   
   UIImage *gradientImage = [Globals imageNamed:(!isLocked ? [@"gradient" stringByAppendingString:[Globals imageNameForElement:elem suffix:@"dailylab.png"]] : @"gradientlockeddailylab.png")];
   [self.rightGradient setImage:gradientImage];
@@ -180,11 +206,37 @@
   self.taskId = taskId;
 }
 
-- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
-  UINib *nib = [UINib nibWithNibName:@"PossibleDropView" bundle:nil];
-  PossibleDropView *drop = [nib instantiateWithOwner:self options:nil][0];
-  [drop updateForReward:imageName labelText:labelText];
+- (void) scrollRewardsForward:(NSTimer *)timer{
+  //Destermine destination and duration
+  float distance = self.dropScrollView.contentSize.width - self.dropScrollView.width;
+  CGPoint destination = CGPointMake(distance, 0);
+  float duration = distance / SCROLL_SPEED_PX_PER_SEC;
   
+  //Run the animation
+  [UIView animateWithDuration:duration animations:^ {
+    [self.dropScrollView setContentOffset:destination animated:NO];
+  }];
+  
+  //Start the timer to scroll us back
+  [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:(duration+SCROLL_DISPLAY_TIME) target:self selector:@selector(scrollRewardsBack:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
+}
+
+- (void) scrollRewardsBack:(NSTimer *)timer{
+  //Determine destination and duration
+  float distance = self.dropScrollView.contentOffset.x;
+  CGPoint destination = CGPointMake(0, 0);
+  float duration = distance / SCROLL_SPEED_PX_PER_SEC;
+
+  //Run the animation
+  [UIView animateWithDuration:(distance/SCROLL_SPEED_PX_PER_SEC) animations:^ {
+    [self.dropScrollView setContentOffset:destination animated:NO];
+  }];
+  
+  //Restart the timer to scroll forwards again
+  [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:(duration+SCROLL_DISPLAY_TIME) target:self selector:@selector(scrollRewardsForward:) userInfo:nil repeats:NO] forMode:NSDefaultRunLoopMode];
+}
+
+- (int) addDrop:(PossibleDropView *)drop xPos:(int)xPos {
   [self.dropScrollView addSubview:drop];
   
   CGRect r = drop.frame;
@@ -194,6 +246,19 @@
   return drop.frame.origin.x + drop.label.frame.origin.x + [drop.label.text getSizeWithFont:drop.label.font].width + 5;
 }
 
+- (int) addMobsterReward:(int)mobsterId xPos:(int)xPos{
+  NSLog(@"Monster: %i", mobsterId);
+  PossibleDropView *drop = [dropNib instantiateWithOwner:self options:nil][0];
+  [drop updateForToon:mobsterId];
+  return [self addDrop:drop xPos:xPos];
+}
+
+- (int) addReward:(NSString *)imageName labelText:(NSString *)labelText xPos:(int)xPos {
+  PossibleDropView *drop = [dropNib instantiateWithOwner:self options:nil][0];
+  [drop updateForReward:imageName labelText:labelText];
+  return [self addDrop:drop xPos:xPos];
+}
+
 @end
 
 @implementation PossibleDropView
@@ -201,10 +266,15 @@
 - (void) updateForReward:(NSString *)imageName labelText:(NSString *)labelText{
   self.label.text = labelText;
   [self.iconImage setImage:[Globals imageNamed:imageName]];
+  self.circleMonsterView.hidden = YES;
 }
 
 - (void) updateForToon:(int)toonId{
-  
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *monster = [gs monsterWithId:toonId];
+  [self updateForReward:([Globals imageNameForElement:monster.monsterElement suffix:@"avatar.png"]) labelText:monster.displayName];
+  self.circleMonsterView.hidden = NO;
+  [self.circleMonsterView updateForMonsterId:toonId];
 }
 
 @end

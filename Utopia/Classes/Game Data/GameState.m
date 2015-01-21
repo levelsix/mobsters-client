@@ -58,6 +58,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
     _monsterHealingQueues = [[NSMutableDictionary alloc] init];
     _clanAvengings = [[NSMutableArray alloc] init];
+    _completedTaskData = [[NSMutableDictionary alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -497,6 +498,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserPersistentEventProto *u in arr) {
     MSDate *date = [MSDate dateWithTimeIntervalSince1970:u.coolDownStartTime/1000.];
     [self.eventCooldownTimes setObject:date forKey:@(u.eventId)];
+  }
+}
+
+- (void) addToCompleteTasks:(NSArray *)tasks {
+  for (UserTaskCompletedProto *task in tasks) {
+    [self.completedTaskData setObject:task forKey:@(task.taskId)];
   }
 }
 
@@ -1150,11 +1157,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (!taskId) return NO;
   FullTaskProto *task = [self taskWithId:taskId];
   if (!task) return NO;
-  return !task.prerequisiteTaskId || [self.completedTasks containsObject:@(task.prerequisiteTaskId)];
+  return !task.prerequisiteTaskId || [self isTaskCompleted:task.prerequisiteTaskId];
 }
 
 - (BOOL) isTaskCompleted:(int)taskId {
-  return [self.completedTasks containsObject:@(taskId)];
+  return [self.completedTaskData objectForKey:@(taskId)] != nil;
 }
 
 - (BOOL) isCityUnlocked:(int)cityId {
@@ -1170,7 +1177,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (NSArray *) taskIdsToUnlockMoreTasks {
   NSMutableArray *taskIds = [NSMutableArray array];
   for (FullTaskProto *task in self.staticTasks.allValues) {
-    if ([self isTaskUnlocked:task.taskId] && ![self.completedTasks containsObject:@(task.taskId)]) {
+    if ([self isTaskUnlocked:task.taskId] && ![self isTaskCompleted:task.taskId]) {
       [taskIds addObject:@(task.taskId)];
     }
   }

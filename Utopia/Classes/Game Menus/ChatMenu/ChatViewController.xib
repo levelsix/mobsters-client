@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController">
@@ -17,6 +18,7 @@
                 <outlet property="privateBadgeIcon" destination="2dE-gs-eUi" id="FbB-Dl-ONi"/>
                 <outlet property="privateChatView" destination="EYy-Nb-xNZ" id="lSC-l7-siE"/>
                 <outlet property="topBar" destination="eXa-Ou-uhP" id="gqK-pC-L0x"/>
+                <outlet property="topLiveHelpView" destination="qDn-fu-Cwv" id="unl-NP-oJ8"/>
                 <outlet property="view" destination="LJE-X2-xpP" id="IgF-6q-6Pi"/>
             </connections>
         </placeholder>
@@ -434,6 +436,45 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="qDn-fu-Cwv" userLabel="LiveHelp">
+                            <rect key="frame" x="0.0" y="-14" width="102" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t1s-6X-Vjj">
+                                    <rect key="frame" x="0.0" y="0.0" width="90" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="topLiveHelpClicked:" destination="-1" eventType="touchUpInside" id="7xl-VR-YRR"/>
+                                    </connections>
+                                </button>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="livehelpgirl.png" id="lFz-KJ-nrQ">
+                                    <rect key="frame" x="-5" y="0.0" width="72" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live Help!" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9dP-2u-669" customClass="NiceFontLabel14B">
+                                    <rect key="frame" x="46" y="18" width="60" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat Now »" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6yj-CL-qfl" customClass="NiceFontLabel14B">
+                                    <rect key="frame" x="46" y="30" width="60" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                    <color key="textColor" red="0.61568629741668701" green="1" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
@@ -469,6 +510,62 @@
                                 <outlet property="delegate" destination="eIq-PW-faH" id="0ku-pw-HoW"/>
                             </connections>
                         </tableView>
+                        <view contentMode="scaleToFill" id="7b4-tW-WYI">
+                            <rect key="frame" x="0.0" y="160" width="453" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatsquadhelpbg.png" id="P1c-e6-lCe">
+                                    <rect key="frame" x="0.0" y="0.0" width="453" height="45"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 Squad Mates Requested Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQs-7p-e9P" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="12" y="5" width="290" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="2"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click Help to speed up their timers." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Bx-E2-Nbs" customClass="NiceFontLabel2">
+                                    <rect key="frame" x="12" y="24" width="290" height="14"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" id="nse-nS-wNZ" userLabel="buttonView">
+                                    <rect key="frame" x="363" y="0.0" width="82" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chathelpallbutton.png" id="xLT-dB-jOl">
+                                            <rect key="frame" x="0.0" y="0.0" width="82" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Do9-Fk-Hee">
+                                            <rect key="frame" x="0.0" y="8" width="82" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="helpAllClicked:" destination="eIq-PW-faH" eventType="touchUpInside" id="kho-PT-rIY"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help All" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="XLV-kD-Xkf" customClass="NiceFontLabel12B">
+                                            <rect key="frame" x="0.0" y="10" width="82" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="MCB-eO-nQa" userLabel="Bottom View">
                             <rect key="frame" x="0.0" y="205" width="453" height="43"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -640,6 +737,8 @@
                 <outlet property="bottomView" destination="MCB-eO-nQa" id="Nkh-MG-zsh"/>
                 <outlet property="chatTable" destination="Add-pv-JKk" id="Mkh-fx-fw3"/>
                 <outlet property="delegate" destination="-1" id="RV0-yo-ry1"/>
+                <outlet property="helpAllView" destination="7b4-tW-WYI" id="usH-WN-nLW"/>
+                <outlet property="helpCountLabel" destination="YQs-7p-e9P" id="865-Yv-brt"/>
                 <outlet property="joinClanButtonView" destination="tMw-xz-lnQ" id="5V5-fU-4IQ"/>
                 <outlet property="joinClanLabel" destination="iB9-pf-ak1" id="bbM-ci-U9h"/>
                 <outlet property="mainView" destination="taO-wK-A5I" id="d0n-iL-OT5"/>
@@ -668,15 +767,7 @@
                                 <outlet property="delegate" destination="EYy-Nb-xNZ" id="IwN-Fc-04W"/>
                             </connections>
                         </tableView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no private chats." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TP2-Wx-Cu3" customClass="NiceFontLabel7">
-                            <rect key="frame" x="115" y="42" width="223" height="102"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="0.0" green="0.14901961386203766" blue="0.27058824896812439" alpha="1" colorSpace="deviceRGB"/>
-                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="07P-m8-SNq">
+                        <view hidden="YES" contentMode="scaleToFill" id="07P-m8-SNq">
                             <rect key="frame" x="0.0" y="185" width="453" height="66"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
@@ -718,6 +809,14 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no private chats." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TP2-Wx-Cu3" customClass="NiceFontLabel7">
+                            <rect key="frame" x="115" y="75" width="223" height="102"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.14901961386203766" blue="0.27058824896812439" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -974,6 +1073,7 @@
         <image name="chatclaninactive.png" width="14" height="11"/>
         <image name="chatglobalactive.png" width="10" height="10"/>
         <image name="chatglobalinactive.png" width="10" height="10"/>
+        <image name="chathelpallbutton.png" width="82" height="29"/>
         <image name="chatinactivemiddle.png" width="83" height="28"/>
         <image name="chatinactiveside.png" width="83" height="28"/>
         <image name="chatinputbgcap.png" width="6" height="43"/>
@@ -985,10 +1085,12 @@
         <image name="chatpressedside.png" width="83" height="28"/>
         <image name="chatprivateactive.png" width="10" height="10"/>
         <image name="chatprivateinactive.png" width="10" height="10"/>
+        <image name="chatsquadhelpbg.png" width="1" height="52"/>
         <image name="closepopupx.png" width="25" height="26"/>
         <image name="enhancesquirrel.png" width="94" height="72"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="greensmallbutton.png" width="68" height="30"/>
+        <image name="livehelpgirl.png" width="43" height="51"/>
         <image name="nightavatar.png" width="30" height="30"/>
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>
