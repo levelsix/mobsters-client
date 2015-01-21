@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterCardContainerView">
@@ -76,6 +76,29 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="jsd-hb-GiH" customClass="EvoBadge">
+                            <rect key="frame" x="4" y="40" width="12" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="5kq-nB-m4h">
+                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zt7-LU-qsv" customClass="NiceFontLabel8B">
+                                    <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <connections>
+                                <outlet property="bg" destination="5kq-nB-m4h" id="pSu-YY-w2H"/>
+                                <outlet property="evoLevel" destination="Zt7-LU-qsv" id="EWL-7V-oLD"/>
+                            </connections>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" lineBreakMode="middleTruncation" id="muq-Gu-1ar" userLabel="Card Button" customClass="MaskedButton">
                             <rect key="frame" x="0.0" y="0.0" width="74" height="74"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -108,6 +131,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="cardBgdView" destination="rYA-WT-y1w" id="dp5-hm-S27"/>
+                <outlet property="evoBadge" destination="jsd-hb-GiH" id="1MF-GX-iQB"/>
                 <outlet property="infoButton" destination="TDV-EE-UeW" id="nxm-dE-ZoG"/>
                 <outlet property="mainView" destination="vwy-q7-7ay" id="Uva-wQ-MXn"/>
                 <outlet property="monsterIcon" destination="QGE-5v-T15" id="byg-u5-DeB"/>
@@ -121,6 +145,7 @@
     </objects>
     <resources>
         <image name="bigsquareempty.png" width="74" height="74"/>
+        <image name="evobadge2.png" width="12" height="12"/>
         <image name="infoi.png" width="18" height="19"/>
         <image name="nightsquare.png" width="74" height="74"/>
         <image name="rareband.png" width="33" height="33"/>

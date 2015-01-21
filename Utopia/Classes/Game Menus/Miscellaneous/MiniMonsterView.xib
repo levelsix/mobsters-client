@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -18,18 +19,43 @@
                     <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
+                <view contentMode="scaleToFill" id="VYh-71-EHG" customClass="EvoBadge">
+                    <rect key="frame" x="4" y="25" width="12" height="12"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="A0Z-Jg-0i0">
+                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qKE-Jh-1zl" customClass="NiceFontLabel8B">
+                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <connections>
+                        <outlet property="bg" destination="A0Z-Jg-0i0" id="sTo-8B-Zhs"/>
+                        <outlet property="evoLevel" destination="qKE-Jh-1zl" id="mzr-Xr-G8h"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bgdIcon" destination="by4-T0-Cck" id="09m-I2-9AT"/>
+                <outlet property="evoBadge" destination="VYh-71-EHG" id="Dbh-Sf-pD6"/>
                 <outlet property="monsterIcon" destination="uqT-gm-TaP" id="urc-vG-guk"/>
             </connections>
         </view>
     </objects>
     <resources>
         <image name="earthsmallsquare.png" width="42" height="42"/>
+        <image name="evobadge2.png" width="12" height="12"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

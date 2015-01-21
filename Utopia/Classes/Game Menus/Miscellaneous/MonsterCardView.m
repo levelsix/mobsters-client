@@ -12,6 +12,28 @@
 #import "OutgoingEventController.h"
 #import "NibUtils.h"
 
+@implementation EvoBadge
+
+- (void) updateForToonId:(int)toonId {
+  [self updateForToon:[[GameState sharedGameState] monsterWithId:toonId]];
+}
+
+- (void) updateForToonId:(int)toonId greyscale:(BOOL)greyscale {
+  [self updateForToon:[[GameState sharedGameState] monsterWithId:toonId] greyscale:greyscale];
+}
+
+- (void) updateForToon:(MonsterProto *)proto {
+  [self updateForToon:proto greyscale:NO];
+}
+
+- (void) updateForToon:(MonsterProto *)proto greyscale:(BOOL)greyscale {
+  [Globals imageNamed:@"evobadge2.png" withView:self.bg greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  self.evoLevel.text = [NSString stringWithFormat:@"%i", proto.evolutionLevel];
+  self.hidden = proto.evolutionLevel <= 1;
+}
+
+@end
+
 @implementation MonsterCardView
 
 static UIImage *img = nil;
@@ -68,6 +90,8 @@ static UIImage *img = nil;
   
   [Globals imageNamed:@"infoi.png" withView:self.infoButton greyscale:greyscale indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
   
+  [self.evoBadge updateForToon:mp greyscale:greyscale];
+  
   self.mainView.hidden = NO;
   self.noMonsterView.hidden = YES;
 }
@@ -90,7 +114,6 @@ static UIImage *img = nil;
 }
 
 @end
-
 
 @implementation MonsterCardContainerView
 
@@ -127,9 +150,11 @@ static UIImage *img = nil;
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:monsterId];
     [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:greyscale];
+    [self.evoBadge updateForToon:mp];
   } else {
     self.bgdIcon.image = [Globals imageNamed:@"teamslotopen.png"];
     self.monsterIcon.image = nil;
+    self.evoBadge.hidden = YES;
   }
   self.monsterId = monsterId;
 }

@@ -1035,6 +1035,16 @@
     oilAmount += taskCompleteData.unclaimedOil;
   }
   
+  if (gs.cash + silverAmount > gs.maxCash)
+  {
+    silverAmount = gs.maxCash - gs.cash;
+  }
+  
+  if (gs.oil + oilAmount > gs.maxOil)
+  {
+    oilAmount = gs.maxOil - gs.oil;
+  }
+  
   if (silverAmount) {
     Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
     [rewards addObject:r];
