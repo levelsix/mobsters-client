@@ -26,6 +26,7 @@
 @property (nonatomic, assign) TaskStageMonsterProto_MonsterType monsterType;
 
 @property (nonatomic, assign) int level;
+@property (nonatomic, assign) int evoLevel;
 
 @property (nonatomic, assign) int speed;
 

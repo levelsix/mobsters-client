@@ -54,6 +54,7 @@
     
     BOOL greyscale = bp.curHealth == 0;
     [self.monsterView updateForElement:bp.element imgPrefix:bp.spritePrefix greyscale:greyscale];
+    [self.monsterView.evoBadge updateForToonId:[bp getIncompleteUserMonster].monsterId greyscale:greyscale];
     
     self.emptyView.hidden = YES;
     self.mainView.hidden = NO;

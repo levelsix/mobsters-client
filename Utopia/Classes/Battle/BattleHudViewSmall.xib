@@ -197,10 +197,34 @@
                                                         <outlet property="baseImage" destination="Z7a-66-Mow" id="vQq-6e-Ivw"/>
                                                     </connections>
                                                 </button>
+                                                <view contentMode="scaleToFill" id="rvx-MT-gOx" customClass="EvoBadge">
+                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="nQr-8H-Th3">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ycE-dg-S4A" customClass="NiceFontLabel8B">
+                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="bg" destination="nQr-8H-Th3" id="Q5W-kF-6rc"/>
+                                                        <outlet property="evoLevel" destination="ycE-dg-S4A" id="HQb-iP-ID0"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <outlet property="bgdIcon" destination="Z7a-66-Mow" id="AWc-mX-AUg"/>
+                                                <outlet property="evoBadge" destination="rvx-MT-gOx" id="E4B-BT-dWZ"/>
                                                 <outlet property="monsterIcon" destination="usk-RI-7n5" id="PF8-gj-859"/>
                                             </connections>
                                         </view>
@@ -274,10 +298,34 @@
                                                         <outlet property="baseImage" destination="doF-Dd-DtI" id="jyh-pZ-IHQ"/>
                                                     </connections>
                                                 </button>
+                                                <view contentMode="scaleToFill" id="kAI-o1-BPt" customClass="EvoBadge">
+                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="xg0-L4-XJc">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DsU-I0-M0g" customClass="NiceFontLabel8B">
+                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="bg" destination="xg0-L4-XJc" id="XfU-dC-p5p"/>
+                                                        <outlet property="evoLevel" destination="DsU-I0-M0g" id="z47-1V-mOY"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <outlet property="bgdIcon" destination="doF-Dd-DtI" id="LN2-k1-Cmk"/>
+                                                <outlet property="evoBadge" destination="kAI-o1-BPt" id="kOF-jD-NqR"/>
                                                 <outlet property="monsterIcon" destination="H6g-uG-C0J" id="4Ea-xy-j8E"/>
                                             </connections>
                                         </view>
@@ -351,10 +399,34 @@
                                                         <outlet property="baseImage" destination="vpr-4s-xKZ" id="rFC-DT-9DS"/>
                                                     </connections>
                                                 </button>
+                                                <view contentMode="scaleToFill" id="FxK-Po-m7I" customClass="EvoBadge">
+                                                    <rect key="frame" x="4" y="26" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="evobadge2.png" id="IuG-bI-OmS">
+                                                            <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Map-bg-XpI" customClass="NiceFontLabel8B">
+                                                            <rect key="frame" x="0.0" y="-2" width="12" height="12"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <color key="shadowColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="bg" destination="IuG-bI-OmS" id="gpD-02-w2m"/>
+                                                        <outlet property="evoLevel" destination="Map-bg-XpI" id="7M6-DK-q97"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <outlet property="bgdIcon" destination="vpr-4s-xKZ" id="Myd-2i-OWj"/>
+                                                <outlet property="evoBadge" destination="FxK-Po-m7I" id="gzz-Uj-ZeJ"/>
                                                 <outlet property="monsterIcon" destination="Ovq-nk-tBu" id="pvM-L3-ipK"/>
                                             </connections>
                                         </view>
@@ -487,8 +559,8 @@
         <image name="earthskilldescription.png" width="219" height="129"/>
         <image name="elementreeicon.png" width="19" height="19"/>
         <image name="elementtree2.png" width="227" height="109"/>
+        <image name="evobadge2.png" width="12" height="12"/>
         <image name="fireorb.png" width="27" height="34"/>
-        <image name="fireteam.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>
         <image name="movesqueuebg.png" width="142" height="62"/>
