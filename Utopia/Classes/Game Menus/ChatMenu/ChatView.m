@@ -336,7 +336,7 @@
   
   self.helpsArray = [NSMutableArray arrayWithArray:unionArr];
   
-  self.helpCountLabel.text = [NSString stringWithFormat:@"%i Squad Mates Requested Help", self.helpsArray.count];
+  self.helpCountLabel.text = [NSString stringWithFormat:@"%i Squad Mates Requested Help", (int)self.helpsArray.count];
   self.helpAllView.hidden = self.helpsArray.count < 2;
 }
 
