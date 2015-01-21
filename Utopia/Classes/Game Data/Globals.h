@@ -304,6 +304,7 @@
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view;
++ (void) alignSubviewsToPixelsBoundaries:(UIView*)view;
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 

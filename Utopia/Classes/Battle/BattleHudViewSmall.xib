@@ -439,8 +439,17 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="NKk-9I-9sX" userLabel="Orb Icon">
-                            <rect key="frame" x="85" y="94" width="14" height="17"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V7p-z9-YU0" userLabel="Orbs Description Label" customClass="NiceFontLabel2">
+                            <rect key="frame" x="8" y="94" width="204" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fireorb.png" id="NKk-9I-9sX" userLabel="Orb Icon">
+                            <rect key="frame" x="82" y="96" width="17" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00/00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="naw-aX-gm2" userLabel="Orbs Counter Label" customClass="NiceFontLabel18">
@@ -459,8 +468,9 @@
                         <outlet property="descLabel" destination="bal-1S-C4z" id="BLd-k2-FZy"/>
                         <outlet property="nameLabel" destination="qbq-KO-0bo" id="wee-Gf-Pti"/>
                         <outlet property="orbCounterLabel" destination="naw-aX-gm2" id="m2Y-CZ-27G"/>
+                        <outlet property="orbDescriptionLabel" destination="V7p-z9-YU0" id="WxW-Bm-bdi"/>
                         <outlet property="orbIcon" destination="NKk-9I-9sX" id="q4r-2n-b2U"/>
-                        <outlet property="parentHudView" destination="iN0-l3-epB" id="Z6O-8W-hOj"/>
+                        <outlet property="parentView" destination="iN0-l3-epB" id="AQr-TC-hs2"/>
                     </connections>
                 </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" id="vvm-FW-zYV" userLabel="SkillTutorialView">
