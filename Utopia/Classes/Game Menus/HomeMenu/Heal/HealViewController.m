@@ -191,12 +191,12 @@
 #pragma mark - Queue View movement
 
 - (IBAction)leftArrowClicked:(id)sender {
-  _curHospitalIndex = MAX(0, _curHospitalIndex-1);
+  _curHospitalIndex = _curHospitalIndex-1 >= 0 ? _curHospitalIndex-1 : (int)self.hospitals.count-1;
   [self reloadQueueViewFromRight:NO animated:YES];
 }
 
 - (IBAction)rightArrowClicked:(id)sender {
-  _curHospitalIndex = MIN((int)self.hospitals.count-1, _curHospitalIndex+1);
+  _curHospitalIndex = _curHospitalIndex+1 <= (int)self.hospitals.count-1 ? _curHospitalIndex+1 : 0;
   [self reloadQueueViewFromRight:YES animated:YES];
 }
 
@@ -239,8 +239,8 @@ static BOOL isAnimating = NO;
   self.hospitalLevelLabel.text = [NSString stringWithFormat:@"LEVEL %d", sip.level];
   
   // Update arrows
-  self.hospitalLeftArrow.hidden = _curHospitalIndex <= 0;
-  self.hospitalRightArrow.hidden = _curHospitalIndex >= self.hospitals.count-1;
+  self.hospitalLeftArrow.hidden = self.hospitals.count <= 1;
+  self.hospitalRightArrow.hidden = self.hospitals.count <= 1;
 }
 
 #pragma mark - Potentially rewritable methods

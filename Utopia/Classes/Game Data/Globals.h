@@ -154,6 +154,8 @@
 
 @property (nonatomic, assign) BOOL displayRarity;
 
+@property (nonatomic, assign) int taskIdOfFirstSkill;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
@@ -302,6 +304,7 @@
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
 + (CGPoint) convertPointToWindowCoordinates:(CGPoint)point fromViewCoordinates:(UIView *)view;
++ (void) alignSubviewsToPixelsBoundaries:(UIView*)view;
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 

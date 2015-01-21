@@ -40,6 +40,7 @@
     [gs.monsterHealingQueues removeAllObjects];
     [gs.myStructs removeAllObjects];
     [gs.completedTasks removeAllObjects];
+    [gs.completedTaskData removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
     for (NSNumber *structId in constants.structureIdsToBeBuilltList.toNSArray) {

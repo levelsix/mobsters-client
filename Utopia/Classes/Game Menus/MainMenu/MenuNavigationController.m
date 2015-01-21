@@ -62,11 +62,44 @@ static float imgHeight = 42.f;
 
 @end
 
+static const CGFloat kNewGachaNavBarHeight = 46.f;
+
+@implementation NewGachaNavBar
+
+-(void)layoutSubviews
+{
+  [super layoutSubviews];
+  
+  for (UIView* view in self.subviews)
+    if ([view isKindOfClass:[CoinBar class]])
+      [view setFrame:CGRectMake(0, 0, self.frame.size.width, kNewGachaNavBarHeight)];
+}
+
+- (CGSize)sizeThatFits:(CGSize)size
+{
+  return CGSizeMake(self.frame.size.width, kNewGachaNavBarHeight);
+}
+
+@end
+
 @implementation MenuNavigationController
 
 - (id) init
 {
   self = [super initWithNavigationBarClass:[CustomNavBar class] toolbarClass:nil];
+  if (self) {
+    self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+  }
+  return self;
+}
+
+@end
+
+@implementation NewGachaNavigationController
+
+- (id) init
+{
+  self = [super initWithNavigationBarClass:[NewGachaNavBar class] toolbarClass:nil];
   if (self) {
     self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
   }

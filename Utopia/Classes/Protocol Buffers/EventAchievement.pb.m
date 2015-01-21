@@ -627,7 +627,7 @@ BOOL AchievementProgressResponseProto_AchievementProgressStatusIsValidValue(Achi
   result.status = value;
   return self;
 }
-- (AchievementProgressResponseProto_Builder*) clearStatus {
+- (AchievementProgressResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AchievementProgressResponseProto_AchievementProgressStatusSuccess;
   return self;
@@ -1225,7 +1225,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
   result.status = value;
   return self;
 }
-- (AchievementRedeemResponseProto_Builder*) clearStatus {
+- (AchievementRedeemResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = AchievementRedeemResponseProto_AchievementRedeemStatusSuccess;
   return self;

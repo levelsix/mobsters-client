@@ -155,7 +155,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasDevRequest;
 - (DevRequest) devRequest;
 - (DevRequestProto_Builder*) setDevRequest:(DevRequest) value;
-- (DevRequestProto_Builder*) clearDevRequest;
+- (DevRequestProto_Builder*) clearDevRequestList;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
@@ -232,7 +232,7 @@ BOOL DevResponseProto_DevStatusIsValidValue(DevResponseProto_DevStatus value);
 - (BOOL) hasStatus;
 - (DevResponseProto_DevStatus) status;
 - (DevResponseProto_Builder*) setStatus:(DevResponseProto_DevStatus) value;
-- (DevResponseProto_Builder*) clearStatus;
+- (DevResponseProto_Builder*) clearStatusList;
 
 - (NSMutableArray *)fumpList;
 - (FullUserMonsterProto*)fumpAtIndex:(NSUInteger)index;
