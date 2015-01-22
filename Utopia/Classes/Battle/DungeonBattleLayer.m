@@ -371,7 +371,12 @@
 }
 
 - (void) moveToNextEnemy {
-  [super moveToNextEnemy];
+  BOOL playerFirst = NO;
+  if(_curStage >= 0) {
+    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+    playerFirst = stage.attackerAlwaysHitsFirst;
+  }
+  [super moveToNextEnemyWithPlayerFirst:playerFirst];
   [self sendServerDungeonProgress];
   
   // Reset on each enemy
@@ -487,8 +492,10 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (!_isResumingState || !self.battleSchedule.schedule) {
-//    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
-    [super createScheduleWithSwap:swap];
+    if(_curStage >= 0) {
+      TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
+      [super createScheduleWithSwap:swap playerHitsFirst:stage.attackerAlwaysHitsFirst];
+    }
   }
 }
 

@@ -525,8 +525,14 @@ static const CGSize FIXED_SIZE = {568, 384};
       [self.notificationController resumeNotifications];
     }
     
-    // Check to see if user has a daily free speedup
+    //check if the player has any unread private messages
     GameState *gs = [GameState sharedGameState];
+    NSArray *unreadChats = [NSMutableArray arrayWithArray:[gs allUnreadPrivateChats]];
+    if(unreadChats.count > 0) {
+      [Globals addPrivateMessageNotification:unreadChats];
+    }
+    
+    // Check to see if user has a daily free speedup
     if ([gs hasDailyFreeSpin]) {
       [Globals addBlueAlertNotification:@"Your daily free Basic Grab is available. Click on Shop to claim!"];
     }

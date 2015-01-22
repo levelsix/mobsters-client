@@ -479,7 +479,23 @@
 		4C16FF1A19CE03AE00F9FC1E /* goosplashicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */; };
 		4C16FF1D19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
 		4C16FF1E19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
+		631BF3AE1A6DD8000091253B /* PrivateMessageNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */; };
+		631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */; };
+		631BF3B51A6DF0480091253B /* CircleMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3B41A6DF0480091253B /* CircleMonsterView.xib */; };
 		63808B9F1A5F7142008DA8AC /* livehelpgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */; };
+		63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
+		63C57E791A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
+		63C57E7A1A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
+		63C57E7B1A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
+		63C57E7C1A6627FE00ED406E /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E761A6627FE00ED406E /* maptaskdonebg@2x.png */; };
+		63C57E7D1A6627FE00ED406E /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E761A6627FE00ED406E /* maptaskdonebg@2x.png */; };
+		63C57E7E1A6627FE00ED406E /* maptaskdonebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E761A6627FE00ED406E /* maptaskdonebg@2x.png */; };
+		63C57E7F1A6627FE00ED406E /* maptaskdonecheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E771A6627FE00ED406E /* maptaskdonecheck.png */; };
+		63C57E801A6627FE00ED406E /* maptaskdonecheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E771A6627FE00ED406E /* maptaskdonecheck.png */; };
+		63C57E811A6627FE00ED406E /* maptaskdonecheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E771A6627FE00ED406E /* maptaskdonecheck.png */; };
+		63C57E821A6627FE00ED406E /* maptaskdonecheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E781A6627FE00ED406E /* maptaskdonecheck@2x.png */; };
+		63C57E831A6627FE00ED406E /* maptaskdonecheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E781A6627FE00ED406E /* maptaskdonecheck@2x.png */; };
+		63C57E841A6627FE00ED406E /* maptaskdonecheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E781A6627FE00ED406E /* maptaskdonecheck@2x.png */; };
 		63C57E931A66282700ED406E /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E871A66282700ED406E /* gradientearthdailylab.png */; };
 		63C57E941A66282700ED406E /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E871A66282700ED406E /* gradientearthdailylab.png */; };
 		63C57E951A66282700ED406E /* gradientearthdailylab.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E871A66282700ED406E /* gradientearthdailylab.png */; };
@@ -7034,7 +7050,16 @@
 		4C16FF0519CE03AE00F9FC1E /* poisonicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poisonicon.png; path = "Skills Images/Skill Icons/poisonicon.png"; sourceTree = "<group>"; };
 		4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonicon@2x.png"; sourceTree = "<group>"; };
 		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateMessageNotificationView.xib; sourceTree = "<group>"; };
+		631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageNotificationViewController.h; sourceTree = "<group>"; };
+		631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageNotificationViewController.m; sourceTree = "<group>"; };
+		631BF3B41A6DF0480091253B /* CircleMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CircleMonsterView.xib; sourceTree = "<group>"; };
 		63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "livehelpgirl@2x.png"; sourceTree = "<group>"; };
+		63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackborder@2x.png"; sourceTree = "<group>"; };
+		63C57E751A6627FE00ED406E /* maptaskdonebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maptaskdonebg.png; sourceTree = "<group>"; };
+		63C57E761A6627FE00ED406E /* maptaskdonebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonebg@2x.png"; sourceTree = "<group>"; };
+		63C57E771A6627FE00ED406E /* maptaskdonecheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maptaskdonecheck.png; sourceTree = "<group>"; };
+		63C57E781A6627FE00ED406E /* maptaskdonecheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonecheck@2x.png"; sourceTree = "<group>"; };
 		63C57E871A66282700ED406E /* gradientearthdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientearthdailylab.png; sourceTree = "<group>"; };
 		63C57E881A66282700ED406E /* gradientearthdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientearthdailylab@2x.png"; sourceTree = "<group>"; };
 		63C57E891A66282700ED406E /* gradientfiredailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientfiredailylab.png; sourceTree = "<group>"; };
@@ -12622,6 +12647,7 @@
 				DA86921C19C75D5A00320A74 /* ColoredLogs.h */,
 				CF00865A19CBAC02002F6149 /* NSString+Sizing.h */,
 				CF00865B19CBAC02002F6149 /* NSString+Sizing.m */,
+				631BF3B41A6DF0480091253B /* CircleMonsterView.xib */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -13747,6 +13773,9 @@
 				CF60466119BF9E59003D91F8 /* StageCompleteNode.m */,
 				CF5BD68619C92C6F006C4B4C /* PvpRankUpNode.h */,
 				CF5BD68719C92C6F006C4B4C /* PvpRankUpNode.m */,
+				631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */,
+				631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */,
+				631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -14325,6 +14354,7 @@
 		CF864D6D193E7C5B00DE0D7A /* New Chat */ = {
 			isa = PBXGroup;
 			children = (
+				63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */,
 				CF65ECB619A2B1CB00ABBC77 /* activechatline@2x.png */,
 				CF65ECB819A2B1CC00ABBC77 /* chatedge@2x.png */,
 				CF65ECBA19A2B1CC00ABBC77 /* chatmiddle@2x.png */,
@@ -19113,6 +19143,7 @@
 				CFFEB1A51837042E007C4BA3 /* borderrounded@2x.png in Resources */,
 				CFFBDF9818ACA3D90090CA9A /* Scientist3Breath11@2x.png in Resources */,
 				CFFBDFE718ACA3D90090CA9A /* Scientist5Breath04@2x.png in Resources */,
+				631BF3AE1A6DD8000091253B /* PrivateMessageNotificationView.xib in Resources */,
 				CF6574EC1909CEC900ABF1F4 /* AchievementsCell.xib in Resources */,
 				CF864DA6193E7C5C00DE0D7A /* nightavatar@2x.png in Resources */,
 				CF29E97C196228FA00B40DA4 /* menuresourcesactive@2x.png in Resources */,
@@ -19527,6 +19558,7 @@
 				CF6A64D319D24F030002E05D /* 6firepoison@2x.png in Resources */,
 				CF376532182DD71500D0A77E /* Aller_BdIt.ttf in Resources */,
 				CFE7CDC61819FC3300930847 /* waterbar@2x.png in Resources */,
+				631BF3B51A6DF0480091253B /* CircleMonsterView.xib in Resources */,
 				CF2A4ABC1901B8F500B2D7D7 /* greenmenuoption@2x.png in Resources */,
 				CFFBDF6218ACA3D90090CA9A /* Scientist2Breath00@2x.png in Resources */,
 				CF40D03418DFCC6C0034A721 /* platinumleaguebg@2x.png in Resources */,
@@ -20749,6 +20781,7 @@
 				CF1279A1181F5F1600211623 /* sell@2x.png in Resources */,
 				CF22F99017F27EDA00DFD79D /* buildingspinner@2x.png in Resources */,
 				CF29EA741965418F00B40DA4 /* jobsbutton@2x.png in Resources */,
+				63B7BEFC1A7090EA00C62FB7 /* blackborder@2x.png in Resources */,
 				9BDA8BA51A3B8E6B00C7AC27 /* headshoticon@2x.png in Resources */,
 				CF19089318D8319900D6F0E4 /* oilcollected@2x.png in Resources */,
 				9BB948601A685E3B006EE920 /* gachagradientbarleft@2x.png in Resources */,
@@ -23349,6 +23382,7 @@
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
 				3E1A0C041A645B4B00DF00AD /* Board.pb.m in Sources */,
 				CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */,
+				631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */,
 				CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */,
 				CF6574B71909CAF200ABF1F4 /* EventReferral.pb.m in Sources */,
 				CFF7406A1817D3D2009DE4A4 /* RewardsView.m in Sources */,

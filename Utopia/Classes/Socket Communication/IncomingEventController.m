@@ -1009,6 +1009,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     [gs addPrivateChat:proto.post];
+    //add here
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
      [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userUuid]]];

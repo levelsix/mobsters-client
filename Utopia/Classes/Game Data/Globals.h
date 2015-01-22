@@ -287,6 +287,7 @@
 + (void) addPurpleAlertNotification:(NSString *)msg;
 + (void) addOrangeAlertNotification:(NSString *)msg;
 + (void) addBlueAlertNotification:(NSString *)msg;
++ (void) addPrivateMessageNotification:(NSArray *)messages;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fromScale:(float)fScale toScale:(float)tScale duration:(float)duration;
