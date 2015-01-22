@@ -35,6 +35,8 @@ typedef NS_ENUM(SInt32, SkillType) {
   SkillTypeShuffle = 12,
   SkillTypeHeadshot = 13,
   SkillTypeMud = 14,
+  SkillTypeLifeSteal = 15,
+  SkillTypeCounterStrike = 16,
 };
 
 BOOL SkillTypeIsValidValue(SkillType value);

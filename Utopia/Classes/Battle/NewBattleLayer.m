@@ -853,7 +853,7 @@
     skillManager.playerUsedAbility = NO;
     skillManager.enemyUsedAbility = NO;
     
-    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:usingAbility withTarget:self withSelector:@selector(checkMyHealth)];
+    [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES usingAbility:usingAbility withTarget:self withSelector:@selector(endEnemyTurn)];
     
     float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
     if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -867,6 +867,22 @@
       [self stopPulsing];
     }
   }];
+}
+
+- (void) endEnemyTurn {
+  BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+  if (!playerIsKilled){
+    SkillLogStart(@"TRIGGER STARTED: enemy turn end");
+    [skillManager triggerSkills:SkillTriggerPointEndOfEnemyTurn withCompletion:^(BOOL triggered, id params) {
+      
+      SkillLogEnd(triggered, @"  end of enemy turn trigger ENDED");
+      if (![self checkEnemyHealth]){
+        [self checkMyHealth];
+      }
+    }];
+  } else {
+    [self checkMyHealth];
+  }
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
@@ -1040,9 +1056,18 @@
   BOOL enemyIsDead = [self checkEnemyHealth];
   if (! enemyIsDead)
   {
-    if (_enemyShouldAttack) {
-      [self beginNextTurn];
-    }
+    SkillLogStart(@"TRIGGER STARTED: player turn ended");
+    [skillManager triggerSkills:SkillTriggerPointEndOfPlayerTurn withCompletion:^(BOOL triggered, id params) {
+      
+      SkillLogEnd(triggered, @"  player turn ended trigger ENDED");
+      
+      BOOL playerIsKilled = (self.myPlayerObject.curHealth <= 0.0);
+      if (playerIsKilled){
+        [self checkMyHealth];
+      } else if (_enemyShouldAttack) {
+        [self beginNextTurn];
+      }
+    }];
   }
 }
 
@@ -1822,6 +1847,8 @@
         [self checkIfAnyMovesLeft];
     }
   }];
+  
+  
   
   _comboCount = 0;
 }
