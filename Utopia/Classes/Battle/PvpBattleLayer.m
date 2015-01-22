@@ -398,6 +398,17 @@
   }
   self.enemyTeamSprites = nil;
   
+  
+  self.myPlayerObject = self.myTeam[0];
+  BattleSprite *myPlayer = self.myTeamSprites[0];
+  self.myTeamSprites = [self.myTeamSprites subarrayWithRange:NSMakeRange(1, self.myTeamSprites.count-1)];
+  for (BattleSprite *bs in self.myTeamSprites) {
+    self.myPlayer = bs;
+    [self makeMyPlayerWalkOutWithBlock:nil];
+  }
+  self.myPlayer = myPlayer;
+  self.myTeamSprites = nil;
+  
   // Have to fake this
   _displayedWaveNumber = YES;
   _reachedNextScene = YES;
@@ -439,11 +450,71 @@
 }
 
 - (void) begin {
-  [super begin];
+  [Kamcord startRecording];
+  
+  [self deployMyTeam];
   
   [self loadQueueNode];
   
   [self scheduleOnce:@selector(createCloseButton) delay:2.f];
+}
+
+- (void) deployMyTeam {
+  // Move first my player to from
+  if (self.myTeam.count > 1) {
+    BattlePlayer *first = [self firstMyPlayer];
+    NSMutableArray *team = [self.myTeam mutableCopy];
+    [team removeObject:first];
+    [team insertObject:first atIndex:0];
+    self.myTeam = team;
+  }
+  
+  NSMutableArray *mut = [NSMutableArray array];
+  _numMyPlayersRanIn = 0;
+  for (BattlePlayer *bp in self.myTeam) {
+    NSInteger idx = [self.myTeam indexOfObject:bp];
+    BattleSprite *bs = [[BattleSprite alloc]  initWithPrefix:bp.spritePrefix nameString:bp.attrName rarity:bp.rarity animationType:bp.animationType isMySprite:YES verticalOffset:bp.verticalOffset];
+    bs.healthBar.color = [self.orbLayer.swipeLayer colorForSparkle:(OrbColor)bp.element];
+    [self.bgdContainer addChild:bs z:idx];
+    bs.isFacingNear = NO;
+    
+    CGPoint finalPos = MY_PLAYER_LOCATION;
+    
+    if (idx == 1) {
+      finalPos = ccpAdd(finalPos, ccp(-46, -3));
+    } else if (idx == 2) {
+      finalPos = ccpAdd(finalPos, ccp(7, -35));
+    }
+    
+    bs.position = finalPos;
+    [self makePlayer:bs walkInFromEntranceWithSelector:@selector(checkRunningIn)];
+    _numMyPlayersRanIn++;
+    
+    bs.healthBar.percentage = ((float)bp.curHealth)/bp.maxHealth*100;
+    bs.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
+    
+    [mut addObject:bs];
+  }
+  self.myTeamSprites = mut;
+}
+
+- (void) checkRunningIn {
+  _numMyPlayersRanIn--;
+  if (_numMyPlayersRanIn == 0) {
+    [self reachedNextScene];
+  }
+}
+
+- (void) myTeamBeginWalking {
+  for (BattleSprite *bs in self.myTeamSprites) {
+    [bs beginWalking];
+  }
+}
+
+- (void) myTeamStopWalking {
+  for (BattleSprite *bs in self.myTeamSprites) {
+    [bs stopWalking];
+  }
 }
 
 - (void) prepareNextEnemyTeam {
@@ -548,7 +619,7 @@
   _numTimesNotResponded++;
   if (!self.defendersList) {
     if (_numTimesNotResponded < 5) {
-      [self.myPlayer beginWalking];
+      [self myTeamBeginWalking];
       [self.bgdLayer scrollToNewScene];
     } else {
       [self.myPlayer stopWalking];
@@ -557,7 +628,7 @@
   } else {
     if (!_hasChosenEnemy) {
       if (!_spawnedNewTeam) {
-        [self.myPlayer beginWalking];
+        [self myTeamBeginWalking];
         [self.bgdLayer scrollToNewScene];
         
         if (!self.enemyTeam && !_waitingForDownload) {
@@ -574,7 +645,7 @@
         }
         
       } else {
-        [self.myPlayer stopWalking];
+        [self myTeamStopWalking];
       }
     } else {
       [super reachedNextScene];

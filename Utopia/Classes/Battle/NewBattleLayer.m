@@ -266,6 +266,10 @@
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
+#ifdef DEBUG_BATTLE_MODE
+  playerFirst = YES;
+#endif
+  
   if (self.myPlayerObject && self.enemyPlayerObject) {
     ScheduleFirstTurn order;
     if(swap) {
@@ -410,7 +414,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
   CGPoint finalPos = player.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-  float startX = -player.contentSize.width;
+  float startX = -player.contentSize.width-MY_PLAYER_LOCATION.x+finalPos.x;
   float xDelta = finalPos.x-startX;
   CGPoint newPos = ccp(startX, finalPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
   
@@ -434,7 +438,10 @@
        }
        
        [player stopWalking];
-       [self performSelector:selector withObject:player];
+       
+       if (selector) {
+         [self performSelector:selector withObject:player];
+       }
      }],
     nil]];
 }

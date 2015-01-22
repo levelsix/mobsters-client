@@ -26,7 +26,7 @@
 #define HEALTH_BAR_SPEED 40
 #define MY_WALKING_SPEED 250.f
 
-#ifdef DEBUG
+#ifdef DEBUG_BATTLE_MODE
 #define NUM_MOVES_PER_TURN 50
 #else
 // Don't edit this one

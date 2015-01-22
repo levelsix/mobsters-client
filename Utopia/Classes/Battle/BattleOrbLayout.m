@@ -14,7 +14,7 @@
 #import "BoardLayoutProto+Properties.h"
 
 // Make this 1 to allow user to swap wherever they want
-#ifdef DEBUG
+#ifdef DEBUG_BATTLE_MODE
 #define FREE_BATTLE_MOVEMENT 1
 #endif
 
@@ -170,6 +170,12 @@
 #pragma mark - Restoration
 
 - (void) restoreLayoutWithOrbs:(NSSet *)orbs {
+  for (int i = 0; i < _numColumns; i++) {
+    for (int j = 0; j < _numRows; j++) {
+      [self setOrb:nil column:i row:j];
+    }
+  }
+  
   for (BattleOrb *orb in orbs) {
     if (orb.column >= 0 && orb.column < _numColumns &&
         orb.row >= 0 && orb.row < _numRows) {
@@ -680,20 +686,31 @@
 }
 
 - (void)removeOrbs:(NSSet *)chains {
+  [self removeOrbs:chains forceDestroy:NO];
+}
+
+- (void)removeOrbs:(NSSet *)chains forceDestroy:(BOOL)forceDestroy {
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
-      // Orbs can only undergo one change per turn
-      
-      if (!orb.changeType) {
-        if (orb.isLocked) {
-          orb.isLocked = NO;
-          orb.changeType = OrbChangeTypeLockRemoved;
-        } else if (orb.specialOrbType == SpecialOrbTypeCloud && orb.cloudCounter > 1) {
-          orb.cloudCounter--;
-          orb.changeType = OrbChangeTypeCloudDecremented;
+      if (forceDestroy) {
+        // Used for rainbow-line/grenade so that lock gets removed and orb gets destroyed
+        [self setOrb:nil column:orb.column row:orb.row];
+        orb.changeType = OrbChangeTypeDestroyed;
+      } else {
+        // Orbs can only undergo one change per turn
+        if (!orb.changeType) {
+          if (orb.isLocked) {
+            orb.isLocked = NO;
+            orb.changeType = OrbChangeTypeLockRemoved;
+          } else if (orb.specialOrbType == SpecialOrbTypeCloud && orb.cloudCounter > 1) {
+            orb.cloudCounter--;
+            orb.changeType = OrbChangeTypeCloudDecremented;
+          } else {
+            [self setOrb:nil column:orb.column row:orb.row];
+            orb.changeType = OrbChangeTypeDestroyed;
+          }
         } else {
-          [self setOrb:nil column:orb.column row:orb.row];
-          orb.changeType = OrbChangeTypeDestroyed;
+          NSLog(@"Trying to remove orb %@", orb);
         }
       }
     }
@@ -911,7 +928,7 @@
   [chain addOrb:rainbowOrb];
   [set addObject:chain];
   
-  [self removeOrbs:set];
+  [self removeOrbs:set forceDestroy:YES];
   
   return set;
 }
@@ -949,7 +966,7 @@
   [chain addOrb:rainbowOrb];
   [set addObject:chain];
   
-  [self removeOrbs:set];
+  [self removeOrbs:set forceDestroy:YES];
   
   return set;
 }
@@ -1140,28 +1157,30 @@
   
   for (BattleChain *chain in chains) {
     for (BattleOrb *orb in chain.orbs) {
-      // Check orbs around for clouds
-      BattleOrb *left = orb.column > 0 ? [self orbAtColumn:orb.column-1 row:orb.row] : nil;
-      BattleOrb *top = orb.row < _numRows-1 ? [self orbAtColumn:orb.column row:orb.row+1] : nil;
-      BattleOrb *right = orb.column < _numColumns-1 ? [self orbAtColumn:orb.column+1 row:orb.row] : nil;
-      BattleOrb *below = orb.row > 0 ? [self orbAtColumn:orb.column row:orb.row-1] : nil;
-      
-      BattleChain *chain = [[BattleChain alloc] init];
-      chain.chainType = ChainTypeAdjacent;
-      chain.prerequisiteOrb = orb;
-      
-      if (left.specialOrbType == SpecialOrbTypeCloud) {
-        [chain addOrb:left];
-      } if (right.specialOrbType == SpecialOrbTypeCloud) {
-        [chain addOrb:right];
-      } if (top.specialOrbType == SpecialOrbTypeCloud) {
-        [chain addOrb:top];
-      } if (below.specialOrbType == SpecialOrbTypeCloud) {
-        [chain addOrb:below];
-      }
-      
-      if (chain.orbs.count > 0) {
-        [adjacentChains addObject:chain];
+      if (orb.changeType == OrbChangeTypeDestroyed) {
+        // Check orbs around for clouds
+        BattleOrb *left = orb.column > 0 ? [self orbAtColumn:orb.column-1 row:orb.row] : nil;
+        BattleOrb *top = orb.row < _numRows-1 ? [self orbAtColumn:orb.column row:orb.row+1] : nil;
+        BattleOrb *right = orb.column < _numColumns-1 ? [self orbAtColumn:orb.column+1 row:orb.row] : nil;
+        BattleOrb *below = orb.row > 0 ? [self orbAtColumn:orb.column row:orb.row-1] : nil;
+        
+        BattleChain *chain = [[BattleChain alloc] init];
+        chain.chainType = ChainTypeAdjacent;
+        chain.prerequisiteOrb = orb;
+        
+        if (left.specialOrbType == SpecialOrbTypeCloud) {
+          [chain addOrb:left];
+        } if (right.specialOrbType == SpecialOrbTypeCloud) {
+          [chain addOrb:right];
+        } if (top.specialOrbType == SpecialOrbTypeCloud) {
+          [chain addOrb:top];
+        } if (below.specialOrbType == SpecialOrbTypeCloud) {
+          [chain addOrb:below];
+        }
+        
+        if (chain.orbs.count > 0) {
+          [adjacentChains addObject:chain];
+        }
       }
     }
   }
@@ -1209,6 +1228,8 @@
       powerupChain = [self chainFromRainbowPowerupOrb:powerupOrb];
     }
     
+    [self removeOrbs:[NSSet setWithObject:powerupChain]];
+    
     [powerupChains addObject:powerupChain];
     
     // Add any new powerups that were destroyed as long as they haven't been used before
@@ -1223,8 +1244,6 @@
     
     [powerupOrbs removeObject:powerupOrb];
   }
-  
-  [self removeOrbs:powerupChains];
   
   return powerupChains;
 }
@@ -1491,6 +1510,8 @@
             orb.row += 1;
             
             [self addPoint:ccp(column, row) forOrb:orb withOrbPaths:orbPaths];
+            
+            break;
           }
         }
       }
@@ -1575,7 +1596,7 @@
       if (orb) {
         [str appendFormat:@" %p", orb];
       } else {
-        [str appendFormat:@" ----------"];
+        [str appendFormat:@" -----------"];
       }
     }
     

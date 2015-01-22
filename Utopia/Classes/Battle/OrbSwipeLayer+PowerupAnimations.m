@@ -296,6 +296,11 @@
         nil]];
     }
   }
+  
+  if (!projectileCount) {
+    _numPowerupsStillAnimating--;
+    [self checkIfAllOrbsAndPowerupsAreDone];
+  }
 }
 
 - (void) spawnRainbowLineOrExplosionWithChain:(BattleChain *)chain otherChains:(NSSet *)otherChains {
@@ -339,6 +344,10 @@
       // Since the orb should already be updated by the model we can just create a new one
       // and it will show the stripes.
       [self createOrbSpriteForOrb:orb];
+      
+      if (orb.isLocked) {
+        [self destroyLock:orb];
+      }
       
       [seq addObject:[CCActionDelay actionWithDuration:0.2]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{

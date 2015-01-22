@@ -70,12 +70,12 @@
 }
 
 - (NSString *)description {
-  NSMutableString *s = [NSMutableString stringWithFormat:@"path length=%d\n", [self pathLength]];
+  NSMutableString *s = [NSMutableString stringWithFormat:@"path length=%d: ", [self pathLength]];
   for (id val in self.path) {
     if ([val isKindOfClass:[NSNumber class]]) {
-      [s appendFormat:@"delay %d\n", [val intValue]];
+      [s appendFormat:@" -> delay %d", [val intValue]];
     } else {
-      [s appendFormat:@"move to %@\n", NSStringFromCGPoint([val CGPointValue])];
+      [s appendFormat:@" -> move to %@", NSStringFromCGPoint([val CGPointValue])];
     }
   }
   return s;

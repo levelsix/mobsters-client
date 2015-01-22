@@ -11,7 +11,7 @@
 #import "Globals.h"
 #import "Protocols.pb.h"
 
-#define OrbLog(...) //LNLog(__VA_ARGS__)
+#define OrbLog(...) LNLog(__VA_ARGS__)
 
 @implementation OrbMainLayer
 
@@ -164,8 +164,10 @@
   // Look for any powerup creations
   NSSet *powerupOrbs = [self.layout detectPowerupCreationFromChains:chains withInitialSwap:initialSwap];
   
-  OrbLog(@"Detecting powerup creations %@", powerupOrbs);
-  OrbLog(@"Layout: %@", self.layout);
+  if (powerupOrbs.count) {
+    OrbLog(@"Detecting powerup creations %@", powerupOrbs);
+    OrbLog(@"Layout: %@", self.layout);
+  }
   
   for (BattleOrb *powerup in powerupOrbs) {
     [self.delegate powerupCreated:powerup];
@@ -175,11 +177,18 @@
   NSSet *powerupChains = [self.layout detectPowerupChainsWithMatchChains:chains];
   chains = [chains setByAddingObjectsFromSet:powerupChains];
   
-  OrbLog(@"Detecting powerup chains %@", powerupChains);
-  OrbLog(@"Layout: %@", self.layout);
+  if (powerupChains.count) {
+    OrbLog(@"Detecting powerup chains %@", powerupChains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
   
   NSSet *adjacentChains = [self.layout detectAdjacentChainsWithMatchAndPowerupChains:chains];
   chains = [chains setByAddingObjectsFromSet:adjacentChains];
+  
+  if (adjacentChains.count) {
+    OrbLog(@"Adjacent chains %@", adjacentChains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
   
   // First, remove any matches...
   [self.swipeLayer animateMatchedOrbs:chains powerupCreations:powerupOrbs completion:^{
@@ -196,6 +205,10 @@
       foundChange = NO;
       
       BOOL fillHoles = [self.layout fillHoles:orbPaths];
+      
+      if (fillHoles) {
+        OrbLog(@"Fill Holes Layout: %@", self.layout);
+      }
       
       NSArray *moreNewColumns = [self.layout topUpOrbs:orbPaths];
       BOOL foundNewColumns = NO;
@@ -216,15 +229,34 @@
         [firstArr addObjectsFromArray:secondArr];
       }
       
+      if (foundNewColumns) {
+        OrbLog(@"New columns %@", moreNewColumns);
+        OrbLog(@"Layout: %@", self.layout);
+      }
+      
       BOOL diagFillHoles = [self.layout diagonallyFillHoles:orbPaths];
+      
+      if (diagFillHoles) {
+        OrbLog(@"Diag fill holes Layout: %@", self.layout);
+      }
       
       NSSet *newBottomFeeders = [self.layout detectBottomFeeders];
       bottomFeeders = [bottomFeeders setByAddingObjectsFromSet:newBottomFeeders];
+      
+      if (newBottomFeeders.count) {
+        OrbLog(@"New Bottom Feeders %@", newBottomFeeders);
+        OrbLog(@"Layout: %@", self.layout);
+      }
       
       foundChange = fillHoles || diagFillHoles || foundNewColumns || newBottomFeeders.count;
       
       iteration++; 
     } while (foundChange);
+    
+    OrbLog(@"Falling orbs: %@", orbPaths);
+    OrbLog(@"New Columns: %@", newColumns);
+    if (bottomFeeders.count) OrbLog(@"Bottom Feeders: %@", bottomFeeders);
+    OrbLog(@"Final Layout: %@", self.layout);
     
     [self.swipeLayer animateFallingOrbs:orbPaths newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
       

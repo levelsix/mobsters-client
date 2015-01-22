@@ -345,7 +345,7 @@
   OrbSprite *orbSprite = [self spriteForOrb:orb];
   
   if (orb.changeType == OrbChangeTypeDestroyed) {
-    [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+    [self destroyOrb:orb chains:chains fromPowerup:powerup];
   } else if (orb.changeType == OrbChangeTypeLockRemoved) {
     [self destroyLock:orb];
   } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
@@ -418,6 +418,8 @@
           OrbSprite *orbLayer = [self spriteForOrb:orb];
           if (orbLayer != nil) {
             [self performOrbChange:orb chains:chains fromPowerup:PowerupTypeNone];
+            
+            [self checkIfAllOrbsAndPowerupsAreDone];
           }
         }
       }
@@ -431,6 +433,7 @@
 }
 
 - (void) checkIfAllOrbsAndPowerupsAreDone {
+  //NSLog(@"%d, %d", _numOrbsStillAnimating, _numPowerupsStillAnimating);
   if (_numOrbsStillAnimating == 0 && _numPowerupsStillAnimating == 0) {
     if (_matchesCompletionBlock) {
       _matchesCompletionBlock();

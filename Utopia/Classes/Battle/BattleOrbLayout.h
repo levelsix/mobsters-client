@@ -13,6 +13,11 @@
 
 #import "Board.pb.h"
 
+// This will set moves to 50, make you always have first hit, and allow you to move anywhere
+#ifdef DEBUG
+//#define DEBUG_BATTLE_MODE
+#endif
+
 @interface BattleOrbLayout : NSObject {
   int _numColumns;
   int _numRows;

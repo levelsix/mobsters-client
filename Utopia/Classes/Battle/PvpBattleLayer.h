@@ -21,6 +21,8 @@
   BOOL _waitingForDownload;
   BOOL _spawnedNewTeam;
   
+  int _numMyPlayersRanIn;
+  
   BOOL _userAttacked;
   
   BOOL _isRevenge;
@@ -40,6 +42,7 @@
 
 @property (nonatomic, retain) IBOutlet NSMutableArray *seenUserUuids;
 
+@property (nonatomic, retain) IBOutlet NSArray *myTeamSprites;
 @property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
 
 @property (nonatomic, retain) NSDictionary *itemUsagesForQueue;

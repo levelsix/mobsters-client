@@ -25,7 +25,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"%@: color - %ld powerup - %ld special - %ld square - (%ld,%ld)", [super description], (long)self.orbColor, (long)self.powerupType, (long)self.specialOrbType, (long)self.column, (long)self.row];
+  return [NSString stringWithFormat:@"%@: color - %ld powerup - %ld special - %ld changeType = %ld square - (%ld,%ld)", [super description], (long)self.orbColor, (long)self.powerupType, (long)self.specialOrbType, (long)self.changeType, (long)self.column, (long)self.row];
 }
 
 - (BOOL) isMovable {

@@ -41,9 +41,10 @@
 - (id) initWithContentSize:(CGSize)contentSize layout:(BattleOrbLayout *)layout;
 
 - (OrbSprite*) createOrbSpriteForOrb:(BattleOrb *)orb;
-- (void)addSpritesForOrbs:(NSSet *)orbs;
+- (void) addSpritesForOrbs:(NSSet *)orbs;
 - (OrbSprite*) spriteForOrb:(BattleOrb*)orb;
-- (void)removeAllOrbSprites;
+- (void) removeAllOrbSprites;
+- (void) destroyLock:(BattleOrb *)orb;
 
 - (BOOL) isTrackingTouch;
 - (CCColor *) colorForSparkle:(OrbColor)color;
