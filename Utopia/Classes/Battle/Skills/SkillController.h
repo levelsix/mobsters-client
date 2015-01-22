@@ -29,13 +29,15 @@ typedef enum {
   SkillTriggerPointStartOfEnemyTurn   = 8,
   SkillTriggerPointEnemyDealsDamage   = 9,
   SkillTriggerPointPlayerDealsDamage  = 10,
-  SkillTriggerPointManualActivation   = 11
+  SkillTriggerPointManualActivation   = 11,
+  SkillTriggerPointEndOfPlayerTurn    = 12,
+  SkillTriggerPointEndOfEnemyTurn     = 13
   
 } SkillTriggerPoint;
 
 // Cheat codes (indices are taken from SkillType enum)
 static NSString* const cheatCodesForSkills[] = {
-  @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade", @"shuffle", @"headshot", @"mud"};
+  @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin", @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
