@@ -12,7 +12,7 @@
 {
   //Properties
   float _chance;
-  NSInteger _damage;
+  int _damage;
 }
 
 @end

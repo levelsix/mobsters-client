@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 LVL6. All rights reserved.
 //
 
-#import "SkillCounterStrike.h";
-#import "NewBattleLayer.h";
+#import "SkillCounterStrike.h"
+#import "NewBattleLayer.h"
 
 @implementation SkillCounterStrike
 
@@ -38,7 +38,9 @@
       || (trigger == SkillTriggerPointEndOfPlayerTurn && !self.belongsToPlayer)){
     if (execute){
       if (((double)arc4random()/0x100000000) < _chance){
-        [self makeSkillOwnerJumpWithTarget:self selector:@selector(beginCounterStrike)];
+        [self showSkillPopupOverlay:YES withCompletion:^(){
+          [self beginCounterStrike];
+        }];
       }
       else{
         return NO;
@@ -86,10 +88,6 @@
 }
 
 - (void) endCounterStrike {
-  
-  [self.battleLayer.orbLayer.bgdLayer turnTheLightsOn];
-  [self.battleLayer.orbLayer allowInput];
-  
   [self skillTriggerFinished];
 }
 
