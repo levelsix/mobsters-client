@@ -213,9 +213,7 @@
   Globals *gl = [Globals sharedGlobals];
   MinimumUserProto *mup = gl.adminChatUser;
   [self.privateChatView openConversationWithUserUuid:mup.userUuid name:mup.name animated:YES];
-  [UIView animateWithDuration:0.3 animations:^{
-    self.topLiveHelpView.alpha = 0.f;
-  }];
+  [self hideTopLiveHelp];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -290,6 +288,13 @@
 }
 
 #pragma mark - ChatViewDelegate methods
+- (void) hideTopLiveHelp {
+  if (self.topLiveHelpView.alpha > 0.f) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.topLiveHelpView.alpha = 0.f;
+    }];
+  }
+}
 
 - (void) clanClicked:(MinimumClanProto *)clan {
   GameViewController *gvc = [GameViewController baseController];
@@ -308,6 +313,7 @@
 
 - (void) beginPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name {
   [self openWithConversationForUserUuid:userUuid name:name];
+  [self hideTopLiveHelp];
 }
 
 - (void) muteClicked:(NSString *)userUuid name:(NSString *)name {
