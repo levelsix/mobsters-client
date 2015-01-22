@@ -44,8 +44,10 @@
   // Handle specials
   _bombCounter = nil;
   _headshotCounter = nil;
+  _damageMultiplier = nil;
   switch (_orb.specialOrbType)
   {
+    case SpecialOrbTypeNone: if (_orb.damageMultiplier > 1) [self loadDamageMultiplierElements]; break;
     case SpecialOrbTypeBomb: [self loadBombElements]; break;
     case SpecialOrbTypeHeadshot: if (_orb.headshotCounter > 0) [self loadHeadshotElements]; break;
     default: break;
@@ -146,6 +148,29 @@
       [_headshotCounter runAction:action];
     }
   }
+}
+
+- (void) loadDamageMultiplierElements
+{
+  // Damage multiplier label
+  _damageMultiplier = [CCLabelTTF labelWithString:@"1x" fontName:@"Gotham-Ultra" fontSize:10.f];
+  _damageMultiplier.position = CGPointMake(28.f / 33.f, 6.5f / 34.f);
+  _damageMultiplier.positionType = CCPositionTypeNormalized;
+  _damageMultiplier.fontColor = [CCColor colorWithUIColor:[UIColor colorWithHexString:@"e2643d"]];
+  _damageMultiplier.outlineColor = [CCColor whiteColor];
+  _damageMultiplier.shadowOffset = ccp(0.f, -1.f);
+  _damageMultiplier.shadowColor = [CCColor colorWithWhite:0.f alpha:0.75f];
+  _damageMultiplier.shadowBlurRadius = 2.f;
+  _damageMultiplier.horizontalAlignment = CCTextAlignmentCenter;
+  _damageMultiplier.string = [NSString stringWithFormat:@"%dx", (int)_orb.damageMultiplier];
+  [_orbSprite addChild:_damageMultiplier];
+  
+  // Particle effect
+  CCParticleSystem* pfx = [CCParticleSystem particleWithFile:@"powermove.plist"];
+  pfx.position = CGPointMake(28.f / 33.f, 6.5f / 34.f);
+  pfx.positionType = CCPositionTypeNormalized;
+  pfx.scale = .6f;
+  [_orbSprite addChild:pfx];
 }
 
 #pragma mark - Helpers

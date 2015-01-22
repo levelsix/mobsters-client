@@ -48,6 +48,7 @@ typedef enum {
 @property (assign, nonatomic) NSInteger bombCounter;
 @property (assign, nonatomic) NSInteger bombDamage;
 @property (assign, nonatomic) NSInteger headshotCounter;
+@property (assign, nonatomic) NSInteger damageMultiplier;
 
 - (NSDictionary*) serialize;
 - (void) deserialize:(NSDictionary*)dic;

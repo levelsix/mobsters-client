@@ -1778,7 +1778,7 @@
   if (tile.allowsDamage && !mudOnBoard) // Certain tiles (e.g. jelly) do not allow damage
   {
     // Increment damage, create label and ribbon
-    int dmg = [self.myPlayerObject damageForColor:color];
+    int dmg = [self.myPlayerObject damageForColor:color] * (int)orb.damageMultiplier;
     _myDamageDealt += dmg;
     _myDamageForThisTurn += dmg;
   

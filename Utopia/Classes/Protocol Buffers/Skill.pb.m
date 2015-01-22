@@ -38,6 +38,7 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeMud:
     case SkillTypeLifeSteal:
     case SkillTypeCounterStrike:
+    case SkillTypeFlameStrike:
       return YES;
     default:
       return NO;
