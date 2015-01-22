@@ -16,6 +16,7 @@
 #import "BattleScheduleView.h"
 #import "BattleHudView.h"
 #import "SkillBattleIndicatorView.h"
+#import "DialogueViewController.h"
 
 #define SkillLogStart(...) //NSLogYellow(__VA_ARGS__)
 #define SkillLogEnd(triggered, ...) //if (triggered) { NSLogGreen(__VA_ARGS__); } else { NSLogYellow(__VA_ARGS__); }
@@ -104,6 +105,8 @@
   BOOL _firstTurn;
   
   int _enemyCounter;
+  
+  DialogueViewController *_forcedSkillDialogueViewController;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;
@@ -150,6 +153,11 @@
 // Used for skills that render the drop invalid (e.g. cake kid)
 @property (nonatomic, retain) NSMutableArray *droplessStageNums;
 
+// Used for the skill explination
+@property (nonatomic, retain) IBOutlet UIView *forcedSkillView;
+@property (nonatomic, retain) IBOutlet UIButton *forcedSkillButton;
+@property (nonatomic, retain) IBOutlet UIView *forcedSkillInnerView;
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
 - (void) initOrbLayer;
@@ -167,6 +175,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) createScheduleWithSwap:(BOOL)swap;
+- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst;
 
 - (float) damageMultiplierIsEnemyAttacker:(BOOL)isEnemy;
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector;
@@ -226,5 +235,7 @@
 - (void) processNextTurn:(float)delay;
 
 - (BOOL) isFirstEnemy;
+
+- (void) forceSkillClickOver:(DialogueViewController *)dvc;
 
 @end

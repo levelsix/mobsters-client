@@ -487,6 +487,7 @@
 
 - (void) createScheduleWithSwap:(BOOL)swap {
   if (!_isResumingState || !self.battleSchedule.schedule) {
+//    TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
     [super createScheduleWithSwap:swap];
   }
 }
@@ -510,6 +511,18 @@
     [super beginNextTurn];
   }
 }
+
+- (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
+  if(index == SHOW_PLAYER_SKILL_BUTTON_DIALOGUE_INDEX) {
+    Globals *gl = [Globals sharedGlobals];
+    if ([self dungeonInfo].taskId == gl.taskIdOfFirstSkill) {
+      [self forceSkillClickOver:dvc];
+    }
+    
+  }
+}
+
+
 
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
   [self beginNextTurn];

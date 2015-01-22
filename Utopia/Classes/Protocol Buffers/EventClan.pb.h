@@ -617,7 +617,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (CreateClanResponseProto_CreateClanStatus) status;
 - (CreateClanResponseProto_Builder*) setStatus:(CreateClanResponseProto_CreateClanStatus) value;
-- (CreateClanResponseProto_Builder*) clearStatus;
+- (CreateClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanInfo;
 - (MinimumClanProto*) clanInfo;
@@ -735,7 +735,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (LeaveClanResponseProto_LeaveClanStatus) status;
 - (LeaveClanResponseProto_Builder*) setStatus:(LeaveClanResponseProto_LeaveClanStatus) value;
-- (LeaveClanResponseProto_Builder*) clearStatus;
+- (LeaveClanResponseProto_Builder*) clearStatusList;
 @end
 
 @interface RequestJoinClanRequestProto : PBGeneratedMessage {
@@ -882,7 +882,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (RequestJoinClanResponseProto_RequestJoinClanStatus) status;
 - (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value;
-- (RequestJoinClanResponseProto_Builder*) clearStatus;
+- (RequestJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1052,7 +1052,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) status;
 - (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value;
-- (RetractRequestJoinClanResponseProto_Builder*) clearStatus;
+- (RetractRequestJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasClanUuid;
 - (NSString*) clanUuid;
@@ -1202,7 +1202,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) status;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasRequester;
 - (MinimumUserProto*) requester;
@@ -1314,7 +1314,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasGrabType;
 - (RetrieveClanInfoRequestProto_ClanInfoGrabType) grabType;
 - (RetrieveClanInfoRequestProto_Builder*) setGrabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType) value;
-- (RetrieveClanInfoRequestProto_Builder*) clearGrabType;
+- (RetrieveClanInfoRequestProto_Builder*) clearGrabTypeList;
 
 - (BOOL) hasBeforeThisClanId;
 - (int32_t) beforeThisClanId;
@@ -1425,7 +1425,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) status;
 - (RetrieveClanInfoResponseProto_Builder*) setStatus:(RetrieveClanInfoResponseProto_RetrieveClanInfoStatus) value;
-- (RetrieveClanInfoResponseProto_Builder*) clearStatus;
+- (RetrieveClanInfoResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasIsForSearch;
 - (BOOL) isForSearch;
@@ -1588,7 +1588,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) status;
 - (TransferClanOwnershipResponseProto_Builder*) setStatus:(TransferClanOwnershipResponseProto_TransferClanOwnershipStatus) value;
-- (TransferClanOwnershipResponseProto_Builder*) clearStatus;
+- (TransferClanOwnershipResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -1740,7 +1740,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status;
 - (BootPlayerFromClanResponseProto_Builder*) setStatus:(BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) value;
-- (BootPlayerFromClanResponseProto_Builder*) clearStatus;
+- (BootPlayerFromClanResponseProto_Builder*) clearStatusList;
 @end
 
 @interface ChangeClanSettingsRequestProto : PBGeneratedMessage {
@@ -1913,7 +1913,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) status;
 - (ChangeClanSettingsResponseProto_Builder*) setStatus:(ChangeClanSettingsResponseProto_ChangeClanSettingsStatus) value;
-- (ChangeClanSettingsResponseProto_Builder*) clearStatus;
+- (ChangeClanSettingsResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasMinClan;
 - (MinimumClanProto*) minClan;
@@ -2107,7 +2107,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (BeginClanRaidResponseProto_BeginClanRaidStatus) status;
 - (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value;
-- (BeginClanRaidResponseProto_Builder*) clearStatus;
+- (BeginClanRaidResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasUserDetails;
 - (PersistentClanEventUserInfoProto*) userDetails;
@@ -2325,7 +2325,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status;
 - (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value;
-- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface AwardClanRaidStageRewardResponseProto : PBGeneratedMessage {
@@ -2512,7 +2512,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status;
 - (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value;
-- (RecordClanRaidStatsResponseProto_Builder*) clearStatus;
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatusList;
 @end
 
 @interface PromoteDemoteClanMemberRequestProto : PBGeneratedMessage {
@@ -2581,7 +2581,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberRequestProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatus;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearUserClanStatusList;
 @end
 
 @interface PromoteDemoteClanMemberResponseProto : PBGeneratedMessage {
@@ -2660,17 +2660,17 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatus;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearUserClanStatusList;
 
 - (BOOL) hasPrevUserClanStatus;
 - (UserClanStatus) prevUserClanStatus;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setPrevUserClanStatus:(UserClanStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatus;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearPrevUserClanStatusList;
 
 - (BOOL) hasStatus;
 - (PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) status;
 - (PromoteDemoteClanMemberResponseProto_Builder*) setStatus:(PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatus;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SolicitClanHelpRequestProto : PBGeneratedMessage {
@@ -2817,7 +2817,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (SolicitClanHelpResponseProto_SolicitClanHelpStatus) status;
 - (SolicitClanHelpResponseProto_Builder*) setStatus:(SolicitClanHelpResponseProto_SolicitClanHelpStatus) value;
-- (SolicitClanHelpResponseProto_Builder*) clearStatus;
+- (SolicitClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
 @interface GiveClanHelpRequestProto : PBGeneratedMessage {
@@ -2946,7 +2946,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (GiveClanHelpResponseProto_GiveClanHelpStatus) status;
 - (GiveClanHelpResponseProto_Builder*) setStatus:(GiveClanHelpResponseProto_GiveClanHelpStatus) value;
-- (GiveClanHelpResponseProto_Builder*) clearStatus;
+- (GiveClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EndClanHelpRequestProto : PBGeneratedMessage {
@@ -3075,7 +3075,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (EndClanHelpResponseProto_EndClanHelpStatus) status;
 - (EndClanHelpResponseProto_Builder*) setStatus:(EndClanHelpResponseProto_EndClanHelpStatus) value;
-- (EndClanHelpResponseProto_Builder*) clearStatus;
+- (EndClanHelpResponseProto_Builder*) clearStatusList;
 @end
 
 @interface InviteToClanRequestProto : PBGeneratedMessage {
@@ -3208,7 +3208,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (InviteToClanResponseProto_InviteToClanStatus) status;
 - (InviteToClanResponseProto_Builder*) setStatus:(InviteToClanResponseProto_InviteToClanStatus) value;
-- (InviteToClanResponseProto_Builder*) clearStatus;
+- (InviteToClanResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasInvite;
 - (ClanInviteProto*) invite;
@@ -3359,7 +3359,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) status;
 - (AcceptOrRejectClanInviteResponseProto_Builder*) setStatus:(AcceptOrRejectClanInviteResponseProto_AcceptOrRejectClanInviteStatus) value;
-- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatus;
+- (AcceptOrRejectClanInviteResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasFullClan;
 - (FullClanProtoWithClanSize*) fullClan;
@@ -3566,7 +3566,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (BeginClanAvengingResponseProto_BeginClanAvengingStatus) status;
 - (BeginClanAvengingResponseProto_Builder*) setStatus:(BeginClanAvengingResponseProto_BeginClanAvengingStatus) value;
-- (BeginClanAvengingResponseProto_Builder*) clearStatus;
+- (BeginClanAvengingResponseProto_Builder*) clearStatusList;
 @end
 
 @interface EndClanAvengingRequestProto : PBGeneratedMessage {
@@ -3695,7 +3695,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (EndClanAvengingResponseProto_EndClanAvengingStatus) status;
 - (EndClanAvengingResponseProto_Builder*) setStatus:(EndClanAvengingResponseProto_EndClanAvengingStatus) value;
-- (EndClanAvengingResponseProto_Builder*) clearStatus;
+- (EndClanAvengingResponseProto_Builder*) clearStatusList;
 @end
 
 @interface AvengeClanMateRequestProto : PBGeneratedMessage {
@@ -3837,7 +3837,7 @@ BOOL AvengeClanMateResponseProto_AvengeClanMateStatusIsValidValue(AvengeClanMate
 - (BOOL) hasStatus;
 - (AvengeClanMateResponseProto_AvengeClanMateStatus) status;
 - (AvengeClanMateResponseProto_Builder*) setStatus:(AvengeClanMateResponseProto_AvengeClanMateStatus) value;
-- (AvengeClanMateResponseProto_Builder*) clearStatus;
+- (AvengeClanMateResponseProto_Builder*) clearStatusList;
 @end
 
 

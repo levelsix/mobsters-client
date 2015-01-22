@@ -374,7 +374,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (UserCreateResponseProto_UserCreateStatus) status;
 - (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value;
-- (UserCreateResponseProto_Builder*) clearStatus;
+- (UserCreateResponseProto_Builder*) clearStatusList;
 @end
 
 @interface LevelUpRequestProto : PBGeneratedMessage {
@@ -494,7 +494,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (LevelUpResponseProto_LevelUpStatus) status;
 - (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value;
-- (LevelUpResponseProto_Builder*) clearStatus;
+- (LevelUpResponseProto_Builder*) clearStatusList;
 @end
 
 @interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
@@ -894,7 +894,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (SetFacebookIdResponseProto_SetFacebookIdStatus) status;
 - (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value;
-- (SetFacebookIdResponseProto_Builder*) clearStatus;
+- (SetFacebookIdResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasExisting;
 - (MinimumUserProto*) existing;
@@ -1066,7 +1066,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status;
 - (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value;
-- (UpdateUserCurrencyResponseProto_Builder*) clearStatus;
+- (UpdateUserCurrencyResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SetGameCenterIdRequestProto : PBGeneratedMessage {
@@ -1195,7 +1195,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status;
 - (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value;
-- (SetGameCenterIdResponseProto_Builder*) clearStatus;
+- (SetGameCenterIdResponseProto_Builder*) clearStatusList;
 @end
 
 @interface SetAvatarMonsterRequestProto : PBGeneratedMessage {
@@ -1315,7 +1315,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) status;
 - (SetAvatarMonsterResponseProto_Builder*) setStatus:(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) value;
-- (SetAvatarMonsterResponseProto_Builder*) clearStatus;
+- (SetAvatarMonsterResponseProto_Builder*) clearStatusList;
 @end
 
 @interface UpdateClientTaskStateRequestProto : PBGeneratedMessage {
@@ -1444,7 +1444,7 @@ BOOL UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatusIsValidValue(
 - (BOOL) hasStatus;
 - (UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) status;
 - (UpdateClientTaskStateResponseProto_Builder*) setStatus:(UpdateClientTaskStateResponseProto_UpdateClientTaskStateStatus) value;
-- (UpdateClientTaskStateResponseProto_Builder*) clearStatus;
+- (UpdateClientTaskStateResponseProto_Builder*) clearStatusList;
 @end
 
 
