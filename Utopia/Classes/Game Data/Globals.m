@@ -23,6 +23,7 @@
 #import "AppDelegate.h"
 #import "HospitalQueueSimulator.h"
 #import "OneLineNotificationViewController.h"
+#import "PrivateMessageNotificationViewController.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -1971,6 +1972,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameViewController *gvc = [GameViewController baseController];
   OneLineNotificationViewController *oln = [[OneLineNotificationViewController alloc] initWithNotificationString:msg color:NotificationColorBlue isImmediate:NO];
   [gvc.notificationController addNotification:oln];
+}
+
++ (void) addPrivateMessageNotification:(NSArray *)messages {
+  GameViewController *gvc = [GameViewController baseController];
+  if(!gvc.chatViewController) {
+    PrivateMessageNotificationViewController *pmn = [[PrivateMessageNotificationViewController alloc] initWithMessages:messages isImmediate:YES];
+    [gvc.notificationController addNotification:pmn];
+  }
 }
 
 #pragma mark - Bounce View

@@ -649,6 +649,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (NSArray *) allUnreadPrivateChats {
+  NSArray *privateChats = [self allPrivateChats];
+  NSMutableArray *unread = [[NSMutableArray alloc] init];
+  for (ChatMessage *message in privateChats) {
+    if(!message.isRead) {
+      [unread addObject:message];
+    }
+  }
+  return unread;
+}
+
 - (NSArray *) allClanChatObjects {
   NSMutableArray *arr = [self.clanChatMessages mutableCopy];
   
