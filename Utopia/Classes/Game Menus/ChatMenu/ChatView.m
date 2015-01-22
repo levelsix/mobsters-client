@@ -379,6 +379,7 @@
 
 - (void) openConversationWithUserUuid:(NSString *)userUuid name:(NSString *)name animated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
+  [self.delegate hideTopLiveHelp];
   if (![self.curUserUuid isEqualToString:userUuid]) {
     if (![gs.userUuid isEqualToString:userUuid]) {
       [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userUuid delegate:self];
@@ -386,7 +387,6 @@
       self.curUserUuid = userUuid;
       _isLoading = YES;
       [self.chatTable reloadData];
-      
       self.titleLabel.text = name;
     } else {
       [self loadListViewAnimated:animated];
@@ -404,7 +404,15 @@
     NSMutableArray *arr = [NSMutableArray array];
     for (GroupChatMessageProto *chat in proto.postsList) {
       [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
+      
+      // Construct private chat to mark as read
+      PrivateChatPostProto_Builder *bldr = [PrivateChatPostProto builder];
+      bldr.poster = chat.sender;
+      bldr.timeOfPost = chat.timeOfChat;
+      [[bldr build] markAsRead];
     }
+    
+    [self.delegate viewedPrivateChat];
     
     Globals *gl = [Globals sharedGlobals];
     if (arr.count == 0 && [proto.otherUserUuid isEqualToString:gl.adminChatUser.userUuid]) {

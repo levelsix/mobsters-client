@@ -194,6 +194,7 @@
 - (void) addToCompleteTasks:(NSArray *)tasks;
 
 - (NSArray *) allPrivateChats;
+- (NSArray *) allUnreadPrivateChats;
 - (NSArray *) allClanChatObjects;
 - (void) updateClanData:(ClanDataProto *)clanData;
 - (void) addClanAvengings:(NSArray *)protos;
