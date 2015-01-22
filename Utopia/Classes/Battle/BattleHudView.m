@@ -80,15 +80,13 @@
 
 @implementation BattleSkillCounterPopupView
 
-- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter
+- (void) displayWithSkillName:(NSString*)name description:(NSString*)desc counterLabel:(NSString*)counter orbDescription:(NSString*)orbDesc
               backgroundImage:(NSString*)bgImage orbImage:(NSString*)orbImage atPosition:(CGPoint)pos
 {
   if (!self.hidden)
     return;
   
   [self.nameLabel setText:name];
-  [self.orbCounterLabel setText:counter];
-  [self.orbCounterLabel sizeToFit];
   
   NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
   [paragrahStyle setLineSpacing:5.f];
@@ -97,23 +95,58 @@
   
   [self.background setImage:[UIImage imageNamed:bgImage]];
   
+  static const CGFloat spacing = 5.f;
+  
   if (orbImage != nil)
   {
     [self.orbIcon setImage:[UIImage imageNamed:orbImage]];
     [self.orbIcon setHidden:NO];
-    [self.orbCounterLabel setOriginX:self.orbIcon.origin.x + 20];
+    
+    if (counter != nil)
+    {
+      [self.orbDescriptionLabel setHidden:YES];
+      
+      [self.orbCounterLabel setText:counter];
+      [self.orbCounterLabel sizeToFit];
+      [self.orbCounterLabel setHidden:NO];
+      
+      // Align orb icon and counter horizontally in container and vertically to each other
+      [self.orbIcon setOriginX:(self.width - (self.orbCounterLabel.width + self.orbIcon.width + spacing)) * .5f];
+      [self.orbCounterLabel setOriginX:CGRectGetMaxX(self.orbIcon.frame) + spacing];
+      [self.orbCounterLabel setOriginY:self.orbIcon.originY + (self.orbIcon.height - self.orbCounterLabel.height) * .5f];
+    }
+    else
+    {
+      [self.orbCounterLabel setHidden:YES];
+      
+      [self.orbDescriptionLabel setText:orbDesc];
+      [self.orbDescriptionLabel sizeToFit];
+      [self.orbDescriptionLabel setHidden:NO];
+      
+      // Align orb icon and description horizontally in container and vertically to each other
+      [self.orbIcon setOriginX:(self.width - (self.orbDescriptionLabel.width + self.orbIcon.width + spacing)) * .5f];
+      [self.orbDescriptionLabel setOriginX:CGRectGetMaxX(self.orbIcon.frame) + spacing];
+      [self.orbDescriptionLabel setOriginY:self.orbIcon.originY + (self.orbIcon.height - self.orbDescriptionLabel.height) * .5f];
+    }
   }
   else
   {
     [self.orbIcon setHidden:YES];
-    [self.orbCounterLabel setOriginX:(self.bounds.size.width - self.orbCounterLabel.bounds.size.width) * .5f];
+    [self.orbCounterLabel setHidden:YES];
+    
+    [self.orbDescriptionLabel setText:orbDesc];
+    [self.orbDescriptionLabel sizeToFit];
+    [self.orbDescriptionLabel setHidden:NO];
+    
+    // Align orb description horizontally in container
+    [self.orbDescriptionLabel setOriginX:(self.width - self.orbDescriptionLabel.width) * .5f];
   }
   
   [self setOrigin:ccp(pos.x - self.bounds.size.width * .5f, MAX(pos.y - self.bounds.size.height, 5.f))];
   [self setHidden:NO];
   
   [Globals bounceView:self fadeInBgdView:nil anchorPoint:CGPointMake(.5f, 1.f) completion:^(BOOL finished) {
-    [self.parentHudView skillPopupDisplayed];
+    if (self.parentView) [self.parentView skillPopupDisplayed];
   }];
 }
 

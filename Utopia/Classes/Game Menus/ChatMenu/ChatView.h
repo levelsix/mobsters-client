@@ -107,6 +107,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *emptyListLabel;
 @property (nonatomic, retain) IBOutlet UILabel *noPostsLabel;
 
+@property (nonatomic, retain) UIView *topLiveHelpView;
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 

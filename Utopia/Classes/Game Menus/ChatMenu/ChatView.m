@@ -409,6 +409,9 @@
 
 - (IBAction)backClicked:(id)sender {
   [self loadListViewAnimated:YES];
+  [UIView animateWithDuration:0.3 animations:^{
+    self.topLiveHelpView.alpha = 1.f;
+  }];
 }
 
 - (IBAction)adminChatClicked:(id)sender {

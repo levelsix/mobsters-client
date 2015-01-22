@@ -463,7 +463,7 @@
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (BoosterDisplayItemProto_Builder*) setQuality:(Quality) value;
-- (BoosterDisplayItemProto_Builder*) clearQuality;
+- (BoosterDisplayItemProto_Builder*) clearQualityList;
 
 - (BOOL) hasGemReward;
 - (int32_t) gemReward;

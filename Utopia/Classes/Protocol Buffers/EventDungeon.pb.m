@@ -719,7 +719,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   result.elem = value;
   return self;
 }
-- (BeginDungeonRequestProto_Builder*) clearElem {
+- (BeginDungeonRequestProto_Builder*) clearElemList {
   result.hasElem = NO;
   result.elem = ElementNoElement;
   return self;
@@ -1187,7 +1187,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   result.status = value;
   return self;
 }
-- (BeginDungeonResponseProto_Builder*) clearStatus {
+- (BeginDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
   return self;
@@ -2208,7 +2208,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   result.status = value;
   return self;
 }
-- (EndDungeonResponseProto_Builder*) clearStatus {
+- (EndDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
   return self;
@@ -3045,7 +3045,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   result.status = value;
   return self;
 }
-- (ReviveInDungeonResponseProto_Builder*) clearStatus {
+- (ReviveInDungeonResponseProto_Builder*) clearStatusList {
   result.hasStatus = NO;
   result.status = ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess;
   return self;

@@ -244,11 +244,18 @@
   }
   return bp;
 }
-
 - (void) createScheduleWithSwap:(BOOL)swap {
+  [self createScheduleWithSwap:swap forcePlayerAttackFirst:NO];
+}
+
+- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
   if (self.myPlayerObject && self.enemyPlayerObject) {
-    
-    ScheduleFirstTurn order = swap ? ScheduleFirstTurnEnemy : ScheduleFirstTurnRandom;
+    ScheduleFirstTurn order;
+    if(swap) {
+      order = ScheduleFirstTurnEnemy;
+    } else {
+      order = playerFirst ? ScheduleFirstTurnPlayer : ScheduleFirstTurnRandom;
+    }
     
     // Cake kid mechanics handling and creating schedule
     if ([skillManager cakeKidSchedule])
@@ -2070,6 +2077,45 @@
   
   [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
+}
+
+- (void) forceSkillClickOver:(DialogueViewController *)dvc {
+  _forcedSkillDialogueViewController = dvc;
+  
+  [self.forcedSkillView removeFromSuperview];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc.view addSubview:self.forcedSkillView];
+  
+  [skillManager triggerSkills:SkillTriggerPointEnemyAppeared withCompletion:^(BOOL triggered, id params) {
+    SkillBattleIndicatorView *enemyIndicatorView = [skillManager enemySkillIndicatorView];
+    CGPoint enemyIndicatorPos = [skillManager enemySkillIndicatorPosition];
+    enemyIndicatorPos = ccpAdd(enemyIndicatorPos, ccp(-enemyIndicatorView.contentSize.width, 0));
+    CGPoint worldCCSpacePoint = [enemyIndicatorView.parent convertToWorldSpace:enemyIndicatorPos];
+    CGPoint worldUISpace = [[CCDirector sharedDirector] convertToUI:worldCCSpacePoint];
+    CGPoint localUISpace = [self.forcedSkillInnerView.superview convertPoint:worldUISpace fromView:[CCDirector sharedDirector].view];
+    [self.forcedSkillInnerView setCenter:localUISpace];
+    self.forcedSkillView.alpha = 0.f;
+    self.forcedSkillView.hidden = NO;
+    
+    [Globals createUIArrowForView:self.forcedSkillButton atAngle:M_PI * .5f];
+    
+    [UIView animateWithDuration:0.3f delay:0.6f options:UIViewAnimationOptionCurveEaseIn animations:^{
+      self.forcedSkillView.alpha = 1.f;
+    } completion:nil];
+    
+  }];
+  
+}
+
+- (IBAction)skillClicked:(id)sender {
+  [[skillManager enemySkillIndicatorView] popupOrbCounter];
+  [_forcedSkillDialogueViewController animateNext];
+  [UIView animateWithDuration:0.3f animations:^{
+    self.forcedSkillView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.forcedSkillView.hidden = YES;
+    
+  }];
 }
 
 - (IBAction)sendButtonClicked:(id)sender {
