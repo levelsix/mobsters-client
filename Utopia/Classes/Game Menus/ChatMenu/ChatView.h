@@ -36,6 +36,7 @@
 - (void) beginPrivateChatWithUserUuid:(NSString *)userUuid name:(NSString *)name;
 - (void) muteClicked:(NSString *)userUuid name:(NSString *)name;
 - (void) viewedPrivateChat;
+- (void) hideTopLiveHelp;
 
 @end
 
