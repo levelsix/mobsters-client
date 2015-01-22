@@ -21,6 +21,7 @@
   cp.bombDamage = self.bombDamage;
   cp.headshotCounter = self.headshotCounter;
   cp.cloudCounter = self.cloudCounter;
+  cp.damageMultiplier = self.damageMultiplier;
   return cp;
 }
 
@@ -53,6 +54,7 @@
 #define HEADSHOT_COUNTER  @"HeadshotCounter"
 #define CLOUD_COUNTER     @"CloudCounter"
 #define LOCKED_KEY        @"LockedKey"
+#define DAMAGE_MULTIPLIER @"DamageMultiplier"
 
 - (NSDictionary*) serialize
 {
@@ -65,6 +67,7 @@
   [info setObject:@(_headshotCounter) forKey:HEADSHOT_COUNTER];
   [info setObject:@(_cloudCounter) forKey:CLOUD_COUNTER];
   [info setObject:@(_isLocked) forKey:LOCKED_KEY];
+  [info setObject:@(_damageMultiplier) forKey:DAMAGE_MULTIPLIER];
   return info;
 }
 
@@ -78,6 +81,7 @@
   NSNumber* headshotCounter = [dic objectForKey:HEADSHOT_COUNTER];
   NSNumber* cloudCounter = [dic objectForKey:CLOUD_COUNTER];
   NSNumber* isLocked = [dic objectForKey:LOCKED_KEY];
+  NSNumber* damageMultiplier = [dic objectForKey:DAMAGE_MULTIPLIER];
   
   if (powerupType)
     _powerupType = (PowerupType)[powerupType integerValue];
@@ -95,6 +99,8 @@
     _cloudCounter = [cloudCounter integerValue];
   if (isLocked)
     _isLocked = [isLocked boolValue];
+  if (damageMultiplier)
+    _damageMultiplier = [damageMultiplier integerValue];
 }
 
 @end

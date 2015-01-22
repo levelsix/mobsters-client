@@ -368,6 +368,7 @@
     orb.specialOrbType = SpecialOrbTypeNone;
     orb.column = x;
     orb.row = y;
+    orb.damageMultiplier = 1;
     [orb deserialize:orbData];
     
     // Tile info
