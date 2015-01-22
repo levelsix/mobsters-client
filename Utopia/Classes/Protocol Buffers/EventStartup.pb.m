@@ -2879,6 +2879,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (strong) NSMutableArray * mutableSucpList;
 @property (strong) NSMutableArray * mutableRccpList;
 @property BOOL displayRarity;
+@property int32_t taskIdOfFirstSkill;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -3132,6 +3133,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 - (void) setDisplayRarity:(BOOL) value_ {
   displayRarity_ = !!value_;
 }
+- (BOOL) hasTaskIdOfFirstSkill {
+  return !!hasTaskIdOfFirstSkill_;
+}
+- (void) setHasTaskIdOfFirstSkill:(BOOL) value_ {
+  hasTaskIdOfFirstSkill_ = !!value_;
+}
+@synthesize taskIdOfFirstSkill;
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
@@ -3166,6 +3174,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxMinutesForFreeSpeedUp = 0;
     self.pvpConstant = [StartupResponseProto_StartupConstants_PvpConstants defaultInstance];
     self.displayRarity = NO;
+    self.taskIdOfFirstSkill = 0;
   }
   return self;
 }
@@ -3326,6 +3335,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDisplayRarity) {
     [output writeBool:37 value:self.displayRarity];
   }
+  if (self.hasTaskIdOfFirstSkill) {
+    [output writeInt32:38 value:self.taskIdOfFirstSkill];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3445,6 +3457,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasDisplayRarity) {
     size_ += computeBoolSize(37, self.displayRarity);
+  }
+  if (self.hasTaskIdOfFirstSkill) {
+    size_ += computeInt32Size(38, self.taskIdOfFirstSkill);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3634,6 +3649,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDisplayRarity) {
     [output appendFormat:@"%@%@: %@\n", indent, @"displayRarity", [NSNumber numberWithBool:self.displayRarity]];
   }
+  if (self.hasTaskIdOfFirstSkill) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"taskIdOfFirstSkill", [NSNumber numberWithInteger:self.taskIdOfFirstSkill]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -3714,6 +3732,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       (!self.hasFacebookPopUp || self.facebookPopUp == otherMessage.facebookPopUp) &&
       self.hasDisplayRarity == otherMessage.hasDisplayRarity &&
       (!self.hasDisplayRarity || self.displayRarity == otherMessage.displayRarity) &&
+      self.hasTaskIdOfFirstSkill == otherMessage.hasTaskIdOfFirstSkill &&
+      (!self.hasTaskIdOfFirstSkill || self.taskIdOfFirstSkill == otherMessage.taskIdOfFirstSkill) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -3828,6 +3848,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasDisplayRarity) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.displayRarity] hash];
+  }
+  if (self.hasTaskIdOfFirstSkill) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.taskIdOfFirstSkill] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -7933,6 +7956,9 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
   if (other.hasDisplayRarity) {
     [self setDisplayRarity:other.displayRarity];
   }
+  if (other.hasTaskIdOfFirstSkill) {
+    [self setTaskIdOfFirstSkill:other.taskIdOfFirstSkill];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8155,6 +8181,10 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
       }
       case 296: {
         [self setDisplayRarity:[input readBool]];
+        break;
+      }
+      case 304: {
+        [self setTaskIdOfFirstSkill:[input readInt32]];
         break;
       }
     }
@@ -8916,6 +8946,22 @@ static StartupResponseProto_StartupConstants_ResourceConversionConstantProto* de
 - (StartupResponseProto_StartupConstants_Builder*) clearDisplayRarity {
   result.hasDisplayRarity = NO;
   result.displayRarity = NO;
+  return self;
+}
+- (BOOL) hasTaskIdOfFirstSkill {
+  return result.hasTaskIdOfFirstSkill;
+}
+- (int32_t) taskIdOfFirstSkill {
+  return result.taskIdOfFirstSkill;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setTaskIdOfFirstSkill:(int32_t) value {
+  result.hasTaskIdOfFirstSkill = YES;
+  result.taskIdOfFirstSkill = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearTaskIdOfFirstSkill {
+  result.hasTaskIdOfFirstSkill = NO;
+  result.taskIdOfFirstSkill = 0;
   return self;
 }
 @end
