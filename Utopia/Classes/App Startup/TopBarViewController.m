@@ -162,6 +162,8 @@
   [center addObserver:self selector:@selector(reloadChatViewAnimated) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(updateClanChatBadge) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
+  
+  [center addObserver:self selector:@selector(showPrivateChatNotification:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
   [self.chatBottomView reloadData];
   
   // Arrow to residence
@@ -524,6 +526,16 @@
   BOOL shouldDisplayTimer = secretGiftDate.timeIntervalSinceNow > 0;
   if (self.secretGiftTimerView.hidden != (!shouldDisplayTimer)) {
     [self updateSecretGiftView];
+  }
+}
+
+- (void) showPrivateChatNotification:(NSNotification *)notification {
+  //getting a private chat should only show the single sent chat
+  GameState *gs = [GameState sharedGameState];
+  PrivateChatPostProto *pcpp = [notification.userInfo allValues][0];
+  if (![pcpp.sender.userUuid isEqualToString:gs.userUuid]) {
+    NSArray *singleMessage = [NSArray arrayWithObject:pcpp];
+    [Globals addPrivateMessageNotification:singleMessage];
   }
 }
 
