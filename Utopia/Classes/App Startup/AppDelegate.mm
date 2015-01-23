@@ -191,7 +191,7 @@
     if (!testWindow.opaque && [NSStringFromClass(testWindow.class) hasPrefix:@"UIText"]) {
       BOOL wasHidden = testWindow.hidden;
       testWindow.hidden = YES;
-      
+  
       if (!wasHidden) {
         testWindow.hidden = NO;
       }

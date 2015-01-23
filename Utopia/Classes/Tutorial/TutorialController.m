@@ -131,12 +131,12 @@
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyTwo3:
-        monsterId = self.constants.enemyMonsterId;
+        monsterId = self.constants.enemyMonsterIdTwo;
         suffix = [@"P4" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerEnemyTwo4:
-        monsterId = self.constants.enemyMonsterId;
+        monsterId = self.constants.enemyMonsterIdTwo;
         suffix = [@"P5" stringByAppendingString:suffix];
         isLeftSide = NO;
         break;
@@ -460,8 +460,7 @@ static int timesCloseClicked = 0;
 
 - (void) beginGuideGreetingPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Hey Stranger! Welcome to our tiny town. Isn’t it great?",
-                        @(TutorialDialogueSpeakerGuide2), @"An evil dictator named Lil’ Kim has taken over the world and it’s up to you to stop him!",
-                        @(TutorialDialogueSpeakerGuide2), @"Hopefully they don’t find..."];
+                        @(TutorialDialogueSpeakerGuide2), @"The fields are green, the skies are blue, and..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   [self.homeMap centerOnGuide];
@@ -476,28 +475,28 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginEnemyBossThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"Well well well... you peasants think you can start a new squad, under my watch?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss3), @"What’s up, peasants? Nice island. I’ll be taking it now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepEnemyBossThreat;
 }
 
 - (void) beginEnemyTwoThreatPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo), @"Heh, did you really EGG-spect us not to find you here?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyTwo4), @"Heh, EGG-cellent choice, master!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepEnemyTwoThreat;
 }
 
 - (void) beginGuideScaredPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide3), @"Oh no. It’s Lil’ Kim! Send my nephew into battle, Boss! I don’t like him anyways."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide3), @"Oh no, it’s Dictator Kim! What are we going to do?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepGuideScared;
 }
 
 - (void) beginFriendEnterFightPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yolo."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"I’ll take care of this, but I’ll need your help!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES buttonText:@"FIGHT" toViewController:self.gameViewController];
   
   self.currentStep = TutorialStepFriendEnterFight;
@@ -512,7 +511,7 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginFriendTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Who wants a piece of Swaggy?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Who wants a face full of wood?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   //[self.battleLayer enemyJumpAndShoot];
@@ -522,7 +521,7 @@ static int timesCloseClicked = 0;
 
 - (void) beginEnemyTauntPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"Lemme at 'em boss! I ain’t chicken.",
-                        @(TutorialDialogueSpeakerEnemyTwo), @"......"];
+                        @(TutorialDialogueSpeakerEnemyTwo3), @"......"];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -539,7 +538,9 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginEnemyBossAngryPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"Enough you two! Take care of this degenerate, Pete."];
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.constants.enemyMonsterId];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss2), [NSString stringWithFormat:@"Enough you two! Take care of this degenerate, %@.", mp.displayName]];
   
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -547,56 +548,58 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginFirstBattleFirstMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yo dawg, movin’ orbs ain’t my style. Help a brotha out."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"My hands are too small to move the orbs. Help me out! "];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepFirstBattleFirstMove;
 }
 
 - (void) beginFirstBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Smooth move homie! The more orbs you break, the stronger I get."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Killer move! The more orbs you break, the stronger I get. "];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepFirstBattleSecondMove;
 }
 
 - (void) beginFirstBattleFinalMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Dope! You got one last move before I make it rain. You got this!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"You’re a natural! you got one last move left before I attack."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepFirstBattleLastMove;
 }
 
 - (void) beginSecondBattleEnemyBossTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss2), @"Sigh, never leave a man to do a chicken’s work. Take him out Drumstix."];
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.constants.enemyMonsterIdTwo];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss2), [NSString stringWithFormat:@"Sigh, never leave a human to do a chicken’s work. Take him out %@.", mp.displayName]];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   self.currentStep = TutorialStepSecondBattleEnemyBossTaunt;
 }
 
 - (void) beginSecondBattleFirstMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend2), @"Yo, this chicken is savage. Create a power-up by matching 4 orbs."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"This chicken is savage! Create a rocket by matching 4 orbs."];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepSecondBattleFirstMove;
 }
 
 - (void) beginSecondBattleSecondMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Swipe the striped orb down to activate the power-up."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Nice work. Match the rocket and activate it now!"];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepSecondBattleSecondMove;
 }
 
 - (void) beginSecondBattleThirdMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"BALLIN’! You got one last move homie."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"You’ve got one last move before I attack. Make it count!"];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   self.currentStep = TutorialStepSecondBattleThirdMove;
 }
 
 - (void) beginSecondBattleSwapPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Yolo... ain’t... the... motto.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Ugh, I guess this is it...",
                         @(TutorialDialogueSpeakerMark), @"*Poke*",
                         @(TutorialDialogueSpeakerMark), @"Hey buddy, you don’t look so good. Would you “Like” me to help you out?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
@@ -627,7 +630,7 @@ static int timesCloseClicked = 0;
 
 - (void) beginEnterHospitalPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerGuide2), @"Whew! That was a close one. Thanks for the help Zark!",
-                        @(TutorialDialogueSpeakerMark), @"No problem buddy, but in case you didn’t notice, your nephew is kinda... dying.",
+                        @(TutorialDialogueSpeakerMark), @"No problem, but in case you didn’t notice, your buddy is kinda... dying.",
                         @(TutorialDialogueSpeakerMark), @"Let’s head to the Hospital and get him healed right up. Follow the magical floating arrows to begin."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -635,7 +638,9 @@ static int timesCloseClicked = 0;
 }
 
 - (void) beginHealQueueingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Tap on Swaggy Steve to insert him into the healing queue."];
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.constants.startingMonsterId];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Tap on %@ to insert him into the healing queue.", mp.displayName];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
   
   [self.homeMap moveFriendsOffBuildableMap];
@@ -831,6 +836,10 @@ static int timesCloseClicked = 0;
 
 - (void) enemyTwoJumped {
   [self beginEnemyTwoThreatPhase];
+}
+
+- (void) guideJumped {
+  [self beginGuideScaredPhase];
 }
 
 - (void) guideReachedHideLocation {
@@ -1096,7 +1105,8 @@ static int timesCloseClicked = 0;
     } else if (self.currentStep == TutorialStepEnemyBossThreat) {
       [self.homeMap enemyTwoJump];
     } else if (self.currentStep == TutorialStepEnemyTwoThreat) {
-      [self.homeMap guideHideBehindObstacle];
+      //[self.homeMap guideHideBehindObstacle];
+      [self.homeMap guideJump];
     } else if (self.currentStep == TutorialStepGuideScared) {
       [self.homeMap friendEnterScene];
     } else if (self.currentStep == TutorialStepBattleFriendTaunt) {

@@ -11,7 +11,7 @@
 #import "Globals.h"
 #import "Protocols.pb.h"
 
-#define OrbLog(...) LNLog(__VA_ARGS__)
+#define OrbLog(...) //LNLog(__VA_ARGS__)
 
 @implementation OrbMainLayer
 

@@ -98,6 +98,12 @@
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
         }
         
+        if (![oldSS.speakerImage isEqualToString:curSS.speakerImage]) {
+          NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
+          UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
+          [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+        }
+        
         self.speakerLabel.text = curSS.speaker;
         [self setDialogueLabelText:curSS.speakerText];
         [self animateBubbleIn];

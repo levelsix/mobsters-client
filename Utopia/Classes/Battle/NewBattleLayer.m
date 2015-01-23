@@ -265,7 +265,7 @@
   [self createScheduleWithSwap:swap playerHitsFirst:NO];
 }
 
-- (void) createScheduleWithSwap:(BOOL)swap forcePlayerAttackFirst:(BOOL)playerFirst {
+- (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
 #ifdef DEBUG_BATTLE_MODE
   playerFirst = YES;
 #endif
@@ -961,7 +961,7 @@
     CGPoint pos = defSpr.position;
     int val = 40*(enemyIsAttacker ? 1 : -1);
     pos = ccpAdd(pos, ccp(val, 15));
-    [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+    //[self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
   }
   
   def.curHealth = newHealth;
