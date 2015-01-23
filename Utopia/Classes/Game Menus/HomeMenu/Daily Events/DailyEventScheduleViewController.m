@@ -112,8 +112,8 @@
   //for each event create the view for it
   for (int i = 0; i<eventList.count; i++) {
     EventScheduleDayView *dayView = (EventScheduleDayView*) [[NSBundle mainBundle] loadNibNamed:@"EventScheduleDayView" owner:self options:nil][0];
-    [self addSubview:dayView];
-    CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * i) + DAY_VIEW_SPACING;
+    [self.weekView addSubview:dayView];
+    CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * i) + (DAY_VIEW_SPACING * i);
     [dayView setOrigin:CGPointMake(newX, 0.f)];
     [dayView initWithEvent:eventList[i]];
   }
