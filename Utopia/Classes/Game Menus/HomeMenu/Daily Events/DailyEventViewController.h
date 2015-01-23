@@ -7,6 +7,7 @@
 //
 
 #import "PopupSubViewController.h"
+#import "DailyEventScheduleViewController.h"
 
 @interface DailyEventView : UIView
 

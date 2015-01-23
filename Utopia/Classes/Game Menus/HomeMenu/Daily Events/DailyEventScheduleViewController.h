@@ -24,6 +24,8 @@
 
 @interface DailyEventScheduleView : UIView
 
+@property (weak, nonatomic) IBOutlet UIView *weekView;
+
 @end
 
 @interface DailyEventScheduleViewController : PopupSubViewController {

@@ -236,4 +236,10 @@
   _buttonClicked = YES;
 }
 
+- (IBAction)scheduleClicked:(id)sender {
+  DailyEventScheduleViewController *svc = [[DailyEventScheduleViewController alloc] init];
+  [self.parentViewController pushViewController:svc animated:YES];
+  [svc initWithEventType:_eventType];
+}
+
 @end
