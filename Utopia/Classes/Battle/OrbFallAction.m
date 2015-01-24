@@ -53,7 +53,7 @@
   
   float accel = 60;
   float vel = 0;
-  BOOL shouldBounce = NO; // To determine if there should be a bounce at the end
+  BOOL shouldBounce = YES; // To determine if there should be a bounce at the end
   NSMutableArray *moveTos = [NSMutableArray array];
   int displ = 0.f;
   int curTimeSlot = 0;
@@ -96,7 +96,9 @@
         CCActionMoveTo *moveTo = [CCActionMoveTo actionWithDuration:numSquares position:[swipeLayer pointForColumn:nextPoint.x row:nextPoint.y]];
         [moveTos addObject:moveTo];
         
-        shouldBounce = prevPoint.x == nextPoint.x;
+        if (prevPoint.x != nextPoint.x) {
+          shouldBounce = NO;
+        }
       }
       prevPoint = nextPoint;
     }

@@ -36,7 +36,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *dialogueLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *speechBubble;
-@property (nonatomic, retain) IBOutlet UIImageView *bottomGradient;
+@property (nonatomic, retain) IBOutlet UIView *bottomGradient;
 
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
