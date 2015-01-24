@@ -710,8 +710,6 @@
             [self setOrb:nil column:orb.column row:orb.row];
             orb.changeType = OrbChangeTypeDestroyed;
           }
-        } else {
-          NSLog(@"Trying to remove orb %@", orb);
         }
       }
     }
@@ -1141,7 +1139,27 @@
   
   // Give rainbow orbs the color of the chain creator
   if (orb.powerupType == PowerupTypeAllOfOneColor) {
-    orb.orbColor = powerupOrb.orbColor;
+    // Choose a color of an orb that
+    int rand;
+    BOOL foundColor = NO;
+    int numTries = 0;
+    while (!foundColor && numTries < 100) {
+      while (!(1 << (rand = arc4random_uniform(OrbColorNone)) & _numColors));
+      
+      // Go through list of orbs and make sure there is at least one
+      for (int i = 0; i < _numColumns; i++) {
+        for (int j = 0; j < _numRows; j++) {
+          BattleOrb *orb = [self orbAtColumn:i row:j];
+          if (orb.orbColor == rand) {
+            foundColor = YES;
+          }
+        }
+      }
+      
+      numTries++;
+    }
+    
+    orb.orbColor = rand;
   }
   
   if (orb.powerupType == PowerupTypeHorizontalLine || orb.powerupType == PowerupTypeVerticalLine) {
