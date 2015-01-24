@@ -426,12 +426,17 @@
   //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector {
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch
+                                      target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion {
   CCAnimation *anim = self.attackAnimationN.copy;
   anim = anim ?: [CCAnimation animation];
   
   CCActionSequence *seq;
   [self stopActionByTag:924];
+  
+  if (!completion) {
+    completion = ^{};
+  }
   
   [self stopWalking];
   [self setIsFacingNear:YES];
@@ -485,10 +490,11 @@
              nil];
   }
   seq.tag = 924;
-  [self runAction:seq];
+  [self runAction:[CCActionSequence actions:seq, [CCActionCallBlock actionWithBlock:completion], nil]];
 }
 
-- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy
+                                        target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion {
   CCAnimation *anim = self.attackAnimationF.copy;
   anim = anim ?: [CCAnimation animation];
   
@@ -497,6 +503,11 @@
   
   CCActionSequence *seq;
   [self stopActionByTag:924];
+  
+  if (!completion) {
+    completion = ^{};
+  }
+  
   [self stopWalking];
   [self setIsFacingNear:NO];
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
@@ -545,7 +556,7 @@
            nil];
   }
   seq.tag = 924;
-  [self runAction:seq];
+  [self runAction:[CCActionSequence actions:seq, [CCActionCallBlock actionWithBlock:completion], nil]];
 }
 
 - (void) displayChargingFrame {

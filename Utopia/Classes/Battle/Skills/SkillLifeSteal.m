@@ -274,7 +274,6 @@ static const NSInteger kLifeStealOrbsMaxSearchIterations = 256;
                          nil]];
 }
 
-
 - (void) spawnLifeStealOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
 {
   [self preseedRandomization];

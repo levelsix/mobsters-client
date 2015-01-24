@@ -58,7 +58,6 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  // Initial life steal orb spawn
   if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
   {
     if (execute)

@@ -24,6 +24,7 @@
 #import "SkillCounterStrike.h"
 #import "SkillLifeSteal.h"
 #import "SkillFlameStrike.h"
+#import "SkillConfusion.h"
 
 @implementation SkillController
 
@@ -47,6 +48,7 @@
 	case SkillTypeCounterStrike: return [[SkillCounterStrike alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeLifeSteal: return [[SkillLifeSteal alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeFlameStrike: return [[SkillFlameStrike alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeConfusion: return [[SkillConfusion alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
