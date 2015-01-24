@@ -210,7 +210,7 @@ BOOL RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusIsValidValu
 - (BOOL) hasStatus;
 - (RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus) status;
 - (RetrieveTournamentRankingsResponseProto_Builder*) setStatus:(RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatus) value;
-- (RetrieveTournamentRankingsResponseProto_Builder*) clearStatus;
+- (RetrieveTournamentRankingsResponseProto_Builder*) clearStatusList;
 
 - (BOOL) hasEventId;
 - (int32_t) eventId;

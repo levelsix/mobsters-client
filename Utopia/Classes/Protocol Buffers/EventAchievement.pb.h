@@ -231,7 +231,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasStatus;
 - (AchievementProgressResponseProto_AchievementProgressStatus) status;
 - (AchievementProgressResponseProto_Builder*) setStatus:(AchievementProgressResponseProto_AchievementProgressStatus) value;
-- (AchievementProgressResponseProto_Builder*) clearStatus;
+- (AchievementProgressResponseProto_Builder*) clearStatusList;
 @end
 
 @interface AchievementRedeemRequestProto : PBGeneratedMessage {
@@ -360,7 +360,7 @@ BOOL AchievementRedeemResponseProto_AchievementRedeemStatusIsValidValue(Achievem
 - (BOOL) hasStatus;
 - (AchievementRedeemResponseProto_AchievementRedeemStatus) status;
 - (AchievementRedeemResponseProto_Builder*) setStatus:(AchievementRedeemResponseProto_AchievementRedeemStatus) value;
-- (AchievementRedeemResponseProto_Builder*) clearStatus;
+- (AchievementRedeemResponseProto_Builder*) clearStatusList;
 @end
 
 

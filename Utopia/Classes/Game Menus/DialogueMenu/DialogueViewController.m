@@ -25,7 +25,7 @@
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble buttonText:(NSString *)buttonText {
   if ((self = [super init])) {
     self.dialogue = dialogue;
-    _useSmallBubble = smallBubble;
+    _useSmallBubble = NO;//smallBubble;
     _buttonText = buttonText;
     self.view.hidden = YES;
   }
