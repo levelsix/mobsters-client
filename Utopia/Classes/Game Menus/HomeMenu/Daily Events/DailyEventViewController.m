@@ -119,16 +119,16 @@
       self.timeLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       self.timeLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
-//      self.dateLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
-//      self.dateLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
-//      self.dateLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      self.dateLabel.gradientEndColor = [UIColor colorWithHexString:BottomGradientColor[idx]];
+      self.dateLabel.strokeColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
+      self.dateLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
       self.descriptionLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
       
       self.endsInLabel.shadowColor = [UIColor colorWithHexString:NameStrokeColor[idx]];
     }
     
-//    self.dateLabel.text = [Globals stringOfCurDate];
+    self.dateLabel.text = [Globals stringOfCurDate];
     
     self.nameLabel.text = [task.name stringByAppendingString:@" Event"];
     self.title = self.nameLabel.text;
