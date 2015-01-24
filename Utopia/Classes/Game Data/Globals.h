@@ -258,6 +258,8 @@
 + (NSString *) stringForClanStatus:(UserClanStatus)status;
 + (NSString *) stringForResourceType:(ResourceType)res;
 
++ (NSString *) stringOfCurDate;
+
 + (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team;
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
 

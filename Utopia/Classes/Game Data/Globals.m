@@ -536,6 +536,89 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
++ (NSString *) stringOfCurDate {
+  MSDate *date = [MSDate date];
+  NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  
+  NSDateComponents *weekComps = [gregorian components:NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date.relativeNSDate];
+  NSInteger today = [weekComps weekday];
+  
+  NSString *weekDay;
+  switch (today) {
+    case 1:
+      weekDay = @"Sunday";
+      break;
+    case 2:
+      weekDay= @"Monday";
+      break;
+    case 3:
+      weekDay = @"Tuesday";
+      break;
+    case 4:
+      weekDay = @"Wednesday";
+      break;
+    case 5:
+      weekDay = @"Thursday";
+      break;
+    case 6:
+      weekDay = @"Friday";
+      break;
+    case 7:
+      weekDay = @"Saturday";
+      break;
+    default:
+      break;
+  }
+  
+  NSDateComponents *components = [gregorian components:NSCalendarUnitDay|NSCalendarUnitMonth fromDate:date.relativeNSDate];
+  NSInteger day = [components day];
+  NSInteger month = [components month];
+  
+  NSString *monthString;
+  switch (month) {
+    case 1:
+      monthString = @"January";
+      break;
+    case 2:
+      monthString = @"February";
+      break;
+    case 3:
+      monthString = @"March";
+      break;
+    case 4:
+      monthString = @"April";
+      break;
+    case 5:
+      monthString = @"May";
+      break;
+    case 6:
+      monthString = @"June";
+      break;
+    case 7:
+      monthString = @"July";
+      break;
+    case 8:
+      monthString = @"August";
+      break;
+    case 9:
+      monthString = @"September";
+      break;
+    case 10:
+      monthString = @"October";
+      break;
+    case 11:
+      monthString = @"November";
+      break;
+    case 12:
+      monthString = @"December";
+      break;
+      
+    default:
+      break;
+  }
+  return [NSString stringWithFormat:@"%@ %@ %ld", weekDay, monthString, day];
+}
+
 + (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str {
   NSString *base = [[[self stringForElement:element] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
   return [base stringByAppendingString:str];

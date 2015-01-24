@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="e62-K4-IAU" userLabel="WeekView">
-                    <rect key="frame" x="3" y="0.0" width="421" height="188"/>
+                    <rect key="frame" x="3" y="0.0" width="423" height="188"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -37,10 +37,10 @@
                             <rect key="frame" x="3" y="0.0" width="424" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Scientist event schedule repeats every Monday-Friday.  Saturday and Sunday are revealed when the event goes live." lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="frY-qc-4c8">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Scientist event schedule repeats every Monday-Friday.  Saturday and Sunday are revealed when the event goes live." lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="frY-qc-4c8" customClass="NiceFontLabel2">
                                     <rect key="frame" x="95" y="24" width="315" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -67,6 +67,7 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="descriptionLabel" destination="frY-qc-4c8" id="til-5h-K6n"/>
                 <outlet property="weekView" destination="e62-K4-IAU" id="UDP-Nk-N7Q"/>
             </connections>
             <point key="canvasLocation" x="293" y="80"/>

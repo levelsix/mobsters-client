@@ -30,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *characterIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *eventTagIcon;
 
+@property (nonatomic, retain) IBOutlet THLabel *dateLabel;
 @property (nonatomic, retain) IBOutlet THLabel *nameLabel;
 @property (nonatomic, retain) IBOutlet THLabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *endsInLabel;

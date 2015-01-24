@@ -25,6 +25,7 @@
 @interface DailyEventScheduleView : UIView
 
 @property (weak, nonatomic) IBOutlet UIView *weekView;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 
 @end
 
