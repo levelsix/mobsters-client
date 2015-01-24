@@ -48,6 +48,7 @@
     self.offensiveSkillId = monster.offensiveSkillId;
     self.defensiveSkillId = monster.defensiveSkillId;
     self.monsterType = monsterType;
+    self.isConfused = NO;
     
     self.lowerBound = 0.6*dmgMultiplier;
     self.upperBound = 1.*dmgMultiplier;
