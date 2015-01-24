@@ -63,14 +63,16 @@
                                                  shouldEvade:NO
                                                        enemy:self.enemySprite
                                                       target:self
-                                                    selector:@selector(dealDamage)];
+                                                    selector:@selector(dealDamage)
+                                              animCompletion:nil];
   else
     [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite
                                              shouldReturn:YES
                                               shouldEvade:NO
                                              shouldFlinch:YES
                                                    target:self
-                                                 selector:@selector(dealDamage)];
+                                                 selector:@selector(dealDamage)
+                                           animCompletion:nil];
 }
 
 - (void) dealDamage {
