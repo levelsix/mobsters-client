@@ -170,7 +170,7 @@ BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProt
 - (BOOL) hasStatus;
 - (EnableAPNSResponseProto_EnableAPNSStatus) status;
 - (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value;
-- (EnableAPNSResponseProto_Builder*) clearStatusList;
+- (EnableAPNSResponseProto_Builder*) clearStatus;
 @end
 
 

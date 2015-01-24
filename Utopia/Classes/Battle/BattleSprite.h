@@ -61,13 +61,16 @@
 - (void) faceNearWithoutUpdate;
 - (void) faceFarWithoutUpdate;
 
-- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch target:(id)target selector:(SEL)selector;
-- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy shouldReturn:(BOOL)shouldReturn shouldEvade:(BOOL)evade shouldFlinch:(BOOL)flinch
+                                      target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion;
+- (void) performFarAttackAnimationWithStrength:(float)strength shouldEvade:(BOOL)evade enemy:(BattleSprite *)enemy
+                                        target:(id)target selector:(SEL)selector animCompletion:(void(^)(void))completion;
 
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
 - (void) performFarFlinchAnimationWithDelay:(float)delay;
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSAttributedString *)name rarity:(Quality)rarity
+        animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
 
 - (void) showRarityTag;
 - (void) doRarityTagShine;

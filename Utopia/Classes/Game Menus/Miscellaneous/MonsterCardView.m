@@ -141,6 +141,10 @@ static UIImage *img = nil;
 
 @implementation MiniMonsterView
 
+-(void)dealloc {
+  [self.layer removeAllAnimations];
+}
+
 - (void) updateForMonsterId:(int)monsterId {
   [self updateForMonsterId:monsterId greyscale:NO];
 }

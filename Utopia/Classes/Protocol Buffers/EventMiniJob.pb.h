@@ -301,7 +301,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasStatus;
 - (SpawnMiniJobResponseProto_SpawnMiniJobStatus) status;
 - (SpawnMiniJobResponseProto_Builder*) setStatus:(SpawnMiniJobResponseProto_SpawnMiniJobStatus) value;
-- (SpawnMiniJobResponseProto_Builder*) clearStatusList;
+- (SpawnMiniJobResponseProto_Builder*) clearStatus;
 @end
 
 @interface BeginMiniJobRequestProto : PBGeneratedMessage {
@@ -439,7 +439,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasStatus;
 - (BeginMiniJobResponseProto_BeginMiniJobStatus) status;
 - (BeginMiniJobResponseProto_Builder*) setStatus:(BeginMiniJobResponseProto_BeginMiniJobStatus) value;
-- (BeginMiniJobResponseProto_Builder*) clearStatusList;
+- (BeginMiniJobResponseProto_Builder*) clearStatus;
 @end
 
 @interface CompleteMiniJobRequestProto : PBGeneratedMessage {
@@ -586,7 +586,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasStatus;
 - (CompleteMiniJobResponseProto_CompleteMiniJobStatus) status;
 - (CompleteMiniJobResponseProto_Builder*) setStatus:(CompleteMiniJobResponseProto_CompleteMiniJobStatus) value;
-- (CompleteMiniJobResponseProto_Builder*) clearStatusList;
+- (CompleteMiniJobResponseProto_Builder*) clearStatus;
 @end
 
 @interface RedeemMiniJobRequestProto : PBGeneratedMessage {
@@ -735,7 +735,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (BOOL) hasStatus;
 - (RedeemMiniJobResponseProto_RedeemMiniJobStatus) status;
 - (RedeemMiniJobResponseProto_Builder*) setStatus:(RedeemMiniJobResponseProto_RedeemMiniJobStatus) value;
-- (RedeemMiniJobResponseProto_Builder*) clearStatusList;
+- (RedeemMiniJobResponseProto_Builder*) clearStatus;
 @end
 
 

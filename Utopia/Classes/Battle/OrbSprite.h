@@ -18,6 +18,7 @@ static const float orbUpdateAnimDuration = 0.3f;
   // Specials
   CCLabelTTF* _bombCounter;
   CCLabelTTF* _headshotCounter;
+  CCLabelTTF* _damageMultiplier;
 }
 
 @property (nonatomic, strong, readonly) CCSprite* orbSprite;

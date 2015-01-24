@@ -213,7 +213,7 @@ BOOL ResearchDomainIsValidValue(ResearchDomain value);
 - (BOOL) hasCostType;
 - (ResourceType) costType;
 - (ResearchProto_Builder*) setCostType:(ResourceType) value;
-- (ResearchProto_Builder*) clearCostTypeList;
+- (ResearchProto_Builder*) clearCostType;
 
 - (NSMutableArray *)propertiesList;
 - (ResearchPropertyProto*)propertiesAtIndex:(NSUInteger)index;

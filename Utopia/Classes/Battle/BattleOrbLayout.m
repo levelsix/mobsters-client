@@ -197,6 +197,7 @@
   orb.row = row;
   orb.powerupType = powerup;
   orb.specialOrbType = special;
+  orb.damageMultiplier = 1;
   [self setOrb:orb column:column row:row];
   return orb;
 }

@@ -1177,7 +1177,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   result.mutableRaritiesList = [PBAppendableArray arrayWithValues:values count:count valueType:PBArrayValueTypeInt32];
   return self;
 }
-- (FullTaskProto_Builder *)clearRaritiesList {
+- (FullTaskProto_Builder *)clearRarities {
   result.mutableRaritiesList = nil;
   return self;
 }
@@ -2690,7 +2690,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   result.monsterType = value;
   return self;
 }
-- (TaskStageMonsterProto_Builder*) clearMonsterTypeList {
+- (TaskStageMonsterProto_Builder*) clearMonsterType {
   result.hasMonsterType = NO;
   result.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
   return self;
@@ -3376,7 +3376,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.dayOfWeek = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearDayOfWeekList {
+- (PersistentEventProto_Builder*) clearDayOfWeek {
   result.hasDayOfWeek = NO;
   result.dayOfWeek = DayOfWeekMonday;
   return self;
@@ -3456,7 +3456,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.type = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearTypeList {
+- (PersistentEventProto_Builder*) clearType {
   result.hasType = NO;
   result.type = PersistentEventProto_EventTypeEnhance;
   return self;
@@ -3472,7 +3472,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   result.monsterElement = value;
   return self;
 }
-- (PersistentEventProto_Builder*) clearMonsterElementList {
+- (PersistentEventProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
   result.monsterElement = ElementNoElement;
   return self;
@@ -4458,7 +4458,7 @@ static TaskMapElementProto* defaultTaskMapElementProtoInstance = nil;
   result.element = value;
   return self;
 }
-- (TaskMapElementProto_Builder*) clearElementList {
+- (TaskMapElementProto_Builder*) clearElement {
   result.hasElement = NO;
   result.element = ElementNoElement;
   return self;
