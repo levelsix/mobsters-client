@@ -640,7 +640,7 @@ static int timesCloseClicked = 0;
 - (void) beginHealQueueingPhase {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:self.constants.startingMonsterId];
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), @"Tap on %@ to insert him into the healing queue.", mp.displayName];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMark), [NSString stringWithFormat:@"Tap on %@ to insert him into the healing queue.", mp.displayName]];
   [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
   
   [self.homeMap moveFriendsOffBuildableMap];

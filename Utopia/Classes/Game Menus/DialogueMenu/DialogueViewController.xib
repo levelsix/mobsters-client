@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DialogueViewController">
             <connections>
+                <outlet property="bottomGradient" destination="txX-72-Zz2" id="Tdd-yJ-Z6k"/>
                 <outlet property="buttonLabel" destination="ymR-ft-CV4" id="5yV-8t-O2b"/>
                 <outlet property="buttonView" destination="ghB-Ov-0iH" id="ktC-Hg-UbK"/>
                 <outlet property="dialogueLabel" destination="yBQ-Qk-ZiX" id="XXA-zR-kGq"/>
@@ -16,8 +17,7 @@
                 <outlet property="leftImageView" destination="qhg-jh-w6v" id="bmp-ss-98Q"/>
                 <outlet property="speakerLabel" destination="UnO-id-wSF" id="WqH-xW-MqI"/>
                 <outlet property="speechBubble" destination="AlM-Ns-QkQ" id="fAv-XX-OGt"/>
-                <outlet property="speechBubbleImage" destination="FF6-1X-Z5W" id="uN7-FE-E64"/>
-                <outlet property="speechBubbleLine" destination="oVb-3z-AHa" id="qD4-9K-cBX"/>
+                <outlet property="speechBubbleImage" destination="tJy-yH-QUh" id="BrA-Qi-Iid"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -26,6 +26,10 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tutorialbackground.png" id="txX-72-Zz2">
+                    <rect key="frame" x="0.0" y="192" width="225" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </imageView>
                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" image="MilitaryGirl0T1P2TutBig.png" id="qhg-jh-w6v">
                     <rect key="frame" x="0.0" y="90" width="152" height="230"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -91,19 +95,19 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="AlM-Ns-QkQ">
-                    <rect key="frame" x="85" y="184" width="206" height="90"/>
+                    <rect key="frame" x="85" y="175" width="211" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="speechbubbleshortname.png" id="FF6-1X-Z5W">
-                            <rect key="frame" x="0.0" y="0.0" width="206" height="91"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="dialoguebubble.png" id="tJy-yH-QUh">
+                            <rect key="frame" x="0.0" y="0.0" width="211" height="100"/>
+                            <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="S4C-58-9WP">
-                            <rect key="frame" x="17" y="0.0" width="188" height="90"/>
+                            <rect key="frame" x="17" y="0.0" width="194" height="99"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerburger" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UnO-id-wSF" customClass="NiceFontLabel12">
-                                    <rect key="frame" x="1" y="-1" width="186" height="32"/>
+                                    <rect key="frame" x="4" y="1" width="186" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -112,7 +116,7 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hey Meep, look at that fat kid eating cake. Let's go shoot him.." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yBQ-Qk-ZiX" customClass="NiceFontLabel5">
-                                    <rect key="frame" x="10" y="27" width="168" height="57"/>
+                                    <rect key="frame" x="9" y="36" width="176" height="57"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
@@ -120,10 +124,6 @@
                                     <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bubbleline.png" id="oVb-3z-AHa">
-                                    <rect key="frame" x="6" y="29" width="176" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -138,11 +138,11 @@
     </objects>
     <resources>
         <image name="MilitaryGirl0T1P2TutBig.png" width="112" height="214"/>
-        <image name="bubbleline.png" width="176" height="1"/>
         <image name="connectonbubblebubble.png" width="119" height="49"/>
+        <image name="dialoguebubble.png" width="211" height="100"/>
         <image name="fightonbubblearrow.png" width="10" height="14"/>
         <image name="fightonbubblebutton.png" width="102" height="49"/>
-        <image name="speechbubbleshortname.png" width="206" height="91"/>
+        <image name="tutorialbackground.png" width="225" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

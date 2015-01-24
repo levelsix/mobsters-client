@@ -20,8 +20,8 @@
 
 #define INITIAL_GUIDE_LOCATION ccpAdd(PIER_JUMP_LOCATION, ccp(0, 6.5))
 #define FRIEND_ENTER_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 3))
-#define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 1))
-#define GUIDE_MOVE_AWAY_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(1, 0))
+#define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 2))
+#define GUIDE_MOVE_AWAY_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(2, 0))
 
 #define FRIEND_BATTLE_RUN_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, -2))
 #define POST_BATTLE_FRIENDS_X_FROM_MID 0.75
@@ -120,7 +120,8 @@
 - (AnimatedSprite *) guideSprite {
   if (!_guideSprite) {
     self.guideSprite = [self createSpriteWithId:self.constants.guideMonsterId];
-    //self.guideSprite.sprite.scale = 1.12;
+    self.guideSprite.sprite.scale = 1.12;
+    self.guideSprite.sprite.position = ccpAdd(self.guideSprite.sprite.position, ccp(0, 2));
   }
   return _guideSprite;
 }
@@ -135,6 +136,7 @@
 - (AnimatedSprite *) enemy1Sprite {
   if (!_enemy1Sprite) {
     self.enemy1Sprite = [self createSpriteWithId:self.constants.enemyMonsterId];
+    self.enemy1Sprite.sprite.scale = 0.95;
   }
   return _enemy1Sprite;
 }
