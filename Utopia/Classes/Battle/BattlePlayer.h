@@ -49,6 +49,8 @@
 @property (nonatomic, assign) int offensiveSkillId;
 @property (nonatomic, assign) int defensiveSkillId;
 
+@property (nonatomic, assign) BOOL isConfused;
+
 @property (nonatomic, retain) DialogueProto *dialogue;
 
 + (id) playerWithMonster:(UserMonster *)monster;

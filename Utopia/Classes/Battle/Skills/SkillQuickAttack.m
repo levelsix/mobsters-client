@@ -58,9 +58,11 @@
 {
   // Perform attack animation
   if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite target:self selector:@selector(dealQuickAttack1)];
+    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite
+                                                      target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
   else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES target:self selector:@selector(dealQuickAttack1)];
+    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+                                                   target:self selector:@selector(dealQuickAttack1) animCompletion:nil];
   
   // Show attack label
   /*_attackSprite = [CCSprite spriteWithImageNamed:@"cheapshotlogo.png"];

@@ -189,4 +189,40 @@
   return mmv;
 }
 
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId
+{
+  for (MiniMonsterView* mv in self.monsterViews)
+  {
+    if (mv.monsterId == monsterId)
+    {
+      if (confused && [mv viewWithTag:7910] == nil)
+      {
+        // Add confused symbol to turn indicator
+        UIImageView* confusedSymbol = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confusionspiral.png"]];
+        [confusedSymbol setFrame:CGRectMake(0.f, 0.f, 19.f, 19.f)];
+        [confusedSymbol setTag:7910];
+        [mv addSubview:confusedSymbol];
+
+        // Add spinning animation
+        CABasicAnimation* spinAnimation;
+        spinAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        spinAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.f];
+        spinAnimation.duration = 1.f;
+        spinAnimation.cumulative = YES;
+        spinAnimation.repeatCount = HUGE_VALF; // The stupid (and only) way to infinitely loop a CABasicAnimation
+        [confusedSymbol.layer addAnimation:spinAnimation forKey:@"ConfusedSymbolSpinAnimation"];
+      }
+      if (!confused && [mv viewWithTag:7910] != nil)
+      {
+        // Stop spinning animation and remove symbol
+        UIImageView* confusedSymbol = (UIImageView*)[mv viewWithTag:7910];
+        [confusedSymbol.layer removeAllAnimations];
+        [confusedSymbol removeFromSuperview];
+      }
+      
+      break;
+    }
+  }
+}
+
 @end
