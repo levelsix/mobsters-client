@@ -28,7 +28,7 @@
             <subviews>
                 <view contentMode="scaleToFill" id="jMz-Di-wAn">
                     <rect key="frame" x="0.0" y="160" width="284" height="160"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tutorialtrees.png" id="iAG-LX-v9g">
                             <rect key="frame" x="0.0" y="32" width="225" height="128"/>
