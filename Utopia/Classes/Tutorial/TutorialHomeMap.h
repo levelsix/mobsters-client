@@ -14,6 +14,7 @@
 @optional
 - (void) boatLanded;
 - (void) enemyTwoJumped;
+- (void) guideJumped;
 - (void) guideReachedHideLocation;
 - (void) friendEntered;
 - (void) enemyTeamWalkedOut;
@@ -61,6 +62,7 @@
 
 - (void) centerOnGuide;
 - (void) enemyTwoJump;
+- (void) guideJump;
 - (void) guideHideBehindObstacle;
 - (void) friendEnterScene;
 - (void) friendRunForBattleEnter;

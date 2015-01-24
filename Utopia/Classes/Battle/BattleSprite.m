@@ -387,7 +387,7 @@
     if (success) {
       NSString *name;
       if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
-      else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF00.png", self.prefix];
+      else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF01.png", self.prefix];
       else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
       [self.sprite setSpriteFrame:frame];

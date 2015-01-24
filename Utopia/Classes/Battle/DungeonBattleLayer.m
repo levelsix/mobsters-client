@@ -22,9 +22,9 @@
 
 @implementation DungeonBattleLayer
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto
 {
-  self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix];
+  self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix layoutProto:layoutProto];
   if (! self)
     return nil;
   
@@ -679,11 +679,11 @@
   [dict setObject:@(_totalComboCount) forKey:TOTAL_COMBO_COUNT_KEY];
   
   NSData *orbCounts = [NSData dataWithBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
-  NSString *orbCountsStr = [[NSString alloc] initWithData:orbCounts encoding:NSUTF8StringEncoding];
+  NSString *orbCountsStr = [orbCounts base64EncodedStringWithOptions:0];
   [dict setObject:orbCountsStr forKey:ORB_COUNTS_KEY];
   
   NSData *powerupCounts = [NSData dataWithBytes:_powerupCounts length:sizeof(_powerupCounts)];
-  NSString *powerupCountsStr = [[NSString alloc] initWithData:powerupCounts encoding:NSUTF8StringEncoding];
+  NSString *powerupCountsStr = [powerupCounts base64EncodedStringWithOptions:0];
   [dict setObject:powerupCountsStr forKey:POWERUP_COUNTS_KEY];
   
   [dict setObject:skillManager.serialize forKey:SKILL_MANAGER_KEY];
@@ -717,11 +717,11 @@
   // Use the c array's length as opposed to the NSData's in case the c array is shorter
   // Check that we are not using the legacy nsdata vs nsstring.
   id orbCountsStr = [stateDict objectForKey:ORB_COUNTS_KEY];
-  NSData *orbCounts = [orbCountsStr isKindOfClass:[NSData class]] ? orbCountsStr : [orbCountsStr dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *orbCounts = [orbCountsStr isKindOfClass:[NSData class]] ? orbCountsStr : [[NSData alloc] initWithBase64EncodedString:orbCountsStr options:0];
   [orbCounts getBytes:_totalOrbCounts length:sizeof(_totalOrbCounts)];
   
   id powerupCountsStr = [stateDict objectForKey:POWERUP_COUNTS_KEY];
-  NSData *powerupCounts = [powerupCountsStr isKindOfClass:[NSData class]] ? powerupCountsStr : [powerupCountsStr dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *powerupCounts = [powerupCountsStr isKindOfClass:[NSData class]] ? powerupCountsStr : [[NSData alloc] initWithBase64EncodedString:powerupCountsStr options:0];
   [powerupCounts getBytes:_powerupCounts length:sizeof(_powerupCounts)];
   
   NSArray *schedule = [stateDict objectForKey:SCHEDULE_KEY];

@@ -758,8 +758,12 @@
 
 - (void) gameStateUpdated {
   GameState *gs = [GameState sharedGameState];
-  [self.cashLabel transitionToNum:clampf(gs.cash, 0, [gs maxCash])];
-  [self.oilLabel transitionToNum:clampf(gs.oil, 0, [gs maxOil])];
+  
+  int maxCash = [gs maxCash];
+  int maxOil = [gs maxOil];
+  // Do this to prevent weird stutter in tutorial
+  if (maxCash) [self.cashLabel transitionToNum:clampf(gs.cash, 0, maxCash)];
+  if (maxOil) [self.oilLabel transitionToNum:clampf(gs.oil, 0, maxOil)];
   [self.gemsLabel transitionToNum:gs.gems];
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {

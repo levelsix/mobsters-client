@@ -23,6 +23,7 @@
 + (id)profileResultWithJson:(NSString *)jsonResult;
 
 @property(nonatomic, retain) NSArray* profileArray;
+@property(nonatomic, strong) NSArray* profilesWithRecentConversations;
 
 @end
 

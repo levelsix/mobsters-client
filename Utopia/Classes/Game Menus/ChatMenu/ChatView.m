@@ -477,8 +477,7 @@
   // Check unresponded messages for this
   id<ChatObject> unresponded = nil;
   for (id<ChatObject> cm in self.unrespondedChatMessages) {
-    if ([cm.sender.userUuid isEqualToString:post.poster.minUserProto.userUuid] &&
-        [cm.message isEqualToString:post.content]) {
+    if ([cm.sender.userUuid isEqualToString:post.poster.minUserProto.userUuid]) {
       unresponded = cm;
     }
   }

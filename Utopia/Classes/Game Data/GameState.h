@@ -72,6 +72,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticItems;
 @property (nonatomic, retain) NSMutableDictionary *staticObstacles;
 @property (nonatomic, retain) NSMutableDictionary *staticPrerequisites;
+@property (nonatomic, retain) NSMutableDictionary *staticBoards;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
@@ -167,6 +168,7 @@
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
+- (BoardLayoutProto *) boardWithId:(int)boardId;
 
 - (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;
@@ -237,6 +239,7 @@
 - (void) addToStaticCities:(NSArray *)arr;
 - (void) addStaticBoosterPacks:(NSArray *)bpps;
 - (void) addToStaticObstacles:(NSArray *)arr;
+- (void) addToStaticBoards:(NSArray *)arr;
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;

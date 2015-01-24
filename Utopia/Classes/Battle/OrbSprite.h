@@ -18,6 +18,8 @@ static const float orbUpdateAnimDuration = 0.3f;
   // Specials
   CCLabelTTF* _bombCounter;
   CCLabelTTF* _headshotCounter;
+  
+  CCSprite* _lockedSprite;
 }
 
 @property (nonatomic, strong, readonly) CCSprite* orbSprite;
@@ -31,5 +33,7 @@ static const float orbUpdateAnimDuration = 0.3f;
 // Specials
 - (void) updateBombCounter:(BOOL)animated;
 - (void) updateHeadshotCounter:(BOOL)animated;
+
+- (void) removeLockElements;
 
 @end

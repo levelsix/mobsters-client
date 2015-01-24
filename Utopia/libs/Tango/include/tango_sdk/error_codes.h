@@ -52,8 +52,9 @@ enum ErrorCode
   TANGO_SDK_OPERATION_NOT_ALLOWED = 33,       ///< The operation was not allowed. (Make sure you requested access to the appropriate services at provisioning time).
   TANGO_SDK_OPERATION_VALIDATION_FAILED = 34, ///< Your request failed validation by Tango servers. Check that the parameters you supplied meet requirements.
   TANGO_SDK_INVALID_REQUEST = 35,             ///< The request sent to the server was invalid.
-  TANGO_SDK_REQUEST_IN_PROGRESS = 36,         ///< Future use.
+  TANGO_SDK_REQUEST_IN_PROGRESS = 36,         ///< A request of the same type is already being processed.
   TANGO_SDK_UPLOAD_FAILED = 37,               ///< Uploading content failed.
+  TANGO_SDK_SRV_TIMEOUT = 38,                 ///< The server was too busy or timed out. Please try again later.
 };
 
 #endif // _INCLUDED_tango_sdk_error_codes_h

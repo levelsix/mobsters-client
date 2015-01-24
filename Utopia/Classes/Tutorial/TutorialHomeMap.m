@@ -20,8 +20,10 @@
 
 #define INITIAL_GUIDE_LOCATION ccpAdd(PIER_JUMP_LOCATION, ccp(0, 6.5))
 #define FRIEND_ENTER_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 3))
-#define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 1))
-#define FRIEND_BATTLE_RUN_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, -1))
+#define FRIEND_ENTER_END_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, 2))
+#define GUIDE_MOVE_AWAY_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(2, 0))
+
+#define FRIEND_BATTLE_RUN_LOCATION ccpAdd(INITIAL_GUIDE_LOCATION, ccp(0, -2))
 #define POST_BATTLE_FRIENDS_X_FROM_MID 0.75
 
 #define HIDE_GUIDE_LOCATION_POINT1 ccpAdd(INITIAL_GUIDE_LOCATION, ccp(3, 0))
@@ -118,6 +120,8 @@
 - (AnimatedSprite *) guideSprite {
   if (!_guideSprite) {
     self.guideSprite = [self createSpriteWithId:self.constants.guideMonsterId];
+    self.guideSprite.sprite.scale = 1.12;
+    self.guideSprite.sprite.position = ccpAdd(self.guideSprite.sprite.position, ccp(0, 2));
   }
   return _guideSprite;
 }
@@ -132,6 +136,7 @@
 - (AnimatedSprite *) enemy1Sprite {
   if (!_enemy1Sprite) {
     self.enemy1Sprite = [self createSpriteWithId:self.constants.enemyMonsterId];
+    self.enemy1Sprite.sprite.scale = 0.95;
   }
   return _enemy1Sprite;
 }
@@ -236,6 +241,10 @@
   [self.enemy2Sprite jumpNumTimes:2 completionTarget:self.delegate selector:@selector(enemyTwoJumped)];
 }
 
+- (void) guideJump {
+  [self.guideSprite jumpNumTimes:1 completionTarget:self.delegate selector:@selector(guideJumped)];
+}
+
 - (void) guideHideBehindObstacle {
   [self.guideSprite jumpNumTimes:1 completionTarget:self selector:@selector(guideRunToObstacle)];
 }
@@ -266,17 +275,18 @@
                    [NSValue valueWithCGPoint:FRIEND_ENTER_LOCATION_POINT4],
                    [NSValue valueWithCGPoint:FRIEND_ENTER_END_LOCATION],
                    ];
-  [self.friendSprite walkToTileCoords:arr completionTarget:self selector:@selector(friendEntered) speedMultiplier:2.f];
-  [self.friendSprite jumpNumTimes:6 timePerJump:0.3 completionTarget:nil selector:nil];
+  [self.friendSprite walkToTileCoords:arr completionTarget:self selector:@selector(moveGuideOutOfWay) speedMultiplier:2.f];
+  //[self.friendSprite jumpNumTimes:6 timePerJump:0.3 completionTarget:nil selector:nil];
 }
 
-- (void) friendJumpToEnterLocation {
-  [self.friendSprite jumpNumTimes:1 timePerJump:0.3 completionTarget:nil selector:nil];
-  [self.friendSprite walkToTileCoord:FRIEND_ENTER_END_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:4.f];
+- (void) moveGuideOutOfWay {
+  [self.guideSprite walkToTileCoord:GUIDE_MOVE_AWAY_LOCATION completionTarget:nil selector:nil speedMultiplier:2.f];
+  [self.friendSprite walkToTileCoord:INITIAL_GUIDE_LOCATION completionTarget:self selector:@selector(friendEntered) speedMultiplier:2.f];
 }
 
 - (void) friendEntered {
-  [self.friendSprite restoreStandingFrame:MapDirectionFront];
+  [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.delegate friendEntered];
 }
 
@@ -296,7 +306,7 @@
   [self.enemy1Sprite restoreStandingFrame:MapDirectionFarLeft];
   [self.enemy2Sprite restoreStandingFrame:MapDirectionFarLeft];
   [self.enemyBossSprite restoreStandingFrame:MapDirectionFarLeft];
-  [self.friendSprite restoreStandingFrame:MapDirectionKneel];
+  [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.guideSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.markZSprite restoreStandingFrame:MapDirectionNearRight];
   

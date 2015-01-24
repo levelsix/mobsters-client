@@ -9,10 +9,16 @@
 #import "OrbMainLayer.h"
 
 #import "Globals.h"
+#import "Protocols.pb.h"
 
 #define OrbLog(...) //LNLog(__VA_ARGS__)
 
 @implementation OrbMainLayer
+
+- (id) initWithLayoutProto:(BoardLayoutProto *)proto {
+  BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithBoardLayout:proto];
+  return [self initWithGridSize:CGSizeMake(layout.numColumns, layout.numRows) numColors:layout.numColors layout:layout];
+}
 
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors {
   BattleOrbLayout *layout = [[BattleOrbLayout alloc] initWithGridSize:gridSize numColors:numColors];
@@ -24,9 +30,16 @@
     self.layout = layout;
     
     self.bgdLayer = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
+    [self.bgdLayer assembleBorder];
     self.swipeLayer = [[OrbSwipeLayer alloc] initWithContentSize:self.bgdLayer.contentSize layout:layout];
     [self addChild:self.bgdLayer];
-    [self.bgdLayer addChild:self.swipeLayer z:2];
+    
+    // Add the swipe layer in a clipping node
+    OrbBgdLayer *stencil = [[OrbBgdLayer alloc] initWithGridSize:gridSize layout:layout];
+    CCClippingNode *clip = [[CCClippingNode alloc] initWithStencil:stencil];
+    stencil.anchorPoint = ccp(0, 0);
+    [self.bgdLayer addChild:clip z:2];
+    [clip addChild:self.swipeLayer];
     
     self.contentSize = self.bgdLayer.contentSize;
     self.bgdLayer.position = ccp(self.bgdLayer.contentSize.width/2, self.bgdLayer.contentSize.height/2);
@@ -86,10 +99,12 @@
       [self handleMatches:swap];
     }];
     
-  } else {
+  } else if ([swap.orbA isMovable] && [swap.orbB isMovable]) {
     [self.swipeLayer animateInvalidSwap:swap completion:^{
       [self allowInput];
     }];
+  } else {
+    [self allowInput];
   }
 }
 
@@ -102,6 +117,8 @@
   OrbLog(@"------------------------------------");
   OrbLog(@"Initial swap:\n%@", initialSwap);
   OrbLog(@"Initial layout: %@", self.layout);
+  
+  [self.layout resetOrbChangeTypes];
   
   NSSet *chains = nil;
   if (initialSwap && [self.layout isPowerupMatch:initialSwap.orbA otherOrb:initialSwap.orbB]) {
@@ -147,8 +164,10 @@
   // Look for any powerup creations
   NSSet *powerupOrbs = [self.layout detectPowerupCreationFromChains:chains withInitialSwap:initialSwap];
   
-  OrbLog(@"Detecting powerup creations %@", powerupOrbs);
-  OrbLog(@"Layout: %@", self.layout);
+  if (powerupOrbs.count) {
+    OrbLog(@"Detecting powerup creations %@", powerupOrbs);
+    OrbLog(@"Layout: %@", self.layout);
+  }
   
   for (BattleOrb *powerup in powerupOrbs) {
     [self.delegate powerupCreated:powerup];
@@ -158,83 +177,88 @@
   NSSet *powerupChains = [self.layout detectPowerupChainsWithMatchChains:chains];
   chains = [chains setByAddingObjectsFromSet:powerupChains];
   
-  OrbLog(@"Detecting powerup chains %@", powerupChains);
-  OrbLog(@"Layout: %@", self.layout);
+  if (powerupChains.count) {
+    OrbLog(@"Detecting powerup chains %@", powerupChains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
+  
+  NSSet *adjacentChains = [self.layout detectAdjacentChainsWithMatchAndPowerupChains:chains];
+  chains = [chains setByAddingObjectsFromSet:adjacentChains];
+  
+  if (adjacentChains.count) {
+    OrbLog(@"Adjacent chains %@", adjacentChains);
+    OrbLog(@"Layout: %@", self.layout);
+  }
   
   // First, remove any matches...
   [self.swipeLayer animateMatchedOrbs:chains powerupCreations:powerupOrbs completion:^{
     
-    NSArray *fallingColumns = [self.layout fillHoles];
+    NSMutableArray *orbPaths = [NSMutableArray array];
     
-    OrbLog(@"Filling holes %@", fallingColumns);
-    OrbLog(@"Layout: %@", self.layout);
+    NSMutableArray *newColumns = [NSMutableArray array];
+    NSSet *bottomFeeders;
     
-    NSArray *newColumns = [self.layout topUpOrbs];
+    BOOL foundChange;
     
-    OrbLog(@"Topping up orbs %@", newColumns);
-    OrbLog(@"Layout: %@", self.layout);
-    
-    NSSet *bottomFeeders = [NSSet set];
-    NSSet *newBottomFeeders;
-    
-    while ((newBottomFeeders = [self.layout detectBottomFeeders]).count) {
-      // Redo calls to fallingColumns and newColumns and add to our current arrays
+    int iteration = 0;
+    do {
+      foundChange = NO;
       
-      OrbLog(@"Detected bottom feeders: %@", newBottomFeeders);
-      OrbLog(@"Layout: %@", self.layout);
+      BOOL fillHoles = [self.layout fillHoles:orbPaths];
       
-      // Don't need to do any consolidation of arrays with this because all orbs will be updated
-      // in the arrays.
-      NSArray *newFallingColumns = [self.layout fillHoles];
-      
-      OrbLog(@"Filling holes %@", newFallingColumns);
-      OrbLog(@"Layout: %@", self.layout);
-      
-      // Must consolidate in case initial fallingColumns did not have movers
-      for (int i = 0; i < newColumns.count; i++) {
-        NSMutableArray *origArr = fallingColumns[i];
-        NSMutableArray *newArr = newFallingColumns[i];
-        
-        for (BattleOrb *orb in newArr) {
-          
-          // Make sure orb is not in the topped up orbs
-          BOOL isToppedUp = NO;
-          for (NSArray *arr in newColumns) {
-            if ([arr containsObject:orb]) {
-              isToppedUp = YES;
-            }
-          }
-          
-          // Only add if it is not already in the list
-          if (!isToppedUp && ![origArr containsObject:orb]) {
-            [origArr addObject:orb];
-          }
-        }
+      if (fillHoles) {
+        OrbLog(@"Fill Holes Layout: %@", self.layout);
       }
       
-      // Must consolidate this with the initial newColumns so that newOrbs get added
-      NSArray *moreNewColumns = [self.layout topUpOrbs];
+      NSArray *moreNewColumns = [self.layout topUpOrbs:orbPaths];
+      BOOL foundNewColumns = NO;
       
-      OrbLog(@"Topping up orbs %@", moreNewColumns);
-      OrbLog(@"Layout: %@", self.layout);
-      
-      for (int i = 0; i < newColumns.count; i++) {
-        NSMutableArray *firstArr = newColumns[i];
+      for (int i = 0; i < newColumns.count || i < moreNewColumns.count; i++) {
+        NSMutableArray *firstArr;
+        
+        if (i < newColumns.count) {
+          firstArr = newColumns[i];
+        } else {
+          firstArr = [NSMutableArray array];
+          [newColumns addObject:firstArr];
+        }
+        
         NSArray *secondArr = moreNewColumns[i];
         
+        foundNewColumns = foundNewColumns || secondArr.count > 0;
         [firstArr addObjectsFromArray:secondArr];
       }
       
+      if (foundNewColumns) {
+        OrbLog(@"New columns %@", moreNewColumns);
+        OrbLog(@"Layout: %@", self.layout);
+      }
+      
+      BOOL diagFillHoles = [self.layout diagonallyFillHoles:orbPaths];
+      
+      if (diagFillHoles) {
+        OrbLog(@"Diag fill holes Layout: %@", self.layout);
+      }
+      
+      NSSet *newBottomFeeders = [self.layout detectBottomFeeders];
       bottomFeeders = [bottomFeeders setByAddingObjectsFromSet:newBottomFeeders];
-    }
+      
+      if (newBottomFeeders.count) {
+        OrbLog(@"New Bottom Feeders %@", newBottomFeeders);
+        OrbLog(@"Layout: %@", self.layout);
+      }
+      
+      foundChange = fillHoles || diagFillHoles || foundNewColumns || newBottomFeeders.count;
+      
+      iteration++; 
+    } while (foundChange);
     
-    OrbLog(@"Calling animate falling orbs.");
-    OrbLog(@"Falling columns: %@", fallingColumns);
-    OrbLog(@"New columns: %@", newColumns);
-    OrbLog(@"Bottom feeders: %@", bottomFeeders);
-    OrbLog(@"Layout: %@", self.layout);
+    OrbLog(@"Falling orbs: %@", orbPaths);
+    OrbLog(@"New Columns: %@", newColumns);
+    if (bottomFeeders.count) OrbLog(@"Bottom Feeders: %@", bottomFeeders);
+    OrbLog(@"Final Layout: %@", self.layout);
     
-    [self.swipeLayer animateFallingOrbs:fallingColumns newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
+    [self.swipeLayer animateFallingOrbs:orbPaths newOrbs:newColumns bottomFeeders:bottomFeeders completion:^{
       
       OrbLog(@"Re-running cycle.");
       OrbLog(@"Layout: %@", self.layout);

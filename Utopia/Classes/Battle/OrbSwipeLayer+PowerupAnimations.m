@@ -58,7 +58,7 @@
     float dist = ccpDistance(oldPt, pt);
     [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE*dist/_tileWidth position:pt]];
     [seq addObject:[CCActionCallBlock actionWithBlock:^{
-      [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
+      [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
     }]];
   }
   
@@ -97,7 +97,7 @@
     float dist = ccpDistance(oldPt, pt);
     [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE*dist/_tileWidth position:pt]];
     [seq addObject:[CCActionCallBlock actionWithBlock:^{
-      [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
+      [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
     }]];
   }
   
@@ -169,7 +169,7 @@
     float dist = ccpDistance(oldPt, pt);
     [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE*dist/_tileHeight position:pt]];
     [seq addObject:[CCActionCallBlock actionWithBlock:^{
-      [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
+      [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
     }]];
   }
   
@@ -215,7 +215,7 @@
     float dist = ccpDistance(oldPt, pt);
     [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE*dist/_tileWidth position:pt]];
     [seq addObject:[CCActionCallBlock actionWithBlock:^{
-      [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
+      [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeHorizontalLine];
     }]];
   }
   
@@ -246,7 +246,7 @@
                     ^{
                       _numPowerupsStillAnimating--;
                       for (BattleOrb *orb in chain.orbs) {
-                        [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeExplosion];
+                        [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeExplosion];
                       }
                       [self checkIfAllOrbsAndPowerupsAreDone];
                       
@@ -285,7 +285,7 @@
          ^{
            [q removeFromParentAndCleanup:YES];
            
-           [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeAllOfOneColor];
+           [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeAllOfOneColor];
            
            projectileCount--;
            if (projectileCount == 0) {
@@ -295,6 +295,11 @@
          }],
         nil]];
     }
+  }
+  
+  if (!projectileCount) {
+    _numPowerupsStillAnimating--;
+    [self checkIfAllOrbsAndPowerupsAreDone];
   }
 }
 
@@ -340,9 +345,13 @@
       // and it will show the stripes.
       [self createOrbSpriteForOrb:orb];
       
+      if (orb.isLocked) {
+        [self destroyLock:orb];
+      }
+      
       [seq addObject:[CCActionDelay actionWithDuration:0.2]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeNone];
+        [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeNone];
       }]];
     }
     
@@ -362,7 +371,7 @@
   
   for (BattleOrb *orb in chain.orbs) {
     [seq addObject:[CCActionCallBlock actionWithBlock:^{
-      [self destroyOrb:orb chains:otherChains fromPowerup:PowerupTypeAllOfOneColor];
+      [self performOrbChange:orb chains:otherChains fromPowerup:PowerupTypeAllOfOneColor];
     }]];
     [seq addObject:[CCActionDelay actionWithDuration:0.08]];
   }

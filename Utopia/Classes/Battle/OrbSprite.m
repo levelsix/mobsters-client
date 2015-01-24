@@ -50,6 +50,10 @@
     case SpecialOrbTypeHeadshot: if (_orb.headshotCounter > 0) [self loadHeadshotElements]; break;
     default: break;
   }
+  
+  if (_orb.isLocked) {
+    [self loadLockElements];
+  }
 }
 
 #pragma mark - Specials
@@ -148,6 +152,20 @@
   }
 }
 
+- (void) loadLockElements {
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
+  
+  _lockedSprite = [CCSprite spriteWithImageNamed:[resPrefix stringByAppendingString:@"lockedorb.png"]];
+  [self addChild:_lockedSprite];
+}
+
+- (void) removeLockElements {
+  [_lockedSprite runAction:
+   [CCActionSequence actions:
+    [CCActionFadeOut actionWithDuration:0.2],
+    [CCActionRemove action], nil]];
+}
+
 #pragma mark - Helpers
 
 + (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb {
@@ -160,6 +178,10 @@
   switch (special) {
     case SpecialOrbTypeCake:
       return [resPrefix stringByAppendingString:@"cakeorb.png"];
+      break;
+      
+    case SpecialOrbTypeCloud:
+      return [resPrefix stringByAppendingFormat:@"cloud%d.png", (int)orb.cloudCounter];
       break;
     
     case SpecialOrbTypeBomb:

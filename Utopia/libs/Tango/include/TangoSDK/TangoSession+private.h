@@ -30,6 +30,19 @@ typedef enum {
 */
 typedef void (^SDKResponseHandler)(NSString* result, NSError* error);
 
+/// Internal convenience function to check validity of the SDK session.
+extern BOOL CheckSdkSessionReady(SDKResponseHandler handler, const char *func_name);
+
+/// Internal convenience function to create a tango_sdk::session suitable context pointer
+/// from an Objective-C callback block.
+extern void * SdkHandlerToContext(SDKResponseHandler handler);
+
+/// Call an SDK handler that was wrapped into an SDK context pointer, returning ownership of the
+/// block to ARC.
+extern void CallSdkHandlerFromContext(void *context, NSString *json, NSError *error);
+
+/// Return an autoreleased NSError with the matching error code.
+extern NSError * SdkError(ErrorCode code);
 
 @interface TangoSession()
 /* Tango Session State */

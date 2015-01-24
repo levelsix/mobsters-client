@@ -74,7 +74,7 @@
 
 - (void) setDialogueLabelText:(NSString *)text {
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:1.2];
+  [paragraphStyle setLineSpacing:2.6];
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
   [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
@@ -96,6 +96,12 @@
       [self animateBubbleOutCompletion:^{
         if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
+        }
+        
+        if (![oldSS.speakerImage isEqualToString:curSS.speakerImage]) {
+          NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
+          UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
+          [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
         }
         
         self.speakerLabel.text = curSS.speaker;

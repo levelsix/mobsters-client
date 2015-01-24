@@ -41,9 +41,10 @@
 - (id) initWithContentSize:(CGSize)contentSize layout:(BattleOrbLayout *)layout;
 
 - (OrbSprite*) createOrbSpriteForOrb:(BattleOrb *)orb;
-- (void)addSpritesForOrbs:(NSSet *)orbs;
+- (void) addSpritesForOrbs:(NSSet *)orbs;
 - (OrbSprite*) spriteForOrb:(BattleOrb*)orb;
-- (void)removeAllOrbSprites;
+- (void) removeAllOrbSprites;
+- (void) destroyLock:(BattleOrb *)orb;
 
 - (BOOL) isTrackingTouch;
 - (CCColor *) colorForSparkle:(OrbColor)color;
@@ -54,7 +55,7 @@
 - (void)animateSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion;
 - (void)animateInvalidSwap:(BattleSwap *)swap completion:(dispatch_block_t)completion;
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion;
-- (void)animateFallingOrbs:(NSArray *)fallingOrbColumns newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion;
+- (void)animateFallingOrbs:(NSArray *)orbPaths newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion;
 - (void)animateShuffle:(NSSet *)orbs completion:(dispatch_block_t)completion;
 
 // Pulsing
@@ -62,7 +63,7 @@
 - (void) stopValidMovePulsing;
 
 // For the category
-- (void) destroyOrb:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup;
+- (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup;
 - (void) animateChainedChainsFromBattleOrb:(BattleOrb *)orb chains:(NSSet *)chains;
 - (void) checkIfAllOrbsAndPowerupsAreDone;
 

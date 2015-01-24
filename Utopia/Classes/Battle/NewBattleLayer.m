@@ -136,13 +136,23 @@
 #pragma mark - Setup
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
-  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1"];
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1" layoutProto:nil];
 }
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix {
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix layoutProto:nil];
+}
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
-    _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    
+    if (layoutProto) {
+      _layoutProto = layoutProto;
+      _gridSize = CGSizeMake(layoutProto.width, layoutProto.height);
+    } else {
+      _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    }
     
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonster *um in monsters) {
@@ -200,7 +210,14 @@
 }
 
 - (void) initOrbLayer {
-  OrbMainLayer *ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  OrbMainLayer *ol;
+  
+  if (_layoutProto) {
+    ol = [[OrbMainLayer alloc] initWithLayoutProto:_layoutProto];
+  } else {
+    ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  }
+  
   [self addChild:ol z:2];
   ol.delegate = self;
   self.orbLayer = ol;
@@ -212,7 +229,7 @@
   [self begin];
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbLayer.bgdLayer addChild:clip z:self.orbLayer.swipeLayer.zOrder];
+  [self.orbLayer.bgdLayer addChild:clip z:100];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
   clip.position = ccp(self.orbLayer.swipeLayer.position.x+self.orbLayer.swipeLayer.contentSize.width, 54);
@@ -249,6 +266,10 @@
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
+#ifdef DEBUG_BATTLE_MODE
+  playerFirst = YES;
+#endif
+
   if (self.myPlayerObject && self.enemyPlayerObject) {
     ScheduleFirstTurn order;
     if(swap) {
@@ -394,7 +415,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
   CGPoint finalPos = player.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-  float startX = -player.contentSize.width;
+  float startX = -player.contentSize.width-MY_PLAYER_LOCATION.x+finalPos.x;
   float xDelta = finalPos.x-startX;
   CGPoint newPos = ccp(startX, finalPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
   
@@ -418,7 +439,10 @@
        }
        
        [player stopWalking];
-       [self performSelector:selector withObject:player];
+       
+       if (selector) {
+         [self performSelector:selector withObject:player];
+       }
      }],
     nil]];
 }
@@ -937,7 +961,7 @@
     CGPoint pos = defSpr.position;
     int val = 40*(enemyIsAttacker ? 1 : -1);
     pos = ccpAdd(pos, ccp(val, 15));
-    [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+    //[self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
   }
   
   def.curHealth = newHealth;
@@ -1485,7 +1509,7 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.4f+xScale/600.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
@@ -1762,7 +1786,7 @@
     }
   }
   
-  // Update tile
+  // Update all tiles
   [tile orbRemoved];
   [self.orbLayer.bgdLayer updateTile:tile];
   

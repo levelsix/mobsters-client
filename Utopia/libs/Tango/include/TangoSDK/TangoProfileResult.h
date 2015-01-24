@@ -33,7 +33,11 @@
 - (TangoProfileEntry *)objectAtIndex: (NSUInteger) index;
 
 /// Retrieve the number of profile entries in the result.
-@property(readonly) NSUInteger count;
+@property(nonatomic, readonly) NSUInteger count;
+
+/// The set of Tango profiles for which the user has a recent 1-on-1
+/// conversation.
+@property(nonatomic, readonly) NSArray *profilesWithRecentConversations;
 
 @end
 

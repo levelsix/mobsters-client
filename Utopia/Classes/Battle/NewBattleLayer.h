@@ -26,7 +26,12 @@
 #define HEALTH_BAR_SPEED 40
 #define MY_WALKING_SPEED 250.f
 
+#ifdef DEBUG_BATTLE_MODE
+#define NUM_MOVES_PER_TURN 50
+#else
+// Don't edit this one
 #define NUM_MOVES_PER_TURN 3
+#endif
 
 #define PULSE_ONCE_THRESH 0.5
 #define PULSE_CONT_THRESH 0.3
@@ -106,6 +111,8 @@
   
   int _enemyCounter;
   
+  BoardLayoutProto *_layoutProto;
+  
   DialogueViewController *_forcedSkillDialogueViewController;
   
   BOOL _dungeonPlayerHitsFirst;
@@ -162,6 +169,7 @@
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize;
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto;
 - (void) initOrbLayer;
 
 - (void) begin;

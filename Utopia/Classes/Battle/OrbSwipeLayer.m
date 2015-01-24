@@ -18,6 +18,9 @@
 
 #import <CCTextureCache.h>
 
+#import "BattleOrbPath.h"
+#import "OrbFallAction.h"
+
 #define ORB_NAME_TAG(d) [NSString stringWithFormat:@"%p", d]
 
 #define ORB_ANIMATION_OFFSET 10
@@ -329,6 +332,30 @@
   }
 }
 
+- (void) destroyLock:(BattleOrb *)orb {
+  
+  OrbSprite *orbLayer = [self spriteForOrb:orb];
+  
+  if (orbLayer) {
+    [orbLayer removeLockElements];
+  }
+}
+
+- (void) performOrbChange:(BattleOrb *)orb chains:(NSSet *)chains fromPowerup:(PowerupType)powerup {
+  OrbSprite *orbSprite = [self spriteForOrb:orb];
+  
+  if (orb.changeType == OrbChangeTypeDestroyed) {
+    [self destroyOrb:orb chains:chains fromPowerup:powerup];
+  } else if (orb.changeType == OrbChangeTypeLockRemoved) {
+    [self destroyLock:orb];
+  } else if (orb.changeType == OrbChangeTypeCloudDecremented) {
+    [orbSprite reloadSprite:YES];
+  }
+  
+  // Set orb sprite's change type to none so it doesnt happen again
+  orb.changeType = OrbChangeTypeNone;
+}
+
 - (void)animateMatchedOrbs:(NSSet *)chains powerupCreations:(NSSet *)powerupCreations completion:(dispatch_block_t)completion {
   float duration = 0.2;
   
@@ -338,7 +365,7 @@
       for (BattleOrb *orb in chain.orbs) {
         OrbSprite *orbLayer = [self spriteForOrb:orb];
         if (orbLayer != nil) {
-          [self destroyOrb:orb chains:chains fromPowerup:PowerupTypeNone];
+          [self performOrbChange:orb chains:chains fromPowerup:PowerupTypeNone];
         }
       }
       
@@ -386,6 +413,17 @@
         [self spawnDoubleRainbowWithChain:chain otherChains:chains];
       }
       
+      else if (chain.chainType == ChainTypeAdjacent) {
+        for (BattleOrb *orb in chain.orbs) {
+          OrbSprite *orbLayer = [self spriteForOrb:orb];
+          if (orbLayer != nil) {
+            [self performOrbChange:orb chains:chains fromPowerup:PowerupTypeNone];
+            
+            [self checkIfAllOrbsAndPowerupsAreDone];
+          }
+        }
+      }
+      
       // Tell the delegate that a chain fired
       if (self.chainFiredHandler) {
         self.chainFiredHandler(chain);
@@ -395,6 +433,7 @@
 }
 
 - (void) checkIfAllOrbsAndPowerupsAreDone {
+  //NSLog(@"%d, %d", _numOrbsStillAnimating, _numPowerupsStillAnimating);
   if (_numOrbsStillAnimating == 0 && _numPowerupsStillAnimating == 0) {
     if (_matchesCompletionBlock) {
       _matchesCompletionBlock();
@@ -405,61 +444,58 @@
 
 #pragma mark -
 
-- (void)animateFallingOrbs:(NSArray *)fallingOrbColumns newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion {
+- (void)animateFallingOrbs:(NSArray *)orbPaths newOrbs:(NSArray *)newOrbColumns bottomFeeders:(NSSet *)bottomFeeders completion:(dispatch_block_t)completion {
   NSTimeInterval longestDuration = 0;
   
   // First, place the new orbs above the board
   for (NSArray *array in newOrbColumns) {
     for (int i = 0; i < array.count; i++) {
       BattleOrb *orb = array[i];
-      OrbSprite *orbLayer = [self createOrbSpriteForOrb:orb];
+      [self createOrbSpriteForOrb:orb];
       
-      // Orbs are given in top down order so we must subtract i from count
-      orbLayer.position = [self pointForColumn:orb.column row:_numRows+i];
+//      BattleOrbPath *orbPath = [_layout orbPathForOrb:orb withOrbPaths:orbPaths];
+//      CGPoint pt = [[orbPath.path firstObject] CGPointValue];
+//      [orbPath.path replaceObjectAtIndex:0 withObject:[NSValue valueWithCGPoint:ccp(pt.x, pt.y+1)]];
+      
+      // commenting out.. delay should be adjusted by the orb layout
+//      int delay = 0;
+//      for (int j = 0; j < i; j++) {
+//        BattleOrb *temp = array[j];
+//        BattleOrbPath *path = [_layout orbPathForOrb:temp withOrbPaths:orbPaths];
+//        
+//        for (NSValue *val in path.path) {
+//          if ([val CGPointValue].y == pt.y+1) {
+//            delay++;
+//          }
+//        }
+//      }
+//      
+//      if (delay > 0) {
+//        [orbPath.path insertObject:[NSNumber numberWithInt:delay] atIndex:0];
+//      }
     }
   }
   
-  // Now, consolidate newOrbs and fallingOrbs and run same animations
-  NSMutableArray *allOrbs = [NSMutableArray array];
-  for (NSArray *arr in @[fallingOrbColumns, newOrbColumns]) {
-    for (NSArray *subarr in arr) {
-      for (BattleOrb *orb in subarr) {
-        [allOrbs addObject:orb];
-      }
-    }
-  }
-  
-  for (BattleOrb *orb in allOrbs) {
-    if (![bottomFeeders containsObject:orb]) {
-      OrbSprite *orbLayer = [self spriteForOrb:orb];
-      CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
-      
-      int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
-      float duration = 0.4+0.1*numSquares;
-      CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-      [orbLayer runAction:[CCActionEaseBounceOut actionWithAction:moveTo]];
-      
-      longestDuration = MAX(longestDuration, duration);
-    }
-  }
-  
-  // Make the bottomFeeders just go to the bottom
-  for (BattleOrb *orb in bottomFeeders) {
+  for (BattleOrbPath *orbPath in orbPaths) {
+    BattleOrb *orb = orbPath.orb;
     OrbSprite *orbLayer = [self spriteForOrb:orb];
-    CGPoint newPosition = [self pointForColumn:orb.column row:orb.row];
     
-    int numSquares = (orbLayer.position.y - newPosition.y) / _tileHeight;
-    float duration = 0.05+0.05*numSquares;
-    CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:duration position:newPosition];
-    [orbLayer runAction:
-     [CCActionSequence actions:
-      [CCActionEaseSineOut actionWithAction:moveTo],
-      [CCActionCallBlock actionWithBlock:
-       ^{
-         [self destroyOrb:orb chains:nil fromPowerup:PowerupTypeNone];
-       }], nil]];
+    CCActionInterval *action;
     
-    longestDuration = MAX(longestDuration, duration);
+    if (![bottomFeeders containsObject:orb]) {
+      action = [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self];
+    } else {
+      action =
+       [CCActionSequence actions:
+        [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self],
+        [CCActionCallBlock actionWithBlock:
+         ^{
+           [self performOrbChange:orb chains:nil fromPowerup:PowerupTypeNone];
+         }], nil];
+    }
+    
+    [orbLayer runAction:action];
+    longestDuration = MAX(longestDuration, action.duration);
   }
   
   // Wait until all the orbs have fallen down before we continue.
@@ -527,7 +563,7 @@
         [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
       [CCActionDelay actionWithDuration:delay], nil]];
     action.tag = PULSING_ANIMATION_TAG;
-    [orbLayer runAction:action];
+    [orbLayer.orbSprite runAction:action];
     
     [spr runAction:
      [CCActionRepeatForever actionWithAction:
@@ -542,12 +578,14 @@
 
 - (void) stopValidMovePulsing {
   // Stop the pulsing gems
-  for (CCNode *node in self.children) {
-    [node stopActionByTag:PULSING_ANIMATION_TAG];
-    node.scale = 1.f;
-    
-    CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
-    [n removeFromParent];
+  for (OrbSprite *node in self.children) {
+    if ([node isKindOfClass:[OrbSprite class]]) {
+      [node.orbSprite stopActionByTag:PULSING_ANIMATION_TAG];
+      node.orbSprite.scale = 1.f;
+      
+      CCNode *n = [node getChildByName:@"Overlay" recursively:YES];
+      [n removeFromParent];
+    }
   }
   _isPulsing = NO;
 }
