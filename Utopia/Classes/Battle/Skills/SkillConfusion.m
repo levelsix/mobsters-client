@@ -29,9 +29,6 @@
   
   if ([property isEqualToString:@"CHANCE_TO_HIT_SELF"])
     _chanceToHitSelf = value;
-  
-  // DEBUG
-  _chanceToHitSelf = 1.f;
 }
 
 #pragma mark - Overrides
