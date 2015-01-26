@@ -211,22 +211,22 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (BOOL) hasAchievementType;
 - (AchievementProto_AchievementType) achievementType;
 - (AchievementProto_Builder*) setAchievementType:(AchievementProto_AchievementType) value;
-- (AchievementProto_Builder*) clearAchievementTypeList;
+- (AchievementProto_Builder*) clearAchievementType;
 
 - (BOOL) hasResourceType;
 - (ResourceType) resourceType;
 - (AchievementProto_Builder*) setResourceType:(ResourceType) value;
-- (AchievementProto_Builder*) clearResourceTypeList;
+- (AchievementProto_Builder*) clearResourceType;
 
 - (BOOL) hasElement;
 - (Element) element;
 - (AchievementProto_Builder*) setElement:(Element) value;
-- (AchievementProto_Builder*) clearElementList;
+- (AchievementProto_Builder*) clearElement;
 
 - (BOOL) hasQuality;
 - (Quality) quality;
 - (AchievementProto_Builder*) setQuality:(Quality) value;
-- (AchievementProto_Builder*) clearQualityList;
+- (AchievementProto_Builder*) clearQuality;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;

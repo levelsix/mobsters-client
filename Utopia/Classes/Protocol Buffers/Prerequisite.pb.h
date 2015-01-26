@@ -97,7 +97,7 @@
 - (BOOL) hasGameType;
 - (GameType) gameType;
 - (PrereqProto_Builder*) setGameType:(GameType) value;
-- (PrereqProto_Builder*) clearGameTypeList;
+- (PrereqProto_Builder*) clearGameType;
 
 - (BOOL) hasGameEntityId;
 - (int32_t) gameEntityId;
@@ -107,7 +107,7 @@
 - (BOOL) hasPrereqGameType;
 - (GameType) prereqGameType;
 - (PrereqProto_Builder*) setPrereqGameType:(GameType) value;
-- (PrereqProto_Builder*) clearPrereqGameTypeList;
+- (PrereqProto_Builder*) clearPrereqGameType;
 
 - (BOOL) hasPrereqGameEntityId;
 - (int32_t) prereqGameEntityId;
