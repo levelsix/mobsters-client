@@ -43,6 +43,11 @@
   
   if (_buttonText) {
     self.buttonLabel.text = _buttonText;
+    self.buttonLabel.strokeColor = [UIColor colorWithRed:52/255.f green:108/255.f blue:4/255.f alpha:1.f];
+    self.buttonLabel.shadowBlur = 0.9f;
+    self.buttonLabel.strokeSize = 1.f;
+    self.buttonLabel.gradientEndColor = [UIColor colorWithRed:1.f green:1.f blue:215/255.f alpha:1.f];
+    self.buttonLabel.gradientStartColor = [UIColor whiteColor];
     
     [self.speechBubble addSubview:self.buttonView];
     self.buttonView.center = ccp(self.speakerLabel.superview.center.x, self.speechBubble.frame.size.height-2);

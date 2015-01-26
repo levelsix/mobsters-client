@@ -120,8 +120,6 @@
 - (AnimatedSprite *) guideSprite {
   if (!_guideSprite) {
     self.guideSprite = [self createSpriteWithId:self.constants.guideMonsterId];
-    self.guideSprite.sprite.scale = 1.12;
-    self.guideSprite.sprite.position = ccpAdd(self.guideSprite.sprite.position, ccp(0, 2));
   }
   return _guideSprite;
 }
@@ -136,7 +134,6 @@
 - (AnimatedSprite *) enemy1Sprite {
   if (!_enemy1Sprite) {
     self.enemy1Sprite = [self createSpriteWithId:self.constants.enemyMonsterId];
-    self.enemy1Sprite.sprite.scale = 0.95;
   }
   return _enemy1Sprite;
 }

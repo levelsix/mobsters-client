@@ -7,26 +7,26 @@
             <key>TribalGirl1T1AttackN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{52,98}}</string>
+                <string>{{2,2},{58,128}}</string>
                 <key>offset</key>
-                <string>{6,-17}</string>
+                <string>{9,-26}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{105,93},{52,98}}</string>
+                <string>{{105,87},{58,128}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
             <key>TribalGirl1T1StayN00.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,102},{50,102}}</string>
+                <string>{{2,132},{56,134}}</string>
                 <key>offset</key>
-                <string>{5,-15}</string>
+                <string>{8,-23}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{105,89},{50,102}}</string>
+                <string>{{105,81},{56,134}}</string>
                 <key>sourceSize</key>
                 <string>{250,250}</string>
             </dict>
@@ -38,9 +38,9 @@
             <key>realTextureFileName</key>
             <string>TribalGirl1T1AttackNF@2x.pvr.ccz</string>
             <key>size</key>
-            <string>{56,206}</string>
+            <string>{62,268}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:339e9eaa3adfc9d5ba6cbd56dc25e303:94dbcdefc0b36290d210427bf7375459:9a22a6fc72873e08ad19f39e004c5f63$</string>
+            <string>$TexturePacker:SmartUpdate:7ee81ead001a552bd98e41267f6ccfb9:f9a4a05e89512c47192776a5d6661849:9a22a6fc72873e08ad19f39e004c5f63$</string>
             <key>textureFileName</key>
             <string>TribalGirl1T1AttackNF@2x.pvr.ccz</string>
         </dict>
