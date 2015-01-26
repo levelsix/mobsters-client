@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 
+#import "NibUtils.h"
+
 @class DialogueViewController;
 
 @protocol DialogueViewControllerDelegate <NSObject>
@@ -39,7 +41,7 @@
 @property (nonatomic, retain) IBOutlet UIView *bottomGradient;
 
 @property (nonatomic, retain) IBOutlet UIView *buttonView;
-@property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
+@property (nonatomic, retain) IBOutlet THLabel *buttonLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *fbButtonView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *fbButtonSpinner;

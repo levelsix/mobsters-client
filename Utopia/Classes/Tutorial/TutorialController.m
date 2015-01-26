@@ -204,8 +204,8 @@
   
 #ifdef DEBUG
   [self initHomeMap];
-  [self beginGuideGreetingPhase];
-  //[self beginEnterBattlePhase];
+  //[self beginGuideGreetingPhase];
+  [self beginEnterBattlePhase];
   //[self beginPostBattleConfrontation];
   //[self initTopBar];
   //[self beginFacebookLoginPhase];

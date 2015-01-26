@@ -86,12 +86,12 @@
       NSString *description;
       
       if(messages.count >= 3) {
-        description = [NSString stringWithFormat:@"You have new messages from %@, %@, and %lu other.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name, messages.count-2];
+        description = [NSString stringWithFormat:@"You have new messages from %@, %@, and %d other.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name, (int)messages.count-2];
       } else {
         description = [NSString stringWithFormat:@"You have new messages from %@ and %@.", [(ChatMessage *)messages[0] sender].name, [(ChatMessage *)messages[1] sender].name];
       }
       
-      NSString *title = [NSString stringWithFormat:@"%lu New Messages", allMessages.count];
+      NSString *title = [NSString stringWithFormat:@"%d New Messages", (int)allMessages.count];
       [self.notificationView updateWithString:title description:description];
       
       int numAvatars = 0;
