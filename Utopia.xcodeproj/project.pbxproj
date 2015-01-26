@@ -1062,6 +1062,18 @@
 		9B0E6E411A73374400118210 /* powermovelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */; };
 		9B0E6E421A73374700118210 /* badjujulogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */; };
 		9B0E6E431A73374700118210 /* badjujulogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */; };
+		9B0E6E4A1A76D7A500118210 /* SkillStaticField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E491A76D7A500118210 /* SkillStaticField.m */; };
+		9B0E6E4B1A76D7A500118210 /* SkillStaticField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E491A76D7A500118210 /* SkillStaticField.m */; };
+		9B0E6E4C1A76D7A500118210 /* SkillStaticField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E491A76D7A500118210 /* SkillStaticField.m */; };
+		9B0E6E501A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */; };
+		9B0E6E511A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */; };
+		9B0E6E521A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */; };
+		9B0E6E541A76EDE500118210 /* staticfieldlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */; };
+		9B0E6E551A76EDE500118210 /* staticfieldlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */; };
+		9B0E6E561A76EDE500118210 /* staticfieldlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */; };
+		9B0E6E581A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
+		9B0E6E591A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
+		9B0E6E5A1A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
 		9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C41A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C51A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
@@ -7719,6 +7731,11 @@
 		9B0E6E251A73373100118210 /* powermoveminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powermoveminilogo@2x.png"; sourceTree = "<group>"; };
 		9B0E6E271A73373100118210 /* LifeSteal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LifeSteal.plist; sourceTree = "<group>"; };
 		9B0E6E281A73373100118210 /* poisonminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonminilogo@2x.png"; sourceTree = "<group>"; };
+		9B0E6E481A76D7A500118210 /* SkillStaticField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillStaticField.h; sourceTree = "<group>"; };
+		9B0E6E491A76D7A500118210 /* SkillStaticField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillStaticField.m; sourceTree = "<group>"; };
+		9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldminilogo@2x.png"; sourceTree = "<group>"; };
+		9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldlogo@2x.png"; sourceTree = "<group>"; };
+		9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldicon@2x.png"; sourceTree = "<group>"; };
 		9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemssidearrow@2x.png"; sourceTree = "<group>"; };
 		9B2389C61A3004AC00FA3743 /* itemssidearrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = itemssidearrow.png; path = Items/itemssidearrow.png; sourceTree = "<group>"; };
 		9B2389C71A310BAC00FA3743 /* nextmatchmask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextmatchmask@2x.png"; sourceTree = "<group>"; };
@@ -12748,6 +12765,7 @@
 				9B8CA6301A37DD2F0060BE8F /* momentumicon@2x.png */,
 				DA5E401B19D10504001F28CE /* roidrageicon@2x.png */,
 				9BDA8B571A3A4D0600C7AC27 /* shuffleicon@2x.png */,
+				9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */,
 				9B2389EE1A32548A00FA3743 /* thickskinicon@2x.png */,
 			);
 			path = "Skill Icons";
@@ -12866,6 +12884,14 @@
 				9B0E6E281A73373100118210 /* poisonminilogo@2x.png */,
 			);
 			path = "Life Steal";
+			sourceTree = "<group>";
+		};
+		9B0E6E4E1A76ED2600118210 /* Static Field */ = {
+			isa = PBXGroup;
+			children = (
+				9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */,
+			);
+			path = "Static Field";
 			sourceTree = "<group>";
 		};
 		9B2389E21A32540800FA3743 /* Thick Skin */ = {
@@ -17462,6 +17488,7 @@
 				9B0E6E261A73373100118210 /* Life Steal */,
 				9B0E6E231A73373100118210 /* Flame Strike */,
 				9B0E6E1F1A73373100118210 /* Confusion */,
+				9B0E6E4E1A76ED2600118210 /* Static Field */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -17560,6 +17587,8 @@
 				6BA24DF21A7A9ECF00BEF920 /* SkillBloodRage.m */,
 				6BA24E061A7AEA6100BEF920 /* SkillTakeAim.h */,
 				6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */,
+				9B0E6E481A76D7A500118210 /* SkillStaticField.h */,
+				9B0E6E491A76D7A500118210 /* SkillStaticField.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -17638,6 +17667,7 @@
 				DA5E400F19D104FC001F28CE /* momentumlogo@2x.png */,
 				DA5E401119D104FC001F28CE /* roidragelogo@2x.png */,
 				9BDA8B521A3A4CDC00C7AC27 /* shufflelogo@2x.png */,
+				9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */,
 				9B2389EA1A32543600FA3743 /* thickskinlogo@2x.png */,
 			);
 			path = "Skill Intro";
@@ -18302,6 +18332,7 @@
 				CF0CF0CE196F452900ECD301 /* Scientist5Turn03@2x.png in Resources */,
 				299AA4E01A7872C300A2D806 /* lightorb@2x.png in Resources */,
 				CFF2A5ED19709C4800269084 /* MenuMPMT1@2x.png in Resources */,
+				9B0E6E551A76EDE500118210 /* staticfieldlogo@2x.png in Resources */,
 				CFA8B22C19F4D1EB00CF6BFD /* 2scene@2x.png in Resources */,
 				DA173A6119CBAF00005236C0 /* shieldfont@2x.png in Resources */,
 				CF0CF0D2196F452900ECD301 /* purplemenuoption@2x.png in Resources */,
@@ -18825,6 +18856,7 @@
 				CFA728CA1A0B037900FF6031 /* watereventbigbgcap@2x.png in Resources */,
 				CF0CF36D196F452900ECD301 /* slotsgemsbutton@2x.png in Resources */,
 				CF0CF36E196F452900ECD301 /* friendfacecircle@2x.png in Resources */,
+				9B0E6E511A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */,
 				CF0CF36F196F452900ECD301 /* connect@2x.png in Resources */,
 				299AA4291A786BB000A2D806 /* rockbomb-9@2x.png in Resources */,
 				CF0CF370196F452900ECD301 /* Scientist4Breath08@2x.png in Resources */,
@@ -19067,6 +19099,7 @@
 				CF0CF488196F452900ECD301 /* questnameribbon@2x.png in Resources */,
 				299AA5071A7872C300A2D806 /* watersideways@2x.png in Resources */,
 				CF0CF489196F452900ECD301 /* FatBoy4Move00@2x.png in Resources */,
+				9B0E6E591A76EE2100118210 /* staticfieldicon@2x.png in Resources */,
 				CF0CF48A196F452900ECD301 /* 3splashbg@2x.png in Resources */,
 				CF0CF48B196F452900ECD301 /* Scientist2Blink07@2x.png in Resources */,
 				299AA4201A786BB000A2D806 /* firebomb-9@2x.png in Resources */,
@@ -20150,6 +20183,7 @@
 				3E72FC791A69A15E00CC04E8 /* maptaskdonebg@2x.png in Resources */,
 				299AA3031A7856AA00A2D806 /* 6cloud1-9@2x.png in Resources */,
 				CFF646E1195CF9A000C43641 /* HealQueueFooterView.xib in Resources */,
+				9B0E6E501A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */,
 				CF4DB8F51807DA1F00062258 /* UpgradeViewController.xib in Resources */,
 				CF9F994A19E48734006B0119 /* helpredbubble6@2x.png in Resources */,
 				CFF2C922193FD4C000F28D9E /* chatactivemiddle@2x.png in Resources */,
@@ -20210,6 +20244,7 @@
 				CFFBDFA018ACA3D90090CA9A /* Scientist3Turn06@2x.png in Resources */,
 				CFA8B1B619EBACE100CF6BFD /* bluewhite@2x.png in Resources */,
 				CFA728B11A0B037900FF6031 /* lighteventbigbgcap@2x.png in Resources */,
+				9B0E6E541A76EDE500118210 /* staticfieldlogo@2x.png in Resources */,
 				CFC4D2A418D7BD04004681FD /* sfx_damage_click_lp.mp3 in Resources */,
 				CFF2A6261970C81200269084 /* battledonegrey@2x.png in Resources */,
 				299AA33F1A7856AA00A2D806 /* 6lightupdown-9@2x.png in Resources */,
@@ -21192,6 +21227,7 @@
 				CFE7CD801819FC3300930847 /* mediumgreenbtn@2x.png in Resources */,
 				CF864DAE193E7C5C00DE0D7A /* bluelightbluedivider@2x.png in Resources */,
 				CFCD0ECD1953F07400EDC233 /* legendband@2x.png in Resources */,
+				9B0E6E581A76EE2100118210 /* staticfieldicon@2x.png in Resources */,
 				CFA728F31A0B037900FF6031 /* fireeventtimer@2x.png in Resources */,
 				CF9520631939690800A98290 /* diamondribbon@2x.png in Resources */,
 				9B2389FD1A363EE800FA3743 /* fireskilldescription@2x.png in Resources */,
@@ -22283,6 +22319,7 @@
 				29AE75801A6F36E000264070 /* Kim1T1P3TutBig@2x.png in Resources */,
 				CF481BFC19F7217F00041486 /* buildinginfo@2x.png in Resources */,
 				9BDA8C251A5DE92500C7AC27 /* gooniegrabmachine@2x.png in Resources */,
+				9B0E6E561A76EDE500118210 /* staticfieldlogo@2x.png in Resources */,
 				CF481BFE19F7217F00041486 /* Scientist3Turn08@2x.png in Resources */,
 				CF481BFF19F7217F00041486 /* healredbubble3@2x.png in Resources */,
 				CF481C0019F7217F00041486 /* earthyourskill@2x.png in Resources */,
@@ -22866,6 +22903,7 @@
 				CFA728401A0AE62A00FF6031 /* buildinggethelpbutton@2x.png in Resources */,
 				CF481F6719F7217F00041486 /* timersbottombg@2x.png in Resources */,
 				9BDA8C211A5DE91900C7AC27 /* gachaswirls@2x.png in Resources */,
+				CF481F6919F7217F00041486 /* firesideways@2x.png in Resources */,
 				CF481F6A19F7217F00041486 /* GachaChooserCardCell.xib in Resources */,
 				CF481F6C19F7217F00041486 /* Scientist4Turn02@2x.png in Resources */,
 				299AA4DB1A7872C300A2D806 /* fireupdown@2x.png in Resources */,
@@ -23343,6 +23381,7 @@
 				CF48221019F7217F00041486 /* Scientist1Turn15@2x.png in Resources */,
 				CF48221119F7217F00041486 /* makeitrain.plist in Resources */,
 				299AA4BD1A7872C300A2D806 /* allcocktail@2x.png in Resources */,
+				9B0E6E5A1A76EE2100118210 /* staticfieldicon@2x.png in Resources */,
 				CF48221219F7217F00041486 /* 5dollar@2x.png in Resources */,
 				9BDA8C291A5DEA9900C7AC27 /* gachabg@2x.png in Resources */,
 				CF48221419F7217F00041486 /* earthsmallsquare@2x.png in Resources */,
@@ -23379,6 +23418,7 @@
 				CF48223D19F7217F00041486 /* speechbubble@2x.png in Resources */,
 				CF48223E19F7217F00041486 /* newnumber@2x.png in Resources */,
 				CF48224019F7217F00041486 /* itemfoundbg@2x.png in Resources */,
+				9B0E6E521A76ED2600118210 /* staticfieldminilogo@2x.png in Resources */,
 				CF48224419F7217F00041486 /* Scientist1Breath09@2x.png in Resources */,
 				CF48224519F7217F00041486 /* commondot@2x.png in Resources */,
 				CF48224719F7217F00041486 /* EasyTableHeaderView.xib in Resources */,
@@ -24207,6 +24247,7 @@
 				6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF0CED36196F452900ECD301 /* main.m in Sources */,
 				CF0CED37196F452900ECD301 /* EventAchievement.pb.m in Sources */,
+				9B0E6E4B1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				CF0CED3B196F452900ECD301 /* ClanInfoViews.m in Sources */,
 				9BDA8BC31A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF0CED3C196F452900ECD301 /* FullUserUpdates.m in Sources */,
@@ -24743,6 +24784,7 @@
 				CF3765AA183175DE00D0A77E /* ChatView.m in Sources */,
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
 				CF74611E19675926002D6AE6 /* TutorialHealViewController.m in Sources */,
+				9B0E6E4A1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				29804FF21A258EC100806253 /* SecretGiftViewController.m in Sources */,
 				CF7CFE2219A55A68009338A2 /* BattleOrb.m in Sources */,
 				CFFF9A1C18BE72910036EEC3 /* ClanRaidBattleLayer.m in Sources */,
@@ -24845,6 +24887,7 @@
 				6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF4818DF19F7217F00041486 /* main.m in Sources */,
 				CF4818E019F7217F00041486 /* EventAchievement.pb.m in Sources */,
+				9B0E6E4C1A76D7A500118210 /* SkillStaticField.m in Sources */,
 				CF4818E119F7217F00041486 /* ClanInfoViews.m in Sources */,
 				9BDA8BC41A40D98F00C7AC27 /* SkillMud.m in Sources */,
 				CF4818E219F7217F00041486 /* FullUserUpdates.m in Sources */,

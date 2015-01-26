@@ -19,19 +19,21 @@ typedef void(^SkillControllerBlock)(BOOL triggered, id params);
 
 // Skill triggers
 typedef enum {
-  SkillTriggerPointEnemyInitialized   = 1,
-  SkillTriggerPointPlayerInitialized  = 2,
-  SkillTriggerPointEnemyAppeared      = 3,  // There's no PlayerAppeared, because player appears when initialized
-  SkillTriggerPointEnemyDefeated      = 4,
-  SkillTriggerPointPlayerMobDefeated  = 5,
-  SkillTriggerPointEndOfPlayerMove    = 6,
-  SkillTriggerPointStartOfPlayerTurn  = 7,
-  SkillTriggerPointStartOfEnemyTurn   = 8,
-  SkillTriggerPointEnemyDealsDamage   = 9,
-  SkillTriggerPointPlayerDealsDamage  = 10,
-  SkillTriggerPointManualActivation   = 11,
-  SkillTriggerPointEndOfPlayerTurn    = 12,
-  SkillTriggerPointEndOfEnemyTurn     = 13
+  SkillTriggerPointEnemyInitialized     = 1,
+  SkillTriggerPointPlayerInitialized    = 2,
+  SkillTriggerPointEnemyAppeared        = 3,  // There's no PlayerAppeared, because player appears when initialized
+  SkillTriggerPointEnemyDefeated        = 4,
+  SkillTriggerPointPlayerMobDefeated    = 5,
+  SkillTriggerPointEndOfPlayerMove      = 6,
+  SkillTriggerPointStartOfPlayerTurn    = 7,
+  SkillTriggerPointStartOfEnemyTurn     = 8,
+  SkillTriggerPointEnemyDealsDamage     = 9,
+  SkillTriggerPointPlayerDealsDamage    = 10,
+  SkillTriggerPointManualActivation     = 11,
+  SkillTriggerPointEndOfPlayerTurn      = 12,
+  SkillTriggerPointEndOfEnemyTurn       = 13,
+  SkillTriggerPointEnemySkillActivated  = 14, // Active (orb activated) skills only
+  SkillTriggerPointPlayerSkillActivated = 15  // Active (orb activated) skills only
   
 } SkillTriggerPoint;
 
@@ -90,6 +92,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 // To be overriden by specific skills
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute;
 - (void) skillTriggerFinished;
+- (void) skillTriggerFinished:(BOOL)skillActivated;
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
 - (BOOL) shouldSpawnRibbon;

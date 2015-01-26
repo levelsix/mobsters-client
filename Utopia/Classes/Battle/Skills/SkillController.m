@@ -8,6 +8,7 @@
 #import "NewBattleLayer.h"
 #import "GameViewController.h"
 #import "GameState.h"
+#import "SkillManager.h"
 #import "SkillQuickAttack.h"
 #import "SkillJelly.h"
 #import "SkillCakeDrop.h"
@@ -30,6 +31,7 @@
 #import "SkillHammerTime.h"
 #import "SkillBloodRage.h"
 #import "SkillTakeAim.h"
+#import "SkillStaticField.h"
 
 @implementation SkillController
 
@@ -59,6 +61,7 @@
     case SkillTypeHammerTime: return [[SkillHammerTime alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeBloodRage: return [[SkillBloodRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeTakeAim: return [[SkillTakeAim alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeStaticField: return [[SkillStaticField alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -146,6 +149,11 @@
 
 - (void) skillTriggerFinished
 {
+  [self skillTriggerFinished:NO];
+}
+
+- (void) skillTriggerFinished:(BOOL)skillActivated
+{
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
@@ -157,6 +165,12 @@
   }
   else
     _callbackBlock(YES, _callbackParams);
+  
+  if (skillActivated && [self isKindOfClass:[SkillControllerActive class]])
+  {
+    [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                 withCompletion:^(BOOL triggered, id params) {}];
+  }
 }
 
 - (void) setDefaultValues

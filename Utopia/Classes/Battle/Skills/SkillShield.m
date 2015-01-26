@@ -99,7 +99,7 @@
           
           // Finish skill
           [self resetOrbCounter];
-          [self skillTriggerFinished];
+          [self skillTriggerFinished:YES];
         }];
       }
       return YES;
