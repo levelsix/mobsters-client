@@ -12,14 +12,14 @@
 	<dict>
 		<key>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</key>
 		<string>github.com:alexeyxo/protobuf-objc.git</string>
+		<key>5760176B2E467E57BC1CD53BADD4ACB77D600FEE</key>
+		<string>ssh://github.com/levelsix/iPhoneUtopiaClient.git</string>
 		<key>5D7004AFA0F8477414D2D2070527EE503A955943</key>
 		<string>https://github.com/cocos2d/cocos2d-iphone.git</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
 		<string>https://github.com/slembcke/Chipmunk2D.git</string>
 		<key>D8D0758649B2B09DA86837D71827DEDB21D17D04</key>
 		<string>ssh://github.com/levelsix/mobsters-client.git</string>
-		<key>EEA221C9B6A837D428041D6F289901A649911E43</key>
-		<string>ssh://github.com/levelsix/iPhoneUtopiaClient.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Utopia.xcworkspace</string>
@@ -27,14 +27,14 @@
 	<dict>
 		<key>0188F2A2CDE1E23FB54BA7DEC720DB0076A94A2D</key>
 		<string>../../protobuf-objc</string>
+		<key>5760176B2E467E57BC1CD53BADD4ACB77D600FEE</key>
+		<string>../../Utopia</string>
 		<key>5D7004AFA0F8477414D2D2070527EE503A955943</key>
 		<string>../Utopia/libs/cocos2d-iphone</string>
 		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
 		<string>../Utopia/libs/cocos2d-iphone/external/Chipmunk</string>
 		<key>D8D0758649B2B09DA86837D71827DEDB21D17D04</key>
 		<string>..</string>
-		<key>EEA221C9B6A837D428041D6F289901A649911E43</key>
-		<string>../../Utopia</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/levelsix/mobsters-client.git</string>
@@ -80,7 +80,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>EEA221C9B6A837D428041D6F289901A649911E43</string>
+			<string>5760176B2E467E57BC1CD53BADD4ACB77D600FEE</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Utopia</string>
 		</dict>
