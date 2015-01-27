@@ -349,6 +349,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (PersistentEventProto *) NextEventWithType:(PersistentEventProto_EventType)type {
+  MSDate *now = [MSDate date];
+  MSDate *soonest;
+  PersistentEventProto *nextEvent = nil;
+  for (PersistentEventProto *pe in self.persistentEvents) {
+    //check that the type is right and the start now is sooner than startTime
+    MSDate *startTime = pe.startTime;
+    if (pe.type == type && [now compare:startTime] == NSOrderedAscending) {
+      //if this is the next soonest event save it
+      if ( !soonest || [startTime compare:soonest] == NSOrderedAscending) {
+        soonest = pe.startTime;
+        nextEvent = pe;
+      }
+    }
+  }
+  return nextEvent;
+}
+
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type {
   NSDictionary *dict = [self.battleDialogueInfo objectForKey:@(monsterId)];
   NSArray *dialogues = [dict objectForKey:@(type)];

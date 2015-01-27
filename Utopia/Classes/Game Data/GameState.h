@@ -167,6 +167,7 @@
 - (PvpLeagueProto *) leagueForId:(int)leagueId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
+- (PersistentEventProto *) NextEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 - (BoardLayoutProto *) boardWithId:(int)boardId;
 

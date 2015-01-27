@@ -507,6 +507,9 @@
 		4C16FF1A19CE03AE00F9FC1E /* goosplashicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0419CE03AE00F9FC1E /* goosplashicon@2x.png */; };
 		4C16FF1D19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
 		4C16FF1E19CE03AE00F9FC1E /* poisonicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */; };
+		63135A9A1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
+		63135A9B1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
+		63135A9C1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63135A991A76C97D00CC65D1 /* calcellglow@2x.png */; };
 		631BF3AE1A6DD8000091253B /* PrivateMessageNotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */; };
 		631BF3B31A6DDAEC0091253B /* PrivateMessageNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */; };
 		631BF3B51A6DF0480091253B /* CircleMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631BF3B41A6DF0480091253B /* CircleMonsterView.xib */; };
@@ -7190,6 +7193,7 @@
 		4C16FF0519CE03AE00F9FC1E /* poisonicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poisonicon.png; path = "Skills Images/Skill Icons/poisonicon.png"; sourceTree = "<group>"; };
 		4C16FF0619CE03AE00F9FC1E /* poisonicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poisonicon@2x.png"; sourceTree = "<group>"; };
 		5FB7F2BC73293F6A4DC1C816 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		63135A991A76C97D00CC65D1 /* calcellglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calcellglow@2x.png"; sourceTree = "<group>"; };
 		631BF3AD1A6DD8000091253B /* PrivateMessageNotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateMessageNotificationView.xib; sourceTree = "<group>"; };
 		631BF3B11A6DDAEC0091253B /* PrivateMessageNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageNotificationViewController.h; sourceTree = "<group>"; };
 		631BF3B21A6DDAEC0091253B /* PrivateMessageNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageNotificationViewController.m; sourceTree = "<group>"; };
@@ -12215,6 +12219,7 @@
 		63BACAE41A71B7C2000A641A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				63135A991A76C97D00CC65D1 /* calcellglow@2x.png */,
 				638C876F1A7340F80094C396 /* viewschedulepressed@2x.png */,
 				638C876B1A733E850094C396 /* viewschedule@2x.png */,
 				63BACAE51A71B7C2000A641A /* Cal BGs */,
@@ -14905,8 +14910,8 @@
 			isa = PBXGroup;
 			children = (
 				CFA7294D1A0B2A3500FF6031 /* DailyEventViewController.h */,
-				CFA7294E1A0B2A3500FF6031 /* DailyEventViewController.m */,
 				CFA7294F1A0B2A3500FF6031 /* DailyEventViewController.xib */,
+				CFA7294E1A0B2A3500FF6031 /* DailyEventViewController.m */,
 				63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */,
 				63BACAE11A71A816000A641A /* DailyEventScheduleViewController.h */,
 				63BACAE21A71A816000A641A /* DailyEventScheduleViewController.m */,
@@ -18050,6 +18055,7 @@
 				CF0CF278196F452900ECD301 /* sfx_tap_on_building.mp3 in Resources */,
 				CF4F780C19B950FC001B7B7C /* instantcap@2x.png in Resources */,
 				CF0CDEA419E5050E006A5ECB /* toplongbar@2x.png in Resources */,
+				63135A9B1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */,
 				CF0CF27F196F452900ECD301 /* casegems@2x.png in Resources */,
 				CF0CF280196F452900ECD301 /* arrowup@2x.png in Resources */,
 				CF0CF281196F452900ECD301 /* whitebackbutton@2x.png in Resources */,
@@ -19758,6 +19764,7 @@
 				CFE7CDA41819FC3300930847 /* nightbar@2x.png in Resources */,
 				CFF412A719BFC261002672D4 /* QuestCompleteLayer.ccbi in Resources */,
 				CF6574EA1909CEBC00ABF1F4 /* AchievementsViewController.xib in Resources */,
+				63135A9A1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */,
 				CFCD0EEB1953F07400EDC233 /* lightsmallsquare@2x.png in Resources */,
 				CF134A8C18A5E4B500D7D700 /* FatBoy5Move09@2x.png in Resources */,
 				CFC97163182C5A8400FF1D83 /* orbball.png in Resources */,
@@ -22599,6 +22606,7 @@
 				CF48227019F7217F00041486 /* MPMT1@2x.pvr.ccz in Resources */,
 				CF48227319F7217F00041486 /* Scientist4Blink03@2x.png in Resources */,
 				2985E5FE1A330DB00041ABF4 /* greenchatcorner@2x.png in Resources */,
+				63135A9C1A76C97D00CC65D1 /* calcellglow@2x.png in Resources */,
 				CF48227419F7217F00041486 /* earthfeederevent@2x.png in Resources */,
 				CF48227519F7217F00041486 /* FatBoy2Move07@2x.png in Resources */,
 				CF48227619F7217F00041486 /* Scientist3Blink07@2x.png in Resources */,

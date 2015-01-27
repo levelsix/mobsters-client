@@ -18,6 +18,8 @@
 @interface DailyEventViewController : PopupSubViewController {
   PersistentEventProto_EventType _eventType;
   
+  PersistentEventProto *_nextEvent;
+  
   BOOL _buttonClicked;
   
   float _initCharCenterX;
@@ -43,6 +45,10 @@
 @property (nonatomic, retain) IBOutlet UIView *cooldownView;
 
 @property (nonatomic, assign) int persistentEventId;
+
+@property (nonatomic, retain) IBOutlet UIView *secondaryButtonView;
+@property (nonatomic, retain) IBOutlet UIView *defaultButtonView;
+@property (nonatomic, retain) IBOutlet THLabel *timeLabelB;
 
 - (void) updateForEvo;
 - (void) updateForEnhance;

@@ -44,9 +44,23 @@
 
 @implementation EventScheduleDayView
 
-- (void) initWithEvent:(PersistentEventProto*)event {
-  MSDate *date = [MSDate date];
+- (void) initWithEventList:(NSArray *)eventList {
+  //timers are hidden unless there are multiple events in the day
+  self.detailA.hidden = YES;
+  self.detailB.hidden = YES;
+  self.detailC.hidden = YES;
+  self.detailD.hidden = YES;
+  
+  //calender for all the time calculations
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  
+  
+  
+  //assuming that these is at least a single event active or otherwise
+  //the first event is just used to initialize the visuals
+  PersistentEventProto *event = eventList[0];
+  
+  MSDate *date = [MSDate date];
   
   //get the current weekday
   NSDateComponents *weekComps = [gregorian components:NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date.relativeNSDate];
@@ -94,70 +108,105 @@
   }
   
   if (event.type == PersistentEventProto_EventTypeEnhance) {
-    self.detailA.hidden = NO;
-    self.detailB.hidden = NO;
-    self.detailC.hidden = NO;
     switch (event.monsterElement) {
       case ElementFire:
-        self.characterImage.image = [UIImage imageNamed:FIRE_KID];
-        self.background.image = [UIImage imageNamed:FIRE_BG];
+        self.characterImage.image = [Globals imageNamed:FIRE_KID];
+        self.background.image = [Globals imageNamed:FIRE_BG];
         [self setTextColorToHex:RED];
         break;
       case ElementEarth:
-        self.characterImage.image = [UIImage imageNamed:EARTH_KID];
-        self.background.image = [UIImage imageNamed:EARTH_BG];
+        self.characterImage.image = [Globals imageNamed:EARTH_KID];
+        self.background.image = [Globals imageNamed:EARTH_BG];
         [self setTextColorToHex:GREEN];
         break;
       case ElementLight:
-        self.characterImage.image = [UIImage imageNamed:LIGHT_KID];
-        self.background.image = [UIImage imageNamed:LIGHT_BG];
+        self.characterImage.image = [Globals imageNamed:LIGHT_KID];
+        self.background.image = [Globals imageNamed:LIGHT_BG];
         [self setTextColorToHex:YELLOW];
         break;
       case ElementDark:
-        self.characterImage.image = [UIImage imageNamed:NIGHT_KID];
-        self.background.image = [UIImage imageNamed:NIGHT_BG];
+        self.characterImage.image = [Globals imageNamed:NIGHT_KID];
+        self.background.image = [Globals imageNamed:NIGHT_BG];
         [self setTextColorToHex:PURPLE];
         break;
       case ElementWater:
-        self.characterImage.image = [UIImage imageNamed:WATER_KID];
-        self.background.image = [UIImage imageNamed:WATER_BG];
+        self.characterImage.image = [Globals imageNamed:WATER_KID];
+        self.background.image = [Globals imageNamed:WATER_BG];
         [self setTextColorToHex:BLUE];
       default:
         break;
     }
+    
+    //show times for all events
+    for (int i = 0; i < eventList.count; i++) {
+      UILabel *curLabel;
+      switch (i) {
+        case 0:
+          curLabel = _detailA;
+          break;
+        case 1:
+          curLabel = _detailB;
+          break;
+        case 2:
+          curLabel = _detailC;
+          break;
+        case 3:
+          curLabel = _detailD;
+          break;
+        default:
+          break;
+      }
+      
+      if(curLabel) {
+        PersistentEventProto *curEvent = eventList[i];
+        curLabel.hidden = NO;
+        MSDate *eventStart = curEvent.startTime;
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"hha"];
+        NSString *formattedDateString = [dateFormatter stringFromDate:eventStart.relativeNSDate];
+        
+        NSDateComponents *tempComp = [[NSDateComponents alloc] init];
+        tempComp.hour = curEvent.eventDurationMinutes/60;
+        
+        NSDate *endDate = [calendar dateByAddingComponents:tempComp toDate:eventStart.relativeNSDate options:0];
+        NSString *endTime = [dateFormatter stringFromDate:endDate];
+        
+        curLabel.text = [NSString stringWithFormat:@"%@-%@", formattedDateString, endTime];
+      }
+    }
+    
   } else if (event.type == PersistentEventProto_EventTypeEvolution) {
-    self.detailA.hidden = YES;
-    self.detailB.hidden = YES;
-    self.detailC.hidden = YES;
     switch (event.monsterElement) {
       case ElementFire:
-        self.characterImage.image = [UIImage imageNamed:FIRE_SCIENTIST];
-        self.background.image = [UIImage imageNamed:FIRE_BG];
+        self.characterImage.image = [Globals imageNamed:FIRE_SCIENTIST];
+        self.background.image = [Globals imageNamed:FIRE_BG];
         [self setTextColorToHex:RED];
         break;
       case ElementEarth:
-        self.characterImage.image = [UIImage imageNamed:EARTH_SCIENTIST];
-        self.background.image = [UIImage imageNamed:EARTH_BG];
+        self.characterImage.image = [Globals imageNamed:EARTH_SCIENTIST];
+        self.background.image = [Globals imageNamed:EARTH_BG];
         [self setTextColorToHex:GREEN];
         break;
       case ElementDark:
-        self.characterImage.image = [UIImage imageNamed:NIGHT_SCIENTIST];
-        self.background.image = [UIImage imageNamed:NIGHT_BG];
+        self.characterImage.image = [Globals imageNamed:NIGHT_SCIENTIST];
+        self.background.image = [Globals imageNamed:NIGHT_BG];
         [self setTextColorToHex:PURPLE];
         break;
       case ElementLight:
-        self.characterImage.image = [UIImage imageNamed:LIGHT_SCIENTIST];
-        self.background.image = [UIImage imageNamed:LIGHT_BG];
+        self.characterImage.image = [Globals imageNamed:LIGHT_SCIENTIST];
+        self.background.image = [Globals imageNamed:LIGHT_BG];
         [self setTextColorToHex:YELLOW];
         break;
         case ElementWater:
-        self.characterImage.image = [UIImage imageNamed:WATER_SCIENTIST];
-        self.background.image = [UIImage imageNamed:WATER_BG];
+        self.characterImage.image = [Globals imageNamed:WATER_SCIENTIST];
+        self.background.image = [Globals imageNamed:WATER_BG];
         [self setTextColorToHex:BLUE];
         
       default:
         break;
     }
+    
   }
   
   //set display for hidden or inactive events
@@ -167,10 +216,14 @@
       //greyout
       self.background.image = [UIImage imageNamed:GREY_BG];
       [self setTextColorToHex:GREY];
+      self.detailA.text = @"MYSTERY";
+      self.detailB.text = @"MYSTERY";
+      self.detailC.text = @"MYSTERY";
+      self.detailD.text = @"MYSTERY";
       if(event.type == PersistentEventProto_EventTypeEnhance) {
-        self.characterImage.image = [UIImage imageNamed:FIRE_KID];
+        [Globals imageNamed:FIRE_KID withView:self.characterImage maskedColor:[UIColor colorWithHexString:GREY] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:NO];
       } else if (event.type == PersistentEventProto_EventTypeEvolution) {
-        self.characterImage.image = [UIImage imageNamed:FIRE_SCIENTIST];
+        [Globals imageNamed:FIRE_SCIENTIST withView:self.characterImage maskedColor:[UIColor colorWithHexString:GREY] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:NO];
       }
     }
   } else {
@@ -191,6 +244,7 @@
   self.detailA.textColor = [UIColor colorWithHexString:hex];
   self.detailB.textColor = [UIColor colorWithHexString:hex];
   self.detailC.textColor = [UIColor colorWithHexString:hex];
+  self.detailD.textColor = [UIColor colorWithHexString:hex];
 }
 
 @end
@@ -199,22 +253,61 @@
 @implementation DailyEventScheduleView
 
 - (void) initWithEventList:(NSArray*)eventList {
+  NSMutableDictionary *dictByDays = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     [[NSMutableArray alloc] init], @(DayOfWeekSunday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekMonday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekTuesday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekWednesday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekThursday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekFriday),
+                                     [[NSMutableArray alloc] init], @(DayOfWeekSaturday),
+                                     nil];
+  
   //for each event create the view for it
+  //bucket sort by day
   for (int i = 0; i<eventList.count; i++) {
-    EventScheduleDayView *dayView = (EventScheduleDayView*) [[NSBundle mainBundle] loadNibNamed:@"EventScheduleDayView" owner:self options:nil][0];
-    [self.weekView addSubview:dayView];
-    CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * i) + (DAY_VIEW_SPACING * i);
-    [dayView setOrigin:CGPointMake(newX, 0.f)];
-    [dayView initWithEvent:eventList[i]];
-    
-    NSString *description = @"The Scientist event schedule repeats every Monday-Friday.  Saturday and Sunday are revealed when the event goes live.";
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineSpacing:4];
-    [paragraphStyle setAlignment:NSTextAlignmentLeft];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:description attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
-    self.descriptionLabel.attributedText = attributedString;
+    PersistentEventProto *event = eventList[i];
+    NSMutableArray *dayArray = [dictByDays objectForKey:@(event.dayOfWeek)];
+    [dayArray addObject:eventList[i]];
   }
+  
+  for(int i = (int)DayOfWeekSunday; i <= (int)DayOfWeekSaturday; i++) {
+    [self createDayViewWithEventList:[dictByDays objectForKey:@(i)]];
+  }
+  NSString *description = @"";
+  NSString *Title = @"";
+  PersistentEventProto *firstEvent = eventList[0];
+  if(firstEvent.type == PersistentEventProto_EventTypeEnhance) {
+    description = @"The Cake Kid element schedule repeats every Monday-Friday.  \nSaturday and Sunday are revealed when the event goes live.";
+    Title = @"HOW CAKE KID EVENTS WORK";
+  } else if (firstEvent.type == PersistentEventProto_EventTypeEvolution) {
+    description = @"The Scientist event schedule repeats every Monday-Friday.  \nSaturday and Sunday are revealed when the event goes live.";
+    Title = @"HOW SCIENTIST EVENTS WORK";
+  }
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:4];
+  [paragraphStyle setAlignment:NSTextAlignmentLeft];
+  NSMutableAttributedString *descriptionString = [[NSMutableAttributedString alloc] initWithString:description attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  self.descriptionLabel.attributedText = descriptionString;
+  
+  NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:Title attributes:@{NSParagraphStyleAttributeName : paragraphStyle}];
+  self.typeTitleLabel.attributedText = titleString;
+}
+
+- (void) createDayViewWithEventList:(NSArray*)eventList {
+  PersistentEventProto *event = eventList[0];
+  
+  int dayNumber = event.dayOfWeek - 2;//-2 for enum off set. so we start at 0s
+  if( event.dayOfWeek == DayOfWeekSunday) {
+    dayNumber = DayOfWeekSaturday - 1; //sunday needs to appear after saturday, not before monday
+  }
+  
+  EventScheduleDayView *dayView = (EventScheduleDayView*) [[NSBundle mainBundle] loadNibNamed:@"EventScheduleDayView" owner:self options:nil][0];
+  [self.weekView addSubview:dayView];
+  CGFloat newX = DAY_VIEW_ORIGIN + (dayView.width * (dayNumber)) + (DAY_VIEW_SPACING * (dayNumber));
+  [dayView setOrigin:CGPointMake(newX, 0.f)];
+  [dayView initWithEventList: eventList];
 }
 
 @end
@@ -230,6 +323,12 @@
     if(event.type == eventType) {
       [eventList addObject:event];
     }
+  }
+  
+  if (eventType == PersistentEventProto_EventTypeEvolution) {
+    self.title = @"Scientist Schedule";
+  } else if (eventType == PersistentEventProto_EventTypeEnhance) {
+    self.title = @"Cake Kid Schedule";
   }
   
   [self.dailyEventScheduleView initWithEventList:eventList];
