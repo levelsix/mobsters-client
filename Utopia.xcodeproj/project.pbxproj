@@ -539,6 +539,8 @@
 		63BACB091A71B7C2000A641A /* nightscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF41A71B7C2000A641A /* nightscientisteventguy@2x.png */; };
 		63BACB0A1A71B7C2000A641A /* watercakekid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF51A71B7C2000A641A /* watercakekid@2x.png */; };
 		63BACB0B1A71B7C2000A641A /* waterscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF61A71B7C2000A641A /* waterscientisteventguy@2x.png */; };
+		63BACB0F1A71B7C2000A641A /* viewscehdulebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFA1A71B7C2000A641A /* viewscehdulebutton@2x.png */; };
+		63BACB101A71B7C2000A641A /* viewscheduleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */; };
 		63BACB121A71C6E5000A641A /* EventScheduleDayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACB111A71C6E5000A641A /* EventScheduleDayView.xib */; };
 		63BACB171A71EF37000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
 		63BACB1A1A71EF39000A641A /* DailyEventScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63BACADE1A71A7D9000A641A /* DailyEventScheduleViewController.xib */; };
@@ -568,6 +570,8 @@
 		63BACB321A71EF64000A641A /* nightscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF41A71B7C2000A641A /* nightscientisteventguy@2x.png */; };
 		63BACB331A71EF64000A641A /* watercakekid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF51A71B7C2000A641A /* watercakekid@2x.png */; };
 		63BACB341A71EF64000A641A /* waterscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF61A71B7C2000A641A /* waterscientisteventguy@2x.png */; };
+		63BACB351A71EF64000A641A /* viewscehdulebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFA1A71B7C2000A641A /* viewscehdulebutton@2x.png */; };
+		63BACB361A71EF64000A641A /* viewscheduleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */; };
 		63BACB371A71EF64000A641A /* earthcakekid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAED1A71B7C2000A641A /* earthcakekid@2x.png */; };
 		63BACB381A71EF64000A641A /* earthscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAEE1A71B7C2000A641A /* earthscientisteventguy@2x.png */; };
 		63BACB391A71EF65000A641A /* firecakekid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAEF1A71B7C2000A641A /* firecakekid@2x.png */; };
@@ -578,6 +582,8 @@
 		63BACB3E1A71EF65000A641A /* nightscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF41A71B7C2000A641A /* nightscientisteventguy@2x.png */; };
 		63BACB3F1A71EF65000A641A /* watercakekid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF51A71B7C2000A641A /* watercakekid@2x.png */; };
 		63BACB401A71EF65000A641A /* waterscientisteventguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAF61A71B7C2000A641A /* waterscientisteventguy@2x.png */; };
+		63BACB411A71EF65000A641A /* viewscehdulebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFA1A71B7C2000A641A /* viewscehdulebutton@2x.png */; };
+		63BACB421A71EF65000A641A /* viewscheduleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */; };
 		63C57E791A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
 		63C57E7A1A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
 		63C57E7B1A6627FE00ED406E /* maptaskdonebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E751A6627FE00ED406E /* maptaskdonebg.png */; };
@@ -7221,6 +7227,8 @@
 		63BACAF41A71B7C2000A641A /* nightscientisteventguy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nightscientisteventguy@2x.png"; sourceTree = "<group>"; };
 		63BACAF51A71B7C2000A641A /* watercakekid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "watercakekid@2x.png"; sourceTree = "<group>"; };
 		63BACAF61A71B7C2000A641A /* waterscientisteventguy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waterscientisteventguy@2x.png"; sourceTree = "<group>"; };
+		63BACAFA1A71B7C2000A641A /* viewscehdulebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewscehdulebutton@2x.png"; sourceTree = "<group>"; };
+		63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewscheduleicon@2x.png"; sourceTree = "<group>"; };
 		63BACB111A71C6E5000A641A /* EventScheduleDayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventScheduleDayView.xib; sourceTree = "<group>"; };
 		63C57E751A6627FE00ED406E /* maptaskdonebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maptaskdonebg.png; sourceTree = "<group>"; };
 		63C57E761A6627FE00ED406E /* maptaskdonebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonebg@2x.png"; sourceTree = "<group>"; };
@@ -12224,6 +12232,10 @@
 				638C876B1A733E850094C396 /* viewschedule@2x.png */,
 				63BACAE51A71B7C2000A641A /* Cal BGs */,
 				63BACAEC1A71B7C2000A641A /* Guys */,
+				63BACAE51A71B7C2000A641A /* Cal BGs */,
+				63BACAEC1A71B7C2000A641A /* Guys */,
+				63BACAFA1A71B7C2000A641A /* viewscehdulebutton@2x.png */,
+				63BACAFB1A71B7C2000A641A /* viewscheduleicon@2x.png */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -19137,6 +19149,7 @@
 				CF0CF7D3196F452900ECD301 /* combo6a.aif in Resources */,
 				CF0CF7D4196F452900ECD301 /* Scientist1Blink00@2x.png in Resources */,
 				CFF2A6551974997A00269084 /* pvpdiamondribbon@2x.png in Resources */,
+				63BACB361A71EF64000A641A /* viewscheduleicon@2x.png in Resources */,
 				CF0CF7D5196F452900ECD301 /* combo7a.aif in Resources */,
 				CF0CF7D6196F452900ECD301 /* Scientist2Turn16@2x.png in Resources */,
 				CF0CF7D9196F452900ECD301 /* menumobstersinactive@2x.png in Resources */,
@@ -19678,6 +19691,7 @@
 				CF6F1A17181518C900CFF2B9 /* visittask@2x.png in Resources */,
 				CFE7CD741819FC3300930847 /* lightbar@2x.png in Resources */,
 				CF4825A719F72A3900041486 /* notendcapblue@2x.png in Resources */,
+				63BACB101A71B7C2000A641A /* viewscheduleicon@2x.png in Resources */,
 				CFBB37CB18F8BDA200FD6C8C /* runawaysuccess@2x.png in Resources */,
 				9BB949521A6EECDA006EE920 /* NewGachaSmoke.ped in Resources */,
 				CFFBDF3618ACA3D90090CA9A /* Scientist1Blink12@2x.png in Resources */,
@@ -20141,6 +20155,7 @@
 				CFC4D28C18D7BD04004681FD /* sfx_combo_catch_fire.mp3 in Resources */,
 				CFF390EF1829C74A0010A3BE /* nightorb@2x.png in Resources */,
 				CFFBE00018ACA3D90090CA9A /* Scientist5Turn16@2x.png in Resources */,
+				63BACB0F1A71B7C2000A641A /* viewscehdulebutton@2x.png in Resources */,
 				CFF2C93F193FD71F00F28D9E /* chatglobalactive@2x.png in Resources */,
 				CFFC50D519C2D4BA00BDAA62 /* homemapleft@2x.jpg in Resources */,
 				CF20F0A1180FB6FF005551B5 /* donebtn@2x.png in Resources */,
@@ -21238,6 +21253,7 @@
 				CFA793A91A0C63ED00DF3407 /* watercakeeventlive@2x.png in Resources */,
 				CF481A3419F7217F00041486 /* Scientist3Breath12@2x.png in Resources */,
 				CF481A3519F7217F00041486 /* Scientist2Breath09@2x.png in Resources */,
+				63BACB421A71EF65000A641A /* viewscheduleicon@2x.png in Resources */,
 				CF481A3619F7217F00041486 /* Scientist3Blink06@2x.png in Resources */,
 				CF481A3719F7217F00041486 /* FatBoy1Move12@2x.png in Resources */,
 				CF481A3819F7217F00041486 /* hpbarmiddlemj@2x.png in Resources */,
@@ -21661,6 +21677,7 @@
 				CF481CD019F7217F00041486 /* Scientist3Breath00@2x.png in Resources */,
 				CF481CD119F7217F00041486 /* HomeBuildingMenu.xib in Resources */,
 				CF481CD219F7217F00041486 /* Scientist2Breath08@2x.png in Resources */,
+				63BACB411A71EF65000A641A /* viewscehdulebutton@2x.png in Resources */,
 				298050801A265EE800806253 /* 5gbhud@2x.png in Resources */,
 				CF481CD419F7217F00041486 /* managebutton@2x.png in Resources */,
 				CF481CD719F7217F00041486 /* orangenotificationheader@2x.png in Resources */,
