@@ -74,6 +74,14 @@
   } else {
     self.ribbonLabel.string = isWin ? @"YOU FOUND" : @"YOU WILL MISS OUT ON";
     
+    // Add a clipping node for rewards and enforce it with a scroll view
+    [self.rewardsScrollView removeFromSuperview];
+    self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
+    self.rewardsScrollView.delegate = self;
+    self.rewardsScrollView.backgroundColor = [UIColor clearColor];
+    self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
+    [Globals displayUIView:self.rewardsScrollView];
+    
     //Rewards
     CCNode *node = [CCNode node];
     
@@ -90,15 +98,6 @@
     node.anchorPoint = ccp(0, 0.5);
     node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
     self.rewardsView = node;
-    
-    // Add a clipping node for rewards and enforce it with a scroll view
-    [self.rewardsScrollView removeFromSuperview];
-    self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
-    self.rewardsScrollView.delegate = self;
-    self.rewardsScrollView.backgroundColor = [UIColor clearColor];
-    self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
-    
-    [Globals displayUIView:self.rewardsScrollView];
     
     
     clip = [CCClippingNode clippingNode];
@@ -517,6 +516,7 @@
     color = [Globals creamColor];
   } else if (reward.type == RewardTypePvpLeague) {
     imgName = [reward.league.imgPrefix stringByAppendingString:@"icon.png"];
+    labelName = @"Loading...";
   }
   
   if (loss) {
@@ -528,11 +528,11 @@
   }
   
   if ((self = [super initWithImageNamed:bgdName])) {
-    CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
-    [self addChild:inside];
-    inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    if (inside.contentSize.height > self.contentSize.height) {
-      inside.scale = self.contentSize.height/inside.contentSize.height;
+    _inside = [CCSprite spriteWithImageNamed:imgName];
+    [self addChild:_inside];
+    _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    if (_inside.contentSize.height > self.contentSize.height) {
+      _inside.scale = self.contentSize.height/_inside.contentSize.height;
     }
     
     float labelPosition = loss ? -10.f : -13.f;
@@ -562,6 +562,7 @@
     CCSprite *border = [CCSprite spriteWithImageNamed:borderName];
     [self addChild:border];
     border.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    
   }
   return self;
 }
@@ -579,15 +580,17 @@
       labelName = [@"+" stringByAppendingString:labelName];
   }
   
-  [_inside removeFromParentAndCleanup:YES];
+  if (league && league.hasImgPrefix) {
+    NSString *imgName = [league.imgPrefix stringByAppendingString:@"icon.png"];
+    [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
+      _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      if (_inside.contentSize.height > self.contentSize.height) {
+        _inside.scale = self.contentSize.height/_inside.contentSize.height;
+      }
+    }];
+  }
   
-  NSString *imgName = [league.imgPrefix stringByAppendingString:@"icon.png"];
-  [Globals imageNamed:imgName toReplaceSprite:_inside];
-//  [self addChild:inside];
-//  inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-//  if (inside.contentSize.height > self.contentSize.height) {
-//    inside.scale = self.contentSize.height/inside.contentSize.height;
-//  }
+  [_label removeFromParentAndCleanup:YES];
   
   _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
   _label.horizontalAlignment = CCTextAlignmentCenter;

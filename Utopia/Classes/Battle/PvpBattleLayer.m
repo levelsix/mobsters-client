@@ -191,16 +191,16 @@
   
   EndPvpBattleResponseProto *response = (EndPvpBattleResponseProto *)fe.event;
   
-  if (response.hasBattleThatJustEnded && response.battleThatJustEnded.hasAttackerAfter) {
-    PvpLeagueProto *newLeague = [[GameState sharedGameState] leagueForId:response.battleThatJustEnded.attackerAfter.leagueId];
+  if (response.hasStatsBefore && response.hasStatsAfter) {
+    PvpLeagueProto *newLeague = [[GameState sharedGameState] leagueForId:response.statsAfter.leagueId];
   
-    NSLog(@"Before rank: %i, After rank: %i", response.battleThatJustEnded.attackerBefore.rank, response.battleThatJustEnded.attackerAfter.rank);
+    NSLog(@"Before rank: %i, After rank: %i", response.statsBefore.rank, response.statsAfter.rank);
   
-    if (response.battleThatJustEnded.attackerBefore.leagueId == response.battleThatJustEnded.attackerAfter.leagueId)
+    if (response.statsBefore.leagueId == response.statsAfter.leagueId)
     {
-      [self.endView updatePvpReward:newLeague leagueChange:NO change:(response.battleThatJustEnded.attackerBefore.rank - response.battleThatJustEnded.attackerAfter.rank)];
+      [self.endView updatePvpReward:newLeague leagueChange:NO change:(response.statsBefore.rank - response.statsAfter.rank)];
     } else {
-      [self.endView updatePvpReward:newLeague leagueChange:YES change:(response.battleThatJustEnded.attackerAfter.elo - response.battleThatJustEnded.attackerBefore.elo)];
+      [self.endView updatePvpReward:newLeague leagueChange:YES change:(response.statsAfter.leagueId - response.statsBefore.leagueId)];
     }
   }
   
