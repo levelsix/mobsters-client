@@ -15,6 +15,7 @@ static const float darknessForTilesAnimDuration = 0.3f;
 @interface OrbBgdLayer : CCNode
 {
   __weak BattleOrbLayout* _layout;
+  CGSize _gridSize;
   
   CCNode* _tilesLayerBottom;
   CCNode* _tilesLayerTop;
@@ -22,6 +23,9 @@ static const float darknessForTilesAnimDuration = 0.3f;
 }
 
 - (id) initWithGridSize:(CGSize)gridSize layout:(BattleOrbLayout *)layout;
+
+// In case we want a bgd without the border (i.e. the clipping node stencil)
+- (void) assembleBorder;
 
 - (void) updateTile:(BattleTile*)tile;
 - (void) updateTile:(BattleTile*)tile keepLit:(BOOL)keepLit withTarget:(id)target andCallback:(SEL)callback;

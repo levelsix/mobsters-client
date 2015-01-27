@@ -42,7 +42,7 @@ static NSDateFormatter *dateFormat;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
 
-    if (&NSURLIsExcludedFromBackupKey == nil) { // iOS 5.0.1 and lower
+ if (&NSURLIsExcludedFromBackupKey == nil) { // iOS 5.0.1 and lower
         u_int8_t attrValue = 1;
         int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
         if (result != 0) {

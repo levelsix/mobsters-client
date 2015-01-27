@@ -31,6 +31,7 @@
 
 - (void) setOrdering:(NSArray *)ordering showEnemyBands:(NSArray *)showEnemyBands playerTurns:(NSArray*)playerTurns;
 - (void) addMonster:(int)monsterId showEnemyBand:(BOOL)showEnemyBand player:(BOOL)player;
+- (void) updateConfusionState:(BOOL)confused onUpcomingTurnForMonster:(int)monsterId;
 - (void) bounceLastView;
 
 @end

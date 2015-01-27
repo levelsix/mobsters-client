@@ -9,6 +9,14 @@
 #import "BattleTile.h"
 #import "BattleSwap.h"
 #import "BattleChain.h"
+#import "BattleOrbPath.h"
+
+#import "Board.pb.h"
+
+// This will set moves to 50, make you always have first hit, and allow you to move anywhere
+#ifdef DEBUG
+//#define DEBUG_BATTLE_MODE
+#endif
 
 @interface BattleOrbLayout : NSObject {
   int _numColumns;
@@ -22,6 +30,8 @@
   // The 2D array that keeps track of where the BattleOrbs are.
   // Will contain BattleOrb objects
   __strong id **_orbs;
+  
+  BoardLayoutProto *_layoutProto;
 }
 
 @property (nonatomic, readonly) int numColumns;
@@ -30,6 +40,7 @@
 
 @property (nonatomic, retain) NSDictionary *specialOrbPercentages;
 
+- (instancetype) initWithBoardLayout:(BoardLayoutProto *)proto;
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 
 // Can be overwritten to provide harder combos and what not
@@ -54,6 +65,9 @@
 // Can be called to rearrange the current board
 - (NSSet *)shuffle;
 
+- (BattleOrbPath *) orbPathForOrb:(BattleOrb *)orb withOrbPaths:(NSArray *)orbPaths;
+- (void) addPoint:(CGPoint)pt forOrb:(BattleOrb *)orb withOrbPaths:(NSMutableArray *)orbPaths;
+
 // Returns the orb at the specified column and row, or nil when there is none.
 - (BattleOrb *)orbAtColumn:(NSInteger)column row:(NSInteger)row;
 
@@ -62,6 +76,8 @@
 
 // Swaps the positions of the two orbs from the BattleSwap object.
 - (void)performSwap:(BattleSwap *)swap;
+
+- (void) resetOrbChangeTypes;
 
 // Determines whether the suggested swap is a valid one, i.e. it results in at
 // least one new chain of 3 or more orbs of the same type.
@@ -90,6 +106,8 @@
 // If they are, then fire them off and return chains representing destroyed orbs.
 - (NSSet *) detectPowerupChainsWithMatchChains:(NSSet *)chains;
 
+- (NSSet *) detectAdjacentChainsWithMatchAndPowerupChains:(NSSet *)chains;
+
 // Detect if there are any chains for this position (used by skillManager
 - (BOOL)hasChainAtColumn:(NSInteger)column row:(NSInteger)row;
 
@@ -98,13 +116,14 @@
 // Returns an array that contains a sub-array for each column that had holes,
 // with the BattleOrb objects that have shifted. Those orbs are already
 // moved to their new position. The objects are ordered from the bottom up.
-- (NSArray *)fillHoles;
+- (BOOL) fillHoles:(NSMutableArray *)orbPaths;
+- (BOOL) diagonallyFillHoles:(NSMutableArray *)orbPaths;
 
 // Where necessary, adds new orbs to fill up the holes at the top of the
 // columns.
 // Returns an array that contains a sub-array for each column that had holes,
 // with the new BattleOrb objects. Orbs are ordered from the top down.
-- (NSArray *)topUpOrbs;
+- (NSArray *)topUpOrbs:(NSMutableArray *)orbPaths;
 
 // This will detect if any specials like cake are at the bottom so that they can be
 // deleted. This will probably be followed by another set of calls to fillHoles and topUpOrbs.

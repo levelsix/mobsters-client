@@ -134,6 +134,10 @@
   // Do nothing
 }
 
+- (IBAction)resourceBarTapped:(UIView *)sender {
+  // Do nothing
+}
+
 - (void) adjustTopBarForPhoneSize {
   // Do nothing
   // We want it to stay in the top right

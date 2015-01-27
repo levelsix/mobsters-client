@@ -83,52 +83,22 @@
   rect.origin = CGPointMake(0, 0);
   UIView *v = [[UIView alloc] initWithFrame:rect];
   v.backgroundColor = [UIColor blackColor];
+  v.opaque = YES;
   
   self.view = v;
   
-  [self setupCocos2dWithOptions:nil];
+#ifdef DEBUG
+  BOOL showStats = YES;
+#else
+  BOOL showStats = NO;
+#endif
+  
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:@(showStats) forKey:CCSetupShowDebugStats];
+  [self setupCocos2dWithOptions:dict];
 }
 
 - (BOOL) prefersStatusBarHidden {
   return YES;
-}
-
-- (void)setupCocos2D {
-  // DEPRECATED
-  CCDirector *director = [CCDirector sharedDirector];
-  CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
-                                 pixelFormat:kEAGLColorFormatRGB565
-                                 depthFormat:GL_DEPTH24_STENCIL8_OES
-                          preserveBackbuffer:NO
-                                  sharegroup:nil
-                               multiSampling:NO
-                             numberOfSamples:0];
-  
-  [director setAnimationInterval:1.0/60];
-  [director setFixedUpdateInterval:1.0/60];
-  
-  // Display link director is causing problems with uiscrollview and table view.
-  [director setProjection:CCDirectorProjection2D];
-  [director setView:glView];
-  
-#ifdef DEBUG
-  [director setDisplayStats:YES];
-#else
-  [director setDisplayStats:NO];
-#endif
-  
-  // Default texture format for PNG/BMP/TIFF/JPEG/GIF images
-  // It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
-  // You can change anytime.
-  [CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
-  
-  [CCTexture PVRImagesHavePremultipliedAlpha:YES];
-  
-  [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
-  [director setDownloaderDelegate:self];
-  
-  [self addChildViewController:director];
-  [self.view insertSubview:director.view atIndex:0];
 }
 
 static CGFloat
@@ -543,7 +513,7 @@ static const CGSize FIXED_SIZE = {568, 384};
     if (self.resumeUserTask) {
       GameState *gs = [GameState sharedGameState];
       FullTaskProto *task = [gs taskWithId:self.resumeUserTask.taskId];
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
       bl.delegate = self;
@@ -911,7 +881,7 @@ static const CGSize FIXED_SIZE = {568, 384};
   if (![self miniTutorialControllerForTaskId:taskId]) {
     GameState *gs = [GameState sharedGameState];
     FullTaskProto *task = [gs taskWithId:taskId];
-    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
     bl.dungeonType = task.description;
     bl.delegate = self;
     [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
@@ -948,7 +918,8 @@ static const CGSize FIXED_SIZE = {568, 384};
 //                   [task.groundImgPrefix stringByAppendingString:@"scene2right.png"]];
   [Globals checkAndLoadFiles:arr completion:^(BOOL success) {
     if (success) {
-      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix];
+      
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO gridSize:CGSizeMake(task.boardWidth, task.boardHeight) bgdPrefix:task.groundImgPrefix layoutProto:[gs boardWithId:task.boardId]];
       bl.dungeonType = task.description;
       bl.delegate = self;
       

@@ -110,7 +110,8 @@
 
 - (void) enemyShoot {
   BattleSprite *bs = self.enemyTeamSprites[ENEMY_INDEX];
-  [bs performNearAttackAnimationWithEnemy:nil shouldReturn:YES shouldEvade:NO shouldFlinch:YES target:self selector:@selector(enemySecondJump)];
+  [bs performNearAttackAnimationWithEnemy:nil shouldReturn:YES shouldEvade:NO shouldFlinch:YES
+                                   target:self selector:@selector(enemySecondJump) animCompletion:nil];
 }
 
 - (void) enemySecondJump {
@@ -185,7 +186,7 @@
                     }], nil]];
 }
 
-- (void) moveBattleSpriteToEnemyStartLocationAndCallSelector:(BattleSprite *)bs isComingFromTop:(BOOL)isFromTop {
+- (void) moveBattleSprite:(BattleSprite *)bs toEnemyStartLocationAndCallSelector:(SEL)sel isComingFromTop:(BOOL)isFromTop {
   CGPoint startPos = bs.position;
   CGPoint finalPos = ENEMY_PLAYER_LOCATION;
   CGPoint myPos = MY_PLAYER_LOCATION;
@@ -193,6 +194,8 @@
   float invSlope = -1.f/slope;
   float yIntersectionOfNewLine = startPos.y-invSlope*startPos.x;
   CGPoint midPos = ccpIntersectPoint(finalPos, myPos, startPos, ccp(0, yIntersectionOfNewLine));
+  
+  CCAction *selAction = sel ? [CCActionCallFunc actionWithTarget:self selector:sel] : nil;
   
   bs.position = startPos;
   [bs runAction:
@@ -220,9 +223,8 @@
      ^{
        [bs stopWalking];
        [bs setIsFacingNear:YES];
-       
-       [self enemiesRanOut];
      }],
+    selAction,
     nil]];
 }
 
@@ -249,15 +251,18 @@
 - (void) enemyTwoAndBossRunOut {
   [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX speedMultiplier:0.75f target:nil selector:nil];
   
+  [self moveBattleSprite:self.enemyTeamSprites[ENEMY_INDEX] toEnemyStartLocationAndCallSelector:nil isComingFromTop:NO];
+  
   BattleSprite *bs2 = self.enemyTeamSprites[ENEMY_TWO_INDEX];
-  CGPoint startPos = bs2.position;
+  float amt = 0.05;
+  CGPoint startPos = ccpAdd(ENEMY_PLAYER_LOCATION, ccp(POINT_OFFSET_PER_SCENE.x*-amt, POINT_OFFSET_PER_SCENE.y*amt));
   [self runAction:[CCActionSequence actions:
                    [CCActionDelay actionWithDuration:0.2],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [self walkOutEnemyAtIndex:ENEMY_TWO_INDEX speedMultiplier:0.75f target:nil selector:nil];
                     }],
-                   [CCActionDelay actionWithDuration:1.1],
+                   [CCActionDelay actionWithDuration:2.f],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [bs2 stopWalking];
@@ -277,7 +282,7 @@
   [bs stopWalking];
   [bs restoreStandingFrame:MapDirectionNearRight];
   [self runAction:[CCActionSequence actions:
-                   [CCActionDelay actionWithDuration:0.6],
+                   [CCActionDelay actionWithDuration:0.8f],
                    [CCActionCallBlock actionWithBlock:
                     ^{
                       [self enemyTwoAttackEnemyWithTarget:self selector:@selector(enemyTwoRunOut)];
@@ -291,7 +296,7 @@
 - (void) moveEnemyToStartLocation {
   self.enemyPlayerObject = self.enemyTeam[ENEMY_INDEX];
   self.currentEnemy = self.enemyTeamSprites[ENEMY_INDEX];
-  [self moveBattleSpriteToEnemyStartLocationAndCallSelector:self.currentEnemy isComingFromTop:NO];
+  [self moveBattleSprite:self.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:NO];
   _curStage = ENEMY_INDEX;
   [self scheduleOnce:@selector(displayOrbLayer) delay:0.5];
 }
@@ -313,7 +318,7 @@
   [self walkOutEnemyAtIndex:ENEMY_BOSS_INDEX speedMultiplier:1.f target:nil selector:nil];
   self.enemyPlayerObject = self.enemyTeam[ENEMY_TWO_INDEX];
   self.currentEnemy = self.enemyTeamSprites[ENEMY_TWO_INDEX];
-  [self moveBattleSpriteToEnemyStartLocationAndCallSelector:self.currentEnemy isComingFromTop:YES];
+  [self moveBattleSprite:self.currentEnemy toEnemyStartLocationAndCallSelector:@selector(enemiesRanOut) isComingFromTop:YES];
   _curStage = ENEMY_TWO_INDEX;
 }
 
@@ -543,7 +548,7 @@
   // Do nothing
 }
 
-- (void) saveCurrentState {
+- (void) saveCurrentStateWithForceFlush:(BOOL) flush {
   // Do nothing
 }
 

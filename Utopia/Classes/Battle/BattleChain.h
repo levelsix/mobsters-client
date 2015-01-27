@@ -6,7 +6,10 @@ typedef NS_ENUM(NSUInteger, ChainType) {
   ChainTypePowerupNormal,
   ChainTypeRainbowLine,
   ChainTypeRainbowExplosion,
-  ChainTypeDoubleRainbow
+  ChainTypeDoubleRainbow,
+  
+  // For clouds
+  ChainTypeAdjacent
 };
 
 @interface BattleChain : NSObject

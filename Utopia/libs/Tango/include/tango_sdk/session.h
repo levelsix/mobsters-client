@@ -83,8 +83,16 @@ enum HandleURLResultType {
   /// action. It's possible that you've received a URL that can only be understood by a newer
   /// version of the SDK. (You might ask the user to upgrade your app).
   HANDLE_URL_RESULT_UNKNOWN_ACTION = 5,
+  /// Your app was launched to handle a general notification in Tango.
+  /// You should query the Tango server and present an appropriate UI for your user.
+  /// Ex: Call get_gifts().
+  HANDLE_URL_RESULT_NOTIFICATION_RECEIVED = 6,
 };
 
+enum InboxMessageType{
+  INBOX_GIFT,
+  INBOX_INVITE,
+};
 // Keys to index into HandleURLResult.sdk_parameters:
 extern const std::string RESULT_KEY_USER_URL;    ///< For HANDLE_URL_RESULT_USER_URL; "user_url"
 extern const std::string RESULT_KEY_GIFT_TYPE;   ///< For HANDLE_URL_RESULT_GIFT_MESSAGE_RECEIVED; "gift_type"
@@ -208,12 +216,13 @@ typedef std::vector<std::string> AccountIdVector;
 // SessionImplInterface is the delegate of Session. Forward declaration.
 class SessionImplInterface;
 
-/// The information about a purchased item that needs to be verified.
+/// The information about a purchased item that needs to be verified, using the
+/// Session::validate_purchase() method. See the SDK documentation for more information.
 struct PurchasedItem
 {
-  std::string   item_id;    ///< An identification of the item
-  std::string   receipt;    ///< The receipt obtained from the platform purchase API
-  std::string   public_key; ///< Google Only.  public key obtained from the platform purchase API.
+  std::string   item_id;    ///< The in-app purchase ID of the item, from the store receipt. (Google: "productId", Apple: "product_id").
+  std::string   receipt;    ///< The receipt "bytes" obtained from the platform purchase API.
+  std::string   public_key; ///< Google Only. This is the "INAPP_DATA_SIGNATURE" you obtain from the platform purchase API. 
 };
 
 
@@ -300,6 +309,24 @@ public:
   /// See <a href="/ApiDetails/getcontacts.html">Get Contacts API Details</a> for more information.
   ///
   RequestID         get_cached_friends(void * context = NULL);
+
+  /// Get a list of the user's recent group chats. The Response result will contain a JSON payload
+  /// that looks like the following:
+  /// {
+  ///   "RecentGroupChats" : [
+  ///     {
+  ///       "GroupId" : "GROUP:MWGjTGUI75rWt5W5TH_5vw", // Id you can use to send to the group.
+  ///       "GroupMemberCount" : 3,                     // The number of members in the group.
+  ///       "GroupName" : "Foo",                        // The name of the group.
+  ///       "LastMessageText" : "Test",                 // Text of the last message sent to the group.
+  ///       "LastMessageTimestamp" : 1409110801242,     // UTC UNIX timestamp of the last message in milliseconds
+  ///       "LastSenderMemberName" : "Chuck Yeager",    // Name of the user who sent the last message.
+  ///       "ProfilePhotoSource" : "DEFAULT",           // DEFAULT indicates user photo is placeholder, else USER_PROVIDED.
+  ///       "ProfilePhotoUrl" : "http://sdk.tango.me/assets/t/tango/sdk/profile_placeholder_2x.png"
+  ///     }
+  ///   ]
+  /// }
+  RequestID         get_recent_group_chats(void * context = NULL);
 
   /// Get a list of all the user's possessions. (Possessions API).
   /// See <a href="/ApiDetails/possessions.html">Possessions API Details</a> for more information.
@@ -432,6 +459,12 @@ public:
                          ...
                        ]
         
+        "group_chat_ids" : [ "GROUP:id1",
+                             "GROUP:id2",
+                           ] // List of groups to send content to (for chat target).
+
+        "forwardable" : "true"  // Allow the user to forward or re-post the content in Tango. [Default: false].
+        
         "notification_text" : A string containing a short description of the content you are sharing.
 
         "caption_text"    : A string containing larger body text for the event you want to share.
@@ -463,16 +496,93 @@ public:
   /// Validate a purchase made by the application via Tango's servers. See the SDK documentation
   /// for more information.
   ///
-  ///    @param context         Operation context
-  ///    @param purchased_item  Information about one purchased item
+  /// @param context         Operation context
+  /// @param purchased_item  Information about one purchased item
   ///
-  ///    output : validation status in JSON
-  ///
-  ///        {
-  ///          "IsValid" : true
-  ///        }
+  /// The JSON result string looks like this:
+  /// {
+  ///   "Valid" : true
+  /// }
 
   RequestID validate_purchase(const PurchasedItem& purchase, void * context = NULL);
+
+  /// Retrieve the user's outstanding gifts from Tango servers. The Response contains a
+  /// JSON payload with an array of gift objects. This method does not remove the returned
+  /// gifts from the server. Use consume_gifts to do that. Gifts that time out according
+  /// to provisioning settings will not appear either.
+  /// 
+  /// The JSON result string looks like this:
+  /// {
+  ///   "Messages" : [
+  ///     {
+  ///       "MessageId" : "JilZkO2yQqeZdNssEIygKA", // Unique message ID
+  ///       "MessageType" : 0,                      // Internal use
+  ///       "ResourceId" : "whiterock_gift1",       // Your custom resource id
+  ///       "SenderId" : "lZSV9OFJPTGN9NFFKkP9tA",  // Tango account ID of sender
+  ///       "TimeStamp" : 1410214983026             // Unix timestamp for when gift was sent
+  ///     },
+  ///     // ...
+  ///   ]
+  /// }
+  RequestID get_gifts(void * context = NULL);
+
+  /// Get a list of the user's friends who can currently receive gifts that match the
+  /// given resource_id. This includes full profile information as from get_cached_friends,
+  /// but the list of users is pre-filtered according to your provisioned rate limiting
+  /// settings. The JSON response looks like this:
+  /// 
+  /// {
+  ///   "Friends" : [
+  ///     {
+  ///       "AccountId" : "c3gUmHNw2pfCloFgFU-26w",
+  ///       "App" : {
+  ///         "WhiteRock" : {
+  ///           "activityCount" : 11,
+  ///           "lastActivityDate" : 1409875200
+  ///         }
+  ///       },
+  ///       "AppInstalled" : true,
+  ///       "AppList" : [ "WhiteRock" ],
+  ///       "FirstName" : "Pikachu",
+  ///       "Gender" : "NONE",
+  ///       "LastName" : "",
+  ///       "ProfilePhotoSource" : "USER_PROVIDED",
+  ///       "ProfilePhotoUrl" : "http://199.83.175.26:8080/contentserver/download/U-v6AgAAAABU6ohN-kpR0A/sAZe9l2x/thumbnail",
+  ///       "ProfileStatus" : "awesome day",
+  ///       "SupportedPlatforms" : [ "IOS" ]
+  ///     },
+  ///     // ...
+  ///   ]
+  /// }
+  RequestID get_gifting_recipients(const std::string& resource_id, void *context = NULL);
+
+  /// Send a gift to a list of users, identified by resource_id and rate-limited by your
+  /// provisioned settings. The Response may contain a list of block recipients to which
+  /// you could not send gifts, most likely due to rate limiting. The JSON response will
+  /// look similar to this:
+  /// {
+  ///   "blockedRecipients" : []
+  /// }
+  /// 
+  /// If any recipients were blocked due to rate limiting, their Tango account IDs will
+  /// be listed in the blockedRecipients array as strings.
+  RequestID send_gift(const tango_sdk::AccountIdVector& recipients, const std::string& resource_id, void * context = NULL);
+
+  /// Consume one or more gifts so that they no longer show up when you call get_gifts. This
+  /// deletes the records of those gifts from the server so that they do not show up in subsequent
+  /// calls to get_gifts(). You are responsible for persisting any data related to those gifts after
+  /// calling this method. The JSON response for this call is empty. Consuming a gift that does
+  /// not exist is a no-op.
+  RequestID consume_gifts(const std::vector<std::string>& gift_ids, void * context = NULL);
+
+  /// Invite users to try your application, optionally using the provisioned resource_id
+  /// to enable rate limiting and other features. The JSON response payload is the same
+  /// as for send_gift, above.
+  RequestID send_invite(const tango_sdk::AccountIdVector& recipients, const std::string& resource_id, void * context = NULL);
+
+  /// Get a list of the user's friends who can currently receive invitations matching the
+  /// given resource_id. The JSON response format is the same as for get_gifting_recipients.
+  RequestID get_inviting_recipients(const std::string& resource_id, void *context = NULL);
 
   /// Returns approximation of time on Tango servers.
   /// The time is estimated based on a timestamp returned in server response. The accuracy
@@ -558,6 +668,8 @@ public:
   /// Creates a Session instance using the old-style ResponseHandler callback.
   static Session *  create(ResponseHandler handler);
   
+
+
   /** @deprecated Use share() instead.
       Send a simple invite message to one or more recipients. When the user taps on the message,
       your app will be launched automatically if they have it installed. Otherwise, they will be
@@ -659,6 +771,13 @@ public:
   /// @internal
   /// Clears the local cache for internal unit tests.
   void clear_cache();
+
+  /// @internal
+  /// Log an event to the tango analytics backend.
+  ///
+  ///    @param values       A map of key value pairs to log to server.
+  ///
+  void log_analytics_event(const KeyValueMap& values);
 
 private:
   Session(SessionImplInterface * impl);

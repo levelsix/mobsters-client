@@ -36,6 +36,7 @@
 
 @property (nonatomic, assign) id<OrbMainLayerDelegate> delegate;
 
+- (id) initWithLayoutProto:(BoardLayoutProto *)proto;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors layout:(BattleOrbLayout *)layout;
 

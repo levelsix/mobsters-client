@@ -528,12 +528,14 @@
   }
   
   if ((self = [super initWithImageNamed:bgdName])) {
-    _inside = [CCSprite spriteWithImageNamed:imgName];
+    _inside = [CCSprite node];
+    [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
+      if (success && _inside.contentSize.height > self.contentSize.height) {
+        _inside.scale = self.contentSize.height/_inside.contentSize.height;
+      }
+    }];
     [self addChild:_inside];
     _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    if (_inside.contentSize.height > self.contentSize.height) {
-      _inside.scale = self.contentSize.height/_inside.contentSize.height;
-    }
     
     float labelPosition = loss ? -10.f : -13.f;
     if (labelName) {

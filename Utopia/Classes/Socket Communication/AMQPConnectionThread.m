@@ -125,8 +125,12 @@ static int sessionId;
 
 - (void) sendData:(NSData *)data withDelay:(float)delay {
   //[self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:NO];
-  NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(timerPostData:) userInfo:data repeats:NO];
-  [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+  if (delay) {
+    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(timerPostData:) userInfo:data repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+  } else {
+    [self performSelector:@selector(postDataToExchange:) onThread:self withObject:data waitUntilDone:YES];
+  }
 }
 
 - (void) timerPostData:(NSTimer *)timer {

@@ -136,13 +136,23 @@
 #pragma mark - Setup
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize {
-  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1"];
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:@"1" layoutProto:nil];
 }
 
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix {
+  return [self initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft gridSize:gridSize bgdPrefix:bgdPrefix layoutProto:nil];
+}
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft gridSize:(CGSize)gridSize bgdPrefix:(NSString *)bgdPrefix layoutProto:(BoardLayoutProto *)layoutProto {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
-    _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    
+    if (layoutProto) {
+      _layoutProto = layoutProto;
+      _gridSize = CGSizeMake(layoutProto.width, layoutProto.height);
+    } else {
+      _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+    }
     
     NSMutableArray *arr = [NSMutableArray array];
     for (UserMonster *um in monsters) {
@@ -200,7 +210,14 @@
 }
 
 - (void) initOrbLayer {
-  OrbMainLayer *ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  OrbMainLayer *ol;
+  
+  if (_layoutProto) {
+    ol = [[OrbMainLayer alloc] initWithLayoutProto:_layoutProto];
+  } else {
+    ol = [[OrbMainLayer alloc] initWithGridSize:_gridSize numColors:6];
+  }
+  
   [self addChild:ol z:2];
   ol.delegate = self;
   self.orbLayer = ol;
@@ -212,7 +229,7 @@
   [self begin];
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbLayer.bgdLayer addChild:clip z:self.orbLayer.swipeLayer.zOrder];
+  [self.orbLayer.bgdLayer addChild:clip z:100];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
   clip.position = ccp(self.orbLayer.swipeLayer.position.x+self.orbLayer.swipeLayer.contentSize.width, 54);
@@ -249,6 +266,10 @@
 }
 
 - (void) createScheduleWithSwap:(BOOL)swap playerHitsFirst:(BOOL)playerFirst {
+#ifdef DEBUG_BATTLE_MODE
+  playerFirst = YES;
+#endif
+
   if (self.myPlayerObject && self.enemyPlayerObject) {
     ScheduleFirstTurn order;
     if(swap) {
@@ -394,7 +415,7 @@
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
   CGPoint finalPos = player.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-  float startX = -player.contentSize.width;
+  float startX = -player.contentSize.width-MY_PLAYER_LOCATION.x+finalPos.x;
   float xDelta = finalPos.x-startX;
   CGPoint newPos = ccp(startX, finalPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
   
@@ -418,7 +439,10 @@
        }
        
        [player stopWalking];
-       [self performSelector:selector withObject:player];
+       
+       if (selector) {
+         [self performSelector:selector withObject:player];
+       }
      }],
     nil]];
 }
@@ -712,12 +736,34 @@
             _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
             _enemyDamageDealt = _enemyDamageDealt*[self damageMultiplierIsEnemyAttacker:YES];
             _enemyDamageDealt = (int)[skillManager modifyDamage:_enemyDamageDealt forPlayer:NO];
-            [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
-                                                      shouldReturn:YES
-                                                       shouldEvade:[skillManager playerWillEvade:YES]
-                                                      shouldFlinch:(_enemyDamageDealt>0)
-                                                            target:self
-                                                          selector:@selector(dealEnemyDamage)];
+            
+            // If the enemy's confused, he will deal damage to himself. Instead of the usual flow, show
+            // the popup above his head, followed by flinch animation and showing the damage label
+            if (self.enemyPlayerObject.isConfused)
+            {
+              CCSprite* confusedPopup = [CCSprite spriteWithImageNamed:@"confusionbubble.png"];
+              [confusedPopup setAnchorPoint:CGPointMake(.5f, 0.f)];
+              [confusedPopup setPosition:CGPointMake(self.currentEnemy.contentSize.width * .5f + 6.f, self.currentEnemy.contentSize.height + 13.f)];
+              [confusedPopup setScale:0.f];
+              [self.currentEnemy addChild:confusedPopup];
+              
+              [confusedPopup runAction:[CCActionSequence actions:
+                                        [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:1.f]],
+                                        [CCActionDelay actionWithDuration:.5f],
+                                        [CCActionCallFunc actionWithTarget:self selector:@selector(enemyDealsDamageToSelf)],
+                                        [CCActionDelay actionWithDuration:1.5f],
+                                        [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:.2f scale:0.f]],
+                                        [CCActionRemove action],
+                                        nil]];
+            }
+            else
+              [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer
+                                                        shouldReturn:YES
+                                                         shouldEvade:[skillManager playerWillEvade:YES]
+                                                        shouldFlinch:(_enemyDamageDealt>0)
+                                                              target:self
+                                                            selector:@selector(dealEnemyDamage)
+                                                      animCompletion:nil];
           }];
         }
       }
@@ -779,7 +825,8 @@
                                              shouldEvade:[skillManager playerWillEvade:NO]
                                                    enemy:self.currentEnemy
                                                   target:self
-                                                selector:@selector(dealMyDamage)];
+                                                selector:@selector(dealMyDamage)
+                                          animCompletion:nil];
   } else {
     [self beginNextTurn];
   }
@@ -861,6 +908,92 @@
   }
 }
 
+- (void) enemyDealsDamageToSelf {
+  SkillLogStart(@"TRIGGER STARTED: deal damage by enemy");
+  [skillManager triggerSkills:SkillTriggerPointEnemyDealsDamage withCompletion:^(BOOL triggered, id params) {
+    
+    SkillLogEnd(triggered, @"  Deal damage by enemy trigger ENDED");
+    
+    _enemyShouldAttack = YES;
+    
+    /*
+     * Enemy deals damage to self
+     */
+    
+    int curHealth = self.enemyPlayerObject.curHealth;
+    int newHealth = MIN(self.enemyPlayerObject.maxHealth, MAX(0, curHealth-_enemyDamageDealt));
+    float newPercent = ((float)newHealth)/self.enemyPlayerObject.maxHealth*100;
+    float percChange = ABS(self.currentEnemy.healthBar.percentage-newPercent);
+    float duration = percChange/HEALTH_BAR_SPEED;
+    
+    [SoundEngine puzzleDamageTickStart];
+    [self.currentEnemy.healthBar runAction:[CCActionSequence actions:
+                          [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
+                          [CCActionCallBlock actionWithBlock:
+                           ^{
+                             [self.currentEnemy.healthLabel stopActionByTag:1015];
+                             [self updateHealthBars];
+                             [SoundEngine puzzleDamageTickStop];
+                             
+                             if (newHealth <= 0) {
+                               [self blowupBattleSprite:self.currentEnemy withBlock:^{
+                                 [self checkEnemyHealthAndStartNewTurn];
+                               }];
+                               
+                               // Drop loot
+                               _lootSprite = [self getCurrentEnemyLoot];
+                               
+                               if (_lootSprite)
+                                 [self dropLoot:_lootSprite];
+                             } else {
+                               [self checkEnemyHealthAndStartNewTurn];
+                             }
+                           }],
+                          nil]];
+    
+    CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
+                         [CCActionSequence actions:
+                          [CCActionCallBlock actionWithBlock:
+                           ^{
+                             self.currentEnemy.healthLabel.string = [NSString stringWithFormat:@"%@/%@",
+                                                                     [Globals commafyNumber:(int)(self.currentEnemy.healthBar.percentage/100.f*self.enemyPlayerObject.maxHealth)],
+                                                                     [Globals commafyNumber:self.enemyPlayerObject.maxHealth]];
+                           }],
+                          [CCActionDelay actionWithDuration:0.03],
+                          nil]];
+    f.tag = 1015;
+    [self.currentEnemy.healthLabel runAction:f];
+    
+    NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:_enemyDamageDealt]];
+    CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
+    [self.bgdContainer addChild:damageLabel z:self.currentEnemy.zOrder];
+    damageLabel.position = ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height-15));
+    damageLabel.scale = 0.01;
+    [damageLabel runAction:[CCActionSequence actions:
+                            [CCActionSpawn actions:
+                             [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                             [CCActionFadeOut actionWithDuration:1.5f],
+                             [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
+                            [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
+    
+    self.enemyPlayerObject.curHealth = newHealth;
+    
+    /*
+     *
+     */
+    
+    float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
+    if (perc < PULSE_CONT_THRESH) {
+      [self pulseHealthLabel:YES];
+    } else {
+      [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+      self.currentEnemy.healthLabel.color = [CCColor whiteColor];
+    }
+    
+    [self.currentEnemy performNearFlinchAnimationWithStrength:0 delay:0.f];
+  }];
+}
+
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker usingAbility:(BOOL)usingAbility withTarget:(id)target withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
@@ -937,10 +1070,73 @@
     CGPoint pos = defSpr.position;
     int val = 40*(enemyIsAttacker ? 1 : -1);
     pos = ccpAdd(pos, ccp(val, 15));
-    [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+    //[self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
   }
   
   def.curHealth = newHealth;
+}
+
+- (void) healForAmount:(int)heal enemyIsHealed:(BOOL)enemyIsHealed withTarget:(id)target andSelector:(SEL)selector {
+  BattlePlayer *bp;
+  BattleSprite *sprite;
+  CCLabelTTF *healthLabel;
+  CCProgressNode *healthBar;
+  if (enemyIsHealed) {
+    bp = self.enemyPlayerObject;
+    sprite = self.currentEnemy;
+    healthLabel = self.currentEnemy.healthLabel;
+    healthBar = self.currentEnemy.healthBar;
+  } else {
+    bp = self.myPlayerObject;
+    sprite = self.myPlayer;
+    healthLabel = self.myPlayer.healthLabel;
+    healthBar = self.myPlayer.healthBar;
+  }
+  
+  int curHealth = bp.curHealth;
+  int newHealth = MIN(bp.maxHealth, MAX(0, curHealth + heal));
+  float newPercent = ((float)newHealth) / bp.maxHealth * 100.f;
+  float percChange = ABS(healthBar.percentage - newPercent);
+  float duration = percChange / HEALTH_BAR_SPEED;
+  
+  [SoundEngine puzzleDamageTickStart];
+  [healthBar runAction:[CCActionSequence actions:
+                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:duration percent:newPercent]],
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           [healthLabel stopActionByTag:1827];
+                           [self updateHealthBars];
+                           [SoundEngine puzzleDamageTickStop];
+                           [target performSelector:selector];
+                         }],
+                        nil]];
+  
+  CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
+                       [CCActionSequence actions:
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           healthLabel.string = [NSString stringWithFormat:@"%@/%@",
+                                                 [Globals commafyNumber:(int)(healthBar.percentage / 100.f * bp.maxHealth)],
+                                                 [Globals commafyNumber:bp.maxHealth]];
+                         }],
+                        [CCActionDelay actionWithDuration:.03f],
+                        nil]];
+  [f setTag:1827];
+  [healthLabel runAction:f];
+  
+  NSString *str = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:heal]];
+  CCLabelBMFont *healLabel = [CCLabelBMFont labelWithString:str fntFile:@"earthpointsfont.fnt"];
+  [self.bgdContainer addChild:healLabel z:sprite.zOrder];
+  [healLabel setPosition:ccpAdd(sprite.position, ccp(0.f, sprite.contentSize.height - 15.f))];
+  [healLabel setScale:.01f];
+  [healLabel runAction:[CCActionSequence actions:
+                        [CCActionSpawn actions:
+                         [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1.1f]],
+                         [CCActionFadeOut actionWithDuration:1.5f],
+                         [CCActionMoveBy actionWithDuration:1.5f position:ccp(0.f, 25.f)], nil],
+                        [CCActionCallFunc actionWithTarget:healLabel selector:@selector(removeFromParent)], nil]];
+  
+  bp.curHealth = newHealth;
 }
 
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
@@ -1485,7 +1681,7 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.4f+xScale/600.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
@@ -1715,7 +1911,7 @@
   if (tile.allowsDamage && !mudOnBoard) // Certain tiles (e.g. jelly) do not allow damage
   {
     // Increment damage, create label and ribbon
-    int dmg = [self.myPlayerObject damageForColor:color];
+    int dmg = [self.myPlayerObject damageForColor:color] * (int)orb.damageMultiplier;
     _myDamageDealt += dmg;
     _myDamageForThisTurn += dmg;
   
@@ -1762,7 +1958,7 @@
     }
   }
   
-  // Update tile
+  // Update all tiles
   [tile orbRemoved];
   [self.orbLayer.bgdLayer updateTile:tile];
   

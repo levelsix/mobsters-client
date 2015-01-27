@@ -25,7 +25,7 @@
 - (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble buttonText:(NSString *)buttonText {
   if ((self = [super init])) {
     self.dialogue = dialogue;
-    _useSmallBubble = smallBubble;
+    _useSmallBubble = NO;//smallBubble;
     _buttonText = buttonText;
     self.view.hidden = YES;
   }
@@ -43,6 +43,11 @@
   
   if (_buttonText) {
     self.buttonLabel.text = _buttonText;
+    self.buttonLabel.strokeColor = [UIColor colorWithRed:52/255.f green:108/255.f blue:4/255.f alpha:1.f];
+    self.buttonLabel.shadowBlur = 0.9f;
+    self.buttonLabel.strokeSize = 1.f;
+    self.buttonLabel.gradientEndColor = [UIColor colorWithRed:1.f green:1.f blue:215/255.f alpha:1.f];
+    self.buttonLabel.gradientStartColor = [UIColor whiteColor];
     
     [self.speechBubble addSubview:self.buttonView];
     self.buttonView.center = ccp(self.speakerLabel.superview.center.x, self.speechBubble.frame.size.height-2);
@@ -74,7 +79,7 @@
 
 - (void) setDialogueLabelText:(NSString *)text {
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineSpacing:1.2];
+  [paragraphStyle setLineSpacing:2.6];
   [paragraphStyle setAlignment:NSTextAlignmentCenter];
   [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSParagraphStyleAttributeName: paragraphStyle}];
@@ -96,6 +101,12 @@
       [self animateBubbleOutCompletion:^{
         if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
           [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:thisIndex];
+        }
+        
+        if (![oldSS.speakerImage isEqualToString:curSS.speakerImage]) {
+          NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
+          UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
+          [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
         }
         
         self.speakerLabel.text = curSS.speaker;

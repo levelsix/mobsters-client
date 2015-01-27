@@ -166,7 +166,7 @@
         <image name="earthdailylab.png" width="1" height="50"/>
         <image name="engagearrow.png" width="6" height="10"/>
         <image name="engagegrayarrow.png" width="6" height="10"/>
-        <image name="gradientearthdailylab.png" width="11" height="50"/>
+        <image name="gradientearthdailylab.png" width="12" height="50"/>
         <image name="greenmenuoption.png" width="80" height="40"/>
         <image name="maptaskdonebg.png" width="15" height="15"/>
         <image name="maptaskdonecheck.png" width="20" height="18"/>

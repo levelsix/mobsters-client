@@ -151,10 +151,6 @@
   self.dropScrollView.width = (self.characterIcon ? self.characterIcon.originX + 28 : self.enterButtonView.originX) - self.dropScrollView.originX - 5;
   self.taskNameScrollView.width = self.dropScrollView.width + (self.availableLabel.superview.hidden ? -25 : 35);
   
-  
-  
-  NSLog(@"Drop scroll width: %f, task name width: %f, Self origin: %f, view width: %f", self.dropScrollView.width, self.taskNameScrollView.width, self.dropScrollView.originX, self.width);
-  
   //Add money rewards
   if (!isCompleted) {
     

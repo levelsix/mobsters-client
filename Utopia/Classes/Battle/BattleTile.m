@@ -10,7 +10,7 @@
 
 @implementation BattleTile
 
--(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom
+-(id) initWithColumn:(NSInteger)column row:(NSInteger)row typeTop:(TileType)typeTop typeBottom:(TileType)typeBottom isHole:(BOOL)isHole canPassThrough:(BOOL)canPassThrough canSpawnOrbs:(BOOL)canSpawnOrbs
 {
   self = [super init];
   if (! self)
@@ -20,6 +20,11 @@
   _row = row;
   _typeTop = typeTop;
   _typeBottom = typeBottom;
+  
+  _isHole = isHole;
+  _canPassThrough = canPassThrough;
+  
+  _canSpawnOrbs = canSpawnOrbs;
   
   return self;
 }
@@ -39,6 +44,10 @@
 {
   if (_typeBottom == TileTypeJelly || _typeBottom == TileTypeMud)
     _typeBottom = TileTypeNormal;
+}
+
+- (BOOL) isBlocked {
+  return self.isHole && !self.canPassThrough;
 }
 
 @end

@@ -59,10 +59,10 @@
 - (void) dealSkewer
 {
   // Perform attack animation
-  if (self.belongsToPlayer)
-    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite target:self selector:@selector(dealSkewer1)];
-  else
-    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES target:self selector:@selector(dealSkewer1)];
+//  if (self.belongsToPlayer)
+//    [self.playerSprite performFarAttackAnimationWithStrength:0.f shouldEvade:NO enemy:self.enemySprite target:self selector:@selector(dealSkewer1)];
+//  else
+//    [self.enemySprite performNearAttackAnimationWithEnemy:self.playerSprite shouldReturn:YES shouldEvade:NO shouldFlinch:YES target:self selector:@selector(dealSkewer1)];
 }
 
 - (int) pickDamage

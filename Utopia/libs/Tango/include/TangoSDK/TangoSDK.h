@@ -64,6 +64,13 @@
   #import "TangoSharing.h"
   #import "TangoSharingData.h"
 
+  // Inviting and Gifting APIs
+  #import "TangoInviting.h"
+  #import "TangoGifting.h"
+
+  // Groups API
+  #import "TangoGroups.h"
+
   // Tools
   #import "TangoTools.h"
 

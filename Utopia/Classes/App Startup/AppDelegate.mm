@@ -18,7 +18,6 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 #import "Downloader.h"
-#import "TestFlight.h"
 #import <Kamcord/Kamcord.h>
 #import "FacebookDelegate.h"
 #import "MSWindow.h"
@@ -124,13 +123,15 @@
   
   [[CCDirector sharedDirector] pause];
   
-    [ChartboostDelegate setUpChartboost];
+  [ChartboostDelegate setUpChartboost];
   
   return YES;
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application {
   LNLog(@"will resign active");
+  
+  [[CCDirector sharedDirector] pause];
   
   [[SocketCommunication sharedSocketCommunication] flush];
 }
@@ -190,7 +191,7 @@
     if (!testWindow.opaque && [NSStringFromClass(testWindow.class) hasPrefix:@"UIText"]) {
       BOOL wasHidden = testWindow.hidden;
       testWindow.hidden = YES;
-      
+  
       if (!wasHidden) {
         testWindow.hidden = NO;
       }
@@ -233,9 +234,7 @@
     [app registerUserNotificationSettings:
      [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
     
-    if (![app isRegisteredForRemoteNotifications]) {
-      [app registerForRemoteNotifications];
-    }
+    [app registerForRemoteNotifications];
   } else {
     [app registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];

@@ -130,7 +130,7 @@
     if (direction == MapDirectionFront) {
       name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
     } else if (direction == MapDirectionKneel) {
-      name = [NSString stringWithFormat:@"%@KneelN00.png", self.prefix];
+      name = [NSString stringWithFormat:@"%@KneelN01.png", self.prefix];
     } else {
       name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
     }
