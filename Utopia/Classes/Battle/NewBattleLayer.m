@@ -1159,6 +1159,31 @@
   bp.curHealth = newHealth;
 }
 
+- (void) instantSetHealthForEnemey:(BOOL)enemy to:(int)health withTarget:(id)target andSelector:(SEL)selector
+{
+  BattlePlayer* bp = enemy ? self.enemyPlayerObject : self.myPlayerObject;
+  BattleSprite* bs = enemy ? self.currentEnemy : self.myPlayer;
+  
+  bp.curHealth = MIN(bp.maxHealth, MAX(0, health));
+  [self updateHealthBars];
+  
+  if (health <= 0) {
+    [self blowupBattleSprite:bs withBlock:^{
+      [target performSelector:selector];
+    }];
+    
+    if (enemy) {
+      // Drop loot
+      _lootSprite = [self getCurrentEnemyLoot];
+      
+      if (_lootSprite)
+        [self dropLoot:_lootSprite];
+    }
+  } else {
+    [target performSelector:selector];
+  }
+}
+
 - (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
   Globals *gl = [Globals sharedGlobals];
   float mult = [gl calculateDamageMultiplierForAttackElement:atkElement defenseElement:defElement];

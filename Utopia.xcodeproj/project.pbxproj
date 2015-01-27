@@ -1122,6 +1122,9 @@
 		9B238A0D1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
 		9B238A0E1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
 		9B238A0F1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */; };
+		9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
+		9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
+		9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B41AE801A7824AA00529879 /* SkillKnockout.m */; };
 		9B8CA6111A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6121A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
 		9B8CA6131A3798C00060BE8F /* SkillCritAndEvade.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */; };
@@ -7767,6 +7770,8 @@
 		9B2389F81A363EE800FA3743 /* nightskilldescription@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nightskilldescription@2x.png"; sourceTree = "<group>"; };
 		9B2389F91A363EE800FA3743 /* waterskilldescription@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waterskilldescription@2x.png"; sourceTree = "<group>"; };
 		9B238A0C1A363EF500FA3743 /* skilldescriptionline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skilldescriptionline@2x.png"; sourceTree = "<group>"; };
+		9B41AE7F1A7824AA00529879 /* SkillKnockout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillKnockout.h; sourceTree = "<group>"; };
+		9B41AE801A7824AA00529879 /* SkillKnockout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillKnockout.m; sourceTree = "<group>"; };
 		9B8CA60F1A3798C00060BE8F /* SkillCritAndEvade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCritAndEvade.h; sourceTree = "<group>"; };
 		9B8CA6101A3798C00060BE8F /* SkillCritAndEvade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCritAndEvade.m; sourceTree = "<group>"; };
 		9B8CA6171A379CB50060BE8F /* drunkenbrawlicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drunkenbrawlicon@2x.png"; sourceTree = "<group>"; };
@@ -17618,6 +17623,8 @@
 				9B0E6E491A76D7A500118210 /* SkillStaticField.m */,
 				9B0E6E5B1A77087000118210 /* SkillBlindingLight.h */,
 				9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */,
+				9B41AE7F1A7824AA00529879 /* SkillKnockout.h */,
+				9B41AE801A7824AA00529879 /* SkillKnockout.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -24451,6 +24458,7 @@
 				CF48259B19F729D000041486 /* PPEmitterView.m in Sources */,
 				CF0CEDC6196F452900ECD301 /* MenuNavigationController.m in Sources */,
 				CF0CEDC7196F452900ECD301 /* PersistentEventProto+Time.m in Sources */,
+				9B41AE821A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CF0CEDC8196F452900ECD301 /* ClanRaidListViewController.m in Sources */,
 				CF0CEDC9196F452900ECD301 /* ClanBrowseViewController.m in Sources */,
 				CF0CEDCA196F452900ECD301 /* BoosterPackStuff.pb.m in Sources */,
@@ -24526,6 +24534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF023CBD19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
+				9B41AE811A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CFFEB1B9183704DA007C4BA3 /* OrbBgdLayer.m in Sources */,
 				CF126D171538ACCA00E0C1AD /* Analytics.m in Sources */,
 				CF6574B11909CAF200ABF1F4 /* EventClan.pb.m in Sources */,
@@ -25093,6 +25102,7 @@
 				CF48259C19F729D000041486 /* PPEmitterView.m in Sources */,
 				CF48197419F7217F00041486 /* MenuNavigationController.m in Sources */,
 				CF48197519F7217F00041486 /* PersistentEventProto+Time.m in Sources */,
+				9B41AE831A7824AA00529879 /* SkillKnockout.m in Sources */,
 				CF48197619F7217F00041486 /* ClanRaidListViewController.m in Sources */,
 				CF48197719F7217F00041486 /* ClanBrowseViewController.m in Sources */,
 				CF48197819F7217F00041486 /* BoosterPackStuff.pb.m in Sources */,

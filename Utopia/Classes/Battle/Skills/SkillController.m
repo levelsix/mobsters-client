@@ -33,6 +33,7 @@
 #import "SkillTakeAim.h"
 #import "SkillStaticField.h"
 #import "SkillBlindingLight.h"
+#import "SkillKnockout.h"
 
 @implementation SkillController
 
@@ -64,6 +65,7 @@
     case SkillTypeTakeAim: return [[SkillTakeAim alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeStaticField: return [[SkillStaticField alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeBlindingLight: return [[SkillBlindingLight alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeKnockout: return [[SkillKnockout alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
