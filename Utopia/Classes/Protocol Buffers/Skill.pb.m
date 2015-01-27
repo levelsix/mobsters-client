@@ -40,6 +40,10 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeCounterStrike:
     case SkillTypeFlameStrike:
     case SkillTypeConfusion:
+    case SkillTypeStaticField:
+    case SkillTypeBlindingLight:
+    case SkillTypePoisonPowder:
+    case SkillTypeSkewer:
       return YES;
     default:
       return NO;
@@ -584,7 +588,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.type = value;
   return self;
 }
-- (SkillProto_Builder*) clearType {
+- (SkillProto_Builder*) clearTypeList {
   result.hasType = NO;
   result.type = SkillTypeNoSkill;
   return self;
@@ -600,7 +604,7 @@ static SkillProto* defaultSkillProtoInstance = nil;
   result.activationType = value;
   return self;
 }
-- (SkillProto_Builder*) clearActivationType {
+- (SkillProto_Builder*) clearActivationTypeList {
   result.hasActivationType = NO;
   result.activationType = SkillActivationTypeUserActivated;
   return self;
