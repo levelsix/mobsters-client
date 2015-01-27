@@ -91,7 +91,7 @@
     UserAchievement *ua = userAchievements[@(ap.achievementId)];
     
     if (ua.isRedeemed) {
-      return ap.successorId == 0;
+      return ap.successorId == 0 && ap.priority;
     } else {
       if (ap.prerequisiteId) {
         UserAchievement *pre = userAchievements[@(ap.prerequisiteId)];
