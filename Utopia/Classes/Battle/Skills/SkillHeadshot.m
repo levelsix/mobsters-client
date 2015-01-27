@@ -260,7 +260,7 @@
     [self skillTriggerFinished];
 }
 
--(void)showLogo
+- (void) showLogo
 {
   const CGFloat yOffset = self.belongsToPlayer ? 40.f : -20.f;
   
@@ -280,7 +280,6 @@
                          [CCActionRemove action],
                          nil]];
 }
-
 
 - (void) spawnHeadshotOrbs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
 {

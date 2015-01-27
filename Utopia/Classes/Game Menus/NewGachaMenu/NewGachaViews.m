@@ -24,6 +24,9 @@ static const int kScreenShakeAnimOffsetRange = 15.f;  // Pixels
 
 static const CGFloat kPFXFadeInAnimDuration = 1.f;    // Seconds
 static const CGFloat kLightPulseAnimDuration = 1.f;   // Seconds
+static const CGFloat kCloseButtonFadeInAnimDelay = 1.f;     // Seconds
+static const CGFloat kCloseButtonFadeInAnimDuration = .5f;  // Seconds
+static const CGFloat kCloseButtonTargetOpacity = .5f;
 
 #define REVEAL_KEYFRAME_ANIMATION(__anim__, __key__) \
   CAKeyframeAnimation *__anim__ = [CAKeyframeAnimation animationWithKeyPath:__key__]; { \
@@ -372,6 +375,10 @@ typedef void (^RevealAnimCompletionBlock)(void);
   } completion:^(BOOL finished) {
     [self shakeViews:@[ self.statsContainerView, self.animationContainerView ] withKey:@"ContainerViewsShakeAnimation" completion:^{
       self.closeButton.hidden = NO;
+      self.closeButton.alpha = 0.f;
+      [UIView animateWithDuration:kCloseButtonFadeInAnimDuration delay:kCloseButtonFadeInAnimDelay options:UIViewAnimationOptionCurveLinear animations:^{
+        self.closeButton.alpha = kCloseButtonTargetOpacity;
+      } completion:nil];
       
       _particleEffectView.hidden = NO;
       _particleEffectView.alpha = 0.f;

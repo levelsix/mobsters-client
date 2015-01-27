@@ -60,6 +60,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
   
   SkillTriggerPoint     _currentTrigger;
   BOOL                  _executedInitialAction;
+  BOOL                  _skillActivated;
 }
 
 @property (readonly) SkillType            skillType;

@@ -32,6 +32,7 @@
 #import "SkillBloodRage.h"
 #import "SkillTakeAim.h"
 #import "SkillStaticField.h"
+#import "SkillBlindingLight.h"
 
 @implementation SkillController
 
@@ -62,6 +63,7 @@
     case SkillTypeBloodRage: return [[SkillBloodRage alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeTakeAim: return [[SkillTakeAim alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeStaticField: return [[SkillStaticField alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeBlindingLight: return [[SkillBlindingLight alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -154,6 +156,8 @@
 
 - (void) skillTriggerFinished:(BOOL)skillActivated
 {
+  _skillActivated = skillActivated;
+  
   if (_currentTrigger == SkillTriggerPointEnemyAppeared)
     _executedInitialAction = YES;
   
@@ -164,12 +168,14 @@
     _popupOverlay = nil;
   }
   else
+  {
     _callbackBlock(YES, _callbackParams);
   
-  if (skillActivated && [self isKindOfClass:[SkillControllerActive class]])
-  {
-    [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
-                 withCompletion:^(BOOL triggered, id params) {}];
+    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
+    {
+      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                   withCompletion:^(BOOL triggered, id params) {}];
+    }
   }
 }
 
@@ -247,6 +253,12 @@
     }
     
     _callbackBlock(YES, _callbackParams);
+    
+    if (_skillActivated && [self isKindOfClass:[SkillControllerActive class]])
+    {
+      [skillManager triggerSkills:self.belongsToPlayer ? SkillTriggerPointPlayerSkillActivated : SkillTriggerPointEnemySkillActivated
+                   withCompletion:^(BOOL triggered, id params) {}];
+    }
   };
   
   // Hide overlay

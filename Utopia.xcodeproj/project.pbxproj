@@ -1074,6 +1074,18 @@
 		9B0E6E581A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
 		9B0E6E591A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
 		9B0E6E5A1A76EE2100118210 /* staticfieldicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */; };
+		9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */; };
+		9B0E6E5E1A77087000118210 /* SkillBlindingLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */; };
+		9B0E6E5F1A77087000118210 /* SkillBlindingLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */; };
+		9B0E6E611A772F1B00118210 /* blindinglightlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E601A772F1B00118210 /* blindinglightlogo@2x.png */; };
+		9B0E6E621A772F1B00118210 /* blindinglightlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E601A772F1B00118210 /* blindinglightlogo@2x.png */; };
+		9B0E6E631A772F1B00118210 /* blindinglightlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E601A772F1B00118210 /* blindinglightlogo@2x.png */; };
+		9B0E6E651A772F5C00118210 /* blindinglighticon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E641A772F5C00118210 /* blindinglighticon@2x.png */; };
+		9B0E6E661A772F5C00118210 /* blindinglighticon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E641A772F5C00118210 /* blindinglighticon@2x.png */; };
+		9B0E6E671A772F5C00118210 /* blindinglighticon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E641A772F5C00118210 /* blindinglighticon@2x.png */; };
+		9B0E6E6A1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E691A772FB800118210 /* blindinglightminilogo@2x.png */; };
+		9B0E6E6B1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E691A772FB800118210 /* blindinglightminilogo@2x.png */; };
+		9B0E6E6C1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E691A772FB800118210 /* blindinglightminilogo@2x.png */; };
 		9B2389C31A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C41A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
 		9B2389C51A30048D00FA3743 /* itemssidearrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */; };
@@ -7736,6 +7748,11 @@
 		9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldminilogo@2x.png"; sourceTree = "<group>"; };
 		9B0E6E531A76EDE500118210 /* staticfieldlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldlogo@2x.png"; sourceTree = "<group>"; };
 		9B0E6E571A76EE2100118210 /* staticfieldicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staticfieldicon@2x.png"; sourceTree = "<group>"; };
+		9B0E6E5B1A77087000118210 /* SkillBlindingLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBlindingLight.h; sourceTree = "<group>"; };
+		9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBlindingLight.m; sourceTree = "<group>"; };
+		9B0E6E601A772F1B00118210 /* blindinglightlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blindinglightlogo@2x.png"; sourceTree = "<group>"; };
+		9B0E6E641A772F5C00118210 /* blindinglighticon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blindinglighticon@2x.png"; sourceTree = "<group>"; };
+		9B0E6E691A772FB800118210 /* blindinglightminilogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blindinglightminilogo@2x.png"; sourceTree = "<group>"; };
 		9B2389C21A30048D00FA3743 /* itemssidearrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemssidearrow@2x.png"; sourceTree = "<group>"; };
 		9B2389C61A3004AC00FA3743 /* itemssidearrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = itemssidearrow.png; path = Items/itemssidearrow.png; sourceTree = "<group>"; };
 		9B2389C71A310BAC00FA3743 /* nextmatchmask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextmatchmask@2x.png"; sourceTree = "<group>"; };
@@ -12750,6 +12767,7 @@
 			isa = PBXGroup;
 			children = (
 				9B0E6E181A73370E00118210 /* badjujuicon@2x.png */,
+				9B0E6E641A772F5C00118210 /* blindinglighticon@2x.png */,
 				9B9BA80B1A7336AE001B7D04 /* powermoveicon@2x.png */,
 				4C16FEFC19CE03AE00F9FC1E /* bombicon@2x.png */,
 				4C16FEFE19CE03AE00F9FC1E /* cakedropicon@2x.png */,
@@ -12892,6 +12910,14 @@
 				9B0E6E4F1A76ED2600118210 /* staticfieldminilogo@2x.png */,
 			);
 			path = "Static Field";
+			sourceTree = "<group>";
+		};
+		9B0E6E681A772FB800118210 /* Blinding Light */ = {
+			isa = PBXGroup;
+			children = (
+				9B0E6E691A772FB800118210 /* blindinglightminilogo@2x.png */,
+			);
+			path = "Blinding Light";
 			sourceTree = "<group>";
 		};
 		9B2389E21A32540800FA3743 /* Thick Skin */ = {
@@ -17489,6 +17515,7 @@
 				9B0E6E231A73373100118210 /* Flame Strike */,
 				9B0E6E1F1A73373100118210 /* Confusion */,
 				9B0E6E4E1A76ED2600118210 /* Static Field */,
+				9B0E6E681A772FB800118210 /* Blinding Light */,
 			);
 			path = "Skills Images";
 			sourceTree = "<group>";
@@ -17589,6 +17616,8 @@
 				6BA24E081A7AEA6E00BEF920 /* SkillTakeAim.m */,
 				9B0E6E481A76D7A500118210 /* SkillStaticField.h */,
 				9B0E6E491A76D7A500118210 /* SkillStaticField.m */,
+				9B0E6E5B1A77087000118210 /* SkillBlindingLight.h */,
+				9B0E6E5C1A77087000118210 /* SkillBlindingLight.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -17651,6 +17680,7 @@
 			children = (
 				6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */,
 				9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */,
+				9B0E6E601A772F1B00118210 /* blindinglightlogo@2x.png */,
 				9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */,
 				DAAD3E0519C8D7F400557698 /* bomblogo@2x.png */,
 				DA6EBF4219C273EE0020B628 /* cakedroplogo@2x.png */,
@@ -18818,6 +18848,7 @@
 				2985E5FD1A330DB00041ABF4 /* greenchatcorner@2x.png in Resources */,
 				CFA8B19219EB63C400CF6BFD /* 6firebomb@2x.png in Resources */,
 				CFF2A52519709C4800269084 /* OilDrillT1@2x.pvr.ccz in Resources */,
+				9B0E6E661A772F5C00118210 /* blindinglighticon@2x.png in Resources */,
 				CF0CF346196F452900ECD301 /* queststars@2x.plist in Resources */,
 				CF0CF347196F452900ECD301 /* splashguys@2x.png in Resources */,
 				29AE75E21A6F36E000264070 /* TribalGuy0T1RunNF@2x.pvr.ccz in Resources */,
@@ -19405,6 +19436,7 @@
 				CF0CF5FB196F452900ECD301 /* mjnew@2x.png in Resources */,
 				CFA793AE1A0C63ED00DF3407 /* waterscientisteventlive@2x.png in Resources */,
 				CF0CF5FD196F452900ECD301 /* Scientist1Turn13@2x.png in Resources */,
+				9B0E6E6B1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */,
 				CFA7282A1A0AE62A00FF6031 /* buildingbuttonpressed@2x.png in Resources */,
 				CFA729001A0B037900FF6031 /* lighteventtag@2x.png in Resources */,
 				CF0CF5FF196F452900ECD301 /* Scientist4Breath06@2x.png in Resources */,
@@ -19840,6 +19872,7 @@
 				CF0CF7FE196F452900ECD301 /* Scientist1Turn10@2x.png in Resources */,
 				CF0CF7FF196F452900ECD301 /* walking.aif in Resources */,
 				9B238A0E1A363EF500FA3743 /* skilldescriptionline@2x.png in Resources */,
+				9B0E6E621A772F1B00118210 /* blindinglightlogo@2x.png in Resources */,
 				CF0CF800196F452900ECD301 /* wrongmove.aif in Resources */,
 				CF0CF805196F452900ECD301 /* gem_pop.aif in Resources */,
 				CF0CF806196F452900ECD301 /* healredbubble9@2x.png in Resources */,
@@ -20631,6 +20664,7 @@
 				CF134A8B18A5E4B500D7D700 /* FatBoy5Move08@2x.png in Resources */,
 				63C57E9C1A66282700ED406E /* gradientfiredailylab@2x.png in Resources */,
 				CF864DC6193E7C5C00DE0D7A /* newchatdot@2x.png in Resources */,
+				9B0E6E6A1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */,
 				CFF2C90C193FB51000F28D9E /* Whitney-Semibold.otf in Resources */,
 				9BB9493D1A6E1197006EE920 /* watergrglow2glowblend@2x.png in Resources */,
 				CFFBDF7818ACA3D90090CA9A /* Scientist2Turn09@2x.png in Resources */,
@@ -20987,6 +21021,7 @@
 				CF951F63193947A400A98290 /* healingicon@2x.png in Resources */,
 				CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */,
 				CFE9D362194A984500BD930E /* clanbrowseinactiveicon2@2x.png in Resources */,
+				9B0E6E611A772F1B00118210 /* blindinglightlogo@2x.png in Resources */,
 				CF40D02618DFCC6C0034A721 /* diamondleaguebg@2x.png in Resources */,
 				CF0CE182196E552500ECD301 /* 6splashbg@2x.png in Resources */,
 				29FFD9631A37E5100063C17C /* ChatClanAvengeView.xib in Resources */,
@@ -21264,6 +21299,7 @@
 				CF9520531939690800A98290 /* lockedcitypin@2x.png in Resources */,
 				299AA3C31A7856AA00A2D806 /* nightheadshot-9@2x.png in Resources */,
 				CFFBDFB618ACA3D90090CA9A /* Scientist4Blink11@2x.png in Resources */,
+				9B0E6E651A772F5C00118210 /* blindinglighticon@2x.png in Resources */,
 				CFA728E11A0B037900FF6031 /* eartheventtimer@2x.png in Resources */,
 				CF864D63193E639900DE0D7A /* NRTouchImage@2x.png in Resources */,
 				DA5E403919D25B60001F28CE /* lightcounter@2x.png in Resources */,
@@ -22017,6 +22053,7 @@
 				CF481A2F19F7217F00041486 /* orangemenuoption@2x.png in Resources */,
 				CF481A3119F7217F00041486 /* openearth@2x.png in Resources */,
 				CF481A3219F7217F00041486 /* movesqueuebg@2x.png in Resources */,
+				9B0E6E671A772F5C00118210 /* blindinglighticon@2x.png in Resources */,
 				CFA793A91A0C63ED00DF3407 /* watercakeeventlive@2x.png in Resources */,
 				CF481A3419F7217F00041486 /* Scientist3Breath12@2x.png in Resources */,
 				CF481A3519F7217F00041486 /* Scientist2Breath09@2x.png in Resources */,
@@ -23584,6 +23621,7 @@
 				299AA4241A786BB000A2D806 /* lightbomb-9@2x.png in Resources */,
 				CF48232119F7217F00041486 /* ClanCreateViewController.xib in Resources */,
 				CF48232219F7217F00041486 /* ClanInfoViewController.xib in Resources */,
+				9B0E6E6C1A772FB800118210 /* blindinglightminilogo@2x.png in Resources */,
 				3E72FC821A69CC6A00CC04E8 /* chatsquadhelpbg@2x.png in Resources */,
 				299AA3471A7856AA00A2D806 /* 6nightgrenade-9@2x.png in Resources */,
 				CF48232319F7217F00041486 /* firebigavatar@2x.png in Resources */,
@@ -23809,6 +23847,7 @@
 				2985E61C1A330DB00041ABF4 /* pinkchatdivider@2x.png in Resources */,
 				CF48242519F7217F00041486 /* MiniJobsDetailsCell.xib in Resources */,
 				CF48242619F7217F00041486 /* damagelabel@2x.png in Resources */,
+				9B0E6E631A772F1B00118210 /* blindinglightlogo@2x.png in Resources */,
 				CF48242719F7217F00041486 /* wateravatar@2x.png in Resources */,
 				CF48242919F7217F00041486 /* percent@2x.png in Resources */,
 				CF48242B19F7217F00041486 /* bigshadow@2x.png in Resources */,
@@ -24418,6 +24457,7 @@
 				CF0CEDCB196F452900ECD301 /* PopupSubViewController.m in Sources */,
 				CF0CEDCC196F452900ECD301 /* Battle.pb.m in Sources */,
 				CFA8B1BE19EF5D6600CF6BFD /* ChartboostDelegate.m in Sources */,
+				9B0E6E5E1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF0CEDCD196F452900ECD301 /* MyTeamSprite.m in Sources */,
 				CF0CEDCE196F452900ECD301 /* PvpBattleLayer.m in Sources */,
 				CF0CEDCF196F452900ECD301 /* ClanCreateViewController.m in Sources */,
@@ -24506,6 +24546,7 @@
 				DA07606019B129EC00E43E5A /* SkillManager.m in Sources */,
 				CFF5DC05194FCA160019EB2B /* ProfileViews.m in Sources */,
 				CF6574BE1909CAF200ABF1F4 /* MonsterStuff.pb.m in Sources */,
+				9B0E6E5D1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF7064C31845E4C7005B30A1 /* OneLineNotificationViewController.m in Sources */,
 				6BCBD8751A797E63002C584F /* SkillHammerTime.m in Sources */,
 				CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */,
@@ -25058,6 +25099,7 @@
 				CF48197919F7217F00041486 /* PopupSubViewController.m in Sources */,
 				CF48197A19F7217F00041486 /* Battle.pb.m in Sources */,
 				CF48197B19F7217F00041486 /* ChartboostDelegate.m in Sources */,
+				9B0E6E5F1A77087000118210 /* SkillBlindingLight.m in Sources */,
 				CF48197C19F7217F00041486 /* MyTeamSprite.m in Sources */,
 				CF48197D19F7217F00041486 /* PvpBattleLayer.m in Sources */,
 				CF48197E19F7217F00041486 /* ClanCreateViewController.m in Sources */,
