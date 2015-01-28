@@ -128,7 +128,7 @@
   [super youLost];
   
   PvpProto *pvp = self.defendersList[_curQueueNum];
-  [self.endView updateForRewards:nil isWin:NO];
+  [self.endView updateForRewards:[Reward createRewardsForPvpProto:pvp droplessStageNums:self.droplessStageNums] isWin:NO];
   [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO droplessStageNums:self.droplessStageNums delegate:self];
   
   // Send a private chat if avenge
@@ -188,6 +188,21 @@
 
 - (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
   _receivedEndPvpResponse = YES;
+  
+  EndPvpBattleResponseProto *response = (EndPvpBattleResponseProto *)fe.event;
+  
+  if (response.hasStatsBefore && response.hasStatsAfter) {
+    PvpLeagueProto *newLeague = [[GameState sharedGameState] leagueForId:response.statsAfter.leagueId];
+  
+    NSLog(@"Before rank: %i, After rank: %i", response.statsBefore.rank, response.statsAfter.rank);
+  
+    if (response.statsBefore.leagueId == response.statsAfter.leagueId)
+    {
+      [self.endView updatePvpReward:newLeague leagueChange:NO change:(response.statsBefore.rank - response.statsAfter.rank)];
+    } else {
+      [self.endView updatePvpReward:newLeague leagueChange:YES change:(response.statsAfter.leagueId - response.statsBefore.leagueId)];
+    }
+  }
   
   [self checkQuests];
   [self sendAnalytics];

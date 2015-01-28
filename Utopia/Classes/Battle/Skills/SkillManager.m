@@ -23,6 +23,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if ( ! self )
     return nil;
   
+  _persistentSkillControllers = [[NSMutableArray alloc] init];
+  
   _playerColor = _enemyColor = OrbColorNone;
   _playerSkillType = _enemySkillType = SkillTypeNoSkill;
   _cheatPlayerSkillType = _cheatEnemySkillType = SkillTypeNoSkill;
@@ -46,6 +48,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
 
 - (void) updatePlayerSkill
 {
+  if (_playerSkillController && _playerSkillController.shouldPersist)
+  {
+    [_persistentSkillControllers addObject:_playerSkillController];
+  }
+  
   // Major properties
   _player = _battleLayer.myPlayerObject;
   _playerColor = OrbColorNone;
@@ -94,6 +101,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   // Reset turn counter when new enemy appears
   if (! _enemySkillSerializedState)
     _turnsCounter = 0;
+  
+  if (_enemySkillController && _enemySkillController.shouldPersist)
+  {
+    [_persistentSkillControllers addObject:_enemySkillController];
+  }
   
   // Major properties
   _enemy = _battleLayer.enemyPlayerObject;
@@ -147,6 +159,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [self setDataForController:_enemySkillController];
   if (_playerSkillController)
     [self setDataForController:_playerSkillController];
+  
+  for (SkillController *perSkill in _persistentSkillControllers) {
+    [self setDataForController:perSkill];
+  }
 }
 
 - (void) setDataForController:(SkillController*)controller
@@ -156,7 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   controller.playerSprite = _playerSprite;
   controller.enemy = _enemy;
   controller.enemySprite = _enemySprite;
-  controller.belongsToPlayer = (controller == _playerSkillController);
+  controller.belongsToPlayer = controller.belongsToPlayer || (controller == _playerSkillController);
 }
 
 #pragma mark - External calls
@@ -301,25 +317,75 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   
   // Sequencing player and enemy skills in case both should be triggered
   SkillControllerBlock sequenceBlock = ^(BOOL triggered, id params) {
+    if (triggered)
+    {
+      [self pruneRepeatedSkills:_playerSkillController];
+    }
     BOOL enemySkillTriggered = FALSE;
     if (_enemy.curHealth > 0 || trigger == SkillTriggerPointEnemyDefeated)  // Call if still alive or cleanup trigger
       if (_enemySkillController && shouldTriggerEnemySkill)
       {
-        [_enemySkillController triggerSkill:trigger withCompletion:completion];
+        [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
+          if (triggered)
+            [self pruneRepeatedSkills:_enemySkillController];
+          [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
+        }];
         enemySkillTriggered = TRUE;
       }
     
     if (!enemySkillTriggered)
-      completion(triggered, params);
+      [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
   };
   
   // Triggering the player's skill with a sequence block or (if no player skill) the enemy's skill with a simple completion
   if (_playerSkillController && shouldTriggerPlayerSkill)
     [_playerSkillController triggerSkill:trigger withCompletion:sequenceBlock];
   else if (_enemySkillController && shouldTriggerEnemySkill)
-    [_enemySkillController triggerSkill:trigger withCompletion:completion];
+    [_enemySkillController triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
+      if (triggered)
+        [self pruneRepeatedSkills:_enemySkillController];
+      [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:triggered completion:completion params:params];
+    }];
   else
-    completion(NO, nil);
+    [self triggerPersistentSkills:_persistentSkillControllers index:0 trigger:trigger triggered:NO completion:completion params:nil];
+  
+  [self prunePersistentSkillsForPersistence];
+}
+
+#pragma mark - Persistent Skils
+
+- (void) triggerPersistentSkills:(NSMutableArray *)skills index:(int)index trigger:(SkillTriggerPoint)trigger triggered:(BOOL)outerTriggered completion:(SkillControllerBlock)completion params:(id)outerParams
+{
+  if (index >= skills.count)
+  {
+    [self prunePersistentSkillsForPersistence];
+    completion(outerTriggered, outerParams);
+  }
+  else
+  {
+    [(SkillController *)skills[index] triggerSkill:trigger withCompletion:^(BOOL triggered, id params) {
+      [self triggerPersistentSkills:skills index:(index+1) trigger:trigger triggered:triggered completion:completion params:params];
+    }];
+  }
+}
+
+- (void) prunePersistentSkillsForPersistence
+{
+  for (int i = ((int)_persistentSkillControllers.count)-1; i >= 0; i--) {
+    if (![(SkillController*)_persistentSkillControllers[i] shouldPersist]) {
+      [_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+    }
+  }
+}
+
+- (void) pruneRepeatedSkills:(SkillController *)withSkillType
+{
+  
+  for (int i = ((int)_persistentSkillControllers.count)-1; i >= 0; i--) {
+    if ([(SkillController*)_persistentSkillControllers[i] class] == [withSkillType class]) {
+      [_persistentSkillControllers removeObjectAtIndex:(NSUInteger)i];
+    }
+  }
 }
 
 #pragma mark - UI
@@ -369,7 +435,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_enemySkillController)
     [result setObject:[_enemySkillController serialize] forKey:@"enemySkill"];
   [result setObject:@(_turnsCounter) forKey:@"turnsCounter"];
+  [self serializePersistentSkills:result];
   return result;
+}
+
+- (void) serializePersistentSkills:(NSMutableDictionary *)result
+{
+  int i;
+  SkillController *skillController;
+  for (i =0; i < _persistentSkillControllers.count; i++) {
+    skillController = (SkillController*)_persistentSkillControllers[i];
+    [result setObject:[skillController serialize]
+               forKey:[NSString stringWithFormat:@"persistentSkill%i", i]];
+    
+  }
+  [result setObject:@(i) forKey:@"persistentSkillCount"];
 }
 
 - (void) deserialize:(NSDictionary*)dict
@@ -382,6 +462,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSNumber* turnsCounter = [dict objectForKey:@"turnsCounter"];
   if (turnsCounter)
     _turnsCounter = [turnsCounter integerValue];
+  [self deserializePersistentSkills:dict];
+}
+
+- (void) deserializePersistentSkills:(NSDictionary*)dict
+{
+  int persistentSkillCount = [[dict objectForKey:@"persistentSkillCount"] intValue];
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *skillState;
+  SkillController *skill;
+  SkillProto *proto;
+  OrbColor color;
+  for (int i = 0; i < persistentSkillCount; i++) {
+    skillState = [dict objectForKey:[NSString stringWithFormat:@"persistentSkill%i", i]];
+    proto = [gs.staticSkills objectForKey:[skillState objectForKey:@"skillId"]];
+    color = [[skillState objectForKey:@"color"] intValue];
+    skill = [SkillController skillWithProto:proto andMobsterColor:color];
+    [skill deserialize:skillState];
+    [_persistentSkillControllers addObject:skill];
+  }
 }
 
 #pragma mark - Misc
@@ -485,6 +584,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
                                             backgroundImage:bgName
                                                    orbImage:orbImage
                                                  atPosition:pos];
+}
+
+- (void) flushPersistentSkills
+{
+  [_persistentSkillControllers removeAllObjects];
 }
 
 #pragma mark - Specials

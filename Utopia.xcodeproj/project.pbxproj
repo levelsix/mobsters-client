@@ -455,6 +455,9 @@
 		3E1A0C1C1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
 		3E1A0C1D1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
 		3E1A0C1E1A64672500DF00AD /* PossibleDropView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */; };
+		3E383D7C1A76F77400BAC962 /* SkillSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E383D7B1A76F77400BAC962 /* SkillSkewer.m */; };
+		3E383D7D1A76F78200BAC962 /* SkillSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E383D7B1A76F77400BAC962 /* SkillSkewer.m */; };
+		3E383D7E1A76F78200BAC962 /* SkillSkewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E383D7B1A76F77400BAC962 /* SkillSkewer.m */; };
 		3E6F09AA1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
 		3E6F09AB1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
 		3E6F09AC1A6F0DBF006F2FF5 /* evobadge2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */; };
@@ -632,6 +635,12 @@
 		63C57EB41A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
 		63C57EB51A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
 		63C57EB61A66282700ED406E /* gradientwaterdailylab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */; };
+		6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
+		6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
+		6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */; };
+		6BCBD8671A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
+		6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
+		6BCBD8691A797AEE002C584F /* counterstrikelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */; };
 		9B0E6E191A73370E00118210 /* badjujuicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E181A73370E00118210 /* badjujuicon@2x.png */; };
 		9B0E6E1D1A73371A00118210 /* badjujulogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */; };
 		9B0E6E1E1A73371A00118210 /* powermovelogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */; };
@@ -7154,6 +7163,8 @@
 		3E1A0C021A645B4B00DF00AD /* Research.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Research.pb.h; sourceTree = "<group>"; };
 		3E1A0C031A645B4B00DF00AD /* Research.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Research.pb.m; sourceTree = "<group>"; };
 		3E1A0C1B1A64672500DF00AD /* PossibleDropView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PossibleDropView.xib; sourceTree = "<group>"; };
+		3E383D791A76F75800BAC962 /* SkillSkewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillSkewer.h; sourceTree = "<group>"; };
+		3E383D7B1A76F77400BAC962 /* SkillSkewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillSkewer.m; sourceTree = "<group>"; };
 		3E6F09A91A6F0DBF006F2FF5 /* evobadge2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evobadge2@2x.png"; sourceTree = "<group>"; };
 		3E72FC771A69A15E00CC04E8 /* maptaskdonebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonebg@2x.png"; sourceTree = "<group>"; };
 		3E72FC781A69A15E00CC04E8 /* maptaskdonecheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "maptaskdonecheck@2x.png"; sourceTree = "<group>"; };
@@ -7247,6 +7258,9 @@
 		63C57E911A66282700ED406E /* gradientwaterdailylab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradientwaterdailylab.png; sourceTree = "<group>"; };
 		63C57E921A66282700ED406E /* gradientwaterdailylab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradientwaterdailylab@2x.png"; sourceTree = "<group>"; };
 		686F8D3F1B86BD06C7EE6627 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
+		6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillPoisonPowder.h; sourceTree = "<group>"; };
+		6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillPoisonPowder.m; sourceTree = "<group>"; };
+		6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "counterstrikelogo@2x.png"; sourceTree = "<group>"; };
 		7531CD67E149A97B795B119A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9B0E6E181A73370E00118210 /* badjujuicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujuicon@2x.png"; sourceTree = "<group>"; };
 		9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badjujulogo@2x.png"; sourceTree = "<group>"; };
@@ -17029,12 +17043,16 @@
 				9BDA8BC11A40D98F00C7AC27 /* SkillMud.m */,
 				3EEADB751A7005A90096A652 /* SkillCounterStrike.h */,
 				3EEADB761A7005C70096A652 /* SkillCounterStrike.m */,
+				3E383D791A76F75800BAC962 /* SkillSkewer.h */,
+				3E383D7B1A76F77400BAC962 /* SkillSkewer.m */,
 				9B9BA7FF1A73367B001B7D04 /* SkillLifeSteal.h */,
 				9B9BA8001A73367B001B7D04 /* SkillLifeSteal.m */,
 				9B9BA7FD1A73367B001B7D04 /* SkillFlameStrike.h */,
 				9B9BA7FE1A73367B001B7D04 /* SkillFlameStrike.m */,
 				9B9BA7FB1A73367A001B7D04 /* SkillConfusion.h */,
 				9B9BA7FC1A73367B001B7D04 /* SkillConfusion.m */,
+				6BB26BC41A7818FB0014342B /* SkillPoisonPowder.h */,
+				6BB26BC51A78190C0014342B /* SkillPoisonPowder.m */,
 			);
 			name = Specific;
 			sourceTree = "<group>";
@@ -17095,6 +17113,7 @@
 		DA88EB4319B935C5005EE827 /* Skill Intro */ = {
 			isa = PBXGroup;
 			children = (
+				6BCBD8661A797AEE002C584F /* counterstrikelogo@2x.png */,
 				9B0E6E1B1A73371A00118210 /* badjujulogo@2x.png */,
 				9B0E6E1C1A73371A00118210 /* powermovelogo@2x.png */,
 				DAAD3E0519C8D7F400557698 /* bomblogo@2x.png */,
@@ -18887,6 +18906,7 @@
 				CF0CF689196F452900ECD301 /* gachalegendtag@2x.png in Resources */,
 				CF0CF68A196F452900ECD301 /* Scientist3Turn13@2x.png in Resources */,
 				CF0CF68B196F452900ECD301 /* AttackEventViewSmall.xib in Resources */,
+				6BCBD8681A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				CF0CF68C196F452900ECD301 /* healthbar@2x.png in Resources */,
 				CF0CF68D196F452900ECD301 /* rockettail.plist in Resources */,
 				CF0CF68E196F452900ECD301 /* orbblowup.plist in Resources */,
@@ -20160,6 +20180,7 @@
 				CFFC50D519C2D4BA00BDAA62 /* homemapleft@2x.jpg in Resources */,
 				CF20F0A1180FB6FF005551B5 /* donebtn@2x.png in Resources */,
 				CFCD0E631953C93E00EDC233 /* gachalegendpiece@2x.png in Resources */,
+				6BCBD8671A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				9BB949371A6E1197006EE920 /* watergrbackground@2x.png in Resources */,
 				CFFBDF8B18ACA3D90090CA9A /* Scientist3Blink11@2x.png in Resources */,
 				CFF2A52219709C4800269084 /* OilDrillT1@2x.plist in Resources */,
@@ -22711,6 +22732,7 @@
 				CF4822FC19F7217F00041486 /* minitimebar@2x.png in Resources */,
 				CF4822FD19F7217F00041486 /* CustomNavBarButtons.xib in Resources */,
 				CF4822FE19F7217F00041486 /* Scientist5Turn13@2x.png in Resources */,
+				6BCBD8691A797AEE002C584F /* counterstrikelogo@2x.png in Resources */,
 				CF48230119F7217F00041486 /* waterenhancebg@2x.png in Resources */,
 				CFA9F7C21A0D8F6300EBE77D /* speedupitemicon@2x.png in Resources */,
 				9B2389CA1A310BAC00FA3743 /* nextmatchmask@2x.png in Resources */,
@@ -23369,6 +23391,7 @@
 				DA58F51119AE6C5200D025BC /* UIColor+HexColor.m in Sources */,
 				CF0CED34196F452900ECD301 /* ClanRaidDetailsViewController.m in Sources */,
 				CF0CED35196F452900ECD301 /* UIView+SBExtras.m in Sources */,
+				6BB26BC71A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF0CED36196F452900ECD301 /* main.m in Sources */,
 				CF0CED37196F452900ECD301 /* EventAchievement.pb.m in Sources */,
 				CF0CED3B196F452900ECD301 /* ClanInfoViews.m in Sources */,
@@ -23438,6 +23461,7 @@
 				CF0CED71196F452900ECD301 /* ClanRaidViewController.m in Sources */,
 				CF023CBE19935D8F0082FE61 /* BattleScheduleView.m in Sources */,
 				CF0CED74196F452900ECD301 /* THLabel.m in Sources */,
+				3E383D7D1A76F78200BAC962 /* SkillSkewer.m in Sources */,
 				CF0CED76196F452900ECD301 /* City.pb.m in Sources */,
 				9BDA8C551A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF0CED77196F452900ECD301 /* GameViewController.m in Sources */,
@@ -23632,6 +23656,7 @@
 				CF4DB8E81807DA1F00062258 /* HomeMap.m in Sources */,
 				29A2FCF11A647EEB00FF93B6 /* OrbFallAction.m in Sources */,
 				CF9AE70E180CA78C0013DD44 /* LoadingViewController.m in Sources */,
+				6BB26BC61A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF126D361538ACCA00E0C1AD /* Globals.m in Sources */,
 				CF6574AB1909CAF200ABF1F4 /* Clan.pb.m in Sources */,
 				CF4DB8E41807DA1F00062258 /* GameMap.m in Sources */,
@@ -23753,6 +23778,7 @@
 				CF29E91D19612CA000B40DA4 /* FundsViews.m in Sources */,
 				9BDA8BDF1A43837D00C7AC27 /* NewGachaFocusScrollView.m in Sources */,
 				CF00865C19CBAC02002F6149 /* NSString+Sizing.m in Sources */,
+				3E383D7C1A76F77400BAC962 /* SkillSkewer.m in Sources */,
 				CFA8B1AD19EB789F00CF6BFD /* ChatObject.m in Sources */,
 				CF746131196A0D04002D6AE6 /* TutorialShopViewController.m in Sources */,
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
@@ -23998,6 +24024,7 @@
 				CF4818DC19F7217F00041486 /* UIColor+HexColor.m in Sources */,
 				CF4818DD19F7217F00041486 /* ClanRaidDetailsViewController.m in Sources */,
 				CF4818DE19F7217F00041486 /* UIView+SBExtras.m in Sources */,
+				6BB26BC81A78190C0014342B /* SkillPoisonPowder.m in Sources */,
 				CF4818DF19F7217F00041486 /* main.m in Sources */,
 				CF4818E019F7217F00041486 /* EventAchievement.pb.m in Sources */,
 				CF4818E119F7217F00041486 /* ClanInfoViews.m in Sources */,
@@ -24067,6 +24094,7 @@
 				CF48191919F7217F00041486 /* ClanRaidViewController.m in Sources */,
 				CF48191A19F7217F00041486 /* BattleScheduleView.m in Sources */,
 				CF48191B19F7217F00041486 /* THLabel.m in Sources */,
+				3E383D7E1A76F78200BAC962 /* SkillSkewer.m in Sources */,
 				CF48191C19F7217F00041486 /* City.pb.m in Sources */,
 				9BDA8C561A60B4A500C7AC27 /* CustomIndicatorPageControl.m in Sources */,
 				CF48191D19F7217F00041486 /* GameViewController.m in Sources */,

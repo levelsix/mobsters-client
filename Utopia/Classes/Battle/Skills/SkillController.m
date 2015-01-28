@@ -25,6 +25,7 @@
 #import "SkillLifeSteal.h"
 #import "SkillFlameStrike.h"
 #import "SkillConfusion.h"
+#import "SkillPoisonPowder.h"
 
 @implementation SkillController
 
@@ -45,10 +46,11 @@
     case SkillTypeShuffle: return [[SkillShuffle alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeHeadshot: return [[SkillHeadshot alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeMud: return [[SkillMud alloc] initWithProto:proto andMobsterColor:color];
-	case SkillTypeCounterStrike: return [[SkillCounterStrike alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypeCounterStrike: return [[SkillCounterStrike alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeLifeSteal: return [[SkillLifeSteal alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeFlameStrike: return [[SkillFlameStrike alloc] initWithProto:proto andMobsterColor:color];
     case SkillTypeConfusion: return [[SkillConfusion alloc] initWithProto:proto andMobsterColor:color];
+    case SkillTypePoisonPowder: return [[SkillPoisonPowder alloc] initWithProto:proto andMobsterColor:color];
     default: CustomAssert(NO, @"Trying to create a skill with the factory for undefined skill."); return nil;
   }
 }
@@ -162,6 +164,11 @@
   return NO;
 }
 
+- (BOOL) shouldPersist
+{
+  return NO;
+}
+
 - (void) restoreVisualsIfNeeded
 {
 }
@@ -246,7 +253,7 @@
 
 - (NSDictionary*) serialize
 {
-  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", @(_belongsToPlayer), @"belongsToPlayer", @(_skillId), @"skillId", @(_orbColor), @"color", nil];
 }
 
 - (BOOL) deserialize:(NSDictionary*)dict
@@ -264,6 +271,10 @@
   if (dict[@"initialized"])
     if ([dict[@"initialized"] boolValue])
       _executedInitialAction = YES;
+  
+  if (dict[@"belongsToPlayer"])
+    if ([dict[@"belongsToPlayer"] boolValue])
+      _belongsToPlayer = YES;
   
   return YES;
 }

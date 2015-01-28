@@ -244,7 +244,8 @@ typedef enum {
   RewardTypeOil,
   RewardTypeGold,
   RewardTypeExperience,
-  RewardTypeItem
+  RewardTypeItem,
+  RewardTypePvpLeague
 } RewardType;
 
 @interface Reward : NSObject
@@ -257,12 +258,16 @@ typedef enum {
 @property (nonatomic, assign) int oilAmount;
 @property (nonatomic, assign) int goldAmount;
 @property (nonatomic, assign) int expAmount;
+@property (nonatomic, assign) int rankAmount;
+@property (nonatomic, assign) BOOL leagueChange;
+@property (nonatomic, assign) PvpLeagueProto *league;
 @property (nonatomic, assign) RewardType type;
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
 + (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp newHistory:(PvpHistoryProto *)hist droplessStageNums:(NSArray *)droplessStageNums;
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
@@ -271,6 +276,7 @@ typedef enum {
 - (id) initWithOilAmount:(int)oilAmount;
 - (id) initWithGoldAmount:(int)goldAmount;
 - (id) initWithExpAmount:(int)expAmount;
+- (id) initWithPvpLeague:(PvpLeagueProto *)newLeague;
 
 @end
 

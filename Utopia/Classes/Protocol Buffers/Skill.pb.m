@@ -40,6 +40,10 @@ BOOL SkillTypeIsValidValue(SkillType value) {
     case SkillTypeCounterStrike:
     case SkillTypeFlameStrike:
     case SkillTypeConfusion:
+    case SkillTypeStaticField:
+    case SkillTypeBlindingLight:
+    case SkillTypePoisonPowder:
+    case SkillTypeSkewer:
       return YES;
     default:
       return NO;

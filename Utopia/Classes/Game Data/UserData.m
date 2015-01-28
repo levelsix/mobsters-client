@@ -1117,6 +1117,11 @@
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp droplessStageNums:(NSArray *)droplessStageNums {
   NSMutableArray *rewards = [NSMutableArray array];
   
+  GameState *gs = [GameState sharedGameState];
+  PvpLeagueProto *league = [gs leagueForId:gs.pvpLeague.leagueId];
+  Reward *lr = [[Reward alloc] initWithPvpLeague:league];
+  [rewards addObject:lr];
+  
   for (int i = 0; i < pvp.defenderMonstersList.count; i++) {
     if (![droplessStageNums containsObject:@(i)]) {
       PvpMonsterProto *mon = pvp.defenderMonstersList[i];
@@ -1186,6 +1191,14 @@
   if ((self = [super init])) {
     self.type = RewardTypeExperience;
     self.expAmount = expAmount;
+  }
+  return self;
+}
+
+- (id) initWithPvpLeague:(PvpLeagueProto *)league {
+  if ((self = [super init])) {
+    self.type = RewardTypePvpLeague;
+    self.league = league;
   }
   return self;
 }

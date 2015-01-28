@@ -19,6 +19,17 @@
 
 @end
 
+@interface BattleRewardNode : CCSprite
+
+@property (nonatomic, assign) RewardType type;
+@property (nonatomic, retain) CCSprite *inside;
+@property (nonatomic, retain) CCLabelTTF *label;
+
+- (id) initWithReward:(Reward *)reward isForLoss:(BOOL)loss;
+- (void) updatePvpLeagueReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change;
+
+@end
+
 @interface BattleEndView : CCNode <UIScrollViewDelegate, UITextFieldDelegate> {
   CGPoint _initTextFieldPos;
 }
@@ -50,17 +61,14 @@
 @property (nonatomic, retain) CCButton *sendButton;
 @property (nonatomic, retain) UITextField *msgTextField;
 
+@property (nonatomic, retain) BattleRewardNode *pvpLeagueNode;
+
 - (void) updateForRewards:(NSArray *)rewards isWin:(BOOL)isWin;
+- (void) updatePvpReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change;
 - (void) showTextFieldWithTarget:(id)target selector:(SEL)selector;
 - (void) replaceTextFieldWithMessageSentLabel;
 
 - (void) spinnerOnDone;
-
-@end
-
-@interface BattleRewardNode : CCSprite
-
-- (id) initWithReward:(Reward *)reward isForLoss:(BOOL)loss;
 
 @end
 

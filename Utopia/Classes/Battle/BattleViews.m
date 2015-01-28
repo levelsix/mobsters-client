@@ -74,6 +74,15 @@
   } else {
     self.ribbonLabel.string = isWin ? @"YOU FOUND" : @"YOU WILL MISS OUT ON";
     
+    // Add a clipping node for rewards and enforce it with a scroll view
+    [self.rewardsScrollView removeFromSuperview];
+    self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
+    self.rewardsScrollView.delegate = self;
+    self.rewardsScrollView.backgroundColor = [UIColor clearColor];
+    self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
+    [Globals displayUIView:self.rewardsScrollView];
+    
+    //Rewards
     CCNode *node = [CCNode node];
     
     for (int i = 0; i < rewards.count; i++) {
@@ -81,20 +90,14 @@
       [node addChild:brn];
       brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 45);
       
+      if (brn.type == RewardTypePvpLeague)
+        self.pvpLeagueNode = brn;
+      
       node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
     }
     node.anchorPoint = ccp(0, 0.5);
     node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
     self.rewardsView = node;
-    
-    // Add a clipping node for rewards and enforce it with a scroll view
-    [self.rewardsScrollView removeFromSuperview];
-    self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
-    self.rewardsScrollView.delegate = self;
-    self.rewardsScrollView.backgroundColor = [UIColor clearColor];
-    self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
-    
-    [Globals displayUIView:self.rewardsScrollView];
     
     
     clip = [CCClippingNode clippingNode];
@@ -119,6 +122,10 @@
     
     [self scrollViewDidScroll:self.rewardsScrollView];
   }
+}
+
+- (void) updatePvpReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
+  [self.pvpLeagueNode updatePvpLeagueReward:league leagueChange:leagueChange change:change];
 }
 
 - (void) onExitTransitionDidStart {
@@ -457,7 +464,7 @@
   return YES;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   Globals *gl = [Globals sharedGlobals];
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
   if ([str length] > gl.maxLengthOfChatString) {
@@ -479,6 +486,7 @@
   NSString *borderName = nil;
   UIColor *color = nil;
   BOOL isPiece = NO;
+  self.type = reward.type;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
@@ -506,6 +514,9 @@
     labelName = item.name;
     bgdName = @"commonfound.png";
     color = [Globals creamColor];
+  } else if (reward.type == RewardTypePvpLeague) {
+    imgName = [reward.league.imgPrefix stringByAppendingString:@"icon.png"];
+    labelName = @"Loading...";
   }
   
   if (loss) {
@@ -517,22 +528,22 @@
   }
   
   if ((self = [super initWithImageNamed:bgdName])) {
-    CCSprite *inside = [CCSprite node];
-    [Globals imageNamed:imgName toReplaceSprite:inside completion:^(BOOL success) {
-      if (success && inside.contentSize.height > self.contentSize.height) {
-        inside.scale = self.contentSize.height/inside.contentSize.height;
+    _inside = [CCSprite node];
+    [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
+      if (success && _inside.contentSize.height > self.contentSize.height) {
+        _inside.scale = self.contentSize.height/_inside.contentSize.height;
       }
     }];
-    [self addChild:inside];
-    inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    [self addChild:_inside];
+    _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     float labelPosition = loss ? -10.f : -13.f;
     if (labelName) {
-      CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
-      label.horizontalAlignment = CCTextAlignmentCenter;
-      label.color = [CCColor colorWithUIColor:color];
-      [self addChild:label];
-      label.position = ccp(self.contentSize.width/2, labelPosition-1);
+      _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+      _label.horizontalAlignment = CCTextAlignmentCenter;
+      _label.color = [CCColor colorWithUIColor:color];
+      [self addChild:_label];
+      _label.position = ccp(self.contentSize.width/2, labelPosition-1);
     } else if (labelImage) {
       CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
       [self addChild:label];
@@ -553,8 +564,41 @@
     CCSprite *border = [CCSprite spriteWithImageNamed:borderName];
     [self addChild:border];
     border.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    
   }
   return self;
+}
+
+- (void) updatePvpLeagueReward:(PvpLeagueProto *)league leagueChange:(BOOL)leagueChange change:(int)change  {
+  
+  float labelPosition = change < 0 ? -10.f : -13.f;
+  NSString *labelName;
+  
+  if (leagueChange) {
+    labelName = league.leagueName;
+  } else {
+    labelName = [Globals commafyNumber:change];
+    if (change >= 0)
+      labelName = [@"+" stringByAppendingString:labelName];
+  }
+  
+  if (league && league.hasImgPrefix) {
+    NSString *imgName = [league.imgPrefix stringByAppendingString:@"icon.png"];
+    [Globals imageNamed:imgName toReplaceSprite:_inside completion:^(BOOL success) {
+      _inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      if (_inside.contentSize.height > self.contentSize.height) {
+        _inside.scale = self.contentSize.height/_inside.contentSize.height;
+      }
+    }];
+  }
+  
+  [_label removeFromParentAndCleanup:YES];
+  
+  _label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+  _label.horizontalAlignment = CCTextAlignmentCenter;
+  _label.color = [CCColor colorWithUIColor:(change >= 0 ? [Globals greenColor] : [Globals redColor])];
+  [self addChild:_label];
+  _label.position = ccp(self.contentSize.width/2, labelPosition-1);
 }
 
 @end

@@ -38,7 +38,7 @@ typedef enum {
 // Cheat codes (indices are taken from SkillType enum)
 static NSString* const cheatCodesForSkills[] = {
   @"", @"reset", @"cake", @"goo", @"atk", @"bombs", @"shield", @"poison", @"rage", @"momentum", @"toughskin",
-  @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion"};
+  @"critevade", @"shuffle", @"headshot", @"mud", @"lifesteal", @"counterstrike", @"flamestrike", @"confusion", @"staticfield", @"blindinglight", @"poisonpowder"};
 
 static NSString* const kSkillIconImageNameSuffix = @"icon.png";
 static NSString* const kSkillLogoImageNameSuffix = @"logo.png";
@@ -93,6 +93,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
 - (BOOL) shouldSpawnRibbon;
+- (BOOL) shouldPersist;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

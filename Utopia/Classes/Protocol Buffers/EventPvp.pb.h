@@ -566,12 +566,16 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
   BOOL hasDefenderUuid_:1;
   BOOL hasSender_:1;
   BOOL hasBattleThatJustEnded_:1;
+  BOOL hasStatsBefore_:1;
+  BOOL hasStatsAfter_:1;
   BOOL hasStatus_:1;
   BOOL attackerAttacked_:1;
   BOOL attackerWon_:1;
   NSString* defenderUuid;
   MinimumUserProtoWithMaxResources* sender;
   PvpHistoryProto* battleThatJustEnded;
+  UserPvpLeagueProto* statsBefore;
+  UserPvpLeagueProto* statsAfter;
   EndPvpBattleResponseProto_EndPvpBattleStatus status;
   NSMutableArray * mutableUpdatedOrNewList;
 }
@@ -581,6 +585,8 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (BOOL) hasAttackerWon;
 - (BOOL) hasStatus;
 - (BOOL) hasBattleThatJustEnded;
+- (BOOL) hasStatsBefore;
+- (BOOL) hasStatsAfter;
 @property (readonly, strong) MinimumUserProtoWithMaxResources* sender;
 @property (readonly, strong) NSString* defenderUuid;
 - (BOOL) attackerAttacked;
@@ -588,6 +594,8 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 @property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
 @property (readonly, strong) NSArray * updatedOrNewList;
 @property (readonly, strong) PvpHistoryProto* battleThatJustEnded;
+@property (readonly, strong) UserPvpLeagueProto* statsBefore;
+@property (readonly, strong) UserPvpLeagueProto* statsAfter;
 - (FullUserMonsterProto*)updatedOrNewAtIndex:(NSUInteger)index;
 
 + (EndPvpBattleResponseProto*) defaultInstance;
@@ -664,6 +672,20 @@ BOOL SetDefendingMsgResponseProto_SetDefendingMsgStatusIsValidValue(SetDefending
 - (EndPvpBattleResponseProto_Builder*) setBattleThatJustEnded_Builder:(PvpHistoryProto_Builder*) builderForValue;
 - (EndPvpBattleResponseProto_Builder*) mergeBattleThatJustEnded:(PvpHistoryProto*) value;
 - (EndPvpBattleResponseProto_Builder*) clearBattleThatJustEnded;
+
+- (BOOL) hasStatsBefore;
+- (UserPvpLeagueProto*) statsBefore;
+- (EndPvpBattleResponseProto_Builder*) setStatsBefore:(UserPvpLeagueProto*) value;
+- (EndPvpBattleResponseProto_Builder*) setStatsBefore_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
+- (EndPvpBattleResponseProto_Builder*) mergeStatsBefore:(UserPvpLeagueProto*) value;
+- (EndPvpBattleResponseProto_Builder*) clearStatsBefore;
+
+- (BOOL) hasStatsAfter;
+- (UserPvpLeagueProto*) statsAfter;
+- (EndPvpBattleResponseProto_Builder*) setStatsAfter:(UserPvpLeagueProto*) value;
+- (EndPvpBattleResponseProto_Builder*) setStatsAfter_Builder:(UserPvpLeagueProto_Builder*) builderForValue;
+- (EndPvpBattleResponseProto_Builder*) mergeStatsAfter:(UserPvpLeagueProto*) value;
+- (EndPvpBattleResponseProto_Builder*) clearStatsAfter;
 @end
 
 @interface SetDefendingMsgRequestProto : PBGeneratedMessage {
