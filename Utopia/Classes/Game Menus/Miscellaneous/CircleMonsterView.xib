@@ -7,15 +7,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="hLv-0X-Ht7" customClass="CircleMonsterView">
+        <view contentMode="scaleToFill" id="us2-0w-web" customClass="CircleMonsterView">
             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="dRg-8z-XZg">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightavatar.png" id="O2U-Lq-4jZ">
                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="OwZ-Rd-lTQ">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="cWK-64-N2i">
                     <rect key="frame" x="1" y="2" width="28" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -24,10 +24,10 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="bgdIcon" destination="dRg-8z-XZg" id="pAQ-Fb-K3S"/>
-                <outlet property="monsterIcon" destination="OwZ-Rd-lTQ" id="S7m-gr-yEY"/>
+                <outlet property="bgdIcon" destination="O2U-Lq-4jZ" id="tqk-NP-cyr"/>
+                <outlet property="monsterIcon" destination="cWK-64-N2i" id="GaC-0V-6kB"/>
             </connections>
-            <point key="canvasLocation" x="-414" y="-157"/>
+            <point key="canvasLocation" x="157" y="208"/>
         </view>
     </objects>
     <resources>
