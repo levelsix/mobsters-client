@@ -33,6 +33,8 @@
   SkillController*  _playerSkillController;
   SkillController*  _enemySkillController;
   
+  NSMutableArray*   _persistentSkillControllers; 
+  
   // Skill indicators for UI
   SkillBattleIndicatorView* _skillIndicatorPlayer;
   SkillBattleIndicatorView* _skillIndicatorEnemy;

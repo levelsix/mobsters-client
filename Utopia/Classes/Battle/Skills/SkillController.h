@@ -93,6 +93,7 @@ static NSString* const kSkillMiniLogoImageNameSuffix = @"minilogo.png";
 - (void) setDefaultValues;
 - (void) setValue:(float)value forProperty:(NSString*)property;
 - (BOOL) shouldSpawnRibbon;
+- (BOOL) shouldPersist;
 
 // To be called by inherited skills to show the overlay
 - (void) showSkillPopupOverlay:(BOOL)jumpFirst withCompletion:(SkillPopupBlock)completion;

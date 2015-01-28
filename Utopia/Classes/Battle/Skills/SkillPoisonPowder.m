@@ -33,6 +33,10 @@
 
 #pragma mark - Overrides
 
+- (BOOL) shouldPersist {
+  return _isPoisoned;
+}
+
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
 {
   if ([super skillCalledWithTrigger:trigger execute:execute])

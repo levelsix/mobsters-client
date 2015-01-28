@@ -164,6 +164,11 @@
   return NO;
 }
 
+- (BOOL) shouldPersist
+{
+  return NO;
+}
+
 - (void) restoreVisualsIfNeeded
 {
 }
