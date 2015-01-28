@@ -941,7 +941,7 @@
      */
     
     int curHealth = self.enemyPlayerObject.curHealth;
-    int newHealth = MIN(self.enemyPlayerObject.maxHealth, MAX(0, curHealth-_enemyDamageDealt));
+    int newHealth = MIN(self.enemyPlayerObject.maxHealth, MAX(self.enemyPlayerObject.minHealth, curHealth-_enemyDamageDealt));
     float newPercent = ((float)newHealth)/self.enemyPlayerObject.maxHealth*100;
     float percChange = ABS(self.currentEnemy.healthBar.percentage-newPercent);
     float duration = percChange/HEALTH_BAR_SPEED;
@@ -1030,7 +1030,7 @@
   }
   
   int curHealth = def.curHealth;
-  int newHealth = MIN(def.maxHealth, MAX(0, curHealth-damageDone));
+  int newHealth = MIN(def.maxHealth, MAX(def.minHealth, curHealth-damageDone));
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);
   float duration = percChange/HEALTH_BAR_SPEED;
@@ -1114,7 +1114,7 @@
   }
   
   int curHealth = bp.curHealth;
-  int newHealth = MIN(bp.maxHealth, MAX(0, curHealth + heal));
+  int newHealth = MIN(bp.maxHealth, MAX(bp.minHealth, curHealth + heal));
   float newPercent = ((float)newHealth) / bp.maxHealth * 100.f;
   float percChange = ABS(healthBar.percentage - newPercent);
   float duration = percChange / HEALTH_BAR_SPEED;
@@ -1164,7 +1164,7 @@
   BattlePlayer* bp = enemy ? self.enemyPlayerObject : self.myPlayerObject;
   BattleSprite* bs = enemy ? self.currentEnemy : self.myPlayer;
   
-  bp.curHealth = MIN(bp.maxHealth, MAX(0, health));
+  bp.curHealth = MIN(bp.maxHealth, MAX(bp.minHealth, health));
   [self updateHealthBars];
   
   if (health <= 0) {
@@ -1694,10 +1694,11 @@
 
 - (void) spawnRibbonForOrb:(BattleOrb *)orb target:(CGPoint)endPosition skill:(BOOL)skill {
   
-  BOOL cake = (orb.specialOrbType == SpecialOrbTypeCake);
+  BOOL cake  = (orb.specialOrbType == SpecialOrbTypeCake);
+  BOOL grave = (orb.specialOrbType == SpecialOrbTypeGrave);
   
   // Create random bezier
-  if (orb.orbColor != OrbColorNone || cake) {
+  if (orb.orbColor != OrbColorNone || cake || grave) {
     ccBezierConfig bez;
     bez.endPosition = endPosition;
     CGPoint initPoint = [self.orbLayer convertToNodeSpace:[self.orbLayer.swipeLayer convertToWorldSpace:[self.orbLayer.swipeLayer pointForColumn:orb.column row:orb.row]]];
@@ -1712,7 +1713,7 @@
     float xScale = ccpDistance(initPoint, bez.endPosition);
     float yScale = (50+xScale/5)*(chooseRight?-1:1);
     float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
-    if (cake)
+    if (cake || grave)
     {
       xScale = 1.0;
       yScale = 1.0;
@@ -1726,13 +1727,15 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:(cake?1.5f:(0.15f+xScale/800.f)) bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:((cake || grave) ? 1.5f : (0.15f + xScale / 800.f)) bezier:bez];
     CCNode *dg;
     float stayDelay = 0.7f;
     if (skill)
     {
+      /*
       // Tail for an orb flying to skill indicator
-//    dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
+      dg = [[SparklingTail alloc] initWithColor:orb.orbColor];
+       */
       
       CCSprite *orbSprite = [self.orbLayer.swipeLayer spriteForOrb:orb].orbSprite;
       dg = [CCSprite spriteWithTexture:orbSprite.texture rect:orbSprite.textureRect];
@@ -1742,9 +1745,10 @@
     }
     else
     {
-      // Cake or sparkle
       if (cake)
         dg = [[DestroyedOrb alloc] initWithCake];
+      else if (grave)
+        dg = [[DestroyedOrb alloc] initWithGrave];
       else
         dg = [[DestroyedOrb alloc] initWithColor:[self.orbLayer.swipeLayer colorForSparkle:orb.orbColor]];
     }
@@ -1996,7 +2000,7 @@
       }
 
     }
-    else if (orb.specialOrbType == SpecialOrbTypeCake)
+    else if (orb.specialOrbType == SpecialOrbTypeCake || orb.specialOrbType == SpecialOrbTypeGrave)
     {
       CGPoint endPoint = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.currentEnemy.position, ccp(0, self.currentEnemy.contentSize.height/2))]];
       [self spawnRibbonForOrb:orb target:endPoint skill:NO];

@@ -29,6 +29,13 @@
   return self;
 }
 
+- (id) initWithGrave {
+  if ((self = [super initWithImageNamed:@"graveorb.png"])) {
+    self.color = [CCColor whiteColor];
+  }
+  return self;
+}
+
 - (void) setParent:(CCNode *)parent {
   [super setParent:parent];
   if (parent && self.streak && !self.streak.parent) {

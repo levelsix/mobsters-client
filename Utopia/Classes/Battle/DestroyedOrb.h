@@ -16,6 +16,7 @@
 
 - (id) initWithColor:(CCColor *)color;
 - (id) initWithCake;
+- (id) initWithGrave;
 
 @end
 

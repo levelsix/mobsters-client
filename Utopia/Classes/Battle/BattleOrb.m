@@ -41,7 +41,8 @@
   }
   
   if (self.specialOrbType == SpecialOrbTypeCake ||
-      self.specialOrbType == SpecialOrbTypeCloud) {
+      self.specialOrbType == SpecialOrbTypeCloud ||
+      self.specialOrbType == SpecialOrbTypeGrave) {
     self.orbColor = OrbColorNone;
   }
 }

@@ -38,7 +38,9 @@
   if ([super skillCalledWithTrigger:trigger execute:execute])
     return YES;
   
-  if (trigger == SkillTriggerPointEnemyAppeared && !_logoShown)
+  if ((trigger == SkillTriggerPointEnemyAppeared      && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfPlayerTurn  && !_logoShown) ||
+      (trigger == SkillTriggerPointStartOfEnemyTurn   && !_logoShown))
   {
     if (execute)
     {

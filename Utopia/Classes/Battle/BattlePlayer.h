@@ -14,6 +14,7 @@
 @interface BattlePlayer : NSObject
 
 @property (nonatomic, assign) int curHealth;
+@property (nonatomic, assign) int minHealth; // Used only for certain skills. Defaults to 0
 @property (nonatomic, assign) int maxHealth;
 
 @property (nonatomic, retain) NSAttributedString *attrName;

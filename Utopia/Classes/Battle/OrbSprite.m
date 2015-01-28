@@ -213,6 +213,10 @@
       return [NSString stringWithFormat:@"%@cakeorb%@.png", resPrefix, suffix];
       break;
       
+    case SpecialOrbTypeGrave:
+      return [resPrefix stringByAppendingString:@"graveorb.png"];
+      break;
+      
     case SpecialOrbTypeCloud:
       return [NSString stringWithFormat:@"%@cloud%d%@.png", resPrefix, (int)orb.cloudCounter, suffix ];
       break;
