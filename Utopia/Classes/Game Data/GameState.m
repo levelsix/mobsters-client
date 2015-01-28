@@ -349,7 +349,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
-- (PersistentEventProto *) NextEventWithType:(PersistentEventProto_EventType)type {
+- (PersistentEventProto *) nextEventWithType:(PersistentEventProto_EventType)type {
   MSDate *now = [MSDate date];
   MSDate *soonest;
   PersistentEventProto *nextEvent = nil;
