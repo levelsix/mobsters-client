@@ -10,12 +10,15 @@
 
 @interface SkillPoisonPowder : SkillControllerActive
 {
-    // Properties
-    float _damage;
-    float _percent;
-    
-    // Counters
-    BOOL _isPoisoned;
+  // Properties
+  float _damage;
+  float _percent;
+  
+  // Counters
+  BOOL _isPoisoned;
+
+  // Loading
+  BOOL _wasPoisoned; //Because the animation goes on the opposite character, we need to wait for initialization to apply
 }
 
 @end

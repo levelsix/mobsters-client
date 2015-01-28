@@ -253,7 +253,7 @@
 
 - (NSDictionary*) serialize
 {
-  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:@(_skillType), @"skillType", @(_executedInitialAction), @"initialized", @(_belongsToPlayer), @"belongsToPlayer", @(_skillId), @"skillId", @(_orbColor), @"color", nil];
 }
 
 - (BOOL) deserialize:(NSDictionary*)dict
@@ -271,6 +271,10 @@
   if (dict[@"initialized"])
     if ([dict[@"initialized"] boolValue])
       _executedInitialAction = YES;
+  
+  if (dict[@"belongsToPlayer"])
+    if ([dict[@"belongsToPlayer"] boolValue])
+      _belongsToPlayer = YES;
   
   return YES;
 }

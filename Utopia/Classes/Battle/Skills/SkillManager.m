@@ -159,6 +159,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     [self setDataForController:_enemySkillController];
   if (_playerSkillController)
     [self setDataForController:_playerSkillController];
+  
+  for (SkillController *perSkill in _persistentSkillControllers) {
+    [self setDataForController:perSkill];
+  }
 }
 
 - (void) setDataForController:(SkillController*)controller
@@ -168,7 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   controller.playerSprite = _playerSprite;
   controller.enemy = _enemy;
   controller.enemySprite = _enemySprite;
-  controller.belongsToPlayer = (controller == _playerSkillController);
+  controller.belongsToPlayer = controller.belongsToPlayer || (controller == _playerSkillController);
 }
 
 #pragma mark - External calls
@@ -348,7 +352,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   [self prunePersistentSkillsForPersistence];
 }
 
-#pragma mark - UI
+#pragma mark - Persistent Skils
 
 - (void) triggerPersistentSkills:(NSMutableArray *)skills index:(int)index trigger:(SkillTriggerPoint)trigger triggered:(BOOL)outerTriggered completion:(SkillControllerBlock)completion params:(id)outerParams
 {
@@ -383,6 +387,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
     }
   }
 }
+
+#pragma mark - UI
 
 - (void) createEnemySkillIndicator
 {
@@ -429,7 +435,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   if (_enemySkillController)
     [result setObject:[_enemySkillController serialize] forKey:@"enemySkill"];
   [result setObject:@(_turnsCounter) forKey:@"turnsCounter"];
+  [self serializePersistentSkills:result];
   return result;
+}
+
+- (void) serializePersistentSkills:(NSMutableDictionary *)result
+{
+  int i;
+  SkillController *skillController;
+  for (i =0; i < _persistentSkillControllers.count; i++) {
+    skillController = (SkillController*)_persistentSkillControllers[i];
+    [result setObject:[skillController serialize]
+               forKey:[NSString stringWithFormat:@"persistentSkill%i", i]];
+    
+  }
+  [result setObject:@(i) forKey:@"persistentSkillCount"];
 }
 
 - (void) deserialize:(NSDictionary*)dict
@@ -442,6 +462,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SkillManager);
   NSNumber* turnsCounter = [dict objectForKey:@"turnsCounter"];
   if (turnsCounter)
     _turnsCounter = [turnsCounter integerValue];
+  [self deserializePersistentSkills:dict];
+}
+
+- (void) deserializePersistentSkills:(NSDictionary*)dict
+{
+  int persistentSkillCount = [[dict objectForKey:@"persistentSkillCount"] intValue];
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *skillState;
+  SkillController *skill;
+  SkillProto *proto;
+  OrbColor color;
+  for (int i = 0; i < persistentSkillCount; i++) {
+    skillState = [dict objectForKey:[NSString stringWithFormat:@"persistentSkill%i", i]];
+    proto = [gs.staticSkills objectForKey:[skillState objectForKey:@"skillId"]];
+    color = [[skillState objectForKey:@"color"] intValue];
+    skill = [SkillController skillWithProto:proto andMobsterColor:color];
+    [skill deserialize:skillState];
+    [_persistentSkillControllers addObject:skill];
+  }
 }
 
 #pragma mark - Misc

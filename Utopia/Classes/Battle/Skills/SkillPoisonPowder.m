@@ -20,6 +20,7 @@
   _damage = 10;
   _percent = .1;
   _isPoisoned = false;
+  _wasPoisoned = false;
 }
 
 - (void) setValue:(float)value forProperty:(NSString*)property
@@ -34,7 +35,13 @@
 #pragma mark - Overrides
 
 - (BOOL) shouldPersist {
-  return _isPoisoned;
+  return _isPoisoned || _wasPoisoned;
+}
+
+- (void) restoreVisualsIfNeeded {
+  if (_isPoisoned) {
+    [self addPoisonAnimations];
+  }
 }
 
 - (BOOL) skillCalledWithTrigger:(SkillTriggerPoint)trigger execute:(BOOL)execute
@@ -58,7 +65,13 @@
   }
   else
   {
-    if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
+    if (_wasPoisoned && ((self.belongsToPlayer && trigger == SkillTriggerPointEnemyInitialized)
+       || (!self.belongsToPlayer && trigger == SkillTriggerPointPlayerInitialized)))
+    {
+      [self poisonOpponent];
+      _wasPoisoned = false;
+    }
+    else if ((self.activationType == SkillActivationTypeUserActivated && trigger == SkillTriggerPointManualActivation) ||
         (self.activationType == SkillActivationTypeAutoActivated && trigger == SkillTriggerPointEndOfPlayerMove))
     {
       if ([self skillIsReady])
@@ -198,7 +211,7 @@
   
   NSNumber* isPoisoned = [dict objectForKey:@"isPoisoned"];
   if (isPoisoned)
-    _isPoisoned = [isPoisoned boolValue];
+    _wasPoisoned = [isPoisoned boolValue];
   
   return YES;
 }
