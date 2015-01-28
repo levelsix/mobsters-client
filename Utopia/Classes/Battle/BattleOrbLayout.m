@@ -35,7 +35,7 @@
   bldr.height = gridSize.height;
   bldr.orbElements = 111111;
   
-  //  BoardPropertyProto_Builder *prop;
+//    BoardPropertyProto_Builder *prop;
   //
   //  prop = [BoardPropertyProto builder];
   //  prop.posX = 4;
@@ -82,12 +82,12 @@
   //    [bldr addProperties:prop.build];
   //  }
   //
-  //  prop = [BoardPropertyProto builder];
-  //  prop.posX = 1;
-  //  prop.posY = 0;
-  //  prop.name = @"TILE_TYPE";
-  //  prop.value = 1;
-  //  [bldr addProperties:prop.build];
+//    prop = [BoardPropertyProto builder];
+//    prop.posX = 4;
+//    prop.posY = 0;
+//    prop.name = INITIAL_SKILL;
+//    prop.value = 1;
+//    [bldr addProperties:prop.build];
   
   return [self initWithBoardLayout:bldr.build];
 }
@@ -133,24 +133,27 @@
   BOOL canSpawnOrbs = row == _numRows-1;
   TileType typeTop = TileTypeNormal;
   TileType typeBottom = TileTypeNormal;
+  BOOL shouldSpawnInitialSkill = NO;
   
   for (BoardPropertyProto *prop in properties) {
-    if ([prop.name isEqualToString:@"SPAWN_TILE"]) {
+    if ([prop.name isEqualToString:SPAWN_TILE]) {
       canSpawnOrbs = YES;
-    } else if ([prop.name isEqualToString:@"NOT_SPAWN_TILE"]) {
+    } else if ([prop.name isEqualToString:NOT_SPAWN_TILE]) {
       canSpawnOrbs = NO;
-    } else if ([prop.name isEqualToString:@"HOLE"]) {
+    } else if ([prop.name isEqualToString:HOLE]) {
       isHole = YES;
       canPassThrough = NO;
-    } else if ([prop.name isEqualToString:@"PASSABLE_HOLE"]) {
+    } else if ([prop.name isEqualToString:PASSABLE_HOLE]) {
       isHole = YES;
       canPassThrough = YES;
-    } else if ([prop.name isEqualToString:@"TILE_TYPE"]) {
+    } else if ([prop.name isEqualToString:TILE_TYPE]) {
       typeBottom = prop.value;
+    } else if ([prop.name isEqualToString:INITIAL_SKILL]) {
+      shouldSpawnInitialSkill = YES;
     }
   }
   
-  _tiles[column][row] = [[BattleTile alloc] initWithColumn:column row:row typeTop:typeTop typeBottom:typeBottom isHole:isHole canPassThrough:canPassThrough canSpawnOrbs:canSpawnOrbs];
+  _tiles[column][row] = [[BattleTile alloc] initWithColumn:column row:row typeTop:typeTop typeBottom:typeBottom isHole:isHole canPassThrough:canPassThrough canSpawnOrbs:canSpawnOrbs shouldSpawnInitialSkill:shouldSpawnInitialSkill];
 }
 
 - (void) dealloc {
@@ -205,7 +208,9 @@
         BattleOrb* orb = [self orbAtColumn:i row:j];
         
         if (orb) {
-          if (orb.specialOrbType != SpecialOrbTypeNone)
+          if (orb.specialOrbType != SpecialOrbTypeNone ||
+              orb.powerupType != PowerupTypeNone ||
+              ![orb isMovable])
             continue;
           
           [array addObject:orb];
@@ -223,10 +228,13 @@
         
         // Check if this a special orb
         BattleOrb* orb = [self orbAtColumn:i row:j];
-        if (orb && ![orb isMovable])
-          continue;
         
         if (orb) {
+          if (orb.specialOrbType != SpecialOrbTypeNone ||
+              orb.powerupType != PowerupTypeNone ||
+              ![orb isMovable])
+            continue;
+          
           orb = array[counter];
           [self setOrb:orb column:i row:j];
           orb.column = i;
@@ -360,25 +368,25 @@
   
   BOOL shouldCreate = NO;
   for (BoardPropertyProto *prop in properties) {
-    if ([prop.name isEqualToString:@"ORB_COLOR"]) {
+    if ([prop.name isEqualToString:ORB_COLOR]) {
       color = prop.value;
       shouldCreate = YES;
-    } else if ([prop.name isEqualToString:@"ORB_POWERUP"]) {
+    } else if ([prop.name isEqualToString:ORB_POWERUP]) {
       powerup = prop.value;
       shouldCreate = YES;
-    } else if ([prop.name isEqualToString:@"ORB_SPECIAL"]) {
+    } else if ([prop.name isEqualToString:ORB_SPECIAL]) {
       special = prop.value;
       shouldCreate = YES;
       
       if (special == SpecialOrbTypeCloud) {
         orb.cloudCounter = MAX(1, prop.quantity);
       }
-    } else if ([prop.name isEqualToString:@"ORB_EMPTY"]) {
+    } else if ([prop.name isEqualToString:ORB_EMPTY]) {
       color = OrbColorNone;
       powerup = PowerupTypeNone;
       special = SpecialOrbTypeNone;
       shouldCreate = YES;
-    } else if ([prop.name isEqualToString:@"ORB_LOCKED"]) {
+    } else if ([prop.name isEqualToString:ORB_LOCKED]) {
       orb.isLocked = YES;
       shouldCreate = YES;
     }
@@ -436,11 +444,7 @@
           BattleOrb *other = [self orbAtColumn:column+1 row:row];
           if ([other isMovable]) {
             // Two powerups automatically count as a match
-            if (
-#ifdef FREE_BATTLE_MOVEMENT
-                FREE_BATTLE_MOVEMENT ||
-#endif
-                [self isPowerupMatch:orb otherOrb:other]) {
+            if ([self isPowerupMatch:orb otherOrb:other]) {
               BattleSwap *swap = [[BattleSwap alloc] init];
               swap.orbA = orb;
               swap.orbB = other;
@@ -474,11 +478,7 @@
           // Have a orb in this spot? If there is no tile, there is no orb.
           BattleOrb *other = [self orbAtColumn:column row:row+1];
           if ([other isMovable]) {
-            if (
-#ifdef FREE_BATTLE_MOVEMENT
-                FREE_BATTLE_MOVEMENT ||
-#endif
-                [self isPowerupMatch:orb otherOrb:other]) {
+            if ([self isPowerupMatch:orb otherOrb:other]) {
               BattleSwap *swap = [[BattleSwap alloc] init];
               swap.orbA = orb;
               swap.orbB = other;
@@ -548,7 +548,12 @@
 }
 
 - (BOOL)hasChainAtColumn:(NSInteger)column row:(NSInteger)row {
-  NSUInteger orbColor = [self orbAtColumn:column row:row].orbColor;
+  OrbColor orbColor = [self orbAtColumn:column row:row].orbColor;
+  return [self willHaveChainAtColumn:column row:row color:orbColor];
+}
+
+- (BOOL)willHaveChainAtColumn:(NSInteger)column row:(NSInteger)row color:(OrbColor)color {
+  NSUInteger orbColor = color;
   
   if (orbColor && orbColor != OrbColorNone) {
     NSUInteger horzLength = 1;
@@ -1586,7 +1591,92 @@
 }
 
 - (BOOL)isPossibleSwap:(BattleSwap *)swap {
+//#ifdef FREE_BATTLE_MOVEMENT
+  return [swap.orbA isMovable] && [swap.orbB isMovable];;
+//#endif
+  
   return [self.possibleSwaps containsObject:swap];
+}
+
+#pragma mark - For Skills
+
+static const NSInteger maxSearchIterations = 256;
+
+- (BattleOrb *) findOrbWithColorPreference:(OrbColor)orbColor {
+  BattleOrbLayout *layout = self;
+  BattleOrb *orb = nil;
+  NSInteger column, row;
+  NSInteger counter = 0;
+  
+  // Search for all tiles that have initial skill spawnability and prioritize
+  NSMutableArray *orbs = [NSMutableArray array];
+  for (int i = 0; i < _numColumns; i++) {
+    for (int j = 0; j < _numRows; j++) {
+      BattleTile *tile = [layout tileAtColumn:i row:j];
+      if (tile.shouldSpawnInitialSkill) {
+        BattleOrb *orb = [layout orbAtColumn:i row:j];
+        if (!([layout willHaveChainAtColumn:i row:j color:orbColor] ||
+             orb.specialOrbType != SpecialOrbTypeNone ||
+             orb.powerupType != PowerupTypeNone ||
+             orb.isLocked)) {
+          [orbs addObject:orb];
+        }
+      }
+    }
+  }
+  
+  if (orbs.count) {
+    [orbs shuffle];
+    return orbs[0];
+  }
+  
+  // Trying to find orbs of the same color first
+  do {
+    column = rand() % (layout.numColumns-2) + 1;  // So we'll never spawn at the edge of the board
+    row = rand() % (layout.numRows-2) + 1;
+    orb = [layout orbAtColumn:column row:row];
+    counter++;
+  }
+  while ((orb.specialOrbType != SpecialOrbTypeNone ||
+          orb.powerupType != PowerupTypeNone ||
+          orb.orbColor != orbColor ||
+          orb.isLocked) &&
+         counter < maxSearchIterations);
+  
+  // Spawn at the edge of the board if we have to
+  if (counter == maxSearchIterations)
+  {
+    counter = 0;
+    do {
+      column = rand() % layout.numColumns;
+      row = rand() % layout.numRows;
+      orb = [layout orbAtColumn:column row:row];
+      counter++;
+    }
+    while ((orb.specialOrbType != SpecialOrbTypeNone ||
+            orb.powerupType != PowerupTypeNone ||
+            orb.orbColor != orbColor ||
+            orb.isLocked) &&
+           counter < maxSearchIterations);
+  }
+  
+  // Another loop if we haven't found the orb of the same color (avoiding chain)
+  if (counter == maxSearchIterations)
+  {
+    counter = 0;
+    do {
+      column = rand() % layout.numColumns;
+      row = rand() % layout.numRows;
+      orb = [layout orbAtColumn:column row:row];
+      counter++;
+    } while (([layout willHaveChainAtColumn:column row:row color:orbColor] ||
+              orb.specialOrbType != SpecialOrbTypeNone ||
+              orb.powerupType != PowerupTypeNone ||
+              orb.isLocked) &&
+             counter < maxSearchIterations);
+  }
+  
+  return counter == maxSearchIterations ? nil : orb;
 }
 
 #pragma mark - Description

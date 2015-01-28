@@ -151,7 +151,7 @@
       _layoutProto = layoutProto;
       _gridSize = CGSizeMake(layoutProto.width, layoutProto.height);
     } else {
-      _gridSize = gridSize.width ? gridSize : CGSizeMake(8, 8);
+      _gridSize = gridSize.width ? gridSize : CGSizeMake(9, 9);
     }
     
     NSMutableArray *arr = [NSMutableArray array];
@@ -2127,12 +2127,25 @@
   self.hudView.frame = view.bounds;
   [view insertSubview:self.hudView aboveSubview:[CCDirector sharedDirector].view];
   
+  // Make the bottom view flush with the board
+  float bottomDist = ORB_LAYER_DIST_FROM_SIDE-2;
+  self.hudView.bottomView.originY = self.hudView.bottomView.superview.height-self.hudView.bottomView.height-bottomDist;
+  self.hudView.swapView.originY = self.hudView.swapView.superview.height-self.hudView.swapView.height-bottomDist;
+  
   self.hudView.bottomView.centerX = DEPLOY_CENTER_X;
   
   UIImage *img = [Globals imageNamed:@"6movesqueuebgwide.png"];
-  if (DEPLOY_CENTER_X*2 > img.size.width+self.hudView.battleScheduleView.originX*2) {
+  if (DEPLOY_CENTER_X*2 > img.size.width+bottomDist*2) {
     self.hudView.battleScheduleView.bgdView.image = img;
     self.hudView.battleScheduleView.width = img.size.width;
+  }
+  
+  // Move schedule up in case board is too close to the edge so that it is flush with top of the board
+  if (self.hudView.battleScheduleView.containerView.originY > bottomDist) {
+    self.hudView.battleScheduleView.originX = bottomDist;
+    self.hudView.battleScheduleView.originY = bottomDist-self.hudView.battleScheduleView.containerView.originY;
+    
+    self.hudView.elementButton.originY = self.hudView.battleScheduleView.originY+self.hudView.battleScheduleView.height-12;
   }
 }
 

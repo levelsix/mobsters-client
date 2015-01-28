@@ -117,7 +117,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="9tG-Yt-5ot" userLabel="Swap View">
-                    <rect key="frame" x="0.0" y="265" width="50" height="46"/>
+                    <rect key="frame" x="0.0" y="265" width="50" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eGz-xX-4kc" customClass="GeneralButton">

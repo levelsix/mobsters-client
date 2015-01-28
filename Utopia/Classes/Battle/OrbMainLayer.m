@@ -11,7 +11,11 @@
 #import "Globals.h"
 #import "Protocols.pb.h"
 
-#define OrbLog(...) //LNLog(__VA_ARGS__)
+#ifdef DEBUG_BATTLE_MODE
+#define OrbLog(...) LNLog(__VA_ARGS__)
+#else
+#define OrbLog(...)
+#endif
 
 @implementation OrbMainLayer
 

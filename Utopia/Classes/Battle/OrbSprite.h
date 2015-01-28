@@ -22,13 +22,16 @@ static const float orbUpdateAnimDuration = 0.3f;
   CCSprite* _lockedSprite;
 
   CCLabelTTF* _damageMultiplier;
+  
+  NSString *_suffix;
 }
 
 @property (nonatomic, strong, readonly) CCSprite* orbSprite;
+@property (nonatomic, strong, readonly) NSString* suffix;
 
-+ (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb;
++ (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb suffix:(NSString *)suffix;
 
-+ (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb;
++ (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb withSuffix:(NSString *)suffix;
 
 - (void) reloadSprite:(BOOL)animated;
 

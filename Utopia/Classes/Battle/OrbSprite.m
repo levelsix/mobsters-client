@@ -12,18 +12,19 @@
 
 #pragma mark - Initialization
 
-+ (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb
++ (OrbSprite*) orbSpriteWithOrb:(BattleOrb*)orb suffix:(NSString *)suffix
 {
-  return [[OrbSprite alloc] initWithOrb:orb];
+  return [[OrbSprite alloc] initWithOrb:orb suffix:suffix];
 }
 
-- (id) initWithOrb:(BattleOrb*)orb
+- (id) initWithOrb:(BattleOrb*)orb suffix:(NSString *)suffix
 {
   self = [super init];
   if ( ! self )
     return nil;
   
   _orb = orb;
+  _suffix = suffix;
   
   // Create a new sprite for the orb
   [self reloadSprite:NO];
@@ -33,7 +34,7 @@
 
 - (void) loadSprite
 {
-  NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:_orb];
+  NSString *imageName = [OrbSprite orbSpriteImageNameWithOrb:_orb withSuffix:_suffix];
   _orbSprite = [CCSprite spriteWithImageNamed:imageName];
   [self addChild:self.orbSprite];
   
@@ -78,6 +79,13 @@
   _bombCounter.horizontalAlignment = CCTextAlignmentCenter;
   [_orbSprite addChild:_bombCounter];
   
+  // Counter bgd
+  NSString *resPrefix = [Globals isiPhone6] || [Globals isiPhone6Plus] ? @"6" : @"";
+  CCSprite *bgd = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@bomblabel.png", resPrefix]];
+  [_bombCounter addChild:bgd z:-1];
+  bgd.position = ccp(0.5, 0.58);
+  bgd.positionType = CCPositionTypeNormalized;
+  
   [self updateBombCounter:NO];
 }
 
@@ -100,8 +108,8 @@
     {
       [_bombCounter stopActionByTag:1812];
       CCActionRepeatForever* action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:
-                             [RecursiveTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor redColor]],
-                             [RecursiveTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor clearColor]],
+                             [CCActionTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor redColor]],
+                             [CCActionTintTo actionWithDuration:0.4*_orb.bombCounter color:[CCColor clearColor]],
                              nil]];
       action.tag = 1812;
       [_bombCounter runAction:action];
@@ -193,7 +201,7 @@
 
 #pragma mark - Helpers
 
-+ (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb {
++ (NSString *) orbSpriteImageNameWithOrb:(BattleOrb *)orb withSuffix:(NSString *)suffix {
   OrbColor orbColor = orb.orbColor;
   PowerupType powerupType = orb.powerupType;
   SpecialOrbType special = orb.specialOrbType;
@@ -202,38 +210,38 @@
   
   switch (special) {
     case SpecialOrbTypeCake:
-      return [resPrefix stringByAppendingString:@"cakeorb.png"];
+      return [NSString stringWithFormat:@"%@cakeorb%@.png", resPrefix, suffix];
       break;
       
     case SpecialOrbTypeCloud:
-      return [resPrefix stringByAppendingFormat:@"cloud%d.png", (int)orb.cloudCounter];
+      return [NSString stringWithFormat:@"%@cloud%d%@.png", resPrefix, (int)orb.cloudCounter, suffix ];
       break;
     
     case SpecialOrbTypeBomb:
       if (orbColor == OrbColorRock || orbColor == OrbColorNone)
         return nil;
-      return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"] ];
+      return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"bomb"], suffix ];
       break;
       
     case SpecialOrbTypeHeadshot:
       if (orbColor == OrbColorNone)
         return nil;
       if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"] ];
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"headshot"], suffix ];
       break;
       
     case SpecialOrbTypeLifeSteal:
       if (orbColor == OrbColorNone)
         return nil;
       if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
       break;
       
     case SpecialOrbTypePoison:
       if (orbColor == OrbColorNone)
         return nil;
       if (orb.powerupType == PowerupTypeNone)
-        return [NSString stringWithFormat:@"%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"] ];
+        return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, [Globals imageNameForElement:(Element)orbColor suffix:@"poison"], suffix ];
       break;
       
     default:
@@ -269,7 +277,7 @@
     default: return nil; break;
   }
   
-  return [NSString stringWithFormat:@"%@%@%@.png", resPrefix, colorPrefix, powerupSuffix];
+  return [NSString stringWithFormat:@"%@%@%@%@.png", resPrefix, colorPrefix, powerupSuffix, suffix];
 }
 
 - (void) reloadSprite:(BOOL)animated

@@ -384,7 +384,7 @@
   self.sprite.spriteFrame = nil;
   
   [self checkAttackSpriteSheetWithCompletion:^(BOOL success) {
-    if (success) {
+    if (success && !self.isWalking) {
       NSString *name;
       if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
       else if (direction == MapDirectionKneel) name = [NSString stringWithFormat:@"%@KneelF01.png", self.prefix];
@@ -401,8 +401,11 @@
   if (!self.isWalking) {
     self.sprite.flipX = !self.isFacingNear;
     CCAction *action = self.isFacingNear ? self.walkActionN : self.walkActionF;
-    if (action) [self.sprite runAction:action];
-    self.isWalking = YES;
+    
+    if (action) {
+      [self.sprite runAction:action];
+      self.isWalking = YES;
+    }
     
     CCActionSequence *seq = [CCActionSequence actions:
                              [CCActionCallBlock actionWithBlock:
@@ -412,14 +415,14 @@
                              [CCActionDelay actionWithDuration:0.9], nil];
     CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
     r.tag = 7654;
-    [self runAction:r];
+    //[self runAction:r];
   }
 }
 
 - (void) stopWalking {
   self.isWalking = NO;
-  if (self.walkActionF) [self.sprite stopAction:self.walkActionF];
-  if (self.walkActionN) [self.sprite stopAction:self.walkActionN];
+  if (_walkActionF) [self.sprite stopAction:self.walkActionF];
+  if (_walkActionN) [self.sprite stopAction:self.walkActionN];
   [self restoreStandingFrame];
   
   [self stopActionByTag:7654];

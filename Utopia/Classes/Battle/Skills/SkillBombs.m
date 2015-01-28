@@ -129,8 +129,6 @@
 
 #pragma mark - Skill logic
 
-static const NSInteger bombsMaxSearchIterations = 256;
-
 // Adding bombs
 - (void) spawnBombs:(NSInteger)count withTarget:(id)target andSelector:(SEL)selector
 {
@@ -139,55 +137,10 @@ static const NSInteger bombsMaxSearchIterations = 256;
   for (NSInteger n = 0; n < count; n++)
   {
     BattleOrbLayout* layout = self.battleLayer.orbLayer.layout;
-    BattleOrb* orb = nil;
-    NSInteger column, row;
-    NSInteger counter = 0;
-    
-    // Trying to find orbs of the same color first
-    do {
-      column = rand() % (layout.numColumns-2) + 1;  // So we'll never spawn at the edge of the board
-      row = rand() % (layout.numRows-2) + 1;
-      orb = [layout orbAtColumn:column row:row];
-      counter++;
-    }
-    while ((orb.specialOrbType != SpecialOrbTypeNone ||
-            orb.powerupType != PowerupTypeNone ||
-            orb.orbColor != self.orbColor) &&
-           counter < bombsMaxSearchIterations);
-    
-    // Spawn at the edge of the board if we have to
-    if (counter == bombsMaxSearchIterations)
-    {
-      counter = 0;
-      do {
-        column = rand() % layout.numColumns;
-        row = rand() % layout.numRows;
-        orb = [layout orbAtColumn:column row:row];
-        counter++;
-      }
-      while ((orb.specialOrbType != SpecialOrbTypeNone ||
-              orb.powerupType != PowerupTypeNone ||
-              orb.orbColor != self.orbColor) &&
-             counter < bombsMaxSearchIterations);
-    }
-    
-    // Another loop if we haven't found the orb of the same color (avoiding chain)
-    if (counter == bombsMaxSearchIterations)
-    {
-      counter = 0;
-      do {
-        column = rand() % layout.numColumns;
-        row = rand() % layout.numRows;
-        orb = [layout orbAtColumn:column row:row];
-        counter++;
-      } while (([self.battleLayer.orbLayer.layout hasChainAtColumn:column row:row] ||
-                orb.specialOrbType != SpecialOrbTypeNone ||
-                orb.powerupType != PowerupTypeNone) &&
-               counter < bombsMaxSearchIterations);
-    }
+    BattleOrb* orb = [layout findOrbWithColorPreference:self.orbColor];
     
     // Nothing found (just in case), continue and perform selector if the last bomb
-    if (counter == bombsMaxSearchIterations)
+    if (!orb)
     {
       if (n == count-1)
         if (target && selector)
@@ -198,6 +151,7 @@ static const NSInteger bombsMaxSearchIterations = 256;
     
     // Update data
     if (orb.orbColor != OrbColorRock) {
+      orb.orbColor = self.orbColor;
       orb.specialOrbType = SpecialOrbTypeBomb;
       orb.bombCounter = _bombCounter;
       orb.bombDamage = _bombDamage;
@@ -205,7 +159,7 @@ static const NSInteger bombsMaxSearchIterations = 256;
     
     // Update tile
     OrbBgdLayer* bgdLayer = self.battleLayer.orbLayer.bgdLayer;
-    BattleTile* tile = [layout tileAtColumn:column row:row];
+    BattleTile* tile = [layout tileAtColumn:orb.column row:orb.row];
     [bgdLayer updateTile:tile keepLit:NO withTarget:((n==count-1)?target:nil) andCallback:selector];
     
     // Update orb

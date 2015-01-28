@@ -90,7 +90,8 @@
 
 - (OrbSprite*) createOrbSpriteForOrb:(BattleOrb*)orb
 {
-  OrbSprite* orbLayer = [OrbSprite orbSpriteWithOrb:orb];
+  NSString *suffix = self.layout.numColumns == 9 || self.layout.numRows == 9 ? @"-9" : @"";
+  OrbSprite* orbLayer = [OrbSprite orbSpriteWithOrb:orb suffix:suffix];
   orbLayer.position = [self pointForColumn:orb.column row:orb.row];
   [self addChild:orbLayer z:0 name:ORB_NAME_TAG(orb)];
   return orbLayer;
@@ -539,7 +540,7 @@
     
     if (!texture) {
       // Create a new texture from UIImage and mask it
-      UIImage *img = [Globals imageNamed:[OrbSprite orbSpriteImageNameWithOrb:orb]];
+      UIImage *img = [Globals imageNamed:[OrbSprite orbSpriteImageNameWithOrb:orb withSuffix:orbLayer.suffix]];
       img = [Globals maskImage:img withColor:[UIColor whiteColor]];
       texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
       texture.contentScale = img.scale;
