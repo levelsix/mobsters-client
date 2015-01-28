@@ -47,7 +47,7 @@
 
 @implementation OrbFallAction
 
-+ (id) actionWithOrbPath:(BattleOrbPath *)orbPath orb:(OrbSprite *)orbLayer swipeLayer:(OrbSwipeLayer *)swipeLayer {
++ (id) actionWithOrbPath:(BattleOrbPath *)orbPath orb:(OrbSprite *)orbLayer swipeLayer:(OrbSwipeLayer *)swipeLayer isBottomFeeder:(BOOL)isBottomFeeder {
   NSMutableArray *actions = [NSMutableArray array];
   CGPoint prevPoint = CGPointZero;
   
@@ -113,7 +113,7 @@
     [actions addObject:[CCActionEaseAcceleration actionWithAction:seq acceleration:accel initialVelocity:vel+initialTime*accel displacement:displ]];
   }
   
-  if (shouldBounce) {
+  if (shouldBounce && !isBottomFeeder) {
     float time = quad(curTimeSlot);
     float initialVel = vel + accel*time;
     float dist;

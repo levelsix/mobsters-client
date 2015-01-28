@@ -200,7 +200,7 @@
     NSMutableArray *orbPaths = [NSMutableArray array];
     
     NSMutableArray *newColumns = [NSMutableArray array];
-    NSSet *bottomFeeders;
+    NSSet *bottomFeeders = [NSSet set];
     
     BOOL foundChange;
     

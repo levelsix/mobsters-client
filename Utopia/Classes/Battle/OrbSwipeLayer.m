@@ -484,11 +484,11 @@
     CCActionInterval *action;
     
     if (![bottomFeeders containsObject:orb]) {
-      action = [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self];
+      action = [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self isBottomFeeder:NO];
     } else {
       action =
        [CCActionSequence actions:
-        [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self],
+        [OrbFallAction actionWithOrbPath:orbPath orb:orbLayer swipeLayer:self isBottomFeeder:YES],
         [CCActionCallBlock actionWithBlock:
          ^{
            [self performOrbChange:orb chains:nil fromPowerup:PowerupTypeNone];

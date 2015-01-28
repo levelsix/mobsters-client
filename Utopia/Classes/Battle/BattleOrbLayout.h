@@ -57,6 +57,7 @@
 - (instancetype) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 
 // Can be overwritten to provide harder combos and what not
+- (OrbColor) generateRandomOrbColor;
 - (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row;
 
 // Used to restore state

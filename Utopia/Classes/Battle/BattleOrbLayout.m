@@ -267,15 +267,19 @@
   return set;
 }
 
-- (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row {
+- (OrbColor) generateRandomOrbColor {
   // Get a random color based on the available colors
-  
   int rand;
   
   // Get a rand that is valid
   while (!(1 << (rand = arc4random_uniform(OrbColorNone)) & _numColors));
   
-  orb.orbColor = rand;
+  return rand;
+}
+
+- (void) generateRandomOrbData:(BattleOrb*)orb atColumn:(int)column row:(int)row {
+  // Get a random color based on the available colors
+  orb.orbColor = [self generateRandomOrbColor];
   orb.specialOrbType = SpecialOrbTypeNone;
   
   // Allow skill manager to override this info
@@ -1551,6 +1555,7 @@
     BattleOrb *orb = [self orbAtColumn:i row:0];
     if ([self orbIsBottomFeeder:orb]) {
       [set addObject:orb];
+      orb.changeType = OrbChangeTypeDestroyed;
       [self setOrb:nil column:i row:0];
     }
   }
@@ -1591,9 +1596,9 @@
 }
 
 - (BOOL)isPossibleSwap:(BattleSwap *)swap {
-//#ifdef FREE_BATTLE_MOVEMENT
-  return [swap.orbA isMovable] && [swap.orbB isMovable];;
-//#endif
+#ifdef FREE_BATTLE_MOVEMENT
+  return [swap.orbA isMovable] && [swap.orbB isMovable];
+#endif
   
   return [self.possibleSwaps containsObject:swap];
 }

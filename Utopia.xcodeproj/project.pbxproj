@@ -797,6 +797,9 @@
 		29DF6C591A731F7900D4D19B /* livehelpgirl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63808B9E1A5F7142008DA8AC /* livehelpgirl@2x.png */; };
 		29DF6C5A1A731FB500D4D19B /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
 		29DF6C5B1A731FB500D4D19B /* blackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7BEFB1A7090EA00C62FB7 /* blackborder@2x.png */; };
+		29E00D511A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
+		29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
+		29E00D531A7997D300F34D51 /* bomblabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E00D501A7997D300F34D51 /* bomblabel@2x.png */; };
 		29FFD94A1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
 		29FFD94B1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
 		29FFD94C1A36E2BD0063C17C /* 4pvpguys@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */; };
@@ -7566,6 +7569,7 @@
 		29AF1C651A43AB1100E8E457 /* borderroundedlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "borderroundedlight@2x.png"; sourceTree = "<group>"; };
 		29AF1C6D1A443A2A00E8E457 /* BattleOrbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleOrbPath.h; sourceTree = "<group>"; };
 		29AF1C6E1A443A2A00E8E457 /* BattleOrbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleOrbPath.m; sourceTree = "<group>"; };
+		29E00D501A7997D300F34D51 /* bomblabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomblabel@2x.png"; sourceTree = "<group>"; };
 		29FFD9431A36E2BD0063C17C /* 4pvpguys@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4pvpguys@2x.png"; sourceTree = "<group>"; };
 		29FFD9441A36E2BD0063C17C /* attackpvpbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackpvpbubble@2x.png"; sourceTree = "<group>"; };
 		29FFD9481A36E2BD0063C17C /* setstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setstatus@2x.png"; sourceTree = "<group>"; };
@@ -12575,6 +12579,7 @@
 		299AA49F1A7872C300A2D806 /* Orbs */ = {
 			isa = PBXGroup;
 			children = (
+				29E00D501A7997D300F34D51 /* bomblabel@2x.png */,
 				299AA4A01A7872C300A2D806 /* allcocktail@2x.png */,
 				299AA4A11A7872C300A2D806 /* cloud1@2x.png */,
 				299AA4A21A7872C300A2D806 /* cloud2@2x.png */,
@@ -19815,6 +19820,7 @@
 				9BB9495F1A6F1AFF006EE920 /* menubasicgrab@2x.png in Resources */,
 				CF0CF81B196F452900ECD301 /* confirmbuild@2x.png in Resources */,
 				CF6A650419D252D00002E05D /* 6earthgrenade@2x.png in Resources */,
+				29E00D521A7997D300F34D51 /* bomblabel@2x.png in Resources */,
 				CF3737AA19E3767600CB16E3 /* obtimerpurplecap@2x.png in Resources */,
 				CF0CF81F196F452900ECD301 /* sell@2x.png in Resources */,
 				CF0CF820196F452900ECD301 /* buildingspinner@2x.png in Resources */,
@@ -21468,6 +21474,7 @@
 				2985E5D71A30045D0041ABF4 /* mini7@2x.png in Resources */,
 				9BDA8C3E1A5DFB3900C7AC27 /* gooniegrablogo@2x.png in Resources */,
 				CF0CE187196F1F6200ECD301 /* splashloadingbar@2x.png in Resources */,
+				29E00D511A7997D300F34D51 /* bomblabel@2x.png in Resources */,
 				CFF7873518E28FE200413E78 /* unlockbuildingbg@2x.png in Resources */,
 				CFF2C92C193FD4C000F28D9E /* chatpressedside@2x.png in Resources */,
 				CF20F1AA180FCABC005551B5 /* minitimebar@2x.png in Resources */,
@@ -22792,6 +22799,7 @@
 				CF481F1719F7217F00041486 /* ClanViewController.xib in Resources */,
 				CF481F1919F7217F00041486 /* greennotificationheader@2x.png in Resources */,
 				299AA40C1A786BB000A2D806 /* 6firebomb-9@2x.png in Resources */,
+				29E00D531A7997D300F34D51 /* bomblabel@2x.png in Resources */,
 				CF481F1A19F7217F00041486 /* rejectrequest@2x.png in Resources */,
 				CF481F1B19F7217F00041486 /* wonlostbg@2x.png in Resources */,
 				CF481F1E19F7217F00041486 /* MiniMonsterView.xib in Resources */,
